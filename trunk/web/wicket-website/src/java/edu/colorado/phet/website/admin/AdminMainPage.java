@@ -120,58 +120,58 @@ public class AdminMainPage extends AdminPage {
         add( new Link( "debug-action" ) {
             public void onClick() {
 
-                final List<TranslationEntity> entities = TranslationEntity.getTranslationEntities();
-
-                Long a = System.currentTimeMillis();
-
-                HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
-                    public boolean run( Session session ) {
-                        Long c = System.currentTimeMillis();
-                        Translation english = (Translation) session.load( Translation.class, 1 );
-                        Translation arabic = (Translation) session.load( Translation.class, 4 );
-
-                        Set englishStrings = english.getTranslatedStrings();
-                        Set arabicStrings = arabic.getTranslatedStrings();
-
-                        Map<String, TranslatedString> englishMap = new HashMap<String, TranslatedString>();
-                        Map<String, TranslatedString> arabicMap = new HashMap<String, TranslatedString>();
-
-                        for ( Object string : englishStrings ) {
-                            englishMap.put( ( (TranslatedString) string ).getKey(), ( (TranslatedString) string ) );
-                        }
-
-                        for ( Object string : arabicStrings ) {
-                            arabicMap.put( ( (TranslatedString) string ).getKey(), ( (TranslatedString) string ) );
-                        }
-
-                        for ( TranslationEntity entity : entities ) {
-                            int total = 0;
-                            int untranslated = 0;
-                            int outOfDate = 0;
-                            for ( TranslationEntityString string : entity.getStrings() ) {
-                                total++;
-                                TranslatedString a = arabicMap.get( string.getKey() );
-                                if ( a == null ) {
-                                    untranslated++;
-                                    continue;
-                                }
-                                TranslatedString e = englishMap.get( string.getKey() );
-                                if ( a.getUpdatedAt().compareTo( e.getUpdatedAt() ) < 0 ) {
-                                    outOfDate++;
-                                }
-                            }
-                            System.out.println( entity.getDisplayName() + ": " + MessageFormat.format( "{0} ({1}, {2})", total, untranslated, outOfDate ) );
-                            break;
-                        }
-                        Long d = System.currentTimeMillis();
-                        System.out.println( "Y: " + ( d - c ) );
-                        return true;
-                    }
-                } );
-
-                Long b = System.currentTimeMillis();
-
-                System.out.println( "XYZ: " + ( b - a ) );
+//                final List<TranslationEntity> entities = TranslationEntity.getTranslationEntities();
+//
+//                Long a = System.currentTimeMillis();
+//
+//                HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+//                    public boolean run( Session session ) {
+//                        Long c = System.currentTimeMillis();
+//                        Translation english = (Translation) session.load( Translation.class, 1 );
+//                        Translation arabic = (Translation) session.load( Translation.class, 4 );
+//
+//                        Set englishStrings = english.getTranslatedStrings();
+//                        Set arabicStrings = arabic.getTranslatedStrings();
+//
+//                        Map<String, TranslatedString> englishMap = new HashMap<String, TranslatedString>();
+//                        Map<String, TranslatedString> arabicMap = new HashMap<String, TranslatedString>();
+//
+//                        for ( Object string : englishStrings ) {
+//                            englishMap.put( ( (TranslatedString) string ).getKey(), ( (TranslatedString) string ) );
+//                        }
+//
+//                        for ( Object string : arabicStrings ) {
+//                            arabicMap.put( ( (TranslatedString) string ).getKey(), ( (TranslatedString) string ) );
+//                        }
+//
+//                        for ( TranslationEntity entity : entities ) {
+//                            int total = 0;
+//                            int untranslated = 0;
+//                            int outOfDate = 0;
+//                            for ( TranslationEntityString string : entity.getStrings() ) {
+//                                total++;
+//                                TranslatedString a = arabicMap.get( string.getKey() );
+//                                if ( a == null ) {
+//                                    untranslated++;
+//                                    continue;
+//                                }
+//                                TranslatedString e = englishMap.get( string.getKey() );
+//                                if ( a.getUpdatedAt().compareTo( e.getUpdatedAt() ) < 0 ) {
+//                                    outOfDate++;
+//                                }
+//                            }
+//                            System.out.println( entity.getDisplayName() + ": " + MessageFormat.format( "{0} ({1}, {2})", total, untranslated, outOfDate ) );
+//                            break;
+//                        }
+//                        Long d = System.currentTimeMillis();
+//                        System.out.println( "Y: " + ( d - c ) );
+//                        return true;
+//                    }
+//                } );
+//
+//                Long b = System.currentTimeMillis();
+//
+//                System.out.println( "XYZ: " + ( b - a ) );
 
             }
         } );
