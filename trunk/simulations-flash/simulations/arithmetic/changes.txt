@@ -1,3 +1,5 @@
+# 2.00.07 (35916) Oct 18, 2009
+10/18/09 Start and Correct buttons fixed for i18n versions
 # 2.00.05 (35914) Oct 18, 2009
 10/18/09 Redeploy attempt
 # 2.00.04 (35913) Oct 18, 2009
