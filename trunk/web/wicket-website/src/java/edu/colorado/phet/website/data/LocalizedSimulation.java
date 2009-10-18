@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.util.HibernateUtils;
 
 public class LocalizedSimulation implements Serializable {
     private int id;
@@ -55,6 +56,16 @@ public class LocalizedSimulation implements Serializable {
 
     public String getLocaleString() {
         return LocaleUtils.localeToString( getLocale() );
+    }
+
+    public String getSortableTitle() {
+        String ret = getTitle();
+        for ( String ignoreWord : HibernateUtils.SIM_TITLE_IGNORE_WORDS ) {
+            if ( ret.startsWith( ignoreWord + " " ) ) {
+                ret = ret.substring( ignoreWord.length() + 1 );
+            }
+        }
+        return ret;
     }
 
     // getters and setters

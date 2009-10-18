@@ -175,8 +175,6 @@ public class AdminSimPage extends AdminPage {
 
         public abstract List getKeywordList( Simulation simulation );
 
-        //public abstract void swapKeywordOrder( final List<Keyword> simKeywords, final int a, final int b );
-
         public AbstractKeywordForm( String id, final List<Keyword> simKeywords, List<Keyword> allKeywords ) {
             super( id );
             this.simKeywords = simKeywords;

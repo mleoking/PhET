@@ -43,6 +43,16 @@ public class Category implements Serializable {
         }
     }
 
+    public void addSimulation( Simulation simulation ) {
+        simulation.getCategories().add( this );
+        getSimulations().add( simulation );
+    }
+
+    public void removeSimulation( Simulation simulation ) {
+        simulation.getCategories().remove( this );
+        getSimulations().remove( simulation );
+    }
+
     /**
      * NOTE: must be in session transaction!
      *

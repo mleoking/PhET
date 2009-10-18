@@ -169,11 +169,11 @@ public class HibernateUtils {
         throw new RuntimeException( "WARNING: matches more than 2 simulations!" );
     }
 
-    private static final String[] ignoreWords = {"The", "La", "El"};
+    public static final String[] SIM_TITLE_IGNORE_WORDS = {"The", "La", "El"};
 
     public static String getLeadingSimCharacter( String name, Locale locale ) {
         String str = name;
-        for ( String ignoreWord : ignoreWords ) {
+        for ( String ignoreWord : SIM_TITLE_IGNORE_WORDS ) {
             if ( str.startsWith( ignoreWord + " " ) ) {
                 str = str.substring( ignoreWord.length() + 1 );
             }
@@ -251,7 +251,7 @@ public class HibernateUtils {
 
                 if ( aGlobal && bGlobal ) {
 
-                    for ( String ignoreWord : ignoreWords ) {
+                    for ( String ignoreWord : SIM_TITLE_IGNORE_WORDS ) {
                         if ( aGlobalTitle.startsWith( ignoreWord + " " ) ) {
                             aGlobalTitle = aGlobalTitle.substring( ignoreWord.length() + 1 );
                         }

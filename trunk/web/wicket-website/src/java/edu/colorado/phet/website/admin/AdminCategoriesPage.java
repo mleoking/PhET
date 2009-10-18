@@ -14,7 +14,6 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.Category;
-import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
