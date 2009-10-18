@@ -22,49 +22,47 @@
 
     <div class="admin-panel">
 
-        <h2>
-            <wicket:link>
-                <a href="AdminOrphanStringReport.html">Check for Orphan Strings</a>
-            </wicket:link>
-        </h2>
+        <wicket:link>
+            <h2>View / Edit</h2>
+            <ul>
+                <li><a href="AdminSimsPage.html">Simulations</a></li>
+                <li><a href="AdminProjectsPage.html">Projects</a></li>
+                <li><a href="AdminCategoriesPage.html">Categories</a></li>
+            </ul>
 
-        <h2>
-            <wicket:link>
-                <a href="AdminCategoriesPage.html">Edit Simulation Categories</a>
-            </wicket:link>
-        </h2>
+            <h2>Advanced / Debug</h2>
 
-        <h2>
-            <wicket:link>
-                <a href="AdminSimsPage.html">View / Edit Simulations</a>
-            </wicket:link>
-        </h2>
+            <a href="AdminOrphanStringReport.html">View Orphan Strings</a>
 
-        <h2>Manually add an English string</h2>
+            <p>
+                Manually add an English string:
+            </p>
 
-        <form wicket:id="set-string-form">
-            <table>
-                <tr>
-                    <td align="right">Key:</td>
-                    <td>
-                        <input wicket:id="key" type="text" value="" size="40"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="right">Value:</td>
-                    <td>
-                        <input wicket:id="value" type="text" value="" size="40"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="submit" name="submit" value="Add String"/>
-                        <input type="reset" value="Reset"/>
-                    </td>
-                </tr>
-            </table>
-        </form>
+            <form wicket:id="set-string-form">
+                <table>
+                    <tr>
+                        <td align="right">Key:</td>
+                        <td>
+                            <input wicket:id="key" type="text" value="" size="40"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Value:</td>
+                        <td>
+                            <input wicket:id="value" type="text" value="" size="40"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" name="submit" value="Add String"/>
+                            <input type="reset" value="Reset"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+        </wicket:link>
 
         <a wicket:id="debug-action" href="#">Debug (don't press this if you don't know what you're doing)</a>
     </div>
