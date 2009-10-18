@@ -5,11 +5,10 @@ import java.util.List;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.components.LocalizedText;
@@ -46,7 +45,6 @@ public class AdminCategoriesPage extends AdminPage {
 
                 Component titleComponent;
                 titleComponent = new LocalizedText( "title", category.getNavLocation( getNavMenu() ).getLocalizationKey() );
-                titleComponent.add( new AttributeAppender( "style", new Model( "margin-left: " + String.valueOf( category.getDepth() * 20 ) + "px;" ), "" ) );
 
                 Link categoryLink = new Link( "category-link" ) {
                     public void onClick() {
@@ -58,6 +56,15 @@ public class AdminCategoriesPage extends AdminPage {
 
                 categoryLink.add( titleComponent );
                 item.add( categoryLink );
+
+                String spaces = "";
+                int depth = category.getDepth() * 4;
+                for ( int i = 0; i < depth; i++ ) {
+                    spaces += "&nbsp;";
+                }
+                Label spacer = new Label( "spacer", spaces );
+                spacer.setEscapeModelStrings( false );
+                item.add( spacer );
             }
         } );
     }

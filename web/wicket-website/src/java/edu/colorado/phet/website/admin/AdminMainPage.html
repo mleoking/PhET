@@ -10,37 +10,8 @@
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
-            .simulation-list-holder {
-            /*border: 1px solid black;*/
-                margin: 10px;
-                padding: 10px; /*height: 300px;*/
-            /*overflow: auto;*/
-                width: 600px;
-            }
-
-            table.simulation-list-table {
-                border: 1px outset gray;
-                border-spacing: 2px;
-                border-collapse: collapse;
-                background-color: white;
-            }
-
-            table.simulation-list-table th {
-                border: 1px dotted gray;
-                padding: 1px 1px 1px 1px;
-                background-color: white;
-            }
-
-            table.simulation-list-table td {
-                border: 1px dotted gray;
-                padding: 1px 1px 1px 1px;
-                background-color: white;
-            }
-
-            .admin-right-panel {
-                float: right;
+            .admin-panel {
                 padding: 10px;
-                margin: 10px;
             }
         </style>
     </wicket:head>
@@ -49,7 +20,26 @@
 
 <wicket:extend>
 
-    <div class="admin-right-panel">
+    <div class="admin-panel">
+
+        <h2>
+            <wicket:link>
+                <a href="AdminOrphanStringReport.html">Check for Orphan Strings</a>
+            </wicket:link>
+        </h2>
+
+        <h2>
+            <wicket:link>
+                <a href="AdminCategoriesPage.html">Edit Simulation Categories</a>
+            </wicket:link>
+        </h2>
+
+        <h2>
+            <wicket:link>
+                <a href="AdminSimsPage.html">View / Edit Simulations</a>
+            </wicket:link>
+        </h2>
+
         <h2>Manually add an English string</h2>
 
         <form wicket:id="set-string-form">
@@ -76,38 +66,6 @@
             </table>
         </form>
 
-        <h2>
-            <wicket:link>
-                <a href="AdminOrphanStringReport.html">Check for Orphan Strings</a>
-            </wicket:link>
-        </h2>
-
-        <h2>
-            <wicket:link>
-                <a href="AdminCategoriesPage.html">Edit Simulation Categories</a>
-            </wicket:link>
-        </h2>
-    </div>
-    <div class="simulation-list-holder">
-        <h2>Simulations to view / modify</h2>
-        <table class="simulation-list-table">
-            <tr>
-                <th>Flavor</th>
-                <th>Project</th>
-                <th>Title (English)</th>
-            </tr>
-            <tr wicket:id="simulation-list">
-                <td>
-                    <a wicket:id="simulation-link"><span wicket:id="simulation-name">Simulation Name</span></a>
-                </td>
-                <td>
-                    <a wicket:id="project-link"><span wicket:id="project-name">Simulation Project</span></a>
-                </td>
-                <td wicket:id="simulation-title">Simulation Title</td>
-            </tr>
-        </table>
-    </div>
-    <div>
         <a wicket:id="debug-action" href="#">Debug (don't press this if you don't know what you're doing)</a>
     </div>
 </wicket:extend>

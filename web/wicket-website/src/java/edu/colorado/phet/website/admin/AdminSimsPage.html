@@ -4,26 +4,26 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title wicket:id="page-title">[PREVIEW] AdminCategoriesPage</title>
+    <title wicket:id="page-title">[PREVIEW] AdminSimsPage</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
-            table.adminx {
+            table.simulation-list-table {
                 border: 1px outset gray;
                 border-spacing: 2px;
                 border-collapse: collapse;
                 background-color: white;
             }
 
-            table.adminx th {
+            table.simulation-list-table th {
                 border: 1px dotted gray;
                 padding: 1px 1px 1px 1px;
                 background-color: white;
             }
 
-            table.adminx td {
+            table.simulation-list-table td {
                 border: 1px dotted gray;
                 padding: 1px 1px 1px 1px;
                 background-color: white;
@@ -35,12 +35,21 @@
 
 <wicket:extend>
     <div>
-        <h2>Editable Categories</h2>
-        <table class="adminx">
-            <tr wicket:id="categories">
+        <h2>Simulations to view / modify</h2>
+        <table class="simulation-list-table">
+            <tr>
+                <th>Flavor</th>
+                <th>Project</th>
+                <th>Title (English)</th>
+            </tr>
+            <tr wicket:id="simulation-list">
                 <td>
-                    <span class="spacer" wicket:id="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span><a wicket:id="category-link" href="#"><span wicket:id="title">Category Title</span></a>
+                    <a wicket:id="simulation-link"><span wicket:id="simulation-name">Simulation Name</span></a>
                 </td>
+                <td>
+                    <a wicket:id="project-link"><span wicket:id="project-name">Simulation Project</span></a>
+                </td>
+                <td wicket:id="simulation-title">Simulation Title</td>
             </tr>
         </table>
     </div>

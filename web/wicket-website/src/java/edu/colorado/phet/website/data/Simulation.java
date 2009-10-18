@@ -18,7 +18,6 @@ public class Simulation implements Serializable {
 
     private List topics = new LinkedList();
     private List keywords = new LinkedList();
-//    private List learningGoalKey = new LinkedList();
 
     private String designTeam;
     private String libraries;
