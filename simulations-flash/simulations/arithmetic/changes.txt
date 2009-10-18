@@ -1,3 +1,5 @@
+# 2.00.05 (35914) Oct 18, 2009
+10/18/09 Redeploy attempt
 # 2.00.04 (35913) Oct 18, 2009
 10/18/09 Button state fixes for internationalized versions
 # 2.00.03 (35900) Oct 17, 2009
