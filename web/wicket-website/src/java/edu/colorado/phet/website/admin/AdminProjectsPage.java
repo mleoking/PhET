@@ -58,6 +58,7 @@ public class AdminProjectsPage extends AdminPage {
                             boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                                 public boolean run( Session session ) {
                                     Project p = (Project) session.load( Project.class, project.getId() );
+                                    // TODO: add checks and error messages for ways this can fail
                                     session.delete( p );
                                     return true;
                                 }
