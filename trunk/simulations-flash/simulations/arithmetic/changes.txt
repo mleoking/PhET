@@ -1,3 +1,5 @@
+# 2.00.04 (35913) Oct 18, 2009
+10/18/09 Button state fixes for internationalized versions
 # 2.00.03 (35900) Oct 17, 2009
 10/17/09 Internationalization fixes
 # 2.00.02 (32390) Jun 9, 2009
