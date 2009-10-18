@@ -55,7 +55,7 @@ public class AdminCategoryPage extends AdminPage {
             public int compare( Simulation a, Simulation b ) {
                 LocalizedSimulation la = a.getBestLocalizedSimulation( PhetWicketApplication.getDefaultLocale() );
                 LocalizedSimulation lb = b.getBestLocalizedSimulation( PhetWicketApplication.getDefaultLocale() );
-                return la.getSortableTitle().compareTo( lb.getSortableTitle() );
+                return la.getSortableTitle().compareToIgnoreCase( lb.getSortableTitle() );
             }
         } );
 
