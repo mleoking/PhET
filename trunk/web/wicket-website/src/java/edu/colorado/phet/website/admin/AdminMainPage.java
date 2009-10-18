@@ -1,6 +1,5 @@
 package edu.colorado.phet.website.admin;
 
-import java.text.MessageFormat;
 import java.util.*;
 
 import org.apache.wicket.PageParameters;
@@ -19,12 +18,6 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
-import edu.colorado.phet.website.data.TranslatedString;
-import edu.colorado.phet.website.data.Translation;
-import edu.colorado.phet.website.translation.TranslationEntityString;
-import edu.colorado.phet.website.translation.entities.TranslationEntity;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.StringUtils;
 
 // TODO: move the simulation list panel to a separate page, so if something goes bad, this page is still accessible

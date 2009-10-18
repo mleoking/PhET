@@ -12,6 +12,7 @@ import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.Project;
+import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
@@ -32,6 +33,8 @@ public class AdminProjectPage extends AdminPage {
         add( title );
 
         add( new ProjectForm( "edit-form" ) );
+
+        add( new AddSimulationForm( "simulations-form" ) );
 
     }
 
@@ -121,6 +124,58 @@ public class AdminProjectPage extends AdminPage {
         public boolean run( Session session ) {
             project = (Project) session.load( Project.class, projectId );
             return true;
+        }
+    }
+
+    private class AddSimulationForm extends Form {
+        private static final String JAVA_STRING = "Java";
+        private static final String FLASH_STRING = "Flash";
+
+        private DropDownChoice typeField;
+        private TextField nameField;
+
+        public AddSimulationForm( String id ) {
+            super( id );
+
+            typeField = new DropDownChoice( "type", new Model( JAVA_STRING ), Arrays.asList( JAVA_STRING, FLASH_STRING ), new IChoiceRenderer() {
+                public Object getDisplayValue( Object object ) {
+                    return object.toString();
+                }
+
+                public String getIdValue( Object object, int index ) {
+                    return String.valueOf( object );
+                }
+            } );
+            add( typeField );
+
+            nameField = new TextField( "name", new Model( project.getName() ) );
+            add( nameField );
+        }
+
+        @Override
+        protected void onSubmit() {
+            final String typeString = typeField.getModelObjectAsString();
+            final String name = nameField.getModelObjectAsString();
+
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Simulation simulation = new Simulation();
+                    simulation.setName( name );
+                    if ( typeString.equals( JAVA_STRING ) ) {
+                        simulation.setType( Simulation.TYPE_JAVA );
+                    }
+                    else if ( typeString.equals( FLASH_STRING ) ) {
+                        simulation.setType( Simulation.TYPE_FLASH );
+                    }
+                    else {
+                        return false;
+                    }
+                    Project p = (Project) session.load( Project.class, project.getId() );
+                    simulation.setProject( p );
+                    session.save( simulation );
+                    return true;
+                }
+            } );
         }
     }
 }

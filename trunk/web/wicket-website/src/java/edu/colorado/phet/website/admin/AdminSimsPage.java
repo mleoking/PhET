@@ -14,13 +14,15 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
 
 public class AdminSimsPage extends AdminPage {
     public AdminSimsPage( PageParameters parameters ) {
         super( parameters );
 
         Session session = getHibernateSession();
-        List<Simulation> simulations = new LinkedList<Simulation>();
+        final List<Simulation> simulations = new LinkedList<Simulation>();
         final Map<Simulation, LocalizedSimulation> englishSims = new HashMap<Simulation, LocalizedSimulation>();
 
         Locale english = LocaleUtils.stringToLocale( "en" );
@@ -91,6 +93,27 @@ public class AdminSimsPage extends AdminPage {
                 else {
                     item.add( new Label( "simulation-title", lsim.getTitle() ) );
                 }
+                Link removeLink = new Link( "remove-link" ) {
+                    public void onClick() {
+                        try {
+                            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                                public boolean run( Session session ) {
+                                    Simulation s = (Simulation) session.load( Simulation.class, simulation.getId() );
+                                    // TODO: add checks and error messages for ways this can fail
+                                    session.delete( s );
+                                    return true;
+                                }
+                            } );
+                            if( success ) {
+                                simulations.remove( simulation );
+                            }
+                        }
+                        catch( RuntimeException e ) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                item.add( removeLink );
             }
         };
 
