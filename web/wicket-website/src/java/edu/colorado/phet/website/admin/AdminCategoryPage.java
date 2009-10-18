@@ -1,10 +1,7 @@
 package edu.colorado.phet.website.admin;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
@@ -25,6 +22,7 @@ public class AdminCategoryPage extends AdminPage {
     private List<Simulation> allSimulations;
     private List<SimOrderItem> items;
     private List<SimOrderItem> allItems;
+    private Map<Simulation, String> titleMap;
 
     public AdminCategoryPage( PageParameters parameters ) {
         super( parameters );
@@ -51,11 +49,28 @@ public class AdminCategoryPage extends AdminPage {
             }
         } );
 
+        titleMap = new HashMap<Simulation, String>();
+
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                for ( LocalizedSimulation localizedSimulation : HibernateUtils.getLocalizedSimulationsMatching( session, null, null, PhetWicketApplication.getDefaultLocale() ) ) {
+                    titleMap.put( localizedSimulation.getSimulation(), localizedSimulation.getTitle() );
+                }
+                return true;
+            }
+        } );
+
+
         Collections.sort( allSimulations, new Comparator<Simulation>() {
             public int compare( Simulation a, Simulation b ) {
-                LocalizedSimulation la = a.getBestLocalizedSimulation( PhetWicketApplication.getDefaultLocale() );
-                LocalizedSimulation lb = b.getBestLocalizedSimulation( PhetWicketApplication.getDefaultLocale() );
-                return la.getSortableTitle().compareToIgnoreCase( lb.getSortableTitle() );
+                String ta = titleMap.get( a );
+                String tb = titleMap.get( b );
+                if ( ta != null ) {
+                    return ta.compareToIgnoreCase( tb );
+                }
+                else {
+                    return -1;
+                }
             }
         } );
 
@@ -127,13 +142,13 @@ public class AdminCategoryPage extends AdminPage {
         } );
     }
 
-    private static class SimOrderItem implements OrderListItem, Serializable {
+    private class SimOrderItem implements OrderListItem, Serializable {
         private Simulation simulation;
         private String title;
 
         public SimOrderItem( Simulation simulation ) {
             this.simulation = simulation;
-            this.title = simulation.getBestLocalizedSimulation( PhetWicketApplication.getDefaultLocale() ).getTitle();
+            this.title = titleMap.get( simulation );
         }
 
         public String getDisplayValue() {
