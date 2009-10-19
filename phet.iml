@@ -12,7 +12,7 @@
     <option name="OUTPUT_FILE_NAME" value="test-out.swf" />
     <option name="VERSION" value="2" />
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
     <output url="file://$MODULE_DIR$/../../out-test/production/phet" />
     <output-test url="file://$MODULE_DIR$/../../out-test/test/phet" />
     <exclude-output />
