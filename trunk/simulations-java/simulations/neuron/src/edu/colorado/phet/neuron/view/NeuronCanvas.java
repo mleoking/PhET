@@ -6,7 +6,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -14,9 +16,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
-import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.model.AxonModel;
-import edu.umd.cs.piccolo.PCamera;
+import edu.colorado.phet.neuron.model.Particle;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -45,7 +46,7 @@ public class NeuronCanvas extends PhetPCanvas {
     
     // For debug: Controls showing of particle motion bounds.
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
-
+    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -61,10 +62,13 @@ public class NeuronCanvas extends PhetPCanvas {
     private PNode axonCrossSectionLayer;
     private PNode chartLayer;
     
-    // Chart for showing membrane potential.
+    // Chart and voltmeter for showing membrane potential.
     private MembranePotentialChart membranePotentialChart;
     private MembraneVoltmeter voltmeter;
     
+    // For debug: Shows center of zoom.
+    private CrossHairNode crossHairNode;
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -133,6 +137,11 @@ public class NeuronCanvas extends PhetPCanvas {
         	atomLayer.addChild(particleMotionBounds);
         }
         
+        // Add the crosshair, used for debugging zoom.
+        crossHairNode = new CrossHairNode();
+        crossHairNode.setOffset(mvt.modelToViewDouble(new Point2D.Double(0, 0)));
+        chartLayer.addChild(crossHairNode);
+        
         // Update the layout.
         updateLayout();
     }
@@ -173,10 +182,22 @@ public class NeuronCanvas extends PhetPCanvas {
     	voltmeter.setVisible(isVisible);
     }
     
-    public void setCameraScale(double cameraScale){
-    	double scaleFactor = cameraScale / getCameraScale();
-    	getCamera().scaleViewAboutPoint(scaleFactor, mvt.modelToViewXDouble(0),
-    			mvt.modelToViewYDouble(model.getAxonMembrane().getCrossSectionDiameter() / 2));
+    public void setZoomFactor(double cameraScale){
+    	
+    	double currentScale = getCameraScale();
+    	double scaleFactor = cameraScale / currentScale;
+    	
+    	// Zoom in on the upper membrane, but when zooming out past the
+    	// point where the entire cross section is visible, make sure that the
+    	// picture stays centered.
+    	if (currentScale <= 1){
+    		getCamera().scaleViewAboutPoint(scaleFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2,
+    				INITIAL_INTERMEDIATE_COORD_HEIGHT / 2);
+    	}
+    	else{
+    		getCamera().scaleViewAboutPoint(scaleFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2,
+    				INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.1);
+    	}
     }
     
     public double getCameraScale(){
@@ -195,5 +216,21 @@ public class NeuronCanvas extends PhetPCanvas {
 				axonCrossSectionLayer.removeChild(channelNode);
 			}
 		});
+    }
+    
+    private static class CrossHairNode extends PNode {
+
+    	private static final double LINE_LENGTH = 10;
+    	private static final Stroke CROSS_HAIR_STROKE = new BasicStroke(3);
+    	private static final Color CROSS_HAIR_COLOR = Color.RED;
+    	
+		public CrossHairNode() {
+			PhetPPath verticalLine = new PhetPPath(new Line2D.Double(0, -LINE_LENGTH, 0, LINE_LENGTH),
+					CROSS_HAIR_STROKE, CROSS_HAIR_COLOR);
+			addChild(verticalLine);
+			PhetPPath horizontalLine = new PhetPPath(new Line2D.Double(-LINE_LENGTH, 0, LINE_LENGTH, 0),
+					CROSS_HAIR_STROKE, CROSS_HAIR_COLOR);
+			addChild(horizontalLine);
+		}
     }
 }
