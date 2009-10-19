@@ -1,7 +1,6 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
 import java.awt.Color;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -25,17 +24,16 @@ public class SandwichShopBeforeNode extends PhetPNode {
     
     private static final PDimension BOX_SIZE = new PDimension( 400, 300 );
     private static final double CONTROLS_X_SPACING = 30;
-    private static final double X_MARGIN = 10;
-    private static final double Y_MARGIN = 10;
+    private static final double Y_MARGIN = 25;
     private static final double REACTANTS_SCALE = 0.5; //XXX
     
     private final SandwichShop model;
 
     private final BoxNode boxNode;
-    private final PComposite imagesParent;
-    private final ArrayList<BreadNode> bread;
-    private final ArrayList<MeatNode> meat;
-    private final ArrayList<CheeseNode> cheese;
+    private final PComposite breadParent, meatParent, cheeseParent;
+    private final ArrayList<BreadNode> breadList;
+    private final ArrayList<MeatNode> meatList;
+    private final ArrayList<CheeseNode> cheeseList;
     
     public SandwichShopBeforeNode( final SandwichShop model ) {
         super();
@@ -47,15 +45,21 @@ public class SandwichShopBeforeNode extends PhetPNode {
             }
         });
         
-        bread = new ArrayList<BreadNode>();
-        meat = new ArrayList<MeatNode>();
-        cheese = new ArrayList<CheeseNode>();
+        breadList = new ArrayList<BreadNode>();
+        meatList = new ArrayList<MeatNode>();
+        cheeseList = new ArrayList<CheeseNode>();
         
         boxNode = new BoxNode( BOX_SIZE );
         addChild( boxNode );
         
-        imagesParent = new PComposite();
-        addChild( imagesParent );
+        breadParent = new PComposite();
+        addChild( breadParent );
+        
+        meatParent = new PComposite();
+        addChild( meatParent );
+        
+        cheeseParent = new PComposite();
+        addChild( cheeseParent );
         
         PText titleNode = new PText( RPALStrings.LABEL_BEFORE_SANDWICH );
         titleNode.setFont( new PhetFont( 30 ) );
@@ -87,6 +91,13 @@ public class SandwichShopBeforeNode extends PhetPNode {
         x = boxNode.getFullBoundsReference().getCenterX() - ( controlsNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( controlsNode );
         y = boxNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( controlsNode ) + 15;
         controlsNode.setOffset( x, y );
+        x = 65; //XXX
+        y = boxNode.getFullBoundsReference().getHeight() - 50; //XXX
+        breadParent.setOffset( x, y );
+        x += 130; //XXX
+        meatParent.setOffset( x, y );
+        x += 120; //XXX
+        cheeseParent.setOffset( x, y );
         
         update();
     }
@@ -94,64 +105,69 @@ public class SandwichShopBeforeNode extends PhetPNode {
     private void update() {
         
         // bread
-        if ( model.getBread() < bread.size() ) {
-            while ( model.getBread() < bread.size() ) {
-                BreadNode node = bread.get( bread.size() - 1 );
-                imagesParent.removeChild( node );
-                bread.remove( node );
+        if ( model.getBread() < breadList.size() ) {
+            while ( model.getBread() < breadList.size() ) {
+                BreadNode node = breadList.get( breadList.size() - 1 );
+                breadParent.removeChild( node );
+                breadList.remove( node );
             }
         }
         else {
-            while ( model.getBread() > bread.size() ) {
+            while ( model.getBread() > breadList.size() ) {
                 BreadNode node = new BreadNode();
-                imagesParent.addChild( node );
                 node.scale( REACTANTS_SCALE );
-                setRandomOffset( node );
-                bread.add( node );
+                breadParent.addChild( node );
+                breadList.add( node );
+                if ( breadParent.getChildrenCount() > 1 ) {
+                    double x = 0;
+                    double y = breadParent.getChild( breadParent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - Y_MARGIN;
+                    node.setOffset( x, y );
+                }
             }
         }
         
         // meat
-        if ( model.getMeat() < meat.size() ) {
-            while ( model.getMeat() < meat.size() ) {
-                MeatNode node = meat.get( meat.size() - 1 );
-                imagesParent.removeChild( node );
-                meat.remove( node );
+        if ( model.getMeat() < meatList.size() ) {
+            while ( model.getMeat() < meatList.size() ) {
+                MeatNode node = meatList.get( meatList.size() - 1 );
+                meatParent.removeChild( node );
+                meatList.remove( node );
             }
         }
         else {
-            while ( model.getMeat() > meat.size() ) {
+            while ( model.getMeat() > meatList.size() ) {
                 MeatNode node = new MeatNode();
-                imagesParent.addChild( node );
                 node.scale( REACTANTS_SCALE );
-                setRandomOffset( node );
-                meat.add( node );
+                meatParent.addChild( node );
+                meatList.add( node );
+                if ( meatParent.getChildrenCount() > 1 ) {
+                    double x = 0;
+                    double y = meatParent.getChild( meatParent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - Y_MARGIN;
+                    node.setOffset( x, y );
+                }
             }
         }
         
         // cheese
-        if ( model.getCheese() < cheese.size() ) {
-            while ( model.getCheese() < cheese.size() ) {
-                CheeseNode node = cheese.get( cheese.size() - 1 );
-                imagesParent.removeChild( node );
-                cheese.remove( node );
+        if ( model.getCheese() < cheeseList.size() ) {
+            while ( model.getCheese() < cheeseList.size() ) {
+                CheeseNode node = cheeseList.get( cheeseList.size() - 1 );
+                cheeseParent.removeChild( node );
+                cheeseList.remove( node );
             }
         }
         else {
-            while ( model.getCheese() > cheese.size() ) {
+            while ( model.getCheese() > cheeseList.size() ) {
                 CheeseNode node = new CheeseNode();
-                imagesParent.addChild( node );
                 node.scale( REACTANTS_SCALE );
-                setRandomOffset( node );
-                cheese.add( node );
+                cheeseParent.addChild( node );
+                cheeseList.add( node );
+                if ( cheeseParent.getChildrenCount() > 1 ) {
+                    double x = 0;
+                    double y = cheeseParent.getChild( cheeseParent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - Y_MARGIN;
+                    node.setOffset( x, y );
+                }
             }
         }
-    }
-    
-    private void setRandomOffset( PNode node ) {
-        double xMargin = ( 2 * X_MARGIN ) + node.getFullBoundsReference().getWidth();
-        double yMargin = ( 2 * Y_MARGIN ) + node.getFullBoundsReference().getHeight();
-        Point2D p = boxNode.getRandomPoint( xMargin, yMargin );
-        node.setOffset( p );
     }
 }
