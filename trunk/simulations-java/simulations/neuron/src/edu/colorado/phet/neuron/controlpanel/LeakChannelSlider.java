@@ -98,7 +98,7 @@ public class LeakChannelSlider extends LinearValueControl{
         // Create and set the icon image.
         PNode iconNode = new MembraneChannelNode(leakChannel, MVT);
         JLabel _valueLabel = getValueLabel();
-        _valueLabel.setIcon( new ImageIcon(iconNode.toImage(40, 40, new Color(0,0,0,0))) );
+        _valueLabel.setIcon( new ImageIcon(iconNode.toImage(30, 30, new Color(0,0,0,0))) );
         _valueLabel.setVerticalTextPosition( JLabel.CENTER );
         _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
 
