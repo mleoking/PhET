@@ -72,17 +72,21 @@ public class SandwichShop {
     //XXX need a more general design for determining the limiting reagent and number of products 
     public int getSandwiches() {
         int sandwiches = 0;
+        ArrayList<Integer> nonZeroCoefficients = new ArrayList<Integer>();
         ArrayList<Integer> values = new ArrayList<Integer>();
         if ( sandwichFormula.getBread() != 0 ) {
+            nonZeroCoefficients.add( new Integer( sandwichFormula.getBread() ) );
             values.add( new Integer( bread / sandwichFormula.getBread() ) );
         }
         if ( sandwichFormula.getMeat() != 0 ) {
+            nonZeroCoefficients.add( new Integer( sandwichFormula.getMeat() ) );
             values.add( new Integer( meat / sandwichFormula.getMeat() ) );
         }
         if ( sandwichFormula.getCheese() != 0 ) {
+            nonZeroCoefficients.add( new Integer( sandwichFormula.getCheese() ) );
             values.add( new Integer( cheese / sandwichFormula.getCheese() ) );
         }
-        if ( values.size() > 0 ) {
+        if ( nonZeroCoefficients.size() > 1 || ( nonZeroCoefficients.size() == 1 && nonZeroCoefficients.get( 0 ).intValue() > 1 ) ) {
             Collections.sort( values );
             sandwiches = values.get( 0 );
         }

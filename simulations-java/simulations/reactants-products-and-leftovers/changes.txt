@@ -1,3 +1,4 @@
+10/19/09 more than 2 reactants or at least 1 reactant with coefficient >= 2 is required to create a product
 # 0.00.06 (35924) Oct 19, 2009
 10/19/09 make vertical stacks of items in Sandwich Shop, instead of random placement
 10/19/09 control for selecting "real reaction" type
