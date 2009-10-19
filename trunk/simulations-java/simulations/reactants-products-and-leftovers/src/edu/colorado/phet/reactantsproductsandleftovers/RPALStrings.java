@@ -23,9 +23,9 @@ public class RPALStrings {
     public static final String LABEL_AFTER_REACTION = RPALResources.getString( "label.afterReaction" );
 
     // radio buttons
-    public static final String RADIO_BUTTON_MAKE_WATER = RPALResources.getString( "radioButton.makeWater" );
-    public static final String RADIO_BUTTON_MAKE_AMMONIA = RPALResources.getString( "radioButton.makeAmmonia" );
-    public static final String RADIO_BUTTON_COMBUST_METHANE = RPALResources.getString( "radioButton.combustMethane" );
+    public static final String RADIO_BUTTON_WATER = RPALResources.getString( "radioButton.water" );
+    public static final String RADIO_BUTTON_AMMONIA = RPALResources.getString( "radioButton.ammonia" );
+    public static final String RADIO_BUTTON_METHANE = RPALResources.getString( "radioButton.methane" );
     
     // messages 
     public static final String MESSAGE_VALUE_OUT_OF_RANGE = RPALResources.getString( "message.valueOutOfRange" );
