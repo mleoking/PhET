@@ -1,3 +1,5 @@
+10/19/09 make vertical stacks of items in Sandwich Shop, instead of random placement
+10/19/09 control for selecting "real reaction" type
 # 0.00.05 (35877) Oct 14, 2009
 10/14/09 increase cheese image to 245x120 so that it's visible between slices of bread
 10/14/09 algorithm to create a convincing-looking sandwich image based on formula
