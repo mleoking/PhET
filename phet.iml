@@ -13,8 +13,6 @@
     <option name="VERSION" value="2" />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <output url="file://$MODULE_DIR$/../../out-test/production/phet" />
-    <output-test url="file://$MODULE_DIR$/../../out-test/test/phet" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../../reid/svn-working-copy/trunk/projects/phet" />
     <content url="file://$MODULE_DIR$/../../../local" />
@@ -132,7 +130,16 @@
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d" />
       <excludeFolder url="file://$MODULE_DIR$/web/wicket-test/src/java" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../piccolo2d.java">
+      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/core/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/core/src/test/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/examples/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/extras/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/extras/src/test/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/swt/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
