@@ -1,8 +1,8 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- keep leftovers in same position in Before and After boxes
-- improve algorithm for putting images in Before and After boxes to minimize overlap (6x5 grid of cells)
+- requirements for placing things in Before and After boxes?
+- sliders and histograms are ineffective for making quantitative comparisons
 
 MEDIUM PRIORITY
 - store coefficients, quantities, range, image, location with reactant and product model elements
