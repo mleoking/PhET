@@ -6,12 +6,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Hashtable;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -20,7 +16,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
@@ -94,7 +89,7 @@ public class ConcentrationSlider extends LinearValueControl{
             // Create and add the icon.
             JLabel _valueLabel = getValueLabel();
             System.out.println(atomNode.getFullBoundsReference());
-            Image atomImage = atomNode.toImage(25, 25, new Color(0,0,0,0));
+            Image atomImage = atomNode.toImage(20, 20, new Color(0,0,0,0));
             _valueLabel.setIcon( new ImageIcon(atomImage) );
             _valueLabel.setVerticalTextPosition( JLabel.CENTER );
             _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
