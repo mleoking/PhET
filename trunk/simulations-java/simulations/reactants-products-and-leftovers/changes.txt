@@ -1,3 +1,4 @@
+# 0.00.06 (35924) Oct 19, 2009
 10/19/09 make vertical stacks of items in Sandwich Shop, instead of random placement
 10/19/09 control for selecting "real reaction" type
 # 0.00.05 (35877) Oct 14, 2009
