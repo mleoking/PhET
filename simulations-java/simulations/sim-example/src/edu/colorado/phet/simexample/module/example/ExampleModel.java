@@ -7,9 +7,7 @@ import edu.colorado.phet.simexample.model.ExampleModelElement;
 import edu.colorado.phet.simexample.model.SimExampleClock;
 
 /**
- * ExampleModel is the model for ExampleModule.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * The model of the "Example" module.
  */
 public class ExampleModel {
     

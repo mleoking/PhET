@@ -7,9 +7,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
- * ExampleConfig is a Java Bean compliant configuration of ExampleModule.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * ExampleConfig is a Java Bean compliant configuration of the "Example" module.
  */
 public class ExampleConfig implements IProguardKeepClass {
     

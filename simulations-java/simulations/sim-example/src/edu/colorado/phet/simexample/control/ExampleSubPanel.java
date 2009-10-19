@@ -17,11 +17,9 @@ import edu.colorado.phet.simexample.model.ExampleModelElement;
 import edu.colorado.phet.simexample.model.ExampleModelElement.ExampleModelElementListener;
 
 /**
- * ExampleSubPanel is an example of a control panel that implements a subset
+ * An example of a control panel that implements a subset
  * of the controls in the main control panel.
  * Notice that the panel has no knowledge of any model elements.
- * 
- * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ExampleSubPanel extends JPanel {
 

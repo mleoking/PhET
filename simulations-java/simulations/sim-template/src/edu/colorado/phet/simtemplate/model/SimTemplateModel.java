@@ -4,9 +4,7 @@ package edu.colorado.phet.simtemplate.model;
 
 
 /**
- * ExampleModel is the model for ExampleModule.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * Model template.
  */
 public class SimTemplateModel {
     

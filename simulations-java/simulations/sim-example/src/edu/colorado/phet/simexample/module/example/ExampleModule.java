@@ -14,9 +14,7 @@ import edu.colorado.phet.simexample.model.SimExampleClock;
 import edu.colorado.phet.simexample.persistence.ExampleConfig;
 
 /**
- * ExampleModule is the "Example" module.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * The "Example" module.
  */
 public class ExampleModule extends PiccoloModule {
 

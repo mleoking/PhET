@@ -11,9 +11,7 @@ import edu.colorado.phet.simtemplate.module.SimTemplateDefaults;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * ExampleCanvas is the canvas for ExampleModule.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * Canvas template.
  */
 public class SimTemplateCanvas extends PhetPCanvas {
 

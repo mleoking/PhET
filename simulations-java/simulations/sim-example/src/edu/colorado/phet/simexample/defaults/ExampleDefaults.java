@@ -8,9 +8,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.simexample.persistence.ExampleConfig;
 
 /**
- * ExampleDefaults contains default settings for ExampleModule.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * Default settings for the "Example" module.
  */
 public class ExampleDefaults {
 

@@ -9,9 +9,7 @@ import edu.colorado.phet.simexample.SimExampleResources;
 import edu.colorado.phet.simexample.control.ExampleSubPanel;
 
 /**
- * ExampleControlPanel is the control panel for ExampleModule.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * The control panel for the "Example" module.
  */
 public class ExampleControlPanel extends ControlPanel {
 

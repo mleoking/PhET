@@ -19,10 +19,7 @@ import edu.colorado.phet.simexample.persistence.ExampleConfig;
 import edu.colorado.phet.simexample.persistence.SimExampleConfig;
 
 /**
- * SimExampleApplication is the main application for this simulation.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
- * 
+ * The main application for this simulation.
  */
 public class SimExampleApplication extends PiccoloPhetApplication {
 

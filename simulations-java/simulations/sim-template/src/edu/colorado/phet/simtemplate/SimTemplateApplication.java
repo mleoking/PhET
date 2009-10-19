@@ -16,10 +16,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.simtemplate.module.SimTemplateModule;
 
 /**
- * SimTemplateApplication is the main application for this simulation.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
- * 
+ * The main application for this simulation.
  */
 public class SimTemplateApplication extends PiccoloPhetApplication {
 

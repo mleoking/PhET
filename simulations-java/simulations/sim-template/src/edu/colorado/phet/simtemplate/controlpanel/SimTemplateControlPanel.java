@@ -10,9 +10,7 @@ import edu.colorado.phet.simtemplate.model.SimTemplateModel;
 import edu.colorado.phet.simtemplate.module.SimTemplateModule;
 
 /**
- * ExampleControlPanel is the control panel for ExampleModule.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * Control panel template.
  */
 public class SimTemplateControlPanel extends ControlPanel {
 
