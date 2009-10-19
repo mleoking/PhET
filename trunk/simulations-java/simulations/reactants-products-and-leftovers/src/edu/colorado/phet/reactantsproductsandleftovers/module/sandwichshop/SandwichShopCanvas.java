@@ -3,10 +3,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
 
@@ -56,9 +53,6 @@ public class SandwichShopCanvas extends RPALCanvas {
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
-        }
-        else if ( RPALConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "SandwichShopCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
 
         // formula
