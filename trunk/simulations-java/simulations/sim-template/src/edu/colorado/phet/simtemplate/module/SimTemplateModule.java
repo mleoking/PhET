@@ -13,9 +13,7 @@ import edu.colorado.phet.simtemplate.model.SimTemplateModel;
 import edu.colorado.phet.simtemplate.view.SimTemplateCanvas;
 
 /**
- * ExampleModule is the "Example" module.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * Module template.
  */
 public class SimTemplateModule extends PiccoloModule {
 

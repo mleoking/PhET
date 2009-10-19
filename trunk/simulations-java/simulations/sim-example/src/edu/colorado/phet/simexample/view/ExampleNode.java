@@ -12,10 +12,8 @@ import edu.colorado.phet.simexample.model.ExampleModelElement.ExampleModelElemen
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * ExampleNode is the visual representation of an ExampleModelElement.
+ * The visual representation of an ExampleModelElement.
  * Note that the node has no knowledge of any model elements.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ExampleNode extends PPath {
     

@@ -7,13 +7,11 @@ import java.awt.Dimension;
 
 
 /**
- * GlobalDefaults contains default settings that are common to 2 or more modules.
+ * Default settings that are common to 2 or more modules.
  * 
  * NOTE! This class is package private, and values herein should only be referenced
  * by the "defaults" classes for each module.  Classes that are module-specific should
  * use the class that corresponds to their module.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SimTemplateDefaults {
 

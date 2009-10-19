@@ -5,10 +5,8 @@ package edu.colorado.phet.simexample.persistence;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
- * ExampleConfig describes a configuration of this simulation.
+ * Describes a configuration of this simulation.
  * It encapsulates all of the settings that the user can change.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SimExampleConfig implements IProguardKeepClass {
 

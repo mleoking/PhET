@@ -11,9 +11,7 @@ import edu.colorado.phet.simexample.view.ExampleNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * ExampleCanvas is the canvas for ExampleModule.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * The canvas for the "Example" module.
  */
 public class ExampleCanvas extends PhetPCanvas {
 

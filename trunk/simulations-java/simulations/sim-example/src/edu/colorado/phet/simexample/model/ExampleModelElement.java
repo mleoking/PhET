@@ -11,9 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 /**
- * ExampleModelElement is an example model element.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * An example model element.
  */
 public class ExampleModelElement extends ClockAdapter {
     
