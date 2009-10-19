@@ -73,22 +73,23 @@ public class SandwichShop {
     public int getSandwiches() {
         int sandwiches = 0;
         ArrayList<Integer> nonZeroCoefficients = new ArrayList<Integer>();
-        ArrayList<Integer> values = new ArrayList<Integer>();
+        ArrayList<Integer> possibleValues = new ArrayList<Integer>();
         if ( sandwichFormula.getBread() != 0 ) {
             nonZeroCoefficients.add( new Integer( sandwichFormula.getBread() ) );
-            values.add( new Integer( bread / sandwichFormula.getBread() ) );
+            possibleValues.add( new Integer( bread / sandwichFormula.getBread() ) );
         }
         if ( sandwichFormula.getMeat() != 0 ) {
             nonZeroCoefficients.add( new Integer( sandwichFormula.getMeat() ) );
-            values.add( new Integer( meat / sandwichFormula.getMeat() ) );
+            possibleValues.add( new Integer( meat / sandwichFormula.getMeat() ) );
         }
         if ( sandwichFormula.getCheese() != 0 ) {
             nonZeroCoefficients.add( new Integer( sandwichFormula.getCheese() ) );
-            values.add( new Integer( cheese / sandwichFormula.getCheese() ) );
+            possibleValues.add( new Integer( cheese / sandwichFormula.getCheese() ) );
         }
+        // more than 2 reactants or at least 1 reactant with coefficient >= 2 is required to create a product
         if ( nonZeroCoefficients.size() > 1 || ( nonZeroCoefficients.size() == 1 && nonZeroCoefficients.get( 0 ).intValue() > 1 ) ) {
-            Collections.sort( values );
-            sandwiches = values.get( 0 );
+            Collections.sort( possibleValues );
+            sandwiches = possibleValues.get( 0 );
         }
         return sandwiches;
     }
