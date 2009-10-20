@@ -60,10 +60,9 @@
         // so that they won't be included in the local mirror installers.
         ripper_move_out_translated_jars();
 
-        // TODO: This step obtains some additional files that are needed in
-        // order to modify the CSS files in a particular way.  I am working
-        // with JO to link these files somehow into the main web site so that
-        // they are obtained by the ripper, and this step isn't needed.
+        // Obtain some additional files from the web server that are needed in
+        // order to modify the CSS files as needed for the local vs. the web
+        // mirror installers.
         define("CSS_DIR", RIPPED_WEBSITE_ROOT.PHET_HOSTNAME."/css/");
         define("CSS_APPEND_FILES_DIR", CSS_DIR."installer-append/");
         if (!file_exists(CSS_APPEND_FILES_DIR)){
@@ -89,9 +88,9 @@
         // Build the full set of local mirror installers.
         installer_build_local_mirror_installers();
 
-        // Move the installers into the location within the ripped web site
-        // where they need to be in order to be incorporated within the web
-        // mirror installer.
+        // Move the local mirror installers into the location within the ripped
+        // web site where they need to be in order to be incorporated within
+        // the web mirror installer.
         rename( OUTPUT_DIR.WINDOWS_INSTALLER_FILE_NAME, RIPPED_WEBSITE_INSTALLER_DIR.WINDOWS_INSTALLER_FILE_NAME );
         rename( OUTPUT_DIR.LINUX_INSTALLER_FILE_NAME, RIPPED_WEBSITE_INSTALLER_DIR.LINUX_INSTALLER_FILE_NAME );
         rename( OUTPUT_DIR.OSX_INSTALLER_FILE_NAME, RIPPED_WEBSITE_INSTALLER_DIR.OSX_INSTALLER_FILE_NAME );
