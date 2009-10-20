@@ -1,1 +1,2 @@
+10-20-2009: Change RegisterablePNode exception handling to support Piccolo 1.3, no big change in functionality
 10-1-2009: Cache image thumbnails in AbstractMediaButton and PlayPauseButton, see #1809
