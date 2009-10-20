@@ -31,7 +31,8 @@ public class LacOperonModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public LacOperonModule( Frame parentFrame ) {
-        super( GeneNetworkStrings.TITLE_EXAMPLE_MODULE, new GeneNetworkClock( LacOperonDefaults.CLOCK_FRAME_RATE, LacOperonDefaults.CLOCK_DT ) );
+        super( GeneNetworkStrings.TITLE_LACTOSE_REGULATION, new GeneNetworkClock( LacOperonDefaults.CLOCK_FRAME_RATE, 
+        		LacOperonDefaults.CLOCK_DT ) );
 
         // Model
         GeneNetworkClock clock = (GeneNetworkClock) getClock();

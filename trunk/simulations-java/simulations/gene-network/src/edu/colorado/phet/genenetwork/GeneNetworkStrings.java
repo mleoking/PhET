@@ -13,8 +13,7 @@ public class GeneNetworkStrings {
     /* not intended for instantiation */
     private GeneNetworkStrings() {}
     
-    public static final String TITLE_EXAMPLE_CONTROL_PANEL = GeneNetworkResources.getString( "title.exampleControlPanel");
-    public static final String TITLE_EXAMPLE_MODULE = GeneNetworkResources.getString( "title.exampleModule" );
+    public static final String TITLE_LACTOSE_REGULATION = GeneNetworkResources.getString( "title.lactoseRegulation" );
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
 
     public static final String UNITS_TIME = GeneNetworkResources.getString( "units.time" );
