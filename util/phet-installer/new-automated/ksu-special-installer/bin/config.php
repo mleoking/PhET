@@ -14,11 +14,12 @@
 
     define("WEBSITE_PAGES_PATTERN", '*.htm*, *.php');
 
-    define("ROOT_DIR",      file_cleanup_local_filename(dirname(dirname(__FILE__))."/"));
-    define("PARENT_DIR",    file_cleanup_local_filename(dirname(ROOT_DIR))."/");
-    define("TEMP_DIR",      file_cleanup_local_filename(ROOT_DIR."temp/"));
-    define("OUTPUT_DIR",    file_cleanup_local_filename(TEMP_DIR."installer-output/"));
-    define("DEPLOY_DIR",    "/web/htdocs/phet/phet-dist/installers/");
+    define("ROOT_DIR",                  file_cleanup_local_filename(dirname(dirname(__FILE__))."/"));
+    define("PARENT_DIR",                file_cleanup_local_filename(dirname(ROOT_DIR))."/");
+    define("TEMP_DIR",                  file_cleanup_local_filename(ROOT_DIR."temp/"));
+    define("OUTPUT_DIR",                file_cleanup_local_filename(TEMP_DIR."installer-output/"));
+    define("DEPLOY_DIR",                "/web/htdocs/phet/phet-dist/installers/");
+    define("TRANSLATED_JAR_TEMP_DIR",   file_cleanup_local_filename(TEMP_DIR."translated-jar-tmp/"));
 
     function GET_OS_BOUND_REL_PATH($constantPrefix) {
         return file_cleanup_local_filename(ROOT_DIR."${constantPrefix}/".PHP_OS."/");
@@ -266,7 +267,7 @@
     // *****************************************************************************
     // Installation Configuration
 
-    define("DISTRIBUTION_TAG", "ksu-custom-distribution");
+    define("DISTRIBUTION_TAG", "ksu-custom");
     define("MARKER_FILE_NAME", "phet-installation.properties");
     define("CREATION_TIMESTAMP_FILE_NAME", "installer-creation-timestamp.txt");
     define("VERSION_INFO_FILE_NAME", "version.html");
