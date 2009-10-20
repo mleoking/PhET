@@ -48,10 +48,6 @@ public class LacOperonModule extends PiccoloModule {
         
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
-        clockControlPanel.setRewindButtonVisible( true );
-        clockControlPanel.setTimeDisplayVisible( true );
-        clockControlPanel.setUnits( GeneNetworkStrings.UNITS_TIME );
-        clockControlPanel.setTimeColumns( LacOperonDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( clockControlPanel );
 
         // Help
