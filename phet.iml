@@ -125,6 +125,11 @@
       <sourceFolder url="file://$MODULE_DIR$/util/translation-utility/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/unfuddle/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/web/wicket-test/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/core/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/core/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/examples/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/extras/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/swt/src/main/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.manager" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
@@ -132,14 +137,6 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d" />
       <excludeFolder url="file://$MODULE_DIR$/web/wicket-test/src/java" />
-    </content>
-    <content url="file://$MODULE_DIR$/../../../piccolo2d.java">
-      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/core/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/core/src/test/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/examples/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/extras/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/extras/src/test/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../piccolo2d.java/swt/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
