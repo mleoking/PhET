@@ -171,15 +171,16 @@ public class RegisterablePNode extends PNode {
         setRegistrationPoint( x, y );
     }
 
-
-    public void setTransform( AffineTransform newTransform ) {
+    public void setTransform(AffineTransform newTransform) {
         try {
-            Point2D rp = getTransform().inverseTransform( registrationPoint, null );
-            super.setTransform( newTransform );
-            registrationPoint = newTransform.transform( rp, null );
+            Point2D rp = getTransform().inverseTransform(registrationPoint, null);
+            super.setTransform(newTransform);
+            registrationPoint = newTransform.transform(rp, null);
         }
-        catch( NoninvertibleTransformException e ) {
-            e.printStackTrace();
+        catch (Exception e) {
+            if (e instanceof NoninvertibleTransformException)
+                e.printStackTrace();
+            else throw new RuntimeException(e);
         }
     }
 
