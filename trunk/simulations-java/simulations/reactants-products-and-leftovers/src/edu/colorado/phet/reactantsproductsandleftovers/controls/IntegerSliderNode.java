@@ -32,7 +32,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class IntegerSliderNode extends PNode {
     
     //XXX decide on 2D or 3D knob, then delete the other
-    private static final boolean USE_3D_KNOB = false;
+    private static final boolean USE_3D_KNOB = true;
     
     //----------------------------------------------------------------------------
     // Class data
