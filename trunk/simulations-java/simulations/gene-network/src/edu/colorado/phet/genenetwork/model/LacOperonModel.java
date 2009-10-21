@@ -42,8 +42,9 @@ public class LacOperonModel {
         });
         
         // Add the initial model elements.
-//        addModelElement(new LacZ(new Point2D.Double(0, 0)));
-        addModelElement(new Glucose(new Point2D.Double(100, 100)));
+        addModelElement(new LacZ(new Point2D.Double(0, 0)));
+        addModelElement(new Glucose(new Point2D.Double(20, 20)));
+        addModelElement(new Galactose(new Point2D.Double(-20, -35)));
     }
 
     //----------------------------------------------------------------------------
