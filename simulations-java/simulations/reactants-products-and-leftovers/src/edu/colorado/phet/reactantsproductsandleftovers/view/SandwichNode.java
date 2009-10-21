@@ -12,13 +12,13 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 public class SandwichNode extends PComposite {
     
-    private static final int Y_SPACING = 5;
+    private static final int Y_SPACING = 7;
 
-    private final SandwichFormula sandwichFormula;
+    private final SandwichFormula formula;
     
     public SandwichNode( SandwichFormula sandwichFormula ) {
         super();
-        this.sandwichFormula = sandwichFormula;
+        this.formula = sandwichFormula;
         sandwichFormula.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update();
@@ -33,15 +33,15 @@ public class SandwichNode extends PComposite {
         
         // create nodes
         ArrayList<BreadNode> breadNodes = new ArrayList<BreadNode>();
-        for ( int i = 0; i < sandwichFormula.getBread(); i++ ) {
+        for ( int i = 0; i < formula.getBread(); i++ ) {
             breadNodes.add( new BreadNode() );
         }
         ArrayList<MeatNode> meatNodes = new ArrayList<MeatNode>();
-        for ( int i = 0; i < sandwichFormula.getMeat(); i++ ) {
+        for ( int i = 0; i < formula.getMeat(); i++ ) {
             meatNodes.add( new MeatNode() );
         }
         ArrayList<CheeseNode> cheeseNodes = new ArrayList<CheeseNode>();
-        for ( int i = 0; i < sandwichFormula.getCheese(); i++ ) {
+        for ( int i = 0; i < formula.getCheese(); i++ ) {
             cheeseNodes.add( new CheeseNode() );
         }
         

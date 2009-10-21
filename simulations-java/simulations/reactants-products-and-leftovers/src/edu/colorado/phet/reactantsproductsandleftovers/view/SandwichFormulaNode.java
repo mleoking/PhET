@@ -133,6 +133,13 @@ public class SandwichFormulaNode extends PhetPNode {
         breadSpinnerNode.setValue( formula.getBread() );
         meatSpinnerNode.setValue( formula.getMeat() );
         cheeseSpinnerNode.setValue( formula.getCheese() );
-        sandwichesCountNode.setText( String.valueOf( formula.getSandwiches() ) );
+        if ( formula.isReaction() ) {
+            sandwichesCountNode.setText( String.valueOf( formula.getSandwiches() ) );
+            sandwichNode.setVisible( true );
+        }
+        else {
+            sandwichesCountNode.setText( RPALStrings.LABEL_NO_REACTION );
+            sandwichNode.setVisible( false );
+        }
     }
 }

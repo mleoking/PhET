@@ -11,7 +11,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.SandwichNode;
 public class SandwichesQuantityDisplayNode extends ProductQuantityDisplayNode {
     
     public SandwichesQuantityDisplayNode( final SandwichShop model ) {
-        super( SandwichShopDefaults.SANDWICHES_QUANTITY_RANGE, new SandwichNode( model.getSandwichFormula() ), 0.5 );
+        super( SandwichShopDefaults.SANDWICHES_QUANTITY_RANGE, new SandwichNode( model.getFormula() ), 0.5 );
         setValue( model.getSandwiches() );
         model.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

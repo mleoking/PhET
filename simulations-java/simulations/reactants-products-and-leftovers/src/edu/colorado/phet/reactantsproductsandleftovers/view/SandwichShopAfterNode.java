@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -24,8 +23,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 public class SandwichShopAfterNode extends PhetPNode {
     
-    private static final boolean DEBUG_LEFTOVERS = false;
-    
     private static final PDimension BOX_SIZE = new PDimension( 400, 300 );
     private static final double DISPLAYS_X_SPACING = 40;
     private static final double Y_MARGIN = 25;
@@ -34,7 +31,7 @@ public class SandwichShopAfterNode extends PhetPNode {
     private final SandwichShop model;
 
     private final BoxNode boxNode;
-    private final PComposite breadParent, meatParent, cheeseParent, sandwichesParent;
+    private final PComposite sandwichesParent, breadParent, meatParent, cheeseParent;
     private final ArrayList<SandwichNode> sandwichesList;
     private final ArrayList<BreadNode> breadList;
     private final ArrayList<MeatNode> meatList;
@@ -58,6 +55,9 @@ public class SandwichShopAfterNode extends PhetPNode {
         boxNode = new BoxNode( BOX_SIZE );
         addChild( boxNode );
         
+        sandwichesParent = new PComposite();
+        addChild( sandwichesParent );
+        
         breadParent = new PComposite();
         addChild( breadParent );
         
@@ -67,9 +67,6 @@ public class SandwichShopAfterNode extends PhetPNode {
         cheeseParent = new PComposite();
         addChild( cheeseParent );
         
-        sandwichesParent = new PComposite();
-        addChild( sandwichesParent );
-        
         PText titleNode = new PText( RPALStrings.LABEL_AFTER_SANDWICH );
         titleNode.setFont( new PhetFont( 30 ) );
         titleNode.setTextPaint( Color.BLACK );
@@ -77,29 +74,28 @@ public class SandwichShopAfterNode extends PhetPNode {
         
         PNode valuesNode = new PNode();
         addChild( valuesNode );
+        PNode sandwichesNode = new SandwichesQuantityDisplayNode( model );
         PNode breadNode = new BreadLeftoverDisplayNode( model );
         PNode meatNode = new MeatLeftoverDisplayNode( model );
         PNode cheeseNode = new CheeseLeftoverDisplayNode( model );
-        PNode sandwichesNode = new SandwichesQuantityDisplayNode( model );
+        valuesNode.addChild( sandwichesNode );
         valuesNode.addChild( breadNode );
         valuesNode.addChild( meatNode );
         valuesNode.addChild( cheeseNode );
-        valuesNode.addChild( sandwichesNode );
+        double sandwichWidth = sandwichesNode.getFullBoundsReference().getWidth();
         double breadWidth = breadNode.getFullBoundsReference().getWidth();
         double meatWidth = meatNode.getFullBoundsReference().getWidth();
         double cheeseWidth = cheeseNode.getFullBoundsReference().getWidth();
-        double sandwichWidth = sandwichesNode.getFullBoundsReference().getWidth();
-        double maxWidth = Math.max( Math.max( breadWidth, Math.max( meatWidth, cheeseWidth ) ), sandwichWidth );
+        double maxWidth = Math.max( sandwichWidth, Math.max( breadWidth, Math.max( meatWidth, cheeseWidth ) ) );
         double deltaX = maxWidth + DISPLAYS_X_SPACING;
-        breadNode.setOffset( 0, 0 );
-        meatNode.setOffset( deltaX, 0 );
-        cheeseNode.setOffset( 2 * deltaX, 0 );
-        sandwichesNode.setOffset( 3 * deltaX, 0 );
-        
-        PNode leftoversNode = new LeftoversDisplayNode( model );
-        if ( DEBUG_LEFTOVERS && PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            addChild( leftoversNode );
-        }
+        double xOffset = 0;
+        sandwichesNode.setOffset( xOffset, 0 );
+        xOffset += deltaX;
+        breadNode.setOffset( xOffset, 0 );
+        xOffset += deltaX;
+        meatNode.setOffset( xOffset, 0 );
+        xOffset += deltaX;
+        cheeseNode.setOffset( xOffset, 0 );
         
         // layout, origin at upper-left corner of box
         boxNode.setOffset( 0, 0 );
@@ -111,13 +107,12 @@ public class SandwichShopAfterNode extends PhetPNode {
         x = boxNode.getFullBoundsReference().getCenterX() - ( valuesNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( valuesNode );
         y = boxNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( valuesNode ) + 15;
         valuesNode.setOffset( x, y );
-        // dev leftovers
-        x = boxNode.getFullBoundsReference().getMaxX() - leftoversNode.getFullBoundsReference().getWidth() - 20;
-        y = boxNode.getFullBoundsReference().getMaxY() - leftoversNode.getFullBoundsReference().getHeight() - 20;
-        leftoversNode.setOffset( x, y );
-        // bread
+        // sandwiches
         x = 25; //XXX
         y = boxNode.getFullBoundsReference().getHeight() - 50; //XXX
+        sandwichesParent.setOffset( x, y );
+        // bread
+        x =+ 125; //XXX
         breadParent.setOffset( x, y );
         // meat
         x += 100; //XXX
@@ -125,9 +120,6 @@ public class SandwichShopAfterNode extends PhetPNode {
         // cheese
         x += 100; //XXX
         cheeseParent.setOffset( x, y );
-        // sandwiches
-        x += 100; //XXX
-        sandwichesParent.setOffset( x, y );
         
         update();
     }
@@ -144,7 +136,7 @@ public class SandwichShopAfterNode extends PhetPNode {
         }
         else {
             while ( model.getSandwiches() > sandwichesList.size() ) {
-                SandwichNode node = new SandwichNode( model.getSandwichFormula() );
+                SandwichNode node = new SandwichNode( model.getFormula() );
                 sandwichesParent.addChild( node );
                 sandwichesList.add( node );
                 node.scale( REACTANTS_SCALE );
