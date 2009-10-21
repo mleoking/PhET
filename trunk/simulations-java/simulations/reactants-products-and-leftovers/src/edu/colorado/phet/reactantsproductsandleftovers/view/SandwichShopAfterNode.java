@@ -97,11 +97,20 @@ public class SandwichShopAfterNode extends PhetPNode {
         xOffset += deltaX;
         cheeseNode.setOffset( xOffset, 0 );
         
+        // leftovers label
+        xOffset = sandwichWidth + DISPLAYS_X_SPACING;
+        double width = valuesNode.getFullBoundsReference().getWidth() - xOffset;
+        PNode leftoversLabel = new LeftoversLabelNode( width );
+        double x = valuesNode.getFullBoundsReference().getMinX() + xOffset;
+        double y = valuesNode.getFullBoundsReference().getMaxY() + 2;
+        valuesNode.addChild( leftoversLabel ); // add after using valueNodes bounds
+        leftoversLabel.setOffset( x, y  );
+        
         // layout, origin at upper-left corner of box
         boxNode.setOffset( 0, 0 );
         // title
-        double x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
-        double y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 10;
+        x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
+        y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 10;
         titleNode.setOffset( x, y );
         // value display
         x = boxNode.getFullBoundsReference().getCenterX() - ( valuesNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( valuesNode );
