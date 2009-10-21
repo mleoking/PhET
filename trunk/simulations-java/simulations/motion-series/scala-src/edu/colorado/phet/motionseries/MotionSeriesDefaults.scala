@@ -78,7 +78,7 @@ object MotionSeriesDefaults {
   val PLAY_AREA_ACCELERATION_VECTOR_SCALE = 0.03
 
   val DT_DEFAULT = 30 / 1000.0
-  val DELAY = 0 //there's a wait step, see the top of RampApplication.scala in AbstractRampModule
+  val DELAY = 25
 
   val SKY_GRADIENT_BOTTOM = new Color(250, 250, 255)
   val EARTH_COLOR = new Color(200, 240, 200)
