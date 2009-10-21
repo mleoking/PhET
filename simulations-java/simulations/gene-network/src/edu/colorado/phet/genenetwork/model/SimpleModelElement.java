@@ -43,7 +43,10 @@ public abstract class SimpleModelElement {
 	}
 	
 	public void setPosition(double xPos, double yPos ){
-		position.setLocation(xPos, yPos);
+		if (xPos != position.getX() || yPos != position.getY()){
+			position.setLocation(xPos, yPos);
+			notifyPositionChanged();
+		}
 	}
 	
 	public Paint getPaint(){
@@ -61,6 +64,14 @@ public abstract class SimpleModelElement {
     //------------------------------------------------------------------------
     // Listener support
     //------------------------------------------------------------------------
+	
+    protected void notifyPositionChanged(){
+        // Notify all listeners of the position change.
+        for (Listener listener : listeners)
+        {
+            listener.positionChanged(); 
+        }        
+    }
 
     public void addListener(Listener listener) {
         if (listeners.contains( listener ))
@@ -81,5 +92,4 @@ public abstract class SimpleModelElement {
     public interface Listener {
         void positionChanged();
     }
-
 }
