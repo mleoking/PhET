@@ -19,6 +19,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class SimpleModelElementNode extends PPath {
 	
+	private static final boolean SHOW_CENTER_DOT = false;
+	
 	private final SimpleModelElement modelElement;
 	
 	private PhetPPath centerDot = new PhetPPath(Color.RED, new BasicStroke(2), Color.RED);
@@ -41,7 +43,9 @@ public class SimpleModelElementNode extends PPath {
 		});
 		
 		// Put a center dot on the node (for debug purposes).
-		centerDot.setPathTo(mvt.createTransformedShape(new Ellipse2D.Double(-1, -1, 2, 2)));
-		addChild(centerDot);
+		if (SHOW_CENTER_DOT){
+			centerDot.setPathTo(mvt.createTransformedShape(new Ellipse2D.Double(-1, -1, 2, 2)));
+			addChild(centerDot);
+		}
 	}
 }
