@@ -107,7 +107,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     //------------------------------------------------------------------------
     
     private void addModelElement(SimpleModelElement modelElement){
-    	SimpleModelElementNode modelElementNode = new SimpleModelElementNode(modelElement);
+    	SimpleModelElementNode modelElementNode = new SimpleModelElementNode(modelElement, mvt);
     	rootNode.addChild(modelElementNode);
     }
 }
