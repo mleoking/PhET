@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
 public class LacZModelElement extends SimpleModelElement {
 	
 	private static final Shape ELEMENT_SHAPE = new Ellipse2D.Double(-5, -10, 10, 20);
-	private static final Paint ELEMENT_PAINT = Color.GREEN;
+	private static final Paint ELEMENT_PAINT = new Color(219, 198, 212);
 	
 	public LacZModelElement(Point2D initialPosition) {
 		super(ELEMENT_SHAPE, initialPosition, ELEMENT_PAINT);
