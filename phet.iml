@@ -130,6 +130,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/examples/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/extras/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/swt/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/gene-network/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.manager" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
@@ -1864,6 +1865,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/simulations-java/contrib/jPCT/jpct.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/gene-network/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
