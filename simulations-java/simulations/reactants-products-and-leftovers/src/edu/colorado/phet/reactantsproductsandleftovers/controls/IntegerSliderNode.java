@@ -67,8 +67,8 @@ public class IntegerSliderNode extends PNode {
         // Positions:
         // origin at the upper-left corner of the track
         trackNode.setOffset( 0, 0 );
-        // knob overlaps the track
-        knobNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( knobNode.getFullBoundsReference().getWidth() / 2 ), 0 ); // y offset doesn't matter yet
+        // knob to right of track
+        knobNode.setOffset( trackNode.getFullBoundsReference().getMaxX(), 0 ); // y offset doesn't matter yet
         
         initInteractivity();
         
