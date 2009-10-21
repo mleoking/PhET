@@ -25,7 +25,7 @@ public abstract class Particle {
     // Instance data
     //------------------------------------------------------------------------
 	
-    protected ArrayList<Listener> _listeners = new ArrayList<Listener>();
+    protected ArrayList<Listener> listeners = new ArrayList<Listener>();
     
     // Location in space of this particle, units are nano-meters.
     private Point2D.Double position;
@@ -76,7 +76,7 @@ public abstract class Particle {
     
     protected void notifyPositionChanged(){
         // Notify all listeners of the position change.
-        for (Listener listener : _listeners)
+        for (Listener listener : listeners)
         {
             listener.positionChanged(); 
         }        
@@ -184,7 +184,7 @@ public abstract class Particle {
     //------------------------------------------------------------------------
 
     public void addListener(Listener listener) {
-        if (_listeners.contains( listener ))
+        if (listeners.contains( listener ))
         {
             // Don't bother re-adding.
         	System.err.println(getClass().getName() + "- Warning: Attempting to re-add a listener that is already listening.");
@@ -192,11 +192,11 @@ public abstract class Particle {
             return;
         }
         
-        _listeners.add( listener );
+        listeners.add( listener );
     }
     
     public void removeListener(Listener listener){
-    	_listeners.remove(listener);
+    	listeners.remove(listener);
     }
 
     public double getX() {
@@ -207,7 +207,7 @@ public abstract class Particle {
         return position.y;
     }
 
-    public static interface Listener {
+    public interface Listener {
         void positionChanged();
     }
 }
