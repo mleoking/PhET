@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.genenetwork.model;
 
+import java.util.ArrayList;
+
+
 
 /**
  * Model template.
@@ -13,6 +16,7 @@ public class LacOperonModel {
     //----------------------------------------------------------------------------
     
     private final GeneNetworkClock clock;
+    private ArrayList<SimpleModelElement> simpleModelElements = new ArrayList<SimpleModelElement>();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -30,5 +34,13 @@ public class LacOperonModel {
     
     public GeneNetworkClock getClock() {
         return clock;
-    }    
+    }
+
+    //----------------------------------------------------------------------------
+    // Other Methods
+    //----------------------------------------------------------------------------
+    
+    private void addModelElement(SimpleModelElement modelElement){
+    	simpleModelElements.add(modelElement);
+    }
 }
