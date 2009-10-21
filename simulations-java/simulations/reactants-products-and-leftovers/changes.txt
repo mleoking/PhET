@@ -1,3 +1,5 @@
+10/21/09 switch between spinners or sliders for quantity controls
+10/21/09 3D-looking slider knob from Noah P.
 10/21/09 hide product histogram under After box when formula is not a reaction
 10/21/09 move quantity slider knob to right of track
 10/21/09 default all sandwich coefficients to zero

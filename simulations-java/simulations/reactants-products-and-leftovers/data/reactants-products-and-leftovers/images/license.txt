@@ -8,3 +8,4 @@ meat.png author=PhET
 N2.png author=PhET
 NH3.png author=PhET
 O2.png author=PhET
+sliderKnob.png author=PhET

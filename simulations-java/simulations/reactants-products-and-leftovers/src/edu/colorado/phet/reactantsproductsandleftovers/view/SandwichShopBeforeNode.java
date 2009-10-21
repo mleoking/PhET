@@ -23,7 +23,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class SandwichShopBeforeNode extends PhetPNode {
     
     private static final PDimension BOX_SIZE = new PDimension( 400, 300 );
-    private static final double CONTROLS_X_SPACING = 30;
+    private static final double CONTROLS_X_SPACING = 20;
     private static final double Y_MARGIN = 25;
     private static final double REACTANTS_SCALE = 0.5; //XXX
     
