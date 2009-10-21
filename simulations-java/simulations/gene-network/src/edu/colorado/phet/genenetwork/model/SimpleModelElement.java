@@ -21,7 +21,7 @@ public abstract class SimpleModelElement {
 	private Shape shape;
 	private Point2D position;
 	private Paint paint;  // The paint to use when representing this element in the view.
-	private Vector2D.Double velocity;
+	private Vector2D.Double velocity = new Vector2D.Double();
     protected ArrayList<Listener> listeners = new ArrayList<Listener>();
     
 	public SimpleModelElement(Shape initialShape, Point2D initialPosition, Paint paint){
