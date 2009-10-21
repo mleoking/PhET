@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.genenetwork.model;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -39,6 +41,9 @@ public class LacOperonModel {
 			}
         	
         });
+        
+        // Add the initial model elements.
+        addModelElement(new LacZModelElement(new Point2D.Double(0, 0)));
     }
 
     //----------------------------------------------------------------------------
