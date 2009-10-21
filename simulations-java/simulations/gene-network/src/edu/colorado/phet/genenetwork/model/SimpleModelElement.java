@@ -61,6 +61,18 @@ public abstract class SimpleModelElement {
 		return velocity;
 	}
 	
+	/**
+	 * Update the position of this model element based on its current position
+	 * and its velocity.  Note that this assumes that this must be called at
+	 * an appropriate frequency in order of the motion of the model element to
+	 * be correct.
+	 */
+	public void updatePosition(){
+		if (velocity.getX() != 0 || velocity.getY() != 0){
+			position.setLocation(position.getX() + velocity.getX(), position.getY() + velocity.getY());
+		}
+	}
+	
     //------------------------------------------------------------------------
     // Listener support
     //------------------------------------------------------------------------
