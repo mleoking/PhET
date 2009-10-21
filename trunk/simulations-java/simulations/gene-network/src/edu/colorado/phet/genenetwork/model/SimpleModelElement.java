@@ -5,6 +5,7 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
@@ -21,7 +22,8 @@ public abstract class SimpleModelElement {
 	private Point2D position;
 	private Paint paint;  // The paint to use when representing this element in the view.
 	private Vector2D.Double velocity;
-	
+    protected ArrayList<Listener> listeners = new ArrayList<Listener>();
+    
 	public SimpleModelElement(Shape initialShape, Point2D initialPosition, Paint paint){
 		this.shape = initialShape;
 		this.position = initialPosition;
@@ -55,4 +57,29 @@ public abstract class SimpleModelElement {
 	public Vector2D getVelocityRef(){
 		return velocity;
 	}
+	
+    //------------------------------------------------------------------------
+    // Listener support
+    //------------------------------------------------------------------------
+
+    public void addListener(Listener listener) {
+        if (listeners.contains( listener ))
+        {
+            // Don't bother re-adding.
+        	System.err.println(getClass().getName() + "- Warning: Attempting to re-add a listener that is already listening.");
+        	assert false;
+            return;
+        }
+        
+        listeners.add( listener );
+    }
+    
+    public void removeListener(Listener listener){
+    	listeners.remove(listener);
+    }
+	
+    public interface Listener {
+        void positionChanged();
+    }
+
 }
