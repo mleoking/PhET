@@ -1,3 +1,4 @@
+10/21/09 move quantity slider knob to right of track
 10/21/09 default all sandwich coefficients to zero
 10/21/09 add "leftovers" label under After box
 10/21/09 move products display to left
