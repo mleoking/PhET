@@ -1,3 +1,5 @@
+# 0.00.08 (35968) Oct 21, 2009
+10/21/09 dev version with change requests
 10/21/09 switch between spinners or sliders for quantity controls
 10/21/09 3D-looking slider knob from Noah P.
 10/21/09 hide product histogram under After box when formula is not a reaction
