@@ -13,7 +13,10 @@ MEDIUM PRIORITY
 
 LOW PRIORITY
 - clean up node scaling, it's kind of haphazard
+- generalize any layout code that uses hardcoded offsets
 - use rounding instead of trunc for snapping reactant quantity sliders
+- choose spinner or sliders in ReactantQuantityControlNode, delete unused code
+- choose 2D or 3D look in IntegerSliderNode, delete unused code
 
 MIGRATE TO COMMON
 - BracketedLabelNode
