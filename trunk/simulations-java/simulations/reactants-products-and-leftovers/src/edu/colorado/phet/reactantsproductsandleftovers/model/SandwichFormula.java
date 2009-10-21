@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
+
 
 public class SandwichFormula {
     
@@ -12,7 +14,7 @@ public class SandwichFormula {
     private int bread, meat, cheese;
     
     public SandwichFormula() {
-        this( 2, 1, 1 );
+        this( SandwichShopDefaults.BREAD_COEFFICIENT_RANGE.getDefault(), SandwichShopDefaults.MEAT_COEFFICIENT_RANGE.getDefault(), SandwichShopDefaults.CHEESE_COEFFICIENT_RANGE.getDefault() );
     }
     
     public SandwichFormula( int bread, int meat, int cheese ) {

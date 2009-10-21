@@ -127,6 +127,8 @@ public class SandwichFormulaNode extends PhetPNode {
         x = sandwichesCountNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
         y = sandwichesCountNode.getFullBoundsReference().getCenterY() - ( sandwichNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( sandwichNode );
         sandwichNode.setOffset( x, y );
+        
+        update();
     }
     
     private void update() {

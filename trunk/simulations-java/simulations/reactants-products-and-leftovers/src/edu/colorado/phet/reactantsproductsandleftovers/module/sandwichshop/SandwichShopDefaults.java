@@ -14,7 +14,7 @@ public class SandwichShopDefaults {
     /* Not intended for instantiation */
     private SandwichShopDefaults() {}
     
-    private static final IntegerRange COEFFICIENT_RANGE = new IntegerRange( 0, 3, 1 );
+    private static final IntegerRange COEFFICIENT_RANGE = new IntegerRange( 0, 3, 0 );
     public static final IntegerRange BREAD_COEFFICIENT_RANGE = COEFFICIENT_RANGE;
     public static final IntegerRange MEAT_COEFFICIENT_RANGE = COEFFICIENT_RANGE;
     public static final IntegerRange CHEESE_COEFFICIENT_RANGE = COEFFICIENT_RANGE;
