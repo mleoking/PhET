@@ -23,4 +23,6 @@ public class RPALImages {
     public static final BufferedImage N2 = RPALResources.getImage( "N2.png" );
     public static final BufferedImage NH3 = RPALResources.getImage( "NH3.png" );
     public static final BufferedImage O2 = RPALResources.getImage( "O2.png" );
+    
+    public static final BufferedImage SLIDER_KNOB = RPALResources.getImage( "sliderKnob.png" );
 }

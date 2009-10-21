@@ -13,10 +13,13 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -27,6 +30,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class IntegerSliderNode extends PNode {
+    
+    private static final boolean USE_3D_KNOB = false;
     
     //----------------------------------------------------------------------------
     // Class data
@@ -43,7 +48,7 @@ public class IntegerSliderNode extends PNode {
     
     private final IntegerRange range;
     private final IntegerHistogramBarNode trackNode;
-    private final KnobNode knobNode;
+    private final PNode knobNode;
     private final ArrayList<ChangeListener> listeners;
     private int value;
     
@@ -58,7 +63,12 @@ public class IntegerSliderNode extends PNode {
         listeners = new ArrayList<ChangeListener>();
        
         trackNode = new IntegerHistogramBarNode( range, trackSize );
-        knobNode = new KnobNode( knobSize );
+        if ( USE_3D_KNOB ) {
+            knobNode = new KnobNode3D( knobSize );
+        }
+        else {
+            knobNode = new KnobNode2D( knobSize );
+        }
         
         // Rendering order
         addChild( trackNode );
@@ -174,9 +184,9 @@ public class IntegerSliderNode extends PNode {
      * The slider knob, points to the left.
      * Origin is at the knob's tip.
      */
-    private static class KnobNode extends PNode {
+    private static class KnobNode2D extends PNode {
         
-        public KnobNode( PDimension size ) {
+        public KnobNode2D( PDimension size ) {
 
             float w = (float) size.getWidth();
             float h = (float) size.getHeight();
@@ -194,6 +204,22 @@ public class IntegerSliderNode extends PNode {
             pathNode.setStroke( KNOB_STROKE );
             pathNode.setStrokePaint( KNOB_STROKE_COLOR );
             addChild( pathNode );
+        }
+    }
+
+    private static class KnobNode3D extends PhetPNode {
+
+        public KnobNode3D( PDimension knobSize ) {
+            super();
+            
+            PImage image = new PImage( RPALImages.SLIDER_KNOB );
+            addChild( image );
+            
+            double xScale = image.getFullBoundsReference().getWidth() / knobSize.getWidth();
+            double yScale = image.getFullBoundsReference().getHeight() / knobSize.getHeight();
+            image.getTransform().scale( xScale, yScale );
+            
+            image.setOffset( 0, -image.getFullBoundsReference().getHeight() / 2 );
         }
     }
     
