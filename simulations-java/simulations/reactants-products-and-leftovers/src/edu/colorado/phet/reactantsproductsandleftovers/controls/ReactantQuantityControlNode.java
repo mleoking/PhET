@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ReactantQuantityControlNode extends PhetPNode {
     
     //XXX choose spinners or sliders and delete the unused stuff
-    private static final boolean USE_SPINNER = false;
+    private static final boolean USE_SPINNER = true;
     
     private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 15, 75 );
     private static final PDimension SLIDER_KNOB_SIZE = new PDimension( 30, 15 );
