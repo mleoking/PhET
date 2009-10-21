@@ -36,6 +36,7 @@ public class SandwichShopAfterNode extends PhetPNode {
     private final ArrayList<BreadNode> breadList;
     private final ArrayList<MeatNode> meatList;
     private final ArrayList<CheeseNode> cheeseList;
+    private final PNode sandwichesNode;
     
     public SandwichShopAfterNode( final SandwichShop model ) {
         super();
@@ -74,7 +75,7 @@ public class SandwichShopAfterNode extends PhetPNode {
         
         PNode valuesNode = new PNode();
         addChild( valuesNode );
-        PNode sandwichesNode = new SandwichesQuantityDisplayNode( model );
+        sandwichesNode = new SandwichesQuantityDisplayNode( model );
         PNode breadNode = new BreadLeftoverDisplayNode( model );
         PNode meatNode = new MeatLeftoverDisplayNode( model );
         PNode cheeseNode = new CheeseLeftoverDisplayNode( model );
@@ -134,6 +135,8 @@ public class SandwichShopAfterNode extends PhetPNode {
     }
     
     private void update() {
+        
+        sandwichesNode.setVisible( model.getFormula().isReaction() );
         
         // sandwiches
         if ( model.getSandwiches() < sandwichesList.size() ) {
