@@ -54,7 +54,7 @@ public class NeuronCanvas extends PhetPCanvas {
     // Model
     private AxonModel model;
     
-    // Model to view transform.
+    // Model-view transform.
     private ModelViewTransform2D mvt;
     
     // Layers for the canvas.
