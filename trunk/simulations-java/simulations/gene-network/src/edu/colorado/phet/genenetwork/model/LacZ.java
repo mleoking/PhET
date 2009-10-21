@@ -8,6 +8,7 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 
 /**
@@ -32,8 +33,7 @@ public class LacZ extends SimpleModelElement {
 	private static Shape createShape(){
 		Ellipse2D startingShape = new Ellipse2D.Double(-SIZE/2, -SIZE/2, SIZE, SIZE);
 		Area area = new Area(startingShape);
-		area.subtract(new Area(new LactoseModelElement().getShape()));
+		area.subtract(new Area(new Lactose(0,-SIZE/2 + SIZE /16).getShape()));
 		return area;
-		
 	}
 }

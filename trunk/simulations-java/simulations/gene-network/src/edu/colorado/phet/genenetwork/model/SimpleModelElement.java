@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  * 
  * @author John Blanco
  */
-public abstract class SimpleModelElement {
+public abstract class SimpleModelElement implements IModelElement{
 
 	private Shape shape;
 	private Point2D position;
