@@ -18,7 +18,7 @@ public class SandwichShopCanvas extends RPALCanvas {
     public SandwichShopCanvas( SandwichShop model ) {
         super();
         
-        formulaNode = new SandwichFormulaNode( model.getSandwichFormula() );
+        formulaNode = new SandwichFormulaNode( model.getFormula() );
         addChild( formulaNode );
         
         beforeNode = new SandwichShopBeforeNode( model );

@@ -10,21 +10,21 @@ import javax.swing.event.ChangeListener;
 public class SandwichShop {
     
     private final ArrayList<ChangeListener> listeners;
-    private final SandwichFormula sandwichFormula;
+    private final SandwichFormula formula;
     private int bread, meat, cheese;
 
     public SandwichShop() {
         listeners = new ArrayList<ChangeListener>();
-        sandwichFormula = new SandwichFormula();
-        sandwichFormula.addChangeListener( new ChangeListener() {
+        formula = new SandwichFormula();
+        formula.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 fireStateChanged();
             }
         } );
     }
     
-    public SandwichFormula getSandwichFormula() {
-        return sandwichFormula;
+    public SandwichFormula getFormula() {
+        return formula;
     }
     
     public void setBread( int bread ) {
@@ -72,38 +72,35 @@ public class SandwichShop {
     //XXX need a more general design for determining the limiting reagent and number of products 
     public int getSandwiches() {
         int sandwiches = 0;
-        ArrayList<Integer> nonZeroCoefficients = new ArrayList<Integer>();
-        ArrayList<Integer> possibleValues = new ArrayList<Integer>();
-        if ( sandwichFormula.getBread() != 0 ) {
-            nonZeroCoefficients.add( new Integer( sandwichFormula.getBread() ) );
-            possibleValues.add( new Integer( bread / sandwichFormula.getBread() ) );
-        }
-        if ( sandwichFormula.getMeat() != 0 ) {
-            nonZeroCoefficients.add( new Integer( sandwichFormula.getMeat() ) );
-            possibleValues.add( new Integer( meat / sandwichFormula.getMeat() ) );
-        }
-        if ( sandwichFormula.getCheese() != 0 ) {
-            nonZeroCoefficients.add( new Integer( sandwichFormula.getCheese() ) );
-            possibleValues.add( new Integer( cheese / sandwichFormula.getCheese() ) );
-        }
-        // more than 2 reactants or at least 1 reactant with coefficient >= 2 is required to create a product
-        if ( nonZeroCoefficients.size() > 1 || ( nonZeroCoefficients.size() == 1 && nonZeroCoefficients.get( 0 ).intValue() > 1 ) ) {
-            Collections.sort( possibleValues );
-            sandwiches = possibleValues.get( 0 );
+        if ( formula.isReaction() ) {
+            ArrayList<Integer> possibleValues = new ArrayList<Integer>();
+            if ( formula.getBread() != 0 ) {
+                possibleValues.add( new Integer( bread / formula.getBread() ) );
+            }
+            if ( formula.getMeat() != 0 ) {
+                possibleValues.add( new Integer( meat / formula.getMeat() ) );
+            }
+            if ( formula.getCheese() != 0 ) {
+                possibleValues.add( new Integer( cheese / formula.getCheese() ) );
+            }
+            if ( possibleValues.size() > 0 ) {
+                Collections.sort( possibleValues );
+                sandwiches = possibleValues.get( 0 );
+            }
         }
         return sandwiches;
     }
     
     public int getBreadLeftover() {
-        return bread - ( getSandwiches() * sandwichFormula.getBread() );
+        return bread - ( getSandwiches() * formula.getBread() );
     }
     
     public int getMeatLeftover() {
-        return meat - ( getSandwiches() * sandwichFormula.getMeat() );
+        return meat - ( getSandwiches() * formula.getMeat() );
     }
     
     public int getCheeseLeftover() {
-        return cheese - ( getSandwiches() * sandwichFormula.getCheese() );
+        return cheese - ( getSandwiches() * formula.getCheese() );
     }
     
     public void addChangeListener( ChangeListener listener ) {

@@ -1,3 +1,9 @@
+10/21/09 move products display to left
+10/21/09 show "no reaction" on rhs when formula does not result in a reaction
+10/21/09 add SandwichFormula.isReaction
+10/21/09 delete LeftoversDisplayNode, no longer needed
+10/21/09 increase meat image size to 203x100 so that it sticks out of bread
+10/21/09 increase vertical spacing between sandwich parts to 7
 # 0.00.07 (35929) Oct 19, 2009
 10/19/09 more than 2 reactants or at least 1 reactant with coefficient >= 2 is required to create a product
 # 0.00.06 (35924) Oct 19, 2009

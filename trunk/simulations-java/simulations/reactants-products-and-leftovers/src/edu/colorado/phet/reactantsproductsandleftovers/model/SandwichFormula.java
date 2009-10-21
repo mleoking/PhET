@@ -22,6 +22,32 @@ public class SandwichFormula {
         listeners = new ArrayList<ChangeListener>();
     }
     
+    /**
+     * Formula is a reaction if more than one coefficient is non-zero,
+     * or if any coefficient is > 1.
+     * @return
+     */
+    public boolean isReaction() {
+        boolean isReaction = false;
+        if ( bread > 1 || cheese > 1 || meat > 1 ) {
+            isReaction = true;
+        }
+        else {
+            int nonZero = 0;
+            if ( bread > 0 ) {
+                nonZero++;
+            }
+            if ( meat > 0 ) {
+                nonZero++;
+            }
+            if ( cheese > 0 ) {
+                nonZero++;
+            }
+            isReaction = ( nonZero > 1 );
+        }
+        return isReaction;
+    }
+    
     public void setBread( int bread ) {
         if ( bread < 0 ) {
             throw new IllegalArgumentException( "bread must be >= 0" );
