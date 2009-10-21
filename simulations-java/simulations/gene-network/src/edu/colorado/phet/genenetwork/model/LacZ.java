@@ -16,17 +16,16 @@ import java.awt.geom.Point2D;
  * 
  * @author John Blanco
  */
-public class LacZModelElement extends SimpleModelElement {
+public class LacZ extends SimpleModelElement {
 	
-	private static final Shape ELEMENT_SHAPE = new Ellipse2D.Double(-5, -10, 10, 20);
 	private static final Paint ELEMENT_PAINT = new Color(219, 198, 212);
 	private static double SIZE = 8;
 	
-	public LacZModelElement(Point2D initialPosition) {
+	public LacZ(Point2D initialPosition) {
 		super(createShape(), initialPosition, ELEMENT_PAINT);
 	}
 	
-	public LacZModelElement() {
+	public LacZ() {
 		this(new Point2D.Double());
 	}
 	
