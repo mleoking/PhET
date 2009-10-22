@@ -6,5 +6,5 @@ import java.awt.geom.Point2D;
 public interface IModelElement {
     Shape getShape();
 
-    Point2D getPosition();
+    Point2D getPositionRef();
 }
