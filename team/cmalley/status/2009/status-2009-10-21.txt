@@ -1,0 +1,38 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: October 15-21, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Reactants, Products and Leftovers
+  - completed implementation of Sandwich Shop tab
+  - change requests for Sandwich Shop tab
+  - demonstrated spinners vs sliders for reactant quantities
+  - published 0.00.06 through 0.00.09
+  
+  Balancing Equations:
+  - reviewed design doc, feedback to Kelly
+
+  misc:
+  - discussion about support for low-res devices (1822)
+  - dev discussion about Flash 3D performance on PowerMac G4
+  - dev discussion about accessibility
+  - dev discussion about Java static interfaces
+  - design discussion about "analogy"
+  
+WHAT'S NEXT:
+
+  - continue work on Reactants, Products and Leftovers
+  - release new version of Translation Utility (after Marj tests)
+  - finish Glaciers (waiting for Wendy's feedback since 8/19/09)
+  
+ISSUES:
+
+  - The design for "Reactants, Products and Leftovers" is incomplete.
+  
+DATES UNAVAILABLE:
+
+   October 15-27
+  
+--
