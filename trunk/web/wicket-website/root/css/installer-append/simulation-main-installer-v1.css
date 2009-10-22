@@ -1,3 +1,7 @@
+.sim-kb {
+    visibility: hidden;
+}
+
 .sim-download {
-    display: none;
+    visibility: hidden;
 }
