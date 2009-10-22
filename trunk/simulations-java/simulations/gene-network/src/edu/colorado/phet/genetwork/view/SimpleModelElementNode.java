@@ -65,6 +65,6 @@ public class SimpleModelElementNode extends PPath {
 	}
 	
     private void updateOffset() {
-        setOffset( mvt.modelToView( modelElement.getPosition() ));
+        setOffset( mvt.modelToView( modelElement.getPositionRef() ));
     }
 }
