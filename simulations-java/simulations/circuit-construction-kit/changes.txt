@@ -1,3 +1,4 @@
+Fixed time scale for e-e repulsion to match scale as in 3.17.00, resolves #1828
 # 3.17.16 (35899) Oct 16, 2009
 Added a workaround to help improve behavior for situations such as a battery connected directly to a capacitor, see #1813
 # 3.17.15 (35749) Oct 12, 2009
