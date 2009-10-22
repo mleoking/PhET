@@ -15,12 +15,12 @@ public class CompositeModelElement implements IModelElement{
     public Shape getShape() {
         Area area=new Area();
         for (IModelElement element : elements) {
-            area.add(new Area(AffineTransform.getTranslateInstance(element.getPosition().getX(),element.getPosition().getY()).createTransformedShape(element.getShape())));
+            area.add(new Area(AffineTransform.getTranslateInstance(element.getPositionRef().getX(),element.getPositionRef().getY()).createTransformedShape(element.getShape())));
         }
         return area;
     }
 
-    public Point2D getPosition() {
+    public Point2D getPositionRef() {
         return null;
     }
 
