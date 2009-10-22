@@ -38,7 +38,7 @@ public abstract class SimpleModelElement implements IModelElement{
 		this.shape = shape;  
 	}
 	
-	public Point2D getPosition(){
+	public Point2D getPositionRef(){
 		return position;
 	}
 	
@@ -70,6 +70,7 @@ public abstract class SimpleModelElement implements IModelElement{
 	public void updatePosition(){
 		if (velocity.getX() != 0 || velocity.getY() != 0){
 			position.setLocation(position.getX() + velocity.getX(), position.getY() + velocity.getY());
+			notifyPositionChanged();
 		}
 	}
 	
