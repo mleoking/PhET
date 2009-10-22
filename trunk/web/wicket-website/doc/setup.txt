@@ -55,6 +55,9 @@ The configuration parameter above will trigger either the "development" or "depl
 Additionally, the temp dir (usually $CATALINA_HOME$/temp) should definitely be writable by the Tomcat daemon, since
 this is the location of EHCache's temporary files.
 
+Also the appropriate JDBC driver should be copied into $CATALINA_HOME$/lib/
+    (ie trunk/web/wicket-website/contrib/postgresql-8.3-604.jdbc4.jar).
+
 * IDE setup
 
 Tomcat can be used with Eclipse and Intellij for testing. For Intellij, this includes creating a Web facet. The
