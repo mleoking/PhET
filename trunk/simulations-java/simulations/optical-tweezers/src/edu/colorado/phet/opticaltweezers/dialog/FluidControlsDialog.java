@@ -5,8 +5,7 @@ package edu.colorado.phet.opticaltweezers.dialog;
 import java.awt.Font;
 import java.awt.Frame;
 
-import javax.swing.JDialog;
-
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.FluidControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
@@ -16,7 +15,7 @@ import edu.colorado.phet.opticaltweezers.model.Fluid;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FluidControlsDialog extends JDialog {
+public class FluidControlsDialog extends PaintImmediateDialog {
 
     private FluidControlPanel _fluidControlPanel;
     
