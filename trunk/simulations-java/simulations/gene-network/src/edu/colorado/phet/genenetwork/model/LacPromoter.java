@@ -21,7 +21,7 @@ import java.awt.geom.Point2D;
 public class LacPromoter extends SimpleModelElement {
 	
 	private static final Paint ELEMENT_PAINT = new Color(0, 137, 225);
-	private static float HEIGHT = 3;
+	private static float HEIGHT = 2.5f;
 	private static float WIDTH = 10;
 	
 	public LacPromoter(Point2D initialPosition) {
