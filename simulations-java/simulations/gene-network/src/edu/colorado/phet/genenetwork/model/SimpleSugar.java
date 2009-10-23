@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  */
 public abstract class SimpleSugar extends SimpleModelElement {
 	
-	public static double HEIGHT = 3;
+	public static double HEIGHT = 2;
 	
 	public SimpleSugar(Point2D initialPosition, Paint paint) {
 		super(createShape(), initialPosition, paint);
