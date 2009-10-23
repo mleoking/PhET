@@ -5,10 +5,10 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 
 /**
@@ -20,7 +20,7 @@ import java.awt.geom.Rectangle2D;
 public class LacZ extends SimpleModelElement {
 	
 	private static final Paint ELEMENT_PAINT = new Color(219, 198, 212);
-	private static double SIZE = 8;
+	private static double SIZE = 10;
 	
 	public LacZ(Point2D initialPosition) {
 		super(createShape(), initialPosition, ELEMENT_PAINT);
@@ -31,9 +31,19 @@ public class LacZ extends SimpleModelElement {
 	}
 	
 	private static Shape createShape(){
+		// Start with a circle.
 		Ellipse2D startingShape = new Ellipse2D.Double(-SIZE/2, -SIZE/2, SIZE, SIZE);
 		Area area = new Area(startingShape);
-		area.subtract(new Area(new Lactose(0,-SIZE/2 + SIZE /16).getShape()));
+		
+		// Get the shape of a lactose molecule and shift it to the appropriate
+		// position.
+		Shape lactoseShape = new Lactose().getShape();
+		AffineTransform transform = new AffineTransform();
+		transform.setToTranslation(	0, -SIZE/2 );
+		lactoseShape = transform.createTransformedShape(lactoseShape);
+		
+		// Subtract off the shape of the lactose molecule.
+		area.subtract(new Area(lactoseShape));
 		return area;
 	}
 }
