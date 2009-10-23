@@ -5,6 +5,7 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -23,6 +24,7 @@ public class LacOperonModel {
 	private static final double MODEL_AREA_HEIGHT = 100;
 	private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double(-MODEL_AREA_WIDTH / 2,
 			-MODEL_AREA_HEIGHT / 2, MODEL_AREA_WIDTH, MODEL_AREA_HEIGHT);
+	private static final Random RAND = new Random();
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -51,27 +53,26 @@ public class LacOperonModel {
         });
         
         // Add the initial model elements.
-        SimpleModelElement modelElement = new LacZ(new Point2D.Double(0, 0));
-        modelElement.setVelocity(1, 1.5);
-        addModelElement(modelElement);
-        modelElement = new LacZ(new Point2D.Double(3, 3));
-        modelElement.setVelocity(-1, 1.5);
-        addModelElement(modelElement);
-        modelElement = new Glucose(new Point2D.Double(20, 20));
-        modelElement.setVelocity(1, 0.5);
-        addModelElement(modelElement);
-        modelElement = new Glucose(new Point2D.Double(20, 20));
-        modelElement.setVelocity(1, 0.5);
-        addModelElement(modelElement);
-        modelElement = new Galactose(new Point2D.Double(-20, -10));
-        modelElement.setVelocity(-1.5, 1);
-        addModelElement(modelElement);
-        modelElement = new Galactose(new Point2D.Double(15, -10));
-        modelElement.setVelocity(-1.5, 1);
-        addModelElement(modelElement);
-        modelElement = new LacI(new Point2D.Double(20, 10));
-        modelElement.setVelocity(1.5, 1);
-        addModelElement(modelElement);
+        for (int i = 0; i<4; i++){
+        	SimpleModelElement modelElement = new LacZ();
+        	randomlyInitModelElement(modelElement);
+        	addModelElement(modelElement);
+        }
+        for (int i = 0; i<4; i++){
+        	SimpleModelElement modelElement = new LacI();
+        	randomlyInitModelElement(modelElement);
+        	addModelElement(modelElement);
+        }
+        for (int i = 0; i<8; i++){
+        	SimpleModelElement modelElement = new Glucose();
+        	randomlyInitModelElement(modelElement);
+        	addModelElement(modelElement);
+        }
+        for (int i = 0; i<8; i++){
+        	SimpleModelElement modelElement = new Galactose();
+        	randomlyInitModelElement(modelElement);
+        	addModelElement(modelElement);
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -88,6 +89,13 @@ public class LacOperonModel {
     
     private void addModelElement(SimpleModelElement modelElement){
     	simpleModelElements.add(modelElement);
+    }
+    
+    private void randomlyInitModelElement(SimpleModelElement modelElement){
+    	modelElement.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
+    			(RAND.nextDouble() - 0.5) * (MODEL_AREA_HEIGHT / 2));
+    	double maxVel = 2;
+    	modelElement.setVelocity((RAND.nextDouble() - 0.5) * maxVel, (RAND.nextDouble() - 0.5) * maxVel);
     }
     
     /**
