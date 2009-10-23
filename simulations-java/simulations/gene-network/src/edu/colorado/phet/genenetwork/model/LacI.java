@@ -11,7 +11,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 
 
 /**
