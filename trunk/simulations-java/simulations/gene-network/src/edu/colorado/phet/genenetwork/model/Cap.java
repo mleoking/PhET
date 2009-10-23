@@ -21,7 +21,7 @@ public class Cap extends SimpleModelElement {
 	
 	private static final Paint ELEMENT_PAINT = new Color(237, 179, 122);
 	private static float WIDTH = CapBindingRegion.WIDTH;
-	private static float HEIGHT = 6;  // In nanometers.
+	private static float HEIGHT = 4;  // In nanometers.
 	
 	public Cap(Point2D initialPosition) {
 		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
@@ -37,7 +37,7 @@ public class Cap extends SimpleModelElement {
 		GeneralPath outline = new GeneralPath();
 		
 		outline.moveTo(-WIDTH / 2, 0);
-		outline.curveTo(-WIDTH/2, HEIGHT/2, -WIDTH/4, HEIGHT / 2, 0, HEIGHT/4);
+		outline.curveTo(-WIDTH/2, HEIGHT, 0, HEIGHT / 2, 0, HEIGHT/4);
 		outline.lineTo(WIDTH/2, HEIGHT/4);
 		outline.lineTo(WIDTH/2, -HEIGHT/2);
 		outline.lineTo(-WIDTH/2, -HEIGHT/2);
@@ -53,6 +53,15 @@ public class Cap extends SimpleModelElement {
 		
 		// Subtract off the shape of the binding region.
 		area.subtract(new Area(bindingRegionShape));
+		
+		// Get the shape of the cAMP and shift it to the appropriate location.
+		Shape campShape = new Camp().getShape();
+		transform = new AffineTransform();
+		transform.setToTranslation(	-WIDTH/2, 0 );
+		campShape = transform.createTransformedShape(campShape);
+		
+		// Subtract off the shape of the camp.
+		area.subtract(new Area(campShape));
 		
 		return area;
 	}
