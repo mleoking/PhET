@@ -22,7 +22,7 @@ public class LacPromoter extends SimpleModelElement {
 	
 	private static final Paint ELEMENT_PAINT = new Color(0, 137, 225);
 	private static float HEIGHT = 2.5f;
-	private static float WIDTH = 10;
+	public static float WIDTH = 10;
 	
 	public LacPromoter(Point2D initialPosition) {
 		super(createShape(), initialPosition, ELEMENT_PAINT);
