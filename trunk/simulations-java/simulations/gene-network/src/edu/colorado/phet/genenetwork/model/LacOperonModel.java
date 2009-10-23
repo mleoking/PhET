@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 /**
- * Model template.
+ * Primary model for the Lac Operon flavor of this sim.
  */
 public class LacOperonModel {
     
@@ -53,26 +53,32 @@ public class LacOperonModel {
         });
         
         // Add the initial model elements.
+        SimpleModelElement modelElement;
         for (int i = 0; i<4; i++){
-        	SimpleModelElement modelElement = new LacZ();
+        	modelElement = new LacZ();
         	randomlyInitModelElement(modelElement);
         	addModelElement(modelElement);
         }
         for (int i = 0; i<4; i++){
-        	SimpleModelElement modelElement = new LacI();
+        	modelElement = new LacI();
         	randomlyInitModelElement(modelElement);
         	addModelElement(modelElement);
         }
         for (int i = 0; i<8; i++){
-        	SimpleModelElement modelElement = new Glucose();
+        	modelElement = new Glucose();
         	randomlyInitModelElement(modelElement);
         	addModelElement(modelElement);
         }
         for (int i = 0; i<8; i++){
-        	SimpleModelElement modelElement = new Galactose();
+        	modelElement = new Galactose();
         	randomlyInitModelElement(modelElement);
         	addModelElement(modelElement);
         }
+        
+        modelElement = new LacPromoter();
+        addModelElement(modelElement);
+        
+        
     }
 
     //----------------------------------------------------------------------------
