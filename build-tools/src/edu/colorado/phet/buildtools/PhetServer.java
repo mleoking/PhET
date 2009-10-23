@@ -8,7 +8,7 @@ public abstract class PhetServer {
      * the deploy destinations.
      * 
      * Options (null if not relevant):
-     * serverHost - host of the serever as accessed by SSH (ex: tigercat.colorado.edu)
+     * serverHost - host of the server as accessed by SSH (ex: tigercat.colorado.edu)
      * webHost - host of the server as accessed by HTTP (ex: phet.colorado.edu)
      * deployServerPath - path to the base directory to deploy to as seen by SSH (ex: /web/htdocs/phet/sims)
      * deployWebPath - path to the base web directory to deploy as seen by HTTP (ex: /sims)
@@ -136,9 +136,13 @@ public abstract class PhetServer {
     public void deployFinished() {
     }
 
-    public abstract String getJavaCommand();
+    public String getJavaCommand() {
+        return "java";
+    }
 
-    public abstract String getJarCommand();
+    public String getJarCommand() {
+        return "jar";
+    }
 
     public String getBuildLocalPropertiesFile() {
         return buildLocalPropertiesFile;
@@ -163,14 +167,6 @@ public abstract class PhetServer {
 
         public String getWebDeployURL( PhetProject project ) {
             return "http://" + getWebHost() + getWebDeployPath() + "/" + project.getName() + "/" + project.getDevDirectoryBasename();
-        }
-
-        public String getJavaCommand() {
-            return "java";
-        }
-
-        public String getJarCommand() {
-            return "jar";
         }
     }
 
@@ -209,14 +205,6 @@ public abstract class PhetServer {
                                                      "Document this release in trunk/website/about/changes.txt.\n" +
                                                      "Copy to tigercat:/web/htdocs/phet/about/changes.txt." );
             }
-        }
-
-        public String getJavaCommand() {
-            return "/web/chroot/phet/usr/local/java/bin/java";
-        }
-
-        public String getJarCommand() {
-            return "/web/chroot/phet/usr/local/java/bin/jar";
         }
     }
 
