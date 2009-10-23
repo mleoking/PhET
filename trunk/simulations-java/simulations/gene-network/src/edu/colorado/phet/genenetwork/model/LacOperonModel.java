@@ -69,6 +69,9 @@ public class LacOperonModel {
         modelElement = new Galactose(new Point2D.Double(15, -10));
         modelElement.setVelocity(-1.5, 1);
         addModelElement(modelElement);
+        modelElement = new LacI(new Point2D.Double(20, 10));
+        modelElement.setVelocity(1.5, 1);
+        addModelElement(modelElement);
     }
 
     //----------------------------------------------------------------------------
