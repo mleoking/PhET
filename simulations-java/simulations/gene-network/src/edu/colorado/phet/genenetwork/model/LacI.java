@@ -7,9 +7,11 @@ import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 
 
 /**
@@ -22,7 +24,7 @@ import java.awt.geom.Rectangle2D;
 public class LacI extends SimpleModelElement {
 	
 	private static final Paint ELEMENT_PAINT = new Color(200, 200, 200);
-	private static double WIDTH = 6;   // In nanometers.
+	private static double WIDTH = 7;   // In nanometers.
 	private static double HEIGHT = 4;  // In nanometers.
 	
 	public LacI(Point2D initialPosition) {
@@ -52,8 +54,18 @@ public class LacI extends SimpleModelElement {
 		transform.setToTranslation(	0, HEIGHT/2 );
 		lactoseShape = transform.createTransformedShape(lactoseShape);
 		
+		// Get the size of the binding region where this protein will bind to
+		// the lac operator and create a shape for it.
+		Dimension2D bindingRegionSize = LacOperator.getBindingRegionSize();
+		Rectangle2D bindingRegionRect = new Rectangle2D.Double(-bindingRegionSize.getWidth() / 2,
+				-HEIGHT/2, bindingRegionSize.getWidth(), bindingRegionSize.getHeight());
+		
 		// Subtract off the shape of the lactose molecule.
 		area.subtract(new Area(lactoseShape));
+		
+		// Subtract off the shape of the binding region.
+		area.subtract(new Area(bindingRegionRect));
+		
 		return area;
 	}
 	
