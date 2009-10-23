@@ -11,4 +11,11 @@ public class Galactose extends SimpleSugar {
 		super(initialPosition, Color.ORANGE);
 	}
 
+    public Galactose(double x,double y) {
+        this(new Point2D.Double(x,y));
+    }
+
+	public Galactose(){
+		this(new Point2D.Double());
+	}
 }
