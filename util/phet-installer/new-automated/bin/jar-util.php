@@ -12,7 +12,7 @@
     require_once("global.php");
     require_once("file-util.php");
 
-    define('JARSIGNER', '/usr/local/java/bin/jarsigner'); // Full path to jarsigner util.
+    define('JARSIGNER', '/usr/lib/jvm/java/bin/jarsigner'); // Full path to jarsigner util.
 
     //------------------------------------------------------------------------
     // Function to create a list of all JAR files located below the specified
