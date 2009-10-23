@@ -1,3 +1,4 @@
+10/23/09 FluidControlsDialog doesn't repaint while clock is running, extend PaintImmediatelyDialog
 # 2.02.00 (30671) Apr 21, 2009
 4/21/09 Batch deploy as part of IOM milestone with revision 30670
 # 2.01.03 (29786) Mar 24, 2009
