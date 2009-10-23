@@ -76,9 +76,16 @@ public class LacOperonModel {
         }
         
         modelElement = new LacPromoter();
+        randomlyInitModelElement(modelElement);
         addModelElement(modelElement);
         
+        modelElement = new CapBindingRegion();
+        randomlyInitModelElement(modelElement);
+        addModelElement(modelElement);
         
+        modelElement = new Cap();
+        randomlyInitModelElement(modelElement);
+        addModelElement(modelElement);
     }
 
     //----------------------------------------------------------------------------
