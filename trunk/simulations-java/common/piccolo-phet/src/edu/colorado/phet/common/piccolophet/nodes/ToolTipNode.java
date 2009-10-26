@@ -74,9 +74,20 @@ public class ToolTipNode extends PComposite {
      * @param associatedNode the node that the tool tip describes
      */
     public ToolTipNode( final String toolTipText, final PNode associatedNode ) {
-        this( toolTipText, associatedNode, DEFAULT_START_TIME, 
-                DEFAULT_FONT, DEFAULT_TEXT_COLOR, 
-                DEFAULT_STROKE, DEFAULT_STROKE_PAINT, 
+        this( toolTipText, associatedNode, DEFAULT_START_TIME);
+    }
+
+    /**
+     * Constructor that provides a good default behavior and also specifies a default startTime.
+     *
+     * @param toolTipText HTML or plain-text format
+     * @param associatedNode the node that the tool tip describes
+     * @param startTime the delay of time in milliseconds before the tooltip appears
+     */
+    public ToolTipNode( final String toolTipText, final PNode associatedNode, final int startTime ) {
+        this( toolTipText, associatedNode, startTime,
+                DEFAULT_FONT, DEFAULT_TEXT_COLOR,
+                DEFAULT_STROKE, DEFAULT_STROKE_PAINT,
                 DEFAULT_BACKGROUND_PAINT, DEFAULT_BACKGROUND_SHADOW_PAINT,
                 DEFAULT_MARGIN );
     }
