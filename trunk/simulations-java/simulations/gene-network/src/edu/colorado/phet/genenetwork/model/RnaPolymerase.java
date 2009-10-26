@@ -10,7 +10,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 
 
 /**
@@ -21,7 +20,6 @@ import java.awt.geom.Point2D.Double;
  */
 public class RnaPolymerase extends SimpleModelElement {
 	
-//	private static final Paint ELEMENT_PAINT = new Color(124, 198, 240);
 	private static float WIDTH = CapBindingRegion.WIDTH + LacPromoter.WIDTH;
 	private static float HEIGHT = 8;  // In nanometers.
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-WIDTH, 0), 
