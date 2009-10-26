@@ -4,6 +4,7 @@ package edu.colorado.phet.genenetwork.model;
 
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -76,35 +77,62 @@ public abstract class SimpleModelElement implements IModelElement{
 		}
 	}
 	
-    //------------------------------------------------------------------------
-    // Listener support
-    //------------------------------------------------------------------------
+	protected void notifyPositionChanged(){
+		// Notify all listeners of the position change.
+		for (Listener listener : listeners)
+		{
+			listener.positionChanged(); 
+		}        
+	}
 	
-    protected void notifyPositionChanged(){
-        // Notify all listeners of the position change.
-        for (Listener listener : listeners)
-        {
-            listener.positionChanged(); 
-        }        
-    }
-
-    public void addListener(Listener listener) {
-        if (listeners.contains( listener ))
-        {
-            // Don't bother re-adding.
-        	System.err.println(getClass().getName() + "- Warning: Attempting to re-add a listener that is already listening.");
-        	assert false;
-            return;
-        }
-        
-        listeners.add( listener );
-    }
-    
-    public void removeListener(Listener listener){
-    	listeners.remove(listener);
-    }
+	public void addListener(Listener listener) {
+		if (listeners.contains( listener ))
+		{
+			// Don't bother re-adding.
+			System.err.println(getClass().getName() + "- Warning: Attempting to re-add a listener that is already listening.");
+			assert false;
+			return;
+		}
+		
+		listeners.add( listener );
+	}
+	
+	public void removeListener(Listener listener){
+		listeners.remove(listener);
+	}
+	
+    //------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
 	
     public interface Listener {
         void positionChanged();
+    }
+
+    /**
+     * This class defines the point at which a particular model element type
+     * can be bound to another.  Each binding point is defined by the type
+     * of element bonded and the offset with respect to this element's
+     * position.
+     * 
+     * @author John Blanco
+     */
+    private static class BindingPoint{
+    	private final SimpleElementType elementType;
+    	private final Dimension2D offset;
+    	
+		public BindingPoint(SimpleElementType elementType, Dimension2D offset) {
+			super();
+			this.elementType = elementType;
+			this.offset = offset;
+		}
+
+		public SimpleElementType getElementType() {
+			return elementType;
+		}
+
+		public Dimension2D getOffset() {
+			return offset;
+		}
     }
 }
