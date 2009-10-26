@@ -134,7 +134,7 @@ public class PureJavaSolver extends CircuitSolver {
                 double avgVoltage = (oldVoltage + newVoltage) / 2.0;
 
                 if (!signsMatch(oldCurrent, newCurrent) || !signsMatch(oldVoltage, newVoltage)) {
-                    System.out.println("workaround at "+ System.currentTimeMillis());
+//                    System.out.println("workaround at "+ System.currentTimeMillis());
                     getComponent().setCurrent(avgCurrent);
                     getComponent().setVoltageDrop(avgVoltage);
                 } else {
