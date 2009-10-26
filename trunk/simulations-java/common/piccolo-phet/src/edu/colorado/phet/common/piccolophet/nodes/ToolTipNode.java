@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import javax.swing.ToolTipManager;
 import javax.swing.plaf.basic.BasicHTML;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -41,7 +42,7 @@ public class ToolTipNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int DEFAULT_START_TIME = 1500; // how long after mouseEnter that the tool tip becomes visible (ms)
+    private static final int DEFAULT_INITIAL_DELAY = ToolTipManager.sharedInstance().getInitialDelay();
     private static final Font DEFAULT_FONT = new PhetFont( 12 );
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
     private static final Stroke DEFAULT_STROKE = new BasicStroke( 1f );
@@ -74,18 +75,18 @@ public class ToolTipNode extends PComposite {
      * @param associatedNode the node that the tool tip describes
      */
     public ToolTipNode( final String toolTipText, final PNode associatedNode ) {
-        this( toolTipText, associatedNode, DEFAULT_START_TIME);
+        this( toolTipText, associatedNode, DEFAULT_INITIAL_DELAY);
     }
 
     /**
-     * Constructor that provides a good default behavior and also specifies a default startTime.
+     * Constructor that provides a good default behavior and also specifies a default initial delay.
      *
      * @param toolTipText HTML or plain-text format
      * @param associatedNode the node that the tool tip describes
-     * @param startTime the delay of time in milliseconds before the tooltip appears
+     * @param initialDelay the delay of time in milliseconds before the tool tip appears
      */
-    public ToolTipNode( final String toolTipText, final PNode associatedNode, final int startTime ) {
-        this( toolTipText, associatedNode, startTime,
+    public ToolTipNode( final String toolTipText, final PNode associatedNode, final int initialDelay ) {
+        this( toolTipText, associatedNode, initialDelay,
                 DEFAULT_FONT, DEFAULT_TEXT_COLOR,
                 DEFAULT_STROKE, DEFAULT_STROKE_PAINT,
                 DEFAULT_BACKGROUND_PAINT, DEFAULT_BACKGROUND_SHADOW_PAINT,
@@ -107,7 +108,7 @@ public class ToolTipNode extends PComposite {
      * @param backgroundShadowPaint
      * @param margin
      */
-    protected ToolTipNode( final String toolTipText, final PNode associatedNode, final int startTime,
+    protected ToolTipNode( final String toolTipText, final PNode associatedNode, final int initialDelay,
             Font font, Color textColor,
             Stroke backgroundStroke, Paint backgroundStrokePaint,
             Paint backgroundPaint, Paint backgroundShadowPaint,
@@ -166,8 +167,8 @@ public class ToolTipNode extends PComposite {
                         }
                     };
                     
-                    _showToolTipTimer = new Timer( startTime, onListener );
-                    _showToolTipTimer.setInitialDelay( startTime );
+                    _showToolTipTimer = new Timer( initialDelay, onListener );
+                    _showToolTipTimer.setInitialDelay( initialDelay );
                     _showToolTipTimer.setRepeats( false );
                     _showToolTipTimer.start();
                 }
@@ -351,8 +352,8 @@ public class ToolTipNode extends PComposite {
     public static void main( String[] args ) {
         
         // Add test nodes and their tool tips to these lists
-        ArrayList testNodes = new ArrayList();  // list of PNode
-        ArrayList toolTips = new ArrayList();  // list of ToolTipNode
+        ArrayList<PNode> testNodes = new ArrayList<PNode>();
+        ArrayList<ToolTipNode> toolTips = new ArrayList<ToolTipNode>();
         
         // Instructions
         PText instructionsNode = new PText( "Place mouse over a square to see its tool tip." );
@@ -414,6 +415,15 @@ public class ToolTipNode extends PComposite {
         testNodes.add( blackNode );
         toolTips.add( blackToolTipNode );
         
+        // Orange Square
+        PPath orangeNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
+        orangeNode.setPaint( Color.ORANGE );
+        final int initialDelay = 2000;
+        ToolTipNode orangeToolTipNode = new ToolTipNode( initialDelay + " ms initial delay", orangeNode, initialDelay );
+        orangeToolTipNode.setLocationStrategy( new CenteredBelowAssociatedNode() );
+        testNodes.add( orangeNode );
+        toolTips.add( orangeToolTipNode );
+        
         // Add tests above here ---------------
         
         // Add nodes to scenegraph, set their positions to create 1 row of test nodes
@@ -427,7 +437,7 @@ public class ToolTipNode extends PComposite {
         instructionsNode.setOffset( margin, margin );
         // one row of nodes
         for ( int i = 0; i < testNodes.size(); i++ ) {
-            PNode currentNode = (PNode) testNodes.get( i );
+            PNode currentNode = testNodes.get( i );
             currentNode.addInputEventListener( new CursorHandler() ); // hand cursor
             rootNode.addChild( currentNode );
             if ( previousNode == null ) {
@@ -441,7 +451,7 @@ public class ToolTipNode extends PComposite {
 
         // Add tool tips to scenegraph after test nodes, so they'll be on top
         for ( int i = 0; i < toolTips.size(); i++ ) {
-            rootNode.addChild( (ToolTipNode) toolTips.get( i ) );
+            rootNode.addChild( toolTips.get( i ) );
         }
         
         // Frame

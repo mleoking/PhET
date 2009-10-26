@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ToolTipNode;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IToolProducer;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
@@ -243,7 +244,7 @@ public class ToolboxNode extends PNode {
     private static final class ToolboxToolTipNode extends ToolTipNode {
         
         public ToolboxToolTipNode( String text, PNode associatedNode ) {
-            super( text, associatedNode );
+            super( text, associatedNode, GlaciersConstants.TOOLTIPS_INITIAL_DELAY );
             setLocationStrategy( new LeftAlignedAboveMouseCursor() );
         }
     }

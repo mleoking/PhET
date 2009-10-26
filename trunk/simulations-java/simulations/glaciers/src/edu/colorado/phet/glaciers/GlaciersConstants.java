@@ -117,6 +117,8 @@ public class GlaciersConstants {
     // x offset that corresponds to YAW_ROTATION, set via visual inspection
     public static final double YAW_X_OFFSET = 500; // meters TODO: compute as a function of YAW_ROTATION and PITCH_Y_OFFSET?
     
+    public static final int TOOLTIPS_INITIAL_DELAY = 1500; // ms
+    
     //----------------------------------------------------------------------------
     // Colors
     //----------------------------------------------------------------------------
