@@ -1,0 +1,2 @@
+# 0.01.00 (36030) Oct 23, 2009
+10/23/09 test #1837, location of JDK moved on tigercat
