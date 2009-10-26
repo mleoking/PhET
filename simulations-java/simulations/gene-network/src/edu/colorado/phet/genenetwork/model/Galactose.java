@@ -18,4 +18,9 @@ public class Galactose extends SimpleSugar {
 	public Galactose(){
 		this(new Point2D.Double());
 	}
+	
+	@Override
+	SimpleElementType getType() {
+		return SimpleElementType.GALACTOSE;
+	}
 }

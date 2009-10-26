@@ -35,6 +35,12 @@ public class LacOperator extends SimpleModelElement {
 		this(new Point2D.Double());
 	}
 	
+	@Override
+	SimpleElementType getType() {
+		return SimpleElementType.LAC_OPERATOR;
+	}
+
+	
 	private static Shape createShape(){
 		
 		// Create the overall outline.

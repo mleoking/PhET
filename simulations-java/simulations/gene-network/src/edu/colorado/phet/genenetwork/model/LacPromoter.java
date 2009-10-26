@@ -32,6 +32,11 @@ public class LacPromoter extends SimpleModelElement {
 		this(new Point2D.Double());
 	}
 	
+	@Override
+	SimpleElementType getType() {
+		return SimpleElementType.LAC_PROMOTER;
+	}
+	
 	private static Shape createShape(){
 		
 		GeneralPath outline = new GeneralPath();

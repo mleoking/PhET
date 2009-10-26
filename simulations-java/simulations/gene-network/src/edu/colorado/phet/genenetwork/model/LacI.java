@@ -67,5 +67,10 @@ public class LacI extends SimpleModelElement {
 		
 		return area;
 	}
+
+	@Override
+	SimpleElementType getType() {
+		return SimpleElementType.LAC_I;
+	}
 	
 }

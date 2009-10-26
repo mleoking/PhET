@@ -30,6 +30,8 @@ public abstract class SimpleModelElement implements IModelElement{
 		this.paint = paint;
 	}
 	
+	abstract SimpleElementType getType();
+	
 	public Shape getShape(){
 		return shape;
 	}

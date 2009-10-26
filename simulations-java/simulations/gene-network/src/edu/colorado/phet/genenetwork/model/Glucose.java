@@ -18,4 +18,9 @@ public class Glucose extends SimpleSugar {
 	public Glucose(){
 		this(new Point2D.Double());
 	}
+	
+	@Override
+	SimpleElementType getType() {
+		return SimpleElementType.GLUCOSE;
+	}
 }
