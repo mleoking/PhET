@@ -32,6 +32,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
   val rampSegments = new ArrayBuffer[RampSegment]
   val stepListeners = new ArrayBuffer[() => Unit]
+  val playbackListeners = new ArrayBuffer[() => Unit]
   val rampLength = 10
   setPaused(pausedOnReset)
 
@@ -271,6 +272,11 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   }
 
   def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
+
+  override def stepPlayback() = {
+    super.stepPlayback()
+    playbackListeners.foreach(_())
+  }
 
   private def doStep(dt: Double) = {
     super.setTime(getTime + dt)
