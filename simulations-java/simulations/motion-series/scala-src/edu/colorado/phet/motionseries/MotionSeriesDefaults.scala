@@ -88,9 +88,12 @@ object MotionSeriesDefaults {
   val jupiterGravity = earthGravity * 2.5
   val sliderMaxGravity = 30.0
 
+  val crateMass = 100.0
+  val crateHeight = 1.5
+
   //ScalaRampObject(name,mass,kineticFriction,staticFriction,image)
   import edu.colorado.phet.motionseries.MotionSeriesResources._
-  val objects = new MotionSeriesObject("object.small-crate".translate, 100, 0.3, 0.5, 1.5, "crate.gif".literal, 200) ::
+  val objects = new MotionSeriesObject("object.small-crate".translate, crateMass, 0.3, 0.5, crateHeight, "crate.gif".literal, 200) ::
           new MotionSeriesObject("object.file-cabinet".translate, 50, 0.2, 0.5, 2.25, "cabinet.gif".literal, 100) ::
           new MotionSeriesObject("object.dog".translate, 25, 0.5, 0.5, 1.25, "ollie.gif".literal, 500) ::
           new MotionSeriesObject("object.refrigerator".translate, 200, 0.2, 0.5, 2.75, "fridge.gif".literal, 650) ::
