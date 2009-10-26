@@ -124,19 +124,12 @@
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-utility/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/unfuddle/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/web/wicket-test/src/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/core/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/core/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/examples/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/extras/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/swt/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/gene-network/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.manager" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
-      <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d" />
       <excludeFolder url="file://$MODULE_DIR$/web/wicket-test/src/java" />
     </content>
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />

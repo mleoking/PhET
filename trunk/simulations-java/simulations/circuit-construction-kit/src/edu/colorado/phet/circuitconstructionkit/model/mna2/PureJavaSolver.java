@@ -115,25 +115,38 @@ public class PureJavaSolver extends CircuitSolver {
             return MathUtil.getSign(x) == MathUtil.getSign(y);
         }
 
+        static long lastTimeWorkaroundApplied = System.currentTimeMillis();
+
         //This workaround is to help improve behavior for situations such as a battery connected directly to a capacitor
         //See #1813 and TestTheveninCapacitorRC
         void applySolution(CompanionMNA.CompanionSolution sol) {
-            double oldCurrent = b.getCurrent();
-            double newCurrent = sol.getCurrent(getElement());
+            long elapsedSinceWorkaround = System.currentTimeMillis() - lastTimeWorkaroundApplied;
 
-            double oldVoltage = b.getVoltageDrop();
-            double newVoltage = sol.getVoltage(getElement());
+            if (elapsedSinceWorkaround >= 0) {
 
-            double avgCurrent = (oldCurrent + newCurrent) / 2.0;
-            double avgVoltage = (oldVoltage + newVoltage) / 2.0;
+                double oldCurrent = b.getCurrent();
+                double newCurrent = sol.getCurrent(getElement());
 
-            if (!signsMatch(oldCurrent, newCurrent) || !signsMatch(oldVoltage, newVoltage)) {
-                getComponent().setCurrent(avgCurrent);
-                getComponent().setVoltageDrop(avgVoltage);
+                double oldVoltage = b.getVoltageDrop();
+                double newVoltage = sol.getVoltage(getElement());
+
+                double avgCurrent = (oldCurrent + newCurrent) / 2.0;
+                double avgVoltage = (oldVoltage + newVoltage) / 2.0;
+
+                if (!signsMatch(oldCurrent, newCurrent) || !signsMatch(oldVoltage, newVoltage)) {
+                    System.out.println("workaround at "+ System.currentTimeMillis());
+                    getComponent().setCurrent(avgCurrent);
+                    getComponent().setVoltageDrop(avgVoltage);
+                } else {
+                    getComponent().setCurrent(newCurrent);
+                    getComponent().setVoltageDrop(newVoltage);
+                }
+                lastTimeWorkaroundApplied = System.currentTimeMillis();
             } else {
-                getComponent().setCurrent(newCurrent);
-                getComponent().setVoltageDrop(newVoltage);
+                AdapterUtil.applySolution(sol, this);
             }
+
+
         }
     }
 
