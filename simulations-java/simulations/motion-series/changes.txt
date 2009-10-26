@@ -1,3 +1,4 @@
+Fixed: When walls removed, the “Brick/Bouncy” control should grey out.
 Fixed: Springs should not appear when walls are disabled.
 Moved vector arrows in front of applied force slider.
 forces-and-motion: Moved vector arrows in front of play area controls
