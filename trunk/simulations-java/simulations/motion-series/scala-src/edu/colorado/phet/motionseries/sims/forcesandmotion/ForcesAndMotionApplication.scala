@@ -60,7 +60,7 @@ class ForcesAndMotionCanvas(model: MotionSeriesModel,
   override def createRightSegmentNode: HasPaint = new RampSegmentNode(model.rampSegments(1), transform, model)
 }
 
-class IntroModule(frame: PhetFrame, clock: ScalaClock) extends ForcesAndMotionModule(frame, clock, "forces-and-motion.module.intro.title".translate, false, true, false, true, -6, false, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea, false)
+class IntroModule(frame: PhetFrame, clock: ScalaClock) extends ForcesAndMotionModule(frame, clock, "forces-and-motion.module.intro.title".translate, false, true, false, true, -3, false, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea, false)
 
 class FrictionModule(frame: PhetFrame, clock: ScalaClock)
         extends ForcesAndMotionModule(frame, clock, "forces-and-motion.module.friction.title".translate,
