@@ -90,6 +90,10 @@ public class LacOperonModel {
         modelElement = new RnaPolymerase();
         randomlyInitModelElement(modelElement);
         addModelElement(modelElement);
+
+        modelElement = new MessengerRna();
+        randomlyInitModelElement(modelElement);
+        addModelElement(modelElement);
     }
 
     //----------------------------------------------------------------------------
