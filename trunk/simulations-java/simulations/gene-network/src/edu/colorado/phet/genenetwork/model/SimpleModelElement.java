@@ -138,7 +138,7 @@ public abstract class SimpleModelElement implements IModelElement{
      * 
      * @author John Blanco
      */
-    private static class BindingPoint{
+    protected static class BindingPoint{
     	private final SimpleElementType elementType;
     	private final Dimension2D offset;
     	
