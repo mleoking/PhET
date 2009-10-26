@@ -52,7 +52,7 @@ class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: 
   axisNode.setPaint(Color.black)
 
   //use an invisible wider hit region for mouse events
-  protected val hitNode = new ArrowNode(transform.modelToViewDouble(x0, y0), transform.modelToViewDouble(x1, y1), 10, 10, 10)
+  protected val hitNode = new ArrowNode(transform.modelToViewDouble(x0, y0), transform.modelToViewDouble(x1, y1), 20, 20, 20,1.0,true)
   hitNode.setStroke(null)
   hitNode.setPaint(new Color(0, 0, 0, 0))
   axisNode.setPickable(false)
