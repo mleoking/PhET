@@ -1,3 +1,4 @@
+Changed default object from file cabinet to crate
 Switch to using standard ControlPanel parent class, this adds scroll bars
 forces-and-motion: Set minimum mass to 1.0kg
 Refactored model, isolating moving man functionality
