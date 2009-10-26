@@ -3,6 +3,7 @@
 package edu.colorado.phet.genenetwork.model;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -19,8 +20,9 @@ import java.awt.geom.Point2D;
  */
 public class LacZ extends SimpleModelElement {
 	
-	private static final Paint ELEMENT_PAINT = new Color(219, 198, 212);
-	private static double SIZE = 10;
+	private static double SIZE = 10; // In nanometers.
+	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-SIZE, 0), 
+			new Color(185, 147, 187), new Point2D.Double(SIZE * 5, 0), Color.WHITE);
 	
 	public LacZ(Point2D initialPosition) {
 		super(createShape(), initialPosition, ELEMENT_PAINT);
