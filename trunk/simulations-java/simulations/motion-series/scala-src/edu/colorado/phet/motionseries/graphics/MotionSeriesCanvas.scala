@@ -44,6 +44,10 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   val earthNode = createEarthNode
   playAreaNode.addChild(earthNode)
 
+  //nodes added to this will appear behind vector nodes but in front of earth node
+  private val behindVectorNode = new PNode
+  def addBehindVectorNodes(node:PNode) = behindVectorNode.addChild(node)
+  playAreaNode.addChild(behindVectorNode)
 
   val leftSegmentNode = createLeftSegmentNode
   playAreaNode.addChild(leftSegmentNode)
@@ -177,7 +181,7 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
     appliedForceSliderNode.setOffset(stage.width / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY)
-    addStageNode(appliedForceSliderNode)
+    addBehindVectorNodes(appliedForceSliderNode)
   }
 
   if (showObjectSelectionNode) {
