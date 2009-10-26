@@ -24,6 +24,7 @@ public abstract class SimpleModelElement implements IModelElement{
 	private Paint paint;  // The paint to use when representing this element in the view.
 	private Vector2D.Double velocity = new Vector2D.Double();
     protected ArrayList<Listener> listeners = new ArrayList<Listener>();
+    private ArrayList<BindingPoint> bindingPoints = new ArrayList<BindingPoint>();
     
 	public SimpleModelElement(Shape initialShape, Point2D initialPosition, Paint paint){
 		this.shape = initialShape;
@@ -75,6 +76,26 @@ public abstract class SimpleModelElement implements IModelElement{
 			position.setLocation(position.getX() + velocity.getX(), position.getY() + velocity.getY());
 			notifyPositionChanged();
 		}
+	}
+	
+	public BindingPoint getBindingPointForElement(SimpleElementType elementType){
+		BindingPoint matchingBindingPoint = null;
+		for (BindingPoint bindingPoint : bindingPoints){
+			if (bindingPoint.getElementType() == elementType){
+				// We have a match.
+				matchingBindingPoint = bindingPoint;
+				break;
+			}
+		}
+		return matchingBindingPoint;
+	}
+	
+	/**
+	 * Add a binding point to the list that is being maintained for this model
+	 * element.
+	 */
+	protected void addBindingPoint(BindingPoint bindingPoint){
+		bindingPoints.add(bindingPoint);
 	}
 	
 	protected void notifyPositionChanged(){
