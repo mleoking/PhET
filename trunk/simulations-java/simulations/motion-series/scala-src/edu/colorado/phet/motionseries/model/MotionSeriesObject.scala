@@ -1,8 +1,9 @@
 package edu.colorado.phet.motionseries.model
 
 import edu.colorado.phet.scalacommon.util.Observable
-import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.common.phetcommon.math.Function
+import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResources}
 
 //immutable memento for recording
 case class MotionSeriesObjectState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,
@@ -76,7 +77,12 @@ class MutableMotionSeriesObject(name: String, __mass: Double, kineticFriction: D
     notifyListeners()
   }
 
-  override def height = mass / 20 / 2
+//  override def height = mass / 20 / 2
+  override def height = {
+    //set the object height so that it's dimensions match the non-customizable crate when their masses are equivalent
+    val linearFunction = new Function.LinearFunction(0,MotionSeriesDefaults.crateMass,0,MotionSeriesDefaults.crateHeight)
+    linearFunction.evaluate(mass)
+  }
 
   def kineticFriction_=(k: Double) = {
     _kineticFriction = k
