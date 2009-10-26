@@ -1,3 +1,4 @@
+forces-and-motion: Aligned the sliders for the friction controls in the 2nd tab. 
 Doubled the width of the hit region for the coordinate frame graphic to make it easier to grab with the mouse.
 Made it so that Applied Force is indicated by chart slider during playback
 Changed object's initial location on several tabs to prevent force arrow from being obscured by default
