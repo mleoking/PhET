@@ -18,6 +18,7 @@ import edu.colorado.phet.scalacommon.swing.MyRadioButton
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.scalacommon.Predef._
 
 class RampControlPanel(model: MotionSeriesModel,
                        wordModel: WordModel,
@@ -163,6 +164,11 @@ class RampControlPanelBody(model: MotionSeriesModel,
     panel.add(offButton.peer)
     bouncePanel.add(panel)
     add(bouncePanel)
+    defineInvokeAndPass(model.addListenerByName) {
+      bouncePanel.titleLabel.setEnabled(model.walls)
+      onButton.peer.setEnabled(model.walls)
+      offButton.peer.setEnabled(model.walls)
+    }
   }
 
   val moreControlsPanel = new SubControlPanel("more.controls.title".translate)
@@ -195,7 +201,8 @@ class RampControlPanelBody(model: MotionSeriesModel,
 }
 
 class SubControlPanel(title: String) extends VerticalLayoutPanel {
-  add(new TitleLabel(title))
+  val titleLabel = new TitleLabel(title)
+  add(titleLabel)
   setBorder(BorderFactory.createRaisedBevelBorder)
 }
 
