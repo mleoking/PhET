@@ -306,7 +306,7 @@ public class ControlGraph extends PNode {
     public void addControl( JComponent component ) {
         additionalControlPanel.add( component );
         //todo: do we need to add this kind of functionality to PSwing for piccolo 1.3?
-//        additionalControls.componentHierarchyChanged();
+        additionalControls.componentHierarchyChanged();
         additionalControls.computeBounds();
     }
 
