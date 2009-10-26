@@ -31,6 +31,11 @@ public class Cap extends SimpleModelElement {
 		this(new Point2D.Double());
 	}
 	
+	@Override
+	SimpleElementType getType() {
+		return SimpleElementType.CAP;
+	}
+	
 	private static Shape createActiveConformationShape(){
 		
 		// Create the overall outline.

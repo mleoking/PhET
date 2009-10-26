@@ -33,6 +33,11 @@ public class RnaPolymerase extends SimpleModelElement {
 		this(new Point2D.Double());
 	}
 	
+	@Override
+	SimpleElementType getType() {
+		return SimpleElementType.RNA_POLYMERASE;
+	}
+	
 	private static Shape createActiveConformationShape(){
 		
 		// Create the overall outline.

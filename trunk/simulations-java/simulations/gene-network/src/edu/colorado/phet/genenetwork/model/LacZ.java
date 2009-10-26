@@ -32,6 +32,12 @@ public class LacZ extends SimpleModelElement {
 		this(new Point2D.Double());
 	}
 	
+	@Override
+	SimpleElementType getType() {
+		return SimpleElementType.LAC_Z;
+	}
+
+	
 	private static Shape createShape(){
 		// Start with a circle.
 		Ellipse2D startingShape = new Ellipse2D.Double(-SIZE/2, -SIZE/2, SIZE, SIZE);

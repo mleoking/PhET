@@ -33,8 +33,13 @@ public class MessengerRna extends SimpleModelElement {
 	public MessengerRna() {
 		this(new Point2D.Double());
 	}
+
+	@Override
+	SimpleElementType getType() {
+		return SimpleElementType.MESSENGER_RNA;
+	}
 	
-	private static Shape createShape(){
+	static Shape createShape(){
 		
 		/*
 		 * returns an odd shaded shape sort of thing.
