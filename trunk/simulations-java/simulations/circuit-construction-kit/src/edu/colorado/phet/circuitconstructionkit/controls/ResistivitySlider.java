@@ -20,7 +20,7 @@ public class ResistivitySlider extends JPanel {
     private LinearValueControl control;
 
     public ResistivitySlider() {
-        control = new LinearValueControl( ResistivityManager.DEFAULT_RESISTIVITY, 1, CCKResources.getString( "CCK3ControlPanel.WireResistivitySlider" ), "0.000000", "" );
+        control = new LinearValueControl(ResistivityManager.DEFAULT_RESISTIVITY, 1, ResistivityManager.DEFAULT_RESISTIVITY, CCKResources.getString("CCK3ControlPanel.WireResistivitySlider"), "0.000000", "");
         add( control );
 
         Font labelFont = new PhetFont( Font.PLAIN, 10 );
