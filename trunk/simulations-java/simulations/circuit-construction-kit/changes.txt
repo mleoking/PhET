@@ -1,3 +1,4 @@
+Made it so the switch graphic is shown as closed when loading a closed switch, resolves #384
 # 3.17.17 (36021) Oct 22, 2009
 Fixed time scale for e-e repulsion to match scale as in 3.17.00, resolves #1828
 # 3.17.16 (35899) Oct 16, 2009

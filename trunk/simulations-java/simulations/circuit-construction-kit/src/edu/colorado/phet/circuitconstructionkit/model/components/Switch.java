@@ -15,7 +15,9 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 public class Switch extends CircuitComponent {
     boolean closed;
     public static final double OPEN_RESISTANCE = 1E11;
-    private double handleAngle = 5;
+    public static final double DEFAULT_HANDLE_ANGLE_OPEN = 5;
+    public static final double HANDLE_ANGLE_CLOSED = Math.PI;
+    private double handleAngle = DEFAULT_HANDLE_ANGLE_OPEN;
 
     public Switch( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, length, height );
@@ -30,6 +32,7 @@ public class Switch extends CircuitComponent {
         this.closed = !closed;//to guarantee a change in setClosed.
         setClosed( closed );
         setKirkhoffEnabled( true );
+        setHandleAngle(closed?HANDLE_ANGLE_CLOSED: DEFAULT_HANDLE_ANGLE_OPEN);
     }
 
     public boolean isClosed() {
@@ -49,7 +52,7 @@ public class Switch extends CircuitComponent {
     }
 
     public void setHandleAngle( double angle ) {
-        if ( angle == Math.PI ) {
+        if ( angle == HANDLE_ANGLE_CLOSED ) {
             setClosed( true );
         }
         else {
