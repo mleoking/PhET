@@ -6,7 +6,6 @@ import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -80,22 +79,68 @@ public class LacOperonModel {
         	randomlyInitAndAddSimpleModelElement(modelElement);
         }
         
-        // Create and position the elements that sit on the DNA strand.
-        modelElement = new CapBindingRegion();
-        modelElement.setPosition(DNA_STRAND_LOCATION.getCenterX(), DNA_STRAND_LOCATION.getCenterY());
-        addSimpleModelElement(modelElement);
-        
-        modelElement = new LacPromoter();
-        randomlyInitAndAddSimpleModelElement(modelElement);
-        
         modelElement = new Cap();
         randomlyInitAndAddSimpleModelElement(modelElement);
-
+        
         modelElement = new RnaPolymerase();
         randomlyInitAndAddSimpleModelElement(modelElement);
-
+        
         modelElement = new MessengerRna();
         randomlyInitAndAddSimpleModelElement(modelElement);
+        
+        // Create and position the elements that sit on the DNA strand.
+        
+        double xPosition = DNA_STRAND_LOCATION.getMinX(); // Start at the far left side of the strand.
+        
+        xPosition += 5; // Add a little space on far left side.
+        
+        modelElement = new LacIPromoter();
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        addSimpleModelElement(modelElement);
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        
+        xPosition += 2; // The spec shows a little bit of space here.
+        
+        modelElement = new LacIGene();
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        addSimpleModelElement(modelElement);
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        
+        xPosition = DNA_STRAND_LOCATION.getCenterX();
+        modelElement = new CapBindingRegion();
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        addSimpleModelElement(modelElement);
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        
+        modelElement = new LacPromoter();
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        addSimpleModelElement(modelElement);
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        
+        modelElement = new LacOperator();
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        addSimpleModelElement(modelElement);
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        
+        xPosition += 3; // The spec shows some space here.
+
+        modelElement = new LacZGene();
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        addSimpleModelElement(modelElement);
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        
+        modelElement = new LacYGene();
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        addSimpleModelElement(modelElement);
+        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        
         
         // Add composite elements.
         
