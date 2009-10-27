@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -68,65 +69,40 @@ public class LacOperonModel {
 		
         SimpleModelElement modelElement;
         
+        // Create and add the elements that are floating around the cell.
+        
         for (int i = 0; i<4; i++){
         	modelElement = new LacZ();
-        	randomlyInitModelElement(modelElement);
-        	addSimpleModelElement(modelElement);
+        	randomlyInitAndAddSimpleModelElement(modelElement);
         }
         for (int i = 0; i<4; i++){
         	modelElement = new LacI();
-        	randomlyInitModelElement(modelElement);
-        	addSimpleModelElement(modelElement);
+        	randomlyInitAndAddSimpleModelElement(modelElement);
         }
-        for (int i = 0; i<8; i++){
-        	modelElement = new Glucose();
-        	randomlyInitModelElement(modelElement);
-        	addSimpleModelElement(modelElement);
-        }
-        for (int i = 0; i<8; i++){
-        	modelElement = new Galactose();
-        	randomlyInitModelElement(modelElement);
-        	addSimpleModelElement(modelElement);
-        }
+        
+        // Create and position the elements that sit on the DNA strand.
+        modelElement = new CapBindingRegion();
+        modelElement.setPosition(DNA_STRAND_LOCATION.getCenterX(), DNA_STRAND_LOCATION.getCenterY());
+        addSimpleModelElement(modelElement);
         
         modelElement = new LacPromoter();
-        randomlyInitModelElement(modelElement);
-        addSimpleModelElement(modelElement);
-        
-        modelElement = new CapBindingRegion();
-        randomlyInitModelElement(modelElement);
-        addSimpleModelElement(modelElement);
+        randomlyInitAndAddSimpleModelElement(modelElement);
         
         modelElement = new Cap();
-        randomlyInitModelElement(modelElement);
-        addSimpleModelElement(modelElement);
+        randomlyInitAndAddSimpleModelElement(modelElement);
 
         modelElement = new RnaPolymerase();
-        randomlyInitModelElement(modelElement);
-        addSimpleModelElement(modelElement);
+        randomlyInitAndAddSimpleModelElement(modelElement);
 
         modelElement = new MessengerRna();
-        randomlyInitModelElement(modelElement);
-        addSimpleModelElement(modelElement);
+        randomlyInitAndAddSimpleModelElement(modelElement);
         
         // Add composite elements.
         
         // Lactose.
-        ArrayList<SimpleModelElement> compositeList = new ArrayList<SimpleModelElement>();
-        compositeList.add(new Galactose());
-        compositeList.add(new Glucose());
-        CompositeModelElement compositeModelElement = new CompositeModelElement(compositeList, new Point2D.Double(0, 0));
-        compositeModelElement.setVelocity(1, 0.75);
-        addCompositeModelElement(compositeModelElement);
-        
-        // Lactose bound to LacZ.
-        compositeList.clear();
-        compositeList.add(new Galactose());
-        compositeList.add(new Glucose());
-        compositeList.add(new LacZ());
-        compositeModelElement = new CompositeModelElement(compositeList, new Point2D.Double(0, 0));
-        compositeModelElement.setVelocity(-1, 0.75);
-        addCompositeModelElement(compositeModelElement);
+        for (int i = 0; i < 5; i++){
+        	addLactoseMolecule();
+        }
 	}
 
     //----------------------------------------------------------------------------
@@ -163,11 +139,25 @@ public class LacOperonModel {
     	compositeModelElements.add(compositeModelElement);
     }
     
-    private void randomlyInitModelElement(SimpleModelElement modelElement){
+    private void addLactoseMolecule(){
+        ArrayList<SimpleModelElement> compositeList = new ArrayList<SimpleModelElement>();
+        compositeList.add(new Galactose());
+        compositeList.add(new Glucose());
+        CompositeModelElement compositeModelElement = 
+        	new CompositeModelElement(compositeList, new Point2D.Double(0, 0));
+        compositeModelElement.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
+    			(RAND.nextDouble() - 0.5) * (MODEL_AREA_HEIGHT / 2));
+    	double maxVel = 2;
+    	compositeModelElement.setVelocity((RAND.nextDouble() - 0.5) * maxVel, (RAND.nextDouble() - 0.5) * maxVel);
+        addCompositeModelElement(compositeModelElement);
+    }
+    
+    private void randomlyInitAndAddSimpleModelElement(SimpleModelElement modelElement){
     	modelElement.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
     			(RAND.nextDouble() - 0.5) * (MODEL_AREA_HEIGHT / 2));
     	double maxVel = 2;
     	modelElement.setVelocity((RAND.nextDouble() - 0.5) * maxVel, (RAND.nextDouble() - 0.5) * maxVel);
+    	addSimpleModelElement(modelElement);
     }
     
     /**
