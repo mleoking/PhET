@@ -12,9 +12,9 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.ViewportStrategy
 import edu.umd.cs.piccolo.util.PDimension
 import edu.colorado.phet.ladybugmotion2d.LadybugDefaults
-import edu.colorado.phet.scalacommon.CBS
 import edu.colorado.phet.ladybugmotion2d.controlpanel.{PathVisibilityModel, VectorVisibilityModel}
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
+import edu.colorado.phet.scalacommon.CenteredBoxStrategy
 
 class LadybugCanvas(model: LadybugModel,
                     vectorVisibilityModel: VectorVisibilityModel,
@@ -22,7 +22,7 @@ class LadybugCanvas(model: LadybugModel,
                     modelWidth: Double,
                     modelHeight: Double)
         extends PhetPCanvas(new Dimension(1024, 768)) {
-  setWorldTransformStrategy(new CBS(768, 768, this))
+  setWorldTransformStrategy(new CenteredBoxStrategy(768, 768, this))
   val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle(0, 0, 768, 768), LadybugDefaults.POSITIVE_Y_IS_UP)
   val constructed = true
