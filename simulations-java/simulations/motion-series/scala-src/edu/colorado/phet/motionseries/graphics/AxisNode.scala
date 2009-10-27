@@ -81,9 +81,7 @@ class AxisRotator(val transform: ModelViewTransform2D,
                   val coordinateFrameModel: CoordinateFrameModel,
                   pivot:Vector2D)
         extends PBasicInputEventHandler {
-  //TODO: it seems like these fields and computations should be moved to model objects
-  private var totalDelta = 0.0
-  private var origAngle = 0.0
+  //TODO: can any more of this be moved to CoordinateFrameModel?
 
   override def mouseDragged(event: PInputEvent) = {
     val modelPt = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
@@ -100,26 +98,6 @@ class AxisRotator(val transform: ModelViewTransform2D,
     var deltaAngle = newAngle - oldAngle
     while (deltaAngle > PI) deltaAngle = deltaAngle - PI * 2
     while (deltaAngle < -PI) deltaAngle = deltaAngle + PI * 2
-
-    totalDelta += deltaAngle
-    val proposedAngle = origAngle + totalDelta
-
-
-    //todo: fix
-//    val angle = getSnapAngle(if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle)
-//    rotatable.angle = angle
-//    ()
-
-    coordinateFrameModel.proposedAngle = proposedAngle
-  }
-
-  def getSnapAngle(proposedAngle: Double) = proposedAngle
-
-  override def mousePressed(event: PInputEvent) = {
-    totalDelta = 0
-
-    val modelPt = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
-    val oldAngle = (modelPt - pivot).getAngle
-    origAngle = oldAngle
+    coordinateFrameModel.proposedAngle = coordinateFrameModel.proposedAngle + deltaAngle
   }
 }
