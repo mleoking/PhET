@@ -108,7 +108,7 @@ class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) e
 
 class AxisNodeWithModel(transform: ModelViewTransform2D,
                         label: String,
-                        val axisModel: AxisModel,
+                        val axisModel: SynchronizedAxisModel,
                         adjustableCoordinateModel: AdjustableCoordinateModel,
                         minAngle: Double,
                         maxAngle: Double,
