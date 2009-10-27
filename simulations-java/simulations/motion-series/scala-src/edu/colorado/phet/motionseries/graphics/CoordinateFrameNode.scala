@@ -32,6 +32,9 @@ class SynchronizedAxisModel(_ang: Double,
   override def dropped() = {
     coordinateFrameModel.dropped()
   }
+
+  def getSnapAngle(angle:Double) = coordinateFrameModel.getSnapAngle(angle)
+
 }
 
 class CoordinateFrameNode(val model: MotionSeriesModel,
@@ -40,11 +43,11 @@ class CoordinateFrameNode(val model: MotionSeriesModel,
         extends PNode {
   import java.lang.Math.PI
   val xAxisModel = new SynchronizedAxisModel(0, 0.0, PI / 2, 7, false, model.coordinateFrameModel)
-  val xAxis = new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, coordinateSystemModel, () => model.getRampAngle :: 0.0 :: Nil)
+  val xAxis = new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, coordinateSystemModel)
   addChild(xAxis)
 
   val yAxisModel = new SynchronizedAxisModel(PI / 2, PI / 2, PI, 7, false, model.coordinateFrameModel)
-  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, coordinateSystemModel, () => model.getRampAngle + PI / 2 :: PI / 2 :: Nil)
+  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, coordinateSystemModel)
   addChild(yAxis)
 
   defineInvokeAndPass(coordinateSystemModel.addListenerByName) {

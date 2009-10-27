@@ -138,7 +138,7 @@ class VectorViewModel extends Observable {
   }
 }
 
-class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable {
+class CoordinateFrameModel(snapAngles: ()=>List[Double]) extends Observable {
   private var _angle = 0.0
 
   def angle = _angle
@@ -150,13 +150,17 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
 
   def dropped() = {
     var snapChoice = _angle
-    for (a <- snapToAngles) {
-      val snapToAngle = a()
-      if ((snapToAngle - _angle).abs < 10.0.toRadians) {
-        snapChoice = snapToAngle
-      }
-    }
+    for (snapAngle <- snapAngles() if ((snapAngle - _angle).abs < 10.0.toRadians))
+        snapChoice = snapAngle
 
     angle = snapChoice
+  }
+
+  def getSnapAngle(proposedAngle:Double) = {
+      val epsilon = java.lang.Math.PI / 16
+      val angleList = snapAngles()
+      val acceptedAngles = for (s <- angleList if (proposedAngle - s).abs < epsilon) yield s
+      if (acceptedAngles.length == 0 ) proposedAngle
+      else acceptedAngles(0)//take the first snap angle from the list
   }
 }

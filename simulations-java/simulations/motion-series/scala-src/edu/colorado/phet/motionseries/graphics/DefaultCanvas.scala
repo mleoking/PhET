@@ -5,9 +5,9 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.{Rectangle, Dimension}
 import java.awt.geom.Rectangle2D
 
-import edu.colorado.phet.scalacommon.CBS
 import edu.umd.cs.piccolo.PNode
 import java.lang.Math._
+import edu.colorado.phet.scalacommon.CenteredBoxStrategy
 
 class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth: Int, canvasHeight: Int, modelOffsetY: Double)
         extends PhetPCanvas(new Dimension(canvasWidth, canvasHeight)) {
@@ -15,7 +15,7 @@ class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth: Int, c
 
   def canonicalBounds = new Rectangle(0, 0, min(canvasWidth, canvasHeight), min(canvasWidth, canvasHeight))
 
-  val centeredBoxStrategy = new CBS(canonicalBounds.width, canonicalBounds.height, this, modelOffsetY)
+  val centeredBoxStrategy = new CenteredBoxStrategy(canonicalBounds.width, canonicalBounds.height, this, modelOffsetY)
   setWorldTransformStrategy(centeredBoxStrategy)
   val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2,
     modelWidth, modelHeight), canonicalBounds, true)
