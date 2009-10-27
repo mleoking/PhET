@@ -95,6 +95,9 @@ public abstract class SimpleModelElement implements IModelElement{
 				break;
 			}
 		}
+		if (matchingBindingPoint == null){
+			System.err.println(getClass().getName() + " - Warning: " + this.getType() + " has no binding point found for " + elementType);
+		}
 		return matchingBindingPoint;
 	}
 	
