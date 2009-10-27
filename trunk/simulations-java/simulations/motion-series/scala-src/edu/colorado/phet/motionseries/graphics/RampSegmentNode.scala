@@ -96,7 +96,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   def paintColor = line.getPaint
 }
 
-trait Rotatable extends Observable {
+trait Rotatable extends Observable with RotationModel {
   def startPoint: Vector2D
 
   def endPoint_=(newPt: Vector2D)
@@ -109,12 +109,19 @@ trait Rotatable extends Observable {
 
   def startPoint_=(newPt: Vector2D)
 
-  def getPivot = new Vector2D
+  def angle_=(a: Double) = endPoint = new Vector2D(a) * length
+}
 
+trait RotationModel {
+  def getPivot: Vector2D
+
+  def angle: Double = 0.0
+
+  def angle_=(a: Double)
 }
 class RotationHandler(val transform: ModelViewTransform2D,
                       val node: PNode,
-                      val rotatable: Rotatable,
+                      val rotatable: RotationModel,
                       min: Double,
                       max: Double)
         extends PBasicInputEventHandler {
@@ -141,8 +148,7 @@ class RotationHandler(val transform: ModelViewTransform2D,
     val proposedAngle = origAngle + totalDelta
 
     val angle = getSnapAngle(if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle)
-    val newPt = new Vector2D(angle) * rotatable.length
-    rotatable.endPoint = newPt
+    rotatable.angle = angle
   }
 
   def getSnapAngle(proposedAngle: Double) = proposedAngle
@@ -161,35 +167,35 @@ class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTrans
   line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment, 0, PI / 2))
 }
 
-class ReverseRotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel) {
-  line.addInputEventListener(new CursorHandler)
-  line.addInputEventListener(new RotationHandler(mytransform, line, new Reverse(rampSegment).reverse, PI / 2 + 1E-6, PI - (1E-6))) //todo: atan2 returns angle between -pi and +pi, so end behavior is incorrect
-}
+//class ReverseRotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel) {
+//  line.addInputEventListener(new CursorHandler)
+//  line.addInputEventListener(new RotationHandler(mytransform, line, new Reverse(rampSegment).reverse, PI / 2 + 1E-6, PI - (1E-6))) //todo: atan2 returns angle between -pi and +pi, so end behavior is incorrect
+//}
 
-class Reverse(target: Rotatable) {
-  //this one rotates about the end point, facilitates reuse of some view classes while still allowing generalized model objects
-  object reverse extends Rotatable {
-    def length = target.length
-
-    def startPoint = target.endPoint
-
-    def endPoint = target.startPoint
-
-    def getUnitVector = target.getUnitVector * -1
-
-    def endPoint_=(newPt: Vector2D) = target.startPoint = newPt
-
-    def startPoint_=(newPt: Vector2D) = target.endPoint = newPt
-
-    override def addListenerByName(listener: => Unit) = target.addListenerByName(listener)
-
-    override def notifyListeners() = target.notifyListeners()
-
-    override def removeListener(listener: () => Unit) = target.removeListener(listener)
-
-    override def addListener(listener: () => Unit) = target.addListener(listener)
-  }
-}
+//class Reverse(target: Rotatable) {
+//  //this one rotates about the end point, facilitates reuse of some view classes while still allowing generalized model objects
+//  object reverse extends Rotatable {
+//    def length = target.length
+//
+//    def startPoint = target.endPoint
+//
+//    def endPoint = target.startPoint
+//
+//    def getUnitVector = target.getUnitVector * -1
+//
+//    def endPoint_=(newPt: Vector2D) = target.startPoint = newPt
+//
+//    def startPoint_=(newPt: Vector2D) = target.endPoint = newPt
+//
+//    override def addListenerByName(listener: => Unit) = target.addListenerByName(listener)
+//
+//    override def notifyListeners() = target.notifyListeners()
+//
+//    override def removeListener(listener: () => Unit) = target.removeListener(listener)
+//
+//    override def addListener(listener: () => Unit) = target.addListener(listener)
+//  }
+//}
 
 
 
