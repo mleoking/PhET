@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.genenetwork.model;
 
+import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -107,6 +108,7 @@ public class LacOperonModel {
         compositeList.add(new Galactose());
         compositeList.add(new Glucose());
         CompositeModelElement compositeModelElement = new CompositeModelElement(compositeList, new Point2D.Double(0, 0));
+        compositeModelElement.setVelocity(1, 0.75);
         addCompositeModelElement(compositeModelElement);
 	}
 
@@ -171,6 +173,27 @@ public class LacOperonModel {
     		// Update the position based on the velocity.
     		modelElement.updatePosition();
     	}
+
+    	// Update the position of each of the composite model elements.
+    	for (CompositeModelElement componsiteModelElement : compositeModelElements){
+    		
+    		Point2D position = componsiteModelElement.getPositionRef();
+    		Vector2D velocity = componsiteModelElement.getVelocityRef();
+    		
+    		if ((position.getX() > MODEL_BOUNDS.getMaxX() && velocity.getX() > 0) ||
+    			(position.getX() < MODEL_BOUNDS.getMinX() && velocity.getX() < 0))	{
+    			// Reverse direction in the X direction.
+    			componsiteModelElement.setVelocity(-velocity.getX(), velocity.getY());
+    		}
+    		if ((position.getY() > MODEL_BOUNDS.getMaxY() && velocity.getY() > 0) ||
+        		(position.getY() < MODEL_BOUNDS.getMinY() && velocity.getY() < 0))	{
+        		// Reverse direction in the Y direction.
+    			componsiteModelElement.setVelocity(velocity.getX(), -velocity.getY());
+        	}
+    		
+    		// Update the position based on the velocity.
+    		componsiteModelElement.updatePosition();
+    	}
     }
     
     //------------------------------------------------------------------------
@@ -205,9 +228,14 @@ public class LacOperonModel {
         void modelElementAdded(SimpleModelElement modelElement);
     }
     
-    private static class CompositeModelElement {
+    /**
+     * Class that defines model elements that are composed of a collection of
+     * simple model elements.
+     */
+    private static class CompositeModelElement implements IModelElement {
     	
     	private Point2D position = new Point2D.Double();
+    	private Vector2D velocity = new Vector2D.Double();
     	private ArrayList<SimpleModelElement> constituentModelElements = new ArrayList<SimpleModelElement>();
     	
     	/**
@@ -244,21 +272,61 @@ public class LacOperonModel {
     	 * 
     	 * @param newPosition
     	 */
-    	public void setPosition(Point2D newPosition){
+    	public void setPosition(double xPos, double yPos){
     		
-    		double deltaX = newPosition.getX() - position.getX();
-    		double deltaY = newPosition.getY() - position.getY();
+    		double deltaX = xPos - position.getX();
+    		double deltaY = yPos - position.getY();
     		
     		for (SimpleModelElement modelElement : constituentModelElements){
     			modelElement.setPosition(modelElement.getPositionRef().getX() + deltaX,
     					modelElement.getPositionRef().getY() + deltaY);
     		}
     		
-    		position.setLocation(newPosition);
+    		position.setLocation(xPos, yPos);
+    	}
+    	
+    	public Point2D getPositionRef(){
+    		return position;
+    	}
+    	
+    	public void setPosition(Point2D newPosition){
+    		setPosition(newPosition.getX(), newPosition.getY());
+    	}
+    	
+    	public void setVelocity(double xVel, double yVel){
+    		velocity.setComponents(xVel, yVel);
+    		for (SimpleModelElement modelElement : constituentModelElements){
+    			modelElement.setVelocity(xVel, yVel);
+    		}
+    	}
+    	
+    	public void setVelocity(Vector2D newVelocity){
+    		setVelocity(newVelocity.getX(), newVelocity.getY());
+    	}
+    	
+    	public Vector2D getVelocityRef(){
+    		return velocity;
+    	}
+    	
+    	/**
+    	 * Update the position of this model element based on its current position
+    	 * and its velocity.  Note that this assumes that this must be called at
+    	 * an appropriate frequency in order of the motion of the model element to
+    	 * be correct.
+    	 */
+    	public void updatePosition(){
+    		if (velocity.getX() != 0 || velocity.getY() != 0){
+    			setPosition(position.getX() + velocity.getX(), position.getY() + velocity.getY());
+    		}
     	}
     	
     	public ArrayList<SimpleModelElement> getConstituents(){
     		return new ArrayList<SimpleModelElement>(constituentModelElements);
     	}
+
+		public Shape getShape() {
+			// TODO Auto-generated method stub
+			return null;
+		}
     }
 }
