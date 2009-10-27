@@ -112,17 +112,20 @@ trait Rotatable extends Observable {
   def getPivot = new Vector2D
 
 }
-class RotationHandler(val mytransform: ModelViewTransform2D,
+class RotationHandler(val transform: ModelViewTransform2D,
                       val node: PNode,
                       val rotatable: Rotatable,
                       min: Double,
                       max: Double)
         extends PBasicInputEventHandler {
+  private var totalDelta = 0.0
+  private var origAngle = 0.0
+  
   override def mouseDragged(event: PInputEvent) = {
-    val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(node.getParent))
+    val modelPt = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
 
     val deltaView = event.getDeltaRelativeTo(node.getParent)
-    val deltaModel = mytransform.viewToModelDifferential(deltaView.width, deltaView.height)
+    val deltaModel = transform.viewToModelDifferential(deltaView.width, deltaView.height)
 
     val oldPtModel = modelPt - deltaModel
 
@@ -137,19 +140,17 @@ class RotationHandler(val mytransform: ModelViewTransform2D,
     totalDelta += deltaAngle
     val proposedAngle = origAngle + totalDelta
 
-    val angle = if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle
-
+    val angle = getSnapAngle( if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle)
     val newPt = new Vector2D(angle) * rotatable.length
     rotatable.endPoint = newPt
   }
 
-  private var totalDelta = 0.0
-  private var origAngle = 0.0
+  def getSnapAngle(proposedAngle:Double) = proposedAngle
 
   override def mousePressed(event: PInputEvent) = {
     totalDelta = 0
 
-    val modelPt = mytransform.viewToModel(event.getPositionRelativeTo(node.getParent))
+    val modelPt = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
     val oldAngle = (modelPt - rotatable.getPivot).getAngle
     origAngle = oldAngle
   }
