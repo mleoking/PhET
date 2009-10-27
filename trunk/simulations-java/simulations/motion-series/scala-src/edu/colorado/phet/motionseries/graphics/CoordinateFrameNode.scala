@@ -17,10 +17,11 @@ class RampAngleModel(private var _value: Double) extends Observable {
 }
 
 class SynchronizedAxisModel(_ang: Double,
+                            val minAngle: Double,
+                            val maxAngle: Double,
                             length: Double,
                             tail: Boolean,
-                            coordinateFrameModel: CoordinateFrameModel,
-                            rampAngleModel: RampAngleModel)
+                            coordinateFrameModel: CoordinateFrameModel)
         extends AxisModel(_ang, length, tail) {
   val offset = _ang
 
@@ -37,12 +38,13 @@ class CoordinateFrameNode(val model: MotionSeriesModel,
                           coordinateSystemModel: AdjustableCoordinateModel,
                           val transform: ModelViewTransform2D)
         extends PNode {
-  val xAxisModel = new SynchronizedAxisModel(0, 7, false, model.coordinateFrameModel)
-  val xAxis = new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, coordinateSystemModel, 0, PI / 2, () => model.getRampAngle :: 0.0 :: Nil)
+  import java.lang.Math.PI
+  val xAxisModel = new SynchronizedAxisModel(0, 0.0, PI / 2, 7, false, model.coordinateFrameModel)
+  val xAxis = new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, coordinateSystemModel, () => model.getRampAngle :: 0.0 :: Nil)
   addChild(xAxis)
 
-  val yAxisModel = new SynchronizedAxisModel(PI / 2, 7, false, model.coordinateFrameModel)
-  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, coordinateSystemModel, PI / 2, PI, () => model.getRampAngle + PI / 2 :: PI / 2 :: Nil)
+  val yAxisModel = new SynchronizedAxisModel(PI / 2, PI / 2, PI, 7, false, model.coordinateFrameModel)
+  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, coordinateSystemModel, () => model.getRampAngle + PI / 2 :: PI / 2 :: Nil)
   addChild(yAxis)
 
   defineInvokeAndPass(coordinateSystemModel.addListenerByName) {

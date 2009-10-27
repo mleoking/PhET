@@ -110,8 +110,6 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
                         label: String,
                         val axisModel: SynchronizedAxisModel,
                         adjustableCoordinateModel: AdjustableCoordinateModel,
-                        minAngle: Double,
-                        maxAngle: Double,
                         snapAngles: ()=>List[Double])
         extends AxisNode(transform,
           transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
@@ -125,7 +123,7 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
     setChildrenPickable(adjustableCoordinateModel.adjustable)
   }
   hitNode.addInputEventListener(new ToggleListener(new CursorHandler, () => adjustableCoordinateModel.adjustable))
-  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, minAngle, maxAngle) {
+  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel,axisModel.minAngle,axisModel.maxAngle) {
     override def getSnapAngle(proposedAngle: Double) = {
       val epsilon = PI / 16
       val angleList = snapAngles()
@@ -212,10 +210,10 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
     override def mouseReleased(event: PInputEvent) = listeners.foreach(_(new Point2D.Double(0, 0)))
   })
 
-  val xAxisModel = new SynchronizedAxisModel(0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
-  val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth / 2 * 0.9, true, coordinateFrameModel)
-  addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel, 0, PI / 2,()=>rampAngle() :: 0.0 :: Nil))
-  addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel, PI / 2, PI,()=>rampAngle() + PI/2 :: PI/2 :: Nil))
+  val xAxisModel = new SynchronizedAxisModel(0.0, 0.0, 3.0,modelWidth / 2 * 0.9, true, coordinateFrameModel)
+  val yAxisModel = new SynchronizedAxisModel(PI / 2, PI / 2, PI,modelWidth / 2 * 0.9, true, coordinateFrameModel)
+  addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel, ()=>rampAngle() :: 0.0 :: Nil))
+  addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel, ()=>rampAngle() + PI/2 :: PI/2 :: Nil))
   for (vector <- vectors) addVector(vector, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
 
   updateSize()
