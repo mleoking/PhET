@@ -16,15 +16,13 @@ class RampAngleModel(private var _value: Double) extends Observable {
   }
 }
 
-class SynchronizedAxisModel(_ang: Double,
+class SynchronizedAxisModel(val offset: Double,
                             val minAngle: Double,
                             val maxAngle: Double,
                             length: Double,
                             tail: Boolean,
                             coordinateFrameModel: CoordinateFrameModel)
-        extends AxisModel(_ang, length, tail) {
-  val offset = _ang
-
+        extends AxisModel(offset, length, tail) {
   //adapters for going between local and global models
   coordinateFrameModel.addListenerByName(angle = coordinateFrameModel.angle + offset)
   addListenerByName(coordinateFrameModel.angle = angle - offset)
