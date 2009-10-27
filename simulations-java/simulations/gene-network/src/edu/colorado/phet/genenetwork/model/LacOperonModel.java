@@ -5,6 +5,7 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -33,6 +34,7 @@ public class LacOperonModel {
     
     private final GeneNetworkClock clock;
     private ArrayList<SimpleModelElement> simpleModelElements = new ArrayList<SimpleModelElement>();
+    private ArrayList<CompositeModelElement> compositeModelElements = new ArrayList<CompositeModelElement>();
     protected ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     //----------------------------------------------------------------------------
@@ -53,49 +55,61 @@ public class LacOperonModel {
         	
         });
         
-        // Add the initial model elements.
+        addInitialModelElements();
+    }
+
+	private void addInitialModelElements() {
+		
         SimpleModelElement modelElement;
+        
         for (int i = 0; i<4; i++){
         	modelElement = new LacZ();
         	randomlyInitModelElement(modelElement);
-        	addModelElement(modelElement);
+        	addSimpleModelElement(modelElement);
         }
         for (int i = 0; i<4; i++){
         	modelElement = new LacI();
         	randomlyInitModelElement(modelElement);
-        	addModelElement(modelElement);
+        	addSimpleModelElement(modelElement);
         }
         for (int i = 0; i<8; i++){
         	modelElement = new Glucose();
         	randomlyInitModelElement(modelElement);
-        	addModelElement(modelElement);
+        	addSimpleModelElement(modelElement);
         }
         for (int i = 0; i<8; i++){
         	modelElement = new Galactose();
         	randomlyInitModelElement(modelElement);
-        	addModelElement(modelElement);
+        	addSimpleModelElement(modelElement);
         }
         
         modelElement = new LacPromoter();
         randomlyInitModelElement(modelElement);
-        addModelElement(modelElement);
+        addSimpleModelElement(modelElement);
         
         modelElement = new CapBindingRegion();
         randomlyInitModelElement(modelElement);
-        addModelElement(modelElement);
+        addSimpleModelElement(modelElement);
         
         modelElement = new Cap();
         randomlyInitModelElement(modelElement);
-        addModelElement(modelElement);
+        addSimpleModelElement(modelElement);
 
         modelElement = new RnaPolymerase();
         randomlyInitModelElement(modelElement);
-        addModelElement(modelElement);
+        addSimpleModelElement(modelElement);
 
         modelElement = new MessengerRna();
         randomlyInitModelElement(modelElement);
-        addModelElement(modelElement);
-    }
+        addSimpleModelElement(modelElement);
+        
+        // Add composite elements.
+        ArrayList<SimpleModelElement> compositeList = new ArrayList<SimpleModelElement>();
+        compositeList.add(new Galactose());
+        compositeList.add(new Glucose());
+        CompositeModelElement compositeModelElement = new CompositeModelElement(compositeList, new Point2D.Double(0, 0));
+        addCompositeModelElement(compositeModelElement);
+	}
 
     //----------------------------------------------------------------------------
     // Accessors
@@ -109,8 +123,12 @@ public class LacOperonModel {
     // Other Methods
     //----------------------------------------------------------------------------
     
-    private void addModelElement(SimpleModelElement modelElement){
+    private void addSimpleModelElement(SimpleModelElement modelElement){
     	simpleModelElements.add(modelElement);
+    }
+    
+    private void addCompositeModelElement(CompositeModelElement compositeModelElement){
+    	compositeModelElements.add(compositeModelElement);
     }
     
     private void randomlyInitModelElement(SimpleModelElement modelElement){
@@ -126,7 +144,11 @@ public class LacOperonModel {
      * @return
      */
     public ArrayList<SimpleModelElement> getAllSimpleModelElements(){
-    	return new ArrayList<SimpleModelElement>(simpleModelElements);
+    	ArrayList<SimpleModelElement> allSimples = new ArrayList<SimpleModelElement>(simpleModelElements);
+    	for (CompositeModelElement compositeElement : compositeModelElements){
+    		allSimples.addAll(compositeElement.getConstituents());
+    	}
+    	return allSimples;
     }
     
     private void handleClockTicked(){
@@ -234,6 +256,10 @@ public class LacOperonModel {
     		}
     		
     		position.setLocation(newPosition);
+    	}
+    	
+    	public ArrayList<SimpleModelElement> getConstituents(){
+    		return new ArrayList<SimpleModelElement>(constituentModelElements);
     	}
     }
 }
