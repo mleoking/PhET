@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
  */
 public class CapBindingRegion extends SimpleModelElement {
 	
-	private static final Paint ELEMENT_PAINT = new Color(222, 111, 19);
+	private static final Paint ELEMENT_PAINT = new Color(247, 143, 36);
 	private static float HEIGHT = 2.5f;
 	public static float WIDTH = 5;
 	
