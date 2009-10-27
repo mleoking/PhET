@@ -109,8 +109,7 @@ class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) e
 class AxisNodeWithModel(transform: ModelViewTransform2D,
                         label: String,
                         val axisModel: SynchronizedAxisModel,
-                        adjustableCoordinateModel: AdjustableCoordinateModel,
-                        snapAngles: ()=>List[Double])
+                        adjustableCoordinateModel: AdjustableCoordinateModel)
         extends AxisNode(transform,
           transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
           transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
@@ -124,13 +123,7 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
   }
   hitNode.addInputEventListener(new ToggleListener(new CursorHandler, () => adjustableCoordinateModel.adjustable))
   hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel,axisModel.minAngle,axisModel.maxAngle) {
-    override def getSnapAngle(proposedAngle: Double) = {
-      val epsilon = PI / 16
-      val angleList = snapAngles()
-      val acceptedAngles = for (s <- angleList if (proposedAngle - s).abs < epsilon) yield s
-      if (acceptedAngles.length == 0 ) proposedAngle
-      else acceptedAngles(0)//take the first snap angle from the list
-    }
+    override def getSnapAngle(proposedAngle: Double) =  axisModel.getSnapAngle(proposedAngle)
   }, () => adjustableCoordinateModel.adjustable))
   hitNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
@@ -212,8 +205,8 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
 
   val xAxisModel = new SynchronizedAxisModel(0.0, 0.0, 3.0,modelWidth / 2 * 0.9, true, coordinateFrameModel)
   val yAxisModel = new SynchronizedAxisModel(PI / 2, PI / 2, PI,modelWidth / 2 * 0.9, true, coordinateFrameModel)
-  addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel, ()=>rampAngle() :: 0.0 :: Nil))
-  addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel, ()=>rampAngle() + PI/2 :: PI/2 :: Nil))
+  addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel))
+  addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel))
   for (vector <- vectors) addVector(vector, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
 
   updateSize()
@@ -375,7 +368,7 @@ object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
   val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b)
-  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(Nil), new AdjustableCoordinateModel,
+  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(()=>Nil), new AdjustableCoordinateModel,
     PhetCommonResources.getImage("buttons/maximizeButton.png".literal), ()=>PI/4,vector))
   frame.setContentPane(canvas)
   frame.setSize(800, 600)
