@@ -1,3 +1,4 @@
+Fixed: If you go to Playback mode, then pause and grab object, it should automatically clear the rest of recording and switch to playback mode.
 Made it so the adjustable coordinate frame automatically moves with the ramp after snapping to it.
 Added snap-to ramp angle and canonical axes for the adjustable coordinate frame
 # 1.03.54 (36113) Oct 26, 2009

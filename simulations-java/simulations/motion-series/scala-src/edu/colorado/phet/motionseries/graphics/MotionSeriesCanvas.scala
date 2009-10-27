@@ -81,7 +81,13 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   }
   addWallsAndDecorations()
 
-  val beadNode = createBeadNode(model.bead, transform, model.selectedObject.imageFilename, () => model.setPaused(false))
+  val beadNode = createBeadNode(model.bead, transform, model.selectedObject.imageFilename, () => {
+    if (model.isPlayback){
+      model.clearHistoryRemainder()
+      model.setRecord(true)
+    }
+    model.setPaused(false)
+  })
 
   //todo: shouldn't assume ForceBead subclass
   def createBeadNode(b: MovingManBead, t: ModelViewTransform2D, s: String, listener: () => Unit): BeadNode = new ForceDragBeadNode(b, t, s, listener)
