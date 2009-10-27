@@ -104,11 +104,22 @@ public class LacOperonModel {
         addSimpleModelElement(modelElement);
         
         // Add composite elements.
+        
+        // Lactose.
         ArrayList<SimpleModelElement> compositeList = new ArrayList<SimpleModelElement>();
         compositeList.add(new Galactose());
         compositeList.add(new Glucose());
         CompositeModelElement compositeModelElement = new CompositeModelElement(compositeList, new Point2D.Double(0, 0));
         compositeModelElement.setVelocity(1, 0.75);
+        addCompositeModelElement(compositeModelElement);
+        
+        // Lactose bound to LacZ.
+        compositeList.clear();
+        compositeList.add(new Galactose());
+        compositeList.add(new Glucose());
+        compositeList.add(new LacZ());
+        compositeModelElement = new CompositeModelElement(compositeList, new Point2D.Double(0, 0));
+        compositeModelElement.setVelocity(-1, 0.75);
         addCompositeModelElement(compositeModelElement);
 	}
 
