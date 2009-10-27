@@ -10,7 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 public class LacYGene extends SimpleModelElement {
 
 	private static final double WIDTH = 20;  // Nanometers. 
-	private static final double HEIGHT = 5;  // Nanometers.
+	private static final double HEIGHT = 4;  // Nanometers.
 	
 	public LacYGene(Point2D initialPosition) {
 		super(new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 2, 2), new Point2D.Double(),
