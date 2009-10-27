@@ -39,8 +39,8 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   rampSegments += new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
 
-//  val coordinateFrameModel = new CoordinateFrameModel((() => rampSegments(1).angle) :: (() => 0.0) :: Nil)
-  val coordinateFrameModel = new CoordinateFrameModel(()=> rampSegments(1).angle :: 0.0 :: Nil)
+  //  val coordinateFrameModel = new CoordinateFrameModel((() => rampSegments(1).angle) :: (() => 0.0) :: Nil)
+  val coordinateFrameModel = new CoordinateFrameModel(() => rampSegments(1).angle :: 0.0 :: Nil)
 
   //Sends notification when any ramp segment changes
   object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads

@@ -77,10 +77,10 @@ class MutableMotionSeriesObject(name: String, __mass: Double, kineticFriction: D
     notifyListeners()
   }
 
-//  override def height = mass / 20 / 2
+  //  override def height = mass / 20 / 2
   override def height = {
     //set the object height so that it's dimensions match the non-customizable crate when their masses are equivalent
-    val linearFunction = new Function.LinearFunction(0,MotionSeriesDefaults.crateMass,0,MotionSeriesDefaults.crateHeight)
+    val linearFunction = new Function.LinearFunction(0, MotionSeriesDefaults.crateMass, 0, MotionSeriesDefaults.crateHeight)
     linearFunction.evaluate(mass)
   }
 

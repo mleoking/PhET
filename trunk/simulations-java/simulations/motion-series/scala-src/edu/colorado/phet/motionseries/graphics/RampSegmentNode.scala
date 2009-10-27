@@ -120,7 +120,7 @@ class RotationHandler(val transform: ModelViewTransform2D,
         extends PBasicInputEventHandler {
   private var totalDelta = 0.0
   private var origAngle = 0.0
-  
+
   override def mouseDragged(event: PInputEvent) = {
     val modelPt = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
 
@@ -140,12 +140,12 @@ class RotationHandler(val transform: ModelViewTransform2D,
     totalDelta += deltaAngle
     val proposedAngle = origAngle + totalDelta
 
-    val angle = getSnapAngle( if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle)
+    val angle = getSnapAngle(if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle)
     val newPt = new Vector2D(angle) * rotatable.length
     rotatable.endPoint = newPt
   }
 
-  def getSnapAngle(proposedAngle:Double) = proposedAngle
+  def getSnapAngle(proposedAngle: Double) = proposedAngle
 
   override def mousePressed(event: PInputEvent) = {
     totalDelta = 0

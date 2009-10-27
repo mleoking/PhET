@@ -120,8 +120,8 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       setVerticalRange(-50, 50)
       addControl(new SeriesSelectionControl("", 1) {
         addComponentsToGrid(new SeriesControlTitleLabel(accelerationSeries), if (editable) createEditableLabel(accelerationSeries) else createLabel(accelerationSeries))
-//        addComponent(new SeriesControlTitleLabel(accelerationSeries))
-//        addComponent(if (editable) createEditableLabel(accelerationSeries) else createLabel(accelerationSeries))
+        //        addComponent(new SeriesControlTitleLabel(accelerationSeries))
+        //        addComponent(if (editable) createEditableLabel(accelerationSeries) else createLabel(accelerationSeries))
       })
       setEditable(editable)
     }
@@ -144,8 +144,8 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       setVerticalRange(-25, 25)
       addControl(new SeriesSelectionControl("", 1) {
         addComponentsToGrid(new SeriesControlTitleLabel(velocitySeries), if (editable) createEditableLabel(velocitySeries) else createLabel(velocitySeries))
-//        addComponent(new SeriesControlTitleLabel(velocitySeries))
-//        addComponent(if (editable) createEditableLabel(velocitySeries) else createLabel(velocitySeries))
+        //        addComponent(new SeriesControlTitleLabel(velocitySeries))
+        //        addComponent(if (editable) createEditableLabel(velocitySeries) else createLabel(velocitySeries))
       })
       setEditable(editable)
     }
@@ -166,8 +166,8 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       setVerticalRange(-10, 10)
       addControl(new SeriesSelectionControl("", 1) {
         addComponentsToGrid(new SeriesControlTitleLabel(positionSeries), if (editable) createEditableLabel(positionSeries) else createLabel(positionSeries))
-//        addComponent(new SeriesControlTitleLabel(positionSeries))
-//        addComponent(if (editable) createEditableLabel(positionSeries) else createLabel(positionSeries))
+        //        addComponent(new SeriesControlTitleLabel(positionSeries))
+        //        addComponent(if (editable) createEditableLabel(positionSeries) else createLabel(positionSeries))
       })
       setEditable(editable)
     }

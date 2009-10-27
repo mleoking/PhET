@@ -13,7 +13,13 @@ import edu.colorado.phet.scalacommon.view.ToggleListener
 import edu.colorado.phet.motionseries.model.AdjustableCoordinateModel
 import edu.colorado.phet.scalacommon.Predef._
 
-class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: Double, y1: Double, label: String) extends PNode {
+class AxisNode(val transform: ModelViewTransform2D,
+               x0: Double,
+               y0: Double,
+               x1: Double,
+               y1: Double,
+               label: String)
+        extends PNode {
   private val axisNode = new ArrowNode(transform.modelToViewDouble(x0, y0), transform.modelToViewDouble(x1, y1), 5, 5, 2)
   axisNode.setStroke(null)
   axisNode.setPaint(Color.black)
@@ -60,8 +66,8 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
     setChildrenPickable(adjustableCoordinateModel.adjustable)
   }
   hitNode.addInputEventListener(new ToggleListener(new CursorHandler, () => adjustableCoordinateModel.adjustable))
-  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel,axisModel.minAngle,axisModel.maxAngle) {
-    override def getSnapAngle(proposedAngle: Double) =  axisModel.getSnapAngle(proposedAngle)
+  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, axisModel.minAngle, axisModel.maxAngle) {
+    override def getSnapAngle(proposedAngle: Double) = axisModel.getSnapAngle(proposedAngle)
   }, () => adjustableCoordinateModel.adjustable))
   hitNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
