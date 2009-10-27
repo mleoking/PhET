@@ -10,8 +10,10 @@ import edu.umd.cs.piccolo.PNode
 import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.scalacommon.view.ToggleListener
-import edu.colorado.phet.motionseries.model.AdjustableCoordinateModel
 import edu.colorado.phet.scalacommon.Predef._
+import edu.colorado.phet.motionseries.model.{CoordinateFrameModel, AdjustableCoordinateModel}
+import edu.colorado.phet.scalacommon.math.Vector2D
+import java.lang.Math._
 
 class AxisNode(val transform: ModelViewTransform2D,
                x0: Double,
@@ -66,10 +68,58 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
     setChildrenPickable(adjustableCoordinateModel.adjustable)
   }
   hitNode.addInputEventListener(new ToggleListener(new CursorHandler, () => adjustableCoordinateModel.adjustable))
-  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, axisModel.minAngle, axisModel.maxAngle) {
-    override def getSnapAngle(proposedAngle: Double) = axisModel.getSnapAngle(proposedAngle)
-  }, () => adjustableCoordinateModel.adjustable))
+  hitNode.addInputEventListener(new ToggleListener(new AxisRotator(transform, hitNode, axisModel.coordinateFrameModel,axisModel.getPivot),
+    () => adjustableCoordinateModel.adjustable))
   hitNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
   }, () => adjustableCoordinateModel.adjustable))
+}
+
+//Todo: duplicates some functionality in RotationHandler
+class AxisRotator(val transform: ModelViewTransform2D,
+                  val node: PNode,
+                  val coordinateFrameModel: CoordinateFrameModel,
+                  pivot:Vector2D)
+        extends PBasicInputEventHandler {
+  //TODO: it seems like these fields and computations should be moved to model objects
+  private var totalDelta = 0.0
+  private var origAngle = 0.0
+
+  override def mouseDragged(event: PInputEvent) = {
+    val modelPt = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
+
+    val deltaView = event.getDeltaRelativeTo(node.getParent)
+    val deltaModel = transform.viewToModelDifferential(deltaView.width, deltaView.height)
+
+    val oldPtModel = modelPt - deltaModel
+
+    val oldAngle = (pivot - oldPtModel).getAngle
+    val newAngle = (pivot - modelPt).getAngle
+
+    //should be a small delta
+    var deltaAngle = newAngle - oldAngle
+    while (deltaAngle > PI) deltaAngle = deltaAngle - PI * 2
+    while (deltaAngle < -PI) deltaAngle = deltaAngle + PI * 2
+
+    totalDelta += deltaAngle
+    val proposedAngle = origAngle + totalDelta
+
+
+    //todo: fix
+//    val angle = getSnapAngle(if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle)
+//    rotatable.angle = angle
+//    ()
+
+    coordinateFrameModel.proposedAngle = proposedAngle
+  }
+
+  def getSnapAngle(proposedAngle: Double) = proposedAngle
+
+  override def mousePressed(event: PInputEvent) = {
+    totalDelta = 0
+
+    val modelPt = transform.viewToModel(event.getPositionRelativeTo(node.getParent))
+    val oldAngle = (modelPt - pivot).getAngle
+    origAngle = oldAngle
+  }
 }

@@ -21,35 +21,35 @@ class SynchronizedAxisModel(val offset: Double,
                             val maxAngle: Double,
                             length: Double,
                             tail: Boolean,
-                            coordinateFrameModel: CoordinateFrameModel)
+                            val coordinateFrameModel: CoordinateFrameModel)
         extends AxisModel(offset, length, tail) {
   //adapters for going between local and global models
   coordinateFrameModel.addListenerByName(angle = coordinateFrameModel.angle + offset)
-  addListenerByName(coordinateFrameModel.angle = angle - offset)
+//  addListenerByName(coordinateFrameModel.angle = angle - offset)
 
-  override def dropped() = {
-    coordinateFrameModel.dropped()
-  }
-
-  def getSnapAngle(angle: Double) = coordinateFrameModel.getSnapAngle(angle)
+//  override def dropped() = {
+//    coordinateFrameModel.dropped()
+//  }
+//
+//  def getSnapAngle(angle: Double) = coordinateFrameModel.getSnapAngle(angle)
 
 }
 
 class CoordinateFrameNode(val model: MotionSeriesModel,
-                          coordinateSystemModel: AdjustableCoordinateModel,
+                          adjustableCoordinateModel: AdjustableCoordinateModel,
                           val transform: ModelViewTransform2D)
         extends PNode {
   import java.lang.Math.PI
   val xAxisModel = new SynchronizedAxisModel(0, 0.0, PI / 2, 7, false, model.coordinateFrameModel)
-  val xAxis = new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, coordinateSystemModel)
+  val xAxis = new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel)
   addChild(xAxis)
 
   val yAxisModel = new SynchronizedAxisModel(PI / 2, PI / 2, PI, 7, false, model.coordinateFrameModel)
-  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, coordinateSystemModel)
+  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel)
   addChild(yAxis)
 
-  defineInvokeAndPass(coordinateSystemModel.addListenerByName) {
-    val v = coordinateSystemModel.adjustable
+  defineInvokeAndPass(adjustableCoordinateModel.addListenerByName) {
+    val v = adjustableCoordinateModel.adjustable
     setVisible(v)
     setPickable(v)
     setChildrenPickable(v)
