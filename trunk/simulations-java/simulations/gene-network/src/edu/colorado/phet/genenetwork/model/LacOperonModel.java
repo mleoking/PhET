@@ -6,7 +6,6 @@ import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,10 +29,10 @@ public class LacOperonModel {
 	private static final Random RAND = new Random();
 
 	// Constants that defines where in the model space the DNA strand will be.
-	private static final double DNA_STRAND_WIDTH = MODEL_AREA_WIDTH * 0.75;
-	private static final double DNA_STRAND_HEIGHT = 10;  // In nanometers.
+	private static final double DNA_STRAND_WIDTH = MODEL_AREA_WIDTH * 1.3;
+	private static final double DNA_STRAND_HEIGHT = 4;  // In nanometers.
 	private static final Rectangle2D DNA_STRAND_LOCATION = new Rectangle2D.Double(-DNA_STRAND_WIDTH / 2, 
-			-MODEL_AREA_HEIGHT / 4, DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
+			-MODEL_AREA_HEIGHT * 0.4, DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -138,6 +137,15 @@ public class LacOperonModel {
         return clock;
     }
 
+    /**
+     * Get the location and size of the DNA strand.  The DNA strand is unique
+     * amongst the model elements in that there is only one, it does not move,
+     * and the shape of its representation is not specified in the model.
+     * This is because nothing really binds directly to it, but to the sub-
+     * portions of the strand that ARE specified as model elements.
+     * 
+     * @return
+     */
     public Rectangle2D getDnaPosition(){
     	return new Rectangle2D.Double(DNA_STRAND_LOCATION.getX(), DNA_STRAND_LOCATION.getY(),
     			DNA_STRAND_LOCATION.getWidth(), DNA_STRAND_LOCATION.getHeight());
