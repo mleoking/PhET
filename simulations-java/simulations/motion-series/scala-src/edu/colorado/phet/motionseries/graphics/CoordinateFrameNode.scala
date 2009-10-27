@@ -31,7 +31,7 @@ class SynchronizedAxisModel(val offset: Double,
     coordinateFrameModel.dropped()
   }
 
-  def getSnapAngle(angle:Double) = coordinateFrameModel.getSnapAngle(angle)
+  def getSnapAngle(angle: Double) = coordinateFrameModel.getSnapAngle(angle)
 
 }
 

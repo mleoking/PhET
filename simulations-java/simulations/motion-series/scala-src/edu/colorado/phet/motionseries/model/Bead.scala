@@ -3,6 +3,7 @@ package edu.colorado.phet.motionseries.model
 import collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
+
 /**Immutable memento for recording*/
 case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {
   def translate(dx: Double) = setPosition(position + dx)

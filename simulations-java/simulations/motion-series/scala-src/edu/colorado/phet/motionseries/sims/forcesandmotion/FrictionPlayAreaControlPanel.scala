@@ -26,7 +26,7 @@ class FrictionPlayAreaControlPanel(bead: ForceBead) extends VerticalLayoutPanel 
   val gravity = new MyValueControl(0.1, sliderMaxGravity, () => bead.gravity.abs, x => bead.gravity = -x, "Gravity", "0.0".literal, "N/kg", bead)
 
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
-    new AlignedSliderSetLayoutStrategy(sliderArray).doLayout()//fails horribly
+  new AlignedSliderSetLayoutStrategy(sliderArray).doLayout() //fails horribly
 
   val table = new Hashtable[Double, JComponent]
   class MyLabel(name: String, imageName: String) extends JLabel(name, SwingConstants.CENTER) {
@@ -56,10 +56,10 @@ class FrictionPlayAreaControlPanel(bead: ForceBead) extends VerticalLayoutPanel 
   }
 }
 
-object TestFrictionPlayAreaControlPanel{
+object TestFrictionPlayAreaControlPanel {
   def main(args: Array[String]) {
-    new JFrame{
-      setContentPane(new FrictionPlayAreaControlPanel(new MotionSeriesModel(-3.0,true,0.0).bead))
+    new JFrame {
+      setContentPane(new FrictionPlayAreaControlPanel(new MotionSeriesModel(-3.0, true, 0.0).bead))
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
       pack()
       setVisible(true)

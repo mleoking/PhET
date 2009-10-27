@@ -23,7 +23,7 @@ import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesConfig
-import java.awt.{Paint, Color,Image,BasicStroke}
+import java.awt.{Paint, Color, Image, BasicStroke}
 
 class Vector(val color: Color,
              val name: String,
@@ -87,7 +87,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
                           coordinateFrameModel: CoordinateFrameModel,
                           adjustableCoordinateModel: AdjustableCoordinateModel,
                           toggleWindowedButton: Image,
-                          rampAngle:()=>Double,
+                          rampAngle: () => Double,
                           vectors: Vector*)
         extends PNode with VectorDisplay {
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit =
@@ -152,8 +152,8 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
     override def mouseReleased(event: PInputEvent) = listeners.foreach(_(new Point2D.Double(0, 0)))
   })
 
-  val xAxisModel = new SynchronizedAxisModel(0.0, 0.0, 3.0,modelWidth / 2 * 0.9, true, coordinateFrameModel)
-  val yAxisModel = new SynchronizedAxisModel(PI / 2, PI / 2, PI,modelWidth / 2 * 0.9, true, coordinateFrameModel)
+  val xAxisModel = new SynchronizedAxisModel(0.0, 0.0, 3.0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
+  val yAxisModel = new SynchronizedAxisModel(PI / 2, PI / 2, PI, modelWidth / 2 * 0.9, true, coordinateFrameModel)
   addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel))
   addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel))
   for (vector <- vectors) addVector(vector, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
@@ -317,8 +317,8 @@ object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
   val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b)
-  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(()=>Nil), new AdjustableCoordinateModel,
-    PhetCommonResources.getImage("buttons/maximizeButton.png".literal), ()=>PI/4,vector))
+  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(() => Nil), new AdjustableCoordinateModel,
+    PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => PI / 4, vector))
   frame.setContentPane(canvas)
   frame.setSize(800, 600)
   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)

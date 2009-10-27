@@ -46,7 +46,8 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
 
   //nodes added to this will appear behind vector nodes but in front of earth node
   private val behindVectorNode = new PNode
-  def addBehindVectorNodes(node:PNode) = behindVectorNode.addChild(node)
+
+  def addBehindVectorNodes(node: PNode) = behindVectorNode.addChild(node)
   playAreaNode.addChild(behindVectorNode)
 
   val leftSegmentNode = createLeftSegmentNode
@@ -99,7 +100,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   playAreaNode.addChild(tickMarkSet)
 
   val fbdWidth = MotionSeriesDefaults.freeBodyDiagramWidth
-  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal),()=>model.getRampAngle)
+  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => model.getRampAngle)
 
   def updateFBDLocation() = {
     fbdNode.setOffset(50, 10)
@@ -112,7 +113,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
   }
 
-  val windowFBDNode = new FBDDialog(frame, freeBodyDiagramModel, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel.adjustable, adjustableCoordinateModel, fbdListener,()=>model.getRampAngle)
+  val windowFBDNode = new FBDDialog(frame, freeBodyDiagramModel, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel.adjustable, adjustableCoordinateModel, fbdListener, () => model.getRampAngle)
 
   addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = {updateLayout()}})
   updateLayout()
