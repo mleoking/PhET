@@ -106,7 +106,12 @@ class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) e
   def startPoint_=(newPt: Vector2D) = {}
 }
 
-class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel, adjustableCoordinateModel: AdjustableCoordinateModel, minAngle: Double, maxAngle: Double)
+class AxisNodeWithModel(transform: ModelViewTransform2D,
+                        label: String,
+                        val axisModel: AxisModel,
+                        adjustableCoordinateModel: AdjustableCoordinateModel,
+                        minAngle: Double,
+                        maxAngle: Double)
         extends AxisNode(transform,
           transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
           transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
