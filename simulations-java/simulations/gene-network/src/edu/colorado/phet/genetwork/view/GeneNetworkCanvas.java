@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.genetwork.view;
 
@@ -70,6 +70,9 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
+        
+        // Add the DNA strand to the canvas.
+        addWorldChild(new DnaStrandNode(model.getDnaPosition(), mvt));
         
         // Add any model elements that are already present in the model.
         for (SimpleModelElement modelElement : model.getAllSimpleModelElements()){
