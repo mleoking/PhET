@@ -15,6 +15,9 @@ public class Galactose extends SimpleSugar {
 		// Add binding point for Glucose.
 		addBindingPoint(new BindingPoint(SimpleElementType.GLUCOSE,
 				new PDimension(getWidth()/2, 0)));
+		// Add binding point for LacZ.
+		addBindingPoint(new BindingPoint(SimpleElementType.LAC_Z,
+				new PDimension(getWidth()/2, 0)));
 	}
 
     public Galactose(double x,double y) {

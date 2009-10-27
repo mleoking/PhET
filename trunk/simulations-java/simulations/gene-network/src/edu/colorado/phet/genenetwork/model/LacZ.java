@@ -11,6 +11,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
+import edu.umd.cs.piccolo.util.PDimension;
+
 
 /**
  * Class that represents LacZ, which is the model element that breaks up the
@@ -26,6 +28,8 @@ public class LacZ extends SimpleModelElement {
 	
 	public LacZ(Point2D initialPosition) {
 		super(createShape(), initialPosition, ELEMENT_PAINT);
+		addBindingPoint(new BindingPoint(SimpleElementType.GLUCOSE, new PDimension(0, -SIZE/2)));
+		addBindingPoint(new BindingPoint(SimpleElementType.GALACTOSE, new PDimension(0, -SIZE/2)));
 	}
 	
 	public LacZ() {
