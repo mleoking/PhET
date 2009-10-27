@@ -8,7 +8,6 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Random;
 
 
 /**
@@ -21,8 +20,6 @@ public class MessengerRna extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = Color.BLACK;
 	private static float APPROX_LENGTH = 30;  // In nanometers.
 	private static float THICKNESS = 0.25f;  // In nanometers.
-	private static int NUM_SEGEMENTS = 10;
-	private static Random RAND = new Random();
 	
 	public MessengerRna(Point2D initialPosition) {
 		super(createShape(), initialPosition, ELEMENT_PAINT);
@@ -117,8 +114,8 @@ public class MessengerRna extends SimpleModelElement {
 	}
 	
 	private static class Point2DFloat{
-		private float x;
-		private float y;
+		private final float x;
+		private final float y;
 		
 		public Point2DFloat(float x, float y) {
 			super();
@@ -130,16 +127,8 @@ public class MessengerRna extends SimpleModelElement {
 			return x;
 		}
 
-		public void setX(float x) {
-			this.x = x;
-		}
-
 		public float getY() {
 			return y;
-		}
-
-		public void setY(float y) {
-			this.y = y;
 		}
 	}
 }
