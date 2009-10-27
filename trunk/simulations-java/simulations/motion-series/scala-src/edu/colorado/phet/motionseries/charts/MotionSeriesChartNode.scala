@@ -117,7 +117,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     model.stepListeners += (() => accelerationVariable.doAddValue(model.bead.acceleration, model.getTime))
     val accelerationSeries = new ControlGraphSeries("Acceleration", MotionSeriesDefaults.accelerationColor, "accel", "m/s/s", characterUnused, accelerationVariable)
     val accelerationGraph = new MotionSeriesGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model) {
-      setVerticalRange(-100, 100)
+      setVerticalRange(-50, 50)
       addControl(new SeriesSelectionControl("", 1) {
         addComponentsToGrid(new SeriesControlTitleLabel(accelerationSeries), if (editable) createEditableLabel(accelerationSeries) else createLabel(accelerationSeries))
 //        addComponent(new SeriesControlTitleLabel(accelerationSeries))
@@ -141,7 +141,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     model.stepListeners += (() => velocityVariable.doAddValue(model.bead.velocity, model.getTime))
     val velocitySeries = new ControlGraphSeries("Velocity", MotionSeriesDefaults.velocityColor, "vel", "m/s", characterUnused, velocityVariable)
     val velocityGraph = new MotionSeriesGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model) {
-      setVerticalRange(-50, 50)
+      setVerticalRange(-25, 25)
       addControl(new SeriesSelectionControl("", 1) {
         addComponentsToGrid(new SeriesControlTitleLabel(velocitySeries), if (editable) createEditableLabel(velocitySeries) else createLabel(velocitySeries))
 //        addComponent(new SeriesControlTitleLabel(velocitySeries))
