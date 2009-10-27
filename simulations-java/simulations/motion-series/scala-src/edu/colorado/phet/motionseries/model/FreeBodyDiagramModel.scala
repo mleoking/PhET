@@ -1,6 +1,8 @@
 package edu.colorado.phet.motionseries.model
 
 import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.common.phetcommon.math.MathUtil
+import java.lang.Math._
 
 class WordModel extends Observable {
   private var _physicsWords = true
@@ -140,20 +142,19 @@ class VectorViewModel extends Observable {
 
 class CoordinateFrameModel(snapAngles: () => List[Double]) extends Observable { //TODO: if snapped to the ramp, should rotate with ramp
   private var _proposedAngle = 0.0 //the angle the user has tried to drag the coordinate frame to, not including snapping
-//  private var _angle = 0.0 //the actual angle the frame appears at, including snapping
   private val snapRange = 10.0.toRadians
 
-  def angle = getSnapAngle(_proposedAngle)
-
-//  def angle_=(ang: Double) = {
-//    _angle = ang
-//    notifyListeners()
-//  }
+  def angle = {
+    val angleList = snapAngles()
+    val acceptedAngles = for (s <- angleList if (proposedAngle - s).abs < snapRange) yield s
+    if (acceptedAngles.length == 0) proposedAngle
+    else acceptedAngles(0) //take the first snap angle from the list
+  }
 
   def proposedAngle = _proposedAngle
 
   def proposedAngle_=(d:Double) = {
-    _proposedAngle = d
+    _proposedAngle = MathUtil.clamp(0,d,PI/2)
     notifyListeners()
   }
 
@@ -164,10 +165,4 @@ class CoordinateFrameModel(snapAngles: () => List[Double]) extends Observable { 
 //    angle = snapChoice
   }
 
-  def getSnapAngle(proposedAngle: Double) = {
-    val angleList = snapAngles()
-    val acceptedAngles = for (s <- angleList if (proposedAngle - s).abs < snapRange) yield s
-    if (acceptedAngles.length == 0) proposedAngle
-    else acceptedAngles(0) //take the first snap angle from the list
-  }
 }
