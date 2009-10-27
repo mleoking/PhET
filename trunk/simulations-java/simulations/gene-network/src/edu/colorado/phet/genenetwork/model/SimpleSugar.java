@@ -21,6 +21,8 @@ public abstract class SimpleSugar extends SimpleModelElement {
 	
 	public static double HEIGHT = 2;
 	
+	private static double sideLength;
+	
 	public SimpleSugar(Point2D initialPosition, Paint paint) {
 		super(createShape(), initialPosition, paint);
 	}
@@ -28,16 +30,26 @@ public abstract class SimpleSugar extends SimpleModelElement {
 	private static Shape createShape(){
 		// Create a hexagon shape.
 		DoubleGeneralPath path = new DoubleGeneralPath();
-		double length = HEIGHT / 2 / Math.sin(Math.PI/3);
-		path.moveTo(-length / 2, -HEIGHT / 2);
+		sideLength = HEIGHT / 2 / Math.sin(Math.PI/3);
+		path.moveTo(-sideLength / 2, -HEIGHT / 2);
 		
 		double angle = Math.PI;
 		
 		for (int i = 0; i < 6; i++){
-			angle = lineToRelative(path, length, angle);
+			angle = lineToRelative(path, sideLength, angle);
 		}
 
-        return AffineTransform.getTranslateInstance(-path.getGeneralPath().getBounds2D().getCenterX(), -path.getGeneralPath().getBounds2D().getCenterY()).createTransformedShape(path.getGeneralPath());
+        return AffineTransform.getTranslateInstance(-path.getGeneralPath().getBounds2D().getCenterX(), 
+        		-path.getGeneralPath().getBounds2D().getCenterY()).createTransformedShape(path.getGeneralPath());
+	}
+	
+	public static double getSideLength(){
+		return sideLength;
+	}
+	
+	public static double getWidth(){
+		return (getSideLength() * (1 + 2 * Math.cos(Math.PI/3)));
+
 	}
 
 	private static double lineToRelative(DoubleGeneralPath path, double length, double angle) {
