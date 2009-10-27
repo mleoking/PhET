@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.genenetwork.model;
 
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -181,5 +182,58 @@ public class LacOperonModel {
 	
     public interface Listener {
         void modelElementAdded(SimpleModelElement modelElement);
+    }
+    
+    private static class CompositeModelElement {
+    	
+    	private Point2D position = new Point2D.Double();
+    	private ArrayList<SimpleModelElement> constituentModelElements = new ArrayList<SimpleModelElement>();
+    	
+    	/**
+    	 * This constructor assumes that the simple model elements need to be
+    	 * moved such that their binding sites all coincide.
+    	 * 
+    	 * @param simpleModelElements
+    	 */
+    	public CompositeModelElement(ArrayList<SimpleModelElement> simpleModelElements, Point2D initialPosition){
+
+    		if (simpleModelElements.size() < 2){
+    			throw new IllegalArgumentException("Insufficent number of elements, much be at least 2");
+    		}
+    		
+    		constituentModelElements.addAll(simpleModelElements);
+    		
+    		// Position each simple model element such that the binding
+    		// points are all at 0,0.
+    		for (int i = 0; i < constituentModelElements.size(); i++){
+    			SimpleModelElement modelElement = constituentModelElements.get(i);
+    			SimpleModelElement bondingToModelElement =
+    				constituentModelElements.get((i + 1) % constituentModelElements.size());
+        		Dimension2D bindingPointOffset =
+        			modelElement.getBindingPointForElement(bondingToModelElement.getType()).getOffset();
+        		modelElement.setPosition(-bindingPointOffset.getWidth(), -bindingPointOffset.getHeight());
+    		}
+    		
+    		setPosition(initialPosition);
+    	}
+    	
+    	/**
+    	 * Set the position for this composite model element, which will in
+    	 * turn set the position of each constituent element.
+    	 * 
+    	 * @param newPosition
+    	 */
+    	public void setPosition(Point2D newPosition){
+    		
+    		double deltaX = newPosition.getX() - position.getX();
+    		double deltaY = newPosition.getY() - position.getY();
+    		
+    		for (SimpleModelElement modelElement : constituentModelElements){
+    			modelElement.setPosition(modelElement.getPositionRef().getX() + deltaX,
+    					modelElement.getPositionRef().getY() + deltaY);
+    		}
+    		
+    		position.setLocation(newPosition);
+    	}
     }
 }
