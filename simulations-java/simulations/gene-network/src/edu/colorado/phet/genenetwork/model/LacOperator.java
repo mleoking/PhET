@@ -39,7 +39,6 @@ public class LacOperator extends SimpleModelElement {
 	SimpleElementType getType() {
 		return SimpleElementType.LAC_OPERATOR;
 	}
-
 	
 	private static Shape createShape(){
 		
@@ -53,15 +52,15 @@ public class LacOperator extends SimpleModelElement {
 		outline.closePath();
 		Area area = new Area(outline);
 		
-		// Get the shape of a lactose molecule and shift it to the appropriate
-		// position.
-		Shape lactoseShape = new Lactose().getShape();
+		// Get the shape of a lac inhibitor molecule and shift it to the
+		// appropriate position.
+		Shape lacInhibitorShape = new LacI().getShape();
 		AffineTransform transform = new AffineTransform();
 		transform.setToTranslation(	0, HEIGHT/2 );
-		lactoseShape = transform.createTransformedShape(lactoseShape);
+		lacInhibitorShape = transform.createTransformedShape(lacInhibitorShape);
 		
 		// Subtract off the shape of the lactose molecule.
-		area.subtract(new Area(lactoseShape));
+		area.subtract(new Area(lacInhibitorShape));
 		return area;
 	}
 	
