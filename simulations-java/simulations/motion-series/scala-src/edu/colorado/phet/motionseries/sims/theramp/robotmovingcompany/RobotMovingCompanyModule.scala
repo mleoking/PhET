@@ -3,7 +3,6 @@ package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.nodes.{ArrowNode, HTMLNode, PhetPPath}
 import edu.colorado.phet.common.phetcommon.view.PhetFrame
-import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.{MotionSeriesResources, MotionSeriesDefaults, MotionSeriesModule}
@@ -13,11 +12,13 @@ import java.awt.{BasicStroke, Rectangle, Color}
 import javax.swing.{SwingUtilities}
 import edu.umd.cs.piccolo.nodes.{PText, PImage}
 import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.motionseries.model.{MotionSeriesObject, MotionSeriesModel}
 
 class RobotMovingCompanyModule(frame: PhetFrame,
                                clock: ScalaClock,
                                initAngle: Double,
-                               appliedForce: Double)
+                               appliedForce: Double,
+                               objectList: List[MotionSeriesObject])
         extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle, false) {
   override def reset() = {
     super.reset()
@@ -36,7 +37,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
     }
   }
 
-  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock, initAngle, appliedForce)
+  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock, initAngle, appliedForce, objectList)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
     val audioClip = result match {
@@ -140,7 +141,7 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
   }
   addChild(labeledButtonCluster)
 
-  val pressToBegin = new PText("Press a force key to begin...")
+  val pressToBegin = new PText("Press an arrow key on your keyboard to apply a force...")
   addChild(pressToBegin)
   pressToBegin.setOffset(background.getFullBounds.getWidth / 2 - pressToBegin.getFullBounds.getWidth / 2, background.getFullBounds.getHeight - pressToBegin.getFullBounds.getHeight - 10)
 

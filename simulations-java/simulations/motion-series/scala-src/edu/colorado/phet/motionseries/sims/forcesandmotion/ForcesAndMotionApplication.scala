@@ -78,14 +78,12 @@ class GraphingModule(frame: PhetFrame, clock: ScalaClock)
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
 }
 
-class RobotMovingCompany1DModule(frame: PhetFrame, clock: ScalaClock) extends ForcesAndMotionModule(frame, clock, "forces-and-motion.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, true, true, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false)
-
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
   addModule(new IntroModule(getPhetFrame, newClock))
   addModule(new FrictionModule(getPhetFrame, newClock))
   addModule(new GraphingModule(getPhetFrame, newClock))
-  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock, 1E-8.toRadians, MotionSeriesDefaults.forcesAndMotionRobotForce)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
+  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock, 1E-8.toRadians, MotionSeriesDefaults.forcesAndMotionRobotForce,MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
 }
 
 object ForcesAndMotionApplicationMain {

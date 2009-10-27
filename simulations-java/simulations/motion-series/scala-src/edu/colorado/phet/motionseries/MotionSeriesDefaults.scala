@@ -24,7 +24,7 @@ object MotionSeriesDefaults {
   val MAX_RECORD_TIME = MAX_CHART_DISPLAY_TIME
   val defaultRampAngle = 30.0.toRadians
   val rampRobotForce = 500
-  val forcesAndMotionRobotForce = 2000
+  val forcesAndMotionRobotForce = 500
 
   val fullScreenArea = new StageContainerArea() {
     def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h)
@@ -93,16 +93,22 @@ object MotionSeriesDefaults {
 
   //ScalaRampObject(name,mass,kineticFriction,staticFriction,image)
   import edu.colorado.phet.motionseries.MotionSeriesResources._
-  val objects = new MotionSeriesObject("object.small-crate".translate, crateMass, 0.3, 0.5, crateHeight, "crate.gif".literal, 200) ::
-          new MotionSeriesObject("object.file-cabinet".translate, 50, 0.2, 0.5, 2.25, "cabinet.gif".literal, 100) ::
-          new MotionSeriesObject("object.dog".translate, 25, 0.5, 0.5, 1.25, "ollie.gif".literal, 500) ::
-          new MotionSeriesObject("object.refrigerator".translate, 200, 0.2, 0.5, 2.75, "fridge.gif".literal, 650) ::
-          new MotionSeriesObject("object.textbook".translate, 10, 0.2, 0.4, 1, "phetbook.gif".literal, 20) ::
-          new MotionSeriesObject("object.piano".translate, 400, 0.3, 0.5, 3.5, "piano.png".literal, 1000) ::
-          new CustomTextMotionSeriesObject("object.mystery-object".translate, 123, 0.2, 0.3, 2, "mystery-box.png".literal, 600, "mystery-box.png".literal, false) ::
-          new MutableMotionSeriesObject("object.custom-crate".translate, 150, 0.3, 0.5, -1, "crate.gif".literal, 300, "crate_custom.gif".literal, true) :: //height is determined dynamically in MutableRampObject
+
+  val crate = new MotionSeriesObject("object.small-crate".translate, crateMass, 0.3, 0.5, crateHeight, "crate.gif".literal, 200)
+  val cabinet = new MotionSeriesObject("object.file-cabinet".translate, 50, 0.2, 0.5, 2.25, "cabinet.gif".literal, 100)
+  val ollie = new MotionSeriesObject("object.dog".translate, 25, 0.5, 0.5, 1.25, "ollie.gif".literal, 500)
+  val fridge = new MotionSeriesObject("object.refrigerator".translate, 200, 0.2, 0.5, 2.75, "fridge.gif".literal, 650)
+  val book = new MotionSeriesObject("object.textbook".translate, 10, 0.2, 0.4, 1, "phetbook.gif".literal, 20)
+  val piano = new MotionSeriesObject("object.piano".translate, 400, 0.3, 0.5, 3.5, "piano.png".literal, 1000)
+  val mystery = new CustomTextMotionSeriesObject("object.mystery-object".translate, 123, 0.2, 0.3, 2, "mystery-box.png".literal, 600, "mystery-box.png".literal, false)
+  val custom = new MutableMotionSeriesObject("object.custom-crate".translate, 150, 0.3, 0.5, -1, "crate.gif".literal, 300, "crate_custom.gif".literal, true) //height is determined dynamically in MutableRampObject
+
+  val objects = crate :: cabinet :: ollie :: fridge ::
+          book :: piano :: mystery :: custom ::
           Nil
   val iconsPerRow = 4
+
+  val objectsForForce1DGame = cabinet :: ollie :: book :: Nil
 
   lazy val movingMan = new MotionSeriesObject("object.moving-man".translate, 85, 0.3, 0.5, 2.8, //is some empty padding in the image? looks better at large size, with a 20m wide play area
     "moving-man/moving-man-standing.gif".literal, 1000)
@@ -116,7 +122,7 @@ object MotionSeriesDefaults {
 
   def wallWidth = wall.width
 
-  import Color._
+  import java.awt.Color._
 
   val myGold = new Color(255, 235, 0)
   val myBrickRed = new Color(185, 80, 50)
