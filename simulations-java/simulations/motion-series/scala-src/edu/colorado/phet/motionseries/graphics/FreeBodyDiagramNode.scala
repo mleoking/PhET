@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.common.piccolophet.nodes._
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import java.awt._
 import java.awt.geom.{Point2D, Rectangle2D}
 import javax.swing.JFrame
 import layout.SwingLayoutNode
@@ -24,6 +23,7 @@ import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesConfig
+import java.awt.{Paint, Color,Image,BasicStroke}
 
 class Vector(val color: Color,
              val name: String,
@@ -52,7 +52,7 @@ class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: 
   axisNode.setPaint(Color.black)
 
   //use an invisible wider hit region for mouse events
-  protected val hitNode = new ArrowNode(transform.modelToViewDouble(x0, y0), transform.modelToViewDouble(x1, y1), 20, 20, 20,1.0,true)
+  protected val hitNode = new ArrowNode(transform.modelToViewDouble(x0, y0), transform.modelToViewDouble(x1, y1), 20, 20, 20, 1.0, true)
   hitNode.setStroke(null)
   hitNode.setPaint(new Color(0, 0, 0, 0))
   axisNode.setPickable(false)
@@ -111,7 +111,8 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
                         val axisModel: AxisModel,
                         adjustableCoordinateModel: AdjustableCoordinateModel,
                         minAngle: Double,
-                        maxAngle: Double)
+                        maxAngle: Double,
+                        snapAngles: ()=>List[Double])
         extends AxisNode(transform,
           transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
           transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
@@ -124,7 +125,15 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
     setChildrenPickable(adjustableCoordinateModel.adjustable)
   }
   hitNode.addInputEventListener(new ToggleListener(new CursorHandler, () => adjustableCoordinateModel.adjustable))
-  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, minAngle, maxAngle), () => adjustableCoordinateModel.adjustable))
+  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, minAngle, maxAngle) {
+    override def getSnapAngle(proposedAngle: Double) = {
+      val epsilon = PI / 16
+      val angleList = snapAngles()
+      val acceptedAngles = for (s <- angleList if (proposedAngle - s).abs < epsilon) yield s
+      if (acceptedAngles.length == 0 ) proposedAngle
+      else acceptedAngles(0)//take the first snap angle from the list
+    }
+  }, () => adjustableCoordinateModel.adjustable))
   hitNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
   }, () => adjustableCoordinateModel.adjustable))
@@ -138,6 +147,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
                           coordinateFrameModel: CoordinateFrameModel,
                           adjustableCoordinateModel: AdjustableCoordinateModel,
                           toggleWindowedButton: Image,
+                          rampAngle:()=>Double,
                           vectors: Vector*)
         extends PNode with VectorDisplay {
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit =
@@ -204,8 +214,8 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
 
   val xAxisModel = new SynchronizedAxisModel(0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
   val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth / 2 * 0.9, true, coordinateFrameModel)
-  addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel, 0, PI / 2))
-  addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel, PI / 2, PI))
+  addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel, 0, PI / 2,()=>rampAngle() :: 0.0 :: Nil))
+  addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel, PI / 2, PI,()=>rampAngle() + PI/2 :: PI/2 :: Nil))
   for (vector <- vectors) addVector(vector, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
 
   updateSize()
@@ -368,7 +378,7 @@ object TestFBD extends Application {
   val canvas = new PhetPCanvas
   val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b)
   canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(Nil), new AdjustableCoordinateModel,
-    PhetCommonResources.getImage("buttons/maximizeButton.png".literal), vector))
+    PhetCommonResources.getImage("buttons/maximizeButton.png".literal), ()=>PI/4,vector))
   frame.setContentPane(canvas)
   frame.setSize(800, 600)
   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)

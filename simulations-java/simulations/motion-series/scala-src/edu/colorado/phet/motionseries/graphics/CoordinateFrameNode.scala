@@ -19,14 +19,17 @@ class SynchronizedAxisModel(_ang: Double, length: Double, tail: Boolean, coordin
   }
 }
 
-class CoordinateFrameNode(val model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, val transform: ModelViewTransform2D) extends PNode {
-  val yAxisModel = new SynchronizedAxisModel(PI / 2, 7, false, model.coordinateFrameModel)
-  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, coordinateSystemModel, PI / 2, PI)
-  addChild(yAxis)
-
+class CoordinateFrameNode(val model: MotionSeriesModel,
+                          coordinateSystemModel: AdjustableCoordinateModel,
+                          val transform: ModelViewTransform2D)
+        extends PNode {
   val xAxisModel = new SynchronizedAxisModel(0, 7, false, model.coordinateFrameModel)
-  val xAxis = new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, coordinateSystemModel, 0, PI / 2)
+  val xAxis = new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, coordinateSystemModel, 0, PI / 2,()=>model.getRampAngle :: 0.0 :: Nil)
   addChild(xAxis)
+
+  val yAxisModel = new SynchronizedAxisModel(PI / 2, 7, false, model.coordinateFrameModel)
+  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, coordinateSystemModel, PI / 2, PI,()=>model.getRampAngle + PI/2 :: PI/2 :: Nil)
+  addChild(yAxis)
 
   defineInvokeAndPass(coordinateSystemModel.addListenerByName) {
     val v = coordinateSystemModel.adjustable
