@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class DnaStrandNode extends PNode {
 
-	private static final boolean SHOW_BOUNDS = true;
+	private static final boolean SHOW_BOUNDS = false;
 	private static final int NUM_SEGMENTS = 300;
 	private static final Stroke STRAND_STROKE = new BasicStroke(2);
 	
@@ -36,10 +36,10 @@ public class DnaStrandNode extends PNode {
 
 		GeneralPath strand1Path = new GeneralPath();
 		GeneralPath strand2Path = new GeneralPath();
-		float strandXOffset = 7; 
+		float strand2OffsetX = 5; 
 		strand1Path.moveTo((float)viewBounds.getMinX(),
 				(float)(viewBounds.getMinY() + viewBounds.getHeight() / 2));
-		strand2Path.moveTo((float)viewBounds.getMinX() + strandXOffset,
+		strand2Path.moveTo((float)viewBounds.getMinX() + strand2OffsetX,
 				(float)(viewBounds.getMinY() + viewBounds.getHeight() / 2));
 		double angle = 0;
 		for (double xPos = viewBounds.getMinX(); xPos < viewBounds.getMaxX(); xPos += viewBounds.getWidth() / NUM_SEGMENTS){
@@ -48,9 +48,9 @@ public class DnaStrandNode extends PNode {
 			// in the specification.
 			strand1Path.lineTo( (float)xPos, 
 				(float)(viewBounds.getCenterY() + Math.sin(angle) * viewBounds.getHeight() / 4));
-			strand2Path.lineTo( (float)xPos + strandXOffset, 
+			strand2Path.lineTo( (float)xPos + strand2OffsetX, 
 					(float)(viewBounds.getCenterY() + Math.sin(angle) * viewBounds.getHeight() / 4));
-			angle += Math.PI/4;
+			angle += Math.PI * 0.3;
 		}
 		
 		addChild(new PhetPPath(strand1Path, STRAND_STROKE, new Color(49, 170, 226)));
