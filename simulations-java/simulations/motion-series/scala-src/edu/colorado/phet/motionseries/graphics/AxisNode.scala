@@ -76,9 +76,9 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
 }
 
 //Todo: duplicates some functionality in RotationHandler
-class AxisRotator(val transform: ModelViewTransform2D,
-                  val node: PNode,
-                  val coordinateFrameModel: CoordinateFrameModel,
+class AxisRotator(transform: ModelViewTransform2D,
+                  node: PNode,
+                  coordinateFrameModel: CoordinateFrameModel,
                   pivot:Vector2D)
         extends PBasicInputEventHandler {
   //TODO: can any more of this be moved to CoordinateFrameModel?
