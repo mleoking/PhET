@@ -92,7 +92,7 @@ public class LacOperonModel {
         
         double xPosition = DNA_STRAND_LOCATION.getMinX(); // Start at the far left side of the strand.
         
-        xPosition += 5; // Add a little space on far left side.
+        xPosition += 3; // Add a little space on far left side.
         
         modelElement = new LacIPromoter();
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
@@ -108,7 +108,8 @@ public class LacOperonModel {
         addSimpleModelElement(modelElement);
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         
-        xPosition = DNA_STRAND_LOCATION.getCenterX();
+        xPosition = DNA_STRAND_LOCATION.getMinX() + 0.45 * DNA_STRAND_LOCATION.getWidth();
+        
         modelElement = new CapBindingRegion();
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
@@ -127,7 +128,7 @@ public class LacOperonModel {
         addSimpleModelElement(modelElement);
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         
-        xPosition += 3; // The spec shows some space here.
+        xPosition += 2; // The spec shows some space here.
 
         modelElement = new LacZGene();
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
@@ -135,6 +136,8 @@ public class LacOperonModel {
         addSimpleModelElement(modelElement);
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         
+        xPosition += 1; // The spec shows some space here.
+
         modelElement = new LacYGene();
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());

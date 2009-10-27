@@ -10,7 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 public class LacIPromoter extends SimpleModelElement {
 
 	private static final double WIDTH = 10;  // Nanometers. 
-	private static final double HEIGHT = 2;  // Nanometers.
+	private static final double HEIGHT = 2.5;  // Nanometers.
 	
 	public LacIPromoter(Point2D initialPosition) {
 		super(new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 2, 2), new Point2D.Double(),
