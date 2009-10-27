@@ -125,6 +125,7 @@ class RotationHandler(val transform: ModelViewTransform2D,
                       min: Double,
                       max: Double)
         extends PBasicInputEventHandler {
+  //TODO: it seems like these fields and computations should be moved to model objects
   private var totalDelta = 0.0
   private var origAngle = 0.0
 
