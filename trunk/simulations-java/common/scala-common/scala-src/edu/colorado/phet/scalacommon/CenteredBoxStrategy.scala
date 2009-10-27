@@ -14,16 +14,23 @@ import edu.umd.cs.piccolo.util.PDimension
 Information:Compilation completed with 2 errors and 0 warnings
 Information:2 errors
 Information:0 warnings
-Error: error while loading CBS, Missing dependency 'class edu.colorado.phet.common.piccolophet.PhetPCanvas$TransformStrategy', required by C:\workingcopy\phet\out-test\production\phet\edu\colorado\phet\scalacommon\CBS.class
+Error: error while loading CenteredBoxStrategy, Missing dependency 'class edu.colorado.phet.common.piccolophet.PhetPCanvas$TransformStrategy', required by C:\workingcopy\phet\out-test\production\phet\edu\colorado\phet\scalacommon\CenteredBoxStrategy.class
 C:\workingcopy\phet\svn\trunk\simulations-java\simulations\force-law-lab\scala-src\edu\colorado\phet\forcelawlab\DefaultCanvas.scala
-    Error:Error:line (14)error: edu.colorado.phet.scalacommon.CBS does not have a constructor
-val centeredBoxStrategy = new CBS(768, 768, this)
+    Error:Error:line (14)error: edu.colorado.phet.scalacommon.CenteredBoxStrategy does not have a constructor
+val centeredBoxStrategy = new CenteredBoxStrategy(768, 768, this)
+
+New error message with 2.8 preview:
+Error: error while loading CenteredBoxStrategy, class file 'C:\workingcopy\phet\svn\trunk\out\production\phet\edu\colorado\phet\scalacommon\CenteredBoxStrategy.class' is broken
+Error:(class edu.colorado.phet.common.piccolophet.PhetPCanvas$TransformStrategy not found.)
+C:\workingcopy\phet\svn\trunk\simulations-java\simulations\motion-series\scala-src\edu\colorado\phet\motionseries\graphics\DefaultCanvas.scala
+    Error:Error:line (18)error: edu.colorado.phet.scalacommon.CenteredBoxStrategy does not have a constructor
+val centeredBoxStrategy = new CenteredBoxStrategy(canonicalBounds.width, canonicalBounds.height, this, modelOffsetY)
  */
-class CBS(modelWidth: Double,
+class CenteredBoxStrategy(modelWidth: Double,
           modelHeight: Double,
           canvas: JComponent,
           modelOffsetY: Double)
-        extends PhetPCanvas.TransformStrategy() {
+        extends PhetPCanvas.TransformStrategy {
   def this(dim: PDimension, canvas: JComponent) = this (dim.width, dim.height, canvas, 0)
 
   def this(modelWidth: Double, modelHeight: Double, canvas: JComponent) = this (modelWidth, modelHeight, canvas, 0.0)
