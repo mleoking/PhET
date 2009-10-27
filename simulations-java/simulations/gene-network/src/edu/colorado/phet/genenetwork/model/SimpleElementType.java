@@ -9,6 +9,7 @@ public enum SimpleElementType {
 	GALACTOSE,
 	LAC_I,
 	LAC_I_GENE,
+	LAC_I_PROMOTER,
 	LAC_OPERATOR,
 	LAC_PROMOTER,
 	LAC_Y_GENE,
