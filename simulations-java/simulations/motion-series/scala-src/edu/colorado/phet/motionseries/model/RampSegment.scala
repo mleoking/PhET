@@ -1,11 +1,11 @@
 package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
-import edu.colorado.phet.motionseries.graphics.Rotatable
 import java.awt.geom.{Point2D, Line2D}
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.motionseries.graphics.{RotationModel, Rotatable}
 
 case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
   def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)
@@ -19,7 +19,7 @@ case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't 
   def angle = (endPoint - startPoint).getAngle
 }
 
-class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
+class RampSegment(_state: RampSegmentState) extends Observable with Rotatable{
   private var state = _state
 
   def this(startPt: Point2D, endPt: Point2D) = this (new RampSegmentState(startPt, endPt))
@@ -40,6 +40,8 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
     notifyListeners()
   }
 
+  def getPivot = startPoint
+
   def length = (endPoint - startPoint).magnitude
 
   def getUnitVector = state.getUnitVector
@@ -49,7 +51,11 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
     notifyListeners()
   }
 
-  def angle = state.angle
+  override def angle = state.angle
+  override def angle_=(a:Double) = {
+    super.angle_=(a)
+    setAngle(a)
+  }
 
   private var _wetness = 0.0 // 1.0 means max wetness
   def wetness = _wetness

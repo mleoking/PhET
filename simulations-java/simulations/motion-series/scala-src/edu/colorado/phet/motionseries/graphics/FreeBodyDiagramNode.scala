@@ -50,7 +50,7 @@ class AxisModel(private var _angle: Double,
                 val length: Double,
                 tail: Boolean)
         extends Observable with Rotatable {
-  def angle = _angle
+  override def angle = _angle
 
   def getEndPoint = new Vector2D(angle) * length
 
@@ -65,7 +65,7 @@ class AxisModel(private var _angle: Double,
     notifyListeners()
   }
 
-  def angle_=(a: Double) = {
+  override def angle_=(a: Double) = {
     if (this._angle != a) {
       this._angle = a
       notifyListeners()
