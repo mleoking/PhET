@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -27,6 +28,12 @@ public class LacOperonModel {
 	private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double(-MODEL_AREA_WIDTH / 2,
 			-MODEL_AREA_HEIGHT / 2, MODEL_AREA_WIDTH, MODEL_AREA_HEIGHT);
 	private static final Random RAND = new Random();
+
+	// Constants that defines where in the model space the DNA strand will be.
+	private static final double DNA_STRAND_WIDTH = MODEL_AREA_WIDTH * 0.75;
+	private static final double DNA_STRAND_HEIGHT = 10;  // In nanometers.
+	private static final Rectangle2D DNA_STRAND_LOCATION = new Rectangle2D.Double(-DNA_STRAND_WIDTH / 2, 
+			-MODEL_AREA_HEIGHT / 4, DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -131,6 +138,11 @@ public class LacOperonModel {
         return clock;
     }
 
+    public Rectangle2D getDnaPosition(){
+    	return new Rectangle2D.Double(DNA_STRAND_LOCATION.getX(), DNA_STRAND_LOCATION.getY(),
+    			DNA_STRAND_LOCATION.getWidth(), DNA_STRAND_LOCATION.getHeight());
+    }
+    
     //----------------------------------------------------------------------------
     // Other Methods
     //----------------------------------------------------------------------------
