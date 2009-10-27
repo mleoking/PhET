@@ -53,12 +53,20 @@ public abstract class SimpleModelElement implements IModelElement{
 		}
 	}
 	
+	public void setPosition(Point2D newPosition){
+		setPosition(newPosition.getX(), newPosition.getY());
+	}
+	
 	public Paint getPaint(){
 		return paint;
 	}
 	
 	public void setVelocity(double xVel, double yVel){
 		velocity.setComponents(xVel, yVel);
+	}
+	
+	public void setVelocity(Vector2D newVelocity){
+		setVelocity(newVelocity.getX(), newVelocity.getY());
 	}
 	
 	public Vector2D getVelocityRef(){
