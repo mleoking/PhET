@@ -50,7 +50,7 @@ class MotionSeriesModule(frame: PhetFrame,
   val fbdModel = new FreeBodyDiagramModel(fbdPopupOnly)
   val coordinateSystemModel = new AdjustableCoordinateModel
   val vectorViewModel = new VectorViewModel
-  coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) motionSeriesModel.coordinateFrameModel.angle = 0)
+  coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) motionSeriesModel.coordinateFrameModel.proposedAngle = 0)
   private var lastTickTime = System.currentTimeMillis
 
   //This clock is always running; pausing just pauses the physics
