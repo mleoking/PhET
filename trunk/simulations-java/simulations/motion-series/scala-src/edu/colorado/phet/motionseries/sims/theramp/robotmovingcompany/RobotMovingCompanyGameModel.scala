@@ -12,7 +12,9 @@ import edu.colorado.phet.motionseries.model._
 class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
                                   clock: ScalaClock,
                                   initAngle: Double,
-                                  val appliedForceAmount: Double) extends Observable {
+                                  val appliedForceAmount: Double,
+                                  val objectList:List[MotionSeriesObject]) 
+        extends Observable {
   val DEFAULT_ROBOT_ENERGY = appliedForceAmount * 6
   val energyScale = MotionSeriesDefaults.rampRobotForce / appliedForceAmount / 10.0
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
@@ -28,7 +30,6 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val itemFinishedListeners = new ArrayBuffer[(MotionSeriesObject, Result) => Unit]
   val gameFinishListeners = new ArrayBuffer[() => Unit]
 
-  val objectList = MotionSeriesDefaults.objects
   val housePosition = 6
   val house = model.createBead(housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
   val door = model.createBead(housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)

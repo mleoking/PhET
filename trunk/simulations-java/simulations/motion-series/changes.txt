@@ -1,3 +1,5 @@
+forces-and-motion: Removed objects that cannot be moved, or cannot be delivered to the house.
+forces-and-motion: Reduced robot moving company game applied force to match that in the ramp version.
 Fixed: If you go to Playback mode, then pause and grab object, it should automatically clear the rest of recording and switch to playback mode.
 Made it so the adjustable coordinate frame automatically moves with the ramp after snapping to it.
 Added snap-to ramp angle and canonical axes for the adjustable coordinate frame

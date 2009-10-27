@@ -87,13 +87,5 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new ForceGraphsModule(getPhetFrame, newClock))
   addModule(new CoordinatesRampModule(getPhetFrame, newClock))
   addModule(new WorkEnergyModule(getPhetFrame, newClock))
-  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampRobotForce))
-}
-class RampWorkEnergyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
-  addModule(new WorkEnergyModule(getPhetFrame, newClock))
-}
-
-class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampRobotForce))
+  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampRobotForce, MotionSeriesDefaults.objects))
 }
