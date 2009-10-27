@@ -100,4 +100,6 @@ class AxisRotator(transform: ModelViewTransform2D,
     while (deltaAngle < -PI) deltaAngle = deltaAngle + PI * 2
     coordinateFrameModel.proposedAngle = coordinateFrameModel.proposedAngle + deltaAngle
   }
+
+  override def mouseReleased(event: PInputEvent) = coordinateFrameModel.dropped()
 }

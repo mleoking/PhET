@@ -1,3 +1,4 @@
+Made it so the adjustable coordinate frame automatically moves with the ramp after snapping to it.
 Added snap-to ramp angle and canonical axes for the adjustable coordinate frame
 # 1.03.54 (36113) Oct 26, 2009
 forces-and-motion: Zoomed in acceleration and velocity graphs by a factor of 2s. 

@@ -1,7 +1,6 @@
 package edu.colorado.phet.motionseries.graphics
 
 import collection.mutable.ArrayBuffer
-import edu.colorado.phet.motionseries.model.{Bead, AdjustableCoordinateModel, FreeBodyDiagramModel, CoordinateFrameModel}
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
@@ -24,6 +23,7 @@ import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesConfig
 import java.awt.{Paint, Color, Image, BasicStroke}
+import edu.colorado.phet.motionseries.model._
 
 class Vector(val color: Color,
              val name: String,
@@ -317,7 +317,7 @@ object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
   val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b)
-  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(() => Nil), new AdjustableCoordinateModel,
+  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(new RampSegment(new Point2D.Double(0,0),new Point2D.Double(10,10))), new AdjustableCoordinateModel,
     PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => PI / 4, vector))
   frame.setContentPane(canvas)
   frame.setSize(800, 600)
