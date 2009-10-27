@@ -64,11 +64,11 @@ class MotionSeriesModule(frame: PhetFrame,
 
     val elapsed = paintAndInputTime + modelTime
     //this policy causes problems on the mac, see #1832
-//    if (elapsed < 25) {
-//      val toSleep = 25 - elapsed
-//      //      println("had excess time, sleeping: " + toSleep)
-//      Thread.sleep(toSleep) //todo: blocks swing event handler thread and paint thread, should run this clock loop in another thread
-//    }
+    //    if (elapsed < 25) {
+    //      val toSleep = 25 - elapsed
+    //      //      println("had excess time, sleeping: " + toSleep)
+    //      Thread.sleep(toSleep) //todo: blocks swing event handler thread and paint thread, should run this clock loop in another thread
+    //    }
     lastTickTime = System.currentTimeMillis
   })
 
