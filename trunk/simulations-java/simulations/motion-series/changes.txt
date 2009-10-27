@@ -1,3 +1,4 @@
+forces-and-motion: Changed Acceleration, Velocity, and Position graph labels so that e.g. "Acceleration=XXX m/s/s" is all on same line, now that sliders have been removed. 
 Fixed: When walls removed, the “Brick/Bouncy” control should grey out.
 Fixed: Springs should not appear when walls are disabled.
 Moved vector arrows in front of applied force slider.

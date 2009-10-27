@@ -119,8 +119,9 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     val accelerationGraph = new MotionSeriesGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-100, 100)
       addControl(new SeriesSelectionControl("", 1) {
-        addComponent(new SeriesControlTitleLabel(accelerationSeries))
-        addComponent(if (editable) createEditableLabel(accelerationSeries) else createLabel(accelerationSeries))
+        addComponentsToGrid(new SeriesControlTitleLabel(accelerationSeries), if (editable) createEditableLabel(accelerationSeries) else createLabel(accelerationSeries))
+//        addComponent(new SeriesControlTitleLabel(accelerationSeries))
+//        addComponent(if (editable) createEditableLabel(accelerationSeries) else createLabel(accelerationSeries))
       })
       setEditable(editable)
     }
@@ -142,8 +143,9 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     val velocityGraph = new MotionSeriesGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-50, 50)
       addControl(new SeriesSelectionControl("", 1) {
-        addComponent(new SeriesControlTitleLabel(velocitySeries))
-        addComponent(if (editable) createEditableLabel(velocitySeries) else createLabel(velocitySeries))
+        addComponentsToGrid(new SeriesControlTitleLabel(velocitySeries), if (editable) createEditableLabel(velocitySeries) else createLabel(velocitySeries))
+//        addComponent(new SeriesControlTitleLabel(velocitySeries))
+//        addComponent(if (editable) createEditableLabel(velocitySeries) else createLabel(velocitySeries))
       })
       setEditable(editable)
     }
@@ -163,8 +165,9 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     val positionGraph = new MotionSeriesGraph(positionSeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-10, 10)
       addControl(new SeriesSelectionControl("", 1) {
-        addComponent(new SeriesControlTitleLabel(positionSeries))
-        addComponent(if (editable) createEditableLabel(positionSeries) else createLabel(positionSeries))
+        addComponentsToGrid(new SeriesControlTitleLabel(positionSeries), if (editable) createEditableLabel(positionSeries) else createLabel(positionSeries))
+//        addComponent(new SeriesControlTitleLabel(positionSeries))
+//        addComponent(if (editable) createEditableLabel(positionSeries) else createLabel(positionSeries))
       })
       setEditable(editable)
     }
