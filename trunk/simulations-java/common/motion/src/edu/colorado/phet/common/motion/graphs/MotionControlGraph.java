@@ -153,6 +153,7 @@ public class MotionControlGraph extends ControlGraph {
     }
 
     public void notifyZoomChanged() {
+        super.notifyZoomChanged();
         if ( listeners != null ) {
             for ( Listener listener : listeners ) {
                 listener.horizontalZoomChanged( this );

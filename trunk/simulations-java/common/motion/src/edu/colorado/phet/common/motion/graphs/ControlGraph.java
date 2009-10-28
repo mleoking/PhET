@@ -1,9 +1,7 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -534,8 +532,18 @@ public class ControlGraph extends PNode {
     public class AlignedLayout implements Layout {
         private MinimizableControlGraph[] minimizableControlGraphs;
 
-        public AlignedLayout( MinimizableControlGraph[] minimizableControlGraphs ) {
+        public AlignedLayout( final MinimizableControlGraph[] minimizableControlGraphs ) {
             this.minimizableControlGraphs = minimizableControlGraphs;
+
+            //if the zoom changes on any of them, relayout this
+            for (int i = 0; i < minimizableControlGraphs.length; i++) {
+                final MinimizableControlGraph minimizableControlGraph = minimizableControlGraphs[i];
+                minimizableControlGraph.getControlGraph().addListener(new Adapter(){
+                    public void zoomChanged() {
+                        relayout();
+                    }
+                });
+            }
         }
 
         public double[] getValues( LayoutFunction layoutFunction ) {
