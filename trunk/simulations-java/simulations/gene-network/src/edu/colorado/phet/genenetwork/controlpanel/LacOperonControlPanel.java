@@ -35,6 +35,9 @@ public class LacOperonControlPanel extends ControlPanel {
         int minimumWidth = GeneNetworkResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
+        // Add the legend panel.
+        addControlFullWidth(new LacOperonLegendPanel());
+        
         // Layout
         {
             addResetAllButton( module );
