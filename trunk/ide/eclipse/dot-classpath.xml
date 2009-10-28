@@ -133,6 +133,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/forces-1d/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/fourier/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/fourier/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/gene-network/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/gene-network/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/glaciers/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/glaciers/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/greenhouse/src"/>
