@@ -19,10 +19,13 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.genenetwork.model.Cap;
+import edu.colorado.phet.genenetwork.model.Galactose;
+import edu.colorado.phet.genenetwork.model.Glucose;
 import edu.colorado.phet.genenetwork.model.LacI;
 import edu.colorado.phet.genenetwork.model.LacZ;
 import edu.colorado.phet.genenetwork.model.RnaPolymerase;
 import edu.colorado.phet.genetwork.view.SimpleModelElementNode;
+import edu.umd.cs.piccolo.PNode;
 
 
 /**
@@ -73,6 +76,10 @@ public class LacOperonLegendPanel extends JPanel {
     	SimpleModelElementNode simpleElementNode = null;
     	String labelText = null;
 
+		labelText = "Lactose";
+       	addLegendItem( createLactoseImage(), labelText, row );
+       	row++;
+
 		simpleElementNode = new SimpleModelElementNode(new LacI(), MVT);
 		labelText = "LacI";
        	addLegendItem( simpleElementNode.toImage(30, 30, new Color(0, 0, 0, 0)), labelText, row );
@@ -113,5 +120,22 @@ public class LacOperonLegendPanel extends JPanel {
         JLabel textualLabel = new JLabel( label );
         textualLabel.setFont(LABEL_FONT);
         add(textualLabel, constraints);
+    }
+    
+    /**
+     * Generate an image of Lactose.  This is necessary because Lactose exists
+     * as a combination of two simple model elements in the model, so there is
+     * no model element that can be created easily as can be done for the
+     * simple model elements.
+     */
+    private Image createLactoseImage(){
+    	PNode lactoseNode = new PNode();
+    	PNode glucoseNode = new SimpleModelElementNode(new Glucose(), MVT);
+    	glucoseNode.setOffset(-glucoseNode.getFullBoundsReference().width / 2, 0);
+    	lactoseNode.addChild(glucoseNode);
+    	PNode galactoseNode = new SimpleModelElementNode(new Galactose(), MVT);
+    	galactoseNode.setOffset(galactoseNode.getFullBoundsReference().width / 2, 0);
+    	lactoseNode.addChild(galactoseNode);
+    	return lactoseNode.toImage(20, 20, new Color(0, 0, 0, 0));
     }
 }
