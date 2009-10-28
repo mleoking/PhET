@@ -109,12 +109,13 @@ public class LacOperonLegendPanel extends JPanel {
     private void addLegendItem( Image im, String label, int row ) {
         ImageIcon icon = new ImageIcon(im);
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridx = 0;
         constraints.gridy = row;
         constraints.ipadx = 10;
         constraints.ipady = 10;
         add(new JLabel(icon), constraints);
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.ipadx = 0;
         constraints.gridx = 1;
         JLabel textualLabel = new JLabel( label );
