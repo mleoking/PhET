@@ -29,7 +29,7 @@ public class IntegerHistogramBarNode extends PNode {
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
     private static final Color BACKGROUND_COLOR = Color.WHITE;
-    private static final Color FILL_COLOR = new Color( 165, 194, 228 ); // light blue
+    private static final Color FILL_COLOR = new Color( 46, 107, 178 );
     
     //----------------------------------------------------------------------------
     // Instance data
