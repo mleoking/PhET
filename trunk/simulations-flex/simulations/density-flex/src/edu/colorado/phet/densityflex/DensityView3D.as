@@ -277,7 +277,7 @@ public class DensityView3D extends UIComponent {
     public function onMouseDown( event:MouseEvent ) : void {
         startMouseX = stage.mouseX - view.x;
         startMouseY = stage.mouseY - view.y;
-        if ( view.mouseObject == cube || view.mouseObject is BlockNode || view.mouseObject is Sphere || view.mouseObject is Cylinder ) {
+        if ( view.mouseObject is BlockNode || view.mouseObject is Sphere || view.mouseObject is Cylinder ) {
             moving = true;
             startMiddle = medianFrontScreenPoint(view.mouseObject as AbstractPrimitive);
             selectedObject = view.mouseObject as AbstractPrimitive;
