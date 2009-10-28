@@ -1,0 +1,1 @@
+Factored out Block model object, separated from BlockNode view object
