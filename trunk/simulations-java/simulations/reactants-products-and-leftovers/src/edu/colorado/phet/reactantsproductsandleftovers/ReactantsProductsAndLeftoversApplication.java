@@ -40,7 +40,7 @@ public class ReactantsProductsAndLeftoversApplication extends PiccoloPhetApplica
     {
         super( config );
         initModules();
-        initMenubar( config.getCommandLineArgs() );
+        initMenubar();
     }
 
     //----------------------------------------------------------------------------
@@ -64,7 +64,7 @@ public class ReactantsProductsAndLeftoversApplication extends PiccoloPhetApplica
     /*
      * Initializes the menubar.
      */
-    private void initMenubar( String[] args ) {
+    private void initMenubar() {
 
         final PhetFrame frame = getPhetFrame();
 
