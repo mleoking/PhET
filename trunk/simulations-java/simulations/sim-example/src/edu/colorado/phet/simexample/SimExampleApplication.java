@@ -45,7 +45,7 @@ public class SimExampleApplication extends PiccoloPhetApplication {
     {
         super( config );
         initModules();
-        initMenubar( config.getCommandLineArgs() );
+        initMenubar();
     }
 
     //----------------------------------------------------------------------------
@@ -74,7 +74,7 @@ public class SimExampleApplication extends PiccoloPhetApplication {
     /*
      * Initializes the menubar.
      */
-    private void initMenubar( String[] args ) {
+    private void initMenubar() {
 
         // File->Save/Load
         final PhetFrame frame = getPhetFrame();
