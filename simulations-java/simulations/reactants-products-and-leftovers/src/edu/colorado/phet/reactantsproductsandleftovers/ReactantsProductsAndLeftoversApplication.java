@@ -16,7 +16,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.realreaction.RealR
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModule;
 
 /**
- * SimTemplateApplication is the main application for this simulation.
+ * The main application for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 
