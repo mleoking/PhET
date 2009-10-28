@@ -19,7 +19,7 @@ public class Block extends Cube {
     private var frontSprite : Sprite;
     private var mass : Number;
 
-    [Embed(source="density-flex/images/wall.jpg")]
+    [Embed(source="../../../../../data/density-flex/images/wall.jpg")]
     private var wallClass : Class;
 
     public function Block( initialMass : Number, size : Number, color : ColorTransform ) : void {
