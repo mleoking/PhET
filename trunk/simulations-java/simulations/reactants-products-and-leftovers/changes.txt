@@ -1,3 +1,4 @@
+10/28/09 add symbols to RPALSymbols
 10/28/09 fix positioning of sandwich image on rhs of formula
 10/28/09 use darker fill color for histogram bars
 # 0.00.09 (35970) Oct 21, 2009
