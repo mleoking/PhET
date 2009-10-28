@@ -4,7 +4,6 @@ package edu.colorado.phet.genenetwork.model;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 public class LacIGene extends SimpleModelElement {
@@ -13,7 +12,7 @@ public class LacIGene extends SimpleModelElement {
 	private static final double HEIGHT = 4;  // Nanometers.
 	
 	public LacIGene(Point2D initialPosition) {
-		super(new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 2, 2), new Point2D.Double(),
+		super(new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1), new Point2D.Double(),
 				new Color(167, 167, 167));
 	}
 	
@@ -28,5 +27,11 @@ public class LacIGene extends SimpleModelElement {
 	@Override
 	SimpleElementType getType() {
 		return SimpleElementType.LAC_I_GENE;
+	}
+
+	@Override
+	public String getLabel() {
+		// TODO: i18n
+		return "LacI Gene";
 	}
 }

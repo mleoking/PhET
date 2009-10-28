@@ -61,6 +61,10 @@ public abstract class SimpleModelElement implements IModelElement{
 		return paint;
 	}
 	
+	public String getLabel(){
+		return null;
+	}
+	
 	public void setVelocity(double xVel, double yVel){
 		velocity.setComponents(xVel, yVel);
 	}
