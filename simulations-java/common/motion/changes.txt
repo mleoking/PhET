@@ -1,3 +1,5 @@
+10-27-2009: Made it so that aligned chart layout updates when zoom level changes for any chart.
+10-27-2009: Fixed a bug that prevented listeners from being notified on zoom.
 10-26-2009: Add back componentHierachyChanged to controlGraph.addControl
 10-6-2009: Show exception if no time passed between data points
 9-27-2009: Set chart to take up all vertical space by default, see #1782
