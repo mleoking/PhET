@@ -1,4 +1,4 @@
-﻿package edu.colorado.phet.densityflex {
+package edu.colorado.phet.densityflex {
 import away3d.materials.*;
 import away3d.primitives.*;
 
