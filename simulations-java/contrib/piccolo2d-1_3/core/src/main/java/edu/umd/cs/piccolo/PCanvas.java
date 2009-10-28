@@ -565,6 +565,8 @@ public class PCanvas extends JComponent implements PComponent {
         repaint((int) bounds.x, (int) bounds.y, (int) bounds.width, (int) bounds.height);
     }
 
+    private PBounds repaintBounds = new PBounds();
+
     /**
      * {@inheritDoc}
      */
@@ -579,6 +581,10 @@ public class PCanvas extends JComponent implements PComponent {
         if (isOpaque()) {
             g2.setColor(getBackground());
             g2.fillRect(0, 0, getWidth(), getHeight());
+        }
+
+        if (getAnimating()) {
+            repaintBounds.add(g2.getClipBounds());
         }
 
         // create new paint context and set render quality to lowest common
@@ -596,16 +602,16 @@ public class PCanvas extends JComponent implements PComponent {
             paintContext.setRenderQuality(normalRenderQuality);
         }
 
-        // paint piccolo
         camera.fullPaint(paintContext);
 
         // if switched state from animating to not animating invalidate the
-        // entire
-        // screen so that it will be drawn with the default instead of animating
-        // render quality.
+        // repaint bounds so that it will be drawn with the default instead of
+        // animating render quality.
         if (!getAnimating() && animatingOnLastPaint) {
-            repaint();
+            repaint(repaintBounds);
+            repaintBounds.reset();
         }
+
         animatingOnLastPaint = getAnimating();
 
         PDebug.endProcessingOutput(g2);
@@ -688,12 +694,16 @@ public class PCanvas extends JComponent implements PComponent {
     /**
      * Prints the entire scene regardless of what the viewable area is.
      * 
-     * @param g Graphics context onto which to paint the scene for printing
+     * @param graphics Graphics context onto which to paint the scene for printing
      */
-    public void printAll(final Graphics g) {
-        final Graphics2D g2 = (Graphics2D) g;
+    public void printAll(final Graphics graphics) {
+        if (!(graphics instanceof Graphics2D)) {
+            throw new IllegalArgumentException("Provided graphics context is not a Graphics2D object");
+        }
+        
+        final Graphics2D g2 = (Graphics2D) graphics;
 
-        final PBounds clippingRect = new PBounds(g.getClipBounds());
+        final PBounds clippingRect = new PBounds(graphics.getClipBounds());
         clippingRect.expandNearestIntegerDimensions();
 
         final PBounds originalCameraBounds = getCamera().getBounds();
