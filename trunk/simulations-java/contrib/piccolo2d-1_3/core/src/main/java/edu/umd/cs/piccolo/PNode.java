@@ -459,7 +459,7 @@ public class PNode implements Cloneable, Serializable, Printable {
             public void setRelativeTargetValue(final float zeroToOne) {
                 PNode.this.setBounds(src.x + zeroToOne * (dst.x - src.x), src.y + zeroToOne * (dst.y - src.y),
                         src.width + zeroToOne * (dst.width - src.width), src.height + zeroToOne
-                                * (dst.height - src.height));
+                        * (dst.height - src.height));
             }
 
             protected void activityFinished() {
@@ -1454,8 +1454,8 @@ public class PNode implements Cloneable, Serializable, Printable {
     }
 
     /**
-     * Set the bounds of this node to the given position and size. These bounds are stored
-     * in the local coordinate system of this node.
+     * Set the bounds of this node to the given position and size. These bounds
+     * are stored in the local coordinate system of this node.
      * 
      * If the width or height is less then or equal to zero then the bound's
      * empty bit will be set to true.
@@ -1682,12 +1682,7 @@ public class PNode implements Cloneable, Serializable, Printable {
         final int count = getChildrenCount();
         for (int i = 0; i < count; i++) {
             final PNode each = (PNode) children.get(i);
-            PBounds pBounds = each.getFullBoundsReference();
-            if (Double.isNaN(pBounds.y) || Double.isNaN(pBounds.height) ){
-//                System.out.println("non");
-            }else
-            resultBounds.add(pBounds);
-
+            resultBounds.add(each.getFullBoundsReference());
         }
 
         return resultBounds;
@@ -2945,9 +2940,8 @@ public class PNode implements Cloneable, Serializable, Printable {
                 }
                 else {
                     scale = image.getHeight() / nodeHeight;
-                }
-                g2.scale(scale, scale);
-                g2.translate(-nodeWidth * scale, -nodeHeight * scale);
+                }                           
+                g2.scale(scale, scale);               
                 break;
             case FILL_STRATEGY_EXACT_FIT:
                 // scale the node so that it covers then entire image,
@@ -3003,6 +2997,11 @@ public class PNode implements Cloneable, Serializable, Printable {
         if (pageIndex != 0) {
             return NO_SUCH_PAGE;
         }
+        
+        if (!(graphics instanceof Graphics2D)) {
+            throw new IllegalArgumentException("Provided graphics context is not a Graphics2D object");
+        }
+        
 
         final Graphics2D g2 = (Graphics2D) graphics;
         final PBounds imageBounds = getFullBounds();
@@ -3665,7 +3664,7 @@ public class PNode implements Cloneable, Serializable, Printable {
      * 
      * @throws IOException when an error occurs speaking to underlying
      *             ObjectOutputStream
-     * @throws ClassNotFoundException when a class is desiarialized that no
+     * @throws ClassNotFoundException when a class is deserialized that no
      *             longer exists. This can happen if it's renamed or deleted.
      */
     private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
