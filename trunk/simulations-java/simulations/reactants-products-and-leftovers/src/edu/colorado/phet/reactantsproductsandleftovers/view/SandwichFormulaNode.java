@@ -143,5 +143,9 @@ public class SandwichFormulaNode extends PhetPNode {
             sandwichesCountNode.setText( RPALStrings.LABEL_NO_REACTION );
             sandwichNode.setVisible( false );
         }
+        // sandwich image location
+        double x = sandwichesCountNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
+        double y = sandwichesCountNode.getFullBoundsReference().getCenterY() - ( sandwichNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( sandwichNode );
+        sandwichNode.setOffset( x, y );
     }
 }
