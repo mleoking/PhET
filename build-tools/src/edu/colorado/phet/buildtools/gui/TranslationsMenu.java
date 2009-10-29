@@ -21,7 +21,7 @@ public class TranslationsMenu extends JMenu {
 
         this.trunk = trunk;
 
-        JMenuItem deployItem = new JMenuItem( "Deploy Simulation Translation..." );
+        JMenuItem deployItem = new JMenuItem( "Deploy Simulation Translations..." );
         deployItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -35,7 +35,7 @@ public class TranslationsMenu extends JMenu {
         } );
         add( deployItem );
 
-        JMenuItem deployCommonItem = new JMenuItem( "Deploy Common Translation..." );
+        JMenuItem deployCommonItem = new JMenuItem( "Deploy Common Translations..." );
         deployCommonItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 final JFileChooser fileChooser = new JFileChooser();
