@@ -57,7 +57,7 @@ public class DensityView3D extends UIComponent {
 
     public var backgroundSprite : Sprite;
 
-    [Embed(source="../../../../../data/density-flex/images/spheretex.png")]
+    [Embed(source="density-flex/images/spheretex.png")]
     private var spheretex : Class;
 
     public function DensityView3D() {
