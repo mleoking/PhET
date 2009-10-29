@@ -21,6 +21,8 @@ import flash.text.TextField;
 import mx.core.UIComponent;
 
 public class DensityView3D extends UIComponent {
+    //model
+    private var model:DensityModel;
 
     //engine variables
     private var scene:Scene3D;
@@ -62,6 +64,7 @@ public class DensityView3D extends UIComponent {
 
     public function DensityView3D() {
         super();
+        this.model = new DensityModel();
     }
 
     override protected function createChildren():void {
@@ -174,27 +177,16 @@ public class DensityView3D extends UIComponent {
         scene.addChild(new Cylinder({ x: 450, y: 300, z: 151, rotationZ: 90, radius: 50, height: 750, segmentsH: 1, segmentsW: 25, material: new ShadingColorMaterial(0xAA7755) }));
 
         // the cube
-        var block : Block = new Block(50, 200, new ColorTransform(1, 0, 0));
+        var block:Block = new Block(50, 200, 450,0,new ColorTransform(1, 0, 0))
 
         cube = new BlockNode(block);
         cube.x = 450;
         cube.y = 0;
         scene.addChild(cube);
 
-        var block1 : BlockNode = new BlockNode(new Block(10, 100, new ColorTransform(0, 1, 0)));
-        block1.x = 150;
-        block1.y = 0;
-        scene.addChild(block1);
-
-        var block2 : BlockNode = new BlockNode(new Block(100, 300, new ColorTransform(0, 0, 1)));
-        block2.x = -150;
-        block2.y = 0;
-        scene.addChild(block2);
-
-        var block3 : BlockNode = new BlockNode(new Block(50, 200, new ColorTransform(1, 1, 1)));
-        block3.x = -450;
-        block3.y = 0;
-        scene.addChild(block3);
+        for each (var b:Block in this.model.getBlocks()) {
+            scene.addChild(new BlockNode(b));
+        }
 
         var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
         light.x = 10000;
