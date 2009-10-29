@@ -1,36 +1,28 @@
-/* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.reactantsproductsandleftovers.model;
+package edu.colorado.phet.reactantsproductsandleftovers.module.realreaction;
+
 
 
 /**
- * Model.
+ * Model for the "Real Reaction" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RPALModel {
+public class RealReactionModel {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final RPALClock clock;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public RPALModel( RPALClock clock ) {
-        super();
-        
-        this.clock = clock;        
+    public RealReactionModel() {
     }
 
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
-    public RPALClock getClock() {
-        return clock;
-    }    
 }

@@ -7,7 +7,6 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
-import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
 
 /**
  * The "Real Reaction" module.
@@ -20,7 +19,7 @@ public class RealReactionModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private RPALModel model;
+    private RealReactionModel model;
     private RealReactionCanvas canvas;
 
     //----------------------------------------------------------------------------
@@ -31,8 +30,7 @@ public class RealReactionModule extends PiccoloModule {
         super( RPALStrings.TITLE_REAL_REACTION, new RPALClock() );
 
         // Model
-        RPALClock clock = (RPALClock) getClock();
-        model = new RPALModel( clock );
+        model = new RealReactionModel();
 
         // Canvas
         canvas = new RealReactionCanvas();
@@ -61,9 +59,6 @@ public class RealReactionModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
-
-        // reset the clock
-        RPALClock clock = model.getClock();
-        clock.resetSimulationTime();
+        //XXX
     }    
 }

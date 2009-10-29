@@ -3,15 +3,15 @@ package edu.colorado.phet.reactantsproductsandleftovers.controls;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OldSandwichShop;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
 import edu.colorado.phet.reactantsproductsandleftovers.view.BreadNode;
 
 
 public class BreadQuantityControlNode extends ReactantQuantityControlNode {
     
-    public BreadQuantityControlNode( final SandwichShop model ) {
-        super( SandwichShopDefaults.BREAD_QUANTITY_RANGE, new BreadNode(), 0.5 /* XXX */ );
+    public BreadQuantityControlNode( final OldSandwichShop model ) {
+        super( SandwichShopDefaults.QUANTITY_RANGE, new BreadNode(), 0.5 /* XXX */ );
         setValue( model.getBread() );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

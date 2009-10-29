@@ -1,7 +1,8 @@
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
-import java.awt.Image;
 import java.util.ArrayList;
+
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * A reactant is a substance that is initially involved in a chemical reaction.
@@ -13,8 +14,8 @@ public class Reactant extends Substance {
     private int leftovers;
     private final ArrayList<ReactantChangeListener> listeners;
     
-    public Reactant( String name, Image image, int coefficient, int quantity ) {
-        super( name, image, coefficient, quantity );
+    public Reactant( String name, PNode node, int coefficient, int quantity ) {
+        super( name, node, coefficient, quantity );
         this.leftovers = 0;
         listeners = new ArrayList<ReactantChangeListener>();
     }

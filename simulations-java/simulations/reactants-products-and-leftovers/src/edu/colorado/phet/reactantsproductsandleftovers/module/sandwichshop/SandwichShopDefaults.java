@@ -14,19 +14,6 @@ public class SandwichShopDefaults {
     /* Not intended for instantiation */
     private SandwichShopDefaults() {}
     
-    private static final IntegerRange COEFFICIENT_RANGE = new IntegerRange( 0, 3, 0 );
-    public static final IntegerRange BREAD_COEFFICIENT_RANGE = COEFFICIENT_RANGE;
-    public static final IntegerRange MEAT_COEFFICIENT_RANGE = COEFFICIENT_RANGE;
-    public static final IntegerRange CHEESE_COEFFICIENT_RANGE = COEFFICIENT_RANGE;
-    
-    private static final IntegerRange REACTANT_QUANTITY_RANGE = new IntegerRange( 0, 10, 0 );
-    public static final IntegerRange BREAD_QUANTITY_RANGE = REACTANT_QUANTITY_RANGE;
-    public static final IntegerRange MEAT_QUANTITY_RANGE = REACTANT_QUANTITY_RANGE;
-    public static final IntegerRange CHEESE_QUANTITY_RANGE = REACTANT_QUANTITY_RANGE;
-    
-    private static final IntegerRange PRODUCT_QUANTITY_RANGE = REACTANT_QUANTITY_RANGE;
-    public static final IntegerRange BREAD_LEFTOVER_RANGE = PRODUCT_QUANTITY_RANGE;
-    public static final IntegerRange MEAT_LEFTOVER_RANGE = PRODUCT_QUANTITY_RANGE;
-    public static final IntegerRange CHEESE_LEFTOVER_RANGE = PRODUCT_QUANTITY_RANGE;
-    public static final IntegerRange SANDWICHES_QUANTITY_RANGE = PRODUCT_QUANTITY_RANGE;
+    public static final IntegerRange COEFFICIENT_RANGE = new IntegerRange( 0, 3, 0 );
+    public static final IntegerRange QUANTITY_RANGE = new IntegerRange( 0, 10, 0 );
 }
