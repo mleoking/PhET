@@ -137,6 +137,31 @@ public abstract class SimpleModelElement implements IModelElement{
 		listeners.remove(listener);
 	}
 	
+	public boolean availableForBonding(SimpleElementType elementType) {
+		// Always says no in the base class.
+		return false;
+	}
+
+	public boolean considerProposal(IModelElement modelElement) {
+		// Always refuses proposal in the base class.
+		return false;
+	}
+
+	public boolean releaseBondWith(IModelElement modelElement) {
+		// Always refuses to release in the base class.
+		return false;
+	}
+
+	public void updatePositionAndMotion() {
+		// Does nothing in the base class, which essentially means it never
+		// moves.
+	}
+
+	public void updatePotentialBondingPartners( ArrayList<IModelElement> modelElements ) {
+		// Does nothing in the base class, which essentially means that it
+		// if not overridden it will not initiate any bonds.
+	}
+	
     //------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
