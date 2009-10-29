@@ -2,11 +2,16 @@
 package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 
 import java.awt.Frame;
+import java.util.ArrayList;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
 import edu.colorado.phet.reactantsproductsandleftovers.model.OldSandwichShop;
+import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 
 /**
  * The "Sandwich Shop" module.
@@ -15,25 +20,29 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.OldSandwichShop;
  */
 public class SandwichShopModule extends PiccoloModule {
 
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
-    private SandwichShopModel model;
-    private SandwichShopCanvas canvas;
-
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-
     public SandwichShopModule( Frame parentFrame ) {
         super( RPALStrings.TITLE_SANDWICH_SHOP, new RPALClock(), true /* startsPaused */ );
 
         // Model
-        model = new SandwichShopModel();
+        final SandwichShopModel model = new SandwichShopModel();
+        
+        //XXX old model, synchronized with new model
+        final OldSandwichShop oldModel = new OldSandwichShop();
+        model.getReaction().addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                // sync old model with new
+                ArrayList<Reactant> reactants = model.getReaction().getReactants();
+                oldModel.getFormula().setBread( reactants.get( 0 ).getCoefficient() );
+                oldModel.getFormula().setMeat( reactants.get( 1 ).getCoefficient() );
+                oldModel.getFormula().setCheese( reactants.get( 2 ).getCoefficient() );
+                oldModel.setBread( reactants.get( 0 ).getQuantity() );
+                oldModel.setMeat( reactants.get( 1 ).getQuantity() );
+                oldModel.setCheese( reactants.get( 2 ).getQuantity() );
+            }
+        });
 
         // Canvas
-        canvas = new SandwichShopCanvas( model, new OldSandwichShop() /* oldModel */ );
+        SandwichShopCanvas canvas = new SandwichShopCanvas( model, oldModel );
         setSimulationPanel( canvas );
 
         // no control panel
@@ -42,23 +51,7 @@ public class SandwichShopModule extends PiccoloModule {
         // no clock controls
         setClockControlPanel( null );
 
-        // Help
-        if ( hasHelp() ) {
-            //XXX add help items
-        }
-
         // Set initial state
         reset();
     }
-
-    //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-
-    /**
-     * Resets the module.
-     */
-    public void reset() {
-        //XXX
-    }    
 }

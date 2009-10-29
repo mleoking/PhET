@@ -1,4 +1,3 @@
-/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.realreaction;
 
@@ -15,25 +14,14 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
  */
 public class RealReactionModule extends PiccoloModule {
 
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
-    private RealReactionModel model;
-    private RealReactionCanvas canvas;
-
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-
     public RealReactionModule( Frame parentFrame ) {
         super( RPALStrings.TITLE_REAL_REACTION, new RPALClock() );
 
         // Model
-        model = new RealReactionModel();
+        RealReactionModel model = new RealReactionModel();
 
         // Canvas
-        canvas = new RealReactionCanvas();
+        RealReactionCanvas canvas = new RealReactionCanvas();
         setSimulationPanel( canvas );
 
         // this module has no control panel
@@ -50,15 +38,4 @@ public class RealReactionModule extends PiccoloModule {
         // Set initial state
         reset();
     }
-
-    //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-
-    /**
-     * Resets the module.
-     */
-    public void reset() {
-        //XXX
-    }    
 }
