@@ -1,5 +1,6 @@
 package edu.colorado.phet.reactantsproductsandleftovers.controls;
 
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -43,7 +44,6 @@ public class IntegerSpinnerNode extends PNode {
         listeners = new ArrayList<ChangeListener>();
 
         spinner = new JSpinner();
-        spinner.setFont( new PhetFont() );
         
         // number model
         spinner.setModel( new SpinnerNumberModel( range.getDefault(), range.getMin(), range.getMax(), 1 ) );
@@ -51,9 +51,6 @@ public class IntegerSpinnerNode extends PNode {
         // editor
         NumberEditor editor = new NumberEditor( spinner );
         spinner.setEditor( editor );
-        
-        // do this *after* making changes to the spinner or there will be problems, see #1824
-        addChild( new PSwing( spinner ) );
         
         // text field, commits when Enter is pressed or focus is lost
         textField = editor.getTextField();
@@ -90,6 +87,9 @@ public class IntegerSpinnerNode extends PNode {
                 fireStateChange();
             }
         });
+        
+        // do this *after* making changes to the spinner or there will be problems, see #1824
+        addChild( new PSwing( spinner ) );
     }
     
     public void setValue( int value ) {

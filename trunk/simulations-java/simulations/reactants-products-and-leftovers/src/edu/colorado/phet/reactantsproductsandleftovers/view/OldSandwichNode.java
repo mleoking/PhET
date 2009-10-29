@@ -2,36 +2,28 @@ package edu.colorado.phet.reactantsproductsandleftovers.view;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel.Bread;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel.Cheese;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel.Meat;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.reactantsproductsandleftovers.model.OldSandwichFormula;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
-public class SandwichNode extends PComposite {
+public class OldSandwichNode extends PComposite {
     
     private static final int Y_SPACING = 7;
 
-    private final Bread bread;
-    private final Meat meat;
-    private final Cheese cheese;
+    private final OldSandwichFormula formula;
     
-    public SandwichNode( Bread bread, Meat meat, Cheese cheese ) {
+    public OldSandwichNode( OldSandwichFormula sandwichFormula ) {
         super();
-        this.bread = bread;
-        this.meat = meat;
-        this.cheese = cheese;
-        ReactantChangeListener listener = new ReactantChangeAdapter() {
-            public void coefficientChanged() {
+        this.formula = sandwichFormula;
+        sandwichFormula.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
                 update();
             }
-        };
-        bread.addReactantChangeListener( listener );
-        meat.addReactantChangeListener( listener );
-        cheese.addReactantChangeListener( listener );
+        });
         update();
     }
     
@@ -41,15 +33,15 @@ public class SandwichNode extends PComposite {
         
         // create nodes
         ArrayList<BreadNode> breadNodes = new ArrayList<BreadNode>();
-        for ( int i = 0; i < bread.getCoefficient(); i++ ) {
+        for ( int i = 0; i < formula.getBread(); i++ ) {
             breadNodes.add( new BreadNode() );
         }
         ArrayList<MeatNode> meatNodes = new ArrayList<MeatNode>();
-        for ( int i = 0; i < meat.getCoefficient(); i++ ) {
+        for ( int i = 0; i < formula.getMeat(); i++ ) {
             meatNodes.add( new MeatNode() );
         }
         ArrayList<CheeseNode> cheeseNodes = new ArrayList<CheeseNode>();
-        for ( int i = 0; i < cheese.getCoefficient(); i++ ) {
+        for ( int i = 0; i < formula.getCheese(); i++ ) {
             cheeseNodes.add( new CheeseNode() );
         }
         

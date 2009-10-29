@@ -6,16 +6,18 @@ import java.util.Collections;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
 
-public class SandwichShop {
+
+public class OldSandwichShop {
     
     private final ArrayList<ChangeListener> listeners;
-    private final SandwichFormula formula;
+    private final OldSandwichFormula formula;
     private int bread, meat, cheese;
 
-    public SandwichShop() {
+    public OldSandwichShop() {
         listeners = new ArrayList<ChangeListener>();
-        formula = new SandwichFormula();
+        formula = new OldSandwichFormula( SandwichShopDefaults.COEFFICIENT_RANGE.getDefault(), SandwichShopDefaults.COEFFICIENT_RANGE.getDefault(), SandwichShopDefaults.COEFFICIENT_RANGE.getDefault() );
         formula.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 fireStateChanged();
@@ -23,7 +25,7 @@ public class SandwichShop {
         } );
     }
     
-    public SandwichFormula getFormula() {
+    public OldSandwichFormula getFormula() {
         return formula;
     }
     

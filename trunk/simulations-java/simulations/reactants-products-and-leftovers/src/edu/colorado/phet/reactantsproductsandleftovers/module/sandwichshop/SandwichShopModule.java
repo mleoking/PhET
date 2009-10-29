@@ -1,4 +1,3 @@
-/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 
@@ -7,7 +6,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
-import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OldSandwichShop;
 
 /**
  * The "Sandwich Shop" module.
@@ -20,7 +19,7 @@ public class SandwichShopModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private SandwichShop model;
+    private SandwichShopModel model;
     private SandwichShopCanvas canvas;
 
     //----------------------------------------------------------------------------
@@ -31,10 +30,10 @@ public class SandwichShopModule extends PiccoloModule {
         super( RPALStrings.TITLE_SANDWICH_SHOP, new RPALClock(), true /* startsPaused */ );
 
         // Model
-        model = new SandwichShop();
+        model = new SandwichShopModel();
 
         // Canvas
-        canvas = new SandwichShopCanvas( model );
+        canvas = new SandwichShopCanvas( model, new OldSandwichShop() /* oldModel */ );
         setSimulationPanel( canvas );
 
         // no control panel

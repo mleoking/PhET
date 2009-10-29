@@ -13,7 +13,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.BreadQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.CheeseQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.MeatQuantityControlNode;
-import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OldSandwichShop;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -27,7 +27,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
     private static final double Y_MARGIN = 25;
     private static final double REACTANTS_SCALE = 0.5; //XXX
     
-    private final SandwichShop model;
+    private final OldSandwichShop model;
 
     private final BoxNode boxNode;
     private final PComposite breadParent, meatParent, cheeseParent;
@@ -35,7 +35,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
     private final ArrayList<MeatNode> meatList;
     private final ArrayList<CheeseNode> cheeseList;
     
-    public SandwichShopBeforeNode( final SandwichShop model ) {
+    public SandwichShopBeforeNode( final OldSandwichShop model ) {
         super();
         
         this.model = model;

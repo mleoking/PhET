@@ -1,7 +1,8 @@
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
-import java.awt.Image;
 import java.util.ArrayList;
+
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * A substance is a participant in a chemical reaction.
@@ -11,14 +12,14 @@ import java.util.ArrayList;
 public abstract class Substance {
     
     private final String name;
-    private final Image image;
+    private final PNode node;
     private int coefficient;
     private int quantity;
     private final ArrayList<SubstanceChangeListener> listeners;
 
-    public Substance( String name, Image image, int coefficient, int quantity ) {
+    public Substance( String name, PNode node, int coefficient, int quantity ) {
         this.name = name;
-        this.image = image;
+        this.node = node;
         this.coefficient = coefficient;
         this.quantity = quantity;
         listeners = new ArrayList<SubstanceChangeListener>();
@@ -28,8 +29,8 @@ public abstract class Substance {
         return name;
     }
     
-    public Image getImage() {
-        return image;
+    public PNode getNode() {
+        return node;
     }
     
     public void setCoefficient( int coefficient ) {

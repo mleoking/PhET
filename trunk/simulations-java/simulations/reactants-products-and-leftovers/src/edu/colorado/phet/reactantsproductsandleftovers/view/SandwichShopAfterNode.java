@@ -14,7 +14,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.controls.BreadLeftoverDis
 import edu.colorado.phet.reactantsproductsandleftovers.controls.CheeseLeftoverDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.MeatLeftoverDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.SandwichesQuantityDisplayNode;
-import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OldSandwichShop;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -28,17 +28,17 @@ public class SandwichShopAfterNode extends PhetPNode {
     private static final double Y_MARGIN = 25;
     private static final double REACTANTS_SCALE = 0.5; //XXX
     
-    private final SandwichShop model;
+    private final OldSandwichShop model;
 
     private final BoxNode boxNode;
     private final PComposite sandwichesParent, breadParent, meatParent, cheeseParent;
-    private final ArrayList<SandwichNode> sandwichesList;
+    private final ArrayList<OldSandwichNode> sandwichesList;
     private final ArrayList<BreadNode> breadList;
     private final ArrayList<MeatNode> meatList;
     private final ArrayList<CheeseNode> cheeseList;
     private final PNode sandwichesNode;
     
-    public SandwichShopAfterNode( final SandwichShop model ) {
+    public SandwichShopAfterNode( final OldSandwichShop model ) {
         super();
         
         this.model = model;
@@ -48,7 +48,7 @@ public class SandwichShopAfterNode extends PhetPNode {
             }
         });
         
-        sandwichesList = new ArrayList<SandwichNode>();
+        sandwichesList = new ArrayList<OldSandwichNode>();
         breadList = new ArrayList<BreadNode>();
         meatList = new ArrayList<MeatNode>();
         cheeseList = new ArrayList<CheeseNode>();
@@ -141,14 +141,14 @@ public class SandwichShopAfterNode extends PhetPNode {
         // sandwiches
         if ( model.getSandwiches() < sandwichesList.size() ) {
             while ( model.getSandwiches() < sandwichesList.size() ) {
-                SandwichNode node = sandwichesList.get( sandwichesList.size() - 1 );
+                OldSandwichNode node = sandwichesList.get( sandwichesList.size() - 1 );
                 sandwichesParent.removeChild( node );
                 sandwichesList.remove( node );
             }
         }
         else {
             while ( model.getSandwiches() > sandwichesList.size() ) {
-                SandwichNode node = new SandwichNode( model.getFormula() );
+                OldSandwichNode node = new OldSandwichNode( model.getFormula() );
                 sandwichesParent.addChild( node );
                 sandwichesList.add( node );
                 node.scale( REACTANTS_SCALE );

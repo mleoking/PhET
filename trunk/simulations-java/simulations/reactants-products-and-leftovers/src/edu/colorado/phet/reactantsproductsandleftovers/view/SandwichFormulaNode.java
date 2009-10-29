@@ -1,5 +1,9 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -7,145 +11,245 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.BreadCoefficientSpinnerNode;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.CheeseCoefficientSpinnerNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.IntegerSpinnerNode;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.MeatCoefficientSpinnerNode;
-import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichFormula;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Product.ProductChangeAdapter;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 
+/**
+ * Node that displays the formula for a sandwich, with editable coefficients.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class SandwichFormulaNode extends PhetPNode {
     
-    private static final int CONTROL_X_SPACING = 5;
+    private static final PhetFont TITLE_FONT = new PhetFont( 28 );
+    private static final PhetFont COEFFICIENT_FONT = new PhetFont( 24 );
+    private static final PhetFont NO_REACTION_FONT = new PhetFont( 24 );
+    
+    private static final int IMAGE_X_SPACING = 6;
     private static final int TERM_X_SPACING = 20;
     private static final int Y_SPACING = 30;
-    private static final double SWING_SCALE = 2.0; //XXX make this go away
     
-    private final SandwichFormula formula;
-    private final IntegerSpinnerNode breadSpinnerNode, meatSpinnerNode, cheeseSpinnerNode;
-    private final PText sandwichesCountNode;
-    private final SandwichNode sandwichNode;
-
-    public SandwichFormulaNode( final SandwichFormula formula ) {
+    private final SandwichShopModel model;
+    private final PText titleNode;
+    private final PNode arrowNode;
+    private final ArrayList<PNode> lhsCoefficientNodes, lhsImageNodes, lhsPlusNodes, rhsCoefficientNodes, rhsImageNodes, rhsPlusNodes;
+    private final PText noReactionNode;
+    
+    public SandwichFormulaNode( final SandwichShopModel model ) {
         super();
         
-        this.formula = formula;
-        formula.addChangeListener( new ChangeListener(){
-            public void stateChanged( ChangeEvent e ) {
-                update();
-            } 
+        this.model = model;
+        
+        // title
+        titleNode = new PText( model.getReaction().getName() );
+        titleNode.setFont( TITLE_FONT );
+        addChild( titleNode );
+        
+        // left side (reactants)
+        lhsCoefficientNodes = new ArrayList<PNode>();
+        lhsImageNodes = new ArrayList<PNode>();
+        lhsPlusNodes = new ArrayList<PNode>();
+        ArrayList<Reactant> reactants = model.getReaction().getReactantsReference();
+        for ( int i = 0; i < reactants.size(); i++ ) {
+            
+            final Reactant reactant = reactants.get( i );
+            
+            // coefficient spinner
+            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( model.getCoefficientRange() );
+            spinnerNode.scale( 2 ); //XXX
+            spinnerNode.setValue( reactant.getCoefficient() );
+            spinnerNode.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    reactant.setCoefficient( spinnerNode.getValue() );
+                }
+            });
+            reactant.addReactantChangeListener( new ReactantChangeAdapter() {
+                public void coefficientChanged() {
+                    spinnerNode.setValue( reactant.getCoefficient() );
+                }
+            });
+            addChild( spinnerNode );
+            lhsCoefficientNodes.add( spinnerNode );
+            
+            // image
+            PNode imageNode = reactant.getNode();
+            addChild( imageNode );
+            lhsImageNodes.add( imageNode );
+            
+            // plus sign
+            if ( i < reactants.size() - 1 ) {
+                PNode plusNode = new PlusNode();
+                addChild( plusNode );
+                lhsPlusNodes.add( plusNode );
+            }
+        }
+        
+        // arrow
+        arrowNode = new RPALArrowNode();
+        addChild( arrowNode );
+
+        // right side (products)
+        rhsCoefficientNodes = new ArrayList<PNode>();
+        rhsImageNodes = new ArrayList<PNode>();
+        rhsPlusNodes = new ArrayList<PNode>();
+        ArrayList<Product> products = model.getReaction().getProductsReference();
+        for ( int i = 0; i < products.size(); i++ ) {
+            
+            final Product product = products.get( i );
+            
+            // coefficient display
+            final PText coefficientNode = new PText( String.valueOf( product.getCoefficient() ) );
+            coefficientNode.setFont( COEFFICIENT_FONT );
+            product.addProductChangeListener( new ProductChangeAdapter() {
+                public void coefficientChanged() {
+                    coefficientNode.setText( String.valueOf( product.getCoefficient() ) );
+                }
+            } );
+            addChild( coefficientNode );
+            rhsCoefficientNodes.add( coefficientNode );
+            
+            // image
+            PNode imageNode = product.getNode();
+            addChild( imageNode );
+            rhsImageNodes.add( imageNode );
+            
+             // plus sign
+            if ( i < products.size() - 1 ) {
+                PNode plusNode = new PlusNode();
+                addChild( plusNode );
+                rhsPlusNodes.add( plusNode );
+            }
+        }
+        
+        noReactionNode = new PText( RPALStrings.LABEL_NO_REACTION );
+        noReactionNode.setFont( NO_REACTION_FONT );
+        addChild( noReactionNode );
+        
+        this.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
+                    updateLayout();
+                }
+            }
         });
         
-        PText titleNode = new PText( RPALStrings.LABEL_SANDWICH_FORMULA );
-        titleNode.setFont( new PhetFont( 14 ) );
-        titleNode.scale( SWING_SCALE );
+        model.getReaction().addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+               updateVisibility();
+            }
+        });
+     
+        updateVisibility();
+        updateLayout();
+    }
+    
+    private void updateVisibility() {
+        boolean isReaction = model.getReaction().isReaction();
+        noReactionNode.setVisible( !isReaction );
+        for ( PNode node : rhsCoefficientNodes ) {
+            node.setVisible( isReaction );
+        }
+        for ( PNode node : rhsImageNodes ) {
+            node.setVisible( isReaction );
+        }
+        for ( PNode node : rhsPlusNodes ) {
+            node.setVisible( isReaction );
+        }
+        updateLayout();
+    }
 
-        breadSpinnerNode = new BreadCoefficientSpinnerNode( formula );
-        breadSpinnerNode.scale( SWING_SCALE );
+    private void updateLayout() {
         
-        meatSpinnerNode = new MeatCoefficientSpinnerNode( formula );
-        meatSpinnerNode.scale( SWING_SCALE );
-        
-        cheeseSpinnerNode = new CheeseCoefficientSpinnerNode( formula );
-        cheeseSpinnerNode.scale( SWING_SCALE );
-        
-        BreadNode breadNode = new BreadNode();
-        MeatNode meatNode = new MeatNode();
-        CheeseNode cheeseNode = new CheeseNode();
-        sandwichNode = new SandwichNode( formula );
-        
-        PlusNode plusNode1 = new PlusNode();
-        PlusNode plusNode2 = new PlusNode();
-        
-        PNode arrowNode = new RPALArrowNode();
-        
-        sandwichesCountNode = new PText( "1" );
-        sandwichesCountNode.setFont( new PhetFont() );
-        sandwichesCountNode.scale( 2 ); //XXX
-        addChild( sandwichesCountNode );
-        
-        addChild( titleNode );
-        addChild( breadSpinnerNode );
-        addChild( breadNode );
-        addChild( plusNode1 );
-        addChild( meatSpinnerNode );
-        addChild( meatNode );
-        addChild( plusNode2 );
-        addChild( cheeseSpinnerNode );
-        addChild( cheeseNode );
-        addChild( arrowNode );
-        addChild( sandwichesCountNode );
-        addChild( sandwichNode );
+        PNode previousNode = null;
+        double spinnerYOffset = 0;
         
         // title
         double x = 0;
         double y = 0;
         titleNode.setOffset( x, y );
-        // bread spinner
-        x = titleNode.getXOffset();
-        y = titleNode.getFullBoundsReference().getMaxY() + Y_SPACING;
-        breadSpinnerNode.setOffset( x, y );
-        // bread image
-        x = breadSpinnerNode.getFullBoundsReference().getMaxX() + CONTROL_X_SPACING;
-        y = breadSpinnerNode.getFullBoundsReference().getCenterY() - ( breadNode.getFullBoundsReference().getHeight() / 2 );
-        breadNode.setOffset( x, y );
-        // plus
-        x = breadNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        y = breadNode.getFullBoundsReference().getCenterY() - ( plusNode1.getFullBoundsReference().getHeight() / 2 );
-        plusNode1.setOffset( x, y );
-        // meat spinner 
-        x = plusNode1.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        y = breadSpinnerNode.getYOffset();
-        meatSpinnerNode.setOffset( x, y );
-        // meat image
-        x = meatSpinnerNode.getFullBoundsReference().getMaxX() + CONTROL_X_SPACING;
-        y = meatSpinnerNode.getFullBoundsReference().getCenterY() - ( meatNode.getFullBoundsReference().getHeight() / 2 );
-        meatNode.setOffset( x, y );
-        // plus
-        x = meatNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        y = meatNode.getFullBoundsReference().getCenterY() - ( plusNode2.getFullBoundsReference().getHeight() / 2 );
-        plusNode2.setOffset( x, y );
-        // cheese spinner
-        x = plusNode2.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        y = breadSpinnerNode.getYOffset();
-        cheeseSpinnerNode.setOffset( x, y );
-        // cheese image
-        x = cheeseSpinnerNode.getFullBoundsReference().getMaxX() + CONTROL_X_SPACING;
-        y = cheeseSpinnerNode.getFullBoundsReference().getCenterY() - ( cheeseNode.getFullBoundsReference().getHeight() / 2 );
-        cheeseNode.setOffset( x, y );
-        // arrow
-        x = cheeseNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        y = cheeseNode.getFullBoundsReference().getCenterY() - ( arrowNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( arrowNode );
-        arrowNode.setOffset( x, y );
-        // product value
-        x = arrowNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        y = arrowNode.getFullBoundsReference().getCenterY() - ( sandwichesCountNode.getFullBoundsReference().getHeight() / 2 );
-        sandwichesCountNode.setOffset( x, y );
-        // sandwich image
-        x = sandwichesCountNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        y = sandwichesCountNode.getFullBoundsReference().getCenterY() - ( sandwichNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( sandwichNode );
-        sandwichNode.setOffset( x, y );
         
-        update();
-    }
-    
-    private void update() {
-        breadSpinnerNode.setValue( formula.getBread() );
-        meatSpinnerNode.setValue( formula.getMeat() );
-        cheeseSpinnerNode.setValue( formula.getCheese() );
-        if ( formula.isReaction() ) {
-            sandwichesCountNode.setText( String.valueOf( formula.getSandwiches() ) );
-            sandwichNode.setVisible( true );
+        // left side
+        for ( int i = 0; i < lhsCoefficientNodes.size(); i++ ) {
+            
+            // coefficient
+            PNode coefficientNode = lhsCoefficientNodes.get( i );
+            if ( i == 0 ) {
+                // below title
+                x = titleNode.getXOffset();
+                y = titleNode.getFullBoundsReference().getMaxY() + Y_SPACING - PNodeLayoutUtils.getOriginYOffset( coefficientNode );
+                coefficientNode.setOffset( x, y );
+                spinnerYOffset = y;
+            }
+            else {
+                // to right of previous term
+                x = previousNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
+                coefficientNode.setOffset( x, spinnerYOffset );
+            }
+            
+            // image
+            PNode imageNode = lhsImageNodes.get( i );
+            x = coefficientNode.getFullBoundsReference().getMaxX() + IMAGE_X_SPACING;
+            y = coefficientNode.getFullBoundsReference().getCenterY() - ( imageNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( imageNode );
+            imageNode.setOffset( x, y );
+            
+            // plus sign 
+            if ( i < lhsCoefficientNodes.size() - 1 ) {
+                PNode plusNode = lhsPlusNodes.get( i );
+                x = imageNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
+                y = imageNode.getFullBoundsReference().getCenterY() - ( plusNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( plusNode );
+                plusNode.setOffset( x, y );
+                previousNode = plusNode;
+            }
+            else {
+                previousNode = imageNode;
+            }
         }
-        else {
-            sandwichesCountNode.setText( RPALStrings.LABEL_NO_REACTION );
-            sandwichNode.setVisible( false );
+        
+        // arrow
+        x = previousNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
+        y = previousNode.getFullBoundsReference().getCenterY() - ( arrowNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( arrowNode );
+        arrowNode.setOffset( x, y );
+        previousNode = arrowNode;
+        
+        // right side
+        for ( int i = 0; i < rhsCoefficientNodes.size(); i++ ) {
+            
+            // coefficient
+            PNode coefficientNode = rhsCoefficientNodes.get( i );
+            x = previousNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
+            y = previousNode.getFullBoundsReference().getCenterY() - ( coefficientNode.getFullBoundsReference().getHeight() / 2 ) - - PNodeLayoutUtils.getOriginYOffset( coefficientNode );
+            coefficientNode.setOffset( x, y );
+            
+            // "no reaction" label
+            if ( i == 0 ) {
+                y = previousNode.getFullBoundsReference().getCenterY() - ( noReactionNode.getFullBoundsReference().getHeight() / 2 ) - - PNodeLayoutUtils.getOriginYOffset( noReactionNode );
+                noReactionNode.setOffset( x, y );
+            }
+            
+            // image
+            PNode imageNode = rhsImageNodes.get( i );
+            x = coefficientNode.getFullBoundsReference().getMaxX() + IMAGE_X_SPACING - PNodeLayoutUtils.getOriginXOffset( imageNode );
+            y = coefficientNode.getFullBoundsReference().getCenterY() - ( imageNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( imageNode );
+            imageNode.setOffset( x, y );
+            
+            // plus
+            if ( i < rhsCoefficientNodes.size() - 1 ) {
+                PNode plusNode = rhsPlusNodes.get( i );
+                x = imageNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
+                y = imageNode.getFullBoundsReference().getCenterY() - ( plusNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( plusNode );
+                plusNode.setOffset( x, y );
+                previousNode = plusNode;
+            }
+            else {
+                previousNode = imageNode;
+            }
         }
-        // sandwich image location
-        double x = sandwichesCountNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        double y = sandwichesCountNode.getFullBoundsReference().getCenterY() - ( sandwichNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( sandwichNode );
-        sandwichNode.setOffset( x, y );
     }
 }
