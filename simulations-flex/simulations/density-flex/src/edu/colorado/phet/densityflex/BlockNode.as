@@ -14,19 +14,23 @@ import flash.text.TextFormat;
 
 import mx.core.BitmapAsset;
 
-public class BlockNode extends Cube {
+public class BlockNode extends Cube implements IPositioned{
 
     private var frontSprite : Sprite;
+    private var block:Block;
 
     [Embed(source="../../../../../data/density-flex/images/wall.jpg")]
     private var wallClass : Class;
 
     public function BlockNode( block:Block ) : void {
+        this.block = block;
         this.width = block.getWidth();
         this.height = block.getHeight();
         this.depth = block.getDepth();
         this.segmentsH = 2;
         this.segmentsW = 2;
+        this.x=block.getX();
+        this.y=block.getY();
         this.z = block.getZ();
         this.useHandCursor = true;
 
@@ -77,6 +81,14 @@ public class BlockNode extends Cube {
         this.cubeMaterials.left = this.cubeMaterials.right = this.cubeMaterials.top = this.cubeMaterials.bottom = this.cubeMaterials.front = redWallMaterial;
 
         this.cubeMaterials.back = frontMaterial;
+    }
+
+    public function setPosition(x:Number, y:Number): void {
+        block.setPosition(x,y);
+
+        //todo: delete the following lines and use listener pattern
+        this.x=x;
+        this.y=y;
     }
 }
 }

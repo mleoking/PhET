@@ -300,8 +300,13 @@ public class DensityView3D extends UIComponent {
             var cubePlane : Plane3D = new Plane3D();
             cubePlane.fromNormalAndPoint(new Number3D(0, 0, -1), new Number3D(0, 0, -100));
             var intersection : Vertex = cubePlane.getIntersectionLine(cameraVertex, rayVertex);
-            selectedObject.x = intersection.x;
-            selectedObject.y = intersection.y;
+            if (selectedObject is IPositioned){
+                 var settableObject = selectedObject as IPositioned
+                 settableObject.setPosition(intersection.x,intersection.y)
+            }else{
+                selectedObject.x = intersection.x;
+                selectedObject.y = intersection.y;
+            }
 
             marker.x = intersection.x;
             marker.y = intersection.y;
