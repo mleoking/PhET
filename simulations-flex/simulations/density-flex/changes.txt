@@ -1,1 +1,2 @@
+Set the front material to smooth to make the fonts smooth instead of jagged
 Factored out Block model object, separated from BlockNode view object
