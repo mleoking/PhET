@@ -20,7 +20,7 @@ public class BlockNode extends Cube implements IPositioned, Listener{
     private var frontSprite : Sprite;
     private var block:Block;
 
-    [Embed(source="../../../../../data/density-flex/images/wall.jpg")]
+    [Embed(source="density-flex/images/wall.jpg")]
     private var wallClass : Class;
 
     public function BlockNode( block:Block ) : void {
