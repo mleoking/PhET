@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--common-strings_ar.xml created Tue May 19 15:29:26 GMT+03:00 2009 using: flash-common-strings 2.00.00 (30671), translation-utility 2.01.00 (31673) May 15, 2009-->
 <SimStrings>
-<string key="About..." value="حول..."/>
+<string key="About..." value="...حول"/>
 <string key="SoftwareDevelopment" value=" تطوير البرنامج"/>
 <string key="Cancel" value="إلغاء"/>
 <string key="StatisticsField-host_flash_accessibility" value="باستخدام جهاز ممكن الوصول إليه؟ "/>
@@ -32,7 +32,7 @@
 <string key="StatisticsField-host_flash_domain" value="نطاق المحاكاة"/>
 <string key="DesignTeam" value="فريق التصميم"/>
 <string key="PhETPreferences" value="تفضيلات برنامج &quot;فت&quot;"/>
-<string key="Preferences" value="تقضيلات ..."/>
+<string key="Preferences" value="...تقضيلات "/>
 <string key="AllowMessages" value="السماح بإرسال المعلومات إلى &quot;فت&quot;"/>
 <string key="Updates" value="تحديثات"/>
 <string key="StatisticsField-sim_revision" value="نسخة المحاكاة (تحديث)"/>
