@@ -301,8 +301,8 @@ public class DensityView3D extends UIComponent {
             cubePlane.fromNormalAndPoint(new Number3D(0, 0, -1), new Number3D(0, 0, -100));
             var intersection : Vertex = cubePlane.getIntersectionLine(cameraVertex, rayVertex);
             if (selectedObject is IPositioned){
-                 var settableObject = selectedObject as IPositioned
-                 settableObject.setPosition(intersection.x,intersection.y)
+                 var settableObject : IPositioned = selectedObject as IPositioned;
+                 settableObject.setPosition(intersection.x,intersection.y);
             }else{
                 selectedObject.x = intersection.x;
                 selectedObject.y = intersection.y;
