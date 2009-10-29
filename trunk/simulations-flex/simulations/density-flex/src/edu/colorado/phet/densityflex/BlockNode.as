@@ -14,7 +14,7 @@ import flash.text.TextFormat;
 
 import mx.core.BitmapAsset;
 
-public class BlockNode extends Cube implements IPositioned{
+public class BlockNode extends Cube implements IPositioned, Listener{
 
     private var frontSprite : Sprite;
     private var block:Block;
@@ -33,6 +33,7 @@ public class BlockNode extends Cube implements IPositioned{
         this.y=block.getY();
         this.z = block.getZ();
         this.useHandCursor = true;
+        block.addListener(this);
 
         frontSprite = new Sprite();
 
@@ -85,10 +86,11 @@ public class BlockNode extends Cube implements IPositioned{
 
     public function setPosition(x:Number, y:Number): void {
         block.setPosition(x,y);
+    }
 
-        //todo: delete the following lines and use listener pattern
-        this.x=x;
-        this.y=y;
+    public function update():void {
+        this.x=block.getX();
+        this.y=block.getY();
     }
 }
 }

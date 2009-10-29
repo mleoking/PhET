@@ -26,6 +26,7 @@ public class Block implements IPositioned {
     private var y:Number;
     private var z:Number;
     private var color:ColorTransform;
+    private var listeners: Array;
 
     public function Block( initialMass : Number, size : Number, color : ColorTransform ) : void {
         this.width = size;
@@ -36,6 +37,11 @@ public class Block implements IPositioned {
         this.z = size / 2 + 101;
         this.mass = initialMass;
         this.color = color;
+        this.listeners = new Array();
+    }
+
+    public function addListener(listener:Listener):void{
+        listeners.push(listener)
     }
 
     function getWidth():Number {
@@ -75,6 +81,9 @@ public class Block implements IPositioned {
         this.y=y;
 
         //todo: notify listeners
+        for each (var listener:Listener in listeners){
+            listener.update();
+        }
     }
 }
 }
