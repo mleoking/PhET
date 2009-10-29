@@ -71,6 +71,7 @@ public class BlockNode extends Cube {
 
 
         var frontMaterial : MovieMaterial = new MovieMaterial(frontSprite);
+        frontMaterial.smooth = true //makes the font smooth instead of jagged, see http://www.mail-archive.com/away3d-dev@googlegroups.com/msg06699.html
         var redWallMaterial : BitmapMaterial = new BitmapMaterial(coloredData);
 
         this.cubeMaterials.left = this.cubeMaterials.right = this.cubeMaterials.top = this.cubeMaterials.bottom = this.cubeMaterials.front = redWallMaterial;
