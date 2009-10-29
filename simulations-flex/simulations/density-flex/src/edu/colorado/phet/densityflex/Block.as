@@ -29,7 +29,7 @@ public class Block implements IPositioned {
     }
 
     public function addListener(listener:Listener):void{
-        listeners.push(listener)
+        listeners.push(listener);
     }
 
     public function getWidth():Number {

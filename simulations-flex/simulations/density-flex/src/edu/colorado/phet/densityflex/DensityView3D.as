@@ -174,7 +174,7 @@ public class DensityView3D extends UIComponent {
         scene.addChild(new Cylinder({ x: 450, y: 300, z: 151, rotationZ: 90, radius: 50, height: 750, segmentsH: 1, segmentsW: 25, material: new ShadingColorMaterial(0xAA7755) }));
 
         // the cube
-        var block:Block = new Block(50, 200, new ColorTransform(1, 0, 0))
+        var block : Block = new Block(50, 200, new ColorTransform(1, 0, 0));
 
         cube = new BlockNode(block);
         cube.x = 450;
