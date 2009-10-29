@@ -1,3 +1,5 @@
+# 2.03.00 (36202) Oct 29, 2009
+10/29/09 new production version with many enhancements and fixes
 # 2.02.03 (35607) Oct 8, 2009
 10/8/09 new icons for preview and error buttons
 # 2.02.02 (35572) Oct 7, 2009
