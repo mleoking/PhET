@@ -1,3 +1,4 @@
+# 1.03.56 (36188) Oct 28, 2009
 Updated crate images based on submission from Noah
 # 1.03.55 (36162) Oct 27, 2009
 Made it so that horizontal chart bounds update when vertical scale is changed
