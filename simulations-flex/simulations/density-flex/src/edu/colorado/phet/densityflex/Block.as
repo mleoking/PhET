@@ -16,12 +16,12 @@ public class Block implements IPositioned {
     private var color:ColorTransform;
     private var listeners: Array;
 
-    public function Block( initialMass : Number, size : Number, color : ColorTransform ) : void {
+    public function Block( initialMass : Number, size : Number, x:Number,y:Number,color : ColorTransform ) : void {
         this.width = size;
         this.height = size;
         this.depth = size;
-        this.x=0;
-        this.y=0;
+        this.x=x;
+        this.y=y;
         this.z = size / 2 + 101;
         this.mass = initialMass;
         this.color = color;
