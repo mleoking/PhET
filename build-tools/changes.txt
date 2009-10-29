@@ -1,3 +1,5 @@
+# 00.57.00 (36205) Oct 29, 2009
+10/29/09 #1837, JDK path changed on tigercat
 10/12/09: Close BufferedReaders after reading changes.txt file or version information, may help in #1701, see #1701
 10/12/09: Made PBG launch from Swing Thread, resolves #1823
 # 00.56.00 (32935) Jul 1, 2009
