@@ -31,9 +31,6 @@ public class DensityView3D extends UIComponent {
     private var renderer:IRenderer;
     private var view:View3D;
 
-    //scene objects
-    private var cube:Cube;
-
     //navigation variables
     private var moving:Boolean = false;
     private var startMouseX:Number;
@@ -41,11 +38,6 @@ public class DensityView3D extends UIComponent {
     private var startMiddle : Number3D;
     private var selectedObject : AbstractPrimitive;
 
-    private var poolWidth : Number = 1500;
-    private var poolHeight : Number = 750;
-    private var poolDepth : Number = 500;
-    private var waterHeight: Number = 550;
-    private var volume : Number = poolWidth * poolDepth * waterHeight;
     private var far : Number = 5000;
 
     private var poolTop : Plane;
@@ -117,30 +109,11 @@ public class DensityView3D extends UIComponent {
 
     }
 
-    public function updateWater() : void {
-        var cubeVolume : Number = cube.width * cube.height * cube.depth;
-        var idealHeight : Number = volume / (poolWidth * poolDepth);
-        var highestHeight : Number = (volume + cubeVolume) / (poolWidth * poolDepth);
-
-        if ( cube.y - cube.height / 2 > -poolHeight + idealHeight ) {
-            waterHeight = idealHeight;
-        }
-        else if ( cube.y + cube.height / 2 < -poolHeight + highestHeight ) {
-            waterHeight = highestHeight;
-        }
-        else {
-            var bottomHeight : Number = poolHeight + (cube.y - cube.height / 2);
-            var partialVolume : Number = volume - (bottomHeight * poolWidth * poolDepth);
-            var partialHeight : Number = partialVolume / (poolWidth * poolDepth - cube.width * cube.depth);
-            waterHeight = bottomHeight + partialHeight;
-        }
-
-        poolFront.y = -poolHeight + waterHeight / 2;
-        poolFront.height = waterHeight;
-        poolTop.y = -poolHeight + waterHeight;
-    }
-
     public function initObjects():void {
+        var poolHeight:Number = model.getPoolHeight();
+        var waterHeight:Number= model.getWaterHeight();
+        var poolWidth:Number = model.getPoolWidth();
+        var poolDepth:Number= model.getPoolDepth();
 
         poolFront = new Plane({ y: -poolHeight + waterHeight / 2, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
         scene.addChild(poolFront);
@@ -178,11 +151,6 @@ public class DensityView3D extends UIComponent {
 
         // the cube
         var block:Block = new Block(50, 200, 450,0,new ColorTransform(1, 0, 0))
-
-        cube = new BlockNode(block);
-        cube.x = 450;
-        cube.y = 0;
-        scene.addChild(cube);
 
         for each (var b:Block in this.model.getBlocks()) {
             scene.addChild(new BlockNode(b));
@@ -304,7 +272,10 @@ public class DensityView3D extends UIComponent {
             marker.y = intersection.y;
             marker.z = intersection.z;
 
-            updateWater();
+            model.updateWater();
+            poolFront.y = -model.getPoolHeight() + model.getWaterHeight() / 2;
+            poolFront.height = model.getWaterHeight();
+            poolTop.y = -model.getPoolHeight() + model.getWaterHeight();
             invalid = true;
         }
         invalid = true;
