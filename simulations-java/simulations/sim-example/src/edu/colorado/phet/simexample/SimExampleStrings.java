@@ -18,6 +18,7 @@ public class SimExampleStrings {
     
     public static final String TITLE_EXAMPLE_CONTROL_PANEL = SimExampleResources.getString( "title.exampleControlPanel");
     public static final String TITLE_EXAMPLE_MODULE = SimExampleResources.getString( "title.exampleModule" );
+    public static final String TITLE_ANOTHER_EXAMPLE_MODULE = SimExampleResources.getString( "title.anotherExampleModule" );
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
 
     public static final String UNITS_DISTANCE = SimExampleResources.getString( "units.distance");
