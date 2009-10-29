@@ -1,3 +1,5 @@
+# 2.00.07 (36195) Oct 28, 2009
+10/28/09 Internationalization fixes (is wrong, and common strings)
 # 2.00.06 (35919) Oct 18, 2009
 10/18/09 Start button fix
 # 2.00.05 (35918) Oct 18, 2009
