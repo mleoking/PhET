@@ -1,2 +1,2 @@
-This was taken from piccolo2d.java svn 772 on 10-20-2009
+This was taken from piccolo2d.java svn 859 on 10-29-2009
 Please not this is not currently Piccolo 1.3, but will be updated as soon as 1.3 becomes available.
