@@ -154,6 +154,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-flex/simulations/density-flex/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flex/contrib/away3d/fp9" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flex/common/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-flex/simulations/density-flex/data" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.manager" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
