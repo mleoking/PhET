@@ -17,8 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.genenetwork.module.LacOperonModule;
-import edu.colorado.phet.nuclearphysics.NuclearFissionApplication;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 
 /**
  * The main application for this simulation.
