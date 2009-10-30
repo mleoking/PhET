@@ -78,7 +78,7 @@ public class TestPSwingContainerResize extends JFrame {
                         playAreaPanel.setDynamicLabel( ( (JRadioButton) e.getSource() ).getText() );
                         dynamicSwingPanel.setDynamicLabel( ( (JRadioButton) e.getSource() ).getText() );
                         if ( WORKAROUND_ENABLED ) {
-                            wrapperNode.computeBounds();
+                            wrapperNode.updateBounds();
                         }
                     }
                 }

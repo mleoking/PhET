@@ -576,4 +576,8 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     ////////////////////////////////////////////////////////////
     ///////End methods for automatic canvas detection
     ////////////////////////////////////////////////////////////
+
+    public void updateBounds() {
+        computeBounds();
+    }
 }

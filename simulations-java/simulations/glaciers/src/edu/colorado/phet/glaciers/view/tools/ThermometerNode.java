@@ -177,13 +177,13 @@ public class ThermometerNode extends AbstractToolNode {
             String textF = TEMPERATURE_FORMAT.format( valueF ) + " " + GlaciersStrings.UNITS_FAHRENHEIT;
             _fahrenheitLabel.setText( textF );
             
-            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+            _pswing.updateBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }
         
         public void setTemperatureUnknown() {
             _celsiusLabel.setText( "? " + GlaciersStrings.UNITS_CELSIUS );
             _fahrenheitLabel.setText( "? " + GlaciersStrings.UNITS_FAHRENHEIT );
-            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+            _pswing.updateBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }
     }
     
