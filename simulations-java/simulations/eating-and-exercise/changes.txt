@@ -1,5 +1,5 @@
 # 1.01.01 (36212) Oct 29, 2009
-Changed "male gender" to "sex" in disclaimer text.
+> Changed "male gender" to "sex" in the disclaimer text.
 # 1.01.00 (30589) Apr 20, 2009
 4/20/09 Batch deploy as part of IOM milestone with revision 30588
 # 1.00.02 (29629) Mar 22, 2009
