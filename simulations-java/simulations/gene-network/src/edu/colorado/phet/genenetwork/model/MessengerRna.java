@@ -30,7 +30,7 @@ public class MessengerRna extends SimpleModelElement {
 	}
 
 	@Override
-	SimpleElementType getType() {
+	public SimpleElementType getType() {
 		return SimpleElementType.MESSENGER_RNA;
 	}
 	

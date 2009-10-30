@@ -29,7 +29,7 @@ public class Camp extends SimpleModelElement {
 	}
 	
 	@Override
-	SimpleElementType getType() {
+	public SimpleElementType getType() {
 		return SimpleElementType.CAMP;
 	}
 	
