@@ -17,19 +17,20 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class RandomWalkMotionStrategy extends AbstractMotionStrategy {
 	
 	private static final Random RAND = new Random();
-	private static final int NUM_STAGGERING_BINS = 5;
-	private static double MAX_VELOCITY = 1;  // In nanometers per update, I guess.  Weird.
+	private static final int MOTION_UPDATE_PERIOD = 20;  // Number of update calls before changing direction.
+	private static double MAX_VELOCITY = 0.4;  // In nanometers per update, I guess.  Weird.
+	private static double MIN_VELOCITY = 0.1;  // In nanometers per update, I guess.  Weird.
 
 	private Rectangle2D bounds;
-	private int myBin;
-	private int currentBin = 0;
+	private int myUpdateValue;  // Used to stagger updates, for a better look and more even computational load.
+	private int updateCount = 0;
 	
 	public RandomWalkMotionStrategy(IModelElement modelElement, Rectangle2D bounds) {
 		super(modelElement);
 		this.bounds = bounds;
 		
 		// Initialize the bin that is used to stagger updates to the motion.
-		myBin = RAND.nextInt(NUM_STAGGERING_BINS);
+		myUpdateValue = RAND.nextInt(MOTION_UPDATE_PERIOD);
 	}
 
 	@Override
@@ -54,17 +55,17 @@ public class RandomWalkMotionStrategy extends AbstractMotionStrategy {
 				modelElement.getPositionRef().getY() + modelElement.getVelocityRef().getY() );
 		
 		// See if it is time to change the motion and, if so, do it.
-		if (currentBin == myBin){
+		if (updateCount == myUpdateValue){
 	    	double angle = 0;
 	    	double scalerVelocity;
 			angle = Math.PI * 2 * RAND.nextDouble();
-			scalerVelocity = MAX_VELOCITY * RAND.nextDouble();
+			scalerVelocity = MIN_VELOCITY + (MAX_VELOCITY - MIN_VELOCITY) * RAND.nextDouble();
 			
 			// Set the particle's new velocity. 
 	    	modelElement.setVelocity(scalerVelocity * Math.cos(angle), scalerVelocity * Math.sin(angle));
 		}
 		
 		// Update current bin.
-		currentBin = (currentBin + 1) % NUM_STAGGERING_BINS;
+		updateCount = (updateCount + 1) % MOTION_UPDATE_PERIOD;
 	}
 }
