@@ -17,13 +17,14 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  * @author John Blanco
  */
 public abstract class SimpleModelElement implements IModelElement{
-
+	
 	private Shape shape;
 	private Point2D position;
 	private Paint paint;  // The paint to use when representing this element in the view.
 	private Vector2D.Double velocity = new Vector2D.Double();
     protected ArrayList<Listener> listeners = new ArrayList<Listener>();
     private ArrayList<BindingPoint> bindingPoints = new ArrayList<BindingPoint>();
+    private AbstractMotionStrategy motionStrategy = null;
     
 	public SimpleModelElement(Shape initialShape, Point2D initialPosition, Paint paint){
 		this.shape = initialShape;
@@ -152,13 +153,18 @@ public abstract class SimpleModelElement implements IModelElement{
 	}
 
 	public void updatePositionAndMotion() {
-		// Does nothing in the base class, which essentially means it never
-		// moves.
+		if (motionStrategy != null){
+			motionStrategy.updatePositionAndMotion();
+		}
 	}
 
 	public void updatePotentialBondingPartners( ArrayList<IModelElement> modelElements ) {
 		// Does nothing in the base class, which essentially means that it
 		// if not overridden it will not initiate any bonds.
+	}
+	
+	protected void setMotionStrategy(AbstractMotionStrategy newMotionStrategy){
+		motionStrategy = newMotionStrategy;
 	}
 	
     //------------------------------------------------------------------------
