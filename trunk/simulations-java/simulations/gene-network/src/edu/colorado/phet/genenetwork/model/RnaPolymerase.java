@@ -27,6 +27,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	
 	public RnaPolymerase(Point2D initialPosition) {
 		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
+		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 	}
 	
 	public RnaPolymerase() {

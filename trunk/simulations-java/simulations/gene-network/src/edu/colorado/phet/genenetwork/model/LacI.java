@@ -28,6 +28,7 @@ public class LacI extends SimpleModelElement {
 	
 	public LacI(Point2D initialPosition) {
 		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
+		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 	}
 	
 	public LacI() {
@@ -48,7 +49,7 @@ public class LacI extends SimpleModelElement {
 		
 		// Get the shape of a lactose molecule and shift it to the appropriate
 		// position.
-		Shape lactoseShape = new Lactose().getShape();
+		Shape lactoseShape = new Lactose2().getShape();
 		AffineTransform transform = new AffineTransform();
 		transform.setToTranslation(	0, HEIGHT/2 );
 		lactoseShape = transform.createTransformedShape(lactoseShape);
