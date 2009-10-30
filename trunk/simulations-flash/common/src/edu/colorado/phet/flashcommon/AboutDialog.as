@@ -1,4 +1,4 @@
-import org.aswing.CenterLayout;
+﻿import org.aswing.CenterLayout;
 import org.aswing.FlowLayout;
 import org.aswing.Insets;
 import org.aswing.JButton;
@@ -60,12 +60,26 @@ class edu.colorado.phet.flashcommon.AboutDialog extends edu.colorado.phet.flashc
 		var panel : JPanel = new JPanel(new FlowLayout());
 
 		// button that will open the agreements dialog
-		agreementButton = new JButton(common.strings.get("SoftwareAgreement", "Software Agreement") + "...");
+		var str : String = common.strings.get("SoftwareAgreement", "Software Agreement");
+		// temporary fix for improper rendering of Arabic strings
+		if( common.getLocale() == "ar" ) {
+			str = "..." + str;
+		} else {
+			str += "...";
+		}
+		agreementButton = new JButton(str);
 		agreementButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, agreementClicked));
 		CommonButtons.padButtonAdd(agreementButton, panel);
 
 		// button that will open the credits dialog
-		creditsButton = new JButton(common.strings.get("Credits", "Credits") + "...");
+		str = common.strings.get("Credits", "Credits");
+		// temporary fix for improper rendering of Arabic strings
+		if( common.getLocale() == "ar" ) {
+			str = "..." + str;
+		} else {
+			str += "...";
+		}
+		creditsButton = new JButton(str);
 		creditsButton.addEventListener(JButton.ON_RELEASE, Delegate.create(this, creditsClicked));
 		CommonButtons.padButtonAdd(creditsButton, panel);
 
