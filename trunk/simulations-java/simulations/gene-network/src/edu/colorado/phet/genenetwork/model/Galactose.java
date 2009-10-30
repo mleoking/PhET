@@ -29,7 +29,7 @@ public class Galactose extends SimpleSugar {
 	}
 	
 	@Override
-	SimpleElementType getType() {
+	public SimpleElementType getType() {
 		return SimpleElementType.GALACTOSE;
 	}
 }

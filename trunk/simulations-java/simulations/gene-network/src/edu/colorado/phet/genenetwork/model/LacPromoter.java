@@ -30,7 +30,7 @@ public class LacPromoter extends SimpleModelElement {
 	}
 	
 	@Override
-	SimpleElementType getType() {
+	public SimpleElementType getType() {
 		return SimpleElementType.LAC_PROMOTER;
 	}
 	

@@ -37,7 +37,7 @@ public class LacZ extends SimpleModelElement {
 	}
 	
 	@Override
-	SimpleElementType getType() {
+	public SimpleElementType getType() {
 		return SimpleElementType.LAC_Z;
 	}
 

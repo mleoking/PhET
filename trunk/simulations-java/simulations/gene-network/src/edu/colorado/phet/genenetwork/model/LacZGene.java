@@ -25,7 +25,7 @@ public class LacZGene extends SimpleModelElement {
 	}
 	
 	@Override
-	SimpleElementType getType() {
+	public SimpleElementType getType() {
 		return SimpleElementType.LAC_Z_GENE;
 	}
 	

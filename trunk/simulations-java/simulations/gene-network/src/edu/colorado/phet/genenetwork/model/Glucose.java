@@ -28,7 +28,7 @@ public class Glucose extends SimpleSugar {
 	}
 	
 	@Override
-	SimpleElementType getType() {
+	public SimpleElementType getType() {
 		return SimpleElementType.GLUCOSE;
 	}
 }
