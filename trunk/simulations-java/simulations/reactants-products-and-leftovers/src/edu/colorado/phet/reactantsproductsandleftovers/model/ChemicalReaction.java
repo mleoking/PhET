@@ -7,7 +7,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
 
 /**
  * A chemical reaction is a process that leads to the transformation of one set of 
@@ -30,7 +29,7 @@ public class ChemicalReaction {
         this.products = new ArrayList<Product>( products );
         this.listeners = new ArrayList<ChangeListener>();
         
-        ReactantChangeListener reactantChangeListener = new ReactantChangeAdapter() {
+        ReactantChangeAdapter reactantChangeListener = new ReactantChangeAdapter() {
 
             public void coefficientChanged() {
                 update();
@@ -159,7 +158,8 @@ public class ChemicalReaction {
     
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        for ( ChangeListener listener : listeners ) {
+        ArrayList<ChangeListener> listenersCopy = new ArrayList<ChangeListener>( listeners ); // avoid ConcurrentModificationException
+        for ( ChangeListener listener : listenersCopy ) {
             listener.stateChanged( event );
         }
     }

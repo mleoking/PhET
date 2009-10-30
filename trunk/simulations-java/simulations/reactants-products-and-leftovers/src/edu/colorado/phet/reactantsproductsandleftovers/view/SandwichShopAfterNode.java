@@ -13,8 +13,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.BreadLeftoverDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.CheeseLeftoverDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.MeatLeftoverDisplayNode;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.SandwichesQuantityDisplayNode;
-import edu.colorado.phet.reactantsproductsandleftovers.model.OldSandwichShop;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.SandwichQuantityDisplayNode;
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -28,27 +28,27 @@ public class SandwichShopAfterNode extends PhetPNode {
     private static final double Y_MARGIN = 25;
     private static final double REACTANTS_SCALE = 0.5; //XXX
     
-    private final OldSandwichShop model;
+    private final SandwichShopModel model;
 
     private final BoxNode boxNode;
     private final PComposite sandwichesParent, breadParent, meatParent, cheeseParent;
-    private final ArrayList<OldSandwichNode> sandwichesList;
+    private final ArrayList<SandwichNode> sandwichList;
     private final ArrayList<BreadNode> breadList;
     private final ArrayList<MeatNode> meatList;
     private final ArrayList<CheeseNode> cheeseList;
-    private final PNode sandwichesNode;
+    private final PNode sandwichQuantityDisplayNode;
     
-    public SandwichShopAfterNode( final OldSandwichShop model ) {
+    public SandwichShopAfterNode( final SandwichShopModel model ) {
         super();
         
         this.model = model;
-        model.addChangeListener( new ChangeListener() {
+        model.getReaction().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update();
             }
         });
         
-        sandwichesList = new ArrayList<OldSandwichNode>();
+        sandwichList = new ArrayList<SandwichNode>();
         breadList = new ArrayList<BreadNode>();
         meatList = new ArrayList<MeatNode>();
         cheeseList = new ArrayList<CheeseNode>();
@@ -75,33 +75,33 @@ public class SandwichShopAfterNode extends PhetPNode {
         
         PNode valuesNode = new PNode();
         addChild( valuesNode );
-        sandwichesNode = new SandwichesQuantityDisplayNode( model );
-        PNode breadNode = new BreadLeftoverDisplayNode( model );
-        PNode meatNode = new MeatLeftoverDisplayNode( model );
-        PNode cheeseNode = new CheeseLeftoverDisplayNode( model );
-        valuesNode.addChild( sandwichesNode );
-        valuesNode.addChild( breadNode );
-        valuesNode.addChild( meatNode );
-        valuesNode.addChild( cheeseNode );
-        double sandwichWidth = sandwichesNode.getFullBoundsReference().getWidth();
-        double breadWidth = breadNode.getFullBoundsReference().getWidth();
-        double meatWidth = meatNode.getFullBoundsReference().getWidth();
-        double cheeseWidth = cheeseNode.getFullBoundsReference().getWidth();
+        sandwichQuantityDisplayNode = new SandwichQuantityDisplayNode( model );
+        PNode breadQuantityDisplayNode = new BreadLeftoverDisplayNode( model );
+        PNode meatQuantityDisplayNode = new MeatLeftoverDisplayNode( model );
+        PNode cheeseQuantityDisplayNode = new CheeseLeftoverDisplayNode( model );
+        valuesNode.addChild( sandwichQuantityDisplayNode );
+        valuesNode.addChild( breadQuantityDisplayNode );
+        valuesNode.addChild( meatQuantityDisplayNode );
+        valuesNode.addChild( cheeseQuantityDisplayNode );
+        double sandwichWidth = sandwichQuantityDisplayNode.getFullBoundsReference().getWidth();
+        double breadWidth = breadQuantityDisplayNode.getFullBoundsReference().getWidth();
+        double meatWidth = meatQuantityDisplayNode.getFullBoundsReference().getWidth();
+        double cheeseWidth = cheeseQuantityDisplayNode.getFullBoundsReference().getWidth();
         double maxWidth = Math.max( sandwichWidth, Math.max( breadWidth, Math.max( meatWidth, cheeseWidth ) ) );
         double deltaX = maxWidth + DISPLAYS_X_SPACING;
         double xOffset = 0;
-        sandwichesNode.setOffset( xOffset, 0 );
+        sandwichQuantityDisplayNode.setOffset( xOffset, 0 );
         xOffset += deltaX;
-        breadNode.setOffset( xOffset, 0 );
+        breadQuantityDisplayNode.setOffset( xOffset, 0 );
         xOffset += deltaX;
-        meatNode.setOffset( xOffset, 0 );
+        meatQuantityDisplayNode.setOffset( xOffset, 0 );
         xOffset += deltaX;
-        cheeseNode.setOffset( xOffset, 0 );
+        cheeseQuantityDisplayNode.setOffset( xOffset, 0 );
         
         // leftovers label
-        double width = cheeseNode.getFullBoundsReference().getMaxX() - breadNode.getFullBoundsReference().getMinX();
-        PNode leftoversLabel = new LeftoversLabelNode( width );
-        addChild( leftoversLabel ); // add after using valueNodes bounds
+        double width = cheeseQuantityDisplayNode.getFullBoundsReference().getMaxX() - breadQuantityDisplayNode.getFullBoundsReference().getMinX();
+        PNode leftoversLabelNode = new LeftoversLabelNode( width );
+        addChild( leftoversLabelNode ); // add after using valueNodes bounds
         
         // layout, origin at upper-left corner of box
         boxNode.setOffset( 0, 0 );
@@ -129,28 +129,28 @@ public class SandwichShopAfterNode extends PhetPNode {
         // leftovers label
         x = 125; //XXX
         y = valuesNode.getFullBoundsReference().getMaxY() + 2;
-        leftoversLabel.setOffset( x, y );
+        leftoversLabelNode.setOffset( x, y );
 
         update();
     }
     
     private void update() {
         
-        sandwichesNode.setVisible( model.getFormula().isReaction() );
+        sandwichQuantityDisplayNode.setVisible( model.getReaction().isReaction() );
         
         // sandwiches
-        if ( model.getSandwiches() < sandwichesList.size() ) {
-            while ( model.getSandwiches() < sandwichesList.size() ) {
-                OldSandwichNode node = sandwichesList.get( sandwichesList.size() - 1 );
+        if ( model.getSandwich().getQuantity() < sandwichList.size() ) {
+            while ( model.getSandwich().getQuantity() < sandwichList.size() ) {
+                SandwichNode node = sandwichList.get( sandwichList.size() - 1 );
                 sandwichesParent.removeChild( node );
-                sandwichesList.remove( node );
+                sandwichList.remove( node );
             }
         }
         else {
-            while ( model.getSandwiches() > sandwichesList.size() ) {
-                OldSandwichNode node = new OldSandwichNode( model.getFormula() );
+            while ( model.getSandwich().getQuantity() > sandwichList.size() ) {
+                SandwichNode node = new SandwichNode( model.getBread(), model.getMeat(), model.getCheese() );
                 sandwichesParent.addChild( node );
-                sandwichesList.add( node );
+                sandwichList.add( node );
                 node.scale( REACTANTS_SCALE );
                 if ( sandwichesParent.getChildrenCount() > 1 ) {
                     double x = 0;
@@ -161,15 +161,15 @@ public class SandwichShopAfterNode extends PhetPNode {
         }
         
         // bread
-        if ( model.getBreadLeftover() < breadList.size() ) {
-            while ( model.getBreadLeftover() < breadList.size() ) {
+        if ( model.getBread().getLeftovers() < breadList.size() ) {
+            while ( model.getBread().getLeftovers() < breadList.size() ) {
                 BreadNode node = breadList.get( breadList.size() - 1 );
                 breadParent.removeChild( node );
                 breadList.remove( node );
             }
         }
         else {
-            while ( model.getBreadLeftover() > breadList.size() ) {
+            while ( model.getBread().getLeftovers() > breadList.size() ) {
                 BreadNode node = new BreadNode();
                 breadParent.addChild( node );
                 breadList.add( node );
@@ -183,15 +183,15 @@ public class SandwichShopAfterNode extends PhetPNode {
         }
         
         // meat
-        if ( model.getMeatLeftover() < meatList.size() ) {
-            while ( model.getMeatLeftover() < meatList.size() ) {
+        if ( model.getMeat().getLeftovers() < meatList.size() ) {
+            while ( model.getMeat().getLeftovers() < meatList.size() ) {
                 MeatNode node = meatList.get( meatList.size() - 1 );
                 meatParent.removeChild( node );
                 meatList.remove( node );
             }
         }
         else {
-            while ( model.getMeatLeftover() > meatList.size() ) {
+            while ( model.getMeat().getLeftovers() > meatList.size() ) {
                 MeatNode node = new MeatNode();
                 meatParent.addChild( node );
                 meatList.add( node );
@@ -205,15 +205,15 @@ public class SandwichShopAfterNode extends PhetPNode {
         }
         
         // cheese
-        if ( model.getCheeseLeftover() < cheeseList.size() ) {
-            while ( model.getCheeseLeftover() < cheeseList.size() ) {
+        if ( model.getCheese().getLeftovers() < cheeseList.size() ) {
+            while ( model.getCheese().getLeftovers() < cheeseList.size() ) {
                 CheeseNode node = cheeseList.get( cheeseList.size() - 1 );
                 cheeseParent.removeChild( node );
                 cheeseList.remove( node );
             }
         }
         else {
-            while ( model.getCheeseLeftover() > cheeseList.size() ) {
+            while ( model.getCheese().getLeftovers() > cheeseList.size() ) {
                 CheeseNode node = new CheeseNode();
                 cheeseParent.addChild( node );
                 cheeseList.add( node );

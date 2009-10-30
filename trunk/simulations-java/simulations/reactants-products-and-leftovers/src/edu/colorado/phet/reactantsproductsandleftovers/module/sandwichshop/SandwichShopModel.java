@@ -16,7 +16,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.SandwichNode;
 public class SandwichShopModel {
     
     private final ChemicalReaction reaction;
+    
     private final Product sandwich;
+    private final Bread bread;
+    private final Meat meat;
+    private final Cheese cheese;
     
     public static class Bread extends Reactant {
         public Bread( int coefficient, int quantity ) {
@@ -42,9 +46,9 @@ public class SandwichShopModel {
         final int quantity = getQuantityRange().getDefault();
         
         // reactants
-        Bread bread = new Bread( coefficient, quantity );
-        Meat meat = new Meat( coefficient, quantity );
-        Cheese cheese = new Cheese( coefficient, quantity );
+        bread = new Bread( coefficient, quantity );
+        meat = new Meat( coefficient, quantity );
+        cheese = new Cheese( coefficient, quantity );
         ArrayList<Reactant> reactants = new ArrayList<Reactant>();
         reactants.add( bread );
         reactants.add( meat );
@@ -57,6 +61,26 @@ public class SandwichShopModel {
         
         // reaction
         reaction = new ChemicalReaction( RPALStrings.LABEL_SANDWICH_FORMULA, reactants, products );
+    }
+    
+    //XXX remove this
+    public Bread getBread() {
+        return bread;
+    }
+    
+    //XXX remove this
+    public Meat getMeat() {
+        return meat;
+    }
+    
+    //XXX remove this
+    public Cheese getCheese() {
+        return cheese;
+    }
+    
+    //XXX remove this
+    public Product getSandwich() {
+        return sandwich;
     }
     
     public ChemicalReaction getReaction() {

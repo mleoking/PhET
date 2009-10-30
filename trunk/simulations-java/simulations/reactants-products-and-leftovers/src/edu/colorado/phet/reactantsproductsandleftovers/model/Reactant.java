@@ -35,11 +35,11 @@ public class Reactant extends Substance {
     }
     
     public interface ReactantChangeListener extends SubstanceChangeListener {
-        public void leftoverChanged();
+        public void leftoversChanged();
     }
     
     public static class ReactantChangeAdapter extends SubstanceChangeAdapter implements ReactantChangeListener {
-        public void leftoverChanged() {}
+        public void leftoversChanged() {}
     }
     
     public void addReactantChangeListener( ReactantChangeListener listener ) {
@@ -53,8 +53,9 @@ public class Reactant extends Substance {
     }
     
     private void fireLeftoverChanged() {
-        for ( ReactantChangeListener listener : listeners ) {
-            listener.leftoverChanged();
+        ArrayList<ReactantChangeListener> listenersCopy = new ArrayList<ReactantChangeListener>( listeners ); // avoid ConcurrentModificationException
+        for ( ReactantChangeListener listener : listenersCopy ) {
+            listener.leftoversChanged();
         }
     }
 }
