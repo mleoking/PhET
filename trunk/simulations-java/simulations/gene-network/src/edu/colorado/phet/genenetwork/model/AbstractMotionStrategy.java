@@ -9,5 +9,16 @@ package edu.colorado.phet.genenetwork.model;
  * @author John Blanco
  */
 public abstract class AbstractMotionStrategy {
+	
+	private IModelElement modelElement;
+	
+	public AbstractMotionStrategy(IModelElement modelElement){
+		this.modelElement = modelElement;
+	}
+	
 	abstract public void updatePositionAndMotion();
+	
+	protected IModelElement getModelElement(){
+		return modelElement;
+	}
 }
