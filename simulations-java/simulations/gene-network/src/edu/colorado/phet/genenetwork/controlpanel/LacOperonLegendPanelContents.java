@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.genenetwork.controlpanel;
 
@@ -9,9 +9,10 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -32,7 +33,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author John Blanco
  */
-public class LacOperonLegendPanel extends JPanel {
+public class LacOperonLegendPanelContents extends JPanel {
         
     //------------------------------------------------------------------------
     // Class Data
@@ -51,20 +52,10 @@ public class LacOperonLegendPanel extends JPanel {
     // Constructor
     //------------------------------------------------------------------------
     
-    public LacOperonLegendPanel() {
-        
+    public LacOperonLegendPanelContents() {
+    	
     	// TODO: i18n
         // Add the border around the legend.
-        BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                "Legend",
-                TitledBorder.LEFT,
-                TitledBorder.TOP,
-                new PhetFont( Font.BOLD, 14 ),
-                Color.GRAY );
-        
-        setBorder( titledBorder );
-        
         // Set the layout.
         setLayout( new GridBagLayout() );
 
@@ -74,37 +65,34 @@ public class LacOperonLegendPanel extends JPanel {
     	String labelText = null;
 
 		labelText = "Lactose";
-       	addLegendItem( createLactoseImage(), labelText, row );
+       	addLegendItem2( createLactoseNode(), 20, labelText, row );
        	row++;
 
 		simpleElementNode = new SimpleModelElementNode(new LacI(), MVT);
 		labelText = "LacI";
-       	addLegendItem( simpleElementNode.toImage(30, 30, new Color(0, 0, 0, 0)), labelText, row );
+       	addLegendItem2( simpleElementNode, 30, labelText, row );
        	row++;
 
 		simpleElementNode = new SimpleModelElementNode(new Cap(), MVT);
 		labelText = "CAP";
-       	addLegendItem( simpleElementNode.toImage(25, 25, new Color(0, 0, 0, 0)), labelText, row );
+       	addLegendItem2( simpleElementNode, 25, labelText, row );
        	row++;
 
        	simpleElementNode = new SimpleModelElementNode(new RnaPolymerase(), MVT);
 		labelText = "RNA Polymerase";
-       	addLegendItem( simpleElementNode.toImage(40, 40, new Color(0, 0, 0, 0)), labelText, row );
+       	addLegendItem2( simpleElementNode, 40, labelText, row );
        	row++;
        	
 		simpleElementNode = new SimpleModelElementNode(new LacZ(), MVT);
 		labelText = "LacZ";
-       	addLegendItem( simpleElementNode.toImage(35, 35, new Color(0, 0, 0, 0)), labelText, row );
+       	addLegendItem2( simpleElementNode, 35, labelText, row );
        	row++;
-
     }
     
-    /**
-     * This method adds simple legend items, i.e. those that only include an
-     * image and a label, to the legend.
-     */
-    private void addLegendItem( Image im, String label, int row ) {
-        ImageIcon icon = new ImageIcon(im);
+    private void addLegendItem2( PNode node, int width, String label, int row ) {
+    	int height = (int)Math.round((double)width/node.getFullBounds().getWidth() * node.getFullBounds().getHeight());
+    	Image image = node.toImage(width, height, new Color(0, 0, 0, 0));
+        ImageIcon icon = new ImageIcon(image);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridx = 0;
@@ -126,7 +114,7 @@ public class LacOperonLegendPanel extends JPanel {
      * no model element that can be created easily as can be done for the
      * simple model elements.
      */
-    private Image createLactoseImage(){
+    private PNode createLactoseNode(){
     	PNode lactoseNode = new PNode();
     	PNode glucoseNode = new SimpleModelElementNode(new Glucose(), MVT);
     	glucoseNode.setOffset(-glucoseNode.getFullBoundsReference().width / 2, 0);
@@ -134,12 +122,12 @@ public class LacOperonLegendPanel extends JPanel {
     	PNode galactoseNode = new SimpleModelElementNode(new Galactose(), MVT);
     	galactoseNode.setOffset(galactoseNode.getFullBoundsReference().width / 2, 0);
     	lactoseNode.addChild(galactoseNode);
-    	return lactoseNode.toImage(20, 20, new Color(0, 0, 0, 0));
+    	return lactoseNode;
     }
 
     public static void main(String[] args) {
         JFrame frame =new JFrame();
-        frame.setContentPane(new LacOperonLegendPanel());
+        frame.setContentPane(new LacOperonLegendPanelContents());
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
