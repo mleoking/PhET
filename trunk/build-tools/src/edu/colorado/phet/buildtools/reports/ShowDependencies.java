@@ -8,8 +8,9 @@ import edu.colorado.phet.buildtools.PhetProject;
 
 /**
  * Indicates dependency structure (forward and backward) of phet sims.
+ *
  * @author Sam Reid
- * 9-1-2009
+ *         9-1-2009
  */
 public class ShowDependencies {
     public static void main( String[] args ) {

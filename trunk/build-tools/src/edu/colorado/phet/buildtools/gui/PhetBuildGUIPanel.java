@@ -6,11 +6,9 @@ import java.io.File;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
-import edu.colorado.phet.buildtools.gui.panels.FlashSimulationPanel;
-import edu.colorado.phet.buildtools.gui.panels.JavaSimulationPanel;
-import edu.colorado.phet.buildtools.gui.panels.MiscJavaPanel;
-import edu.colorado.phet.buildtools.gui.panels.StatisticsPanel;
+import edu.colorado.phet.buildtools.gui.panels.*;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
@@ -49,6 +47,10 @@ public class PhetBuildGUIPanel extends JSplitPane {
                 // TODO: consider refactoring project panels to be selected based on the project itself, instead of handling directly in the GUI
                 if ( project instanceof FlashSimulationProject ) {
                     projectPanel = new FlashSimulationPanel( trunk, (FlashSimulationProject) project );
+                    setRightComponent( projectPanel );
+                }
+                else if ( project instanceof FlexSimulationProject ) {
+                    projectPanel = new FlexSimulationPanel( trunk, (FlexSimulationProject) project );
                     setRightComponent( projectPanel );
                 }
                 else if ( project instanceof JavaSimulationProject ) {

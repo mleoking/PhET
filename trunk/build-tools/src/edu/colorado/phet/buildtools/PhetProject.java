@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
-import edu.colorado.phet.buildtools.flex.PhetFlexProject;
+import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.*;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
@@ -506,7 +506,7 @@ public abstract class PhetProject {
 
         phetProjects.addAll( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) );
         phetProjects.addAll( Arrays.asList( FlashSimulationProject.getFlashSimulations( trunk ) ) );
-        phetProjects.addAll( Arrays.asList( PhetFlexProject.getFlexProjects( trunk ) ) );
+        phetProjects.addAll( Arrays.asList( FlexSimulationProject.getFlexSimulations( trunk ) ) );
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
     }
 
