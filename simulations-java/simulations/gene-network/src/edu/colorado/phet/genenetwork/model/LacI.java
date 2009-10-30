@@ -28,7 +28,7 @@ public class LacI extends SimpleModelElement {
 	
 	public LacI(Point2D initialPosition) {
 		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
-		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+		setMotionStrategy(new WeightedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 	}
 	
 	public LacI() {
