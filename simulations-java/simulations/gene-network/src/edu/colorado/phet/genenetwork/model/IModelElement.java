@@ -19,4 +19,6 @@ public interface IModelElement {
     void updatePotentialBondingPartners(ArrayList<IModelElement> modelElements);
     boolean considerProposal(IModelElement modelElement);
     boolean releaseBondWith(IModelElement modelElement);
+	SimpleElementType getType();
+	BindingPoint getBindingPointForElement(SimpleElementType type);
 }
