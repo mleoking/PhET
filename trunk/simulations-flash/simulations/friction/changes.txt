@@ -1,3 +1,5 @@
+# 2.00.02 (36243) Oct 29, 2009
+10/29/09 Flashcommon-fonts improvement
 # 2.00.01 (36241) Oct 29, 2009
 10/29/09 Flashcommon-fonts added for Khmer
 # 2.00.00 (30671) Apr 21, 2009
