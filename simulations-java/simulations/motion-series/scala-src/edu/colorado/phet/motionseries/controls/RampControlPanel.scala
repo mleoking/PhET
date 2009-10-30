@@ -117,8 +117,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
       val segment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(3, 0))
       val node = new RampSegmentNode(segment, new ModelViewTransform2D(dummyModelBounds, dummyViewBounds, false), surfaceModel)
-      node.toImage(75, 55, new Color(255, 255, 255, 0))
-      //      node.toImage
+      node.toImage(75, (75.0/node.getFullBounds.getWidth * node.getFullBounds.getHeight).toInt, new Color(255, 255, 255, 0))
     }
 
     def getIceIcon = getSegmentIcon(true)
