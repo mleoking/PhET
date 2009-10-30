@@ -1,2 +1,4 @@
+# 0.01.01 (36253) Oct 30, 2009
+10/30/09 Density flex first test deployment
 Set the front material to smooth to make the fonts smooth instead of jagged
 Factored out Block model object, separated from BlockNode view object
