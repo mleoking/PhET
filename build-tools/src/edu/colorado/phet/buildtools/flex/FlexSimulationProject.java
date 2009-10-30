@@ -13,8 +13,8 @@ import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 
-public class PhetFlexProject extends PhetProject {
-    public PhetFlexProject( File projectRoot ) throws IOException {
+public class FlexSimulationProject extends PhetProject {
+    public FlexSimulationProject( File projectRoot ) throws IOException {
         super( projectRoot );
     }
 
@@ -94,7 +94,7 @@ public class PhetFlexProject extends PhetProject {
         return true;
     }
 
-    public static PhetProject[] getFlexProjects( File trunk ) {
+    public static PhetProject[] getFlexSimulations( File trunk ) {
         File flashSimDir = new File( trunk, BuildToolsPaths.FLEX_SIMULATIONS_DIR );
         File[] files = flashSimDir.listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
@@ -105,13 +105,13 @@ public class PhetFlexProject extends PhetProject {
         for ( int i = 0; ( files != null ) && ( i < files.length ); i++ ) {
             File file = files[i];
             try {
-                projects.add( new PhetFlexProject( file ) );
+                projects.add( new FlexSimulationProject( file ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();
             }
         }
         projects = PhetProject.sort( new ArrayList( projects ) );
-        return (PhetFlexProject[]) projects.toArray( new PhetFlexProject[projects.size()] );
+        return (FlexSimulationProject[]) projects.toArray( new FlexSimulationProject[projects.size()] );
     }
 }

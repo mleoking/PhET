@@ -15,7 +15,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.colorado.phet.buildtools.flex.PhetFlexProject;
+import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -462,7 +462,7 @@ public class BuildScript {
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
             String launchFile = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
-            if ( project instanceof PhetFlexProject ) {//TODO: factor into PhetProject hierarchy
+            if ( project instanceof FlexSimulationProject ) {//TODO: factor into PhetProject hierarchy
                 launchFile = project.getSimulationNames()[i] + "." + project.getLaunchFileSuffix();
             }
             String simname = project.getSimulations()[i].getTitle();

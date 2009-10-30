@@ -90,11 +90,11 @@ public class PhetBuildGUI {
             System.out.println( "Usage: args[0]=basedir.  The basedir is your machine-specific absolute path to trunk.  Enclose in quotes if the path contains whitespace.  You may also need to set the current working directory to be the basedir for the launch (not sure)." );
         }
         else {
-            SwingUtilities.invokeLater(new Runnable() {
+            SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
                     new PhetBuildGUI( new File( args[0] ) ).start();
                 }
-            });
+            } );
         }
     }
 }

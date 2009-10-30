@@ -114,7 +114,7 @@ public class JavaBuildCommand {
                                                                    " : " + project.getClassesDirectory().getAbsolutePath() ) );
         ArrayList<File> all = new ArrayList<File>( Arrays.asList( project.getAllScalaSourceRoots() ) );
         all.addAll( Arrays.asList( project.getAllJavaSourceRoots() ) );
-        scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString(all.toArray( new File[all.size()] )) ) );
+        scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString( all.toArray( new File[all.size()] ) ) ) );
         scalac.setIncludes( "**/*.scala, **/*.java" );
         scalac.setTarget( BuildToolsConstants.SIM_SCALA_VERSION );//see Scalac.Target, allows targeting 1.4 jvm
         scalac.setDestdir( project.getClassesDirectory() );

@@ -32,7 +32,7 @@ public class FlashSimulationProject extends PhetProject {
     public FlashSimulationProject( File parentDir, String name ) throws IOException {
         super( parentDir, name );
     }
-    
+
     public void updateProjectFiles() {
         super.updateProjectFiles();
         copySoftwareAgreement();
@@ -254,9 +254,9 @@ public class FlashSimulationProject extends PhetProject {
 
             manifest.addConfiguredAttribute( attribute );
             jar.addConfiguredManifest( manifest );
-            
+
             new MyAntTaskRunner().runTask( jar );
-            
+
             signJAR( destFile );
         }
         catch( Exception e ) {
@@ -264,7 +264,7 @@ public class FlashSimulationProject extends PhetProject {
         }
 
     }
-    
+
     private void signJAR( File outputJar ) {
         PhetJarSigner signer = new PhetJarSigner( BuildLocalProperties.getInstance() );
         // Sign the JAR.

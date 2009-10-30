@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.*;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
@@ -73,13 +74,9 @@ public class ProjectList extends JList {
     private void initializeProjects() {
         // TODO: add flex support?
         List<PhetProject> projects = new LinkedList<PhetProject>();
-        for ( PhetProject phetProject : JavaSimulationProject.getJavaSimulations( trunk ) ) {
-            projects.add( phetProject );
-        }
-
-        for ( PhetProject phetProject : FlashSimulationProject.getFlashSimulations( trunk ) ) {
-            projects.add( phetProject );
-        }
+        projects.addAll( Arrays.asList( JavaSimulationProject.getJavaSimulations( trunk ) ) );
+        projects.addAll( Arrays.asList( FlashSimulationProject.getFlashSimulations( trunk ) ) );
+        projects.addAll( Arrays.asList( FlexSimulationProject.getFlexSimulations( trunk ) ) );
 
         try {
             // TODO: consider refactoring for PhetProject.getAllProjects
