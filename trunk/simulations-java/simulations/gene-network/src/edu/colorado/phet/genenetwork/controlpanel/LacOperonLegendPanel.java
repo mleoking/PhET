@@ -9,10 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
@@ -138,5 +135,13 @@ public class LacOperonLegendPanel extends JPanel {
     	galactoseNode.setOffset(galactoseNode.getFullBoundsReference().width / 2, 0);
     	lactoseNode.addChild(galactoseNode);
     	return lactoseNode.toImage(20, 20, new Color(0, 0, 0, 0));
+    }
+
+    public static void main(String[] args) {
+        JFrame frame =new JFrame();
+        frame.setContentPane(new LacOperonLegendPanel());
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 }
