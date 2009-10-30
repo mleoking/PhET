@@ -146,7 +146,7 @@ public class LinearValueControlNode extends PNode {
 
     public void setTextFieldColumns( int c ) {
         formattedTextField.setColumns( c );
-        readoutNode.computeBounds();
+        readoutNode.updateBounds();
         relayout();
     }
 

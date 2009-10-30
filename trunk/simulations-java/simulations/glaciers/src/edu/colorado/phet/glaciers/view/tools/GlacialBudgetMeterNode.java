@@ -222,7 +222,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
                 _ablationLabel.setText( ABLATION_FORMAT.format( ablation ) + " " + _units );
                 _glacialBudgetLabel.setText( GLACIAL_BUDGET_FORMAT.format( glacialBudget ) + " " + _units );
             }
-            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+            _pswing.updateBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }
 
         public void setValuesUnknown() {
@@ -231,7 +231,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
             _accumulationLabel.setText( unknownValue + " " + _units );
             _ablationLabel.setText( unknownValue + " " + _units );
             _glacialBudgetLabel.setText( unknownValue + " " + _units );
-            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+            _pswing.updateBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }
         
         public void setEnglishUnits( boolean englishUnits ) {

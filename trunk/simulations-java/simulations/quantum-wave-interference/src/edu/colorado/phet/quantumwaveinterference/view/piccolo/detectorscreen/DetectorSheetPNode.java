@@ -311,7 +311,7 @@ public class DetectorSheetPNode extends PhetPNode {
     }
 
     public void updatePSwing() {
-        detectorSheetControlPanelPNode.computeBounds();
+        detectorSheetControlPanelPNode.updateBounds();
     }
 
     public void setTitle( String s ) {

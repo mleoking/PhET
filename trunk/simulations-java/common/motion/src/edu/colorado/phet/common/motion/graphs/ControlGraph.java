@@ -303,9 +303,18 @@ public class ControlGraph extends PNode {
 
     public void addControl( JComponent component ) {
         additionalControlPanel.add( component );
-        //todo: do we need to add this kind of functionality to PSwing for piccolo 1.3?
-        additionalControls.componentHierarchyChanged();
-        additionalControls.computeBounds();
+        disableDoubleBuffering(additionalControls.getComponent());
+        additionalControls.updateBounds();
+    }
+
+    private static void disableDoubleBuffering(JComponent component){
+        component.setDoubleBuffered( false );
+        for(int i=0;i<component.getComponentCount();i++){
+            Component c=component.getComponent( i );
+            if (c instanceof JComponent){
+                disableDoubleBuffering( (JComponent)c );
+            }
+        }
     }
 
     protected void handleControlFocusGrabbed() {

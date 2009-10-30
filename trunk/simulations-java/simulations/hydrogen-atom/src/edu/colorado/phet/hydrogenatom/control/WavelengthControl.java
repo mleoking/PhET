@@ -779,7 +779,7 @@ public class WavelengthControl extends PhetPNode {
         
         /* Call this after doing something that changes the size of a Swing component */
         public void computeBounds() {
-            _pswing.computeBounds();
+            _pswing.updateBounds();
         }
     }
     
