@@ -37,8 +37,7 @@ public class LacOperonModel {
     //----------------------------------------------------------------------------
     
     private final GeneNetworkClock clock;
-    private ArrayList<SimpleModelElement> simpleModelElements = new ArrayList<SimpleModelElement>();
-    private ArrayList<CompositeModelElement> compositeModelElements = new ArrayList<CompositeModelElement>();
+    private ArrayList<IModelElement> modelElements = new ArrayList<IModelElement>();
     protected ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     //----------------------------------------------------------------------------
@@ -95,7 +94,7 @@ public class LacOperonModel {
         modelElement = new LacIPromoter();
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addSimpleModelElement(modelElement);
+        addModelElement(modelElement);
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         
         xPosition += 2; // The spec shows a little bit of space here.
@@ -103,7 +102,7 @@ public class LacOperonModel {
         modelElement = new LacIGene();
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addSimpleModelElement(modelElement);
+        addModelElement(modelElement);
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         
         xPosition = DNA_STRAND_LOCATION.getMinX() + 0.45 * DNA_STRAND_LOCATION.getWidth();
@@ -111,19 +110,19 @@ public class LacOperonModel {
         modelElement = new CapBindingRegion();
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addSimpleModelElement(modelElement);
+        addModelElement(modelElement);
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         
         modelElement = new LacPromoter();
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addSimpleModelElement(modelElement);
+        addModelElement(modelElement);
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         
         modelElement = new LacOperator();
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addSimpleModelElement(modelElement);
+        addModelElement(modelElement);
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         
         xPosition += 2; // The spec shows some space here.
@@ -131,7 +130,7 @@ public class LacOperonModel {
         modelElement = new LacZGene();
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addSimpleModelElement(modelElement);
+        addModelElement(modelElement);
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         
         xPosition += 1; // The spec shows some space here.
@@ -139,7 +138,7 @@ public class LacOperonModel {
         modelElement = new LacYGene();
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addSimpleModelElement(modelElement);
+        addModelElement(modelElement);
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
         
         
@@ -177,24 +176,17 @@ public class LacOperonModel {
     // Other Methods
     //----------------------------------------------------------------------------
     
-    private void addSimpleModelElement(SimpleModelElement modelElement){
-    	simpleModelElements.add(modelElement);
-    }
-    
-    private void addCompositeModelElement(CompositeModelElement compositeModelElement){
-    	compositeModelElements.add(compositeModelElement);
+    private void addModelElement(IModelElement modelElement){
+    	modelElements.add(modelElement);
     }
     
     private void addLactoseMolecule(){
-        ArrayList<SimpleModelElement> compositeList = new ArrayList<SimpleModelElement>();
-        compositeList.add(new Galactose());
-        compositeList.add(new Glucose());
-        CompositeModelElement compositeModelElement = new Lactose2();
-        compositeModelElement.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
+        Lactose2 lactose = new Lactose2();
+        lactose.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
     			(RAND.nextDouble() - 0.5) * (MODEL_AREA_HEIGHT / 2));
     	double maxVel = 2;
-    	compositeModelElement.setVelocity((RAND.nextDouble() - 0.5) * maxVel, (RAND.nextDouble() - 0.5) * maxVel);
-        addCompositeModelElement(compositeModelElement);
+    	lactose.setVelocity((RAND.nextDouble() - 0.5) * maxVel, (RAND.nextDouble() - 0.5) * maxVel);
+        addModelElement(lactose);
     }
     
     private void randomlyInitAndAddSimpleModelElement(SimpleModelElement modelElement){
@@ -202,7 +194,7 @@ public class LacOperonModel {
     			(RAND.nextDouble() - 0.5) * (MODEL_AREA_HEIGHT / 2));
     	double maxVel = 2;
     	modelElement.setVelocity((RAND.nextDouble() - 0.5) * maxVel, (RAND.nextDouble() - 0.5) * maxVel);
-    	addSimpleModelElement(modelElement);
+    	addModelElement(modelElement);
     }
     
     /**
@@ -211,16 +203,21 @@ public class LacOperonModel {
      * @return
      */
     public ArrayList<SimpleModelElement> getAllSimpleModelElements(){
-    	ArrayList<SimpleModelElement> allSimples = new ArrayList<SimpleModelElement>(simpleModelElements);
-    	for (CompositeModelElement compositeElement : compositeModelElements){
-    		allSimples.addAll(compositeElement.getSimpleElementConstituents());
+    	ArrayList<SimpleModelElement> allSimples = new ArrayList<SimpleModelElement>();
+    	for (IModelElement modelElement : modelElements){
+    		if (modelElement instanceof SimpleModelElement){
+    			allSimples.add((SimpleModelElement)modelElement);
+    		}
+    		else{
+    			allSimples.addAll(((CompositeModelElement)modelElement).getSimpleElementConstituents());
+    		}
     	}
     	return allSimples;
     }
     
     private void handleClockTicked(){
     	// Update the position of each of the simple model elements.
-    	for (SimpleModelElement modelElement : simpleModelElements){
+    	for (IModelElement modelElement : modelElements){
     		
     		Point2D position = modelElement.getPositionRef();
     		Vector2D velocity = modelElement.getVelocityRef();
@@ -236,29 +233,8 @@ public class LacOperonModel {
         		modelElement.setVelocity(velocity.getX(), -velocity.getY());
         	}
     		
-    		// Update the position based on the velocity.
-    		modelElement.updatePosition();
-    	}
-
-    	// Update the position of each of the composite model elements.
-    	for (CompositeModelElement componsiteModelElement : compositeModelElements){
-    		
-    		Point2D position = componsiteModelElement.getPositionRef();
-    		Vector2D velocity = componsiteModelElement.getVelocityRef();
-    		
-    		if ((position.getX() > MODEL_BOUNDS.getMaxX() && velocity.getX() > 0) ||
-    			(position.getX() < MODEL_BOUNDS.getMinX() && velocity.getX() < 0))	{
-    			// Reverse direction in the X direction.
-    			componsiteModelElement.setVelocity(-velocity.getX(), velocity.getY());
-    		}
-    		if ((position.getY() > MODEL_BOUNDS.getMaxY() && velocity.getY() > 0) ||
-        		(position.getY() < MODEL_BOUNDS.getMinY() && velocity.getY() < 0))	{
-        		// Reverse direction in the Y direction.
-    			componsiteModelElement.setVelocity(velocity.getX(), -velocity.getY());
-        	}
-    		
-    		// Update the position based on the velocity.
-    		componsiteModelElement.updatePosition();
+    		// Update the current position and velocity (including direction).
+    		modelElement.updatePositionAndMotion();
     	}
     }
     
