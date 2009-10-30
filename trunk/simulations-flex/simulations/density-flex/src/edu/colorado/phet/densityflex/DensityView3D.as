@@ -80,7 +80,6 @@ public class DensityView3D extends UIComponent {
         backgroundSprite.graphics.endFill();
         addChild(backgroundSprite);
         addChild(view);
-        //addChild(fpsText);
     }
 
     override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void {
@@ -212,26 +211,6 @@ public class DensityView3D extends UIComponent {
             invalid = false;
             view.render();
         }
-
-        //        var curTime : int = getTimer();
-        //        var fps : int = 1000 / (curTime - time);
-        //        fpsText.text = String(fps) + " fps";
-        //        if ( fps > 20 ) {
-        //            fpsText.backgroundColor = 0x00FF00;
-        //        }
-        //        else if ( fps > 15 ) {
-        //            fpsText.backgroundColor = 0x88FF00;
-        //        }
-        //        else if ( fps > 10 ) {
-        //                fpsText.backgroundColor = 0xFFFF00;
-        //            }
-        //            else if ( fps > 5 ) {
-        //                    fpsText.backgroundColor = 0xFF8800;
-        //                }
-        //                else {
-        //                    fpsText.backgroundColor = 0xFF0000;
-        //                }
-        //        time = curTime;
     }
 
     public function onMouseDown( event:MouseEvent ) : void {
