@@ -84,4 +84,8 @@ public class WeightedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 		// Update current bin.
 		updateCount = (updateCount + 1) % MOTION_UPDATE_PERIOD;
 	}
+	
+	public void setDestinationPoint(double x, double y){
+		destination.setLocation(x, y);
+	}
 }
