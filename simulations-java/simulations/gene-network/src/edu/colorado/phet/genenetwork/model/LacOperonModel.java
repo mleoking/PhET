@@ -189,8 +189,7 @@ public class LacOperonModel {
         ArrayList<SimpleModelElement> compositeList = new ArrayList<SimpleModelElement>();
         compositeList.add(new Galactose());
         compositeList.add(new Glucose());
-        CompositeModelElement compositeModelElement = 
-        	new CompositeModelElement(compositeList, new Point2D.Double(0, 0));
+        CompositeModelElement compositeModelElement = new Lactose2();
         compositeModelElement.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
     			(RAND.nextDouble() - 0.5) * (MODEL_AREA_HEIGHT / 2));
     	double maxVel = 2;
@@ -214,7 +213,7 @@ public class LacOperonModel {
     public ArrayList<SimpleModelElement> getAllSimpleModelElements(){
     	ArrayList<SimpleModelElement> allSimples = new ArrayList<SimpleModelElement>(simpleModelElements);
     	for (CompositeModelElement compositeElement : compositeModelElements){
-    		allSimples.addAll(compositeElement.getConstituents());
+    		allSimples.addAll(compositeElement.getSimpleElementConstituents());
     	}
     	return allSimples;
     }
