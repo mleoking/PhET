@@ -16,32 +16,32 @@ public class Block implements IPositioned {
     private var color:ColorTransform;
     private var listeners: Array;
 
-    public function Block( initialMass : Number, size : Number, x:Number,y:Number,color : ColorTransform ) : void {
+    public function Block( initialMass : Number, size : Number, x:Number, y:Number, color : ColorTransform ) : void {
         this.width = size;
         this.height = size;
         this.depth = size;
-        this.x=x;
-        this.y=y;
+        this.x = x;
+        this.y = y;
         this.z = size / 2 + 101;
         this.mass = initialMass;
         this.color = color;
         this.listeners = new Array();
     }
 
-    public function addListener(listener:Listener):void{
+    public function addListener( listener:Listener ):void {
         listeners.push(listener);
     }
 
     public function getWidth():Number {
-        return this.width;
+        return width;
     }
 
     public function getHeight():Number {
-        return this.height;
+        return height;
     }
 
     public function getDepth():Number {
-        return this.depth;
+        return depth;
     }
 
     public function getX():Number {
@@ -56,6 +56,18 @@ public class Block implements IPositioned {
         return z;
     }
 
+    public function getTopY() : Number {
+        return y + height / 2;
+    }
+
+    public function getBottomY() : Number {
+        return y - height / 2;
+    }
+
+    public function getVolume() : Number {
+        return width * height * depth;
+    }
+
     public function getColor():ColorTransform {
         return color;
     }
@@ -64,12 +76,12 @@ public class Block implements IPositioned {
         return mass;
     }
 
-    public function setPosition(x:Number, y:Number): void {
-        this.x=x;
-        this.y=y;
+    public function setPosition( x:Number, y:Number ): void {
+        this.x = x;
+        this.y = y;
 
         //todo: notify listeners
-        for each (var listener:Listener in listeners){
+        for each ( var listener:Listener in listeners ) {
             listener.update();
         }
     }

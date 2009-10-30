@@ -19,19 +19,19 @@ public class DensityModel {
         blocks.push(new Block(50, 200, -450, 0, new ColorTransform(1, 1, 1)));
     }
 
-    public function getBlocks():Array {
+    public function getBlocks() : Array {
         return blocks;
     }
 
-    function updateWater():void {
+    public function updateWater() : void {
         var cubeVolume:Number = cube.getWidth() * cube.getHeight() * cube.getDepth();
         var idealHeight:Number = volume / (poolWidth * poolDepth);
         var highestHeight:Number = (volume + cubeVolume) / (poolWidth * poolDepth);
 
-        if (cube.getY() - cube.getHeight() / 2 > -poolHeight + idealHeight) {
+        if ( cube.getY() - cube.getHeight() / 2 > -poolHeight + idealHeight ) {
             waterHeight = idealHeight;
         }
-        else if (cube.getY() + cube.getHeight() / 2 < -poolHeight + highestHeight) {
+        else if ( cube.getY() + cube.getHeight() / 2 < -poolHeight + highestHeight ) {
             waterHeight = highestHeight;
         }
         else {
@@ -42,19 +42,19 @@ public class DensityModel {
         }
     }
 
-    function getPoolHeight():Number {
+    public function getPoolHeight() : Number {
         return poolHeight;
     }
 
-    function getWaterHeight():Number {
+    public function getWaterHeight() : Number {
         return waterHeight;
     }
 
-    function getPoolWidth():Number {
+    public function getPoolWidth() : Number {
         return poolWidth;
     }
 
-    function getPoolDepth():Number {
+    public function getPoolDepth() : Number {
         return poolDepth;
     }
 }

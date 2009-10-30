@@ -111,9 +111,9 @@ public class DensityView3D extends UIComponent {
 
     public function initObjects():void {
         var poolHeight:Number = model.getPoolHeight();
-        var waterHeight:Number= model.getWaterHeight();
+        var waterHeight:Number = model.getWaterHeight();
         var poolWidth:Number = model.getPoolWidth();
-        var poolDepth:Number= model.getPoolDepth();
+        var poolDepth:Number = model.getPoolDepth();
 
         poolFront = new Plane({ y: -poolHeight + waterHeight / 2, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
         scene.addChild(poolFront);
@@ -150,9 +150,9 @@ public class DensityView3D extends UIComponent {
         scene.addChild(new Cylinder({ x: 450, y: 300, z: 151, rotationZ: 90, radius: 50, height: 750, segmentsH: 1, segmentsW: 25, material: new ShadingColorMaterial(0xAA7755) }));
 
         // the cube
-        var block:Block = new Block(50, 200, 450,0,new ColorTransform(1, 0, 0))
+        var block:Block = new Block(50, 200, 450, 0, new ColorTransform(1, 0, 0))
 
-        for each (var b:Block in this.model.getBlocks()) {
+        for each ( var b:Block in this.model.getBlocks() ) {
             scene.addChild(new BlockNode(b));
         }
 
@@ -260,10 +260,11 @@ public class DensityView3D extends UIComponent {
             var cubePlane : Plane3D = new Plane3D();
             cubePlane.fromNormalAndPoint(new Number3D(0, 0, -1), new Number3D(0, 0, -100));
             var intersection : Vertex = cubePlane.getIntersectionLine(cameraVertex, rayVertex);
-            if (selectedObject is IPositioned){
-                 var settableObject : IPositioned = selectedObject as IPositioned;
-                 settableObject.setPosition(intersection.x,intersection.y);
-            }else{
+            if ( selectedObject is IPositioned ) {
+                var settableObject : IPositioned = selectedObject as IPositioned;
+                settableObject.setPosition(intersection.x, intersection.y);
+            }
+            else {
                 selectedObject.x = intersection.x;
                 selectedObject.y = intersection.y;
             }
