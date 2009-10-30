@@ -1,0 +1,43 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: October 22-29, 2009 (Thu-Thu)
+
+ACCOMPLISHMENTS:
+
+  Reactants, Products and Leftovers
+  - replaced "bread,meat,cheese" model with a generalized "chemical reaction" model
+  - started converting "Sandwich Shop" to use new model
+  
+  Translation Utility
+  - published version 2.03.00 to PhET website
+  
+  Piccolo
+  - 1821, tested my sims with Piccolo 1.3-preview, documented problems
+  
+  build process
+  - 1652,1850, discussed phetcommon-font.properties (preferred fonts) deployment
+  - 1837, changes and testing related to change of JDK location on tigercat
+  - identified new problems: 1854,1855,1856,1857
+  
+  common code
+  - 1845,1846,1847, Piccolo tool tips
+  
+  misc:
+  - 1764, fixed problems with sim-example and sim-template
+  
+WHAT'S NEXT:
+
+  - continue work on Reactants, Products and Leftovers
+  - finish Glaciers (waiting for Wendy's feedback since 8/19/09)
+  
+ISSUES:
+
+  - The design for "Reactants, Products and Leftovers" is incomplete, which increases the 
+    probability that costly changes will be required to accommodate unspecified tabs.
+  
+DATES UNAVAILABLE:
+
+   February 12-15
+  
+--
