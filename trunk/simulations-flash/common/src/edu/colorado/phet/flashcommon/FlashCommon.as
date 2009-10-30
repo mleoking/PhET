@@ -422,6 +422,8 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 			field.embedFonts = false;
 			field.setTextFormat(format);
 		}
+		
+		fixLocaleFont( field );
 	}
 	
 	public function stripNewlines(str : String) {
@@ -470,4 +472,21 @@ class edu.colorado.phet.flashcommon.FlashCommon {
             _level0.transform.colorTransform = new flash.geom.ColorTransform( 1, 1, 1, 1, 0, 0, 0, 0 );
         }
     }
+	
+	public function getOverrideFont() : String {
+		if( getLocale() == "km" ) {
+			return "Limon";
+		} else {
+			return undefined;
+		}
+	}
+	
+	public function fixLocaleFont( field : TextField ) {
+		var font : String = getOverrideFont();
+		if( font ) {
+			var format : TextFormat = field.getTextFormat();
+			format.font = font;
+			field.setTextFormat( format );
+		}
+	}
 }
