@@ -80,13 +80,15 @@ public abstract class Substance {
     }
     
     private void fireCoefficientChanged() {
-        for ( SubstanceChangeListener listener : listeners ) {
+        ArrayList<SubstanceChangeListener> listenersCopy = new ArrayList<SubstanceChangeListener>( listeners ); // avoid ConcurrentModificationException
+        for ( SubstanceChangeListener listener : listenersCopy ) {
             listener.coefficientChanged();
         }
     }
     
     private void fireQuantityChanged() {
-        for ( SubstanceChangeListener listener : listeners ) {
+        ArrayList<SubstanceChangeListener> listenersCopy = new ArrayList<SubstanceChangeListener>( listeners ); // avoid ConcurrentModificationException
+        for ( SubstanceChangeListener listener : listenersCopy ) {
             listener.quantityChanged();
         }
     }

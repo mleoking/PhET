@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
-public class ProductQuantityDisplayNode extends PComposite {
+public class QuantityDisplayNode extends PComposite {
     
     private static final PDimension BAR_SIZE = new PDimension( 15, 75 );
     
@@ -20,7 +20,7 @@ public class ProductQuantityDisplayNode extends PComposite {
     private final PText valueNode;
     private final PNode imageNode;
     
-    public ProductQuantityDisplayNode( IntegerRange range, PNode imageNode, double imageScale ) {
+    public QuantityDisplayNode( IntegerRange range, PNode imageNode, double imageScale ) {
         super();
         
         barNode = new IntegerHistogramBarNode( range, BAR_SIZE );

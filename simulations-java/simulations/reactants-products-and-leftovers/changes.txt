@@ -1,3 +1,4 @@
+10/29/09 quick-and-dirty conversion of the rest of Sandwich Shop to new model, additional generalization required
 10/28/09 sync new and old model until fully converted to new model
 10/28/09 generalize implementation of sandwich formula node, use new model
 10/28/09 generalized model of chemical reaction

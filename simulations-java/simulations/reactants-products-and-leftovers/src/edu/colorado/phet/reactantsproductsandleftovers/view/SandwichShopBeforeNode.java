@@ -13,7 +13,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.BreadQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.CheeseQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.MeatQuantityControlNode;
-import edu.colorado.phet.reactantsproductsandleftovers.model.OldSandwichShop;
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -27,7 +27,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
     private static final double Y_MARGIN = 25;
     private static final double REACTANTS_SCALE = 0.5; //XXX
     
-    private final OldSandwichShop model;
+    private final SandwichShopModel model;
 
     private final BoxNode boxNode;
     private final PComposite breadParent, meatParent, cheeseParent;
@@ -35,11 +35,11 @@ public class SandwichShopBeforeNode extends PhetPNode {
     private final ArrayList<MeatNode> meatList;
     private final ArrayList<CheeseNode> cheeseList;
     
-    public SandwichShopBeforeNode( final OldSandwichShop model ) {
+    public SandwichShopBeforeNode( final SandwichShopModel model ) {
         super();
         
         this.model = model;
-        model.addChangeListener( new ChangeListener() {
+        model.getReaction().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update();
             }
@@ -105,15 +105,15 @@ public class SandwichShopBeforeNode extends PhetPNode {
     private void update() {
         
         // bread
-        if ( model.getBread() < breadList.size() ) {
-            while ( model.getBread() < breadList.size() ) {
+        if ( model.getBread().getQuantity() < breadList.size() ) {
+            while ( model.getBread().getQuantity() < breadList.size() ) {
                 BreadNode node = breadList.get( breadList.size() - 1 );
                 breadParent.removeChild( node );
                 breadList.remove( node );
             }
         }
         else {
-            while ( model.getBread() > breadList.size() ) {
+            while ( model.getBread().getQuantity() > breadList.size() ) {
                 BreadNode node = new BreadNode();
                 node.scale( REACTANTS_SCALE );
                 breadParent.addChild( node );
@@ -127,15 +127,15 @@ public class SandwichShopBeforeNode extends PhetPNode {
         }
         
         // meat
-        if ( model.getMeat() < meatList.size() ) {
-            while ( model.getMeat() < meatList.size() ) {
+        if ( model.getMeat().getQuantity() < meatList.size() ) {
+            while ( model.getMeat().getQuantity() < meatList.size() ) {
                 MeatNode node = meatList.get( meatList.size() - 1 );
                 meatParent.removeChild( node );
                 meatList.remove( node );
             }
         }
         else {
-            while ( model.getMeat() > meatList.size() ) {
+            while ( model.getMeat().getQuantity() > meatList.size() ) {
                 MeatNode node = new MeatNode();
                 node.scale( REACTANTS_SCALE );
                 meatParent.addChild( node );
@@ -149,15 +149,15 @@ public class SandwichShopBeforeNode extends PhetPNode {
         }
         
         // cheese
-        if ( model.getCheese() < cheeseList.size() ) {
-            while ( model.getCheese() < cheeseList.size() ) {
+        if ( model.getCheese().getQuantity() < cheeseList.size() ) {
+            while ( model.getCheese().getQuantity() < cheeseList.size() ) {
                 CheeseNode node = cheeseList.get( cheeseList.size() - 1 );
                 cheeseParent.removeChild( node );
                 cheeseList.remove( node );
             }
         }
         else {
-            while ( model.getCheese() > cheeseList.size() ) {
+            while ( model.getCheese().getQuantity() > cheeseList.size() ) {
                 CheeseNode node = new CheeseNode();
                 node.scale( REACTANTS_SCALE );
                 cheeseParent.addChild( node );

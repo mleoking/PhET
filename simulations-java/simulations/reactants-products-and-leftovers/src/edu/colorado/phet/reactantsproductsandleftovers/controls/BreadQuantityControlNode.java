@@ -3,24 +3,26 @@ package edu.colorado.phet.reactantsproductsandleftovers.controls;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.reactantsproductsandleftovers.model.OldSandwichShop;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.colorado.phet.reactantsproductsandleftovers.view.BreadNode;
 
 
 public class BreadQuantityControlNode extends ReactantQuantityControlNode {
     
-    public BreadQuantityControlNode( final OldSandwichShop model ) {
+    public BreadQuantityControlNode( final SandwichShopModel model ) {
         super( SandwichShopDefaults.QUANTITY_RANGE, new BreadNode(), 0.5 /* XXX */ );
-        setValue( model.getBread() );
+        setValue( model.getBread().getQuantity() );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.setBread( getValue() );
+                model.getBread().setQuantity( getValue() );
             }
         });
-        model.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                setValue( model.getBread() );
+        model.getBread().addReactantChangeListener( new ReactantChangeAdapter() {
+            @Override
+            public void quantityChanged() {
+                setValue( model.getBread().getQuantity() );
             }
         });
     }

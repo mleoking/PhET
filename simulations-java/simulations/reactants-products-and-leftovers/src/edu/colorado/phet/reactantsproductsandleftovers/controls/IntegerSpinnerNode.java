@@ -1,6 +1,5 @@
 package edu.colorado.phet.reactantsproductsandleftovers.controls;
 
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -19,7 +18,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
