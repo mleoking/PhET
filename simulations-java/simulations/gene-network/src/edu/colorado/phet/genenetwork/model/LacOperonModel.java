@@ -2,12 +2,10 @@
 
 package edu.colorado.phet.genenetwork.model;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
@@ -157,6 +155,10 @@ public class LacOperonModel {
     public GeneNetworkClock getClock() {
         return clock;
     }
+    
+    public static Rectangle2D getModelBounds(){
+    	return MODEL_BOUNDS;
+    }
 
     /**
      * Get the location and size of the DNA strand.  The DNA strand is unique
@@ -218,21 +220,6 @@ public class LacOperonModel {
     private void handleClockTicked(){
     	// Update the position of each of the simple model elements.
     	for (IModelElement modelElement : modelElements){
-    		
-    		Point2D position = modelElement.getPositionRef();
-    		Vector2D velocity = modelElement.getVelocityRef();
-    		
-    		if ((position.getX() > MODEL_BOUNDS.getMaxX() && velocity.getX() > 0) ||
-    			(position.getX() < MODEL_BOUNDS.getMinX() && velocity.getX() < 0))	{
-    			// Reverse direction in the X direction.
-    			modelElement.setVelocity(-velocity.getX(), velocity.getY());
-    		}
-    		if ((position.getY() > MODEL_BOUNDS.getMaxY() && velocity.getY() > 0) ||
-        		(position.getY() < MODEL_BOUNDS.getMinY() && velocity.getY() < 0))	{
-        		// Reverse direction in the Y direction.
-        		modelElement.setVelocity(velocity.getX(), -velocity.getY());
-        	}
-    		
     		// Update the current position and velocity (including direction).
     		modelElement.updatePositionAndMotion();
     	}
