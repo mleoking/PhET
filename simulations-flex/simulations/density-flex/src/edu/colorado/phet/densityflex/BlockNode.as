@@ -30,8 +30,8 @@ public class BlockNode extends Cube implements IPositioned, Listener{
         this.depth = block.getDepth();
         this.segmentsH = 2;
         this.segmentsW = 2;
-        this.x=block.getX();
-        this.y=block.getY();
+        this.x = block.getX();
+        this.y = block.getY();
         this.z = block.getZ();
         this.useHandCursor = true;
         block.addListener(this);
@@ -85,13 +85,13 @@ public class BlockNode extends Cube implements IPositioned, Listener{
         this.cubeMaterials.back = frontMaterial;
     }
 
-    public function setPosition(x:Number, y:Number): void {
-        block.setPosition(x,y);
+    public function setPosition( x:Number, y:Number ): void {
+        block.setPosition(x, y);
     }
 
     public function update():void {
-        this.x=block.getX();
-        this.y=block.getY();
+        this.x = block.getX();
+        this.y = block.getY();
     }
 }
 }
