@@ -473,9 +473,31 @@ class edu.colorado.phet.flashcommon.FlashCommon {
         }
     }
 	
+	private function existingSystemFont( preferredFonts : Array ) : String {
+		var fontList : Array = TextField.getFontList();
+		for( var pkey in preferredFonts ) {
+			var pfont : String = preferredFonts[pkey];
+			for( var fkey in fontList ) {
+				var ffont : String = fontList[fkey];
+				if( pfont == ffont ) {
+					_level0.debug( "Found good system font: " + pfont + "\n" );
+					return pfont;
+				}
+			}
+			_level0.debug( "Could not find: " + pfont + "\n" );
+		}
+		return undefined;
+	}
+	
+	private var cachedOverrideFont : String = null;
 	public function getOverrideFont() : String {
 		if( getLocale() == "km" ) {
-			return "Limon";
+			if( cachedOverrideFont == null ) {
+				var khmerFonts : Array = ["Khmer OS", "MoolBoran", "Limon"];
+				var font : String = existingSystemFont( khmerFonts );
+				cachedOverrideFont = font;
+			}
+			return cachedOverrideFont;
 		} else {
 			return undefined;
 		}
