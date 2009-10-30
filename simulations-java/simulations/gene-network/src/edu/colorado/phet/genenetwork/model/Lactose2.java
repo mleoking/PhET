@@ -32,6 +32,20 @@ public class Lactose2 extends CompositeModelElement {
 		// Add these molecules to the list of constituents.
 		addModelElement(glucoseMolecule);
 		addModelElement(galactoseMolecule);
+		
+		// Set the motion strategy.
+		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+		
+		// Create an overall shape for this composite element.
+		Shape glucoseShape = glucoseMolecule.getShape();
+		AffineTransform transform = new AffineTransform();
+		transform.setToTranslation(	-glucoseShape.getBounds2D().getWidth()/2, 0 );
+		Shape glucoseShiftedLeft = transform.createTransformedShape(glucoseShape);
+		Shape galactoseShape = galactoseMolecule.getShape();
+		transform.setToTranslation(	galactoseShape.getBounds2D().getWidth()/2, 0 );
+		Shape galactoseShiftedRight = transform.createTransformedShape(galactoseShape);
+		area = new Area(glucoseShiftedLeft);
+		area.add(new Area(galactoseShiftedRight));
     }
     
     /**
