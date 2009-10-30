@@ -1,7 +1,6 @@
 package edu.colorado.phet.genenetwork.model;
 
 import java.awt.Shape;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -15,34 +14,10 @@ public class CompositeModelElement implements IModelElement {
 	
 	private Point2D position = new Point2D.Double();
 	private Vector2D velocity = new Vector2D.Double();
-	private ArrayList<SimpleModelElement> constituentModelElements = new ArrayList<SimpleModelElement>();
+	private ArrayList<IModelElement> constituentModelElements = new ArrayList<IModelElement>();
 	
-	/**
-	 * This constructor assumes that the simple model elements need to be
-	 * moved such that their binding sites all coincide.
-	 * 
-	 * @param simpleModelElements
-	 */
-	public CompositeModelElement(ArrayList<SimpleModelElement> simpleModelElements, Point2D initialPosition){
-
-		if (simpleModelElements.size() < 2){
-			throw new IllegalArgumentException("Insufficent number of elements, much be at least 2");
-		}
-		
-		constituentModelElements.addAll(simpleModelElements);
-		
-		// Position each simple model element such that the binding
-		// points are all at 0,0.
-		for (int i = 0; i < constituentModelElements.size(); i++){
-			SimpleModelElement modelElement = constituentModelElements.get(i);
-			SimpleModelElement bondingToModelElement =
-				constituentModelElements.get((i + 1) % constituentModelElements.size());
-    		Dimension2D bindingPointOffset =
-    			modelElement.getBindingPointForElement(bondingToModelElement.getType()).getOffset();
-    		modelElement.setPosition(-bindingPointOffset.getWidth(), -bindingPointOffset.getHeight());
-		}
-		
-		setPosition(initialPosition);
+	protected void addModelElement( IModelElement modelElement ){
+		constituentModelElements.add(modelElement);
 	}
 	
 	/**
@@ -56,7 +31,7 @@ public class CompositeModelElement implements IModelElement {
 		double deltaX = xPos - position.getX();
 		double deltaY = yPos - position.getY();
 		
-		for (SimpleModelElement modelElement : constituentModelElements){
+		for (IModelElement modelElement : constituentModelElements){
 			modelElement.setPosition(modelElement.getPositionRef().getX() + deltaX,
 					modelElement.getPositionRef().getY() + deltaY);
 		}
@@ -74,7 +49,7 @@ public class CompositeModelElement implements IModelElement {
 	
 	public void setVelocity(double xVel, double yVel){
 		velocity.setComponents(xVel, yVel);
-		for (SimpleModelElement modelElement : constituentModelElements){
+		for (IModelElement modelElement : constituentModelElements){
 			modelElement.setVelocity(xVel, yVel);
 		}
 	}
@@ -99,8 +74,23 @@ public class CompositeModelElement implements IModelElement {
 		}
 	}
 	
-	public ArrayList<SimpleModelElement> getConstituents(){
-		return new ArrayList<SimpleModelElement>(constituentModelElements);
+	/**
+	 * Get a list containing all the simple model elements contained by this
+	 * composite.
+	 * 
+	 * @return
+	 */
+	public ArrayList<SimpleModelElement> getSimpleElementConstituents(){
+		ArrayList<SimpleModelElement> simpleConstituents = new ArrayList<SimpleModelElement>();
+		for (IModelElement modelElement : constituentModelElements){
+			if (modelElement instanceof SimpleModelElement){
+				simpleConstituents.add((SimpleModelElement)modelElement);
+			}
+			else {
+				simpleConstituents.addAll(getSimpleElementConstituents());
+			}
+		}
+		return simpleConstituents;
 	}
 
 	public Shape getShape() {
@@ -131,5 +121,15 @@ public class CompositeModelElement implements IModelElement {
 	public void updatePotentialBondingPartners( ArrayList<IModelElement> modelElements ) {
 		// Does nothing in the base class, which essentially means that it
 		// if not overridden it will not initiate any bonds.
+	}
+
+	public BindingPoint getBindingPointForElement(SimpleElementType type) {
+		// Return null, indicating that no binding point exists for the specified type.
+		return null;
+	}
+
+	public SimpleElementType getType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
