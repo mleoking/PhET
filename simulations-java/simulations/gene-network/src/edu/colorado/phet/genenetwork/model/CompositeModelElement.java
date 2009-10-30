@@ -15,6 +15,7 @@ public class CompositeModelElement implements IModelElement {
 	private Point2D position = new Point2D.Double();
 	private Vector2D velocity = new Vector2D.Double();
 	private ArrayList<IModelElement> constituentModelElements = new ArrayList<IModelElement>();
+    private AbstractMotionStrategy motionStrategy = null;
 	
 	protected void addModelElement( IModelElement modelElement ){
 		constituentModelElements.add(modelElement);
@@ -114,8 +115,9 @@ public class CompositeModelElement implements IModelElement {
 	}
 
 	public void updatePositionAndMotion() {
-		// Does nothing in the base class, which essentially means it never
-		// moves.
+		if (motionStrategy != null){
+			motionStrategy.updatePositionAndMotion();
+		}
 	}
 
 	public void updatePotentialBondingPartners( ArrayList<IModelElement> modelElements ) {
@@ -131,5 +133,9 @@ public class CompositeModelElement implements IModelElement {
 	public SimpleElementType getType() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	protected void setMotionStrategy(AbstractMotionStrategy newMotionStrategy){
+		motionStrategy = newMotionStrategy;
 	}
 }
