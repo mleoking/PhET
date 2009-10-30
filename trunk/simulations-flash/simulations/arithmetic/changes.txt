@@ -1,3 +1,5 @@
+# 2.00.09 (36239) Oct 29, 2009
+10/29/09 Ellipsis fix
 # 2.00.08 (36198) Oct 28, 2009
 10/28/09 Fixed parenthesis in Arabic
 # 2.00.07 (36195) Oct 28, 2009
