@@ -54,7 +54,9 @@ public class FlexSimulationProject extends PhetProject {
         File swfFile = getSWFFile();
         boolean b = swfFile.delete();
         System.out.println( "Delete SWFFile=" + b );
-        Process p = Runtime.getRuntime().exec( new String[]{"mxmlc", "-output", "deploy/" + getName() + ".swf", "-compiler.source-path=src:../../common/src", "-compiler.accessible", "-compiler.optimize", "-target-player", "9", getMXML()}, null, getProjectDir() );
+
+        // TODO: factor out libraries and other dependencies into build properties
+        Process p = Runtime.getRuntime().exec( new String[]{"mxmlc", "-output", "deploy/" + getName() + ".swf", "-compiler.source-path", "src", "../../contrib/away3d/fp9", "../../common/src", "-compiler.accessible", "-compiler.optimize", "-target-player", "9", getMXML()}, null, getProjectDir() );
         new StreamReaderThread( p.getErrorStream(), "err>" ).start();
         new StreamReaderThread( p.getInputStream(), "" ).start();
         p.waitFor();
