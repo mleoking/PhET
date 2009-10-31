@@ -155,11 +155,14 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-flex/contrib/away3d/fp9" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flex/common/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-flex/simulations/density-flex/data" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/core/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3/extras/src/main/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.manager" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3" />
       <excludeFolder url="file://$MODULE_DIR$/web/wicket-test/src/java" />
     </content>
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
