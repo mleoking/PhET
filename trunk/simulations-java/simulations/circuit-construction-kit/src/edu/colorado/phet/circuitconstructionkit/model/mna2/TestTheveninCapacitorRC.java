@@ -27,9 +27,10 @@ public class TestTheveninCapacitorRC {
     public static void main(String[] args) throws IOException {
         DecimalFormat f = new DecimalFormat("0.000000000000000000");
         double vBattery = 9;
-//        double rResistor = 100;
+//        double rResistor = 1;
         double rResistor = 1E-6;
         double c = 0.1;
+        double omega = 2 * Math.PI * 1;
 
         State state = new State(0, vBattery / rResistor);
 
@@ -55,6 +56,8 @@ public class TestTheveninCapacitorRC {
 //            System.out.println("Chose dt = "+dt);
 
 //            double t = j * dt;
+//            double voltageAsAFunctionOfTime = vBattery* Math.cos(t*omega);
+            double voltageAsAFunctionOfTime = vBattery;
 
             double vResistorAnalytical = vBattery * Math.exp(-t / rResistor / c);
             double vResistorPredicted = vBattery - state.v;
@@ -64,7 +67,7 @@ public class TestTheveninCapacitorRC {
             System.out.println(str);
             bufferedWriter.write(str + "\n");
 
-            state = newState(vBattery, rResistor, c, state, dt);
+            state = newState(voltageAsAFunctionOfTime, rResistor, c, state, dt);
             t = t + dt;
         }
         bufferedWriter.close();
@@ -91,13 +94,14 @@ public class TestTheveninCapacitorRC {
 //        System.out.println("vc = " + vc+", rc = "+rc);
         double newCurrent = (vBattery - vc) / (rc + rResistor);
         double newVoltage = vBattery - newCurrent * rResistor;//signs may be wrong here
-        double avgCurrent = (newCurrent + state.i)/2.0;
-        double avgVolts = (newVoltage + state.v) / 2.0;
+        double avgCurrent = (newCurrent*0.9 + state.i*0.1);
+        double avgVolts = (newVoltage*0.9 + state.v*0.1);
 
-        if (!signsMatch(newVoltage,state.v) || !signsMatch(newCurrent,state.i)){
+//        if (!signsMatch(newVoltage,state.v) || !signsMatch(newCurrent,state.i)){
             return new State(avgVolts, avgCurrent);
-        }
-        else return new State(newVoltage, newCurrent);
+//        }
+//        else
+//        return new State(newVoltage, newCurrent);
     }
 
 //    private static double getTimestep(double v, double i) {
