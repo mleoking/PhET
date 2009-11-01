@@ -23,18 +23,16 @@ class BasicMovingManModule(frame: PhetFrame,
                            name: String,
                            defaultBeadPosition: Double,
                            pausedOnReset: Boolean,
-                           initialAngle: Double,
-                           showFrictionControl: Boolean,
                            modelViewport: Rectangle2D,
                            stageContainerArea: StageContainerArea)
-        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle, false) {
+        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, 0.0, false) {
   override def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle) {
       override def thermalEnergyStrategy(x: Double) = 0.0
     }
 
   val canvas = new MovingManCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
-    false, false, initialAngle != 0.0, modelViewport, stageContainerArea)
+    false, false, false, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)
   setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, canvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
   motionSeriesModel.selectedObject = MotionSeriesDefaults.movingMan
@@ -72,7 +70,7 @@ class MovingManCanvas(model: MotionSeriesModel,
 class IntroModule(frame: PhetFrame,
                   clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate,
-          -6, false, 0.0, true, MotionSeriesDefaults.movingManIntroViewport, MotionSeriesDefaults.oneGraphArea) {
+          -6, false, MotionSeriesDefaults.movingManIntroViewport, MotionSeriesDefaults.oneGraphArea) {
   val positionControl = new ScalaValueControl(-10, 10, "position", "0.0", "m", () => motionSeriesModel.bead.desiredPosition,
     x => {
       motionSeriesModel.setPaused(false)
@@ -115,7 +113,7 @@ class IntroModule(frame: PhetFrame,
 class GraphingModule(frame: PhetFrame,
                      clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate,
-          -6, false, 0.0, true, MotionSeriesDefaults.movingManIntroViewport, MotionSeriesDefaults.oneGraphArea) {
+          -6, false, MotionSeriesDefaults.movingManIntroViewport, MotionSeriesDefaults.oneGraphArea) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new MovingManChartNode(canvas, motionSeriesModel))
 }
@@ -123,7 +121,7 @@ class GraphingModule(frame: PhetFrame,
 class MovingManGameModule(frame: PhetFrame,
                           clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate,
-          -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.fullScreenArea)
+          -6, false, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.fullScreenArea)
 
 class MovingManApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
