@@ -1,3 +1,5 @@
+# 00.58.00 (36283) Nov 2, 2009
+11/2/09 Resource deployment debug ON, onsite backup OFF
 # 00.57.00 (36205) Oct 29, 2009
 10/29/09 #1837, JDK path changed on tigercat
 10/12/09: Close BufferedReaders after reading changes.txt file or version information, may help in #1701, see #1701
