@@ -100,6 +100,9 @@ public class ResourceDeployServer implements IProguardKeepClass {
                 System.out.println( "*** Creating backup JARs" );
                 createBackupJARs();
             }
+            else {
+                System.out.println( "*** Skipping backup JARs" );
+            }
 
             System.out.println( "*** Copying test JARs" );
             copyTestJARs();
@@ -114,20 +117,28 @@ public class ResourceDeployServer implements IProguardKeepClass {
                 System.out.println( "*** Generating offline JARs" );
                 generateOfflineJARs();
             }
+            else {
+                System.out.println( "*** Skipping generating offline JARs" );
+            }
 
             if ( localBackup ) {
                 System.out.println( "*** Backing up extra files" );
                 backupExtras();
+            }
+            else {
+                System.out.println( "*** Skipping backup of extra files" );
             }
 
             System.out.println( "*** Copying extra files" );
             copyExtras();
 
             if ( copySWFs ) {
+                System.out.println( "*** Copying Flash SWFs" );
                 copyFlashSWFs();
             }
 
             if ( copyJNLPs ) {
+                System.out.println( "*** Copying Java JNLPs" );
                 copyJavaJNLPs();
             }
         }
@@ -230,13 +241,17 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
     private void copyTestJARs() throws IOException, InterruptedException {
         testDir = ResourceDeployUtils.getTestDir( resourceDir );
+        System.out.println( "Creating test directory at: " + testDir.getAbsolutePath() );
         testDir.mkdir();
+
 
         for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
 
             File simDir = new File( getLiveSimsDir(), sim );
             File testSimDir = new File( testDir, sim );
+            System.out.println( "  Simulation source directory: " + simDir.getAbsolutePath() );
+            System.out.println( "  Creating simulation test destination directory: " + testSimDir.getAbsolutePath() );
             testSimDir.mkdir();
 
             File[] jarFiles = simDir.listFiles();
@@ -249,6 +264,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
                 }
 
                 FileUtils.copyToDir( jarFile, testSimDir );
+                System.out.println( "      copying " + jarFile.getAbsolutePath() + " to directory " + testSimDir.getAbsolutePath() );
             }
         }
     }
