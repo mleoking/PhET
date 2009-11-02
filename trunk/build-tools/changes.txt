@@ -1,3 +1,5 @@
+# 00.63.00 (36298) Nov 2, 2009
+11/2/09 Fix for simulation lists, more debugging information
 # 00.62.00 (36296) Nov 2, 2009
 11/2/09 Added debugging information
 # 00.61.00 (36294) Nov 2, 2009
