@@ -11,6 +11,7 @@ import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -123,7 +124,8 @@ public class TranslatedSimsPanel extends PhetPanel {
                         }
                         subItem.add( new Label( "title", otherTitle ) );
                         subItem.add( lsim.getRunLink( "run-now-link" ) );
-                        if ( !( (PhetRequestCycle) getRequestCycle() ).isKsuRipperRequest() || lsim.getLocaleString().equals( "en" ) || lsim.getLocaleString().equals( "ar" ) ) {
+
+                        if ( DistributionHandler.displayJARLink( (PhetRequestCycle) getRequestCycle(), lsim ) ) {
                             subItem.add( lsim.getDownloadLink( "download-link" ) );
                         }
                         else {

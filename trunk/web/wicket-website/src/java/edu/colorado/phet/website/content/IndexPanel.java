@@ -4,6 +4,7 @@ import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
@@ -13,6 +14,7 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.TranslationLinksPanel;
 import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class IndexPanel extends PhetPanel {
     public IndexPanel( String id, PageContext context ) {
@@ -46,14 +48,19 @@ public class IndexPanel extends PhetPanel {
 
         add( SimulationDisplay.createLink( "below-simulations-link", context ) );
 
-        if ( context.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) {
+        if ( context.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) && DistributionHandler.displayTranslationEditLink( (PhetRequestCycle) getRequestCycle() ) ) {
             add( new BookmarkablePageLink( "test-translation", TranslationMainPage.class ) );
         }
         else {
             add( new InvisibleComponent( "test-translation" ) );
         }
 
-        add( new TranslationLinksPanel( "translation-links", context ) );
+        if ( DistributionHandler.displayTranslationLinksPanel( (PhetRequestCycle) getRequestCycle() ) ) {
+            add( new TranslationLinksPanel( "translation-links", context ) );
+        }
+        else {
+            add( new InvisibleComponent( "translation-links" ) );
+        }
 
         add( HeaderContributor.forCss( "/css/home-v1.css" ) );
 

@@ -104,7 +104,7 @@ public class AdminSimsPage extends AdminPage {
                                     return true;
                                 }
                             } );
-                            if( success ) {
+                            if ( success ) {
                                 simulations.remove( simulation );
                             }
                         }
