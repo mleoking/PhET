@@ -10,7 +10,7 @@ import edu.colorado.phet.buildtools.BuildToolsPaths;
  */
 public class ResourceDeployUtils {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     public static File getTestDir( File resourceDir ) {
         return new File( resourceDir, "test" );

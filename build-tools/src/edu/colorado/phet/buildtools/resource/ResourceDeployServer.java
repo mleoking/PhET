@@ -39,6 +39,8 @@ public class ResourceDeployServer implements IProguardKeepClass {
     private boolean copyJNLPs;
     private File testDir;
 
+    private static final boolean localBackup = false;
+
     public ResourceDeployServer( String jarCommand, File buildLocalProperties, File resourceDir ) {
         this.jarCommand = jarCommand;
         this.buildLocalProperties = buildLocalProperties;
@@ -85,19 +87,19 @@ public class ResourceDeployServer implements IProguardKeepClass {
             copyJNLPs = false;
         }
 
-        // unused, replaced with mode (see above)
-        //onlyAllJARs = properties.getProperty( "onlyAllJARs" ).equals( "true" );
-        //generateJARs = properties.getProperty( "generateJARs" ).equals( "true" );
-
         String simsString = properties.getProperty( "sims" );
         sims = simsString.split( "," );
 
-        backupDir = new File( resourceDir, "backup" );
-        backupDir.mkdir();
+        if ( localBackup ) {
+            backupDir = new File( resourceDir, "backup" );
+            backupDir.mkdir();
+        }
 
         try {
-            System.out.println( "*** Creating backup JARs" );
-            createBackupJARs();
+            if ( localBackup ) {
+                System.out.println( "*** Creating backup JARs" );
+                createBackupJARs();
+            }
 
             System.out.println( "*** Copying test JARs" );
             copyTestJARs();
@@ -113,8 +115,10 @@ public class ResourceDeployServer implements IProguardKeepClass {
                 generateOfflineJARs();
             }
 
-            System.out.println( "*** Backing up extra files" );
-            backupExtras();
+            if ( localBackup ) {
+                System.out.println( "*** Backing up extra files" );
+                backupExtras();
+            }
 
             System.out.println( "*** Copying extra files" );
             copyExtras();
@@ -146,11 +150,14 @@ public class ResourceDeployServer implements IProguardKeepClass {
         for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
 
-            File backupSimDir = new File( backupDir, sim );
+            File backupSimDir;
+            if ( localBackup ) {
+                backupSimDir = new File( backupDir, sim );
+            }
             File testSimDir = new File( testDir, sim );
             File simDir = new File( getLiveSimsDir(), sim );
 
-            File[] jarFiles = backupSimDir.listFiles( new FilenameFilter() {
+            File[] jarFiles = simDir.listFiles( new FilenameFilter() {
                 public boolean accept( File file, String s ) {
                     return s.endsWith( ".jar" ) && !s.endsWith( "_all.jar" );
                 }
@@ -170,7 +177,9 @@ public class ResourceDeployServer implements IProguardKeepClass {
                         continue;
                     }
                 }
-                FileUtils.copyToDir( baseJnlpFile, backupSimDir );
+                if ( localBackup ) {
+                    FileUtils.copyToDir( baseJnlpFile, backupSimDir );
+                }
                 FileUtils.copyToDir( baseJnlpFile, testSimDir );
 
                 File testJnlp = new File( testSimDir, jnlpName );
@@ -187,11 +196,10 @@ public class ResourceDeployServer implements IProguardKeepClass {
     }
 
     private void createBackupJARs() throws IOException {
-        File liveDir = getLiveSimsDir();
         for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
 
-            File simDir = new File( liveDir, sim );
+            File simDir = new File( getLiveSimsDir(), sim );
 
             if ( !simDir.exists() ) {
                 System.out.println( "WARNING: skipping sim dir " + simDir.getCanonicalPath() + ", does not exist" );
@@ -227,11 +235,11 @@ public class ResourceDeployServer implements IProguardKeepClass {
         for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
 
-            File backupSimDir = new File( backupDir, sim );
+            File simDir = new File( getLiveSimsDir(), sim );
             File testSimDir = new File( testDir, sim );
             testSimDir.mkdir();
 
-            File[] jarFiles = backupSimDir.listFiles();
+            File[] jarFiles = simDir.listFiles();
 
             for ( int j = 0; j < jarFiles.length; j++ ) {
                 File jarFile = jarFiles[j];
@@ -372,8 +380,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
         for ( int i = 0; i < testSimDirs.length; i++ ) {
             File testSimDir = testSimDirs[i];
             String sim = testSimDir.getName();
-            File backupSimDir = new File( backupDir, sim );
-            backupSimDir.mkdirs();
+
             File liveSimDir = new File( ResourceDeployUtils.getLiveSimsDir( resourceDir ), sim );
 
             File swfFile = new File( liveSimDir, sim + ".swf" );
@@ -386,9 +393,13 @@ public class ResourceDeployServer implements IProguardKeepClass {
             // copy the SWF to the test dir so that we can test the new generated HTMLs
             FileUtils.copyToDir( swfFile, testSimDir );
 
-            // copy the SWF to the backup sim dir so that we will have them for posterity (and a warning won't be seen
-            // if the user reverts)
-            FileUtils.copyToDir( swfFile, backupSimDir );
+            if ( localBackup ) {
+                // copy the SWF to the backup sim dir so that we will have them for posterity (and a warning won't be seen
+                // if the user reverts)
+                File backupSimDir = new File( backupDir, sim );
+                backupSimDir.mkdirs();
+                FileUtils.copyToDir( swfFile, backupSimDir );
+            }
         }
     }
 
