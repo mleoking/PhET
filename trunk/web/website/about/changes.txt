@@ -1,3 +1,4 @@
+10-30-2009: Glaciers (2.02) - add snow patch between terminus and ELA
 10-1-2009: Ladybug Motion 2D (1.00) - Updated version information
 9-29-2009: Moving Man (1.26) - User interface improvements for charts
 9-18-2009: Gravity Force Lab (1.00) - First publication of the Gravity Force Lab simulation
