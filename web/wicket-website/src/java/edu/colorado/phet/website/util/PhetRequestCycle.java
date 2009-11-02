@@ -13,6 +13,7 @@ public class PhetRequestCycle extends WebRequestCycle {
     private Long start;
 
     public static final String KSU_RIPPER_USER_AGENT = "httrack-web-mirror-ar";
+    public static final String YOUNG_AND_FREEDMAN_USER_AGENT = "httrack-web-mirror-yf";
 
     public PhetRequestCycle( WebApplication webApplication, WebRequest webRequest, Response response ) {
         super( webApplication, webRequest, response );
@@ -47,4 +48,7 @@ public class PhetRequestCycle extends WebRequestCycle {
         return getUserAgent().equals( KSU_RIPPER_USER_AGENT );
     }
 
+    public boolean isYoungAndFreedmanRipperRequest() {
+        return getUserAgent().equals( YOUNG_AND_FREEDMAN_USER_AGENT );
+    }
 }
