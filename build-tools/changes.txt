@@ -1,3 +1,5 @@
+# 00.60.00 (36292) Nov 2, 2009
+11/2/09 Redeploying in order to try to fix an issue with the signature of build-tools_all.jar
 # 00.59.00 (36285) Nov 2, 2009
 11/2/09 Resource deploy debug OFF
 # 00.58.00 (36283) Nov 2, 2009
