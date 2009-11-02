@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
@@ -89,6 +91,19 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
         String simsString = properties.getProperty( "sims" );
         sims = simsString.split( "," );
+
+        // prune sims list so it only includes sims deployed to tigercat
+        List<String> existingSims = new LinkedList<String>();
+        for ( String sim : sims ) {
+            File simDir = new File( getLiveSimsDir(), sim );
+            if ( simDir.exists() ) {
+                existingSims.add( sim );
+            }
+            else {
+                System.out.println( "WARNING: simulation " + sim + " was not found on the production server" );
+            }
+        }
+        sims = existingSims.toArray( new String[]{} );
 
         if ( localBackup ) {
             backupDir = new File( resourceDir, "backup" );
@@ -247,6 +262,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
         for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
+            System.out.println( "  processing " + sim );
 
             File simDir = new File( getLiveSimsDir(), sim );
             File testSimDir = new File( testDir, sim );
@@ -280,6 +296,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
         for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
+            System.out.println( "  processing " + sim );
 
             File testSimDir = new File( testDir, sim );
 
@@ -297,6 +314,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
     private void signJARs() {
         for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
+            System.out.println( "  processing " + sim );
 
             File testSimDir = new File( testDir, sim );
             File[] jarFiles = testSimDir.listFiles();
@@ -318,6 +336,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
         JARGenerator generator = new JARGenerator();
         for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
+            System.out.println( "  processing " + sim );
 
             File testSimDir = new File( testDir, sim );
             File[] jarFiles = testSimDir.listFiles();
@@ -343,6 +362,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
             File simExtraDir = simExtraDirs[i];
 
             String sim = simExtraDir.getName();
+            System.out.println( "  processing " + sim );
 
             File[] extraFiles = simExtraDir.listFiles();
 
@@ -376,6 +396,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
             File simExtraDir = simExtraDirs[i];
 
             String sim = simExtraDir.getName();
+            System.out.println( "  processing " + sim );
 
             File[] extraFiles = simExtraDir.listFiles();
 
@@ -396,6 +417,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
         for ( int i = 0; i < testSimDirs.length; i++ ) {
             File testSimDir = testSimDirs[i];
             String sim = testSimDir.getName();
+            System.out.println( "  processing " + sim );
 
             File liveSimDir = new File( ResourceDeployUtils.getLiveSimsDir( resourceDir ), sim );
 
