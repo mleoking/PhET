@@ -1,14 +1,9 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- requirements for placing things in Before and After boxes?
-- sliders and histograms are ineffective for making quantitative comparisons
 - replace Substance.getNode with Substance.getImage, to prevent error of adding this node to the scenegraph multiple times
 
 MEDIUM PRIORITY
-- store coefficients, quantities, range, image, location with reactant and product model elements
-- generalize formula to take any number of reactants and products
-- generalize Before to assemble any number of controls
 - generalize After to assemble any number of displays
 - general algorithm for calculating number of products
 
@@ -16,8 +11,7 @@ LOW PRIORITY
 - clean up node scaling, it's kind of haphazard
 - generalize any layout code that uses hardcoded offsets
 - use rounding instead of trunc for snapping reactant quantity sliders
-- choose spinner or sliders in ReactantQuantityControlNode, delete unused code
-- choose 2D or 3D look in IntegerSliderNode, delete unused code
+- delete IntegerSliderNode if it's not used
 
 MIGRATE TO COMMON
 - BracketedLabelNode
