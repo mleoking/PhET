@@ -18,6 +18,9 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public abstract class SimpleModelElement implements IModelElement{
 	
+	// Range within with bonding can occur.
+	protected static final double BONDING_RANGE = 20;  // In nanometers.
+	
 	private Shape shape;
 	private Point2D position;
 	private Paint paint;  // The paint to use when representing this element in the view.
