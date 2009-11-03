@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.DefaultMetalTheme;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
@@ -65,8 +67,8 @@ public class PhetLookAndFeel {
             "ScrollBar", "Viewport"
     };
 
-    private ArrayList ignoreBackgroundList=new ArrayList( Arrays.asList( new String[]{
-    		"TextArea", "TextField", "TextPane", "FormattedTextField", "MenuBar", "Menu", "MenuItem", "CheckBoxMenuItem" } ));
+    private ArrayList ignoreBackgroundList = new ArrayList( Arrays.asList( new String[]{
+            "TextArea", "TextField", "TextPane", "FormattedTextField", "MenuBar", "Menu", "MenuItem", "CheckBoxMenuItem"} ) );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -102,7 +104,9 @@ public class PhetLookAndFeel {
     }
 
     public void setFont( Font font ) {
-        if ( font == null ) font = new PhetFont();
+        if ( font == null ) {
+            font = new PhetFont();
+        }
 
         this.font = font;
     }
@@ -112,7 +116,9 @@ public class PhetLookAndFeel {
     }
 
     public void setTabFont( Font tabFont ) {
-        if ( tabFont == null ) tabFont = new PhetFont();
+        if ( tabFont == null ) {
+            tabFont = new PhetFont();
+        }
 
         this.tabFont = tabFont;
     }
@@ -122,7 +128,9 @@ public class PhetLookAndFeel {
     }
 
     public void setTitledBorderFont( Font borderFont ) {
-        if ( titledBorderFont == null ) titledBorderFont = new PhetFont();
+        if ( titledBorderFont == null ) {
+            titledBorderFont = new PhetFont();
+        }
 
         this.titledBorderFont = borderFont;
     }
@@ -158,11 +166,11 @@ public class PhetLookAndFeel {
     public void setInsets( Insets insets ) {
         this.insets = insets;
     }
-    
+
     public Color getTitledBorderTitleColor() {
         return titledBorderTitleColor;
     }
-    
+
     public void setTitledBorderTitleColor( Color titledBorderTitleColor ) {
         this.titledBorderTitleColor = titledBorderTitleColor;
     }
@@ -240,7 +248,7 @@ public class PhetLookAndFeel {
             if ( foregroundResource != null ) {
                 list.add( type, "foreground", foregroundResource );
             }
-            if ( backgroundResource != null &&!ignoreBackgroundList.contains(type)) {
+            if ( backgroundResource != null && !ignoreBackgroundList.contains( type ) ) {
                 list.add( type, "background", backgroundResource );
             }
             if ( insetsResource != null ) {
@@ -304,7 +312,7 @@ public class PhetLookAndFeel {
         PropertyList textValues = new PropertyList();
         textValues.add( "OptionPane", "cancelButtonText", getCommonString( "Common.choice.cancel" ) );
         textValues.add( "OptionPane", "noButtonText", getCommonString( "Common.choice.no" ) );
-        textValues.add( "OptionPane", "yesButtonText", getCommonString( "Common.choice.yes" ));
+        textValues.add( "OptionPane", "yesButtonText", getCommonString( "Common.choice.yes" ) );
         textValues.add( "OptionPane", "okButtonText", getCommonString( "Common.choice.ok" ) );
         return textValues;
     }
@@ -338,8 +346,19 @@ public class PhetLookAndFeel {
     }
 
     public void initLookAndFeel() {
+        initLookAndFeel( false );
+    }
+
+    public void initLookAndFeel( boolean highContrast ) {
         try {
-            UIManager.setLookAndFeel( getLookAndFeelClassName() );
+            if ( !highContrast ) {
+                UIManager.setLookAndFeel( getLookAndFeelClassName() );
+            }
+            else {
+                MetalLookAndFeel.setCurrentTheme( new DefaultMetalTheme() );
+                UIManager.setLookAndFeel( new MetalLookAndFeel() );
+                MetalLookAndFeel.setCurrentTheme( new DefaultMetalTheme() );
+            }
         }
         catch( ClassNotFoundException e ) {
             e.printStackTrace();

@@ -3,6 +3,7 @@
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.Locale;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -49,6 +50,7 @@ public class PhetApplicationConfig implements ISimInfo {
     // mutable
     private FrameSetup frameSetup;
     private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel(); // the look and feel to be initialized in launchSim
+    private boolean allowGlobalHighContrast = true;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -56,6 +58,7 @@ public class PhetApplicationConfig implements ISimInfo {
 
     /**
      * Constructor where project & flavor names are identical.
+     *
      * @param commandLineArgs
      * @param project
      */
@@ -65,6 +68,7 @@ public class PhetApplicationConfig implements ISimInfo {
 
     /**
      * Constructor where project & flavor names are different.
+     *
      * @param commandLineArgs
      * @param project
      * @param flavor
@@ -89,7 +93,7 @@ public class PhetApplicationConfig implements ISimInfo {
     public boolean hasCommandLineArg( String arg ) {
         return StringUtil.contains( commandLineArgs, arg );
     }
-    
+
     public void setFrameSetup( FrameSetup frameSetup ) {
         this.frameSetup = frameSetup;
     }
@@ -121,19 +125,19 @@ public class PhetApplicationConfig implements ISimInfo {
     public boolean isPreferencesEnabled() {
         return isStatisticsFeatureIncluded() || isUpdatesFeatureIncluded();
     }
-    
+
     /**
      * Returns the distribution identifier associated with the sim's JAR file.
-     * This is used to identify specific distributions of a sim, for example 
+     * This is used to identify specific distributions of a sim, for example
      * as bundled with a textbook.
-     * 
+     *
      * @return
      */
-    
+
     public String getDistributionTag() {
         return resourceLoader.getDistributionTag();
     }
-    
+
     //----------------------------------------------------------------------------
     // Standard properties
     //----------------------------------------------------------------------------
@@ -159,39 +163,65 @@ public class PhetApplicationConfig implements ISimInfo {
     public PhetVersion getVersion() {
         return resourceLoader.getVersion();
     }
-    
+
     public boolean isDev() {
         return hasCommandLineArg( PhetApplication.DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
+    }
+
+    public boolean isAllowGlobalHighContrast() {
+        return allowGlobalHighContrast;
+    }
+
+    public void setAllowGlobalHighContrast( boolean allowGlobalHighContrast ) {
+        this.allowGlobalHighContrast = allowGlobalHighContrast;
+    }
+
+    /**
+     * Whether or not this sim should be displayed in a high-contrast format. This depends on either Windows high
+     * contrast mode being on, or the command line argument being specified to a sim.
+     *
+     * @return Whether or not this sim should be displayed in a high-contrast format
+     */
+    public boolean isHighContrast() {
+        return (isWindowsHighContrast() || hasCommandLineArg( PhetApplication.HIGH_CONTRAST_COMMAND_LINE_ARG ));
+    }
+
+    public static boolean isWindowsHighContrast() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Boolean ret = (Boolean) toolkit.getDesktopProperty( "win.highContrast.on" );
+        return ret != null && ret;
     }
 
     public Locale getLocale() {
         return PhetResources.readLocale();
     }
-    
+
     /**
      * Should the updates feature be included at runtime?
+     *
      * @return
      */
     public boolean isUpdatesFeatureIncluded() {
-        return (!hasCommandLineArg( "-updates-off" )) && DeploymentScenario.getInstance().isUpdatesEnabled();
+        return ( !hasCommandLineArg( "-updates-off" ) ) && DeploymentScenario.getInstance().isUpdatesEnabled();
     }
-    
+
     /**
      * Should the statistics feature be included at runtime?
+     *
      * @return
      */
     public boolean isStatisticsFeatureIncluded() {
-        return (!hasCommandLineArg( "-statistics-off" )) && DeploymentScenario.getInstance().isStatisticsEnabled();
+        return ( !hasCommandLineArg( "-statistics-off" ) ) && DeploymentScenario.getInstance().isStatisticsEnabled();
     }
 
     public boolean isUpdatesEnabled() {
         return isUpdatesFeatureIncluded() && PhetPreferences.getInstance().isUpdatesEnabled();
     }
-    
+
     public boolean isStatisticsEnabled() {
         return isStatisticsFeatureIncluded() && PhetPreferences.getInstance().isStatisticsEnabled();
     }
-    
+
     /**
      * Project JAR file is named <project>_all.jar
      */
