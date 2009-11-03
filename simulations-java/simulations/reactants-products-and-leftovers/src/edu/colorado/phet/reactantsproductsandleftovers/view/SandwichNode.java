@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel.Bread;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel.Cheese;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel.Meat;
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -15,23 +13,20 @@ public class SandwichNode extends PComposite {
     
     private static final int Y_SPACING = 7;
 
-    private final Bread bread;
-    private final Meat meat;
-    private final Cheese cheese;
+    private final SandwichShopModel model;
     
-    public SandwichNode( Bread bread, Meat meat, Cheese cheese ) {
+    public SandwichNode( SandwichShopModel model ) {
         super();
-        this.bread = bread;
-        this.meat = meat;
-        this.cheese = cheese;
+        this.model = model;
         ReactantChangeListener listener = new ReactantChangeAdapter() {
             public void coefficientChanged() {
                 update();
             }
         };
-        bread.addReactantChangeListener( listener );
-        meat.addReactantChangeListener( listener );
-        cheese.addReactantChangeListener( listener );
+        model.getBread().addReactantChangeListener( listener );
+        model.getMeat().addReactantChangeListener( listener );
+        model.getCheese().addReactantChangeListener( listener );
+        
         update();
     }
     
@@ -41,15 +36,15 @@ public class SandwichNode extends PComposite {
         
         // create nodes
         ArrayList<BreadNode> breadNodes = new ArrayList<BreadNode>();
-        for ( int i = 0; i < bread.getCoefficient(); i++ ) {
+        for ( int i = 0; i < model.getBread().getCoefficient(); i++ ) {
             breadNodes.add( new BreadNode() );
         }
         ArrayList<MeatNode> meatNodes = new ArrayList<MeatNode>();
-        for ( int i = 0; i < meat.getCoefficient(); i++ ) {
+        for ( int i = 0; i < model.getMeat().getCoefficient(); i++ ) {
             meatNodes.add( new MeatNode() );
         }
         ArrayList<CheeseNode> cheeseNodes = new ArrayList<CheeseNode>();
-        for ( int i = 0; i < cheese.getCoefficient(); i++ ) {
+        for ( int i = 0; i < model.getCheese().getCoefficient(); i++ ) {
             cheeseNodes.add( new CheeseNode() );
         }
         
