@@ -9,9 +9,6 @@ public class DistributionHandler {
         if ( cycle.isKsuRipperRequest() ) {
             return localeString.equals( "en" ) || localeString.equals( "ar" );
         }
-        else if ( cycle.isYoungAndFreedmanRipperRequest() ) {
-            return localeString.equals( "en" );
-        }
         else {
             return true;
         }
