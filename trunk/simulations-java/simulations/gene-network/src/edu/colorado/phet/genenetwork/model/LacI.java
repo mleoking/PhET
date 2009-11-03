@@ -11,6 +11,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 
 /**
@@ -25,6 +26,9 @@ public class LacI extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new Color(200, 200, 200);
 	private static double WIDTH = 7;   // In nanometers.
 	private static double HEIGHT = 4;  // In nanometers.
+	
+	private LacOperator lacOperatorBondingPartner = null;
+	private Lactose2 lactoseBondingPartner = null;
 	
 	public LacI(Point2D initialPosition) {
 		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
@@ -70,8 +74,37 @@ public class LacI extends SimpleModelElement {
 	}
 
 	@Override
-	public SimpleElementType getType() {
-		return SimpleElementType.LAC_I;
+	public ModelElementType getType() {
+		return ModelElementType.LAC_I;
 	}
+
+	@Override
+	public boolean availableForBonding(ModelElementType elementType) {
+		boolean available = false;
+		switch (elementType){
+		case LAC_OPERATOR:
+			if (lacOperatorBondingPartner == null){
+				available = true;
+			}
+			break;
+			
+		}
+		return available;
+	}
+
+	@Override
+	public boolean considerProposalFrom(IModelElement modelElement) {
+		// TODO Auto-generated method stub
+		return super.considerProposalFrom(modelElement);
+	}
+
+	@Override
+	public void updatePotentialBondingPartners(
+			ArrayList<IModelElement> modelElements) {
+		// TODO Auto-generated method stub
+		super.updatePotentialBondingPartners(modelElements);
+	}
+	
+	
 	
 }

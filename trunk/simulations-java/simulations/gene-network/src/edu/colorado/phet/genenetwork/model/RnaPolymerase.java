@@ -35,8 +35,8 @@ public class RnaPolymerase extends SimpleModelElement {
 	}
 	
 	@Override
-	public SimpleElementType getType() {
-		return SimpleElementType.RNA_POLYMERASE;
+	public ModelElementType getType() {
+		return ModelElementType.RNA_POLYMERASE;
 	}
 	
 	private static Shape createActiveConformationShape(){

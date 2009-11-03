@@ -29,8 +29,8 @@ public class Camp extends SimpleModelElement {
 	}
 	
 	@Override
-	public SimpleElementType getType() {
-		return SimpleElementType.CAMP;
+	public ModelElementType getType() {
+		return ModelElementType.CAMP;
 	}
 	
 	private static Shape createShape(){

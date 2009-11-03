@@ -99,12 +99,12 @@ public class CompositeModelElement implements IModelElement {
 		return null;
 	}
 
-	public boolean availableForBonding(SimpleElementType elementType) {
+	public boolean availableForBonding(ModelElementType elementType) {
 		// Always says no in the base class.
 		return false;
 	}
 
-	public boolean considerProposal(IModelElement modelElement) {
+	public boolean considerProposalFrom(IModelElement modelElement) {
 		// Always refuses proposal in the base class.
 		return false;
 	}
@@ -125,12 +125,12 @@ public class CompositeModelElement implements IModelElement {
 		// if not overridden it will not initiate any bonds.
 	}
 
-	public BindingPoint getBindingPointForElement(SimpleElementType type) {
+	public BindingPoint getBindingPointForElement(ModelElementType type) {
 		// Return null, indicating that no binding point exists for the specified type.
 		return null;
 	}
 
-	public SimpleElementType getType() {
+	public ModelElementType getType() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -11,16 +11,16 @@ import java.awt.geom.Dimension2D;
  * @author John Blanco
  */
 public class BindingPoint{
-	private final SimpleElementType elementType;
+	private final ModelElementType elementType;
 	private final Dimension2D offset;
 	
-	public BindingPoint(SimpleElementType elementType, Dimension2D offset) {
+	public BindingPoint(ModelElementType elementType, Dimension2D offset) {
 		super();
 		this.elementType = elementType;
 		this.offset = offset;
 	}
 
-	public SimpleElementType getElementType() {
+	public ModelElementType getElementType() {
 		return elementType;
 	}
 

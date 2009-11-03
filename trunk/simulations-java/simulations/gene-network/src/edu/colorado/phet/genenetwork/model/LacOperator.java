@@ -36,8 +36,8 @@ public class LacOperator extends SimpleModelElement {
 	}
 	
 	@Override
-	public SimpleElementType getType() {
-		return SimpleElementType.LAC_OPERATOR;
+	public ModelElementType getType() {
+		return ModelElementType.LAC_OPERATOR;
 	}
 	
 	private static Shape createShape(){
