@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.menu.DeveloperMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.HighContrastMenuBarUI;
+import edu.colorado.phet.common.phetcommon.view.util.HighContrastMenuItemUI;
 
 /**
  * The PhetFrame is the JFrame for the PhetApplication.
@@ -61,7 +63,11 @@ public class PhetFrame extends JFrame {
         } );
 
         // menu bar
-        JMenuBar menuBar = new JMenuBar();
+        final JMenuBar menuBar = new JMenuBar();
+        //if ( application.getConfig().isAllowGlobalHighContrast() && application.getConfig().isHighContrast() ) {
+        //menuBar.setUI( new HighContrastMenuBarUI() );
+        //UIManager.put( "MenuBarUI", HighContrastMenuBarUI.class );
+        //}
         setJMenuBar( menuBar );
         // File menu
         defaultFileMenu = new PhetFileMenu( this, application.getSimInfo() );
@@ -73,7 +79,16 @@ public class PhetFrame extends JFrame {
         }
         // Help menu
         helpMenu = new HelpMenu( application );
+        //helpMenu.setUI( new HighContrastMenuItemUI() );
         menuBar.add( helpMenu );
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                System.out.println( menuBar.getUI() );
+            }
+        };
+        t.start();
 
         application.addModuleObserver( new ModuleObserver() {
             public void moduleAdded( ModuleEvent event ) {
