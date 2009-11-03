@@ -11,7 +11,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
@@ -76,7 +75,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
             imageLists.add( new ArrayList<PNode>() );
             
             // one quantity control for each reactant
-            ReactantQuantityControlNode controlNode = createReactantQuantityControlNode( reactant );
+            ReactantQuantityControlNode controlNode = new ReactantQuantityControlNode( reactant, SandwichShopDefaults.QUANTITY_RANGE, REACTANTS_SCALE );
             addChild( controlNode );
             quantityControls.add( controlNode );
         }
@@ -109,25 +108,6 @@ public class SandwichShopBeforeNode extends PhetPNode {
         }
         
         update();
-    }
-    
-    //XXX push most of this stuff into ReactantQuantityControlNode
-    private ReactantQuantityControlNode createReactantQuantityControlNode( final Reactant reactant ) {
-        PImage image = new PImage( reactant.getNode().toImage() );
-        final ReactantQuantityControlNode node = new ReactantQuantityControlNode( SandwichShopDefaults.QUANTITY_RANGE, image, 0.5 /*XXX */ );
-        node.setValue( reactant.getQuantity() );
-        node.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                reactant.setQuantity( node.getValue() );
-            }
-        });
-        reactant.addReactantChangeListener( new ReactantChangeAdapter() {
-            @Override
-            public void quantityChanged() {
-                node.setValue( reactant.getQuantity() );
-            }
-        });
-        return node;
     }
     
     /*
