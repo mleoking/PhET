@@ -101,7 +101,7 @@ public class PhetApplicationLauncher {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
                     
-                    config.getLookAndFeel().initLookAndFeel();
+                    config.getLookAndFeel().initLookAndFeel( config.isAllowGlobalHighContrast() && config.isHighContrast() );
                     
                     new JSpinner(); // WORKAROUND for Unfuddle #1372 (Apple bug #6710919)
                     

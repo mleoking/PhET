@@ -23,19 +23,20 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @version $Revision:14677 $
  */
 public class PhetFrame extends JFrame {
-    
+
     private PhetApplication application;
     private Container contentPanel;
     private Module lastAdded;
-    
+
     private JMenu defaultFileMenu;
     private JMenu developerMenu;
     private HelpMenu helpMenu;
-    
+
     /**
      * Constructs a PhetFrame for the specified PhetApplication.
      *
      * @param application the application that own the PhetFrame
+     * @throws java.awt.HeadlessException
      */
     public PhetFrame( final PhetApplication application ) throws HeadlessException {
         super( application.getSimInfo().getName() + " (" + application.getSimInfo().getVersion().formatForTitleBar() + ")" );
@@ -128,7 +129,13 @@ public class PhetFrame extends JFrame {
      *          (a runtime exception) if the content pane parameter is <code>null</code>
      */
     public void setContentPane( Container contentPane ) {
-        super.setContentPane( contentPane );
+        PhetApplicationConfig config = application.getConfig();
+        if ( config.isAllowGlobalHighContrast() && config.isHighContrast() && contentPane instanceof JComponent ) {
+            super.setContentPane( HighContrastOperation.getLayer( (JComponent) contentPane ) );
+        }
+        else {
+            super.setContentPane( contentPane );
+        }
         this.contentPanel = contentPane;
     }
 
@@ -311,7 +318,7 @@ public class PhetFrame extends JFrame {
         }
         return null;
     }
-    
+
     public JMenu getDeveloperMenu() {
         return developerMenu;
     }
@@ -333,13 +340,13 @@ public class PhetFrame extends JFrame {
     public void removeMenu( JMenu menu ) {
         getJMenuBar().remove( menu );
     }
-    
+
     /**
      * Adds the File->Save and File->Load menu items, and wires them up to the application.
      * These menu items are not present by default, since many sims do not implement save/load.
      */
     public void addFileSaveLoadMenuItems() {
-        
+
         JMenuItem saveItem = new JMenuItem( PhetCommonResources.getString( "Common.FileMenu.Save" ) );
         saveItem.setMnemonic( PhetCommonResources.getChar( "Common.FileMenu.Save.mnemonic", 'S' ) );
         saveItem.addActionListener( new ActionListener() {
