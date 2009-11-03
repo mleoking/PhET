@@ -1,4 +1,4 @@
-11/3/09 chose to use spinners instead of sliders for reactant quantity controls
+11/3/09 chose to use spinners instead of sliders for reactant quantity controls (Kelly, 10/28)
 11/3/09 generalize Before box in Sandwich Shop
 11/3/09 simplify SandwichNode constructor
 10/29/09 quick-and-dirty conversion of the rest of Sandwich Shop to new model, additional generalization required
