@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_zh_TW.xml created Sat Jul 11 23:34:28 CST 2009 using: friction 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
-<SimStrings>
-<string key="rubYellowAtoms" value="接觸綠色原子\n並摩擦黃色原子"/>
-<string key="physics" value="物理"/>
-<string key="reset" value="重設"/>
-<string key="simTitle" value="摩擦"/>
-<string key="chemistry" value="化學"/>
-</SimStrings>

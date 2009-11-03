@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_pl.xml created Thu Jul 02 17:55:26 CEST 2009 using: equation-grapher 2.00.00 (30671), translation-utility 2.01.00 (31673) maj 14, 2009-->
-<SimStrings>
-<string key="showYEq" value="Pokaż y="/>
-<string key="erase" value="Usuń"/>
-<string key="save" value="Zapisz"/>
-<string key="zero" value="Wyzeruj"/>
-<string key="simTitle" value="Kreator wykresu równania"/>
-</SimStrings>

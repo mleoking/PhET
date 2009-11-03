@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_km.xml created Sun Oct 11 19:34:05 GMT+07:00 2009 using: friction 2.00.00 (30671), translation-utility 2.02.00 (34911) Sep 9, 2009-->
-<SimStrings>
-<string key="rubYellowAtoms" value="ត្រដុសអាតូមព៌ណលឿង និងបៃតង"/>
-<string key="physics" value="រូបវិទ្យា"/>
-<string key="reset" value="កែតម្រូវ"/>
-<string key="simTitle" value="កកិត"/>
-<string key="chemistry" value="គីមី"/>
-</SimStrings>

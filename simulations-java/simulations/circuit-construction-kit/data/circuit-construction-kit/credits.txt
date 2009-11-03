@@ -1,1 +1,0 @@
-credits software-development=Sam Reid design-team=Wendy Adams, Kathy Perkins, Carl Weiman, Chris Keller, Noah Finkelstein, Michael Dubson interviews=Wendy Adams
