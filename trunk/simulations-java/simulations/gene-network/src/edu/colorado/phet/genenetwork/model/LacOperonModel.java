@@ -183,7 +183,7 @@ public class LacOperonModel {
     }
     
     private void addLactoseMolecule(){
-        Lactose2 lactose = new Lactose2();
+        Lactose lactose = new Lactose();
         lactose.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
     			(RAND.nextDouble() - 0.5) * (MODEL_AREA_HEIGHT / 2));
     	double maxVel = 2;

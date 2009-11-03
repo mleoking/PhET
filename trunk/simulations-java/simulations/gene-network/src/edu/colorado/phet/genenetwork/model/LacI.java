@@ -28,7 +28,7 @@ public class LacI extends SimpleModelElement {
 	private static double HEIGHT = 4;  // In nanometers.
 	
 	private LacOperator lacOperatorBondingPartner = null;
-	private Lactose2 lactoseBondingPartner = null;
+	private Lactose lactoseBondingPartner = null;
 	
 	public LacI(Point2D initialPosition) {
 		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
@@ -53,7 +53,7 @@ public class LacI extends SimpleModelElement {
 		
 		// Get the shape of a lactose molecule and shift it to the appropriate
 		// position.
-		Shape lactoseShape = new Lactose2().getShape();
+		Shape lactoseShape = new Lactose().getShape();
 		AffineTransform transform = new AffineTransform();
 		transform.setToTranslation(	0, HEIGHT/2 );
 		lactoseShape = transform.createTransformedShape(lactoseShape);

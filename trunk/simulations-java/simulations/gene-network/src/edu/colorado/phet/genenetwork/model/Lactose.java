@@ -11,7 +11,7 @@ import java.awt.geom.Dimension2D;
  * 
  * @author John Blanco
  */
-public class Lactose2 extends CompositeModelElement {
+public class Lactose extends CompositeModelElement {
 	
     public Area area;
 
@@ -21,7 +21,7 @@ public class Lactose2 extends CompositeModelElement {
      * @param glucoseMolecule
      * @param galactoseMolecule
      */
-    public Lactose2( Glucose glucoseMolecule, Galactose galactoseMolecule ) {
+    public Lactose( Glucose glucoseMolecule, Galactose galactoseMolecule ) {
     	
     	// Offset the positions of the molecules so that the binding point is
     	// in the same place.
@@ -51,7 +51,7 @@ public class Lactose2 extends CompositeModelElement {
     /**
      * This constructor creates new glucose and galactose molecules.
      */
-    public Lactose2() {
+    public Lactose() {
     	this(new Glucose(), new Galactose());
 	}
     
