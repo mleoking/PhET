@@ -32,8 +32,8 @@ public class Cap extends SimpleModelElement {
 	}
 	
 	@Override
-	public SimpleElementType getType() {
-		return SimpleElementType.CAP;
+	public ModelElementType getType() {
+		return ModelElementType.CAP;
 	}
 	
 	private static Shape createActiveConformationShape(){

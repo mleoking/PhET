@@ -29,8 +29,8 @@ public class CapBindingRegion extends SimpleModelElement {
 	}
 	
 	@Override
-	public SimpleElementType getType() {
-		return SimpleElementType.CAP_BINDING_REGION;
+	public ModelElementType getType() {
+		return ModelElementType.CAP_BINDING_REGION;
 	}
 	
 	private static Shape createShape(){

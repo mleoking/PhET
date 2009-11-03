@@ -12,10 +12,10 @@ public class Glucose extends SimpleSugar {
 	public Glucose(Point2D initialPosition) {
 		super(initialPosition, Color.BLUE);
 		// Add binding point for Galactose.
-		addBindingPoint(new BindingPoint(SimpleElementType.GALACTOSE,
+		addBindingPoint(new BindingPoint(ModelElementType.GALACTOSE,
 				new PDimension(-getWidth()/2, 0)));
 		// Add binding point for LacZ.
-		addBindingPoint(new BindingPoint(SimpleElementType.LAC_Z,
+		addBindingPoint(new BindingPoint(ModelElementType.LAC_Z,
 				new PDimension(-getWidth()/2, 0)));
 	}
 	
@@ -28,7 +28,7 @@ public class Glucose extends SimpleSugar {
 	}
 	
 	@Override
-	public SimpleElementType getType() {
-		return SimpleElementType.GLUCOSE;
+	public ModelElementType getType() {
+		return ModelElementType.GLUCOSE;
 	}
 }

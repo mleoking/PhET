@@ -26,7 +26,7 @@ public class LacIPromoter extends SimpleModelElement {
 	}
 	
 	@Override
-	public SimpleElementType getType() {
-		return SimpleElementType.LAC_I_PROMOTER;
+	public ModelElementType getType() {
+		return ModelElementType.LAC_I_PROMOTER;
 	}
 }

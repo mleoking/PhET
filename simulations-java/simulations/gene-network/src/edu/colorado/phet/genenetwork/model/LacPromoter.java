@@ -30,8 +30,8 @@ public class LacPromoter extends SimpleModelElement {
 	}
 	
 	@Override
-	public SimpleElementType getType() {
-		return SimpleElementType.LAC_PROMOTER;
+	public ModelElementType getType() {
+		return ModelElementType.LAC_PROMOTER;
 	}
 	
 	private static Shape createShape(){

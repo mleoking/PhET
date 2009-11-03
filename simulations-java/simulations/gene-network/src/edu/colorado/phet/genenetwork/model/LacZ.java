@@ -28,8 +28,8 @@ public class LacZ extends SimpleModelElement {
 	
 	public LacZ(Point2D initialPosition) {
 		super(createShape(), initialPosition, ELEMENT_PAINT);
-		addBindingPoint(new BindingPoint(SimpleElementType.GLUCOSE, new PDimension(0, -SIZE/2)));
-		addBindingPoint(new BindingPoint(SimpleElementType.GALACTOSE, new PDimension(0, -SIZE/2)));
+		addBindingPoint(new BindingPoint(ModelElementType.GLUCOSE, new PDimension(0, -SIZE/2)));
+		addBindingPoint(new BindingPoint(ModelElementType.GALACTOSE, new PDimension(0, -SIZE/2)));
 		setMotionStrategy(new WeightedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds(), new Point2D.Double(0,0)));
 	}
 	
@@ -38,8 +38,8 @@ public class LacZ extends SimpleModelElement {
 	}
 	
 	@Override
-	public SimpleElementType getType() {
-		return SimpleElementType.LAC_Z;
+	public ModelElementType getType() {
+		return ModelElementType.LAC_Z;
 	}
 
 	

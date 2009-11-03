@@ -25,8 +25,8 @@ public class LacIGene extends SimpleModelElement {
 	}
 	
 	@Override
-	public SimpleElementType getType() {
-		return SimpleElementType.LAC_I_GENE;
+	public ModelElementType getType() {
+		return ModelElementType.LAC_I_GENE;
 	}
 
 	@Override

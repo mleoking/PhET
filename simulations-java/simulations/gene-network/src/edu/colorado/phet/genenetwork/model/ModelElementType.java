@@ -1,6 +1,6 @@
 package edu.colorado.phet.genenetwork.model;
 
-public enum SimpleElementType {
+public enum ModelElementType {
 	
 	CAMP,
 	CAP,

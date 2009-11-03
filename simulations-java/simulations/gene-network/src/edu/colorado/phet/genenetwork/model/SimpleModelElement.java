@@ -32,7 +32,7 @@ public abstract class SimpleModelElement implements IModelElement{
 		this.paint = paint;
 	}
 	
-	public abstract SimpleElementType getType();
+	public abstract ModelElementType getType();
 	
 	public Shape getShape(){
 		return shape;
@@ -90,7 +90,7 @@ public abstract class SimpleModelElement implements IModelElement{
 		}
 	}
 	
-	public BindingPoint getBindingPointForElement(SimpleElementType elementType){
+	public BindingPoint getBindingPointForElement(ModelElementType elementType){
 		BindingPoint matchingBindingPoint = null;
 		for (BindingPoint bindingPoint : bindingPoints){
 			if (bindingPoint.getElementType() == elementType){
@@ -137,12 +137,12 @@ public abstract class SimpleModelElement implements IModelElement{
 		listeners.remove(listener);
 	}
 	
-	public boolean availableForBonding(SimpleElementType elementType) {
+	public boolean availableForBonding(ModelElementType elementType) {
 		// Always says no in the base class.
 		return false;
 	}
 
-	public boolean considerProposal(IModelElement modelElement) {
+	public boolean considerProposalFrom(IModelElement modelElement) {
 		// Always refuses proposal in the base class.
 		return false;
 	}
