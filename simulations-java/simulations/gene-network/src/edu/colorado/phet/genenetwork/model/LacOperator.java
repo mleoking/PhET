@@ -10,6 +10,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -26,6 +27,8 @@ public class LacOperator extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new Color(200, 200, 200);
 	private static double WIDTH = 7;   // In nanometers.
 	private static double HEIGHT = 3;  // In nanometers.
+	
+	private LacI lacIBondingPartner = null;
 	
 	public LacOperator(Point2D initialPosition) {
 		super(createShape(), initialPosition, ELEMENT_PAINT);
@@ -68,4 +71,54 @@ public class LacOperator extends SimpleModelElement {
 		return new PDimension(WIDTH * 0.5, HEIGHT / 2);
 	}
 	
+	@Override
+	public boolean availableForBonding(ModelElementType elementType) {
+		boolean available = false;
+		switch (elementType){
+		case LAC_I:
+			if (lacIBondingPartner == null){
+				available = true;
+			}
+			break;
+		}
+			
+		return available;
+	}
+
+	@Override
+	public boolean considerProposalFrom(IModelElement modelElement) {
+		boolean proposalAccepted = false;
+
+		if (modelElement instanceof LacI && lacIBondingPartner == null){
+			lacIBondingPartner = (LacI)modelElement;
+			proposalAccepted = true;
+		}
+		
+		return proposalAccepted;
+	}
+
+	@Override
+	public void updatePotentialBondingPartners( ArrayList<IModelElement> modelElements ) {
+		// Seek to bond with free elements that are within range and that
+		// match our needs.
+		if (lacIBondingPartner == null){
+			for (IModelElement modelElement : modelElements){
+				
+				// Look for a bond with LacI.
+				if (modelElement.getType() == ModelElementType.LAC_I &&
+					lacIBondingPartner == null &&
+					getPositionRef().distance(modelElement.getPositionRef()) <= BONDING_RANGE &&
+					modelElement.availableForBonding(getType())){
+					
+					// Propose a bond with this element
+					if (modelElement.considerProposalFrom(this)){
+						// Proposal accepted.  Note that the bond is only
+						// started at this point, and not really finalized
+						// until the binding points are in the same location.
+						lacIBondingPartner = (LacI)modelElement;
+					}
+				}
+			}
+		}
+	}
 }
