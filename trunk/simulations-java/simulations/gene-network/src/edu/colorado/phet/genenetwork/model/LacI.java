@@ -88,23 +88,69 @@ public class LacI extends SimpleModelElement {
 			}
 			break;
 			
+		case LACTOSE:
+			if (lactoseBondingPartner == null){
+				available = true;
+			}
+			break;
 		}
+		
 		return available;
 	}
 
 	@Override
 	public boolean considerProposalFrom(IModelElement modelElement) {
-		// TODO Auto-generated method stub
-		return super.considerProposalFrom(modelElement);
+		boolean proposalAccepted = false;
+
+		if (modelElement instanceof Lactose && lactoseBondingPartner == null){
+			lactoseBondingPartner = (Lactose)modelElement;
+			proposalAccepted = true;
+		}
+		else if (modelElement instanceof LacOperator && lacOperatorBondingPartner == null){
+			lacOperatorBondingPartner = (LacOperator)modelElement;
+			proposalAccepted = true;
+		}
+		
+		return proposalAccepted;
 	}
 
 	@Override
-	public void updatePotentialBondingPartners(
-			ArrayList<IModelElement> modelElements) {
-		// TODO Auto-generated method stub
-		super.updatePotentialBondingPartners(modelElements);
+	public void updatePotentialBondingPartners( ArrayList<IModelElement> modelElements ) {
+		// Seek to bond with free elements that are within range and that
+		// match our needs.
+		if (lactoseBondingPartner == null || lacOperatorBondingPartner == null){
+			for (IModelElement modelElement : modelElements){
+				
+				// Look for a bond with Lactose.
+				if (modelElement.getType() == ModelElementType.LACTOSE &&
+					lactoseBondingPartner == null &&
+					getPositionRef().distance(modelElement.getPositionRef()) <= BONDING_RANGE &&
+					modelElement.availableForBonding(getType())){
+					
+					// Propose a bond with this element
+					if (modelElement.considerProposalFrom(this)){
+						// Proposal accepted.  Note that the bond is only
+						// started at this point, and not really finalized
+						// until the binding points are in the same location.
+						lactoseBondingPartner = (Lactose)modelElement;
+					}
+				}
+				
+				// Look for a bond with Lac Operator.
+				if (modelElement.getType() == ModelElementType.LAC_OPERATOR &&
+					lacOperatorBondingPartner == null &&
+					getPositionRef().distance(modelElement.getPositionRef()) <= BONDING_RANGE &&
+					modelElement.availableForBonding(getType())){
+						
+					// Propose a bond with this element
+					if (modelElement.considerProposalFrom(this)){
+						// Proposal accepted.  Note that the bond is only
+						// started at this point, and not really finalized
+						// until the binding points are in the same location.
+						lacOperatorBondingPartner = (LacOperator)modelElement;
+					}
+				}
+			}
+		}
 	}
-	
-	
-	
 }
