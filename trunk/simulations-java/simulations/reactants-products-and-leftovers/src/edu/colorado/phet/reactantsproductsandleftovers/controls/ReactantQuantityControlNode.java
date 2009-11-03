@@ -41,11 +41,15 @@ public class ReactantQuantityControlNode extends PhetPNode {
         imageNode.scale( imageScale );
         
         // layout
-        // origin at upper left of histogram bar
-        histogramBar.setOffset( 0, 0 );
-        double x = histogramBar.getFullBoundsReference().getMinX() - spinnerNode.getFullBoundsReference().getWidth() - 2;
-        double y = HISTOGRAM_BAR_SIZE.getHeight() - spinnerNode.getFullBoundsReference().getHeight();
+        // origin at top center of histogram bar
+        double x = -histogramBar.getFullBoundsReference().getWidth() / 2;
+        double y = 0;
+        histogramBar.setOffset( x, y );
+        // spinner at lower left of histogram bar
+        x = histogramBar.getFullBoundsReference().getMinX() - spinnerNode.getFullBoundsReference().getWidth() - 2;
+        y = HISTOGRAM_BAR_SIZE.getHeight() - spinnerNode.getFullBoundsReference().getHeight();
         spinnerNode.setOffset( x, y );
+        // image centered below histogram bar
         x = histogramBar.getFullBoundsReference().getCenterX() - ( imageNode.getFullBoundsReference().getWidth() / 2 );
         y = histogramBar.getFullBoundsReference().getMaxY() + 15;
         imageNode.setOffset( x, y );
