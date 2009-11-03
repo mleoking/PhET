@@ -2,7 +2,6 @@
 
 HIGH PRIORITY
 - replace Substance.getNode with Substance.getImage, to prevent error of adding this node to the scenegraph multiple times
-- fix layout of controls and images in SandwichShopBeforeNode
 
 MEDIUM PRIORITY
 - generalize After to assemble any number of displays

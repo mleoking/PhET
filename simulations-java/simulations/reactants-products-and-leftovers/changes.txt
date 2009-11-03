@@ -1,3 +1,4 @@
+11/3/09 fix layout of controls and images in SandwichShopBeforeNode
 11/3/09 chose to use spinners instead of sliders for reactant quantity controls (Kelly, 10/28)
 11/3/09 generalize Before box in Sandwich Shop
 11/3/09 simplify SandwichNode constructor
