@@ -3,6 +3,7 @@
 HIGH PRIORITY
 - requirements for placing things in Before and After boxes?
 - sliders and histograms are ineffective for making quantitative comparisons
+- replace Substance.getNode with Substance.getImage, to prevent error of adding this node to the scenegraph multiple times
 
 MEDIUM PRIORITY
 - store coefficients, quantities, range, image, location with reactant and product model elements

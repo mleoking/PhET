@@ -54,16 +54,8 @@ public class ChemicalReaction {
         return name;
     }
     
-    public ArrayList<Reactant> getReactants() {
-        return new ArrayList<Reactant>( reactants );
-    }
-    
     public ArrayList<Reactant> getReactantsReference() {
         return reactants;
-    }
-    
-    public ArrayList<Product> getProducts() {
-        return new ArrayList<Product>( products );
     }
     
     public ArrayList<Product> getProductsReference() {
