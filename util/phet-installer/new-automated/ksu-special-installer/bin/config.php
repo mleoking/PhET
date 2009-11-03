@@ -63,7 +63,8 @@
 //        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
 //        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_en.jar').' '.
 //        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_ar.jar'));
-    define("PHET_RIPPER_FILTER",                '"-*wickettest*"' );
+    define("PHET_RIPPER_FILTER",                '"-*wickettest*"'.' '.
+       CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*'));
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
     // filters when doing testing that requires a lot of iterations, since 
