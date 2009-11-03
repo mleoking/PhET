@@ -24,9 +24,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class SandwichShopBeforeNode extends PhetPNode {
     
     private static final PDimension BOX_SIZE = new PDimension( 400, 300 );
-    private static final double CONTROLS_Y_SPACING = 20;
-    private static final double IMAGES_Y_MARGIN = 25;
-    private static final double IMAGES_Y_SPACING = 25;
+    private static final double TITLE_Y_SPACING = 10;
+    private static final double LEFT_MARGIN = 80;
+    private static final double RIGHT_MARGIN = 60;
+    private static final double CONTROLS_Y_SPACING = 15;
+    private static final double IMAGES_Y_MARGIN = 18;
+    private static final double IMAGES_Y_SPACING = 27;
     private static final double REACTANTS_SCALE = 0.5; //XXX
     
     private final SandwichShopModel model;
@@ -84,11 +87,14 @@ public class SandwichShopBeforeNode extends PhetPNode {
         boxNode.setOffset( x, y );
         // title centered above box
         x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
-        y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 10;
+        y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
         titleNode.setOffset( x, y );
         // reactant-specific nodes
-        //TODO generalize and fix this part of layout
-        x = boxNode.getFullBoundsReference().getMinX() + 60;
+        x = boxNode.getFullBoundsReference().getMinX() + LEFT_MARGIN;
+        double deltaX = boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN;
+        if ( reactants.size() > 2 ) {
+            deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( reactants.size() - 1 );
+        }
         for ( int i = 0; i < reactants.size(); i++ ) {
             
             // quantity controls, centered below images
@@ -99,7 +105,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
             y = boxNode.getFullBoundsReference().getMaxY() - IMAGES_Y_MARGIN;
             imageParents.get( i ).setOffset( x, y );
             
-            x += quantityControls.get( i ).getFullBoundsReference().getWidth() + 20;
+            x += deltaX;
         }
         
         update();
@@ -151,10 +157,14 @@ public class SandwichShopBeforeNode extends PhetPNode {
                     image.scale( REACTANTS_SCALE ); //XXX
                     parent.addChild( image );
                     images.add( image );
+                    // images are vertically stacked
+                    double x = -image.getFullBoundsReference().getWidth() / 2;
                     if ( parent.getChildrenCount() > 1 ) {
-                        // images are vertically stacked
-                        double x = 0;
                         double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - IMAGES_Y_SPACING;
+                        image.setOffset( x, y );
+                    }
+                    else {
+                        double y = -IMAGES_Y_SPACING;
                         image.setOffset( x, y );
                     }
                 }
