@@ -56,24 +56,21 @@ public class SandwichShopModel {
         
         // product, with dynamic image
         ArrayList<Product> products = new ArrayList<Product>();
-        sandwich = new Product( RPALStrings.SANDWICH, new SandwichNode( bread, meat, cheese ), 1, quantity );
+        sandwich = new Product( RPALStrings.SANDWICH, new SandwichNode( this ), 1, quantity );
         products.add( sandwich );
         
         // reaction
         reaction = new ChemicalReaction( RPALStrings.LABEL_SANDWICH_FORMULA, reactants, products );
     }
     
-    //XXX remove this
     public Bread getBread() {
         return bread;
     }
     
-    //XXX remove this
     public Meat getMeat() {
         return meat;
     }
     
-    //XXX remove this
     public Cheese getCheese() {
         return cheese;
     }

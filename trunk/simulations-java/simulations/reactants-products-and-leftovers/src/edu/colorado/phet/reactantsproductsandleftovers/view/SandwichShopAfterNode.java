@@ -148,7 +148,7 @@ public class SandwichShopAfterNode extends PhetPNode {
         }
         else {
             while ( model.getSandwich().getQuantity() > sandwichList.size() ) {
-                SandwichNode node = new SandwichNode( model.getBread(), model.getMeat(), model.getCheese() );
+                SandwichNode node = new SandwichNode( model );
                 sandwichesParent.addChild( node );
                 sandwichList.add( node );
                 node.scale( REACTANTS_SCALE );
