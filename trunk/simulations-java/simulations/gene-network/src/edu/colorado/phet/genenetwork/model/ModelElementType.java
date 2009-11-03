@@ -15,6 +15,7 @@ public enum ModelElementType {
 	LAC_Y_GENE,
 	LAC_Z,
 	LAC_Z_GENE,
+	LACTOSE,
 	MESSENGER_RNA,
 	RNA_POLYMERASE
 
