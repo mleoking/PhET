@@ -8,13 +8,14 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.BreadQuantityControlNode;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.CheeseQuantityControlNode;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.MeatQuantityControlNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantityControlNode;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -23,17 +24,17 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class SandwichShopBeforeNode extends PhetPNode {
     
     private static final PDimension BOX_SIZE = new PDimension( 400, 300 );
-    private static final double CONTROLS_X_SPACING = 20;
-    private static final double Y_MARGIN = 25;
+    private static final double CONTROLS_Y_SPACING = 20;
+    private static final double IMAGES_Y_MARGIN = 25;
+    private static final double IMAGES_Y_SPACING = 25;
     private static final double REACTANTS_SCALE = 0.5; //XXX
     
     private final SandwichShopModel model;
 
     private final BoxNode boxNode;
-    private final PComposite breadParent, meatParent, cheeseParent;
-    private final ArrayList<BreadNode> breadList;
-    private final ArrayList<MeatNode> meatList;
-    private final ArrayList<CheeseNode> cheeseList;
+    private final ArrayList<PComposite> imageParents;
+    private final ArrayList<ArrayList<PNode>> imageLists; // one list per reactant
+    private final ArrayList<ReactantQuantityControlNode> quantityControls;
     
     public SandwichShopBeforeNode( final SandwichShopModel model ) {
         super();
@@ -45,129 +46,120 @@ public class SandwichShopBeforeNode extends PhetPNode {
             }
         });
         
-        breadList = new ArrayList<BreadNode>();
-        meatList = new ArrayList<MeatNode>();
-        cheeseList = new ArrayList<CheeseNode>();
+        imageParents = new ArrayList<PComposite>();
+        imageLists = new ArrayList<ArrayList<PNode>>();
+        quantityControls = new ArrayList<ReactantQuantityControlNode>();
         
+        // box
         boxNode = new BoxNode( BOX_SIZE );
         addChild( boxNode );
         
-        breadParent = new PComposite();
-        addChild( breadParent );
-        
-        meatParent = new PComposite();
-        addChild( meatParent );
-        
-        cheeseParent = new PComposite();
-        addChild( cheeseParent );
-        
+        // title for the box
         PText titleNode = new PText( RPALStrings.LABEL_BEFORE_SANDWICH );
         titleNode.setFont( new PhetFont( 30 ) );
         titleNode.setTextPaint( Color.BLACK );
         addChild( titleNode );
         
-        PNode controlsNode = new PNode();
-        addChild( controlsNode );
-        PNode breadControlNode = new BreadQuantityControlNode( model );
-        PNode meatControlNode = new MeatQuantityControlNode( model );
-        PNode cheeseControlNode = new CheeseQuantityControlNode( model );
-        controlsNode.addChild( breadControlNode );
-        controlsNode.addChild( meatControlNode );
-        controlsNode.addChild( cheeseControlNode );
-        double breadWidth = breadControlNode.getFullBoundsReference().getWidth();
-        double meatWidth = meatControlNode.getFullBoundsReference().getWidth();
-        double cheeseWidth = cheeseControlNode.getFullBoundsReference().getWidth();
-        double maxWidth = Math.max( breadWidth, Math.max( meatWidth, cheeseWidth ) );
-        double deltaX = maxWidth + CONTROLS_X_SPACING;
-        breadControlNode.setOffset( 0, 0 );
-        meatControlNode.setOffset( deltaX, 0 );
-        cheeseControlNode.setOffset( 2 * deltaX, 0 );
+        // images and controls
+        ArrayList<Reactant> reactants = model.getReaction().getReactantsReference();
+        for ( Reactant reactant : reactants ) {
+            
+            // one parent node for each reactant image
+            PComposite parent = new PComposite();
+            addChild( parent );
+            imageParents.add( parent );
+            
+            // one list of image nodes for each reactant 
+            imageLists.add( new ArrayList<PNode>() );
+            
+            // one quantity control for each reactant
+            ReactantQuantityControlNode controlNode = createReactantQuantityControlNode( reactant );
+            addChild( controlNode );
+            quantityControls.add( controlNode );
+        }
         
         // layout, origin at upper-left corner of box
-        boxNode.setOffset( 0, 0 );
-        double x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
-        double y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 10;
+        double x = 0;
+        double y = 0;
+        boxNode.setOffset( x, y );
+        // title centered above box
+        x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
+        y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 10;
         titleNode.setOffset( x, y );
-        x = boxNode.getFullBoundsReference().getCenterX() - ( controlsNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( controlsNode );
-        y = boxNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( controlsNode ) + 15;
-        controlsNode.setOffset( x, y );
-        x = 65; //XXX
-        y = boxNode.getFullBoundsReference().getHeight() - 50; //XXX
-        breadParent.setOffset( x, y );
-        x += 130; //XXX
-        meatParent.setOffset( x, y );
-        x += 120; //XXX
-        cheeseParent.setOffset( x, y );
+        // reactant-specific nodes
+        //TODO generalize and fix this part of layout
+        x = boxNode.getFullBoundsReference().getMinX() + 60;
+        for ( int i = 0; i < reactants.size(); i++ ) {
+            
+            // quantity controls, centered below images
+            y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
+            quantityControls.get( i ).setOffset( x, y );
+            
+            // images
+            y = boxNode.getFullBoundsReference().getMaxY() - IMAGES_Y_MARGIN;
+            imageParents.get( i ).setOffset( x, y );
+            
+            x += quantityControls.get( i ).getFullBoundsReference().getWidth() + 20;
+        }
         
         update();
     }
     
+    //XXX push most of this stuff into ReactantQuantityControlNode
+    private ReactantQuantityControlNode createReactantQuantityControlNode( final Reactant reactant ) {
+        PImage image = new PImage( reactant.getNode().toImage() );
+        final ReactantQuantityControlNode node = new ReactantQuantityControlNode( SandwichShopDefaults.QUANTITY_RANGE, image, 0.5 /*XXX */ );
+        node.setValue( reactant.getQuantity() );
+        node.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                reactant.setQuantity( node.getValue() );
+            }
+        });
+        reactant.addReactantChangeListener( new ReactantChangeAdapter() {
+            @Override
+            public void quantityChanged() {
+                node.setValue( reactant.getQuantity() );
+            }
+        });
+        return node;
+    }
+    
+    /*
+     * For each reactant, updates the number of images to match the quantity.
+     */
     private void update() {
         
-        // bread
-        if ( model.getBread().getQuantity() < breadList.size() ) {
-            while ( model.getBread().getQuantity() < breadList.size() ) {
-                BreadNode node = breadList.get( breadList.size() - 1 );
-                breadParent.removeChild( node );
-                breadList.remove( node );
-            }
-        }
-        else {
-            while ( model.getBread().getQuantity() > breadList.size() ) {
-                BreadNode node = new BreadNode();
-                node.scale( REACTANTS_SCALE );
-                breadParent.addChild( node );
-                breadList.add( node );
-                if ( breadParent.getChildrenCount() > 1 ) {
-                    double x = 0;
-                    double y = breadParent.getChild( breadParent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - Y_MARGIN;
-                    node.setOffset( x, y );
+        ArrayList<Reactant> reactants = model.getReaction().getReactantsReference();
+        for ( int i = 0; i < reactants.size(); i++ ) {
+            
+            Reactant reactant = reactants.get( i );
+            PNode parent = imageParents.get( i );
+            ArrayList<PNode> images = imageLists.get( i );
+            
+            if ( reactant.getQuantity() < images.size() ) {
+                // remove images
+                while ( reactant.getQuantity() < images.size() ) {
+                    PNode image = images.get( images.size() - 1 );
+                    parent.removeChild( image );
+                    images.remove( image );
                 }
             }
-        }
-        
-        // meat
-        if ( model.getMeat().getQuantity() < meatList.size() ) {
-            while ( model.getMeat().getQuantity() < meatList.size() ) {
-                MeatNode node = meatList.get( meatList.size() - 1 );
-                meatParent.removeChild( node );
-                meatList.remove( node );
-            }
-        }
-        else {
-            while ( model.getMeat().getQuantity() > meatList.size() ) {
-                MeatNode node = new MeatNode();
-                node.scale( REACTANTS_SCALE );
-                meatParent.addChild( node );
-                meatList.add( node );
-                if ( meatParent.getChildrenCount() > 1 ) {
-                    double x = 0;
-                    double y = meatParent.getChild( meatParent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - Y_MARGIN;
-                    node.setOffset( x, y );
-                }
-            }
-        }
-        
-        // cheese
-        if ( model.getCheese().getQuantity() < cheeseList.size() ) {
-            while ( model.getCheese().getQuantity() < cheeseList.size() ) {
-                CheeseNode node = cheeseList.get( cheeseList.size() - 1 );
-                cheeseParent.removeChild( node );
-                cheeseList.remove( node );
-            }
-        }
-        else {
-            while ( model.getCheese().getQuantity() > cheeseList.size() ) {
-                CheeseNode node = new CheeseNode();
-                node.scale( REACTANTS_SCALE );
-                cheeseParent.addChild( node );
-                cheeseList.add( node );
-                if ( cheeseParent.getChildrenCount() > 1 ) {
-                    double x = 0;
-                    double y = cheeseParent.getChild( cheeseParent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - Y_MARGIN;
-                    node.setOffset( x, y );
+            else {
+                // add images
+                while( reactant.getQuantity() > images.size() ) {
+                    PNode image = new PImage( reactant.getNode().toImage() );
+                    image.scale( REACTANTS_SCALE ); //XXX
+                    parent.addChild( image );
+                    images.add( image );
+                    if ( parent.getChildrenCount() > 1 ) {
+                        // images are vertically stacked
+                        double x = 0;
+                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - IMAGES_Y_SPACING;
+                        image.setOffset( x, y );
+                    }
                 }
             }
         }
     }
+    
 }
