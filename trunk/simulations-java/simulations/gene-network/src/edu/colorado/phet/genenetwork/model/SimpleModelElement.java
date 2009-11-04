@@ -21,6 +21,10 @@ public abstract class SimpleModelElement implements IModelElement{
 	// Range within with bonding can occur.
 	protected static final double BONDING_RANGE = 1000;  // In nanometers.
 	
+	// Range at which a bond forms when two binding partners are moving
+	// towards each other.
+	protected static final double BOND_FORMING_DISTANCE = 1; // In nanometers.
+	
 	private Shape shape;
 	private Point2D position;
 	private Paint paint;  // The paint to use when representing this element in the view.
