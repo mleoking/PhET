@@ -10,7 +10,7 @@ import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.controlpanel.LacOperonControlPanel;
 import edu.colorado.phet.genenetwork.model.GeneNetworkClock;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
-import edu.colorado.phet.genetwork.view.GeneNetworkCanvas;
+import edu.colorado.phet.genenetwork.view.GeneNetworkCanvas;
 
 /**
  * Module template.
