@@ -31,6 +31,7 @@ public class LacI extends SimpleModelElement {
 	
 	private LacOperator lacOperatorBondingPartner = null;
 	private Lactose lactoseBondingPartner = null;
+	private boolean boundToLacI = false;
 	
 	public LacI(Point2D initialPosition) {
 		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
@@ -86,15 +87,27 @@ public class LacI extends SimpleModelElement {
 			// and initial rough attempt.
 			// Also, this should probably only be done in this case when bonds
 			// are formed and released, since the partner is known not to move.
-			Dimension2D partnerOffset = lacOperatorBondingPartner.getBindingPointForElement(getType()).getOffset();
-			Dimension2D myOffset = getBindingPointForElement(lacOperatorBondingPartner.getType()).getOffset();
-			double xDest = lacOperatorBondingPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
-				myOffset.getWidth();
-			double yDest = lacOperatorBondingPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
-				myOffset.getHeight();
-			getMotionStrategyRef().setDestination(xDest, yDest);
+			if (!boundToLacI){
+				// We are moving towards forming a bond with a partner.
+				// Calculate the destination and make sure we are moving
+				// towards it.
+				Dimension2D partnerOffset = lacOperatorBondingPartner.getBindingPointForElement(getType()).getOffset();
+				Dimension2D myOffset = getBindingPointForElement(lacOperatorBondingPartner.getType()).getOffset();
+				double xDest = lacOperatorBondingPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
+					myOffset.getWidth();
+				double yDest = lacOperatorBondingPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
+					myOffset.getHeight();
+				if (getPositionRef().distance(xDest, yDest) < BOND_FORMING_DISTANCE){
+					// Close enough to form a bond.  Move to the location and
+					// then stop moving.
+					setPosition(xDest, yDest);
+					setMotionStrategy(new StillnessMotionStrategy(this));
+				}
+				else{
+					getMotionStrategyRef().setDestination(xDest, yDest);
+				}
+			}
 		}
-		// TODO Auto-generated method stub
 		super.updatePositionAndMotion();
 	}
 
