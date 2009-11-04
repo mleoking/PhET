@@ -6,6 +6,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -14,7 +15,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 public class ReactantQuantityControlNode extends PhetPNode {
     
-    private static final PDimension HISTOGRAM_BAR_SIZE = new PDimension( 15, 75 );
+    private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;
 
     private final IntegerSpinnerNode spinnerNode;
     private final IntegerHistogramBarNode histogramBar;
@@ -25,7 +26,7 @@ public class ReactantQuantityControlNode extends PhetPNode {
         spinnerNode = new IntegerSpinnerNode( range );
         spinnerNode.scale( 1.5 ); //XXX
         histogramBar = new IntegerHistogramBarNode( range, HISTOGRAM_BAR_SIZE );
-        PImage imageNode = new PImage( reactant.getNode().toImage() );
+        PImage imageNode = new PImage( reactant.getImage() );
         imageNode.scale( imageScale );
         
         // when the spinner changes, update the histogram bar and the model

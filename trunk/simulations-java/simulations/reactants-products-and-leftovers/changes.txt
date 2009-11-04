@@ -1,3 +1,7 @@
+11/4/09 make QuantityDisplayNode listen to model
+11/4/09 add Sandwich model element, the only substance that has a dynamic image
+11/4/09 make Substance notify when its image has changed, SubstanceNode listens for changes and updates view
+11/4/09 replace Substance.getNode with Substance.getImage
 11/4/09 require that a reaction have at least 2 reactants and 1 product
 11/3/09 fix layout of controls and images in SandwichShopBeforeNode
 11/3/09 chose to use spinners instead of sliders for reactant quantity controls (Kelly, 10/28)

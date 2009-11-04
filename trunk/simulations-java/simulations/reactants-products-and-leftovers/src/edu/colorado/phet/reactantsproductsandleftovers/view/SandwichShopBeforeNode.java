@@ -14,7 +14,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -29,13 +28,13 @@ public class SandwichShopBeforeNode extends PhetPNode {
     private static final double CONTROLS_Y_SPACING = 15;
     private static final double IMAGES_Y_MARGIN = 18;
     private static final double IMAGES_Y_SPACING = 27;
-    private static final double REACTANTS_SCALE = 0.5; //XXX
+    private static final double IMAGE_SCALE = 0.25; //XXX
     
     private final SandwichShopModel model;
 
     private final BoxNode boxNode;
-    private final ArrayList<PComposite> imageParents;
-    private final ArrayList<ArrayList<PNode>> imageLists; // one list per reactant
+    private final ArrayList<PComposite> substanceNodeParents;
+    private final ArrayList<ArrayList<SubstanceNode>> substanceNodeLists; // one list per reactant
     private final ArrayList<ReactantQuantityControlNode> quantityControls;
     
     public SandwichShopBeforeNode( final SandwichShopModel model ) {
@@ -48,8 +47,8 @@ public class SandwichShopBeforeNode extends PhetPNode {
             }
         });
         
-        imageParents = new ArrayList<PComposite>();
-        imageLists = new ArrayList<ArrayList<PNode>>();
+        substanceNodeParents = new ArrayList<PComposite>();
+        substanceNodeLists = new ArrayList<ArrayList<SubstanceNode>>();
         quantityControls = new ArrayList<ReactantQuantityControlNode>();
         
         // box
@@ -69,13 +68,13 @@ public class SandwichShopBeforeNode extends PhetPNode {
             // one parent node for each reactant image
             PComposite parent = new PComposite();
             addChild( parent );
-            imageParents.add( parent );
+            substanceNodeParents.add( parent );
             
             // one list of image nodes for each reactant 
-            imageLists.add( new ArrayList<PNode>() );
+            substanceNodeLists.add( new ArrayList<SubstanceNode>() );
             
             // one quantity control for each reactant
-            ReactantQuantityControlNode controlNode = new ReactantQuantityControlNode( reactant, SandwichShopDefaults.QUANTITY_RANGE, REACTANTS_SCALE );
+            ReactantQuantityControlNode controlNode = new ReactantQuantityControlNode( reactant, SandwichShopDefaults.QUANTITY_RANGE, IMAGE_SCALE );
             addChild( controlNode );
             quantityControls.add( controlNode );
         }
@@ -102,7 +101,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
             
             // images
             y = boxNode.getFullBoundsReference().getMaxY() - IMAGES_Y_MARGIN;
-            imageParents.get( i ).setOffset( x, y );
+            substanceNodeParents.get( i ).setOffset( x, y );
             
             x += deltaX;
         }
@@ -119,33 +118,34 @@ public class SandwichShopBeforeNode extends PhetPNode {
         for ( int i = 0; i < reactants.size(); i++ ) {
             
             Reactant reactant = reactants.get( i );
-            PNode parent = imageParents.get( i );
-            ArrayList<PNode> images = imageLists.get( i );
+            PNode parent = substanceNodeParents.get( i );
+            ArrayList<SubstanceNode> images = substanceNodeLists.get( i );
             
             if ( reactant.getQuantity() < images.size() ) {
                 // remove images
                 while ( reactant.getQuantity() < images.size() ) {
-                    PNode image = images.get( images.size() - 1 );
-                    parent.removeChild( image );
-                    images.remove( image );
+                    SubstanceNode node = images.get( images.size() - 1 );
+                    node.cleanup();
+                    parent.removeChild( node );
+                    images.remove( node );
                 }
             }
             else {
                 // add images
                 while( reactant.getQuantity() > images.size() ) {
-                    PNode image = new PImage( reactant.getNode().toImage() );
-                    image.scale( REACTANTS_SCALE ); //XXX
-                    parent.addChild( image );
-                    images.add( image );
+                    SubstanceNode node = new SubstanceNode( reactant );
+                    node.scale( IMAGE_SCALE ); //XXX
+                    parent.addChild( node );
+                    images.add( node );
                     // images are vertically stacked
-                    double x = -image.getFullBoundsReference().getWidth() / 2;
+                    double x = -node.getFullBoundsReference().getWidth() / 2;
                     if ( parent.getChildrenCount() > 1 ) {
                         double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - IMAGES_Y_SPACING;
-                        image.setOffset( x, y );
+                        node.setOffset( x, y );
                     }
                     else {
                         double y = -IMAGES_Y_SPACING;
-                        image.setOffset( x, y );
+                        node.setOffset( x, y );
                     }
                 }
             }

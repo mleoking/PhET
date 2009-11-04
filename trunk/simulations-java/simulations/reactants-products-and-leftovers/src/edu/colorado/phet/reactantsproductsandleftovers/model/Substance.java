@@ -1,8 +1,7 @@
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
+import java.awt.Image;
 import java.util.ArrayList;
-
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * A substance is a participant in a chemical reaction.
@@ -12,14 +11,14 @@ import edu.umd.cs.piccolo.PNode;
 public abstract class Substance {
     
     private final String name;
-    private final PNode node;
+    private Image image;
     private int coefficient;
     private int quantity;
     private final ArrayList<SubstanceChangeListener> listeners;
 
-    public Substance( String name, PNode node, int coefficient, int quantity ) {
+    public Substance( String name, Image image, int coefficient, int quantity ) {
         this.name = name;
-        this.node = node;
+        this.image = image;
         this.coefficient = coefficient;
         this.quantity = quantity;
         listeners = new ArrayList<SubstanceChangeListener>();
@@ -29,8 +28,15 @@ public abstract class Substance {
         return name;
     }
     
-    public PNode getNode() {
-        return node;
+    public Image getImage() {
+        return image;
+    }
+    
+    protected void setImage( Image image ) {
+        if ( image != this.image ) {
+            this.image = image;
+            fireImageChanged();
+        }
     }
     
     public void setCoefficient( int coefficient ) {
@@ -61,21 +67,23 @@ public abstract class Substance {
         return quantity;
     }
     
-    protected interface SubstanceChangeListener {
+    public interface SubstanceChangeListener {
         public void coefficientChanged();
         public void quantityChanged();
+        public void imageChanged();
     }
     
-    protected static class SubstanceChangeAdapter {
+    public static class SubstanceChangeAdapter implements SubstanceChangeListener {
         public void coefficientChanged() {}
         public void quantityChanged() {}
+        public void imageChanged() {}
     }
     
-    protected void addSubstanceChangeListener( SubstanceChangeListener listener ) {
+    public void addSubstanceChangeListener( SubstanceChangeListener listener ) {
         listeners.add( listener );
     }
     
-    protected void removeSubstanceChangeListener( SubstanceChangeListener listener ) {
+    public void removeSubstanceChangeListener( SubstanceChangeListener listener ) {
         listeners.remove( listener );
     }
     
@@ -90,6 +98,13 @@ public abstract class Substance {
         ArrayList<SubstanceChangeListener> listenersCopy = new ArrayList<SubstanceChangeListener>( listeners ); // avoid ConcurrentModificationException
         for ( SubstanceChangeListener listener : listenersCopy ) {
             listener.quantityChanged();
+        }
+    }
+    
+    private void fireImageChanged() {
+        ArrayList<SubstanceChangeListener> listenersCopy = new ArrayList<SubstanceChangeListener>( listeners ); // avoid ConcurrentModificationException
+        for ( SubstanceChangeListener listener : listenersCopy ) {
+            listener.imageChanged();
         }
     }
 }
