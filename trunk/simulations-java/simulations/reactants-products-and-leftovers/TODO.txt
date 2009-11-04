@@ -5,9 +5,9 @@ HIGH PRIORITY
 
 MEDIUM PRIORITY
 - generalize After to assemble any number of displays
-- general algorithm for calculating number of products
 
 LOW PRIORITY
+- scale image files to desired size
 - clean up node scaling, it's kind of haphazard
 - generalize any layout code that uses hardcoded offsets
 - use rounding instead of trunc for snapping reactant quantity sliders
