@@ -220,8 +220,9 @@ public class LacOperonModel {
     private void handleClockTicked(){
     	// Update the position of each of the simple model elements.
     	for (IModelElement modelElement : modelElements){
-    		// Update the current position and velocity (including direction).
+    		// Update the current state of each model element.
     		modelElement.updatePositionAndMotion();
+    		modelElement.updatePotentialBondingPartners(modelElements);
     	}
     }
     
