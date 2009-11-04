@@ -10,10 +10,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.BreadLeftoverDisplayNode;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.CheeseLeftoverDisplayNode;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.MeatLeftoverDisplayNode;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.SandwichQuantityDisplayNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityDisplayNode;
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -26,16 +24,16 @@ public class SandwichShopAfterNode extends PhetPNode {
     private static final PDimension BOX_SIZE = new PDimension( 400, 300 );
     private static final double DISPLAYS_X_SPACING = 40;
     private static final double Y_MARGIN = 25;
-    private static final double REACTANTS_SCALE = 0.5; //XXX
+    private static final double IMAGE_SCALE = 0.25; //XXX
     
     private final SandwichShopModel model;
 
     private final BoxNode boxNode;
     private final PComposite sandwichesParent, breadParent, meatParent, cheeseParent;
-    private final ArrayList<SandwichNode> sandwichList;
-    private final ArrayList<BreadNode> breadList;
-    private final ArrayList<MeatNode> meatList;
-    private final ArrayList<CheeseNode> cheeseList;
+    private final ArrayList<SubstanceNode> sandwichList;
+    private final ArrayList<SubstanceNode> breadList;
+    private final ArrayList<SubstanceNode> meatList;
+    private final ArrayList<SubstanceNode> cheeseList;
     private final PNode sandwichQuantityDisplayNode;
     
     public SandwichShopAfterNode( final SandwichShopModel model ) {
@@ -48,10 +46,10 @@ public class SandwichShopAfterNode extends PhetPNode {
             }
         });
         
-        sandwichList = new ArrayList<SandwichNode>();
-        breadList = new ArrayList<BreadNode>();
-        meatList = new ArrayList<MeatNode>();
-        cheeseList = new ArrayList<CheeseNode>();
+        sandwichList = new ArrayList<SubstanceNode>();
+        breadList = new ArrayList<SubstanceNode>();
+        meatList = new ArrayList<SubstanceNode>();
+        cheeseList = new ArrayList<SubstanceNode>();
         
         boxNode = new BoxNode( BOX_SIZE );
         addChild( boxNode );
@@ -75,10 +73,10 @@ public class SandwichShopAfterNode extends PhetPNode {
         
         PNode valuesNode = new PNode();
         addChild( valuesNode );
-        sandwichQuantityDisplayNode = new SandwichQuantityDisplayNode( model );
-        PNode breadQuantityDisplayNode = new BreadLeftoverDisplayNode( model );
-        PNode meatQuantityDisplayNode = new MeatLeftoverDisplayNode( model );
-        PNode cheeseQuantityDisplayNode = new CheeseLeftoverDisplayNode( model );
+        sandwichQuantityDisplayNode = new QuantityDisplayNode( model.getSandwich(), SandwichShopDefaults.QUANTITY_RANGE, IMAGE_SCALE );
+        PNode breadQuantityDisplayNode = new QuantityDisplayNode( model.getBread(), SandwichShopDefaults.QUANTITY_RANGE, IMAGE_SCALE );
+        PNode meatQuantityDisplayNode = new QuantityDisplayNode( model.getMeat(), SandwichShopDefaults.QUANTITY_RANGE, IMAGE_SCALE );
+        PNode cheeseQuantityDisplayNode = new QuantityDisplayNode( model.getCheese(), SandwichShopDefaults.QUANTITY_RANGE, IMAGE_SCALE );
         valuesNode.addChild( sandwichQuantityDisplayNode );
         valuesNode.addChild( breadQuantityDisplayNode );
         valuesNode.addChild( meatQuantityDisplayNode );
@@ -141,17 +139,18 @@ public class SandwichShopAfterNode extends PhetPNode {
         // sandwiches
         if ( model.getSandwich().getQuantity() < sandwichList.size() ) {
             while ( model.getSandwich().getQuantity() < sandwichList.size() ) {
-                SandwichNode node = sandwichList.get( sandwichList.size() - 1 );
+                SubstanceNode node = sandwichList.get( sandwichList.size() - 1 );
+                node.cleanup();
                 sandwichesParent.removeChild( node );
                 sandwichList.remove( node );
             }
         }
         else {
             while ( model.getSandwich().getQuantity() > sandwichList.size() ) {
-                SandwichNode node = new SandwichNode( model );
+                SubstanceNode node = new SubstanceNode( model.getSandwich() );
                 sandwichesParent.addChild( node );
                 sandwichList.add( node );
-                node.scale( REACTANTS_SCALE );
+                node.scale( IMAGE_SCALE );
                 if ( sandwichesParent.getChildrenCount() > 1 ) {
                     double x = 0;
                     double y = sandwichesParent.getChild( sandwichesParent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node )- Y_MARGIN;
@@ -163,17 +162,18 @@ public class SandwichShopAfterNode extends PhetPNode {
         // bread
         if ( model.getBread().getLeftovers() < breadList.size() ) {
             while ( model.getBread().getLeftovers() < breadList.size() ) {
-                BreadNode node = breadList.get( breadList.size() - 1 );
+                SubstanceNode node = breadList.get( breadList.size() - 1 );
+                node.cleanup();
                 breadParent.removeChild( node );
                 breadList.remove( node );
             }
         }
         else {
             while ( model.getBread().getLeftovers() > breadList.size() ) {
-                BreadNode node = new BreadNode();
+                SubstanceNode node = new SubstanceNode( model.getBread() );
                 breadParent.addChild( node );
                 breadList.add( node );
-                node.scale( REACTANTS_SCALE );
+                node.scale( IMAGE_SCALE );
                 if ( breadParent.getChildrenCount() > 1 ) {
                     double x = 0;
                     double y = breadParent.getChild( breadParent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - Y_MARGIN;
@@ -185,17 +185,18 @@ public class SandwichShopAfterNode extends PhetPNode {
         // meat
         if ( model.getMeat().getLeftovers() < meatList.size() ) {
             while ( model.getMeat().getLeftovers() < meatList.size() ) {
-                MeatNode node = meatList.get( meatList.size() - 1 );
+                SubstanceNode node = meatList.get( meatList.size() - 1 );
+                node.cleanup();
                 meatParent.removeChild( node );
                 meatList.remove( node );
             }
         }
         else {
             while ( model.getMeat().getLeftovers() > meatList.size() ) {
-                MeatNode node = new MeatNode();
+                SubstanceNode node = new SubstanceNode( model.getMeat() );
                 meatParent.addChild( node );
                 meatList.add( node );
-                node.scale( REACTANTS_SCALE );
+                node.scale( IMAGE_SCALE );
                 if ( meatParent.getChildrenCount() > 1 ) {
                     double x = 0;
                     double y = meatParent.getChild( meatParent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - Y_MARGIN;
@@ -207,17 +208,18 @@ public class SandwichShopAfterNode extends PhetPNode {
         // cheese
         if ( model.getCheese().getLeftovers() < cheeseList.size() ) {
             while ( model.getCheese().getLeftovers() < cheeseList.size() ) {
-                CheeseNode node = cheeseList.get( cheeseList.size() - 1 );
+                SubstanceNode node = cheeseList.get( cheeseList.size() - 1 );
+                node.cleanup();
                 cheeseParent.removeChild( node );
                 cheeseList.remove( node );
             }
         }
         else {
             while ( model.getCheese().getLeftovers() > cheeseList.size() ) {
-                CheeseNode node = new CheeseNode();
+                SubstanceNode node = new SubstanceNode( model.getCheese() );
                 cheeseParent.addChild( node );
                 cheeseList.add( node );
-                node.scale( REACTANTS_SCALE );
+                node.scale( IMAGE_SCALE );
                 if ( cheeseParent.getChildrenCount() > 1 ) {
                     double x = 0;
                     double y = cheeseParent.getChild( cheeseParent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - Y_MARGIN;

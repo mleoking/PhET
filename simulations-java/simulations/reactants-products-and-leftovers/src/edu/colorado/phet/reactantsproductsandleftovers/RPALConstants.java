@@ -5,6 +5,8 @@ package edu.colorado.phet.reactantsproductsandleftovers;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import edu.umd.cs.piccolo.util.PDimension;
+
 
 /**
  * A collection of constants that configure global properties.
@@ -23,7 +25,13 @@ public class RPALConstants {
     
     public static final String PROJECT_NAME = "reactants-products-and-leftovers";
 
+    //----------------------------------------------------------------------------
+    // Dimensions
+    //----------------------------------------------------------------------------
+    
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
+    
+    public static final PDimension HISTOGRAM_BAR_SIZE = new PDimension( 15, 75 );
     
     //----------------------------------------------------------------------------
     // Paints

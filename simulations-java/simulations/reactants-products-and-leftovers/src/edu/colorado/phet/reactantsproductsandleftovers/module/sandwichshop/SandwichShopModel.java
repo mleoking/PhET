@@ -3,40 +3,38 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
-import edu.colorado.phet.reactantsproductsandleftovers.view.BreadNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.CheeseNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.MeatNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.SandwichNode;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Sandwich;
 
 
 public class SandwichShopModel {
     
     private final ChemicalReaction reaction;
     
-    private final Product sandwich;
+    private final Sandwich sandwich;
     private final Bread bread;
     private final Meat meat;
     private final Cheese cheese;
     
     public static class Bread extends Reactant {
         public Bread( int coefficient, int quantity ) {
-            super( RPALStrings.BREAD, new BreadNode(), coefficient, quantity );
+            super( RPALStrings.BREAD, RPALImages.BREAD, coefficient, quantity );
         }
     }
     
     public static class Meat extends Reactant {
         public Meat( int coefficient, int quantity ) {
-            super( RPALStrings.MEAT, new MeatNode(), coefficient, quantity );
+            super( RPALStrings.MEAT, RPALImages.MEAT, coefficient, quantity );
         }
     }
     
     public static class Cheese extends Reactant {
         public Cheese( int coefficient, int quantity ) {
-            super( RPALStrings.CHEESE, new CheeseNode(), coefficient, quantity );
+            super( RPALStrings.CHEESE, RPALImages.CHEESE, coefficient, quantity );
         }
     }
     
@@ -56,11 +54,12 @@ public class SandwichShopModel {
         
         // product, with dynamic image
         ArrayList<Product> products = new ArrayList<Product>();
-        sandwich = new Product( RPALStrings.SANDWICH, new SandwichNode( this ), 1, quantity );
+        sandwich = new Sandwich( 1, quantity, this );
         products.add( sandwich );
         
         // reaction
         reaction = new ChemicalReaction( RPALStrings.LABEL_SANDWICH_FORMULA, reactants, products );
+        sandwich.init();
     }
     
     public Bread getBread() {

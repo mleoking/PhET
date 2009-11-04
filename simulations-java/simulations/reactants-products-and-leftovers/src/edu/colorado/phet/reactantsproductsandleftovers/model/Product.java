@@ -1,6 +1,6 @@
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
-import edu.umd.cs.piccolo.PNode;
+import java.awt.Image;
 
 /**
  * Chemical reactions yield one or more products, which have properties different from the reactants.
@@ -9,12 +9,14 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class Product extends Substance {
 
-    public Product( String name, PNode node, int coefficient, int quantity ) {
-        super( name, node, coefficient, quantity );
+    public Product( String name, Image image, int coefficient, int quantity ) {
+        super( name, image, coefficient, quantity );
     }
     
+    // marker interface
     public interface ProductChangeListener extends SubstanceChangeListener {}
     
+    // marker adapter
     public static class ProductChangeAdapter extends SubstanceChangeAdapter implements ProductChangeListener {}
     
     public void addProductChangeListener( ProductChangeListener listener ) {

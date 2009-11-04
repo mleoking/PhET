@@ -36,6 +36,8 @@ public class SandwichFormulaNode extends PhetPNode {
     private static final int TERM_X_SPACING = 20;
     private static final int Y_SPACING = 30;
     
+    private static final double IMAGE_SCALE = 0.5; //XXX
+    
     private final SandwichShopModel model;
     private final PText titleNode;
     private final PNode arrowNode;
@@ -79,7 +81,8 @@ public class SandwichFormulaNode extends PhetPNode {
             lhsCoefficientNodes.add( spinnerNode );
             
             // image
-            PNode imageNode = reactant.getNode();
+            PNode imageNode = new SubstanceNode( reactant );
+            imageNode.scale( IMAGE_SCALE );
             addChild( imageNode );
             lhsImageNodes.add( imageNode );
             
@@ -116,7 +119,8 @@ public class SandwichFormulaNode extends PhetPNode {
             rhsCoefficientNodes.add( coefficientNode );
             
             // image
-            PNode imageNode = product.getNode();
+            PNode imageNode = new SubstanceNode( product );
+            imageNode.scale( IMAGE_SCALE );
             addChild( imageNode );
             rhsImageNodes.add( imageNode );
             
