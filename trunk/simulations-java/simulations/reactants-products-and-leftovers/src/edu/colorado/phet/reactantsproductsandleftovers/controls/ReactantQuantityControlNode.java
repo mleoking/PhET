@@ -1,8 +1,6 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.controls;
 
-import java.util.ArrayList;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -18,14 +16,11 @@ public class ReactantQuantityControlNode extends PhetPNode {
     
     private static final PDimension HISTOGRAM_BAR_SIZE = new PDimension( 15, 75 );
 
-    private final ArrayList<ChangeListener> listeners;
     private final IntegerSpinnerNode spinnerNode;
     private final IntegerHistogramBarNode histogramBar;
 
     public ReactantQuantityControlNode( final Reactant reactant, IntegerRange range, double imageScale ) {
         super();
-        
-        listeners = new ArrayList<ChangeListener>();
         
         spinnerNode = new IntegerSpinnerNode( range );
         spinnerNode.scale( 1.5 ); //XXX
@@ -33,20 +28,13 @@ public class ReactantQuantityControlNode extends PhetPNode {
         PImage imageNode = new PImage( reactant.getNode().toImage() );
         imageNode.scale( imageScale );
         
-        // when the spinner changes, update the histogram bar and notify listeners
+        // when the spinner changes, update the histogram bar and the model
         spinnerNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                histogramBar.setValue( spinnerNode.getValue() );
-                fireStateChanged();
-            }
-        } );
-        
-        // when this control changes, update the model
-        addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+                histogramBar.setValue( getValue() );
                 reactant.setQuantity( getValue() );
             }
-        });
+        } );
         
         // when the model changes, update this control
         reactant.addReactantChangeListener( new ReactantChangeAdapter() {
@@ -80,29 +68,12 @@ public class ReactantQuantityControlNode extends PhetPNode {
     }
     
     public void setValue( int value ) {
-        spinnerNode.setValue( value );
+        if ( value != getValue() ) {
+            spinnerNode.setValue( value );
+        }
     }
     
     public int getValue() {
         return spinnerNode.getValue();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Listeners
-    //----------------------------------------------------------------------------
-
-    public void addChangeListener( ChangeListener listener ) {
-        listeners.add( listener );
-    }
-
-    public void removeChangeListener( ChangeListener listener ) {
-        listeners.add( listener );
-    }
-
-    private void fireStateChanged() {
-        ChangeEvent event = new ChangeEvent( this );
-        for ( ChangeListener listener : listeners ) {
-            listener.stateChanged( event );
-        }
     }
 }
