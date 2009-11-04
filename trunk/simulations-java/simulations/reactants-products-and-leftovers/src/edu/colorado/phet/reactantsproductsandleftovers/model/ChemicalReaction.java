@@ -24,6 +24,13 @@ public class ChemicalReaction {
     
     public ChemicalReaction( String name, ArrayList<Reactant> reactants, ArrayList<Product> products ) {
         
+        if ( reactants.size() < 2 ) {
+            throw new IllegalArgumentException( "a reaction requires at least 2 reactants" );
+        }
+        if ( products.size() < 1 ) {
+            throw new IllegalArgumentException( "a reaction requires at least 1 product" );
+        }
+        
         this.name = name;
         this.reactants = new ArrayList<Reactant>( reactants );
         this.products = new ArrayList<Product>( products );
