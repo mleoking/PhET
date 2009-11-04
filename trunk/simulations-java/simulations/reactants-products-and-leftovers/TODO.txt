@@ -1,7 +1,6 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- replace Substance.getNode with Substance.getImage, to prevent error of adding this node to the scenegraph multiple times
 
 MEDIUM PRIORITY
 - generalize After to assemble any number of displays

@@ -1,3 +1,4 @@
+11/4/09 cleanup SubstanceNode when removed from scenegraph to prevent memory leak
 11/4/09 make QuantityDisplayNode listen to model
 11/4/09 add Sandwich model element, the only substance that has a dynamic image
 11/4/09 make Substance notify when its image has changed, SubstanceNode listens for changes and updates view
