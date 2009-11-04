@@ -3,7 +3,7 @@
 HIGH PRIORITY
 
 MEDIUM PRIORITY
-- generalize After to assemble any number of displays
+- generalize SandwichShopAfterNode
 
 LOW PRIORITY
 - scale image files to desired size
