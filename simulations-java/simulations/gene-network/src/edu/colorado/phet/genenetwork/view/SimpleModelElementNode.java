@@ -1,7 +1,7 @@
 /* Copyright 2009, University of Colorado */
 
 
-package edu.colorado.phet.genetwork.view;
+package edu.colorado.phet.genenetwork.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

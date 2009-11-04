@@ -22,7 +22,7 @@ import edu.colorado.phet.genenetwork.model.Glucose;
 import edu.colorado.phet.genenetwork.model.LacI;
 import edu.colorado.phet.genenetwork.model.LacZ;
 import edu.colorado.phet.genenetwork.model.RnaPolymerase;
-import edu.colorado.phet.genetwork.view.SimpleModelElementNode;
+import edu.colorado.phet.genenetwork.view.SimpleModelElementNode;
 import edu.umd.cs.piccolo.PNode;
 
 
