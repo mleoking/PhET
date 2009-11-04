@@ -167,6 +167,17 @@ public class BuildLocalProperties {
     }
 
     /**
+     * Flex SDK path
+     * IE: /...../flex3.3
+     * Thus getFlexSDK() + "/bin/mxmlc" should point to the mxmlc executable
+     *
+     * @return The path to the Flex SDK
+     */
+    public String getFlexSDK() {
+        return getRequiredString( "flex", "Path to a Flex SDK" );
+    }
+
+    /**
      * Should Wine be used in the Flash build process?
      * Defaults to false.
      *
