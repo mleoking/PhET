@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public abstract class SimpleModelElement implements IModelElement{
 	
 	// Range within with bonding can occur.
-	protected static final double BONDING_RANGE = 20;  // In nanometers.
+	protected static final double BONDING_RANGE = 1000;  // In nanometers.
 	
 	private Shape shape;
 	private Point2D position;
@@ -166,8 +166,12 @@ public abstract class SimpleModelElement implements IModelElement{
 		// if not overridden it will not initiate any bonds.
 	}
 	
-	protected void setMotionStrategy(AbstractMotionStrategy newMotionStrategy){
-		motionStrategy = newMotionStrategy;
+	protected void setMotionStrategy(AbstractMotionStrategy motionStrategy){
+		this.motionStrategy = motionStrategy;
+	}
+	
+	protected AbstractMotionStrategy getMotionStrategyRef(){
+		return motionStrategy;
 	}
 	
     //------------------------------------------------------------------------
