@@ -32,6 +32,8 @@ public class LacOperator extends SimpleModelElement {
 	
 	public LacOperator(Point2D initialPosition) {
 		super(createShape(), initialPosition, ELEMENT_PAINT);
+		// Add binding point for LacI.
+		addBindingPoint(new BindingPoint(ModelElementType.LAC_I, new PDimension(0, HEIGHT/2)));
 	}
 	
 	public LacOperator() {
