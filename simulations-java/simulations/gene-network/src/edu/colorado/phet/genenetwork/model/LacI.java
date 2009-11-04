@@ -13,6 +13,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.umd.cs.piccolo.util.PDimension;
+
 
 /**
  * Class that represents LacI, which in real life is a protein that inhibits
@@ -33,6 +35,8 @@ public class LacI extends SimpleModelElement {
 	public LacI(Point2D initialPosition) {
 		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
 		setMotionStrategy(new WeightedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+		// Add binding point for LacOperator.
+		addBindingPoint(new BindingPoint(ModelElementType.LAC_OPERATOR, new PDimension(0, -HEIGHT/2 + LacOperator.getBindingRegionSize().getHeight())));
 	}
 	
 	public LacI() {
@@ -71,6 +75,27 @@ public class LacI extends SimpleModelElement {
 		area.subtract(new Area(bindingRegionRect));
 		
 		return area;
+	}
+	
+	@Override
+	public void updatePositionAndMotion() {
+		if (lacOperatorBondingPartner != null){
+			// TODO: This needs refinement.  It needs to recognize when the
+			// bond is fully formed so that no motion is required, and it
+			// needs to position itself so the binding points align.  This is
+			// and initial rough attempt.
+			// Also, this should probably only be done in this case when bonds
+			// are formed and released, since the partner is known not to move.
+			Dimension2D partnerOffset = lacOperatorBondingPartner.getBindingPointForElement(getType()).getOffset();
+			Dimension2D myOffset = getBindingPointForElement(lacOperatorBondingPartner.getType()).getOffset();
+			double xDest = lacOperatorBondingPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
+				myOffset.getWidth();
+			double yDest = lacOperatorBondingPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
+				myOffset.getHeight();
+			getMotionStrategyRef().setDestination(xDest, yDest);
+		}
+		// TODO Auto-generated method stub
+		super.updatePositionAndMotion();
 	}
 
 	@Override
