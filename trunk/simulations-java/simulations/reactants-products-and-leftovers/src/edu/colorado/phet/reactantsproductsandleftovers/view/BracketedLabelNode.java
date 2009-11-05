@@ -21,6 +21,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BracketedLabelNode extends PComposite {
     
     private static final double BRACKET_END_HEIGHT = 5;
+    private static final double Y_SPACING = 3;
     private static final Stroke BRACK_STROKE = new BasicStroke( 0.75f );
     private static final Color BRACK_COLOR = Color.BLACK;
     private static final Color TEXT_COLOR = Color.BLACK;
@@ -52,11 +53,13 @@ public class BracketedLabelNode extends PComposite {
     }
     
     private void updateLayout() {
+        // origin at upper-left of bracket
         double x = 0;
         double y = 0;
         bracketNode.setOffset( x, y );
+        // text centered below bracket
         x = bracketNode.getFullBoundsReference().getCenterX() - ( textNode.getFullBounds().getWidth() / 2 );
-        y = bracketNode.getFullBoundsReference().getMaxY() + 2;
+        y = bracketNode.getFullBoundsReference().getMaxY() + Y_SPACING;
         textNode.setOffset( x, y ); 
     }
     
