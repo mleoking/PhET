@@ -5,7 +5,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Substance;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.SubstanceChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.SubstanceChangeListener;
 
-
+/**
+ * Displays the quantity value for a Substance.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class QuantityDisplayNode extends SubstanceValueDisplayNode {
     
     private final Substance substance;

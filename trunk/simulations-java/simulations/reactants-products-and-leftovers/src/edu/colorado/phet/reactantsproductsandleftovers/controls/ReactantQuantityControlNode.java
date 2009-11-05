@@ -18,7 +18,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantCh
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
+/**
+ * Controls for changing and displaying a Reactant quantity value.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ReactantQuantityControlNode extends PhetPNode {
     
     private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;

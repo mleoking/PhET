@@ -10,8 +10,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
-/*
- * * Base class for all Piccolo canvases in this project.
+/**
+ * Base class for all Piccolo canvases in this project.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

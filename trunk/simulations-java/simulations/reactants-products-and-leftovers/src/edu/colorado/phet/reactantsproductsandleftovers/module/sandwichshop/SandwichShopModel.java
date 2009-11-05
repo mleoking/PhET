@@ -8,7 +8,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Sandwich;
 
-
+/**
+ * Model for the "Sandwich Shop" module.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class SandwichShopModel {
     
     private final ChemicalReaction reaction;

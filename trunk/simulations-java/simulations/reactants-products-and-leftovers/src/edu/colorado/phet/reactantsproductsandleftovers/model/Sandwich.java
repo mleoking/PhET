@@ -7,7 +7,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SandwichImageFactory;
 
-
+/**
+ * Model of a sandwich, the product of our "reaction" analogy.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class Sandwich extends Product {
     
     private final SandwichShopModel model;

@@ -3,9 +3,9 @@
 package edu.colorado.phet.reactantsproductsandleftovers;
 
 
-/*
+/**
  * Collection of localized strings used by this project. 
- * We load all strings as statics so that we will be warned at startup time of any missing strings.
+ * Statically loaded so we can easily see if any are missing.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

@@ -9,7 +9,11 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
-
+/**
+ * Factory that creates sandwich images, uses knowledge about someone might make a sandwich.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class SandwichImageFactory {
 
     private static final int Y_SPACING = 11;
