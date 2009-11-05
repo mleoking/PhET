@@ -1,3 +1,4 @@
+11/5/09 improve alignment of controls below Before/After boxes, center each control in its "cell"
 11/5/09 simplify and document layout of Real Reaction canvas
 11/5/09 simplify and document layout of Sandwich Shop canvas
 11/5/09 adjust centering of play area contents

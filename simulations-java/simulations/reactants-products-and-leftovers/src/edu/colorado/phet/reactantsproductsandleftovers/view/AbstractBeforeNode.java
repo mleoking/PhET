@@ -28,8 +28,8 @@ public abstract class AbstractBeforeNode extends PhetPNode {
     
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     private static final double TITLE_Y_SPACING = 10;
-    private static final double LEFT_MARGIN = 80;
-    private static final double RIGHT_MARGIN = 60;
+    private static final double LEFT_MARGIN = 0;
+    private static final double RIGHT_MARGIN = 0;
     private static final double CONTROLS_Y_SPACING = 15;
     private static final double IMAGES_Y_MARGIN = 18;
     private static final double IMAGES_Y_SPACING = 27;
@@ -94,12 +94,9 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
         y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
         titleNode.setOffset( x, y );
-        // reactant-specific nodes
-        x = boxNode.getFullBoundsReference().getMinX() + LEFT_MARGIN;
-        double deltaX = boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN;
-        if ( reactants.length > 2 ) {
-            deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( reactants.length - 1 );
-        }
+        // reactant-specific nodes, horizontally centered in "cells"
+        final double deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( reactants.length );
+        x = boxNode.getFullBoundsReference().getMinX() + LEFT_MARGIN + ( deltaX / 2 );
         for ( int i = 0; i < reactants.length; i++ ) {
             
             // quantity controls
