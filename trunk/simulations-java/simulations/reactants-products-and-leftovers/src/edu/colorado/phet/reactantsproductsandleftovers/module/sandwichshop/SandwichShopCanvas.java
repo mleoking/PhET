@@ -23,7 +23,7 @@ public class SandwichShopCanvas extends RPALCanvas {
         SandwichShopBeforeNode beforeNode = new SandwichShopBeforeNode( model );
         addChild( beforeNode );
         
-        RPALArrowNode arrowNode = new RPALArrowNode();
+        RightArrowNode arrowNode = new RightArrowNode();
         addChild( arrowNode );
         
         SandwichShopAfterNode afterNode = new SandwichShopAfterNode( model );

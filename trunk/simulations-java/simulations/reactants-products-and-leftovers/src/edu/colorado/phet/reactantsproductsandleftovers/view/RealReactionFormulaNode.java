@@ -102,7 +102,7 @@ public class RealReactionFormulaNode extends PComposite {
         }
         
         // right-pointing arrow
-        RPALArrowNode arrowNode = new RPALArrowNode();
+        RightArrowNode arrowNode = new RightArrowNode();
         addChild( arrowNode );
         x = previousNode.getFullBoundsReference().getMaxX() + ARROW_X_SPACING;
         y = ( capHeight / 2 );
