@@ -57,7 +57,6 @@ public class RealReactionCanvas extends RPALCanvas {
             removeChild( formulaNode );
         }
         formulaNode = new RealReactionFormulaNode( model.getReaction() );
-        formulaNode.scale( 3 ); //XXX
         addChild( formulaNode );
 
         if ( beforeNode != null ) {
