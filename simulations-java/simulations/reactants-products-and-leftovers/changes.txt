@@ -1,3 +1,6 @@
+11/5/09 adjust centering of play area contents
+11/5/09 make Before and After boxes wider (400 -> 450)
+11/5/09 make histogram bars wider (15 -> 18)
 11/4/09 wire up Before and After displays for "Real Reactions" module
 11/4/09 wire up radio buttons and a temporary formula in "Real Reactions" module
 11/4/09 reaction models for "Real Reactions" module

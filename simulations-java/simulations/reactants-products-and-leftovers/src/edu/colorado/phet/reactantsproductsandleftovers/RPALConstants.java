@@ -30,8 +30,8 @@ public class RPALConstants {
     //----------------------------------------------------------------------------
     
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
-    public static final PDimension BEFORE_AFTER_BOX_SIZE = new PDimension( 400, 300 );
-    public static final PDimension HISTOGRAM_BAR_SIZE = new PDimension( 15, 75 );
+    public static final PDimension BEFORE_AFTER_BOX_SIZE = new PDimension( 450, 300 );
+    public static final PDimension HISTOGRAM_BAR_SIZE = new PDimension( 18, 75 );
     
     //----------------------------------------------------------------------------
     // Paints
