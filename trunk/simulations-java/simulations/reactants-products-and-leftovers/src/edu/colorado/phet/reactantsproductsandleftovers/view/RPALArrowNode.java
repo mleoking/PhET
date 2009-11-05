@@ -6,6 +6,7 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 
 
 public class RPALArrowNode extends ArrowNode {
@@ -18,7 +19,7 @@ public class RPALArrowNode extends ArrowNode {
     
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_PAINT = Color.BLACK;
-    private static final Color FILL_PAINT = new Color( 46, 107, 178 );
+    private static final Color FILL_PAINT = RPALConstants.ARROW_COLOR;
     
     public RPALArrowNode() {
         super( TAIL_LOCATION, TIP_LOCATION, HEAD_HEIGHT, HEAD_WIDTH, TAIL_WIDTH );

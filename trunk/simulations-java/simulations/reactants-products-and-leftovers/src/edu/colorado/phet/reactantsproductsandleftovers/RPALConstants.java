@@ -30,13 +30,16 @@ public class RPALConstants {
     //----------------------------------------------------------------------------
     
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
-    
+    public static final PDimension BEFORE_AFTER_BOX_SIZE = new PDimension( 400, 300 );
     public static final PDimension HISTOGRAM_BAR_SIZE = new PDimension( 15, 75 );
     
     //----------------------------------------------------------------------------
     // Paints
     //----------------------------------------------------------------------------
     
-    // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 210, 210, 255 );
+    public static final Color BEFORE_AFTER_BOX_COLOR = new Color( 46, 107, 178 );
+    public static final Color PLUS_SIGN_COLOR = BEFORE_AFTER_BOX_COLOR;
+    public static final Color ARROW_COLOR = BEFORE_AFTER_BOX_COLOR;
+    public static final Color HISTOGRAM_BAR_COLOR = BEFORE_AFTER_BOX_COLOR;
 }

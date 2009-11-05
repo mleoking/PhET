@@ -6,6 +6,7 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -14,7 +15,7 @@ public class BoxNode extends PPath {
     
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_PAINT = Color.BLACK;
-    private static final Color FILL_PAINT = new Color( 46, 107, 178 );
+    private static final Color FILL_PAINT = RPALConstants.BEFORE_AFTER_BOX_COLOR;
     
     public BoxNode( PDimension size ) {
         super();

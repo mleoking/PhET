@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
@@ -21,7 +22,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 public class SandwichShopBeforeNode extends PhetPNode {
     
-    private static final PDimension BOX_SIZE = new PDimension( 400, 300 );
+    private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     private static final double TITLE_Y_SPACING = 10;
     private static final double LEFT_MARGIN = 80;
     private static final double RIGHT_MARGIN = 60;
