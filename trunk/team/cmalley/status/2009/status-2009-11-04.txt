@@ -1,0 +1,44 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: October 30 - November 4, 2009 (Fri-Wed)
+
+ACCOMPLISHMENTS:
+
+  Reactants, Products and Leftovers
+  - restructured "Sandwich Shop" code to be reusable in "Real Reactions"
+  - implemented "Real Reactions" tab
+  
+  Glaciers
+  - deployed version 2.02 to PhET website
+  
+  common code
+  - brief meeting to discuss low-resolution devices, #1822
+  - analyzed and discussed Google data on display resolution, #1822
+  - reviewed status of ADA issues, updated ticket #855
+  - discussed ADA high-contrast issue, looked at ZoomText solution, #1863
+  
+  build process
+  - tested and debugged Flex build process on Eclipse+Mac, #1482
+  - discussed changelog issues, #1861
+  
+  misc:
+  - status meeting
+  - brief meeting to discuss websites and installers
+  - joined Piccolo developers group, given commit permissions
+  - investigated Translation Utility startup delay when not connected to Internet, #1464
+  
+WHAT'S NEXT:
+
+  - continue work on Reactants, Products and Leftovers (need remaining parts of design!)
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   November 26-29
+   February 12-15
+  
+--
