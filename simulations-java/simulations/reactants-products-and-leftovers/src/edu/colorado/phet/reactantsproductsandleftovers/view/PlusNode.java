@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 
@@ -13,7 +14,7 @@ public class PlusNode extends PPath {
     
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_PAINT = Color.BLACK;
-    private static final Color FILL_PAINT = new Color( 46, 107, 178 );
+    private static final Color FILL_PAINT = RPALConstants.PLUS_SIGN_COLOR;
     
     public PlusNode() {
         this( 30, 30, 10 );
