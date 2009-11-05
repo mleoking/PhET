@@ -133,6 +133,14 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         }
     }
     
+    /**
+     * Box height, used by layout code.
+     * @return
+     */
+    public double getBoxHeight() {
+        return boxNode.getFullBoundsReference().getHeight();
+    }
+    
     /*
      * For each reactant, update quantity control and number of images to match the quantity.
      */
