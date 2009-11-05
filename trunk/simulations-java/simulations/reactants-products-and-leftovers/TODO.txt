@@ -1,7 +1,9 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- "Real Reactions" module
+- show names below images in quantity controls and displays
+- adjust layout in Before when 2 reactants
+- random grid layout of images in Before and After boxes for "Real Reactions"
 
 MEDIUM PRIORITY
 - product image histogram with 3+3+3=1 Sandwich is problematic, image extends below box, hard to stack to maintain histogram look
