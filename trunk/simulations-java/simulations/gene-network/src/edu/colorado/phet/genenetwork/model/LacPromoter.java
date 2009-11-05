@@ -7,6 +7,9 @@ import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -21,8 +24,11 @@ public class LacPromoter extends SimpleModelElement {
 	private static float HEIGHT = 2.5f;
 	public static float WIDTH = 10;
 	
+	private RnaPolymerase rnaPolymeraseBondingPartner = null;
+	
 	public LacPromoter(Point2D initialPosition) {
 		super(createShape(), initialPosition, ELEMENT_PAINT);
+		addBindingPoint(new BindingPoint(ModelElementType.RNA_POLYMERASE, new PDimension(0, HEIGHT/2)));
 	}
 	
 	public LacPromoter() {
@@ -49,4 +55,50 @@ public class LacPromoter extends SimpleModelElement {
 		
 		return outline;
 	}
+	
+	@Override
+	public boolean availableForBonding(ModelElementType elementType) {
+		boolean available = false;
+		if (elementType == ModelElementType.RNA_POLYMERASE && rnaPolymeraseBondingPartner == null){
+			available = true;
+		}
+		return available;
+	}
+
+	@Override
+	public boolean considerProposalFrom(IModelElement modelElement) {
+		boolean proposalAccepted = false;
+
+		if (modelElement instanceof CapBindingRegion && rnaPolymeraseBondingPartner == null){
+			rnaPolymeraseBondingPartner = (RnaPolymerase)modelElement;
+			proposalAccepted = true;
+		}
+		
+		return proposalAccepted;
+	}
+	
+	@Override
+	public void updatePotentialBondingPartners( ArrayList<IModelElement> modelElements ) {
+		// Seek to bond with free elements that are within range and that
+		// match our needs.
+		if (rnaPolymeraseBondingPartner == null){
+			for (IModelElement modelElement : modelElements){
+				
+				// Look for a bond.
+				if (modelElement.getType() == ModelElementType.RNA_POLYMERASE &&
+					rnaPolymeraseBondingPartner == null &&
+					getPositionRef().distance(modelElement.getPositionRef()) <= BONDING_RANGE &&
+					modelElement.availableForBonding(getType())){
+					
+					// Propose a bond with this element
+					if (modelElement.considerProposalFrom(this)){
+						// Proposal accepted.  Note that the bond is only
+						// started at this point, and not really finalized
+						// until the binding points are in the same location.
+						rnaPolymeraseBondingPartner = (RnaPolymerase)modelElement;
+					}
+				}
+			}
+		}
+	}	
 }

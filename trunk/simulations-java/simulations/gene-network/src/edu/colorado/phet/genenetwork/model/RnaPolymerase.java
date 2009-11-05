@@ -8,8 +8,11 @@ import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -25,9 +28,16 @@ public class RnaPolymerase extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-WIDTH, 0), 
 			new Color(17, 149, 210), new Point2D.Double(WIDTH * 5, 0), Color.WHITE);
 	
+	private LacPromoter lacPromoterBondingPartner = null;
+	private boolean bound;
+	
 	public RnaPolymerase(Point2D initialPosition) {
 		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
-		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+		
+		// This binding point should is hand tweaked to make it work.
+		addBindingPoint(new BindingPoint(ModelElementType.LAC_PROMOTER, new PDimension(WIDTH * 0.1, -HEIGHT * 0.3)));
+		
+		setMotionStrategy(new WeightedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 	}
 	
 	public RnaPolymerase() {
@@ -73,4 +83,57 @@ public class RnaPolymerase extends SimpleModelElement {
 		return area;
 	}
 	
+	@Override
+	public void updatePositionAndMotion() {
+		if (lacPromoterBondingPartner != null){
+			// TODO: This needs refinement.  It needs to recognize when the
+			// bond is fully formed so that no motion is required, and it
+			// needs to position itself so the binding points align.  This is
+			// and initial rough attempt.
+			// Also, this should probably only be done in this case when bonds
+			// are formed and released, since the partner is known not to move.
+			if (!bound){
+				// We are moving towards forming a bond with a partner.
+				// Calculate the destination and make sure we are moving
+				// towards it.
+				Dimension2D partnerOffset = lacPromoterBondingPartner.getBindingPointForElement(getType()).getOffset();
+				Dimension2D myOffset = getBindingPointForElement(lacPromoterBondingPartner.getType()).getOffset();
+				double xDest = lacPromoterBondingPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
+					myOffset.getWidth();
+				double yDest = lacPromoterBondingPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
+					myOffset.getHeight();
+				if (getPositionRef().distance(xDest, yDest) < BOND_FORMING_DISTANCE){
+					// Close enough to form a bond.  Move to the location and
+					// then stop moving.
+					setPosition(xDest, yDest);
+					setMotionStrategy(new StillnessMotionStrategy(this));
+				}
+				else{
+					getMotionStrategyRef().setDestination(xDest, yDest);
+				}
+			}
+		}
+		super.updatePositionAndMotion();
+	}
+
+	@Override
+	public boolean availableForBonding(ModelElementType elementType) {
+		boolean available = false;
+		if (elementType == ModelElementType.LAC_PROMOTER && lacPromoterBondingPartner == null){
+			available = true;
+		}
+		return available;
+	}
+
+	@Override
+	public boolean considerProposalFrom(IModelElement modelElement) {
+		boolean proposalAccepted = false;
+
+		if (modelElement instanceof LacPromoter && lacPromoterBondingPartner == null){
+			lacPromoterBondingPartner = (LacPromoter)modelElement;
+			proposalAccepted = true;
+		}
+		
+		return proposalAccepted;
+	}
 }
