@@ -4,6 +4,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
 
 
@@ -17,16 +18,16 @@ public class SandwichShopCanvas extends RPALCanvas {
     public SandwichShopCanvas( SandwichShopModel model ) {
         super();
         
-        formulaNode = new SandwichFormulaNode( model );
+        formulaNode = new SandwichFormulaNode( model.getReaction(), model.getCoefficientRange() );
         addChild( formulaNode );
         
-        beforeNode = new SandwichShopBeforeNode( model );
+        beforeNode = new SandwichShopBeforeNode( RPALStrings.LABEL_BEFORE_SANDWICH, model.getReaction(), model.getQuantityRange() );
         addChild( beforeNode );
         
         arrowNode = new RPALArrowNode();
         addChild( arrowNode );
         
-        afterNode = new SandwichShopAfterNode( model );
+        afterNode = new SandwichShopAfterNode( RPALStrings.LABEL_AFTER_SANDWICH, model.getReaction(), model.getQuantityRange() );
         addChild( afterNode );
     }
 

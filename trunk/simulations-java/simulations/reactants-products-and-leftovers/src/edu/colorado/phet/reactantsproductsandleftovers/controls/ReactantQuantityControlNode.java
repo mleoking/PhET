@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -17,11 +18,15 @@ public class ReactantQuantityControlNode extends PhetPNode {
     
     private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;
 
+    private final Reactant reactant;
+    private final ReactantChangeListener reactantChangeListener;
     private final IntegerSpinnerNode spinnerNode;
     private final IntegerHistogramBarNode histogramBar;
 
     public ReactantQuantityControlNode( final Reactant reactant, IntegerRange range, double imageScale ) {
         super();
+        
+        this.reactant = reactant;
         
         spinnerNode = new IntegerSpinnerNode( range );
         spinnerNode.scale( 1.5 ); //XXX
@@ -38,12 +43,13 @@ public class ReactantQuantityControlNode extends PhetPNode {
         } );
         
         // when the model changes, update this control
-        reactant.addReactantChangeListener( new ReactantChangeAdapter() {
+        reactantChangeListener = new ReactantChangeAdapter() {
             @Override
             public void quantityChanged() {
                 setValue( reactant.getQuantity() );
             }
-        });
+        };
+        reactant.addReactantChangeListener( reactantChangeListener );
 
         // rendering order
         addChild( spinnerNode );
@@ -66,6 +72,10 @@ public class ReactantQuantityControlNode extends PhetPNode {
         
         // initial state
         setValue( reactant.getQuantity() );
+    }
+    
+    public void cleanup() {
+        reactant.removeReactantChangeListener( reactantChangeListener );
     }
     
     public void setValue( int value ) {

@@ -7,16 +7,19 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.IntegerSpinnerNode;
+import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product.ProductChangeAdapter;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Product.ProductChangeListener;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -38,19 +41,22 @@ public class SandwichFormulaNode extends PhetPNode {
     
     private static final double IMAGE_SCALE = 0.4; //XXX
     
-    private final SandwichShopModel model;
+    private final ChemicalReaction reaction;
     private final PText titleNode;
     private final PNode arrowNode;
     private final ArrayList<PNode> lhsCoefficientNodes, lhsImageNodes, lhsPlusNodes, rhsCoefficientNodes, rhsImageNodes, rhsPlusNodes;
+    private final ArrayList<ReactantChangeListener> reactantChangeListeners;
+    private final ArrayList<ProductChangeListener> productChangeListeners;
+    private final ChangeListener reactionChangeListener;
     private final PText noReactionNode;
     
-    public SandwichFormulaNode( final SandwichShopModel model ) {
+    public SandwichFormulaNode( final ChemicalReaction reaction, IntegerRange coefficientRange ) {
         super();
         
-        this.model = model;
+        this.reaction = reaction;
         
         // title
-        titleNode = new PText( model.getReaction().getName() );
+        titleNode = new PText( reaction.getName() );
         titleNode.setFont( TITLE_FONT );
         addChild( titleNode );
         
@@ -58,13 +64,15 @@ public class SandwichFormulaNode extends PhetPNode {
         lhsCoefficientNodes = new ArrayList<PNode>();
         lhsImageNodes = new ArrayList<PNode>();
         lhsPlusNodes = new ArrayList<PNode>();
-        ArrayList<Reactant> reactants = model.getReaction().getReactantsReference();
+        reactantChangeListeners = new ArrayList<ReactantChangeListener>();
+        productChangeListeners = new ArrayList<ProductChangeListener>();
+        ArrayList<Reactant> reactants = reaction.getReactantsReference();
         for ( int i = 0; i < reactants.size(); i++ ) {
             
             final Reactant reactant = reactants.get( i );
             
             // coefficient spinner
-            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( model.getCoefficientRange() );
+            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( coefficientRange );
             spinnerNode.scale( 2 ); //XXX
             spinnerNode.setValue( reactant.getCoefficient() );
             spinnerNode.addChangeListener( new ChangeListener() {
@@ -72,19 +80,23 @@ public class SandwichFormulaNode extends PhetPNode {
                     reactant.setCoefficient( spinnerNode.getValue() );
                 }
             });
-            reactant.addReactantChangeListener( new ReactantChangeAdapter() {
-                public void coefficientChanged() {
-                    spinnerNode.setValue( reactant.getCoefficient() );
-                }
-            });
             addChild( spinnerNode );
             lhsCoefficientNodes.add( spinnerNode );
             
             // image
-            PNode imageNode = new SubstanceNode( reactant );
+            final SubstanceNode imageNode = new SubstanceNode( reactant );
             imageNode.scale( IMAGE_SCALE );
             addChild( imageNode );
             lhsImageNodes.add( imageNode );
+            
+            ReactantChangeListener listener = new ReactantChangeAdapter() {
+                @Override
+                public void coefficientChanged() {
+                    spinnerNode.setValue( reactant.getCoefficient() );
+                }
+            };
+            reactant.addReactantChangeListener( listener );
+            reactantChangeListeners.add( listener );
             
             // plus sign
             if ( i < reactants.size() - 1 ) {
@@ -102,7 +114,7 @@ public class SandwichFormulaNode extends PhetPNode {
         rhsCoefficientNodes = new ArrayList<PNode>();
         rhsImageNodes = new ArrayList<PNode>();
         rhsPlusNodes = new ArrayList<PNode>();
-        ArrayList<Product> products = model.getReaction().getProductsReference();
+        ArrayList<Product> products = reaction.getProductsReference();
         for ( int i = 0; i < products.size(); i++ ) {
             
             final Product product = products.get( i );
@@ -110,19 +122,23 @@ public class SandwichFormulaNode extends PhetPNode {
             // coefficient display
             final PText coefficientNode = new PText( String.valueOf( product.getCoefficient() ) );
             coefficientNode.setFont( COEFFICIENT_FONT );
-            product.addProductChangeListener( new ProductChangeAdapter() {
-                public void coefficientChanged() {
-                    coefficientNode.setText( String.valueOf( product.getCoefficient() ) );
-                }
-            } );
             addChild( coefficientNode );
             rhsCoefficientNodes.add( coefficientNode );
             
             // image
-            PNode imageNode = new SubstanceNode( product );
+            final SubstanceNode imageNode = new SubstanceNode( product );
             imageNode.scale( IMAGE_SCALE );
             addChild( imageNode );
             rhsImageNodes.add( imageNode );
+            
+            ProductChangeListener listener = new ProductChangeAdapter() {
+                @Override
+                public void coefficientChanged() {
+                    coefficientNode.setText( String.valueOf( product.getCoefficient() ) );
+                }
+            };
+            product.addProductChangeListener( listener );
+            productChangeListeners.add( listener );
             
              // plus sign
             if ( i < products.size() - 1 ) {
@@ -144,18 +160,37 @@ public class SandwichFormulaNode extends PhetPNode {
             }
         });
         
-        model.getReaction().addChangeListener( new ChangeListener() {
+        reactionChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                updateVisibility();
             }
-        });
+        };
+        reaction.addChangeListener( reactionChangeListener );
      
         updateVisibility();
         updateLayout();
     }
     
+    /**
+     * Cleans up all listeners that could cause memory leaks.
+     */
+    public void cleanup() {
+        // reaction listeners
+        reaction.removeChangeListener( reactionChangeListener );
+        // reactant listeners
+        ArrayList<Reactant> reactants = reaction.getReactantsReference();
+        for ( int i = 0; i < reactants.size(); i++ ) {
+            reactants.get( i ).removeReactantChangeListener( reactantChangeListeners.get( i ) );
+        }
+        // product listeners
+        ArrayList<Product> products = reaction.getProductsReference();
+        for ( int i = 0; i < products.size(); i++ ) {
+            products.get( i ).removeProductChangeListener( productChangeListeners.get( i ) );
+        }
+    }
+    
     private void updateVisibility() {
-        boolean isReaction = model.getReaction().isReaction();
+        boolean isReaction = reaction.isReaction();
         noReactionNode.setVisible( !isReaction );
         for ( PNode node : rhsCoefficientNodes ) {
             node.setVisible( isReaction );

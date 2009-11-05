@@ -6,14 +6,13 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantityControlNode;
+import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -31,22 +30,24 @@ public class SandwichShopBeforeNode extends PhetPNode {
     private static final double IMAGES_Y_SPACING = 27;
     private static final double IMAGE_SCALE = 0.25; //XXX
     
-    private final SandwichShopModel model;
+    private final ChemicalReaction reaction;
+    private final ChangeListener reactionChangeListener;
 
     private final BoxNode boxNode;
     private final ArrayList<PComposite> substanceNodeParents; // parents for reactant images
     private final ArrayList<ArrayList<SubstanceNode>> substanceNodeLists; // one list of images per reactant
     private final ArrayList<ReactantQuantityControlNode> quantityControlNodes; // quantity displays for reactants
     
-    public SandwichShopBeforeNode( final SandwichShopModel model ) {
+    public SandwichShopBeforeNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange ) {
         super();
         
-        this.model = model;
-        model.getReaction().addChangeListener( new ChangeListener() {
+        this.reaction = reaction;
+        reactionChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update();
             }
-        });
+        };
+        reaction.addChangeListener( reactionChangeListener );
         
         substanceNodeParents = new ArrayList<PComposite>();
         substanceNodeLists = new ArrayList<ArrayList<SubstanceNode>>();
@@ -57,13 +58,13 @@ public class SandwichShopBeforeNode extends PhetPNode {
         addChild( boxNode );
         
         // title for the box
-        PText titleNode = new PText( RPALStrings.LABEL_BEFORE_SANDWICH );
+        PText titleNode = new PText( title );
         titleNode.setFont( new PhetFont( 30 ) );
         titleNode.setTextPaint( Color.BLACK );
         addChild( titleNode );
         
         // images and controls
-        ArrayList<Reactant> reactants = model.getReaction().getReactantsReference();
+        ArrayList<Reactant> reactants = reaction.getReactantsReference();
         for ( Reactant reactant : reactants ) {
             
             // one parent node for each reactant image
@@ -75,7 +76,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
             substanceNodeLists.add( new ArrayList<SubstanceNode>() );
             
             // one quantity control for each reactant
-            ReactantQuantityControlNode controlNode = new ReactantQuantityControlNode( reactant, SandwichShopDefaults.QUANTITY_RANGE, IMAGE_SCALE );
+            ReactantQuantityControlNode controlNode = new ReactantQuantityControlNode( reactant, quantityRange, IMAGE_SCALE );
             addChild( controlNode );
             quantityControlNodes.add( controlNode );
         }
@@ -110,12 +111,29 @@ public class SandwichShopBeforeNode extends PhetPNode {
         update();
     }
     
+    /**
+     * Cleans up all listeners that could cause memory leaks.
+     */
+    public void cleanup() {
+        reaction.removeChangeListener( reactionChangeListener );
+        // controls that are listening to reactants
+        for ( ReactantQuantityControlNode node : quantityControlNodes ) {
+            node.cleanup();
+        }
+        // images that are listening to reactants
+        for ( ArrayList<SubstanceNode> list : substanceNodeLists ) {
+            for ( SubstanceNode node : list ) {
+                node.cleanup();
+            }
+        }
+    }
+    
     /*
      * For each reactant, update quantity control and number of images to match the quantity.
      */
     private void update() {
         
-        ArrayList<Reactant> reactants = model.getReaction().getReactantsReference();
+        ArrayList<Reactant> reactants = reaction.getReactantsReference();
         for ( int i = 0; i < reactants.size(); i++ ) {
             
             Reactant reactant = reactants.get( i );

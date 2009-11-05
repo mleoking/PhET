@@ -27,6 +27,9 @@ public class SubstanceNode extends PImage {
         setImage( substance.getImage() );
     }
     
+    /**
+     * Cleans up all listeners that could cause memory leaks.
+     */
     public void cleanup() {
         substance.removeSubstanceChangeListener( listener );
     }
