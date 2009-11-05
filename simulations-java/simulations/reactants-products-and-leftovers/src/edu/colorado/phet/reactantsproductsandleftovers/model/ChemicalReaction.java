@@ -18,22 +18,22 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantCh
 public class ChemicalReaction {
     
     private final String name;
-    private final ArrayList<Reactant> reactants;
-    private final ArrayList<Product> products;
+    private final Reactant[] reactants;
+    private final Product[] products;
     private final ArrayList<ChangeListener> listeners;
     
-    public ChemicalReaction( String name, ArrayList<Reactant> reactants, ArrayList<Product> products ) {
+    public ChemicalReaction( String name, Reactant[] reactants, Product[] products ) {
         
-        if ( reactants.size() < 2 ) {
+        if ( reactants.length < 2 ) {
             throw new IllegalArgumentException( "a reaction requires at least 2 reactants" );
         }
-        if ( products.size() < 1 ) {
+        if ( products.length < 1 ) {
             throw new IllegalArgumentException( "a reaction requires at least 1 product" );
         }
         
         this.name = name;
-        this.reactants = new ArrayList<Reactant>( reactants );
-        this.products = new ArrayList<Product>( products );
+        this.reactants = reactants;
+        this.products = products;
         this.listeners = new ArrayList<ChangeListener>();
         
         ReactantChangeAdapter reactantChangeListener = new ReactantChangeAdapter() {
@@ -61,11 +61,11 @@ public class ChemicalReaction {
         return name;
     }
     
-    public ArrayList<Reactant> getReactantsReference() {
+    public Reactant[] getReactants() {
         return reactants;
     }
     
-    public ArrayList<Product> getProductsReference() {
+    public Product[] getProducts() {
         return products;
     }
     

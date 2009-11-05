@@ -69,7 +69,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         addChild( titleNode );
         
         // images and controls
-        ArrayList<Reactant> reactants = reaction.getReactantsReference();
+        Reactant[] reactants = reaction.getReactants();
         for ( Reactant reactant : reactants ) {
             
             // one parent node for each reactant image
@@ -97,10 +97,10 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         // reactant-specific nodes
         x = boxNode.getFullBoundsReference().getMinX() + LEFT_MARGIN;
         double deltaX = boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN;
-        if ( reactants.size() > 2 ) {
-            deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( reactants.size() - 1 );
+        if ( reactants.length > 2 ) {
+            deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( reactants.length - 1 );
         }
-        for ( int i = 0; i < reactants.size(); i++ ) {
+        for ( int i = 0; i < reactants.length; i++ ) {
             
             // quantity controls
             y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
@@ -138,10 +138,10 @@ public abstract class AbstractBeforeNode extends PhetPNode {
      */
     private void update() {
         
-        ArrayList<Reactant> reactants = reaction.getReactantsReference();
-        for ( int i = 0; i < reactants.size(); i++ ) {
+        Reactant[] reactants = reaction.getReactants();
+        for ( int i = 0; i < reactants.length; i++ ) {
             
-            Reactant reactant = reactants.get( i );
+            Reactant reactant = reactants[i];
             PNode parent = substanceNodeParents.get( i );
             ArrayList<SubstanceNode> images = substanceNodeLists.get( i );
             

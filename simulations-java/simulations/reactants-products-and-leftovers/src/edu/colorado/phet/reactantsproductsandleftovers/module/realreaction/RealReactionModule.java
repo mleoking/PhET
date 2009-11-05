@@ -18,7 +18,7 @@ public class RealReactionModule extends PiccoloModule {
         super( RPALStrings.TITLE_REAL_REACTION, new RPALClock() );
 
         // Model
-        RealReactionModel model = new RealReactionModel();
+        RealReactionModel model = new RealReactionModel( null /* XXX */ );
 
         // Canvas
         RealReactionCanvas canvas = new RealReactionCanvas();

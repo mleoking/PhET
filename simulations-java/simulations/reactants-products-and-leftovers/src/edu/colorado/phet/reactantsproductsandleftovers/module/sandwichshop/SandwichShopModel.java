@@ -47,15 +47,11 @@ public class SandwichShopModel {
         bread = new Bread( coefficient, quantity );
         meat = new Meat( coefficient, quantity );
         cheese = new Cheese( coefficient, quantity );
-        ArrayList<Reactant> reactants = new ArrayList<Reactant>();
-        reactants.add( bread );
-        reactants.add( meat );
-        reactants.add( cheese );
+        Reactant[] reactants = { bread, meat, cheese };
         
         // product, with dynamic image
-        ArrayList<Product> products = new ArrayList<Product>();
         sandwich = new Sandwich( 1, quantity, this );
-        products.add( sandwich );
+        Product[] products = { sandwich };
         
         // reaction
         reaction = new ChemicalReaction( RPALStrings.LABEL_SANDWICH_FORMULA, reactants, products );

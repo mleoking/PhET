@@ -66,10 +66,10 @@ public class SandwichFormulaNode extends PhetPNode {
         lhsPlusNodes = new ArrayList<PNode>();
         reactantChangeListeners = new ArrayList<ReactantChangeListener>();
         productChangeListeners = new ArrayList<ProductChangeListener>();
-        ArrayList<Reactant> reactants = reaction.getReactantsReference();
-        for ( int i = 0; i < reactants.size(); i++ ) {
+        Reactant[] reactants = reaction.getReactants();
+        for ( int i = 0; i < reactants.length; i++ ) {
             
-            final Reactant reactant = reactants.get( i );
+            final Reactant reactant = reactants[i];
             
             // coefficient spinner
             final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( model.getCoefficientRange() );
@@ -99,7 +99,7 @@ public class SandwichFormulaNode extends PhetPNode {
             reactantChangeListeners.add( listener );
             
             // plus sign
-            if ( i < reactants.size() - 1 ) {
+            if ( i < reactants.length - 1 ) {
                 PNode plusNode = new PlusNode();
                 addChild( plusNode );
                 lhsPlusNodes.add( plusNode );
@@ -114,10 +114,10 @@ public class SandwichFormulaNode extends PhetPNode {
         rhsCoefficientNodes = new ArrayList<PNode>();
         rhsImageNodes = new ArrayList<PNode>();
         rhsPlusNodes = new ArrayList<PNode>();
-        ArrayList<Product> products = reaction.getProductsReference();
-        for ( int i = 0; i < products.size(); i++ ) {
+        Product[] products = reaction.getProducts();
+        for ( int i = 0; i < products.length; i++ ) {
             
-            final Product product = products.get( i );
+            final Product product = products[i];
             
             // coefficient display
             final PText coefficientNode = new PText( String.valueOf( product.getCoefficient() ) );
@@ -141,7 +141,7 @@ public class SandwichFormulaNode extends PhetPNode {
             productChangeListeners.add( listener );
             
              // plus sign
-            if ( i < products.size() - 1 ) {
+            if ( i < products.length - 1 ) {
                 PNode plusNode = new PlusNode();
                 addChild( plusNode );
                 rhsPlusNodes.add( plusNode );
@@ -178,14 +178,14 @@ public class SandwichFormulaNode extends PhetPNode {
         // reaction listeners
         reaction.removeChangeListener( reactionChangeListener );
         // reactant listeners
-        ArrayList<Reactant> reactants = reaction.getReactantsReference();
-        for ( int i = 0; i < reactants.size(); i++ ) {
-            reactants.get( i ).removeReactantChangeListener( reactantChangeListeners.get( i ) );
+        Reactant[] reactants = reaction.getReactants();
+        for ( int i = 0; i < reactants.length; i++ ) {
+            reactants[i].removeReactantChangeListener( reactantChangeListeners.get( i ) );
         }
         // product listeners
-        ArrayList<Product> products = reaction.getProductsReference();
-        for ( int i = 0; i < products.size(); i++ ) {
-            products.get( i ).removeProductChangeListener( productChangeListeners.get( i ) );
+        Product[] products = reaction.getProducts();
+        for ( int i = 0; i < products.length; i++ ) {
+            products[i].removeProductChangeListener( productChangeListeners.get( i ) );
         }
     }
     

@@ -1,3 +1,4 @@
+11/4/09 use immutable arrays for reactants and products in chemical reaction
 11/4/09 extract base classes for Before and After displays
 11/4/09 add cleanup methods to anything that listens to model
 11/4/09 completed generalization of After box
