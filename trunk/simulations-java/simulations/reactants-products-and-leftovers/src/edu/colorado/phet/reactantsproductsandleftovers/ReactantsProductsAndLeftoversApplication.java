@@ -11,14 +11,14 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.realreaction.RealR
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModule;
 
 /**
- * The main application for the "Reactants, Products and Leftovers" simulation.
- *
+ * The main application for the "Reactants, Products and Leftovers"
+ * simulation.
+ * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ReactantsProductsAndLeftoversApplication extends PiccoloPhetApplication {
 
-    public ReactantsProductsAndLeftoversApplication( PhetApplicationConfig config )
-    {
+    public ReactantsProductsAndLeftoversApplication( PhetApplicationConfig config ) {
         super( config );
         Frame parentFrame = getPhetFrame();
         addModule( new SandwichShopModule( parentFrame ) );
