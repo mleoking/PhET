@@ -1,9 +1,10 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
+- make Before and After nodes support setReaction
+- "Real Reactions" module
 
 MEDIUM PRIORITY
-- generalize SandwichShopAfterNode
 
 LOW PRIORITY
 - scale image files to desired size

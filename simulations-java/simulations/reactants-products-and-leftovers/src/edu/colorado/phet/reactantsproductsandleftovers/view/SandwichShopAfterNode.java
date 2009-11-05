@@ -6,15 +6,14 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityDisplayNode;
+import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -33,22 +32,24 @@ public class SandwichShopAfterNode extends PhetPNode {
     private static final double LEFTOVERS_BRACKET_Y_SPACING = 3;
     private static final double IMAGE_SCALE = 0.25; //XXX
     
-    private final SandwichShopModel model;
+    private final ChemicalReaction reaction;
+    private final ChangeListener reactionChangeListener;
 
     private final BoxNode boxNode;
     private final ArrayList<PComposite> productNodeParents, reactantNodeParents; // parents for product and reactant images
     private final ArrayList<ArrayList<SubstanceNode>> productNodeLists, reactantNodeLists; // one list of images per product and reactant
     private final ArrayList<QuantityDisplayNode> productQuantityDisplayNodes, reactantQuantityDisplayNodes; // quantity displays for products and reactants
     
-    public SandwichShopAfterNode( final SandwichShopModel model ) {
+    public SandwichShopAfterNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange ) {
         super();
         
-        this.model = model;
-        model.getReaction().addChangeListener( new ChangeListener() {
+        this.reaction = reaction;
+        reactionChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update();
             }
-        });
+        };
+        reaction.addChangeListener( reactionChangeListener );
         
         productNodeParents = new ArrayList<PComposite>();
         reactantNodeParents = new ArrayList<PComposite>();
@@ -62,13 +63,13 @@ public class SandwichShopAfterNode extends PhetPNode {
         addChild( boxNode );
         
         // title for the box
-        PText titleNode = new PText( RPALStrings.LABEL_AFTER_SANDWICH );
+        PText titleNode = new PText( title );
         titleNode.setFont( new PhetFont( 30 ) );
         titleNode.setTextPaint( Color.BLACK );
         addChild( titleNode );
         
         // product images and quantity displays
-        ArrayList<Product> products = model.getReaction().getProductsReference();
+        ArrayList<Product> products = reaction.getProductsReference();
         for ( Product product : products ) {
             
             // one parent node for each product image
@@ -80,13 +81,13 @@ public class SandwichShopAfterNode extends PhetPNode {
             productNodeLists.add( new ArrayList<SubstanceNode>() );
             
             // one quantity display for each product
-            QuantityDisplayNode controlNode = new QuantityDisplayNode( product, SandwichShopDefaults.QUANTITY_RANGE, IMAGE_SCALE );
+            QuantityDisplayNode controlNode = new QuantityDisplayNode( product, quantityRange, IMAGE_SCALE );
             addChild( controlNode );
             productQuantityDisplayNodes.add( controlNode );
         }
         
         // reactant images and quantity displays
-        ArrayList<Reactant> reactants = model.getReaction().getReactantsReference();
+        ArrayList<Reactant> reactants = reaction.getReactantsReference();
         for ( Reactant reactant : reactants ) {
             
             // one parent node for each reactant image
@@ -98,7 +99,7 @@ public class SandwichShopAfterNode extends PhetPNode {
             reactantNodeLists.add( new ArrayList<SubstanceNode>() );
             
             // one quantity display for each reactant
-            QuantityDisplayNode controlNode = new QuantityDisplayNode( reactant, SandwichShopDefaults.QUANTITY_RANGE, IMAGE_SCALE );
+            QuantityDisplayNode controlNode = new QuantityDisplayNode( reactant, quantityRange, IMAGE_SCALE );
             addChild( controlNode );
             reactantQuantityDisplayNodes.add( controlNode );
         }
@@ -155,6 +156,33 @@ public class SandwichShopAfterNode extends PhetPNode {
         update();
     }
     
+    /**
+     * Cleans up all listeners that could cause memory leaks.
+     */
+    public void cleanup() {
+        reaction.removeChangeListener( reactionChangeListener );
+        // displays that are listening to products
+        for ( QuantityDisplayNode node : productQuantityDisplayNodes ) {
+            node.cleanup();
+        }
+        // displays that are listening to reactants
+        for ( QuantityDisplayNode node : reactantQuantityDisplayNodes ) {
+            node.cleanup();
+        }
+        // image nodes that are listening to products
+        for ( ArrayList<SubstanceNode> list : productNodeLists ) {
+            for ( SubstanceNode node : list ) {
+                node.cleanup();
+            }
+        }
+        // image nodes that are listening to reactants
+        for ( ArrayList<SubstanceNode> list : reactantNodeLists ) {
+            for ( SubstanceNode node : list ) {
+                node.cleanup();
+            }
+        }
+    }
+    
     /*
      * For each product, update quantity display and number of images to match the quantity.
      * For each reactant, update quantity display and number of images to match the leftovers.
@@ -163,11 +191,11 @@ public class SandwichShopAfterNode extends PhetPNode {
     private void update() {
         
         // product quantities
-        ArrayList<Product> products = model.getReaction().getProductsReference();
+        ArrayList<Product> products = reaction.getProductsReference();
         for ( int i = 0; i < products.size(); i++ ) {
             
             // products are invisible if we don't have a legitimate reaction
-            productQuantityDisplayNodes.get(i).setVisible( model.getReaction().isReaction() );
+            productQuantityDisplayNodes.get(i).setVisible( reaction.isReaction() );
             
             Product product = products.get( i );
             PNode parent = productNodeParents.get( i );
@@ -204,7 +232,7 @@ public class SandwichShopAfterNode extends PhetPNode {
         }
 
         // reactant leftovers
-        ArrayList<Reactant> reactants = model.getReaction().getReactantsReference();
+        ArrayList<Reactant> reactants = reaction.getReactantsReference();
         for ( int i = 0; i < reactants.size(); i++ ) {
             
             Reactant reactant = reactants.get( i );

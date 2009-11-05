@@ -9,7 +9,8 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.SubstanceChangeAdapter;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.SubstanceChangeListener;
+import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -19,12 +20,16 @@ public class QuantityDisplayNode extends PComposite {
     
     private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;
     
+    private final Substance substance;
+    private final SubstanceChangeListener substanceChangeListener;
     private final IntegerHistogramBarNode barNode;
     private final PText valueNode;
-    private final PImage imageNode;
+    private final SubstanceNode substanceNode;
     
     public QuantityDisplayNode( final Substance substance, IntegerRange range, double imageScale ) {
         super();
+        
+        this.substance = substance;
         
         // bar
         barNode = new IntegerHistogramBarNode( range, HISTOGRAM_BAR_SIZE );
@@ -34,26 +39,23 @@ public class QuantityDisplayNode extends PComposite {
         valueNode.setFont( new PhetFont( 22 ) );
 
         // image
-        imageNode = new PImage( substance.getImage() );
-        imageNode.scale( imageScale );
+        substanceNode = new SubstanceNode( substance );
+        substanceNode.scale( imageScale );
         
         // rendering order
         addChild( barNode );
         addChild( valueNode );
-        addChild( imageNode );
+        addChild( substanceNode );
         
-        substance.addSubstanceChangeListener( new SubstanceChangeAdapter() {
+        substanceChangeListener = new SubstanceChangeAdapter() {
             @Override
             public void quantityChanged() {
                 setValue( substance.getQuantity() );
             }
-            @Override
-            public void imageChanged() {
-                imageNode.setImage( substance.getImage() );
-            }
-        });
+        };
+        substance.addSubstanceChangeListener( substanceChangeListener );
         
-        imageNode.addPropertyChangeListener( new PropertyChangeListener() {
+        substanceNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
                     updateLayout(); // to preserve center justification
@@ -74,6 +76,11 @@ public class QuantityDisplayNode extends PComposite {
         setValue( substance.getQuantity() );
     }
     
+    public void cleanup() {
+        substance.removeSubstanceChangeListener( substanceChangeListener );
+        substanceNode.cleanup();
+    }
+    
     public void setValue( int value ) {
         barNode.setValue( value );
         valueNode.setText( String.valueOf( value ) );
@@ -89,9 +96,9 @@ public class QuantityDisplayNode extends PComposite {
         y = barNode.getFullBoundsReference().getMaxY() - valueNode.getFullBoundsReference().getHeight();
         valueNode.setOffset( x, y );
         // image centered below bar
-        x = barNode.getFullBoundsReference().getCenterX() - ( imageNode.getFullBoundsReference().getWidth() / 2 );
-        y = barNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( imageNode ) + 15;
-        imageNode.setOffset( x, y );
+        x = barNode.getFullBoundsReference().getCenterX() - ( substanceNode.getFullBoundsReference().getWidth() / 2 );
+        y = barNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( substanceNode ) + 15;
+        substanceNode.setOffset( x, y );
     }
 
 }
