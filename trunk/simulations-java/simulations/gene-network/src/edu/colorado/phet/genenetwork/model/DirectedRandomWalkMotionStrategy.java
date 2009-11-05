@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  * 
  * @author John Blanco
  */
-public class WeightedRandomWalkMotionStrategy extends AbstractMotionStrategy {
+public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	
 	private static final Random RAND = new Random();
 	private static final double DIRECTED_PROPORTION = 0.9; // Proportion of motion updates that move towards
@@ -28,7 +28,7 @@ public class WeightedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	private int myUpdateValue;  // Used to stagger updates, for a better look and more even computational load.
 	private int updateCount = 0;
 	
-	public WeightedRandomWalkMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Point2D destination) {
+	public DirectedRandomWalkMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Point2D destination) {
 		super(modelElement);
 		this.bounds = bounds;
 		if (destination != null){
@@ -39,7 +39,7 @@ public class WeightedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 		myUpdateValue = RAND.nextInt(MOTION_UPDATE_PERIOD);
 	}
 
-	public WeightedRandomWalkMotionStrategy(IModelElement modelElement, Rectangle2D bounds) {
+	public DirectedRandomWalkMotionStrategy(IModelElement modelElement, Rectangle2D bounds) {
 		this(modelElement, bounds, null);
 	}
 
