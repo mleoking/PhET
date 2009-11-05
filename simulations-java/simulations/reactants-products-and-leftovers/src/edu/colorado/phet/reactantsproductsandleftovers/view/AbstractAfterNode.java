@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.LeftoversDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
@@ -43,7 +44,8 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private final BoxNode boxNode;
     private final ArrayList<PComposite> productNodeParents, reactantNodeParents; // parents for product and reactant images
     private final ArrayList<ArrayList<SubstanceNode>> productNodeLists, reactantNodeLists; // one list of images per product and reactant
-    private final ArrayList<QuantityDisplayNode> productQuantityDisplayNodes, reactantQuantityDisplayNodes; // quantity displays for products and reactants
+    private final ArrayList<QuantityDisplayNode> productQuantityDisplayNodes; // quantity displays for products
+    private final ArrayList<LeftoversDisplayNode> reactantLeftoverDisplayNodes; // leftovers displays for reactants
     
     public AbstractAfterNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange ) {
         super();
@@ -61,7 +63,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
         productNodeLists = new ArrayList<ArrayList<SubstanceNode>>();
         reactantNodeLists = new ArrayList<ArrayList<SubstanceNode>>();
         productQuantityDisplayNodes = new ArrayList<QuantityDisplayNode>();
-        reactantQuantityDisplayNodes = new ArrayList<QuantityDisplayNode>();
+        reactantLeftoverDisplayNodes = new ArrayList<LeftoversDisplayNode>();
         
         // box
         boxNode = new BoxNode( BOX_SIZE );
@@ -86,9 +88,9 @@ public abstract class AbstractAfterNode extends PhetPNode {
             productNodeLists.add( new ArrayList<SubstanceNode>() );
             
             // one quantity display for each product
-            QuantityDisplayNode controlNode = new QuantityDisplayNode( product, quantityRange, IMAGE_SCALE );
-            addChild( controlNode );
-            productQuantityDisplayNodes.add( controlNode );
+            QuantityDisplayNode displayNode = new QuantityDisplayNode( product, quantityRange, IMAGE_SCALE );
+            addChild( displayNode );
+            productQuantityDisplayNodes.add( displayNode );
         }
         
         // reactant images and quantity displays
@@ -104,9 +106,9 @@ public abstract class AbstractAfterNode extends PhetPNode {
             reactantNodeLists.add( new ArrayList<SubstanceNode>() );
             
             // one quantity display for each reactant
-            QuantityDisplayNode controlNode = new QuantityDisplayNode( reactant, quantityRange, IMAGE_SCALE );
-            addChild( controlNode );
-            reactantQuantityDisplayNodes.add( controlNode );
+            LeftoversDisplayNode displayNode = new LeftoversDisplayNode( reactant, quantityRange, IMAGE_SCALE );
+            addChild( displayNode );
+            reactantLeftoverDisplayNodes.add( displayNode );
         }
         
         // layout, origin at upper-left corner of box
@@ -137,7 +139,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
             
             // quantity displays
             y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
-            reactantQuantityDisplayNodes.get( i ).setOffset( x, y );
+            reactantLeftoverDisplayNodes.get( i ).setOffset( x, y );
             
             // images, centered above quantity displays
             y = boxNode.getFullBoundsReference().getMaxY() - IMAGES_Y_MARGIN;
@@ -147,13 +149,13 @@ public abstract class AbstractAfterNode extends PhetPNode {
         }
         
         // leftovers label, after doing layout of leftover quantity displays
-        double startX = reactantQuantityDisplayNodes.get( 0 ).getFullBoundsReference().getMinX();
-        double endX = reactantQuantityDisplayNodes.get( reactantQuantityDisplayNodes.size() - 1 ).getFullBoundsReference().getMaxX();
+        double startX = reactantLeftoverDisplayNodes.get( 0 ).getFullBoundsReference().getMinX();
+        double endX = reactantLeftoverDisplayNodes.get( reactantLeftoverDisplayNodes.size() - 1 ).getFullBoundsReference().getMaxX();
         double width = endX - startX;
         PNode leftoversLabelNode = new LeftoversLabelNode( width );
         addChild( leftoversLabelNode );
         x = startX;
-        y = reactantQuantityDisplayNodes.get( 0 ).getFullBoundsReference().getMaxY() + LEFTOVERS_BRACKET_Y_SPACING;
+        y = reactantLeftoverDisplayNodes.get( 0 ).getFullBoundsReference().getMaxY() + LEFTOVERS_BRACKET_Y_SPACING;
         leftoversLabelNode.setOffset( x, y );
         
         update();
@@ -169,7 +171,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
             node.cleanup();
         }
         // displays that are listening to reactants
-        for ( QuantityDisplayNode node : reactantQuantityDisplayNodes ) {
+        for ( LeftoversDisplayNode node : reactantLeftoverDisplayNodes ) {
             node.cleanup();
         }
         // image nodes that are listening to products
