@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -20,6 +19,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Product.ProductChan
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product.ProductChangeListener;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -50,10 +50,10 @@ public class SandwichFormulaNode extends PhetPNode {
     private final ChangeListener reactionChangeListener;
     private final PText noReactionNode;
     
-    public SandwichFormulaNode( final ChemicalReaction reaction, IntegerRange coefficientRange ) {
+    public SandwichFormulaNode( SandwichShopModel model ) {
         super();
         
-        this.reaction = reaction;
+        this.reaction = model.getReaction();
         
         // title
         titleNode = new PText( reaction.getName() );
@@ -72,7 +72,7 @@ public class SandwichFormulaNode extends PhetPNode {
             final Reactant reactant = reactants.get( i );
             
             // coefficient spinner
-            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( coefficientRange );
+            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( model.getCoefficientRange() );
             spinnerNode.scale( 2 ); //XXX
             spinnerNode.setValue( reactant.getCoefficient() );
             spinnerNode.addChangeListener( new ChangeListener() {
