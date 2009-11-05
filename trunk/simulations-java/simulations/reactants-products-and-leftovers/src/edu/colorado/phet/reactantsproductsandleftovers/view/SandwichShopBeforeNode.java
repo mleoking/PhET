@@ -34,9 +34,9 @@ public class SandwichShopBeforeNode extends PhetPNode {
     private final SandwichShopModel model;
 
     private final BoxNode boxNode;
-    private final ArrayList<PComposite> substanceNodeParents;
-    private final ArrayList<ArrayList<SubstanceNode>> substanceNodeLists; // one list per reactant
-    private final ArrayList<ReactantQuantityControlNode> quantityControls;
+    private final ArrayList<PComposite> substanceNodeParents; // parents for reactant images
+    private final ArrayList<ArrayList<SubstanceNode>> substanceNodeLists; // one list of images per reactant
+    private final ArrayList<ReactantQuantityControlNode> quantityControlNodes; // quantity displays for reactants
     
     public SandwichShopBeforeNode( final SandwichShopModel model ) {
         super();
@@ -50,7 +50,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
         
         substanceNodeParents = new ArrayList<PComposite>();
         substanceNodeLists = new ArrayList<ArrayList<SubstanceNode>>();
-        quantityControls = new ArrayList<ReactantQuantityControlNode>();
+        quantityControlNodes = new ArrayList<ReactantQuantityControlNode>();
         
         // box
         boxNode = new BoxNode( BOX_SIZE );
@@ -77,7 +77,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
             // one quantity control for each reactant
             ReactantQuantityControlNode controlNode = new ReactantQuantityControlNode( reactant, SandwichShopDefaults.QUANTITY_RANGE, IMAGE_SCALE );
             addChild( controlNode );
-            quantityControls.add( controlNode );
+            quantityControlNodes.add( controlNode );
         }
         
         // layout, origin at upper-left corner of box
@@ -96,11 +96,11 @@ public class SandwichShopBeforeNode extends PhetPNode {
         }
         for ( int i = 0; i < reactants.size(); i++ ) {
             
-            // quantity controls, centered below images
+            // quantity controls
             y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
-            quantityControls.get( i ).setOffset( x, y );
+            quantityControlNodes.get( i ).setOffset( x, y );
             
-            // images
+            // images, centered above controls
             y = boxNode.getFullBoundsReference().getMaxY() - IMAGES_Y_MARGIN;
             substanceNodeParents.get( i ).setOffset( x, y );
             
@@ -111,7 +111,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
     }
     
     /*
-     * For each reactant, updates the number of images to match the quantity.
+     * For each reactant, update quantity control and number of images to match the quantity.
      */
     private void update() {
         
@@ -135,7 +135,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
                 // add images
                 while( reactant.getQuantity() > images.size() ) {
                     SubstanceNode node = new SubstanceNode( reactant );
-                    node.scale( IMAGE_SCALE ); //XXX
+                    node.scale( IMAGE_SCALE );
                     parent.addChild( node );
                     images.add( node );
                     // images are vertically stacked
