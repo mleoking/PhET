@@ -5,7 +5,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.Substance
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.SubstanceChangeListener;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-
+/**
+ * Displays the image that corresponds to a substance.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class SubstanceImageNode extends PImage {
 
     private final Substance substance;

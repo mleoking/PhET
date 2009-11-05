@@ -5,7 +5,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
 
-
+/**
+ * Displays the leftovers value for a Reactant.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class LeftoversDisplayNode extends SubstanceValueDisplayNode {
     
     private final Reactant reactant;

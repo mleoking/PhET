@@ -10,7 +10,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
+/**
+ * Box that shows the substances involved at some stage of a reaction.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class BoxNode extends PPath {
     
     private static final Stroke STROKE = new BasicStroke( 1f );

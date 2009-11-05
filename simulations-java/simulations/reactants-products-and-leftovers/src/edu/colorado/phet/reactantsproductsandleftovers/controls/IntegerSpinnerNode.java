@@ -26,6 +26,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Spinner node, encapsulates the use of JSpinner in case we can to switch to some custom control.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class IntegerSpinnerNode extends PNode {
     

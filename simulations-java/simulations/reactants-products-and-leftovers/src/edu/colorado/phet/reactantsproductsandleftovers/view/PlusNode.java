@@ -9,7 +9,11 @@ import java.awt.geom.GeneralPath;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-
+/**
+ * A fancy plus sign, for use in formulas.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PlusNode extends PPath {
     
     private static final Stroke STROKE = new BasicStroke( 1f );

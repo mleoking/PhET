@@ -8,7 +8,11 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 
-
+/**
+ * A fancy arrow node, points to the right, for use in formula.s
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class RPALArrowNode extends ArrowNode {
 
     private static final Point2D TAIL_LOCATION = new Point2D.Double( 0, 0 );

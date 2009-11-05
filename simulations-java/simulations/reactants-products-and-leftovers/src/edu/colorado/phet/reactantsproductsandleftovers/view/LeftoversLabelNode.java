@@ -5,7 +5,11 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 
-
+/**
+ * A bracket that delineates the leftover reactants in a reaction.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class LeftoversLabelNode extends BracketedLabelNode {
     
     private static final Color BRACK_COLOR = new Color( 46, 107, 178 );

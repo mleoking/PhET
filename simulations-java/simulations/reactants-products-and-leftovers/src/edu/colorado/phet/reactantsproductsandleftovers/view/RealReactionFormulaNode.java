@@ -17,7 +17,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * Displays an non-editable formula for a chemical reaction.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class RealReactionFormulaNode extends PComposite {
     
     private static final Font FONT = new PhetFont( 36 );
