@@ -2,6 +2,7 @@
 
 HIGH PRIORITY
 - random grid layout of images in Before and After boxes for "Real Reactions"
+- design for Game module
 
 MEDIUM PRIORITY
 - product image histogram with 3+3+3=1 Sandwich is problematic, image extends below box, hard to stack to maintain histogram look
@@ -11,8 +12,6 @@ LOW PRIORITY
 - scale image files to desired size
 - clean up node scaling, it's kind of haphazard
 - generalize any layout code that uses hardcoded offsets
-- use rounding instead of trunc for snapping reactant quantity sliders
-- delete IntegerSliderNode if it's not used
 
 MIGRATE TO COMMON
 - BracketedLabelNode
