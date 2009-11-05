@@ -36,7 +36,7 @@ public class SandwichFormulaNode extends PhetPNode {
     private static final int TERM_X_SPACING = 20;
     private static final int Y_SPACING = 30;
     
-    private static final double IMAGE_SCALE = 0.5; //XXX
+    private static final double IMAGE_SCALE = 0.4; //XXX
     
     private final SandwichShopModel model;
     private final PText titleNode;
