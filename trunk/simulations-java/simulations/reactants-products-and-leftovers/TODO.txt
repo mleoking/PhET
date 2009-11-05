@@ -17,3 +17,4 @@ LOW PRIORITY
 
 MIGRATE TO COMMON
 - BracketedLabelNode
+- IntegerHistogramBarNode

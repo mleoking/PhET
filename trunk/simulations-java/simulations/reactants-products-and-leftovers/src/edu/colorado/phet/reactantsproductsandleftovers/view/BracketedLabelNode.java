@@ -22,10 +22,10 @@ public class BracketedLabelNode extends PComposite {
     
     private static final double BRACKET_END_HEIGHT = 5;
     private static final double Y_SPACING = 3;
-    private static final Stroke BRACK_STROKE = new BasicStroke( 0.75f );
-    private static final Color BRACK_COLOR = Color.BLACK;
+    private static final Stroke BRACKET_STROKE = new BasicStroke( 0.75f );
+    private static final Color BRACKET_COLOR = Color.BLACK;
     private static final Color TEXT_COLOR = Color.BLACK;
-    private static final PhetFont TEXT_FONT = new PhetFont();
+    private static final PhetFont TEXT_FONT = new PhetFont( 12 );
 
     private final BracketNode bracketNode;
     private final PText textNode;
@@ -87,8 +87,8 @@ public class BracketedLabelNode extends PComposite {
         
         public BracketNode( double width ) {
             super();
-            setStroke( BRACK_STROKE );
-            setStrokePaint( BRACK_COLOR );
+            setStroke( BRACKET_STROKE );
+            setStrokePaint( BRACKET_COLOR );
             
             GeneralPath path = new GeneralPath();
             path.moveTo( 0, 0 );
