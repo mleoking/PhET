@@ -51,9 +51,8 @@ public class LacOperonModel {
 
 			@Override
 			public void clockTicked(ClockEvent clockEvent) {
-				handleClockTicked();
+				handleClockTicked(clockEvent.getSimulationTimeChange());
 			}
-        	
         });
         
         addInitialModelElements();
@@ -217,11 +216,11 @@ public class LacOperonModel {
     	return allSimples;
     }
     
-    private void handleClockTicked(){
+    private void handleClockTicked(double dt){
     	// Update the position of each of the simple model elements.
     	for (IModelElement modelElement : modelElements){
     		// Update the current state of each model element.
-    		modelElement.updatePositionAndMotion();
+    		modelElement.updatePositionAndMotion(dt);
     		modelElement.updatePotentialBondingPartners(modelElements);
     	}
     }

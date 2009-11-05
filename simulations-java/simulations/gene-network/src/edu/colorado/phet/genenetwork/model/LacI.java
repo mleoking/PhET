@@ -79,7 +79,7 @@ public class LacI extends SimpleModelElement {
 	}
 	
 	@Override
-	public void updatePositionAndMotion() {
+	public void updatePositionAndMotion(double dt) {
 		if (lacOperatorBondingPartner != null){
 			// TODO: This needs refinement.  It needs to recognize when the
 			// bond is fully formed so that no motion is required, and it
@@ -101,14 +101,16 @@ public class LacI extends SimpleModelElement {
 					// Close enough to form a bond.  Move to the location and
 					// then stop moving.
 					setPosition(xDest, yDest);
-					setMotionStrategy(new StillnessMotionStrategy(this));
+					setMotionStrategy(new TimedMotionStrategy(this, new StillnessMotionStrategy(this), 
+							new RandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()), 3));
+					boundToLacI = true;
 				}
 				else{
 					getMotionStrategyRef().setDestination(xDest, yDest);
 				}
 			}
 		}
-		super.updatePositionAndMotion();
+		super.updatePositionAndMotion(dt);
 	}
 
 	@Override

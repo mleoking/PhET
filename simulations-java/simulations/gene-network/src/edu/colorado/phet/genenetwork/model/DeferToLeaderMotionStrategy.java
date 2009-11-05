@@ -15,7 +15,7 @@ public class DeferToLeaderMotionStrategy extends AbstractMotionStrategy {
 	}
 
 	@Override
-	public void updatePositionAndMotion() {
+	public void updatePositionAndMotion(double dt) {
 		// Does nothing, because it is assumed that the model element is
 		// monitoring the motion of the leader and following that.
 	}

@@ -44,7 +44,7 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	}
 
 	@Override
-	public void updatePositionAndMotion() {
+	public void updatePositionAndMotion(double dt) {
 		IModelElement modelElement = getModelElement();
 		
 		Point2D position = modelElement.getPositionRef();
