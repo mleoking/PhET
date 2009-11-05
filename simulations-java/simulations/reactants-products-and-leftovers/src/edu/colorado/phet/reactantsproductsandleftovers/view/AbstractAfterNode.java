@@ -93,7 +93,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
             productQuantityDisplayNodes.add( displayNode );
         }
         
-        // reactant images and quantity displays
+        // reactant images and leftovers displays
         Reactant[] reactants = reaction.getReactants();
         for ( Reactant reactant : reactants ) {
             
