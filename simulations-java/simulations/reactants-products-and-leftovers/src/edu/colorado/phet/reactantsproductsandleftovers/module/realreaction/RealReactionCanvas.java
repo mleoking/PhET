@@ -12,104 +12,104 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.*;
 
 /**
  * Canvas for the "Real Reaction" module.
- *
+ * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class RealReactionCanvas extends RPALCanvas {
 
     private final RealReactionModel model;
+    
+    // these nodes don't change
     private final ReactionChoiceNode reactionChoiceNode;
     private final RPALArrowNode arrowNode;
-    
+
+    // these nodes change based based on reaction
     private RealReactionFormulaNode formulaNode;
     private RealReactionBeforeNode beforeNode;
     private RealReactionAfterNode afterNode;
-    
+
     public RealReactionCanvas( final RealReactionModel model ) {
         super();
-        
+
         this.model = model;
+
+        reactionChoiceNode = new ReactionChoiceNode( model );
+        reactionChoiceNode.scale( 1.25 );
+        addChild( reactionChoiceNode );
+
+        arrowNode = new RPALArrowNode();
+        addChild( arrowNode );
+        
         model.addChangeListeners( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateNodes();
             }
-        });
-        
-        reactionChoiceNode = new ReactionChoiceNode( model );
-        reactionChoiceNode.scale( 1.25 );
-        addChild( reactionChoiceNode );
-        
-        arrowNode = new RPALArrowNode();
-        addChild( arrowNode );
-        
+        } );
+
         updateNodes();
     }
-    
+
 
     private void updateNodes() {
-        
+
         if ( formulaNode != null ) {
             removeChild( formulaNode );
         }
         formulaNode = new RealReactionFormulaNode( model.getReaction() );
         formulaNode.scale( 3 ); //XXX
         addChild( formulaNode );
-        
+
         if ( beforeNode != null ) {
             removeChild( beforeNode );
         }
         beforeNode = new RealReactionBeforeNode( model );
         addChild( beforeNode );
-        
+
         if ( afterNode != null ) {
             removeChild( afterNode );
         }
         afterNode = new RealReactionAfterNode( model );
         addChild( afterNode );
-        
-        updateLayout();
+
+        updateNodesLayout();
     }
-    
-    //----------------------------------------------------------------------------
-    // Canvas layout
-    //----------------------------------------------------------------------------
 
-    /*
-     * Updates the layout of stuff on the canvas.
-     */
-    protected void updateLayout() {
-
-        Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
+    private void updateNodesLayout() {
 
         // radio buttons at upper left
         double x = 0;
         double y = 0;
         reactionChoiceNode.setOffset( x, y );
-        
-        // formula to right of radio buttons
+
+        // formula to right of radio buttons, vertically centered with buttons
         x = reactionChoiceNode.getFullBoundsReference().getWidth() + 30;
         y = reactionChoiceNode.getFullBoundsReference().getCenterY() - ( formulaNode.getFullBoundsReference().getHeight() / 2 );
         formulaNode.setOffset( x, y );
-        
-        // Before
+
+        // Before box below radio buttons, left justified
         x = reactionChoiceNode.getFullBoundsReference().getMinX();
         y = reactionChoiceNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeNode ) + 30;
         beforeNode.setOffset( x, y );
-        
-        // arrow
+
+        // arrow to the right of Before box, vertically centered with box
         x = beforeNode.getFullBoundsReference().getMaxX() + 20;
-        y = beforeNode.getYOffset() + 150;
+        y = beforeNode.getYOffset() + ( beforeNode.getBoxHeight() / 2 );
         arrowNode.setOffset( x, y );
-        
-        // After
+
+        // After box to the right of arrow, top aligned with Before box
         x = arrowNode.getFullBoundsReference().getMaxX() + 20;
         y = beforeNode.getYOffset();
         afterNode.setOffset( x, y );
-        
-        centerRootNode();
+    }
+
+    /*
+     * Centers the root node on the canvas when the canvas size changes.
+     */
+    @Override
+    protected void updateLayout() {
+        Dimension2D worldSize = getWorldSize();
+        if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
+            centerRootNode();
+        }
     }
 }
