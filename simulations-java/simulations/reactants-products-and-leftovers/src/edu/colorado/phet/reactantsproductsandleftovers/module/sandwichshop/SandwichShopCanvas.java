@@ -51,10 +51,6 @@ public class SandwichShopCanvas extends RPALCanvas {
         afterNode.setOffset( x, y );
     }
 
-    //----------------------------------------------------------------------------
-    // Canvas layout
-    //----------------------------------------------------------------------------
-
     /*
      * Centers the root node on the canvas when the canvas size changes.
      */
