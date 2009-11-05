@@ -85,7 +85,6 @@ public class CapBindingRegion extends SimpleModelElement {
 				
 				// Look for a bond with Cap.
 				if (modelElement.getType() == ModelElementType.CAP &&
-					capBondingPartner == null &&
 					getPositionRef().distance(modelElement.getPositionRef()) <= BONDING_RANGE &&
 					modelElement.availableForBonding(getType())){
 					
@@ -95,6 +94,7 @@ public class CapBindingRegion extends SimpleModelElement {
 						// started at this point, and not really finalized
 						// until the binding points are in the same location.
 						capBondingPartner = (Cap)modelElement;
+						break;
 					}
 				}
 			}
