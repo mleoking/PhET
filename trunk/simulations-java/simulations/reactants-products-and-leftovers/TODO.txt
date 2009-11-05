@@ -5,6 +5,7 @@ HIGH PRIORITY
 - "Real Reactions" module
 
 MEDIUM PRIORITY
+- product image histogram with 3+3+3=1 Sandwich is problematic, image extends below box, hard to stack to maintain histogram look
 
 LOW PRIORITY
 - scale image files to desired size
