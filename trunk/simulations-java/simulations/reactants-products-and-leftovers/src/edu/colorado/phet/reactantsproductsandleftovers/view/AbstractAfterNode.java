@@ -42,12 +42,12 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private final ChangeListener reactionChangeListener;
 
     private final BoxNode boxNode;
-    private final ArrayList<PComposite> productNodeParents, reactantNodeParents; // parents for product and reactant images
-    private final ArrayList<ArrayList<SubstanceNode>> productNodeLists, reactantNodeLists; // one list of images per product and reactant
+    private final ArrayList<PComposite> productImageNodeParents, reactantImageNodeParents; // parents for product and reactant images
+    private final ArrayList<ArrayList<SubstanceImageNode>> productImageNodeLists, reactantImageNodeLists; // one list of images per product and reactant
     private final ArrayList<QuantityDisplayNode> productQuantityDisplayNodes; // quantity displays for products
     private final ArrayList<LeftoversDisplayNode> reactantLeftoverDisplayNodes; // leftovers displays for reactants
     
-    public AbstractAfterNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange ) {
+    public AbstractAfterNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames ) {
         super();
         
         this.reaction = reaction;
@@ -58,10 +58,10 @@ public abstract class AbstractAfterNode extends PhetPNode {
         };
         reaction.addChangeListener( reactionChangeListener );
         
-        productNodeParents = new ArrayList<PComposite>();
-        reactantNodeParents = new ArrayList<PComposite>();
-        productNodeLists = new ArrayList<ArrayList<SubstanceNode>>();
-        reactantNodeLists = new ArrayList<ArrayList<SubstanceNode>>();
+        productImageNodeParents = new ArrayList<PComposite>();
+        reactantImageNodeParents = new ArrayList<PComposite>();
+        productImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
+        reactantImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
         productQuantityDisplayNodes = new ArrayList<QuantityDisplayNode>();
         reactantLeftoverDisplayNodes = new ArrayList<LeftoversDisplayNode>();
         
@@ -82,13 +82,13 @@ public abstract class AbstractAfterNode extends PhetPNode {
             // one parent node for each product image
             PComposite parent = new PComposite();
             addChild( parent );
-            productNodeParents.add( parent );
+            productImageNodeParents.add( parent );
             
             // one list of image nodes for each product 
-            productNodeLists.add( new ArrayList<SubstanceNode>() );
+            productImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
             
             // one quantity display for each product
-            QuantityDisplayNode displayNode = new QuantityDisplayNode( product, quantityRange, IMAGE_SCALE );
+            QuantityDisplayNode displayNode = new QuantityDisplayNode( product, quantityRange, IMAGE_SCALE, showSubstanceNames );
             addChild( displayNode );
             productQuantityDisplayNodes.add( displayNode );
         }
@@ -100,13 +100,13 @@ public abstract class AbstractAfterNode extends PhetPNode {
             // one parent node for each reactant image
             PComposite parent = new PComposite();
             addChild( parent );
-            reactantNodeParents.add( parent );
+            reactantImageNodeParents.add( parent );
             
             // one list of image nodes for each reactant 
-            reactantNodeLists.add( new ArrayList<SubstanceNode>() );
+            reactantImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
             
             // one quantity display for each reactant
-            LeftoversDisplayNode displayNode = new LeftoversDisplayNode( reactant, quantityRange, IMAGE_SCALE );
+            LeftoversDisplayNode displayNode = new LeftoversDisplayNode( reactant, quantityRange, IMAGE_SCALE, showSubstanceNames );
             addChild( displayNode );
             reactantLeftoverDisplayNodes.add( displayNode );
         }
@@ -130,7 +130,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
             
             // images, centered above quantity displays
             y = boxNode.getFullBoundsReference().getMaxY() - IMAGES_Y_MARGIN;
-            productNodeParents.get( i ).setOffset( x, y );
+            productImageNodeParents.get( i ).setOffset( x, y );
             
             x += deltaX;
         }
@@ -143,7 +143,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
             
             // images, centered above quantity displays
             y = boxNode.getFullBoundsReference().getMaxY() - IMAGES_Y_MARGIN;
-            reactantNodeParents.get( i ).setOffset( x, y );
+            reactantImageNodeParents.get( i ).setOffset( x, y );
             
             x += deltaX;
         }
@@ -175,14 +175,14 @@ public abstract class AbstractAfterNode extends PhetPNode {
             node.cleanup();
         }
         // image nodes that are listening to products
-        for ( ArrayList<SubstanceNode> list : productNodeLists ) {
-            for ( SubstanceNode node : list ) {
+        for ( ArrayList<SubstanceImageNode> list : productImageNodeLists ) {
+            for ( SubstanceImageNode node : list ) {
                 node.cleanup();
             }
         }
         // image nodes that are listening to reactants
-        for ( ArrayList<SubstanceNode> list : reactantNodeLists ) {
-            for ( SubstanceNode node : list ) {
+        for ( ArrayList<SubstanceImageNode> list : reactantImageNodeLists ) {
+            for ( SubstanceImageNode node : list ) {
                 node.cleanup();
             }
         }
@@ -203,34 +203,34 @@ public abstract class AbstractAfterNode extends PhetPNode {
             productQuantityDisplayNodes.get(i).setVisible( reaction.isReaction() );
             
             Product product = products[i];
-            PNode parent = productNodeParents.get( i );
-            ArrayList<SubstanceNode> images = productNodeLists.get( i );
+            PNode parent = productImageNodeParents.get( i );
+            ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
             
-            if ( product.getQuantity() < images.size() ) {
+            if ( product.getQuantity() < imageNodes.size() ) {
                 // remove images
-                while ( product.getQuantity() < images.size() ) {
-                    SubstanceNode node = images.get( images.size() - 1 );
-                    node.cleanup();
-                    parent.removeChild( node );
-                    images.remove( node );
+                while ( product.getQuantity() < imageNodes.size() ) {
+                    SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
+                    imageNode.cleanup();
+                    parent.removeChild( imageNode );
+                    imageNodes.remove( imageNode );
                 }
             }
             else {
                 // add images
-                while( product.getQuantity() > images.size() ) {
-                    SubstanceNode node = new SubstanceNode( product );
-                    node.scale( IMAGE_SCALE );
-                    parent.addChild( node );
-                    images.add( node );
+                while( product.getQuantity() > imageNodes.size() ) {
+                    SubstanceImageNode imageNode = new SubstanceImageNode( product );
+                    imageNode.scale( IMAGE_SCALE );
+                    parent.addChild( imageNode );
+                    imageNodes.add( imageNode );
                     // images are vertically stacked
-                    double x = -node.getFullBoundsReference().getWidth() / 2;
+                    double x = -imageNode.getFullBoundsReference().getWidth() / 2;
                     if ( parent.getChildrenCount() > 1 ) {
-                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node ) - IMAGES_Y_SPACING;
-                        node.setOffset( x, y );
+                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
+                        imageNode.setOffset( x, y );
                     }
                     else {
-                        double y = -PNodeLayoutUtils.getOriginYOffset( node ) - IMAGES_Y_SPACING;
-                        node.setOffset( x, y );
+                        double y = -PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
+                        imageNode.setOffset( x, y );
                     }
                 }
             }
@@ -241,34 +241,34 @@ public abstract class AbstractAfterNode extends PhetPNode {
         for ( int i = 0; i < reactants.length; i++ ) {
             
             Reactant reactant = reactants[i];
-            PNode parent = reactantNodeParents.get( i );
-            ArrayList<SubstanceNode> images = reactantNodeLists.get( i );
+            PNode parent = reactantImageNodeParents.get( i );
+            ArrayList<SubstanceImageNode> imageNodes = reactantImageNodeLists.get( i );
             
-            if ( reactant.getLeftovers() < images.size() ) {
+            if ( reactant.getLeftovers() < imageNodes.size() ) {
                 // remove images
-                while ( reactant.getLeftovers() < images.size() ) {
-                    SubstanceNode node = images.get( images.size() - 1 );
-                    node.cleanup();
-                    parent.removeChild( node );
-                    images.remove( node );
+                while ( reactant.getLeftovers() < imageNodes.size() ) {
+                    SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
+                    imageNode.cleanup();
+                    parent.removeChild( imageNode );
+                    imageNodes.remove( imageNode );
                 }
             }
             else {
                 // add images
-                while( reactant.getLeftovers() > images.size() ) {
-                    SubstanceNode node = new SubstanceNode( reactant );
-                    node.scale( IMAGE_SCALE );
-                    parent.addChild( node );
-                    images.add( node );
+                while( reactant.getLeftovers() > imageNodes.size() ) {
+                    SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
+                    imageNode.scale( IMAGE_SCALE );
+                    parent.addChild( imageNode );
+                    imageNodes.add( imageNode );
                     // images are vertically stacked
-                    double x = -node.getFullBoundsReference().getWidth() / 2;
+                    double x = -imageNode.getFullBoundsReference().getWidth() / 2;
                     if ( parent.getChildrenCount() > 1 ) {
-                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node ) - IMAGES_Y_SPACING;
-                        node.setOffset( x, y );
+                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
+                        imageNode.setOffset( x, y );
                     }
                     else {
-                        double y = -PNodeLayoutUtils.getOriginYOffset( node ) - IMAGES_Y_SPACING;
-                        node.setOffset( x, y );
+                        double y = -PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
+                        imageNode.setOffset( x, y );
                     }
                 }
             }

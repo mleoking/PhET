@@ -4,6 +4,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
 
 /**
@@ -59,6 +60,20 @@ public class SandwichShopCanvas extends RPALCanvas {
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
             centerRootNode();
+        }
+    }
+    
+    private static class SandwichShopAfterNode extends AbstractAfterNode {
+
+        public SandwichShopAfterNode( SandwichShopModel model ) {
+            super( RPALStrings.LABEL_AFTER_SANDWICH, model.getReaction(), model.getQuantityRange(), false /* showSubstanceName */ );
+        }
+    }
+    
+    private static class SandwichShopBeforeNode extends AbstractBeforeNode {
+
+        public SandwichShopBeforeNode( SandwichShopModel model ) {
+            super( RPALStrings.LABEL_BEFORE_SANDWICH, model.getReaction(), model.getQuantityRange(), false /* showSubstanceNames */ );
         }
     }
 }

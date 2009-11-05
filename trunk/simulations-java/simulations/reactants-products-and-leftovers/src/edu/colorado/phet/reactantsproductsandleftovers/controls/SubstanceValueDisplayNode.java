@@ -1,32 +1,38 @@
 package edu.colorado.phet.reactantsproductsandleftovers.controls;
 
+import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance;
-import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class that displays an integer value and histogram bar.
+ * Base class that for nodes that display some integer value related to a Substance.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class IntegerDisplayNode extends PComposite {
+public abstract class SubstanceValueDisplayNode extends PComposite {
     
     private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;
+    private static final Font VALUE_FONT = new PhetFont( 22 );
+    private static final Font NAME_FONT = new PhetFont( 18 );
     
     private final IntegerHistogramBarNode barNode;
     private final PText valueNode;
-    private final SubstanceNode substanceNode;
+    private final SubstanceImageNode imageNode;
+    private final HTMLNode nameNode;
     
-    public IntegerDisplayNode( final Substance substance, IntegerRange range, double imageScale ) {
+    public SubstanceValueDisplayNode( final Substance substance, IntegerRange range, double imageScale, boolean showName ) {
         super();
         
         // bar
@@ -34,18 +40,30 @@ public abstract class IntegerDisplayNode extends PComposite {
 
         // value
         valueNode = new PText(); 
-        valueNode.setFont( new PhetFont( 22 ) );
+        valueNode.setFont( VALUE_FONT );
 
         // image
-        substanceNode = new SubstanceNode( substance );
-        substanceNode.scale( imageScale );
+        imageNode = new SubstanceImageNode( substance );
+        imageNode.scale( imageScale );
+        
+        // name
+        if ( showName ) {
+            nameNode = new HTMLNode( HTMLUtils.toHTMLString( substance.getName() ) );
+            nameNode.setFont( NAME_FONT );
+        }
+        else {
+            nameNode = null;
+        }
         
         // rendering order
         addChild( barNode );
         addChild( valueNode );
-        addChild( substanceNode );
+        addChild( imageNode );
+        if ( nameNode != null ) {
+            addChild( nameNode );
+        }
         
-        substanceNode.addPropertyChangeListener( new PropertyChangeListener() {
+        imageNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
                     updateLayout(); // to preserve center justification
@@ -62,12 +80,10 @@ public abstract class IntegerDisplayNode extends PComposite {
         });
         
         updateLayout();
-        
-        setValue( substance.getQuantity() );
     }
     
     public void cleanup() {
-        substanceNode.cleanup();
+        imageNode.cleanup();
     }
     
     public void setValue( int value ) {
@@ -85,9 +101,15 @@ public abstract class IntegerDisplayNode extends PComposite {
         y = barNode.getFullBoundsReference().getMaxY() - valueNode.getFullBoundsReference().getHeight();
         valueNode.setOffset( x, y );
         // image centered below bar
-        x = barNode.getFullBoundsReference().getCenterX() - ( substanceNode.getFullBoundsReference().getWidth() / 2 );
-        y = barNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( substanceNode ) + 15;
-        substanceNode.setOffset( x, y );
+        x = barNode.getFullBoundsReference().getCenterX() - ( imageNode.getFullBoundsReference().getWidth() / 2 );
+        y = barNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( imageNode ) + 15;
+        imageNode.setOffset( x, y );
+        // name centered below image
+        if ( nameNode != null ) {
+            x = imageNode.getFullBoundsReference().getCenterX() - ( nameNode.getFullBoundsReference().getWidth() / 2 );
+            y = imageNode.getFullBoundsReference().getMaxY() + 3;
+            nameNode.setOffset( x, y );
+        }
     }
 
 }

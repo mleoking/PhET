@@ -84,7 +84,7 @@ public class SandwichFormulaNode extends PhetPNode {
             lhsCoefficientNodes.add( spinnerNode );
             
             // image
-            final SubstanceNode imageNode = new SubstanceNode( reactant );
+            final SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
             imageNode.scale( IMAGE_SCALE );
             addChild( imageNode );
             lhsImageNodes.add( imageNode );
@@ -126,7 +126,7 @@ public class SandwichFormulaNode extends PhetPNode {
             rhsCoefficientNodes.add( coefficientNode );
             
             // image
-            final SubstanceNode imageNode = new SubstanceNode( product );
+            final SubstanceImageNode imageNode = new SubstanceImageNode( product );
             imageNode.scale( IMAGE_SCALE );
             addChild( imageNode );
             rhsImageNodes.add( imageNode );

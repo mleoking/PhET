@@ -6,12 +6,12 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.Substance
 import edu.umd.cs.piccolo.nodes.PImage;
 
 
-public class SubstanceNode extends PImage {
+public class SubstanceImageNode extends PImage {
 
     private final Substance substance;
     private final SubstanceChangeListener listener;
     
-    public SubstanceNode( Substance substance ) {
+    public SubstanceImageNode( Substance substance ) {
         super( substance.getImage() );
         this.substance = substance;
         listener = new SubstanceChangeAdapter() {
