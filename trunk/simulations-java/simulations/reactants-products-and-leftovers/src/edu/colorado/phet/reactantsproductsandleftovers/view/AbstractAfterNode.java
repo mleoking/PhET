@@ -74,7 +74,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
         addChild( titleNode );
         
         // product images and quantity displays
-        ArrayList<Product> products = reaction.getProductsReference();
+        Product[] products = reaction.getProducts();
         for ( Product product : products ) {
             
             // one parent node for each product image
@@ -92,7 +92,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
         }
         
         // reactant images and quantity displays
-        ArrayList<Reactant> reactants = reaction.getReactantsReference();
+        Reactant[] reactants = reaction.getReactants();
         for ( Reactant reactant : reactants ) {
             
             // one parent node for each reactant image
@@ -110,8 +110,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
         }
         
         // layout, origin at upper-left corner of box
-        final int numSubstances = products.size() + reactants.size();
-        assert( numSubstances > 2 ); // a reaction must have at least 1 product and 2 reactants, see ChemicalReaction
         double x = 0;
         double y = 0;
         boxNode.setOffset( x, y );
@@ -121,8 +119,8 @@ public abstract class AbstractAfterNode extends PhetPNode {
         titleNode.setOffset( x, y );
         // product-specific nodes
         x = boxNode.getFullBoundsReference().getMinX() + LEFT_MARGIN;
-        double deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( products.size() + reactants.size() - 1 );
-        for ( int i = 0; i < products.size(); i++ ) {
+        double deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( products.length + reactants.length - 1 );
+        for ( int i = 0; i < products.length; i++ ) {
             
             // quantity displays
             y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
@@ -135,7 +133,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
             x += deltaX;
         }
         // reactant-specific nodes
-        for ( int i = 0; i < reactants.size(); i++ ) {
+        for ( int i = 0; i < reactants.length; i++ ) {
             
             // quantity displays
             y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
@@ -196,13 +194,13 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private void update() {
         
         // product quantities
-        ArrayList<Product> products = reaction.getProductsReference();
-        for ( int i = 0; i < products.size(); i++ ) {
+        Product[] products = reaction.getProducts();
+        for ( int i = 0; i < products.length; i++ ) {
             
             // products are invisible if we don't have a legitimate reaction
             productQuantityDisplayNodes.get(i).setVisible( reaction.isReaction() );
             
-            Product product = products.get( i );
+            Product product = products[i];
             PNode parent = productNodeParents.get( i );
             ArrayList<SubstanceNode> images = productNodeLists.get( i );
             
@@ -237,10 +235,10 @@ public abstract class AbstractAfterNode extends PhetPNode {
         }
 
         // reactant leftovers
-        ArrayList<Reactant> reactants = reaction.getReactantsReference();
-        for ( int i = 0; i < reactants.size(); i++ ) {
+        Reactant[] reactants = reaction.getReactants();
+        for ( int i = 0; i < reactants.length; i++ ) {
             
-            Reactant reactant = reactants.get( i );
+            Reactant reactant = reactants[i];
             PNode parent = reactantNodeParents.get( i );
             ArrayList<SubstanceNode> images = reactantNodeLists.get( i );
             
