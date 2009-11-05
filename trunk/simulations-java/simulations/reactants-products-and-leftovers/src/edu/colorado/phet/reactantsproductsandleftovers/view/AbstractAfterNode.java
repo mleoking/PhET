@@ -30,7 +30,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
     
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     private static final double TITLE_Y_SPACING = 10;
-    private static final double LEFT_MARGIN = 50;
+    private static final double LEFT_MARGIN = 0;
     private static final double RIGHT_MARGIN = LEFT_MARGIN;
     private static final double CONTROLS_Y_SPACING = 15;
     private static final double IMAGES_Y_MARGIN = 18;
@@ -119,9 +119,9 @@ public abstract class AbstractAfterNode extends PhetPNode {
         x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
         y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
         titleNode.setOffset( x, y );
-        // product-specific nodes
-        x = boxNode.getFullBoundsReference().getMinX() + LEFT_MARGIN;
-        double deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( products.length + reactants.length - 1 );
+        // product-specific nodes, horizontally centered in "cells"
+        final double deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( products.length + reactants.length );
+        x = boxNode.getFullBoundsReference().getMinX() + LEFT_MARGIN + ( deltaX / 2 );
         for ( int i = 0; i < products.length; i++ ) {
             
             // quantity displays
@@ -134,7 +134,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
             
             x += deltaX;
         }
-        // reactant-specific nodes
+        // reactant-specific nodes, horizontally centered in "cells"
         for ( int i = 0; i < reactants.length; i++ ) {
             
             // quantity displays
