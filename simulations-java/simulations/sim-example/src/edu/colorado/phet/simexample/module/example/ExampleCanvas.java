@@ -62,6 +62,7 @@ public class ExampleCanvas extends PhetPCanvas {
     /*
      * Updates the layout of stuff on the canvas.
      */
+    @Override
     protected void updateLayout() {
 
         Dimension2D worldSize = getWorldSize();
