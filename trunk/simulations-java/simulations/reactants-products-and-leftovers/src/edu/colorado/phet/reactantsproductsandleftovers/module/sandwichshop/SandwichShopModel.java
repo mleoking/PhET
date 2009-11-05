@@ -1,7 +1,5 @@
 package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 
-import java.util.ArrayList;
-
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;

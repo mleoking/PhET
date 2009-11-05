@@ -1,3 +1,5 @@
+11/4/09 wire up radio buttons and a temporary formula in "Real Reactions" module
+11/4/09 reaction models for "Real Reactions" module
 11/4/09 fix leftovers histogram
 11/4/09 use immutable arrays for reactants and products in chemical reaction
 11/4/09 extract base classes for Before and After displays
