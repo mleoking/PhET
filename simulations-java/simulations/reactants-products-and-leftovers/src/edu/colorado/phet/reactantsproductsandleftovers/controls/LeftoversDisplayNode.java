@@ -6,13 +6,13 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantCh
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
 
 
-public class LeftoversDisplayNode extends IntegerDisplayNode {
+public class LeftoversDisplayNode extends SubstanceValueDisplayNode {
     
     private final Reactant reactant;
     private final ReactantChangeListener reactantChangeListener;
     
-    public LeftoversDisplayNode( final Reactant reactant, IntegerRange range, double imageScale ) {
-        super( reactant, range, imageScale );
+    public LeftoversDisplayNode( final Reactant reactant, IntegerRange range, double imageScale, boolean showName ) {
+        super( reactant, range, imageScale, showName );
         
         this.reactant = reactant;
         
@@ -23,6 +23,8 @@ public class LeftoversDisplayNode extends IntegerDisplayNode {
             }
         };
         reactant.addReactantChangeListener( reactantChangeListener );
+        
+        setValue( reactant.getLeftovers() );
     }
     
     public void cleanup() {

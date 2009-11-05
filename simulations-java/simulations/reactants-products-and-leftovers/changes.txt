@@ -1,3 +1,5 @@
+11/5/09 show optional names below images in quantity controls and displays
+11/5/09 make specialized Before/After boxes nested classed of their respective canvases
 11/5/09 improve alignment of controls below Before/After boxes, center each control in its "cell"
 11/5/09 simplify and document layout of Real Reaction canvas
 11/5/09 simplify and document layout of Sandwich Shop canvas

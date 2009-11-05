@@ -39,11 +39,11 @@ public abstract class AbstractBeforeNode extends PhetPNode {
     private final ChangeListener reactionChangeListener;
 
     private final BoxNode boxNode;
-    private final ArrayList<PComposite> substanceNodeParents; // parents for reactant images
-    private final ArrayList<ArrayList<SubstanceNode>> substanceNodeLists; // one list of images per reactant
+    private final ArrayList<PComposite> imageNodeParents; // parents for reactant images
+    private final ArrayList<ArrayList<SubstanceImageNode>> imageNodeLists; // one list of images per reactant
     private final ArrayList<ReactantQuantityControlNode> quantityControlNodes; // quantity displays for reactants
     
-    public AbstractBeforeNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange ) {
+    public AbstractBeforeNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames ) {
         super();
         
         this.reaction = reaction;
@@ -54,8 +54,8 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         };
         reaction.addChangeListener( reactionChangeListener );
         
-        substanceNodeParents = new ArrayList<PComposite>();
-        substanceNodeLists = new ArrayList<ArrayList<SubstanceNode>>();
+        imageNodeParents = new ArrayList<PComposite>();
+        imageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
         quantityControlNodes = new ArrayList<ReactantQuantityControlNode>();
         
         // box
@@ -75,13 +75,13 @@ public abstract class AbstractBeforeNode extends PhetPNode {
             // one parent node for each reactant image
             PComposite parent = new PComposite();
             addChild( parent );
-            substanceNodeParents.add( parent );
+            imageNodeParents.add( parent );
             
             // one list of image nodes for each reactant 
-            substanceNodeLists.add( new ArrayList<SubstanceNode>() );
+            imageNodeLists.add( new ArrayList<SubstanceImageNode>() );
             
             // one quantity control for each reactant
-            ReactantQuantityControlNode controlNode = new ReactantQuantityControlNode( reactant, quantityRange, IMAGE_SCALE );
+            ReactantQuantityControlNode controlNode = new ReactantQuantityControlNode( reactant, quantityRange, IMAGE_SCALE, showSubstanceNames );
             addChild( controlNode );
             quantityControlNodes.add( controlNode );
         }
@@ -105,7 +105,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
             
             // images, centered above controls
             y = boxNode.getFullBoundsReference().getMaxY() - IMAGES_Y_MARGIN;
-            substanceNodeParents.get( i ).setOffset( x, y );
+            imageNodeParents.get( i ).setOffset( x, y );
             
             x += deltaX;
         }
@@ -123,8 +123,8 @@ public abstract class AbstractBeforeNode extends PhetPNode {
             node.cleanup();
         }
         // images that are listening to reactants
-        for ( ArrayList<SubstanceNode> list : substanceNodeLists ) {
-            for ( SubstanceNode node : list ) {
+        for ( ArrayList<SubstanceImageNode> list : imageNodeLists ) {
+            for ( SubstanceImageNode node : list ) {
                 node.cleanup();
             }
         }
@@ -147,34 +147,34 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         for ( int i = 0; i < reactants.length; i++ ) {
             
             Reactant reactant = reactants[i];
-            PNode parent = substanceNodeParents.get( i );
-            ArrayList<SubstanceNode> images = substanceNodeLists.get( i );
+            PNode parent = imageNodeParents.get( i );
+            ArrayList<SubstanceImageNode> imageNodes = imageNodeLists.get( i );
             
-            if ( reactant.getQuantity() < images.size() ) {
+            if ( reactant.getQuantity() < imageNodes.size() ) {
                 // remove images
-                while ( reactant.getQuantity() < images.size() ) {
-                    SubstanceNode node = images.get( images.size() - 1 );
-                    node.cleanup();
-                    parent.removeChild( node );
-                    images.remove( node );
+                while ( reactant.getQuantity() < imageNodes.size() ) {
+                    SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
+                    imageNode.cleanup();
+                    parent.removeChild( imageNode );
+                    imageNodes.remove( imageNode );
                 }
             }
             else {
                 // add images
-                while( reactant.getQuantity() > images.size() ) {
-                    SubstanceNode node = new SubstanceNode( reactant );
-                    node.scale( IMAGE_SCALE );
-                    parent.addChild( node );
-                    images.add( node );
+                while( reactant.getQuantity() > imageNodes.size() ) {
+                    SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
+                    imageNode.scale( IMAGE_SCALE );
+                    parent.addChild( imageNode );
+                    imageNodes.add( imageNode );
                     // images are vertically stacked
-                    double x = -node.getFullBoundsReference().getWidth() / 2;
+                    double x = -imageNode.getFullBoundsReference().getWidth() / 2;
                     if ( parent.getChildrenCount() > 1 ) {
-                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node ) - IMAGES_Y_SPACING;
-                        node.setOffset( x, y );
+                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
+                        imageNode.setOffset( x, y );
                     }
                     else {
-                        double y = -PNodeLayoutUtils.getOriginYOffset( node ) - IMAGES_Y_SPACING;
-                        node.setOffset( x, y );
+                        double y = -PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
+                        imageNode.setOffset( x, y );
                     }
                 }
             }

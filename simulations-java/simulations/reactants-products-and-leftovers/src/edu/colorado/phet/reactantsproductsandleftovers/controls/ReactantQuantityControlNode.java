@@ -1,11 +1,16 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.controls;
 
+import java.awt.Font;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
@@ -17,13 +22,14 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ReactantQuantityControlNode extends PhetPNode {
     
     private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;
+    private static final Font NAME_FONT = new PhetFont( 18 );
 
     private final Reactant reactant;
     private final ReactantChangeListener reactantChangeListener;
     private final IntegerSpinnerNode spinnerNode;
     private final IntegerHistogramBarNode histogramBar;
 
-    public ReactantQuantityControlNode( final Reactant reactant, IntegerRange range, double imageScale ) {
+    public ReactantQuantityControlNode( final Reactant reactant, IntegerRange range, double imageScale, boolean showName ) {
         super();
         
         this.reactant = reactant;
@@ -33,6 +39,11 @@ public class ReactantQuantityControlNode extends PhetPNode {
         histogramBar = new IntegerHistogramBarNode( range, HISTOGRAM_BAR_SIZE );
         PImage imageNode = new PImage( reactant.getImage() );
         imageNode.scale( imageScale );
+        HTMLNode nameNode = null;
+        if ( showName ) {
+            nameNode = new HTMLNode( HTMLUtils.toHTMLString( reactant.getName() ) );
+            nameNode.setFont( NAME_FONT );
+        }
         
         // when the spinner changes, update the histogram bar and the model
         spinnerNode.addChangeListener( new ChangeListener() {
@@ -55,6 +66,9 @@ public class ReactantQuantityControlNode extends PhetPNode {
         addChild( spinnerNode );
         addChild( histogramBar );
         addChild( imageNode );
+        if ( nameNode != null ) {
+            addChild( nameNode );
+        }
         
         // layout
         // origin at top center of histogram bar
@@ -69,6 +83,12 @@ public class ReactantQuantityControlNode extends PhetPNode {
         x = histogramBar.getFullBoundsReference().getCenterX() - ( imageNode.getFullBoundsReference().getWidth() / 2 );
         y = histogramBar.getFullBoundsReference().getMaxY() + 15;
         imageNode.setOffset( x, y );
+        // name centered below image
+        if ( nameNode != null ) {
+            x = imageNode.getFullBoundsReference().getCenterX() - ( nameNode.getFullBoundsReference().getWidth() / 2 );
+            y = imageNode.getFullBoundsReference().getMaxY() + 3;
+            nameNode.setOffset( x, y );
+        }
         
         // initial state
         setValue( reactant.getQuantity() );

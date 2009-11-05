@@ -7,6 +7,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactionChoiceNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
 
@@ -110,6 +111,20 @@ public class RealReactionCanvas extends RPALCanvas {
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
             centerRootNode();
+        }
+    }
+    
+    private static class RealReactionBeforeNode extends AbstractBeforeNode {
+
+        public RealReactionBeforeNode( RealReactionModel model ) {
+            super( RPALStrings.LABEL_BEFORE_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */ );
+        }
+    }
+    
+    private static class RealReactionAfterNode extends AbstractAfterNode {
+
+        public RealReactionAfterNode( RealReactionModel model ) {
+            super( RPALStrings.LABEL_AFTER_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */ );
         }
     }
 }

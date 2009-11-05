@@ -1,7 +1,6 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- show names below images in quantity controls and displays
 - random grid layout of images in Before and After boxes for "Real Reactions"
 - fancy looking formulas in "Real Reactions", as in design doc (how to align HTML baselines?!?)
 
