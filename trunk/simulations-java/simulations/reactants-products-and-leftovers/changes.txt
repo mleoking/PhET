@@ -1,3 +1,5 @@
+11/5/09 delete edu.colorado.phet.reactantsproductsandleftovers.controls.IntegerSliderNode, unused (chose spinners instead of sliders)
+11/5/09 delete edu.colorado.phet.reactantsproductsandleftovers.controls.IntegerTextFieldNode, unused
 # 0.00.10 (36379) Nov 5, 2009
 11/5/09 first version with "Real Reactions" tab
 11/5/09 make Real Reactions formula look like design doc
