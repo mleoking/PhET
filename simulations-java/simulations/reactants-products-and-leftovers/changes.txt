@@ -1,3 +1,4 @@
+11/5/09 make Real Reactions formula look like design doc
 11/5/09 show optional names below images in quantity controls and displays
 11/5/09 make specialized Before/After boxes nested classes of their respective canvases
 11/5/09 improve alignment of controls below Before/After boxes, center each control in its "cell"
