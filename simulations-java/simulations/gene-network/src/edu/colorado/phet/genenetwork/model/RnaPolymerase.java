@@ -37,7 +37,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		// This binding point should is hand tweaked to make it work.
 		addBindingPoint(new BindingPoint(ModelElementType.LAC_PROMOTER, new PDimension(WIDTH * 0.1, -HEIGHT * 0.3)));
 		
-		setMotionStrategy(new WeightedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 	}
 	
 	public RnaPolymerase() {

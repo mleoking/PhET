@@ -35,7 +35,7 @@ public class LacI extends SimpleModelElement {
 	
 	public LacI(Point2D initialPosition) {
 		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
-		setMotionStrategy(new WeightedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 		// Add binding point for LacOperator.
 		addBindingPoint(new BindingPoint(ModelElementType.LAC_OPERATOR, new PDimension(0, -HEIGHT/2 + LacOperator.getBindingRegionSize().getHeight())));
 	}

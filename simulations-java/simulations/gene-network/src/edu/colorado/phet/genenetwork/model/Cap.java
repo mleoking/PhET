@@ -32,7 +32,7 @@ public class Cap extends SimpleModelElement {
 	public Cap(Point2D initialPosition) {
 		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
 		addBindingPoint(new BindingPoint(ModelElementType.CAP_BINDING_REGION, new PDimension(0, 0)));
-		setMotionStrategy(new WeightedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 	}
 	
 	public Cap() {

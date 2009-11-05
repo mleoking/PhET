@@ -34,7 +34,7 @@ public class Lactose extends CompositeModelElement {
 		addModelElement(galactoseMolecule);
 		
 		// Set the motion strategy.
-		setMotionStrategy(new WeightedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 		
 		// Create an overall shape for this composite element.
 		Shape glucoseShape = glucoseMolecule.getShape();
