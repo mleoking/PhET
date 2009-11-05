@@ -22,7 +22,7 @@ public class RealReactionCanvas extends RPALCanvas {
     
     // these nodes don't change
     private final ReactionChoiceNode reactionChoiceNode;
-    private final RPALArrowNode arrowNode;
+    private final RightArrowNode arrowNode;
 
     // these nodes change based based on reaction
     private RealReactionFormulaNode formulaNode;
@@ -38,7 +38,7 @@ public class RealReactionCanvas extends RPALCanvas {
         reactionChoiceNode.scale( 1.25 );
         addChild( reactionChoiceNode );
 
-        arrowNode = new RPALArrowNode();
+        arrowNode = new RightArrowNode();
         addChild( arrowNode );
         
         model.addChangeListeners( new ChangeListener() {

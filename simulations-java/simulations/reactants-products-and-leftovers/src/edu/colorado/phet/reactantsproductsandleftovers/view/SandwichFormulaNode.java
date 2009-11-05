@@ -107,7 +107,7 @@ public class SandwichFormulaNode extends PhetPNode {
         }
         
         // arrow
-        arrowNode = new RPALArrowNode();
+        arrowNode = new RightArrowNode();
         addChild( arrowNode );
 
         // right side (products)
