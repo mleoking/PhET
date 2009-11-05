@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
@@ -220,11 +221,11 @@ public class SandwichShopAfterNode extends PhetPNode {
                     // images are vertically stacked
                     double x = -node.getFullBoundsReference().getWidth() / 2;
                     if ( parent.getChildrenCount() > 1 ) {
-                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - IMAGES_Y_SPACING;
+                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node ) - IMAGES_Y_SPACING;
                         node.setOffset( x, y );
                     }
                     else {
-                        double y = -IMAGES_Y_SPACING;
+                        double y = -PNodeLayoutUtils.getOriginYOffset( node ) - IMAGES_Y_SPACING;
                         node.setOffset( x, y );
                     }
                 }
@@ -258,11 +259,11 @@ public class SandwichShopAfterNode extends PhetPNode {
                     // images are vertically stacked
                     double x = -node.getFullBoundsReference().getWidth() / 2;
                     if ( parent.getChildrenCount() > 1 ) {
-                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - IMAGES_Y_SPACING;
+                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node ) - IMAGES_Y_SPACING;
                         node.setOffset( x, y );
                     }
                     else {
-                        double y = -IMAGES_Y_SPACING;
+                        double y = -PNodeLayoutUtils.getOriginYOffset( node ) - IMAGES_Y_SPACING;
                         node.setOffset( x, y );
                     }
                 }
