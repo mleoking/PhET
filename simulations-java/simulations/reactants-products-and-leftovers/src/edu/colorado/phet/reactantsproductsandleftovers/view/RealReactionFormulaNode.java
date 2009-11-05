@@ -26,7 +26,7 @@ public class RealReactionFormulaNode extends PComposite {
     
     private void update() {
         
-        String s = null;
+        String s = "";
         Reactant[] reactants = reaction.getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
             if ( i > 0 ) {
@@ -35,7 +35,7 @@ public class RealReactionFormulaNode extends PComposite {
             s += String.valueOf( reactants[i].getCoefficient() );
             s += reactants[i].getName();
         }
-        s += "-> ";
+        s += "\u21e8 "; // arrow pointing right
         Product[] products = reaction.getProducts();
         for ( int i = 0; i < products.length; i++ ) {
             if ( i > 0 ) {

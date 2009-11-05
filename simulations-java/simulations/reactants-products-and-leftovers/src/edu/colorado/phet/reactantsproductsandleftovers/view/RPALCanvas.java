@@ -51,6 +51,12 @@ public class RPALCanvas extends PhetPCanvas {
         rootNode.addChild( node );
     }
     
+    protected void removeChild( PNode node ) {
+        if ( rootNode.indexOfChild( node ) != -1 ) {
+            rootNode.removeChild( node );
+        }
+    }
+    
     protected void centerRootNode() {
         Dimension2D worldSize = getWorldSize();
         PBounds b = rootNode.getFullBoundsReference();
