@@ -13,25 +13,42 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.*;
  */
 public class SandwichShopCanvas extends RPALCanvas {
     
-    private final SandwichFormulaNode formulaNode;
-    private final SandwichShopBeforeNode beforeNode;
-    private final RPALArrowNode arrowNode;
-    private final SandwichShopAfterNode afterNode;
-
     public SandwichShopCanvas( SandwichShopModel model ) {
         super();
         
-        formulaNode = new SandwichFormulaNode( model );
+        SandwichFormulaNode formulaNode = new SandwichFormulaNode( model );
         addChild( formulaNode );
         
-        beforeNode = new SandwichShopBeforeNode( model );
+        SandwichShopBeforeNode beforeNode = new SandwichShopBeforeNode( model );
         addChild( beforeNode );
         
-        arrowNode = new RPALArrowNode();
+        RPALArrowNode arrowNode = new RPALArrowNode();
         addChild( arrowNode );
         
-        afterNode = new SandwichShopAfterNode( model );
+        SandwichShopAfterNode afterNode = new SandwichShopAfterNode( model );
         addChild( afterNode );
+        
+        // layout of this module is static, so do it here...
+        
+        // formula at upper left
+        double x = 0;
+        double y = 0;
+        formulaNode.setOffset( x, y );
+        
+        // Before box below formula, left justified
+        x = formulaNode.getFullBoundsReference().getMinX();
+        y = formulaNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeNode ) + 30;
+        beforeNode.setOffset( x, y );
+        
+        // arrow to the right of Before box, vertically centered with box
+        x = beforeNode.getFullBoundsReference().getMaxX() + 20;
+        y = beforeNode.getYOffset() + ( beforeNode.getBoxHeight() / 2 );
+        arrowNode.setOffset( x, y );
+        
+        // After box to the right of arrow, top aligned with Before box
+        x = arrowNode.getFullBoundsReference().getMaxX() + 20;
+        y = beforeNode.getYOffset();
+        afterNode.setOffset( x, y );
     }
 
     //----------------------------------------------------------------------------
@@ -39,36 +56,12 @@ public class SandwichShopCanvas extends RPALCanvas {
     //----------------------------------------------------------------------------
 
     /*
-     * Updates the layout of stuff on the canvas.
+     * Centers the root node on the canvas when the canvas size changes.
      */
     protected void updateLayout() {
-
         Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
+        if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
+            centerRootNode();
         }
-
-        // formula
-        double x = 0;
-        double y = 0;
-        formulaNode.setOffset( x, y );
-        
-        // Before
-        x = formulaNode.getFullBoundsReference().getMinX();
-        y = formulaNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeNode ) + 30;
-        beforeNode.setOffset( x, y );
-        
-        // arrow
-        x = beforeNode.getFullBoundsReference().getMaxX() + 20;
-        y = beforeNode.getYOffset() + 150;
-        arrowNode.setOffset( x, y );
-        
-        // After
-        x = arrowNode.getFullBoundsReference().getMaxX() + 20;
-        y = beforeNode.getYOffset();
-        afterNode.setOffset( x, y );
-        
-        centerRootNode();
     }
 }

@@ -1,3 +1,4 @@
+11/5/09 simplify and document layout of Sandwich Shop canvas
 11/5/09 adjust centering of play area contents
 11/5/09 make Before and After boxes wider (400 -> 450)
 11/5/09 make histogram bars wider (15 -> 18)
