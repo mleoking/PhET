@@ -114,9 +114,9 @@ public class CompositeModelElement implements IModelElement {
 		return false;
 	}
 
-	public void updatePositionAndMotion() {
+	public void updatePositionAndMotion(double dt) {
 		if (motionStrategy != null){
-			motionStrategy.updatePositionAndMotion();
+			motionStrategy.updatePositionAndMotion(dt);
 		}
 	}
 

@@ -19,7 +19,7 @@ public abstract class AbstractMotionStrategy {
 		this.modelElement = modelElement;
 	}
 	
-	abstract public void updatePositionAndMotion();
+	abstract public void updatePositionAndMotion(double dt);
 	
 	protected IModelElement getModelElement(){
 		return modelElement;

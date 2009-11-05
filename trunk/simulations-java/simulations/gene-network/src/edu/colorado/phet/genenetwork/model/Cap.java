@@ -80,7 +80,7 @@ public class Cap extends SimpleModelElement {
 	}
 	
 	@Override
-	public void updatePositionAndMotion() {
+	public void updatePositionAndMotion(double dt) {
 		if (capBindingRegionBondingPartner != null){
 			// TODO: This needs refinement.  It needs to recognize when the
 			// bond is fully formed so that no motion is required, and it
@@ -109,7 +109,7 @@ public class Cap extends SimpleModelElement {
 				}
 			}
 		}
-		super.updatePositionAndMotion();
+		super.updatePositionAndMotion(dt);
 	}
 
 	@Override

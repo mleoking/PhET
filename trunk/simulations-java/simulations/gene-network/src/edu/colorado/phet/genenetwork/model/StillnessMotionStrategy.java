@@ -7,7 +7,7 @@ public class StillnessMotionStrategy extends AbstractMotionStrategy {
 	}
 
 	@Override
-	public void updatePositionAndMotion() {
+	public void updatePositionAndMotion(double dt) {
 		// Does nothing, which means that this model element never moves.
 	}
 }
