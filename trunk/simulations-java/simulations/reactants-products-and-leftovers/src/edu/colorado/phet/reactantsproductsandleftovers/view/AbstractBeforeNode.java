@@ -28,8 +28,6 @@ public abstract class AbstractBeforeNode extends PhetPNode {
     
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     private static final double TITLE_Y_SPACING = 10;
-    private static final double LEFT_MARGIN = 0;
-    private static final double RIGHT_MARGIN = 0;
     private static final double CONTROLS_Y_SPACING = 15;
     private static final double IMAGES_Y_MARGIN = 18;
     private static final double IMAGES_Y_SPACING = 27;
@@ -95,8 +93,9 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
         titleNode.setOffset( x, y );
         // reactant-specific nodes, horizontally centered in "cells"
-        final double deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( reactants.length );
-        x = boxNode.getFullBoundsReference().getMinX() + LEFT_MARGIN + ( deltaX / 2 );
+        double margin = ( reactants.length > 2 ) ? 0 : ( 0.15 * BOX_SIZE.getWidth() ); // make 2 reactants case look nice
+        final double deltaX = ( boxNode.getFullBoundsReference().getWidth() - ( 2 * margin ) ) / ( reactants.length );
+        x = boxNode.getFullBoundsReference().getMinX() + margin + ( deltaX / 2 );
         for ( int i = 0; i < reactants.length; i++ ) {
             
             // quantity controls
