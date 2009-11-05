@@ -58,6 +58,7 @@ public class SandwichShopCanvas extends RPALCanvas {
     /*
      * Centers the root node on the canvas when the canvas size changes.
      */
+    @Override
     protected void updateLayout() {
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
