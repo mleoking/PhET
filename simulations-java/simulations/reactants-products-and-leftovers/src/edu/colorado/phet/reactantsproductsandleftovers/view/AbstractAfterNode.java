@@ -1,6 +1,7 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -9,7 +10,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.LeftoversDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityDisplayNode;
@@ -34,7 +34,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private static final double RIGHT_MARGIN = LEFT_MARGIN;
     private static final double CONTROLS_Y_SPACING = 15;
     private static final double IMAGES_Y_MARGIN = 18;
-    private static final double IMAGES_Y_SPACING = 27;
     private static final double LEFTOVERS_BRACKET_Y_SPACING = 3;
     private static final double IMAGE_SCALE = 0.25; //XXX
     
@@ -46,8 +45,9 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private final ArrayList<ArrayList<SubstanceImageNode>> productImageNodeLists, reactantImageNodeLists; // one list of images per product and reactant
     private final ArrayList<QuantityDisplayNode> productQuantityDisplayNodes; // quantity displays for products
     private final ArrayList<LeftoversDisplayNode> reactantLeftoverDisplayNodes; // leftovers displays for reactants
+    private final ImageLayoutStrategy imageLayoutStrategy;
     
-    public AbstractAfterNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames ) {
+    public AbstractAfterNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames,  ImageLayoutStrategy imageLayoutStrategy ) {
         super();
         
         this.reaction = reaction;
@@ -57,6 +57,8 @@ public abstract class AbstractAfterNode extends PhetPNode {
             }
         };
         reaction.addChangeListener( reactionChangeListener );
+        
+        this.imageLayoutStrategy = imageLayoutStrategy;
         
         productImageNodeParents = new ArrayList<PComposite>();
         reactantImageNodeParents = new ArrayList<PComposite>();
@@ -218,19 +220,23 @@ public abstract class AbstractAfterNode extends PhetPNode {
             else {
                 // add images
                 while( product.getQuantity() > imageNodes.size() ) {
-                    SubstanceImageNode imageNode = new SubstanceImageNode( product );
-                    imageNode.scale( IMAGE_SCALE );
-                    parent.addChild( imageNode );
-                    imageNodes.add( imageNode );
-                    // images are vertically stacked
-                    double x = -imageNode.getFullBoundsReference().getWidth() / 2;
-                    if ( parent.getChildrenCount() > 1 ) {
-                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
-                        imageNode.setOffset( x, y );
+                    
+                    // add images
+                    PNode previousNode = null;
+                    if ( parent.getChildrenCount() > 0 ) {
+                        previousNode = parent.getChild( parent.getChildrenCount() - 1 );
                     }
-                    else {
-                        double y = -PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
-                        imageNode.setOffset( x, y );
+                    
+                    while( product.getQuantity() > imageNodes.size() ) {
+                        
+                        SubstanceImageNode imageNode = new SubstanceImageNode( product );
+                        imageNode.scale( IMAGE_SCALE );
+                        parent.addChild( imageNode );
+                        imageNodes.add( imageNode );
+                        
+                        Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode );
+                        imageNode.setOffset( offset );
+                        previousNode = imageNode;
                     }
                 }
             }
@@ -256,19 +262,23 @@ public abstract class AbstractAfterNode extends PhetPNode {
             else {
                 // add images
                 while( reactant.getLeftovers() > imageNodes.size() ) {
-                    SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
-                    imageNode.scale( IMAGE_SCALE );
-                    parent.addChild( imageNode );
-                    imageNodes.add( imageNode );
-                    // images are vertically stacked
-                    double x = -imageNode.getFullBoundsReference().getWidth() / 2;
-                    if ( parent.getChildrenCount() > 1 ) {
-                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
-                        imageNode.setOffset( x, y );
+                    
+                    // add images
+                    PNode previousNode = null;
+                    if ( parent.getChildrenCount() > 0 ) {
+                        previousNode = parent.getChild( parent.getChildrenCount() - 1 );
                     }
-                    else {
-                        double y = -PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
-                        imageNode.setOffset( x, y );
+                    
+                    while( reactant.getLeftovers() > imageNodes.size() ) {
+                        
+                        SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
+                        imageNode.scale( IMAGE_SCALE );
+                        parent.addChild( imageNode );
+                        imageNodes.add( imageNode );
+                        
+                        Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode );
+                        imageNode.setOffset( offset );
+                        previousNode = imageNode;
                     }
                 }
             }
