@@ -123,6 +123,33 @@ EOT;
         return true;
     }
 
+    private function process_changelog($log) {
+        if (empty($log) || !is_array($log)) {
+            return array();
+        }
+
+        $new_log = array();
+                
+        $latest = -1;
+        foreach ($log as $entry) {
+            if (($entry['version'][4] == 0)){
+                $new_log[] = array('version' => 
+                                   $entry['version'],
+                                   
+                                   'comments' =>
+                                   array());
+
+                $latest++;
+            }
+
+            foreach ($entry['comments'] as $com) {
+                $new_log[$latest]['comments'][] = $com;
+            }
+        }
+
+        return $new_log;
+    }
+
     private function render_changelog($sim) {
         print <<<EOT
 <a href="{$sim->getPageUrl()}" title="Go to the simulation page for {$sim->getName()}"><img style="float: right;" src="{$sim->getThumbnailFilename()}" alt="thumbnail of {$sim->getName()}" /></a>
@@ -133,18 +160,22 @@ EOT;
 
         $web = WebUtils::inst();
 
-        $log = $sim->getChangelog();
+        $raw_log = $sim->getChangelog();
+        $log = $this->process_changelog($raw_log);
         $printed_items = false;
 
         print "<ul>\n";
         foreach ($log as $log_entry) {
             $comments = $log_entry['comments'];
-            if (count($comments) == 0) {
+            $date_version_info = $log_entry['version'];
+            if (($date_version_info[2] < 1) ||
+                (($date_version_info[2] == 1) && ($date_version_info[3] == 0))) {
+                // Skip all 1.00 and below
                 continue;
             }
 
-            $date_version_info = $log_entry['version'];
-            $version = $date_version_info[1];
+            // Only use major and minor dev numbers
+            $version = "{$date_version_info[2]}.{$date_version_info[3]}";
 
             $date = $date_version_info[6];
             if ($date != '') {
@@ -164,14 +195,14 @@ EOT;
                 print WebUtils::inst()->toHtml($comment)."</li>\n";
             }
 
+            if (count($comments) == 0) {
+                    print '<li>No information available</li>';
+            }
+
             print <<<EOT
             </ul></li>
 
 EOT;
-            }
-
-            if (!$printed_items) {
-                    print '<li>No changes available</li>';
             }
 
         print "</ul>\n";
@@ -189,7 +220,7 @@ EOT;
             return $result;
         }
 
-        if ($_REQUEST['sim'] == 'all') {
+        if (strtolower($_REQUEST['sim']) == 'all') {
 
             $sims = SimFactory::inst()->getAllSims(true);
             foreach ($sims as $sim) {
