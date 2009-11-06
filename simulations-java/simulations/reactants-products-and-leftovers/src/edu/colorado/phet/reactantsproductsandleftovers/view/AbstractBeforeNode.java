@@ -29,7 +29,6 @@ public abstract class AbstractBeforeNode extends PhetPNode {
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     private static final double TITLE_Y_SPACING = 10;
     private static final double CONTROLS_Y_SPACING = 15;
-    private static final double IMAGES_Y_MARGIN = 18;
     private static final double IMAGE_SCALE = 0.25; //XXX
     
     private final ChemicalReaction reaction;

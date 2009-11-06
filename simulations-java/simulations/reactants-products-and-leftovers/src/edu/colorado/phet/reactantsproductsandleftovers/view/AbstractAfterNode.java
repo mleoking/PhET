@@ -33,7 +33,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private static final double LEFT_MARGIN = 0;
     private static final double RIGHT_MARGIN = LEFT_MARGIN;
     private static final double CONTROLS_Y_SPACING = 15;
-    private static final double IMAGES_Y_MARGIN = 18;
     private static final double LEFTOVERS_BRACKET_Y_SPACING = 3;
     private static final double IMAGE_SCALE = 0.25; //XXX
     
