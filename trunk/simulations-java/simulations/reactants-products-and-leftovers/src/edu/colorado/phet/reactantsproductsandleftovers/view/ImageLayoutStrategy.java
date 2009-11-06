@@ -46,10 +46,12 @@ public interface ImageLayoutStrategy {
      */
     public static class RandomBoxLayoutStrategy implements ImageLayoutStrategy {
         
+        private static final double MARGIN = 5;
+        
         public Point2D getOffset( PNode node, PNode referenceNode, PNode boxNode, PNode controlNode ) {
             PBounds b = boxNode.getFullBoundsReference();
-            double x =  b.getX() + ( Math.random() * b.getWidth() );
-            double y = b.getY() + ( Math.random() * b.getHeight() );
+            double x = b.getX() + MARGIN + ( Math.random() * ( b.getWidth() - node.getFullBoundsReference().getWidth() - ( 2 * MARGIN ) ) );
+            double y = b.getY() + MARGIN + ( Math.random() * ( b.getHeight() - node.getFullBoundsReference().getHeight() - ( 2 * MARGIN ) ) );
             return new Point2D.Double( x, y );
         }
     }

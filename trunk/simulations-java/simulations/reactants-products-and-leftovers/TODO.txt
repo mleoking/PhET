@@ -1,8 +1,7 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- fix ImageLayoutStrategy and StackingLayoutStrategy to know where reactants control/display is below the box
-- replace RandomBoxLayoutStrategy with a strategy that prevents images from overlapping
+- prevent overlapping images in RandomBoxLayoutStrategy
 - design for Game module
 
 MEDIUM PRIORITY

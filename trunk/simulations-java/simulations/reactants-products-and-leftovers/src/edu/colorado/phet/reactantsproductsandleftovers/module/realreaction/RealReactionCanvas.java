@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactionChoiceNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy.StackedLayoutStrategy;
+import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy.RandomBoxLayoutStrategy;
 
 /**
  * Canvas for the "Real Reaction" module.
@@ -117,14 +117,14 @@ public class RealReactionCanvas extends RPALCanvas {
     private static class RealReactionBeforeNode extends AbstractBeforeNode {
 
         public RealReactionBeforeNode( RealReactionModel model ) {
-            super( RPALStrings.LABEL_BEFORE_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new StackedLayoutStrategy() );
+            super( RPALStrings.LABEL_BEFORE_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new RandomBoxLayoutStrategy() );
         }
     }
     
     private static class RealReactionAfterNode extends AbstractAfterNode {
 
         public RealReactionAfterNode( RealReactionModel model ) {
-            super( RPALStrings.LABEL_AFTER_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new StackedLayoutStrategy() );
+            super( RPALStrings.LABEL_AFTER_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new RandomBoxLayoutStrategy() );
         }
     }
 }
