@@ -1,3 +1,4 @@
+11/6/09 used Strategy pattern for layout of images in Before and After boxes, implement "stacked" layout strategy
 11/5/09 delete edu.colorado.phet.reactantsproductsandleftovers.view.CountNode, unused
 11/5/09 javadoc existing code
 11/5/09 delete edu.colorado.phet.reactantsproductsandleftovers.controls.IntegerSliderNode, unused (chose spinners instead of sliders)

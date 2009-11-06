@@ -1,6 +1,7 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -9,7 +10,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
@@ -30,7 +30,6 @@ public abstract class AbstractBeforeNode extends PhetPNode {
     private static final double TITLE_Y_SPACING = 10;
     private static final double CONTROLS_Y_SPACING = 15;
     private static final double IMAGES_Y_MARGIN = 18;
-    private static final double IMAGES_Y_SPACING = 27;
     private static final double IMAGE_SCALE = 0.25; //XXX
     
     private final ChemicalReaction reaction;
@@ -40,8 +39,9 @@ public abstract class AbstractBeforeNode extends PhetPNode {
     private final ArrayList<PComposite> imageNodeParents; // parents for reactant images
     private final ArrayList<ArrayList<SubstanceImageNode>> imageNodeLists; // one list of images per reactant
     private final ArrayList<ReactantQuantityControlNode> quantityControlNodes; // quantity displays for reactants
+    private final ImageLayoutStrategy imageLayoutStrategy;
     
-    public AbstractBeforeNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames ) {
+    public AbstractBeforeNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames, ImageLayoutStrategy imageLayoutStrategy ) {
         super();
         
         this.reaction = reaction;
@@ -51,6 +51,8 @@ public abstract class AbstractBeforeNode extends PhetPNode {
             }
         };
         reaction.addChangeListener( reactionChangeListener );
+        
+        this.imageLayoutStrategy = imageLayoutStrategy;
         
         imageNodeParents = new ArrayList<PComposite>();
         imageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
@@ -160,24 +162,23 @@ public abstract class AbstractBeforeNode extends PhetPNode {
             }
             else {
                 // add images
+                PNode previousNode = null;
+                if ( parent.getChildrenCount() > 0 ) {
+                    previousNode = parent.getChild( parent.getChildrenCount() - 1 );
+                }
+                
                 while( reactant.getQuantity() > imageNodes.size() ) {
+                    
                     SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                     imageNode.scale( IMAGE_SCALE );
                     parent.addChild( imageNode );
                     imageNodes.add( imageNode );
-                    // images are vertically stacked
-                    double x = -imageNode.getFullBoundsReference().getWidth() / 2;
-                    if ( parent.getChildrenCount() > 1 ) {
-                        double y = parent.getChild( parent.getChildrenCount() - 2 ).getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
-                        imageNode.setOffset( x, y );
-                    }
-                    else {
-                        double y = -PNodeLayoutUtils.getOriginYOffset( imageNode ) - IMAGES_Y_SPACING;
-                        imageNode.setOffset( x, y );
-                    }
+                    
+                    Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode );
+                    imageNode.setOffset( offset );
+                    previousNode = imageNode;
                 }
             }
         }
     }
-    
 }
