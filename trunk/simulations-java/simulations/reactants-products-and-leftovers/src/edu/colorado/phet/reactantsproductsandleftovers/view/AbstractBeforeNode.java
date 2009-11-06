@@ -174,7 +174,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
                     parent.addChild( imageNode );
                     imageNodes.add( imageNode );
                     
-                    Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode );
+                    Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode );
                     imageNode.setOffset( offset );
                     previousNode = imageNode;
                 }
