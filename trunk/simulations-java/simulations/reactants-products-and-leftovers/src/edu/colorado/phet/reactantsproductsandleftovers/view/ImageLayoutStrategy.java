@@ -14,26 +14,28 @@ import edu.umd.cs.piccolo.util.PBounds;
 public interface ImageLayoutStrategy {
     
     /**
-     * Gets the offset of node relative to referenceNode inside the bounds of boxNode.
+     * Gets the offset of node, relative to referenceNode, inside the bounds of boxNode, with knowledge of a related controlNode.
      * @param node
      * @param referenceNode
      * @param boxNode
+     * @param controlNode
      * @return
      */
-    public Point2D getOffset( PNode node, PNode referenceNode, PNode boxNode );
+    public Point2D getOffset( PNode node, PNode referenceNode, PNode boxNode, PNode controlNode );
     
     /**
      * Stacks images vertically in the box.
      */
     public static class StackedLayoutStrategy implements ImageLayoutStrategy {
 
+        private static final double Y_MARGIN = 8;
         private static final double Y_SPACING = 27;
 
-        public Point2D getOffset( PNode node, PNode referenceNode, PNode boxNode ) {
-            double x = -node.getFullBoundsReference().getWidth() / 2;
-            double y = -PNodeLayoutUtils.getOriginYOffset( node ) - Y_SPACING;
+        public Point2D getOffset( PNode node, PNode referenceNode, PNode boxNode, PNode controlNode ) {
+            double x = controlNode.getXOffset() - ( node.getFullBoundsReference().getWidth() / 2 );
+            double y = boxNode.getFullBoundsReference().getHeight() - node.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_MARGIN;
             if ( referenceNode != null ) {
-                y += referenceNode.getFullBoundsReference().getMinY();
+                y = referenceNode.getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_SPACING;
             }
             return new Point2D.Double( x, y );
         }
@@ -44,7 +46,7 @@ public interface ImageLayoutStrategy {
      */
     public static class RandomBoxLayoutStrategy implements ImageLayoutStrategy {
         
-        public Point2D getOffset( PNode node, PNode referenceNode, PNode boxNode ) {
+        public Point2D getOffset( PNode node, PNode referenceNode, PNode boxNode, PNode controlNode ) {
             PBounds b = boxNode.getFullBoundsReference();
             double x =  b.getX() + ( Math.random() * b.getWidth() );
             double y = b.getY() + ( Math.random() * b.getHeight() );

@@ -130,23 +130,21 @@ public abstract class AbstractAfterNode extends PhetPNode {
             y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
             productQuantityDisplayNodes.get( i ).setOffset( x, y );
             
-            // images, centered above quantity displays
-            y = boxNode.getFullBoundsReference().getMaxY() - IMAGES_Y_MARGIN;
-            productImageNodeParents.get( i ).setOffset( x, y );
+            // image parents, same offset as box
+            productImageNodeParents.get( i ).setOffset( boxNode.getOffset() );
             
             x += deltaX;
         }
         // reactant-specific nodes, horizontally centered in "cells"
         for ( int i = 0; i < reactants.length; i++ ) {
-            
+
             // quantity displays
             y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
             reactantLeftoverDisplayNodes.get( i ).setOffset( x, y );
-            
-            // images, centered above quantity displays
-            y = boxNode.getFullBoundsReference().getMaxY() - IMAGES_Y_MARGIN;
-            reactantImageNodeParents.get( i ).setOffset( x, y );
-            
+
+            // image parents, same offset as box
+            reactantImageNodeParents.get( i ).setOffset( boxNode.getOffset() );
+
             x += deltaX;
         }
         
@@ -234,7 +232,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
                         parent.addChild( imageNode );
                         imageNodes.add( imageNode );
                         
-                        Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode );
+                        Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode, productQuantityDisplayNodes.get( i ) );
                         imageNode.setOffset( offset );
                         previousNode = imageNode;
                     }
@@ -276,7 +274,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
                         parent.addChild( imageNode );
                         imageNodes.add( imageNode );
                         
-                        Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode );
+                        Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode, reactantLeftoverDisplayNodes.get( i ) );
                         imageNode.setOffset( offset );
                         previousNode = imageNode;
                     }

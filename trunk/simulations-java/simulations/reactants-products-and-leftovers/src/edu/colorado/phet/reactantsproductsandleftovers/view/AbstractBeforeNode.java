@@ -104,9 +104,8 @@ public abstract class AbstractBeforeNode extends PhetPNode {
             y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
             quantityControlNodes.get( i ).setOffset( x, y );
             
-            // images, centered above controls
-            y = boxNode.getFullBoundsReference().getMaxY() - IMAGES_Y_MARGIN;
-            imageNodeParents.get( i ).setOffset( x, y );
+            // image parents, same offset as box
+            imageNodeParents.get( i ).setOffset( boxNode.getOffset() );
             
             x += deltaX;
         }
@@ -174,7 +173,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
                     parent.addChild( imageNode );
                     imageNodes.add( imageNode );
                     
-                    Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode );
+                    Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode, quantityControlNodes.get( i ) );
                     imageNode.setOffset( offset );
                     previousNode = imageNode;
                 }
