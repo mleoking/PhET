@@ -21,4 +21,8 @@ public class DistributionHandler {
     public static boolean displayTranslationEditLink( PhetRequestCycle cycle ) {
         return !cycle.isYoungAndFreedmanRipperRequest();
     }
+
+    public static boolean redirectEnglishLinkToPhetMain( PhetRequestCycle cycle ) {
+        return cycle.isKsuRipperRequest();
+    }
 }
