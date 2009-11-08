@@ -20,6 +20,12 @@ import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
  */
 public class BuildLocalProperties {
 
+    //Keys used in multiple locations.
+    private static final String JARSIGNER_KEYSTORE_KEY = "jarsigner.keystore";
+    private static final String JARSIGNER_PASSWORD_KEY = "jarsigner.password";
+    private static final String JARSIGNER_ALIAS_KEY = "jarsigner.alias";
+    private static final String JARSIGNER_TSA_URL_KEY = "jarsigner.tsa-url";
+
     /* singleton */
     private static BuildLocalProperties instance;
 
@@ -141,6 +147,17 @@ public class BuildLocalProperties {
      */
     public JarsignerInfo getJarsignerInfo() {
         return new JarsignerInfo( getJarSignerKeystore(), getJarSignerPassword(), getJarSignerAlias(), getJarSignerTsaUrl() );
+    }
+
+    /**
+     * Determine whether the Jarsigner credentials are specified in the properties file; if not, signing will be disabled for test functionality, see #1838.
+     * @return true if the Jarsigner credentials are specified in the properties file
+     */
+    public boolean isJarsignerCredentialsSpecified() {
+        return properties.getProperty(JARSIGNER_ALIAS_KEY) != null &&
+                properties.getProperty(JARSIGNER_KEYSTORE_KEY) != null &&
+                properties.getProperty(JARSIGNER_PASSWORD_KEY) != null &&
+                properties.getProperty(JARSIGNER_TSA_URL_KEY) != null;
     }
 
     /**
@@ -288,19 +305,19 @@ public class BuildLocalProperties {
     }
 
     private String getJarSignerKeystore() {
-        return getRequiredString( "jarsigner.keystore", "jarsigner keystore location" );
+        return getRequiredString(JARSIGNER_KEYSTORE_KEY, "jarsigner keystore location" );
     }
 
     private String getJarSignerPassword() {
-        return getRequiredString( "jarsigner.password", "jarsigner password" );
+        return getRequiredString(JARSIGNER_PASSWORD_KEY, "jarsigner password" );
     }
 
     private String getJarSignerAlias() {
-        return getRequiredString( "jarsigner.alias", "jarsigner alias" );
+        return getRequiredString(JARSIGNER_ALIAS_KEY, "jarsigner alias" );
     }
 
     private String getJarSignerTsaUrl() {
-        return getRequiredString( "jarsigner.tsa-url", "jarsigner TSA URL" );
+        return getRequiredString(JARSIGNER_TSA_URL_KEY, "jarsigner TSA URL" );
     }
 
     /*

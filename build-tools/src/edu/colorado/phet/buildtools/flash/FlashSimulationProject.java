@@ -257,7 +257,11 @@ public class FlashSimulationProject extends PhetProject {
 
             new MyAntTaskRunner().runTask( jar );
 
-            signJAR( destFile );
+            if (BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified()) {
+                signJAR(destFile);
+            } else {
+                System.out.println("Jarsigner credentials not specified in build file, skipping jar signing.");
+            }
         }
         catch( Exception e ) {
             e.printStackTrace();
