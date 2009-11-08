@@ -65,8 +65,12 @@ public class JavaBuildCommand {
         project.copyLicenseInfo();
         jar();
         proguard();
-        if ( project.getSignJar() ) {
-            signJAR();
+        if (BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified()) {
+            if (project.getSignJar()) {
+                signJAR();
+            }
+        } else {
+            System.out.println("Jarsigner credentials not specified in build file, skipping jar signing.");
         }
     }
 
