@@ -12,6 +12,10 @@
         <property name="designTeam"/>
         <property name="libraries"/>
         <property name="thanksTo"/>
+        <property name="kilobytes"/>
+        <property name="underConstruction"/>
+        <property name="guidanceRecommended"/>
+        <property name="classroomTested"/>
         <many-to-one name="project" class="edu.colorado.phet.website.data.Project" lazy="false"/>
         <set name="localizedSimulations" inverse="true">
             <key column="simulation"/>
