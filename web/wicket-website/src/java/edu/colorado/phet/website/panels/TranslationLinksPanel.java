@@ -11,10 +11,12 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.LocalizedLabel;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class TranslationLinksPanel extends PhetPanel {
     public TranslationLinksPanel( String id, final PageContext context ) {
@@ -25,6 +27,9 @@ public class TranslationLinksPanel extends PhetPanel {
         String linkTo = englishContext.getPrefix() + englishContext.getPath();
         if ( linkTo.equals( "/en/" ) ) {
             linkTo = "/";
+        }
+        if ( DistributionHandler.redirectEnglishLinkToPhetMain( (PhetRequestCycle) getRequestCycle() ) ) {
+            linkTo = "http://phet.colorado.edu";
         }
         Link englishLink = new PhetLink( "translation-link", linkTo );
         LocalizedLabel englishLabel = new LocalizedLabel( "translation-label", englishLocale, new ResourceModel( "language.name" ) );
