@@ -23,6 +23,10 @@ public class Simulation implements Serializable {
     private String libraries;
     private String thanksTo;
 
+    private boolean underConstruction;
+    private boolean guidanceRecommended;
+    private boolean classroomTested;
+
     public static final int TYPE_JAVA = 0;
     public static final int TYPE_FLASH = 1;
 
@@ -164,5 +168,29 @@ public class Simulation implements Serializable {
 
     public void setThanksTo( String thanksTo ) {
         this.thanksTo = thanksTo;
+    }
+
+    public boolean isUnderConstruction() {
+        return underConstruction;
+    }
+
+    public void setUnderConstruction( boolean underConstruction ) {
+        this.underConstruction = underConstruction;
+    }
+
+    public boolean isGuidanceRecommended() {
+        return guidanceRecommended;
+    }
+
+    public void setGuidanceRecommended( boolean guidanceRecommended ) {
+        this.guidanceRecommended = guidanceRecommended;
+    }
+
+    public boolean isClassroomTested() {
+        return classroomTested;
+    }
+
+    public void setClassroomTested( boolean classroomTested ) {
+        this.classroomTested = classroomTested;
     }
 }
