@@ -46,6 +46,7 @@ class MotionSeriesObject(_name: String,
   def height = _height
 
   val bufferedImage = MotionSeriesResources.getImage(imageFilename)
+  val iconImage = MotionSeriesResources.getImage(iconFilename)
 
   def width = bufferedImage.getWidth * height / bufferedImage.getHeight.toDouble
 
