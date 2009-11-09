@@ -4,13 +4,13 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import java.awt.image.BufferedImage
 import java.util.Hashtable
 import javax.swing._
-import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 import edu.colorado.phet.motionseries.swing._
 import edu.colorado.phet.motionseries.model.{MotionSeriesModel, ForceBead, Bead}
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.{AlignedSliderSetLayoutStrategy, HorizontalLayoutStrategy, AbstractValueControl}
 import java.awt.{GridBagConstraints, GridBagLayout, GridLayout}
+import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResources}
 
 class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, bead: Bead)
         extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, bead.addListener, new HorizontalLayoutStrategy) {
@@ -20,9 +20,12 @@ class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Dou
 
 class FrictionPlayAreaControlPanel(bead: ForceBead) extends VerticalLayoutPanel {
   setFillHorizontal()
+
+  val obj = MotionSeriesDefaults.custom //todo: this changes the mass for all tabs, not just this tab
+
   val staticFriction = new MyValueControl(0.0, 2.0, () => bead.staticFriction, bead.staticFriction = _, "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, bead)
   val kineticFriction = new MyValueControl(0.0, 2.0, () => bead.kineticFriction, bead.kineticFriction = _, "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, bead)
-  val objectMass = new MyValueControl(1, 200, () => bead.mass, bead.mass = _, "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, bead)
+  val objectMass = new MyValueControl(1, 200, () => obj.mass, obj.mass = _, "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, bead)
   val gravity = new MyValueControl(0.1, sliderMaxGravity, () => bead.gravity.abs, x => bead.gravity = -x, "forces.Gravity".translate, "0.0".literal, "properties.acceleration.units".translate, bead)
 
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
