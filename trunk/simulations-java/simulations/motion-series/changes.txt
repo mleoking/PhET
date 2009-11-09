@@ -1,3 +1,4 @@
+# 1.03.57 (36445) Nov 9, 2009
 Added internationalization for game modes
 Added internationalization for recently added features
 Made it so that static friction coefficient is always less than or equal to the kinetic friction coefficient for custom objects.
