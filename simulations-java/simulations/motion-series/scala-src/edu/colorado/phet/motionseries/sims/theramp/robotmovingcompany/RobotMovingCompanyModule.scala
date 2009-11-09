@@ -99,7 +99,7 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
   addChild(titleNode)
 
   def directionKeyNode(dx: Double, dy: Double) = {
-    new PImage(MotionSeriesResources.getImage("robotmovingcompany/empty-key.png")) {
+    new PImage(MotionSeriesResources.getImage("robotmovingcompany/empty-key.png".translate)) {
       val b = getFullBounds
       val y1 = b.getCenterY + b.getHeight * dy
       val y2 = b.getCenterY - b.getHeight * dy
@@ -122,7 +122,7 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
     val mottoBorder = new PText("Our Motto")
 
     addChild(mottoBorder)
-    val mottoBody = new PText("Apply Force\nDeliver Objects\nLeftover Energy = Points") {
+    val mottoBody = new HTMLNode("<html>Apply Force<br>Deliver Objects<br>Leftover Energy = Points</html>") {
       setFont(new PhetFont(25, true))
     }
     addChild(mottoBody)
