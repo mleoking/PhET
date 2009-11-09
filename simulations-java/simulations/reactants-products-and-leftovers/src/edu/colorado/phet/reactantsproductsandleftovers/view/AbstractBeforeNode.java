@@ -17,7 +17,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Base class for all "Before Reaction" displays.
@@ -29,15 +28,13 @@ public abstract class AbstractBeforeNode extends PhetPNode {
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     private static final double TITLE_Y_SPACING = 10;
     private static final double CONTROLS_Y_SPACING = 15;
-    private static final double IMAGE_SCALE = 0.25; //XXX
     
     private final ChemicalReaction reaction;
     private final ChangeListener reactionChangeListener;
 
     private final BoxNode boxNode;
-    private final ArrayList<PComposite> imageNodeParents; // parents for reactant images
     private final ArrayList<ArrayList<SubstanceImageNode>> imageNodeLists; // one list of images per reactant
-    private final ArrayList<ReactantQuantityControlNode> quantityControlNodes; // quantity displays for reactants
+    private final ArrayList<ReactantQuantityControlNode> quantityControlNodes; // quantity controls for reactants
     private final ImageLayoutStrategy imageLayoutStrategy;
     
     public AbstractBeforeNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames, ImageLayoutStrategy imageLayoutStrategy ) {
@@ -53,7 +50,6 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         
         this.imageLayoutStrategy = imageLayoutStrategy;
         
-        imageNodeParents = new ArrayList<PComposite>();
         imageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
         quantityControlNodes = new ArrayList<ReactantQuantityControlNode>();
         
@@ -71,16 +67,11 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         Reactant[] reactants = reaction.getReactants();
         for ( Reactant reactant : reactants ) {
             
-            // one parent node for each reactant image
-            PComposite parent = new PComposite();
-            addChild( parent );
-            imageNodeParents.add( parent );
-            
             // one list of image nodes for each reactant 
             imageNodeLists.add( new ArrayList<SubstanceImageNode>() );
             
             // one quantity control for each reactant
-            ReactantQuantityControlNode controlNode = new ReactantQuantityControlNode( reactant, quantityRange, IMAGE_SCALE, showSubstanceNames );
+            ReactantQuantityControlNode controlNode = new ReactantQuantityControlNode( reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             addChild( controlNode );
             quantityControlNodes.add( controlNode );
         }
@@ -93,19 +84,13 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
         y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
         titleNode.setOffset( x, y );
-        // reactant-specific nodes, horizontally centered in "cells"
+        // reactant quantity controls, horizontally centered in "cells"
         double margin = ( reactants.length > 2 ) ? 0 : ( 0.15 * BOX_SIZE.getWidth() ); // make 2 reactants case look nice
         final double deltaX = ( boxNode.getFullBoundsReference().getWidth() - ( 2 * margin ) ) / ( reactants.length );
         x = boxNode.getFullBoundsReference().getMinX() + margin + ( deltaX / 2 );
+        y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
         for ( int i = 0; i < reactants.length; i++ ) {
-            
-            // quantity controls
-            y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
             quantityControlNodes.get( i ).setOffset( x, y );
-            
-            // image parents, same offset as box
-            imageNodeParents.get( i ).setOffset( boxNode.getOffset() );
-            
             x += deltaX;
         }
         
@@ -146,7 +131,6 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         for ( int i = 0; i < reactants.length; i++ ) {
             
             Reactant reactant = reactants[i];
-            PNode parent = imageNodeParents.get( i );
             ArrayList<SubstanceImageNode> imageNodes = imageNodeLists.get( i );
             
             if ( reactant.getQuantity() < imageNodes.size() ) {
@@ -154,22 +138,22 @@ public abstract class AbstractBeforeNode extends PhetPNode {
                 while ( reactant.getQuantity() < imageNodes.size() ) {
                     SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
                     imageNode.cleanup();
-                    parent.removeChild( imageNode );
+                    boxNode.removeChild( imageNode );
                     imageNodes.remove( imageNode );
                 }
             }
             else {
                 // add images
                 PNode previousNode = null;
-                if ( parent.getChildrenCount() > 0 ) {
-                    previousNode = parent.getChild( parent.getChildrenCount() - 1 );
+                if ( imageNodes.size() > 0 ) {
+                    previousNode = imageNodes.get( imageNodes.size() - 1 );
                 }
                 
                 while( reactant.getQuantity() > imageNodes.size() ) {
                     
                     SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
-                    imageNode.scale( IMAGE_SCALE );
-                    parent.addChild( imageNode );
+                    imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
+                    boxNode.addChild( imageNode );
                     imageNodes.add( imageNode );
                     
                     Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode, quantityControlNodes.get( i ) );

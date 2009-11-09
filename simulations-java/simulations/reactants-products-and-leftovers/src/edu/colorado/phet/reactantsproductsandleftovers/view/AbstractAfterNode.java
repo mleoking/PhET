@@ -19,7 +19,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Base class for all "After Reaction" displays.
@@ -39,7 +38,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private final ChangeListener reactionChangeListener;
 
     private final BoxNode boxNode;
-    private final ArrayList<PComposite> productImageNodeParents, reactantImageNodeParents; // parents for product and reactant images
     private final ArrayList<ArrayList<SubstanceImageNode>> productImageNodeLists, reactantImageNodeLists; // one list of images per product and reactant
     private final ArrayList<QuantityDisplayNode> productQuantityDisplayNodes; // quantity displays for products
     private final ArrayList<LeftoversDisplayNode> reactantLeftoverDisplayNodes; // leftovers displays for reactants
@@ -58,8 +56,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
         
         this.imageLayoutStrategy = imageLayoutStrategy;
         
-        productImageNodeParents = new ArrayList<PComposite>();
-        reactantImageNodeParents = new ArrayList<PComposite>();
         productImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
         reactantImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
         productQuantityDisplayNodes = new ArrayList<QuantityDisplayNode>();
@@ -79,11 +75,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
         Product[] products = reaction.getProducts();
         for ( Product product : products ) {
             
-            // one parent node for each product image
-            PComposite parent = new PComposite();
-            addChild( parent );
-            productImageNodeParents.add( parent );
-            
             // one list of image nodes for each product 
             productImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
             
@@ -96,11 +87,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
         // reactant images and leftovers displays
         Reactant[] reactants = reaction.getReactants();
         for ( Reactant reactant : reactants ) {
-            
-            // one parent node for each reactant image
-            PComposite parent = new PComposite();
-            addChild( parent );
-            reactantImageNodeParents.add( parent );
             
             // one list of image nodes for each reactant 
             reactantImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
@@ -119,30 +105,17 @@ public abstract class AbstractAfterNode extends PhetPNode {
         x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
         y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
         titleNode.setOffset( x, y );
-        // product-specific nodes, horizontally centered in "cells"
+        // product quantity displays, horizontally centered in "cells"
         final double deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( products.length + reactants.length );
         x = boxNode.getFullBoundsReference().getMinX() + LEFT_MARGIN + ( deltaX / 2 );
+        y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
         for ( int i = 0; i < products.length; i++ ) {
-            
-            // quantity displays
-            y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
             productQuantityDisplayNodes.get( i ).setOffset( x, y );
-            
-            // image parents, same offset as box
-            productImageNodeParents.get( i ).setOffset( boxNode.getOffset() );
-            
             x += deltaX;
         }
-        // reactant-specific nodes, horizontally centered in "cells"
+        // reactant quantity displays, horizontally centered in "cells"
         for ( int i = 0; i < reactants.length; i++ ) {
-
-            // quantity displays
-            y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
             reactantLeftoverDisplayNodes.get( i ).setOffset( x, y );
-
-            // image parents, same offset as box
-            reactantImageNodeParents.get( i ).setOffset( boxNode.getOffset() );
-
             x += deltaX;
         }
         
@@ -201,7 +174,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
             productQuantityDisplayNodes.get(i).setVisible( reaction.isReaction() );
             
             Product product = products[i];
-            PNode parent = productImageNodeParents.get( i );
             ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
             
             if ( product.getQuantity() < imageNodes.size() ) {
@@ -209,7 +181,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
                 while ( product.getQuantity() < imageNodes.size() ) {
                     SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
                     imageNode.cleanup();
-                    parent.removeChild( imageNode );
+                    boxNode.removeChild( imageNode );
                     imageNodes.remove( imageNode );
                 }
             }
@@ -219,15 +191,15 @@ public abstract class AbstractAfterNode extends PhetPNode {
                     
                     // add images
                     PNode previousNode = null;
-                    if ( parent.getChildrenCount() > 0 ) {
-                        previousNode = parent.getChild( parent.getChildrenCount() - 1 );
+                    if ( imageNodes.size() > 0 ) {
+                        previousNode = imageNodes.get( imageNodes.size() - 1 );
                     }
                     
                     while( product.getQuantity() > imageNodes.size() ) {
                         
                         SubstanceImageNode imageNode = new SubstanceImageNode( product );
                         imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                        parent.addChild( imageNode );
+                        boxNode.addChild( imageNode );
                         imageNodes.add( imageNode );
                         
                         Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode, productQuantityDisplayNodes.get( i ) );
@@ -243,7 +215,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
         for ( int i = 0; i < reactants.length; i++ ) {
             
             Reactant reactant = reactants[i];
-            PNode parent = reactantImageNodeParents.get( i );
             ArrayList<SubstanceImageNode> imageNodes = reactantImageNodeLists.get( i );
             
             if ( reactant.getLeftovers() < imageNodes.size() ) {
@@ -251,7 +222,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
                 while ( reactant.getLeftovers() < imageNodes.size() ) {
                     SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
                     imageNode.cleanup();
-                    parent.removeChild( imageNode );
+                    boxNode.removeChild( imageNode );
                     imageNodes.remove( imageNode );
                 }
             }
@@ -261,15 +232,15 @@ public abstract class AbstractAfterNode extends PhetPNode {
                     
                     // add images
                     PNode previousNode = null;
-                    if ( parent.getChildrenCount() > 0 ) {
-                        previousNode = parent.getChild( parent.getChildrenCount() - 1 );
+                    if ( imageNodes.size() > 0 ) {
+                        previousNode = imageNodes.get( imageNodes.size() - 1 );
                     }
                     
                     while( reactant.getLeftovers() > imageNodes.size() ) {
                         
                         SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                         imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                        parent.addChild( imageNode );
+                        boxNode.addChild( imageNode );
                         imageNodes.add( imageNode );
                         
                         Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode, reactantLeftoverDisplayNodes.get( i ) );
