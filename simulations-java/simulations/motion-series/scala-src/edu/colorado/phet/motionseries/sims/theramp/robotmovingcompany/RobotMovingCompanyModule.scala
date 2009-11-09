@@ -94,12 +94,12 @@ class RobotMovingCompanyModule(frame: PhetFrame,
 }
 
 class IntroScreen extends PlayAreaDialog(400, 500) {
-  val titleNode = new HTMLNode("<html>Robot<br>Moving<br>Company</html>", new PhetFont(52, true), Color.blue) //todo: translate
+  val titleNode = new HTMLNode("game.intro.robot-moving-company".translate, new PhetFont(52, true), Color.blue) //todo: translate
   titleNode.setOffset(getFullBounds.getWidth / 2 - titleNode.getFullBounds.getWidth / 2, 20)
   addChild(titleNode)
 
   def directionKeyNode(dx: Double, dy: Double) = {
-    new PImage(MotionSeriesResources.getImage("robotmovingcompany/empty-key.png".translate)) {
+    new PImage(MotionSeriesResources.getImage("robotmovingcompany/empty-key.png".literal)) {
       val b = getFullBounds
       val y1 = b.getCenterY + b.getHeight * dy
       val y2 = b.getCenterY - b.getHeight * dy
@@ -119,10 +119,10 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
   val rightKey = directionKeyNode(-1 / 5.0, 0)
 
   val text = new PNode {
-    val mottoBorder = new PText("Our Motto")
+    val mottoBorder = new PText("game.intro.our-motto".translate)
 
     addChild(mottoBorder)
-    val mottoBody = new HTMLNode("<html>Apply Force<br>Deliver Objects<br>Leftover Energy = Points</html>") {
+    val mottoBody = new HTMLNode("game.intro.motto-text") {
       setFont(new PhetFont(25, true))
     }
     addChild(mottoBody)
@@ -141,7 +141,7 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
   }
   addChild(labeledButtonCluster)
 
-  val pressToBegin = new PText("Press an arrow key on your keyboard to apply a force...")
+  val pressToBegin = new PText("game.intro.press-to-begin")
   addChild(pressToBegin)
   pressToBegin.setOffset(background.getFullBounds.getWidth / 2 - pressToBegin.getFullBounds.getWidth / 2, background.getFullBounds.getHeight - pressToBegin.getFullBounds.getHeight - 10)
 

@@ -50,7 +50,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
         showGameSummary()
       else
         gameModel.nextObject()
-    }, if (gameModel.isLastObject(scalaRampObject)) "Show Summary" else "Ok")
+    }, if (gameModel.isLastObject(scalaRampObject)) "game.show-summary".translate else "game.ok".translate)
     summaryScreen.centerWithin(stage.width, stage.height)
     addStageNode(summaryScreen)
     summaryScreen.requestFocus()
@@ -120,9 +120,9 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   override def useVectorNodeInPlayArea = false
 
   val F = gameModel.appliedForceAmount
-  val NONE = ("none", 0.0)
-  val RIGHT = ("right", F)
-  val LEFT = ("left", -F)
+  val NONE = ("none".literal, 0.0)
+  val RIGHT = ("right".literal, F)
+  val LEFT = ("left".literal, -F)
 
   object userInputModel extends Observable {
     private var _pressed: (String, Double) = NONE
@@ -271,7 +271,7 @@ class RobotEnergyMeter(transform: ModelViewTransform2D, gameModel: RobotMovingCo
   val barContainerNode = new PhetPPath(new BasicStroke(2), Color.gray)
   val barNode = new PhetPPath(Color.blue)
   addChild(barNode)
-  val label = new PText("Robot Energy")
+  val label = new PText("game.robot-energy".translate)
   label.setFont(new PhetFont(24, true))
   addChild(label)
   addChild(barContainerNode)
@@ -302,9 +302,9 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   }
   layoutNode.addChild(new Spacer)
   layoutNode.addChild(new Spacer)
-  layoutNode.addChild(new ItemReadout("Moved Items", gameModel, () => gameModel.movedItems))
+  layoutNode.addChild(new ItemReadout("game.moved-items".translate, gameModel, () => gameModel.movedItems))
   layoutNode.addChild(new Spacer)
-  layoutNode.addChild(new ItemReadout("Lost Items", gameModel, () => gameModel.lostItems))
+  layoutNode.addChild(new ItemReadout("game.lost-items".translate, gameModel, () => gameModel.lostItems))
   layoutNode.addChild(new Spacer)
 
   addChild(layoutNode)
@@ -332,10 +332,10 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
                         okPressed: SummaryScreenNode => Unit,
                         okButtonText: String) extends PlayAreaDialog(400, 400) {
   val text = result match {
-    case Result(_, true, _, _) => "Crashed"
-    case Result(true, false, _, _) => "Delivered Successfully"
-    case Result(false, false, _, _) => "Missed the House"
-    case _ => "Disappeared?"
+    case Result(_, true, _, _) => "game.result.crashed".translate
+    case Result(true, false, _, _) => "game.result.delivered-successfully".translate
+    case Result(false, false, _, _) => "game.result.missed-the-house".translate
+    case _ => "Disappeared?".literal//should never happen
   }
   val pText = new PText(scalaRampObject.name + " " + text)
   pText.setFont(new PhetFont(22, true))
