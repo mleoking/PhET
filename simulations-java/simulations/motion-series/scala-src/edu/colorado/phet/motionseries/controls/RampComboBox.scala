@@ -33,7 +33,7 @@ class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("controls.c
     setOpaque(true)
 
     def getListCellRendererComponent(list: JList, value: Any, index: Int, isSelected: Boolean, cellHasFocus: Boolean) = {
-      setIcon(new ImageIcon(BufferedImageUtils.multiScaleToHeight(value.asInstanceOf[ObjectItem].rampObject.bufferedImage, 30)))
+      setIcon(new ImageIcon(BufferedImageUtils.multiScaleToHeight(value.asInstanceOf[ObjectItem].rampObject.iconImage, 30)))
       setText(value.asInstanceOf[ObjectItem].rampObject.getDisplayText)
       setBackground(if (isSelected) list.getSelectionBackground else list.getBackground)
       setForeground(if (isSelected) list.getSelectionForeground else list.getForeground)
