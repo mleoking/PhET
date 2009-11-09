@@ -38,7 +38,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   pusherNode.setVisible(false)
 
   def showGameSummary() = {
-    JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "<html>That was the last object to move.<br>Your score is: " + gameModel.score + ".</html>")
+    JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "game.summary.pattern.score".messageformat(gameModel.score))
     gameModel.resetAll()
   }
 
@@ -180,9 +180,9 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     class ValueText(str: String) extends PText(str) {
       setFont(new PhetFont(18))
     }
-    textNode.addChild(new ValueText("Mass = " + a.mass + " kg"))
-    textNode.addChild(new ValueText("Kinetic Friction = " + a.kineticFriction))
-    textNode.addChild(new ValueText("Points = " + a.points))
+    textNode.addChild(new ValueText("game.object.mass-equals.pattern.mass".messageformat(a.mass)))
+    textNode.addChild(new ValueText("game.object.kinetic-friction-equals.pattern.kinetic-friction".messageformat(a.kineticFriction)))
+    textNode.addChild(new ValueText("game.object.points-equals.pattern.points".messageformat(a.points)))
     textNode.setOffset(0, pImage.getFullBounds.getMaxY)
     addChild(textNode)
   }
@@ -262,7 +262,7 @@ class ItemReadout(text: String, gameModel: RobotMovingCompanyGameModel, counter:
   addChild(textNode)
   gameModel.addListenerByName(update())
   def update() = {
-    textNode.setText(text + ": " + counter())
+    textNode.setText("game.item-readout-counter.pattern.name-count".messageformat(text,counter().toString))
   }
   update()
 }
@@ -290,7 +290,7 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   val layoutNode = new SwingLayoutNode
   val pText = new PText()
 
-  def update = pText.setText("Score: " + gameModel.score)
+  def update = pText.setText("game.scoreboard.score.pattern.score".messageformat(gameModel.score))
   gameModel.addListenerByName(update)
   update
 
