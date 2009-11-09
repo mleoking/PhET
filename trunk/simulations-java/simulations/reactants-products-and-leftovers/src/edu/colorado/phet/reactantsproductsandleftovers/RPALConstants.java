@@ -34,6 +34,17 @@ public class RPALConstants {
     public static final PDimension HISTOGRAM_BAR_SIZE = new PDimension( 18, 75 );
     
     //----------------------------------------------------------------------------
+    // Scaling
+    //----------------------------------------------------------------------------
+    
+    // scaling for images that appear in formulas
+    public static final double FORMULA_IMAGE_SCALE = 0.4;
+    // scaling for images that appear in the Before and After boxes
+    public static final double BEFORE_AFTER_BOX_IMAGE_SCALE = 0.25;
+    // scaling for images that appear below histogram bars
+    public static final double HISTOGRAM_IMAGE_SCALE = 0.25;
+    
+    //----------------------------------------------------------------------------
     // Paints
     //----------------------------------------------------------------------------
     
