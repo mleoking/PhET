@@ -162,7 +162,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
     selectedObject = state.selectedObject.toObject
     bead.motionStrategy = state.motionStrategyMemento.getMotionStrategy(bead)
-    //println("playback state: "+bead.motionStrategy)
     bead.state = state.beadState //nice code
 
     bead.parallelAppliedForce = state.appliedForce
@@ -290,7 +289,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     rampSegments(1).stepInTime(dt)
     if (getTime < MotionSeriesDefaults.MAX_RECORD_TIME) {
       val mode = bead.motionStrategy.getMemento
-      //println("recording mode: "+mode)
       recordHistory += new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
         selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode))
     }
@@ -315,7 +313,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     while (elapsedTimeHistory.length > 100) elapsedTimeHistory.remove(0)
     val avg = elapsedTimeHistory.foldLeft(0L)(_ + _) / elapsedTimeHistory.length
     ()
-    //    println("elapsed time average (ns) = "+avg)
   }
 
   def stepRecord(dt: Double) = doStep(dt)

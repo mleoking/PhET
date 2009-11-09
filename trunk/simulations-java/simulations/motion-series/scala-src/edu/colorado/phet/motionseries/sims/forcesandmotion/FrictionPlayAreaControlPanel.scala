@@ -20,10 +20,10 @@ class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Dou
 
 class FrictionPlayAreaControlPanel(bead: ForceBead) extends VerticalLayoutPanel {
   setFillHorizontal()
-  val staticFriction = new MyValueControl(0.0, 2.0, () => bead.staticFriction, bead.staticFriction = _, "Coefficient of static friction", "0.0".literal, "".literal, bead)
-  val kineticFriction = new MyValueControl(0.0, 2.0, () => bead.kineticFriction, bead.kineticFriction = _, "Coefficient of kinetic friction", "0.0".literal, "".literal, bead)
-  val objectMass = new MyValueControl(1, 200, () => bead.mass, bead.mass = _, "Object Mass", "0.0".literal, "kg", bead)
-  val gravity = new MyValueControl(0.1, sliderMaxGravity, () => bead.gravity.abs, x => bead.gravity = -x, "Gravity", "0.0".literal, "N/kg", bead)
+  val staticFriction = new MyValueControl(0.0, 2.0, () => bead.staticFriction, bead.staticFriction = _, "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, bead)
+  val kineticFriction = new MyValueControl(0.0, 2.0, () => bead.kineticFriction, bead.kineticFriction = _, "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, bead)
+  val objectMass = new MyValueControl(1, 200, () => bead.mass, bead.mass = _, "property.object-mass".translate, "0.0".literal, "kg", bead)
+  val gravity = new MyValueControl(0.1, sliderMaxGravity, () => bead.gravity.abs, x => bead.gravity = -x, "forces.Gravity".translate, "0.0".literal, "N/kg", bead)
 
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
   new AlignedSliderSetLayoutStrategy(sliderArray).doLayout() //fails horribly
@@ -37,9 +37,9 @@ class FrictionPlayAreaControlPanel(bead: ForceBead) extends VerticalLayoutPanel 
     setVerticalTextPosition(SwingConstants.BOTTOM)
     setHorizontalTextPosition(SwingConstants.CENTER)
   }
-  table.put(moonGravity, new MyLabel("moon", null))
-  table.put(earthGravity, new MyLabel("earth", null))
-  table.put(jupiterGravity, new MyLabel("jupiter", null))
+  table.put(moonGravity, new MyLabel("bodies.moon".translate, null))
+  table.put(earthGravity, new MyLabel("bodies.earth".translate, null))
+  table.put(jupiterGravity, new MyLabel("bodies.jupiter".translate, null))
   gravity.getSlider.setPaintLabels(true)
   gravity.setTickLabels(table)
 

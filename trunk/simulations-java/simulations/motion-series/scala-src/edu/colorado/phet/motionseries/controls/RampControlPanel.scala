@@ -124,14 +124,14 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
     def getWoodIcon = getSegmentIcon(false)
 
-    val onButton = new MyRadioButton("Ice (no friction)", model.frictionless = true, model.frictionless, model.addListener)
+    val onButton = new MyRadioButton("surface.ice-no-friction".translate, model.frictionless = true, model.frictionless, model.addListener)
 
     val onButtonPanel = new JPanel() {
       add(onButton.peer)
       add(new JLabel(new ImageIcon(getIceIcon)))
     }
 
-    val offButton = new MyRadioButton("Wood", model.frictionless = false, !model.frictionless, model.addListener)
+    val offButton = new MyRadioButton("surface.wood".translate, model.frictionless = false, !model.frictionless, model.addListener)
 
     val offButtonPanel = new JPanel() {
       add(offButton.peer)
@@ -156,8 +156,8 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   if (showBounceControl) {
     val bouncePanel = new SubControlPanel("walls.type".translate)
-    val onButton = new MyRadioButton("Brick", model.bounce = false, !model.bounce, model.addListener)
-    val offButton = new MyRadioButton("Bouncy", model.bounce = true, model.bounce, model.addListener)
+    val onButton = new MyRadioButton("walls.brick".translate, model.bounce = false, !model.bounce, model.addListener)
+    val offButton = new MyRadioButton("walls.bouncy".translate, model.bounce = true, model.bounce, model.addListener)
     val panel = new JPanel
     panel.add(onButton.peer)
     panel.add(offButton.peer)
