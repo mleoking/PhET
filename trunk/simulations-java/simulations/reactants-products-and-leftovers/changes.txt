@@ -1,3 +1,4 @@
+11/10/09 make all images children of box node, so that different product/reactant image types are interleaved instead of segregated in layers
 11/10/09 consolidate common offsets in layout code
 11/10/09 centralize image scaling factors in RPALConstants
 11/6/09 use RandomBoxLayoutStrategy in Real Reaction module (images still overlap)
