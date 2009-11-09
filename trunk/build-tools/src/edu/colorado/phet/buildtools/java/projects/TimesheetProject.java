@@ -30,4 +30,8 @@ public class TimesheetProject extends JavaProject {
     public boolean isTestable() {
         return true;
     }
+
+    public boolean isShrink() {
+        return false;
+    }
 }

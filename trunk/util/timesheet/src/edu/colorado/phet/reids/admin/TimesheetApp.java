@@ -16,6 +16,7 @@ import java.util.StringTokenizer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import edu.colorado.phet.reids.admin.jintellitype.JIntellitypeSupport;
 import edu.colorado.phet.reids.admin.util.FileUtils;
 import edu.colorado.phet.reids.admin.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -39,6 +40,23 @@ public class TimesheetApp extends JFrame {
 
     public TimesheetApp() throws IOException {
         super( "Timesheet" );
+        JIntellitypeSupport.init(new Runnable() {
+            public void run() {
+                System.out.println("Clocking in for Work");
+                timesheetData.continueLast();
+            }
+        }, new Runnable() {
+            public void run() {
+                System.out.println("Clocking out for Home");
+                timesheetData.pauseAll();
+                try {
+                    save();
+                }
+                catch( IOException e1 ) {
+                    JOptionPane.showMessageDialog( TimesheetApp.this, e1.getMessage() );
+                }
+            }
+        });
         System.out.println( "TimesheetApp started, pref file=" + PREFERENCES_FILE.getAbsolutePath() );
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor( new KeyEventPostProcessor() {
             public boolean postProcessKeyEvent( KeyEvent e ) {
@@ -306,7 +324,7 @@ public class TimesheetApp extends JFrame {
         if ( ifChangedAskToSaveOrCancel() ) {
             return;
         }
-
+        JIntellitypeSupport.close();
         System.exit( 0 );
     }
 
