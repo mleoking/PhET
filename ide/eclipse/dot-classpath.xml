@@ -227,6 +227,7 @@
     <classpathentry kind="src" path="util/testing/contrib/opencsv/src"/>
     <classpathentry kind="src" path="util/timesheet/src"/>
     <classpathentry kind="src" path="util/timesheet/data"/>
+    <classpathentry kind="lib" path="util/timesheet/contrib/jintellitype-1.3.2/jintellitype-1.3.2.jar"/>
     <classpathentry kind="src" path="util/unfuddle/src"/>
 	<classpathentry kind="src" path="util/unfuddle/data"/>
 	<classpathentry kind="lib" path="util/unfuddle/contrib/ant/ant.jar"/>
