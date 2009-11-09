@@ -37,9 +37,9 @@ class MotionSeriesObject(_name: String,
 
   val imageFilename = _imageFilename
 
-  def getDisplayText = "object.description.pattern.name_mass".translate.messageformat(name, mass.toString)
+  def getDisplayText = "object.description.pattern.name_mass".messageformat(name, mass.toString)
 
-  def getDisplayTextHTML = "object.description.html.pattern.name_mass".translate.messageformat(name, mass.toString)
+  def getDisplayTextHTML = "object.description.html.pattern.name_mass".messageformat(name, mass.toString)
 
   def this(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points: Int) = this (name, mass, kineticFriction, staticFriction, height, imageFilename, imageFilename, false, points)
 
@@ -65,7 +65,7 @@ class CustomTextMotionSeriesObject(name: String, mass: Double, kineticFriction: 
         extends MotionSeriesObject(name, mass, kineticFriction, staticFriction, height, imageFilename, iconFilename, customizable, points) {
   override def getDisplayText = name
 
-  override def getDisplayTextHTML = "object.custom.description.html.pattern.name".translate.messageformat(name)
+  override def getDisplayTextHTML = "object.custom.description.html.pattern.name".messageformat(name)
 
   override def displayTooltip = false
 }

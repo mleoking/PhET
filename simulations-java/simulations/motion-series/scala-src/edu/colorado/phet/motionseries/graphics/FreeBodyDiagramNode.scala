@@ -43,7 +43,7 @@ class Vector(val color: Color,
 
   def getPaint = painter(getValue, color)
 
-  def html = "force.abbreviation.html.pattern.abbrev".translate.messageformat(abbreviation)
+  def html = "force.abbreviation.html.pattern.abbrev".messageformat(abbreviation)
 }
 
 class AxisModel(private var _angle: Double,
