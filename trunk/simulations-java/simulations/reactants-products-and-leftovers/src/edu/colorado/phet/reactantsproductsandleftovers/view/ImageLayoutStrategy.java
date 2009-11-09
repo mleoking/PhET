@@ -42,7 +42,7 @@ public interface ImageLayoutStrategy {
     }
     
     /**
-     * Randomly places images in a box.
+     * Randomly places images in a box, images may overlap.
      */
     public static class RandomBoxLayoutStrategy implements ImageLayoutStrategy {
         
