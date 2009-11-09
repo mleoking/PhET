@@ -86,11 +86,13 @@ class MutableMotionSeriesObject(name: String, __mass: Double, kineticFriction: D
 
   def kineticFriction_=(k: Double) = {
     _kineticFriction = k
+    if (_kineticFriction > _staticFriction) _staticFriction = _kineticFriction
     notifyListeners()
   }
 
   def staticFriction_=(s: Double) = {
     _staticFriction = s
+    if (_kineticFriction > _staticFriction) _kineticFriction = _staticFriction
     notifyListeners()
   }
 }

@@ -116,11 +116,10 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
     private val timer = new Timer(20, () => {})
     private var added = false
 
-    val obj = new Object with Observable
     class CustomControlPanel extends VerticalLayoutPanel {
       add(new ScalaValueControl(10, 150, "property.mass".translate, "0.0".literal, "units.abbr.kg".translate, () => o.mass, o.mass_=, o.addListener))
-      add(new ScalaValueControl(0, 3, "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, () => o.kineticFriction, o.kineticFriction = _, obj.addListener))
-      add(new ScalaValueControl(0, 3, "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, () => o.staticFriction, o.staticFriction = _, obj.addListener))
+      add(new ScalaValueControl(0, 3, "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, () => o.kineticFriction, o.kineticFriction = _, o.addListener))
+      add(new ScalaValueControl(0, 3, "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, () => o.staticFriction, o.staticFriction = _, o.addListener))
     }
 
     val customControlPanel = new CustomControlPanel
