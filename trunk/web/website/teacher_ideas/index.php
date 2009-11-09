@@ -28,9 +28,18 @@ class TeacherIdeasMainPage extends SitePage {
 
             <h2>PhET's Advice for Creating Activities</h2>
 
-            <p style="padding-bottom: 4em;">
+            <h3>&nbsp;&nbsp;&nbsp;General Guidelines</h3>
+
+            <p style="padding-bottom: 1em;">
             You can read our <a href="contribution-guidelines.php">guidelines for contributions</a> (<a href="contribution-guidelines.pdf">PDF</a>).
-            </p>
+
+            <h3>&nbsp;&nbsp;&nbsp;Example Course Use</h3>
+            <ul>
+            <li><a href="HighSchoolSampleUse.pdf">High School</a></li>
+            <li><a href="ModernPhysicsSampleUse.pdf">Modern Physics</a></li>
+            <li><a href="PhysicsOfEverydayLifeSampleUse.pdf">Physics of Everyday Life</a></li>
+            </ul>
+            <br/>
 
 EOT;
     }
