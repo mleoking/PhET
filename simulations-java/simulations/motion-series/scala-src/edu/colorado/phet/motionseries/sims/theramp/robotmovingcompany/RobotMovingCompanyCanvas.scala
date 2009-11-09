@@ -358,13 +358,13 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
     setFont(new PhetFont(14, true))
   }
 
-  layoutNode.addChild(new SummaryText(result.objectPoints + " points x " + result.scoreMultiplier), constraints(0, 0, 2))
-  layoutNode.addChild(new SummaryText(result.robotEnergy + " Joules x " + result.pointsPerJoule + " points/Joule"), constraints(0, 1, 2))
-  layoutNode.addChild(new SummaryText("= " + result.totalObjectPoints + " points"), constraints(2, 0, 1))
-  layoutNode.addChild(new SummaryText("= " + result.totalEnergyPoints + " points"), constraints(2, 1, 1))
+  layoutNode.addChild(new SummaryText("game.summary.pattern.points-multiplier".messageformat(result.objectPoints,result.scoreMultiplier)), constraints(0, 0, 2))
+  layoutNode.addChild(new SummaryText("game.summary.pattern.energy-points".messageformat(result.robotEnergy,result.pointsPerJoule)), constraints(0, 1, 2))
+  layoutNode.addChild(new SummaryText("game.summary.pattern.earned-object-points".messageformat(result.totalObjectPoints)), constraints(2, 0, 1))
+  layoutNode.addChild(new SummaryText("game.summary.pattern.earned-energy-points".messageformat(result.totalEnergyPoints)), constraints(2, 1, 1))
   layoutNode.addChild(new PhetPPath(new Line2D.Double(0, 0, 100, 0), new BasicStroke(2), Color.black), constraints(2, 2, 1))
   layoutNode.addChild(new SummaryText("game.summary.total".translate), constraints(0, 3, 2))
-  layoutNode.addChild(new SummaryText("= " + result.score + " points"), constraints(2, 3, 1))
+  layoutNode.addChild(new SummaryText("game.summary.pattern.result-score".messageformat(result.score)), constraints(2, 3, 1))
   layoutNode.setOffset(background.getFullBounds.getCenterX - layoutNode.getFullBounds.width / 2, image.getFullBounds.getMaxY + 10)
   addChild(layoutNode)
 
