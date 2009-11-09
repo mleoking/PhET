@@ -34,7 +34,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private static final double RIGHT_MARGIN = LEFT_MARGIN;
     private static final double CONTROLS_Y_SPACING = 15;
     private static final double LEFTOVERS_BRACKET_Y_SPACING = 3;
-    private static final double IMAGE_SCALE = 0.25; //XXX
     
     private final ChemicalReaction reaction;
     private final ChangeListener reactionChangeListener;
@@ -89,7 +88,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
             productImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
             
             // one quantity display for each product
-            QuantityDisplayNode displayNode = new QuantityDisplayNode( product, quantityRange, IMAGE_SCALE, showSubstanceNames );
+            QuantityDisplayNode displayNode = new QuantityDisplayNode( product, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             addChild( displayNode );
             productQuantityDisplayNodes.add( displayNode );
         }
@@ -107,7 +106,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
             reactantImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
             
             // one quantity display for each reactant
-            LeftoversDisplayNode displayNode = new LeftoversDisplayNode( reactant, quantityRange, IMAGE_SCALE, showSubstanceNames );
+            LeftoversDisplayNode displayNode = new LeftoversDisplayNode( reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             addChild( displayNode );
             reactantLeftoverDisplayNodes.add( displayNode );
         }
@@ -227,7 +226,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
                     while( product.getQuantity() > imageNodes.size() ) {
                         
                         SubstanceImageNode imageNode = new SubstanceImageNode( product );
-                        imageNode.scale( IMAGE_SCALE );
+                        imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                         parent.addChild( imageNode );
                         imageNodes.add( imageNode );
                         
@@ -269,7 +268,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
                     while( reactant.getLeftovers() > imageNodes.size() ) {
                         
                         SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
-                        imageNode.scale( IMAGE_SCALE );
+                        imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                         parent.addChild( imageNode );
                         imageNodes.add( imageNode );
                         

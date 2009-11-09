@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.IntegerSpinnerNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
@@ -38,8 +39,6 @@ public class SandwichFormulaNode extends PhetPNode {
     private static final int IMAGE_X_SPACING = 6;
     private static final int TERM_X_SPACING = 20;
     private static final int Y_SPACING = 30;
-    
-    private static final double IMAGE_SCALE = 0.4; //XXX
     
     private final ChemicalReaction reaction;
     private final PText titleNode;
@@ -85,7 +84,7 @@ public class SandwichFormulaNode extends PhetPNode {
             
             // image
             final SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
-            imageNode.scale( IMAGE_SCALE );
+            imageNode.scale( RPALConstants.FORMULA_IMAGE_SCALE );
             addChild( imageNode );
             lhsImageNodes.add( imageNode );
             
@@ -127,7 +126,7 @@ public class SandwichFormulaNode extends PhetPNode {
             
             // image
             final SubstanceImageNode imageNode = new SubstanceImageNode( product );
-            imageNode.scale( IMAGE_SCALE );
+            imageNode.scale( RPALConstants.FORMULA_IMAGE_SCALE );
             addChild( imageNode );
             rhsImageNodes.add( imageNode );
             
