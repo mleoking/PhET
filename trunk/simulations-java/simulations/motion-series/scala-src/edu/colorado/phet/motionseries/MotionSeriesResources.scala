@@ -27,4 +27,6 @@ class TranslatableString(s: String) {
   lazy val translate = MotionSeriesResources.getLocalizedString(s)
 
   def messageformat(x: Object*) = MessageFormat.format(s, x: _*)
+  def messageformat(x: Double) = MessageFormat.format(s, x.toString)
+  def messageformat(x: Int) = MessageFormat.format(s, x.toString)
 }
