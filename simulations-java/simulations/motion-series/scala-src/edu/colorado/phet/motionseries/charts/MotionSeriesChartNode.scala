@@ -115,13 +115,11 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       }
     }
     model.stepListeners += (() => accelerationVariable.doAddValue(model.bead.acceleration, model.getTime))
-    val accelerationSeries = new ControlGraphSeries("Acceleration", MotionSeriesDefaults.accelerationColor, "accel", "m/s/s", characterUnused, accelerationVariable)
+    val accelerationSeries = new ControlGraphSeries("properties.acceleration".translate, MotionSeriesDefaults.accelerationColor, "accel".literal, "properties.acceleration.units".translate, characterUnused, accelerationVariable)
     val accelerationGraph = new MotionSeriesGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-50, 50)
-      addControl(new SeriesSelectionControl("", 1) {
+      addControl(new SeriesSelectionControl(1) {
         addComponentsToGrid(new SeriesControlTitleLabel(accelerationSeries), if (editable) createEditableLabel(accelerationSeries) else createLabel(accelerationSeries))
-        //        addComponent(new SeriesControlTitleLabel(accelerationSeries))
-        //        addComponent(if (editable) createEditableLabel(accelerationSeries) else createLabel(accelerationSeries))
       })
       setEditable(editable)
     }
@@ -139,13 +137,11 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       }
     }
     model.stepListeners += (() => velocityVariable.doAddValue(model.bead.velocity, model.getTime))
-    val velocitySeries = new ControlGraphSeries("Velocity", MotionSeriesDefaults.velocityColor, "vel", "m/s", characterUnused, velocityVariable)
+    val velocitySeries = new ControlGraphSeries("properties.velocity".translate, MotionSeriesDefaults.velocityColor, "vel".literal, "properties.velocity.units".translate, characterUnused, velocityVariable)
     val velocityGraph = new MotionSeriesGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-25, 25)
-      addControl(new SeriesSelectionControl("", 1) {
+      addControl(new SeriesSelectionControl(1) {
         addComponentsToGrid(new SeriesControlTitleLabel(velocitySeries), if (editable) createEditableLabel(velocitySeries) else createLabel(velocitySeries))
-        //        addComponent(new SeriesControlTitleLabel(velocitySeries))
-        //        addComponent(if (editable) createEditableLabel(velocitySeries) else createLabel(velocitySeries))
       })
       setEditable(editable)
     }
@@ -161,13 +157,11 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       }
     }
     model.stepListeners += (() => positionVariable.doAddValue(model.bead.position, model.getTime))
-    val positionSeries = new ControlGraphSeries("Position", MotionSeriesDefaults.positionColor, "x", "m", characterUnused, positionVariable)
+    val positionSeries = new ControlGraphSeries("properties.position".translate, MotionSeriesDefaults.positionColor, "x".literal, "properties.position.units".translate, characterUnused, positionVariable)
     val positionGraph = new MotionSeriesGraph(positionSeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-10, 10)
-      addControl(new SeriesSelectionControl("", 1) {
+      addControl(new SeriesSelectionControl( 1) {
         addComponentsToGrid(new SeriesControlTitleLabel(positionSeries), if (editable) createEditableLabel(positionSeries) else createLabel(positionSeries))
-        //        addComponent(new SeriesControlTitleLabel(positionSeries))
-        //        addComponent(if (editable) createEditableLabel(positionSeries) else createLabel(positionSeries))
       })
       setEditable(editable)
     }

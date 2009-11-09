@@ -97,7 +97,7 @@ class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceBead) extends Mo
 }
 
 class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, bead: ForceBead) extends MotionStrategy(bead: ForceBead) {
-  override def toString = "position = " + position2D
+  override def toString = "position = ".literal + position2D
 
   def getAngle = _angle
 
@@ -123,7 +123,7 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
 class AirborneMemento(p: Vector2D, v: Vector2D, a: Double) extends MotionStrategyMemento {
   def getMotionStrategy(bead: ForceBead) = new Airborne(p, v, a, bead)
 
-  override def toString = "airborn motion strategy mode, p = " + p
+  override def toString = "airborn motion strategy mode, p = ".literal + p
 }
 
 class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
@@ -156,7 +156,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
 
   override def wallForce = {
 
-    val epsilon = 1E-4 //this is a physics workaround to help reduce or resolve the flickering problem by enabling the "pressing" wall force a bit sooner
+    val epsilon = 1E-4 //this is a physics workaround to help reduce or resolve the flickering problem by enabling the 'pressing' wall force a bit sooner
 
     //todo: net force without wall force should include friction force, but creates a loop (in which friction force depends on wall force and vice versa
     val netForceWithoutWallForce = appliedForce + gravityForce + normalForce //+ frictionForce
@@ -174,7 +174,6 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
       val wallCollisionForce = abs(mass * deltaV / dt - netForceWithoutWallForce.magnitude) * sign
 
       val resultWallForce = getRampUnitVector * wallCollisionForce
-      //      println("proposedPosition = " + proposedPosition + ", wall collision force = " + wallCollisionForce + ", wall force = " + resultWallForce)
       resultWallForce
     } else new Vector2D
   }
@@ -250,7 +249,6 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
 
   def getNewState(dt: Double, origState: BeadState, origEnergy: Double) = {
     val newVelocity = {
-      //      print("collide = "+collide+" boundec = "+bounce)
       val desiredVel = bead.netForceToParallelVelocity(totalForce, dt)
       //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
       //see docs in static friction computation
@@ -258,7 +256,6 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
       //make sure velocity is exactly zero or opposite after wall collision
       if (collide && bounce) -velocity else if (collide) 0.0 else newVelocityThatGoesThroughZero
     }
-    //    print(" desired velocity="+newVelocity)
 
     val stateAfterVelocityUpdate = new SettableState(position + newVelocity * dt, newVelocity, origState.thermalEnergy, origState.crashEnergy)
 
@@ -333,7 +330,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
 
     val delta = stateAfterFixingPosition.totalEnergy - origEnergy - appliedEnergy
     if (delta.abs > 1E-6 && appliedEnergy.abs < 1E-4) { //assume applied energy could absorb some error
-      println("failed to conserve energy, delta=".literal + delta + ", applied energy = " + appliedEnergy)
+      println("failed to conserve energy, delta=".literal + delta + ", applied energy = ".literal + appliedEnergy)
     }
 
     //    println()

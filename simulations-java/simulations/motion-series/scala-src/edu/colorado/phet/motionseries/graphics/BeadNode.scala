@@ -70,7 +70,6 @@ class PositionDragBeadNode(bead: MovingManBead,
   }
 
   def updateImage() = {
-    //    println("using bead.velocity = "+bead.velocity)
     val image = if (bead.velocity < -1E-8) MotionSeriesResources.getImage(leftImageName)
     else if (bead.velocity > 1E-8) BufferedImageUtils.flipX(MotionSeriesResources.getImage(leftImageName))
     else MotionSeriesResources.getImage(imageName)

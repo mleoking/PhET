@@ -12,6 +12,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 import edu.colorado.phet.motionseries.swing.MyJCheckBox
 
 class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayoutPanel {
+  def this(numRows:Int) = this("".literal,numRows)
   setBackground(EARTH_COLOR)
   val titleLabel = new JLabel(title)
   titleLabel.setFont(new PhetFont(16, true))

@@ -15,6 +15,7 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
+import edu.colorado.phet.motionseries.Predef._
 
 trait HasPaint extends PNode {
   def paintColor_=(p: Paint): Unit
@@ -44,7 +45,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     updateColor()
     updateDecorations()
   })
-  val icicleImageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage("icicles.gif"), 80))
+  val icicleImageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage("icicles.gif".literal), 80))
 
   def updateBaseColor() = {
     baseColor = if (rampSurfaceModel.frictionless) iceColor else woodColor

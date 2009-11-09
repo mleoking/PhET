@@ -8,7 +8,7 @@ import edu.colorado.phet.motionseries._
 
 /**
  * This adds Force functionality to the Bead model class, such as ability to get force components and to set applied force.
- * It's used in the "Forces & Motion" and "Ramp" applications.
+ * It's used in the Forces & Motion and Ramp applications.
  */
 class ForceBead(_state: BeadState,
                 _height: Double,

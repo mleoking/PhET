@@ -93,7 +93,6 @@ class PlayAreaVectorNode(transform: ModelViewTransform2D, bead: ForceBead, vecto
 //todo: make sure this adapter overrides other methods as well such as addListener
 class PlayAreaVector(vector: Vector, scale: Double)
         extends Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * scale, vector.painter) {
-  //println("created play area vector: "+vector.name)
   vector.addListener(notifyListeners)
   override def visible = vector.visible
 

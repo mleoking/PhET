@@ -8,6 +8,7 @@ import edu.colorado.phet.motionseries.model._
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{JDialog, JMenuItem, RepaintManager}
 import swing.ScalaValueControl
+import edu.colorado.phet.motionseries.Predef._
 
 //todo: remove the need for this global, perhaps by overriding PhetFrame
 object global {
@@ -16,9 +17,9 @@ object global {
 
 class MotionSeriesConfigDialog(phetFrame: PhetFrame) extends JDialog(phetFrame, false) {
   val layoutPanel = new VerticalLayoutPanel
-  layoutPanel.add(new ScalaValueControl(1, 100, "tail width", "0.0", "px",
+  layoutPanel.add(new ScalaValueControl(1, 100, "tail width".literal, "0.0".literal, "px".literal,
     () => MotionSeriesConfig.VectorTailWidth.value, MotionSeriesConfig.VectorTailWidth.value_=, MotionSeriesConfig.VectorTailWidth.addListener))
-  layoutPanel.add(new ScalaValueControl(1, 100, "head width", "0.0", "px",
+  layoutPanel.add(new ScalaValueControl(1, 100, "head width".literal, "0.0".literal, "px".literal,
     () => MotionSeriesConfig.VectorHeadWidth.value, MotionSeriesConfig.VectorHeadWidth.value_=, MotionSeriesConfig.VectorHeadWidth.addListener))
   setContentPane(layoutPanel)
   pack()
@@ -35,7 +36,7 @@ class MotionSeriesModule(frame: PhetFrame,
                          fbdPopupOnly: Boolean)
         extends Module(name, clock) {
   if (!global.inited) {
-    val item = new JMenuItem("Configure Motion Series")
+    val item = new JMenuItem("Configure Motion Series".literal)
     item.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = new MotionSeriesConfigDialog(frame).setVisible(true)
     })
@@ -66,7 +67,7 @@ class MotionSeriesModule(frame: PhetFrame,
     //this policy causes problems on the mac, see #1832
     //    if (elapsed < 25) {
     //      val toSleep = 25 - elapsed
-    //      //      println("had excess time, sleeping: " + toSleep)
+    //      //      println("had excess time, sleeping: ".literal + toSleep)
     //      Thread.sleep(toSleep) //todo: blocks swing event handler thread and paint thread, should run this clock loop in another thread
     //    }
     lastTickTime = System.currentTimeMillis
