@@ -43,12 +43,13 @@ public class SandwichShopCanvas extends RPALCanvas {
         beforeNode.setOffset( x, y );
         
         // arrow to the right of Before box, vertically centered with box
-        x = beforeNode.getFullBoundsReference().getMaxX() + 20;
+        final double arrowXSpacing = 20;
+        x = beforeNode.getFullBoundsReference().getMaxX() + arrowXSpacing;
         y = beforeNode.getYOffset() + ( beforeNode.getBoxHeight() / 2 );
         arrowNode.setOffset( x, y );
         
         // After box to the right of arrow, top aligned with Before box
-        x = arrowNode.getFullBoundsReference().getMaxX() + 20;
+        x = arrowNode.getFullBoundsReference().getMaxX() + arrowXSpacing;
         y = beforeNode.getYOffset();
         afterNode.setOffset( x, y );
     }

@@ -9,7 +9,6 @@ MEDIUM PRIORITY
 
 LOW PRIORITY
 - scale image files to desired size, change scaling constants in RPALConstants
-- generalize any layout code that uses hardcoded offsets
 
 MIGRATE TO COMMON
 - BracketedLabelNode
