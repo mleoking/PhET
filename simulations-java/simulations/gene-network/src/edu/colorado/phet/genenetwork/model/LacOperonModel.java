@@ -137,14 +137,6 @@ public class LacOperonModel {
         modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
         addModelElement(modelElement);
         xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
-        
-        
-        // Add composite elements.
-        
-        // Lactose.
-        for (int i = 0; i < 5; i++){
-        	addLactoseMolecule();
-        }
 	}
 
     //----------------------------------------------------------------------------
