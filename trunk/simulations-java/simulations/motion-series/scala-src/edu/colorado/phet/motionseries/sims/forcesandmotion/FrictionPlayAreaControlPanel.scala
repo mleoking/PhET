@@ -22,8 +22,8 @@ class FrictionPlayAreaControlPanel(bead: ForceBead) extends VerticalLayoutPanel 
   setFillHorizontal()
   val staticFriction = new MyValueControl(0.0, 2.0, () => bead.staticFriction, bead.staticFriction = _, "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, bead)
   val kineticFriction = new MyValueControl(0.0, 2.0, () => bead.kineticFriction, bead.kineticFriction = _, "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, bead)
-  val objectMass = new MyValueControl(1, 200, () => bead.mass, bead.mass = _, "property.object-mass".translate, "0.0".literal, "kg", bead)
-  val gravity = new MyValueControl(0.1, sliderMaxGravity, () => bead.gravity.abs, x => bead.gravity = -x, "forces.Gravity".translate, "0.0".literal, "N/kg", bead)
+  val objectMass = new MyValueControl(1, 200, () => bead.mass, bead.mass = _, "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, bead)
+  val gravity = new MyValueControl(0.1, sliderMaxGravity, () => bead.gravity.abs, x => bead.gravity = -x, "forces.Gravity".translate, "0.0".literal, "properties.acceleration.units".translate, bead)
 
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
   new AlignedSliderSetLayoutStrategy(sliderArray).doLayout() //fails horribly

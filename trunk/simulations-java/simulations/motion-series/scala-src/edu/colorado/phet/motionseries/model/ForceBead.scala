@@ -33,8 +33,8 @@ class ForceBead(_state: BeadState,
   val appliedForceVector = new BeadVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, () => appliedForce, (a, b) => b)
   val frictionForceVector = new BeadVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, () => frictionForce, (a, b) => b)
   val wallForceVector = new BeadVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, () => wallForce, (a, b) => b)
-  val velocityVector = new BeadVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "velocity", false, () => getRampUnitVector * velocity, (a, b) => b) //todo: translate
-  val accelerationVector = new BeadVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "acceleration", false, () => getRampUnitVector * acceleration, (a, b) => b) //todo: translate
+  val velocityVector = new BeadVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "properties.velocity".translate, false, () => getRampUnitVector * velocity, (a, b) => b) //todo: translate
+  val accelerationVector = new BeadVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "properties.acceleration".translate, false, () => getRampUnitVector * acceleration, (a, b) => b) //todo: translate
   //chain listeners
   normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
   //todo: add normalForceVector notification when changing friction coefficients

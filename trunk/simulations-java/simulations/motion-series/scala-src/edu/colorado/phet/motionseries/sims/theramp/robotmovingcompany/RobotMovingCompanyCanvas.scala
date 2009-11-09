@@ -37,26 +37,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   playAreaVectorNode.setVisible(false)
   pusherNode.setVisible(false)
 
-
-  //  val controlPanel = new VerticalLayoutPanel
-  //  controlPanel.setFillNone()
-  //  val robotGoButton = new ScalaButton("Let Go", () => {
-  //    gameModel.launched = true
-  //    model.bead.parallelAppliedForce = 0
-  //    model.setPaused(false)
-  //  })
-  //  gameModel.addListener(() => {robotGoButton.setEnabled(!gameModel.launched)})
-
-  //  val appliedForceControl = new AppliedForceSlider(() => 0, value => 0, gameModel.addListener, () => model.setPaused(false)) //todo: last param is a dummy
-  //  appliedForceControl.addChangeListener(new ChangeListener() {
-  //    def stateChanged(e: ChangeEvent) = {
-  //      gameModel.launched = true
-  //      model.setPaused(false)
-  //    }
-  //  })
-  //  controlPanel.add(appliedForceControl)
-  //  controlPanel.add(robotGoButton)
-
   def showGameSummary() = {
     JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "That was the last object to move.  \nYour score is: " + gameModel.score + ".")
     gameModel.resetAll()
