@@ -356,6 +356,10 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         return new TimesheetData( (TimesheetDataEntry[]) entriesSorted.toArray( new TimesheetDataEntry[0] ) );
     }
 
+    public void continueLast() {
+        startNewEntry( getEntry( getNumEntries() - 1 ).getCategory() );
+    }
+
     public static interface Listener {
         void timeEntryAppended( TimesheetDataEntry e );
 

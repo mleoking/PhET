@@ -64,7 +64,7 @@ public class SummaryPanel extends JPanel {
         JButton continueCat = new JButton( "Continue Last" );
         continueCat.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                data.startNewEntry( data.getEntry( data.getNumEntries() - 1 ).getCategory() );
+                data.continueLast();
             }
         } );
         add( continueCat );
