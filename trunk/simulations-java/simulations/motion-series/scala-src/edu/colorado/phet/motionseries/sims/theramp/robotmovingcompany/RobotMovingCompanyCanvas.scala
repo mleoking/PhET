@@ -38,7 +38,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   pusherNode.setVisible(false)
 
   def showGameSummary() = {
-    JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "That was the last object to move.  \nYour score is: " + gameModel.score + ".")
+    JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "<html>That was the last object to move.<br>Your score is: " + gameModel.score + ".</html>")
     gameModel.resetAll()
   }
 
@@ -56,11 +56,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     summaryScreen.requestFocus()
   })
 
-  //  val pswingControlPanel = new PSwing(controlPanel)
-  //  addStageNode(pswingControlPanel)
-
-  //  pswingControlPanel.setOffset(0, transform.modelToView(0, -1).y)
-
   override def updateFBDLocation() = {
     if (fbdNode != null) {
       val pt = transform.modelToView(0, -1)
@@ -72,10 +67,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   vectorViewModel.sumOfForcesVector = true
   freeBodyDiagramModel.visible = true
   freeBodyDiagramModel.closable = false
-
-  //  val surfaceChooser = new SurfaceChooser(gameModel.surfaceModel)
-  //  surfaceChooser.setOffset(fbdNode.getFullBounds.getMaxX + 10, fbdNode.getFullBounds.getY)
-  //  addStageNode(surfaceChooser)
 
   val houseNode = new BeadNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename)
   addStageNode(houseNode)
