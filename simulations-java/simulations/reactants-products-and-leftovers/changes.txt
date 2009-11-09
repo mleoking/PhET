@@ -1,3 +1,4 @@
+11/10/09 consolidate common offsets in layout code
 11/10/09 centralize image scaling factors in RPALConstants
 11/6/09 use RandomBoxLayoutStrategy in Real Reaction module (images still overlap)
 11/6/09 remove positioning of imageParentNodes from AbstractBeforeNode and AbstractAfterNode, shift responsibility to image layout strategies
