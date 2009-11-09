@@ -1,3 +1,4 @@
+forces-and-motion: Fixed: in Friction tab, object does not change size when you change mass.
 # 1.03.57 (36445) Nov 9, 2009
 Added internationalization for game modes
 Added internationalization for recently added features
