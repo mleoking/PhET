@@ -49,7 +49,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
       override def valueChanged = updateLabel()
     })
     def myValue = new DefaultDecimalFormat("0.00".literal).format(series.getTemporalVariable.getValue)
-    def labelText = "chart.series-readout.pattern.value_units".translate.messageformat(myValue, series.getUnits)
+    def labelText = "chart.series-readout.pattern.value_units".messageformat(myValue, series.getUnits)
     def updateLabel() = label.setText(labelText)
 
     updateLabel()

@@ -337,7 +337,7 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
     case Result(false, false, _, _) => "game.result.missed-the-house".translate
     case _ => "Disappeared?".literal//should never happen
   }
-  val pText = new PText(scalaRampObject.name + " " + text)
+  val pText = new PText("game.result.description.pattern.name-text".messageformat(scalaRampObject.name,text))
   pText.setFont(new PhetFont(22, true))
   addChild(pText)
   pText.setOffset(background.getFullBounds.getCenterX - pText.getFullBounds.width / 2, 20)
