@@ -363,7 +363,7 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
   layoutNode.addChild(new SummaryText("= " + result.totalObjectPoints + " points"), constraints(2, 0, 1))
   layoutNode.addChild(new SummaryText("= " + result.totalEnergyPoints + " points"), constraints(2, 1, 1))
   layoutNode.addChild(new PhetPPath(new Line2D.Double(0, 0, 100, 0), new BasicStroke(2), Color.black), constraints(2, 2, 1))
-  layoutNode.addChild(new SummaryText("Total"), constraints(0, 3, 2))
+  layoutNode.addChild(new SummaryText("game.summary.total".translate), constraints(0, 3, 2))
   layoutNode.addChild(new SummaryText("= " + result.score + " points"), constraints(2, 3, 1))
   layoutNode.setOffset(background.getFullBounds.getCenterX - layoutNode.getFullBounds.width / 2, image.getFullBounds.getMaxY + 10)
   addChild(layoutNode)

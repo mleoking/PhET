@@ -122,7 +122,7 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
     val mottoBorder = new PText("game.intro.our-motto".translate)
 
     addChild(mottoBorder)
-    val mottoBody = new HTMLNode("game.intro.motto-text") {
+    val mottoBody = new HTMLNode("game.intro.motto-text".translate) {
       setFont(new PhetFont(25, true))
     }
     addChild(mottoBody)
@@ -141,7 +141,7 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
   }
   addChild(labeledButtonCluster)
 
-  val pressToBegin = new PText("game.intro.press-to-begin")
+  val pressToBegin = new PText("game.intro.press-to-begin".translate)
   addChild(pressToBegin)
   pressToBegin.setOffset(background.getFullBounds.getWidth / 2 - pressToBegin.getFullBounds.getWidth / 2, background.getFullBounds.getHeight - pressToBegin.getFullBounds.getHeight - 10)
 
