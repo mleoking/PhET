@@ -40,7 +40,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private static final double BRACKET_Y_SPACING = 3;
     private static final PhetFont BRACKET_FONT = new PhetFont( 16 );
     private static final Color BRACKET_TEXT_COLOR = Color.BLACK;
-    private static final Color BRACKET_COLOR = new Color( 46, 107, 178 );
+    private static final Color BRACKET_COLOR = RPALConstants.BEFORE_AFTER_BOX_COLOR;
     private static final Stroke BRACKET_STROKE = new BasicStroke( 0.75f );
     private static final double BRACKET_MIN_WIDTH = 95;
     
