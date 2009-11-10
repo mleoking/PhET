@@ -104,7 +104,7 @@ object MotionSeriesDefaults {
   val custom = new MutableMotionSeriesObject("object.custom-crate".translate, 150, 0.3, 0.5, -1, "crate.gif".literal, 300, "crate_custom.gif".literal, true) //height is determined dynamically in MutableRampObject
 
   val objects = crate :: cabinet :: ollie :: fridge ::
-          book :: piano :: mystery :: custom ::
+          book :: piano :: mystery ::
           Nil
   val iconsPerRow = 4
 
