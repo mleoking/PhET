@@ -35,8 +35,23 @@ public class LacOperonModel {
     //----------------------------------------------------------------------------
     
     private final GeneNetworkClock clock;
-    private ArrayList<IModelElement> modelElements = new ArrayList<IModelElement>();
     protected ArrayList<Listener> listeners = new ArrayList<Listener>();
+    
+    // Lists of model elements for which multiple instances can exist.
+    private ArrayList<LacI> lacIList = new ArrayList<LacI>();
+    private ArrayList<LacZ> lacZList = new ArrayList<LacZ>();
+    private ArrayList<Glucose> glucoseList = new ArrayList<Glucose>();
+    private ArrayList<Galactose> galactoseList = new ArrayList<Galactose>();
+    private ArrayList<RnaPolymerase> rnaPolymeraseList = new ArrayList<RnaPolymerase>();
+    
+    // Lists of model elements for which only one instance can exist.
+    private Cap cap = new Cap();
+    private CapBindingRegion capBindingRegion = new CapBindingRegion();
+    private LacOperator lacOperator = new LacOperator();
+    private LacIGene lacIGene = new LacIGene();
+    private LacZGene lacZGene = new LacZGene();
+    private LacYGene lacYGene = new LacYGene();
+    private LacIPromoter lacIPromoter = new LacIPromoter();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,27 +75,15 @@ public class LacOperonModel {
 
 	private void addInitialModelElements() {
 		
-        SimpleModelElement modelElement;
-        
-        // Create and add the elements that are floating around the cell.
-        
-        for (int i = 0; i<4; i++){
-        	modelElement = new LacZ();
-        	randomlyInitAndAddSimpleModelElement(modelElement);
+        // Initialize the elements that are floating around the cell.
+		
+        randomlyInitModelElement(cap);
+
+        for (int i = 0; i < 4; i++){
+        	RnaPolymerase rnaPolymerase = new RnaPolymerase();
+        	randomlyInitModelElement(rnaPolymerase);
+        	rnaPolymeraseList.add(rnaPolymerase);
         }
-        for (int i = 0; i<4; i++){
-        	modelElement = new LacI();
-        	randomlyInitAndAddSimpleModelElement(modelElement);
-        }
-        
-        modelElement = new Cap();
-        randomlyInitAndAddSimpleModelElement(modelElement);
-        
-        modelElement = new RnaPolymerase();
-        randomlyInitAndAddSimpleModelElement(modelElement);
-        
-        modelElement = new MessengerRna();
-        randomlyInitAndAddSimpleModelElement(modelElement);
         
         // Create and position the elements that sit on the DNA strand.
         
@@ -88,55 +91,41 @@ public class LacOperonModel {
         
         xPosition += 3; // Add a little space on far left side.
         
-        modelElement = new LacIPromoter();
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
-        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addModelElement(modelElement);
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        xPosition += lacIPromoter.getShape().getBounds2D().getWidth() / 2;
+        lacIPromoter.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        xPosition += lacIPromoter.getShape().getBounds2D().getWidth() / 2;
         
         xPosition += 2; // The spec shows a little bit of space here.
         
-        modelElement = new LacIGene();
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
-        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addModelElement(modelElement);
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        xPosition += lacIGene.getShape().getBounds2D().getWidth() / 2;
+        lacIGene.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        xPosition += lacIGene.getShape().getBounds2D().getWidth() / 2;
         
         xPosition = DNA_STRAND_LOCATION.getMinX() + 0.45 * DNA_STRAND_LOCATION.getWidth();
         
-        modelElement = new CapBindingRegion();
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
-        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addModelElement(modelElement);
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        xPosition += capBindingRegion.getShape().getBounds2D().getWidth() / 2;
+        capBindingRegion.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        xPosition += capBindingRegion.getShape().getBounds2D().getWidth() / 2;
         
-        modelElement = new LacPromoter();
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
-        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addModelElement(modelElement);
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        xPosition += lacIPromoter.getShape().getBounds2D().getWidth() / 2;
+        lacIPromoter.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        xPosition += lacIPromoter.getShape().getBounds2D().getWidth() / 2;
         
-        modelElement = new LacOperator();
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
-        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addModelElement(modelElement);
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        xPosition += lacOperator.getShape().getBounds2D().getWidth() / 2;
+        lacOperator.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        xPosition += lacOperator.getShape().getBounds2D().getWidth() / 2;
         
         xPosition += 2; // The spec shows some space here.
 
-        modelElement = new LacZGene();
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
-        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addModelElement(modelElement);
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        xPosition += lacZGene.getShape().getBounds2D().getWidth() / 2;
+        lacZGene.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        xPosition += lacZGene.getShape().getBounds2D().getWidth() / 2;
         
         xPosition += 1; // The spec shows some space here.
 
-        modelElement = new LacYGene();
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
-        modelElement.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        addModelElement(modelElement);
-        xPosition += modelElement.getShape().getBounds2D().getWidth() / 2;
+        xPosition += lacYGene.getShape().getBounds2D().getWidth() / 2;
+        lacYGene.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        xPosition += lacYGene.getShape().getBounds2D().getWidth() / 2;
 	}
 
     //----------------------------------------------------------------------------
@@ -168,11 +157,9 @@ public class LacOperonModel {
     //----------------------------------------------------------------------------
     // Other Methods
     //----------------------------------------------------------------------------
-    
-    private void addModelElement(IModelElement modelElement){
-    	modelElements.add(modelElement);
-    }
-    
+
+    /*
+     * TODO: Uncomment and get working or get rid of it.
     private void addLactoseMolecule(){
         Lactose lactose = new Lactose();
         lactose.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
@@ -181,40 +168,66 @@ public class LacOperonModel {
     	lactose.setVelocity((RAND.nextDouble() - 0.5) * maxVel, (RAND.nextDouble() - 0.5) * maxVel);
         addModelElement(lactose);
     }
+     */
     
-    private void randomlyInitAndAddSimpleModelElement(SimpleModelElement modelElement){
+    private void randomlyInitModelElement(SimpleModelElement modelElement){
     	modelElement.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
     			(RAND.nextDouble() - 0.5) * (MODEL_AREA_HEIGHT / 2));
     	double maxVel = 2;
     	modelElement.setVelocity((RAND.nextDouble() - 0.5) * maxVel, (RAND.nextDouble() - 0.5) * maxVel);
-    	addModelElement(modelElement);
     }
     
     /**
-     * Get a list of all simple model elements in the model, including any
-     * that are currently bound up in composite model elements.
+     * Get a list of all simple model elements in the model.
+     * 
      * @return
      */
     public ArrayList<SimpleModelElement> getAllSimpleModelElements(){
     	ArrayList<SimpleModelElement> allSimples = new ArrayList<SimpleModelElement>();
-    	for (IModelElement modelElement : modelElements){
-    		if (modelElement instanceof SimpleModelElement){
-    			allSimples.add((SimpleModelElement)modelElement);
-    		}
-    		else{
-    			allSimples.addAll(((CompositeModelElement)modelElement).getSimpleElementConstituents());
-    		}
-    	}
+    	allSimples.addAll(rnaPolymeraseList);
+    	allSimples.addAll(lacIList);
+    	allSimples.addAll(lacZList);
+    	allSimples.addAll(glucoseList);
+    	allSimples.addAll(galactoseList);
+    	allSimples.add(cap);
+    	allSimples.add(capBindingRegion);
+    	allSimples.add(lacOperator);
+    	allSimples.add(lacIGene);
+    	allSimples.add(lacYGene);
+    	allSimples.add(lacZGene);
+    	allSimples.add(lacIPromoter);
     	return allSimples;
     }
     
     private void handleClockTicked(double dt){
-    	// Update the position of each of the simple model elements.
-    	for (IModelElement modelElement : modelElements){
-    		// Update the current state of each model element.
-    		modelElement.updatePositionAndMotion(dt);
-    		modelElement.updatePotentialBondingPartners(modelElements);
+    	
+    	for (LacZ lacZ : lacZList){
+    		lacZ.updatePositionAndMotion(dt);
     	}
+    	
+    	for (LacI lacI : lacIList){
+    		lacI.updatePositionAndMotion(dt);
+    	}
+    	
+    	for (Glucose glucose : glucoseList){
+    		glucose.updatePositionAndMotion(dt);
+    	}
+    	
+    	for (Galactose galactose : galactoseList){
+    		galactose.updatePositionAndMotion(dt);
+    	}
+    	
+    	for (RnaPolymerase rnaPolymerase : rnaPolymeraseList){
+    		rnaPolymerase.updatePositionAndMotion(dt);
+    	}
+    	
+    	cap.updatePositionAndMotion(dt);
+    	capBindingRegion.updatePositionAndMotion(dt);
+    	lacOperator.updatePositionAndMotion(dt);
+    	lacIGene.updatePositionAndMotion(dt);
+    	lacYGene.updatePositionAndMotion(dt);
+    	lacZGene.updatePositionAndMotion(dt);
+    	lacIPromoter.updatePositionAndMotion(dt);
     }
     
     //------------------------------------------------------------------------
