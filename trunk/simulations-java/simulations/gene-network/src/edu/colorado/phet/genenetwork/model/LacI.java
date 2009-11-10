@@ -123,10 +123,6 @@ public class LacI extends SimpleModelElement {
 		return ModelElementType.LAC_I;
 	}
 
-	public boolean availableForBonding(LacOperator lacOperator) {
-		return (bondingState == BondingState.UNBOUND_AND_AVAILABLE);
-	}
-
 	public boolean considerProposalFrom(LacOperator lacOperator) {
 		boolean proposalAccepted = false;
 		
