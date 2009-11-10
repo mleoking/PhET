@@ -1,8 +1,9 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- design for Game module
+- GridLayoutStrategy can't find empty cells with Methane reaction and max reactant quantities
 - layout/sizing issue with "products" bracketed label
+- design for Game module
 
 MEDIUM PRIORITY
 - product image histogram with 3+3+3=1 Sandwich is problematic, image extends below box, hard to stack to maintain histogram look
