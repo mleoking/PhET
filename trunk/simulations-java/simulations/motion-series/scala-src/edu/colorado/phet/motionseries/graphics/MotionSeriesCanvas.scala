@@ -6,7 +6,6 @@ import java.awt.{BasicStroke, Color}
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt.event._
-import javax.swing.{JFrame}
 import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesResources
@@ -15,6 +14,9 @@ import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.tests.MyCanvas
+import edu.umd.cs.piccolox.pswing.PSwing
+import javax.swing.{JButton, JFrame}
+import edu.colorado.phet.motionseries.controls.{ObjectSelectionComboBox, ObjectSelectionComboBoxPanel}
 
 abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   adjustableCoordinateModel: AdjustableCoordinateModel,
@@ -192,10 +194,11 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
   }
 
   if (showObjectSelectionNode) {
-    val objectSelectionNode = new ObjectSelectionNode(model)
-    objectSelectionNode.setScale(stage.width / (objectSelectionNode.getFullBounds.getWidth + 150))
-    objectSelectionNode.setOffset(stage.width / 2 - objectSelectionNode.getFullBounds.getWidth / 2,
-      stage.height - objectSelectionNode.getFullBounds.getHeight + 2)
+    val boxPanel = new ObjectSelectionComboBox(model)
+    val objectSelectionNode = new PSwing(boxPanel){
+      setOffset(stage.width / 2 - getFullBounds.getWidth / 2, stage.height - getFullBounds.getHeight - 2)
+    }
+    boxPanel.setEnvironment(objectSelectionNode,this)
     addStageNode(objectSelectionNode)
   }
 
