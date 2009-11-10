@@ -2,7 +2,6 @@
 
 HIGH PRIORITY
 - GridLayoutStrategy can't find empty cells with Methane reaction and max reactant quantities
-- layout/sizing issue with "products" bracketed label
 - design for Game module
 
 MEDIUM PRIORITY

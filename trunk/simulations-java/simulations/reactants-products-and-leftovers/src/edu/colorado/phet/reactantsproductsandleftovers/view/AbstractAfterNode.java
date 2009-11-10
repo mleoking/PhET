@@ -40,6 +40,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private static final Color BRACKET_TEXT_COLOR = Color.BLACK;
     private static final Color BRACKET_COLOR = new Color( 46, 107, 178 );
     private static final Stroke BRACKET_STROKE = new BasicStroke( 0.75f );
+    private static final double BRACKET_MIN_WIDTH = 95;
     
     private final ChemicalReaction reaction;
     private final ChangeListener reactionChangeListener;
@@ -49,7 +50,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private final ArrayList<QuantityDisplayNode> productQuantityDisplayNodes; // quantity displays for products
     private final ArrayList<LeftoversDisplayNode> reactantLeftoverDisplayNodes; // leftovers displays for reactants
     private final ImageLayoutStrategy imageLayoutStrategy;
-    private PNode productsLabelNode ;
+    private final PNode productsLabelNode ;
     
     public AbstractAfterNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames,  ImageLayoutStrategy imageLayoutStrategy ) {
         super();
@@ -128,10 +129,23 @@ public abstract class AbstractAfterNode extends PhetPNode {
             x += deltaX;
         }
         
+        // products bracket, after doing layout of product quantity displays
+        double startX = productQuantityDisplayNodes.get( 0 ).getFullBoundsReference().getMinX();
+        double endX = productQuantityDisplayNodes.get( productQuantityDisplayNodes.size() - 1 ).getFullBoundsReference().getMaxX();
+        double width = Math.max( BRACKET_MIN_WIDTH, endX - startX );
+        productsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_PRODUCTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
+        addChild( productsLabelNode );
+        x = startX + ( ( endX - startX - width ) / 2 );
+        y = 0;
+        for ( QuantityDisplayNode node : productQuantityDisplayNodes ) {
+            y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
+        }
+        productsLabelNode.setOffset( x, y );
+        
         // leftovers bracket, after doing layout of leftover quantity displays
-        double startX = reactantLeftoverDisplayNodes.get( 0 ).getFullBoundsReference().getMinX();
-        double endX = reactantLeftoverDisplayNodes.get( reactantLeftoverDisplayNodes.size() - 1 ).getFullBoundsReference().getMaxX();
-        double width = endX - startX;
+        startX = reactantLeftoverDisplayNodes.get( 0 ).getFullBoundsReference().getMinX();
+        endX = reactantLeftoverDisplayNodes.get( reactantLeftoverDisplayNodes.size() - 1 ).getFullBoundsReference().getMaxX();
+        width = endX - startX;
         PNode leftoversLabelNode = new BracketedLabelNode( RPALStrings.LABEL_LEFTOVERS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
         addChild( leftoversLabelNode );
         x = startX;
@@ -260,28 +274,18 @@ public abstract class AbstractAfterNode extends PhetPNode {
     }
     
     private void updateProductsLabel() {
-        
-        // remove existing label
-        if ( productsLabelNode != null ) {
-            removeChild( productsLabelNode );
-        }
-        
-        // create new label
-        double startX = productQuantityDisplayNodes.get( 0 ).getFullBoundsReference().getMinX();
-        double endX = productQuantityDisplayNodes.get( productQuantityDisplayNodes.size() - 1 ).getFullBoundsReference().getMaxX();
-        double width = endX - startX;
-        productsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_PRODUCTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
-        addChild( productsLabelNode );
-        
-        // offset, below product quantity displays
-        double x = startX;
-        double y = 0;
-        for ( QuantityDisplayNode node : productQuantityDisplayNodes ) {
-            y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
-        }
-        productsLabelNode.setOffset( x, y );
-        
+
         // products are only visible when we have a valid reaction
         productsLabelNode.setVisible( reaction.isReaction() );
+
+        // offset, below product quantity displays
+        if ( productsLabelNode.getVisible() ) {
+            double x = productsLabelNode.getXOffset();
+            double y = 0;
+            for ( QuantityDisplayNode node : productQuantityDisplayNodes ) {
+                y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
+            }
+            productsLabelNode.setOffset( x, y );
+        }
     }
 }
