@@ -10,6 +10,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -28,6 +29,7 @@ public class LacOperator extends SimpleModelElement {
 	private static double HEIGHT = 3;  // In nanometers.
 	
 	private LacI lacIBondingPartner = null;
+	private BondingState bondingState = BondingState.UNBOUND_AND_AVAILABLE; 
 	
 	public LacOperator(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
@@ -44,6 +46,54 @@ public class LacOperator extends SimpleModelElement {
 		return ModelElementType.LAC_OPERATOR;
 	}
 	
+	@Override
+	public void stepInTime(double dt) {
+		switch (bondingState){
+		case UNBOUND_AND_AVAILABLE:
+			attemptToStartBond();
+			break;
+		case MOVING_TOWARDS_BOND:
+			checkBondCompleted();
+			break;
+		case BONDED:
+			// TODO
+			break;
+		case UNBONDED_BUT_UNAVALABLE:
+			// TODO
+			break;
+		default:
+			// Should never get here, should be debugged if it does.
+			assert false;
+			break;
+		}
+		super.stepInTime(dt);
+	}
+	
+	private void attemptToStartBond(){
+		assert lacIBondingPartner == null;
+		// Search for a partner to bond with.
+		ArrayList<LacI> potentialPartnerList = getModel().getLacIList();
+		
+		for (LacI lacI : potentialPartnerList){
+			if (getPositionRef().distance(lacI.getPositionRef()) < BOND_INITIATION_RANGE){
+				if (lacI.considerProposalFrom(this)){
+					// Bond formed.
+					bondingState = BondingState.MOVING_TOWARDS_BOND;
+					lacIBondingPartner = lacI;
+				}
+			}
+		}
+	}
+	
+	private void checkBondCompleted(){
+		assert lacIBondingPartner != null;
+		if (getPositionRef().distance(lacIBondingPartner.getPositionRef()) < BOND_FORMING_DISTANCE){
+			// Close enough to form a bond.  Move our partner to the final
+			// location and let it know that the bond is formed.
+			//TODO
+		}
+	}
+
 	private static Shape createShape(){
 		
 		// Create the overall outline.
@@ -70,31 +120,5 @@ public class LacOperator extends SimpleModelElement {
 	
 	public static Dimension2D getBindingRegionSize(){
 		return new PDimension(WIDTH * 0.5, HEIGHT / 2);
-	}
-	
-	@Override
-	public boolean availableForBonding(ModelElementType elementType) {
-		boolean available = false;
-		switch (elementType){
-		case LAC_I:
-			if (lacIBondingPartner == null){
-				available = true;
-			}
-			break;
-		}
-			
-		return available;
-	}
-
-	@Override
-	public boolean considerProposalFrom(IModelElement modelElement) {
-		boolean proposalAccepted = false;
-
-		if (modelElement instanceof LacI && lacIBondingPartner == null){
-			lacIBondingPartner = (LacI)modelElement;
-			proposalAccepted = true;
-		}
-		
-		return proposalAccepted;
 	}
 }
