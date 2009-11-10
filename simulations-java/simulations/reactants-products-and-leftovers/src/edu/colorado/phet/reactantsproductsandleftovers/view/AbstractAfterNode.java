@@ -3,6 +3,8 @@ package edu.colorado.phet.reactantsproductsandleftovers.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -135,7 +137,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
         double width = Math.max( BRACKET_MIN_WIDTH, endX - startX );
         productsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_PRODUCTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
         addChild( productsLabelNode );
-        x = startX + ( ( endX - startX - width ) / 2 );
+        x = startX + ( ( endX - startX - width ) / 2 ); 
         y = 0;
         for ( QuantityDisplayNode node : productQuantityDisplayNodes ) {
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
@@ -155,9 +157,23 @@ public abstract class AbstractAfterNode extends PhetPNode {
         }
         leftoversLabelNode.setOffset( x, y );
         
-        // products bracket will be created dynamically
+        // start with products and leftovers brackets vertically aligned
+        double maxYOffset = Math.max( productsLabelNode.getYOffset(), leftoversLabelNode.getYOffset() );
+        productsLabelNode.setOffset( productsLabelNode.getXOffset(), maxYOffset );
+        leftoversLabelNode.setOffset( leftoversLabelNode.getXOffset(), maxYOffset );
         
         update();
+        
+        // do this after productLabelNode has been initialized
+        for ( QuantityDisplayNode displayNode : productQuantityDisplayNodes ) {
+            displayNode.addPropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    if ( evt.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
+                        updateProductsLabelOffset();
+                    }
+                }
+            } );
+        }
     }
     
     /**
@@ -194,8 +210,8 @@ public abstract class AbstractAfterNode extends PhetPNode {
      */
     private void update() {
 
-        // a bit inefficient to do this everytime something changes, but not an issue in this sim
-        updateProductsLabel();
+        // products are only visible when we have a valid reaction
+        productsLabelNode.setVisible( reaction.isReaction() );
 
         // product quantities
         Product[] products = reaction.getProducts();
@@ -273,19 +289,17 @@ public abstract class AbstractAfterNode extends PhetPNode {
         }
     }
     
-    private void updateProductsLabel() {
-
-        // products are only visible when we have a valid reaction
-        productsLabelNode.setVisible( reaction.isReaction() );
-
-        // offset, below product quantity displays
-        if ( productsLabelNode.getVisible() ) {
-            double x = productsLabelNode.getXOffset();
-            double y = 0;
-            for ( QuantityDisplayNode node : productQuantityDisplayNodes ) {
-                y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
-            }
-            productsLabelNode.setOffset( x, y );
+    /*
+     * Adjusts the y offset of the products label bracket.
+     * Some products (eg, sandwich) may have a dynamic image, and we need to keep 
+     * this label below the product quantity display nodes.
+     */
+    private void updateProductsLabelOffset() {
+        double x = productsLabelNode.getXOffset();
+        double y = 0;
+        for ( QuantityDisplayNode node : productQuantityDisplayNodes ) {
+            y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
         }
+        productsLabelNode.setOffset( x, y );
     }
 }
