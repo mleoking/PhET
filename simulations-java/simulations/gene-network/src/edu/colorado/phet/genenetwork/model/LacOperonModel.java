@@ -174,6 +174,12 @@ public class LacOperonModel implements IObtainGeneModelElements {
         	rnaPolymeraseList.add(rnaPolymerase);
         }
         
+        // Create some other model elements needed for testing.  TODO: This is
+        // done for debugging and should be removed at some point.
+        LacI lacIForTesting = new LacI();
+        randomlyInitModelElement(lacIForTesting);
+        lacIList.add(lacIForTesting);
+        
         // Create and position the elements that sit on the DNA strand.
         
         double xPosition = DNA_STRAND_LOCATION.getMinX(); // Start at the far left side of the strand.
