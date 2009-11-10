@@ -15,8 +15,6 @@ public interface IModelElement {
     void setVelocity(Vector2D newVelocity);
     void setVelocity(double xVel, double yVel);
     void updatePositionAndMotion(double dt);
-    boolean availableForBonding(ModelElementType elementType);
-    void updatePotentialBondingPartners(ArrayList<IModelElement> modelElements);
     boolean considerProposalFrom(IModelElement modelElement);
     boolean releaseBondWith(IModelElement modelElement);
 	ModelElementType getType();

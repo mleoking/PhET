@@ -10,7 +10,6 @@ import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -97,30 +96,5 @@ public class LacOperator extends SimpleModelElement {
 		}
 		
 		return proposalAccepted;
-	}
-
-	@Override
-	public void updatePotentialBondingPartners( ArrayList<IModelElement> modelElements ) {
-		// Seek to bond with free elements that are within range and that
-		// match our needs.
-		if (lacIBondingPartner == null){
-			for (IModelElement modelElement : modelElements){
-				
-				// Look for a bond with LacI.
-				if (modelElement.getType() == ModelElementType.LAC_I &&
-					lacIBondingPartner == null &&
-					getPositionRef().distance(modelElement.getPositionRef()) <= BONDING_RANGE &&
-					modelElement.availableForBonding(getType())){
-					
-					// Propose a bond with this element
-					if (modelElement.considerProposalFrom(this)){
-						// Proposal accepted.  Note that the bond is only
-						// started at this point, and not really finalized
-						// until the binding points are in the same location.
-						lacIBondingPartner = (LacI)modelElement;
-					}
-				}
-			}
-		}
 	}
 }
