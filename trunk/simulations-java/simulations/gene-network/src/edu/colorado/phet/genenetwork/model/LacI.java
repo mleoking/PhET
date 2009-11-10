@@ -30,7 +30,7 @@ public class LacI extends SimpleModelElement {
 	
 	private LacOperator lacOperatorBondingPartner = null;
 	private Lactose lactoseBondingPartner = null;
-	private boolean boundToLacI = false;
+	private BondingState bondingState = BondingState.UNBOUND_AND_AVAILABLE;
 	
 	public LacI(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
@@ -83,6 +83,7 @@ public class LacI extends SimpleModelElement {
 	
 	@Override
 	public void stepInTime(double dt) {
+		/*
 		if (lacOperatorBondingPartner != null){
 			// TODO: This needs refinement.  It needs to recognize when the
 			// bond is fully formed so that no motion is required, and it
@@ -113,6 +114,7 @@ public class LacI extends SimpleModelElement {
 				}
 			}
 		}
+		*/
 		super.stepInTime(dt);
 	}
 
@@ -121,37 +123,27 @@ public class LacI extends SimpleModelElement {
 		return ModelElementType.LAC_I;
 	}
 
-	@Override
-	public boolean availableForBonding(ModelElementType elementType) {
-		boolean available = false;
-		switch (elementType){
-		case LAC_OPERATOR:
-			if (lacOperatorBondingPartner == null){
-				available = true;
-			}
-			break;
-			
-		case LACTOSE:
-			if (lactoseBondingPartner == null){
-				available = true;
-			}
-			break;
-		}
-		
-		return available;
+	public boolean availableForBonding(LacOperator lacOperator) {
+		return (bondingState == BondingState.UNBOUND_AND_AVAILABLE);
 	}
 
-	@Override
-	public boolean considerProposalFrom(IModelElement modelElement) {
+	public boolean considerProposalFrom(LacOperator lacOperator) {
 		boolean proposalAccepted = false;
-
-		if (modelElement instanceof Lactose && lactoseBondingPartner == null){
-			lactoseBondingPartner = (Lactose)modelElement;
+		
+		if (bondingState == BondingState.UNBOUND_AND_AVAILABLE){
+			assert lacOperatorBondingPartner == null;  // For debug - Make sure consistent with bonding state.
+			lacOperatorBondingPartner = lacOperator;
 			proposalAccepted = true;
-		}
-		else if (modelElement instanceof LacOperator && lacOperatorBondingPartner == null){
-			lacOperatorBondingPartner = (LacOperator)modelElement;
-			proposalAccepted = true;
+			
+			// Set ourself up to move toward the bonding location.
+			bondingState = BondingState.MOVING_TOWARDS_BOND;
+			Dimension2D partnerOffset = lacOperatorBondingPartner.getBindingPointForElement(getType()).getOffset();
+			Dimension2D myOffset = getBindingPointForElement(lacOperatorBondingPartner.getType()).getOffset();
+			double xDest = lacOperatorBondingPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
+				myOffset.getWidth();
+			double yDest = lacOperatorBondingPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
+				myOffset.getHeight();
+			getMotionStrategyRef().setDestination(xDest, yDest);
 		}
 		
 		return proposalAccepted;
