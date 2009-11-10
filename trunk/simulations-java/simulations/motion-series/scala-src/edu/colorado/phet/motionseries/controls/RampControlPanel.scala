@@ -19,6 +19,8 @@ import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.scalacommon.Predef._
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
+import edu.umd.cs.piccolox.pswing.{PSwing, PSwingCanvas}
 
 class RampControlPanel(model: MotionSeriesModel,
                        wordModel: WordModel,
@@ -193,7 +195,16 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   add(moreControlsPanel)
 
-  if (useObjectComboBox) add(new ObjectSelectionComboBoxPanel(objectModel))
+  //Embed in its own PhetPCanvas so we can easily reuse the PComboBox code
+  class EmbeddedObjectSelectionPanel extends PhetPCanvas{
+    val boxPanel = new ObjectSelectionComboBoxPanel(objectModel)
+    val pswing = new PSwing(boxPanel)
+    boxPanel.setEnvironment(pswing,this)
+    addScreenChild(pswing)
+    setPreferredSize(new Dimension(pswing.getFullBounds.getWidth.toInt,pswing.getFullBounds.getHeight.toInt))
+  }
+
+  if (useObjectComboBox) add(new EmbeddedObjectSelectionPanel)
 
   getContentPanel.setFillNone()
   getContentPanel.setAnchor(GridBagConstraints.CENTER)

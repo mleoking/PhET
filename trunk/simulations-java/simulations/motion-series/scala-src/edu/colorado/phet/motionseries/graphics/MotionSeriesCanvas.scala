@@ -194,7 +194,7 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
   }
 
   if (showObjectSelectionNode) {
-    val boxPanel = new ObjectSelectionComboBox(model)
+    val boxPanel = new ObjectSelectionComboBoxPanel(model)
     val objectSelectionNode = new PSwing(boxPanel){
       setOffset(stage.width / 2 - getFullBounds.getWidth / 2, stage.height - getFullBounds.getHeight - 2)
     }
