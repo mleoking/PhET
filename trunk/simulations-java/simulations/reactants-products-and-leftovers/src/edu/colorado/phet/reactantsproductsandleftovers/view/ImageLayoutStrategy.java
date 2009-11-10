@@ -7,7 +7,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * Interface for specifying how images are arranged in box.
+ * Interface for specifying how images are arranged in the Before and After boxes.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
