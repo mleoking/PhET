@@ -38,26 +38,26 @@ public class LacOperonModel {
     protected ArrayList<Listener> listeners = new ArrayList<Listener>();
     
     // Lists of model elements for which multiple instances can exist.
-    private ArrayList<LacI> lacIList = new ArrayList<LacI>();
-    private ArrayList<LacZ> lacZList = new ArrayList<LacZ>();
-    private ArrayList<Glucose> glucoseList = new ArrayList<Glucose>();
-    private ArrayList<Galactose> galactoseList = new ArrayList<Galactose>();
-    private ArrayList<RnaPolymerase> rnaPolymeraseList = new ArrayList<RnaPolymerase>();
+    private final ArrayList<LacI> lacIList = new ArrayList<LacI>();
+    private final ArrayList<LacZ> lacZList = new ArrayList<LacZ>();
+    private final ArrayList<Glucose> glucoseList = new ArrayList<Glucose>();
+    private final ArrayList<Galactose> galactoseList = new ArrayList<Galactose>();
+    private final ArrayList<RnaPolymerase> rnaPolymeraseList = new ArrayList<RnaPolymerase>();
     
     // Lists of model elements for which only one instance can exist.
-    private Cap cap = new Cap();
-    private CapBindingRegion capBindingRegion = new CapBindingRegion();
-    private LacOperator lacOperator = new LacOperator();
-    private LacIGene lacIGene = new LacIGene();
-    private LacZGene lacZGene = new LacZGene();
-    private LacYGene lacYGene = new LacYGene();
-    private LacIPromoter lacIPromoter = new LacIPromoter();
+    private final Cap cap = new Cap();
+    private final CapBindingRegion capBindingRegion = new CapBindingRegion();
+    private final LacOperator lacOperator = new LacOperator();
+    private final LacIGene lacIGene = new LacIGene();
+    private final LacZGene lacZGene = new LacZGene();
+    private final LacYGene lacYGene = new LacYGene();
+    private final LacIPromoter lacIPromoter = new LacIPromoter();
 
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructor(s)
     //----------------------------------------------------------------------------
     
-    public LacOperonModel( GeneNetworkClock clock ) {
+	public LacOperonModel( GeneNetworkClock clock ) {
         super();
         
         this.clock = clock;        
@@ -72,6 +72,58 @@ public class LacOperonModel {
         
         addInitialModelElements();
     }
+
+    //----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
+
+	public ArrayList<LacI> getLacIList() {
+		return lacIList;
+	}
+
+	public ArrayList<LacZ> getLacZList() {
+		return lacZList;
+	}
+
+	public ArrayList<Glucose> getGlucoseList() {
+		return glucoseList;
+	}
+
+	public ArrayList<Galactose> getGalactoseList() {
+		return galactoseList;
+	}
+
+	public ArrayList<RnaPolymerase> getRnaPolymeraseList() {
+		return rnaPolymeraseList;
+	}
+
+	public Cap getCap() {
+		return cap;
+	}
+
+	public CapBindingRegion getCapBindingRegion() {
+		return capBindingRegion;
+	}
+
+	public LacOperator getLacOperator() {
+		return lacOperator;
+	}
+
+	public LacIGene getLacIGene() {
+		return lacIGene;
+	}
+
+	public LacZGene getLacZGene() {
+		return lacZGene;
+	}
+
+	public LacYGene getLacYGene() {
+		return lacYGene;
+	}
+
+	public LacIPromoter getLacIPromoter() {
+		return lacIPromoter;
+	}
 
 	private void addInitialModelElements() {
 		
