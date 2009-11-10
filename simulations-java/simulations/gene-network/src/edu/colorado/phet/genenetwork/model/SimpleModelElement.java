@@ -165,11 +165,6 @@ public abstract class SimpleModelElement implements IModelElement{
 		}
 	}
 
-	public void updatePotentialBondingPartners( ArrayList<IModelElement> modelElements ) {
-		// Does nothing in the base class, which essentially means that it
-		// if not overridden it will not initiate any bonds.
-	}
-	
 	protected void setMotionStrategy(AbstractMotionStrategy motionStrategy){
 		this.motionStrategy = motionStrategy;
 	}

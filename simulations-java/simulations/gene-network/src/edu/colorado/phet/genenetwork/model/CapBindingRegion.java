@@ -56,6 +56,11 @@ public class CapBindingRegion extends SimpleModelElement {
 	}
 	
 	@Override
+	public void updatePositionAndMotion(double dt) {
+		super.updatePositionAndMotion(dt);
+	}
+
+	@Override
 	public boolean availableForBonding(ModelElementType elementType) {
 		boolean available = false;
 		if (elementType == ModelElementType.CAP && capBondingPartner == null){
@@ -76,24 +81,23 @@ public class CapBindingRegion extends SimpleModelElement {
 		return proposalAccepted;
 	}
 
-	@Override
-	public void updatePotentialBondingPartners( ArrayList<IModelElement> modelElements ) {
+	private void updatePotentialBondingPartners( ArrayList<Cap> capList ) {
 		// Seek to bond with free elements that are within range and that
 		// match our needs.
 		if (capBondingPartner == null){
-			for (IModelElement modelElement : modelElements){
+			for (Cap cap : capList){
 				
 				// Look for a bond with Cap.
-				if (modelElement.getType() == ModelElementType.CAP &&
-					getPositionRef().distance(modelElement.getPositionRef()) <= BONDING_RANGE &&
-					modelElement.availableForBonding(getType())){
+				if (cap.getType() == ModelElementType.CAP &&
+					getPositionRef().distance(cap.getPositionRef()) <= BONDING_RANGE &&
+					cap.availableForBonding(getType())){
 					
 					// Propose a bond with this element
-					if (modelElement.considerProposalFrom(this)){
+					if (cap.considerProposalFrom(this)){
 						// Proposal accepted.  Note that the bond is only
 						// started at this point, and not really finalized
 						// until the binding points are in the same location.
-						capBondingPartner = (Cap)modelElement;
+						capBondingPartner = (Cap)cap;
 						break;
 					}
 				}

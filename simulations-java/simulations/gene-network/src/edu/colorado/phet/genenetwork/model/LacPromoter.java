@@ -7,7 +7,6 @@ import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -76,29 +75,4 @@ public class LacPromoter extends SimpleModelElement {
 		
 		return proposalAccepted;
 	}
-	
-	@Override
-	public void updatePotentialBondingPartners( ArrayList<IModelElement> modelElements ) {
-		// Seek to bond with free elements that are within range and that
-		// match our needs.
-		if (rnaPolymeraseBondingPartner == null){
-			for (IModelElement modelElement : modelElements){
-				
-				// Look for a bond.
-				if (modelElement.getType() == ModelElementType.RNA_POLYMERASE &&
-					rnaPolymeraseBondingPartner == null &&
-					getPositionRef().distance(modelElement.getPositionRef()) <= BONDING_RANGE &&
-					modelElement.availableForBonding(getType())){
-					
-					// Propose a bond with this element
-					if (modelElement.considerProposalFrom(this)){
-						// Proposal accepted.  Note that the bond is only
-						// started at this point, and not really finalized
-						// until the binding points are in the same location.
-						rnaPolymeraseBondingPartner = (RnaPolymerase)modelElement;
-					}
-				}
-			}
-		}
-	}	
 }
