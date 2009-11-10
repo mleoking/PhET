@@ -40,6 +40,13 @@ public abstract class AbstractMotionStrategy {
 		destination = null;
 	}
 	
+	/**
+	 * Clean up any memory references so as not to cause memory leaks.
+	 */
+	public void cleanup(){
+		// Does nothing in base class.
+	}
+	
 	protected Point2D getDestination(){
 		return destination;
 	}
