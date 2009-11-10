@@ -1,7 +1,7 @@
 ﻿//The Model for Collision Lab
 package{
 	import flash.events.*;
-	import flash.utils.Timer;
+	import flash.utils.*;
 	
 	public class Model{
 		var nbrBalls:int;  		//nbr of interacting balls
@@ -15,6 +15,8 @@ package{
 		var time:Number;		//simulation time in seconds = real time
 		var timeStep:Number;	//time step in seconds
 		var msTimer:Timer;		//millisecond timer
+		//var realTimer:Timer;	//real timer, used to maintain time-based updates
+		var timeHolder:int;		//scatch for hold results of getTimer
 		var timeRate:Number;	//0 to 1: to slow down or speed up action, 1 = realtime, 0 = paused
 		var updateRate:int;		//number of time steps between graphics updates
 		var frameCount:int;		//when frameCount reaches frameRate, update graphics
@@ -29,12 +31,13 @@ package{
 			this.ball_arr = new Array(nbrBalls);
 			this.initializeBalls();
 			this.time = 0;
-			this.timeStep = 0.005;
-			this.updateRate = 5;
+			this.timeStep = 0.01;
+			this.updateRate = 1;
 			this.frameCount = 0;
 			
 			this.msTimer = new Timer(this.timeStep*1000, 2000);
 			msTimer.addEventListener(TimerEvent.TIMER, stepForward);
+			//this.realTimer = new Timer(1000);  //argument 1000 is irrelevant
 			this.view_arr = new Array(0);
 			this.nbrViews = 0;
 			
@@ -48,7 +51,7 @@ package{
 			pos[2] = new TwoVector(1,1);
 			vel[0] = new TwoVector(0.7,0.8);
 			vel[1] = new TwoVector(0.12,0.55);
-			vel[2] = new TwoVector(0.5,0.2);
+			vel[2] = new TwoVector(1,2);
 			
 			for (var i = 0; i < this.nbrBalls; i++){
 				//new Ball(mass, position, velocity);
@@ -68,6 +71,10 @@ package{
 		public function stepForward(evt:TimerEvent):void{
 			//trace("stepForward called.");
 			var dt:Number = this.timeStep;
+			//var realDt = getTimer() - timeHolder;
+			//var dt:Number = realDt/1000;
+			//trace("dt: "+dt);
+			//trace("actualTimeStep"+actualTimeStep);
 			for(var i:int = 0; i < this.nbrBalls; i++){
 				var x:Number = this.ball_arr[i].position.getX();
 				var y:Number = this.ball_arr[i].position.getY();
@@ -88,12 +95,16 @@ package{
 					this.ball_arr[i].velocity.setY(-vY)
 				}
 			}//for loop
+			this.timeHolder = getTimer();
 			
 			this.detectCollision();
 			this.frameCount += 1;
 			if(this.frameCount == this.updateRate){
+				//var interval:int = getTimer() - this.timeHolder;
+				//trace("getTimer()"+ interval);
 				this.frameCount = 0;
 				this.updateViews();
+				//this.timeHolder = getTimer();
 			}
 			
 		}//stepForward
