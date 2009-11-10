@@ -30,6 +30,9 @@ public interface ImageLayoutStrategy {
     
     public void removeNode( PNode node );
     
+    /*
+     * Base class that provides functionality common to all layout strategies.
+     */
     abstract class AbstractImageLayoutStrategy implements ImageLayoutStrategy {
         
         private BoxNode boxNode;

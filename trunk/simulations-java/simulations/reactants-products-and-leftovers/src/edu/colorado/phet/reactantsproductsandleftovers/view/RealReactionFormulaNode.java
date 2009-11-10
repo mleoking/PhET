@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -13,7 +12,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -32,9 +30,6 @@ public class RealReactionFormulaNode extends PComposite {
     private static final double ARROW_X_SPACING = 20;
     
     private static final Color COEFFICIENT_COLOR = Color.BLACK;
-    private static final double COEFFICIENT_BORDER_MARGIN = 5;
-    private static final Stroke COEFFICIENT_BORDER_STROKE = new BasicStroke( 0.5f );
-    private static final Color COEFFICIENT_BORDER_COLOR = Color.BLACK;
     
     private final ChemicalReaction reaction;
     private final HTMLNode htmlNode;
@@ -148,28 +143,12 @@ public class RealReactionFormulaNode extends PComposite {
         }
     }
     
-    private static class CoefficientNode extends PComposite {
+    private static class CoefficientNode extends PText {
         
         public CoefficientNode( int coefficient ) {
-            super();
-            
-            PText textNode = new PText(  String.valueOf( coefficient ) );
-            textNode.setFont( FONT );
-            textNode.setTextPaint( COEFFICIENT_COLOR );
-            addChild( textNode );
-            
-            final double x = -COEFFICIENT_BORDER_MARGIN;
-            final double y = -COEFFICIENT_BORDER_MARGIN;
-            final double w = textNode.getFullBoundsReference().getWidth() + ( 2 * COEFFICIENT_BORDER_MARGIN );
-            final double h = textNode.getFullBoundsReference().getHeight() + ( 2 * COEFFICIENT_BORDER_MARGIN );
-            PPath borderNode = new PPath( new Rectangle2D.Double( x, y,w,h ) );
-            borderNode.setStroke( COEFFICIENT_BORDER_STROKE );
-            borderNode.setStrokePaint( COEFFICIENT_BORDER_COLOR );
-            addChild( borderNode );
-            
-            // layout
-            textNode.setOffset( 0, 0 );
-            borderNode.setOffset( 0, 0 );
+            super( String.valueOf( coefficient ) );
+            setFont( FONT );
+            setTextPaint( COEFFICIENT_COLOR );
         }
     }
     

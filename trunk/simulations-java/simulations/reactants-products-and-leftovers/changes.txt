@@ -1,3 +1,4 @@
+11/10/09 remove border around coefficient in RealReactionFormulaNode
 11/10/09 move GridLinesNode to piccolo-phet
 11/10/09 make grid layout look less regular by randomly choosing a location within each cell
 11/10/09 add GridLinesNode, for visualizing grid during debugging
