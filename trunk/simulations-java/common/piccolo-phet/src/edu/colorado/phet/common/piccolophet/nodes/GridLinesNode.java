@@ -18,7 +18,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class GridLinesNode extends PComposite {
     
-    public GridLinesNode( int rows, int columns, double width, double height, Stroke stroke, Paint strokePaint ) {
+    public GridLinesNode( int rows, int columns, double width, double height, Stroke stroke, Paint strokePaint, Paint fillPaint ) {
         super();
         
         final PDimension cellSize = new PDimension( width / columns, height / rows );
@@ -28,6 +28,7 @@ public class GridLinesNode extends PComposite {
         PPath edgeNode = new PPath( edgeBounds );
         edgeNode.setStroke( stroke );
         edgeNode.setStrokePaint( strokePaint );
+        edgeNode.setPaint( fillPaint );
         addChild( edgeNode );
 
         // horizontal lines
