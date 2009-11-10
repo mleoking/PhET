@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public abstract class SimpleModelElement implements IModelElement{
 	
 	// Range within with bonding can occur.
-	protected static final double BONDING_RANGE = 1000;  // In nanometers.
+	protected static final double BOND_INITIATION_RANGE = 1000;  // In nanometers.
 	
 	// Range at which a bond forms when two binding partners are moving
 	// towards each other.
@@ -152,16 +152,6 @@ public abstract class SimpleModelElement implements IModelElement{
 		listeners.remove(listener);
 	}
 	
-	public boolean availableForBonding(ModelElementType elementType) {
-		// Always says no in the base class.
-		return false;
-	}
-
-	public boolean considerProposalFrom(IModelElement modelElement) {
-		// Always refuses proposal in the base class.
-		return false;
-	}
-
 	public boolean releaseBondWith(IModelElement modelElement) {
 		// Always refuses to release in the base class.
 		return false;
