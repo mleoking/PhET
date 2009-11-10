@@ -1,9 +1,17 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.Stroke;
+import java.awt.geom.GeneralPath;
+
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Interface for specifying how images are arranged in the Before and After boxes.
@@ -31,6 +39,10 @@ public interface ImageLayoutStrategy {
         private BoxNode boxNode;
         
         public void setBoxNode( BoxNode boxNode ) {
+            //XXX investiage why this is thrown
+//            if ( boxNode != null ) {
+//                throw new IllegalStateException( "setBoxNode should only be called once" );
+//            }
             this.boxNode = boxNode;
         }
         
@@ -91,7 +103,9 @@ public interface ImageLayoutStrategy {
      */
     public static class GridLayoutStrategy extends AbstractImageLayoutStrategy {
         
-        private static final double MARGIN = 5;
+        private static final boolean SHOW_GRIDLINES = true;
+        private static final double BOX_MARGIN = 5; // margin of space around the inside edge of the box
+        private static final double CELL_MARGIN = 1; // margin of space around the inside edge of each cell
         private static final int ROWS = 4;
         private static final int COLUMNS = 5;
         
@@ -105,9 +119,13 @@ public interface ImageLayoutStrategy {
         public void setBoxNode( BoxNode boxNode ) {
             super.setBoxNode( boxNode );
             PBounds b = boxNode.getFullBoundsReference();
-            double cellWidth = ( b.getWidth() - ( 2 * MARGIN ) ) / COLUMNS;
-            double cellHeight = ( b.getHeight() - ( 2 * MARGIN ) ) / ROWS;
+            double cellWidth = ( b.getWidth() - ( 2 * BOX_MARGIN ) ) / COLUMNS;
+            double cellHeight = ( b.getHeight() - ( 2 * BOX_MARGIN ) ) / ROWS;
             cellSize = new PDimension( cellWidth, cellHeight );
+            if ( SHOW_GRIDLINES ) {
+                PBounds gridBounds = new PBounds( BOX_MARGIN, BOX_MARGIN, b.getWidth() - ( 2 * BOX_MARGIN ), b.getHeight() - ( 2 * BOX_MARGIN ) );
+                getBoxNode().addChild( new GridLinesNode( gridBounds, ROWS, COLUMNS, new BasicStroke( 1f ), Color.BLACK ) );
+            }
         }
         
         public void addNode( PNode node, PNode referenceNode, PNode controlNode ) {
@@ -153,10 +171,22 @@ public interface ImageLayoutStrategy {
             }
             cells[row][column] = node;
             
-            // set the node's offset, centered in a cell
+            // pick a random offset within the chosen cell, so the layout doesn't look so regular
+            double cellXOffset = 0;
+            double cellYOffset = 0;
+            if ( node.getFullBoundsReference().getWidth() < cellSize.getWidth() - ( 2 * CELL_MARGIN ) ) {
+                cellXOffset = Math.random() * ( cellSize.getWidth() - node.getFullBoundsReference().getWidth() );
+                cellXOffset = ( Math.random() < 0.5 ) ? CELL_MARGIN : ( cellSize.getWidth() - node.getFullBoundsReference().getWidth() - CELL_MARGIN );
+            }
+            if ( node.getFullBoundsReference().getHeight() < cellSize.getHeight()  ) {
+                cellYOffset = Math.random() * ( cellSize.getHeight() - node.getFullBoundsReference().getHeight() );
+                cellYOffset = ( Math.random() < 0.5 ) ? CELL_MARGIN : ( cellSize.getHeight() - node.getFullBoundsReference().getHeight() - CELL_MARGIN );
+            }
+            
+            // set the node's offset
             PBounds b = getBoxNode().getFullBoundsReference();
-            double x = b.getMinX() + MARGIN + ( column * cellSize.getWidth() ) + ( ( cellSize.getWidth() - node.getFullBoundsReference().getWidth() ) / 2 );
-            double y = b.getMinY() + MARGIN + ( row * cellSize.getHeight() ) + ( ( cellSize.getHeight() - node.getFullBoundsReference().getHeight() ) / 2 );
+            double x = b.getMinX() + BOX_MARGIN + ( column * cellSize.getWidth() ) + cellXOffset;
+            double y = b.getMinY() + BOX_MARGIN + ( row * cellSize.getHeight() ) + cellYOffset;
             node.setOffset( x, y );
         }
         
@@ -169,6 +199,46 @@ public interface ImageLayoutStrategy {
                         cells[i][j] = null;
                         removed = true;
                     }
+                }
+            }
+        }
+
+        /*
+         * Debugging class, for visualizing the grid of cells.
+         */
+        private static class GridLinesNode extends PComposite {
+            
+            public GridLinesNode( PBounds bounds, int rows, int columns, Stroke stroke, Paint strokePaint ) {
+                super();
+                
+                final PDimension cellSize = new PDimension( bounds.getWidth() / columns, bounds.getHeight() / rows );
+                
+                // outside edge
+                PPath edgeNode = new PPath( bounds );
+                edgeNode.setStroke( stroke );
+                edgeNode.setStrokePaint( strokePaint );
+                addChild( edgeNode );
+
+                // vertical lines
+                for ( int column = 0; column < columns; column++ ) {
+                    GeneralPath path = new GeneralPath();
+                    path.moveTo( (float) ( bounds.getMinX() + ( column * cellSize.getWidth() ) ), (float) bounds.getMinY() );
+                    path.lineTo( (float) ( bounds.getMinX() + ( column * cellSize.getWidth() ) ), (float) bounds.getMaxY() );
+                    PPath lineNode = new PPath( path );
+                    lineNode.setStroke( stroke );
+                    lineNode.setStrokePaint( strokePaint );
+                    addChild( lineNode );
+                }
+
+                // horizontal lines
+                for ( int row = 0; row < ROWS; row++ ) {
+                    GeneralPath path = new GeneralPath();
+                    path.moveTo( (float) bounds.getMinX(), (float) ( bounds.getMinY() + ( row * cellSize.getHeight() ) ) );
+                    path.lineTo( (float) bounds.getMaxX(), (float) ( bounds.getMinY() + ( row * cellSize.getHeight() ) ) );
+                    PPath lineNode = new PPath( path );
+                    lineNode.setStroke( stroke );
+                    lineNode.setStrokePaint( strokePaint );
+                    addChild( lineNode );
                 }
             }
         }
