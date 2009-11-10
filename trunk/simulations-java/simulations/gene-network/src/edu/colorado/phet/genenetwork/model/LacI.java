@@ -24,22 +24,42 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class LacI extends SimpleModelElement {
 	
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+	
+	// Constants that control size and appearance.
 	private static final Paint ELEMENT_PAINT = new Color(200, 200, 200);
 	private static double WIDTH = 7;   // In nanometers.
 	private static double HEIGHT = 4;  // In nanometers.
-	private static PDimension LAC_OPERATOR_BINDING_POINT_OFFSET = 
+	
+	// Attachment point offset.
+	private static PDimension LAC_OPERATOR_ATTACHMENT_POINT_OFFSET = 
 		new PDimension(0, -HEIGHT/2 + LacOperator.getBindingRegionSize().getHeight());
+	
+	// Time definitions for the amount of time to attach and then to be
+	// "unavailable".
+	private static double ATTACHMENT_TIME = 5000; // In ms.
+	private static double UNAVAILABLE_TIME = 5000; // In ms.
+	
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
 	
 	private LacOperator lacOperatorAttachmentPartner = null;
 	private Lactose lactoseAttachmentPartner = null;
 	private AttachmentState lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private Point2D targetPositionForLacOperatorAttachment = new Point2D.Double();
 	
+    //------------------------------------------------------------------------
+    // Constructors
+    //------------------------------------------------------------------------
+	
 	public LacI(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 		// Add binding point for LacOperator.
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_OPERATOR, LAC_OPERATOR_BINDING_POINT_OFFSET));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_OPERATOR, LAC_OPERATOR_ATTACHMENT_POINT_OFFSET));
 	}
 	
 	public LacI(IObtainGeneModelElements model) {
@@ -49,6 +69,10 @@ public class LacI extends SimpleModelElement {
 	public LacI(){
 		this(null);
 	}
+	
+    //------------------------------------------------------------------------
+    // Methods
+    //------------------------------------------------------------------------
 	
 	private static Shape createActiveConformationShape(){
 		
@@ -124,11 +148,21 @@ public class LacI extends SimpleModelElement {
 	}
 	
 	/**
-	 * Get the location in absolute space of the binding point for this type
-	 * of model element.
+	 * Get the location in absolute space of the attachment point for this
+	 * type of model element.
 	 */
-	public Point2D getBindingPointLocation(LacOperator lacOperator){
-		return new Point2D.Double(getPositionRef().getX() + LAC_OPERATOR_BINDING_POINT_OFFSET.getWidth(),
-				getPositionRef().getY() + LAC_OPERATOR_BINDING_POINT_OFFSET.getHeight());
+	public Point2D getAttachmentPointLocation(LacOperator lacOperator){
+		return new Point2D.Double(getPositionRef().getX() + LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getHeight());
+	}
+	
+	public void detach(LacOperator lacOperator){
+		if (lacOperator != lacOperatorAttachmentPartner){
+			System.err.println(getClass().getName() + " - Warning: Request to disconnect received from non-partner.");
+			return;
+		}
+		
+		lacOperatorAttachmentPartner = null;
+		lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	}
 }
