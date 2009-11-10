@@ -8,11 +8,19 @@ import java.awt.event.{ItemListener, ItemEvent}
 import edu.colorado.phet.motionseries.model.MotionSeriesObject
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PComboBox, PSwing}
 
-class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("controls.choose-object".translate) {
+class ObjectSelectionComboBoxPanel(objectModel: ObjectModel) extends SubControlPanel("controls.choose-object".translate) {
+  val comboBox = new ObjectSelectionComboBox(objectModel)
+  add(comboBox)
+
+  //  def setEnvironment(pswing: PSwing, pswingCanvas: PSwingCanvas) = comboBox.setEnvironment(pswing, pswingCanvas)
+}
+
+class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
   val vec = new Vector[ObjectItem]
 
-  val mylist = for (o <- MotionSeriesDefaults.objects) yield {
+  val itemList = for (o <- MotionSeriesDefaults.objects) yield {
     o match {
       case m: MotionSeriesObject => new ObjectItem(o)
     }
@@ -20,16 +28,14 @@ class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("controls.c
   class ObjectItem(val rampObject: MotionSeriesObject) {
     override def toString = rampObject.getDisplayText
   }
-  for (elm <- mylist) vec.add(elm)
+  for (elm <- itemList) vec.add(elm)
+  super.setModel(new DefaultComboBoxModel(vec))
 
-  val comboBox = new JComboBox(vec)
-  comboBox.addItemListener(new ItemListener() {
-    def itemStateChanged(e: ItemEvent) = objectModel.selectedObject = mylist(comboBox.getSelectedIndex).rampObject
+  objectModel.addListener(() => {setSelectedIndex(MotionSeriesDefaults.objects.indexOf(objectModel.selectedObject))})
+  addItemListener(new ItemListener() {
+    def itemStateChanged(e: ItemEvent) = objectModel.selectedObject = itemList(getSelectedIndex).rampObject
   })
-  add(comboBox)
-
-  objectModel.addListener(() => {comboBox.setSelectedIndex(MotionSeriesDefaults.objects.indexOf(objectModel.selectedObject))})
-  comboBox.setRenderer(new JLabel with ListCellRenderer {
+  setRenderer(new JLabel with ListCellRenderer {
     setOpaque(true)
 
     def getListCellRendererComponent(list: JList, value: Any, index: Int, isSelected: Boolean, cellHasFocus: Boolean) = {

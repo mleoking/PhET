@@ -193,7 +193,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   add(moreControlsPanel)
 
-  if (useObjectComboBox) add(new RampComboBox(objectModel))
+  if (useObjectComboBox) add(new ObjectSelectionComboBoxPanel(objectModel))
 
   getContentPanel.setFillNone()
   getContentPanel.setAnchor(GridBagConstraints.CENTER)

@@ -1,3 +1,4 @@
+Converted object selection grid to object combo box in the play area.
 Removed custom crate from object selection grid and object selection combo box.
 forces-and-motion: Fixed: in force-graphs tab, custom crate in this drop-down box does not have the correct image.
 forces-and-motion: Fixed: in Friction tab, object does not change size when you change mass.
