@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.reactantsproductsandleftovers.view;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Paint;
 import java.awt.Stroke;
@@ -30,22 +30,22 @@ public class GridLinesNode extends PComposite {
         edgeNode.setStrokePaint( strokePaint );
         addChild( edgeNode );
 
-        // vertical lines
-        for ( int column = 0; column < columns; column++ ) {
+        // horizontal lines
+        for ( int row = 0; row < rows; row++ ) {
             GeneralPath path = new GeneralPath();
-            path.moveTo( (float) ( edgeBounds.getMinX() + ( column * cellSize.getWidth() ) ), (float) edgeBounds.getMinY() );
-            path.lineTo( (float) ( edgeBounds.getMinX() + ( column * cellSize.getWidth() ) ), (float) edgeBounds.getMaxY() );
+            path.moveTo( (float) edgeBounds.getMinX(), (float) ( edgeBounds.getMinY() + ( row * cellSize.getHeight() ) ) );
+            path.lineTo( (float) edgeBounds.getMaxX(), (float) ( edgeBounds.getMinY() + ( row * cellSize.getHeight() ) ) );
             PPath lineNode = new PPath( path );
             lineNode.setStroke( stroke );
             lineNode.setStrokePaint( strokePaint );
             addChild( lineNode );
         }
-
-        // horizontal lines
-        for ( int row = 0; row < ImageLayoutStrategy.GridLayoutStrategy.ROWS; row++ ) {
+        
+        // vertical lines
+        for ( int column = 0; column < columns; column++ ) {
             GeneralPath path = new GeneralPath();
-            path.moveTo( (float) edgeBounds.getMinX(), (float) ( edgeBounds.getMinY() + ( row * cellSize.getHeight() ) ) );
-            path.lineTo( (float) edgeBounds.getMaxX(), (float) ( edgeBounds.getMinY() + ( row * cellSize.getHeight() ) ) );
+            path.moveTo( (float) ( edgeBounds.getMinX() + ( column * cellSize.getWidth() ) ), (float) edgeBounds.getMinY() );
+            path.lineTo( (float) ( edgeBounds.getMinX() + ( column * cellSize.getWidth() ) ), (float) edgeBounds.getMaxY() );
             PPath lineNode = new PPath( path );
             lineNode.setStroke( stroke );
             lineNode.setStrokePaint( strokePaint );
