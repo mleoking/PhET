@@ -13,7 +13,7 @@ public interface IModelElement {
     Vector2D getVelocityRef();
     void setVelocity(Vector2D newVelocity);
     void setVelocity(double xVel, double yVel);
-    void updatePositionAndMotion(double dt);
+    void stepInTime(double dt);
     boolean considerProposalFrom(IModelElement modelElement);
     boolean releaseBondWith(IModelElement modelElement);
 	ModelElementType getType();

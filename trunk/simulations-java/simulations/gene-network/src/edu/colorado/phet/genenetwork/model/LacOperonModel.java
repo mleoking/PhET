@@ -288,32 +288,32 @@ public class LacOperonModel implements IObtainGeneModelElements {
     private void handleClockTicked(double dt){
     	
     	for (LacZ lacZ : lacZList){
-    		lacZ.updatePositionAndMotion(dt);
+    		lacZ.stepInTime(dt);
     	}
     	
     	for (LacI lacI : lacIList){
-    		lacI.updatePositionAndMotion(dt);
+    		lacI.stepInTime(dt);
     	}
     	
     	for (Glucose glucose : glucoseList){
-    		glucose.updatePositionAndMotion(dt);
+    		glucose.stepInTime(dt);
     	}
     	
     	for (Galactose galactose : galactoseList){
-    		galactose.updatePositionAndMotion(dt);
+    		galactose.stepInTime(dt);
     	}
     	
     	for (RnaPolymerase rnaPolymerase : rnaPolymeraseList){
-    		rnaPolymerase.updatePositionAndMotion(dt);
+    		rnaPolymerase.stepInTime(dt);
     	}
     	
-    	cap.updatePositionAndMotion(dt);
-    	capBindingRegion.updatePositionAndMotion(dt);
-    	lacOperator.updatePositionAndMotion(dt);
-    	lacIGene.updatePositionAndMotion(dt);
-    	lacYGene.updatePositionAndMotion(dt);
-    	lacZGene.updatePositionAndMotion(dt);
-    	lacIPromoter.updatePositionAndMotion(dt);
+    	cap.stepInTime(dt);
+    	capBindingRegion.stepInTime(dt);
+    	lacOperator.stepInTime(dt);
+    	lacIGene.stepInTime(dt);
+    	lacYGene.stepInTime(dt);
+    	lacZGene.stepInTime(dt);
+    	lacIPromoter.stepInTime(dt);
     }
     
     //------------------------------------------------------------------------
