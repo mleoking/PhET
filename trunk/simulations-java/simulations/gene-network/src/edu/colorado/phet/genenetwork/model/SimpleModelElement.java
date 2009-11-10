@@ -29,7 +29,7 @@ public abstract class SimpleModelElement implements IModelElement{
 	private Point2D position;
 	private Paint paint;  // The paint to use when representing this element in the view.
 	private Vector2D.Double velocity = new Vector2D.Double();
-    protected ArrayList<Listener> listeners = new ArrayList<Listener>();
+    protected ArrayList<IModelElementListener> listeners = new ArrayList<IModelElementListener>();
     private ArrayList<BindingPoint> bindingPoints = new ArrayList<BindingPoint>();
     private AbstractMotionStrategy motionStrategy = null;
     private final IObtainGeneModelElements model;
@@ -130,13 +130,13 @@ public abstract class SimpleModelElement implements IModelElement{
 	
 	protected void notifyPositionChanged(){
 		// Notify all listeners of the position change.
-		for (Listener listener : listeners)
+		for (IModelElementListener listener : listeners)
 		{
 			listener.positionChanged(); 
 		}        
 	}
 	
-	public void addListener(Listener listener) {
+	public void addListener(IModelElementListener listener) {
 		if (listeners.contains( listener ))
 		{
 			// Don't bother re-adding.
@@ -148,7 +148,7 @@ public abstract class SimpleModelElement implements IModelElement{
 		listeners.add( listener );
 	}
 	
-	public void removeListener(Listener listener){
+	public void removeListener(IModelElementListener listener){
 		listeners.remove(listener);
 	}
 	
@@ -180,12 +180,4 @@ public abstract class SimpleModelElement implements IModelElement{
 	protected AbstractMotionStrategy getMotionStrategyRef(){
 		return motionStrategy;
 	}
-	
-    //------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
-	
-    public interface Listener {
-        void positionChanged();
-    }
 }
