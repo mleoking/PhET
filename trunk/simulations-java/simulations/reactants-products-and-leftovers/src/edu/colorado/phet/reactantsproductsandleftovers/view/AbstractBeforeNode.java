@@ -1,6 +1,8 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -10,6 +12,9 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.LeftoversDisplayNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
@@ -27,6 +32,12 @@ public abstract class AbstractBeforeNode extends PhetPNode {
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     private static final double TITLE_Y_SPACING = 10;
     private static final double CONTROLS_Y_SPACING = 15;
+    
+    private static final double BRACKET_Y_SPACING = 3;
+    private static final PhetFont BRACKET_FONT = new PhetFont( 16 );
+    private static final Color BRACKET_TEXT_COLOR = Color.BLACK;
+    private static final Color BRACKET_COLOR = new Color( 46, 107, 178 );
+    private static final Stroke BRACKET_STROKE = new BasicStroke( 0.75f );
     
     private final ChemicalReaction reaction;
     private final ChangeListener reactionChangeListener;
@@ -93,6 +104,19 @@ public abstract class AbstractBeforeNode extends PhetPNode {
             quantityControlNodes.get( i ).setOffset( x, y );
             x += deltaX;
         }
+        
+        // reactants bracket, after doing layout of leftover quantity displays
+        double startX = quantityControlNodes.get( 0 ).getFullBoundsReference().getMinX();
+        double endX = quantityControlNodes.get( quantityControlNodes.size() - 1 ).getFullBoundsReference().getMaxX();
+        double width = endX - startX;
+        PNode leftoversLabelNode = new BracketedLabelNode( RPALStrings.LABEL_REACTANTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
+        addChild( leftoversLabelNode );
+        x = startX;
+        y = 0;
+        for ( ReactantQuantityControlNode node : quantityControlNodes ) {
+            y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
+        }
+        leftoversLabelNode.setOffset( x, y );
         
         update();
     }

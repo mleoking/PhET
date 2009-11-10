@@ -22,6 +22,8 @@ public class RPALStrings {
     public static final String LABEL_BEFORE_REACTION = RPALResources.getString( "label.beforeReaction" );
     public static final String LABEL_AFTER_REACTION = RPALResources.getString( "label.afterReaction" );
     public static final String LABEL_NO_REACTION = RPALResources.getString( "label.noReaction" );
+    public static final String LABEL_REACTANTS = RPALResources.getString( "label.reactants" );
+    public static final String LABEL_PRODUCTS = RPALResources.getString( "label.products" );
     public static final String LABEL_LEFTOVERS = RPALResources.getString( "label.leftovers" );
 
     // radio buttons
