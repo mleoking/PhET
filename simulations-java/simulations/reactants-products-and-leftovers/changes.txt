@@ -1,3 +1,4 @@
+11/10/09 fix layout issues with "products" label in sandwich shop, add min bracket with to make single-product case look better
 11/10/09 show "reactants" and "products" bracketed labels below Before and After boxes
 11/10/09 remove border around coefficient in RealReactionFormulaNode
 11/10/09 move GridLinesNode to piccolo-phet
