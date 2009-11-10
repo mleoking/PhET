@@ -5,7 +5,7 @@ HIGH PRIORITY
 - design for Game module
 
 MEDIUM PRIORITY
-- product image histogram with 3+3+3=1 Sandwich is problematic, image extends below box, hard to stack to maintain histogram look
+- with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
 
 LOW PRIORITY
 - scale image files to desired size, change scaling constants in RPALConstants
