@@ -4,7 +4,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
-import edu.colorado.phet.common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
+import edu.colorado.phet.common.phetcommon.view.{ControlPanel, VerticalLayoutPanel}
 import edu.colorado.phet.motionseries.graphics._
 import java.awt.event.{MouseEvent, MouseAdapter}
 import java.awt._
@@ -20,8 +20,8 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import edu.umd.cs.piccolox.pswing.{PSwing, PSwingCanvas}
-
+import edu.umd.cs.piccolox.pswing.{PSwing}
+import edu.umd.cs.piccolo.PNode
 class RampControlPanel(model: MotionSeriesModel,
                        wordModel: WordModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -119,7 +119,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
       val segment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(3, 0))
       val node = new RampSegmentNode(segment, new ModelViewTransform2D(dummyModelBounds, dummyViewBounds, false), surfaceModel)
-      node.toImage(75, (75.0/node.getFullBounds.getWidth * node.getFullBounds.getHeight).toInt, new Color(255, 255, 255, 0))
+      node.toImage(75, (75.0 / node.getFullBounds.getWidth * node.getFullBounds.getHeight).toInt, new Color(255, 255, 255, 0))
     }
 
     def getIceIcon = getSegmentIcon(true)
@@ -196,18 +196,27 @@ class RampControlPanelBody(model: MotionSeriesModel,
   add(moreControlsPanel)
 
   //Embed in its own PhetPCanvas so we can easily reuse the PComboBox code
-  class EmbeddedObjectSelectionPanel extends PhetPCanvas{
-    val boxPanel = new ObjectSelectionComboBoxPanel(objectModel)
-    val pswing = new PSwing(boxPanel)
-    boxPanel.setEnvironment(pswing,this)
-    addScreenChild(pswing)
-    setPreferredSize(new Dimension(pswing.getFullBounds.getWidth.toInt,pswing.getFullBounds.getHeight.toInt))
+  class EmbeddedObjectSelectionPanel extends PhetPCanvas {
+    val boxNode = new ComboBoxNode(objectModel, this)
+    addScreenChild(boxNode)
+    setPreferredSize(new Dimension(boxNode.getFullBounds.getWidth.toInt, boxNode.getFullBounds.getHeight.toInt))
+    setBackground(new TitleLabel("hello".literal).getBackground)
   }
 
   if (useObjectComboBox) add(new EmbeddedObjectSelectionPanel)
 
   getContentPanel.setFillNone()
   getContentPanel.setAnchor(GridBagConstraints.CENTER)
+}
+
+class ComboBoxNode(objectModel: ObjectModel, canvas: PhetPCanvas) extends PNode {
+  val text = new PSwing(new TitleLabel("controls.choose-object".translate))
+  addChild(text)
+  val boxPanel = new ObjectSelectionComboBox(objectModel)
+  val pswing = new PSwing(boxPanel)
+  pswing.setOffset(0, text.getFullBounds.getHeight)
+  boxPanel.setEnvironment(pswing, canvas)
+  addChild(pswing)
 }
 
 class SubControlPanel(title: String) extends VerticalLayoutPanel {
