@@ -95,7 +95,7 @@ public class LacOperator extends SimpleModelElement {
 				getPositionRef().getY() + LAC_I_BINDING_POINT_OFFSET.getHeight());
 		
 		// Check the distance between the attachment points.
-		if (lacIAttachmentPtLocation.distance(lacIAttachmentPartner.getBindingPointLocation(this)) < ATTACHMENT_FORMING_DISTANCE){
+		if (lacIAttachmentPtLocation.distance(lacIAttachmentPartner.getAttachmentPointLocation(this)) < ATTACHMENT_FORMING_DISTANCE){
 			// Close enough to attach.
 			lacIAttachmentPartner.attach(this);
 			attachmentState = AttachmentState.ATTACHED;
@@ -128,5 +128,15 @@ public class LacOperator extends SimpleModelElement {
 	
 	public static Dimension2D getBindingRegionSize(){
 		return new PDimension(WIDTH * 0.5, HEIGHT / 2);
+	}
+	
+	public void detach(LacI lacI){
+		if (lacI != lacIAttachmentPartner){
+			System.err.println(getClass().getName() + " - Warning: Request to disconnect received from non-partner.");
+			return;
+		}
+		
+		lacIAttachmentPartner = null;
+		attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	}
 }
