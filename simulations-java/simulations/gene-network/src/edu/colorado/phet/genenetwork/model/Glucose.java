@@ -9,8 +9,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 public class Glucose extends SimpleSugar {
 
-	public Glucose(Point2D initialPosition) {
-		super(initialPosition, Color.BLUE);
+	public Glucose(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, initialPosition, Color.BLUE);
 		// Add binding point for Galactose.
 		addBindingPoint(new BindingPoint(ModelElementType.GALACTOSE,
 				new PDimension(-getWidth()/2, 0)));
@@ -19,12 +19,16 @@ public class Glucose extends SimpleSugar {
 				new PDimension(-getWidth()/2, 0)));
 	}
 	
-    public Glucose(double x,double y) {
-        this(new Point2D.Double(x,y));
+    public Glucose(IObtainGeneModelElements model, double x,double y) {
+        this(model, new Point2D.Double(x,y));
     }
 
+	public Glucose(IObtainGeneModelElements model){
+		this(model, new Point2D.Double());
+	}
+	
 	public Glucose(){
-		this(new Point2D.Double());
+		this(null);
 	}
 	
 	@Override

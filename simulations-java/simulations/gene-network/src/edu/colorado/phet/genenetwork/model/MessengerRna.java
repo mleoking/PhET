@@ -21,12 +21,12 @@ public class MessengerRna extends SimpleModelElement {
 	private static float APPROX_LENGTH = 30;  // In nanometers.
 	private static float THICKNESS = 0.25f;  // In nanometers.
 	
-	public MessengerRna(Point2D initialPosition) {
-		super(createShape(), initialPosition, ELEMENT_PAINT);
+	public MessengerRna(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 	}
 	
-	public MessengerRna() {
-		this(new Point2D.Double());
+	public MessengerRna(IObtainGeneModelElements model) {
+		this(model, new Point2D.Double());
 	}
 
 	@Override

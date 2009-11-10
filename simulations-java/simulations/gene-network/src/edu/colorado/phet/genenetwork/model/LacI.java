@@ -32,15 +32,19 @@ public class LacI extends SimpleModelElement {
 	private Lactose lactoseBondingPartner = null;
 	private boolean boundToLacI = false;
 	
-	public LacI(Point2D initialPosition) {
-		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
+	public LacI(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 		// Add binding point for LacOperator.
 		addBindingPoint(new BindingPoint(ModelElementType.LAC_OPERATOR, new PDimension(0, -HEIGHT/2 + LacOperator.getBindingRegionSize().getHeight())));
 	}
 	
-	public LacI() {
-		this(new Point2D.Double());
+	public LacI(IObtainGeneModelElements model) {
+		this(model, new Point2D.Double());
+	}
+	
+	public LacI(){
+		this(null);
 	}
 	
 	private static Shape createActiveConformationShape(){

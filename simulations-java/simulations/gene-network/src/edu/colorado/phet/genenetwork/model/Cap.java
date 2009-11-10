@@ -29,14 +29,18 @@ public class Cap extends SimpleModelElement {
 	private CapBindingRegion capBindingRegionBondingPartner = null;
 	private boolean bound;
 	
-	public Cap(Point2D initialPosition) {
-		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
+	public Cap(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
 		addBindingPoint(new BindingPoint(ModelElementType.CAP_BINDING_REGION, new PDimension(0, 0)));
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 	}
 	
-	public Cap() {
-		this(new Point2D.Double());
+	public Cap(IObtainGeneModelElements model) {
+		this(model, new Point2D.Double());
+	}
+	
+	public Cap(){
+		this(null);
 	}
 	
 	@Override
@@ -59,7 +63,7 @@ public class Cap extends SimpleModelElement {
 		
 		// Get the shape of the binding region and shift it to the appropriate
 		// position.
-		Shape bindingRegionShape = new CapBindingRegion().getShape();
+		Shape bindingRegionShape = new CapBindingRegion(null).getShape();
 		AffineTransform transform = new AffineTransform();
 		transform.setToTranslation(	0, -HEIGHT/2 );
 		bindingRegionShape = transform.createTransformedShape(bindingRegionShape);
@@ -68,7 +72,7 @@ public class Cap extends SimpleModelElement {
 		area.subtract(new Area(bindingRegionShape));
 		
 		// Get the shape of the cAMP and shift it to the appropriate location.
-		Shape campShape = new Camp().getShape();
+		Shape campShape = new Camp(null).getShape();
 		transform = new AffineTransform();
 		transform.setToTranslation(	-WIDTH/2, 0 );
 		campShape = transform.createTransformedShape(campShape);

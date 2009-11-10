@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 /**
  * Primary model for the Lac Operon flavor of this sim.
  */
-public class LacOperonModel {
+public class LacOperonModel implements IObtainGeneModelElements {
     
 	//----------------------------------------------------------------------------
 	// Class Data
@@ -45,13 +45,13 @@ public class LacOperonModel {
     private final ArrayList<RnaPolymerase> rnaPolymeraseList = new ArrayList<RnaPolymerase>();
     
     // Lists of model elements for which only one instance can exist.
-    private final Cap cap = new Cap();
-    private final CapBindingRegion capBindingRegion = new CapBindingRegion();
-    private final LacOperator lacOperator = new LacOperator();
-    private final LacIGene lacIGene = new LacIGene();
-    private final LacZGene lacZGene = new LacZGene();
-    private final LacYGene lacYGene = new LacYGene();
-    private final LacIPromoter lacIPromoter = new LacIPromoter();
+    private final Cap cap = new Cap(this);
+    private final CapBindingRegion capBindingRegion = new CapBindingRegion(this);
+    private final LacOperator lacOperator = new LacOperator(this);
+    private final LacIGene lacIGene = new LacIGene(this);
+    private final LacZGene lacZGene = new LacZGene(this);
+    private final LacYGene lacYGene = new LacYGene(this);
+    private final LacIPromoter lacIPromoter = new LacIPromoter(this);
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -77,50 +77,86 @@ public class LacOperonModel {
     // Methods
     //----------------------------------------------------------------------------
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacIList()
+	 */
 	public ArrayList<LacI> getLacIList() {
 		return lacIList;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacZList()
+	 */
 	public ArrayList<LacZ> getLacZList() {
 		return lacZList;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getGlucoseList()
+	 */
 	public ArrayList<Glucose> getGlucoseList() {
 		return glucoseList;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getGalactoseList()
+	 */
 	public ArrayList<Galactose> getGalactoseList() {
 		return galactoseList;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getRnaPolymeraseList()
+	 */
 	public ArrayList<RnaPolymerase> getRnaPolymeraseList() {
 		return rnaPolymeraseList;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getCap()
+	 */
 	public Cap getCap() {
 		return cap;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getCapBindingRegion()
+	 */
 	public CapBindingRegion getCapBindingRegion() {
 		return capBindingRegion;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacOperator()
+	 */
 	public LacOperator getLacOperator() {
 		return lacOperator;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacIGene()
+	 */
 	public LacIGene getLacIGene() {
 		return lacIGene;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacZGene()
+	 */
 	public LacZGene getLacZGene() {
 		return lacZGene;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacYGene()
+	 */
 	public LacYGene getLacYGene() {
 		return lacYGene;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacIPromoter()
+	 */
 	public LacIPromoter getLacIPromoter() {
 		return lacIPromoter;
 	}
@@ -132,7 +168,7 @@ public class LacOperonModel {
         randomlyInitModelElement(cap);
 
         for (int i = 0; i < 4; i++){
-        	RnaPolymerase rnaPolymerase = new RnaPolymerase();
+        	RnaPolymerase rnaPolymerase = new RnaPolymerase(this);
         	randomlyInitModelElement(rnaPolymerase);
         	rnaPolymeraseList.add(rnaPolymerase);
         }
@@ -229,11 +265,9 @@ public class LacOperonModel {
     	modelElement.setVelocity((RAND.nextDouble() - 0.5) * maxVel, (RAND.nextDouble() - 0.5) * maxVel);
     }
     
-    /**
-     * Get a list of all simple model elements in the model.
-     * 
-     * @return
-     */
+    /* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getAllSimpleModelElements()
+	 */
     public ArrayList<SimpleModelElement> getAllSimpleModelElements(){
     	ArrayList<SimpleModelElement> allSimples = new ArrayList<SimpleModelElement>();
     	allSimples.addAll(rnaPolymeraseList);

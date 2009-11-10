@@ -31,8 +31,8 @@ public class RnaPolymerase extends SimpleModelElement {
 	private LacPromoter lacPromoterBondingPartner = null;
 	private boolean bound;
 	
-	public RnaPolymerase(Point2D initialPosition) {
-		super(createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
+	public RnaPolymerase(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
 		
 		// This binding point should is hand tweaked to make it work.
 		addBindingPoint(new BindingPoint(ModelElementType.LAC_PROMOTER, new PDimension(WIDTH * 0.1, -HEIGHT * 0.3)));
@@ -40,8 +40,12 @@ public class RnaPolymerase extends SimpleModelElement {
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 	}
 	
-	public RnaPolymerase() {
-		this(new Point2D.Double());
+	public RnaPolymerase(IObtainGeneModelElements model) {
+		this(model, new Point2D.Double());
+	}
+	
+	public RnaPolymerase(){
+		this(null);
 	}
 	
 	@Override
@@ -63,7 +67,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		
 		// Get the shape of the promoter and shift it to the appropriate
 		// position.
-		Shape promoterShape = new LacPromoter().getShape();
+		Shape promoterShape = new LacPromoter(null).getShape();
 		AffineTransform transform = new AffineTransform();
 		transform.setToTranslation(	basicShape.getBounds2D().getMaxX() - promoterShape.getBounds().getMaxX(), -HEIGHT/2 );
 		promoterShape = transform.createTransformedShape(promoterShape);
@@ -72,7 +76,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		area.subtract(new Area(promoterShape));
 		
 		// Get the shape of the CAP and shift it to the appropriate location.
-		Shape capShape = new Cap().getShape();
+		Shape capShape = new Cap(null).getShape();
 		transform = new AffineTransform();
 		transform.setToTranslation(	promoterShape.getBounds2D().getMinX() - capShape.getBounds2D().getWidth()/2, -2 );
 		capShape = transform.createTransformedShape(capShape);

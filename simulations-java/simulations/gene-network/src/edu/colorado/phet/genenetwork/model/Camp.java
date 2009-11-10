@@ -20,12 +20,12 @@ public class Camp extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = Color.RED;
 	private static float DIAMETER = 2.0f;  // In nanometers.
 	
-	public Camp(Point2D initialPosition) {
-		super(createShape(), initialPosition, ELEMENT_PAINT);
+	public Camp(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 	}
 	
-	public Camp() {
-		this(new Point2D.Double());
+	public Camp(IObtainGeneModelElements model) {
+		this(model, new Point2D.Double());
 	}
 	
 	@Override

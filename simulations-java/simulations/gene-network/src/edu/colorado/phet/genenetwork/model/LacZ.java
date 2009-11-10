@@ -26,15 +26,19 @@ public class LacZ extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-SIZE, 0), 
 			new Color(185, 147, 187), new Point2D.Double(SIZE * 5, 0), Color.WHITE);
 	
-	public LacZ(Point2D initialPosition) {
-		super(createShape(), initialPosition, ELEMENT_PAINT);
+	public LacZ(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 		addBindingPoint(new BindingPoint(ModelElementType.GLUCOSE, new PDimension(0, -SIZE/2)));
 		addBindingPoint(new BindingPoint(ModelElementType.GALACTOSE, new PDimension(0, -SIZE/2)));
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 	}
 	
-	public LacZ() {
-		this(new Point2D.Double());
+	public LacZ(IObtainGeneModelElements model) {
+		this(model, new Point2D.Double());
+	}
+	
+	public LacZ(){
+		this(null);
 	}
 	
 	@Override

@@ -11,17 +11,17 @@ public class LacIPromoter extends SimpleModelElement {
 	private static final double WIDTH = 10;  // Nanometers. 
 	private static final double HEIGHT = 2.5;  // Nanometers.
 	
-	public LacIPromoter(Point2D initialPosition) {
-		super(new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1), new Point2D.Double(),
-				new Color(112, 190, 237));
+	public LacIPromoter(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1),
+				new Point2D.Double(), new Color(112, 190, 237));
 	}
 	
-    public LacIPromoter(double x,double y) {
-        this(new Point2D.Double(x,y));
+    public LacIPromoter(IObtainGeneModelElements model, double x, double y) {
+        this(model, new Point2D.Double(x,y));
     }
 
-	public LacIPromoter(){
-		this(new Point2D.Double());
+	public LacIPromoter(IObtainGeneModelElements model){
+		this(model, new Point2D.Double());
 	}
 	
 	@Override
