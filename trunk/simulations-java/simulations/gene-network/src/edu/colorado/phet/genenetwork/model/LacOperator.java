@@ -25,8 +25,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class LacOperator extends SimpleModelElement {
 	
 	private static final Paint ELEMENT_PAINT = new Color(200, 200, 200);
-	private static double WIDTH = 7;   // In nanometers.
-	private static double HEIGHT = 3;  // In nanometers.
+	private static final double WIDTH = 7;   // In nanometers.
+	private static final double HEIGHT = 3;  // In nanometers.
+	private static final Dimension2D LAC_I_BINDING_POINT_OFFSET = new PDimension(0, HEIGHT/2); 
 	
 	private LacI lacIBondingPartner = null;
 	private BondingState bondingState = BondingState.UNBOUND_AND_AVAILABLE; 
@@ -34,7 +35,7 @@ public class LacOperator extends SimpleModelElement {
 	public LacOperator(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 		// Add binding point for LacI.
-		addBindingPoint(new BindingPoint(ModelElementType.LAC_I, new PDimension(0, HEIGHT/2)));
+		addBindingPoint(new BindingPoint(ModelElementType.LAC_I, LAC_I_BINDING_POINT_OFFSET));
 	}
 	
 	public LacOperator(IObtainGeneModelElements model) {
@@ -87,10 +88,17 @@ public class LacOperator extends SimpleModelElement {
 	
 	private void checkBondCompleted(){
 		assert lacIBondingPartner != null;
-		if (getPositionRef().distance(lacIBondingPartner.getPositionRef()) < BOND_FORMING_DISTANCE){
-			// Close enough to form a bond.  Move our partner to the final
-			// location and let it know that the bond is formed.
-			//TODO
+
+		// Calculate the current location of our LacI attachment point.
+		Point2D lacIAttachmentPtLocation = 
+			new Point2D.Double(getPositionRef().getX() + LAC_I_BINDING_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + LAC_I_BINDING_POINT_OFFSET.getHeight());
+		
+		// Check the distance between the attachment points.
+		if (lacIAttachmentPtLocation.distance(lacIBondingPartner.getBindingPointLocation(this)) < BOND_FORMING_DISTANCE){
+			// Close enough to form a bond.
+			lacIBondingPartner.finalizeBond(this);
+			bondingState = BondingState.BONDED;
 		}
 	}
 
