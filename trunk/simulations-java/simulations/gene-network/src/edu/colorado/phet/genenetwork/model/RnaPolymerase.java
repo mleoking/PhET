@@ -35,7 +35,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
 		
 		// This binding point should is hand tweaked to make it work.
-		addBindingPoint(new BindingPoint(ModelElementType.LAC_PROMOTER, new PDimension(WIDTH * 0.1, -HEIGHT * 0.3)));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_PROMOTER, new PDimension(WIDTH * 0.1, -HEIGHT * 0.3)));
 		
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 	}
@@ -100,13 +100,13 @@ public class RnaPolymerase extends SimpleModelElement {
 				// We are moving towards forming a bond with a partner.
 				// Calculate the destination and make sure we are moving
 				// towards it.
-				Dimension2D partnerOffset = lacPromoterBondingPartner.getBindingPointForElement(getType()).getOffset();
-				Dimension2D myOffset = getBindingPointForElement(lacPromoterBondingPartner.getType()).getOffset();
+				Dimension2D partnerOffset = lacPromoterBondingPartner.getAttachmentPointForElement(getType()).getOffset();
+				Dimension2D myOffset = getAttachmentPointForElement(lacPromoterBondingPartner.getType()).getOffset();
 				double xDest = lacPromoterBondingPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
 					myOffset.getWidth();
 				double yDest = lacPromoterBondingPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
 					myOffset.getHeight();
-				if (getPositionRef().distance(xDest, yDest) < BOND_FORMING_DISTANCE){
+				if (getPositionRef().distance(xDest, yDest) < ATTACHMENT_FORMING_DISTANCE){
 					// Close enough to form a bond.  Move to the location and
 					// then stop moving.
 					setPosition(xDest, yDest);

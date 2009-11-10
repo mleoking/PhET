@@ -109,7 +109,7 @@ public class CompositeModelElement implements IModelElement {
 		return false;
 	}
 
-	public boolean releaseBondWith(IModelElement modelElement) {
+	public boolean releaseAttachmentWith(IModelElement modelElement) {
 		// Always refuses to release in the base class.
 		return false;
 	}
@@ -125,7 +125,7 @@ public class CompositeModelElement implements IModelElement {
 		// if not overridden it will not initiate any bonds.
 	}
 
-	public BindingPoint getBindingPointForElement(ModelElementType type) {
+	public AttachmentPoint getAttachmentPointForElement(ModelElementType type) {
 		// Return null, indicating that no binding point exists for the specified type.
 		return null;
 	}

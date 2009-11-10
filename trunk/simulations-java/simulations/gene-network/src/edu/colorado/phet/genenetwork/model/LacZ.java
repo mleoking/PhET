@@ -28,8 +28,8 @@ public class LacZ extends SimpleModelElement {
 	
 	public LacZ(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
-		addBindingPoint(new BindingPoint(ModelElementType.GLUCOSE, new PDimension(0, -SIZE/2)));
-		addBindingPoint(new BindingPoint(ModelElementType.GALACTOSE, new PDimension(0, -SIZE/2)));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.GLUCOSE, new PDimension(0, -SIZE/2)));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.GALACTOSE, new PDimension(0, -SIZE/2)));
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 	}
 	

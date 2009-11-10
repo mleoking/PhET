@@ -12,11 +12,11 @@ public class Galactose extends SimpleSugar {
 	public Galactose(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, initialPosition, Color.ORANGE);
 		
-		// Add binding point for Glucose.
-		addBindingPoint(new BindingPoint(ModelElementType.GLUCOSE,
+		// Add attachment point for Glucose.
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.GLUCOSE,
 				new PDimension(getWidth()/2, 0)));
-		// Add binding point for LacZ.
-		addBindingPoint(new BindingPoint(ModelElementType.LAC_Z,
+		// Add attachment point for LacZ.
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_Z,
 				new PDimension(getWidth()/2, 0)));
 	}
 
