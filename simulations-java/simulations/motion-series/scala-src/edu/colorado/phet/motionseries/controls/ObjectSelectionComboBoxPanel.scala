@@ -14,7 +14,7 @@ class ObjectSelectionComboBoxPanel(objectModel: ObjectModel) extends SubControlP
   val comboBox = new ObjectSelectionComboBox(objectModel)
   add(comboBox)
 
-  //  def setEnvironment(pswing: PSwing, pswingCanvas: PSwingCanvas) = comboBox.setEnvironment(pswing, pswingCanvas)
+  def setEnvironment(pswing: PSwing, pswingCanvas: PSwingCanvas) = comboBox.setEnvironment(pswing, pswingCanvas)
 }
 
 class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
