@@ -27,16 +27,19 @@ public class LacI extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new Color(200, 200, 200);
 	private static double WIDTH = 7;   // In nanometers.
 	private static double HEIGHT = 4;  // In nanometers.
+	private static PDimension LAC_OPERATOR_BINDING_POINT_OFFSET = 
+		new PDimension(0, -HEIGHT/2 + LacOperator.getBindingRegionSize().getHeight());
 	
 	private LacOperator lacOperatorBondingPartner = null;
 	private Lactose lactoseBondingPartner = null;
-	private BondingState bondingState = BondingState.UNBOUND_AND_AVAILABLE;
+	private BondingState lacOperatorBondingState = BondingState.UNBOUND_AND_AVAILABLE;
+	private Point2D targetPositionForLacOperatorBond = new Point2D.Double();
 	
 	public LacI(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 		// Add binding point for LacOperator.
-		addBindingPoint(new BindingPoint(ModelElementType.LAC_OPERATOR, new PDimension(0, -HEIGHT/2 + LacOperator.getBindingRegionSize().getHeight())));
+		addBindingPoint(new BindingPoint(ModelElementType.LAC_OPERATOR, LAC_OPERATOR_BINDING_POINT_OFFSET));
 	}
 	
 	public LacI(IObtainGeneModelElements model) {
@@ -82,43 +85,6 @@ public class LacI extends SimpleModelElement {
 	}
 	
 	@Override
-	public void stepInTime(double dt) {
-		/*
-		if (lacOperatorBondingPartner != null){
-			// TODO: This needs refinement.  It needs to recognize when the
-			// bond is fully formed so that no motion is required, and it
-			// needs to position itself so the binding points align.  This is
-			// and initial rough attempt.
-			// Also, this should probably only be done in this case when bonds
-			// are formed and released, since the partner is known not to move.
-			if (!boundToLacI){
-				// We are moving towards forming a bond with a partner.
-				// Calculate the destination and make sure we are moving
-				// towards it.
-				Dimension2D partnerOffset = lacOperatorBondingPartner.getBindingPointForElement(getType()).getOffset();
-				Dimension2D myOffset = getBindingPointForElement(lacOperatorBondingPartner.getType()).getOffset();
-				double xDest = lacOperatorBondingPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
-					myOffset.getWidth();
-				double yDest = lacOperatorBondingPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
-					myOffset.getHeight();
-				if (getPositionRef().distance(xDest, yDest) < BOND_FORMING_DISTANCE){
-					// Close enough to form a bond.  Move to the location and
-					// then stop moving.
-					setPosition(xDest, yDest);
-					setMotionStrategy(new TimedMotionStrategy(this, new StillnessMotionStrategy(this), 
-							new RandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()), 3));
-					boundToLacI = true;
-				}
-				else{
-					getMotionStrategyRef().setDestination(xDest, yDest);
-				}
-			}
-		}
-		*/
-		super.stepInTime(dt);
-	}
-
-	@Override
 	public ModelElementType getType() {
 		return ModelElementType.LAC_I;
 	}
@@ -126,13 +92,13 @@ public class LacI extends SimpleModelElement {
 	public boolean considerProposalFrom(LacOperator lacOperator) {
 		boolean proposalAccepted = false;
 		
-		if (bondingState == BondingState.UNBOUND_AND_AVAILABLE){
+		if (lacOperatorBondingState == BondingState.UNBOUND_AND_AVAILABLE){
 			assert lacOperatorBondingPartner == null;  // For debug - Make sure consistent with bonding state.
 			lacOperatorBondingPartner = lacOperator;
 			proposalAccepted = true;
 			
 			// Set ourself up to move toward the bonding location.
-			bondingState = BondingState.MOVING_TOWARDS_BOND;
+			lacOperatorBondingState = BondingState.MOVING_TOWARDS_BOND;
 			Dimension2D partnerOffset = lacOperatorBondingPartner.getBindingPointForElement(getType()).getOffset();
 			Dimension2D myOffset = getBindingPointForElement(lacOperatorBondingPartner.getType()).getOffset();
 			double xDest = lacOperatorBondingPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
@@ -140,8 +106,29 @@ public class LacI extends SimpleModelElement {
 			double yDest = lacOperatorBondingPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
 				myOffset.getHeight();
 			getMotionStrategyRef().setDestination(xDest, yDest);
+			targetPositionForLacOperatorBond.setLocation(xDest, yDest);
 		}
 		
 		return proposalAccepted;
+	}
+	
+	public void finalizeBond(LacOperator lacOperator){
+		if (lacOperator != lacOperatorBondingPartner){
+			System.err.println(getClass().getName() + " - Error: Finalize request from non-partner.");
+			assert false;
+			return;
+		}
+		setMotionStrategy(new StillnessMotionStrategy(this));
+		setPosition(targetPositionForLacOperatorBond);
+		lacOperatorBondingState = BondingState.BONDED;
+	}
+	
+	/**
+	 * Get the location in absolute space of the binding point for this type
+	 * of model element.
+	 */
+	public Point2D getBindingPointLocation(LacOperator lacOperator){
+		return new Point2D.Double(getPositionRef().getX() + LAC_OPERATOR_BINDING_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + LAC_OPERATOR_BINDING_POINT_OFFSET.getHeight());
 	}
 }
