@@ -16,7 +16,6 @@ public interface IModelElement {
     void setVelocity(Vector2D newVelocity);
     void setVelocity(double xVel, double yVel);
     void stepInTime(double dt);
-    boolean considerProposalFrom(IModelElement modelElement);
     boolean releaseBondWith(IModelElement modelElement);
 	ModelElementType getType();
 	BindingPoint getBindingPointForElement(ModelElementType type);
