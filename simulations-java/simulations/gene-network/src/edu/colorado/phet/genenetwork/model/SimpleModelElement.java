@@ -167,7 +167,7 @@ public abstract class SimpleModelElement implements IModelElement{
 		return false;
 	}
 
-	public void updatePositionAndMotion(double dt) {
+	public void stepInTime(double dt) {
 		if (motionStrategy != null){
 			motionStrategy.updatePositionAndMotion(dt);
 		}

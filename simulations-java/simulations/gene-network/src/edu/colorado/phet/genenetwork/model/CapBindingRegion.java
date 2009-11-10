@@ -56,8 +56,8 @@ public class CapBindingRegion extends SimpleModelElement {
 	}
 	
 	@Override
-	public void updatePositionAndMotion(double dt) {
-		super.updatePositionAndMotion(dt);
+	public void stepInTime(double dt) {
+		super.stepInTime(dt);
 	}
 
 	@Override
