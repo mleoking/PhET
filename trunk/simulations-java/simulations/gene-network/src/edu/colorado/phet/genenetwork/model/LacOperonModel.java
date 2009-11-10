@@ -52,6 +52,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
     private final LacZGene lacZGene = new LacZGene(this);
     private final LacYGene lacYGene = new LacYGene(this);
     private final LacIPromoter lacIPromoter = new LacIPromoter(this);
+    private final LacPromoter lacPromoter = new LacPromoter(this);
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -195,9 +196,9 @@ public class LacOperonModel implements IObtainGeneModelElements {
         capBindingRegion.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
         xPosition += capBindingRegion.getShape().getBounds2D().getWidth() / 2;
         
-        xPosition += lacIPromoter.getShape().getBounds2D().getWidth() / 2;
-        lacIPromoter.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        xPosition += lacIPromoter.getShape().getBounds2D().getWidth() / 2;
+        xPosition += lacPromoter.getShape().getBounds2D().getWidth() / 2;
+        lacPromoter.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
+        xPosition += lacPromoter.getShape().getBounds2D().getWidth() / 2;
         
         xPosition += lacOperator.getShape().getBounds2D().getWidth() / 2;
         lacOperator.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
@@ -282,6 +283,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	allSimples.add(lacYGene);
     	allSimples.add(lacZGene);
     	allSimples.add(lacIPromoter);
+    	allSimples.add(lacPromoter);
     	return allSimples;
     }
     
