@@ -1,6 +1,8 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -10,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.LeftoversDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
@@ -31,7 +34,12 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private static final double LEFT_MARGIN = 0;
     private static final double RIGHT_MARGIN = LEFT_MARGIN;
     private static final double CONTROLS_Y_SPACING = 15;
-    private static final double LEFTOVERS_BRACKET_Y_SPACING = 3;
+
+    private static final double BRACKET_Y_SPACING = 3;
+    private static final PhetFont BRACKET_FONT = new PhetFont( 16 );
+    private static final Color BRACKET_TEXT_COLOR = Color.BLACK;
+    private static final Color BRACKET_COLOR = new Color( 46, 107, 178 );
+    private static final Stroke BRACKET_STROKE = new BasicStroke( 0.75f );
     
     private final ChemicalReaction reaction;
     private final ChangeListener reactionChangeListener;
@@ -41,6 +49,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private final ArrayList<QuantityDisplayNode> productQuantityDisplayNodes; // quantity displays for products
     private final ArrayList<LeftoversDisplayNode> reactantLeftoverDisplayNodes; // leftovers displays for reactants
     private final ImageLayoutStrategy imageLayoutStrategy;
+    private PNode productsLabelNode ;
     
     public AbstractAfterNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames,  ImageLayoutStrategy imageLayoutStrategy ) {
         super();
@@ -119,15 +128,20 @@ public abstract class AbstractAfterNode extends PhetPNode {
             x += deltaX;
         }
         
-        // leftovers label, after doing layout of leftover quantity displays
+        // leftovers bracket, after doing layout of leftover quantity displays
         double startX = reactantLeftoverDisplayNodes.get( 0 ).getFullBoundsReference().getMinX();
         double endX = reactantLeftoverDisplayNodes.get( reactantLeftoverDisplayNodes.size() - 1 ).getFullBoundsReference().getMaxX();
         double width = endX - startX;
-        PNode leftoversLabelNode = new LeftoversLabelNode( width );
+        PNode leftoversLabelNode = new BracketedLabelNode( RPALStrings.LABEL_LEFTOVERS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
         addChild( leftoversLabelNode );
         x = startX;
-        y = reactantLeftoverDisplayNodes.get( 0 ).getFullBoundsReference().getMaxY() + LEFTOVERS_BRACKET_Y_SPACING;
+        y = 0;
+        for ( LeftoversDisplayNode node : reactantLeftoverDisplayNodes ) {
+            y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
+        }
         leftoversLabelNode.setOffset( x, y );
+        
+        // products bracket will be created dynamically
         
         update();
     }
@@ -158,14 +172,17 @@ public abstract class AbstractAfterNode extends PhetPNode {
             }
         }
     }
-    
+
     /*
      * For each product, update quantity display and number of images to match the quantity.
      * For each reactant, update quantity display and number of images to match the leftovers.
      * If we don't have a legitimate reaction, hide the product quantity displays.
      */
     private void update() {
-        
+
+        // a bit inefficient to do this everytime something changes, but not an issue in this sim
+        updateProductsLabel();
+
         // product quantities
         Product[] products = reaction.getProducts();
         for ( int i = 0; i < products.length; i++ ) {
@@ -195,7 +212,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
                     }
                     
                     while( product.getQuantity() > imageNodes.size() ) {
-                        
                         SubstanceImageNode imageNode = new SubstanceImageNode( product );
                         imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                         imageNodes.add( imageNode );
@@ -241,5 +257,31 @@ public abstract class AbstractAfterNode extends PhetPNode {
                 }
             }
         }
+    }
+    
+    private void updateProductsLabel() {
+        
+        // remove existing label
+        if ( productsLabelNode != null ) {
+            removeChild( productsLabelNode );
+        }
+        
+        // create new label
+        double startX = productQuantityDisplayNodes.get( 0 ).getFullBoundsReference().getMinX();
+        double endX = productQuantityDisplayNodes.get( productQuantityDisplayNodes.size() - 1 ).getFullBoundsReference().getMaxX();
+        double width = endX - startX;
+        productsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_PRODUCTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
+        addChild( productsLabelNode );
+        
+        // offset, below product quantity displays
+        double x = startX;
+        double y = 0;
+        for ( QuantityDisplayNode node : productQuantityDisplayNodes ) {
+            y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
+        }
+        productsLabelNode.setOffset( x, y );
+        
+        // products are only visible when we have a valid reaction
+        productsLabelNode.setVisible( reaction.isReaction() );
     }
 }

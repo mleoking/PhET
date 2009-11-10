@@ -2,6 +2,7 @@
 
 HIGH PRIORITY
 - design for Game module
+- layout/sizing issue with "products" bracketed label
 
 MEDIUM PRIORITY
 - product image histogram with 3+3+3=1 Sandwich is problematic, image extends below box, hard to stack to maintain histogram look

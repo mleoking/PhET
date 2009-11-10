@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * A label with a horizontal bracket.
+ * A label centered below a horizontal bracket.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -22,7 +22,7 @@ public class BracketedLabelNode extends PComposite {
     
     private static final double BRACKET_END_HEIGHT = 5;
     private static final double Y_SPACING = 3;
-    private static final Stroke BRACKET_STROKE = new BasicStroke( 0.75f );
+    private static final Stroke BRACKET_STROKE = new BasicStroke( 1f );
     private static final Color BRACKET_COLOR = Color.BLACK;
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final PhetFont TEXT_FONT = new PhetFont( 12 );
@@ -31,14 +31,18 @@ public class BracketedLabelNode extends PComposite {
     private final PText textNode;
     
     public BracketedLabelNode( String label, double width ) {
+        this( label, width, TEXT_FONT, TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
+    }
+    
+    public BracketedLabelNode( String label, double width, PhetFont font, Color textColor, Color bracketColor, Stroke bracketStroke ) {
         super();
         
-        bracketNode = new BracketNode( width );
+        bracketNode = new BracketNode( width, bracketColor, bracketStroke );
         addChild( bracketNode );
         
         textNode = new PText( label );
-        textNode.setFont( TEXT_FONT );
-        textNode.setTextPaint( TEXT_COLOR );
+        textNode.setFont( font );
+        textNode.setTextPaint( textColor );
         addChild( textNode );
         
         addPropertyChangeListener( new PropertyChangeListener() {
@@ -85,10 +89,10 @@ public class BracketedLabelNode extends PComposite {
     
     private static class BracketNode extends PPath {
         
-        public BracketNode( double width ) {
+        public BracketNode( double width, Paint paint, Stroke stroke ) {
             super();
-            setStroke( BRACKET_STROKE );
-            setStrokePaint( BRACKET_COLOR );
+            setStroke( stroke );
+            setStrokePaint( paint );
             
             GeneralPath path = new GeneralPath();
             path.moveTo( 0, 0 );
