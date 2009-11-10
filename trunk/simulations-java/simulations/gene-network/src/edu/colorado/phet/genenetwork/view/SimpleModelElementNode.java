@@ -13,6 +13,7 @@ import java.awt.geom.Ellipse2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.genenetwork.model.IModelElementListener;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -52,7 +53,8 @@ public class SimpleModelElementNode extends PPath {
 		setPaint(modelElement.getPaint());
 		
 		// Register for important event notifications from the model.
-		modelElement.addListener(new SimpleModelElement.Listener() {
+		modelElement.addListener(new IModelElementListener() {
+			
 			public void positionChanged() {
 				updateOffset();
 			}
