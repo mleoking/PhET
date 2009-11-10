@@ -3,6 +3,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
+import edu.colorado.phet.common.piccolophet.nodes.GridLinesNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
