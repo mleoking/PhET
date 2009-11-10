@@ -6,6 +6,8 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public interface IModelElement {
+	void addListener(IModelElementListener listener);
+	void removeListener(IModelElementListener listener);
     Shape getShape();
     Point2D getPositionRef();
     void setPosition(Point2D newPosition);
