@@ -1,3 +1,4 @@
+11/10/09 make grid layout look less regular by randomly choosing a location within each cell
 11/10/09 add GridLinesNode, for visualizing grid during debugging
 11/10/09 first pass at grid strategy for image layout (looks a little too regular)
 11/9/09 make all images children of box node, so that different product/reactant image types are interleaved instead of segregated in layers
