@@ -138,4 +138,12 @@ public class CompositeModelElement implements IModelElement {
 	protected void setMotionStrategy(AbstractMotionStrategy newMotionStrategy){
 		motionStrategy = newMotionStrategy;
 	}
+
+	public void addListener(IModelElementListener listener) {
+		// TODO Auto-generated method stub
+	}
+
+	public void removeListener(IModelElementListener listener) {
+		// TODO Auto-generated method stub
+	}
 }
