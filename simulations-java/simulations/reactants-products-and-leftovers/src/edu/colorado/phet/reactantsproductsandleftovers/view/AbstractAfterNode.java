@@ -1,7 +1,6 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
 import java.awt.Color;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -64,6 +63,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
         // box
         boxNode = new BoxNode( BOX_SIZE );
         addChild( boxNode );
+        imageLayoutStrategy.setBoxNode( boxNode );
         
         // title for the box
         PText titleNode = new PText( title );
@@ -181,7 +181,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
                 while ( product.getQuantity() < imageNodes.size() ) {
                     SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
                     imageNode.cleanup();
-                    boxNode.removeChild( imageNode );
+                    imageLayoutStrategy.removeNode( imageNode );
                     imageNodes.remove( imageNode );
                 }
             }
@@ -189,7 +189,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
                 // add images
                 while( product.getQuantity() > imageNodes.size() ) {
                     
-                    // add images
                     PNode previousNode = null;
                     if ( imageNodes.size() > 0 ) {
                         previousNode = imageNodes.get( imageNodes.size() - 1 );
@@ -199,11 +198,8 @@ public abstract class AbstractAfterNode extends PhetPNode {
                         
                         SubstanceImageNode imageNode = new SubstanceImageNode( product );
                         imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                        boxNode.addChild( imageNode );
                         imageNodes.add( imageNode );
-                        
-                        Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode, productQuantityDisplayNodes.get( i ) );
-                        imageNode.setOffset( offset );
+                        imageLayoutStrategy.addNode( imageNode, previousNode, productQuantityDisplayNodes.get( i ) );
                         previousNode = imageNode;
                     }
                 }
@@ -222,7 +218,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
                 while ( reactant.getLeftovers() < imageNodes.size() ) {
                     SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
                     imageNode.cleanup();
-                    boxNode.removeChild( imageNode );
+                    imageLayoutStrategy.removeNode( imageNode );
                     imageNodes.remove( imageNode );
                 }
             }
@@ -230,21 +226,16 @@ public abstract class AbstractAfterNode extends PhetPNode {
                 // add images
                 while( reactant.getLeftovers() > imageNodes.size() ) {
                     
-                    // add images
                     PNode previousNode = null;
                     if ( imageNodes.size() > 0 ) {
                         previousNode = imageNodes.get( imageNodes.size() - 1 );
                     }
                     
                     while( reactant.getLeftovers() > imageNodes.size() ) {
-                        
                         SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                         imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                        boxNode.addChild( imageNode );
                         imageNodes.add( imageNode );
-                        
-                        Point2D offset = imageLayoutStrategy.getOffset( imageNode, previousNode, boxNode, reactantLeftoverDisplayNodes.get( i ) );
-                        imageNode.setOffset( offset );
+                        imageLayoutStrategy.addNode( imageNode, previousNode, reactantLeftoverDisplayNodes.get( i ) );
                         previousNode = imageNode;
                     }
                 }
