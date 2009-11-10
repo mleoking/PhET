@@ -23,11 +23,11 @@ public class CapBindingRegion extends SimpleModelElement {
 	private static float HEIGHT = 2.5f;
 	public static float WIDTH = 5;
 	
-	private Cap capBondingPartner = null;
+	private Cap capAttachmentPartner = null;
 	
 	public CapBindingRegion(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
-		addBindingPoint(new BindingPoint(ModelElementType.CAP, new PDimension(0, HEIGHT)));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.CAP, new PDimension(0, HEIGHT)));
 	}
 	
 	public CapBindingRegion(IObtainGeneModelElements model) {
@@ -62,7 +62,7 @@ public class CapBindingRegion extends SimpleModelElement {
 
 	public boolean availableForBonding(ModelElementType elementType) {
 		boolean available = false;
-		if (elementType == ModelElementType.CAP && capBondingPartner == null){
+		if (elementType == ModelElementType.CAP && capAttachmentPartner == null){
 			available = true;
 		}
 		return available;
@@ -71,8 +71,8 @@ public class CapBindingRegion extends SimpleModelElement {
 	public boolean considerProposalFrom(IModelElement modelElement) {
 		boolean proposalAccepted = false;
 
-		if (modelElement instanceof Cap && capBondingPartner == null){
-			capBondingPartner = (Cap)modelElement;
+		if (modelElement instanceof Cap && capAttachmentPartner == null){
+			capAttachmentPartner = (Cap)modelElement;
 			proposalAccepted = true;
 		}
 		
@@ -82,20 +82,20 @@ public class CapBindingRegion extends SimpleModelElement {
 	private void updatePotentialBondingPartners( ArrayList<Cap> capList ) {
 		// Seek to bond with free elements that are within range and that
 		// match our needs.
-		if (capBondingPartner == null){
+		if (capAttachmentPartner == null){
 			for (Cap cap : capList){
 				
 				// Look for a bond with Cap.
 				if (cap.getType() == ModelElementType.CAP &&
-					getPositionRef().distance(cap.getPositionRef()) <= BOND_INITIATION_RANGE &&
-					cap.availableForBonding(getType())){
+					getPositionRef().distance(cap.getPositionRef()) <= ATTACHMENT_INITIATION_RANGE &&
+					cap.availableForAttaching(getType())){
 					
 					// Propose a bond with this element
 					if (cap.considerProposalFrom(this)){
 						// Proposal accepted.  Note that the bond is only
 						// started at this point, and not really finalized
 						// until the binding points are in the same location.
-						capBondingPartner = (Cap)cap;
+						capAttachmentPartner = (Cap)cap;
 						break;
 					}
 				}

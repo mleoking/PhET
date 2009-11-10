@@ -29,13 +29,13 @@ public class LacOperator extends SimpleModelElement {
 	private static final double HEIGHT = 3;  // In nanometers.
 	private static final Dimension2D LAC_I_BINDING_POINT_OFFSET = new PDimension(0, HEIGHT/2); 
 	
-	private LacI lacIBondingPartner = null;
-	private BondingState bondingState = BondingState.UNBOUND_AND_AVAILABLE; 
+	private LacI lacIAttachmentPartner = null;
+	private AttachmentState attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE; 
 	
 	public LacOperator(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 		// Add binding point for LacI.
-		addBindingPoint(new BindingPoint(ModelElementType.LAC_I, LAC_I_BINDING_POINT_OFFSET));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_I, LAC_I_BINDING_POINT_OFFSET));
 	}
 	
 	public LacOperator(IObtainGeneModelElements model) {
@@ -49,17 +49,17 @@ public class LacOperator extends SimpleModelElement {
 	
 	@Override
 	public void stepInTime(double dt) {
-		switch (bondingState){
-		case UNBOUND_AND_AVAILABLE:
-			attemptToStartBond();
+		switch (attachmentState){
+		case UNATTACHED_AND_AVAILABLE:
+			attemptToStartAttaching();
 			break;
-		case MOVING_TOWARDS_BOND:
-			checkBondCompleted();
+		case MOVING_TOWARDS_ATTACHMENT:
+			checkAttachmentCompleted();
 			break;
-		case BONDED:
+		case ATTACHED:
 			// TODO
 			break;
-		case UNBONDED_BUT_UNAVALABLE:
+		case UNATTACHED_BUT_UNAVALABLE:
 			// TODO
 			break;
 		default:
@@ -70,24 +70,24 @@ public class LacOperator extends SimpleModelElement {
 		super.stepInTime(dt);
 	}
 	
-	private void attemptToStartBond(){
-		assert lacIBondingPartner == null;
-		// Search for a partner to bond with.
+	private void attemptToStartAttaching(){
+		assert lacIAttachmentPartner == null;
+		// Search for a partner to attach to.
 		ArrayList<LacI> potentialPartnerList = getModel().getLacIList();
 		
 		for (LacI lacI : potentialPartnerList){
-			if (getPositionRef().distance(lacI.getPositionRef()) < BOND_INITIATION_RANGE){
+			if (getPositionRef().distance(lacI.getPositionRef()) < ATTACHMENT_INITIATION_RANGE){
 				if (lacI.considerProposalFrom(this)){
-					// Bond formed.
-					bondingState = BondingState.MOVING_TOWARDS_BOND;
-					lacIBondingPartner = lacI;
+					// Attachment formed.
+					attachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+					lacIAttachmentPartner = lacI;
 				}
 			}
 		}
 	}
 	
-	private void checkBondCompleted(){
-		assert lacIBondingPartner != null;
+	private void checkAttachmentCompleted(){
+		assert lacIAttachmentPartner != null;
 
 		// Calculate the current location of our LacI attachment point.
 		Point2D lacIAttachmentPtLocation = 
@@ -95,10 +95,10 @@ public class LacOperator extends SimpleModelElement {
 				getPositionRef().getY() + LAC_I_BINDING_POINT_OFFSET.getHeight());
 		
 		// Check the distance between the attachment points.
-		if (lacIAttachmentPtLocation.distance(lacIBondingPartner.getBindingPointLocation(this)) < BOND_FORMING_DISTANCE){
-			// Close enough to form a bond.
-			lacIBondingPartner.finalizeBond(this);
-			bondingState = BondingState.BONDED;
+		if (lacIAttachmentPtLocation.distance(lacIAttachmentPartner.getBindingPointLocation(this)) < ATTACHMENT_FORMING_DISTANCE){
+			// Close enough to attach.
+			lacIAttachmentPartner.attach(this);
+			attachmentState = AttachmentState.ATTACHED;
 		}
 	}
 

@@ -19,18 +19,18 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public abstract class SimpleModelElement implements IModelElement{
 	
 	// Range within with bonding can occur.
-	protected static final double BOND_INITIATION_RANGE = 1000;  // In nanometers.
+	protected static final double ATTACHMENT_INITIATION_RANGE = 1000;  // In nanometers.
 	
 	// Range at which a bond forms when two binding partners are moving
 	// towards each other.
-	protected static final double BOND_FORMING_DISTANCE = 1; // In nanometers.
+	protected static final double ATTACHMENT_FORMING_DISTANCE = 1; // In nanometers.
 	
 	private Shape shape;
 	private Point2D position;
 	private Paint paint;  // The paint to use when representing this element in the view.
 	private Vector2D.Double velocity = new Vector2D.Double();
     protected ArrayList<IModelElementListener> listeners = new ArrayList<IModelElementListener>();
-    private ArrayList<BindingPoint> bindingPoints = new ArrayList<BindingPoint>();
+    private ArrayList<AttachmentPoint> bindingPoints = new ArrayList<AttachmentPoint>();
     private AbstractMotionStrategy motionStrategy = null;
     private final IObtainGeneModelElements model;
     
@@ -105,9 +105,9 @@ public abstract class SimpleModelElement implements IModelElement{
 		}
 	}
 	
-	public BindingPoint getBindingPointForElement(ModelElementType elementType){
-		BindingPoint matchingBindingPoint = null;
-		for (BindingPoint bindingPoint : bindingPoints){
+	public AttachmentPoint getAttachmentPointForElement(ModelElementType elementType){
+		AttachmentPoint matchingBindingPoint = null;
+		for (AttachmentPoint bindingPoint : bindingPoints){
 			if (bindingPoint.getElementType() == elementType){
 				// We have a match.
 				matchingBindingPoint = bindingPoint;
@@ -124,7 +124,7 @@ public abstract class SimpleModelElement implements IModelElement{
 	 * Add a binding point to the list that is being maintained for this model
 	 * element.
 	 */
-	protected void addBindingPoint(BindingPoint bindingPoint){
+	protected void addAttachmentPoint(AttachmentPoint bindingPoint){
 		bindingPoints.add(bindingPoint);
 	}
 	
@@ -152,7 +152,7 @@ public abstract class SimpleModelElement implements IModelElement{
 		listeners.remove(listener);
 	}
 	
-	public boolean releaseBondWith(IModelElement modelElement) {
+	public boolean releaseAttachmentWith(IModelElement modelElement) {
 		// Always refuses to release in the base class.
 		return false;
 	}

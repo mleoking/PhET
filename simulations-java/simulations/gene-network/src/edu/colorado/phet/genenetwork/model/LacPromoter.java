@@ -27,7 +27,7 @@ public class LacPromoter extends SimpleModelElement {
 	
 	public LacPromoter(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
-		addBindingPoint(new BindingPoint(ModelElementType.RNA_POLYMERASE, new PDimension(0, HEIGHT/2)));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.RNA_POLYMERASE, new PDimension(0, HEIGHT/2)));
 	}
 	
 	public LacPromoter(IObtainGeneModelElements model) {

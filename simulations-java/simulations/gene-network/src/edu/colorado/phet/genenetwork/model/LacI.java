@@ -30,16 +30,16 @@ public class LacI extends SimpleModelElement {
 	private static PDimension LAC_OPERATOR_BINDING_POINT_OFFSET = 
 		new PDimension(0, -HEIGHT/2 + LacOperator.getBindingRegionSize().getHeight());
 	
-	private LacOperator lacOperatorBondingPartner = null;
-	private Lactose lactoseBondingPartner = null;
-	private BondingState lacOperatorBondingState = BondingState.UNBOUND_AND_AVAILABLE;
-	private Point2D targetPositionForLacOperatorBond = new Point2D.Double();
+	private LacOperator lacOperatorAttachmentPartner = null;
+	private Lactose lactoseAttachmentPartner = null;
+	private AttachmentState lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	private Point2D targetPositionForLacOperatorAttachment = new Point2D.Double();
 	
 	public LacI(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
 		// Add binding point for LacOperator.
-		addBindingPoint(new BindingPoint(ModelElementType.LAC_OPERATOR, LAC_OPERATOR_BINDING_POINT_OFFSET));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_OPERATOR, LAC_OPERATOR_BINDING_POINT_OFFSET));
 	}
 	
 	public LacI(IObtainGeneModelElements model) {
@@ -92,35 +92,35 @@ public class LacI extends SimpleModelElement {
 	public boolean considerProposalFrom(LacOperator lacOperator) {
 		boolean proposalAccepted = false;
 		
-		if (lacOperatorBondingState == BondingState.UNBOUND_AND_AVAILABLE){
-			assert lacOperatorBondingPartner == null;  // For debug - Make sure consistent with bonding state.
-			lacOperatorBondingPartner = lacOperator;
+		if (lacOperatorAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
+			assert lacOperatorAttachmentPartner == null;  // For debug - Make sure consistent with attachment state.
+			lacOperatorAttachmentPartner = lacOperator;
 			proposalAccepted = true;
 			
-			// Set ourself up to move toward the bonding location.
-			lacOperatorBondingState = BondingState.MOVING_TOWARDS_BOND;
-			Dimension2D partnerOffset = lacOperatorBondingPartner.getBindingPointForElement(getType()).getOffset();
-			Dimension2D myOffset = getBindingPointForElement(lacOperatorBondingPartner.getType()).getOffset();
-			double xDest = lacOperatorBondingPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
+			// Set ourself up to move toward the attaching location.
+			lacOperatorAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+			Dimension2D partnerOffset = lacOperatorAttachmentPartner.getAttachmentPointForElement(getType()).getOffset();
+			Dimension2D myOffset = getAttachmentPointForElement(lacOperatorAttachmentPartner.getType()).getOffset();
+			double xDest = lacOperatorAttachmentPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
 				myOffset.getWidth();
-			double yDest = lacOperatorBondingPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
+			double yDest = lacOperatorAttachmentPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
 				myOffset.getHeight();
 			getMotionStrategyRef().setDestination(xDest, yDest);
-			targetPositionForLacOperatorBond.setLocation(xDest, yDest);
+			targetPositionForLacOperatorAttachment.setLocation(xDest, yDest);
 		}
 		
 		return proposalAccepted;
 	}
 	
-	public void finalizeBond(LacOperator lacOperator){
-		if (lacOperator != lacOperatorBondingPartner){
+	public void attach(LacOperator lacOperator){
+		if (lacOperator != lacOperatorAttachmentPartner){
 			System.err.println(getClass().getName() + " - Error: Finalize request from non-partner.");
 			assert false;
 			return;
 		}
 		setMotionStrategy(new StillnessMotionStrategy(this));
-		setPosition(targetPositionForLacOperatorBond);
-		lacOperatorBondingState = BondingState.BONDED;
+		setPosition(targetPositionForLacOperatorAttachment);
+		lacOperatorAttachmentState = AttachmentState.ATTACHED;
 	}
 	
 	/**
