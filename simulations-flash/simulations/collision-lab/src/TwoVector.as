@@ -51,6 +51,14 @@ package{
 			this.setAngle();
 		}
 		
+		public function flipVector():void{
+			//trace("flipVector() called.");
+			this.xComponent *= -1;
+			this.yComponent *= -1;
+			this.setLength();
+			this.setAngle();
+		}
+		
 		public function getX():Number{
 			return this.xComponent;
 		}

@@ -22,6 +22,10 @@ package{
 			return this.momentum;
 		}
 		
+		public function reverseVelocity():void{
+			this.velocity.flipVector();
+		}
+		
 	}//end of class
 	
 }//end of package
