@@ -21,9 +21,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BracketedLabelNode extends PComposite {
     
     private static final double BRACKET_END_HEIGHT = 5;
-    private static final double Y_SPACING = 3;
+    private static final double BRACKET_TIP_WIDTH = 6;
+    private static final double BRACKET_TIP_HEIGHT = 6;
     private static final Stroke BRACKET_STROKE = new BasicStroke( 1f );
     private static final Color BRACKET_COLOR = Color.BLACK;
+    
+    private static final double TEXT_Y_SPACING = 2;
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final PhetFont TEXT_FONT = new PhetFont( 12 );
 
@@ -63,7 +66,7 @@ public class BracketedLabelNode extends PComposite {
         bracketNode.setOffset( x, y );
         // text centered below bracket
         x = bracketNode.getFullBoundsReference().getCenterX() - ( textNode.getFullBounds().getWidth() / 2 );
-        y = bracketNode.getFullBoundsReference().getMaxY() + Y_SPACING;
+        y = bracketNode.getFullBoundsReference().getMaxY() + TEXT_Y_SPACING;
         textNode.setOffset( x, y ); 
     }
     
@@ -97,6 +100,9 @@ public class BracketedLabelNode extends PComposite {
             GeneralPath path = new GeneralPath();
             path.moveTo( 0, 0 );
             path.lineTo( 0, (float) BRACKET_END_HEIGHT );
+            path.lineTo( (float)(( width - BRACKET_TIP_WIDTH ) / 2 ), (float) BRACKET_END_HEIGHT );
+            path.lineTo( (float)( width / 2 ), (float)( BRACKET_END_HEIGHT + BRACKET_TIP_HEIGHT ) );
+            path.lineTo( (float)(( width + BRACKET_TIP_WIDTH ) / 2 ), (float) BRACKET_END_HEIGHT );
             path.lineTo( (float) width, (float) BRACKET_END_HEIGHT );
             path.lineTo( (float) width, 0 );
             setPathTo( path );
