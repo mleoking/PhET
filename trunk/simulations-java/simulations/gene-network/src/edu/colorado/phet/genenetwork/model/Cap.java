@@ -87,7 +87,7 @@ public class Cap extends SimpleModelElement {
 	public void stepInTime(double dt) {
 		if (capBindingRegionPartner != null){
 			if (!bound){
-				// We are moving towards forming a bond with a partner.
+				// We are moving towards attaching to a partner.
 				// Calculate the destination and make sure we are moving
 				// towards it.
 				Dimension2D partnerOffset = capBindingRegionPartner.getAttachmentPointForElement(getType()).getOffset();
