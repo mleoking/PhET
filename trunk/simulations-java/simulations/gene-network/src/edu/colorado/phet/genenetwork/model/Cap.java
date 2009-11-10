@@ -116,7 +116,6 @@ public class Cap extends SimpleModelElement {
 		super.stepInTime(dt);
 	}
 
-	@Override
 	public boolean availableForBonding(ModelElementType elementType) {
 		boolean available = false;
 		if (elementType == ModelElementType.CAP_BINDING_REGION && capBindingRegionBondingPartner == null){
@@ -125,7 +124,6 @@ public class Cap extends SimpleModelElement {
 		return available;
 	}
 
-	@Override
 	public boolean considerProposalFrom(IModelElement modelElement) {
 		boolean proposalAccepted = false;
 
