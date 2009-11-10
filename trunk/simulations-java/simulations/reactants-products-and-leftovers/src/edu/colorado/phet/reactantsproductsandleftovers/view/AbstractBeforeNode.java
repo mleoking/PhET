@@ -13,8 +13,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.LeftoversDisplayNode;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityDisplayNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
@@ -36,7 +34,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
     private static final double BRACKET_Y_SPACING = 3;
     private static final PhetFont BRACKET_FONT = new PhetFont( 16 );
     private static final Color BRACKET_TEXT_COLOR = Color.BLACK;
-    private static final Color BRACKET_COLOR = new Color( 46, 107, 178 );
+    private static final Color BRACKET_COLOR = RPALConstants.BEFORE_AFTER_BOX_COLOR;
     private static final Stroke BRACKET_STROKE = new BasicStroke( 0.75f );
     
     private final ChemicalReaction reaction;
