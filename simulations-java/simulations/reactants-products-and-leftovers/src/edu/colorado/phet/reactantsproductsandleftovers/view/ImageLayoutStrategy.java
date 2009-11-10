@@ -121,7 +121,7 @@ public interface ImageLayoutStrategy {
             if ( SHOW_GRIDLINES ) {
                 double gridWidth = b.getWidth() - ( 2 * BOX_MARGIN );
                 double gridHeight = b.getHeight() - ( 2 * BOX_MARGIN );
-                PNode gridLinesNode = new GridLinesNode( ROWS, COLUMNS, gridWidth, gridHeight, new BasicStroke( 1f ), Color.BLACK );
+                PNode gridLinesNode = new GridLinesNode( ROWS, COLUMNS, gridWidth, gridHeight, new BasicStroke( 1f ), Color.BLACK, null );
                 getBoxNode().addChild( gridLinesNode );
                 gridLinesNode.setOffset( BOX_MARGIN, BOX_MARGIN );
             }
