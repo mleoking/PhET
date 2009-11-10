@@ -60,7 +60,6 @@ public class CapBindingRegion extends SimpleModelElement {
 		super.stepInTime(dt);
 	}
 
-	@Override
 	public boolean availableForBonding(ModelElementType elementType) {
 		boolean available = false;
 		if (elementType == ModelElementType.CAP && capBondingPartner == null){
@@ -69,7 +68,6 @@ public class CapBindingRegion extends SimpleModelElement {
 		return available;
 	}
 
-	@Override
 	public boolean considerProposalFrom(IModelElement modelElement) {
 		boolean proposalAccepted = false;
 
@@ -89,7 +87,7 @@ public class CapBindingRegion extends SimpleModelElement {
 				
 				// Look for a bond with Cap.
 				if (cap.getType() == ModelElementType.CAP &&
-					getPositionRef().distance(cap.getPositionRef()) <= BONDING_RANGE &&
+					getPositionRef().distance(cap.getPositionRef()) <= BOND_INITIATION_RANGE &&
 					cap.availableForBonding(getType())){
 					
 					// Propose a bond with this element

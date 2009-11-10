@@ -120,7 +120,6 @@ public class RnaPolymerase extends SimpleModelElement {
 		super.stepInTime(dt);
 	}
 
-	@Override
 	public boolean availableForBonding(ModelElementType elementType) {
 		boolean available = false;
 		if (elementType == ModelElementType.LAC_PROMOTER && lacPromoterBondingPartner == null){
@@ -129,7 +128,6 @@ public class RnaPolymerase extends SimpleModelElement {
 		return available;
 	}
 
-	@Override
 	public boolean considerProposalFrom(IModelElement modelElement) {
 		boolean proposalAccepted = false;
 

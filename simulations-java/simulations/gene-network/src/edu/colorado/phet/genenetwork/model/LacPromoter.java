@@ -55,7 +55,6 @@ public class LacPromoter extends SimpleModelElement {
 		return outline;
 	}
 	
-	@Override
 	public boolean availableForBonding(ModelElementType elementType) {
 		boolean available = false;
 		if (elementType == ModelElementType.RNA_POLYMERASE && rnaPolymeraseBondingPartner == null){
@@ -64,7 +63,6 @@ public class LacPromoter extends SimpleModelElement {
 		return available;
 	}
 
-	@Override
 	public boolean considerProposalFrom(IModelElement modelElement) {
 		boolean proposalAccepted = false;
 
