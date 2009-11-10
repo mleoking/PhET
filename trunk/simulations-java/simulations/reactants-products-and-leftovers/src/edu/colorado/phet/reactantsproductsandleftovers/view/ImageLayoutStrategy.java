@@ -35,10 +35,9 @@ public interface ImageLayoutStrategy {
         private BoxNode boxNode;
         
         public void setBoxNode( BoxNode boxNode ) {
-            //XXX investiage why this is thrown
-//            if ( boxNode != null ) {
-//                throw new IllegalStateException( "setBoxNode should only be called once" );
-//            }
+            if ( this.boxNode != null ) {
+                throw new IllegalStateException( "setBoxNode should only be called once" );
+            }
             this.boxNode = boxNode;
         }
         
@@ -77,29 +76,12 @@ public interface ImageLayoutStrategy {
     }
     
     /**
-     * Randomly places images in a box, images may overlap.
-     */
-    public static class RandomBoxLayoutStrategy extends AbstractImageLayoutStrategy {
-        
-        private static final double MARGIN = 5;
-        
-        public void addNode( PNode node, PNode referenceNode, PNode controlNode ) {
-            // add the node to the scenegraph
-            super.addNode( node );
-            // set the node's offset
-            PBounds b = getBoxNode().getFullBoundsReference();
-            double x = b.getX() + MARGIN + ( Math.random() * ( b.getWidth() - node.getFullBoundsReference().getWidth() - ( 2 * MARGIN ) ) );
-            double y = b.getY() + MARGIN + ( Math.random() * ( b.getHeight() - node.getFullBoundsReference().getHeight() - ( 2 * MARGIN ) ) );
-            node.setOffset( x, y );
-        }
-    }
-    
-    /**
      * Places images in a grid, one image per cell in the grid.
      */
     public static class GridLayoutStrategy extends AbstractImageLayoutStrategy {
         
-        private static final boolean SHOW_GRIDLINES = true;
+        private static final boolean DEBUG_SHOW_GRIDLINES = false;
+
         private static final double BOX_MARGIN = 5; // margin of space around the inside edge of the box
         private static final double CELL_MARGIN = 1; // margin of space around the inside edge of each cell
         static final int ROWS = 4;
@@ -114,11 +96,15 @@ public interface ImageLayoutStrategy {
         
         public void setBoxNode( BoxNode boxNode ) {
             super.setBoxNode( boxNode );
+            
+            // compute cell size
             PBounds b = boxNode.getFullBoundsReference();
             double cellWidth = ( b.getWidth() - ( 2 * BOX_MARGIN ) ) / COLUMNS;
             double cellHeight = ( b.getHeight() - ( 2 * BOX_MARGIN ) ) / ROWS;
             cellSize = new PDimension( cellWidth, cellHeight );
-            if ( SHOW_GRIDLINES ) {
+            
+            // visualize grid lines
+            if ( DEBUG_SHOW_GRIDLINES ) {
                 double gridWidth = b.getWidth() - ( 2 * BOX_MARGIN );
                 double gridHeight = b.getHeight() - ( 2 * BOX_MARGIN );
                 PNode gridLinesNode = new GridLinesNode( ROWS, COLUMNS, gridWidth, gridHeight, new BasicStroke( 1f ), Color.BLACK, null );
