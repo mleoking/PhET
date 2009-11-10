@@ -11,17 +11,17 @@ public class LacZGene extends SimpleModelElement {
 	private static final double WIDTH = 20;  // Nanometers.
 	private static final double HEIGHT = 4;  // Nanometers.
 	
-	public LacZGene(Point2D initialPosition) {
-		super(new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1), new Point2D.Double(),
-				new Color(204, 171, 202));
+	public LacZGene(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1),
+				new Point2D.Double(), new Color(204, 171, 202));
 	}
 	
-    public LacZGene(double x,double y) {
-        this(new Point2D.Double(x,y));
+    public LacZGene(IObtainGeneModelElements model, double x, double y) {
+        this(model, new Point2D.Double(x,y));
     }
 
-	public LacZGene(){
-		this(new Point2D.Double());
+	public LacZGene(IObtainGeneModelElements model){
+		this(model, new Point2D.Double());
 	}
 	
 	@Override

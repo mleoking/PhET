@@ -32,8 +32,12 @@ public abstract class SimpleModelElement implements IModelElement{
     protected ArrayList<Listener> listeners = new ArrayList<Listener>();
     private ArrayList<BindingPoint> bindingPoints = new ArrayList<BindingPoint>();
     private AbstractMotionStrategy motionStrategy = null;
+    private final IObtainGeneModelElements model;
     
-	public SimpleModelElement(Shape initialShape, Point2D initialPosition, Paint paint){
+	public SimpleModelElement(IObtainGeneModelElements model, Shape initialShape, 
+			Point2D initialPosition, Paint paint){
+		
+		this.model = model;
 		this.shape = initialShape;
 		this.position = initialPosition;
 		this.paint = paint;
@@ -43,6 +47,10 @@ public abstract class SimpleModelElement implements IModelElement{
 	
 	public Shape getShape(){
 		return shape;
+	}
+	
+	protected IObtainGeneModelElements getModel(){
+		return model;
 	}
 	
 	protected void setShape(Shape shape){

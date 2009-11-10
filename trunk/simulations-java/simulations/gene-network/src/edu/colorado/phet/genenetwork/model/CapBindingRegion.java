@@ -25,13 +25,13 @@ public class CapBindingRegion extends SimpleModelElement {
 	
 	private Cap capBondingPartner = null;
 	
-	public CapBindingRegion(Point2D initialPosition) {
-		super(createShape(), initialPosition, ELEMENT_PAINT);
+	public CapBindingRegion(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 		addBindingPoint(new BindingPoint(ModelElementType.CAP, new PDimension(0, HEIGHT)));
 	}
 	
-	public CapBindingRegion() {
-		this(new Point2D.Double());
+	public CapBindingRegion(IObtainGeneModelElements model) {
+		this(model, new Point2D.Double());
 	}
 	
 	@Override

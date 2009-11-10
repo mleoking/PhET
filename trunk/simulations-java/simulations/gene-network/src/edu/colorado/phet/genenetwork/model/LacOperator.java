@@ -29,14 +29,14 @@ public class LacOperator extends SimpleModelElement {
 	
 	private LacI lacIBondingPartner = null;
 	
-	public LacOperator(Point2D initialPosition) {
-		super(createShape(), initialPosition, ELEMENT_PAINT);
+	public LacOperator(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 		// Add binding point for LacI.
 		addBindingPoint(new BindingPoint(ModelElementType.LAC_I, new PDimension(0, HEIGHT/2)));
 	}
 	
-	public LacOperator() {
-		this(new Point2D.Double());
+	public LacOperator(IObtainGeneModelElements model) {
+		this(model, new Point2D.Double());
 	}
 	
 	@Override
@@ -58,7 +58,7 @@ public class LacOperator extends SimpleModelElement {
 		
 		// Get the shape of a lac inhibitor molecule and shift it to the
 		// appropriate position.
-		Shape lacInhibitorShape = new LacI().getShape();
+		Shape lacInhibitorShape = new LacI(null).getShape();
 		AffineTransform transform = new AffineTransform();
 		transform.setToTranslation(	0, HEIGHT/2 );
 		lacInhibitorShape = transform.createTransformedShape(lacInhibitorShape);

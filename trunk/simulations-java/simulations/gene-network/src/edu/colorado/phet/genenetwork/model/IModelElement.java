@@ -2,7 +2,6 @@ package edu.colorado.phet.genenetwork.model;
 
 import java.awt.Shape;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 

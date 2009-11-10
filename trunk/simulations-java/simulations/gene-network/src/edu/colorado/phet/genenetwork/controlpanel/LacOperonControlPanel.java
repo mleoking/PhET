@@ -15,7 +15,7 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.genenetwork.GeneNetworkResources;
-import edu.colorado.phet.genenetwork.model.LacOperonModel;
+import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
 import edu.colorado.phet.genenetwork.module.LacOperonModule;
 
 /**
@@ -37,7 +37,7 @@ public class LacOperonControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public LacOperonControlPanel( LacOperonModule module, Frame parentFrame, LacOperonModel model ) {
+    public LacOperonControlPanel( LacOperonModule module, Frame parentFrame, IObtainGeneModelElements model ) {
         super();
         
         // Set the control panel's minimum width.

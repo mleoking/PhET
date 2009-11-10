@@ -52,7 +52,7 @@ public class Lactose extends CompositeModelElement {
      * This constructor creates new glucose and galactose molecules.
      */
     public Lactose() {
-    	this(new Glucose(), new Galactose());
+    	this(new Glucose(null), new Galactose(null));
 	}
     
     public Shape getShape(){

@@ -25,13 +25,13 @@ public class LacPromoter extends SimpleModelElement {
 	
 	private RnaPolymerase rnaPolymeraseBondingPartner = null;
 	
-	public LacPromoter(Point2D initialPosition) {
-		super(createShape(), initialPosition, ELEMENT_PAINT);
+	public LacPromoter(IObtainGeneModelElements model, Point2D initialPosition) {
+		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 		addBindingPoint(new BindingPoint(ModelElementType.RNA_POLYMERASE, new PDimension(0, HEIGHT/2)));
 	}
 	
-	public LacPromoter() {
-		this(new Point2D.Double());
+	public LacPromoter(IObtainGeneModelElements model) {
+		this(model, new Point2D.Double());
 	}
 	
 	@Override
