@@ -1,7 +1,6 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- prevent overlapping images in RandomBoxLayoutStrategy
 - design for Game module
 
 MEDIUM PRIORITY
