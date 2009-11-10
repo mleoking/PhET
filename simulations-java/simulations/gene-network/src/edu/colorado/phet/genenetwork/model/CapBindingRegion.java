@@ -60,7 +60,7 @@ public class CapBindingRegion extends SimpleModelElement {
 		super.stepInTime(dt);
 	}
 
-	public boolean availableForBonding(ModelElementType elementType) {
+	public boolean availableForAttaching(ModelElementType elementType) {
 		boolean available = false;
 		if (elementType == ModelElementType.CAP && capAttachmentPartner == null){
 			available = true;
@@ -79,7 +79,7 @@ public class CapBindingRegion extends SimpleModelElement {
 		return proposalAccepted;
 	}
 
-	private void updatePotentialBondingPartners( ArrayList<Cap> capList ) {
+	private void updatePotentialAttachmentPartners( ArrayList<Cap> capList ) {
 		// Seek to bond with free elements that are within range and that
 		// match our needs.
 		if (capAttachmentPartner == null){

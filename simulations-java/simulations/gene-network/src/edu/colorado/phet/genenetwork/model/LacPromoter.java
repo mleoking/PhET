@@ -23,7 +23,7 @@ public class LacPromoter extends SimpleModelElement {
 	private static float HEIGHT = 2.5f;
 	public static float WIDTH = 10;
 	
-	private RnaPolymerase rnaPolymeraseBondingPartner = null;
+	private RnaPolymerase rnaPolymeraseAttachmentPartner = null;
 	
 	public LacPromoter(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
@@ -57,7 +57,7 @@ public class LacPromoter extends SimpleModelElement {
 	
 	public boolean availableForBonding(ModelElementType elementType) {
 		boolean available = false;
-		if (elementType == ModelElementType.RNA_POLYMERASE && rnaPolymeraseBondingPartner == null){
+		if (elementType == ModelElementType.RNA_POLYMERASE && rnaPolymeraseAttachmentPartner == null){
 			available = true;
 		}
 		return available;
@@ -66,8 +66,8 @@ public class LacPromoter extends SimpleModelElement {
 	public boolean considerProposalFrom(IModelElement modelElement) {
 		boolean proposalAccepted = false;
 
-		if (modelElement instanceof CapBindingRegion && rnaPolymeraseBondingPartner == null){
-			rnaPolymeraseBondingPartner = (RnaPolymerase)modelElement;
+		if (modelElement instanceof CapBindingRegion && rnaPolymeraseAttachmentPartner == null){
+			rnaPolymeraseAttachmentPartner = (RnaPolymerase)modelElement;
 			proposalAccepted = true;
 		}
 		
