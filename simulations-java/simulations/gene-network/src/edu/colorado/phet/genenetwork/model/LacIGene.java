@@ -8,8 +8,16 @@ import java.awt.geom.RoundRectangle2D;
 
 public class LacIGene extends SimpleModelElement {
 
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+	
 	private static final double WIDTH = 20;  // Nanometers. 
 	private static final double HEIGHT = 4;  // Nanometers.
+	
+    //------------------------------------------------------------------------
+    // Constructor(s)
+    //------------------------------------------------------------------------
 	
 	public LacIGene(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1),
@@ -23,6 +31,10 @@ public class LacIGene extends SimpleModelElement {
 	public LacIGene(IObtainGeneModelElements model){
 		this(model, new Point2D.Double());
 	}
+	
+    //------------------------------------------------------------------------
+    // Methods
+    //------------------------------------------------------------------------
 	
 	@Override
 	public ModelElementType getType() {
