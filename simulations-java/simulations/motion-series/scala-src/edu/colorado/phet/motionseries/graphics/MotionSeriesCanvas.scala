@@ -14,9 +14,8 @@ import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.tests.MyCanvas
-import edu.umd.cs.piccolox.pswing.PSwing
-import javax.swing.{JButton, JFrame}
-import edu.colorado.phet.motionseries.controls.{ObjectSelectionComboBox, ObjectSelectionComboBoxPanel}
+import javax.swing.{JFrame}
+import edu.colorado.phet.motionseries.controls.{ComboBoxNode}
 
 abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   adjustableCoordinateModel: AdjustableCoordinateModel,
@@ -84,7 +83,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   addWallsAndDecorations()
 
   val beadNode = createBeadNode(model.bead, transform, model.selectedObject.imageFilename, () => {
-    if (model.isPlayback){
+    if (model.isPlayback) {
       model.clearHistoryRemainder()
       model.setRecord(true)
     }
@@ -194,12 +193,9 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
   }
 
   if (showObjectSelectionNode) {
-    val boxPanel = new ObjectSelectionComboBoxPanel(model)
-    val objectSelectionNode = new PSwing(boxPanel){
+    addStageNode(new ComboBoxNode(model, this) {
       setOffset(stage.width / 2 - getFullBounds.getWidth / 2, stage.height - getFullBounds.getHeight - 2)
-    }
-    boxPanel.setEnvironment(objectSelectionNode,this)
-    addStageNode(objectSelectionNode)
+    })
   }
 
   override def containerBounds = stageContainerArea.getBounds(getWidth, getHeight)
