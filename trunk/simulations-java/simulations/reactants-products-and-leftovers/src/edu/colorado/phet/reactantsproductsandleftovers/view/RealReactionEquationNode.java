@@ -1,7 +1,10 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Stroke;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -10,6 +13,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -20,6 +24,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class RealReactionEquationNode extends PComposite {
     
+    private static final boolean SHOW_COEFFICIENT_BORDERS = false; // puts a border around coefficients
+    private static final boolean SHOW_ONE_COEFFICIENTS = false; // shows coefficient values that are 1
+    
     private static final Font FONT = new PhetFont( 36 );
     private static final Color NAME_COLOR = Color.BLACK;
 
@@ -28,6 +35,10 @@ public class RealReactionEquationNode extends PComposite {
     private static final double ARROW_X_SPACING = 20;
     
     private static final Color COEFFICIENT_COLOR = Color.BLACK;
+    private static final double COEFFICIENT_BORDER_MARGIN = 5;
+    private static final Stroke COEFFICIENT_BORDER_STROKE = new BasicStroke( 0.5f );
+    private static final Color COEFFICIENT_BORDER_COLOR = Color.BLACK;
+ 
     
     private final ChemicalReaction reaction;
     private final HTMLNode htmlNode;
@@ -73,24 +84,38 @@ public class RealReactionEquationNode extends PComposite {
             }
             
             // coefficient 
-            CoefficientNode coefficientNode = new CoefficientNode( reactants[i].getCoefficient() );
-            addChild( coefficientNode );
-            if ( plusNode == null ) {
-                coefficientNode.setOffset( 0, 0 );
-            }
-            else {
-                x = plusNode.getFullBoundsReference().getMaxX() + PLUS_X_SPACING;
-                y = 0;
-                coefficientNode.setOffset( x,y );
+            CoefficientNode coefficientNode = null;
+            if ( SHOW_ONE_COEFFICIENTS || reactants[i].getCoefficient() != 1 ) {
+                coefficientNode = new CoefficientNode( reactants[i].getCoefficient() );
+                addChild( coefficientNode );
+                if ( plusNode == null ) {
+                    coefficientNode.setOffset( 0, 0 );
+                }
+                else {
+                    x = plusNode.getFullBoundsReference().getMaxX() + PLUS_X_SPACING;
+                    y = 0;
+                    coefficientNode.setOffset( x, y );
+                }
             }
             
             // name
             NameNode nameNode = new NameNode( reactants[i].getName() );
             addChild( nameNode );
-            x = coefficientNode.getFullBoundsReference().getMaxX() + COEFFICIENT_X_SPACING;
-            y = 0;
-            nameNode.setOffset( x, y );
-            
+            if ( coefficientNode == null ) {
+                if ( plusNode == null ) {
+                    nameNode.setOffset( 0, 0 );
+                }
+                else {
+                    x = plusNode.getFullBoundsReference().getMaxX() + PLUS_X_SPACING;
+                    y = 0;
+                    nameNode.setOffset( x, y );
+                }
+            }
+            else {
+                x = coefficientNode.getFullBoundsReference().getMaxX() + COEFFICIENT_X_SPACING;
+                y = 0;
+                nameNode.setOffset( x, y );
+            }
             previousNode = nameNode;
         }
         
@@ -117,36 +142,71 @@ public class RealReactionEquationNode extends PComposite {
             }
             
             // coefficient
-            CoefficientNode coefficientNode = new CoefficientNode( products[i].getCoefficient() );
-            addChild( coefficientNode );
-            if ( plusNode == null ) {
-                x = previousNode.getFullBoundsReference().getMaxX() + ARROW_X_SPACING;
-                y = 0;
-                coefficientNode.setOffset( x, y );
-            }
-            else {
-                x = plusNode.getFullBoundsReference().getMaxX() + PLUS_X_SPACING;
-                y = 0;
-                coefficientNode.setOffset( x,y );
+            CoefficientNode coefficientNode = null;
+            if ( SHOW_ONE_COEFFICIENTS || reactants[i].getCoefficient() != 1 ) {
+                coefficientNode = new CoefficientNode( products[i].getCoefficient() );
+                addChild( coefficientNode );
+                if ( plusNode == null ) {
+                    x = arrowNode.getFullBoundsReference().getMaxX() + ARROW_X_SPACING;
+                    y = 0;
+                    coefficientNode.setOffset( x, y );
+                }
+                else {
+                    x = plusNode.getFullBoundsReference().getMaxX() + PLUS_X_SPACING;
+                    y = 0;
+                    coefficientNode.setOffset( x, y );
+                }
             }
             
             // name
             NameNode nameNode = new NameNode( products[i].getName() );
             addChild( nameNode );
-            x = coefficientNode.getFullBoundsReference().getMaxX() + COEFFICIENT_X_SPACING;
-            y = 0;
-            nameNode.setOffset( x, y );
+            if ( coefficientNode == null ) {
+                if ( plusNode == null ) {
+                    x = arrowNode.getFullBoundsReference().getMaxX() + ARROW_X_SPACING;
+                    y = 0;
+                    nameNode.setOffset( x, y );
+                }
+                else {
+                    x = plusNode.getFullBoundsReference().getMaxX() + PLUS_X_SPACING;
+                    y = 0;
+                    nameNode.setOffset( x, y );
+                }
+            }
+            else {
+                x = coefficientNode.getFullBoundsReference().getMaxX() + COEFFICIENT_X_SPACING;
+                y = 0;
+                nameNode.setOffset( x, y );
+            }
             
             previousNode = nameNode;
         }
     }
     
-    private static class CoefficientNode extends PText {
+    private static class CoefficientNode extends PComposite {
         
         public CoefficientNode( int coefficient ) {
-            super( String.valueOf( coefficient ) );
-            setFont( FONT );
-            setTextPaint( COEFFICIENT_COLOR );
+            super();
+            
+            PText textNode = new PText( String.valueOf( coefficient ) );
+            textNode.setFont( FONT );
+            textNode.setTextPaint( COEFFICIENT_COLOR );
+            addChild( textNode );
+            
+            final double x = -COEFFICIENT_BORDER_MARGIN;
+            final double y = -COEFFICIENT_BORDER_MARGIN;
+            final double w = textNode.getFullBoundsReference().getWidth() + ( 2 * COEFFICIENT_BORDER_MARGIN );
+            final double h = textNode.getFullBoundsReference().getHeight() + ( 2 * COEFFICIENT_BORDER_MARGIN );
+            PPath borderNode = new PPath( new Rectangle2D.Double( x, y,w,h ) );
+            borderNode.setStroke( COEFFICIENT_BORDER_STROKE );
+            borderNode.setStrokePaint( COEFFICIENT_BORDER_COLOR );
+            if ( SHOW_COEFFICIENT_BORDERS ) {
+                addChild( borderNode );
+            }
+            
+            // layout
+            textNode.setOffset( 0, 0 );
+            borderNode.setOffset( 0, 0 );
         }
     }
     
