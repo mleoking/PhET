@@ -32,7 +32,7 @@ public class Cap extends SimpleModelElement {
 	public Cap(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.CAP_BINDING_REGION, new PDimension(0, 0)));
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 	}
 	
 	public Cap(IObtainGeneModelElements model) {
