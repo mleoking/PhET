@@ -98,7 +98,7 @@ public interface ImageLayoutStrategy {
      */
     public static class GridLayoutStrategy extends AbstractImageLayoutStrategy {
         
-        private static final boolean DEBUG_SHOW_GRIDLINES = true;
+        private static final boolean DEBUG_SHOW_GRIDLINES = false;
 
         private static final double BOX_MARGIN = 5; // margin of space around the inside edge of the box
         private static final double CELL_MARGIN = 1; // margin of space around the inside edge of each cell
