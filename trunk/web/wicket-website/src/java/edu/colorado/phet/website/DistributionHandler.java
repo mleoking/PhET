@@ -1,9 +1,9 @@
 package edu.colorado.phet.website;
 
 import edu.colorado.phet.website.content.ContributePanel;
+import edu.colorado.phet.website.content.FullInstallPanel;
 import edu.colorado.phet.website.content.ResearchPanel;
 import edu.colorado.phet.website.content.WorkshopsPanel;
-import edu.colorado.phet.website.content.FullInstallPanel;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
@@ -71,6 +71,10 @@ public class DistributionHandler {
     }
 
     public static boolean redirectActivities( PhetRequestCycle cycle ) {
+        return cycle.isYoungAndFreedmanRipperRequest();
+    }
+
+    public static boolean redirectHeaderToProduction( PhetRequestCycle cycle ) {
         return cycle.isYoungAndFreedmanRipperRequest();
     }
 }
