@@ -1,11 +1,11 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- move equation below Before/After boxes?
 - design for Game module
 
 MEDIUM PRIORITY
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
+- move equation below Before/After boxes?
 
 LOW PRIORITY
 - scale image files to desired size, change scaling constants in RPALConstants
