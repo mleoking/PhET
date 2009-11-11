@@ -11,6 +11,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -124,6 +125,15 @@ public class RnaPolymerase extends SimpleModelElement {
 	
 	@Override
 	public void stepInTime(double dt) {
+		if (lacPromoterAttachmentState == AttachmentState.ATTACHED && !getModel().isLacIAttachedToDna()){
+			// The way is clear for us to traverse the DNA strand and
+			// transcribe the messenger RNA for LacZ.
+			lacPromoterAttachmentPartner.detach(this);
+			lacPromoterAttachmentPartner = null;
+			lacPromoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+			setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
+					new Point2D.Double(getPositionRef().getX() + 30, getPositionRef().getY()), 8));
+		}
 		super.stepInTime(dt);
 	}
 
