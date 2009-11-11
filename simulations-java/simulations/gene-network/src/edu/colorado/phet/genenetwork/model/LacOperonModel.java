@@ -228,16 +228,16 @@ public class LacOperonModel implements IObtainGeneModelElements {
         xPosition += lacYGene.getShape().getBounds2D().getWidth() / 2;
 	}
 
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
     public GeneNetworkClock getClock() {
         return clock;
     }
     
     public static Rectangle2D getMotionBounds(){
     	return MOTION_BOUNDS;
+    }
+    
+    public boolean isLacIAttachedToDna(){
+    	return lacOperator.isLacIAttached();
     }
 
     /**

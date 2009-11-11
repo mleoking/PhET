@@ -40,5 +40,13 @@ public interface IObtainGeneModelElements {
 	 * @return
 	 */
 	public abstract ArrayList<SimpleModelElement> getAllSimpleModelElements();
-
+	
+    /**
+     * Returns true if LacI (a.k.a. Lac Inhibitor) is currently attached to
+     * the DNA strand.  This is important because if it is, RNA polymerase is
+     * essentially blocked from traversing the DNA strand.
+     * 
+     * @return
+     */
+	public abstract boolean isLacIAttachedToDna();
 }
