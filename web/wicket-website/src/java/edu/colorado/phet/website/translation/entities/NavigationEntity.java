@@ -47,6 +47,7 @@ public class NavigationEntity extends TranslationEntity {
         addString( "nav.research" );
         addString( "nav.about" );
         addString( "nav.about.source-code" );
+        addString( "nav.about.legend" );
         addString( "nav.about.contact" );
         addString( "nav.about.who-we-are" );
         addString( "nav.about.licensing" );

@@ -67,6 +67,7 @@ public class PhetWicketApplication extends WebApplication {
         StaticPage.addPanel( TroubleshootingFlashPanel.class );
         StaticPage.addPanel( TroubleshootingJavascriptPanel.class );
         StaticPage.addPanel( AboutSourceCodePanel.class );
+        StaticPage.addPanel( AboutLegendPanel.class );
         StaticPage.addPanel( AboutContactPanel.class );
         StaticPage.addPanel( AboutWhoWeArePanel.class );
         StaticPage.addPanel( AboutLicensingPanel.class );

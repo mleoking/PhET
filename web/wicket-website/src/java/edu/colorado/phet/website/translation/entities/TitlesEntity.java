@@ -14,6 +14,7 @@ public class TitlesEntity extends TranslationEntity {
         addString( "simulationDisplay.title", "Title for a category of simulations. {0} will be replaced by the translated category name (like nav.motion)." );
         addString( "about.title", "Title of the About page" );
         addString( "about.source-code.title", "Title of the Source Code About page" );
+        addString( "about.legend.title", "Title of the Legend About page" );
         addString( "about.contact.title", "Title of the Contact About page" );
         addString( "about.who-we-are.title", "Title of the Who We Are About page" );
         addString( "about.licensing.title", "Title of the Licensing About page" );
