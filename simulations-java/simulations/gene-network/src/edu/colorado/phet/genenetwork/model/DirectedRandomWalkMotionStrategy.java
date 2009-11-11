@@ -21,8 +21,8 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	private static final double DIRECTED_PROPORTION = 0.9; // Proportion of motion updates that move towards
 	                                                       // the destination point.
 	private static final int MOTION_UPDATE_PERIOD = 20;  // Number of update calls before changing direction.
-	private static double MAX_VELOCITY = 0.4;  // In nanometers per update, I guess.  Weird.
-	private static double MIN_VELOCITY = 0.1;  // In nanometers per update, I guess.  Weird.
+	protected static double MAX_VELOCITY = 10;  // In nanometers per second
+	protected static double MIN_VELOCITY = 3;  // In nanometers per second
 
 	private Rectangle2D bounds;
 	private int myUpdateValue;  // Used to stagger updates, for a better look and more even computational load.
@@ -61,8 +61,8 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
     		modelElement.setVelocity(velocity.getX(), -velocity.getY());
     	}
 		
-		modelElement.setPosition( modelElement.getPositionRef().getX() + modelElement.getVelocityRef().getX(), 
-				modelElement.getPositionRef().getY() + modelElement.getVelocityRef().getY() );
+		modelElement.setPosition( modelElement.getPositionRef().getX() + modelElement.getVelocityRef().getX() * dt, 
+				modelElement.getPositionRef().getY() + modelElement.getVelocityRef().getY() * dt );
 		
 		// See if it is time to change the motion and, if so, do it.
 		if (updateCount == myUpdateValue){
