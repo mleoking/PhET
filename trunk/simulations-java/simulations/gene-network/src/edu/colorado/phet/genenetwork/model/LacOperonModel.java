@@ -226,6 +226,14 @@ public class LacOperonModel implements IObtainGeneModelElements {
         xPosition += lacYGene.getShape().getBounds2D().getWidth() / 2;
         lacYGene.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
         xPosition += lacYGene.getShape().getBounds2D().getWidth() / 2;
+        
+        // Force the CAP to attach to the CAP binding region on the DNA.
+        if (cap.considerProposalFrom(capBindingRegion) == true){
+        	cap.attach(capBindingRegion);
+        }
+        else{
+        	System.err.println(getClass().getName() + " - Error: Unable to attach CAP to CAP binding region.");
+        }
 	}
 
     public GeneNetworkClock getClock() {
