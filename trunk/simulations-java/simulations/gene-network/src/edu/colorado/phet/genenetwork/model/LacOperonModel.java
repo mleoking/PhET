@@ -327,6 +327,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	lacYGene.stepInTime(dt);
     	lacZGene.stepInTime(dt);
     	lacIPromoter.stepInTime(dt);
+    	lacPromoter.stepInTime(dt);
     }
     
     //------------------------------------------------------------------------
