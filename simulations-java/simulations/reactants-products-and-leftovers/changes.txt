@@ -3,9 +3,9 @@
 11/10/09 do all image removal before adding images, to free up space in grid
 11/10/09 add pointer tip to bracket node
 11/10/09 start with "products" and "leftovers" labels vertically aligned, OK to lose alignment if images are dynamic
-11/10/09 fix layout issues with "products" label in sandwich shop, add min bracket with to make single-product case look better
+11/10/09 fix layout issues with "products" label in sandwich shop, add min bracket width to make single-product case look better
 11/10/09 show "reactants" and "products" bracketed labels below Before and After boxes
-11/10/09 remove border around coefficient in RealReactionFormulaNode
+11/10/09 remove border around coefficients in RealReactionFormulaNode
 11/10/09 move GridLinesNode to piccolo-phet
 11/10/09 make grid layout look less regular by randomly choosing a location within each cell
 11/10/09 add GridLinesNode, for visualizing grid during debugging
