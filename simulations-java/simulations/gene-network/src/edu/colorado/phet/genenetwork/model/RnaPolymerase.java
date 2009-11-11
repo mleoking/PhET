@@ -23,19 +23,34 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class RnaPolymerase extends SimpleModelElement {
 	
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+	
 	private static float WIDTH = CapBindingRegion.WIDTH + LacPromoter.WIDTH;
 	private static float HEIGHT = 8;  // In nanometers.
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-WIDTH, 0), 
 			new Color(17, 149, 210), new Point2D.Double(WIDTH * 5, 0), Color.WHITE);
+	private static Dimension2D LAC_PROMOTER_ATTACHMENT_POINT_OFFSET = new PDimension(WIDTH * 0.1, -HEIGHT * 0.3);
 	
-	private LacPromoter lacPromoterBondingPartner = null;
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+	
+	private LacPromoter lacPromoterAttachmentPartner = null;
+	private AttachmentState lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private boolean bound;
+	private Point2D targetPositionForLacPromoterAttachment = new Point2D.Double();
+	
+    //------------------------------------------------------------------------
+    // Constructor(s)
+    //------------------------------------------------------------------------
 	
 	public RnaPolymerase(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
 		
 		// This binding point should is hand tweaked to make it work.
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_PROMOTER, new PDimension(WIDTH * 0.1, -HEIGHT * 0.3)));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_PROMOTER, LAC_PROMOTER_ATTACHMENT_POINT_OFFSET));
 		
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 	}
@@ -48,9 +63,29 @@ public class RnaPolymerase extends SimpleModelElement {
 		this(null);
 	}
 	
+    //------------------------------------------------------------------------
+    // Methods
+    //------------------------------------------------------------------------
+	
 	@Override
 	public ModelElementType getType() {
 		return ModelElementType.RNA_POLYMERASE;
+	}
+	
+	public Point2D getAttachmentPointLocation(LacPromoter lacPromoter){
+		return new Point2D.Double(getPositionRef().getX() + LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getHeight());
+	}
+	
+	public void attach(LacPromoter lacPromoter){
+		if (lacPromoter != lacPromoterAttachmentPartner){
+			System.err.println(getClass().getName() + " - Error: Attachment request from non-partner.");
+			assert false;
+			return;
+		}
+		setMotionStrategy(new StillnessMotionStrategy(this));
+		setPosition(targetPositionForLacPromoterAttachment);
+		lacPromoterAttachmentState = AttachmentState.ATTACHED;
 	}
 	
 	private static Shape createActiveConformationShape(){
@@ -89,7 +124,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	
 	@Override
 	public void stepInTime(double dt) {
-		if (lacPromoterBondingPartner != null){
+		if (lacPromoterAttachmentPartner != null){
 			// TODO: This needs refinement.  It needs to recognize when the
 			// bond is fully formed so that no motion is required, and it
 			// needs to position itself so the binding points align.  This is
@@ -100,11 +135,11 @@ public class RnaPolymerase extends SimpleModelElement {
 				// We are moving towards forming a bond with a partner.
 				// Calculate the destination and make sure we are moving
 				// towards it.
-				Dimension2D partnerOffset = lacPromoterBondingPartner.getAttachmentPointForElement(getType()).getOffset();
-				Dimension2D myOffset = getAttachmentPointForElement(lacPromoterBondingPartner.getType()).getOffset();
-				double xDest = lacPromoterBondingPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
+				Dimension2D partnerOffset = lacPromoterAttachmentPartner.getAttachmentPointForElement(getType()).getOffset();
+				Dimension2D myOffset = getAttachmentPointForElement(lacPromoterAttachmentPartner.getType()).getOffset();
+				double xDest = lacPromoterAttachmentPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
 					myOffset.getWidth();
-				double yDest = lacPromoterBondingPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
+				double yDest = lacPromoterAttachmentPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
 					myOffset.getHeight();
 				if (getPositionRef().distance(xDest, yDest) < ATTACHMENT_FORMING_DISTANCE){
 					// Close enough to form a bond.  Move to the location and
@@ -122,20 +157,33 @@ public class RnaPolymerase extends SimpleModelElement {
 
 	public boolean availableForBonding(ModelElementType elementType) {
 		boolean available = false;
-		if (elementType == ModelElementType.LAC_PROMOTER && lacPromoterBondingPartner == null){
+		if (elementType == ModelElementType.LAC_PROMOTER && lacPromoterAttachmentPartner == null){
 			available = true;
 		}
 		return available;
 	}
 
-	public boolean considerProposalFrom(IModelElement modelElement) {
+	public boolean considerProposalFrom(LacPromoter lacPromoter) {
 		boolean proposalAccepted = false;
-
-		if (modelElement instanceof LacPromoter && lacPromoterBondingPartner == null){
-			lacPromoterBondingPartner = (LacPromoter)modelElement;
+		
+		if (lacPromoterAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
+			assert lacPromoterAttachmentPartner == null;  // For debug - Make sure consistent with attachment state.
+			lacPromoterAttachmentPartner = lacPromoter;
 			proposalAccepted = true;
+			
+			// Set ourself up to move toward the attaching location.
+			lacPromoterAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+			Dimension2D partnerOffset = lacPromoterAttachmentPartner.getAttachmentPointForElement(getType()).getOffset();
+			Dimension2D myOffset = getAttachmentPointForElement(lacPromoterAttachmentPartner.getType()).getOffset();
+			double xDest = lacPromoterAttachmentPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
+				myOffset.getWidth();
+			double yDest = lacPromoterAttachmentPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
+				myOffset.getHeight();
+			getMotionStrategyRef().setDestination(xDest, yDest);
+			targetPositionForLacPromoterAttachment.setLocation(xDest, yDest);
 		}
 		
 		return proposalAccepted;
 	}
+	
 }
