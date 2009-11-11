@@ -21,6 +21,16 @@ public class WorkshopsPanel extends PhetPanel {
 
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
+            @Override
+            public String getRawUrl( PageContext context ) {
+                if ( context.getCycle().isYoungAndFreedmanRipperRequest() ) {
+                    return "http://phet.colorado.edu/teacher_ideas/workshops.php";
+                }
+                else {
+                    return super.getRawUrl( context );
+                }
+            }
+
             public String getSubUrl( PageContext context ) {
                 return getUrl();
             }
