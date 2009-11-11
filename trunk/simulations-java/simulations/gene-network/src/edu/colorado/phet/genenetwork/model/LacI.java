@@ -11,7 +11,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D.Double;
 import java.util.Random;
 
 import edu.umd.cs.piccolo.util.PDimension;
@@ -43,9 +42,6 @@ public class LacI extends SimpleModelElement {
 	// "unavailable".
 	private static double ATTACHMENT_TIME = 5; // In seconds.
 	private static double UNAVAILABLE_TIME = 5; // In seconds.
-	
-	// Random number generator.
-	private static Random RAND = new Random();
 	
     //------------------------------------------------------------------------
     // Instance Data
