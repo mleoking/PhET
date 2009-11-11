@@ -25,13 +25,16 @@ public class Cap extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new Color(237, 179, 122);
 	private static float WIDTH = CapBindingRegion.WIDTH;
 	private static float HEIGHT = 4;  // In nanometers.
+	private static Dimension2D CAP_BINDING_REGION_ATTACHMENT_OFFSET = new PDimension(0, 0);
 	
 	private CapBindingRegion capBindingRegionPartner = null;
-	private boolean bound;
+	private AttachmentState capBindingRegionAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	Point2D targetPositionForAttachingToBindingRegion = new Point2D.Double();
 	
 	public Cap(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.CAP_BINDING_REGION, new PDimension(0, 0)));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.CAP_BINDING_REGION, 
+				CAP_BINDING_REGION_ATTACHMENT_OFFSET));
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 	}
 	
@@ -86,7 +89,7 @@ public class Cap extends SimpleModelElement {
 	@Override
 	public void stepInTime(double dt) {
 		if (capBindingRegionPartner != null){
-			if (!bound){
+			if (capBindingRegionAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
 				// We are moving towards attaching to a partner.
 				// Calculate the destination and make sure we are moving
 				// towards it.
@@ -110,22 +113,35 @@ public class Cap extends SimpleModelElement {
 		super.stepInTime(dt);
 	}
 
-	public boolean availableForAttaching(ModelElementType elementType) {
-		boolean available = false;
-		if (elementType == ModelElementType.CAP_BINDING_REGION && capBindingRegionPartner == null){
-			available = true;
-		}
-		return available;
-	}
-
-	public boolean considerProposalFrom(IModelElement modelElement) {
+	public boolean considerProposalFrom(CapBindingRegion capBindingRegion) {
 		boolean proposalAccepted = false;
 
-		if (modelElement instanceof CapBindingRegion && capBindingRegionPartner == null){
-			capBindingRegionPartner = (CapBindingRegion)modelElement;
+		if (capBindingRegionPartner == null){
+			capBindingRegionPartner = capBindingRegion;
 			proposalAccepted = true;
+			capBindingRegionAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+			
+			// Set ourself up to move toward the attaching location.
+			double xDest = capBindingRegionPartner.getAttachmentPointLocation(this).getX() - 
+				CAP_BINDING_REGION_ATTACHMENT_OFFSET.getWidth();
+			double yDest = capBindingRegionPartner.getAttachmentPointLocation(this).getY() - 
+				CAP_BINDING_REGION_ATTACHMENT_OFFSET.getHeight();
+			setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+			getMotionStrategyRef().setDestination(xDest, yDest);
+			targetPositionForAttachingToBindingRegion.setLocation(xDest, yDest);
 		}
 		
 		return proposalAccepted;
+	}
+	
+	public void attach(CapBindingRegion capBindingRegion){
+		if (capBindingRegion != capBindingRegionPartner){
+			System.err.println(getClass().getName() + " - Error: Attach request from non-partner.");
+			assert false;
+			return;
+		}
+		setMotionStrategy(new StillnessMotionStrategy(this));
+		setPosition(targetPositionForAttachingToBindingRegion);
+		capBindingRegionAttachmentState = AttachmentState.ATTACHED;
 	}
 }

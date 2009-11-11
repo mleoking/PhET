@@ -5,9 +5,9 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -22,12 +22,13 @@ public class CapBindingRegion extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new Color(247, 143, 36);
 	private static float HEIGHT = 2.5f;
 	public static float WIDTH = 5;
+	private static Dimension2D CAP_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT);
 	
 	private Cap capAttachmentPartner = null;
 	
 	public CapBindingRegion(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.CAP, new PDimension(0, HEIGHT)));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.CAP, CAP_ATTACHMENT_POINT_OFFSET));
 	}
 	
 	public CapBindingRegion(IObtainGeneModelElements model) {
@@ -78,29 +79,10 @@ public class CapBindingRegion extends SimpleModelElement {
 		
 		return proposalAccepted;
 	}
-
-	private void updatePotentialAttachmentPartners( ArrayList<Cap> capList ) {
-		// Seek to bond with free elements that are within range and that
-		// match our needs.
-		if (capAttachmentPartner == null){
-			for (Cap cap : capList){
-				
-				// Look for a bond with Cap.
-				if (cap.getType() == ModelElementType.CAP &&
-					getPositionRef().distance(cap.getPositionRef()) <= ATTACHMENT_INITIATION_RANGE &&
-					cap.availableForAttaching(getType())){
-					
-					// Propose a bond with this element
-					if (cap.considerProposalFrom(this)){
-						// Proposal accepted.  Note that the bond is only
-						// started at this point, and not really finalized
-						// until the binding points are in the same location.
-						capAttachmentPartner = (Cap)cap;
-						break;
-					}
-				}
-			}
-		}
+	
+	public Point2D getAttachmentPointLocation(Cap cap){
+		return new Point2D.Double(getPositionRef().getX() + CAP_ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + CAP_ATTACHMENT_POINT_OFFSET.getHeight());
 	}
 	
 	@Override
