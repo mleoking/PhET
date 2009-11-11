@@ -141,7 +141,7 @@ public abstract class PhetPage extends WebPage {
     }
 
     public PageContext getPageContext() {
-        return new PageContext( getMyPrefix(), getMyPath(), getMyLocale() );
+        return new PageContext( getMyPrefix(), getMyPath(), getMyLocale(), (PhetRequestCycle) getRequestCycle() );
     }
 
     @Override
