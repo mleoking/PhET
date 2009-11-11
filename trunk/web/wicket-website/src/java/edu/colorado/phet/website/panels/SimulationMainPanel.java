@@ -67,6 +67,33 @@ public class SimulationMainPanel extends PhetPanel {
         add( new Label( "simulationMainPanel.version", new StringResourceModel( "simulationMainPanel.version", this, null, new String[]{simulationVersionString} ) ) );
         add( new Label( "simulationMainPanel.kilobytes", new StringResourceModel( "simulationMainPanel.kilobytes", this, null, new Object[]{simulation.getSimulation().getKilobytes()} ) ) );
 
+        if ( simulation.getSimulation().isUnderConstruction() ) {
+            PhetLink uclink = new PhetLink( "rating-under-construction-link", "#" );
+            uclink.add( new StaticImage( "rating-under-construction-image", "/images/ratings/under-construction.png", null ) );
+            add( uclink );
+        }
+        else {
+            add( new InvisibleComponent( "rating-under-construction-link" ) );
+        }
+
+        if ( simulation.getSimulation().isGuidanceRecommended() ) {
+            PhetLink uclink = new PhetLink( "rating-guidance-recommended-link", "#" );
+            uclink.add( new StaticImage( "rating-guidance-recommended-image", "/images/ratings/guidance-recommended.png", null ) );
+            add( uclink );
+        }
+        else {
+            add( new InvisibleComponent( "rating-guidance-recommended-link" ) );
+        }
+
+        if ( simulation.getSimulation().isClassroomTested() ) {
+            PhetLink uclink = new PhetLink( "rating-classroom-tested-link", "#" );
+            uclink.add( new StaticImage( "rating-classroom-tested-image", "/images/ratings/classroom-tested.png", null ) );
+            add( uclink );
+        }
+        else {
+            add( new InvisibleComponent( "rating-classroom-tested-link" ) );
+        }
+
 
         List<LocalizedSimulation> simulations = HibernateUtils.getLocalizedSimulationsMatching( getHibernateSession(), null, simulation.getSimulation().getName(), null );
         HibernateUtils.orderSimulations( simulations, context.getLocale() );

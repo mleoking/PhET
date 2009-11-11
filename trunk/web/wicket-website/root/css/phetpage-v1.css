@@ -118,3 +118,7 @@ div.rtl .text-left-classic {
 div.rtl .text-right-classic {
     text-align: left;
 }
+
+.noborder {
+    border: none;
+}
