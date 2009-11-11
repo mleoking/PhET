@@ -1,7 +1,6 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- GridLayoutStrategy can't find empty cells with Methane reaction and max reactant quantities
 - design for Game module
 
 MEDIUM PRIORITY
