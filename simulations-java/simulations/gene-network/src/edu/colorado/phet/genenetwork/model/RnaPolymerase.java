@@ -124,34 +124,6 @@ public class RnaPolymerase extends SimpleModelElement {
 	
 	@Override
 	public void stepInTime(double dt) {
-		if (lacPromoterAttachmentPartner != null){
-			// TODO: This needs refinement.  It needs to recognize when the
-			// bond is fully formed so that no motion is required, and it
-			// needs to position itself so the binding points align.  This is
-			// and initial rough attempt.
-			// Also, this should probably only be done in this case when bonds
-			// are formed and released, since the partner is known not to move.
-			if (!bound){
-				// We are moving towards forming a bond with a partner.
-				// Calculate the destination and make sure we are moving
-				// towards it.
-				Dimension2D partnerOffset = lacPromoterAttachmentPartner.getAttachmentPointForElement(getType()).getOffset();
-				Dimension2D myOffset = getAttachmentPointForElement(lacPromoterAttachmentPartner.getType()).getOffset();
-				double xDest = lacPromoterAttachmentPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
-					myOffset.getWidth();
-				double yDest = lacPromoterAttachmentPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
-					myOffset.getHeight();
-				if (getPositionRef().distance(xDest, yDest) < ATTACHMENT_FORMING_DISTANCE){
-					// Close enough to form a bond.  Move to the location and
-					// then stop moving.
-					setPosition(xDest, yDest);
-					setMotionStrategy(new StillnessMotionStrategy(this));
-				}
-				else{
-					getMotionStrategyRef().setDestination(xDest, yDest);
-				}
-			}
-		}
 		super.stepInTime(dt);
 	}
 
@@ -170,15 +142,13 @@ public class RnaPolymerase extends SimpleModelElement {
 			assert lacPromoterAttachmentPartner == null;  // For debug - Make sure consistent with attachment state.
 			lacPromoterAttachmentPartner = lacPromoter;
 			proposalAccepted = true;
+			lacPromoterAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
 			
 			// Set ourself up to move toward the attaching location.
-			lacPromoterAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
-			Dimension2D partnerOffset = lacPromoterAttachmentPartner.getAttachmentPointForElement(getType()).getOffset();
-			Dimension2D myOffset = getAttachmentPointForElement(lacPromoterAttachmentPartner.getType()).getOffset();
-			double xDest = lacPromoterAttachmentPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
-				myOffset.getWidth();
-			double yDest = lacPromoterAttachmentPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
-				myOffset.getHeight();
+			double xDest = lacPromoterAttachmentPartner.getAttachmentPointLocation(this).getX() - 
+				LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getWidth();
+			double yDest = lacPromoterAttachmentPartner.getAttachmentPointLocation(this).getY() -
+				LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getHeight(); 
 			getMotionStrategyRef().setDestination(xDest, yDest);
 			targetPositionForLacPromoterAttachment.setLocation(xDest, yDest);
 		}
