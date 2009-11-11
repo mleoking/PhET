@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public abstract class SimpleModelElement implements IModelElement{
 	
 	// Range within with bonding can occur.
-	protected static final double ATTACHMENT_INITIATION_RANGE = 1000;  // In nanometers.
+	protected static final double ATTACHMENT_INITIATION_RANGE = 70;  // In nanometers.
 	
 	// Range at which a bond forms when two binding partners are moving
 	// towards each other.

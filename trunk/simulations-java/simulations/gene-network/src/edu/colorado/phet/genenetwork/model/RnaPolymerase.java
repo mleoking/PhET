@@ -33,7 +33,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			new Color(17, 149, 210), new Point2D.Double(WIDTH * 5, 0), Color.WHITE);
 	private static Dimension2D LAC_PROMOTER_ATTACHMENT_POINT_OFFSET = new PDimension(WIDTH * 0.1, -HEIGHT * 0.3);
 	private static double MIN_ATTACH_BEFORE_TRAVERSING_TIME = 3;  // Seconds.
-	private static double MIN_RECOVERY_TIME = 5;                  // Seconds.
+	private static double MIN_RECOVERY_TIME = 7;                  // Seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -145,7 +145,7 @@ public class RnaPolymerase extends SimpleModelElement {
 					// transcribe the messenger RNA for LacZ.
 					setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
 							new Point2D.Double(getPositionRef().getX() + 10, getPositionRef().getY()), 8));
-					setMotionStrategy(new TraverseDnaMotionStrategy(this, LacOperonModel.getMotionBounds(), 30));
+					setMotionStrategy(new TraverseDnaMotionStrategy(this, LacOperonModel.getMotionBounds(), 32));
 				}
 				else{
 					// The DNA is blocked, so just detach.
