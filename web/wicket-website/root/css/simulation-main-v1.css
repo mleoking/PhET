@@ -208,3 +208,13 @@ div.rtl table.translations-table th, div.rtl table.credits-table th, div.rtl tab
 .untranslated-sim-text {
     color: red;
 }
+
+div.rating-holder {
+    text-align: right;
+    padding-top: 10px;
+}
+
+div.rtl div.rating-holder {
+    text-align: left;
+    padding-top: 10px;
+}
