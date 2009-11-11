@@ -162,5 +162,16 @@ public class LacPromoter extends SimpleModelElement {
 		
 		return outline;
 	}
-	
+
+	public void detach(RnaPolymerase rnaPolymerase) {
+		if (rnaPolymerase != rnaPolymeraseAttachmentPartner){
+			System.err.println(getClass().getName() + " - Warning: Request to disconnect received from non-partner.");
+			return;
+		}
+		
+		rnaPolymeraseAttachmentPartner = null;
+		attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+		// TODO: Do I need to block attachment to a new one for a while?  For
+		// no assume no.
+	}
 }
