@@ -9,7 +9,7 @@ public class ErrorPage extends PhetPage {
     public ErrorPage( PageParameters parameters ) {
         super( parameters, true );
 
-        //addTitle( getLocalizer().getString( "error.pageNotFound", this ) );
+        addTitle( getLocalizer().getString( "error.pageNotFound", this ) );
     }
 
     @Override

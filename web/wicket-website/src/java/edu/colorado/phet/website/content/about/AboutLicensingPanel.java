@@ -4,6 +4,7 @@ import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -37,7 +38,7 @@ public class AboutLicensingPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "about-licensing-gpl-source-code", "about.licensing.gpl.sourceCode", new Object[]{
-                AboutSourceCodePanel.getLinker().getHref( context )
+                AboutSourceCodePanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "about-licensing-alternative-license-options", "about.licensing.alternativeLicenseOptions", new Object[]{
@@ -45,7 +46,7 @@ public class AboutLicensingPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "about-licensing-source-code-link", "about.licensing.sourceCodeLink", new Object[]{
-                AboutSourceCodePanel.getLinker().getHref( context )
+                AboutSourceCodePanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "about-licensing-agreement-full-text", "about.licensing.softwareAgreementFullText", new Object[]{
@@ -65,12 +66,12 @@ public class AboutLicensingPanel extends PhetPanel {
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             @Override
-            public String getRawUrl( PageContext context ) {
-                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), AboutLicensingPanel.class ) ) {
+            public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
+                if ( DistributionHandler.redirectPageClassToProduction( cycle, AboutLicensingPanel.class ) ) {
                     return "http://phet.colorado.edu/about/licensing.php";
                 }
                 else {
-                    return super.getRawUrl( context );
+                    return super.getRawUrl( context, cycle );
                 }
             }
 

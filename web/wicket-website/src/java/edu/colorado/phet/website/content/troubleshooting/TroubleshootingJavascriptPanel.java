@@ -7,6 +7,7 @@ import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -17,7 +18,7 @@ public class TroubleshootingJavascriptPanel extends PhetPanel {
         add( HeaderContributor.forCss( "/css/troubleshooting-v1.css" ) );
 
         add( new LocalizedText( "troubleshooting-javascript-notJava", "troubleshooting.javascript.notJava", new Object[]{
-                TroubleshootingJavaPanel.getLinker().getHref( context )
+                TroubleshootingJavaPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-javascript-notify", "troubleshooting.javascript.notify", new Object[]{
@@ -58,12 +59,12 @@ public class TroubleshootingJavascriptPanel extends PhetPanel {
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             @Override
-            public String getRawUrl( PageContext context ) {
-                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), TroubleshootingJavascriptPanel.class ) ) {
+            public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
+                if ( DistributionHandler.redirectPageClassToProduction( cycle, TroubleshootingJavascriptPanel.class ) ) {
                     return "http://phet.colorado.edu/tech_support/support-javascript.php";
                 }
                 else {
-                    return super.getRawUrl( context );
+                    return super.getRawUrl( context, cycle );
                 }
             }
 

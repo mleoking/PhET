@@ -28,7 +28,7 @@ public abstract class PhetMenuPage extends PhetPage {
         }
         add( HeaderContributor.forCss( "/css/menu-page-v1.css" ) );
 
-        add( AboutLicensingPanel.getLinker().getLink( "some-rights-link", getPageContext() ) );
+        add( AboutLicensingPanel.getLinker().getLink( "some-rights-link", getPageContext(), getPhetCycle() ) );
 
     }
 

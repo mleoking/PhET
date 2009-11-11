@@ -49,7 +49,7 @@ public class OneAtATimePanel extends PhetPanel {
         //add( TroubleshootingMainPanel.getLinker().getLink( "tech-support-link", context ) );
 
         add( new LocalizedText( "running-sims", "get-phet.one-at-a-time.runningSims", new Object[]{
-                TroubleshootingMainPanel.getLinker().getHref( context )
+                TroubleshootingMainPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
     }

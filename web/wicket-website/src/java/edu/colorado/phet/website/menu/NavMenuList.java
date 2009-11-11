@@ -14,6 +14,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class NavMenuList extends Panel {
 
@@ -23,7 +24,7 @@ public class NavMenuList extends Panel {
         ListView listView = new ListView( "items", locations ) {
             protected void populateItem( ListItem item ) {
                 NavLocation location = (NavLocation) item.getModel().getObject();
-                Link link = location.getLink( "link", context );
+                Link link = location.getLink( "link", context, (PhetRequestCycle) getRequestCycle() );
 
                 Label label = new Label( "link-label", new ResourceModel( location.getLocalizationKey() ) );
 

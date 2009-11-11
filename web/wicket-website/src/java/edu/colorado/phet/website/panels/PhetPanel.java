@@ -37,4 +37,8 @@ public class PhetPanel extends Panel {
     public Locale getLocale() {
         return myLocale;
     }
+
+    public PhetRequestCycle getPhetCycle() {
+        return (PhetRequestCycle) getRequestCycle();
+    }
 }

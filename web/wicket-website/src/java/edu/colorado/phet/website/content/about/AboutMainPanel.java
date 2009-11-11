@@ -8,6 +8,7 @@ import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPan
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -16,9 +17,9 @@ public class AboutMainPanel extends PhetPanel {
         super( id, context );
 
         add( new LocalizedText( "about-p1", "about.p1", new Object[]{
-                SimulationDisplay.getLinker().getHref( context ),
+                SimulationDisplay.getLinker().getHref( context, getPhetCycle() ),
                 //"href=\"http://phet.colorado.edu/simulations/index.php\"",
-                ResearchPanel.getLinker().getHref( context )
+                ResearchPanel.getLinker().getHref( context, getPhetCycle() )
                 //"href=\"http://phet.colorado.edu/research/index.php\""
         } ) );
 
@@ -30,8 +31,8 @@ public class AboutMainPanel extends PhetPanel {
 
         add( new LocalizedText( "about-p4", "about.p4", new Object[]{
                 "href=\"http://phet.colorado.edu/index.php\"",
-                TroubleshootingJavaPanel.getLinker().getHref( context ),
-                TroubleshootingFlashPanel.getLinker().getHref( context )
+                TroubleshootingJavaPanel.getLinker().getHref( context, getPhetCycle() ),
+                TroubleshootingFlashPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
     }
 
@@ -46,12 +47,12 @@ public class AboutMainPanel extends PhetPanel {
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             @Override
-            public String getRawUrl( PageContext context ) {
-                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), AboutMainPanel.class ) ) {
+            public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
+                if ( DistributionHandler.redirectPageClassToProduction( cycle, AboutMainPanel.class ) ) {
                     return "http://phet.colorado.edu/about/index.php";
                 }
                 else {
-                    return super.getRawUrl( context );
+                    return super.getRawUrl( context, cycle );
                 }
             }
 

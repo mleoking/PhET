@@ -69,7 +69,7 @@ public class SimulationMainPanel extends PhetPanel {
         add( new Label( "simulationMainPanel.kilobytes", new StringResourceModel( "simulationMainPanel.kilobytes", this, null, new Object[]{simulation.getSimulation().getKilobytes()} ) ) );
 
         if ( simulation.getSimulation().isUnderConstruction() ) {
-            Link uclink = AboutLegendPanel.getLinker().getLink( "rating-under-construction-link", context );
+            Link uclink = AboutLegendPanel.getLinker().getLink( "rating-under-construction-link", context, getPhetCycle() );
             uclink.add( new StaticImage( "rating-under-construction-image", "/images/ratings/under-construction.png", null ) );
             add( uclink );
         }
@@ -78,7 +78,7 @@ public class SimulationMainPanel extends PhetPanel {
         }
 
         if ( simulation.getSimulation().isGuidanceRecommended() ) {
-            Link uclink = AboutLegendPanel.getLinker().getLink( "rating-guidance-recommended-link", context );
+            Link uclink = AboutLegendPanel.getLinker().getLink( "rating-guidance-recommended-link", context, getPhetCycle() );
             uclink.add( new StaticImage( "rating-guidance-recommended-image", "/images/ratings/guidance-recommended.png", null ) );
             add( uclink );
         }
@@ -87,7 +87,7 @@ public class SimulationMainPanel extends PhetPanel {
         }
 
         if ( simulation.getSimulation().isClassroomTested() ) {
-            Link uclink = AboutLegendPanel.getLinker().getLink( "rating-classroom-tested-link", context );
+            Link uclink = AboutLegendPanel.getLinker().getLink( "rating-classroom-tested-link", context, getPhetCycle() );
             uclink.add( new StaticImage( "rating-classroom-tested-image", "/images/ratings/classroom-tested.png", null ) );
             add( uclink );
         }
@@ -191,7 +191,7 @@ public class SimulationMainPanel extends PhetPanel {
         ListView keywordList = new ListView( "keyword-list", keywords ) {
             protected void populateItem( ListItem item ) {
                 Keyword keyword = (Keyword) item.getModel().getObject();
-                Link link = SimsByKeywordPage.getLinker( keyword.getSubKey() ).getLink( "keyword-link", context );
+                Link link = SimsByKeywordPage.getLinker( keyword.getSubKey() ).getLink( "keyword-link", context, getPhetCycle() );
 //                Link link = new StatelessLink( "keyword-link" ) {
 //                    public void onClick() {
 //                        // TODO: fill in keyword links!

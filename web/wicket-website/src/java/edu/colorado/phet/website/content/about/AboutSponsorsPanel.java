@@ -5,6 +5,7 @@ import org.apache.wicket.behavior.HeaderContributor;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -26,12 +27,12 @@ public class AboutSponsorsPanel extends PhetPanel {
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             @Override
-            public String getRawUrl( PageContext context ) {
-                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), AboutSponsorsPanel.class ) ) {
+            public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
+                if ( DistributionHandler.redirectPageClassToProduction( cycle, AboutSponsorsPanel.class ) ) {
                     return "http://phet.colorado.edu/sponsors/index.php";
                 }
                 else {
-                    return super.getRawUrl( context );
+                    return super.getRawUrl( context, cycle );
                 }
             }
 

@@ -11,6 +11,6 @@ public class SponsorsPanel extends PhetPanel {
 
         add( HeaderContributor.forCss( "/css/sponsors-v1.css" ) );
 
-        add( AboutSponsorsPanel.getLinker().getLink( "sponsors-link", context ) );
+        add( AboutSponsorsPanel.getLinker().getLink( "sponsors-link", context, getPhetCycle() ) );
     }
 }

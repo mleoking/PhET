@@ -6,6 +6,7 @@ import edu.colorado.phet.website.content.about.AboutContactPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -25,19 +26,19 @@ public class FullInstallPanel extends PhetPanel {
 //        add( new LocalizedText( "size-lnx", "get-phet.full-install.downloadInMB", new Object[]{"75"} ) );
 
         add( new LocalizedText( "contact-for-cd-link", "get-phet.full-install.contactForCD", new Object[]{
-                AboutContactPanel.getLinker().getHref( context )
+                AboutContactPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-link", "get-phet.full-install.troubleshootingInfo", new Object[]{
-                TroubleshootingMainPanel.getLinker().getHref( context )
+                TroubleshootingMainPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "requirements", "get-phet.full-install.requirements", new Object[]{
-                TroubleshootingMainPanel.getLinker().getHref( context )
+                TroubleshootingMainPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "cd-intro", "get-phet.full-install.creatingInstallationCD.intro", new Object[]{
-                AboutContactPanel.getLinker().getHref( context )
+                AboutContactPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "step1", "get-phet.full-install.creatingInstallationCD.step1", new Object[]{
@@ -58,12 +59,12 @@ public class FullInstallPanel extends PhetPanel {
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             @Override
-            public String getRawUrl( PageContext context ) {
-                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), FullInstallPanel.class ) ) {
+            public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
+                if ( DistributionHandler.redirectPageClassToProduction( cycle, FullInstallPanel.class ) ) {
                     return "http://phet.colorado.edu/get_phet/full_install.php";
                 }
                 else {
-                    return super.getRawUrl( context );
+                    return super.getRawUrl( context, cycle );
                 }
             }
 

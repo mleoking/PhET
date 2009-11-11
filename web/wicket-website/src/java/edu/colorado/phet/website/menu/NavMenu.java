@@ -19,6 +19,7 @@ import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPane
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.Linkable;
 
 public class NavMenu {
@@ -131,7 +132,7 @@ public class NavMenu {
         for ( Object o : category.getSubcategories() ) {
             final Category subCategory = (Category) o;
             NavLocation subLocation = new NavLocation( location, subCategory.getName(), new Linkable() {
-                public Link getLink( String id, PageContext context ) {
+                public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
                     return new PhetLink( id, context.getPrefix() + "simulations/category/" + subCategory.getCategoryPath() );
                 }
             } );
@@ -141,7 +142,7 @@ public class NavMenu {
         }
         if ( category.isRoot() ) {
             NavLocation allLocation = new NavLocation( location, "all", new Linkable() {
-                public Link getLink( String id, PageContext context ) {
+                public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
                     return new PhetLink( id, context.getPrefix() + "simulations/index" );
                 }
             } );

@@ -8,6 +8,7 @@ import edu.colorado.phet.website.content.ContributePanel;
 import edu.colorado.phet.website.content.FullInstallPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -15,9 +16,9 @@ public class TroubleshootingMainPanel extends PhetPanel {
     public TroubleshootingMainPanel( String id, PageContext context ) {
         super( id, context );
 
-        add( TroubleshootingJavaPanel.getLinker().getLink( "to-java", context ) );
-        add( TroubleshootingFlashPanel.getLinker().getLink( "to-flash", context ) );
-        add( TroubleshootingJavascriptPanel.getLinker().getLink( "to-javascript", context ) );
+        add( TroubleshootingJavaPanel.getLinker().getLink( "to-java", context, getPhetCycle() ) );
+        add( TroubleshootingFlashPanel.getLinker().getLink( "to-flash", context, getPhetCycle() ) );
+        add( TroubleshootingJavascriptPanel.getLinker().getLink( "to-javascript", context, getPhetCycle() ) );
 
         add( new LocalizedText( "troubleshooting-main-intro", "troubleshooting.main.intro", new Object[]{
                 "<a href=\"mailto:phethelp@colorado.edu?Subject=Help\"><span class=\"red\">phethelp@colorado.edu</span></a>",
@@ -25,11 +26,11 @@ public class TroubleshootingMainPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q1-answer", "troubleshooting.main.q1.answer", new Object[]{
-                TroubleshootingJavaPanel.getLinker().getHref( context )
+                TroubleshootingJavaPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q2-answer", "troubleshooting.main.q2.answer", new Object[]{
-                FullInstallPanel.getLinker().getHref( context )
+                FullInstallPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q4-answer", "troubleshooting.main.q4.answer" ) );
@@ -53,11 +54,11 @@ public class TroubleshootingMainPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q10-answer", "troubleshooting.main.q10.answer", new Object[]{
-                ContributePanel.getLinker().getHref( context )
+                ContributePanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q11-answer", "troubleshooting.main.q11.answer", new Object[]{
-                FullInstallPanel.getLinker().getHref( context )
+                FullInstallPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q12-answer", "troubleshooting.main.q12.answer" ) );
@@ -79,12 +80,12 @@ public class TroubleshootingMainPanel extends PhetPanel {
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             @Override
-            public String getRawUrl( PageContext context ) {
-                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), TroubleshootingMainPanel.class ) ) {
+            public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
+                if ( DistributionHandler.redirectPageClassToProduction( cycle, TroubleshootingMainPanel.class ) ) {
                     return "http://phet.colorado.edu/tech_support/index.php";
                 }
                 else {
-                    return super.getRawUrl( context );
+                    return super.getRawUrl( context, cycle );
                 }
             }
 
