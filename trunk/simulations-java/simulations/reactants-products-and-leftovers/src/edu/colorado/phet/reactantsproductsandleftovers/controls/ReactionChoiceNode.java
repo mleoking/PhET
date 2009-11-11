@@ -3,10 +3,13 @@ package edu.colorado.phet.reactantsproductsandleftovers.controls;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -23,6 +26,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class ReactionChoiceNode extends PhetPNode {
     
+    
     public ReactionChoiceNode( final RealReactionModel model ) {
         super();
         
@@ -33,6 +37,7 @@ public class ReactionChoiceNode extends PhetPNode {
         int row = 0;
         int column = 0;
         
+        final ArrayList<JRadioButton> radioButtons = new ArrayList<JRadioButton>();
         ButtonGroup group = new ButtonGroup();
         final ChemicalReaction[] reactions = model.getReactions();
         for ( int i = 0; i < reactions.length; i++ ) {
@@ -41,11 +46,12 @@ public class ReactionChoiceNode extends PhetPNode {
             
             // radio button
             JRadioButton radioButton = new JRadioButton( reaction.getName() );
+            radioButtons.add( radioButton );
             group.add( radioButton );
             layout.addComponent( radioButton, row++, column );
             if ( i == 0 ) {
                 radioButton.setSelected( true );
-                model.setReaction( reactions[i] );
+                model.setReaction( reaction );
             }
             
             // set the desired reaction when this radio button is selected
@@ -57,5 +63,17 @@ public class ReactionChoiceNode extends PhetPNode {
         }
         
         addChild( new PSwing( panel ) );
+        
+        // when the model changes, select the proper radio button
+        model.addChangeListeners( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                for ( int i = 0; i < reactions.length; i++ ) {
+                    if ( reactions[i] == model.getReaction() ) {
+                        radioButtons.get( i ).setSelected( true );
+                        break;
+                    }
+                }
+            }
+        });
     }
 }

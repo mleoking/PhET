@@ -60,6 +60,13 @@ public class SandwichShopModel {
         sandwich.init();
     }
     
+    public void reset() {
+        for ( Reactant reactant : reaction.getReactants() ) {
+            reactant.setCoefficient( getCoefficientRange().getDefault() );
+            reactant.setQuantity( getQuantityRange().getDefault() );
+        }
+    }
+    
     public Bread getBread() {
         return bread;
     }

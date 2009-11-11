@@ -13,15 +13,17 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SandwichShopModule extends PiccoloModule {
+    
+    private SandwichShopModel model;
 
     public SandwichShopModule( Frame parentFrame ) {
         super( RPALStrings.TITLE_SANDWICH_SHOP, new RPALClock(), true /* startsPaused */ );
 
         // Model
-        SandwichShopModel model = new SandwichShopModel();
+        model = new SandwichShopModel();
         
         // Canvas
-        SandwichShopCanvas canvas = new SandwichShopCanvas( model );
+        SandwichShopCanvas canvas = new SandwichShopCanvas( model, this );
         setSimulationPanel( canvas );
 
         // no control panel
@@ -32,5 +34,10 @@ public class SandwichShopModule extends PiccoloModule {
 
         // Set initial state
         reset();
+    }
+    
+    public void reset() {
+        super.reset();
+        model.reset();
     }
 }
