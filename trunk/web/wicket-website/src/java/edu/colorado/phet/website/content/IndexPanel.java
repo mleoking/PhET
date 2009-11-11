@@ -30,19 +30,19 @@ public class IndexPanel extends PhetPanel {
         imageLink.add( new StaticImage( "index-animated-screenshot", "/images/mass-spring-lab-animated-screenshot.gif", null ) );
 
         // TODO: refactor out context.getPrefix(), etc
-        add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{"href=\"" + ResearchPanel.getLinker().getRawUrl( context ) + "\""} ) );
+        add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{"href=\"" + ResearchPanel.getLinker().getRawUrl( context, getPhetCycle() ) + "\""} ) );
 
         add( SimulationDisplay.createLink( "play-sims-link", context ) );
 
-        add( RunOurSimulationsPanel.getLinker().getLink( "run-our-sims-link", context ) );
+        add( RunOurSimulationsPanel.getLinker().getLink( "run-our-sims-link", context, getPhetCycle() ) );
         add( SimulationDisplay.createLink( "on-line-link", context ) );
-        add( FullInstallPanel.getLinker().getLink( "full-install-link", context ) );
-        add( OneAtATimePanel.getLinker().getLink( "one-at-a-time-link", context ) );
+        add( FullInstallPanel.getLinker().getLink( "full-install-link", context, getPhetCycle() ) );
+        add( OneAtATimePanel.getLinker().getLink( "one-at-a-time-link", context, getPhetCycle() ) );
 
-        add( WorkshopsPanel.getLinker().getLink( "workshops-link", context ) );
+        add( WorkshopsPanel.getLinker().getLink( "workshops-link", context, getPhetCycle() ) );
 
-        add( ContributePanel.getLinker().getLink( "contribute-link", context ) );
-        add( ContributePanel.getLinker().getLink( "support-phet-link", context ) );
+        add( ContributePanel.getLinker().getLink( "contribute-link", context, getPhetCycle() ) );
+        add( ContributePanel.getLinker().getLink( "support-phet-link", context, getPhetCycle() ) );
 
         add( SimulationDisplay.createLink( "browse-sims-link", context ) );
 

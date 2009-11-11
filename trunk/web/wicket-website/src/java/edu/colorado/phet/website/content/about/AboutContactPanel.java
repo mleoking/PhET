@@ -5,6 +5,7 @@ import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.ContributePanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -13,12 +14,12 @@ public class AboutContactPanel extends PhetPanel {
         super( id, context );
 
         add( new LocalizedText( "about-contact-licensingText", "about.contact.licensingText", new Object[]{
-                AboutLicensingPanel.getLinker().getHref( context )
+                AboutLicensingPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "about-contact-correspondence", "about.contact.correspondence", new Object[]{
                 "<a href=\"mailto:phethelp@colorado.edu\">phethelp@colorado.edu</a>",
-                ContributePanel.getLinker().getHref( context )
+                ContributePanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
     }
 
@@ -33,12 +34,12 @@ public class AboutContactPanel extends PhetPanel {
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             @Override
-            public String getRawUrl( PageContext context ) {
-                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), AboutContactPanel.class ) ) {
+            public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
+                if ( DistributionHandler.redirectPageClassToProduction( cycle, AboutContactPanel.class ) ) {
                     return "http://phet.colorado.edu/about/contact.php";
                 }
                 else {
-                    return super.getRawUrl( context );
+                    return super.getRawUrl( context, cycle );
                 }
             }
 

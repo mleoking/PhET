@@ -32,7 +32,10 @@ import edu.colorado.phet.website.data.TranslatedString;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.test.TestTranslateString;
 import edu.colorado.phet.website.translation.entities.TranslationEntity;
-import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.StringUtils;
 
 public class TranslateEntityPanel extends PhetPanel {
 
@@ -48,7 +51,7 @@ public class TranslateEntityPanel extends PhetPanel {
         this.translationId = translationId;
         this.page = page;
 
-        final PageContext externalContext = new PageContext( "/translation/" + String.valueOf( translationId ) + "/", "", testLocale, (PhetRequestCycle) getRequestCycle() );
+        final PageContext externalContext = new PageContext( "/translation/" + String.valueOf( translationId ) + "/", "", testLocale );
 
         setOutputMarkupId( true );
 

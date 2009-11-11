@@ -15,18 +15,18 @@ public class RunOurSimulationsPanel extends PhetPanel {
         add( HeaderContributor.forCss( "/css/run-our-simulations-v1.css" ) );
 
         add( SimulationDisplay.createLink( "online-link", context ) );
-        add( FullInstallPanel.getLinker().getLink( "install-link", context ) );
-        add( OneAtATimePanel.getLinker().getLink( "offline-link", context ) );
+        add( FullInstallPanel.getLinker().getLink( "install-link", context, getPhetCycle() ) );
+        add( OneAtATimePanel.getLinker().getLink( "offline-link", context, getPhetCycle() ) );
 
         add( new LocalizedText( "get-phet-install-header", "get-phet.install.header" ) );
         add( new LocalizedText( "get-phet-offline-header", "get-phet.offline.header" ) );
 
         add( new LocalizedText( "get-phet-install-howToGet", "get-phet.install.howToGet", new Object[]{
-                FullInstallPanel.getLinker().getHref( context )
+                FullInstallPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "get-phet-offline-howToGet", "get-phet.offline.howToGet", new Object[]{
-                OneAtATimePanel.getLinker().getHref( context )
+                OneAtATimePanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
     }

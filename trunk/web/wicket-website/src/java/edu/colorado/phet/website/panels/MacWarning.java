@@ -11,6 +11,6 @@ public class MacWarning extends PhetPanel {
 
         add( HeaderContributor.forCss( "/css/warning-v1.css" ) );
 
-        add( TroubleshootingJavaPanel.getLinker().getLink( "troubleshooting-link", context ) );
+        add( TroubleshootingJavaPanel.getLinker().getLink( "troubleshooting-link", context, getPhetCycle() ) );
     }
 }

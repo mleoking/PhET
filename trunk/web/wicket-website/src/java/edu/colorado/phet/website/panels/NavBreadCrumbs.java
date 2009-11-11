@@ -33,7 +33,7 @@ public class NavBreadCrumbs extends PhetPanel {
             throw new RuntimeException( "BreadCrumbs failure!" );
         }
         else {
-            Link baseLink = base.getLink( "base-link", context );
+            Link baseLink = base.getLink( "base-link", context, getPhetCycle() );
             baseLink.add( new Label( "base-label", new ResourceModel( base.getLocalizationKey() ) ) );
             add( baseLink );
 
@@ -41,7 +41,7 @@ public class NavBreadCrumbs extends PhetPanel {
 
                 protected void populateItem( ListItem item ) {
                     NavLocation location = (NavLocation) item.getModel().getObject();
-                    Link link = location.getLink( "crumb-link", context );
+                    Link link = location.getLink( "crumb-link", context, getPhetCycle() );
                     link.add( new Label( "crumb-label", new ResourceModel( location.getLocalizationKey() ) ) );
                     item.add( link );
                 }

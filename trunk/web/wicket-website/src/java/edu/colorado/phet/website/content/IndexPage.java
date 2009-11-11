@@ -7,6 +7,7 @@ import org.apache.wicket.model.ResourceModel;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.Linkable;
 
@@ -35,7 +36,7 @@ public class IndexPage extends PhetPage {
 
     public static Linkable getLinker() {
         return new Linkable() {
-            public Link getLink( String id, PageContext context ) {
+            public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
                 return createLink( id, context );
             }
         };

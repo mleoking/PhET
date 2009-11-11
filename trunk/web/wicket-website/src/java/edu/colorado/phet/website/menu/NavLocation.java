@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.Linkable;
 
 public class NavLocation implements Serializable {
@@ -85,8 +86,8 @@ public class NavLocation implements Serializable {
         return linker;
     }
 
-    public Link getLink( String id, PageContext context ) {
-        return linker.getLink( id, context );
+    public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
+        return linker.getLink( id, context, cycle );
     }
 
     public void addChild( NavLocation location ) {
