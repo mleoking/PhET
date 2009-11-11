@@ -39,8 +39,8 @@ public class LacI extends SimpleModelElement {
 	
 	// Time definitions for the amount of time to attach and then to be
 	// "unavailable".
-	private static double ATTACHMENT_TIME = 5000; // In ms.
-	private static double UNAVAILABLE_TIME = 5000; // In ms.
+	private static double ATTACHMENT_TIME = 5; // In seconds.
+	private static double UNAVAILABLE_TIME = 5; // In seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -50,6 +50,8 @@ public class LacI extends SimpleModelElement {
 	private Lactose lactoseAttachmentPartner = null;
 	private AttachmentState lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private Point2D targetPositionForLacOperatorAttachment = new Point2D.Double();
+	private double attachementTimeCountdown = 0;
+	private double unavailableTimeCountdown = 0;
 	
     //------------------------------------------------------------------------
     // Constructors
@@ -109,6 +111,30 @@ public class LacI extends SimpleModelElement {
 	}
 	
 	@Override
+	public void stepInTime(double dt) {
+		super.stepInTime(dt);
+		
+		// Do any update of attachments that is needed.
+		if (lacOperatorAttachmentState == AttachmentState.ATTACHED){
+			attachementTimeCountdown -= dt;
+			if (attachementTimeCountdown <= 0){
+				// It is time to detach.
+				lacOperatorAttachmentPartner.detach(this);
+				lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+				unavailableTimeCountdown = UNAVAILABLE_TIME;
+				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+			}
+		}
+		else if (lacOperatorAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
+			unavailableTimeCountdown -= dt;
+			if (unavailableTimeCountdown <= 0){
+				// The recovery period is over, we can be available again.
+				lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
+		}
+	}
+
+	@Override
 	public ModelElementType getType() {
 		return ModelElementType.LAC_I;
 	}
@@ -145,6 +171,7 @@ public class LacI extends SimpleModelElement {
 		setMotionStrategy(new StillnessMotionStrategy(this));
 		setPosition(targetPositionForLacOperatorAttachment);
 		lacOperatorAttachmentState = AttachmentState.ATTACHED;
+		attachementTimeCountdown = ATTACHMENT_TIME;
 	}
 	
 	/**
