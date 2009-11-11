@@ -12,9 +12,11 @@ import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.model.IModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.data.Translation;
@@ -82,6 +84,9 @@ public abstract class PhetPage extends WebPage {
         if ( addTemplateBindings ) {
             // TODO: refactor static images to a single location, so paths / names can be quickly changed
             Link link = IndexPage.createLink( "page-header-home-link", getPageContext() );
+            if ( DistributionHandler.redirectHeaderToProduction( (PhetRequestCycle) getRequestCycle() ) ) {
+                link = new PhetLink( "page-header-home-link", "http://phet.colorado.edu" );
+            }
             add( link );
             link.add( new StaticImage( "page-header-logo-image", "/images/phet-logo.gif", null ) );
             add( new StaticImage( "page-header-title-image", "/images/logo-title.jpg", null ) );
