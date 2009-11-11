@@ -62,6 +62,13 @@ public class IndexPanel extends PhetPanel {
             add( new InvisibleComponent( "translation-links" ) );
         }
 
+        if ( DistributionHandler.redirectActivities( (PhetRequestCycle) getRequestCycle() ) ) {
+            add( new PhetLink( "activities-link", "http://phet.colorado.edu/teacher_ideas/index.php" ) );
+        }
+        else {
+            add( new PhetLink( "activities-link", "/activities" ) );
+        }
+
         add( HeaderContributor.forCss( "/css/home-v1.css" ) );
 
         Link miniLink = SimulationDisplay.createLink( "mini-screenshot-link", context );
