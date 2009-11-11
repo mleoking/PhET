@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.content;
 
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -23,7 +24,7 @@ public class WorkshopsPanel extends PhetPanel {
         return new AbstractLinker() {
             @Override
             public String getRawUrl( PageContext context ) {
-                if ( context.getCycle().isYoungAndFreedmanRipperRequest() ) {
+                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), WorkshopsPanel.class ) ) {
                     return "http://phet.colorado.edu/teacher_ideas/workshops.php";
                 }
                 else {
