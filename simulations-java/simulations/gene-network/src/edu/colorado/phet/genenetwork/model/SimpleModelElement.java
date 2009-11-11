@@ -45,6 +45,11 @@ public abstract class SimpleModelElement implements IModelElement{
 	
 	public abstract ModelElementType getType();
 	
+	public boolean isPartOfDnaStrand(){
+		// Assumed not to be part of DNA strand in base class, override as needed.
+		return false;
+	}
+	
 	public Shape getShape(){
 		return shape;
 	}

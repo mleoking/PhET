@@ -34,4 +34,9 @@ public class LacYGene extends SimpleModelElement {
 		// TODO: i18n
 		return "LacY Gene";
 	}
+	
+	@Override
+	public boolean isPartOfDnaStrand() {
+		return true;
+	}
 }

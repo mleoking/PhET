@@ -19,4 +19,5 @@ public interface IModelElement {
     boolean releaseAttachmentWith(IModelElement modelElement);
 	ModelElementType getType();
 	AttachmentPoint getAttachmentPointForElement(ModelElementType type);
+	boolean isPartOfDnaStrand();
 }
