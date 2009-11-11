@@ -102,4 +102,9 @@ public class CapBindingRegion extends SimpleModelElement {
 			}
 		}
 	}
+	
+	@Override
+	public boolean isPartOfDnaStrand() {
+		return true;
+	}
 }

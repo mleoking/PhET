@@ -185,7 +185,8 @@ public class RnaPolymerase extends SimpleModelElement {
 			double xDest = lacPromoterAttachmentPartner.getAttachmentPointLocation(this).getX() - 
 				LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getWidth();
 			double yDest = lacPromoterAttachmentPartner.getAttachmentPointLocation(this).getY() -
-				LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getHeight(); 
+				LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getHeight();
+			setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 			getMotionStrategyRef().setDestination(xDest, yDest);
 			targetPositionForLacPromoterAttachment.setLocation(xDest, yDest);
 		}

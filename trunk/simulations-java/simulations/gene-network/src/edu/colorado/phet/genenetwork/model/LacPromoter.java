@@ -174,4 +174,9 @@ public class LacPromoter extends SimpleModelElement {
 		// TODO: Do I need to block attachment to a new one for a while?  For
 		// no assume no.
 	}
+	
+	@Override
+	public boolean isPartOfDnaStrand() {
+		return true;
+	}
 }

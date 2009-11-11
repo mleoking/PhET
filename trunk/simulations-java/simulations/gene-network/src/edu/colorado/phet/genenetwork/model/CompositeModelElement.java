@@ -146,4 +146,9 @@ public class CompositeModelElement implements IModelElement {
 	public void removeListener(IModelElementListener listener) {
 		// TODO Auto-generated method stub
 	}
+
+	public boolean isPartOfDnaStrand() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

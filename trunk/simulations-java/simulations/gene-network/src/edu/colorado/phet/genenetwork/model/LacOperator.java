@@ -160,4 +160,9 @@ public class LacOperator extends SimpleModelElement {
 		lacIAttachmentPartner = null;
 		attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	}
+	
+	@Override
+	public boolean isPartOfDnaStrand() {
+		return true;
+	}
 }
