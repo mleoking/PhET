@@ -31,9 +31,21 @@ public abstract class AbstractMotionStrategy {
 		}
 		destination.setLocation(x, y);
 	}
-	
+
+	/**
+	 * The the destination towards which the element should be moving.
+	 * Setting the value to null indicates no destination, which may not make
+	 * sense for all motion strategies.
+	 * 
+	 * @param destination
+	 */
 	public void setDestination(Point2D destination){
-		setDestination(destination.getX(), destination.getY());
+		if (destination == null){
+			this.destination = destination;
+		}
+		else{
+			setDestination(destination.getX(), destination.getY());
+		}
 	}
 	
 	public void clearDestination(){
