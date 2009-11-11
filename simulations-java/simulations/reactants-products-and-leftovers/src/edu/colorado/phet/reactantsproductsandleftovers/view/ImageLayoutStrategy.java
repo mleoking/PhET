@@ -10,24 +10,34 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Interface for specifying how images are arranged in the Before and After boxes.
+ * Interface for specifying how image nodes are arranged in the Before and After boxes.
+ * Also responsible for adding/removing image nodes in the scenegraph.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public interface ImageLayoutStrategy {
     
+    /**
+     * Image nodes will be arranged in this box node.
+     * The box node is also the parent node of image nodes. 
+     * @param boxNode
+     */
     public void setBoxNode( BoxNode boxNode );
     
     /**
      * Adds node, relative to referenceNode, with knowledge of a related controlNode.
+     * The node is also added to the scenegraph, where it becomes a child of the box node.
      * @param node
      * @param referenceNode
-     * @param boxNode
      * @param controlNode
      * @return
      */
     public void addNode( PNode node, PNode referenceNode, PNode controlNode );
     
+    /**
+     * Removes node from the layout, and from the scenegraph.
+     * @param node
+     */
     public void removeNode( PNode node );
     
     /*
@@ -65,6 +75,11 @@ public interface ImageLayoutStrategy {
         private static final double Y_MARGIN = 8;
         private static final double Y_SPACING = 27;
         
+        /**
+         * @param node the node to be added
+         * @param referenceNode the node currently at the top of the stack, used for y offset.
+         * @param controlNode a control below the box, used for x offset.
+         */
         public void addNode( PNode node, PNode referenceNode, PNode controlNode ) {
             // add the node to the scenegraph
             super.addNode( node );
@@ -116,6 +131,11 @@ public interface ImageLayoutStrategy {
             }
         }
         
+        /**
+         * @param node the node to be added
+         * @param referenceNode ignored
+         * @param controlNode ignored
+         */
         public void addNode( PNode node, PNode referenceNode, PNode controlNode ) {
             // add the node to the scenegraph
             super.addNode( node );
@@ -149,16 +169,16 @@ public interface ImageLayoutStrategy {
                 }
             }
             if ( !cellFound ) {
-                System.err.println( "GridLayoutStrategy.addNode: all cells are occupies, images will overlap" );
                 row = (int)( Math.random() * ROWS );
                 column = (int)( Math.random() * COLUMNS );
+                System.err.println( "GridLayoutStrategy.addNode: all cells are occupied, reusing cell [" + row + "," + column + "]" );
             }
             else if ( cells[row][column] != null ) {
-                System.err.println( "GridLayoutStrategy.addNode: bug in algorithm, cell[" + row + "," + column + "] is occupied" );
+                System.err.println( "GridLayoutStrategy.addNode: bug in algorithm, cell [" + row + "," + column + "] is occupied" );
             }
             cells[row][column] = node;
             
-            // pick a random offset within the chosen cell, so the layout doesn't look so regular
+            // pick a random offset within the chosen cell, so that the layout doesn't look so uniform
             double cellXOffset = 0;
             double cellYOffset = 0;
             if ( node.getFullBoundsReference().getWidth() < cellSize.getWidth() - ( 2 * CELL_MARGIN ) ) {
