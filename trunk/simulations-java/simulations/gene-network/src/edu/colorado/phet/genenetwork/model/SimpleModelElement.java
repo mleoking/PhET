@@ -164,6 +164,9 @@ public abstract class SimpleModelElement implements IModelElement{
 	}
 
 	protected void setMotionStrategy(AbstractMotionStrategy motionStrategy){
+		if (this.motionStrategy != null){
+			this.motionStrategy.cleanup();
+		}
 		this.motionStrategy = motionStrategy;
 	}
 	

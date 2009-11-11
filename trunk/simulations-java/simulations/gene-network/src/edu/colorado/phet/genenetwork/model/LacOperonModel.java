@@ -3,6 +3,7 @@
 package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -29,6 +30,11 @@ public class LacOperonModel implements IObtainGeneModelElements {
 	private static final double DNA_STRAND_HEIGHT = 3;  // In nanometers.
 	private static final Rectangle2D DNA_STRAND_LOCATION = new Rectangle2D.Double(-DNA_STRAND_WIDTH / 2, 
 			-MODEL_AREA_HEIGHT * 0.4, DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
+	
+	// Constant that defines where the mobile model elements can go.
+	private static final Rectangle2D MOTION_BOUNDS = new Rectangle2D.Double(MODEL_BOUNDS.getMinX(), 
+			DNA_STRAND_LOCATION.getCenterY(), MODEL_BOUNDS.getWidth(),
+			MODEL_BOUNDS.getHeight() - DNA_STRAND_LOCATION.getMinY() + MODEL_BOUNDS.getMinY());
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -231,8 +237,8 @@ public class LacOperonModel implements IObtainGeneModelElements {
         return clock;
     }
     
-    public static Rectangle2D getModelBounds(){
-    	return MODEL_BOUNDS;
+    public static Rectangle2D getMotionBounds(){
+    	return MOTION_BOUNDS;
     }
 
     /**

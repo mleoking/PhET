@@ -59,7 +59,7 @@ public class LacI extends SimpleModelElement {
 	
 	public LacI(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 		// Add binding point for LacOperator.
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_OPERATOR, LAC_OPERATOR_ATTACHMENT_POINT_OFFSET));
 	}
@@ -122,7 +122,7 @@ public class LacI extends SimpleModelElement {
 				lacOperatorAttachmentPartner.detach(this);
 				lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 				unavailableTimeCountdown = UNAVAILABLE_TIME;
-				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getModelBounds()));
+				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 			}
 		}
 		else if (lacOperatorAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
