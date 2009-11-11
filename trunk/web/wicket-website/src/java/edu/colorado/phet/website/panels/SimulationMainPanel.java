@@ -23,6 +23,7 @@ import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.SimsByKeywordPage;
+import edu.colorado.phet.website.content.about.AboutLegendPanel;
 import edu.colorado.phet.website.data.Keyword;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
@@ -68,7 +69,7 @@ public class SimulationMainPanel extends PhetPanel {
         add( new Label( "simulationMainPanel.kilobytes", new StringResourceModel( "simulationMainPanel.kilobytes", this, null, new Object[]{simulation.getSimulation().getKilobytes()} ) ) );
 
         if ( simulation.getSimulation().isUnderConstruction() ) {
-            PhetLink uclink = new PhetLink( "rating-under-construction-link", "#" );
+            Link uclink = AboutLegendPanel.getLinker().getLink( "rating-under-construction-link", context );
             uclink.add( new StaticImage( "rating-under-construction-image", "/images/ratings/under-construction.png", null ) );
             add( uclink );
         }
@@ -77,7 +78,7 @@ public class SimulationMainPanel extends PhetPanel {
         }
 
         if ( simulation.getSimulation().isGuidanceRecommended() ) {
-            PhetLink uclink = new PhetLink( "rating-guidance-recommended-link", "#" );
+            Link uclink = AboutLegendPanel.getLinker().getLink( "rating-guidance-recommended-link", context );
             uclink.add( new StaticImage( "rating-guidance-recommended-image", "/images/ratings/guidance-recommended.png", null ) );
             add( uclink );
         }
@@ -86,7 +87,7 @@ public class SimulationMainPanel extends PhetPanel {
         }
 
         if ( simulation.getSimulation().isClassroomTested() ) {
-            PhetLink uclink = new PhetLink( "rating-classroom-tested-link", "#" );
+            Link uclink = AboutLegendPanel.getLinker().getLink( "rating-classroom-tested-link", context );
             uclink.add( new StaticImage( "rating-classroom-tested-image", "/images/ratings/classroom-tested.png", null ) );
             add( uclink );
         }

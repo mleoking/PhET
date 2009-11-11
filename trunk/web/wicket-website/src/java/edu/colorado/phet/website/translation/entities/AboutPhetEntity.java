@@ -55,6 +55,8 @@ public class AboutPhetEntity extends TranslationEntity {
         addString( "about.contact.frontRow" );
         addString( "about.contact.phetTeam" );
 
+        addString( "about.legend.header" );
+
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new AboutMainPanel( id, context );
@@ -66,6 +68,12 @@ public class AboutPhetEntity extends TranslationEntity {
                 return new AboutSourceCodePanel( id, context );
             }
         }, "About (source code)" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new AboutLegendPanel( id, context );
+            }
+        }, "About (legend)" );
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {

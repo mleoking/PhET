@@ -78,6 +78,10 @@ public class NavMenu {
         addLocation( aboutSourceCode );
         about.addChild( aboutSourceCode );
 
+        NavLocation aboutLegend = new NavLocation( about, "about.legend", AboutLegendPanel.getLinker() );
+        addLocation( aboutLegend );
+        about.addChild( aboutLegend );
+
         NavLocation aboutContact = new NavLocation( about, "about.contact", AboutContactPanel.getLinker() );
         addLocation( aboutContact );
         about.addChild( aboutContact );
