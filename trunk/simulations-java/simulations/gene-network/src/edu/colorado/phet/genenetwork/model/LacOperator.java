@@ -24,14 +24,26 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class LacOperator extends SimpleModelElement {
 	
+	//----------------------------------------------------------------------------
+	// Class Data
+	//----------------------------------------------------------------------------
+
 	private static final Paint ELEMENT_PAINT = new Color(200, 200, 200);
 	private static final double WIDTH = 7;   // In nanometers.
 	private static final double HEIGHT = 3;  // In nanometers.
 	private static final Dimension2D LAC_I_BINDING_POINT_OFFSET = new PDimension(0, HEIGHT/2); 
 	
+	//----------------------------------------------------------------------------
+	// Instance Data
+	//----------------------------------------------------------------------------
+	
 	private LacI lacIAttachmentPartner = null;
 	private AttachmentState attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE; 
 	
+	//----------------------------------------------------------------------------
+	// Constructor(s)
+	//----------------------------------------------------------------------------
+
 	public LacOperator(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 		// Add binding point for LacI.
@@ -41,6 +53,10 @@ public class LacOperator extends SimpleModelElement {
 	public LacOperator(IObtainGeneModelElements model) {
 		this(model, new Point2D.Double());
 	}
+	
+	//----------------------------------------------------------------------------
+	// Methods
+	//----------------------------------------------------------------------------
 	
 	@Override
 	public ModelElementType getType() {
@@ -68,6 +84,10 @@ public class LacOperator extends SimpleModelElement {
 			break;
 		}
 		super.stepInTime(dt);
+	}
+	
+	public boolean isLacIAttached(){
+		return (attachmentState == AttachmentState.ATTACHED);
 	}
 	
 	private void attemptToStartAttaching(){
