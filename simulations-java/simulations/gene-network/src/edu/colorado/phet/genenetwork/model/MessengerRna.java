@@ -37,22 +37,6 @@ public class MessengerRna extends SimpleModelElement {
 	static Shape createShape(){
 		
 		/*
-		 * returns an odd shaded shape sort of thing.
-		DoubleGeneralPath topLine = new DoubleGeneralPath();
-		topLine.moveTo(-APPROX_LENGTH / 2, 0);
-		topLine.moveToRelative(APPROX_LENGTH, 0);
-		for (int i=0; i<NUM_SEGEMENTS; i++){
-			if (RAND.nextBoolean()){
-				topLine.lineToRelative(APPROX_LENGTH / NUM_SEGEMENTS, -0.9);
-			}
-			else{
-				topLine.lineToRelative(APPROX_LENGTH / NUM_SEGEMENTS, 0.9);
-			}
-		}
-		return topLine.getGeneralPath();
-		 */
-		
-		/*
 		return new Line2D.Double(0, 0, 20, 0);
 		*/
 		
