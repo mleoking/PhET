@@ -3,7 +3,6 @@
 package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -25,7 +24,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
 			-MODEL_AREA_HEIGHT / 2, MODEL_AREA_WIDTH, MODEL_AREA_HEIGHT);
 	private static final Random RAND = new Random();
 
-	// Constants that defines where in the model space the DNA strand will be.
+	// Constants that define where in the model space the DNA strand will be.
 	private static final double DNA_STRAND_WIDTH = MODEL_AREA_WIDTH * 1.3;
 	private static final double DNA_STRAND_HEIGHT = 3;  // In nanometers.
 	private static final Rectangle2D DNA_STRAND_LOCATION = new Rectangle2D.Double(-DNA_STRAND_WIDTH / 2, 
