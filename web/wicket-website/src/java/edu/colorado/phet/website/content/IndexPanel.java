@@ -30,7 +30,7 @@ public class IndexPanel extends PhetPanel {
         imageLink.add( new StaticImage( "index-animated-screenshot", "/images/mass-spring-lab-animated-screenshot.gif", null ) );
 
         // TODO: refactor out context.getPrefix(), etc
-        add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{"href=\"" + context.getPrefix() + ResearchPanel.getUrl() + "\""} ) );
+        add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{"href=\"" + ResearchPanel.getLinker().getRawUrl( context ) + "\""} ) );
 
         add( SimulationDisplay.createLink( "play-sims-link", context ) );
 

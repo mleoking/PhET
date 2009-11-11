@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.content;
 
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.about.AboutSponsorsPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -31,6 +32,16 @@ public class ContributePanel extends PhetPanel {
 
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
+            @Override
+            public String getRawUrl( PageContext context ) {
+                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), ContributePanel.class ) ) {
+                    return "http://phet.colorado.edu/contribute/index.php";
+                }
+                else {
+                    return super.getRawUrl( context );
+                }
+            }
+
             public String getSubUrl( PageContext context ) {
                 return getUrl();
             }
