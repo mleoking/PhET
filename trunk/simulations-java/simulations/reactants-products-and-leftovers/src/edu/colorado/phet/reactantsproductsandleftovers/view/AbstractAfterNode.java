@@ -210,21 +210,22 @@ public abstract class AbstractAfterNode extends PhetPNode {
      */
     private void update() {
 
-        // products are only visible when we have a valid reaction
+        // products are invisible if we don't have a legitimate reaction
         productsLabelNode.setVisible( reaction.isReaction() );
+        for ( QuantityDisplayNode node : productQuantityDisplayNodes ) {
+            node.setVisible( reaction.isReaction() );
+        }
 
-        // product quantities
+        /*
+         * Do all removal first, so that we free up space in the box.
+         */
+        
+        // remove products
         Product[] products = reaction.getProducts();
         for ( int i = 0; i < products.length; i++ ) {
-            
-            // products are invisible if we don't have a legitimate reaction
-            productQuantityDisplayNodes.get(i).setVisible( reaction.isReaction() );
-            
             Product product = products[i];
             ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
-            
             if ( product.getQuantity() < imageNodes.size() ) {
-                // remove images
                 while ( product.getQuantity() < imageNodes.size() ) {
                     SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
                     imageNode.cleanup();
@@ -232,35 +233,14 @@ public abstract class AbstractAfterNode extends PhetPNode {
                     imageNodes.remove( imageNode );
                 }
             }
-            else {
-                // add images
-                while( product.getQuantity() > imageNodes.size() ) {
-                    
-                    PNode previousNode = null;
-                    if ( imageNodes.size() > 0 ) {
-                        previousNode = imageNodes.get( imageNodes.size() - 1 );
-                    }
-                    
-                    while( product.getQuantity() > imageNodes.size() ) {
-                        SubstanceImageNode imageNode = new SubstanceImageNode( product );
-                        imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                        imageNodes.add( imageNode );
-                        imageLayoutStrategy.addNode( imageNode, previousNode, productQuantityDisplayNodes.get( i ) );
-                        previousNode = imageNode;
-                    }
-                }
-            }
         }
-
-        // reactant leftovers
+        
+        // remove leftovers
         Reactant[] reactants = reaction.getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
-            
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = reactantImageNodeLists.get( i );
-            
             if ( reactant.getLeftovers() < imageNodes.size() ) {
-                // remove images
                 while ( reactant.getLeftovers() < imageNodes.size() ) {
                     SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
                     imageNode.cleanup();
@@ -268,22 +248,50 @@ public abstract class AbstractAfterNode extends PhetPNode {
                     imageNodes.remove( imageNode );
                 }
             }
-            else {
-                // add images
-                while( reactant.getLeftovers() > imageNodes.size() ) {
-                    
-                    PNode previousNode = null;
-                    if ( imageNodes.size() > 0 ) {
-                        previousNode = imageNodes.get( imageNodes.size() - 1 );
-                    }
-                    
-                    while( reactant.getLeftovers() > imageNodes.size() ) {
-                        SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
-                        imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                        imageNodes.add( imageNode );
-                        imageLayoutStrategy.addNode( imageNode, previousNode, reactantLeftoverDisplayNodes.get( i ) );
-                        previousNode = imageNode;
-                    }
+        }
+
+        /*
+         * Do all additions after removals, so that we free up space in the box.
+         */
+        
+        // add products
+        for ( int i = 0; i < products.length; i++ ) {
+            ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
+            Product product = products[i];
+            while ( product.getQuantity() > imageNodes.size() ) {
+
+                PNode previousNode = null;
+                if ( imageNodes.size() > 0 ) {
+                    previousNode = imageNodes.get( imageNodes.size() - 1 );
+                }
+
+                while ( product.getQuantity() > imageNodes.size() ) {
+                    SubstanceImageNode imageNode = new SubstanceImageNode( product );
+                    imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
+                    imageNodes.add( imageNode );
+                    imageLayoutStrategy.addNode( imageNode, previousNode, productQuantityDisplayNodes.get( i ) );
+                    previousNode = imageNode;
+                }
+            }
+        }
+
+        // add leftovers
+        for ( int i = 0; i < reactants.length; i++ ) {
+            Reactant reactant = reactants[i];
+            ArrayList<SubstanceImageNode> imageNodes = reactantImageNodeLists.get( i );
+            while ( reactant.getLeftovers() > imageNodes.size() ) {
+
+                PNode previousNode = null;
+                if ( imageNodes.size() > 0 ) {
+                    previousNode = imageNodes.get( imageNodes.size() - 1 );
+                }
+
+                while ( reactant.getLeftovers() > imageNodes.size() ) {
+                    SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
+                    imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
+                    imageNodes.add( imageNode );
+                    imageLayoutStrategy.addNode( imageNode, previousNode, reactantLeftoverDisplayNodes.get( i ) );
+                    previousNode = imageNode;
                 }
             }
         }

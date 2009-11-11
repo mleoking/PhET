@@ -1,3 +1,4 @@
+11/10/09 do all image removal before adding images, to free up space in grid
 11/10/09 add pointer tip to bracket node
 11/10/09 start with "products" and "leftovers" labels vertically aligned, OK to lose alignment if images are dynamic
 11/10/09 fix layout issues with "products" label in sandwich shop, add min bracket with to make single-product case look better
