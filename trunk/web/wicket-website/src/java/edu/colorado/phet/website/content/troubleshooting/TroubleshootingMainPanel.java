@@ -2,6 +2,7 @@ package edu.colorado.phet.website.content.troubleshooting;
 
 import org.apache.wicket.behavior.HeaderContributor;
 
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.ContributePanel;
 import edu.colorado.phet.website.content.FullInstallPanel;
@@ -77,6 +78,16 @@ public class TroubleshootingMainPanel extends PhetPanel {
 
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
+            @Override
+            public String getRawUrl( PageContext context ) {
+                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), TroubleshootingMainPanel.class ) ) {
+                    return "http://phet.colorado.edu/tech_support/index.php";
+                }
+                else {
+                    return super.getRawUrl( context );
+                }
+            }
+
             public String getSubUrl( PageContext context ) {
                 return getUrl();
             }

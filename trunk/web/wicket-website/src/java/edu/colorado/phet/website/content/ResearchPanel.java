@@ -2,6 +2,7 @@ package edu.colorado.phet.website.content;
 
 import org.apache.wicket.behavior.HeaderContributor;
 
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -48,6 +49,16 @@ public class ResearchPanel extends PhetPanel {
 
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
+            @Override
+            public String getRawUrl( PageContext context ) {
+                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), ResearchPanel.class ) ) {
+                    return "http://phet.colorado.edu/research/index.php";
+                }
+                else {
+                    return super.getRawUrl( context );
+                }
+            }
+
             public String getSubUrl( PageContext context ) {
                 return getUrl();
             }

@@ -3,6 +3,7 @@ package edu.colorado.phet.website.content.troubleshooting;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -56,6 +57,16 @@ public class TroubleshootingJavascriptPanel extends PhetPanel {
 
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
+            @Override
+            public String getRawUrl( PageContext context ) {
+                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), TroubleshootingJavascriptPanel.class ) ) {
+                    return "http://phet.colorado.edu/tech_support/support-javascript.php";
+                }
+                else {
+                    return super.getRawUrl( context );
+                }
+            }
+
             public String getSubUrl( PageContext context ) {
                 return getUrl();
             }
