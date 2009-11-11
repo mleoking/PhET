@@ -77,6 +77,17 @@ public class LacPromoter extends SimpleModelElement {
 		}
 		super.stepInTime(dt);
 	}
+	
+	/**
+	 * Get the location in absolute space of the attachment point for the
+	 * specified type of model element.
+	 */
+	public Point2D getAttachmentPointLocation(RnaPolymerase rnaPolymerase){
+		return new Point2D.Double(getPositionRef().getX() + RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET.getHeight());
+	}
+	
+
 
 	private void attemptToStartAttaching(){
 		assert rnaPolymeraseAttachmentPartner == null;
