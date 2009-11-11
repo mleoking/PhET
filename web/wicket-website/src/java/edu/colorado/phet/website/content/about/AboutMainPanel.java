@@ -9,6 +9,7 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
+import edu.colorado.phet.website.DistributionHandler;
 
 public class AboutMainPanel extends PhetPanel {
     public AboutMainPanel( String id, PageContext context ) {
@@ -44,6 +45,16 @@ public class AboutMainPanel extends PhetPanel {
 
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
+            @Override
+                        public String getRawUrl( PageContext context ) {
+                            if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), AboutMainPanel.class ) ) {
+                                return "http://phet.colorado.edu/about/index.php";
+                            }
+                            else {
+                                return super.getRawUrl( context );
+                            }
+                        }
+
             public String getSubUrl( PageContext context ) {
                 return getUrl();
             }
