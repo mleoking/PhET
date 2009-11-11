@@ -17,6 +17,11 @@ public class AboutPhetEntity extends TranslationEntity {
         addString( "about.source-code.location" );
         addString( "about.source-code.flash-simulations" );
 
+        addString( "about.legend.header" );
+        addString( "about.legend.guidance-recommended" );
+        addString( "about.legend.under-construction" );
+        addString( "about.legend.classroom-tested" );
+
         addString( "about.contact.thePhetProject" );
         addString( "about.contact.licenseInformation" );
         addString( "about.contact.email" );
@@ -54,8 +59,6 @@ public class AboutPhetEntity extends TranslationEntity {
         addString( "about.contact.middleRow" );
         addString( "about.contact.frontRow" );
         addString( "about.contact.phetTeam" );
-
-        addString( "about.legend.header" );
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
