@@ -81,6 +81,7 @@ public class LacOperator extends SimpleModelElement {
 					// Attachment formed.
 					attachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
 					lacIAttachmentPartner = lacI;
+					break;
 				}
 			}
 		}
