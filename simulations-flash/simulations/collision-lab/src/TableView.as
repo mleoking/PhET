@@ -58,7 +58,7 @@
 				with(this.ball_arr[i].graphics){
 					clear();
 					beginFill(0x0000ff);
-					lineStyle(1, 0x000000);
+					lineStyle(1, 0x0000ff);
 					drawCircle(0,0,radius);
 					endFill();
 				}//with

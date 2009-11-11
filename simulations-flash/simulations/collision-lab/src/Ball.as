@@ -12,14 +12,21 @@ package{
 		
 		public function Ball(mass:Number, position:TwoVector, velocity:TwoVector ){
 			this.mass = mass;
-			this.radius = 0.15;   //radius in meters 
+			this.radius = 0.20;   //radius in meters 
 			this.position = position;
 			this.velocity = velocity;
+			this.momentum = new TwoVector(this.mass*this.velocity.getX(),this.mass*this.velocity.getY());
 		}//end of constructor
 		
 		public function getMomentum():TwoVector{
 			this.momentum.setXY(this.mass*this.velocity.getX(), this.mass*this.velocity.getY());
 			return this.momentum;
+		}
+		
+		public function getKE():Number{
+			var speed:Number = this.velocity.getLength();
+			var KE:Number = 0.5*this.mass*speed*speed;
+			return KE;
 		}
 		
 		public function reverseVelocity():void{
