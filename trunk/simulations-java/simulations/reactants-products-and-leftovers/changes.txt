@@ -1,3 +1,4 @@
+11/10/09 make "products" label always visible, even when there are no products
 # 0.00.11 (36521) Nov 10, 2009
 11/10/09 random layout of molecules with no overlap, misc change requests
 11/10/09 do all image removal before adding images, to free up space in grid
