@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.content;
 
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.about.AboutContactPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
@@ -56,6 +57,16 @@ public class FullInstallPanel extends PhetPanel {
 
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
+            @Override
+            public String getRawUrl( PageContext context ) {
+                if ( DistributionHandler.redirectPageClassToProduction( context.getCycle(), FullInstallPanel.class ) ) {
+                    return "http://phet.colorado.edu/get_phet/full_install.php";
+                }
+                else {
+                    return super.getRawUrl( context );
+                }
+            }
+
             public String getSubUrl( PageContext context ) {
                 return getUrl();
             }
