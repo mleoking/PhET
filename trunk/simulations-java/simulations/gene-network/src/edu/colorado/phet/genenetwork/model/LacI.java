@@ -11,6 +11,8 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D.Double;
+import java.util.Random;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -41,6 +43,9 @@ public class LacI extends SimpleModelElement {
 	// "unavailable".
 	private static double ATTACHMENT_TIME = 5; // In seconds.
 	private static double UNAVAILABLE_TIME = 5; // In seconds.
+	
+	// Random number generator.
+	private static Random RAND = new Random();
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -122,7 +127,11 @@ public class LacI extends SimpleModelElement {
 				lacOperatorAttachmentPartner.detach(this);
 				lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 				unavailableTimeCountdown = UNAVAILABLE_TIME;
-				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+				
+				// Set our motion strategy to move up towards some random
+				// point at the top of the motion area.  This just looks
+				// better than allowing it to drift behind the DNA.
+				setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBounds()));
 			}
 		}
 		else if (lacOperatorAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
@@ -130,6 +139,7 @@ public class LacI extends SimpleModelElement {
 			if (unavailableTimeCountdown <= 0){
 				// The recovery period is over, we can be available again.
 				lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				getMotionStrategyRef().setDestination(null);
 			}
 		}
 	}
