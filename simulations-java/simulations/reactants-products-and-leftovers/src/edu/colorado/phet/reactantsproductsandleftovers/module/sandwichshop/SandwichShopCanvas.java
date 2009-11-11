@@ -3,10 +3,13 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 
 import java.awt.geom.Dimension2D;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy.StackedLayoutStrategy;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the "Sandwich Shop" module.
@@ -15,7 +18,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy.
  */
 public class SandwichShopCanvas extends RPALCanvas {
     
-    public SandwichShopCanvas( SandwichShopModel model ) {
+    public SandwichShopCanvas( SandwichShopModel model, Resettable resettable ) {
         super();
         
         SandwichEquationNode equationNode = new SandwichEquationNode( model );
@@ -29,6 +32,11 @@ public class SandwichShopCanvas extends RPALCanvas {
         
         SandwichShopAfterNode afterNode = new SandwichShopAfterNode( model );
         addChild( afterNode );
+        
+        ResetAllButton resetAllButton = new ResetAllButton( resettable, this );
+        PSwing resetAllButtonWrapper = new PSwing( resetAllButton );
+        resetAllButtonWrapper.scale( 1.25 );
+        addChild( resetAllButtonWrapper );
         
         // layout of this module is static, so do it here...
         
@@ -52,6 +60,11 @@ public class SandwichShopCanvas extends RPALCanvas {
         x = arrowNode.getFullBoundsReference().getMaxX() + arrowXSpacing;
         y = beforeNode.getYOffset();
         afterNode.setOffset( x, y );
+        
+        // Reset All button at bottom center, cheated toward Before box
+        x = arrowNode.getFullBoundsReference().getMaxX() - resetAllButtonWrapper.getFullBoundsReference().getWidth();
+        y = afterNode.getFullBoundsReference().getMaxY();
+        resetAllButtonWrapper.setOffset( x, y );
     }
 
     /*

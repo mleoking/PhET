@@ -6,11 +6,14 @@ import java.awt.geom.Dimension2D;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactionChoiceNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy.GridLayoutStrategy;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the "Real Reaction" module.
@@ -29,8 +32,9 @@ public class RealReactionCanvas extends RPALCanvas {
     private RealReactionEquationNode equationNode;
     private RealReactionBeforeNode beforeNode;
     private RealReactionAfterNode afterNode;
+    private PSwing resetAllButtonWrapper;
 
-    public RealReactionCanvas( final RealReactionModel model ) {
+    public RealReactionCanvas( final RealReactionModel model, Resettable resettable ) {
         super();
 
         this.model = model;
@@ -41,6 +45,11 @@ public class RealReactionCanvas extends RPALCanvas {
 
         arrowNode = new RightArrowNode();
         addChild( arrowNode );
+        
+        ResetAllButton resetAllButton = new ResetAllButton( resettable, this );
+        resetAllButtonWrapper = new PSwing( resetAllButton );
+        resetAllButtonWrapper.scale( 1.25 );
+        addChild( resetAllButtonWrapper );
         
         model.addChangeListeners( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -102,6 +111,11 @@ public class RealReactionCanvas extends RPALCanvas {
         x = arrowNode.getFullBoundsReference().getMaxX() + arrowXSpacing;
         y = beforeNode.getYOffset();
         afterNode.setOffset( x, y );
+        
+        // Reset All button at bottom center, cheated toward Before box
+        x = arrowNode.getFullBoundsReference().getMaxX() - resetAllButtonWrapper.getFullBoundsReference().getWidth();
+        y = afterNode.getFullBoundsReference().getMaxY();
+        resetAllButtonWrapper.setOffset( x, y );
     }
 
     /*

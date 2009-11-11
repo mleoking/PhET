@@ -1,3 +1,4 @@
+11/10/09 add Reset All buttons to all modules
 11/10/09 add flag to show/hide coefficients with value=1
 11/10/09 add flag to show/hide coefficient borders
 11/10/09 formula -> equation in code

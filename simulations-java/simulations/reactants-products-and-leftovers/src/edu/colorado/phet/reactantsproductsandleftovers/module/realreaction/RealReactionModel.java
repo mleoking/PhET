@@ -7,10 +7,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.reactantsproductsandleftovers.model.AmmoniaReaction;
-import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
-import edu.colorado.phet.reactantsproductsandleftovers.model.MethaneReaction;
-import edu.colorado.phet.reactantsproductsandleftovers.model.WaterReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.*;
 
 /**
  * Model for the "Real Reaction" module.
@@ -28,6 +25,15 @@ public class RealReactionModel {
         reactions = new ChemicalReaction[] { new WaterReaction(), new AmmoniaReaction(), new MethaneReaction() };
         this.reaction = reactions[0];
         listeners = new ArrayList<ChangeListener>();
+    }
+    
+    public void reset() {
+        for ( ChemicalReaction reaction : reactions ) {
+            for ( Reactant reactant : reaction.getReactants() ) {
+                reactant.setQuantity( getQuantityRange().getDefault() );
+            }
+        }
+        setReaction( reactions[0] );
     }
     
     public ChemicalReaction[] getReactions() {
