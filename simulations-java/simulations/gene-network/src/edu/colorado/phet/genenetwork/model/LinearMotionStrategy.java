@@ -9,8 +9,9 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Motion strategy that moves in a straight line towards a destination point.
- * If the element being controlled goes outside of the motion bounds, the
- * element "bounces".
+ * Once the destination point is reached, the element stops.  If the
+ * destination is outside of the allowable bounds, it will stop at or near
+ * the boundary crossing.
  * 
  * @author John Blanco
  */
@@ -33,19 +34,31 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 		
 		Point2D position = modelElement.getPositionRef();
 		Vector2D velocity = modelElement.getVelocityRef();
+		double distanceToDestination = getDestination().distance(getModelElement().getPositionRef());
+		double distanceToTravelThisTimeStep = velocity.getMagnitude() * dt;
 		
-		if ((position.getX() > bounds.getMaxX() && velocity.getX() > 0) ||
-			(position.getX() < bounds.getMinX() && velocity.getX() < 0))	{
-			// Reverse direction in the X direction.
-			modelElement.setVelocity(-velocity.getX(), velocity.getY());
+		if (distanceToDestination > 0 && distanceToTravelThisTimeStep > distanceToDestination){
+			// We have pretty much arrived at the destination, so set the
+			// position to be exactly at the destination.
+			getModelElement().setPosition(getDestination());
+			getModelElement().setVelocity(0, 0);
 		}
-		if ((position.getY() > bounds.getMaxY() && velocity.getY() > 0) ||
-    		(position.getY() < bounds.getMinY() && velocity.getY() < 0))	{
-    		// Reverse direction in the Y direction.
-    		modelElement.setVelocity(velocity.getX(), -velocity.getY());
-    	}
+		else if ((position.getX() > bounds.getMaxX() && velocity.getX() > 0) ||
+			     (position.getX() < bounds.getMinX() && velocity.getX() < 0) ||
+			     (position.getY() > bounds.getMaxY() && velocity.getY() > 0) ||
+		         (position.getY() < bounds.getMinY() && velocity.getY() < 0)){
+			
+			// We are at or past the boundary, so stop forward motion.
+			modelElement.setVelocity(0, 0);
+		}
 		
-		modelElement.setPosition( modelElement.getPositionRef().getX() + modelElement.getVelocityRef().getX() * dt, 
-				modelElement.getPositionRef().getY() + modelElement.getVelocityRef().getY() * dt );
+		if (modelElement.getVelocityRef().getMagnitude() > 0){
+			modelElement.setPosition( modelElement.getPositionRef().getX() + modelElement.getVelocityRef().getX() * dt, 
+					modelElement.getPositionRef().getY() + modelElement.getVelocityRef().getY() * dt );
+		}
+	}
+	
+	public boolean isDestinationReached(){
+		return (getModelElement().getPositionRef().distance(getDestination()) == 0);
 	}
 }
