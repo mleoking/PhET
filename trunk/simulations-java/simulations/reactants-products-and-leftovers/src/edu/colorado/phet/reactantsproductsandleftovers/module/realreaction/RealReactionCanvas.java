@@ -26,7 +26,7 @@ public class RealReactionCanvas extends RPALCanvas {
     private final RightArrowNode arrowNode;
 
     // these nodes change based based on reaction
-    private RealReactionFormulaNode formulaNode;
+    private RealReactionEquationNode equationNode;
     private RealReactionBeforeNode beforeNode;
     private RealReactionAfterNode afterNode;
 
@@ -54,11 +54,11 @@ public class RealReactionCanvas extends RPALCanvas {
 
     private void updateNodes() {
 
-        if ( formulaNode != null ) {
-            removeChild( formulaNode );
+        if ( equationNode != null ) {
+            removeChild( equationNode );
         }
-        formulaNode = new RealReactionFormulaNode( model.getReaction() );
-        addChild( formulaNode );
+        equationNode = new RealReactionEquationNode( model.getReaction() );
+        addChild( equationNode );
 
         if ( beforeNode != null ) {
             removeChild( beforeNode );
@@ -82,10 +82,10 @@ public class RealReactionCanvas extends RPALCanvas {
         double y = 0;
         reactionChoiceNode.setOffset( x, y );
 
-        // formula to right of radio buttons, vertically centered with buttons
+        // equation to right of radio buttons, vertically centered with buttons
         x = reactionChoiceNode.getFullBoundsReference().getWidth() + 30;
-        y = reactionChoiceNode.getFullBoundsReference().getCenterY() - ( formulaNode.getFullBoundsReference().getHeight() / 2 );
-        formulaNode.setOffset( x, y );
+        y = reactionChoiceNode.getFullBoundsReference().getCenterY() - ( equationNode.getFullBoundsReference().getHeight() / 2 );
+        equationNode.setOffset( x, y );
 
         // Before box below radio buttons, left justified
         x = reactionChoiceNode.getFullBoundsReference().getMinX();

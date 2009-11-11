@@ -26,11 +26,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 
 /**
- * Node that displays the formula for a sandwich, with editable coefficients.
+ * Node that displays the equation for a sandwich, with editable coefficients.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SandwichFormulaNode extends PhetPNode {
+public class SandwichEquationNode extends PhetPNode {
     
     private static final PhetFont TITLE_FONT = new PhetFont( 28 );
     private static final PhetFont COEFFICIENT_FONT = new PhetFont( 24 );
@@ -49,7 +49,7 @@ public class SandwichFormulaNode extends PhetPNode {
     private final ChangeListener reactionChangeListener;
     private final PText noReactionNode;
     
-    public SandwichFormulaNode( SandwichShopModel model ) {
+    public SandwichEquationNode( SandwichShopModel model ) {
         super();
         
         this.reaction = model.getReaction();

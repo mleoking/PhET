@@ -18,8 +18,8 @@ public class SandwichShopCanvas extends RPALCanvas {
     public SandwichShopCanvas( SandwichShopModel model ) {
         super();
         
-        SandwichFormulaNode formulaNode = new SandwichFormulaNode( model );
-        addChild( formulaNode );
+        SandwichEquationNode equationNode = new SandwichEquationNode( model );
+        addChild( equationNode );
         
         SandwichShopBeforeNode beforeNode = new SandwichShopBeforeNode( model );
         addChild( beforeNode );
@@ -32,14 +32,14 @@ public class SandwichShopCanvas extends RPALCanvas {
         
         // layout of this module is static, so do it here...
         
-        // formula at upper left
+        // equation at upper left
         double x = 0;
         double y = 0;
-        formulaNode.setOffset( x, y );
+        equationNode.setOffset( x, y );
         
-        // Before box below formula, left justified
-        x = formulaNode.getFullBoundsReference().getMinX();
-        y = formulaNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeNode ) + 30;
+        // Before box below equation, left justified
+        x = equationNode.getFullBoundsReference().getMinX();
+        y = equationNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeNode ) + 30;
         beforeNode.setOffset( x, y );
         
         // arrow to the right of Before box, vertically centered with box
