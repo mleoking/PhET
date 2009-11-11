@@ -1,6 +1,10 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
+- Reset All buttons in all modules
+- move equation below Before/After boxes?
+- hide 1 coefficients?
+- restore boxes around coefficients?
 - design for Game module
 
 MEDIUM PRIORITY

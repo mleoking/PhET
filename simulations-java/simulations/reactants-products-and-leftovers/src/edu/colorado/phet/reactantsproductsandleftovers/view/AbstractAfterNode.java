@@ -52,7 +52,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private final ArrayList<QuantityDisplayNode> productQuantityDisplayNodes; // quantity displays for products
     private final ArrayList<LeftoversDisplayNode> reactantLeftoverDisplayNodes; // leftovers displays for reactants
     private final ImageLayoutStrategy imageLayoutStrategy;
-    private final PNode productsLabelNode ;
+    private final PNode productsLabelNode, leftoversLabelNode;
     
     public AbstractAfterNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames,  ImageLayoutStrategy imageLayoutStrategy ) {
         super();
@@ -148,7 +148,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
         startX = reactantLeftoverDisplayNodes.get( 0 ).getFullBoundsReference().getMinX();
         endX = reactantLeftoverDisplayNodes.get( reactantLeftoverDisplayNodes.size() - 1 ).getFullBoundsReference().getMaxX();
         width = endX - startX;
-        PNode leftoversLabelNode = new BracketedLabelNode( RPALStrings.LABEL_LEFTOVERS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
+        leftoversLabelNode = new BracketedLabelNode( RPALStrings.LABEL_LEFTOVERS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
         addChild( leftoversLabelNode );
         x = startX;
         y = 0;
@@ -211,7 +211,6 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private void update() {
 
         // products are invisible if we don't have a legitimate reaction
-        productsLabelNode.setVisible( reaction.isReaction() );
         for ( QuantityDisplayNode node : productQuantityDisplayNodes ) {
             node.setVisible( reaction.isReaction() );
         }
@@ -307,6 +306,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
         double y = 0;
         for ( QuantityDisplayNode node : productQuantityDisplayNodes ) {
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
+            y = Math.max( y, leftoversLabelNode.getYOffset() ); // never higher than the leftovers label
         }
         productsLabelNode.setOffset( x, y );
     }
