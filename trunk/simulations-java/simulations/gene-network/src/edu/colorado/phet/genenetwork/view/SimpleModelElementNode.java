@@ -38,27 +38,19 @@ public class SimpleModelElementNode extends PPath {
 		this.modelElement = modelElement;
 		this.mvt = mvt;
 		
-		// Set up this node to look like it should.
-		Shape transformedShape = mvt.createTransformedShape(modelElement.getShape());
-		
-		// We only want the shape, and not any translation associated with the
-		// shape, so that we can move it in a reasonable way later.  For this,
-		// we have to subtract off the translation.
-		transformedShape.getBounds2D().getCenterX();
-		transformedShape = AffineTransform.getTranslateInstance(-transformedShape.getBounds2D().getCenterX(), 
-				-transformedShape.getBounds2D().getCenterY()).createTransformedShape(transformedShape);
-		
-		// Set the shape and color.
-		setPathTo(transformedShape);
-		setPaint(modelElement.getPaint());
-		
 		// Register for important event notifications from the model.
 		modelElement.addListener(new IModelElementListener() {
 			
 			public void positionChanged() {
 				updateOffset();
 			}
+			public void shapeChanged() {
+				updateShape();
+			}
 		});
+		
+		// Set the initial shape.
+		updateShape();
 		
 		// If there is a label text value, show it.
 		if (modelElement.getLabel() != null){
@@ -81,5 +73,21 @@ public class SimpleModelElementNode extends PPath {
 	
     private void updateOffset() {
         setOffset( mvt.modelToView( modelElement.getPositionRef() ));
+    }
+    
+    private void updateShape() {
+		// Set up this node to look like it should.
+		Shape transformedShape = mvt.createTransformedShape(modelElement.getShape());
+		
+		// We only want the shape, and not any translation associated with the
+		// shape, so that we can move it in a reasonable way later.  For this,
+		// we have to subtract off the translation.
+		transformedShape.getBounds2D().getCenterX();
+		transformedShape = AffineTransform.getTranslateInstance(-transformedShape.getBounds2D().getCenterX(), 
+				-transformedShape.getBounds2D().getCenterY()).createTransformedShape(transformedShape);
+		
+		// Set the shape and color.
+		setPathTo(transformedShape);
+		setPaint(modelElement.getPaint());
     }
 }
