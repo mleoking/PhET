@@ -1,3 +1,4 @@
+the-ramp: In Energy Graph tab, have the total energy be the only line shown as a default.
 Fixed: Reset all should reset the visibility of each chart series.
 Fixed: chart readouts don't reset when Reset All button is pressed.
 Made chart vertical and horizontal axes reset when Reset All button is pressed.
