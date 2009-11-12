@@ -1,3 +1,4 @@
+Made chart vertical and horizontal axes reset when Reset All button is pressed.
 the-ramp: In the Energy Graph tab, changed the default zoom to 10,000 J so the entire curve is visible by default.
 forces-and-motion: In Graph tab, have the Force sum be the only line shown as a default.
 Added friction coefficients to combo box.
