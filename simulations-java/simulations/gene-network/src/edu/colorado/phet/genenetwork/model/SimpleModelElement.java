@@ -59,7 +59,8 @@ public abstract class SimpleModelElement implements IModelElement{
 	}
 	
 	protected void setShape(Shape shape){
-		this.shape = shape;  
+		this.shape = shape;
+		notifyShapeChanged();
 	}
 	
 	public Point2D getPositionRef(){
