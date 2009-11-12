@@ -108,6 +108,8 @@ public class AdminSimPage extends AdminPage {
         add( new GuidanceRecommendedForm( "guidance-recommended" ) );
         add( new ClassroomTestedForm( "classroom-tested" ) );
 
+        add( new KilobytesForm( "kilobytes" ) );
+
         add( new ModifyTranslationForm( "add-set-translation" ) );
 
         add( new ListView( "translation-list", localizedSimulations ) {
@@ -521,7 +523,7 @@ public class AdminSimPage extends AdminPage {
         }
     }
 
-    private abstract class CheckBoxForm extends Form {
+    private static abstract class CheckBoxForm extends Form {
         private CheckBox checkbox;
 
         public abstract void handle( boolean val );
@@ -540,6 +542,37 @@ public class AdminSimPage extends AdminPage {
             super.onSubmit();
             Boolean v = (Boolean) checkbox.getModelObject();
             handle( v );
+        }
+    }
+
+    private class KilobytesForm extends Form {
+        private TextField textfield;
+
+        private KilobytesForm( String id ) {
+            super( id );
+
+            textfield = new TextField( "value", new Model( Integer.toString( simulation.getKilobytes() ) ) );
+            add( textfield );
+        }
+
+        @Override
+        protected void onSubmit() {
+            super.onSubmit();
+            try {
+                final int kilobytes = Integer.valueOf( textfield.getModelObjectAsString() );
+                HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                        sim.setKilobytes( kilobytes );
+                        session.update( sim );
+                        return true;
+                    }
+                } );
+            }
+            catch( NumberFormatException e ) {
+                // silent failure
+            }
+
         }
     }
 
