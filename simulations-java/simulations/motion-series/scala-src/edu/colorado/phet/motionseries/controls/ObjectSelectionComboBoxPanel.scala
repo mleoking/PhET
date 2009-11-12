@@ -9,6 +9,7 @@ import edu.colorado.phet.motionseries.model.MotionSeriesObject
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PComboBox, PSwing}
+import java.awt.Color
 
 class ObjectSelectionComboBoxPanel(objectModel: ObjectModel) extends SubControlPanel("controls.choose-object".translate) {
   val comboBox = new ObjectSelectionComboBox(objectModel)
@@ -37,10 +38,11 @@ class ObjectSelectionComboBox(objectModel: ObjectModel) extends PComboBox {
   })
   setRenderer(new JLabel with ListCellRenderer {
     setOpaque(true)
+    setBorder(BorderFactory.createLineBorder(Color.gray))
 
     def getListCellRendererComponent(list: JList, value: Any, index: Int, isSelected: Boolean, cellHasFocus: Boolean) = {
       setIcon(new ImageIcon(BufferedImageUtils.multiScaleToHeight(value.asInstanceOf[ObjectItem].rampObject.iconImage, 30)))
-      setText(value.asInstanceOf[ObjectItem].rampObject.getDisplayText)
+      setText(value.asInstanceOf[ObjectItem].rampObject.getDisplayTextHTML)
       setBackground(if (isSelected) list.getSelectionBackground else list.getBackground)
       setForeground(if (isSelected) list.getSelectionForeground else list.getForeground)
       this

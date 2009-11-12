@@ -103,7 +103,7 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
       }
     })
 
-    val getTooltipText = "object.tooltip-text.pattern.kinetic_static".messageformat(o.kineticFriction.toString, o.staticFriction.toString)
+    val getTooltipText = o.getTooltipText
 
     if (o.displayTooltip) {
       val tooltipNode = new ToolTipNode(getTooltipText, this, 333)
