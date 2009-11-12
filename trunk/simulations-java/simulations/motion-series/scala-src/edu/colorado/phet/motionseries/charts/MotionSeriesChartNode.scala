@@ -7,7 +7,7 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 
-//This adds information about charts and chart serieses
+//This subclass of AbstractChartNode adds information about charts and chart serieses
 abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel)
         extends AbstractChartNode(canvas, model) {
   def forceGraph: MotionSeriesGraph = forceGraph(true)
@@ -38,6 +38,8 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         addToGrid(appliedForceSeries, createEditableLabel)
         for (s <- forceSeriesList.tail) addToGrid(s)
       })
+      //do this after adding to the list so the chart gets updated properly
+      for (s <- forceSeriesList ) s.setVisible(s == netForceSeries)//only show the net force series on startup
     }
     parallelForceControlGraph
   }
