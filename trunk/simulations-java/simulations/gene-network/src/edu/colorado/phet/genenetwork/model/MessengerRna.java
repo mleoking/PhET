@@ -5,8 +5,10 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
@@ -33,10 +35,6 @@ public class MessengerRna extends SimpleModelElement {
 	// Default initial length, used if none is specified.
 	private static float DEFAULT_LENGTH = 30;  // In nanometers.
 
-	// The shape for this element is made up of a series of segments.  This
-	// defines the length of each.
-	private static double SEGMENT_LENGTH = 1;
-	
 	// Used so that every strand looks a little different.
 	private static final Random RAND = new Random();
 	
@@ -68,12 +66,52 @@ public class MessengerRna extends SimpleModelElement {
 	// Methods
 	//----------------------------------------------------------------------------
 	
+	/**
+	 * Grow the RNA strand by the specified length.
+	 * 
+	 * IMPORTANT NOTE: This routine always adds segments to the right side of
+	 * the strand.  This is because this was the only growth pattern needed at
+	 * the time of the method's creation (in November of 2009).  It would be
+	 * possible to generalize this to grow in any direction, or to expand from
+	 * the center.  Feel free to do so if needed.
+	 */
+	public void grow( double growthAmount ){
+		if (length == 0){
+			assert (getShape() instanceof Ellipse2D);
+			// The current length is 0, so add a line segment.
+			GeneralPath path = new GeneralPath();
+			path.moveTo(0, 0);
+			path.lineTo((float)growthAmount, 0);
+			setShape(path);
+			// Save the new length.
+			length = growthAmount;
+		}
+		else{
+			GeneralPath path = new GeneralPath(getShape());
+			
+			PathIterator it = path.getPathIterator(new AffineTransform());
+			double [] coords = new double[6];
+			for (; !it.isDone(); it.next()){
+				it.currentSegment(coords);
+			}
+			
+			// The indicated coordinates are where we need to draw from.
+			path.lineTo((float)(coords[0] + growthAmount), (float)coords[1]);
+			
+			// Set the new new shape.
+			setShape(path);
+			
+			// Update the length.
+			length += growthAmount;
+		}
+	}
+	
 	@Override
 	public ModelElementType getType() {
 		return ModelElementType.MESSENGER_RNA;
 	}
 	
-	static Shape createInitialShape(double length){
+	private static Shape createInitialShape(double length){
 		
 		/*
 		return new Line2D.Double(0, 0, 20, 0);
