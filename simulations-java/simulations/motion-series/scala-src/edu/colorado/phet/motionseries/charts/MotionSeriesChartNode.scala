@@ -38,9 +38,14 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         addToGrid(appliedForceSeries, createEditableLabel)
         for (s <- forceSeriesList.tail) addToGrid(s)
       })
-      //do this after adding to the list so the chart gets updated properly
-      for (s <- forceSeriesList ) s.setVisible(s == netForceSeries)//only show the net force series on startup
     }
+
+    def resetSeriesVisibility() = for (s <- forceSeriesList ) s.setVisible(s == netForceSeries)//only show the net force series on startup
+
+    //do this after adding to the list so the chart gets updated properly
+    resetSeriesVisibility()
+    model.resetListeners_+=(resetSeriesVisibility)
+
     parallelForceControlGraph
   }
 
@@ -62,6 +67,12 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         for (s <- energySeriesList) addToGrid(s)
       })
     }
+
+    def resetSeriesVisibility() = for (s <- energySeriesList) s.setVisible(s == totalEnergySeries) //only show the net energy series on startup
+
+    //do this after adding to the list so the chart gets updated properly
+    resetSeriesVisibility()
+    model.resetListeners_+=(resetSeriesVisibility)
 
     theEnergyGraph
   }

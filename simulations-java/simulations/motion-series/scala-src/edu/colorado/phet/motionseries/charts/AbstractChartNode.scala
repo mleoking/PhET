@@ -169,6 +169,7 @@ class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, 
   }
 
   model resetListeners_+= reset
+  reset()
 
   override def createSliderNode(thumb: PNode, highlightColor: Color) = {
     new JFreeChartSliderNode(getJFreeChartNode, thumb, highlightColor) {
