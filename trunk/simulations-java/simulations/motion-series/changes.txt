@@ -1,3 +1,4 @@
+Added friction coefficients to combo box.
 # 1.03.58 (36485) Nov 10, 2009
 Fixed combo box in control panel to share code with play area combo box
 Added title to object selection combo box in the play area
