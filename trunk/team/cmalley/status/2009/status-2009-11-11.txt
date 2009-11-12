@@ -1,0 +1,46 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: November 5-11, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Reactants, Products and Leftovers:
+  - completed many change requests
+  - random layout strategy for Before/After boxes, with no overlapping of images
+  - layout improvements, cleanup and generalizations
+  - migrated some generally-useful code to common
+  - published 0.00.10, 0.00.11, 0.00.12
+  - all specified work is completed, waiting for additional design requirements
+  
+  common code:
+  - 1863, looked at ZoomText solution to ADA high-contrast on Windows
+  - 855, reviewed status of ADA features
+  - 1822, discussed support for low-resolution devices
+  - 1851, discussed Flash support of preferred fonts, summarized meeting notes
+  - 1874, investigated PSwing memory leak
+  
+  build process:
+  - 1875, commented on branch-and-tag release model
+  
+  misc:
+  - status meeting
+  - met with Sarah Gilbert about evaluation of CWSEI website
+  - 1871, investigated colorblind issue in projectile-motion sim
+  - 1817, followup from Apple on bug related to encoding of '+' in URLs
+  - discussed decrease in "productivity/efficiency" and increase in cost-per-sim
+  
+WHAT'S NEXT:
+
+  - continue work on Reactants, Products and Leftovers, including "game" tab design
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   November 26-29
+   February 12-15
+  
+--
