@@ -12,11 +12,16 @@ package{
 		
 		public function Ball(mass:Number, position:TwoVector, velocity:TwoVector ){
 			this.mass = mass;
-			this.radius = 0.20;   //radius in meters 
+			this.radius = 0.10;   //radius in meters 
 			this.position = position;
 			this.velocity = velocity;
 			this.momentum = new TwoVector(this.mass*this.velocity.getX(),this.mass*this.velocity.getY());
 		}//end of constructor
+		
+		//reset position to position at previous timestep
+		public function backupOneStep():void{
+			this.position.setXY(this.position.getXLast(), this.position.getYLast());
+		}
 		
 		public function getMomentum():TwoVector{
 			this.momentum.setXY(this.mass*this.velocity.getX(), this.mass*this.velocity.getY());

@@ -24,6 +24,8 @@
 			this.myModel.registerView(this);
 			this.pixelsPerMeter = 200;
 			this.drawBorder();
+			this.ballColor_arr = new Array(10);  //start with 10 colors
+			this.createBallColors();
 			this.createBallImages();
 			this.myModel.startMotion();
 		}//end of constructor
@@ -39,7 +41,7 @@
 				lineStyle(thickness,0xFF0000);
 				var x0:Number = 0;
 				var y0:Number = 0;
-				beginFill(0x00ff00);
+				beginFill(0x77ff77);
 				moveTo(-del, -del);
 				lineTo(W+del, -del);
 				lineTo(W+del, +H+del);
@@ -49,6 +51,12 @@
 			}
 		}//end of drawBorder();
 		
+		public function createBallColors():void{
+			this.ballColor_arr[0] = 0xff0000;
+			this.ballColor_arr[1] = 0x009900;
+			this.ballColor_arr[2] = 0x0000ff;
+		}
+		
 		public function createBallImages():void{
 			var nbrBalls:int = this.myModel.nbrBalls;
 			this.ball_arr = new Array(nbrBalls);
@@ -57,8 +65,9 @@
 				var radius:Number = this.pixelsPerMeter*this.myModel.ball_arr[i].radius;
 				with(this.ball_arr[i].graphics){
 					clear();
-					beginFill(0x0000ff);
-					lineStyle(1, 0x0000ff);
+					var currentColor:uint = this.ballColor_arr[i];
+					beginFill(currentColor);
+					lineStyle(1, currentColor);
 					drawCircle(0,0,radius);
 					endFill();
 				}//with
