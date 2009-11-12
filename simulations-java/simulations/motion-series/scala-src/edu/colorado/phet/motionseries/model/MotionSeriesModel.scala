@@ -103,6 +103,9 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     bead.thermalEnergy = 0.0
   }
 
+  private val resetListeners = new ArrayBuffer[()=>Unit]
+  def resetListeners_+=( listener: ()=>Unit) = resetListeners+= listener
+
   override def resetAll() = {
     super.resetAll()
     clearHistory()
@@ -118,6 +121,8 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     rampSegments(0).setHeat(0.0)
     rampSegments(1).setWetness(0.0)
     rampSegments(1).setHeat(0.0)
+
+    resetListeners.foreach(_())
 
     setPaused(pausedOnReset)
   }

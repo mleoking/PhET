@@ -149,8 +149,9 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
   }
 }
 
-class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: MotionSeriesModel)
-        extends MotionControlGraph(canvas, defaultSeries, "".literal, "".literal, -2000, 2000, true, timeseriesModel, updateableObject) {
+class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: MotionSeriesModel,
+        minRangeValue:Double,maxRangeValue:Double)
+        extends MotionControlGraph(canvas, defaultSeries, "".literal, "".literal, minRangeValue, maxRangeValue, true, timeseriesModel, updateableObject) {
   setCenterControls(true)
   getJFreeChartNode.getChart.getXYPlot.getRangeAxis.setTickLabelFont(new PhetFont(14, true))
   getJFreeChartNode.getChart.getXYPlot.getDomainAxis.setTickLabelFont(new PhetFont(14, true))
@@ -158,7 +159,13 @@ class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, 
   getJFreeChartNode.getChart.getXYPlot.setRangeGridlinePaint(Color.gray)
   getJFreeChartNode.setBuffered(false)
   getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
-  setDomainUpperBound(MotionSeriesDefaults.MAX_CHART_DISPLAY_TIME)
+  def reset() = {
+    setDomainUpperBound(MotionSeriesDefaults.MAX_CHART_DISPLAY_TIME)
+    setVerticalRange(minRangeValue,maxRangeValue)
+  }
+
+  model resetListeners_+= reset
+
   override def createSliderNode(thumb: PNode, highlightColor: Color) = {
     new JFreeChartSliderNode(getJFreeChartNode, thumb, highlightColor) {
       val text = new ShadowHTMLNode(defaultSeries.getTitle)
