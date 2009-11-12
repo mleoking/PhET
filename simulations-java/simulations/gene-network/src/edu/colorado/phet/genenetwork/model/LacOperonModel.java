@@ -48,6 +48,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
     private final ArrayList<Glucose> glucoseList = new ArrayList<Glucose>();
     private final ArrayList<Galactose> galactoseList = new ArrayList<Galactose>();
     private final ArrayList<RnaPolymerase> rnaPolymeraseList = new ArrayList<RnaPolymerase>();
+    private final ArrayList<MessengerRna> messengerRnaList = new ArrayList<MessengerRna>();
     
     // Lists of model elements for which only one instance can exist.
     private final Cap cap = new Cap(this);
@@ -181,9 +182,11 @@ public class LacOperonModel implements IObtainGeneModelElements {
         
         // Create some other model elements needed for testing.  TODO: This is
         // done for debugging and should be removed at some point.
-        LacI lacIForTesting = new LacI();
+        LacI lacIForTesting = new LacI(this);
         randomlyInitModelElement(lacIForTesting);
         lacIList.add(lacIForTesting);
+        MessengerRna messengerRnaForTesting = new MessengerRna(this, 0);
+        messengerRnaList.add(messengerRnaForTesting);
         
         // Create and position the elements that sit on the DNA strand.
         
@@ -295,6 +298,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	allSimples.addAll(lacZList);
     	allSimples.addAll(glucoseList);
     	allSimples.addAll(galactoseList);
+    	allSimples.addAll(messengerRnaList);
     	allSimples.add(cap);
     	allSimples.add(capBindingRegion);
     	allSimples.add(lacOperator);
