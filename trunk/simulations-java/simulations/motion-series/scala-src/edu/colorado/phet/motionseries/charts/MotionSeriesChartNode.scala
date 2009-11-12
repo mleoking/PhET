@@ -53,7 +53,8 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
 
     val theEnergyGraph = new MotionSeriesGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model) {
       setEditable(false)
-      setDomainUpperBound(20)
+      setDomainUpperBound(20)//todo: get rid of magic number
+      setVerticalRange(-10000,10000)
       getJFreeChartNode.setBuffered(false)
       getJFreeChartNode.setPiccoloSeries()
       for (s <- energySeriesList.tail) addSeries(s)
@@ -77,7 +78,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
 
     val workEnergyGraph = new MotionSeriesGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model) {
       setEditable(false)
-      setDomainUpperBound(20)
+      setDomainUpperBound(20)//todo: get rid of magic number
       getJFreeChartNode.setBuffered(false)
       getJFreeChartNode.setPiccoloSeries()
       for (s <- energyWorkSeriesList.tail) addSeries(s)
