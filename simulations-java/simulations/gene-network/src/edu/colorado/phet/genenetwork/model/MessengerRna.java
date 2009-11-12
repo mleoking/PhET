@@ -97,7 +97,7 @@ public class MessengerRna extends SimpleModelElement {
 
 		if (length == 0){
 			// For a length of zero, return what is essentially a dot.
-			return new Ellipse2D.Double(-1, -1, 2, 2);
+			return new Ellipse2D.Double(-THICKNESS / 2, -THICKNESS / 2, THICKNESS, THICKNESS);
 		}
 		
 		// Create the set of points that will define the curve.
