@@ -60,7 +60,8 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
     		// Reverse direction in the Y direction.
     		modelElement.setVelocity(velocity.getX(), -velocity.getY());
     	}
-		
+
+        if (!modelElement.isUserControlled())
 		modelElement.setPosition( modelElement.getPositionRef().getX() + modelElement.getVelocityRef().getX() * dt, 
 				modelElement.getPositionRef().getY() + modelElement.getVelocityRef().getY() * dt );
 		
