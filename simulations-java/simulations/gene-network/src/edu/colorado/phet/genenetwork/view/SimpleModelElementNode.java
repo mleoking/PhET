@@ -9,12 +9,17 @@ import java.awt.Font;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.model.IModelElementListener;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -33,7 +38,7 @@ public class SimpleModelElementNode extends PPath {
 	
 	private PhetPPath centerDot = new PhetPPath(Color.RED, new BasicStroke(2), Color.RED);
 	
-	public SimpleModelElementNode(SimpleModelElement modelElement, ModelViewTransform2D mvt){
+	public SimpleModelElementNode(final SimpleModelElement modelElement, final ModelViewTransform2D mvt){
 	
 		this.modelElement = modelElement;
 		this.mvt = mvt;
@@ -69,6 +74,20 @@ public class SimpleModelElementNode extends PPath {
 		
 		// Set initial offset.
 		updateOffset();
+
+        addInputEventListener(new CursorHandler());
+        addInputEventListener(new PBasicInputEventHandler(){
+            public void mouseDragged(PInputEvent event) {
+                Point2D out =mvt.viewToModelDifferential(new Point2D.Double(event.getDeltaRelativeTo(getParent()).width,event.getDeltaRelativeTo(getParent()).height));
+                modelElement.setPosition(modelElement.getPositionRef().getX()+out.getX(),modelElement.getPositionRef().getY()+out.getY());
+                modelElement.setDragging(true);
+            }
+
+            @Override
+            public void mouseReleased(PInputEvent event) {
+                modelElement.setDragging(false);
+            }
+        });
 	}
 	
     private void updateOffset() {

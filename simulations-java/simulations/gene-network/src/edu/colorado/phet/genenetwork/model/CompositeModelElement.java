@@ -116,7 +116,7 @@ public class CompositeModelElement implements IModelElement {
 
 	public void stepInTime(double dt) {
 		if (motionStrategy != null){
-			motionStrategy.updatePositionAndMotion(dt);
+			motionStrategy.doUpdatePositionAndMotion(dt);
 		}
 	}
 
@@ -151,4 +151,8 @@ public class CompositeModelElement implements IModelElement {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+    public boolean isUserControlled() {
+        return false;
+    }
 }

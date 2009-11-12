@@ -33,8 +33,13 @@ public abstract class SimpleModelElement implements IModelElement{
     private ArrayList<AttachmentPoint> bindingPoints = new ArrayList<AttachmentPoint>();
     private AbstractMotionStrategy motionStrategy = null;
     private final IObtainGeneModelElements model;
-    
-	public SimpleModelElement(IObtainGeneModelElements model, Shape initialShape, 
+    private boolean dragging;
+
+    public boolean isUserControlled() {
+        return dragging;
+    }
+
+    public SimpleModelElement(IObtainGeneModelElements model, Shape initialShape,
 			Point2D initialPosition, Paint paint){
 		
 		this.model = model;
@@ -105,7 +110,7 @@ public abstract class SimpleModelElement implements IModelElement{
 	 * be correct.
 	 */
 	public void updatePosition(){
-		if (velocity.getX() != 0 || velocity.getY() != 0){
+		if (velocity.getX() != 0 || velocity.getY() != 0 ){
 			position.setLocation(position.getX() + velocity.getX(), position.getY() + velocity.getY());
 			notifyPositionChanged();
 		}
@@ -173,7 +178,7 @@ public abstract class SimpleModelElement implements IModelElement{
 
 	public void stepInTime(double dt) {
 		if (motionStrategy != null){
-			motionStrategy.updatePositionAndMotion(dt);
+			motionStrategy.doUpdatePositionAndMotion(dt);
 		}
 	}
 
@@ -187,4 +192,8 @@ public abstract class SimpleModelElement implements IModelElement{
 	protected AbstractMotionStrategy getMotionStrategyRef(){
 		return motionStrategy;
 	}
+
+    public void setDragging(boolean dragging) {
+        this.dragging=dragging;
+    }
 }

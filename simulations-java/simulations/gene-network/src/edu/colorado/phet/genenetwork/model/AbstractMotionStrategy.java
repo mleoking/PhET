@@ -18,9 +18,15 @@ public abstract class AbstractMotionStrategy {
 	public AbstractMotionStrategy(IModelElement modelElement){
 		this.modelElement = modelElement;
 	}
-	
-	abstract public void updatePositionAndMotion(double dt);
-	
+
+    //Clients should generally call this method to cause motion, since it checks to see whether the element is user controlled.
+	public void doUpdatePositionAndMotion(double dt){
+        if (!modelElement.isUserControlled()){
+            updatePositionAndMotion(dt);
+        }
+    }
+	public abstract void updatePositionAndMotion(double dt);
+
 	protected IModelElement getModelElement(){
 		return modelElement;
 	}

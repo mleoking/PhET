@@ -20,4 +20,5 @@ public interface IModelElement {
 	ModelElementType getType();
 	AttachmentPoint getAttachmentPointForElement(ModelElementType type);
 	boolean isPartOfDnaStrand();
+    boolean isUserControlled();
 }
