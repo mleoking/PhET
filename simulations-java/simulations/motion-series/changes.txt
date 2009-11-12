@@ -1,3 +1,4 @@
+forces-and-motion: In Force Graphs tab, made it so that x,v,a readouts reset properly when Reset All is pressed. 
 # 1.03.59 (36577) Nov 12, 2009
 the-ramp: In Energy Graph tab, have the total energy be the only line shown as a default.
 Fixed: Reset all should reset the visibility of each chart series.
