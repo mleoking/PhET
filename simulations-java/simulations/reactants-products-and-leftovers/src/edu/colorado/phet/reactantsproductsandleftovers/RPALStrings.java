@@ -37,6 +37,7 @@ public class RPALStrings {
     // titles
     public static final String TITLE_SANDWICH_SHOP = RPALResources.getString( "title.sandwichShop" );
     public static final String TITLE_REAL_REACTION = RPALResources.getString( "title.realReaction" );
+    public static final String TITLE_GAME = RPALResources.getString( "title.game" );
     
     // these strings are not visible in the sim, but needed by the general model
     public static final String BREAD = "Bread";

@@ -7,6 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModule;
 import edu.colorado.phet.reactantsproductsandleftovers.module.realreaction.RealReactionModule;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModule;
 
@@ -23,6 +24,7 @@ public class ReactantsProductsAndLeftoversApplication extends PiccoloPhetApplica
         Frame parentFrame = getPhetFrame();
         addModule( new SandwichShopModule( parentFrame ) );
         addModule( new RealReactionModule( parentFrame ) );
+        addModule( new GameModule( parentFrame ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {

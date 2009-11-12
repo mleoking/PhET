@@ -1,3 +1,4 @@
+11/12/09 add skeleton for game module
 # 0.00.12 (36529) Nov 10, 2009
 11/10/09 add Reset All buttons to all modules
 11/10/09 add flag to show/hide coefficients with value=1
