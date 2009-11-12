@@ -75,16 +75,37 @@ public class SimpleModelElementNode extends PPath {
         setOffset( mvt.modelToView( modelElement.getPositionRef() ));
     }
     
-    private void updateShape() {
+    // TODO: This was replaced on Nov 12, 2009, with a version that does a
+    // more rigorous compensation for translation.  I'm not absolutely certain
+    // at this point that what I've done is correct, so I'm keeping this for a
+    // bit.
+    private void updateShapeOld() {
 		// Set up this node to look like it should.
 		Shape transformedShape = mvt.createTransformedShape(modelElement.getShape());
 		
 		// We only want the shape, and not any translation associated with the
 		// shape, so that we can move it in a reasonable way later.  For this,
 		// we have to subtract off the translation.
-		transformedShape.getBounds2D().getCenterX();
 		transformedShape = AffineTransform.getTranslateInstance(-transformedShape.getBounds2D().getCenterX(), 
 				-transformedShape.getBounds2D().getCenterY()).createTransformedShape(transformedShape);
+		
+		// Set the shape and color.
+		setPathTo(transformedShape);
+		setPaint(modelElement.getPaint());
+    }
+
+    private void updateShape() {
+
+    	// We only want the shape, and not any translation associated with the
+    	// shape, so we create our own transform that only does the scaling
+    	// that is indicated in the model-view transform.
+    	
+    	// Create transform that only scales, and does no translation.
+    	AffineTransform scalingOnlyTransform = AffineTransform.getScaleInstance(mvt.getAffineTransform().getScaleX(),
+    			mvt.getAffineTransform().getScaleY());
+    	
+    	// Create the transformed shape.
+		Shape transformedShape = scalingOnlyTransform.createTransformedShape(modelElement.getShape());
 		
 		// Set the shape and color.
 		setPathTo(transformedShape);
