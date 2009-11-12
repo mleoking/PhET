@@ -5,36 +5,75 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
  * Class that represents messenger RNA in the model.
  * 
+ * NOTE: For the purposes of this sim, it is assume that the messenger RNA is
+ * always fairly horizontal in the model, and never vertical.
+ * 
  * @author John Blanco
  */
 public class MessengerRna extends SimpleModelElement {
 	
+	//----------------------------------------------------------------------------
+	// Class Data
+	//----------------------------------------------------------------------------
+	
+	// Define the appearance.
 	private static final Paint ELEMENT_PAINT = Color.BLACK;
-	private static float APPROX_LENGTH = 30;  // In nanometers.
 	private static float THICKNESS = 0.25f;  // In nanometers.
 	
-	public MessengerRna(IObtainGeneModelElements model, Point2D initialPosition) {
-		super(model, createShape(), initialPosition, ELEMENT_PAINT);
+	// Default initial length, used if none is specified.
+	private static float DEFAULT_LENGTH = 30;  // In nanometers.
+
+	// The shape for this element is made up of a series of segments.  This
+	// defines the length of each.
+	private static double SEGMENT_LENGTH = 1;
+	
+	// Used so that every strand looks a little different.
+	private static final Random RAND = new Random();
+	
+	//----------------------------------------------------------------------------
+	// Instance Data
+	//----------------------------------------------------------------------------
+	
+	private double length = 0;
+	
+	//----------------------------------------------------------------------------
+	// Constructor(s)
+	//----------------------------------------------------------------------------
+	
+	public MessengerRna(IObtainGeneModelElements model, Point2D initialPosition, double initialLength) {
+		super(model, createInitialShape(initialLength), initialPosition, ELEMENT_PAINT);
+		length = initialLength;
 	}
 	
-	public MessengerRna(IObtainGeneModelElements model) {
-		this(model, new Point2D.Double());
+	public MessengerRna(IObtainGeneModelElements model, double initialLength) {
+		this(model, new Point2D.Double(), initialLength);
+		length = initialLength;
 	}
 
+	public MessengerRna(IObtainGeneModelElements model) {
+		this(model, new Point2D.Double(), DEFAULT_LENGTH);
+	}
+
+	//----------------------------------------------------------------------------
+	// Methods
+	//----------------------------------------------------------------------------
+	
 	@Override
 	public ModelElementType getType() {
 		return ModelElementType.MESSENGER_RNA;
 	}
 	
-	static Shape createShape(){
+	static Shape createInitialShape(double length){
 		
 		/*
 		return new Line2D.Double(0, 0, 20, 0);
@@ -56,16 +95,21 @@ public class MessengerRna extends SimpleModelElement {
 		return path;
 		 */
 
+		if (length == 0){
+			// For a length of zero, return what is essentially a dot.
+			return new Ellipse2D.Double(-1, -1, 2, 2);
+		}
+		
 		// Create the set of points that will define the curve.
 		ArrayList<Point2DFloat> curvePoints = new ArrayList<Point2DFloat>();
 		float curveHeight = 4;
-		curvePoints.add(new Point2DFloat(-APPROX_LENGTH/2, 0));
-		curvePoints.add(new Point2DFloat(-APPROX_LENGTH/3, curveHeight));
-		curvePoints.add(new Point2DFloat(-APPROX_LENGTH/6, -curveHeight));
+		curvePoints.add(new Point2DFloat(-DEFAULT_LENGTH/2, 0));
+		curvePoints.add(new Point2DFloat(-DEFAULT_LENGTH/3, curveHeight));
+		curvePoints.add(new Point2DFloat(-DEFAULT_LENGTH/6, -curveHeight));
 		curvePoints.add(new Point2DFloat(0, curveHeight/4));
-		curvePoints.add(new Point2DFloat(APPROX_LENGTH/6, curveHeight));
-		curvePoints.add(new Point2DFloat(APPROX_LENGTH/3, -curveHeight));
-		curvePoints.add(new Point2DFloat(APPROX_LENGTH/2, 0));
+		curvePoints.add(new Point2DFloat(DEFAULT_LENGTH/6, curveHeight));
+		curvePoints.add(new Point2DFloat(DEFAULT_LENGTH/3, -curveHeight));
+		curvePoints.add(new Point2DFloat(DEFAULT_LENGTH/2, 0));
 		
 		// Create the path.  Note that in order to create a closed shape, the
 		// top line is drawn, then the line is essentially reversed but a
