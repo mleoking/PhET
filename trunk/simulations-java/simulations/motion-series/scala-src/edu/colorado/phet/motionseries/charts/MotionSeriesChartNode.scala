@@ -53,6 +53,8 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
 
     val theEnergyGraph = new MotionSeriesGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model,-10000,10000) {
       setEditable(false)
+
+      //todo: can these next 2 lines be moved to parent class?
       getJFreeChartNode.setBuffered(false)
       getJFreeChartNode.setPiccoloSeries()
       for (s <- energySeriesList.tail) addSeries(s)
