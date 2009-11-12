@@ -101,10 +101,12 @@ public class AdminSimPage extends AdminPage {
         add( new CreateKeywordForm( "create-keyword", allKeywords ) );
 
         add( new DesignTeamForm( "design-team" ) );
-
         add( new LibrariesForm( "libraries" ) );
-
         add( new ThanksForm( "thanks-to" ) );
+
+        add( new UnderConstructionForm( "under-construction" ) );
+        add( new GuidanceRecommendedForm( "guidance-recommended" ) );
+        add( new ClassroomTestedForm( "classroom-tested" ) );
 
         add( new ModifyTranslationForm( "add-set-translation" ) );
 
@@ -453,6 +455,91 @@ public class AdminSimPage extends AdminPage {
             System.out.println( "Submitted:\n" + ret + "\nEND" );
 
             handleString( ret );
+        }
+    }
+
+    private class UnderConstructionForm extends CheckBoxForm {
+        public UnderConstructionForm( String id ) {
+            super( id );
+        }
+
+        public void handle( final boolean val ) {
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                    sim.setUnderConstruction( val );
+                    session.update( sim );
+                    return true;
+                }
+            } );
+        }
+
+        public boolean getCurrentValue() {
+            return simulation.isUnderConstruction();
+        }
+    }
+
+    private class GuidanceRecommendedForm extends CheckBoxForm {
+        public GuidanceRecommendedForm( String id ) {
+            super( id );
+        }
+
+        public void handle( final boolean val ) {
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                    sim.setGuidanceRecommended( val );
+                    session.update( sim );
+                    return true;
+                }
+            } );
+        }
+
+        public boolean getCurrentValue() {
+            return simulation.isGuidanceRecommended();
+        }
+    }
+
+    private class ClassroomTestedForm extends CheckBoxForm {
+        public ClassroomTestedForm( String id ) {
+            super( id );
+        }
+
+        public void handle( final boolean val ) {
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                    sim.setClassroomTested( val );
+                    session.update( sim );
+                    return true;
+                }
+            } );
+        }
+
+        public boolean getCurrentValue() {
+            return simulation.isClassroomTested();
+        }
+    }
+
+    private abstract class CheckBoxForm extends Form {
+        private CheckBox checkbox;
+
+        public abstract void handle( boolean val );
+
+        public abstract boolean getCurrentValue();
+
+        public CheckBoxForm( String id ) {
+            super( id );
+
+            checkbox = new CheckBox( "value", new Model( new Boolean( getCurrentValue() ) ) );
+            add( checkbox );
+        }
+
+        @Override
+        protected void onSubmit() {
+            super.onSubmit();
+            Boolean v = (Boolean) checkbox.getModelObject();
+            handle( v );
         }
     }
 
