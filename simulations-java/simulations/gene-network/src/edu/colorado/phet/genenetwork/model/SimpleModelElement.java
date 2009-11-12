@@ -137,8 +137,16 @@ public abstract class SimpleModelElement implements IModelElement{
 		// Notify all listeners of the position change.
 		for (IModelElementListener listener : listeners)
 		{
-			listener.positionChanged(); 
-		}        
+			listener.positionChanged();
+		}
+	}
+	
+	protected void notifyShapeChanged(){
+		// Notify all listeners of the shape change.
+		for (IModelElementListener listener : listeners)
+		{
+			listener.shapeChanged();
+		}
 	}
 	
 	public void addListener(IModelElementListener listener) {
