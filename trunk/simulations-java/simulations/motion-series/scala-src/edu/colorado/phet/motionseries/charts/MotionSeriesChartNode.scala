@@ -20,6 +20,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       }
     }
     model.stepListeners += (() => parallelAppliedForceVariable.doAddValue(model.bead.appliedForce.dot(model.bead.getRampUnitVector), model.getTime))
+    model.resetListeners_+=(() => parallelAppliedForceVariable.doAddValue(model.bead.appliedForce.dot(model.bead.getRampUnitVector), model.getTime))
     model.playbackListeners += (() => parallelAppliedForceVariable.setValue(model.bead.appliedForce.dot(model.bead.getRampUnitVector)))
 
     val appliedForceSeries = new ControlGraphSeries(formatForce("forces.applied".translate), appliedForceColor, abbrevUnused, N, characterUnused, parallelAppliedForceVariable)
@@ -125,7 +126,9 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         model.bead.parallelAppliedForce = appliedForce
       }
     }
-    model.stepListeners += (() => accelerationVariable.doAddValue(model.bead.acceleration, model.getTime))
+    val updater = () => accelerationVariable.doAddValue(model.bead.acceleration, model.getTime)
+    model.stepListeners += updater
+    model.resetListeners_+= (updater)
     val accelerationSeries = new ControlGraphSeries("properties.acceleration".translate, MotionSeriesDefaults.accelerationColor, "accel".literal, "properties.acceleration.units".translate, characterUnused, accelerationVariable)
     val accelerationGraph = new MotionSeriesGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model,-50,50) {
       addControl(new SeriesSelectionControl(1) {
@@ -146,7 +149,9 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         //we already have integration for position by default
       }
     }
-    model.stepListeners += (() => velocityVariable.doAddValue(model.bead.velocity, model.getTime))
+    val updater = () => velocityVariable.doAddValue(model.bead.velocity, model.getTime)
+    model.stepListeners += updater
+    model.resetListeners_+= (updater)
     val velocitySeries = new ControlGraphSeries("properties.velocity".translate, MotionSeriesDefaults.velocityColor, "vel".literal, "properties.velocity.units".translate, characterUnused, velocityVariable)
     val velocityGraph = new MotionSeriesGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model,-25,25) {
       addControl(new SeriesSelectionControl(1) {
@@ -165,7 +170,9 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         model.bead.setDesiredPosition(x)
       }
     }
-    model.stepListeners += (() => positionVariable.doAddValue(model.bead.position, model.getTime))
+    val updater = () => positionVariable.doAddValue(model.bead.position, model.getTime)
+    model.stepListeners += updater
+    model.resetListeners_+=(updater)
     val positionSeries = new ControlGraphSeries("properties.position".translate, MotionSeriesDefaults.positionColor, "x".literal, "properties.position.units".translate, characterUnused, positionVariable)
     val positionGraph = new MotionSeriesGraph(positionSeries, canvas, timeseriesModel, updateableObject, model,-10,10) {
       addControl(new SeriesSelectionControl( 1) {
