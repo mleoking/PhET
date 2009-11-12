@@ -6,12 +6,16 @@ package{
 	public class TwoVector{
 		private var xComponent:Number;
 		private var yComponent:Number;
+		private var xLast:Number;	//previous xComponent, unused currently
+		private var yLast:Number;	//previous yComponent, unused currently
 		private var length:Number;
 		private var angle:Number;  //angle in degrees, to match rotation property
 		
 		public function TwoVector(xComp:Number, yComp:Number){
 			this.xComponent = xComp;
 			this.yComponent = yComp;
+			this.xLast = yComp;
+			this.yLast = xComp;
 			this.setLength();
 			this.setAngle();
 		}//end of constructor
@@ -33,18 +37,22 @@ package{
 		}
 		
 		public function setX(x:Number):void{
+			this.xLast = this.xComponent;
 			this.xComponent = x;
 			this.setLength();
 			this.setAngle();
 		}
 		
 		public function setY(y:Number):void{
+			this.yLast = this.yComponent;
 			this.yComponent = y;
 			this.setLength();
 			this.setAngle();
 		}
 		
 		public function setXY(x:Number, y:Number):void{
+			this.xLast = this.xComponent;
+			this.yLast = this.yComponent;
 			this.xComponent = x;
 			this.yComponent = y;
 			this.setLength();
@@ -66,6 +74,16 @@ package{
 		public function getY():Number{
 			return this.yComponent;
 		}
+		
+		public function getXLast():Number{
+			return this.xLast;
+		}
+		
+		public function getYLast():Number{
+			return this.yLast;
+		}
+		
+		
 		
 
 	}//end of class

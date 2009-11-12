@@ -29,7 +29,7 @@ package{
 			this.borderOn = true;
 			this.borderWidth = 3;
 			this.borderHeight = 2;
-			this.e = 0.9;				//set elasticity of collisions, 1 = perfectly elastic
+			this.e = 0.75;				//set elasticity of collisions, 1 = perfectly elastic
 			this.nbrBalls = 3;
 			this.ball_arr = new Array(nbrBalls);
 			this.initializeBalls();
@@ -38,7 +38,7 @@ package{
 			this.updateRate = 5;
 			this.frameCount = 0;
 			
-			this.msTimer = new Timer(this.timeStep*1000, 5000);
+			this.msTimer = new Timer(this.timeStep*1000);
 			msTimer.addEventListener(TimerEvent.TIMER, stepForward);
 			//this.realTimer = new Timer(1000);  //argument 1000 is irrelevant
 			this.view_arr = new Array(0);
@@ -54,7 +54,7 @@ package{
 			pos[2] = new TwoVector(1.8,1);
 			vel[0] = new TwoVector(0.7,0.8);
 			vel[1] = new TwoVector(0.12,2);
-			vel[2] = new TwoVector(15,25);
+			vel[2] = new TwoVector(25,3);
 			
 			for (var i = 0; i < this.nbrBalls; i++){
 				//new Ball(mass, position, velocity);
@@ -101,6 +101,8 @@ package{
 				var y:Number = this.ball_arr[i].position.getY();
 				var vX:Number = this.ball_arr[i].velocity.getX();
 				var vY:Number = this.ball_arr[i].velocity.getY();
+				var xLast = x;	//previous value of x before update
+				var yLast = y;	//previous value of y before update
 				x += vX*dt;
 				y += vY*dt;
 				this.ball_arr[i].position.setXY(x,y);
@@ -109,6 +111,19 @@ package{
 				
 				//reflect at borders
 				var radius:Number = this.ball_arr[i].radius;
+				/*
+				//if ball beyond border, then backup to previous position and reflect
+				//this guarantees no penetration of border
+				if((x+radius) > this.borderWidth || (x-radius)< 0){
+					this.ball_arr[i].position.setXY(xLast,yLast);
+					this.ball_arr[i].velocity.setX(-vX);
+				}else if((y+radius) > this.borderHeight || (y-radius)< 0){
+					this.ball_arr[i].position.setXY(xLast,yLast);
+					this.ball_arr[i].velocity.setY(-vY);
+				}
+				*/
+																 
+
 				if((x+radius) > this.borderWidth){
 					this.ball_arr[i].velocity.setX(-Math.abs(vX));
 				}else if((x-radius) < 0){
@@ -119,6 +134,7 @@ package{
 				}else if((y-radius) < 0){
 					this.ball_arr[i].velocity.setY(Math.abs(vY));
 				}
+				
 			}//for loop
 			this.timeHolder = getTimer();
 			
@@ -189,6 +205,9 @@ package{
 				var v2yP = (1/d)*(v2nP*delY + v2t*delX);
 				this.ball_arr[i].velocity.setXY(v1xP, v1yP);
 				this.ball_arr[j].velocity.setXY(v2xP, v2yP);
+				//backup to step just before penentration so balls cannot get stuck
+				this.ball_arr[i].backupOneStep();
+				this.ball_arr[j].backupOneStep();
 				//var v1Mag:Number = Math.sqrt(v1n*v1n + v1t*v1t);
 				//var v2Mag:Number = Math.sqrt(v2n*v2n + v2t*v2t);
 				//var nHat:TwoVector = new TwoVector()
