@@ -35,7 +35,7 @@ public class LacI extends SimpleModelElement {
 	
 	// Attachment point offset.
 	private static PDimension LAC_OPERATOR_ATTACHMENT_POINT_OFFSET = 
-		new PDimension(0, -HEIGHT/2 + LacOperator.getBindingRegionSize().getHeight());
+		new PDimension(0, -HEIGHT / 2  + LacOperator.getBindingRegionSize().getHeight());
 	
 	// Time definitions for the amount of time to attach and then to be
 	// "unavailable".
@@ -153,13 +153,10 @@ public class LacI extends SimpleModelElement {
 			proposalAccepted = true;
 			
 			// Set ourself up to move toward the attaching location.
-			lacOperatorAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
-			Dimension2D partnerOffset = lacOperatorAttachmentPartner.getAttachmentPointForElement(getType()).getOffset();
-			Dimension2D myOffset = getAttachmentPointForElement(lacOperatorAttachmentPartner.getType()).getOffset();
-			double xDest = lacOperatorAttachmentPartner.getPositionRef().getX() + partnerOffset.getWidth() - 
-				myOffset.getWidth();
-			double yDest = lacOperatorAttachmentPartner.getPositionRef().getY() + partnerOffset.getHeight() - 
-				myOffset.getHeight();
+			double xDest = lacOperatorAttachmentPartner.getAttachmentPointLocation(this).getX() - 
+				LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getWidth();
+			double yDest = lacOperatorAttachmentPartner.getAttachmentPointLocation(this).getY() -
+				LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getHeight();
 			getMotionStrategyRef().setDestination(xDest, yDest);
 			targetPositionForLacOperatorAttachment.setLocation(xDest, yDest);
 		}
@@ -186,6 +183,10 @@ public class LacI extends SimpleModelElement {
 	public Point2D getAttachmentPointLocation(LacOperator lacOperator){
 		return new Point2D.Double(getPositionRef().getX() + LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getWidth(),
 				getPositionRef().getY() + LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getHeight());
+	}
+	
+	public static Dimension2D getAttachementPointOffset(LacOperator lacOperator){
+		return LAC_OPERATOR_ATTACHMENT_POINT_OFFSET;
 	}
 	
 	public void detach(LacOperator lacOperator){
