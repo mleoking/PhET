@@ -49,4 +49,10 @@ public interface IObtainGeneModelElements {
      * @return
      */
 	public abstract boolean isLacIAttachedToDna();
+
+	/**
+	 * Add a new messenger RNA to the model.
+	 * @param mRna
+	 */
+    void addMessengerRna(MessengerRna mRna);
 }
