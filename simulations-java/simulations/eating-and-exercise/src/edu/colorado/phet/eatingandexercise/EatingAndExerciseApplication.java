@@ -1,16 +1,12 @@
 /* Copyright 2007-2008, University of Colorado */
-
 package edu.colorado.phet.eatingandexercise;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -19,44 +15,21 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExe
 
 public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
     private EatingAndExerciseModule eatingAndExerciseModule;
-
-    // PersistanceManager is used to save/load simulation configurations.
-    private XMLPersistenceManager _persistenceManager;
-
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
 
     public EatingAndExerciseApplication( PhetApplicationConfig config ) {
         super( config );
         eatingAndExerciseModule = new EatingAndExerciseModule( getPhetFrame() );
         addModule( eatingAndExerciseModule );
-        initMenubar( config.getCommandLineArgs() );
+        initMenubar();
     }
 
     protected PhetFrame createPhetFrame() {
         return new PhetFrameWorkaround( this );
     }
 
-    //----------------------------------------------------------------------------
-    // Initialization
-    //----------------------------------------------------------------------------
-
-    /*
-     * Initializes the menubar.
-     */
-    private void initMenubar( String[] args ) {
-
+    private void initMenubar() {
         final PhetFrame frame = getPhetFrame();
-
-        if ( _persistenceManager == null ) {
-            _persistenceManager = new XMLPersistenceManager( frame );
-        }
 
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
@@ -72,10 +45,6 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
             frame.addMenu( developerMenu );
         }
     }
-
-    //----------------------------------------------------------------------------
-    // Setters & getters
-    //----------------------------------------------------------------------------
 
     public void startApplication() {
         super.startApplication();
