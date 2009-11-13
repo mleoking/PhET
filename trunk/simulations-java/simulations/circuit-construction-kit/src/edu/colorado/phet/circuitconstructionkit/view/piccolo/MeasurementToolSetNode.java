@@ -5,6 +5,7 @@ import java.awt.*;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.controls.StopwatchDecorator;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -24,17 +25,14 @@ public class MeasurementToolSetNode extends PhetPNode {
     private VirtualAmmeterNode virtualAmmeterNode;
     private PNode stopwatchNode;
 
-    public MeasurementToolSetNode( CCKModel model, PSwingCanvas pSwingCanvas, CCKModule module, VoltmeterModel voltmeterModel ) {
+    public MeasurementToolSetNode( CCKModel model, PSwingCanvas pSwingCanvas, CCKModule module, VoltmeterModel voltmeterModel, IClock clock) {
         voltmeterNode = new VoltmeterNode( voltmeterModel );
         addChild( voltmeterNode );
         this.virtualAmmeterNode = new VirtualAmmeterNode( model.getCircuit(), pSwingCanvas, module );
         virtualAmmeterNode.setVisible( false );
         addChild( virtualAmmeterNode );
 
-        SwingClock clock = new SwingClock( 30, 1 );//todo: sync this clock with the actual clock
-        clock.start();
         stopwatchNode = new PhetPNode( new PSwing( new StopwatchDecorator( clock, 1, "s" ) ) );
-//        stopwatchNode = new PhetPNode( new PSwing( pSwingCanvas, new StopwatchDecorator( clock, 1.0 , "s" ) ) );
         stopwatchNode.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatchNode.addInputEventListener( new PDragEventHandler() );
         stopwatchNode.setVisible( false );
