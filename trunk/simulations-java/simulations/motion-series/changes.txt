@@ -1,5 +1,6 @@
+Added the object selection combo box to the test scenario, see #1880
 # 1.03.61 (36605) Nov 12, 2009
-Added a test for Why do Warning Java signs appear next to some ComboBoxes #1880
+Added a test for Why do Warning Java signs appear next to some ComboBoxes, see #1880
 # 1.03.60 (36580) Nov 12, 2009
 forces-and-motion: In Force Graphs tab, made it so that x,v,a readouts reset properly when Reset All is pressed. 
 # 1.03.59 (36577) Nov 12, 2009
