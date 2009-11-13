@@ -14,7 +14,10 @@ object TestComboBox {
     new JFrame {
       setContentPane(new JPanel(new BorderLayout) {
         add(new PhetPCanvas {
-          addScreenChild(new PSwing(new PComboBox(objectArray("pcombobox"))))
+          val comboBox = new PComboBox(objectArray("pcombobox"))
+          val swing = new PSwing(comboBox)
+          comboBox.setEnvironment(swing,this)
+          addScreenChild(swing)
         }, BorderLayout.CENTER)
         add(new JPanel {
           add(new JComboBox(objectArray("jcombobox")))
