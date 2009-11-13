@@ -169,6 +169,7 @@ public class RnaPolymerase extends SimpleModelElement {
 					mRna.setMotionStrategy( new DetachFromDnaThenRandomMotionWalkStrategy(mRna, 
 							LacOperonModel.getMotionBounds()));
 					mRna = null;
+					traversing = false;
 				}
 			}
 			else if (traversing){
@@ -181,9 +182,6 @@ public class RnaPolymerase extends SimpleModelElement {
 					mRna = new MessengerRna(getModel(), 0);
 					mRna.setPosition(getPositionRef());
 					getModel().addMessengerRna(mRna);
-				}
-				if (mRna == null){
-					
 				}
 			}
 		}
