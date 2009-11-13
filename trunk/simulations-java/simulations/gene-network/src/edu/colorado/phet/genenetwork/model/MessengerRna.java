@@ -40,7 +40,7 @@ public class MessengerRna extends SimpleModelElement {
 
 	// Used so that every strand looks a little different.
 	private static final Random RAND = new Random();
-	
+
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
@@ -94,10 +94,10 @@ public class MessengerRna extends SimpleModelElement {
 				it.currentSegment(coords);
 				points.add(new Point2D.Double(coords[0], coords[1]));
 			}
-			// At this point, we actually have twice as many points as we
-			// actually need, since we have points for the top and bottom
-			// of the closed path.  To correct this, we create a new array
-			// that has only the top points, correctly compensated.
+			// At this step, we actually have twice as many points as we
+			// need, since we have points for the top and bottom of the closed
+			// path.  To correct this, we create a new array that has only the
+			// top points, correctly compensated.
 			assert points.size() % 2 == 0;
 			ArrayList<Point2D> adjustedPoints = new ArrayList<Point2D>();
 			for (int i = 0; i < points.size() / 2; i++){
@@ -108,7 +108,8 @@ public class MessengerRna extends SimpleModelElement {
 		
 		// Add a new point to the list.
 		Point2D currentEndPoint = points.get(points.size() - 1);
-		points.add(new Point2D.Double(currentEndPoint.getX() + growthAmount, currentEndPoint.getY()));
+		points.add(new Point2D.Double(currentEndPoint.getX() + growthAmount,
+				currentEndPoint.getY() + (RAND.nextDouble() - 0.5) * growthAmount));
 		
 		// Update the shape.
 		setShape(createPathFromPoints(points).getGeneralPath());
