@@ -39,7 +39,7 @@ public class LacI extends SimpleModelElement {
 	
 	// Time definitions for the amount of time to attach and then to be
 	// "unavailable".
-	private static double ATTACHMENT_TIME = 5; // In seconds.
+	private static double ATTACHMENT_TIME = 8; // In seconds.
 	private static double UNAVAILABLE_TIME = 5; // In seconds.
 	
     //------------------------------------------------------------------------
