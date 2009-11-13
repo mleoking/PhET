@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class SimpleModelElementNode extends PPath {
 	
 	private static final boolean SHOW_CENTER_DOT = false;
-	private static final boolean SHOW_ATTACHMENT_POINTS = true;
+	private static final boolean SHOW_ATTACHMENT_POINTS = false;
 	private static final Font LABEL_FONT = new PhetFont(16, true );
 	
 	private final SimpleModelElement modelElement;
