@@ -125,29 +125,6 @@ public class LacOperator extends SimpleModelElement {
 
 	private static Shape createShape(){
 		
-		/*
-		// Create the overall outline.
-		GeneralPath outline = new GeneralPath();
-		
-		outline.moveTo(0, (float)HEIGHT/2);
-		outline.quadTo((float)WIDTH / 2, (float)HEIGHT / 2, (float)WIDTH/2, -(float)HEIGHT/2);
-		outline.lineTo((float)-WIDTH/2, (float)-HEIGHT/2);
-		outline.lineTo((float)-WIDTH/2, (float)(HEIGHT * 0.25));
-		outline.closePath();
-		Area area = new Area(outline);
-		
-		// Get the shape of a lac inhibitor molecule and shift it to the
-		// appropriate position.
-		Shape lacInhibitorShape = new LacI(null).getShape();
-		AffineTransform transform = new AffineTransform();
-		transform.setToTranslation(	0, HEIGHT/2 );
-		lacInhibitorShape = transform.createTransformedShape(lacInhibitorShape);
-		
-		// Subtract off the shape of the lactose molecule.
-		area.subtract(new Area(lacInhibitorShape));
-		return area;
-		*/
-		
 		Rectangle2D baseRect = new Rectangle2D.Double(-WIDTH / 2, -HEIGHT / 2, WIDTH, 
 				HEIGHT - ATTACHMENT_REGION_SIZE.getHeight());
 		Rectangle2D attachmentRegion = new Rectangle2D.Double(-ATTACHMENT_REGION_SIZE.getWidth() / 2,
