@@ -58,7 +58,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
         circuitNode = new CircuitNode( model, model.getCircuit(), this, module, branchNodeFactory );
         addWorldChild( circuitNode );
 
-        measurementToolSetNode = new MeasurementToolSetNode( model, this, module, module.getVoltmeterModel() );
+        measurementToolSetNode = new MeasurementToolSetNode( model, this, module, module.getVoltmeterModel(),clock );
         addWorldChild( measurementToolSetNode );
         messageNode = new MessageNode();
         addScreenChild( messageNode );
