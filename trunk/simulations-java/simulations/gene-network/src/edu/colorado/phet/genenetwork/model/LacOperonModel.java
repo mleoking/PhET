@@ -335,6 +335,10 @@ public class LacOperonModel implements IObtainGeneModelElements {
     		rnaPolymerase.stepInTime(dt);
     	}
     	
+    	for (MessengerRna messengerRna : messengerRnaList){
+    		messengerRna.stepInTime(dt);
+    	}
+    	
     	cap.stepInTime(dt);
     	capBindingRegion.stepInTime(dt);
     	lacOperator.stepInTime(dt);
@@ -343,8 +347,6 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	lacZGene.stepInTime(dt);
     	lacIPromoter.stepInTime(dt);
     	lacPromoter.stepInTime(dt);
-
-        for (MessengerRna m : messengerRnaList) m.grow(0.3);
     }
     
     //------------------------------------------------------------------------
