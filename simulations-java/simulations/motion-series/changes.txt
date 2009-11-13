@@ -1,3 +1,4 @@
+# 1.03.62 (36607) Nov 13, 2009
 Added the object selection combo box to the test scenario, see #1880
 # 1.03.61 (36605) Nov 12, 2009
 Added a test for Why do Warning Java signs appear next to some ComboBoxes, see #1880
