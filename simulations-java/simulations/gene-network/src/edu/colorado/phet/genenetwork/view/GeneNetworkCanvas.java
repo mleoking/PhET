@@ -72,6 +72,13 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         		7,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         		true);
         
+        // Register for notifications from the model.
+        model.addListener(new LacOperonModel.Listener() {
+			public void modelElementAdded(SimpleModelElement modelElement) {
+				addModelElement(modelElement);
+			}
+		});
+        
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
