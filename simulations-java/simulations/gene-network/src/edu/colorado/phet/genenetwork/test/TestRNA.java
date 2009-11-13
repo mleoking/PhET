@@ -17,7 +17,7 @@ public class TestRNA {
 
     public TestRNA() {
         frame = new JFrame("Test RNA");
-        frame.setContentPane(new TestRNAContentPane(new RNA()));
+        frame.setContentPane(new TestRNAContentPane());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1024,768);
     }
@@ -30,14 +30,25 @@ public class TestRNA {
         frame.setVisible(true);
     }
 
-    static class RNA{
+    public static class RNA{
+        private int x;
+        private int y;
+        private double length;
+
+        public RNA(int x,int y,double length) {
+            this.x = x;
+            this.y = y;
+            this.length = length;
+        }
+
         public Shape getShape() {
             GeneralPath generalPath=new GeneralPath();
-            Point2D.Float currentPoint = new Point2D.Float(400,400);
+            Point2D.Float currentPoint = new Point2D.Float(x,y);
             generalPath.moveTo(currentPoint.x, currentPoint.y);
             Random random=new Random();
-            int numSegments = 20;
-            float segmentLength = 20;
+
+            float segmentLength = 5;
+            int numSegments = (int) (length/segmentLength);
             for (int i=0;i<numSegments;i++){
                 float dx = segmentLength/3;
                 float dy1 = (random.nextFloat()-0.5f)*2*segmentLength/3;
@@ -58,9 +69,11 @@ public class TestRNA {
     }
 
     private static class TestRNAContentPane extends PCanvas {
-        private TestRNAContentPane(RNA rna) {
-            RNANode rnaNode=new RNANode(rna);
-            getCamera().addChild(rnaNode);
+        private TestRNAContentPane() {
+            Random r =new Random();
+            for (int i=0;i<100;i++){
+                getCamera().addChild(new RNANode(new RNA(r.nextInt(800),r.nextInt(600),400 )));
+            }
         }
     }
 

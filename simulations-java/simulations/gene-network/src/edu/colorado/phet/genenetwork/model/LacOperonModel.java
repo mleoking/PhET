@@ -340,6 +340,8 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	lacZGene.stepInTime(dt);
     	lacIPromoter.stepInTime(dt);
     	lacPromoter.stepInTime(dt);
+
+        for (MessengerRna m : messengerRnaList) m.grow(0.3);
     }
     
     //------------------------------------------------------------------------

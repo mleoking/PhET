@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.genenetwork.view;
 
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -12,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.GeneNetworkConstants;
 import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
+import edu.colorado.phet.genenetwork.model.MessengerRna;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.colorado.phet.genenetwork.module.LacOperonDefaults;
 import edu.umd.cs.piccolo.PNode;
@@ -123,6 +123,10 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     
     private void addModelElement(SimpleModelElement modelElement){
     	SimpleModelElementNode modelElementNode = new SimpleModelElementNode(modelElement, mvt);
+        if (modelElement instanceof MessengerRna){
+            modelElementNode.setPaint(null);
+            modelElementNode.setStrokePaint(Color.black);
+        }
     	if (modelElement.isPartOfDnaStrand()){
     		dnaStrandLayer.addChild(modelElementNode);
     	}
