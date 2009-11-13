@@ -23,9 +23,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class Cap extends SimpleModelElement {
 	
 	private static final Paint ELEMENT_PAINT = new Color(237, 179, 122);
-	private static float WIDTH = CapBindingRegion.WIDTH;
-	private static float HEIGHT = 4;  // In nanometers.
-	private static Dimension2D CAP_BINDING_REGION_ATTACHMENT_OFFSET = new PDimension(0, 0);
+	private static final float WIDTH = CapBindingRegion.WIDTH;
+	private static final float HEIGHT = 4;  // In nanometers.
+	private static final Dimension2D CAP_BINDING_REGION_ATTACHMENT_OFFSET = new PDimension(0, 0);
 	
 	private CapBindingRegion capBindingRegionPartner = null;
 	private AttachmentState capBindingRegionAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
@@ -143,5 +143,9 @@ public class Cap extends SimpleModelElement {
 		setMotionStrategy(new StillnessMotionStrategy(this));
 		setPosition(targetPositionForAttachingToBindingRegion);
 		capBindingRegionAttachmentState = AttachmentState.ATTACHED;
+	}
+	
+	public static Dimension2D getCapBindingRegionAttachmentOffset() {
+		return CAP_BINDING_REGION_ATTACHMENT_OFFSET;
 	}
 }
