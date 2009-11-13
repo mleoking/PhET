@@ -5,10 +5,8 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -188,7 +186,7 @@ public class LacOperator extends SimpleModelElement {
 		return true;
 	}
 
-	public static Dimension2D getAttachementPointOffset(LacI lacI) {
+	public static Dimension2D getLacIAttachementPointOffset() {
 		return LAC_I_ATTACHMENT_POINT_OFFSET;
 	}
 }
