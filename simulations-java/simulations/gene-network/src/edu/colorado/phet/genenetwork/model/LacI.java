@@ -185,7 +185,7 @@ public class LacI extends SimpleModelElement {
 				getPositionRef().getY() + LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getHeight());
 	}
 	
-	public static Dimension2D getAttachementPointOffset(LacOperator lacOperator){
+	public static Dimension2D getLacOperatorAttachementPointOffset(){
 		return LAC_OPERATOR_ATTACHMENT_POINT_OFFSET;
 	}
 	
