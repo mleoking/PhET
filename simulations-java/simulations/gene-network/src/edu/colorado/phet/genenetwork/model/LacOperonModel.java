@@ -18,7 +18,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
 	// Class Data
 	//----------------------------------------------------------------------------
 	
-	private static final double MODEL_AREA_WIDTH = 140;
+	private static final double MODEL_AREA_WIDTH = 100;
 	private static final double MODEL_AREA_HEIGHT = 100;
 	private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double(-MODEL_AREA_WIDTH / 2,
 			-MODEL_AREA_HEIGHT / 2, MODEL_AREA_WIDTH, MODEL_AREA_HEIGHT);
@@ -185,8 +185,6 @@ public class LacOperonModel implements IObtainGeneModelElements {
         LacI lacIForTesting = new LacI(this);
         randomlyInitModelElement(lacIForTesting);
         lacIList.add(lacIForTesting);
-        MessengerRna messengerRnaForTesting = new MessengerRna(this, 0);
-        messengerRnaList.add(messengerRnaForTesting);
         
         // Create and position the elements that sit on the DNA strand.
         
@@ -308,6 +306,11 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	allSimples.add(lacIPromoter);
     	allSimples.add(lacPromoter);
     	return allSimples;
+    }
+    
+    public void addMessengerRna(MessengerRna messengerRna){
+    	messengerRnaList.add(messengerRna);
+    	notifyModelElementAdded(messengerRna);
     }
     
     private void handleClockTicked(double dt){
