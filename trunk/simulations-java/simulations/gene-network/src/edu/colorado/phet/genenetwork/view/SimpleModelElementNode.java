@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
@@ -16,12 +17,14 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.model.IModelElementListener;
+import edu.colorado.phet.genenetwork.model.LacI;
+import edu.colorado.phet.genenetwork.model.LacOperator;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * A class that represents a simple model element in the view.
@@ -31,6 +34,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class SimpleModelElementNode extends PPath {
 	
 	private static final boolean SHOW_CENTER_DOT = false;
+	private static final boolean SHOW_ATTACHMENT_POINTS = true;
 	private static final Font LABEL_FONT = new PhetFont(16, true );
 	
 	private final SimpleModelElement modelElement;
@@ -68,8 +72,33 @@ public class SimpleModelElementNode extends PPath {
 		
 		// Put a center dot on the node (for debug purposes).
 		if (SHOW_CENTER_DOT){
-			centerDot.setPathTo(mvt.createTransformedShape(new Ellipse2D.Double(-1, -1, 2, 2)));
+			centerDot.setPathTo(new Ellipse2D.Double(-2, -2, 4, 4));
 			addChild(centerDot);
+		}
+		
+		// Show the attachment points (for debug purposes).
+		if (SHOW_ATTACHMENT_POINTS){
+			// NOTE: This is probably not complete in that it won't show the
+			// binding points for all elements, basically because I'm adding
+			// them on an as-needed basis.
+			PhetPPath attachementPointDot = new PhetPPath(Color.MAGENTA);
+			attachementPointDot.setPathTo(new Ellipse2D.Double(-2, -2, 4, 4));
+			if (modelElement instanceof LacI){
+				Dimension2D unscaledOffset = LacI.getAttachementPointOffset(new LacOperator(null));
+				Dimension2D scaledOffset = 
+					new PDimension(mvt.getAffineTransform().getScaleX() * unscaledOffset.getWidth(),
+							mvt.getAffineTransform().getScaleY() * unscaledOffset.getHeight());
+				attachementPointDot.setOffset(scaledOffset.getWidth(), scaledOffset.getHeight());
+				addChild(attachementPointDot);
+			}
+			else if (modelElement instanceof LacOperator){
+				Dimension2D unscaledOffset = LacOperator.getAttachementPointOffset(new LacI(null));
+				Dimension2D scaledOffset = 
+					new PDimension(mvt.getAffineTransform().getScaleX() * unscaledOffset.getWidth(),
+							mvt.getAffineTransform().getScaleY() * unscaledOffset.getHeight());
+				attachementPointDot.setOffset(scaledOffset.getWidth(), scaledOffset.getHeight());
+				addChild(attachementPointDot);
+			}
 		}
 		
 		// Set initial offset.
