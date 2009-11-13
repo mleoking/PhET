@@ -16,6 +16,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.genenetwork.model.Cap;
+import edu.colorado.phet.genenetwork.model.CapBindingRegion;
 import edu.colorado.phet.genenetwork.model.IModelElementListener;
 import edu.colorado.phet.genenetwork.model.LacI;
 import edu.colorado.phet.genenetwork.model.LacOperator;
@@ -81,21 +83,25 @@ public class SimpleModelElementNode extends PPath {
 			// NOTE: This is probably not complete in that it won't show the
 			// binding points for all elements, basically because I'm adding
 			// them on an as-needed basis.
-			PhetPPath attachementPointDot = new PhetPPath(Color.MAGENTA);
-			attachementPointDot.setPathTo(new Ellipse2D.Double(-2, -2, 4, 4));
+			Dimension2D unscaledOffset = null;
 			if (modelElement instanceof LacI){
-				Dimension2D unscaledOffset = LacI.getAttachementPointOffset(new LacOperator(null));
-				Dimension2D scaledOffset = 
-					new PDimension(mvt.getAffineTransform().getScaleX() * unscaledOffset.getWidth(),
-							mvt.getAffineTransform().getScaleY() * unscaledOffset.getHeight());
-				attachementPointDot.setOffset(scaledOffset.getWidth(), scaledOffset.getHeight());
-				addChild(attachementPointDot);
+				unscaledOffset = LacI.getLacOperatorAttachementPointOffset();
 			}
 			else if (modelElement instanceof LacOperator){
-				Dimension2D unscaledOffset = LacOperator.getAttachementPointOffset(new LacI(null));
-				Dimension2D scaledOffset = 
-					new PDimension(mvt.getAffineTransform().getScaleX() * unscaledOffset.getWidth(),
-							mvt.getAffineTransform().getScaleY() * unscaledOffset.getHeight());
+				unscaledOffset = LacOperator.getLacIAttachementPointOffset();
+			}
+			else if (modelElement instanceof Cap){
+				unscaledOffset = Cap.getCapBindingRegionAttachmentOffset();
+			}
+			else if (modelElement instanceof CapBindingRegion){
+				unscaledOffset = CapBindingRegion.getCapAttachmentPointOffset();
+			}
+			
+			if (unscaledOffset != null){
+				Dimension2D scaledOffset = new PDimension(mvt.getAffineTransform().getScaleX() * unscaledOffset.getWidth(),
+						mvt.getAffineTransform().getScaleY() * unscaledOffset.getHeight());
+				PhetPPath attachementPointDot = new PhetPPath(Color.MAGENTA);
+				attachementPointDot.setPathTo(new Ellipse2D.Double(-2, -2, 4, 4));
 				attachementPointDot.setOffset(scaledOffset.getWidth(), scaledOffset.getHeight());
 				addChild(attachementPointDot);
 			}
