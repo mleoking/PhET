@@ -33,7 +33,8 @@ public class RnaPolymerase extends SimpleModelElement {
 			new Color(17, 149, 210), new Point2D.Double(WIDTH * 5, 0), Color.WHITE);
 	private static Dimension2D LAC_PROMOTER_ATTACHMENT_POINT_OFFSET = new PDimension(WIDTH * 0.15, -HEIGHT * 0.3);
 	private static double MIN_ATTACH_BEFORE_TRAVERSING_TIME = 3;  // Seconds.
-	private static double MIN_RECOVERY_TIME = 7;                  // Seconds.
+	private static double RECOVERY_TIME = 7;                  // Seconds.
+	private static double TIME_TO_START_PRODUCING_MRNA = 1; // Seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -44,6 +45,8 @@ public class RnaPolymerase extends SimpleModelElement {
 	private Point2D targetPositionForLacPromoterAttachment = new Point2D.Double();
 	private double attachCountdownTimer;
 	private double recoveryCountdownTimer;
+	private boolean traversing = false;
+	private MessengerRna mRna = null;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -134,11 +137,11 @@ public class RnaPolymerase extends SimpleModelElement {
 				attachCountdownTimer -= dt;
 			}
 			else{
-				// Time to detach.
+				// Time to traverse or detach.
 				lacPromoterAttachmentPartner.detach(this);
 				lacPromoterAttachmentPartner = null;
 				lacPromoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-				recoveryCountdownTimer = MIN_RECOVERY_TIME;
+				recoveryCountdownTimer = RECOVERY_TIME;
 				
 				if ( !getModel().isLacIAttachedToDna()){
 					// The way is clear for us to traverse the DNA strand and
@@ -146,6 +149,7 @@ public class RnaPolymerase extends SimpleModelElement {
 					setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
 							new Point2D.Double(getPositionRef().getX() + 10, getPositionRef().getY()), 8));
 					setMotionStrategy(new TraverseDnaMotionStrategy(this, LacOperonModel.getMotionBounds(), 32));
+					traversing = true;
 				}
 				else{
 					// The DNA is blocked, so just detach.
@@ -159,6 +163,28 @@ public class RnaPolymerase extends SimpleModelElement {
 				// This has been unattached long enough and is ready to attach
 				// again.
 				lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				
+				if (mRna != null){
+					// Release the messenger RNA that we created.
+					mRna.setMotionStrategy( new DetachFromDnaThenRandomMotionWalkStrategy(mRna, 
+							LacOperonModel.getMotionBounds()));
+					mRna = null;
+				}
+			}
+			else if (traversing){
+				// We are traversing the DNA, so we need to produce Messenger RNA.
+				if (mRna != null){
+					mRna.grow(getVelocityRef().getMagnitude() * dt);
+				}
+				else if (recoveryCountdownTimer < (RECOVERY_TIME - TIME_TO_START_PRODUCING_MRNA)){
+					// Create the mRna and put it where it needs to go.
+					mRna = new MessengerRna(getModel(), 0);
+					mRna.setPosition(getPositionRef());
+					getModel().addMessengerRna(mRna);
+				}
+				if (mRna == null){
+					
+				}
 			}
 		}
 		super.stepInTime(dt);
