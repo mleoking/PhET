@@ -64,10 +64,12 @@ package{
 			//initialize colliders array
 			var N:int = this.nbrBalls;
 			this.colliders = new Array(N);
-			for (var i:int = 0; i < N; i++){
+			//in AS3, duplicate variable definition in same method causes compile error message
+			//so do not use var i:int more than one
+			for (i = 0; i < N; i++){
 				this.colliders[i] = new Array(N);
 			}
-			for (var i:int = 0; i < N; i++){
+			for (i = 0; i < N; i++){
 				for (var j:int = 0; j < N; j++){
 					this.colliders[i][j] = 0;  //0 if not colliding
 				}
