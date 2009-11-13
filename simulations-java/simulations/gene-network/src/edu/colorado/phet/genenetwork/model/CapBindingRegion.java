@@ -20,9 +20,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class CapBindingRegion extends SimpleModelElement {
 	
 	private static final Paint ELEMENT_PAINT = new Color(247, 143, 36);
-	private static float HEIGHT = 2.5f;
-	public static float WIDTH = 5;
-	private static Dimension2D CAP_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT);
+	private static final float HEIGHT = 2.5f;
+	public static final float WIDTH = 5;
+	private static final Dimension2D CAP_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT);
 	
 	private Cap capAttachmentPartner = null;
 	
@@ -88,5 +88,9 @@ public class CapBindingRegion extends SimpleModelElement {
 	@Override
 	public boolean isPartOfDnaStrand() {
 		return true;
+	}
+	
+	public static Dimension2D getCapAttachmentPointOffset() {
+		return CAP_ATTACHMENT_POINT_OFFSET;
 	}
 }
