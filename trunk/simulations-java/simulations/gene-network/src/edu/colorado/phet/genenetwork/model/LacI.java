@@ -121,6 +121,7 @@ public class LacI extends SimpleModelElement {
 				// It is time to detach.
 				lacOperatorAttachmentPartner.detach(this);
 				lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+				lacOperatorAttachmentPartner = null;
 				unavailableTimeCountdown = UNAVAILABLE_TIME;
 				
 				// Set our motion strategy to move up towards some random
