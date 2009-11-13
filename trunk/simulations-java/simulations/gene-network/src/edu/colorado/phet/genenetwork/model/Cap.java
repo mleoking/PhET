@@ -25,7 +25,7 @@ public class Cap extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new Color(237, 179, 122);
 	private static final float WIDTH = CapBindingRegion.WIDTH;
 	private static final float HEIGHT = 4;  // In nanometers.
-	private static final Dimension2D CAP_BINDING_REGION_ATTACHMENT_OFFSET = new PDimension(0, 0);
+	private static final Dimension2D CAP_BINDING_REGION_ATTACHMENT_OFFSET = new PDimension(0, -HEIGHT * 0.2);
 	
 	private CapBindingRegion capBindingRegionPartner = null;
 	private AttachmentState capBindingRegionAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
