@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.genenetwork.model;
 
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.genenetwork.test.TestRNA;
+
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
@@ -75,35 +78,30 @@ public class MessengerRna extends SimpleModelElement {
 	 * possible to generalize this to grow in any direction, or to expand from
 	 * the center.  Feel free to do so if needed.
 	 */
+
+//    DoubleGeneralPath path =new DoubleGeneralPath(0,0);
 	public void grow( double growthAmount ){
-		if (length == 0){
-			assert (getShape() instanceof Ellipse2D);
-			// The current length is 0, so add a line segment.
-			GeneralPath path = new GeneralPath();
-			path.moveTo(0, 0);
-			path.lineTo((float)growthAmount, 0);
-			setShape(path);
-			// Save the new length.
-			length = growthAmount;
-		}
-		else{
-			GeneralPath path = new GeneralPath(getShape());
-			
-			PathIterator it = path.getPathIterator(new AffineTransform());
-			double [] coords = new double[6];
-			for (; !it.isDone(); it.next()){
-				it.currentSegment(coords);
-			}
-			
-			// The indicated coordinates are where we need to draw from.
-			path.lineTo((float)(coords[0] + growthAmount), (float)coords[1]);
-			
-			// Set the new new shape.
-			setShape(path);
-			
-			// Update the length.
+//		if (length == 0){
+//			assert (getShape() instanceof Ellipse2D);
+//
+//            length = growthAmount;
+//
+//			// The current length is 0, so add a line segment.
+//			path.lineTo(length, 0);
+//			setShape(path.getGeneralPath());
+//			// Save the new length.
+//
+//		}
+//		else{
+//            path.lineToRelative(growthAmount,0);
+
+            // Update the length.
 			length += growthAmount;
-		}
+
+			// Set the new new shape.
+			setShape(new TestRNA.RNA(0,0,length).getShape());
+
+//		}
 	}
 	
 	@Override
