@@ -31,7 +31,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	private static float HEIGHT = 8;  // In nanometers.
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-WIDTH, 0), 
 			new Color(17, 149, 210), new Point2D.Double(WIDTH * 5, 0), Color.WHITE);
-	private static Dimension2D LAC_PROMOTER_ATTACHMENT_POINT_OFFSET = new PDimension(WIDTH * 0.1, -HEIGHT * 0.3);
+	private static Dimension2D LAC_PROMOTER_ATTACHMENT_POINT_OFFSET = new PDimension(WIDTH * 0.15, -HEIGHT * 0.3);
 	private static double MIN_ATTACH_BEFORE_TRAVERSING_TIME = 3;  // Seconds.
 	private static double MIN_RECOVERY_TIME = 7;                  // Seconds.
 	
