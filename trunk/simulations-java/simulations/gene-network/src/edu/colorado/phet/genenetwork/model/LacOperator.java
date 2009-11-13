@@ -10,6 +10,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.umd.cs.piccolo.util.PDimension;
@@ -31,7 +32,8 @@ public class LacOperator extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new Color(200, 200, 200);
 	private static final double WIDTH = 7;   // In nanometers.
 	private static final double HEIGHT = 3;  // In nanometers.
-	private static final Dimension2D LAC_I_BINDING_POINT_OFFSET = new PDimension(0, HEIGHT/2); 
+	private static final Dimension2D LAC_I_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT/2); 
+	private static final Dimension2D ATTACHMENT_REGION_SIZE = new PDimension(WIDTH * 0.5, HEIGHT / 2);
 	
 	//----------------------------------------------------------------------------
 	// Instance Data
@@ -47,7 +49,7 @@ public class LacOperator extends SimpleModelElement {
 	public LacOperator(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 		// Add binding point for LacI.
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_I, LAC_I_BINDING_POINT_OFFSET));
+		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_I, LAC_I_ATTACHMENT_POINT_OFFSET));
 	}
 	
 	public LacOperator(IObtainGeneModelElements model) {
@@ -112,8 +114,8 @@ public class LacOperator extends SimpleModelElement {
 
 		// Calculate the current location of our LacI attachment point.
 		Point2D lacIAttachmentPtLocation = 
-			new Point2D.Double(getPositionRef().getX() + LAC_I_BINDING_POINT_OFFSET.getWidth(),
-				getPositionRef().getY() + LAC_I_BINDING_POINT_OFFSET.getHeight());
+			new Point2D.Double(getPositionRef().getX() + LAC_I_ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + LAC_I_ATTACHMENT_POINT_OFFSET.getHeight());
 		
 		// Check the distance between the attachment points.
 		if (lacIAttachmentPtLocation.distance(lacIAttachmentPartner.getAttachmentPointLocation(this)) < ATTACHMENT_FORMING_DISTANCE){
@@ -125,6 +127,7 @@ public class LacOperator extends SimpleModelElement {
 
 	private static Shape createShape(){
 		
+		/*
 		// Create the overall outline.
 		GeneralPath outline = new GeneralPath();
 		
@@ -145,10 +148,29 @@ public class LacOperator extends SimpleModelElement {
 		// Subtract off the shape of the lactose molecule.
 		area.subtract(new Area(lacInhibitorShape));
 		return area;
+		*/
+		
+		Rectangle2D baseRect = new Rectangle2D.Double(-WIDTH / 2, -HEIGHT / 2, WIDTH, 
+				HEIGHT - ATTACHMENT_REGION_SIZE.getHeight());
+		Rectangle2D attachmentRegion = new Rectangle2D.Double(-ATTACHMENT_REGION_SIZE.getWidth() / 2,
+				baseRect.getMaxY(), ATTACHMENT_REGION_SIZE.getWidth(), ATTACHMENT_REGION_SIZE.getHeight());
+		Area area = new Area(baseRect);
+		area.add(new Area(attachmentRegion));
+		
+		return area;
 	}
 	
 	public static Dimension2D getBindingRegionSize(){
-		return new PDimension(WIDTH * 0.5, HEIGHT / 2);
+		return ATTACHMENT_REGION_SIZE;
+	}
+	
+	/**
+	 * Get the location in absolute space of the attachment point for the
+	 * specified type of model element.
+	 */
+	public Point2D getAttachmentPointLocation(LacI lacI){
+		return new Point2D.Double(getPositionRef().getX() + LAC_I_ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + LAC_I_ATTACHMENT_POINT_OFFSET.getHeight());
 	}
 	
 	public void detach(LacI lacI){
@@ -164,5 +186,9 @@ public class LacOperator extends SimpleModelElement {
 	@Override
 	public boolean isPartOfDnaStrand() {
 		return true;
+	}
+
+	public static Dimension2D getAttachementPointOffset(LacI lacI) {
+		return LAC_I_ATTACHMENT_POINT_OFFSET;
 	}
 }
