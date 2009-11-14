@@ -32,6 +32,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-WIDTH, 0), 
 			new Color(17, 149, 210), new Point2D.Double(WIDTH * 5, 0), Color.WHITE);
 	private static Dimension2D LAC_PROMOTER_ATTACHMENT_POINT_OFFSET = new PDimension(WIDTH * 0.15, -HEIGHT * 0.3);
+	private static Dimension2D MESSENGER_RNA_OUTPUT_OFFSET = new PDimension(-WIDTH * 0.2, -HEIGHT * 0.05);
 	private static double MIN_ATTACH_BEFORE_TRAVERSING_TIME = 3;  // Seconds.
 	private static double RECOVERY_TIME = 7;                  // Seconds.
 	private static double TIME_TO_START_PRODUCING_MRNA = 2; // Seconds.
@@ -180,7 +181,8 @@ public class RnaPolymerase extends SimpleModelElement {
 				else if (recoveryCountdownTimer < (RECOVERY_TIME - TIME_TO_START_PRODUCING_MRNA)){
 					// Create the mRna and put it where it needs to go.
 					mRna = new MessengerRna(getModel(), 0);
-					mRna.setPosition(getPositionRef());
+					mRna.setPosition(getPositionRef().getX() + MESSENGER_RNA_OUTPUT_OFFSET.getWidth(), 
+							getPositionRef().getY() + MESSENGER_RNA_OUTPUT_OFFSET.getHeight());
 					getModel().addMessengerRna(mRna);
 				}
 			}
