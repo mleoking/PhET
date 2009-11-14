@@ -106,10 +106,16 @@ public class MessengerRna extends SimpleModelElement {
 			points = adjustedPoints;
 		}
 		
-		// Add a new point to the list.
+		// Add a new point to the list.  The new point is always added at a Y
+		// offset of 0 so that it looks like it is being produced from the
+		// same location, but all the other points are moved up or down a
+		// little to make the output look wavy.
+		double yVariation = (RAND.nextDouble() - 0.5) * growthAmount;
+		for (Point2D point : points){
+			point.setLocation(point.getX(), point.getY() + yVariation);
+		}
 		Point2D currentEndPoint = points.get(points.size() - 1);
-		points.add(new Point2D.Double(currentEndPoint.getX() + growthAmount,
-				currentEndPoint.getY() + (RAND.nextDouble() - 0.5) * growthAmount));
+		points.add(new Point2D.Double(currentEndPoint.getX() + growthAmount, 0));
 		
 		// Update the shape.
 		setShape(createPathFromPoints(points).getGeneralPath());
