@@ -1,3 +1,4 @@
+# 0.00.13 (36648) Nov 13, 2009
 11/13/09 show coefficients with value=1
 11/12/09 add skeleton for game module
 # 0.00.12 (36529) Nov 10, 2009
