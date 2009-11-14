@@ -33,14 +33,19 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.ScrollPaneUI;
+
+import edu.umd.cs.piccolo.PCanvas;
 
 /**
  * A simple extension to a standard scroll pane that uses the jazz version of
@@ -58,6 +63,35 @@ public class PScrollPane extends JScrollPane {
     /** Controls whether key actions are disabled on this component. */
     protected boolean disableKeyActions = false;
 
+    private final AdjustmentListener scrollAdjustmentListener = new AdjustmentListener() {
+        private boolean lastAdjustingState = false;
+
+        public void adjustmentValueChanged(final AdjustmentEvent event) {
+            if (event.getSource() instanceof JScrollBar) {
+                JScrollBar scrollBar = (JScrollBar) event.getSource();
+
+                setAdjusting(scrollBar.getValueIsAdjusting());
+            }
+        }
+
+        /**
+         * Updates the underlying PCanvas' interacting flag depending on whether
+         * scroll bar adjustments are still taking place.
+         * 
+         * @param isAdjusting true if the scroll bar is still being interacted
+         *            with
+         */
+        private void setAdjusting(final boolean isAdjusting) {
+            if (isAdjusting != lastAdjustingState) {
+                Component c = getViewport().getView();
+                if (c instanceof PCanvas) {
+                    ((PCanvas) c).setInteracting(isAdjusting);
+                }
+                lastAdjustingState = isAdjusting;
+            }
+        }
+    };
+
     /**
      * Constructs a scollpane for the provided component with the specified
      * scrollbar policies.
@@ -73,19 +107,52 @@ public class PScrollPane extends JScrollPane {
         final PScrollPaneLayout layout = new PScrollPaneLayout.UIResource();
         setLayout(layout);
         layout.syncWithScrollPane(this);
+
+        horizontalScrollBar.addAdjustmentListener(scrollAdjustmentListener);
+        verticalScrollBar.addAdjustmentListener(scrollAdjustmentListener);
     }
 
     /**
-     * Constructs a scollpane for the provided component.
+     * Intercepts the vertical scroll bar setter to ensure that the adjustment
+     * listener is installed appropriately.
      * 
-     * @param view component being viewed through the scrollpane
+     * @param newVerticalScrollBar the new vertical scroll bar to use with this PScrollPane
+     */
+    public void setVerticalScrollBar(final JScrollBar newVerticalScrollBar) {
+        if (verticalScrollBar != null) {
+            verticalScrollBar.removeAdjustmentListener(scrollAdjustmentListener);
+        }
+
+        super.setVerticalScrollBar(newVerticalScrollBar);
+        newVerticalScrollBar.addAdjustmentListener(scrollAdjustmentListener);
+    }
+
+    /**
+     * Intercepts the horizontal scroll bar setter to ensure that the adjustment
+     * listener is installed appropriately.
+     * 
+     * @param newHorizontalScrollBar the new horizontal scroll bar to use with this PScrollPane
+     */
+    public void setHorizontalScrollBar(final JScrollBar newHorizontalScrollBar) {
+        if (horizontalScrollBar != null) {
+            horizontalScrollBar.removeAdjustmentListener(scrollAdjustmentListener);
+        }
+
+        super.setHorizontalScrollBar(newHorizontalScrollBar);
+        newHorizontalScrollBar.addAdjustmentListener(scrollAdjustmentListener);
+    }
+
+    /**
+     * Constructs a scroll pane for the provided component.
+     * 
+     * @param view component being viewed through the scroll pane
      */
     public PScrollPane(final Component view) {
         this(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
 
     /**
-     * Constructs a scollpane not attached to any component with the specified
+     * Constructs a scroll pane not attached to any component with the specified
      * scroll bar policies.
      * 
      * @param vsbPolicy vertical scroll bar policy
@@ -96,7 +163,7 @@ public class PScrollPane extends JScrollPane {
     }
 
     /**
-     * Constructs a scollpane not attached to any component.
+     * Constructs a scroll pane not attached to any component.
      */
     public PScrollPane() {
         this(null, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -121,7 +188,7 @@ public class PScrollPane extends JScrollPane {
     /**
      * Sets the UI.
      * 
-     * @param ui the scroll pane ui to associate with this PScollPane
+     * @param ui the scroll pane UI to associate with this PScollPane
      */
     public void setUI(final ScrollPaneUI ui) {
         super.setUI(ui);
