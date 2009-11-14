@@ -7,6 +7,7 @@ import java.net.URLDecoder;
 
 /**
  * Demonstrates a problem with encoding of '+' character.
+ * See Unfuddle #1817.
  */
 public class TestURLDecoder {
     public static void main( String[] args ) throws IOException {
