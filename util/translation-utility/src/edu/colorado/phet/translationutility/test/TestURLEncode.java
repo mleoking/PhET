@@ -6,10 +6,10 @@ import java.net.URL;
 import java.net.URLDecoder;
 
 /**
- * Demonstrates a problem with encoding of '+' character.
+ * Demonstrates a problem somewhere in java.net.URL with encoding of '+' character.
  * See Unfuddle #1817.
  */
-public class TestURLDecoder {
+public class TestURLEncode {
     public static void main( String[] args ) throws IOException {
 
         // Filename contains a '+ character.
