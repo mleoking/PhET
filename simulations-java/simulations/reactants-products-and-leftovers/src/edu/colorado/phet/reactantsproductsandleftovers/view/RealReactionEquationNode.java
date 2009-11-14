@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class RealReactionEquationNode extends PComposite {
     
     private static final boolean SHOW_COEFFICIENT_BORDERS = false; // puts a border around coefficients
-    private static final boolean SHOW_ONE_COEFFICIENTS = false; // shows coefficient values that are 1
+    private static final boolean SHOW_ONE_COEFFICIENTS = true; // shows coefficient values that are 1
     
     private static final Font FONT = new PhetFont( 36 );
     private static final Color NAME_COLOR = Color.BLACK;
