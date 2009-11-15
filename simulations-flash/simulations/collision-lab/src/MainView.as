@@ -18,7 +18,7 @@ package{
 			this.myModel = myModel;
 			this.myTableView = new TableView(myModel, this);
 			this.controlPanel = new ControlPanel(myModel, this);
-			//this.momentumView = new MomentumView(myModel, this);
+			this.momentumView = new MomentumView(myModel, this);
 			this.phetLogo = new PhETLogo();
 			this.myModel.updateViews();
 			//this.initialize();

@@ -19,6 +19,7 @@ package{
 		var msTimer:Timer;		//millisecond timer
 		var playing:Boolean;	//true if motion is playing, false if paused
 		var starting:Boolean;	//true if playing and 1st step not yet taken;
+		var reversing:Boolean;	//false if going forward in time, true if going backward
 		//var realTimer:Timer;	//real timer, used to maintain time-based updates
 		var timeHolder:int;		//scatch for hold results of getTimer
 		var timeRate:Number;	//0 to 1: to slow down or speed up action, 1 = realtime, 0 = paused
@@ -40,6 +41,7 @@ package{
 			this.initializeBalls();
 			this.time = 0;
 			this.timeStep = 0.01;
+			this.timeRate = 1;
 			this.updateRate = 3;
 			this.frameCount = 0;
 			
@@ -100,6 +102,7 @@ package{
 			msTimer.start();  
 			this.playing = true;
 			this.starting = true;
+			this.reversing = false;
 		}//startMotion()
 		
 		public function stopMotion():void{
@@ -110,12 +113,12 @@ package{
 		
 		public function setTimeRate(rate:Number):void{
 			this.timeRate = rate;
-			trace("Model.timeRate: "+timeRate);
+			//trace("Model.timeRate: "+timeRate);
 		}
 		
 		public function setElasticity(e:Number):void{
 			this.e = e;
-			trace("Model:elasticity: "+this.e);
+			//trace("Model:elasticity: "+this.e);
 		}
 		
 		public function stepForward(evt:TimerEvent):void{
@@ -127,21 +130,24 @@ package{
 		
 		public function singleStep():void{
 			var dt:Number;
-			
 			if(playing && !starting){
 				//time-based aminimation
 				var realDt = getTimer() - timeHolder;
 				dt = realDt/1000;
 			}else{
+				//frame-based animation
 				dt = this.timeStep;
 			}
 			if(starting){
 				this.starting = false;
 			}
-			
+			//trace("timeRate: "+this.timeRate);
+			dt *= this.timeRate;
+			if(reversing){
+				dt *= -1;
+			}
 			this.time += dt;
-			//trace("dt: "+dt);
-			//trace("actualTimeStep"+actualTimeStep);
+			//trace("dt_after: "+dt);
 			for(var i:int = 0; i < this.nbrBalls; i++){
 				var x:Number = this.ball_arr[i].position.getX();
 				var y:Number = this.ball_arr[i].position.getY();
@@ -157,7 +163,7 @@ package{
 				
 				//reflect at borders
 				var radius:Number = this.ball_arr[i].radius;
-				/*
+				
 				//if ball beyond border, then backup to previous position and reflect
 				//this guarantees no penetration of border
 				if((x+radius) > this.borderWidth || (x-radius)< 0){
@@ -167,8 +173,9 @@ package{
 					this.ball_arr[i].position.setXY(xLast,yLast);
 					this.ball_arr[i].velocity.setY(-vY);
 				}
-				*/
-
+				
+				//following reflection code does not work when going backward in time
+				/*
 				if((x+radius) > this.borderWidth){
 					this.ball_arr[i].velocity.setX(-Math.abs(vX));
 				}else if((x-radius) < 0){
@@ -179,6 +186,7 @@ package{
 				}else if((y-radius) < 0){
 					this.ball_arr[i].velocity.setY(Math.abs(vY));
 				}
+				*/
 				
 			}//for loop
 			this.timeHolder = getTimer();
@@ -202,8 +210,13 @@ package{
 			}
 		}
 		
-
-
+		//move backward in time one frame = several steps
+		public function backupOneFrame():void{
+			this.reversing = true;
+			this.singleFrame();
+			this.reversing = false;
+		}
+		
 		public function detectCollision():void{
 			//var colliders_arr:Array = new Array(2);
 			var N:int = this.nbrBalls;
@@ -251,7 +264,7 @@ package{
 				var m1:Number = ball_arr[i].mass;
 				var m2:Number = ball_arr[j].mass;
 				//normal components of velocities after collision (P for prime = after)
-				trace("Model.e: "+this.e);
+				//trace("Model.e: "+this.e);
 				var v1nP:Number = ((m1 - m2*this.e)*v1n + m2*(1+this.e)*v2n)/(m1 + m2);
 				var v2nP:Number = this.e*(v1n - v2n) + v1nP;
 				var v1xP = (1/d)*(v1nP*delX - v1t*delY);
