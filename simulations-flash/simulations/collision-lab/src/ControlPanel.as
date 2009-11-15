@@ -36,7 +36,8 @@
 		}
 		
 		public function setElasticity(evt:SliderEvent):void{
-			trace("e slider: "+evt.target.value);
+			this.myModel.setElasticity(evt.target.value);
+			//trace("e slider: "+evt.target.value);
 		}
 		
 		//may not be necessary, since this is a controller, not a view
