@@ -5,13 +5,18 @@
 	
 	public class TableView extends Sprite{
 		var myModel:Model;
-		var myMainView;			//mediator and container of views
+		var myMainView:MainView;			//mediator and container of views
 		var canvas:Sprite;		//background on which everything is placed
+		var playButtons:PlayPauseButtons;	//class to hold library symbol
 		var border:Sprite;		//reflecting border
 		var borderColor:uint;	//color of border 0xrrggbb
+		var timeText:TextField;	//label containing current time
 		var pixelsPerMeter:int;	//scale of view
 		var ball_arr:Array;		//array of ball images
+		var ballLabels:Array;	//array of ball labels: 1, 2, 3, ...
 		var ballColor_arr:Array;	//array of uint for colors of balls
+		var xOffset:Number;		//x of upper left corner of canvas
+		var yOffset:Number;		//y of upper left corner of canvas
 		
 		public function TableView(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
@@ -19,15 +24,20 @@
 			this.canvas = new Sprite();
 			this.myMainView.addChild(this);
 			this.addChild(this.canvas);
-			this.canvas.x = 20;
-			this.canvas.y = 60;
+			this.xOffset = 20;
+			this.yOffset = 60;
+			this.canvas.x = xOffset;
+			this.canvas.y = yOffset;
+			this.playButtons = new PlayPauseButtons(this.myModel);
+			this.canvas.addChild(this.playButtons);
 			this.myModel.registerView(this);
 			this.pixelsPerMeter = 200;
 			this.drawBorder();
+			this.makeTimeLabel();
 			this.ballColor_arr = new Array(10);  //start with 10 colors
 			this.createBallColors();
 			this.createBallImages();
-			this.myModel.startMotion();
+			//this.myModel.startMotion();
 		}//end of constructor
 		
 		public function drawBorder():void{
@@ -49,7 +59,29 @@
 				lineTo(-del, -del);
 				endFill();
 			}
+			//position playButtons
+			this.playButtons.x = W/2;
+			this.playButtons.y = H + this.playButtons.height;
 		}//end of drawBorder();
+		
+		public function makeTimeLabel():void{
+			this.timeText = new TextField();
+			this.timeText.text = "Time = ";
+			this.timeText.selectable = false;
+			this.timeText.autoSize = TextFieldAutoSize.LEFT;
+			var tFormat:TextFormat = new TextFormat();
+			tFormat.font = "Arial";
+			tFormat.bold = true;
+			tFormat.color = 0x000000;
+			tFormat.size = 16;
+			this.timeText.setTextFormat(tFormat);
+			this.canvas.addChild(this.timeText);
+			var W:Number = this.myModel.borderWidth * this.pixelsPerMeter;
+			var H:Number = this.myModel.borderHeight * this.pixelsPerMeter;
+			this.timeText.x = W - 2*this.timeText.width;
+			this.timeText.y = H + 10;
+		}
+		
 		
 		public function createBallColors():void{
 			this.ballColor_arr[0] = 0xff0000;
@@ -60,9 +92,21 @@
 		public function createBallImages():void{
 			var nbrBalls:int = this.myModel.nbrBalls;
 			this.ball_arr = new Array(nbrBalls);
+			this.ballLabels = new Array(nbrBalls);
+			var tFormat:TextFormat = new TextFormat();
+			tFormat.font = "Arial";
+			tFormat.bold = true;
+			tFormat.color = 0xffffff;
+			tFormat.size = 20;
+			
 			for(var i:int = 0; i < nbrBalls; i++){
 				this.ball_arr[i] = new Sprite();
+				this.ballLabels[i] = new TextField();
+				this.ballLabels[i].text = i+1;		//number is cast to String automatically
+				this.ballLabels[i].selectable = false;
+				this.ballLabels[i].setTextFormat(tFormat);
 				var radius:Number = this.pixelsPerMeter*this.myModel.ball_arr[i].radius;
+				//draw ball
 				with(this.ball_arr[i].graphics){
 					clear();
 					var currentColor:uint = this.ballColor_arr[i];
@@ -71,10 +115,15 @@
 					drawCircle(0,0,radius);
 					endFill();
 				}//with
+				this.ball_arr[i].addChild(this.ballLabels[i]);
 				ball_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
 				ball_arr[i].y = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getY();
 				//trace("i: "+i+"  x: "+ball_arr[i].x+"  y: "+ball_arr[i].y);
 				this.canvas.addChild(ball_arr[i]);
+				//center label on ball
+				this.ballLabels[i].autoSize = TextFieldAutoSize.CENTER;
+				this.ballLabels[i].x = -this.ballLabels[i].width/2;
+				this.ballLabels[i].y = -this.ballLabels[i].height/2;
 				
 			}//for
 			
@@ -88,6 +137,7 @@
 				ball_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
 				ball_arr[i].y = this.pixelsPerMeter*(yMax - this.myModel.ball_arr[i].position.getY());
 			}
+			this.timeText.text = "Time = " + Math.round(100*this.myModel.time)/100;
 		}
 		
 	}//end of class

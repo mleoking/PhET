@@ -12,7 +12,7 @@ package{
 		
 		public function Ball(mass:Number, position:TwoVector, velocity:TwoVector ){
 			this.mass = mass;
-			this.radius = 0.10;   //radius in meters 
+			this.radius = 0.15;   //radius in meters 
 			this.position = position;
 			this.velocity = velocity;
 			this.momentum = new TwoVector(this.mass*this.velocity.getX(),this.mass*this.velocity.getY());

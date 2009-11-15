@@ -20,6 +20,11 @@ package{
 			this.setAngle();
 		}//end of constructor
 		
+		public function clone():TwoVector{
+			var clone:TwoVector = new TwoVector(xComponent, yComponent);
+			return clone;
+		}
+		
 		private function setLength():void{
 			this.length = Math.sqrt(xComponent*xComponent + yComponent*yComponent);
 		}

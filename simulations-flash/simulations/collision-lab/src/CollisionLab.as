@@ -7,11 +7,16 @@ package{
 	public class CollisionLab extends Sprite{  //should the main class extend MovieClip or Sprite?
 		var myModel:Model;
 		var myMainView:MainView;
+		var stageW:Number;
+		var stageH:Number;
 		
 		public function CollisionLab(){
 			myModel = new Model();
-			myMainView = new MainView(myModel);
+			this.stageW = this.stage.stageWidth;
+			this.stageH = this.stage.stageHeight;
+			myMainView = new MainView(myModel, this.stageW, this.stageH);
 			this.addChild(myMainView);
+			this.myMainView.initialize();
 		}//end of constructor
 		
 	}//end of class
