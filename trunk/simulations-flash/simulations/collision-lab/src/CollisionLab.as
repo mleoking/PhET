@@ -12,8 +12,9 @@ package{
 		
 		public function CollisionLab(){
 			myModel = new Model();
-			this.stageW = this.stage.stageWidth;
-			this.stageH = this.stage.stageHeight;
+			//stage width and height hard-coded for now
+			this.stageW = 950;//this.stage.stageWidth;
+			this.stageH = 700;//this.stage.stageHeight;
 			myMainView = new MainView(myModel, this.stageW, this.stageH);
 			this.addChild(myMainView);
 			this.myMainView.initialize();

@@ -8,6 +8,7 @@
 		var buttonView:PlayButtons;		//library instance
 		var paused:Boolean;
 		var resetText:String;			//for internationalization
+		var backText:String;
 		var playText:String;  			
 		var pauseText:String;
 		var stepText:String;
@@ -23,6 +24,7 @@
 		
 		public function initializeButtons():void{
 			this.buttonView.myResetButton.addEventListener(MouseEvent.MOUSE_DOWN, reset);
+			this.buttonView.myStepBackButton.addEventListener(MouseEvent.MOUSE_DOWN, stepBack);
 			this.buttonView.myPlayPauseButton.addEventListener(MouseEvent.MOUSE_DOWN, playPause);
 			this.buttonView.myStepButton.addEventListener(MouseEvent.MOUSE_DOWN, step);
 			this.buttonView.myResetButton.buttonMode = true;
@@ -33,10 +35,12 @@
 		//must be altered when internationalizing
 		public function initializeLabels():void{
 			this.resetText = "Reset";
+			this.backText = "Back";
 			this.playText = "Play";
 			this.pauseText = "Pause";
 			this.stepText = "Step";
 			this.buttonView.resetLabel.text = resetText;
+			this.buttonView.stepBackLabel.text = backText;
 			this.buttonView.playPauseLabel.text = playText;
 			this.buttonView.stepLabel.text = stepText;
 		}
@@ -68,6 +72,14 @@
 			this.buttonView.playPauseLabel.text = playText;
 			this.myModel.stopMotion();
 			this.myModel.singleFrame();
+		}
+		
+		public function stepBack(evt:MouseEvent):void{
+			this.paused = true;
+			this.buttonView.myPlayPauseButton.gotoAndStop(1);
+			this.buttonView.playPauseLabel.text = playText;
+			this.myModel.stopMotion();
+			this.myModel.backupOneFrame();
 		}
 		
 		

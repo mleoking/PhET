@@ -74,11 +74,12 @@
 			tFormat.bold = true;
 			tFormat.color = 0x000000;
 			tFormat.size = 16;
-			this.timeText.setTextFormat(tFormat);
+			this.timeText.defaultTextFormat = tFormat;
+			//this.timeText.setTextFormat(tFormat);
 			this.canvas.addChild(this.timeText);
 			var W:Number = this.myModel.borderWidth * this.pixelsPerMeter;
 			var H:Number = this.myModel.borderHeight * this.pixelsPerMeter;
-			this.timeText.x = W - 2*this.timeText.width;
+			this.timeText.x = W - 2.5*this.timeText.width;
 			this.timeText.y = H + 10;
 		}
 		
