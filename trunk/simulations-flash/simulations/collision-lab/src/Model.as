@@ -11,6 +11,7 @@ package{
 		var borderOn:Boolean;	//if true, balls elastically reflect from border 
 		var borderWidth:int;	//length of horizontal border in meters
 		var borderHeight:int;	//length of vertical border in meters
+		//var elasticity:Number;	//elasticity = 0 to 1:
 		var e:Number;			//elasticity = 0 to 1: 0 = perfectly inelastic, 1 = perfectly elastic
 		var time:Number;		//simulation time in seconds = real time
 		var lastTime:Number;	//time of previous step
@@ -32,6 +33,7 @@ package{
 			this.borderWidth = 3;
 			this.borderHeight = 2;
 			//
+			//this.elasticity = 1;
 			this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
 			this.nbrBalls = 3;
 			this.ball_arr = new Array(nbrBalls);
@@ -111,13 +113,13 @@ package{
 			trace("Model.timeRate: "+timeRate);
 		}
 		
-		public function setElasticity(elas:Number):void{
-			this.e = elas;
+		public function setElasticity(e:Number):void{
+			this.e = e;
 			trace("Model:elasticity: "+this.e);
 		}
 		
 		public function stepForward(evt:TimerEvent):void{
-			trace("stepForward called.  elasticity is " + this.e);
+			//trace("stepForward called.  elasticity is " + this.e);
 			//need function without event argument
 			this.singleStep();
 			
