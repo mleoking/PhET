@@ -16,6 +16,7 @@
 		var stageH:Number;
 		var stageW:Number;
 		var pixelsPerSIMomentum:int;	//scale of view
+		var momentum_arr:Array;		//array of momentum arrows
 		
 		public function MomentumView(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
@@ -36,10 +37,12 @@
 			this.stageH = this.myMainView.stageH;
 			this.canvas.x = this.stageW - this.borderWidth;
 			this.canvas.y = this.stageH - this.borderHeight;
+			this.momentum_arr = new Array(this.myModel.nbrBalls);
 			//trace("MomentumView.stageW: "+this.stageW);
 			//trace("MomentumView.stageH: "+this.stageH);
 			this.drawBorder();
 			this.drawMarquee();
+			this.drawArrows();
 		}
 		
 		public function drawBorder():void{
@@ -82,7 +85,28 @@
 
 		}//end of drawMarquee
 		
+		public function drawArrows():void{
+			var N:int = this.myModel.nbrBalls;
+			for(var i:int = 0; i < N; i++){
+				this.momentum_arr[i] = new Arrow(i);
+				this.momentum_arr[i].x = this.borderWidth/2;
+				this.momentum_arr[i].y = this.borderHeight/2;
+				this.canvas.addChild(this.momentum_arr[i]);
+				this.momentum_arr[i].setArrow(this.myModel.ball_arr[i].getMomentum());
+			}
+			
+			//trace("py: "+this.myModel.ball_arr[0].getMomentum().getY());
+			//trace("px: "+this.myModel.ball_arr[0].getMomentum().getX());
+			//trace("theta: "+this.myModel.ball_arr[0].getMomentum().getAngle())
+		}
+		
+	
+		
 		public function update():void{
+			var N:int = this.myModel.nbrBalls;
+			for(var i:int = 0; i < N; i++){
+				this.momentum_arr[i].setArrow(this.myModel.ball_arr[i].getMomentum());
+			}
 			//trace("momentum view update");
 		}
 	}//end of class
