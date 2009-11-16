@@ -2,6 +2,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Stroke;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -36,6 +37,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private static final double LEFT_MARGIN = 0;
     private static final double RIGHT_MARGIN = LEFT_MARGIN;
     private static final double CONTROLS_Y_SPACING = 15;
+    private static final Font TITLE_FONT = new PhetFont( 24 );
 
     private static final double BRACKET_Y_SPACING = 3;
     private static final PhetFont BRACKET_FONT = new PhetFont( 16 );
@@ -79,7 +81,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
         
         // title for the box
         PText titleNode = new PText( title );
-        titleNode.setFont( new PhetFont( 30 ) );
+        titleNode.setFont( TITLE_FONT );
         titleNode.setTextPaint( Color.BLACK );
         addChild( titleNode );
         

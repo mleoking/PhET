@@ -56,7 +56,7 @@ public class SandwichShopModel {
         Product[] products = { sandwich };
         
         // reaction
-        reaction = new ChemicalReaction( RPALStrings.LABEL_SANDWICH_FORMULA, reactants, products );
+        reaction = new ChemicalReaction( RPALStrings.LABEL_SANDWICH_EQUATION, reactants, products );
         sandwich.init();
     }
     
