@@ -3,6 +3,9 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
 import java.awt.Frame;
 
+import javax.swing.JLabel;
+
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
@@ -27,7 +30,9 @@ public class GameModule extends PiccoloModule {
         setSimulationPanel( canvas );
 
         // no control panel
-        setControlPanel( null );
+        ControlPanel controlPanel = new ControlPanel();
+        controlPanel.addControl( new JLabel( "------- controls go here ------" ) );
+        setControlPanel( controlPanel );
         
         // no clock controls
         setClockControlPanel( null );

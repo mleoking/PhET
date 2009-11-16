@@ -32,7 +32,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class SandwichEquationNode extends PhetPNode {
     
-    private static final PhetFont TITLE_FONT = new PhetFont( 28 );
+    private static final PhetFont TITLE_FONT = new PhetFont( 24 );
     private static final PhetFont COEFFICIENT_FONT = new PhetFont( 24 );
     private static final PhetFont NO_REACTION_FONT = new PhetFont( 24 );
     

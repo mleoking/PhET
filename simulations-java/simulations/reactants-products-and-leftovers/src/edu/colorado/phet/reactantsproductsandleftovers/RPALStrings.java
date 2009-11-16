@@ -15,8 +15,7 @@ public class RPALStrings {
     private RPALStrings() {}
 
     // labels
-    public static final String LABEL_SANDWICH_FORMULA = RPALResources.getString( "label.sandwichFormula" );
-    public static final String LABEL_REACTION_FORMULA = RPALResources.getString( "label.reactionFormula" );
+    public static final String LABEL_SANDWICH_EQUATION = RPALResources.getString( "label.sandwichEquation" );
     public static final String LABEL_BEFORE_SANDWICH = RPALResources.getString( "label.beforeSandwich" );
     public static final String LABEL_AFTER_SANDWICH = RPALResources.getString( "label.afterSwndwich" );
     public static final String LABEL_BEFORE_REACTION = RPALResources.getString( "label.beforeReaction" );
