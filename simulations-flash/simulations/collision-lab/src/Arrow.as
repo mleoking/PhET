@@ -8,29 +8,37 @@ package{
 	
 	public class Arrow extends Sprite{
 		var index:int; //integer labels arrow
-		//var canvas:Sprite;
+		var canvas:Sprite;
 		var shaft:Sprite;
 		var head:Sprite;
 		var scale:Number;	//adjustable scale for graphic
 		var shaftW:int;		//width of shaft in pixels
 		var shaftL:int;		//length of shaft in pixels
+		var tField:TextField;		//textFields cannot be rotated.
 		var fillColor:uint;
 		var lineColor:uint;
 		
 		public function Arrow(indx:Number){
-			this.index = indx;
-			//this.canvas = new Sprite();
+			this.index = indx+1;
+			this.canvas = new Sprite();
 			this.scale = 50;
 			this.shaftW = 6;
 			this.shaftL = this.scale*50;
 			this.shaft = new Sprite();
 			this.head = new Sprite();
+			this.tField = new TextField();
+			var str:String = new String(this.index);
+			this.tField.text = str;
+			this.tField.selectable = false;
+			this.tField.autoSize = TextFieldAutoSize.LEFT;
 			fillColor = 0xffff00;
 			lineColor = 0x0000ff;
 			//this.addChild(this.canvas);
 			this.initialize();
-			this.addChild(this.shaft);
-			this.addChild(this.head);
+			this.addChild(this.canvas);
+			this.canvas.addChild(this.shaft);
+			this.canvas.addChild(this.head);
+			this.addChild(tField);
 		}//end of constructor
 		
 		public function initialize():void{
@@ -78,7 +86,11 @@ package{
 			var angle:Number = vector.getAngle();
 			this.shaft.width = this.scale*L - this.head.width;
 			this.head.x = this.shaft.width;
-			this.rotation = -vector.getAngle();
+			var angleInDeg:Number = vector.getAngle();
+			var angleInRad:Number = angleInDeg*Math.PI/180;
+			this.canvas.rotation = -angleInDeg;
+			this.tField.x = this.scale*L/2*Math.cos(angleInRad);
+			this.tField.y = this.scale*L/2*Math.sin(-angleInRad);
 		}
 		
 		public function getX():Number{
