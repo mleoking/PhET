@@ -1,7 +1,6 @@
 package edu.colorado.phet.circuitconstructionkit.model.analysis;
 
 import java.util.ArrayList;
-
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 
 /**
@@ -10,7 +9,7 @@ import edu.colorado.phet.circuitconstructionkit.model.Circuit;
  * Time: 9:06:26 AM
  */
 public abstract class CircuitSolver {
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<CircuitSolutionListener> listeners = new ArrayList<CircuitSolutionListener>();
 
     public final void apply( Circuit circuit ) {
         apply( circuit, 1.0 );
@@ -27,9 +26,7 @@ public abstract class CircuitSolver {
     }
 
     protected void fireCircuitSolved() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            CircuitSolutionListener circuitSolutionListener = (CircuitSolutionListener) listeners.get( i );
-            circuitSolutionListener.circuitSolverFinished();
-        }
+        for (CircuitSolutionListener listener : listeners) 
+            listener.circuitSolverFinished();
     }
 }
