@@ -7,14 +7,17 @@ package{
 	
 	
 	public class Arrow extends Sprite{
-		var index:int; //integer labels arrow
-		var canvas:Sprite;
+		var index:int; 		//text label for arrow
+		var canvas:Sprite;	//canvas holds arrow shaft and head, but not text label
 		var shaft:Sprite;
 		var head:Sprite;
-		var scale:Number;	//adjustable scale for graphic
-		var shaftW:int;		//width of shaft in pixels
-		var shaftL:int;		//length of shaft in pixels
-		var tField:TextField;		//textFields cannot be rotated.
+		var scale:Number;		//adjustable scale for graphic
+		var shaftW:int;			//width of shaft in pixels
+		var shaftL:int;			//length of shaft in pixels
+		var lengthInPix:Number;	//length of arrow (shaft+head) in pixels
+		var angleInDeg:Number;	//current angle in Degrees, from +x direction, CCW is +
+		var angleInRad:Number;
+		var tField:TextField;	//textFields cannot be rotated.
 		var fillColor:uint;
 		var lineColor:uint;
 		
@@ -74,6 +77,7 @@ package{
 			this.shaft.y = 0;
 			this.head.x = shaftL;
 			this.head.y = 0;
+			this.lengthInPix = this.shaft.width + this.head.width;
 		}//end of initialize
 		
 		public function setColor(fillColor:uint):void{
@@ -86,15 +90,26 @@ package{
 			var angle:Number = vector.getAngle();
 			this.shaft.width = this.scale*L - this.head.width;
 			this.head.x = this.shaft.width;
-			var angleInDeg:Number = vector.getAngle();
-			var angleInRad:Number = angleInDeg*Math.PI/180;
+			this.angleInDeg = vector.getAngle();
+			this.angleInRad = angleInDeg*Math.PI/180;
 			this.canvas.rotation = -angleInDeg;
 			this.tField.x = this.scale*L/2*Math.cos(angleInRad);
 			this.tField.y = this.scale*L/2*Math.sin(-angleInRad);
 		}
 		
+		//x coordinate in pixels of tip of arrow
 		public function getX():Number{
-			return 1;
+			var LX:Number = this.lengthInPix*Math.cos(this.angleInRad);
+			return LX;
+		}
+		
+		public function getY():Number{
+			var LY:Number = this.lengthInPix*Math.sin(this.angleInRad);
+			return LY;
+		}
+		
+		public function setText(myText:String){
+			this.tField.text = myText;
 		}
 		
 	}//end of class

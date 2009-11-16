@@ -96,6 +96,7 @@
 				this.momentum_arr[i].setArrow(this.myModel.ball_arr[i].getMomentum());
 			}
 			this.totMomentum = new Arrow(N);  //index of total momentum is N = nbrBalls
+			this.totMomentum.setText("Tot");
 			this.totMomentum.setColor(0x00ff00);	//tot momentum arrow is green
 			this.totMomentum.x = this.borderWidth/2;
 			this.totMomentum.y = this.borderHeight/2;
