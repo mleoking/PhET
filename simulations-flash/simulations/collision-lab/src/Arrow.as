@@ -14,15 +14,19 @@ package{
 		var scale:Number;	//adjustable scale for graphic
 		var shaftW:int;		//width of shaft in pixels
 		var shaftL:int;		//length of shaft in pixels
+		var fillColor:uint;
+		var lineColor:uint;
 		
 		public function Arrow(indx:Number){
 			this.index = indx;
 			//this.canvas = new Sprite();
-			this.scale = 40;
-			this.shaftW = 8;
+			this.scale = 50;
+			this.shaftW = 6;
 			this.shaftL = this.scale*50;
 			this.shaft = new Sprite();
 			this.head = new Sprite();
+			fillColor = 0xffff00;
+			lineColor = 0x0000ff;
 			//this.addChild(this.canvas);
 			this.initialize();
 			this.addChild(this.shaft);
@@ -31,8 +35,6 @@ package{
 		
 		public function initialize():void{
 			//draw shaft
-			var fillColor:uint = 0xffff00;
-			var lineColor:uint = 0x0000ff;
 			with(this.shaft.graphics){
 				clear();
 				lineStyle(1, lineColor);
@@ -65,6 +67,11 @@ package{
 			this.head.x = shaftL;
 			this.head.y = 0;
 		}//end of initialize
+		
+		public function setColor(fillColor:uint):void{
+			this.fillColor = fillColor;
+			this.initialize();
+		}
 		
 		public function setArrow(vector:TwoVector):void{
 			var L:Number = vector.getLength();
