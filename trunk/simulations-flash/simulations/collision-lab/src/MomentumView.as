@@ -17,6 +17,7 @@
 		var stageW:Number;
 		var pixelsPerSIMomentum:int;	//scale of view
 		var momentum_arr:Array;		//array of momentum arrows
+		var totMomentum:Arrow;
 		
 		public function MomentumView(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
@@ -94,7 +95,12 @@
 				this.canvas.addChild(this.momentum_arr[i]);
 				this.momentum_arr[i].setArrow(this.myModel.ball_arr[i].getMomentum());
 			}
-			
+			this.totMomentum = new Arrow(N);  //index of total momentum is N = nbrBalls
+			this.totMomentum.setColor(0x00ff00);	//tot momentum arrow is green
+			this.totMomentum.x = this.borderWidth/2;
+			this.totMomentum.y = this.borderHeight/2;
+			this.canvas.addChild(this.totMomentum);
+			this.totMomentum.setArrow(this.myModel.getTotalMomentum());
 			//trace("py: "+this.myModel.ball_arr[0].getMomentum().getY());
 			//trace("px: "+this.myModel.ball_arr[0].getMomentum().getX());
 			//trace("theta: "+this.myModel.ball_arr[0].getMomentum().getAngle())
@@ -107,6 +113,7 @@
 			for(var i:int = 0; i < N; i++){
 				this.momentum_arr[i].setArrow(this.myModel.ball_arr[i].getMomentum());
 			}
+			this.totMomentum.setArrow(this.myModel.getTotalMomentum());
 			//trace("momentum view update");
 		}
 	}//end of class
