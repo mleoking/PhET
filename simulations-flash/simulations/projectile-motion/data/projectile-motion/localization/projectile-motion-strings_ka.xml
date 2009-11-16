@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_ka.xml created Sun Nov 15 14:28:51 MSK 2009 using: projectile-motion 2.00.00 (30671), translation-utility 2.03.00 (36202) окт 29, 2009-->
+<SimStrings>
+<string key="dragLabel" value="კოეფიციენტი"/>
+<string key="userChoice" value="აირჩიეთ"/>
+<string key="altitudeLabel" value="სიმაღლე"/>
+<string key="football" value="ფეხბურთის ბურთი"/>
+<string key="golfball" value="გოლფის ბურთი"/>
+<string key="collision" value="დაჯახება"/>
+<string key="adultHuman" value="მოწიფული ადამიანი"/>
+<string key="time" value="დრო (წმ)"/>
+<string key="buick" value="მანქანა"/>
+<string key="diameter" value="დიამეტრი (მ)"/>
+<string key="initSpeed" value="საწყისი სიჩქარე"/>
+<string key="bowlingball" value="ბოულინგის ბურთი"/>
+<string key="piano" value="პიანინო"/>
+<string key="sound" value="ხმა"/>
+<string key="range" value="რიგი"/>
+<string key="height" value="სიმაღლე (მ)"/>
+<string key="mass" value="მასა (კგ)"/>
+<string key="pumpkin" value="გოგრა"/>
+<string key="score" value="ოოოოოო, თავიდან დაიწყეთ!"/>
+<string key="angle" value="კუთხე (გრადუსი)"/>
+<string key="baseball" value="ბეისბოლი"/>
+<string key="airResistance" value="ჰაერის წინაღობა"/>
+<string key="fire" value="ცეცხლი"/>
+<string key="erase" value="წაშლა"/>
+</SimStrings>
