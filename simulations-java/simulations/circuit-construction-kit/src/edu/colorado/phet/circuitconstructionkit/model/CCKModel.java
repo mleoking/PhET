@@ -76,8 +76,7 @@ public class CCKModel {
                 modelChanged = true;//defers computation to stepInTime()
             }
         };
-        this.circuit = createCircuit( circuitChangeListener );
-//        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
+        this.circuit = new Circuit( circuitChangeListener );
         circuitSolver = new PureJavaSolver();
 
         particleSet = new ParticleSet( getCircuit() );
@@ -86,10 +85,6 @@ public class CCKModel {
 
         this.resistivityManager = new ResistivityManager( getCircuit() );
         getCircuit().addCircuitListener( resistivityManager );
-    }
-
-    protected Circuit createCircuit( CircuitChangeListener circuitChangeListener ) {
-        return new Circuit( circuitChangeListener );
     }
 
     int stepCount = 0;
