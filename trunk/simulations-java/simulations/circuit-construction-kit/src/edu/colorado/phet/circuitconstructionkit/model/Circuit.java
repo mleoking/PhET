@@ -152,6 +152,7 @@ public class Circuit {
         if ( allowUserEdits ) {
             component.addObserver( editingObserver );
         }
+        circuitChangeListener.circuitChanged();
     }
 
     EditingObserver editingObserver = new EditingObserver();
