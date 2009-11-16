@@ -1,3 +1,4 @@
+# 3.17.20 (36660) Nov 15, 2009
 Signify a circuit change and recompute physics when an element is added to the play area, resolves #1889
 Small refactors
 # 3.17.19 (36620) Nov 13, 2009
