@@ -1,12 +1,16 @@
-This directory contains the scripts necessary for a specialized installer
-created for KSU.  The scripts and other files included here are essentially
-copies of the files that are used by the standard installer builder, with
-modifications made to support KSU's particular requirements.  A decision was
-made not to try to generalize the existing installer builder in order to
-meet KSU's needs, at least not at this time.  At some point, if another 
-university needs this kind of a specailized and translated installer, it
-would probably make sense to go ahead and generalize the installer builder to
-handle all such cases.
+This directory contains scripts for creating custom installer, meaning
+installers that are created specifically for some end user other than PhET.
+At the time of this writing, there are two such installers, one for KSU and
+one for Young and Freedman.
+
+The scripts and other files included here are essentially copies of the files
+that are used by the standard installer builder, with modifications made to
+support the particular requirements.  A decision was made not to try to
+generalize the existing installer builder, at least not at this time.  At
+some point, if another customer needs this kind of a specailized and
+customized installer, it would probably make sense to go ahead and generalize
+the installer builder to handle all such cases.  In our discussions so far,
+this probably means rewriting it in Java.
 
 The basic approach for this effort was to copy only the needed files from the
 main installer-builder directory, modify them only as much as needed to get
@@ -14,5 +18,5 @@ the job done, and to leave the major tools (i.e. HTTrack and BitRock) in the
 main intaller builder directory and point to them from here (so as not to
 duplicate them).
 
-JP Blanco, August 31, 2009
+JP Blanco, November 17, 2009
 
