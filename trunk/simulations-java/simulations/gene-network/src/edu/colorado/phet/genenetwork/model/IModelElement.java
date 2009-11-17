@@ -30,4 +30,11 @@ public interface IModelElement {
      * thus be portrayed as somewhat transparent.
      */
     double getExistenceStrength();
+    
+    /**
+     * Take whatever actions are necessary when being removed from the model,
+     * such as cleaning up memory references and sending out notifications of
+     * removal.
+     */
+    void removeFromModel();
 }

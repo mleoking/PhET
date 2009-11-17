@@ -160,4 +160,9 @@ public class CompositeModelElement implements IModelElement {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	public void removeFromModel() {
+		// TODO Auto-generated method stub
+		
+	}
 }

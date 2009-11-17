@@ -142,6 +142,14 @@ public abstract class SimpleModelElement implements IModelElement{
 			notifyExistenceStrengthChanged();
 		}
 	}
+	
+	/**
+	 * This element is being removed from the model.  Do any cleanup needed
+	 * and send out notifications.
+	 */
+	public void removeFromModel(){
+		notifyRemovedFromModel();
+	}
 
 	/**
 	 * Add a binding point to the list that is being maintained for this model
@@ -163,6 +171,13 @@ public abstract class SimpleModelElement implements IModelElement{
 		for (IModelElementListener listener : listeners)
 		{
 			listener.existenceStrengthChanged();
+		}		
+	}
+	
+	private void notifyRemovedFromModel(){
+		for (IModelElementListener listener : listeners)
+		{
+			listener.removedFromModel();
 		}		
 	}
 	
