@@ -2,7 +2,7 @@
 
 HIGH PRIORITY
 - design for Game module
-- memory leak in PSwing, JComponent not removed from Swing hierachy when PSwing removed from scenegraph, #1874
+- PSwing memory leak affects tab traversal, #1874
 
 MEDIUM PRIORITY
 
