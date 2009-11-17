@@ -1,3 +1,5 @@
+# 2.00.03 (36694) Nov 16, 2009
+11/16/09 Redeploy attempt
 # 2.00.02 (36692) Nov 16, 2009
 11/16/09 Changed red crosses to black and white
 # 2.00.01 (32075) May 28, 2009
