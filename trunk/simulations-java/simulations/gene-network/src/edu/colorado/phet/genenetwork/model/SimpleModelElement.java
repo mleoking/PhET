@@ -28,6 +28,7 @@ public abstract class SimpleModelElement implements IModelElement{
 	private Shape shape;
 	private Point2D position;
 	private Paint paint;  // The paint to use when representing this element in the view.
+	private double existenceStrength = 1.0; // Maps to transparency in the view.
 	private Vector2D.Double velocity = new Vector2D.Double();
     protected ArrayList<IModelElementListener> listeners = new ArrayList<IModelElementListener>();
     private ArrayList<AttachmentPoint> bindingPoints = new ArrayList<AttachmentPoint>();
@@ -132,9 +133,14 @@ public abstract class SimpleModelElement implements IModelElement{
 	}
 	
 	public double getExistenceStrength() {
-		// In the base class, existence strength is always 1, meaning that it
-		// is fully existent (if that is really even a word).
-		return 0.5;
+		return existenceStrength;
+	}
+	
+	protected void setExistenceStrength(double existenceStrength){
+		if (this.existenceStrength != existenceStrength){
+			this.existenceStrength = existenceStrength;
+			notifyExistenceStrengthChanged();
+		}
 	}
 
 	/**
@@ -151,6 +157,13 @@ public abstract class SimpleModelElement implements IModelElement{
 		{
 			listener.positionChanged();
 		}
+	}
+	
+	private void notifyExistenceStrengthChanged(){
+		for (IModelElementListener listener : listeners)
+		{
+			listener.existenceStrengthChanged();
+		}		
 	}
 	
 	protected void notifyShapeChanged(){
