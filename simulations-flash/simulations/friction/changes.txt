@@ -1,3 +1,5 @@
+# 2.01.00 (36709) Nov 16, 2009
+11/16/09 Added khmer translation
 # 2.00.02 (36243) Oct 29, 2009
 10/29/09 Flashcommon-fonts improvement
 # 2.00.01 (36241) Oct 29, 2009
