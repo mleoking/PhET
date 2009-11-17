@@ -59,9 +59,6 @@
                             <origin>../../temp/website/phetsims.colorado.edu/css</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/en</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/images</origin>
                         </distributionDirectory>
                         <distributionDirectory>
