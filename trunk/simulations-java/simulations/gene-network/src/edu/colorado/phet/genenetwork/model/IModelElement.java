@@ -21,4 +21,13 @@ public interface IModelElement {
 	AttachmentPoint getAttachmentPointForElement(ModelElementType type);
 	boolean isPartOfDnaStrand();
     boolean isUserControlled();
+    
+    /**
+     * Obtain the "existence strength" for this model element.  This value,
+     * which ranges between 0 and 1, indicates how strongly this element
+     * should be portrayed in the view.  Low numbers mean that the element is
+     * either coming in to existence or going out of existence, and should
+     * thus be portrayed as somewhat transparent.
+     */
+    double getExistenceStrength();
 }

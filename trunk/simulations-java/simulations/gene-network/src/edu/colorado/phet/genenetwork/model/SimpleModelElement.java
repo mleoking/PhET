@@ -131,6 +131,12 @@ public abstract class SimpleModelElement implements IModelElement{
 		return matchingBindingPoint;
 	}
 	
+	public double getExistenceStrength() {
+		// In the base class, existence strength is always 1, meaning that it
+		// is fully existent (if that is really even a word).
+		return 0.5;
+	}
+
 	/**
 	 * Add a binding point to the list that is being maintained for this model
 	 * element.
