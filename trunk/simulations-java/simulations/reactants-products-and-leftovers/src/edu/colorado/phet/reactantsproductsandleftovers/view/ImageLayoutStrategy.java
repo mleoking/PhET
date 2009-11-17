@@ -72,8 +72,8 @@ public interface ImageLayoutStrategy {
      */
     public static class StackedLayoutStrategy extends AbstractImageLayoutStrategy {
 
-        private static final double Y_MARGIN = 12;
-        private static final double Y_SPACING = 27;
+        private static final double Y_MARGIN = 10;
+        private static final double Y_SPACING = 28;
         
         /**
          * @param node the node to be added
