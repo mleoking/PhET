@@ -74,7 +74,7 @@
     // flash simulations must be modified at the same time so that the time
     // stamp will be the same for both.
     //--------------------------------------------------------------------------
-    function installer_insert_installer_creation_time(){
+    function installer_insert_installer_creation_time($distribution_tag){
 
         // Get the value of the time stamp.
         $time = time();
@@ -121,7 +121,7 @@
         // the version of the sim installed.
         $version_info_file_name = RIPPED_TRANSLATED_WEBSITE_ROOT.VERSION_INFO_FILE_NAME;
         $version_info_html = "<html>\n<body>\n\n<p>Timestamp: ".$time."</p>\n<p>Date: ".$date.
-            "</p>\n<p>Distribution: ".DISTRIBUTION_TAG."</p>\n\n</body>\n</html>";
+            "</p>\n<p>Distribution: ".$distribution_tag."</p>\n\n</body>\n</html>";
         file_put_contents_anywhere( $version_info_file_name, $version_info_html );
         
         // Write the timestamp to a temporary file so that we can use it later
@@ -190,7 +190,7 @@
                     // Remove any existing distribution tag.
                     file_remove_line_matching_pattern(TEMP_DIR.$properties_file_name, 'distribution.tag');
                     // Add the new distribution tag.
-                    file_append_line_to_file(TEMP_DIR.$properties_file_name, 'distribution.tag='.DISTRIBUTION_TAG);
+                    file_append_line_to_file(TEMP_DIR.$properties_file_name, 'distribution.tag='.$distribution_tag);
                     // Replace the properties file in the JAR with the updated version.
                     $original_dir = getcwd();
                     chdir(TEMP_DIR);
@@ -226,7 +226,7 @@
                     // Remove any existing distribution tag.
                     file_remove_line_matching_pattern(TEMP_DIR.$properties_file_name, 'distribution.tag');
                     // Add the new distribution tag.
-                    file_append_line_to_file(TEMP_DIR.$properties_file_name, 'distribution.tag='.DISTRIBUTION_TAG);
+                    file_append_line_to_file(TEMP_DIR.$properties_file_name, 'distribution.tag='.$distribution_tag);
                     // Replace the properties file in the JAR with the updated version.
                     $original_dir = getcwd();
                     chdir(TEMP_DIR);
