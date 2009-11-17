@@ -16,11 +16,7 @@ package{
 			this.stageH = stageH;
 			this.stageW = stageW;
 			this.myModel = myModel;
-			this.myTableView = new TableView(myModel, this);
-			this.controlPanel = new ControlPanel(myModel, this);
-			this.momentumView = new MomentumView(myModel, this);
-			this.phetLogo = new PhETLogo();
-			this.myModel.updateViews();
+			
 			//this.initialize();
 		}//end of constructor
 		
@@ -28,6 +24,11 @@ package{
 			//trace("myMainView initialize called");
 			//this.stageW = this.stage.stageWidth;
 			//this.stageH = this.stage.stageHeight;
+			this.myTableView = new TableView(myModel, this);
+			this.controlPanel = new ControlPanel(myModel, this);
+			this.momentumView = new MomentumView(myModel, this);
+			this.phetLogo = new PhETLogo();
+			this.myModel.updateViews();
 			this.controlPanel.background.width = 150;
 			this.controlPanel.background.height = 300;
 			this.controlPanel.x = stageW - 0.75*this.controlPanel.width;

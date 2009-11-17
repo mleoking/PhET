@@ -11,7 +11,7 @@ package{
 		var canvas:Sprite;	//canvas holds arrow shaft and head, but not text label
 		var shaft:Sprite;
 		var head:Sprite;
-		var scale:Number;		//adjustable scale for graphic
+		var scale:Number;		//adjustable scale for graphic, pixels per unit lengh of arrow
 		var shaftW:int;			//width of shaft in pixels
 		var shaftL:int;			//length of shaft in pixels
 		var lengthInPix:Number;	//length of arrow (shaft+head) in pixels
@@ -26,7 +26,7 @@ package{
 			this.canvas = new Sprite();
 			this.scale = 50;
 			this.shaftW = 6;
-			this.shaftL = this.scale*50;
+			this.shaftL = this.scale*1;
 			this.shaft = new Sprite();
 			this.head = new Sprite();
 			this.tField = new TextField();
@@ -87,8 +87,9 @@ package{
 		
 		public function setArrow(vector:TwoVector):void{
 			var L:Number = vector.getLength();
+			this.lengthInPix = this.scale*L;
 			var angle:Number = vector.getAngle();
-			this.shaft.width = this.scale*L - this.head.width;
+			this.shaft.width = this.lengthInPix - this.head.width;
 			this.head.x = this.shaft.width;
 			this.angleInDeg = vector.getAngle();
 			this.angleInRad = angleInDeg*Math.PI/180;
@@ -98,12 +99,12 @@ package{
 		}
 		
 		//x coordinate in pixels of tip of arrow
-		public function getX():Number{
+		public function getTipX():Number{
 			var LX:Number = this.lengthInPix*Math.cos(this.angleInRad);
 			return LX;
 		}
-		
-		public function getY():Number{
+		//x coordinate in pixels of tip of arrow
+		public function getTipY():Number{
 			var LY:Number = this.lengthInPix*Math.sin(this.angleInRad);
 			return LY;
 		}
