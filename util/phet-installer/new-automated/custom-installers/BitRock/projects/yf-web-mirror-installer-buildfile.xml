@@ -22,8 +22,7 @@
     <defaultUnixDirectoryPermissions>755</defaultUnixDirectoryPermissions>
     <defaultUnixFilePermissions>644</defaultUnixFilePermissions>
     <description>The PhET Website Mirror</description>
-    <!-- Note the path here for getting the installer into the YF (Young & Freedman) directory.  -->
-    <outputDirectory>${installbuilder_install_root}/../yf-custom-installer/BitRock/output</outputDirectory>
+    <outputDirectory>${installbuilder_install_root}/../custom-installers/BitRock/output</outputDirectory>
     <projectSchemaVersion>1.2</projectSchemaVersion>
     <saveRelativePaths>1</saveRelativePaths>
     <slideShowLoop>1</slideShowLoop>
