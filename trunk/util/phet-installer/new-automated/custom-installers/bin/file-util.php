@@ -244,10 +244,10 @@
         }
     }
 
-    //------------------------------------------------------------------------
-    // Move all files in the source directory to the destination directory.
-    // This is NOT recursive, so subdirectories are not copied.
-    //------------------------------------------------------------------------
+    /**
+     * Move all files in the source directory to the destination directory.
+     * This is NOT recursive, so subdirectories are not copied.
+     */
     function file_move_all( $srcdir, $dstdir ) {
         $filelist = file_list_in_directory( $srcdir );
         foreach ($filelist as $file) {
@@ -356,11 +356,11 @@
         return(TRUE);
     }
 
-    //------------------------------------------------------------------------
-    // Remove the first occurance of a line that contains the specified
-    // pattern from the specified file.  NOTE: This only removes the 1st
-    // match, not all matches.
-    //------------------------------------------------------------------------
+    /**
+     * Remove the first occurance of a line that contains the specified
+     * pattern from the specified file.  NOTE: This only removes the 1st
+     * match, not all matches.
+     */
     function file_remove_line_matching_pattern($file_name, $pattern) {
 
         // Check if the file exists
@@ -399,9 +399,9 @@
         return $line_removed;
     }
 
-    //------------------------------------------------------------------------
-    // Append the given line to the specified file.
-    //------------------------------------------------------------------------
+    /**
+     * Append the given line to the specified file.
+     */
     function file_append_line_to_file($file_name, $line) {
 
         // Check if the file exists
@@ -425,10 +425,20 @@
         return TRUE;
     }
 
-    //------------------------------------------------------------------------
-    // Append the contents of one file to another.  And yes, the name of the
-    // function is a little heavy on the usage of the word "file".
-    //------------------------------------------------------------------------
+    /**
+     * Replace a single instance of a string in the specified file.
+     */
+	function file_replace_string_in_file($file_name, $original_string, $replacement_string) {
+	    if (($contents = file_get_contents($file_name)) !== false) {
+	        $contents = preg_replace('/'.$original_string.'/', $replacement_string, $contents);
+	        file_put_contents($file_name, $contents);
+        }
+	}
+
+    /**
+     * Append the contents of one file to another.  And yes, the name of the
+     * function is a little heavy on the usage of the word "file".
+     */
     function file_append_file_to_file($dest_file_name, $source_file_name) {
 
         // Check that both files exist.
