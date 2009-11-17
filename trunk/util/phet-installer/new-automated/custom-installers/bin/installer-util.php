@@ -410,16 +410,16 @@
         return true;
     }
     
-    function installer_build_windows_web_mirror_installer($macro_map = array()) {
+    function installer_build_windows_web_mirror_installer($buildfile_name, $macro_map = array()) {
 
         $build_prefix  = "PhET-web-mirror-windows";
-        $buildfile_ext = file_get_extension(BITROCK_WEB_MIRROR_BUILDFILE);
+        $buildfile_ext = file_get_extension($buildfile_name);
 
         $new_buildfile = BITROCK_BUILDFILE_DIR."${build_prefix}.${buildfile_ext}";
 
         file_create_parents_of_file($new_buildfile);
 
-        if (!copy(BITROCK_WEB_MIRROR_BUILDFILE, $new_buildfile)) {
+        if (!copy($buildfile_name, $new_buildfile)) {
             return false;
         }
 
@@ -455,9 +455,81 @@
         chdir($cwd);
 
         // Now move the resulting installer from the BitRock directory to the
-        // output directory.
-        flushing_echo("Copying web mirror installer to ".OUTPUT_DIR);
-        rename(BITROCK_DIST_DIR.BITROCK_WEB_MIRROR_INSTALLER_NAME, OUTPUT_DIR.BITROCK_WEB_MIRROR_INSTALLER_NAME);
+        // output directory.  Unfortunatley, we don't know the exact file
+        // name, since that information is maintained in the BitRock project
+        // file, so we need to make an educated guess.
+        $file_names = file_list_in_directory(BITROCK_DIST_DIR, "*.exe");
+        if (count($file_names) == 0){ 
+            flushing_echo("Error: Installer(s) not found, unable to move to output directory.");
+        }   
+        else{
+            foreach ($file_names as $file_name){
+                flushing_echo("Moving installer file ".$file_name." to ".OUTPUT_DIR);
+                rename(BITROCK_DIST_DIR.$file_name, OUTPUT_DIR.$file_name);
+            }   
+        }   
+
+        return true;
+    }
+
+    function installer_build_linux_web_mirror_installer($buildfile_name, $macro_map = array()) {
+
+        $build_prefix  = "PhET-web-mirror-linux";
+        $buildfile_ext = file_get_extension($buildfile_name);
+
+        $new_buildfile = BITROCK_BUILDFILE_DIR."${build_prefix}.${buildfile_ext}";
+
+        file_create_parents_of_file($new_buildfile);
+
+        if (!copy($buildfile_name, $new_buildfile)) {
+            return false;
+        }
+
+        $macro_map['VERSION'] = BITROCK_PRODUCT_VERSION;
+
+        if (!file_replace_macros_in_file($new_buildfile, $macro_map)) {
+            return false;
+        }
+
+        $return_var = 0;
+
+        $cwd = getcwd();
+
+        $exe_dir = file_with_local_separator(BITROCK_EXE_DIR);
+
+        // Change working directory to location of EXE:
+        chdir($exe_dir);
+
+        $platform = BITROCK_PLATFORM_LINUX;
+
+        $cmd_line = $exe_dir.BITROCK_EXE.BITROCK_PRE_ARGS.'"'."$new_buildfile".'" '.BITROCK_PLATFORM_LINUX;
+
+        $cmd_line = file_with_local_separator($cmd_line);
+
+        flushing_echo("Executing $cmd_line");
+
+        system($cmd_line, $return_var);
+
+        if ($return_var != 0) {
+            flushing_echo("BitRock failed to build web mirror installer for ".BITROCK_PLATFORM_LINUX.".");
+        }
+
+        chdir($cwd);
+
+        // Now move the resulting installer from the BitRock directory to the
+        // output directory.  Unfortunatley, we don't know the exact file
+        // name, since that information is maintained in the BitRock project
+        // file, so we need to make an educated guess.
+        $file_names = file_list_in_directory(BITROCK_DIST_DIR, "*.bin");
+        if (count($file_names) == 0){ 
+            flushing_echo("Error: Installer(s) not found, unable to move to output directory.");
+        }   
+        else{
+            foreach ($file_names as $file_name){
+                flushing_echo("Moving installer file ".$file_name." to ".OUTPUT_DIR);
+                rename(BITROCK_DIST_DIR.$file_name, OUTPUT_DIR.$file_name);
+            }   
+        }   
 
         return true;
     }
