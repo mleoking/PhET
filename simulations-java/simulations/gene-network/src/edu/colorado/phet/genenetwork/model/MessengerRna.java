@@ -40,6 +40,9 @@ public class MessengerRna extends SimpleModelElement {
 
 	// Used so that every strand looks a little different.
 	private static final Random RAND = new Random();
+	
+	// Value that determines how long this exists before starting to fade.
+	private static final double PRE_FADE_EXISTENCE_TIME = 4; // In seconds.
 
 	//----------------------------------------------------------------------------
 	// Instance Data
@@ -47,6 +50,7 @@ public class MessengerRna extends SimpleModelElement {
 	
 	private double length = 0;
 	private ArrayList<Point2D> points = new ArrayList<Point2D>();
+	private double fadeoutTimer = PRE_FADE_EXISTENCE_TIME;
 	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
@@ -126,8 +130,16 @@ public class MessengerRna extends SimpleModelElement {
 	
 	@Override
 	public void stepInTime(double dt) {
-		// TODO Auto-generated method stub
 		super.stepInTime(dt);
+		if (fadeoutTimer > 0){
+			fadeoutTimer -= dt;
+		}
+		else{
+			// We are fading out of existence.
+			if (getExistenceStrength() > 0){
+				setExistenceStrength(getExistenceStrength() - 0.01);
+			}
+		}
 	}
 
 	@Override
