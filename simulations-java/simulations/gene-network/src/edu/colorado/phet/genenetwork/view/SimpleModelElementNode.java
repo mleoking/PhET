@@ -6,6 +6,8 @@ package edu.colorado.phet.genenetwork.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
@@ -58,10 +60,15 @@ public class SimpleModelElementNode extends PPath {
 			public void shapeChanged() {
 				updateShape();
 			}
+			
+			public void existenceStrengthChanged() {
+				updatePaintAndStroke();
+			}
 		});
 		
-		// Set the initial shape.
+		// Set the initial appearance.
 		updateShape();
+		updatePaintAndStroke();
 		
 		// If there is a label text value, show it.
 		if (modelElement.getLabel() != null){
@@ -163,6 +170,28 @@ public class SimpleModelElementNode extends PPath {
 		
 		// Set the shape and color.
 		setPathTo(transformedShape);
-		setPaint(modelElement.getPaint());
+    }
+    
+    private void updatePaintAndStroke(){
+    	int alpha = (int)Math.round(modelElement.getExistenceStrength() * 255);
+    	setStrokePaint(new Color(0, 0, 0, alpha));
+    	Paint currentPaint = modelElement.getPaint();
+    	Paint newPaint = currentPaint;
+    	if (currentPaint instanceof GradientPaint){
+    		GradientPaint gp = (GradientPaint)currentPaint;
+    		alpha = (int)Math.round(modelElement.getExistenceStrength() * 255);
+    		Color color1 = new Color(gp.getColor1().getRed(), gp.getColor1().getGreen(),
+    				gp.getColor1().getBlue(), alpha);
+    		Color color2 = new Color(gp.getColor2().getRed(), gp.getColor2().getGreen(),
+    				gp.getColor2().getBlue(), alpha);
+    		
+    		newPaint = new GradientPaint(gp.getPoint1(), color1, gp.getPoint2(), color2);
+    	}
+    	else if (currentPaint instanceof Color){
+    		Color oldColor = (Color)currentPaint;
+    		alpha = (int)Math.round(modelElement.getExistenceStrength() * 255);
+    		newPaint = new Color(oldColor.getRed(), oldColor.getGreen(), oldColor.getBlue(), alpha);
+    	}
+    	setPaint(newPaint);
     }
 }

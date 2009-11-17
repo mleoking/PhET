@@ -155,4 +155,9 @@ public class CompositeModelElement implements IModelElement {
     public boolean isUserControlled() {
         return false;
     }
+
+	public double getExistenceStrength() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
