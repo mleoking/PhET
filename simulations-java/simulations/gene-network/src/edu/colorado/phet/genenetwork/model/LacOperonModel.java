@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.genenetwork.model;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
@@ -49,6 +50,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
     private final ArrayList<Galactose> galactoseList = new ArrayList<Galactose>();
     private final ArrayList<RnaPolymerase> rnaPolymeraseList = new ArrayList<RnaPolymerase>();
     private final ArrayList<MessengerRna> messengerRnaList = new ArrayList<MessengerRna>();
+    private final ArrayList<TransformationArrow> transformationArrowList = new ArrayList<TransformationArrow>();
     
     // Lists of model elements for which only one instance can exist.
     private final Cap cap = new Cap(this);
@@ -186,6 +188,12 @@ public class LacOperonModel implements IObtainGeneModelElements {
         randomlyInitModelElement(lacIForTesting);
         lacIList.add(lacIForTesting);
         
+        for (int i = 0; i < 4; i++){
+        	TransformationArrow transformationArrow = new TransformationArrow(this, new Point2D.Double(), 10);
+        	randomlyInitModelElement(transformationArrow);
+        	transformationArrowList.add(transformationArrow);
+        }
+        
         // Create and position the elements that sit on the DNA strand.
         
         double xPosition = DNA_STRAND_LOCATION.getMinX(); // Start at the far left side of the strand.
@@ -297,6 +305,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	allSimples.addAll(glucoseList);
     	allSimples.addAll(galactoseList);
     	allSimples.addAll(messengerRnaList);
+    	allSimples.addAll(transformationArrowList);
     	allSimples.add(cap);
     	allSimples.add(capBindingRegion);
     	allSimples.add(lacOperator);
@@ -322,6 +331,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	stepElementsInTime(galactoseList, dt);
     	stepElementsInTime(rnaPolymeraseList, dt);
     	stepElementsInTime(messengerRnaList, dt);
+    	stepElementsInTime(transformationArrowList, dt);
     	
     	// Step the elements for which there can be only one.
     	cap.stepInTime(dt);
