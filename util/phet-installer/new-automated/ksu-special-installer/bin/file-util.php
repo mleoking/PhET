@@ -244,10 +244,10 @@
         }
     }
 
-    /**
-     * Move all files in the source directory to the destination directory.
-     * This is NOT recursive, so subdirectories are not copied.
-     */
+    //------------------------------------------------------------------------
+    // Move all files in the source directory to the destination directory.
+    // This is NOT recursive, so subdirectories are not copied.
+    //------------------------------------------------------------------------
     function file_move_all( $srcdir, $dstdir ) {
         $filelist = file_list_in_directory( $srcdir );
         foreach ($filelist as $file) {
