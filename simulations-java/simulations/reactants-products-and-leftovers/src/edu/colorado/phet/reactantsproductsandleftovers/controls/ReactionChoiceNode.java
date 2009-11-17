@@ -31,7 +31,7 @@ public class ReactionChoiceNode extends PhetPNode {
         super();
         
         JPanel panel = new JPanel();
-        panel.setBackground( new Color( 0, 0, 0, 0 ) ); // transparent
+        panel.setOpaque( false );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
         panel.setLayout( layout );
         int row = 0;
@@ -46,6 +46,7 @@ public class ReactionChoiceNode extends PhetPNode {
             
             // radio button
             JRadioButton radioButton = new JRadioButton( reaction.getName() );
+            radioButton.setOpaque( false );
             radioButtons.add( radioButton );
             group.add( radioButton );
             layout.addComponent( radioButton, row++, column );
