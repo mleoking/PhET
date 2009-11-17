@@ -3,14 +3,13 @@
 HIGH PRIORITY
 - design for Game module
 - memory leak in PSwing, JComponent not removed from Swing hierachy when PSwing removed from scenegraph, #1874
-- fix layout sandwich images in After box, stack needs to be adjusted as sandwich image changes
 
 MEDIUM PRIORITY
-- with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
-- move equation below Before/After boxes?
 
 LOW PRIORITY
 - scale image files to desired size, change scaling constants in RPALConstants
+- with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
+- move equation below Before/After boxes?
 
 MIGRATE TO COMMON
 - BracketedLabelNode
