@@ -2,7 +2,9 @@
 
 HIGH PRIORITY
 - design for Game module
-- memory leak in PSwing, JComponent not removed from Swing hierachy when PSwing removed from scenegraph
+- memory leak in PSwing, JComponent not removed from Swing hierachy when PSwing removed from scenegraph, #1874
+- radio buttons for selecting reaction have white background on Windows
+- fix layout of stacked images for products and leftovers
 
 MEDIUM PRIORITY
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
