@@ -1,3 +1,4 @@
+11/16/09 adjust stacked images when their size changes, so that their bottom edges remain vertically aligned
 11/16/09 fix: prevent sandwich leftovers from being placed outside bottom of box when sandwich image is large
 11/16/09 fix: radio buttons for selecting reaction have white background on Windows
 11/16/09 Sandwich Formula -> Sandwich Equation

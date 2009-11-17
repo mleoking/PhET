@@ -2,6 +2,9 @@ package edu.colorado.phet.reactantsproductsandleftovers.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.nodes.GridLinesNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -75,6 +78,20 @@ public interface ImageLayoutStrategy {
         private static final double Y_MARGIN = 10;
         private static final double Y_SPACING = 28;
         
+        private final PropertyChangeListener propertyChangeListener;
+        private final HashMap<PNode,PBounds> fullBoundsMap; // keep track of node bounds, for adjusting the offset of dynamic images
+        
+        public StackedLayoutStrategy() {
+            propertyChangeListener = new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent event ) {
+                    if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
+                        updateNodeOffset( (PNode) event.getSource() );
+                    }
+                }
+            };
+            fullBoundsMap = new HashMap<PNode,PBounds>();
+        }
+        
         /**
          * @param node the node to be added
          * @param referenceNode the node currently at the top of the stack, used for y offset.
@@ -90,6 +107,33 @@ public interface ImageLayoutStrategy {
                 y = referenceNode.getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_SPACING;
             }
             node.setOffset( x, y );
+            // listen for changes to the node's size
+            fullBoundsMap.put( node, node.getFullBounds() );
+            node.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, propertyChangeListener );
+        }
+        
+        public void removeNode( PNode node ) {
+            super.removeNode( node );
+            fullBoundsMap.remove( node );
+            node.removePropertyChangeListener( propertyChangeListener );
+        }
+        
+        /*
+         * Some images (like the sandwich) are dynamic.
+         * As their full bounds change, their vertical offset must be adjusted,
+         * so that the bottoms of all images in the stacks remain vertically aligned.
+         * If we don't do this then (for example) increases in the complexity of a sandwich
+         * will cause the images in the sandwich stack to fall outside the bottom of the box. 
+         */
+        private void updateNodeOffset( PNode node ) {
+            // adjust the vertical offset
+            PBounds oldBounds = fullBoundsMap.get( node );
+            PBounds newBounds = node.getFullBounds();
+            double yAdjust = oldBounds.getHeight() - newBounds.getHeight();
+            node.setOffset( node.getXOffset(), node.getYOffset() + yAdjust );
+            // make a record of the new bounds
+            fullBoundsMap.remove( node );
+            fullBoundsMap.put( node, newBounds );
         }
     }
     
