@@ -12,8 +12,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.realreaction.RealR
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModule;
 
 /**
- * The main application for the "Reactants, Products and Leftovers"
- * simulation.
+ * The main application for the "Reactants, Products and Leftovers" simulation.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
