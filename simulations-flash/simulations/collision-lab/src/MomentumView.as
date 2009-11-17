@@ -16,8 +16,9 @@
 		var stageH:Number;
 		var stageW:Number;
 		var pixelsPerSIMomentum:int;	//scale of view
-		var momentum_arr:Array;		//array of momentum arrows
+		var momentum_arr:Array;		//array of momentum arrows in graphic
 		var totMomentum:Arrow;
+		var tipToTailDisplayOn:Boolean; //true if momentum arrows displayed tip-to-tail
 		
 		public function MomentumView(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
@@ -34,6 +35,7 @@
 		public function initialize():void{
 			this.borderWidth = 300;
 			this.borderHeight = 300;
+			this.tipToTailDisplayOn = true;
 			this.stageW = this.myMainView.stageW;
 			this.stageH = this.myMainView.stageH;
 			this.canvas.x = this.stageW - this.borderWidth;
@@ -65,7 +67,6 @@
 				lineTo(-del, -del);
 				endFill();
 			}
-			
 		}//end of drawBorder();
 		
 		public function drawMarquee():void{
@@ -94,7 +95,12 @@
 				this.momentum_arr[i].y = this.borderHeight/2;
 				this.canvas.addChild(this.momentum_arr[i]);
 				this.momentum_arr[i].setArrow(this.myModel.ball_arr[i].getMomentum());
+				//trace("MomentumView.canvas.stage: "+this.canvas.stage);
+				//Util.makeClipDraggable(this.momentum_arr[i]);
+				//trace("i = "+i+"  momentum_arr[i]"+momentum_arr[i]);
 			}
+			//trace("this.momentum_arr[0].parent"+this.momentum_arr[0].parent);
+			
 			this.totMomentum = new Arrow(N);  //index of total momentum is N = nbrBalls
 			this.totMomentum.setText("Tot");
 			this.totMomentum.setColor(0x00ff00);	//tot momentum arrow is green
@@ -114,8 +120,17 @@
 			for(var i:int = 0; i < N; i++){
 				this.momentum_arr[i].setArrow(this.myModel.ball_arr[i].getMomentum());
 			}
+			//position momentum arrows tip-to-tail
+			if(tipToTailDisplayOn){
+				for(i = 1; i < N; i++){
+					var arrowIM1:Arrow = this.momentum_arr[i-1];  //IM1 = "i minus 1"
+					this.momentum_arr[i].x = arrowIM1.x + arrowIM1.getTipX();
+					this.momentum_arr[i].y = arrowIM1.y - arrowIM1.getTipY();
+				}//end for
+			}//end if
 			this.totMomentum.setArrow(this.myModel.getTotalMomentum());
 			//trace("momentum view update");
-		}
+		}//end of update()
+		
 	}//end of class
 }//end of package
