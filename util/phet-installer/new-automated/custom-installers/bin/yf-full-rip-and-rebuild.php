@@ -41,7 +41,7 @@
         ripper_remove_website_copy();
 
         // Rip the web site.
-        ripper_rip_website();
+        ripper_rip_website("YF");
         //ripper_rip_website_subset();
         ripper_download_sims();
 
