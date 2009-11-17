@@ -21,12 +21,19 @@ public class BoxNode extends PPath {
     private static final Color STROKE_PAINT = Color.BLACK;
     private static final Color FILL_PAINT = RPALConstants.BEFORE_AFTER_BOX_COLOR;
     
+    private final PDimension size;
+    
     public BoxNode( PDimension size ) {
         super();
+        this.size = new PDimension( size );
         setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ));
         setPaint( FILL_PAINT );
         setStrokePaint( STROKE_PAINT );
         setStroke( STROKE );
+    }
+    
+    public PDimension getSizeReference() {
+        return size;
     }
     
     public Point2D getRandomPoint( double xMargin, double yMargin ) {

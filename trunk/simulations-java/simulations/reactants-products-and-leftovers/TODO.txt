@@ -3,8 +3,7 @@
 HIGH PRIORITY
 - design for Game module
 - memory leak in PSwing, JComponent not removed from Swing hierachy when PSwing removed from scenegraph, #1874
-- radio buttons for selecting reaction have white background on Windows
-- fix layout of stacked images for products and leftovers
+- fix layout sandwich images in After box, stack needs to be adjusted as sandwich image changes
 
 MEDIUM PRIORITY
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
