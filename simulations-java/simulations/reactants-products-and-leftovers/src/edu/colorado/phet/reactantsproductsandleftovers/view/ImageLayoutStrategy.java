@@ -72,7 +72,7 @@ public interface ImageLayoutStrategy {
      */
     public static class StackedLayoutStrategy extends AbstractImageLayoutStrategy {
 
-        private static final double Y_MARGIN = 8;
+        private static final double Y_MARGIN = 12;
         private static final double Y_SPACING = 27;
         
         /**
@@ -85,7 +85,7 @@ public interface ImageLayoutStrategy {
             super.addNode( node );
             // set the node's offset
             double x = controlNode.getXOffset() - ( node.getFullBoundsReference().getWidth() / 2 );
-            double y = getBoxNode().getFullBoundsReference().getHeight() - node.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_MARGIN;
+            double y = getBoxNode().getSizeReference().getHeight() - node.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_MARGIN;
             if ( referenceNode != null ) {
                 y = referenceNode.getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_SPACING;
             }
