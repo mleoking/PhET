@@ -56,7 +56,7 @@
         // Incorporate the timestamp information that indicates when this
         // version of the installer was created.
         installer_create_marker_file();
-        installer_insert_installer_creation_time();
+        installer_insert_installer_creation_time( DISTRIBUTION_TAG_YF );
 
         // Remove the marker file.  This is a bit of a hack for the Young and
         // Freedman installer.  We don't really want the marker file to be

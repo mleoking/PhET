@@ -51,7 +51,7 @@
         // Incorporate the timestamp information that indicates when this
         // version of the installer was created.
         installer_create_marker_file();
-        installer_insert_installer_creation_time();
+        installer_insert_installer_creation_time( DISTRIBUTION_TAG_KSU );
 
         // Insert the distribution tag.
         installer_insert_distribution_tag( DISTRIBUTION_TAG_KSU );
