@@ -35,35 +35,24 @@
 
     // *****************************************************************************
     // Locale-specific configuration.
-    define("LOCALE_STRING",     "ar");
+    define("ENGLISH_LOCALE_STRING",     "en");
+    define("ARABIC_LOCALE_STRING",     "ar");
     
     // *****************************************************************************
     // PhET Website Configuration
     define("PHET_VERSION",                      "1.0");
     define("PHET_HOSTNAME",                     "phetsims.colorado.edu");
     define("PHET_ROOT_URL",                     "http://".PHET_HOSTNAME."/");
-    define("PHET_TRANSLATED_WEBSITE_URL",       PHET_ROOT_URL.LOCALE_STRING."/");
+    define("PHET_ENGLISH_WEBSITE_URL",          PHET_ROOT_URL.ENGLISH_LOCALE_STRING."/");
+    define("PHET_ARABIC_WEBSITE_URL",           PHET_ROOT_URL.ARABIC_LOCALE_STRING."/");
     define("PHET_SIMS_SUBDIR",                  "sims/");
     // Definition of the filter, which specifies what to include/exclude from
-    // the rip.  This one defines a filter that is used when doing a rip that
-    // is meant to capture the entire web site.
-// TODO: Complicated filter commented out & replaced with one that is simpler, remove permanently when sure that
-// it isn't needed.
-//    define("PHET_RIPPER_FILTER",                '"-*wickettest*"'.' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jnlp').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_all.jar').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_ar.jar').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_en.jar').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jpg').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.html').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.swf').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.png').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_en.jar').' '.
-//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_ar.jar'));
-    define("PHET_RIPPER_FILTER",                '"-*wickettest*"'.' '.
+    // the rip.  These filters are meant to capture the entire web site as
+    // needed for a specific customer.  So far, that generally means getting
+    // it for a particular language.
+    define("PHET_RIPPER_FILTER_YF",                '"-*wickettest*"'.' '.
+       CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*'));
+    define("PHET_KSU_RIPPER_FILTER_KSU",                '"-*wickettest*"'.' '.
        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*'));
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
@@ -186,17 +175,20 @@
     define("RIPPER_DIR",  file_cleanup_local_filename("/usr/local/httrack/bin/"));
     define("RIPPER_EXE",  RIPPER_DIR.GET_OS_BOUND_NAME("RIPPER_EXE"));
 
-    // User agent to indicate when ripping.  This is used to make the web site
+    // User agent to indicate when ripping.  These are used to make the web site
     // react somewhat differently (generally filtering out some links) when it
     // is being ripped for the installers.
-    define("RIPPER_USER_AGENT",  '"httrack-web-mirror-ar"');
+    define("RIPPER_USER_AGENT_YF",   '"httrack-web-mirror-yf"');
+    define("RIPPER_USER_AGENT_KSU",  '"httrack-web-mirror-ar"');
 
     // Command-line args of the ripper:
-    define("RIPPER_ARGS", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER." -F ".RIPPER_USER_AGENT.' -j %q0 -%e0 -r10');
+    define("RIPPER_ARGS_YF", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_YF." -F ".RIPPER_USER_AGENT_YF.' -j %q0 -%e0 -r10');
+    define("RIPPER_ARGS_KSU", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_KSU." -F ".RIPPER_USER_AGENT_KSU.' -j %q0 -%e0 -r10');
 
     // Command-line args for a quicker, lighter, less complete rip of the web
     // site.  This exists primarily for testing purposes.
-    define("RIPPER_ARGS_SUBSET", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT.' -j %q0 -%e0 -r10');
+    define("RIPPER_ARGS_SUBSET_YF", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT_YF.' -j %q0 -%e0 -r10');
+    define("RIPPER_ARGS_SUBSET_KSU", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT_KSU.' -j %q0 -%e0 -r10');
 
     // File used for preventing simultaneous builds.
     define("LOCK_FILE_STEM_NAME", "installer-builder");
@@ -223,11 +215,12 @@
     define("BITROCK_DIR",               file_cleanup_local_filename(PARENT_DIR."BitRock/"));
     define("BITROCK_KSU_DIR",           file_cleanup_local_filename(ROOT_DIR."BitRock/"));
     define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_KSU_DIR."projects/"));
-    // Project file for building the "web mirror installer", meaning the
+    // Project files for building the "web mirror installer", meaning the
     // installer that allows for installation on a server that can then serve
     // the mirror's contents to the web.
-    define("BITROCK_WEB_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."ksu-web-mirror-installer-buildfile.xml"));
-    define("BITROCK_LOCAL_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."ksu-local-mirror-installer-buildfile.xml"));
+    define("BITROCK_YF_WEB_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."yf-web-mirror-installer-buildfile.xml"));
+    define("BITROCK_KSU_WEB_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."ksu-web-mirror-installer-buildfile.xml"));
+    define("BITROCK_KSU_LOCAL_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."ksu-local-mirror-installer-buildfile.xml"));
     define("BITROCK_EXE_DIR",           file_cleanup_local_filename(BITROCK_DIR));
     define("BITROCK_EXE_Linux",         "bitrock.sh");
     define("BITROCK_EXE_WINNT",         "bitrock.bat");
@@ -241,7 +234,10 @@
     // File name of the KSU web mirror installer.  Decided to avoid using all
     // the little bits and pieces of names and just put the whole thing here.
     // Hopefully, this is easier to maintain.
-    define("BITROCK_WEB_MIRROR_INSTALLER_NAME",  "PhET-Installer-ksu_windows.exe");
+    define("BITROCK_KSU_WEB_MIRROR_INSTALLER_NAME",  "PhET-Installer-ksu_windows.exe");
+
+    // File name of the YF web mirror installer.
+    define("BITROCK_YF_WEB_MIRROR_INSTALLER_NAME",  "PhET-Installer-yf_linux.bin");
 
     define("BITROCK_DISTNAME_WINNT",      BITROCK_DIST_PREFIX.BITROCK_PLATFORM_WINDOWS.BITROCK_PLATFORM_EXEC_SUFFIX_WINDOWS);
     define("BITROCK_DISTNAME_Linux",      BITROCK_DIST_PREFIX.BITROCK_PLATFORM_LINUX.BITROCK_PLATFORM_EXEC_SUFFIX_LINUX);
@@ -268,7 +264,8 @@
     // *****************************************************************************
     // Installation Configuration
 
-    define("DISTRIBUTION_TAG", "ksu-custom");
+    define("DISTRIBUTION_TAG_KSU", "ksu-custom");
+    define("DISTRIBUTION_TAG_YF",  "yf-custom");
     define("MARKER_FILE_NAME", "phet-installation.properties");
     define("CREATION_TIMESTAMP_FILE_NAME", "installer-creation-timestamp.txt");
     define("VERSION_INFO_FILE_NAME", "version.html");
