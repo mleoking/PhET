@@ -223,14 +223,6 @@ public class SimulationMainPanel extends PhetPanel {
             add( new InvisibleComponent( "linux-req" ) );
         }
 
-        // MAC warning
-        if ( simulation.getSimulation().isJava() ) {
-            add( new MacWarning( "sad-mac", context ) );
-        }
-        else {
-            add( new InvisibleComponent( "sad-mac" ) );
-        }
-
         // so we don't emit an empty <table></table> that isn't XHTML Strict compatible
         if ( models.isEmpty() ) {
             simulationList.setVisible( false );

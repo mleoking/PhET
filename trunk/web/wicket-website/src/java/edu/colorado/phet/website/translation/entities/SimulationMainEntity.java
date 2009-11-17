@@ -33,9 +33,6 @@ public class SimulationMainEntity extends TranslationEntity {
         addString( "simulationMainPanel.thirdPartyLibraries" );
         addString( "simulationMainPanel.thanksTo" );
         addString( "simulationMainPanel.untranslatedMessage" );
-        addString( "macwarning.title" );
-        addString( "macwarning.problem" );
-        addString( "macwarning.solution" );
         addString( "simulationDisplay.indexView" );
         addString( "simulationDisplay.thumbnailView" );
         addPreview( new PhetPanelFactory() {
