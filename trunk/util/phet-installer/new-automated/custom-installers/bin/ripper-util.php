@@ -401,6 +401,26 @@
     }
 
     //--------------------------------------------------------------------------
+    // This is a very specialized function that replaces the links that point
+    // to the installer files linked to on the phetsims site with links to the
+    // main phet.colorado.edu site.  This was created to allow us to create an
+    // installer for Young and Freedman that was ripped from the phetsims site
+    // but that pointed to installers on the main site.
+    //--------------------------------------------------------------------------
+    function ripper_replace_installer_links() {
+        $installerLinkFileName = RIPPED_TRANSLATED_WEBSITE_ROOT."get-phet/full-install.html";
+        if (file_exists($installerLinkFileName)){
+            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_windows\.exe', 'http://phet.colorado.edu/phet-dist/installers/PhET-Installer_windows.exe');
+            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_osx\.zip', 'http://phet.colorado.edu/phet-dist/installers/PhET-Installer_osx.zip');
+            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_linux\.bin', 'http://phet.colorado.edu/phet-dist/installers/PhET-Installer_linux.bin');
+            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_cdrom\.zip', 'http://phet.colorado.edu/phet-dist/installers/PhET-Installer_cdrom.zip');
+        }
+        else{
+            print "Error: Unable to locate installer link file, skipping replacement operation.\n";
+        }
+    }
+
+    //--------------------------------------------------------------------------
     // Move the translated jar files from the temporary directory back to the
     // appropriate directory in the copy of the web site.  Note that before
     // calling this, the function that moves the files to the temporary
