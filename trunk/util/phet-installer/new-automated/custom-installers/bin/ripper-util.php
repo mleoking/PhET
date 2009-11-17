@@ -35,12 +35,24 @@
     // Function for ripping the main site, meaning that it traverses each link
     // and downloads the HTML files, images, etc that comprise the site.
     //--------------------------------------------------------------------------
-    function ripper_rip_website() {
-        flushing_echo("Ripping website with ".RIPPER_EXE." ".RIPPER_ARGS);
+    function ripper_rip_website($config) {
+        flushing_echo("Ripping website, config = ".$config);
+        if ($config == "YF"){
+            $ripper_args = RIPPER_ARGS_YF;
+        }
+        else if ($config == "KSU"){
+            $ripper_args = RIPPER_ARGS_KSU;
+        }
+        else {
+            flushing_echo("ERROR: Unknown rip config ".$config.", assuming YF.");
+            $ripper_args = RIPPER_ARGS_YF;
+        }
 
-        $result = exec(RIPPER_EXE." ".RIPPER_ARGS);
+        flushing_echo("Command for ripping web site: ".RIPPER_EXE." ".$ripper_args);
 
-        flushing_echo($result);
+        //$result = exec(RIPPER_EXE." ".$ripper_args);
+
+        //flushing_echo($result);
     }
 
     //-------------------------------------------------------------------------
