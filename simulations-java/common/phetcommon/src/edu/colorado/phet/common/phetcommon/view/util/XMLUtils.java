@@ -54,6 +54,12 @@ public class XMLUtils {
      */
     public static Document toDocument( String string ) throws TransformerException, ParserConfigurationException {
 
+        // if there is a byte order mark, strip it off.
+        // otherwise, we get a org.xml.sax.SAXParseException: Content is not allowed in prolog
+        if ( string.startsWith( "\uFEFF" ) ) {
+            string = string.substring( 1 );
+        }
+
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         
