@@ -28,28 +28,33 @@ public class TransformationArrow extends SimpleModelElement {
 	// Constants that control size and appearance.
 	private static final Paint ELEMENT_PAINT = Color.BLACK;
 	private static double WIDTH = 0.5;       // In nanometers.
-	private static double HEAD_WIDTH = 2;  // In nanometers.
-	private static double HEAD_HEIGHT = 2; // In nanometers.
+	private static double HEAD_WIDTH = 2;    // In nanometers.
+	private static double HEAD_HEIGHT = 2;   // In nanometers.
 	
 	// Time definitions for fading and overall existence.
-	private static double FADE_TIME = 3;      // In seconds.
-	private static double EXISTENCE_TIME = 8; // In seconds.
+	private static double EXISTENCE_TIME = 2; // In seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 	
 	private SimpleModelElement transformationResultElement = null;
-	private double fadeTimeCountdown = FADE_TIME;
 	private double existenceTimeCountdown = EXISTENCE_TIME;
+	private ExistenceState existenceState = ExistenceState.FADING_IN;
 	
     //------------------------------------------------------------------------
     // Constructors
     //------------------------------------------------------------------------
 	
 	public TransformationArrow(IObtainGeneModelElements model, Point2D initialPosition, double length) {
+		
 		super(model, createShape(length), initialPosition, ELEMENT_PAINT);
+		
 		setMotionStrategy(new StillnessMotionStrategy(this));
+		
+		// This element fades in to existence, so it starts out with low
+		// existence strength.
+		setExistenceStrength(0.01);
 	}
 	
     //------------------------------------------------------------------------
@@ -58,39 +63,6 @@ public class TransformationArrow extends SimpleModelElement {
 	
 	private static Shape createShape(double length){
 
-		/*
-		// Create the overall outline.
-		GeneralPath outline = new GeneralPath();
-		
-		outline.moveTo(0, (float)HEIGHT/2);
-		outline.quadTo((float)WIDTH / 2, (float)HEIGHT / 2, (float)WIDTH/2, -(float)HEIGHT/2);
-		outline.lineTo((float)-WIDTH/2, (float)-HEIGHT/2);
-		outline.lineTo((float)-WIDTH/2, (float)(HEIGHT * 0.25));
-		outline.closePath();
-		Area area = new Area(outline);
-		
-		// Get the shape of a lactose molecule and shift it to the appropriate
-		// position.
-		Shape lactoseShape = new Lactose().getShape();
-		AffineTransform transform = new AffineTransform();
-		transform.setToTranslation(	0, HEIGHT/2 );
-		lactoseShape = transform.createTransformedShape(lactoseShape);
-		
-		// Get the size of the binding region where this protein will bind to
-		// the lac operator and create a shape for it.
-		Dimension2D bindingRegionSize = LacOperator.getBindingRegionSize();
-		Rectangle2D bindingRegionRect = new Rectangle2D.Double(-bindingRegionSize.getWidth() / 2,
-				-HEIGHT/2, bindingRegionSize.getWidth(), bindingRegionSize.getHeight());
-		
-		// Subtract off the shape of the lactose molecule.
-		area.subtract(new Area(lactoseShape));
-		
-		// Subtract off the shape of the binding region.
-		area.subtract(new Area(bindingRegionRect));
-		
-		return area;
-		*/
-		
 		// Create the overall outline.
 		DoubleGeneralPath outline = new DoubleGeneralPath();
 		
@@ -105,7 +77,7 @@ public class TransformationArrow extends SimpleModelElement {
 		
 		Area area = new Area(outline.getGeneralPath());
 		
-		// Subtract off two chunks to that the arrow looks dotted.
+		// Subtract off two chunks so that the arrow looks dashed.
 		double spaceSize = (length - HEAD_HEIGHT) / 5;
 		Rectangle2D space1 = new Rectangle2D.Double(-WIDTH/2, -length/2 + spaceSize, WIDTH, spaceSize);
 		area.subtract(new Area(space1));
@@ -113,6 +85,43 @@ public class TransformationArrow extends SimpleModelElement {
 		area.subtract(new Area(space2));
 		
 		return area;
+	}
+	
+	@Override
+	public void stepInTime(double dt) {
+		super.stepInTime(dt);
+		
+		switch (existenceState){
+		case FADING_IN:
+			if (getExistenceStrength() < 1){
+				setExistenceStrength(Math.min(getExistenceStrength() + FADE_RATE, 1));
+			}
+			else{
+				// Must be fully faded in, so move to next state.
+				existenceState = ExistenceState.EXISTING;
+				existenceTimeCountdown = EXISTENCE_TIME;
+			}
+			break;
+			
+		case EXISTING:
+			existenceTimeCountdown -= dt;
+			if (existenceTimeCountdown <= 0){
+				// Time to fade out.
+				existenceState = ExistenceState.FADING_OUT;
+			}
+			break;
+			
+		case FADING_OUT:
+			if (getExistenceStrength() > 0){
+				setExistenceStrength(Math.max(getExistenceStrength() - FADE_RATE, 0));
+			}
+			// Note: When we get fully faded out, we will be removed from the model.
+			break;
+			
+		default:
+			assert false;
+			break;
+		}
 	}
 
 	@Override
