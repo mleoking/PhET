@@ -5,7 +5,7 @@
 # a rebuild of the special KSU installer.
 #############################################################################
 
-LOG=./ksu-installer-builder-log.txt
+LOG=./custom-installer-builder-log.txt
 
 #----------------------------------------------------------------------------
 # Main body of this script.
