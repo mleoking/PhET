@@ -25,6 +25,9 @@ public abstract class SimpleModelElement implements IModelElement{
 	// towards each other.
 	protected static final double ATTACHMENT_FORMING_DISTANCE = 1; // In nanometers.
 	
+	// Rate at which elements fade in and out of existence.
+	protected static final double FADE_RATE = 0.05;
+	
 	private Shape shape;
 	private Point2D position;
 	private Paint paint;  // The paint to use when representing this element in the view.
@@ -230,4 +233,6 @@ public abstract class SimpleModelElement implements IModelElement{
     public void setDragging(boolean dragging) {
         this.dragging=dragging;
     }
+    
+    protected enum ExistenceState { FADING_IN, EXISTING, FADING_OUT };
 }
