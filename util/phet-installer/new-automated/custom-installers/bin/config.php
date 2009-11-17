@@ -52,7 +52,7 @@
     // it for a particular language.
     define("PHET_RIPPER_FILTER_YF",                '"-*wickettest*"'.' '.
        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*'));
-    define("PHET_KSU_RIPPER_FILTER_KSU",                '"-*wickettest*"'.' '.
+    define("PHET_RIPPER_FILTER_KSU",                '"-*wickettest*"'.' '.
        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*'));
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
@@ -162,7 +162,6 @@
     define("RIPPED_WEBSITE_ROOT", file_cleanup_local_filename(TEMP_DIR."website/"));
     define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME.'/'));
     define("RIPPED_WEBSITE_INSTALLER_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME.'/installer/'));
-    define("RIPPED_TRANSLATED_WEBSITE_ROOT",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME.'/'.LOCALE_STRING.'/'));
 
     // The ripper executable itself:
 
@@ -208,13 +207,13 @@
     define("BITROCK_PRODUCT_VERSION",   PHET_VERSION);
     define("BITROCK_CODEBASE_MACRO",  '@@CODEBASE@@');
 
-    // KSU Installer Note: Some of the bitrock files - such as the executable
+    // Custom Installer Note: Some of the bitrock files - such as the executable
     // itself - are maintained in the main installer directory, and some of the
-    // KSU-specific files are maintained in a separate location.  Hence, some
+    // custom-specific files are maintained in a separate location.  Hence, some
     // of the contants below point to one place and some point to another.
     define("BITROCK_DIR",               file_cleanup_local_filename(PARENT_DIR."BitRock/"));
-    define("BITROCK_KSU_DIR",           file_cleanup_local_filename(ROOT_DIR."BitRock/"));
-    define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_KSU_DIR."projects/"));
+    define("BITROCK_CUSTOM_DIR",        file_cleanup_local_filename(ROOT_DIR."BitRock/"));
+    define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_CUSTOM_DIR."projects/"));
     // Project files for building the "web mirror installer", meaning the
     // installer that allows for installation on a server that can then serve
     // the mirror's contents to the web.
@@ -227,7 +226,7 @@
     define("BITROCK_EXE_Darwin",        "bitrock.sh");
     define("BITROCK_EXE",               GET_OS_BOUND_NAME("BITROCK_EXE"));
 
-    define("BITROCK_DIST_DIR",          file_cleanup_local_filename(BITROCK_KSU_DIR."output/"));
+    define("BITROCK_DIST_DIR",          file_cleanup_local_filename(BITROCK_CUSTOM_DIR."output/"));
 
     define("BITROCK_DIST_PREFIX",       BITROCK_PRODUCT_SHORTNAME."-Installer_");
 
