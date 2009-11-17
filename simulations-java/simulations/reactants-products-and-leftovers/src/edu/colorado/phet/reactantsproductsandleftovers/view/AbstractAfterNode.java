@@ -50,9 +50,9 @@ public abstract class AbstractAfterNode extends PhetPNode {
     private final ChangeListener reactionChangeListener;
 
     private final BoxNode boxNode;
-    private final ArrayList<ArrayList<SubstanceImageNode>> productImageNodeLists, reactantImageNodeLists; // one list of images per product and reactant
+    private final ArrayList<ArrayList<SubstanceImageNode>> productImageNodeLists, leftoverImageNodeLists; // one list of images per product and leftover
     private final ArrayList<QuantityDisplayNode> productQuantityDisplayNodes; // quantity displays for products
-    private final ArrayList<LeftoversDisplayNode> reactantLeftoverDisplayNodes; // leftovers displays for reactants
+    private final ArrayList<LeftoversDisplayNode> leftoverQuantityDisplayNodes; // quantity displays for leftovers
     private final ImageLayoutStrategy imageLayoutStrategy;
     private final PNode productsLabelNode, leftoversLabelNode;
     
@@ -70,9 +70,9 @@ public abstract class AbstractAfterNode extends PhetPNode {
         this.imageLayoutStrategy = imageLayoutStrategy;
         
         productImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
-        reactantImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
+        leftoverImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
         productQuantityDisplayNodes = new ArrayList<QuantityDisplayNode>();
-        reactantLeftoverDisplayNodes = new ArrayList<LeftoversDisplayNode>();
+        leftoverQuantityDisplayNodes = new ArrayList<LeftoversDisplayNode>();
         
         // box
         boxNode = new BoxNode( BOX_SIZE );
@@ -98,17 +98,17 @@ public abstract class AbstractAfterNode extends PhetPNode {
             productQuantityDisplayNodes.add( displayNode );
         }
         
-        // reactant images and leftovers displays
+        // leftovers images and quantity displays
         Reactant[] reactants = reaction.getReactants();
         for ( Reactant reactant : reactants ) {
             
-            // one list of image nodes for each reactant 
-            reactantImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
+            // one list of image nodes for each leftover 
+            leftoverImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
             
-            // one quantity display for each reactant
+            // one quantity display for each leftover
             LeftoversDisplayNode displayNode = new LeftoversDisplayNode( reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             addChild( displayNode );
-            reactantLeftoverDisplayNodes.add( displayNode );
+            leftoverQuantityDisplayNodes.add( displayNode );
         }
         
         // layout, origin at upper-left corner of box
@@ -127,9 +127,9 @@ public abstract class AbstractAfterNode extends PhetPNode {
             productQuantityDisplayNodes.get( i ).setOffset( x, y );
             x += deltaX;
         }
-        // reactant quantity displays, horizontally centered in "cells"
+        // leftover quantity displays, horizontally centered in "cells"
         for ( int i = 0; i < reactants.length; i++ ) {
-            reactantLeftoverDisplayNodes.get( i ).setOffset( x, y );
+            leftoverQuantityDisplayNodes.get( i ).setOffset( x, y );
             x += deltaX;
         }
         
@@ -147,14 +147,14 @@ public abstract class AbstractAfterNode extends PhetPNode {
         productsLabelNode.setOffset( x, y );
         
         // leftovers bracket, after doing layout of leftover quantity displays
-        startX = reactantLeftoverDisplayNodes.get( 0 ).getFullBoundsReference().getMinX();
-        endX = reactantLeftoverDisplayNodes.get( reactantLeftoverDisplayNodes.size() - 1 ).getFullBoundsReference().getMaxX();
+        startX = leftoverQuantityDisplayNodes.get( 0 ).getFullBoundsReference().getMinX();
+        endX = leftoverQuantityDisplayNodes.get( leftoverQuantityDisplayNodes.size() - 1 ).getFullBoundsReference().getMaxX();
         width = endX - startX;
         leftoversLabelNode = new BracketedLabelNode( RPALStrings.LABEL_LEFTOVERS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
         addChild( leftoversLabelNode );
         x = startX;
         y = 0;
-        for ( LeftoversDisplayNode node : reactantLeftoverDisplayNodes ) {
+        for ( LeftoversDisplayNode node : leftoverQuantityDisplayNodes ) {
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
         }
         leftoversLabelNode.setOffset( x, y );
@@ -188,7 +188,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
             node.cleanup();
         }
         // displays that are listening to reactants
-        for ( LeftoversDisplayNode node : reactantLeftoverDisplayNodes ) {
+        for ( LeftoversDisplayNode node : leftoverQuantityDisplayNodes ) {
             node.cleanup();
         }
         // image nodes that are listening to products
@@ -198,7 +198,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
             }
         }
         // image nodes that are listening to reactants
-        for ( ArrayList<SubstanceImageNode> list : reactantImageNodeLists ) {
+        for ( ArrayList<SubstanceImageNode> list : leftoverImageNodeLists ) {
             for ( SubstanceImageNode node : list ) {
                 node.cleanup();
             }
@@ -240,7 +240,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
         Reactant[] reactants = reaction.getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
             Reactant reactant = reactants[i];
-            ArrayList<SubstanceImageNode> imageNodes = reactantImageNodeLists.get( i );
+            ArrayList<SubstanceImageNode> imageNodes = leftoverImageNodeLists.get( i );
             if ( reactant.getLeftovers() < imageNodes.size() ) {
                 while ( reactant.getLeftovers() < imageNodes.size() ) {
                     SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
@@ -279,7 +279,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
         // add leftovers
         for ( int i = 0; i < reactants.length; i++ ) {
             Reactant reactant = reactants[i];
-            ArrayList<SubstanceImageNode> imageNodes = reactantImageNodeLists.get( i );
+            ArrayList<SubstanceImageNode> imageNodes = leftoverImageNodeLists.get( i );
             while ( reactant.getLeftovers() > imageNodes.size() ) {
 
                 PNode previousNode = null;
@@ -291,7 +291,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
                     SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                     imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                     imageNodes.add( imageNode );
-                    imageLayoutStrategy.addNode( imageNode, previousNode, reactantLeftoverDisplayNodes.get( i ) );
+                    imageLayoutStrategy.addNode( imageNode, previousNode, leftoverQuantityDisplayNodes.get( i ) );
                     previousNode = imageNode;
                 }
             }
