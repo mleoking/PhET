@@ -20,9 +20,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.model.Cap;
 import edu.colorado.phet.genenetwork.model.CapBindingRegion;
-import edu.colorado.phet.genenetwork.model.IModelElementListener;
 import edu.colorado.phet.genenetwork.model.LacI;
 import edu.colorado.phet.genenetwork.model.LacOperator;
+import edu.colorado.phet.genenetwork.model.ModelElementListenerAdapter;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -52,7 +52,7 @@ public class SimpleModelElementNode extends PPath {
 		this.mvt = mvt;
 		
 		// Register for important event notifications from the model.
-		modelElement.addListener(new IModelElementListener() {
+		modelElement.addListener(new ModelElementListenerAdapter() {
 			
 			public void positionChanged() {
 				updateOffset();

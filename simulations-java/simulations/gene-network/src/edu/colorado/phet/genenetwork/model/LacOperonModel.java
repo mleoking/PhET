@@ -314,31 +314,16 @@ public class LacOperonModel implements IObtainGeneModelElements {
     }
     
     private void handleClockTicked(double dt){
+
+    	// Step the elements for which there can be multiple instances.
+    	stepElementsInTime(lacZList, dt);
+    	stepElementsInTime(lacIList, dt);
+    	stepElementsInTime(glucoseList, dt);
+    	stepElementsInTime(galactoseList, dt);
+    	stepElementsInTime(rnaPolymeraseList, dt);
+    	stepElementsInTime(messengerRnaList, dt);
     	
-    	for (LacZ lacZ : lacZList){
-    		lacZ.stepInTime(dt);
-    	}
-    	
-    	for (LacI lacI : lacIList){
-    		lacI.stepInTime(dt);
-    	}
-    	
-    	for (Glucose glucose : glucoseList){
-    		glucose.stepInTime(dt);
-    	}
-    	
-    	for (Galactose galactose : galactoseList){
-    		galactose.stepInTime(dt);
-    	}
-    	
-    	for (RnaPolymerase rnaPolymerase : rnaPolymeraseList){
-    		rnaPolymerase.stepInTime(dt);
-    	}
-    	
-    	for (MessengerRna messengerRna : messengerRnaList){
-    		messengerRna.stepInTime(dt);
-    	}
-    	
+    	// Step the elements for which there can be only one.
     	cap.stepInTime(dt);
     	capBindingRegion.stepInTime(dt);
     	lacOperator.stepInTime(dt);
@@ -347,6 +332,21 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	lacZGene.stepInTime(dt);
     	lacIPromoter.stepInTime(dt);
     	lacPromoter.stepInTime(dt);
+    }
+    
+    private void stepElementsInTime(ArrayList<? extends IModelElement>elements, double dt){
+    	ArrayList<IModelElement> toBeRemoved = new ArrayList<IModelElement>();
+    	for (IModelElement element : elements){
+    		element.stepInTime(dt);
+    		if (element.getExistenceStrength() <= 0){
+    			// If a model element gets to the point where its existence
+    			// strength is zero, it has essentially died, or dissolved, or
+    			// just "ceased to be", so should be removed from the model.
+    			toBeRemoved.add(element);
+    			element.removeFromModel();
+    		}
+    	}
+    	elements.removeAll(toBeRemoved);
     }
     
     //------------------------------------------------------------------------

@@ -137,7 +137,7 @@ public class MessengerRna extends SimpleModelElement {
 		else{
 			// We are fading out of existence.
 			if (getExistenceStrength() > 0){
-				setExistenceStrength(getExistenceStrength() - 0.01);
+				setExistenceStrength(getExistenceStrength() - 0.005);
 			}
 		}
 	}

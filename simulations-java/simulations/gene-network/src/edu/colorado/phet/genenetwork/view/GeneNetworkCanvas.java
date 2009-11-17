@@ -12,6 +12,7 @@ import edu.colorado.phet.genenetwork.GeneNetworkConstants;
 import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
 import edu.colorado.phet.genenetwork.model.MessengerRna;
+import edu.colorado.phet.genenetwork.model.ModelElementListenerAdapter;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.colorado.phet.genenetwork.module.LacOperonDefaults;
 import edu.umd.cs.piccolo.PNode;
@@ -128,8 +129,8 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     // Other Methods
     //------------------------------------------------------------------------
     
-    private void addModelElement(SimpleModelElement modelElement){
-    	SimpleModelElementNode modelElementNode = new SimpleModelElementNode(modelElement, mvt);
+    private void addModelElement(final SimpleModelElement modelElement){
+    	final SimpleModelElementNode modelElementNode = new SimpleModelElementNode(modelElement, mvt);
         if (modelElement instanceof MessengerRna){
             modelElementNode.setPaint(null);
             modelElementNode.setStrokePaint(Color.black);
@@ -140,5 +141,17 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     	else{
     		rovingModelElementLayer.addChild(modelElementNode);
     	}
-    }
+    	
+    	// Register for notification of removal from the model so that the
+    	// corresponding node can be removed.
+    	modelElement.addListener(new ModelElementListenerAdapter(){
+    		@Override
+    		public void removedFromModel() {
+    	    	if ( ( rovingModelElementLayer.removeChild(modelElementNode) == null ) &&
+    	       		 ( dnaStrandLayer.removeChild(modelElementNode) == null ) ){
+    	       		System.err.println(getClass().getName() + " - Error: Unable to find node for model element.");
+    	       	}
+    		};
+    	});
+    }    
 }
