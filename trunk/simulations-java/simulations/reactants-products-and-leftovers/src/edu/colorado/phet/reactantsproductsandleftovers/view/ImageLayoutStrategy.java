@@ -107,7 +107,7 @@ public interface ImageLayoutStrategy {
                 y = referenceNode.getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_SPACING;
             }
             node.setOffset( x, y );
-            // listen for changes to the node's size
+            // listen for changes to the node's full bounds
             fullBoundsMap.put( node, node.getFullBounds() );
             node.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, propertyChangeListener );
         }
@@ -144,10 +144,10 @@ public interface ImageLayoutStrategy {
         
         private static final boolean DEBUG_SHOW_GRIDLINES = false;
 
+        private static final int ROWS = 4;
+        private static final int COLUMNS = 5;
         private static final double BOX_MARGIN = 5; // margin of space around the inside edge of the box
         private static final double CELL_MARGIN = 1; // margin of space around the inside edge of each cell
-        static final int ROWS = 4;
-        private static final int COLUMNS = 5;
         
         private final PNode[][] cells; // 2-dimensional grid of cells
         private PDimension cellSize;
