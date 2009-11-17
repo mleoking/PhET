@@ -54,7 +54,7 @@
         installer_insert_installer_creation_time();
 
         // Insert the distribution tag.
-        installer_insert_distribution_tag( DISTRIBUTION_TAG );
+        installer_insert_distribution_tag( DISTRIBUTION_TAG_KSU );
 
         // Move the individually translated jar files out of the sims directory
         // so that they won't be included in the local mirror installers.
