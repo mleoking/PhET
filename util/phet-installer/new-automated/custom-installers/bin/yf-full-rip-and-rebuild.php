@@ -37,7 +37,6 @@
         $start_time = exec("date");
         flushing_echo("Starting full rip and rebuild of Young & Freedman installer at time $start_time");
 
-/*
         // Remove previous copy of web site.
         ripper_remove_website_copy();
 
@@ -69,8 +68,8 @@
         installer_remove_marker_file();
 
         // Insert the distribution tag.
-        installer_insert_distribution_tag( DISTRIBUTION_TAG );
-*/
+        installer_insert_distribution_tag( DISTRIBUTION_TAG_YF );
+
         // Build the web mirror installer, meaning an installer that can be
         // used to set up a remotely hosted copy of the web site.
         installer_build_linux_web_mirror_installer();
