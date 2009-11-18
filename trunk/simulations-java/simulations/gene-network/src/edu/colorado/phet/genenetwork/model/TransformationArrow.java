@@ -27,9 +27,10 @@ public class TransformationArrow extends SimpleModelElement {
 	
 	// Constants that control size and appearance.
 	private static final Paint ELEMENT_PAINT = Color.BLACK;
-	private static double WIDTH = 0.5;       // In nanometers.
-	private static double HEAD_WIDTH = 2;    // In nanometers.
-	private static double HEAD_HEIGHT = 2;   // In nanometers.
+	private static double WIDTH = 0.5;          // In nanometers.
+	private static double HEAD_WIDTH = 2;       // In nanometers.
+	private static double HEAD_HEIGHT = 2;      // In nanometers.
+	private static double DEFAULT_LENGTH = 7;   // In nanometers.
 	
 	// Time definitions for fading and overall existence.
 	private static double EXISTENCE_TIME = 2; // In seconds.
@@ -56,6 +57,11 @@ public class TransformationArrow extends SimpleModelElement {
 		// existence strength.
 		setExistenceStrength(0.01);
 	}
+	
+	public TransformationArrow(IObtainGeneModelElements model, Point2D initialPosition) {
+		this(model, initialPosition, DEFAULT_LENGTH);
+	}
+
 	
     //------------------------------------------------------------------------
     // Methods
