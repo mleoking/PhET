@@ -10,36 +10,36 @@ import java.util.ArrayList;
  */
 public interface IObtainGeneModelElements {
 
-	public abstract ArrayList<LacI> getLacIList();
+	ArrayList<LacI> getLacIList();
 
-	public abstract ArrayList<LacZ> getLacZList();
+	ArrayList<LacZ> getLacZList();
 
-	public abstract ArrayList<Glucose> getGlucoseList();
+	ArrayList<Glucose> getGlucoseList();
 
-	public abstract ArrayList<Galactose> getGalactoseList();
+	ArrayList<Galactose> getGalactoseList();
 
-	public abstract ArrayList<RnaPolymerase> getRnaPolymeraseList();
+	ArrayList<RnaPolymerase> getRnaPolymeraseList();
 
-	public abstract Cap getCap();
+	Cap getCap();
 
-	public abstract CapBindingRegion getCapBindingRegion();
+	CapBindingRegion getCapBindingRegion();
 
-	public abstract LacOperator getLacOperator();
+	LacOperator getLacOperator();
 
-	public abstract LacIGene getLacIGene();
+	LacIGene getLacIGene();
 
-	public abstract LacZGene getLacZGene();
+	LacZGene getLacZGene();
 
-	public abstract LacYGene getLacYGene();
+	LacYGene getLacYGene();
 
-	public abstract LacIPromoter getLacIPromoter();
+	LacIPromoter getLacIPromoter();
 
 	/**
 	 * Get a list of all simple model elements in the model.
 	 * 
 	 * @return
 	 */
-	public abstract ArrayList<SimpleModelElement> getAllSimpleModelElements();
+	ArrayList<SimpleModelElement> getAllSimpleModelElements();
 	
     /**
      * Returns true if LacI (a.k.a. Lac Inhibitor) is currently attached to
@@ -48,7 +48,7 @@ public interface IObtainGeneModelElements {
      * 
      * @return
      */
-	public abstract boolean isLacIAttachedToDna();
+	boolean isLacIAttachedToDna();
 
 	/**
 	 * Add a new messenger RNA to the model.
@@ -67,4 +67,6 @@ public interface IObtainGeneModelElements {
      * @param lacZ
      */
     void addLacZ(LacZ lacZ);
+
+	void addLacI(LacI lacIToAddToModel);
 }

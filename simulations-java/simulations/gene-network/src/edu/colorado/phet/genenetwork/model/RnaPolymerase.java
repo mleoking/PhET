@@ -181,7 +181,7 @@ public class RnaPolymerase extends SimpleModelElement {
 				}
 				else if (recoveryCountdownTimer < (RECOVERY_TIME - TIME_TO_START_PRODUCING_MRNA)){
 					// Create the mRna and put it where it needs to go.
-					mRna = new MessengerRna(getModel(), 0);
+					mRna = new LacZMessengerRna(getModel(), 0);
 					mRna.setPosition(getPositionRef().getX() + MESSENGER_RNA_OUTPUT_OFFSET.getWidth(), 
 							getPositionRef().getY() + MESSENGER_RNA_OUTPUT_OFFSET.getHeight());
 					getModel().addMessengerRna(mRna);

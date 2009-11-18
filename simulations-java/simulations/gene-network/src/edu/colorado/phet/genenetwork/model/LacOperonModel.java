@@ -325,6 +325,11 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	notifyModelElementAdded(lacZ);
     }
     
+    public void addLacI(LacI lacI){
+    	lacIList.add(lacI);
+    	notifyModelElementAdded(lacI);
+    }
+    
     private void handleClockTicked(double dt){
 
     	// Step the elements for which there can be multiple instances.
