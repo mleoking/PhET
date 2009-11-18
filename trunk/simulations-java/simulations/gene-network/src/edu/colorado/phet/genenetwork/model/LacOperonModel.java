@@ -183,9 +183,9 @@ public class LacOperonModel implements IObtainGeneModelElements {
         
         // Create some other model elements needed for testing.  TODO: This is
         // done for debugging and should be removed at some point.
-        LacI lacIForTesting = new LacI(this);
-        randomlyInitModelElement(lacIForTesting);
-        lacIList.add(lacIForTesting);
+//        LacI lacIForTesting = new LacI(this);
+//        randomlyInitModelElement(lacIForTesting);
+//        lacIList.add(lacIForTesting);
         
         // Create and position the elements that sit on the DNA strand.
         
@@ -318,6 +318,11 @@ public class LacOperonModel implements IObtainGeneModelElements {
     public void addTransformationArrow(TransformationArrow transformationArrow){
     	transformationArrowList.add(transformationArrow);
     	notifyModelElementAdded(transformationArrow);
+    }
+    
+    public void addLacZ(LacZ lacZ){
+    	lacZList.add(lacZ);
+    	notifyModelElementAdded(lacZ);
     }
     
     private void handleClockTicked(double dt){

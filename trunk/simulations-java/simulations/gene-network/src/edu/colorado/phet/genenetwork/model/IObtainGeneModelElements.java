@@ -61,4 +61,10 @@ public interface IObtainGeneModelElements {
      * @param transformationArrow
      */
     void addTransformationArrow(TransformationArrow transformationArrow);
+    
+    /**
+     * Add a new LacZ molecule (or protein or whatever it is) to the model.
+     * @param lacZ
+     */
+    void addLacZ(LacZ lacZ);
 }
