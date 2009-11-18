@@ -408,7 +408,7 @@
     // but that pointed to installers on the main site.
     //--------------------------------------------------------------------------
     function ripper_replace_installer_links() {
-        $installerLinkFileName = RIPPED_TRANSLATED_WEBSITE_ROOT."get-phet/full-install.html";
+        $installerLinkFileName = RIPPED_WEBSITE_ROOT.ENGLISH_LOCALE_STRING."/get-phet/full-install.html";
         if (file_exists($installerLinkFileName)){
             file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_windows\.exe', 'http://phet.colorado.edu/phet-dist/installers/PhET-Installer_windows.exe');
             file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_osx\.zip', 'http://phet.colorado.edu/phet-dist/installers/PhET-Installer_osx.zip');
