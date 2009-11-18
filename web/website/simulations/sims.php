@@ -98,32 +98,6 @@ class IndividualSimulationPage extends SitePage {
         return true;
     }
 
-    function get_mac_warning_html() {
-        return <<<EOT
-            <div class="simupgrade">
-                <p>
-                </p>
-                <div>
-                    <p>
-                        <strong style="font-size:larger; color: red;">Warning for Mac users</strong>
-                    </p>
-                    <p>
-<a href="{$this->prefix}tech_support/support-java.php#q1">
-<img src="{$this->prefix}images/unhappy-mac-jnlp-logo-small.jpg" alt="Unhappy JNLP Mac Logo" />
-</a>
-                                                  Users who installed Apple's recent "<strong>Java for Mac OS X 10.5 Update 4</strong>" may experience simulations appearing as text files.  Apple knows about this problem and is working to fix it.</p>
-<p>
-Please see <a href="{$this->prefix}tech_support/support-java.php#q1">this section of the FAQ</a> for a workaround.
-                    </p>
-                </div>
-                <div class="clear"></div>
-            </div>
-
-EOT;
-        // ' <-- That aprostrophe makes Emacs highlighting back to normal
-    }
-
-
     function get_sim_not_found_html() {
         $html = '';
         if (is_null($this->sim)) {
@@ -204,12 +178,6 @@ EOT;
         }
 
         // TODO: Remove explicit class checking
-        $sim_java_upgrade_html = "";
-        if ($this->sim->getType() == 'Java') {
-            $sim_java_upgrade_html = $this->get_mac_warning_html();
-        }
-
-        // TODO: Remove explicit class checking
         $sim_type_version = array('win', 'osx', 'lin');
         if ($this->sim->getType() == 'Java') {
             $sim_type_version['win'] = JAVA_MIN_VERSION_WIN_FULL;
@@ -240,8 +208,6 @@ EOT;
 
             print <<<EOT
         <div class="container">
-
-            {$sim_java_upgrade_html}
 
             <div id="simsummary">
                 <p class="sim-abstract">{$this->sim->getDescription()}</p>
