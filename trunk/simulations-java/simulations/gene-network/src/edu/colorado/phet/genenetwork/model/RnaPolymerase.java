@@ -167,8 +167,9 @@ public class RnaPolymerase extends SimpleModelElement {
 				
 				if (mRna != null){
 					// Release the messenger RNA that we created.
-					mRna.setMotionStrategy( new DetachFromDnaThenRandomMotionWalkStrategy(mRna, 
-							LacOperonModel.getMotionBounds()));
+					mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
+							new Point2D.Double(mRna.getPositionRef().getX(), 
+									mRna.getPositionRef().getY() + 30), 3));
 					mRna = null;
 					traversing = false;
 				}

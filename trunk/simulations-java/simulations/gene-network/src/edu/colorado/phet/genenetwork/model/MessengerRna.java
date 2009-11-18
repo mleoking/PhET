@@ -43,7 +43,7 @@ public class MessengerRna extends SimpleModelElement {
 	private static final Random RAND = new Random();
 	
 	// Value that determines how long this exists before starting to fade.
-	private static final double PRE_FADE_EXISTENCE_TIME = 6; // In seconds.
+	private static final double PRE_FADE_EXISTENCE_TIME = 10; // In seconds.
 
 	//----------------------------------------------------------------------------
 	// Instance Data
@@ -65,7 +65,6 @@ public class MessengerRna extends SimpleModelElement {
 	
 	public MessengerRna(IObtainGeneModelElements model, double initialLength) {
 		this(model, new Point2D.Double(), initialLength);
-		length = initialLength;
 	}
 
 	public MessengerRna(IObtainGeneModelElements model) {
@@ -137,6 +136,9 @@ public class MessengerRna extends SimpleModelElement {
 		case EXISTING:
 			existenceTimeCountdown -= dt;
 			if (existenceTimeCountdown <= 0){
+				// Stop moving.
+				setMotionStrategy(new StillnessMotionStrategy(this));
+				
 				// Spawn a process arrow to indicate that we are transforming.
 				Rectangle2D bounds = getShape().getBounds2D();
 				Point2D processArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX(),
@@ -152,7 +154,8 @@ public class MessengerRna extends SimpleModelElement {
 			if (getExistenceStrength() > 0){
 				setExistenceStrength(Math.max(getExistenceStrength() - FADE_RATE, 0));
 			}
-			// Note: When we get fully faded out, we will be removed from the model.
+			// Note: When we get fully faded out, we will be automatically
+			// removed from the model.
 			break;
 			
 		default:
