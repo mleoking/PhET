@@ -22,15 +22,20 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class LacZ extends SimpleModelElement {
 	
-	private static double SIZE = 10; // In nanometers.
+	private static final double SIZE = 10; // In nanometers.
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-SIZE, 0), 
 			new Color(185, 147, 187), new Point2D.Double(SIZE * 5, 0), Color.WHITE);
+	private static final double EXISTENCE_TIME = 10; // Seconds.
+	
+	private double existenceTimeCountdown = EXISTENCE_TIME;
 	
 	public LacZ(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.GLUCOSE, new PDimension(0, -SIZE/2)));
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.GALACTOSE, new PDimension(0, -SIZE/2)));
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+		setExistenceState(ExistenceState.FADING_IN);
+		setExistenceStrength(0.01);
 	}
 	
 	public LacZ(IObtainGeneModelElements model) {
@@ -62,5 +67,42 @@ public class LacZ extends SimpleModelElement {
 		// Subtract off the shape of the lactose molecule.
 		area.subtract(new Area(lactoseShape));
 		return area;
+	}
+	
+	@Override
+	public void stepInTime(double dt) {
+		super.stepInTime(dt);
+		
+		switch (getExistenceState()){
+		case FADING_IN:
+			if (getExistenceStrength() < 1){
+				setExistenceStrength(Math.min(getExistenceStrength() + FADE_RATE, 1));
+			}
+			else{
+				// Must be fully faded in, so move to next state.
+				setExistenceState(ExistenceState.EXISTING);
+				existenceTimeCountdown = EXISTENCE_TIME;
+			}
+			break;
+			
+		case EXISTING:
+			existenceTimeCountdown -= dt;
+			if (existenceTimeCountdown <= 0){
+				// Time to fade out.
+				setExistenceState(ExistenceState.FADING_OUT);
+			}
+			break;
+			
+		case FADING_OUT:
+			if (getExistenceStrength() > 0){
+				setExistenceStrength(Math.max(getExistenceStrength() - FADE_RATE, 0));
+			}
+			// Note: When we get fully faded out, we will be removed from the model.
+			break;
+			
+		default:
+			assert false;
+			break;
+		}
 	}
 }
