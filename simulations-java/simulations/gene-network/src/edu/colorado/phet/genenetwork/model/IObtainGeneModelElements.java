@@ -55,4 +55,10 @@ public interface IObtainGeneModelElements {
 	 * @param mRna
 	 */
     void addMessengerRna(MessengerRna mRna);
+    
+    /**
+     * Add a new transformation arrow to the model.
+     * @param transformationArrow
+     */
+    void addTransformationArrow(TransformationArrow transformationArrow);
 }
