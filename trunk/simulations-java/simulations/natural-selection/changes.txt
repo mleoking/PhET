@@ -1,3 +1,5 @@
+# 0.01.40 (36771) Nov 18, 2009
+11/18/09 Step button always enabled
 # 0.01.39 (36708) Nov 16, 2009
 11/16/09 New bunny teeth images
 # 0.01.38 (35833) Oct 13, 2009
