@@ -175,7 +175,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
 		
         randomlyInitModelElement(cap);
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 3; i++){
         	RnaPolymerase rnaPolymerase = new RnaPolymerase(this);
         	randomlyInitModelElement(rnaPolymerase);
         	rnaPolymeraseList.add(rnaPolymerase);
