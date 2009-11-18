@@ -143,7 +143,8 @@ public class MessengerRna extends SimpleModelElement {
 				Rectangle2D bounds = getShape().getBounds2D();
 				Point2D processArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX(),
 						bounds.getMaxY() + getPositionRef().getY() + 4);
-				getModel().addTransformationArrow(new TransformationArrow(getModel(), processArrowPos));
+				getModel().addTransformationArrow(new LacZTransformationArrow(getModel(), processArrowPos,
+						new LacZ(getModel())));
 				
 				// Start fading away.
 				existenceState = ExistenceState.FADING_OUT;
