@@ -317,7 +317,11 @@ public class ResourceDeployServer implements IProguardKeepClass {
             System.out.println( "  processing " + sim );
 
             File testSimDir = new File( testDir, sim );
-            File[] jarFiles = testSimDir.listFiles();
+            File[] jarFiles = testSimDir.listFiles( new FilenameFilter() {
+                public boolean accept( File file, String s ) {
+                    return s.endsWith( ".jar" );
+                }
+            } );
 
             for ( int j = 0; j < jarFiles.length; j++ ) {
                 File jarFile = jarFiles[j];
