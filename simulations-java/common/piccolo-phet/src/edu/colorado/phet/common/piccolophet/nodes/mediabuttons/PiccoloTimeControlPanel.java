@@ -30,26 +30,26 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * @author Sam Reid
  * @author Chris Malley
  */
-public class PiccoloTimeControlPanel extends JPanel{
+public class PiccoloTimeControlPanel extends JPanel {
 
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
-    
+
     private static final String PLAY_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PLAY );
     private static final String PAUSE_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PAUSE );
     private static final String STEP_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_STEP );
     private static final String REWIND_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_REWIND );
-    
+
     private static final double BUTTON_X_SPACING = 5;
-    
+
     private static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
     private static final int DEFAULT_TIME_COLUMNS = 8;
 
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
-    
+
     private BackgroundNode backgroundNode;
     private final PlayPauseButton playPauseButton;
     private final StepButton stepButton;
@@ -65,29 +65,31 @@ public class PiccoloTimeControlPanel extends JPanel{
     private ArrayList listeners = new ArrayList();
     private PhetPCanvas buttonCanvas;
     private final ArrayList buttonList;
-	private JPanel timeDisplayPanel;
+    private JPanel timeDisplayPanel;
+    private boolean enableStepWhileRunning;
 
     //------------------------------------------------------------------------
     // Constructors
     //------------------------------------------------------------------------
-    
+
     public PiccoloTimeControlPanel() {
         setBorder( null );
         setBackground( new JLabel().getBackground() );
-        
+
         time = 0;
         paused = false;
+        enableStepWhileRunning = false;
         timeFormat = DEFAULT_TIME_FORMAT;
-        
+
         // Background
         backgroundNode = new BackgroundNode();
-        
+
         // Play/Pause
         playPauseButton = new PlayPauseButton( (int) ( 100 * 0.7 * 0.7 ) );
-        
+
         // Step
         stepButton = new StepButton( (int) ( playPauseButton.getButtonDimension().width * 0.8 ) );
-        
+
         // Restart
         rewindButton = new RewindButton( (int) ( playPauseButton.getButtonDimension().width * 0.8 ) );
 
@@ -114,7 +116,7 @@ public class PiccoloTimeControlPanel extends JPanel{
         addButton( rewindButton );
         addButton( playPauseButton );
         addButton( stepButton );
-                
+
         // Layout piccolo and Swing buttons in a panel
         JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         buttonPanel.setOpaque( false );
@@ -125,7 +127,7 @@ public class PiccoloTimeControlPanel extends JPanel{
         add( timeDisplayPanel );
         add( userPanel );
         add( buttonPanel );
-        
+
         // tool tips on piccolo buttons
         stepTooltipHandler = new ToolTipHandler( STEP_TOOLTIP, buttonCanvas );
         stepButton.addInputEventListener( stepTooltipHandler );
@@ -147,13 +149,13 @@ public class PiccoloTimeControlPanel extends JPanel{
                 }
             }
         } );
-        
+
         stepButton.addListener( new StepButton.Listener() {
             public void buttonPressed() {
                 notifyStepPressed();
             }
         } );
-        
+
         rewindButton.addListener( new RewindButton.Listener() {
             public void buttonPressed() {
                 notifyRewindPressed();
@@ -165,7 +167,7 @@ public class PiccoloTimeControlPanel extends JPanel{
                 updateButtonLayout();
             }
         } );
-        
+
         // for backward compatibility with existing sims
         rewindButton.setVisible( false );
         timeDisplayPanel.setVisible( false );
@@ -180,44 +182,44 @@ public class PiccoloTimeControlPanel extends JPanel{
         backgroundNode.fullPaint( new PPaintContext( (Graphics2D) g ) );
     }
 
-    public PCanvas getButtonCanvas(){
+    public PCanvas getButtonCanvas() {
         return buttonCanvas;
     }
-    
+
     private void addButton( PNode button ) {
         buttonList.add( button );
         buttonCanvas.addScreenChild( button );
     }
-    
+
     private void updateButtonLayout() {
-        
+
         double maxHeight = 0;
         Iterator i = buttonList.iterator();
         while ( i.hasNext() ) {
-           PNode button = (PNode) i.next();
-           if ( button.getVisible() ) {
-               maxHeight = Math.max( maxHeight, button.getFullBoundsReference().getHeight() );
-           }
+            PNode button = (PNode) i.next();
+            if ( button.getVisible() ) {
+                maxHeight = Math.max( maxHeight, button.getFullBoundsReference().getHeight() );
+            }
         }
-        
+
         double previousX = 0;
         i = buttonList.iterator();
         while ( i.hasNext() ) {
-           PNode button = (PNode) i.next();
-           if ( button.getVisible() ) {
-                button.setOffset( previousX, ( maxHeight - button.getFullBoundsReference().getHeight() ) / 2  );
+            PNode button = (PNode) i.next();
+            if ( button.getVisible() ) {
+                button.setOffset( previousX, ( maxHeight - button.getFullBoundsReference().getHeight() ) / 2 );
                 previousX += button.getFullBoundsReference().getWidth() + BUTTON_X_SPACING;
-           }
+            }
         }
-        
+
         buttonCanvas.setPreferredSize( new Dimension( (int) previousX, (int) maxHeight ) );
         backgroundNode.setSize( getWidth(), getHeight() );
     }
-    
+
     //------------------------------------------------------------------------
     // Setters & getters
     //------------------------------------------------------------------------
-    
+
     /**
      * Returns the component responsible for handling play/pause button presses.
      *
@@ -226,7 +228,7 @@ public class PiccoloTimeControlPanel extends JPanel{
     public PNode getPlayPauseButton() {
         return playPauseButton;
     }
-    
+
     /**
      * Sets the visibility of the Rewind button.
      * This button is invisible by default for backward compatibility with existing sims.
@@ -245,7 +247,7 @@ public class PiccoloTimeControlPanel extends JPanel{
      * @param visible true if the time display should be visible
      */
     public void setTimeDisplayVisible( boolean visible ) {
-    	timeDisplayPanel.setVisible( visible );
+        timeDisplayPanel.setVisible( visible );
         if ( visible ) {
             updateTimeDisplay();
         }
@@ -347,15 +349,23 @@ public class PiccoloTimeControlPanel extends JPanel{
             updateTimeDisplay();
         }
     }
-    
+
     public void setStepButtonTooltip( String tooltip ) {
         stepTooltipHandler.setText( tooltip );
     }
-    
+
     public void setRewindButtonTooltip( String tooltip ) {
         rewindTooltipHandler.setText( tooltip );
     }
-    
+
+    public void setEnableStepWhileRunning( boolean value ) {
+        boolean needsUpdate = enableStepWhileRunning != value;
+        enableStepWhileRunning = value;
+        if ( needsUpdate ) {
+            updateButtons();
+        }
+    }
+
     //------------------------------------------------------------------------
     // Adding components
     //------------------------------------------------------------------------
@@ -387,10 +397,11 @@ public class PiccoloTimeControlPanel extends JPanel{
     //------------------------------------------------------------------------
     // Updaters
     //------------------------------------------------------------------------
-    
+
     /*
     * Updates the time display.
     */
+
     private void updateTimeDisplay() {
         if ( timeTextField.isVisible() ) {
             String sValue = timeFormat.format( time );
@@ -405,14 +416,14 @@ public class PiccoloTimeControlPanel extends JPanel{
         playPauseButton.setPlaying( !paused );
         playPauseButton.setEnabled( isEnabled() );
         playPauseTooltipHandler.setText( paused ? PLAY_TOOLTIP : PAUSE_TOOLTIP );
-        stepButton.setEnabled( isEnabled() && paused );
+        stepButton.setEnabled( isEnabled() && ( paused || enableStepWhileRunning ) );
         rewindButton.setEnabled( isEnabled() );
     }
 
     //------------------------------------------------------------------------
     // Listeners
     //------------------------------------------------------------------------
-    
+
     public void addTimeControlListener( TimeControlListener listener ) {
         listeners.add( listener );
     }
@@ -448,9 +459,9 @@ public class PiccoloTimeControlPanel extends JPanel{
     //------------------------------------------------------------------------
     // Inner classes
     //------------------------------------------------------------------------
-    
+
     public static class BackgroundNode extends PNode {
-        
+
         private final PhetPPath backgroundNode = new PhetPPath( new JLabel().getBackground() );
         private final PhetPPath tabNode = new PhetPPath();
         private int width;
@@ -486,15 +497,15 @@ public class PiccoloTimeControlPanel extends JPanel{
             path.lineTo( 0, 0 );
             return path.getGeneralPath();
         }
-        
+
         private GradientPaint getGradientPaintBorder( int height ) {
-            return new GradientPaint( 0, height / 4, darker(new JLabel().getBackground()), 0, height, darker( darker( new JLabel().getBackground() ) ) );
+            return new GradientPaint( 0, height / 4, darker( new JLabel().getBackground() ), 0, height, darker( darker( new JLabel().getBackground() ) ) );
         }
-        
+
         private GradientPaint getGradientPaint( int height ) {
             return new GradientPaint( 0, height / 4, new JLabel().getBackground(), 0, height, darker( new JLabel().getBackground() ) );
         }
-        
+
         private Color darker( Color orig ) {
             int dred = 30;
             int dgreen = 40;
@@ -513,10 +524,10 @@ public class PiccoloTimeControlPanel extends JPanel{
                     , Math.min( orig.getBlue() + dblue, 255 ) );
         }
     }
-    
+
     // test
     public static void main( String[] args ) {
-        
+
         TimeControlListener listener = new TimeControlListener() {
             public void stepPressed() {
                 System.out.println( "stepPressed" );
@@ -534,31 +545,31 @@ public class PiccoloTimeControlPanel extends JPanel{
                 System.out.println( "restartPressed" );
             }
         };
-        
-        
+
+
         PiccoloTimeControlPanel controls1 = new PiccoloTimeControlPanel();
         controls1.setStepButtonTooltip( "tooltip test" );
         controls1.addTimeControlListener( listener );
-        
+
         PiccoloTimeControlPanel controls2 = new PiccoloTimeControlPanel();
         controls2.setRewindButtonVisible( true );
         controls2.addTimeControlListener( listener );
-        
+
         PiccoloTimeControlPanel controls3 = new PiccoloTimeControlPanel();
-        controls3.addBetweenTimeDisplayAndButtons( new JLabel("test") );
+        controls3.addBetweenTimeDisplayAndButtons( new JLabel( "test" ) );
         controls3.addTimeControlListener( listener );
-        
+
         PiccoloTimeControlPanel controls4 = new PiccoloTimeControlPanel();
         controls4.setTimeDisplayVisible( true );
         controls4.addTimeControlListener( listener );
-        
+
         PiccoloTimeControlPanel controls5 = new PiccoloTimeControlPanel();
         controls5.setStepButtonTooltip( "tooltip test" );
         controls5.setRewindButtonVisible( true );
         controls5.setTimeDisplayVisible( true );
-        controls5.addBetweenTimeDisplayAndButtons( new JLabel("test") );
+        controls5.addBetweenTimeDisplayAndButtons( new JLabel( "test" ) );
         controls5.addTimeControlListener( listener );
-        
+
         JPanel panel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
         panel.setLayout( layout );
@@ -569,7 +580,7 @@ public class PiccoloTimeControlPanel extends JPanel{
         layout.addComponent( controls3, row++, column );
         layout.addComponent( controls4, row++, column );
         layout.addComponent( controls5, row++, column );
-        
+
         JFrame frame = new JFrame();
         frame.setContentPane( panel );
         frame.pack();
