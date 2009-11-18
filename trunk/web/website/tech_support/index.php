@@ -122,7 +122,7 @@ class TroubleshootingPage extends SitePage {
             Microsoft Internet Explorer 6 or later, Firefox 2 or later</p>
 
             <p><strong>Macintosh Systems</strong><br />
-            G3, G4, G5 or Intel processor<br />
+            G4, G5 or Intel processor<br />
             OS {$os_min_version_osx} or later<br />
             256MB RAM minimum<br />
             Approximately {$mac_size} MB available disk space (for full <a href="{$installer_url}">installation</a>)<br />
@@ -132,6 +132,7 @@ class TroubleshootingPage extends SitePage {
             Safari 2 or later, Firefox 2 or later</p>
 
             <p><strong>Linux Systems</strong><br />
+            <em>Linux is not officially supported or tested. But most Java and Flash sims should work, and we recommend the following Linux configuration.</em><br />
             Intel Pentium processor<br />
             256MB RAM minimum<br />
             Approximately {$lin_size} MB disk space (for full <a href="{$installer_url}">installation</a>)<br />
@@ -186,7 +187,7 @@ class TroubleshootingPage extends SitePage {
                     <li>Use the "Screen resolution" slider to select a resolution and click "OK."</li>
                 </ol>
 
-                <p><strong>Windows 98SE/2000/XP</strong></p>
+                <p><strong>Windows XP/Vista/7</strong></p>
 
                 <ol>
                     <li>From Start menu, click on "Control Panel." </li>
