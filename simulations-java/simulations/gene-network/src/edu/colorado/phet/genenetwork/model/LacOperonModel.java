@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.genenetwork.model;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
@@ -188,12 +187,6 @@ public class LacOperonModel implements IObtainGeneModelElements {
         randomlyInitModelElement(lacIForTesting);
         lacIList.add(lacIForTesting);
         
-        for (int i = 0; i < 4; i++){
-        	TransformationArrow transformationArrow = new TransformationArrow(this, new Point2D.Double(), 10);
-        	randomlyInitModelElement(transformationArrow);
-        	transformationArrowList.add(transformationArrow);
-        }
-        
         // Create and position the elements that sit on the DNA strand.
         
         double xPosition = DNA_STRAND_LOCATION.getMinX(); // Start at the far left side of the strand.
@@ -320,6 +313,11 @@ public class LacOperonModel implements IObtainGeneModelElements {
     public void addMessengerRna(MessengerRna messengerRna){
     	messengerRnaList.add(messengerRna);
     	notifyModelElementAdded(messengerRna);
+    }
+    
+    public void addTransformationArrow(TransformationArrow transformationArrow){
+    	transformationArrowList.add(transformationArrow);
+    	notifyModelElementAdded(transformationArrow);
     }
     
     private void handleClockTicked(double dt){
