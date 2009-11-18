@@ -33,7 +33,7 @@ public class TransformationArrow extends SimpleModelElement {
 	private static double DEFAULT_LENGTH = 7;   // In nanometers.
 	
 	// Time definitions for fading and overall existence.
-	private static double EXISTENCE_TIME = 2; // In seconds.
+	private static double EXISTENCE_TIME = 0.5; // In seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
