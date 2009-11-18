@@ -10,6 +10,52 @@ class SimulationsPage extends SitePage {
 
     const SIMS_PER_PAGE = 9;
 
+    private function is_cat_all_sims($cat_encoding) {
+        return (preg_match('/all[_ ]+sims/i', $cat_encoding) > 0);
+    }
+
+    private function get_view_type($cat_encoding) {
+        if (isset($_REQUEST['view_type'])) {
+            // Explicitly requested view type, honor the request
+            return $_REQUEST['view_type'];
+        }
+        else if (($this->is_cat_all_sims($cat_encoding)) && (!isset($_REQUEST['st']))) {
+            // Special case: if this category is the "all sims"
+            // category (or equivalent in intent), and we're not
+            // looking at a specific thumbnail page, force an index view
+            return "index";
+        }
+        else {
+            // Default: view in thumbnails mode
+            return "thumbs";
+        }
+    }
+
+    private function get_sorted_sims_by_cat_id($view_type, $cat_encoding, $cat_id) {
+        if (($view_type == "index") || ($this->is_cat_all_sims($cat_encoding))) {
+            // In this case, the category is "all sims" (or equivalent
+            // in intent) and we're looking at the index view, so we
+            // want the page sorted alphabetically rather than the
+            // database's specified order
+            return SimFactory::inst()->getSimsByCatId($cat_id, true);
+        }
+        else {
+            // Special case: if the caterogy is a child of the "all
+            // sims" category (or equivalent in intent), alphabetize
+            // the simulations
+            $h = new HierarchicalCategories();
+            $path = $h->getPath($cat_id);
+            foreach ($path as $ancestor) {
+                if ($this->is_cat_all_sims($ancestor['cat_name'])) {
+                    return SimFactory::inst()->getSimsByCatId($cat_id, true);
+                }
+            }
+        }
+
+        // Default: use the database's sorting order
+        return SimFactory::inst()->getSimsByCatId($cat_id, false);
+    }
+
     function render_content() {
         $result = parent::render_content();
         if (!$result) {
@@ -52,25 +98,8 @@ class SimulationsPage extends SitePage {
             $sim_limit        = 999;
         }
 
-        if (isset($_REQUEST['view_type'])) {
-            $view_type = $_REQUEST['view_type'];
-        }
-        else {
-            if (($cat_encoding == "All_Sims") && (!isset($_REQUEST['st']))) {
-                $view_type = "index";
-            }
-            else {
-                $view_type = "thumbs";
-            }
-        }
-
-        // This statement selects for all sims in the category, and orders by the sim sorting name:
-        if (($view_type == "index") || ($cat_encoding == "All_Sims")) {
-            $simulations = SimFactory::inst()->getSimsByCatId($cat_id, true);
-        }
-        else {
-            $simulations = SimFactory::inst()->getSimsByCatId($cat_id, false);
-        }
+        $view_type = $this->get_view_type($cat_encoding);
+        $simulations = $this->get_sorted_sims_by_cat_id($view_type, $cat_encoding, $cat_id);
 
         $num_sims_in_category = count($simulations);
 
