@@ -142,7 +142,7 @@ public class MessengerRna extends SimpleModelElement {
 				// Spawn a process arrow to indicate that we are transforming.
 				Rectangle2D bounds = getShape().getBounds2D();
 				Point2D processArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX(),
-						bounds.getMaxY() + getPositionRef().getY() + 4);
+						bounds.getMaxY() + getPositionRef().getY() + 3);
 				getModel().addTransformationArrow(new LacZTransformationArrow(getModel(), processArrowPos,
 						new LacZ(getModel())));
 				

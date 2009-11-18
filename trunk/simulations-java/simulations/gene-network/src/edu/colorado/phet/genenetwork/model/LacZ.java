@@ -25,7 +25,7 @@ public class LacZ extends SimpleModelElement {
 	private static final double SIZE = 10; // In nanometers.
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-SIZE, 0), 
 			new Color(185, 147, 187), new Point2D.Double(SIZE * 5, 0), Color.WHITE);
-	private static final double EXISTENCE_TIME = 10; // Seconds.
+	private static final double EXISTENCE_TIME = 15; // Seconds.
 	
 	private double existenceTimeCountdown = EXISTENCE_TIME;
 	
@@ -33,7 +33,7 @@ public class LacZ extends SimpleModelElement {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT);
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.GLUCOSE, new PDimension(0, -SIZE/2)));
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.GALACTOSE, new PDimension(0, -SIZE/2)));
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+		setMotionStrategy(new StillnessMotionStrategy(this));
 		setExistenceState(ExistenceState.FADING_IN);
 		setExistenceStrength(0.01);
 	}
@@ -80,6 +80,7 @@ public class LacZ extends SimpleModelElement {
 			}
 			else{
 				// Must be fully faded in, so move to next state.
+				setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 				setExistenceState(ExistenceState.EXISTING);
 				existenceTimeCountdown = EXISTENCE_TIME;
 			}
