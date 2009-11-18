@@ -9,6 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -42,7 +43,7 @@ public class MessengerRna extends SimpleModelElement {
 	private static final Random RAND = new Random();
 	
 	// Value that determines how long this exists before starting to fade.
-	private static final double PRE_FADE_EXISTENCE_TIME = 4; // In seconds.
+	private static final double PRE_FADE_EXISTENCE_TIME = 6; // In seconds.
 
 	//----------------------------------------------------------------------------
 	// Instance Data
@@ -137,7 +138,9 @@ public class MessengerRna extends SimpleModelElement {
 			existenceTimeCountdown -= dt;
 			if (existenceTimeCountdown <= 0){
 				// Spawn a process arrow to indicate that we are transforming.
-				Point2D processArrowPos = new Point2D.Double(getPositionRef().getX(), getPositionRef().getY() + 15);
+				Rectangle2D bounds = getShape().getBounds2D();
+				Point2D processArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX(),
+						bounds.getMaxY() + getPositionRef().getY() + 4);
 				getModel().addTransformationArrow(new TransformationArrow(getModel(), processArrowPos));
 				
 				// Start fading away.
