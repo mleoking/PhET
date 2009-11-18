@@ -32,6 +32,7 @@ public abstract class SimpleModelElement implements IModelElement{
 	private Point2D position;
 	private Paint paint;  // The paint to use when representing this element in the view.
 	private double existenceStrength = 1.0; // Maps to transparency in the view.
+	private ExistenceState existenceState = ExistenceState.EXISTING; // Controls whether fading in or out.
 	private Vector2D.Double velocity = new Vector2D.Double();
     protected ArrayList<IModelElementListener> listeners = new ArrayList<IModelElementListener>();
     private ArrayList<AttachmentPoint> bindingPoints = new ArrayList<AttachmentPoint>();
@@ -144,6 +145,14 @@ public abstract class SimpleModelElement implements IModelElement{
 			this.existenceStrength = existenceStrength;
 			notifyExistenceStrengthChanged();
 		}
+	}
+	
+	protected ExistenceState getExistenceState(){
+		return existenceState;
+	}
+	
+	protected void setExistenceState(ExistenceState existenceState){
+		this.existenceState = existenceState;
 	}
 	
 	/**
