@@ -131,10 +131,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     
     private void addModelElement(final SimpleModelElement modelElement){
     	final SimpleModelElementNode modelElementNode = new SimpleModelElementNode(modelElement, mvt);
-        if (modelElement instanceof MessengerRna){
-            modelElementNode.setPaint(null);
-            modelElementNode.setStrokePaint(Color.black);
-        }
+    	
     	if (modelElement.isPartOfDnaStrand()){
     		dnaStrandLayer.addChild(modelElementNode);
     	}
