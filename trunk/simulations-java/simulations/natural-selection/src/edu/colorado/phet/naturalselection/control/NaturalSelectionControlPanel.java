@@ -50,6 +50,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         climatePanel = new ClimatePanel();
         selectionPanel = new SelectionPanel();
         PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( module.getClock() );
+        clockControlPanel.setEnableStepWhileRunning( true );
         generationProgressPanel = new GenerationProgressPanel();
         clockControlPanel.addBetweenTimeDisplayAndButtons( generationProgressPanel );
         createRightPanel();
