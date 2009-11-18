@@ -34,35 +34,73 @@
     <!-- Private properties, do NOT change or override these                 -->
     <!-- =================================================================== -->
 
-    <property  name="trunk" value="${basedir}/.."/>
+    <property name="trunk" value="${basedir}/.."/>
     <!-- structure of the PhET codebase.-->
     <property name="dir.build-tools" value="${basedir}"/>
-	<property name="dir.common" value="${trunk}/simulations-java/common"/>
-	<property name="dir.contrib" value="${trunk}/simulations-java/contrib"/>
+    <property name="dir.common" value="${trunk}/simulations-java/common"/>
+    <property name="dir.contrib" value="${trunk}/simulations-java/contrib"/>
 
     <!-- structure of the codebase for PhET's custom Ant task -->
     <property name="ant-output" location="ant_output"/>
     <property name="phetbuild-classes-dir" location="${ant-output}/phetbuild/classes"/>
-	
-	<!-- src dependencies -->
+
+    <!-- src dependencies -->
     <property name="phetbuild-src" location="${dir.build-tools}/src"/>
-	<property name="phetcommon-src" location="${dir.common}/phetcommon/src"/>
-	<property name="flash-launcher-src" location="${trunk}/simulations-flash/flash-launcher/src"/>
+    <property name="phetcommon-src" location="${dir.common}/phetcommon/src"/>
+    <property name="flash-launcher-src" location="${trunk}/simulations-flash/flash-launcher/src"/>
     <property name="scf-src" value="${dir.build-tools}/contrib/securechannelfacade/src/main/java"/>
     <property name="licensing-src" location="${trunk}/util/licensing/src"/>
-		
-	<!-- jar dependencies -->
+
+    <!-- jar dependencies -->
     <property name="proguard.jar" location="${dir.build-tools}/contrib/proguard/lib/proguard.jar"/>
     <property name="apache.commons.lang.jar" location="${dir.build-tools}/contrib/commons-lang/commons-lang.jar"/>
     <property name="jsch.jar" location="${dir.build-tools}/contrib/jsch/jsch.jar"/>
     <property name="scala-compiler.jar" location="${dir.build-tools}/contrib/scala/scala-compiler.jar"/>
     <property name="scala-library.jar" location="${dir.build-tools}/contrib/scala/scala-library.jar"/>
-	<property name="junit.jar" location="${dir.contrib}/junit/junit.jar"/>
-	<property name="jnlp.jar" location="${dir.contrib}/javaws/jnlp.jar"/>
+    <property name="junit.jar" location="${dir.contrib}/junit/junit.jar"/>
+    <property name="jnlp.jar" location="${dir.contrib}/javaws/jnlp.jar"/>
+
+    <!-- build tools dependencies -->
+    <property name="dir.build-contrib" value="${dir.build-tools}/contrib"/>
+    <property name="dir.ant-lib" value="${dir.build-contrib}/apache-ant/lib"/>
+    
+    <property name="ant.jar" location="${dir.ant-lib}/ant.jar"/>
+    <property name="ant-launcher.jar" location="${dir.ant-lib}/ant-launcher.jar"/>
+    <property name="ant-antlr.jar" location="${dir.ant-lib}/ant-antlr.jar"/>
+    <property name="ant-apache-bcel.jar" location="${dir.ant-lib}/ant-apache-bcel.jar"/>
+    <property name="ant-apache-bsf.jar" location="${dir.ant-lib}/ant-apache-bsf.jar"/>
+    <property name="ant-apache-log4j.jar" location="${dir.ant-lib}/ant-apache-log4j.jar"/>
+    <property name="ant-apache-oro.jar" location="${dir.ant-lib}/ant-apache-oro.jar"/>
+    <property name="ant-apache-regexp.jar" location="${dir.ant-lib}/ant-apache-regexp.jar"/>
+    <property name="ant-apache-resolver.jar" location="${dir.ant-lib}/ant-apache-resolver.jar"/>
+    <property name="ant-commons-logging.jar" location="${dir.ant-lib}/ant-commons-logging.jar"/>
+    <property name="ant-commons-net.jar" location="${dir.ant-lib}/ant-commons-net.jar"/>
+    <property name="ant-jai.jar" location="${dir.ant-lib}/ant-jai.jar"/>
+    <property name="ant-javamail.jar" location="${dir.ant-lib}/ant-javamail.jar"/>
+    <property name="ant-jdepend.jar" location="${dir.ant-lib}/ant-jdepend.jar"/>
+    <property name="ant-jmf.jar" location="${dir.ant-lib}/ant-jmf.jar"/>
+    <property name="ant-jsch.jar" location="${dir.ant-lib}/ant-jsch.jar"/>
+    <property name="ant-junit.jar" location="${dir.ant-lib}/ant-junit.jar"/>
+    <property name="ant-netrexx.jar" location="${dir.ant-lib}/ant-netrexx.jar"/>
+    <property name="ant-nodeps.jar" location="${dir.ant-lib}/ant-nodeps.jar"/>
+    <property name="ant-starteam.jar" location="${dir.ant-lib}/ant-starteam.jar"/>
+    <property name="ant-stylebook.jar" location="${dir.ant-lib}/ant-stylebook.jar"/>
+    <property name="ant-swing.jar" location="${dir.ant-lib}/ant-swing.jar"/>
+    <property name="ant-testutil.jar" location="${dir.ant-lib}/ant-testutil.jar"/>
+    <property name="ant-trax.jar" location="${dir.ant-lib}/ant-trax.jar"/>
+    <property name="ant-weblogic.jar" location="${dir.ant-lib}/ant-weblogic.jar"/>
+    <property name="xercesImpl.jar" location="${dir.ant-lib}/xercesImpl.jar"/>
+    <property name="xml-apis.jar" location="${dir.ant-lib}/xml-apis.jar"/>
+    <property name="ant-dependencies"
+              value="${ant.jar} ${ant-launcher.jar} ${ant-antlr.jar} ${ant-apache-bcel.jar} ${ant-apache-bsf.jar} ${ant-apache-log4j.jar} ${ant-apache-oro.jar} ${ant-apache-regexp.jar} ${ant-apache-resolver.jar} ${ant-commons-logging.jar} ${ant-commons-net.jar} ${ant-jai.jar} ${ant-javamail.jar} ${ant-jdepend.jar} ${ant-jmf.jar} ${ant-jsch.jar} ${ant-junit.jar} ${ant-netrexx.jar} ${ant-nodeps.jar} ${ant-starteam.jar} ${ant-stylebook.jar} ${ant-swing.jar} ${ant-testutil.jar} ${ant-trax.jar} ${ant-weblogic.jar} ${xercesImpl.jar} ${xml-apis.jar}"/>
+
+    <property environment="env"/>
+    <property name="tools.jar" location="${env.JAVA_HOME}/lib/tools.jar"/>
 
     <!-- PhET task implementations -->
     <property name="phet-build-gui-classname" value="edu.colorado.phet.buildtools.gui.PhetBuildGUITask"/>
-	<property name="phetbuild-classpath-jars" value="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}:${junit.jar}:${jnlp.jar}"/>
+    <property name="phetbuild-classpath-jars"
+              value="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}:${junit.jar}:${jnlp.jar}"/>
     <property name="phetbuild-classpath" value="${phetbuild-classes-dir}:${phetbuild-classpath-jars}"/>
 
     <!-- =================================================================== -->
@@ -103,6 +141,16 @@
     <!--Default target, see description-->
     <target name="phet-build-gui" depends="_init" description="Show the PhET Build GUI for testing and deploying sims">
         <phet-build-gui/>
+    </target>
+
+    <target name="phet-build-gui-jar" depends="_build-phet-build">
+        <jar destfile="${ant-output}/phet-build-gui.jar" basedir="${phetbuild-classes-dir}">
+            <manifest>
+                <attribute name="Main-Class" value="edu.colorado.phet.buildtools.gui.PhetBuildGUI"/>
+                <attribute name="Class-Path"
+                           value="${proguard.jar} ${apache.commons.lang.jar} ${jsch.jar} ${scala-compiler.jar} ${scala-library.jar} ${junit.jar} ${jnlp.jar} ${ant-dependencies} ${tools.jar}"/>
+            </manifest>
+        </jar>
     </target>
 
 </project>
