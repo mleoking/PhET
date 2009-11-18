@@ -50,7 +50,8 @@ public class MessengerRna extends SimpleModelElement {
 	
 	private double length = 0;
 	private ArrayList<Point2D> points = new ArrayList<Point2D>();
-	private double fadeoutTimer = PRE_FADE_EXISTENCE_TIME;
+	private ExistenceState existenceState = ExistenceState.EXISTING;
+	private double existenceTimeCountdown = PRE_FADE_EXISTENCE_TIME;
 	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
@@ -131,14 +132,30 @@ public class MessengerRna extends SimpleModelElement {
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
-		if (fadeoutTimer > 0){
-			fadeoutTimer -= dt;
-		}
-		else{
-			// We are fading out of existence.
-			if (getExistenceStrength() > 0){
-				setExistenceStrength(getExistenceStrength() - 0.005);
+		switch (existenceState){
+		case EXISTING:
+			existenceTimeCountdown -= dt;
+			if (existenceTimeCountdown <= 0){
+				// Spawn a process arrow to indicate that we are transforming.
+				Point2D processArrowPos = new Point2D.Double(getPositionRef().getX(), getPositionRef().getY() + 15);
+				getModel().addTransformationArrow(new TransformationArrow(getModel(), processArrowPos));
+				
+				// Start fading away.
+				existenceState = ExistenceState.FADING_OUT;
 			}
+			break;
+			
+		case FADING_OUT:
+			if (getExistenceStrength() > 0){
+				setExistenceStrength(Math.max(getExistenceStrength() - FADE_RATE, 0));
+			}
+			// Note: When we get fully faded out, we will be removed from the model.
+			break;
+			
+		default:
+			System.err.println(getClass().getName() + " - Error: Unexpected existence state.");
+			assert false;
+			break;
 		}
 	}
 
