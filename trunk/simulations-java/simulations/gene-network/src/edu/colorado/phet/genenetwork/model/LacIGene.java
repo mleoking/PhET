@@ -15,6 +15,13 @@ public class LacIGene extends SimpleModelElement {
 	private static final double WIDTH = 20;  // Nanometers. 
 	private static final double HEIGHT = 4;  // Nanometers.
 	
+	private static final double PERIOD_OF_MRNA_GENERATION = 10; // In seconds.
+	
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+	private double mRnaGenCountdownTimer = PERIOD_OF_MRNA_GENERATION / 2;
+	
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
@@ -39,6 +46,22 @@ public class LacIGene extends SimpleModelElement {
 	@Override
 	public ModelElementType getType() {
 		return ModelElementType.LAC_I_GENE;
+	}
+
+	@Override
+	public void stepInTime(double dt) {
+		super.stepInTime(dt);
+		mRnaGenCountdownTimer -= dt;
+		if (mRnaGenCountdownTimer <= 0){
+			// Time to generate the next strand of messenger RNA.
+			MessengerRna mRna = new LacIMessengerRna(getModel(), 20);
+			mRna.setPosition(getPositionRef().getX(), getPositionRef().getY() + 5);
+			getModel().addMessengerRna(mRna);
+			mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
+					new Point2D.Double(mRna.getPositionRef().getX(), 
+							mRna.getPositionRef().getY() + 30), 3));
+			mRnaGenCountdownTimer = PERIOD_OF_MRNA_GENERATION;
+		}
 	}
 
 	@Override

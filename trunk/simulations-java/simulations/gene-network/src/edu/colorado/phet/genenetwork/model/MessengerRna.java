@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * 
  * @author John Blanco
  */
-public class MessengerRna extends SimpleModelElement {
+public abstract class MessengerRna extends SimpleModelElement {
 	
 	//----------------------------------------------------------------------------
 	// Class Data
@@ -139,12 +139,8 @@ public class MessengerRna extends SimpleModelElement {
 				// Stop moving.
 				setMotionStrategy(new StillnessMotionStrategy(this));
 				
-				// Spawn a process arrow to indicate that we are transforming.
-				Rectangle2D bounds = getShape().getBounds2D();
-				Point2D processArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX(),
-						bounds.getMaxY() + getPositionRef().getY() + 3);
-				getModel().addTransformationArrow(new LacZTransformationArrow(getModel(), processArrowPos,
-						new LacZ(getModel())));
+				// Spawn a transformation arrow to indicate that we are transforming.
+				spawnTransformationArrow();
 				
 				// Start fading away.
 				existenceState = ExistenceState.FADING_OUT;
@@ -165,6 +161,11 @@ public class MessengerRna extends SimpleModelElement {
 			break;
 		}
 	}
+	
+	/**
+	 * Create and add to the model and 
+	 */
+	protected abstract void spawnTransformationArrow();
 
 	@Override
 	public ModelElementType getType() {
@@ -173,13 +174,13 @@ public class MessengerRna extends SimpleModelElement {
 	
 	private static Shape createInitialShape(double length){
 		
-		if (length < DEFAULT_LENGTH){
+		if (length < DEFAULT_SEGMENT_LENGTH){
 			// For a length of essentially zero, return a dot.
 			return new Ellipse2D.Double(-THICKNESS / 2, -THICKNESS / 2, THICKNESS, THICKNESS);
 		}
 		else{
 			ArrayList<Point2D> linePoints = new ArrayList<Point2D>();
-			for (int i = 0; i < Math.floor(length / DEFAULT_LENGTH); i++){
+			for (int i = 0; i < Math.floor(length / DEFAULT_SEGMENT_LENGTH); i++){
 				// Add a point.
 				linePoints.add(new Point2D.Double(-length / 2 + i * DEFAULT_SEGMENT_LENGTH, 0));
 			}
