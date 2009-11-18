@@ -50,9 +50,9 @@
 
         flushing_echo("Command for ripping web site: ".RIPPER_EXE." ".$ripper_args);
 
-        //$result = exec(RIPPER_EXE." ".$ripper_args);
+        $result = exec(RIPPER_EXE." ".$ripper_args);
 
-        //flushing_echo($result);
+        flushing_echo($result);
     }
 
     //-------------------------------------------------------------------------
