@@ -39,9 +39,7 @@ public class TransformationArrow extends SimpleModelElement {
     // Instance Data
     //------------------------------------------------------------------------
 	
-	private SimpleModelElement transformationResultElement = null;
 	private double existenceTimeCountdown = EXISTENCE_TIME;
-	private ExistenceState existenceState = ExistenceState.FADING_IN;
 	
     //------------------------------------------------------------------------
     // Constructors
@@ -55,6 +53,7 @@ public class TransformationArrow extends SimpleModelElement {
 		
 		// This element fades in to existence, so it starts out with low
 		// existence strength.
+		setExistenceState(ExistenceState.FADING_IN);
 		setExistenceStrength(0.01);
 	}
 	
@@ -97,14 +96,14 @@ public class TransformationArrow extends SimpleModelElement {
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
 		
-		switch (existenceState){
+		switch (getExistenceState()){
 		case FADING_IN:
 			if (getExistenceStrength() < 1){
 				setExistenceStrength(Math.min(getExistenceStrength() + FADE_RATE, 1));
 			}
 			else{
 				// Must be fully faded in, so move to next state.
-				existenceState = ExistenceState.EXISTING;
+				setExistenceState(ExistenceState.EXISTING);
 				existenceTimeCountdown = EXISTENCE_TIME;
 			}
 			break;
@@ -113,7 +112,7 @@ public class TransformationArrow extends SimpleModelElement {
 			existenceTimeCountdown -= dt;
 			if (existenceTimeCountdown <= 0){
 				// Time to fade out.
-				existenceState = ExistenceState.FADING_OUT;
+				setExistenceState(ExistenceState.FADING_OUT);
 			}
 			break;
 			
