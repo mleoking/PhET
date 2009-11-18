@@ -9,7 +9,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,13 +30,10 @@ public abstract class MessengerRna extends SimpleModelElement {
 	
 	// Define the appearance.
 	private static final Paint ELEMENT_PAINT = Color.BLACK;
-	private static float THICKNESS = 0.25f;  // In nanometers.
-	
-	// Default initial length, used if none is specified.
-	private static float DEFAULT_LENGTH = 30;  // In nanometers.
+	private static float THICKNESS = 0.5f;  // In nanometers.
 	
 	// Default length of the segments used to create the initial shape.
-	private static float DEFAULT_SEGMENT_LENGTH = 3;
+	private static float GROWTH_SEGMENT_LENGTH = 3;
 
 	// Used so that every strand looks a little different.
 	private static final Random RAND = new Random();
@@ -59,16 +55,18 @@ public abstract class MessengerRna extends SimpleModelElement {
 	//----------------------------------------------------------------------------
 	
 	public MessengerRna(IObtainGeneModelElements model, Point2D initialPosition, double initialLength) {
-		super(model, createInitialShape(initialLength), initialPosition, ELEMENT_PAINT);
-		length = initialLength;
+		super(model, createInitialShape(), initialPosition, ELEMENT_PAINT);
+		while (length < initialLength){
+			grow(GROWTH_SEGMENT_LENGTH);
+		}
 	}
 	
 	public MessengerRna(IObtainGeneModelElements model, double initialLength) {
-		this(model, new Point2D.Double(), initialLength);
+		this(model, new Point2D.Double(0, 0), initialLength);
 	}
 
 	public MessengerRna(IObtainGeneModelElements model) {
-		this(model, new Point2D.Double(), DEFAULT_LENGTH);
+		this(model, 0);
 	}
 
 	//----------------------------------------------------------------------------
@@ -172,20 +170,8 @@ public abstract class MessengerRna extends SimpleModelElement {
 		return ModelElementType.MESSENGER_RNA;
 	}
 	
-	private static Shape createInitialShape(double length){
-		
-		if (length < DEFAULT_SEGMENT_LENGTH){
-			// For a length of essentially zero, return a dot.
-			return new Ellipse2D.Double(-THICKNESS / 2, -THICKNESS / 2, THICKNESS, THICKNESS);
-		}
-		else{
-			ArrayList<Point2D> linePoints = new ArrayList<Point2D>();
-			for (int i = 0; i < Math.floor(length / DEFAULT_SEGMENT_LENGTH); i++){
-				// Add a point.
-				linePoints.add(new Point2D.Double(-length / 2 + i * DEFAULT_SEGMENT_LENGTH, 0));
-			}
-			return createPathFromPoints(linePoints).getGeneralPath();
-		}
+	private static Shape createInitialShape(){
+		return new Ellipse2D.Double(-THICKNESS / 2, -THICKNESS / 2, THICKNESS, THICKNESS);
 	}
 	
 	/**
