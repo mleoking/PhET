@@ -402,9 +402,9 @@
 
     //--------------------------------------------------------------------------
     // This is a very specialized function that replaces the links that point
-    // to the installer files linked to on the phetsims site with links to the
+    // to the installer files linked to on the ripped site with links to the
     // main phet.colorado.edu site.  This was created to allow us to create an
-    // installer for Young and Freedman that was ripped from the phetsims site
+    // installer for Young and Freedman that was ripped from the wicket site
     // but that pointed to installers on the main site.
     //--------------------------------------------------------------------------
     function ripper_replace_installer_links() {
