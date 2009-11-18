@@ -16,7 +16,7 @@ public class LacITransformationArrow extends TransformationArrow {
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
-		if (!lacIAdded && getExistenceState() == ExistenceState.FADING_OUT){
+		if (!lacIAdded && getExistenceState() == ExistenceState.EXISTING){
 			// Time to add our LacZ to the model.
 			lacIToAddToModel.setPosition(getPositionRef().getX(), getPositionRef().getY() + 8);
 			getModel().addLacI(lacIToAddToModel);
