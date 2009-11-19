@@ -20,7 +20,7 @@ public class LacIGene extends SimpleModelElement {
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
-	private double mRnaGenCountdownTimer = PERIOD_OF_MRNA_GENERATION / 2;
+	private double mRnaGenCountdownTimer;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -29,6 +29,9 @@ public class LacIGene extends SimpleModelElement {
 	public LacIGene(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1),
 				new Point2D.Double(), new Color(167, 167, 167));
+		
+		// Set the timer so that the first one happens pretty quickly.
+		mRnaGenCountdownTimer = PERIOD_OF_MRNA_GENERATION / 8;
 	}
 	
     public LacIGene(IObtainGeneModelElements model, double x, double y) {
