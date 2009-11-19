@@ -39,7 +39,7 @@ public abstract class MessengerRna extends SimpleModelElement {
 	private static final Random RAND = new Random();
 	
 	// Value that determines how long this exists before starting to fade.
-	private static final double DEFAULT_EXISTENCE_TIME = 10; // In seconds.
+	private static final double DEFAULT_EXISTENCE_TIME = 8; // In seconds.
 
 	//----------------------------------------------------------------------------
 	// Instance Data

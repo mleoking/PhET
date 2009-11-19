@@ -1,7 +1,6 @@
 package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 
 /**
  * This class represents a transformation arrow that creates a strand of
@@ -32,7 +31,7 @@ public class MessengerRnaTransformationArrow extends TransformationArrow {
 			mRna.setPosition(getPositionRef().getX() - mRna.getShape().getBounds2D().getWidth() / 2,
 					getPositionRef().getY() + 8);
 			mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(), 
-					new Point2D.Double(mRna.getPositionRef().getX(), mRna.getPositionRef().getY() + 30), 5));
+					new Point2D.Double(mRna.getPositionRef().getX(), mRna.getPositionRef().getY() + 30), 3));
 			getModel().addMessengerRna(mRna);
 			lacIAdded = true;
 		}

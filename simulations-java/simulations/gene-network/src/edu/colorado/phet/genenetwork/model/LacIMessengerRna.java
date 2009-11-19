@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class LacIMessengerRna extends MessengerRna {
 
-	private static final double EXISTENCE_TIME = 3; // In seconds.
+	private static final double EXISTENCE_TIME = 0.5; // In seconds.
 	
 	public LacIMessengerRna(IObtainGeneModelElements model, Point2D initialPosition, double initialLength) {
 		super(model, initialPosition, initialLength);
