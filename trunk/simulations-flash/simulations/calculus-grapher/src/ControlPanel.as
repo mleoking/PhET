@@ -1,4 +1,4 @@
-﻿package {
+package {
 	import flash.display.*;
 	import flash.events.*;
 	import fl.events.*;
@@ -56,14 +56,14 @@
 			this.tiltIcon = new TiltIcon();
 			
 			this.pButton_arr = new Array(8);
-			this.pButton_arr[0] = new PushButton(this.hill_sp, hillIcon, "Hill", "left", setAlterMode);
-			this.pButton_arr[1] = new PushButton(this.linear_sp, linearIcon, "Linear", "right", setAlterMode);
-			this.pButton_arr[2] = new PushButton(this.pedestal_sp, pedestalIcon, "Pedestal", "right", setAlterMode);
-			this.pButton_arr[3] = new PushButton(this.parabola_sp, parabolaIcon, "Parabola", "left", setAlterMode);
-			this.pButton_arr[4] = new PushButton(this.sine_sp, sineIcon, "Sine", "left", setAlterMode);
-			this.pButton_arr[5] = new PushButton(this.freeform_sp, freeformIcon, "Freeform", "right", setAlterMode);
-			this.pButton_arr[6] = new PushButton(this.tilt_sp, tiltIcon, "Tilt", "left", setAlterMode);
-			this.pButton_arr[7] = new PushButton(this.offset_sp, offsetIcon, "Offset", "right", setAlterMode);
+			this.pButton_arr[0] = new PushButton(this.hill_sp, hillIcon, SimStrings.get( "hill", "Hill" ), "left", setAlterMode);
+			this.pButton_arr[1] = new PushButton(this.linear_sp, linearIcon, SimStrings.get( "undo", "Undo" ), "right", setAlterMode);
+			this.pButton_arr[2] = new PushButton(this.pedestal_sp, pedestalIcon, SimStrings.get( "pedestal", "Pedestal" ), "right", setAlterMode);
+			this.pButton_arr[3] = new PushButton(this.parabola_sp, parabolaIcon, SimStrings.get( "parabola", "Parabola" ), "left", setAlterMode);
+			this.pButton_arr[4] = new PushButton(this.sine_sp, sineIcon, SimStrings.get( "sine", "Sine" ), "left", setAlterMode);
+			this.pButton_arr[5] = new PushButton(this.freeform_sp, freeformIcon, SimStrings.get( "freeform", "Freeform" ), "right", setAlterMode);
+			this.pButton_arr[6] = new PushButton(this.tilt_sp, tiltIcon, SimStrings.get( "tilt", "Tilt" ), "left", setAlterMode);
+			this.pButton_arr[7] = new PushButton(this.offset_sp, offsetIcon, SimStrings.get( "offset", "Offset" ), "right", setAlterMode);
 				
 			this.majorTick_arr = new Array(3);
 			this.majorTick_arr[0] = new SliderMajorTick();
