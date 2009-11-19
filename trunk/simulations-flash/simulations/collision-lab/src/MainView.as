@@ -5,6 +5,7 @@ package{
 	public class MainView extends Sprite{
 		var myModel:Model;
 		var myTableView:TableView;
+		var myBallController:BallController;
 		var myPlayButtons;
 		var controlPanel:ControlPanel;
 		var momentumView:MomentumView;
@@ -25,6 +26,7 @@ package{
 			//this.stageW = this.stage.stageWidth;
 			//this.stageH = this.stage.stageHeight;
 			this.myTableView = new TableView(myModel, this);
+			//this.myBallController = new BallController(myModel, this);
 			this.controlPanel = new ControlPanel(myModel, this);
 			this.momentumView = new MomentumView(myModel, this);
 			this.phetLogo = new PhETLogo();
