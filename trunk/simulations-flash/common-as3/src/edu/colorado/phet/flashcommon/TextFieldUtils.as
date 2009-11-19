@@ -23,7 +23,7 @@ public class TextFieldUtils {
             trace(mTextField.text + " too long by factor of " + ratio + "   Initial height is " + mTextField.height + "   Initial y is " + mTextField.y);
             var oldSize:int = Number(mTextFormat.size); //TextFormat.size is type Object and must be cast to type Number
             var newSize:int = Math.round(oldSize / ratio);
-            //mTextFormat.size = newSize;
+            mTextFormat.size = newSize;
             mTextField.setTextFormat(mTextFormat);
             trace("New font size is " + mTextField.getTextFormat().size);
             mTextField.autoSize = alignment;  //resize bounding box
