@@ -9,10 +9,6 @@
 		
 		//Value of countryCode from FlashVars in HTML container
 		var countryCode:String;
-
-		// Create the SimStrings instance needed for internationalization
-		//var simStrings:SimStrings;//  = new SimStrings( "calculus-grapher-strings", countryCode );
-		//var myInternationalizer:Internationalizer;
 		
 		var myModel:Model;			//underlying math model
 		var myMainView:MainView;	//main view
