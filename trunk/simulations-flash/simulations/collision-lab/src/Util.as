@@ -1,4 +1,5 @@
-﻿//General utilities.  Useful for all sims
+﻿
+//General utilities.  Useful for all sims
 
 package{
 	import flash.events.*;
