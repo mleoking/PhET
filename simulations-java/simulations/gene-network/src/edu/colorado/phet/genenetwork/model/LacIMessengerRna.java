@@ -12,10 +12,13 @@ public class LacIMessengerRna extends MessengerRna {
 
 	public LacIMessengerRna(IObtainGeneModelElements model, Point2D initialPosition, double initialLength) {
 		super(model, initialPosition, initialLength);
+		// Set up to fade in.
+		setExistenceState(ExistenceState.FADING_IN);
+		setExistenceStrength(0.01);
 	}
 
 	public LacIMessengerRna(IObtainGeneModelElements model, double initialLength) {
-		super(model, initialLength);
+		this(model, new Point2D.Double(), initialLength);
 	}
 	
 	@Override

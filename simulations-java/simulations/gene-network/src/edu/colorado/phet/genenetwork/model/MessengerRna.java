@@ -47,7 +47,6 @@ public abstract class MessengerRna extends SimpleModelElement {
 	
 	private double length = 0;
 	private ArrayList<Point2D> points = new ArrayList<Point2D>();
-	private ExistenceState existenceState = ExistenceState.EXISTING;
 	private double existenceTimeCountdown = PRE_FADE_EXISTENCE_TIME;
 	
 	//----------------------------------------------------------------------------
@@ -130,7 +129,18 @@ public abstract class MessengerRna extends SimpleModelElement {
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
-		switch (existenceState){
+		switch (getExistenceState()){
+		case FADING_IN:
+			if (getExistenceStrength() < 1){
+				setExistenceStrength(Math.min(getExistenceStrength() + FADE_RATE, 1));
+			}
+			else{
+				// Must be fully faded in, so move to next state.
+				setExistenceState(ExistenceState.EXISTING);
+				existenceTimeCountdown = PRE_FADE_EXISTENCE_TIME;
+			}
+			break;
+			
 		case EXISTING:
 			existenceTimeCountdown -= dt;
 			if (existenceTimeCountdown <= 0){
@@ -141,7 +151,7 @@ public abstract class MessengerRna extends SimpleModelElement {
 				spawnTransformationArrow();
 				
 				// Start fading away.
-				existenceState = ExistenceState.FADING_OUT;
+				setExistenceState(ExistenceState.FADING_OUT);
 			}
 			break;
 			
@@ -199,5 +209,11 @@ public abstract class MessengerRna extends SimpleModelElement {
 		path.closePath();
 		
 		return path;
+	}
+
+	@Override
+	protected void setExistenceState(ExistenceState existenceState) {
+		// TODO Auto-generated method stub
+		super.setExistenceState(existenceState);
 	}
 }
