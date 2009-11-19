@@ -17,6 +17,7 @@ package{
 		var angleInDeg:Number;	//current angle in Degrees, from +x direction, CCW is +
 		var angleInRad:Number;
 		var tField:TextField;	//textFields cannot be rotated.
+		var tFormat:TextFormat;	//format for textfield
 		var fillColor:uint;		//color of arrow
 		var lineColor:uint;		//color of arrow border
 		
@@ -27,6 +28,13 @@ package{
 			this.shaftW = 6;
 			this.headL = 12;
 			this.tField = new TextField();
+			this.tFormat = new TextFormat();
+			tFormat.font = "Arial";
+			tFormat.bold = false;
+			tFormat.color = 0x555555;  //gray
+			//tFormat.color = 0x000000;  //black
+			tFormat.size = 14;
+			this.tField.defaultTextFormat = tFormat;
 			var str:String = new String(this.index);
 			this.tField.text = str;
 			this.tField.selectable = false;

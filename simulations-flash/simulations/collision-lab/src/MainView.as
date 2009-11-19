@@ -5,7 +5,7 @@ package{
 	public class MainView extends Sprite{
 		var myModel:Model;
 		var myTableView:TableView;
-		var myBallController:BallController;
+		//var myBallController:BallController;
 		var myPlayButtons;
 		var controlPanel:ControlPanel;
 		var momentumView:MomentumView;
