@@ -13,6 +13,10 @@ public class LacITransformationArrow extends TransformationArrow {
 		lacIToAddToModel = lacI;
 	}
 
+	public LacITransformationArrow(IObtainGeneModelElements model, LacI lacI) {
+		this(model, new Point2D.Double(0,0), lacI);
+	}
+
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
