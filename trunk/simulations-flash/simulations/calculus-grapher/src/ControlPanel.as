@@ -126,6 +126,8 @@ public class ControlPanel extends Sprite {
         var integralCheck : CheckBox = this.integral_cb;
         integralCheck.label = SimStrings.get("integral", "Integral");
         TextFieldUtils.resizeText(integralCheck.textField, "left");
+        //integralCheck.setStyle( "fontSize", 2 );
+        //integralCheck.setStyle( "backgroundColor", 0xFF0000 );
 
         var derivativeCheck : CheckBox = this.derivative_cb;
         derivativeCheck.label = SimStrings.get("derivative", "Derivative");
