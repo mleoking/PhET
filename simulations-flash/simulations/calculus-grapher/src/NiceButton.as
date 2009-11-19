@@ -2,6 +2,8 @@
 	import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
+
+    import edu.colorado.phet.flashcommon.TextFieldUtils;
 	
 	public class NiceButton {
 		private var buttonBody:Object;
@@ -20,6 +22,7 @@
 
         public function setLabel( label : String ) : void {
             buttonBody.label_txt.text = label;
+            TextFieldUtils.resizeText( buttonBody.label_txt, "center" );
         }
 		
 		public function makeButton():void {
