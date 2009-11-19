@@ -1,0 +1,48 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: November 12-18, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Reactants, Products and Leftovers:
+  - game design with Kelly
+  - documented game design, created mockups
+  - misc email discussions about game design
+  - added skeleton code for Game tab
+  - minor tweaks to layout and fonts
+  - published 0.00.13, 0.00.14
+  
+  common code:
+  - PSwing memory leak, #1874
+  - text tags (ADA), #1883
+  - mouse emulators (ADA), #1884
+  - high contrast (ADA), #1863
+  - explicitly close JarFiles, #1895
+  
+  build process:
+  - discussed Java->Scala dependencies
+  - investigated problem with resource deploy process, probably due to open JarFiles
+  
+  misc:
+  - status meeting
+  - update System Requirements on website, #1885
+  - removed Mac warning on website, #1890 (with Dano)
+  - JWS warning icon, #1880
+  - filed bug report with Sun about URL encoding of '+', #1817
+  - checked Translation Utility for problems with BOM, #1891
+
+WHAT'S NEXT:
+
+  - continue work on Reactants, Products and Leftovers
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   November 26-29
+   February 12-15
+  
+--
