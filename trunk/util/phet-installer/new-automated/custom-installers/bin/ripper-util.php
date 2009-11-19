@@ -48,6 +48,10 @@
             $ripper_args = RIPPER_ARGS_YF;
         }
 
+        flushing_echo("Obtaining ripper version with command: ".RIPPER_EXE." ".RIPPER_VERSION_ARGS);
+
+        exec(RIPPER_EXE." ".RIPPER_VERSION_ARGS);
+
         flushing_echo("Command for ripping web site: ".RIPPER_EXE." ".$ripper_args);
 
         $result = exec(RIPPER_EXE." ".$ripper_args);
