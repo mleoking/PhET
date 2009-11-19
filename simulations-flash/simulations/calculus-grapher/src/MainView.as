@@ -2,6 +2,8 @@
 import flash.display.Sprite;
 import flash.display.Graphics;
 
+import edu.colorado.phet.flashcommon.*;
+
 public class MainView extends Sprite{
     var myModel:Model;
     var myStageBackground:StageBackground;	//library symbol, necessary to place all graphics on single symbol with hard-coded width & height due to bug in html publish
@@ -30,6 +32,8 @@ public class MainView extends Sprite{
         controlPanel = new ControlPanel(myModel, this);
         phetLogo = new PhETLogo()
         dragMeSign = new DragMe();
+        dragMeSign["dragMeClip"].dragMeText.text = SimStrings.get("dragMe", "Drag Me!");
+        TextFieldUtils.resizeText( dragMeSign["dragMeClip"].dragMeText, "left" );
         ruler = new Ruler();
     }//end of constructor
 
