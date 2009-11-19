@@ -2,6 +2,7 @@
 	import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
+	import flash.geom.*;
 	
 	public class TableView extends Sprite{
 		var myModel:Model;
@@ -121,6 +122,7 @@
 				ball_arr[i].y = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getY();
 				//trace("i: "+i+"  x: "+ball_arr[i].x+"  y: "+ball_arr[i].y);
 				this.canvas.addChild(ball_arr[i]);
+				this.makeSpriteDraggable(ball_arr[i], i);
 				//center label on ball
 				this.ballLabels[i].autoSize = TextFieldAutoSize.CENTER;
 				this.ballLabels[i].x = -this.ballLabels[i].width/2;
@@ -129,6 +131,43 @@
 			}//for
 			
 		}//createBallImages()
+		
+		public function makeSpriteDraggable(target:Sprite, ballIndex:int):void{
+			var indx:int = ballIndex;
+			var pixPerM:int = this.pixelsPerMeter;
+			var modelRef:Model = this.myModel;
+			var H:Number = modelRef.borderHeight;
+			target.buttonMode = true;
+			target.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
+			target.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
+			target.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
+			var theStage:Object = target.parent;
+			var clickOffset:Point;
+			function startTargetDrag(evt:MouseEvent):void{	
+				//problem with localX, localY if sprite is rotated.
+				clickOffset = new Point(evt.localX, evt.localY);
+				//trace("evt.localX: "+evt.localX);
+				//trace("evt.localY: "+evt.localY);
+			}
+			function stopTargetDrag(evt:MouseEvent):void{
+				//trace("stop dragging");
+				clickOffset = null;
+			}
+			function dragTarget(evt:MouseEvent):void{
+				if(clickOffset != null){  //if dragging
+					//trace("theStage.mouseX: "+theStage.mouseX);
+					//trace("theStage.mouseY: "+theStage.mouseY);
+					target.x = theStage.mouseX - clickOffset.x;
+					target.y = theStage.mouseY - clickOffset.y;
+					var ballX:Number = target.x/pixPerM;
+					var ballY:Number = H - target.y/pixPerM;
+					//trace("ballY: "+ballY);
+					modelRef.ball_arr[indx].position.setXY(ballX, ballY);
+					evt.updateAfterEvent();
+				}
+			}//end of dragTarget()
+			
+		}//end makeSpriteDraggable()
 		
 		public function update():void{
 			//trace("myTableView.update() called.");
