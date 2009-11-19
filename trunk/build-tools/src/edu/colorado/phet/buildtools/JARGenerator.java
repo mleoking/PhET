@@ -108,6 +108,7 @@ public class JARGenerator {
                 }
             }
         }
+        jarFile.close();
         return (Locale[]) locales.toArray( new Locale[locales.size()] );
     }
 
@@ -134,6 +135,7 @@ public class JARGenerator {
         InputStream in = jarFile.getInputStream( e );
         Properties properties = new Properties();
         properties.load( in );
+        jarFile.close();
         return properties;
     }
 }
