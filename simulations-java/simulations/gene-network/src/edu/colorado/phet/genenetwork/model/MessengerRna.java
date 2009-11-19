@@ -39,7 +39,7 @@ public abstract class MessengerRna extends SimpleModelElement {
 	private static final Random RAND = new Random();
 	
 	// Value that determines how long this exists before starting to fade.
-	private static final double PRE_FADE_EXISTENCE_TIME = 10; // In seconds.
+	private static final double DEFAULT_EXISTENCE_TIME = 10; // In seconds.
 
 	//----------------------------------------------------------------------------
 	// Instance Data
@@ -47,7 +47,8 @@ public abstract class MessengerRna extends SimpleModelElement {
 	
 	private double length = 0;
 	private ArrayList<Point2D> points = new ArrayList<Point2D>();
-	private double existenceTimeCountdown = PRE_FADE_EXISTENCE_TIME;
+	private double existenceTimeCountdown = DEFAULT_EXISTENCE_TIME;
+	private double existenceTime = 0;
 	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
@@ -137,7 +138,7 @@ public abstract class MessengerRna extends SimpleModelElement {
 			else{
 				// Must be fully faded in, so move to next state.
 				setExistenceState(ExistenceState.EXISTING);
-				existenceTimeCountdown = PRE_FADE_EXISTENCE_TIME;
+				existenceTimeCountdown = existenceTime;
 			}
 			break;
 			
@@ -210,10 +211,13 @@ public abstract class MessengerRna extends SimpleModelElement {
 		
 		return path;
 	}
-
-	@Override
-	protected void setExistenceState(ExistenceState existenceState) {
-		// TODO Auto-generated method stub
-		super.setExistenceState(existenceState);
+	
+	/**
+	 * Set the time that this will exist once fully faded in.  Calling this
+	 * after fadeout has started will have no effect.
+	 * @param existenceTime
+	 */
+	protected void setExistenceTime(double existenceTime){
+		this.existenceTime = existenceTime;
 	}
 }
