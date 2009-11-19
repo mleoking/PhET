@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.jar.JarFile;
 
 import javax.swing.JDialog;
 
@@ -209,12 +208,8 @@ public class SimUpdater {
      * If it's not a jar, attempts to display the error returned by the server.
      */
     private boolean validateSimJar( File file ) {
-        boolean valid = true;
-        try {
-            new JarFile( file );
-        }
-        catch ( IOException e ) {
-            valid = false;
+        boolean valid = FileUtils.isJar( file );
+        if ( !valid ) {
             handleErrorSimJar( file );
         }
         return valid;
@@ -225,12 +220,8 @@ public class SimUpdater {
      * Displays an error if it's not a jar.
      */
     private boolean validateUpdateJar( File file ) {
-        boolean valid = true;
-        try { 
-            new JarFile( file );
-        }
-        catch ( IOException e ) {
-            valid = false;
+        boolean valid = FileUtils.isJar( file );
+        if ( !valid ) {
             handleErrorNotAJar( file );
         }
         return valid;

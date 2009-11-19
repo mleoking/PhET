@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.security.AccessControlException;
 import java.util.jar.JarFile;
@@ -96,7 +95,8 @@ public class FileUtils {
     public static boolean isJar( File file ) {
         //TODO: bad style to write code that depends on exceptions
         try {
-            new JarFile( file ); // throws IOException if not a jar file
+            JarFile jarFile = new JarFile( file ); // throws IOException if not a jar file
+            jarFile.close(); // don't rely on finalize to close
             return true;
         }
         catch ( IOException e ) {
