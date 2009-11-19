@@ -217,12 +217,12 @@
                 $sim_project_name_pos = strripos($dir_or_file_name, "/") + 1;
                 $sim_project_name = substr($dir_or_file_name, $sim_project_name_pos);
                 // For each JAR file in the project...
-                $flash_jar_file_names = glob( $dir_or_file_name."/*.jar" );
-                foreach ( $flash_jar_file_names as $flash_jar_file_name ) {
-                    flushing_echo( "Adding dist tag to Java JAR file: ".$flash_jar_file_name );
+                $java_jar_file_name = glob( $dir_or_file_name."/*.jar" );
+                foreach ( $java_jar_file_name as $java_jar_file_name ) {
+                    flushing_echo( "Adding dist tag to Java JAR file: ".$java_jar_file_name );
                     // Extract the properties file.
                     $properties_file_name = $sim_project_name.'/'.$sim_project_name.'.properties';
-                    extract_file_from_jar( $flash_jar_file_name, $properties_file_name, TEMP_DIR );
+                    extract_file_from_jar( $java_jar_file_name, $properties_file_name, TEMP_DIR );
                     // Remove any existing distribution tag.
                     file_remove_line_matching_pattern(TEMP_DIR.$properties_file_name, 'distribution.tag');
                     // Add the new distribution tag.
@@ -230,13 +230,13 @@
                     // Replace the properties file in the JAR with the updated version.
                     $original_dir = getcwd();
                     chdir(TEMP_DIR);
-                    add_file_to_jar($flash_jar_file_name, $properties_file_name);
+                    add_file_to_jar($java_jar_file_name, $properties_file_name);
                     chdir($original_dir);
                     // Delete the modified properties file, just to be neat.
                     unlink(TEMP_DIR.$properties_file_name);
                     rmdir(TEMP_DIR.$sim_project_name);
                     // Sign the JAR.
-                    sign_jar( $flash_jar_file_name );
+                    sign_jar( $java_jar_file_name );
                 }
             }
         }
