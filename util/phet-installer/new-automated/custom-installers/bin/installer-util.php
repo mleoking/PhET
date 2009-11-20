@@ -464,8 +464,10 @@
         }   
         else{
             foreach ($file_names as $file_name){
+                $last_slash_pos = strripos($file_name, "/");
+                $base_file_name = substr($file_name, $last_slash_pos + 1);
                 flushing_echo("Moving installer file ".$file_name." to ".OUTPUT_DIR);
-                rename(BITROCK_DIST_DIR.$file_name, OUTPUT_DIR.$file_name);
+                rename($file_name, OUTPUT_DIR.$base_file_name);
             }   
         }   
 
