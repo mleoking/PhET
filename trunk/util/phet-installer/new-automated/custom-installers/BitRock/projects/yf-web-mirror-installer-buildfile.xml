@@ -64,9 +64,6 @@
                             <origin>../../temp/website/phetsims.colorado.edu/index.html</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/installer</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
                         </distributionDirectory>
                         <distributionDirectory>
