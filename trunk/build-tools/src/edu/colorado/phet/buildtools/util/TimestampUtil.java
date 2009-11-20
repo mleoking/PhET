@@ -51,9 +51,13 @@ public class TimestampUtil {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length==0) printUsage();
+        if (args.length == 0) printUsage();
         Timestamp timestamp = getTimestamp(new File(args[0]));
-        System.out.println("timestamp = " + timestamp.getTimestamp());
+        if (timestamp == null) {
+            System.out.println("No timestamp found");
+        } else {
+            System.out.println("timestamp = " + timestamp.getTimestamp());
+        }
     }
 
     private static void printUsage() {
