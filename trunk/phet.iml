@@ -11,6 +11,8 @@
         <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="true" />
         <option name="USE_CUSTOM_CONFIG_FILE" value="false" />
         <option name="CUSTOM_CONFIG_FILE" value="" />
+        <option name="USE_CUSTOM_CONFIG_FILE_FOR_TESTS" value="false" />
+        <option name="CUSTOM_CONFIG_FILE_FOR_TESTS" value="" />
         <option name="APPLICATION_ENTRY_POINT" value="" />
         <option name="MAIN_CLASS" value="edu.colorado.phet.densityflex.Density" />
         <option name="OUTPUT_FILE_NAME" value="flex.swf" />
@@ -27,6 +29,7 @@
         <option name="CONTEXT_ROOT" value="" />
         <SERVER_TECHNOLOGY value="None" />
         <NAMESPACE_AND_MANIFEST_FILE_INFO_LIST />
+        <CONDITIONAL_COMPILATION_DEFINITION_LIST />
       </configuration>
     </facet>
   </component>
