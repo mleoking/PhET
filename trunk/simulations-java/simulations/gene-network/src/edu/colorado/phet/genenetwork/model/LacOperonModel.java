@@ -28,7 +28,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
 	private static final double DNA_STRAND_WIDTH = MODEL_AREA_WIDTH * 1.3;
 	private static final double DNA_STRAND_HEIGHT = 3;  // In nanometers.
 	private static final Rectangle2D DNA_STRAND_LOCATION = new Rectangle2D.Double(-DNA_STRAND_WIDTH / 2, 
-			-MODEL_AREA_HEIGHT * 0.4, DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
+			-MODEL_AREA_HEIGHT * 0.2, DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
 	
 	// Constant that defines where the mobile model elements can go.
 	private static final Rectangle2D MOTION_BOUNDS = new Rectangle2D.Double(MODEL_BOUNDS.getMinX(), 
@@ -175,7 +175,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
 		
         randomlyInitModelElement(cap);
 
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 2; i++){
         	RnaPolymerase rnaPolymerase = new RnaPolymerase(this);
         	randomlyInitModelElement(rnaPolymerase);
         	rnaPolymeraseList.add(rnaPolymerase);
