@@ -1,3 +1,4 @@
+# 3.17.21 (36812) Nov 19, 2009
 Redeploy for testing, with phetcommon changes in clock control panel
 # 3.17.20 (36660) Nov 15, 2009
 Signify a circuit change and recompute physics when an element is added to the play area, resolves #1889
