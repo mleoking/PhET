@@ -46,7 +46,6 @@ class JavaSupportPage extends SitePage {
 
         <h3 id="q1">(Mac users) When I click "run now" to start the simulation all I get is a text file that opens?</h3>
         <p>
-<img style="float: left;" src="{$this->prefix}images/unhappy-mac-jnlp-logo-small.jpg" alt="Unhappy JNLP Mac Logo" />
         This problem will affect mac users who recently installed Apple's "Java for Mac OS X 10.5 Update 4". The update will typically be done via Software Update, or automatically. After installing this update, the problem appears: clicking on JNLP files in Safari or FireFox caused the JNLP file to open in TextEdit, instead of starting Java Web Start. </p>
         <p>
         The fix is:<br/>
