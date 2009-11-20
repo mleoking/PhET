@@ -3,7 +3,7 @@
     <fullName>PhET</fullName>
     <version>$VERSION$</version>
     <installerFilename>${product_shortname}-Installer-yf_${platform_name}.${platform_exec_suffix}</installerFilename>
-    <readmeFile>../../resources/yf-linux-readme.txt</readmeFile>
+    <readmeFile>../../resources/yf-windows-readme.txt</readmeFile>
     <licenseFile>../../../Installer-Resources/Install-Path/license.txt</licenseFile>
     <installationLogFile>${installdir}/install_log.txt</installationLogFile>
     <wrapLicenseFileText>1</wrapLicenseFileText>
@@ -101,8 +101,8 @@
                 <folder>
                     <description>Program Files</description>
                     <destination>${installdir}</destination>
-                    <name>programfileslinux</name>
-                    <platforms>linux</platforms>
+                    <name>programfileswindows</name>
+                    <platforms>windows</platforms>
                 </folder>
             </folderList>
             <initializationActionList/>
