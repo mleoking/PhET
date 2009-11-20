@@ -494,7 +494,8 @@ public class NuclearDecayProportionChart extends PNode {
 			Point2D fakeDecayEventForCorner = new Point2D.Double( time, previousDecayEvent.getY());
 			_graph.graphDecayEvent(fakeDecayEventForCorner);
 		}
-    	Point2D decayEvent = new Point2D.Double( time, 100 * (double)numUndecayed/(double)(numDecayed + numUndecayed));
+        double yValue = numUndecayed == 0 ? 0 : 100 * (double) numUndecayed / (double) (numDecayed + numUndecayed); // prevent divide by zero error
+        Point2D decayEvent = new Point2D.Double( time, yValue);
 		_decayEvents.add( decayEvent );
 		_graph.graphDecayEvent( decayEvent );
     }
