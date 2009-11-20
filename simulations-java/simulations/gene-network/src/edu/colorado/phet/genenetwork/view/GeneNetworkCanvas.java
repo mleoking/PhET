@@ -98,6 +98,11 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         for (SimpleModelElement modelElement : model.getAllSimpleModelElements()){
         	addModelElement(modelElement);
         }
+        
+        // Add the tool box.
+        
+        addScreenChild(new ToolboxNode(this));
+        
     }
 
     //------------------------------------------------------------------------
@@ -144,11 +149,11 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     	modelElement.addListener(new ModelElementListenerAdapter(){
     		@Override
     		public void removedFromModel() {
-    	    	if ( ( rovingModelElementLayer.removeChild(modelElementNode) == null ) &&
-    	       		 ( dnaStrandLayer.removeChild(modelElementNode) == null ) ){
-    	       		System.err.println(getClass().getName() + " - Error: Unable to find node for model element.");
-    	       	}
-    		};
+    	    	if ( rovingModelElementLayer.getChildrenReference().contains(modelElementNode) ){
+    	    		rovingModelElementLayer.removeChild(modelElementNode);}
+    	    	if ( dnaStrandLayer.getChildrenReference().contains(modelElementNode) ){
+    	    		dnaStrandLayer.removeChild(modelElementNode);}
+    		}
     	});
     }    
 }
