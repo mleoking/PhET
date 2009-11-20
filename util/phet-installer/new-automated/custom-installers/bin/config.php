@@ -232,14 +232,6 @@
 
     define("BITROCK_DIST_PREFIX",       BITROCK_PRODUCT_SHORTNAME."-Installer_");
 
-    // File name of the KSU web mirror installer.  Decided to avoid using all
-    // the little bits and pieces of names and just put the whole thing here.
-    // Hopefully, this is easier to maintain.
-    define("BITROCK_KSU_WEB_MIRROR_INSTALLER_NAME",  "PhET-Installer-ksu_windows.exe");
-
-    // File name of the YF web mirror installer.
-    define("BITROCK_YF_WEB_MIRROR_INSTALLER_NAME",  "PhET-Installer-yf_linux.bin");
-
     define("BITROCK_DISTNAME_WINNT",      BITROCK_DIST_PREFIX.BITROCK_PLATFORM_WINDOWS.BITROCK_PLATFORM_EXEC_SUFFIX_WINDOWS);
     define("BITROCK_DISTNAME_Linux",      BITROCK_DIST_PREFIX.BITROCK_PLATFORM_LINUX.BITROCK_PLATFORM_EXEC_SUFFIX_LINUX);
     define("BITROCK_DISTNAME_Darwin",     BITROCK_DIST_PREFIX.BITROCK_PLATFORM_OSX.BITROCK_PLATFORM_EXEC_SUFFIX_OSX);
