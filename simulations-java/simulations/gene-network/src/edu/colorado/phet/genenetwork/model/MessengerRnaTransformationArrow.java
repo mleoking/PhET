@@ -29,7 +29,7 @@ public class MessengerRnaTransformationArrow extends TransformationArrow {
 		if (!lacIAdded && getExistenceState() == ExistenceState.EXISTING){
 			// Time to add our messenger RNA to the model.
 			mRna.setPosition(getPositionRef().getX() - mRna.getShape().getBounds2D().getWidth() / 2,
-					getPositionRef().getY() + 8);
+					getPositionRef().getY() + 4);
 			mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(), 
 					new Point2D.Double(mRna.getPositionRef().getX(), mRna.getPositionRef().getY() + 30), 3));
 			getModel().addMessengerRna(mRna);
