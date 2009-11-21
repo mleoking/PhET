@@ -33,7 +33,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     }
     else appliedForceSeries :: frictionSeries :: wallSeries :: netForceSeries :: Nil
 
-    val parallelForceControlGraph = new MotionSeriesGraph(appliedForceSeries, canvas, timeseriesModel, updateableObject, model,-2000,2000) {
+    val parallelForceControlGraph = new MotionSeriesGraph(appliedForceSeries, canvas, timeseriesModel, updateableObject, model, -2000, 2000) {
       for (s <- forceSeriesList.tail) addSeries(s)
       addControl(new SeriesSelectionControl("forces.parallel-title-with-units".translate, 5) {
         addToGrid(appliedForceSeries, createEditableLabel)
@@ -41,7 +41,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       })
     }
 
-    def resetSeriesVisibility() = for (s <- forceSeriesList ) s.setVisible(s == netForceSeries)//only show the net force series on startup
+    def resetSeriesVisibility() = for (s <- forceSeriesList) s.setVisible(s == netForceSeries) //only show the net force series on startup
 
     //do this after adding to the list so the chart gets updated properly
     resetSeriesVisibility()
@@ -57,7 +57,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     val thermalEnergySeries = new ControlGraphSeries(formatEnergy("energy.thermal".translate), thermalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getThermalEnergy))
     val energySeriesList = totalEnergySeries :: keSeries :: peSeries :: thermalEnergySeries :: Nil
 
-    val theEnergyGraph = new MotionSeriesGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model,-10000,10000) {
+    val theEnergyGraph = new MotionSeriesGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model, -10000, 10000) {
       setEditable(false)
 
       //todo: can these next 2 lines be moved to parent class?
@@ -88,7 +88,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     val frictionWorkSeries = new ControlGraphSeries(formatWork("work.friction".translate), frictionWorkColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getFrictiveWork))
     val energyWorkSeriesList = totalEnergySeries :: keSeries :: peSeries :: thermalEnergySeries :: appliedWorkSeries :: gravityWorkSeries :: frictionWorkSeries :: Nil
 
-    val workEnergyGraph = new MotionSeriesGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model,-2000,2000) {
+    val workEnergyGraph = new MotionSeriesGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model, -2000, 2000) {
       setEditable(false)
       getJFreeChartNode.setBuffered(false)
       getJFreeChartNode.setPiccoloSeries()
@@ -104,7 +104,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
   def kineticEnergyGraph = {
     val keSeries = new ControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getKineticEnergy))
 
-    val keGraph = new MotionSeriesGraph(keSeries, canvas, timeseriesModel, updateableObject, model,-10000, 10000) {
+    val keGraph = new MotionSeriesGraph(keSeries, canvas, timeseriesModel, updateableObject, model, -10000, 10000) {
       setEditable(false)
       getJFreeChartNode.setBuffered(false)
       getJFreeChartNode.setPiccoloSeries()
@@ -128,9 +128,9 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     }
     val updater = () => accelerationVariable.doAddValue(model.bead.acceleration, model.getTime)
     model.stepListeners += updater
-    model.resetListeners_+= (updater)
+    model.resetListeners_+=(updater)
     val accelerationSeries = new ControlGraphSeries("properties.acceleration".translate, MotionSeriesDefaults.accelerationColor, "accel".literal, "properties.acceleration.units".translate, characterUnused, accelerationVariable)
-    val accelerationGraph = new MotionSeriesGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model,-50,50) {
+    val accelerationGraph = new MotionSeriesGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model, -50, 50) {
       addControl(new SeriesSelectionControl(1) {
         addComponentsToGrid(new SeriesControlTitleLabel(accelerationSeries), if (editable) createEditableLabel(accelerationSeries) else createLabel(accelerationSeries))
       })
@@ -151,9 +151,9 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     }
     val updater = () => velocityVariable.doAddValue(model.bead.velocity, model.getTime)
     model.stepListeners += updater
-    model.resetListeners_+= (updater)
+    model.resetListeners_+=(updater)
     val velocitySeries = new ControlGraphSeries("properties.velocity".translate, MotionSeriesDefaults.velocityColor, "vel".literal, "properties.velocity.units".translate, characterUnused, velocityVariable)
-    val velocityGraph = new MotionSeriesGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model,-25,25) {
+    val velocityGraph = new MotionSeriesGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model, -25, 25) {
       addControl(new SeriesSelectionControl(1) {
         addComponentsToGrid(new SeriesControlTitleLabel(velocitySeries), if (editable) createEditableLabel(velocitySeries) else createLabel(velocitySeries))
       })
@@ -174,8 +174,8 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     model.stepListeners += updater
     model.resetListeners_+=(updater)
     val positionSeries = new ControlGraphSeries("properties.position".translate, MotionSeriesDefaults.positionColor, "x".literal, "properties.position.units".translate, characterUnused, positionVariable)
-    val positionGraph = new MotionSeriesGraph(positionSeries, canvas, timeseriesModel, updateableObject, model,-10,10) {
-      addControl(new SeriesSelectionControl( 1) {
+    val positionGraph = new MotionSeriesGraph(positionSeries, canvas, timeseriesModel, updateableObject, model, -10, 10) {
+      addControl(new SeriesSelectionControl(1) {
         addComponentsToGrid(new SeriesControlTitleLabel(positionSeries), if (editable) createEditableLabel(positionSeries) else createLabel(positionSeries))
       })
       setEditable(editable)
