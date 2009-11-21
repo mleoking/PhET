@@ -27,15 +27,11 @@ public class LacZ extends SimpleModelElement {
 			new Color(185, 147, 187), new Point2D.Double(SIZE * 5, 0), Color.WHITE);
 	private static final double EXISTENCE_TIME = 15; // Seconds.
 	
-	private double existenceTimeCountdown = EXISTENCE_TIME;
-	
 	public LacZ(IObtainGeneModelElements model, Point2D initialPosition) {
-		super(model, createShape(), initialPosition, ELEMENT_PAINT);
+		super(model, createShape(), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.GLUCOSE, new PDimension(0, -SIZE/2)));
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.GALACTOSE, new PDimension(0, -SIZE/2)));
 		setMotionStrategy(new StillnessMotionStrategy(this));
-		setExistenceState(ExistenceState.FADING_IN);
-		setExistenceStrength(0.01);
 	}
 	
 	public LacZ(IObtainGeneModelElements model) {
@@ -50,7 +46,6 @@ public class LacZ extends SimpleModelElement {
 	public ModelElementType getType() {
 		return ModelElementType.LAC_Z;
 	}
-
 	
 	private static Shape createShape(){
 		// Start with a circle.
@@ -68,42 +63,9 @@ public class LacZ extends SimpleModelElement {
 		area.subtract(new Area(lactoseShape));
 		return area;
 	}
-	
+
 	@Override
-	public void stepInTime(double dt) {
-		super.stepInTime(dt);
-		
-		switch (getExistenceState()){
-		case FADING_IN:
-			if (getExistenceStrength() < 1){
-				setExistenceStrength(Math.min(getExistenceStrength() + FADE_RATE, 1));
-			}
-			else{
-				// Must be fully faded in, so move to next state.
-				setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
-				setExistenceState(ExistenceState.EXISTING);
-				existenceTimeCountdown = EXISTENCE_TIME;
-			}
-			break;
-			
-		case EXISTING:
-			existenceTimeCountdown -= dt;
-			if (existenceTimeCountdown <= 0){
-				// Time to fade out.
-				setExistenceState(ExistenceState.FADING_OUT);
-			}
-			break;
-			
-		case FADING_OUT:
-			if (getExistenceStrength() > 0){
-				setExistenceStrength(Math.max(getExistenceStrength() - FADE_RATE, 0));
-			}
-			// Note: When we get fully faded out, we will be removed from the model.
-			break;
-			
-		default:
-			assert false;
-			break;
-		}
+	protected void onTransitionToExistingState() {
+		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 	}
 }

@@ -37,9 +37,6 @@ public abstract class MessengerRna extends SimpleModelElement {
 
 	// Used so that every strand looks a little different.
 	private static final Random RAND = new Random();
-	
-	// Value that determines how long this exists before starting to fade.
-	private static final double DEFAULT_EXISTENCE_TIME = 8; // In seconds.
 
 	//----------------------------------------------------------------------------
 	// Instance Data
@@ -47,26 +44,21 @@ public abstract class MessengerRna extends SimpleModelElement {
 	
 	private double length = 0;
 	private ArrayList<Point2D> points = new ArrayList<Point2D>();
-	private double existenceTimeCountdown = DEFAULT_EXISTENCE_TIME;
-	private double existenceTime = 0;
 	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
 	//----------------------------------------------------------------------------
 	
-	public MessengerRna(IObtainGeneModelElements model, Point2D initialPosition, double initialLength) {
-		super(model, createInitialShape(), initialPosition, ELEMENT_PAINT);
+	protected MessengerRna(IObtainGeneModelElements model, Point2D initialPosition, double initialLength,
+			boolean fadeIn, double existenceTime) {
+		super(model, createInitialShape(), initialPosition, ELEMENT_PAINT, fadeIn, existenceTime);
 		while (length < initialLength){
 			grow(GROWTH_SEGMENT_LENGTH);
 		}
 	}
 	
-	public MessengerRna(IObtainGeneModelElements model, double initialLength) {
-		this(model, new Point2D.Double(0, 0), initialLength);
-	}
-
-	public MessengerRna(IObtainGeneModelElements model) {
-		this(model, 0);
+	public MessengerRna(IObtainGeneModelElements model, double initialLength, boolean fadeIn, double existenceTime) {
+		this(model, new Point2D.Double(0, 0), initialLength, fadeIn, existenceTime);
 	}
 
 	//----------------------------------------------------------------------------
@@ -128,55 +120,6 @@ public abstract class MessengerRna extends SimpleModelElement {
 	}
 	
 	@Override
-	public void stepInTime(double dt) {
-		super.stepInTime(dt);
-		switch (getExistenceState()){
-		case FADING_IN:
-			if (getExistenceStrength() < 1){
-				setExistenceStrength(Math.min(getExistenceStrength() + FADE_RATE, 1));
-			}
-			else{
-				// Must be fully faded in, so move to next state.
-				setExistenceState(ExistenceState.EXISTING);
-				existenceTimeCountdown = existenceTime;
-			}
-			break;
-			
-		case EXISTING:
-			existenceTimeCountdown -= dt;
-			if (existenceTimeCountdown <= 0){
-				// Stop moving.
-				setMotionStrategy(new StillnessMotionStrategy(this));
-				
-				// Spawn a transformation arrow to indicate that we are transforming.
-				spawnTransformationArrow();
-				
-				// Start fading away.
-				setExistenceState(ExistenceState.FADING_OUT);
-			}
-			break;
-			
-		case FADING_OUT:
-			if (getExistenceStrength() > 0){
-				setExistenceStrength(Math.max(getExistenceStrength() - FADE_RATE, 0));
-			}
-			// Note: When we get fully faded out, we will be automatically
-			// removed from the model.
-			break;
-			
-		default:
-			System.err.println(getClass().getName() + " - Error: Unexpected existence state.");
-			assert false;
-			break;
-		}
-	}
-	
-	/**
-	 * Create and add to the model and 
-	 */
-	protected abstract void spawnTransformationArrow();
-
-	@Override
 	public ModelElementType getType() {
 		return ModelElementType.MESSENGER_RNA;
 	}
@@ -210,14 +153,5 @@ public abstract class MessengerRna extends SimpleModelElement {
 		path.closePath();
 		
 		return path;
-	}
-	
-	/**
-	 * Set the time that this will exist once fully faded in.  Calling this
-	 * after fadeout has started will have no effect.
-	 * @param existenceTime
-	 */
-	protected void setExistenceTime(double existenceTime){
-		this.existenceTime = existenceTime;
 	}
 }

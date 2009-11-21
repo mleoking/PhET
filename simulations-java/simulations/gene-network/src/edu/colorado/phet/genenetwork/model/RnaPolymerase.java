@@ -54,7 +54,7 @@ public class RnaPolymerase extends SimpleModelElement {
     //------------------------------------------------------------------------
 	
 	public RnaPolymerase(IObtainGeneModelElements model, Point2D initialPosition) {
-		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
+		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		
 		// This binding point should is hand tweaked to make it work.
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_PROMOTER, LAC_PROMOTER_ATTACHMENT_POINT_OFFSET));

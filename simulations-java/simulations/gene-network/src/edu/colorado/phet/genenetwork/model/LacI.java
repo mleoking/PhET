@@ -62,13 +62,10 @@ public class LacI extends SimpleModelElement {
     //------------------------------------------------------------------------
 	
 	public LacI(IObtainGeneModelElements model, Point2D initialPosition) {
-		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
+		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 		// Add binding point for LacOperator.
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_OPERATOR, LAC_OPERATOR_ATTACHMENT_POINT_OFFSET));
-		// Set up to fade in.
-		setExistenceState(ExistenceState.FADING_IN);
-		setExistenceStrength(0.01);
 	}
 	
 	public LacI(IObtainGeneModelElements model) {
@@ -121,39 +118,6 @@ public class LacI extends SimpleModelElement {
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
 		
-		switch (getExistenceState()){
-		case FADING_IN:
-			if (getExistenceStrength() < 1){
-				setExistenceStrength(Math.min(getExistenceStrength() + FADE_RATE, 1));
-			}
-			else{
-				// Must be fully faded in, so move to next state.
-				setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
-				setExistenceState(ExistenceState.EXISTING);
-				existenceTimeCountdown = EXISTENCE_TIME;
-			}
-			break;
-			
-		case EXISTING:
-			existenceTimeCountdown -= dt;
-			if (existenceTimeCountdown <= 0){
-				// Time to fade out.
-				setExistenceState(ExistenceState.FADING_OUT);
-			}
-			break;
-			
-		case FADING_OUT:
-			if (getExistenceStrength() > 0){
-				setExistenceStrength(Math.max(getExistenceStrength() - FADE_RATE, 0));
-			}
-			// Note: When we get fully faded out, we will be removed from the model.
-			break;
-			
-		default:
-			assert false;
-			break;
-		}
-
 		updateAttachements(dt);
 	}
 

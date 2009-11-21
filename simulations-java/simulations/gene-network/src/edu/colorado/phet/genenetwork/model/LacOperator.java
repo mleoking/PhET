@@ -45,7 +45,7 @@ public class LacOperator extends SimpleModelElement {
 	//----------------------------------------------------------------------------
 
 	public LacOperator(IObtainGeneModelElements model, Point2D initialPosition) {
-		super(model, createShape(), initialPosition, ELEMENT_PAINT);
+		super(model, createShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		// Add binding point for LacI.
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_I, LAC_I_ATTACHMENT_POINT_OFFSET));
 	}

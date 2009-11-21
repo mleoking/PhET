@@ -18,6 +18,10 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public abstract class SimpleModelElement implements IModelElement{
 	
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+
 	// Range within with bonding can occur.
 	protected static final double ATTACHMENT_INITIATION_RANGE = 70;  // In nanometers.
 	
@@ -27,6 +31,10 @@ public abstract class SimpleModelElement implements IModelElement{
 	
 	// Rate at which elements fade in and out of existence.
 	protected static final double FADE_RATE = 0.05;
+	
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
 	
 	private Shape shape;
 	private Point2D position;
@@ -39,20 +47,41 @@ public abstract class SimpleModelElement implements IModelElement{
     private AbstractMotionStrategy motionStrategy = null;
     private final IObtainGeneModelElements model;
     private boolean dragging;
+    private double existenceTimeCountdown;
+    private double existenceTime;
 
-    public boolean isUserControlled() {
-        return dragging;
-    }
-
-    public SimpleModelElement(IObtainGeneModelElements model, Shape initialShape,
-			Point2D initialPosition, Paint paint){
+    //------------------------------------------------------------------------
+    // Constructor(s)
+    //------------------------------------------------------------------------
+	
+    public SimpleModelElement(IObtainGeneModelElements model, Shape initialShape, Point2D initialPosition,
+    		Paint paint, boolean fadeIn, double existenceTime){
 		
 		this.model = model;
 		this.shape = initialShape;
 		this.position = initialPosition;
 		this.paint = paint;
+		this.existenceTime = existenceTime;
+		
+		if (fadeIn){
+			setExistenceState(ExistenceState.FADING_IN);
+			setExistenceStrength(0.01);
+		}
+		else{
+			setExistenceState(ExistenceState.EXISTING);
+			setExistenceStrength(1);
+			existenceTimeCountdown = existenceTime;
+		}
 	}
 	
+    //------------------------------------------------------------------------
+    // Methods
+    //------------------------------------------------------------------------
+	
+    public boolean isUserControlled() {
+    	return dragging;
+    }
+    
 	public abstract ModelElementType getType();
 	
 	public boolean isPartOfDnaStrand(){
@@ -151,7 +180,7 @@ public abstract class SimpleModelElement implements IModelElement{
 		return existenceState;
 	}
 	
-	protected void setExistenceState(ExistenceState existenceState){
+	private void setExistenceState(ExistenceState existenceState){
 		this.existenceState = existenceState;
 	}
 	
@@ -226,6 +255,45 @@ public abstract class SimpleModelElement implements IModelElement{
 		if (motionStrategy != null){
 			motionStrategy.doUpdatePositionAndMotion(dt);
 		}
+		doFadeInOut(dt);
+	}
+	
+	private void doFadeInOut(double dt){
+		switch (getExistenceState()){
+		case FADING_IN:
+			if (getExistenceStrength() < 1){
+				setExistenceStrength(Math.min(getExistenceStrength() + FADE_RATE, 1));
+			}
+			else{
+				// Must be fully faded in, so move to next state.
+				setExistenceState(ExistenceState.EXISTING);
+				existenceTimeCountdown = existenceTime;
+				onTransitionToExistingState();
+			}
+			break;
+			
+		case EXISTING:
+			if (existenceTime != Double.POSITIVE_INFINITY){
+				existenceTimeCountdown -= dt;
+				if (existenceTimeCountdown <= 0){
+					// Time to fade out.
+					setExistenceState(ExistenceState.FADING_OUT);
+					onTransitionToFadingOutState();
+				}
+			}
+			break;
+			
+		case FADING_OUT:
+			if (getExistenceStrength() > 0){
+				setExistenceStrength(Math.max(getExistenceStrength() - FADE_RATE, 0));
+			}
+			// Note: When we get fully faded out, we will be removed from the model.
+			break;
+			
+		default:
+			assert false;
+			break;
+		}
 	}
 
 	protected void setMotionStrategy(AbstractMotionStrategy motionStrategy){
@@ -233,6 +301,36 @@ public abstract class SimpleModelElement implements IModelElement{
 			this.motionStrategy.cleanup();
 		}
 		this.motionStrategy = motionStrategy;
+	}
+	
+	/**
+	 * This is a hook that allows decendent classes to take some sort of
+	 * action when transitioning into the EXISTING state.
+	 */
+	protected void onTransitionToExistingState(){
+		// Does nothing in base class.
+	}
+
+	/**
+	 * This is a hook that allows decendent classes to take some sort of
+	 * action when transitioning into the FADING_OUT state.
+	 */
+	protected void onTransitionToFadingOutState(){
+		// Does nothing in base class.
+	}
+	
+	/**
+	 * Set the time that this model element will exist after fading in (if it
+	 * fades in) and before fading out.  Note that this will only work when
+	 * the element is fading in, after that it's too late.
+	 * 
+	 * @param existenceTime
+	 */
+	protected void setExistenceTime(double existenceTime){
+		if (existenceState != ExistenceState.FADING_IN){
+			System.err.println(getClass().getName() + " - Warning: Setting existence time when not fading in, this will have no affect.");
+		}
+		this.existenceTime = existenceTime;
 	}
 	
 	protected AbstractMotionStrategy getMotionStrategyRef(){

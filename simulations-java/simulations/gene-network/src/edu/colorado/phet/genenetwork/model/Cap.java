@@ -32,7 +32,7 @@ public class Cap extends SimpleModelElement {
 	Point2D targetPositionForAttachingToBindingRegion = new Point2D.Double();
 	
 	public Cap(IObtainGeneModelElements model, Point2D initialPosition) {
-		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT);
+		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.CAP_BINDING_REGION, 
 				CAP_BINDING_REGION_ATTACHMENT_OFFSET));
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));

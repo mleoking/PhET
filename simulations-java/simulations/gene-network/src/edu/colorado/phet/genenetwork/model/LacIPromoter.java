@@ -13,7 +13,7 @@ public class LacIPromoter extends SimpleModelElement {
 	
 	public LacIPromoter(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1),
-				new Point2D.Double(), new Color(112, 190, 237));
+				new Point2D.Double(), new Color(112, 190, 237), false, Double.POSITIVE_INFINITY);
 	}
 	
     public LacIPromoter(IObtainGeneModelElements model, double x, double y) {

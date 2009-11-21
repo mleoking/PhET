@@ -24,7 +24,7 @@ public abstract class SimpleSugar extends SimpleModelElement {
 	private static double sideLength;
 	
 	public SimpleSugar(IObtainGeneModelElements model, Point2D initialPosition, Paint paint) {
-		super(model, createShape(), initialPosition, paint);
+		super(model, createShape(), initialPosition, paint, false, Double.POSITIVE_INFINITY);
 	}
 	
 	private static Shape createShape(){
