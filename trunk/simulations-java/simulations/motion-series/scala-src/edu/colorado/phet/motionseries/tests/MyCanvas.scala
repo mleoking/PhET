@@ -144,7 +144,7 @@ class MyCanvas(val stageWidth: Double, val stageHeight: Double, val modelBounds:
   //Create a MyCanvas with scale sx = sy
   def this(stageWidth: Int, modelBounds: Rectangle2D) = this (stageWidth, modelBounds.getHeight / modelBounds.getWidth * stageWidth, modelBounds)
 
-  def addListener(listener: () => Unit) = {
+  def addListener(listener: () => Unit) = {//todo: add support for removeListener
     addComponentListener(new ComponentAdapter() {
       override def componentResized(e: ComponentEvent) = listener()
     })
