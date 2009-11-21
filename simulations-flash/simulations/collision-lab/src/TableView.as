@@ -14,6 +14,7 @@
 		var timeText:TextField;	//label containing current time
 		var pixelsPerMeter:int;	//scale of view
 		var ball_arr:Array;		//array of ball images
+		var ballImageTest:BallImage; //for testing BallImage Class
 		var ballLabels:Array;	//array of ball labels: 1, 2, 3, ...
 		var ballColor_arr:Array;	//array of uint for colors of balls
 		var xOffset:Number;		//x of upper left corner of canvas
@@ -38,6 +39,7 @@
 			this.ballColor_arr = new Array(10);  //start with 10 colors
 			this.createBallColors();
 			this.createBallImages();
+			this.ballImageTest = new BallImage(this.myModel, 2, this);
 			//this.myModel.startMotion();
 		}//end of constructor
 		
@@ -91,6 +93,9 @@
 			this.ballColor_arr[2] = 0x0000ff;
 		}
 		
+		public function testBallImageClass():void{
+			
+		}
 		public function createBallImages():void{
 			var nbrBalls:int = this.myModel.nbrBalls;
 			this.ball_arr = new Array(nbrBalls);
