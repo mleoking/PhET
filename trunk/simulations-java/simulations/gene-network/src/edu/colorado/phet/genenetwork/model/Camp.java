@@ -21,7 +21,7 @@ public class Camp extends SimpleModelElement {
 	private static float DIAMETER = 2.0f;  // In nanometers.
 	
 	public Camp(IObtainGeneModelElements model, Point2D initialPosition) {
-		super(model, createShape(), initialPosition, ELEMENT_PAINT);
+		super(model, createShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 	}
 	
 	public Camp(IObtainGeneModelElements model) {

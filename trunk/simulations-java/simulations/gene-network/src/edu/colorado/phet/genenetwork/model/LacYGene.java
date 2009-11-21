@@ -13,7 +13,7 @@ public class LacYGene extends SimpleModelElement {
 	
 	public LacYGene(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1),
-				new Point2D.Double(), new Color(138, 198, 118));
+				new Point2D.Double(), new Color(138, 198, 118), false, Double.POSITIVE_INFINITY);
 	}
 	
     public LacYGene(IObtainGeneModelElements model, double x, double y) {

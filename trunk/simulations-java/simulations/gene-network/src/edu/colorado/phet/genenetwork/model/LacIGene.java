@@ -28,7 +28,7 @@ public class LacIGene extends SimpleModelElement {
 	
 	public LacIGene(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1),
-				new Point2D.Double(), new Color(167, 167, 167));
+				new Point2D.Double(), new Color(167, 167, 167), false, Double.POSITIVE_INFINITY);
 		
 		// Set the timer so that the first one happens pretty quickly.
 		mRnaGenCountdownTimer = PERIOD_OF_MRNA_GENERATION / 8;

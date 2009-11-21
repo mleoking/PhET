@@ -32,14 +32,12 @@ public class TransformationArrow extends SimpleModelElement {
 	private static double HEAD_HEIGHT = 2;      // In nanometers.
 	private static double DEFAULT_LENGTH = 7;   // In nanometers.
 	
-	// Time definitions for fading and overall existence.
 	private static double EXISTENCE_TIME = 0.1; // In seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 	
-	private double existenceTimeCountdown = EXISTENCE_TIME;
 	
     //------------------------------------------------------------------------
     // Constructors
@@ -47,14 +45,9 @@ public class TransformationArrow extends SimpleModelElement {
 	
 	public TransformationArrow(IObtainGeneModelElements model, Point2D initialPosition, double length) {
 		
-		super(model, createShape(length), initialPosition, ELEMENT_PAINT);
+		super(model, createShape(length), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
 		
 		setMotionStrategy(new StillnessMotionStrategy(this));
-		
-		// This element fades in to existence, so it starts out with low
-		// existence strength.
-		setExistenceState(ExistenceState.FADING_IN);
-		setExistenceStrength(0.01);
 	}
 	
 	public TransformationArrow(IObtainGeneModelElements model, Point2D initialPosition) {
@@ -92,43 +85,6 @@ public class TransformationArrow extends SimpleModelElement {
 		return area;
 	}
 	
-	@Override
-	public void stepInTime(double dt) {
-		super.stepInTime(dt);
-		
-		switch (getExistenceState()){
-		case FADING_IN:
-			if (getExistenceStrength() < 1){
-				setExistenceStrength(Math.min(getExistenceStrength() + FADE_RATE, 1));
-			}
-			else{
-				// Must be fully faded in, so move to next state.
-				setExistenceState(ExistenceState.EXISTING);
-				existenceTimeCountdown = EXISTENCE_TIME;
-			}
-			break;
-			
-		case EXISTING:
-			existenceTimeCountdown -= dt;
-			if (existenceTimeCountdown <= 0){
-				// Time to fade out.
-				setExistenceState(ExistenceState.FADING_OUT);
-			}
-			break;
-			
-		case FADING_OUT:
-			if (getExistenceStrength() > 0){
-				setExistenceStrength(Math.max(getExistenceStrength() - FADE_RATE, 0));
-			}
-			// Note: When we get fully faded out, we will be removed from the model.
-			break;
-			
-		default:
-			assert false;
-			break;
-		}
-	}
-
 	@Override
 	public ModelElementType getType() {
 		// TODO Here until the whole type thing is permanently removed.

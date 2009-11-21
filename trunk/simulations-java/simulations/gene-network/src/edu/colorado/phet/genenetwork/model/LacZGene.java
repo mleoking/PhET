@@ -13,7 +13,7 @@ public class LacZGene extends SimpleModelElement {
 	
 	public LacZGene(IObtainGeneModelElements model, Point2D initialPosition) {
 		super(model, new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1),
-				new Point2D.Double(), new Color(204, 171, 202));
+				new Point2D.Double(), new Color(204, 171, 202), false, Double.POSITIVE_INFINITY);
 	}
 	
     public LacZGene(IObtainGeneModelElements model, double x, double y) {

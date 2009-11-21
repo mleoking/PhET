@@ -13,11 +13,7 @@ public class LacIMessengerRna extends MessengerRna {
 	private static final double EXISTENCE_TIME = 0.5; // In seconds.
 	
 	public LacIMessengerRna(IObtainGeneModelElements model, Point2D initialPosition, double initialLength) {
-		super(model, initialPosition, initialLength);
-		// Set up to fade in.
-		setExistenceState(ExistenceState.FADING_IN);
-		setExistenceStrength(0.01);
-		setExistenceTime(EXISTENCE_TIME); 
+		super(model, initialPosition, initialLength, true, EXISTENCE_TIME);
 	}
 
 	public LacIMessengerRna(IObtainGeneModelElements model, double initialLength) {
@@ -25,12 +21,13 @@ public class LacIMessengerRna extends MessengerRna {
 	}
 	
 	@Override
-	protected void spawnTransformationArrow() {
+	protected void onTransitionToExistingState() {
 		Rectangle2D bounds = getShape().getBounds2D();
 		Point2D processArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX(),
 				bounds.getMaxY() + getPositionRef().getY() + 3);
 		getModel().addTransformationArrow(new LacITransformationArrow(getModel(), processArrowPos,
 				new LacI(getModel())));
+		setMotionStrategy(new StillnessMotionStrategy(this));
 	}
 
 	@Override
