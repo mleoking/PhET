@@ -34,7 +34,7 @@ object Defaults {
 abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends PNode {
   def createVariable(getter: () => Double) = {
     val variable = new MotionSeriesDefaultTemporalVariable(model)
-    def reset() =variable.doAddValue(getter(), model.getTime)
+    def reset() = variable.doAddValue(getter(), model.getTime)
     model.stepListeners += reset
     model.resetListeners_+=(reset)
     variable
@@ -154,7 +154,7 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
 }
 
 class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: MotionSeriesModel,
-        minRangeValue:Double,maxRangeValue:Double)
+                        minRangeValue: Double, maxRangeValue: Double)
         extends MotionControlGraph(canvas, defaultSeries, "".literal, "".literal, minRangeValue, maxRangeValue, true, timeseriesModel, updateableObject) {
   setCenterControls(true)
   getJFreeChartNode.getChart.getXYPlot.getRangeAxis.setTickLabelFont(new PhetFont(14, true))
@@ -165,7 +165,7 @@ class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, 
   getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
   def reset() = {
     setDomainUpperBound(MotionSeriesDefaults.MAX_CHART_DISPLAY_TIME)
-    setVerticalRange(minRangeValue,maxRangeValue)
+    setVerticalRange(minRangeValue, maxRangeValue)
   }
 
   model resetListeners_+= reset
