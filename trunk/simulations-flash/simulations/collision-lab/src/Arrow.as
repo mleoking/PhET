@@ -5,7 +5,6 @@ package{
 	import fl.events.*;
 	import flash.text.*;
 	
-	
 	public class Arrow extends Sprite{
 		var index:int; 		//text label for arrow
 		var canvas:Sprite;	//canvas holds arrow graphic, but not text label
@@ -85,15 +84,17 @@ package{
 			var LX:Number = this.lengthInPix*Math.cos(this.angleInRad);
 			return LX;
 		}
-		//x coordinate in pixels of tip of arrow
+		//y screen coordinate in pixels of tip of arrow
 		public function getTipY():Number{
-			var LY:Number = this.lengthInPix*Math.sin(this.angleInRad);
+			var LY:Number = -this.lengthInPix*Math.sin(this.angleInRad);
 			return LY;
 		}
 		
 		public function setText(myText:String){
 			this.tField.text = myText;
+			//trace("Arrow.setText called. text is " + myText);
 		}
+		
 		
 		public function setScale(scale:Number):void{
 			this.scale = scale;
