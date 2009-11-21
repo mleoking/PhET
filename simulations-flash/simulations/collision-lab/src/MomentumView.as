@@ -125,7 +125,7 @@
 				for(i = 1; i < N; i++){
 					var arrowIM1:Arrow = this.momentum_arr[i-1];  //IM1 = "i minus 1"
 					this.momentum_arr[i].x = arrowIM1.x + arrowIM1.getTipX();
-					this.momentum_arr[i].y = arrowIM1.y - arrowIM1.getTipY();
+					this.momentum_arr[i].y = arrowIM1.y + arrowIM1.getTipY();
 				}//end for
 			}//end if
 			this.totMomentum.setArrow(this.myModel.getTotalMomentum());

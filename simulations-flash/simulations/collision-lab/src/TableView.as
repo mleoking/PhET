@@ -38,8 +38,9 @@
 			this.makeTimeLabel();
 			this.ballColor_arr = new Array(10);  //start with 10 colors
 			this.createBallColors();
+			//this.createBallImages2();
 			this.createBallImages();
-			this.ballImageTest = new BallImage(this.myModel, 2, this);
+			//this.ballImageTest = new BallImage(this.myModel, 2, this);
 			//this.myModel.startMotion();
 		}//end of constructor
 		
@@ -93,10 +94,18 @@
 			this.ballColor_arr[2] = 0x0000ff;
 		}
 		
-		public function testBallImageClass():void{
-			
-		}
 		public function createBallImages():void{
+			var nbrBalls:int = this.myModel.nbrBalls;
+			this.ball_arr = new Array(nbrBalls);
+			for(var i:int = 0; i < nbrBalls; i++){
+				this.ball_arr[i] = new BallImage(this.myModel, i, this);
+				ball_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
+				ball_arr[i].y = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getY();
+			}//end for
+		}//end of createBallImages()
+		
+/*
+		public function createBallImages2():void{
 			var nbrBalls:int = this.myModel.nbrBalls;
 			this.ball_arr = new Array(nbrBalls);
 			this.ballLabels = new Array(nbrBalls);
@@ -134,9 +143,9 @@
 				this.ballLabels[i].y = -this.ballLabels[i].height/2;
 				
 			}//for
-			
-		}//createBallImages()
-		
+		}//createBallImages2()
+	*/
+	
 		public function makeSpriteDraggable(target:Sprite, ballIndex:int):void{
 			var indx:int = ballIndex;
 			var pixPerM:int = this.pixelsPerMeter;
@@ -181,6 +190,7 @@
 			for(var i:int = 0; i < nbrBalls; i++){
 				ball_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
 				ball_arr[i].y = this.pixelsPerMeter*(yMax - this.myModel.ball_arr[i].position.getY());
+				ball_arr[i].updateVelocityArrow();
 			}
 			this.timeText.text = "Time = " + Math.round(100*this.myModel.time)/100;
 		}

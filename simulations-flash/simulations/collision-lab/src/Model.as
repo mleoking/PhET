@@ -6,8 +6,8 @@ package{
 	public class Model{
 		var nbrBalls:int;  		//nbr of interacting balls
 		var ball_arr:Array;		//array of balls
-		private var initPos:Array;			//array of initial positions of balls
-		private var initVel:Array;			//array of initial velocities of balls
+		var initPos:Array;			//array of initial positions of balls
+		var initVel:Array;			//array of initial velocities of balls
 		var borderOn:Boolean;	//if true, balls elastically reflect from border 
 		var borderWidth:int;	//length of horizontal border in meters
 		var borderHeight:int;	//length of vertical border in meters
@@ -18,6 +18,7 @@ package{
 		var timeStep:Number;	//time step in seconds
 		var msTimer:Timer;		//millisecond timer
 		var playing:Boolean;	//true if motion is playing, false if paused
+		var atInitialConfig:Boolean;  //true if t = 0;
 		var starting:Boolean;	//true if playing and 1st step not yet taken;
 		var reversing:Boolean;	//false if going forward in time, true if going backward
 		//var realTimer:Timer;	//real timer, used to maintain time-based updates
@@ -56,6 +57,7 @@ package{
 		}//end of constructor
 		
 		public function initializeBalls():void{
+			this.atInitialConfig = true;
 			this.initPos = new Array(this.nbrBalls);
 			this.initVel = new Array(this.nbrBalls);
 			initPos[0] = new TwoVector(0.2,0.2);
@@ -88,6 +90,7 @@ package{
 		
 		public function initializePositions():void{
 			//trace("Model.initializePositions() called");
+			this.atInitialConfig = true;
 			for (var i = 0; i < this.nbrBalls; i++){
 				//new Ball(mass, position, velocity);
 				this.ball_arr[i].position = initPos[i].clone();
@@ -100,6 +103,7 @@ package{
 		
 		public function startMotion():void{
 			msTimer.start();  
+			this.atInitialConfig = false;
 			this.playing = true;
 			this.starting = true;
 			this.reversing = false;
