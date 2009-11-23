@@ -31,6 +31,10 @@ class TroubleshootingPage extends SitePage {
         $java_min_version_lin_full = JAVA_MIN_VERSION_LIN_FULL;
         $flash_min_version_full = FLASH_MIN_VERSION_FULL;
 
+        $browser_req_win = BROWSER_REQ_WIN;
+        $browser_req_osx = BROWSER_REQ_OSX;
+        $browser_req_lin = BROWSER_REQ_LIN;
+
         // Get the sizes of the installers
         $win_size = installer_get_win_filesize();
         if ($win_size == 0) $win_size = 60;  // old hardcoded default
@@ -118,7 +122,7 @@ class TroubleshootingPage extends SitePage {
             1024x768 screen resolution or better<br />
             {$java_min_version_win_full} or later<br />
             {$flash_min_version_full} or later<br />
-            Microsoft Internet Explorer 6 or later, Firefox 2 or later</p>
+            {$browser_req_win}</p>
 
             <p><strong>Macintosh Systems</strong><br />
             G4, G5 or Intel processor<br />
@@ -128,7 +132,7 @@ class TroubleshootingPage extends SitePage {
             1024x768 screen resolution or better<br />
             {$java_min_version_osx_full} or later<br />
             {$flash_min_version_full} or later<br />
-            Safari 2 or later, Firefox 2 or later</p>
+            {$browser_req_osx}</p>
 
             <p><strong>Linux Systems</strong><br />
             <em>Linux is not officially supported or tested. But most Java and Flash sims should work, and we recommend the following Linux configuration.</em><br />
@@ -138,7 +142,7 @@ class TroubleshootingPage extends SitePage {
             1024x768 screen resolution or better<br />
             {$java_min_version_lin_full} or later<br />
             {$flash_min_version_full} or later<br />
-            Firefox 2 or later<br/></p>
+            {$browser_req_lin}</p>
 
             <p><strong>Support Software</strong></p>
 
