@@ -17,9 +17,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.*;
 public class RealReactionModel {
     
     private final ArrayList<ChangeListener> listeners;
-    
+    private final ChemicalReaction[] reactions;
     private ChemicalReaction reaction;
-    private ChemicalReaction[] reactions;
     
     public RealReactionModel() {
         reactions = new ChemicalReaction[] { new WaterReaction(), new AmmoniaReaction(), new MethaneReaction() };
