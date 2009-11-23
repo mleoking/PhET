@@ -8,6 +8,7 @@
 		var myModel:Model;
 		var myMainView:MainView;			//mediator and container of views
 		var canvas:Sprite;		//background on which everything is placed
+		var myTrajectories:Trajectories;	//Sprite showing trajectories (paths) of balls
 		var playButtons:PlayPauseButtons;	//class to hold library symbol
 		var border:Sprite;		//reflecting border
 		var borderColor:uint;	//color of border 0xrrggbb
@@ -24,8 +25,10 @@
 			this.myModel = myModel;
 			this.myMainView = myMainView;
 			this.canvas = new Sprite();
+			this.myTrajectories = new Trajectories(this.myModel, this);
 			this.myMainView.addChild(this);
 			this.addChild(this.canvas);
+			this.addChild(this.myTrajectories);
 			this.xOffset = 20;
 			this.yOffset = 60;
 			this.canvas.x = xOffset;
@@ -40,6 +43,7 @@
 			this.createBallColors();
 			//this.createBallImages2();
 			this.createBallImages();
+			this.update();
 			//this.ballImageTest = new BallImage(this.myModel, 2, this);
 			//this.myModel.startMotion();
 		}//end of constructor
@@ -92,16 +96,21 @@
 			this.ballColor_arr[0] = 0xff0000;
 			this.ballColor_arr[1] = 0x009900;
 			this.ballColor_arr[2] = 0x0000ff;
+			this.ballColor_arr[3] = 0xff00ff;
+			this.ballColor_arr[4] = 0xffff00;
+			
 		}
 		
+		//called once, at startup
 		public function createBallImages():void{
-			var nbrBalls:int = this.myModel.nbrBalls;
-			this.ball_arr = new Array(nbrBalls);
-			for(var i:int = 0; i < nbrBalls; i++){
+			var maxNbrBalls:int = this.myModel.maxNbrBalls;
+			this.ball_arr = new Array(maxNbrBalls);
+			for(var i:int = 0; i < maxNbrBalls; i++){
 				this.ball_arr[i] = new BallImage(this.myModel, i, this);
 				ball_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
 				ball_arr[i].y = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getY();
 			}//end for
+			this.update(); //to make extra balls invisible
 		}//end of createBallImages()
 		
 /*
@@ -146,6 +155,7 @@
 		}//createBallImages2()
 	*/
 	
+	/*following code is obsolete
 		public function makeSpriteDraggable(target:Sprite, ballIndex:int):void{
 			var indx:int = ballIndex;
 			var pixPerM:int = this.pixelsPerMeter;
@@ -182,12 +192,26 @@
 			}//end of dragTarget()
 			
 		}//end makeSpriteDraggable()
-		
+		*/
 		public function update():void{
 			//trace("myTableView.update() called.");
 			var nbrBalls:int = this.myModel.nbrBalls;
+			//trace("TableView.update() called. nbrBalls = "+nbrBalls);
+			var maxBalls:int = this.myModel.maxNbrBalls;
+			
+			if (this.myModel.nbrBallsChanged){
+				for(var i:int = 0; i < nbrBalls; i++){
+					this.ball_arr[i].visible = true;
+				}
+				for(i = nbrBalls; i < maxBalls; i++){
+					this.ball_arr[i].visible = false; 
+				}
+				//this.myModel.nbrBallsChanged = false;
+			}//end if()
+			
+			
 			var yMax:Number = this.myModel.borderHeight;
-			for(var i:int = 0; i < nbrBalls; i++){
+			for(i = 0; i < nbrBalls; i++){
 				ball_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
 				ball_arr[i].y = this.pixelsPerMeter*(yMax - this.myModel.ball_arr[i].position.getY());
 				ball_arr[i].updateVelocityArrow();
