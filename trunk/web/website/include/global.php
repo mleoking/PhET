@@ -103,8 +103,13 @@
     define("JAVA_MIN_VERSION_WIN_FULL", "Sun Java ".JAVA_MIN_VERSION_WIN);
     define("JAVA_MIN_VERSION_OSX_FULL", "Apple Java ".JAVA_MIN_VERSION_OSX);
     define("JAVA_MIN_VERSION_LIN_FULL", "Sun Java ".JAVA_MIN_VERSION_LIN);
+
     define("FLASH_MIN_VERSION", "8");
     define("FLASH_MIN_VERSION_FULL", "Macromedia Flash 8");
+
+    define("BROWSER_REQ_WIN", "Microsoft Internet Explorer 6 or later, or Firefox 2 or later");
+    define("BROWSER_REQ_OSX", "Safari 2 or later, or Firefox 2 or later");
+    define("BROWSER_REQ_LIN", "Firefox 2 or later");
 
     // When a simulation is created, an empty simulation is added
     // to the database (yes, before the data has been populated, and

@@ -394,6 +394,16 @@ EOT;
         $os_min_version_win = OS_MIN_VERSION_WIN;
         $os_min_version_osx = OS_MIN_VERSION_OSX;
 
+        // Only need browser requirements for Flash sims
+        $browser_req_win = '';
+        $browser_req_osx = '';
+        $browser_req_lin = '';
+        if ($this->sim->getType() == 'Flash') {
+            $browser_req_win = BROWSER_REQ_WIN ;
+            $browser_req_osx = BROWSER_REQ_OSX;
+            $browser_req_lin = BROWSER_REQ_LIN;
+        }
+
         // Don't allow submitting if the sim isn't real
         $submit_disabled_html = '';
         if (!$this->sim->isReal()) {
@@ -485,17 +495,22 @@ EOT;
                 <tbody>
                     <tr>
                         <td>
-                            {$os_min_version_win}<br/>
-{$sim_type_version['win']} or later<br/>                        </td>
+                            {$os_min_version_win}<br />
+                            {$sim_type_version['win']} or later<br/>
+                            {$browser_req_win}<br />
+                        </td>
 
 
                         <td>
-                            OS {$os_min_version_osx} or later<br/>
-{$sim_type_version['osx']} or later<br/>                        </td>
+                            OS {$os_min_version_osx} or later<br />
+                            {$sim_type_version['osx']} or later<br/>
+                            {$browser_req_osx}<br />
+                        </td>
 
 
                         <td>
-{$sim_type_version['lin']} or later<br/>
+                            {$sim_type_version['lin']} or later<br/>
+                            {$browser_req_lin}<br />
                         </td>
                     </tr>
                 </tbody>
