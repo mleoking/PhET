@@ -1,3 +1,5 @@
+# 3.18.02 (36847) Nov 23, 2009
+11/23/09 Slight change to x axis label size for nucleus proportion graph
 # 3.18.01 (36845) Nov 23, 2009
 11/23/09 > Radioactive Dating Game: Changed probe appearance, changed some graph labels based on user feedback.
 # 3.18.00 (35229) Sep 23, 2009
