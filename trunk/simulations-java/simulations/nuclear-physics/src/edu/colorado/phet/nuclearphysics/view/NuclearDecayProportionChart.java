@@ -698,14 +698,11 @@ public class NuclearDecayProportionChart extends PNode {
         private static final boolean SIZING_RECT_VISIBLE = false;
         
         // Formatter for showing Y-axis labels when configured for C14/C12 ratio.
-        // TODO: Decide on a formatter and only keep one of the formatters below.
         private static final ConstantPowerOfTenNumberFormat RATIO_FORMATTER = 
         	new ConstantPowerOfTenNumberFormat("0.0", -12, 80);
-//        private static final DefaultDecimalFormat RATIO_FORMATTER = 
-//        	new DefaultDecimalFormat("###0.0E0");
         
         // The chart on which this graph will be appearing.
-        NuclearDecayProportionChart _chart;
+        private NuclearDecayProportionChart _chart;
 
         // Various components that make up the graph.
     	private PPath _sizingRect;
@@ -895,7 +892,7 @@ public class NuclearDecayProportionChart extends PNode {
 	        	_yAxisLabel.setHTML(NuclearPhysicsStrings.DECAY_PROPORTIONS_Y_AXIS_LABEL_PERCENT_PRESENT);
 	        }
 	        _yAxisLabel.setScale(1);
-	        scale = ((newHeight * 0.6) / _yAxisLabel.getFullBoundsReference().getHeight());
+	        scale = ((newHeight * 0.8) / _yAxisLabel.getFullBoundsReference().getHeight());
 	        _yAxisLabel.setScale(scale);
 
 	        _yAxisLabel.setOffset(0, newHeight / 2 - _yAxisLabel.getFullBoundsReference().width / 2);
