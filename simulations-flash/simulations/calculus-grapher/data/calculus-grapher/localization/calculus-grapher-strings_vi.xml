@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_vi.xml created Wed Nov 18 17:34:05 ICT 2009 using: calculus-grapher 2.02.00 (34696), translation-utility 2.03.00 (36202) thg 10 30, 2009-->
+<SimStrings>
+<string key="simDescription" value="Mô tả Calculus Grapher"/>
+<string key="smooth" value="Làm mịn"/>
+<string key="undo" value="Undo"/>
+<string key="zero" value="Zero"/>
+<string key="simTitle" value="Calculus Grapher "/>
+</SimStrings>
