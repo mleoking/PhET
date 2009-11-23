@@ -43,7 +43,7 @@ public class LacI extends SimpleModelElement {
 	private static double UNAVAILABLE_TIME = 5; // In seconds.
 	
 	// Time of existence.
-	private static final double EXISTENCE_TIME = 15; // Seconds.
+	private static final double EXISTENCE_TIME = 20; // Seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data

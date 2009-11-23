@@ -29,10 +29,4 @@ public class LacIMessengerRna extends MessengerRna {
 				new LacI(getModel())));
 		setMotionStrategy(new StillnessMotionStrategy(this));
 	}
-	
-	@Override
-	public void stepInTime(double dt) {
-		// TODO Auto-generated method stub
-		super.stepInTime(dt);
-	}
 }
