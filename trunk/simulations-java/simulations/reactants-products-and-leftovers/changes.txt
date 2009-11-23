@@ -1,3 +1,4 @@
+11/23/09 remove slider knob image files, since we're no longer using sliders
 11/23/09 add "game settings" control panel
 11/23/09 move quantity and coefficient ranges into model base class
 11/23/09 first pass at game model, very incomplete
