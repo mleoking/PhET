@@ -1,3 +1,5 @@
+11/23/09 move quantity and coefficient ranges into model base class
+11/23/09 first pass at game model, very incomplete
 # 0.00.14 (36704) Nov 16, 2009
 11/16/09 adjust stacked images when their size changes, so that their bottom edges remain vertically aligned
 11/16/09 fix: prevent sandwich leftovers from being placed outside bottom of box when sandwich image is large

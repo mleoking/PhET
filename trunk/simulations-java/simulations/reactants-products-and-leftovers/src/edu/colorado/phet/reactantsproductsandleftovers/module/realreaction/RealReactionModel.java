@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.*;
 
 /**
@@ -14,7 +13,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.*;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RealReactionModel {
+public class RealReactionModel extends RPALModel {
     
     private final ArrayList<ChangeListener> listeners;
     private final ChemicalReaction[] reactions;
@@ -63,13 +62,4 @@ public class RealReactionModel {
             listener.stateChanged( event );
         }
     }
-    
-    public IntegerRange getCoefficientRange() {
-        return RealReactionDefaults.COEFFICIENT_RANGE;
-    }
-    
-    public IntegerRange getQuantityRange() {
-        return RealReactionDefaults.QUANTITY_RANGE;
-    }
-    
 }
