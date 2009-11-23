@@ -139,11 +139,13 @@ public class LacI extends SimpleModelElement {
 			}
 		}
 		else if (lacOperatorAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
-			unavailableTimeCountdown -= dt;
-			if (unavailableTimeCountdown <= 0){
-				// The recovery period is over, we can be available again.
-				lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-				getMotionStrategyRef().setDestination(null);
+			if (unavailableTimeCountdown != Double.POSITIVE_INFINITY){
+				unavailableTimeCountdown -= dt;
+				if (unavailableTimeCountdown <= 0){
+					// The recovery period is over, we can be available again.
+					lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+					getMotionStrategyRef().setDestination(null);
+				}
 			}
 		}
 	}
@@ -156,9 +158,12 @@ public class LacI extends SimpleModelElement {
 	public boolean considerProposalFrom(LacOperator lacOperator) {
 		boolean proposalAccepted = false;
 		
-		if (lacOperatorAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
+		if (lacOperatorAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE && 
+			getExistenceState() == ExistenceState.EXISTING){
+			
 			assert lacOperatorAttachmentPartner == null;  // For debug - Make sure consistent with attachment state.
 			lacOperatorAttachmentPartner = lacOperator;
+			lacOperatorAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
 			proposalAccepted = true;
 			
 			// Set ourself up to move toward the attaching location.
@@ -173,6 +178,20 @@ public class LacI extends SimpleModelElement {
 		return proposalAccepted;
 	}
 	
+	@Override
+	protected void onTransitionToFadingOutState() {
+		// Terminate any attachments or pending attachments to other model
+		// elements.
+		if (lacOperatorAttachmentState == AttachmentState.ATTACHED || 
+			lacOperatorAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+			
+			lacOperatorAttachmentPartner.detach(this);
+			lacOperatorAttachmentPartner = null;
+			lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+			unavailableTimeCountdown = Double.POSITIVE_INFINITY;
+		}
+	}
+
 	public void attach(LacOperator lacOperator){
 		if (lacOperator != lacOperatorAttachmentPartner){
 			System.err.println(getClass().getName() + " - Error: Finalize request from non-partner.");
