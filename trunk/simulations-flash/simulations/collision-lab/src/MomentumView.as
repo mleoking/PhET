@@ -46,6 +46,7 @@
 			this.drawBorder();
 			this.drawMarquee();
 			this.drawArrows();
+			this.update();
 		}
 		
 		public function drawBorder():void{
@@ -87,9 +88,10 @@
 
 		}//end of drawMarquee
 		
-		public function drawArrows():void{
-			var N:int = this.myModel.nbrBalls;
-			for(var i:int = 0; i < N; i++){
+		//called once, at startUp
+		private function drawArrows():void{
+			var maxN:int = this.myModel.maxNbrBalls;
+			for(var i:int = 0; i < maxN; i++){
 				this.momentum_arr[i] = new Arrow(i);
 				this.momentum_arr[i].x = this.borderWidth/2;
 				this.momentum_arr[i].y = this.borderHeight/2;
@@ -101,7 +103,7 @@
 			}
 			//trace("this.momentum_arr[0].parent"+this.momentum_arr[0].parent);
 			
-			this.totMomentum = new Arrow(N);  //index of total momentum is N = nbrBalls
+			this.totMomentum = new Arrow(maxN);  //index of total momentum is N = maxNbrBalls
 			this.totMomentum.setText("Tot");
 			this.totMomentum.setColor(0x00ff00);	//tot momentum arrow is green
 			this.totMomentum.x = this.borderWidth/2;
@@ -117,7 +119,17 @@
 		
 		public function update():void{
 			var N:int = this.myModel.nbrBalls;
-			for(var i:int = 0; i < N; i++){
+			var i:int;
+			if(this.myModel.nbrBallsChanged){
+				var maxN:int = this.myModel.maxNbrBalls;
+				for(i = 0; i < N; i++){
+					this.momentum_arr[i].visible = true;
+				}
+				for(i = N; i < maxN; i++){
+					this.momentum_arr[i].visible = false
+				}
+			}//end if()
+			for(i = 0; i < N; i++){
 				this.momentum_arr[i].setArrow(this.myModel.ball_arr[i].getMomentum());
 			}
 			//position momentum arrows tip-to-tail

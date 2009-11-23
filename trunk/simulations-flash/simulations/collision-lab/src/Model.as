@@ -4,20 +4,21 @@ package{
 	import flash.utils.*;
 	
 	public class Model{
-		var nbrBalls:int;  		//nbr of interacting balls
+		var nbrBalls:int;  		//current nbr of interacting balls
+		var maxNbrBalls:int;	//maximum nbr of interacting balls (5?)
 		var ball_arr:Array;		//array of balls
-		var initPos:Array;			//array of initial positions of balls
-		var initVel:Array;			//array of initial velocities of balls
+		var initPos:Array;		//array of initial positions of balls
+		var initVel:Array;		//array of initial velocities of balls
 		var borderOn:Boolean;	//if true, balls elastically reflect from border 
 		var borderWidth:int;	//length of horizontal border in meters
 		var borderHeight:int;	//length of vertical border in meters
-		//var elasticity:Number;	//elasticity = 0 to 1:
 		var e:Number;			//elasticity = 0 to 1: 0 = perfectly inelastic, 1 = perfectly elastic
 		var time:Number;		//simulation time in seconds = real time
 		var lastTime:Number;	//time of previous step
 		var timeStep:Number;	//time step in seconds
 		var msTimer:Timer;		//millisecond timer
 		var playing:Boolean;	//true if motion is playing, false if paused
+		var nbrBallsChanged:Boolean;  //true if number of balls is changed
 		var atInitialConfig:Boolean;  //true if t = 0;
 		var starting:Boolean;	//true if playing and 1st step not yet taken;
 		var reversing:Boolean;	//false if going forward in time, true if going backward
@@ -34,11 +35,10 @@ package{
 			this.borderOn = true;
 			this.borderWidth = 3;
 			this.borderHeight = 2;
-			//
-			//this.elasticity = 1;
 			this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
-			this.nbrBalls = 3;
-			this.ball_arr = new Array(nbrBalls);
+			this.nbrBalls = 3;		//adjustable by user
+			this.maxNbrBalls = 5;
+			this.ball_arr = new Array(this.maxNbrBalls);  //only first nbrBalls elements of array are used
 			this.initializeBalls();
 			this.time = 0;
 			this.timeStep = 0.01;
@@ -56,38 +56,70 @@ package{
 			
 		}//end of constructor
 		
+		public function addBall():void{
+			//trace("Model.addBall() called");
+			if(this.nbrBalls < this.maxNbrBalls){
+				this.nbrBalls += 1;
+				//trace("Model.nbrBalls: "+this.nbrBalls);
+				this.nbrBallsChanged = true;
+				this.updateViews();
+				this.nbrBallsChanged = false;
+				//this.ball_arr = new Array(nbrBalls);
+				//this.initializePositions();
+			}
+		}//end of addBall()
+		
+		public function removeBall():void{
+			//trace("Model.removeBall()");
+			if(this.nbrBalls > 0){
+				this.nbrBalls -= 1;
+				this.nbrBallsChanged = true;
+				this.updateViews();
+				this.nbrBallsChanged = false;
+				//this.ball_arr = new Array(nbrBalls);
+				//this.initializePositions();
+			}
+		}
+		
+		//called once, at startup
 		public function initializeBalls():void{
 			this.atInitialConfig = true;
-			this.initPos = new Array(this.nbrBalls);
-			this.initVel = new Array(this.nbrBalls);
+			this.initPos = new Array(this.maxNbrBalls);
+			this.initVel = new Array(this.maxNbrBalls);
 			initPos[0] = new TwoVector(0.2,0.2);
 			initPos[1] = new TwoVector(0.5,0.5);
 			initPos[2] = new TwoVector(1,1);
+			initPos[3] = new TwoVector(1.2, 1.2);
+			initPos[4] = new TwoVector(1.2, 0.2);
 			initVel[0] = new TwoVector(0.7,0.8);
 			initVel[1] = new TwoVector(0.12,2);
-			initVel[2] = new TwoVector(0.1,1);
-			for (var i = 0; i < this.nbrBalls; i++){
+			initVel[2] = new TwoVector(-0.5,-0.25);
+			initVel[3] = new TwoVector(1.1,0.2);
+			initVel[4] = new TwoVector(-1.1,0);
+			for (var i = 0; i < this.maxNbrBalls; i++){
 				//new Ball(mass, position, velocity);
 				this.ball_arr[i] = new Ball(1.0, initPos[i].clone(), initVel[i].clone());
 			}
+			this.nbrBallsChanged = true;
 			//trace("myModel.initPos[0]: "+this.initPos[0].getX());
 			
-			var N:int = this.nbrBalls;
+			var maxN:int = this.maxNbrBalls;
 			//initialize colliders array
-			this.colliders = new Array(N);
+			this.colliders = new Array(maxN);
 			//in AS3, duplicate variable definition in same method causes compile error message
 			//so do not use var i:int more than one
-			for (i = 0; i < N; i++){
-				this.colliders[i] = new Array(N);
+			for (i = 0; i < maxN; i++){
+				this.colliders[i] = new Array(maxN);
 			}
-			for (i = 0; i < N; i++){
-				for (var j:int = 0; j < N; j++){
+			for (i = 0; i < maxN; i++){
+				for (var j:int = 0; j < maxN; j++){
 					this.colliders[i][j] = 0;  //0 if not colliding
 				}
 			}
 			//No point in updating views, since views not created yet
 		}//end of initializeBalls()
 		
+		//called whenever reset button pushed by user or when nbrBalls changes
 		public function initializePositions():void{
 			//trace("Model.initializePositions() called");
 			this.atInitialConfig = true;
