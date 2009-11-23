@@ -18,7 +18,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
 	// Class Data
 	//----------------------------------------------------------------------------
 	
-	private static final double MODEL_AREA_WIDTH = 100;
+	private static final double MODEL_AREA_WIDTH = 120;
 	private static final double MODEL_AREA_HEIGHT = 100;
 	private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double(-MODEL_AREA_WIDTH / 2,
 			-MODEL_AREA_HEIGHT / 2, MODEL_AREA_WIDTH, MODEL_AREA_HEIGHT);
