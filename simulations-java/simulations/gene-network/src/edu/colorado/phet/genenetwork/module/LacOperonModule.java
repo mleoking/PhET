@@ -7,7 +7,6 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
-import edu.colorado.phet.genenetwork.controlpanel.LacOperonControlPanel;
 import edu.colorado.phet.genenetwork.model.GeneNetworkClock;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
 import edu.colorado.phet.genenetwork.view.GeneNetworkCanvas;
@@ -23,7 +22,6 @@ public class LacOperonModule extends PiccoloModule {
 
     private LacOperonModel model;
     private GeneNetworkCanvas canvas;
-    private LacOperonControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
 
     //----------------------------------------------------------------------------
@@ -42,10 +40,6 @@ public class LacOperonModule extends PiccoloModule {
         canvas = new GeneNetworkCanvas( model );
         setSimulationPanel( canvas );
 
-        // Control Panel
-        controlPanel = new LacOperonControlPanel( this, parentFrame, model );
-        setControlPanel( controlPanel );
-        
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
         setClockControlPanel( clockControlPanel );
