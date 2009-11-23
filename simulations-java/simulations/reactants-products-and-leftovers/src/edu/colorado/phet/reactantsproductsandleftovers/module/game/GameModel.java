@@ -19,6 +19,7 @@ public class GameModel extends RPALModel {
     
     private static final int CHALLENGES_PER_GAME = 10;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 );
+    private static final boolean DEFAULT_IS_TIMED = false;
     
     private final ArrayList<GameChangeListener> listeners;
     
@@ -28,27 +29,32 @@ public class GameModel extends RPALModel {
     private int level;
     private double score;
     private int attempts;
+    private boolean timerEnabled;
     
     public GameModel() {
         listeners = new ArrayList<GameChangeListener>();
-        newGame();
+        newGame( LEVEL_RANGE.getDefault(), DEFAULT_IS_TIMED );
     }
     
     public void reset() {
         //XXX do we need this in the Game?
     }
     
-    public void newGame() {
+    public void newGame( int level, boolean timerEnabled ) {
+        setLevel( level );
+        setTimerEnabled( timerEnabled );
+        setScore( 0 );
         challengeNumber = 0;
-        score = 0;
-        newChallenge();
+        newChallenge(); //XXX should probably generate all 10 challenges at once, since our algorithm isn't random, and in case we need history
+        fireNewGame();
     }
     
     private void newChallenge() {
         challengeNumber++;
-        attempts = 0;
+        setAttempts( 0 );
         newReaction();
         newChallengeType();
+        fireChallengeChanged();
     }
     
     private void newReaction() {
@@ -87,8 +93,8 @@ public class GameModel extends RPALModel {
         return LEVEL_RANGE;
     }
     
-    public void setLevel( int level ) {
-        if ( level != this.level)  {
+    private void setLevel( int level ) {
+        if ( level != this.level ) {
             this.level = level;
             fireLevelChanged();
         }
@@ -96,6 +102,24 @@ public class GameModel extends RPALModel {
     
     public int getLevel() {
         return level;
+    }
+    
+    private void setTimerEnabled( boolean timerEnabled ) {
+        if ( timerEnabled != this.timerEnabled ) {
+            this.timerEnabled = timerEnabled;
+            fireTimerEnabledChanged();
+        }
+    }
+    
+    public boolean isTimerEnabled() {
+        return timerEnabled;
+    }
+    
+    private void setAttempts( int attempts ) {
+        if ( attempts != this.attempts ) {
+            this.attempts = attempts;
+            //XXX notify?
+        }
     }
     
     public int getAttempts() {
@@ -122,29 +146,47 @@ public class GameModel extends RPALModel {
     }
     
     public interface GameChangeListener {
+        public void newGame();
         public void challengeChanged();
-        public void levelChanged();
         public void scoreChanged();
+        public void levelChanged();
+        public void timerEnableChanged();
     }
     
     public static class GameChangeAdapter implements GameChangeListener {
+        public void newGame() {}
         public void challengeChanged() {}
-        public void levelChanged() {}
         public void scoreChanged() {}
+        public void levelChanged() {}
+        public void timerEnableChanged() {}
     }
     
-    public void addChangeListeners( GameChangeListener listener ) {
+    public void addGameChangeListener( GameChangeListener listener ) {
         listeners.add( listener );
     }
     
-    public void removeChangeListeners( GameChangeListener listener ) {
+    public void removeGameChangeListener( GameChangeListener listener ) {
         listeners.remove( listener );
+    }
+    
+    private void fireNewGame() {
+        ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameChangeListener listener : listenersCopy ) {
+            listener.newGame();
+        }
     }
     
     private void fireChallengeChanged() {
         ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
         for ( GameChangeListener listener : listenersCopy ) {
             listener.challengeChanged();
+        }
+    }
+    
+    private void fireScoreChanged() {
+        ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameChangeListener listener : listenersCopy ) {
+            listener.scoreChanged();
         }
     }
     
@@ -155,10 +197,10 @@ public class GameModel extends RPALModel {
         }
     }
     
-    private void fireScoreChanged() {
+    private void fireTimerEnabledChanged() {
         ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
         for ( GameChangeListener listener : listenersCopy ) {
-            listener.scoreChanged();
+            listener.timerEnableChanged();
         }
     }
 }
