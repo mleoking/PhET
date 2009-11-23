@@ -23,5 +23,6 @@ public class LacZMessengerRna extends MessengerRna {
 				bounds.getMaxY() + getPositionRef().getY() + 3);
 		getModel().addTransformationArrow(new LacZTransformationArrow(getModel(), processArrowPos,
 				new LacZ(getModel())));
+		setMotionStrategy(new StillnessMotionStrategy(this));
 	}
 }
