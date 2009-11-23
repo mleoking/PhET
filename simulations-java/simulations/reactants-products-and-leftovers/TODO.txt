@@ -1,10 +1,10 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- design for Game module
-- PSwing memory leak affects tab traversal, #1874
+- ChemicalReaction model only responds to changes in reactant quantities, make it work in reverse for changes to products and leftovers
 
 MEDIUM PRIORITY
+- PSwing memory leak affects tab traversal, #1874
 
 LOW PRIORITY
 - scale image files to desired size, change scaling constants in RPALConstants

@@ -1,19 +1,15 @@
 package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Sandwich;
+import edu.colorado.phet.reactantsproductsandleftovers.model.*;
 
 /**
  * Model for the "Sandwich Shop" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SandwichShopModel {
+public class SandwichShopModel extends RPALModel {
     
     private final ChemicalReaction reaction;
     
@@ -79,21 +75,7 @@ public class SandwichShopModel {
         return cheese;
     }
     
-    //XXX remove this
-    public Product getSandwich() {
-        return sandwich;
-    }
-    
     public ChemicalReaction getReaction() {
         return reaction;
     }
-    
-    public IntegerRange getCoefficientRange() {
-        return SandwichShopDefaults.COEFFICIENT_RANGE;
-    }
-    
-    public IntegerRange getQuantityRange() {
-        return SandwichShopDefaults.QUANTITY_RANGE;
-    }
-
 }
