@@ -1,3 +1,5 @@
+11/23/09 add a stopwatch icon for the timer feature
+11/23/09 i18n of all strings in the Game design
 11/23/09 remove slider knob image files, since we're no longer using sliders
 11/23/09 add "game settings" control panel
 11/23/09 move quantity and coefficient ranges into model base class

@@ -14,6 +14,8 @@ import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameChangeAdapter;
 
@@ -47,7 +49,7 @@ public class GameSettingsPanel extends JPanel {
         }
         
         // Timer control
-        JLabel timerLabel = new JLabel( "Timer:" );
+        JLabel timerLabel = new JLabel( new ImageIcon( RPALImages.STOPWATCH, RPALStrings.LABEL_TIMER ) );
         timerOnRadioButton = new JRadioButton( "on" );
         timerOnRadioButton.setOpaque( false );
         timerOffRadioButton = new JRadioButton( "off" );
