@@ -4,9 +4,9 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.GameSettingsPanel;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
-import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the "Game" module.
@@ -15,13 +15,15 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class GameCanvas extends RPALCanvas {
     
+    private final PSwing gameSettingsPanelWrapper;
+    
     public GameCanvas( GameModel model, Resettable resettable ) {
         super();
         
-        //XXX
-        PText underConstructionNode = new PText( "Under Construction" );
-        underConstructionNode.setFont( new PhetFont( 36 ) );
-        addChild( underConstructionNode );
+        GameSettingsPanel gameSettingsPanel = new GameSettingsPanel( model );
+        gameSettingsPanelWrapper = new PSwing( gameSettingsPanel );
+        gameSettingsPanelWrapper.scale( 1.5 ); //XXX scale
+        addChild( gameSettingsPanelWrapper );
    }
 
     /*

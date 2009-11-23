@@ -1,3 +1,4 @@
+11/23/09 add "game settings" control panel
 11/23/09 move quantity and coefficient ranges into model base class
 11/23/09 first pass at game model, very incomplete
 # 0.00.14 (36704) Nov 16, 2009
