@@ -52,14 +52,14 @@ public class LacOperonModel implements IObtainGeneModelElements {
     private final ArrayList<TransformationArrow> transformationArrowList = new ArrayList<TransformationArrow>();
     
     // Lists of model elements for which only one instance can exist.
-    private final Cap cap = new Cap(this);
-    private final CapBindingRegion capBindingRegion = new CapBindingRegion(this);
-    private final LacOperator lacOperator = new LacOperator(this);
-    private final LacIGene lacIGene = new LacIGene(this);
-    private final LacZGene lacZGene = new LacZGene(this);
-    private final LacYGene lacYGene = new LacYGene(this);
-    private final LacIPromoter lacIPromoter = new LacIPromoter(this);
-    private final LacPromoter lacPromoter = new LacPromoter(this);
+    private final Cap cap = null;
+    private final CapBindingRegion capBindingRegion = null;
+    private final LacOperator lacOperator = null;
+    private final LacIGene lacIGene = null;
+    private final LacZGene lacZGene = null;
+    private final LacYGene lacYGene = null;
+    private final LacIPromoter lacIPromoter = null;
+    private final LacPromoter lacPromoter = null;
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -78,7 +78,14 @@ public class LacOperonModel implements IObtainGeneModelElements {
 			}
         });
         
-        addInitialModelElements();
+        // TODO: As of Nov 23, 2009, it was decided that the sim should start
+        // out with just the DNA showing, and the users should build up the
+        // gene network.  However, it is probably worthwhile to keep the code
+        // that adds the initial model elements around for a while for testing
+        // purposes.  So it is commented out for now - please delete it
+        // permanently when appropriate.
+        
+//        addInitialModelElements();
     }
 
     //----------------------------------------------------------------------------
@@ -180,12 +187,6 @@ public class LacOperonModel implements IObtainGeneModelElements {
         	randomlyInitModelElement(rnaPolymerase);
         	rnaPolymeraseList.add(rnaPolymerase);
         }
-        
-        // Create some other model elements needed for testing.  TODO: This is
-        // done for debugging and should be removed at some point.
-//        LacI lacIForTesting = new LacI(this);
-//        randomlyInitModelElement(lacIForTesting);
-//        lacIList.add(lacIForTesting);
         
         // Create and position the elements that sit on the DNA strand.
         
@@ -299,14 +300,31 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	allSimples.addAll(galactoseList);
     	allSimples.addAll(messengerRnaList);
     	allSimples.addAll(transformationArrowList);
-    	allSimples.add(cap);
-    	allSimples.add(capBindingRegion);
-    	allSimples.add(lacOperator);
-    	allSimples.add(lacIGene);
-    	allSimples.add(lacYGene);
-    	allSimples.add(lacZGene);
-    	allSimples.add(lacIPromoter);
-    	allSimples.add(lacPromoter);
+    	if (cap != null){
+    		allSimples.add(cap);
+    	}
+    	if (capBindingRegion != null){
+    		allSimples.add(capBindingRegion);
+    	}
+    	if (lacOperator != null){
+    		allSimples.add(lacOperator);
+    	}
+    	if (lacIGene != null){
+    		allSimples.add(lacIGene);
+    	}
+    	if (lacYGene != null){
+    		allSimples.add(lacYGene);
+    	}
+    	if (lacZGene != null){
+    		allSimples.add(lacZGene);
+    	}
+    	if (lacIPromoter != null){
+    		allSimples.add(lacIPromoter);
+    	}
+    	if (lacPromoter != null){
+    		allSimples.add(lacPromoter);
+    	}
+
     	return allSimples;
     }
     
@@ -342,14 +360,30 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	stepElementsInTime(transformationArrowList, dt);
     	
     	// Step the elements for which there can be only one.
-    	cap.stepInTime(dt);
-    	capBindingRegion.stepInTime(dt);
-    	lacOperator.stepInTime(dt);
-    	lacIGene.stepInTime(dt);
-    	lacYGene.stepInTime(dt);
-    	lacZGene.stepInTime(dt);
-    	lacIPromoter.stepInTime(dt);
-    	lacPromoter.stepInTime(dt);
+    	if (cap != null){
+    		cap.stepInTime(dt);
+    	}
+    	if (capBindingRegion != null){
+    		capBindingRegion.stepInTime(dt);
+    	}
+    	if (lacOperator != null){
+    		lacOperator.stepInTime(dt);
+    	}
+    	if (lacIGene != null){
+    		lacIGene.stepInTime(dt);
+    	}
+    	if (lacYGene != null){
+    		lacYGene.stepInTime(dt);
+    	}
+    	if (lacZGene != null){
+    		lacZGene.stepInTime(dt);
+    	}
+    	if (lacIPromoter != null){
+    		lacIPromoter.stepInTime(dt);
+    	}
+    	if (lacPromoter != null){
+    		lacPromoter.stepInTime(dt);
+    	}
     }
     
     private void stepElementsInTime(ArrayList<? extends IModelElement>elements, double dt){
