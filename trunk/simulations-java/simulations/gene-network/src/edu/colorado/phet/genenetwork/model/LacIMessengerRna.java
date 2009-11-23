@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class LacIMessengerRna extends MessengerRna {
 
-	private static final double EXISTENCE_TIME = 0.5; // In seconds.
+	private static final double EXISTENCE_TIME = 2.0; // In seconds.
 	
 	public LacIMessengerRna(IObtainGeneModelElements model, Point2D initialPosition, double initialLength) {
 		super(model, initialPosition, initialLength, true, EXISTENCE_TIME);
@@ -21,7 +21,7 @@ public class LacIMessengerRna extends MessengerRna {
 	}
 	
 	@Override
-	protected void onTransitionToExistingState() {
+	protected void onTransitionToFadingOutState() {
 		Rectangle2D bounds = getShape().getBounds2D();
 		Point2D processArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX(),
 				bounds.getMaxY() + getPositionRef().getY() + 3);
@@ -29,12 +29,10 @@ public class LacIMessengerRna extends MessengerRna {
 				new LacI(getModel())));
 		setMotionStrategy(new StillnessMotionStrategy(this));
 	}
-
+	
 	@Override
 	public void stepInTime(double dt) {
 		// TODO Auto-generated method stub
 		super.stepInTime(dt);
 	}
-	
-	
 }
