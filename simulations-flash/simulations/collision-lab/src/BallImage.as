@@ -153,6 +153,7 @@ package{
 					if(modelRef.atInitialConfig){
 						modelRef.initPos[indx].setXY(ballX, ballY);
 					}
+					modelRef.updateViews();
 					evt.updateAfterEvent();
 				}
 			}//end of dragTarget()

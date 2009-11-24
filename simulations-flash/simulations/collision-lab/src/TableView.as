@@ -226,7 +226,7 @@
 			}
 			if(this.myModel.atInitialConfig){
 				this.myTrajectories.erasePaths();
-				this.myModel.atInitialConfig = false;
+				//this.myModel.atInitialConfig = false;
 			}
 			this.timeText.text = "Time = " + Math.round(100*this.myModel.time)/100;
 		}
