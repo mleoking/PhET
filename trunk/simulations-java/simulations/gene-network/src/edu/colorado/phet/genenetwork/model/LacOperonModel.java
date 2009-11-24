@@ -26,7 +26,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
 
 	// Constants that define where in the model space the DNA strand will be.
 	private static final double DNA_STRAND_WIDTH = MODEL_AREA_WIDTH * 1.3;
-	private static final double DNA_STRAND_HEIGHT = 3;  // In nanometers.
+	private static final double DNA_STRAND_HEIGHT = 4;  // In nanometers.
 	private static final Rectangle2D DNA_STRAND_LOCATION = new Rectangle2D.Double(-DNA_STRAND_WIDTH / 2, 
 			-MODEL_AREA_HEIGHT * 0.2, DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
 	
