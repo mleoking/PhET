@@ -21,7 +21,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class DnaStrandNode extends PNode {
 
 	private static final boolean SHOW_BOUNDS = false;
-	private static final int NUM_SEGMENTS = 300;
+	private static final int NUM_SEGMENTS = 500;
+	private static final double NUM_WAVES = 50;
 	private static final Stroke STRAND_STROKE = new BasicStroke(2);
 	
 	private PPath boundsRectNode;
@@ -42,6 +43,7 @@ public class DnaStrandNode extends PNode {
 		strand2Path.moveTo((float)viewBounds.getMinX() + strand2OffsetX,
 				(float)(viewBounds.getMinY() + viewBounds.getHeight() / 2));
 		double angle = 0;
+		double angleIncrement = Math.PI * 2 * NUM_WAVES / NUM_SEGMENTS;
 		for (double xPos = viewBounds.getMinX(); xPos < viewBounds.getMaxX(); xPos += viewBounds.getWidth() / NUM_SEGMENTS){
 			// Draw the next segment of the DNA strand.  Note that this only
 			// fills a portion of the bounds, since that is the way it appears
@@ -50,10 +52,10 @@ public class DnaStrandNode extends PNode {
 				(float)(viewBounds.getCenterY() + Math.sin(angle) * viewBounds.getHeight() / 4));
 			strand2Path.lineTo( (float)xPos + strand2OffsetX, 
 					(float)(viewBounds.getCenterY() + Math.sin(angle) * viewBounds.getHeight() / 4));
-			angle += Math.PI * 0.3;
+			angle += angleIncrement;
 		}
 		
-		addChild(new PhetPPath(strand1Path, STRAND_STROKE, new Color(49, 170, 226)));
-		addChild(new PhetPPath(strand2Path, STRAND_STROKE, new Color(212, 99, 119)));
+		addChild(new PhetPPath(strand1Path, STRAND_STROKE, new Color(31, 163, 223)));
+		addChild(new PhetPPath(strand2Path, STRAND_STROKE, new Color(214, 87, 107)));
 	}
 }
