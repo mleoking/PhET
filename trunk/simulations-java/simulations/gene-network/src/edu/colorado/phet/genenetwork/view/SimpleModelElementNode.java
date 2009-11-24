@@ -62,13 +62,13 @@ public class SimpleModelElementNode extends PPath {
 			}
 			
 			public void existenceStrengthChanged() {
-				updatePaintAndStroke();
+				updatePaintAndStroke(false);
 			}
 		});
 		
 		// Set the initial appearance.
 		updateShape();
-		updatePaintAndStroke();
+		updatePaintAndStroke(false);
 		
 		// If there is a label text value, show it.
 		if (modelElement.getLabel() != null){
@@ -132,6 +132,16 @@ public class SimpleModelElementNode extends PPath {
         });
 	}
 	
+	/**
+	 * This method forces the node to become visible regardless of the state
+	 * of the model element, i.e. whether or not the model element is
+	 * indicating that it should be transparent.  Note that this does NOT
+	 * forestall subsequent updates to the visibility state from the model.
+	 */
+	public void forceVisible(){
+		updatePaintAndStroke(true);
+	}
+	
     private void updateOffset() {
         setOffset( mvt.modelToView( modelElement.getPositionRef() ));
     }
@@ -153,8 +163,11 @@ public class SimpleModelElementNode extends PPath {
 		setPathTo(transformedShape);
     }
     
-    private void updatePaintAndStroke(){
-    	int alpha = (int)Math.round(modelElement.getExistenceStrength() * 255);
+    private void updatePaintAndStroke(boolean forceVisible){
+    	int alpha = 255;
+    	if (!forceVisible){
+    		alpha = (int)Math.round(modelElement.getExistenceStrength() * 255);
+    	}
     	setStrokePaint(new Color(0, 0, 0, alpha));
     	Paint currentPaint = modelElement.getPaint();
     	Paint newPaint = currentPaint;

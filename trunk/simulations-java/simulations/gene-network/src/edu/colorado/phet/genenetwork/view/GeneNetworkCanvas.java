@@ -101,7 +101,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         
         // Add the tool box.
         
-        addScreenChild(new ToolboxNode(this));
+        addScreenChild(new ToolboxNode(this, model, mvt));
         
     }
 

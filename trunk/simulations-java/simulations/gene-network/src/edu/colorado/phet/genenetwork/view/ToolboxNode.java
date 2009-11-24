@@ -8,7 +8,9 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -33,7 +35,7 @@ public class ToolboxNode extends PNode {
 
 	PhetPPath boxNode;
 	
-	public ToolboxNode(final JComponent parent) {
+	public ToolboxNode(final JComponent parent, IObtainGeneModelElements model, ModelViewTransform2D mvt) {
 		parent.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent e) {
 		    	double width = parent.getWidth() * WIDTH_PROPORTION;
@@ -45,5 +47,8 @@ public class ToolboxNode extends PNode {
 		});
 		boxNode = new PhetPPath(new RoundRectangle2D.Double(0, 0, parent.getWidth(), 100, 15, 15), Color.WHITE, new BasicStroke(2f), Color.BLACK);
 		addChild(boxNode);
+		
+		LacZGeneToolBoxNode lacZGene = new LacZGeneToolBoxNode(model, mvt);
+		addChild(lacZGene);
 	}
 }
