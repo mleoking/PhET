@@ -39,7 +39,7 @@ public class ReactantQuantityControlNode extends PhetPNode {
         this.reactant = reactant;
         
         spinnerNode = new IntegerSpinnerNode( range );
-        spinnerNode.scale( 1.5 ); //XXX
+        spinnerNode.scale( 1.5 ); // setting font size would be preferable, but doesn't change size of up/down arrows on Mac
         histogramBar = new IntegerHistogramBarNode( range, HISTOGRAM_BAR_SIZE );
         PImage imageNode = new PImage( reactant.getImage() );
         imageNode.scale( imageScale );
