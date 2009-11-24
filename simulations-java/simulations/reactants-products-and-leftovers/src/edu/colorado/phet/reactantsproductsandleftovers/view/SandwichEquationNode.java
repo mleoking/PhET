@@ -84,7 +84,7 @@ public class SandwichEquationNode extends PhetPNode {
             
             // image
             final SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
-            imageNode.scale( RPALConstants.FORMULA_IMAGE_SCALE );
+            imageNode.scale( RPALConstants.EQUATION_IMAGE_SCALE );
             addChild( imageNode );
             lhsImageNodes.add( imageNode );
             
@@ -126,7 +126,7 @@ public class SandwichEquationNode extends PhetPNode {
             
             // image
             final SubstanceImageNode imageNode = new SubstanceImageNode( product );
-            imageNode.scale( RPALConstants.FORMULA_IMAGE_SCALE );
+            imageNode.scale( RPALConstants.EQUATION_IMAGE_SCALE );
             addChild( imageNode );
             rhsImageNodes.add( imageNode );
             
