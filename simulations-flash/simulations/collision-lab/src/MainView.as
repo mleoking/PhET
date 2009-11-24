@@ -5,8 +5,9 @@ package{
 	public class MainView extends Sprite{
 		var myModel:Model;
 		var myTableView:TableView;
-		//var myBallController:BallController;
-		var myPlayButtons;
+		var myDataTable:DataTable;
+		//var myPlayButtons;
+		//var 
 		var controlPanel:ControlPanel;
 		var momentumView:MomentumView;
 		var phetLogo:Sprite;
@@ -26,11 +27,13 @@ package{
 			//this.stageW = this.stage.stageWidth;
 			//this.stageH = this.stage.stageHeight;
 			this.myTableView = new TableView(myModel, this);
-			//this.myBallController = new BallController(myModel, this);
+			this.myDataTable = new DataTable(myModel, this);
 			this.controlPanel = new ControlPanel(myModel, this);
 			this.momentumView = new MomentumView(myModel, this);
 			this.phetLogo = new PhETLogo();
 			this.myModel.updateViews();
+			this.myDataTable.x = 40;
+			this.myDataTable.y = this.myTableView.canvas.height + 2.0*this.myTableView.playButtons.height;
 			this.controlPanel.background.width = 150;
 			this.controlPanel.background.height = 300;
 			this.controlPanel.x = stageW - 0.75*this.controlPanel.width;
