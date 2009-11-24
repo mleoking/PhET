@@ -7,6 +7,7 @@ MEDIUM PRIORITY
 - PSwing memory leak affects tab traversal, #1874
 
 LOW PRIORITY
+- get Illustrator files for sandwich images from Noah P.
 - scale image files to desired size, change scaling constants in RPALConstants
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
 - move equation below Before/After boxes?
