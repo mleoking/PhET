@@ -42,9 +42,9 @@
 		public function showOrErasePaths(evt:MouseEvent){
 			//trace("ControlPanel.showOrErasePaths.evt.target.selected: "+evt.target.selected);
 			if(evt.target.selected){
-				this.myMainView.myTableView.myTrajectories.drawPaths();
+				this.myMainView.myTableView.myTrajectories.pathsOn();
 			}else{
-				this.myMainView.myTableView.myTrajectories.erasePaths();
+				this.myMainView.myTableView.myTrajectories.pathsOff();
 			}
 		}
 		public function setTimeRate(evt:SliderEvent):void{
