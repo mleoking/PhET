@@ -1,3 +1,5 @@
+11/24/09 scale image files (for first 2 modules) to desired size, change scaling constants in RPALConstants
+11/24/09 use same-size images everywhere in Sandwich Shop module, make Before/After images a little bigger
 11/23/09 add a stopwatch icon for the timer feature
 11/23/09 i18n of all strings in the Game design
 11/23/09 remove slider knob image files, since we're no longer using sliders
