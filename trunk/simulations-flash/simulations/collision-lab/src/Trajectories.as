@@ -13,6 +13,9 @@ package{
 		var maxNbrPaths:int;	//maximum nbr of paths shown = maximum nbr of balls
 		var nbrPaths:int;		//current nbr of paths shown = current nbr of balls
 		var path_arr:Array;		//array of Sprites showing paths
+		var darkColor:uint;		//dark and light colors for dotted line
+		var lightColor:uint;
+		var currentColor:uint;
 		
 		public function Trajectories(myModel:Model, myTableView:TableView){
 			this.myModel = myModel;
@@ -26,6 +29,9 @@ package{
 		}//end of constructor
 		
 		private function initialize():void{
+			this.darkColor = 0x666666;
+			this.lightColor = 0xbbbbbb;
+			this.currentColor = this.darkColor;
 			for (var i:int = 0; i < this.maxNbrPaths; i++){
 				this.path_arr[i] = new Sprite();
 				this.addChild(this.path_arr[i]);
@@ -82,9 +88,14 @@ package{
 		
 		public function drawStep():void{
 			//trace("Trajectories.drawStep() called.");
+			if(this.currentColor == this.darkColor){
+				this.currentColor = this.lightColor;
+			}else{
+				this.currentColor = this.darkColor;
+			}
 			for (var i:int = 0; i < this.nbrPaths; i++){
 				var g:Graphics = this.path_arr[i].graphics;
-				g.lineStyle(2, 0x777777);
+				g.lineStyle(2, this.currentColor);
 				//trace("Trajectories.drawStep() called.");
 				var screenX = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
 				var screenY = this.pixelsPerMeter*(this.borderHeight - this.myModel.ball_arr[i].position.getY());

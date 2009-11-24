@@ -72,7 +72,7 @@
 			}
 			//position playButtons
 			this.playButtons.x = W/2;
-			this.playButtons.y = H + this.playButtons.height;
+			this.playButtons.y = H + this.playButtons.height/2;
 		}//end of drawBorder();
 		
 		public function makeTimeLabel():void{
