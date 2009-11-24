@@ -38,11 +38,11 @@ public class RPALConstants {
     //----------------------------------------------------------------------------
     
     // scaling for images that appear in equations
-    public static final double EQUATION_IMAGE_SCALE = 0.4;
+    public static final double EQUATION_IMAGE_SCALE = 1;
     // scaling for images that appear in the Before and After boxes
-    public static final double BEFORE_AFTER_BOX_IMAGE_SCALE = 0.25;
+    public static final double BEFORE_AFTER_BOX_IMAGE_SCALE = 1;
     // scaling for images that appear below histogram bars
-    public static final double HISTOGRAM_IMAGE_SCALE = 0.25;
+    public static final double HISTOGRAM_IMAGE_SCALE = 1;
     
     //----------------------------------------------------------------------------
     // Paints

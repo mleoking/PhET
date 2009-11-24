@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class SandwichImageFactory {
 
-    private static final int Y_SPACING = 11;
+    private static final int Y_SPACING = 4;
 
     /* not intended for instantiation */
     private SandwichImageFactory() {}

@@ -75,7 +75,7 @@ public interface ImageLayoutStrategy {
      */
     public static class StackedLayoutStrategy extends AbstractImageLayoutStrategy {
 
-        private static final double Y_MARGIN = 10;
+        private static final double Y_MARGIN = 7;
         private static final double Y_SPACING = 28;
         
         private final PropertyChangeListener propertyChangeListener;
