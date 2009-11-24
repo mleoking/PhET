@@ -165,6 +165,7 @@ package{
 		}//stepForward
 		
 		public function singleStep():void{
+			if(this.atInitialConfig){this.atInitialConfig = false;}
 			var dt:Number;
 			if(playing && !starting){
 				//time-based aminimation
