@@ -72,7 +72,7 @@ public class SandwichEquationNode extends PhetPNode {
             
             // coefficient spinner
             final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( model.getCoefficientRange() );
-            spinnerNode.scale( 2 ); //XXX
+            spinnerNode.scale( 2 ); // setting font size would be preferable, but doesn't change size of up/down arrows on Mac
             spinnerNode.setValue( reactant.getCoefficient() );
             spinnerNode.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
