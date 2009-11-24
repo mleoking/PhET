@@ -9,13 +9,14 @@
 		var myMainView:MainView;			//mediator and container of views
 		var canvas:Sprite;		//background on which everything is placed
 		var myTrajectories:Trajectories;	//Sprite showing trajectories (paths) of balls
+		var showingPaths:Boolean;			//true if paths are shown
 		var playButtons:PlayPauseButtons;	//class to hold library symbol
 		var border:Sprite;		//reflecting border
 		var borderColor:uint;	//color of border 0xrrggbb
 		var timeText:TextField;	//label containing current time
 		var pixelsPerMeter:int;	//scale of view
 		var ball_arr:Array;		//array of ball images
-		var ballImageTest:BallImage; //for testing BallImage Class
+		//var ballImageTest:BallImage; //for testing BallImage Class
 		var ballLabels:Array;	//array of ball labels: 1, 2, 3, ...
 		var ballColor_arr:Array;	//array of uint for colors of balls
 		var xOffset:Number;		//x of upper left corner of canvas
@@ -25,10 +26,8 @@
 			this.myModel = myModel;
 			this.myMainView = myMainView;
 			this.canvas = new Sprite();
-			this.myTrajectories = new Trajectories(this.myModel, this);
 			this.myMainView.addChild(this);
 			this.addChild(this.canvas);
-			this.addChild(this.myTrajectories);
 			this.xOffset = 20;
 			this.yOffset = 60;
 			this.canvas.x = xOffset;
@@ -37,12 +36,16 @@
 			this.canvas.addChild(this.playButtons);
 			this.myModel.registerView(this);
 			this.pixelsPerMeter = 200;
+			this.showingPaths = false;
+			this.myTrajectories = new Trajectories(this.myModel, this);
+			this.canvas.addChild(this.myTrajectories);
 			this.drawBorder();
 			this.makeTimeLabel();
 			this.ballColor_arr = new Array(10);  //start with 10 colors
 			this.createBallColors();
 			//this.createBallImages2();
 			this.createBallImages();
+			
 			this.update();
 			//this.ballImageTest = new BallImage(this.myModel, 2, this);
 			//this.myModel.startMotion();
@@ -194,7 +197,9 @@
 		}//end makeSpriteDraggable()
 		*/
 		public function update():void{
-			//trace("myTableView.update() called.");
+			//trace("TableView.update() called at time = "+this.myModel.time);
+			//trace("TableView.showingPaths: "+this.showingPaths);
+			//trace("TableView.myModel.atInitialConfig: "+this.myModel.atInitialConfig);
 			var nbrBalls:int = this.myModel.nbrBalls;
 			//trace("TableView.update() called. nbrBalls = "+nbrBalls);
 			var maxBalls:int = this.myModel.maxNbrBalls;
@@ -206,7 +211,7 @@
 				for(i = nbrBalls; i < maxBalls; i++){
 					this.ball_arr[i].visible = false; 
 				}
-				//this.myModel.nbrBallsChanged = false;
+				this.myTrajectories.updateNbrPaths();
 			}//end if()
 			
 			
@@ -215,6 +220,13 @@
 				ball_arr[i].x = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
 				ball_arr[i].y = this.pixelsPerMeter*(yMax - this.myModel.ball_arr[i].position.getY());
 				ball_arr[i].updateVelocityArrow();
+			}
+			if(this.showingPaths){
+				this.myTrajectories.drawStep();
+			}
+			if(this.myModel.atInitialConfig){
+				this.myTrajectories.erasePaths();
+				this.myModel.atInitialConfig = false;
 			}
 			this.timeText.text = "Time = " + Math.round(100*this.myModel.time)/100;
 		}
