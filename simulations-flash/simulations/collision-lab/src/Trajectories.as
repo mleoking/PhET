@@ -1,4 +1,5 @@
-﻿package{
+﻿//Draws paths(trajectories) of balls in TableView
+package{
 	import flash.display.*;
 	//import flash.events.*;
 	//import flash.text.*;
@@ -8,15 +9,17 @@
 		var myModel:Model;
 		var myTableView:TableView;
 		var pixelsPerMeter:int;
+		var borderHeight:Number;//height of Table in meters
 		var maxNbrPaths:int;	//maximum nbr of paths shown = maximum nbr of balls
 		var nbrPaths:int;		//current nbr of paths shown = current nbr of balls
-		var path_arr:Array;
+		var path_arr:Array;		//array of Sprites showing paths
 		
 		public function Trajectories(myModel:Model, myTableView:TableView){
 			this.myModel = myModel;
 			this.myTableView = myTableView;
 			this.pixelsPerMeter = this.myTableView.pixelsPerMeter;
 			this.maxNbrPaths = this.myModel.maxNbrBalls;
+			this.borderHeight = this.myModel.borderHeight;
 			this.nbrPaths = this.myModel.nbrBalls;
 			this.path_arr = new Array(this.maxNbrPaths);
 			this.initialize();
@@ -29,24 +32,65 @@
 			}//end for()
 		}//end of initialize
 		
+		public function updateNbrPaths():void{
+			this.nbrPaths = this.myModel.nbrBalls;
+			//erase high-index paths that should be invisible
+			for (var i:int = this.nbrPaths; i < this.maxNbrPaths; i++){
+				this.path_arr[i].graphics.clear();
+			}
+			//this.resetPaths();
+		}
+		
 		public function erasePaths():void{
 			//trace("Trajectories.erasePaths() called.");
+			//this.myTableView.showingPaths = false;
 			for (var i:int = 0; i < this.maxNbrPaths; i++){
 				this.path_arr[i].graphics.clear();
 			}
+			this.resetPaths();
+		}
+		
+		public function pathsOn():void{
+			//trace("Trajectories.pathsOn()");
+			this.myTableView.showingPaths = true;
+			this.resetPaths();
+		}
+		
+		public function pathsOff():void{
+			//trace("Trajectories.pathsOff()");
+			this.myTableView.showingPaths = false;
+			this.erasePaths();
 		}
 		
 		public function drawPaths():void{
 			//trace("Trajectories.drawPaths() called.");
+			this.myTableView.showingPaths = true;
+			this.resetPaths();
+			//trace("Trajectories.drawPaths() called.");
+			
+		}
+		
+		public function resetPaths():void{
+			for (var i:int = 0; i < this.nbrPaths; i++){
+				var g:Graphics = this.path_arr[i].graphics;
+				g.lineStyle(1, 0x000000);
+				var screenX = this.pixelsPerMeter*myModel.ball_arr[i].position.getX();
+				var screenY = this.pixelsPerMeter*(this.borderHeight - myModel.ball_arr[i].position.getY());
+				g.moveTo(screenX, screenY);
+			}
 		}
 		
 		public function drawStep():void{
+			//trace("Trajectories.drawStep() called.");
 			for (var i:int = 0; i < this.nbrPaths; i++){
 				var g:Graphics = this.path_arr[i].graphics;
-				g.lineStyle(1, 0xffff00);
-				trace("Trajectories.drawStep() called.");
-				//g.moveTo.
-				//g.lineTo.
+				g.lineStyle(2, 0x777777);
+				//trace("Trajectories.drawStep() called.");
+				var screenX = this.pixelsPerMeter*this.myModel.ball_arr[i].position.getX();
+				var screenY = this.pixelsPerMeter*(this.borderHeight - this.myModel.ball_arr[i].position.getY());
+				//trace("Trajectories.pixelsPerMeter: "+pixelsPerMeter);
+				//trace("i: "+i+"   scrnX: "+screenX+"   scrnY: "+screenY);
+				g.lineTo(screenX, screenY);
 			}
 		}//end drawStep()
 		
