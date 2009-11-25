@@ -15,6 +15,12 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     private String same;//if this resource is a copy of another, you can reference the original here
     private String licensefile;
 
+    /*
+     * If you're thinking that you've found documentation on the format of resource files, guess again.
+     * - There is no documentation on the semantics of these fields.
+     * - This "keys" array isn't used anywhere, so this may not be the actual list of fields that's supported.
+     * - These String literals are copied throughout this file (and others?) instead of using symbolic constants.
+     */
     private static final String[] keys = new String[]{"source", "author", "license", "notes", "same", "licensefile"};
 
     public ResourceAnnotation( String name ) {

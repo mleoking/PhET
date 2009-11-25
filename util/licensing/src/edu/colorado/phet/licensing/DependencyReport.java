@@ -8,6 +8,8 @@ import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.licensing.util.FileUtils;
 
 /**
+ * For documentation on this program, see edu.colorado.phet.licensing.readme.txt.
+ * 
  * Created by: Sam
  * Aug 4, 2008 at 7:10:23 PM
  */
