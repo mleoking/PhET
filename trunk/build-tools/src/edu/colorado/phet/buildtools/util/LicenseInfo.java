@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
+import edu.colorado.phet.licensing.ResourceAnnotation;
 
 /**
  * Created by: Sam
@@ -54,15 +55,15 @@ public class LicenseInfo {
     }
 
     public String getID() {
-        return AnnotationParser.parse( line ).getId();
+        return new ResourceAnnotation( line ).getName();
     }
 
     public String getLicenseName() {
-        return AnnotationParser.parse( line ).get( "license" );
+        return new ResourceAnnotation( line ).getLicense();
     }
 
     public File getLicenseFile() {
-        String child = AnnotationParser.parse( line ).get( "licensefile" );
+        String child = new ResourceAnnotation( line ).getLicensefile();
         if ( child == null ) {
             return null;
         }

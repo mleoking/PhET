@@ -76,7 +76,7 @@ public class ResourceAnnotationList {
             return new ResourceAnnotationTextLine( line );
         }
         else {
-            return ResourceAnnotation.parseElement( line );
+            return new ResourceAnnotation( line );
         }
     }
 

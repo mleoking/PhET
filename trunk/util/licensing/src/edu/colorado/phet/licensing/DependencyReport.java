@@ -84,7 +84,7 @@ public class DependencyReport {
         try {
             BufferedReader bufferedReader = new BufferedReader( new FileReader( licenseInfoFile ) );
             String line = bufferedReader.readLine();
-            ResourceAnnotation a = ResourceAnnotation.parseElement( line );
+            ResourceAnnotation a = new ResourceAnnotation( line );
             String license = a.getLicense();
             String licenseFileName = a.getLicensefile();
 
