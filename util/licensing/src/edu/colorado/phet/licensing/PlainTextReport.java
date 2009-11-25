@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 
 /**
@@ -13,13 +14,25 @@ import edu.colorado.phet.buildtools.PhetProject;
 public class PlainTextReport {
 
     public static void main( String[] args ) throws IOException {
-        new PlainTextReport().start();
+
+        if ( args.length != 1 ) {
+            System.out.println( "usage: " + PlainTextReport.class.getName() + " absolute_path_to_trunk" );
+            System.exit( 1 );
+        }
+
+        File trunk = new File( args[0] );
+        if ( !trunk.isDirectory() ) {
+            System.out.println( trunk + " is not a directory" );
+            System.exit( 1 );
+        }
+
+        new PlainTextReport().start( trunk );
     }
 
-    private void start() throws IOException {
+    private void start( File trunk ) throws IOException {
         System.out.println( "PhET Java Software Dependencies\n" + new Date() + "\n" );
 
-        File baseDir = new File( Config.TRUNK, "simulations-java" );
+        File baseDir = new File( trunk, BuildToolsPaths.SIMULATIONS_JAVA );
         String[] simNames = PhetProject.getSimNames( baseDir );
         for ( int i = 0; i < simNames.length; i++ ) {
             visitSim( simNames[i] );
