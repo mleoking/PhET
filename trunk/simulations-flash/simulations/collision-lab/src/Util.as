@@ -54,6 +54,15 @@ package{
 			}//end of dragTarget()
 		}//end of makeClipDraggable
 		
+		public static function round(input:Number, nPlaces:int):Number{
+			var result:Number;
+			var factor:Number = Math.pow(10, nPlaces);
+			result = Math.round(factor*input)/factor;
+			return result
+		}
+		
 	}//end of class
+	
+	
 	
 }//end of package
