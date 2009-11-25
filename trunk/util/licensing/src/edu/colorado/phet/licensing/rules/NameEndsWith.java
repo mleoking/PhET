@@ -3,17 +3,20 @@ package edu.colorado.phet.licensing.rules;
 import edu.colorado.phet.buildtools.util.LicenseInfo;
 import edu.colorado.phet.licensing.ResourceAnnotation;
 
-public class License extends AbstractRule {
+/**
+ * Rule stating that the resource name must end with a specified string.
+ */
+public class NameEndsWith extends AbstractRule {
 
-    public License( String pattern ) {
+    public NameEndsWith( String pattern ) {
         super( pattern );
     }
 
     public boolean matches( ResourceAnnotation annotation ) {
-        return startsWithPattern( annotation.getLicense() );
+        return endsWithPattern( annotation.getName() );
     }
 
     public boolean matches( LicenseInfo info ) {
-        return startsWithPattern( info.getLicenseName() );
+        return false; //TODO why?
     }
 }

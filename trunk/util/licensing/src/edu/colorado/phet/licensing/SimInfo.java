@@ -8,7 +8,7 @@ import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.util.LicenseInfo;
-import edu.colorado.phet.licensing.rules.AbstractRule;
+import edu.colorado.phet.licensing.rules.PhetRuleSet;
 
 /**
  * Created by: Sam
@@ -107,34 +107,6 @@ public class SimInfo {
     private static boolean getMSReportHideEntry( ResourceAnnotation entry ) {
         boolean MS = entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" );
         return !MS;
-    }
-
-    public static class RuleSet {
-        private AbstractRule[] rule;
-
-        public RuleSet( AbstractRule[] rule ) {
-            this.rule = rule;
-        }
-
-        public boolean matches( ResourceAnnotation entry ) {
-            for ( int i = 0; i < rule.length; i++ ) {
-                AbstractRule abstractRule = rule[i];
-                if ( abstractRule.matches( entry ) ) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public boolean matches( LicenseInfo resource ) {
-            for ( int i = 0; i < rule.length; i++ ) {
-                AbstractRule abstractRule = rule[i];
-                if ( abstractRule.matches( resource ) ) {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 
     public static boolean getDefaultHideEntryRule( ResourceAnnotation entry ) {
