@@ -17,7 +17,7 @@ id = ch*
 value = ch*
 ch = any character except for equals signs and newlines (but includes whitespace)
 
-For a simple example of this grammar, see the sample main in AnnotationParser
+For a simple example of usage of this grammar, see the sample main in AnnotationParser
 
 For license.txt in particular, the id must be a filename in the same directory as the license.txt file.
 The supported keys for the license.txt processing system are: source,author,license,notes,same,licensefile
