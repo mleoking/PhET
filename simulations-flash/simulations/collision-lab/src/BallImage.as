@@ -1,6 +1,6 @@
 ﻿//View and Controller of ball in TableView
 //BallImage has 5 sprite layers,
-// 1: colored ball, on bottom, not grabbable
+// 1: colored ball, on bottom, not grabbable, has position textField as Child
 // 2: velocity arrow, not grabbable
 // 3: textField label
 // 4: transparent disk for dragging ball, to set position
@@ -22,8 +22,14 @@ package{
 		var arrowImage:Arrow;
 		var ballHandle:Sprite;
 		var arrowHeadHandle:Sprite;
-		var tFormat:TextFormat;
-		var tField:TextField;
+		var tFormat:TextFormat;				//format for ball label text
+		var tFormat2:TextFormat;			//format for ball position and velocity readouts
+		var tFieldBallNbr:TextField;		//label = ball number
+		var tFieldPosition:TextField;		//label showing x, y coords of ball during dragging
+		var tFieldVelocity:TextField;		//label showing v_x, v_y during dragging
+		var xEqString:String;				//"x = "  All text must be programmatically set for internationalization
+		var yEqString:String;				//"y = "
+		
 		
 		public function BallImage(myModel:Model, indx:int, myTableView:TableView){
 			this.myModel = myModel;
@@ -39,16 +45,32 @@ package{
 			//this.canvas = new Sprite();
 			//this.addChild(this.canvas);
 			
-			this.tField = new TextField();
+			this.tFieldBallNbr = new TextField();
+			this.tFieldPosition = new TextField();
+			this.tFieldVelocity = new TextField();
 			var ballNbr:String = String(1 + this.ballIndex);
-			this.tField.text = ballNbr;
-			this.tField.selectable = false;
+			this.tFieldBallNbr.text = ballNbr;
+			this.xEqString = "x = ";
+			this.yEqString = "y = ";
+			this.tFieldBallNbr.selectable = false;
+			this.tFieldPosition.selectable = false;
+			this.tFieldVelocity.selectable = false;
+			this.tFieldPosition.visible = false;
+			this.tFieldPosition.multiline = true;
+			//this.tFieldPosition.border = true;
 			this.tFormat = new TextFormat();
 			tFormat.font = "Arial";
 			tFormat.bold = true;
 			tFormat.color = 0xffffff;
 			tFormat.size = 20;
-			this.tField.setTextFormat(tFormat);
+			this.tFormat2 = new TextFormat();
+			tFormat2.bold = true;
+			tFormat2.font = "Arial";
+			tFormat2.color = 0x000000;
+			tFormat2.size = 14;
+			this.tFieldBallNbr.setTextFormat(tFormat);
+			this.tFieldPosition.defaultTextFormat = tFormat2;
+			this.tFieldVelocity.defaultTextFormat = tFormat2;
 			this.setLayerDepths();
 			this.drawLayer1();
 			this.drawLayer2();
@@ -62,8 +84,9 @@ package{
 		private function setLayerDepths():void{
 			this.myTableView.canvas.addChild(this);
 			this.addChild(this.ballBody);
+			this.addChild(this.tFieldPosition);
 			this.addChild(this.arrowImage);
-			this.addChild(this.tField);
+			this.addChild(this.tFieldBallNbr);
 			this.addChild(this.ballHandle);
 			this.addChild(this.arrowHeadHandle);
 		}
@@ -77,8 +100,6 @@ package{
 			g.beginFill(currentColor);
 			g.drawCircle(0,0,r*pixelsPerMeter);
 			g.endFill();
-			
-			
 		}//end of drawLayer1()
 		
 		public function drawLayer2():void{
@@ -88,9 +109,9 @@ package{
 		}//end of drawLayer2()
 		
 		public function drawLayer3():void{
-			this.tField.autoSize = TextFieldAutoSize.CENTER;
-			this.tField.x = -this.tField.width/2;
-			this.tField.y = -this.tField.height/2;
+			this.tFieldBallNbr.autoSize = TextFieldAutoSize.CENTER;
+			this.tFieldBallNbr.x = -this.tFieldBallNbr.width/2;
+			this.tFieldBallNbr.y = -this.tFieldBallNbr.height/2;
 		}//end of drawLayer3();
 		
 		public function drawLayer4():void{	//ballHandle
@@ -156,19 +177,32 @@ package{
 						modelRef.initPos[indx].setXY(ballX, ballY);
 					}
 					modelRef.updateViews();
+					thisBallImage.updateTFieldPosition();
 					evt.updateAfterEvent();
 				}
 			}//end of dragTarget()
 			
 			function showPosition(evt:MouseEvent):void{
-				trace("BallImage rollover ballhandle" + indx);
+				thisBallImage.tFieldPosition.visible = true;
+				thisBallImage.updateTFieldPosition();
+				//trace("BallImage rollover ballhandle" + indx);
 			}
 			
 			function unshowPosition(evt:MouseEvent):void{
-				trace("BallImage rollout ballhandle" + indx);
+				thisBallImage.tFieldPosition.visible = false;
+				//trace("BallImage rollout ballhandle" + indx);
 			}
 			
 		}//end makeBallDraggable()
+		
+		private function updateTFieldPosition():void{
+			var pos:TwoVector = this.myModel.ball_arr[this.ballIndex].position;
+			var xPos = Util.round(pos.getX(),2);;
+			var yPos = Util.round(pos.getY(),2);
+			this.tFieldPosition.text = this.xEqString + xPos + "\n" + this.yEqString + yPos;
+			this.tFieldPosition.x = 0.6*this.ballBody.width;
+			this.tFieldPosition.y = -15;
+		}
 		
 		public function makeArrowDraggable():void{
 			var target:Sprite = this.arrowHeadHandle;
