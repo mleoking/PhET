@@ -15,13 +15,13 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     /**
      * A resource annotation consists of key-value pairs.
      * These are the supported keys.
-     * To add a new key, add a constants here, add the constant to KEYS, and create a get method.
+     * To add a new key: add a constant, document it, add it to KEYS, and create a get method.
      */
     private static final String SOURCE_KEY = "source"; // where we found the resource (organization, URL, etc.)
     private static final String AUTHOR_KEY = "author"; // person or organization that created the resource
     private static final String LICENSE_KEY = "license"; // the type of license, see PhetRuleSet for a list of recognized licenses
     private static final String NOTES_KEY = "notes"; // any misc notes that you want to include
-    private static final String SAME_KEY = "same";  //if this resource is a copy of another, you can reference the original here
+    private static final String SAME_KEY = "same";  // if this resource is a copy of another, put the resource's name here
     private static final String LICENSEFILE_KEY = "licensefile";  // file that contains the actual license text
     
     private static final String[] KEYS = { SOURCE_KEY, AUTHOR_KEY, LICENSE_KEY, NOTES_KEY, SAME_KEY, LICENSEFILE_KEY };
