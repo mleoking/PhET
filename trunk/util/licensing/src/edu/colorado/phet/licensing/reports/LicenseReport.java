@@ -9,9 +9,15 @@ import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.licensing.AnnotatedFile;
 import edu.colorado.phet.licensing.Config;
+import edu.colorado.phet.licensing.LicenseIssue;
 import edu.colorado.phet.licensing.SimInfo;
+import edu.colorado.phet.licensing.LicenseIssue.DataFileLicenseIssue;
 
 public class LicenseReport {
+    
+    // intended to be called via main
+    private LicenseReport() {}
+    
     public static void main( String[] args ) {
         String trunkPath = Config.DEFAULT_TRUNK_PATH;
         if ( args.length > 0 ) {
@@ -99,19 +105,6 @@ public class LicenseReport {
         catch( IOException e ) {
             e.printStackTrace();
             return new LicenseIssue[0];
-        }
-    }
-
-    private class DataFileLicenseIssue extends LicenseIssue {
-        private AnnotatedFile annotatedFile;
-
-        public DataFileLicenseIssue( AnnotatedFile annotatedFile ) {
-            super();
-            this.annotatedFile = annotatedFile;
-        }
-
-        public String toString() {
-            return annotatedFile.getResourceAnnotation().getName() + " " + annotatedFile.getResourceAnnotation().toText();
         }
     }
 }

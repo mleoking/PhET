@@ -7,6 +7,8 @@ Sam Reid, 2009
 
 package edu.colorado.phet.licensing;
 
+import edu.colorado.phet.licensing.rules.*;
+
 public class PhetRuleSet extends SimInfo.RuleSet {
     public PhetRuleSet() {
         super( new AbstractRule[]{
