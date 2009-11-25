@@ -27,7 +27,7 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     private static final String[] KEYS = { SOURCE_KEY, AUTHOR_KEY, LICENSE_KEY, NOTES_KEY, SAME_KEY, LICENSEFILE_KEY };
     
     private String name;
-    private HashMap<String,String> values; // maps keys to values, for those keys that have values
+    private HashMap<String,String> values; // maps keys to values
 
     public ResourceAnnotation( String line ) {
         values = new HashMap<String,String>();
@@ -39,34 +39,42 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     }
 
     public String getSource() {
-        return values.get( SOURCE_KEY );
+        return getValue( SOURCE_KEY );
     }
     
     /**
      * @deprecated This is being misused in ResourceAnnotationList as a hack for documenting things that aren't annotated. This is a bad design.
      */
     public void setSource( String value ) {
-        values.put( SOURCE_KEY, value );
+        setValue( SOURCE_KEY, value );
     }
 
     public String getAuthor() {
-        return values.get( AUTHOR_KEY );
+        return getValue( AUTHOR_KEY );
     }
 
     public String getLicense() {
-        return values.get( LICENSE_KEY );
+        return getValue( LICENSE_KEY );
     }
 
     public String getSame() {
-        return values.get( SAME_KEY );
+        return getValue( SAME_KEY );
     }
 
     public String getNotes() {
-        return values.get( NOTES_KEY );
+        return getValue( NOTES_KEY );
     }
 
     public String getLicensefile() {
-        return values.get( LICENSEFILE_KEY );
+        return getValue( LICENSEFILE_KEY );
+    }
+    
+    private String getValue( String key ) {
+        return values.get( key );
+    }
+    
+    private void setValue( String key, String value ) {
+        values.put( key, value );
     }
     
     public String toText() {
@@ -84,7 +92,7 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
             for ( String key : KEYS ) {
                 String value = a.get( key );
                 if ( value != null ) {
-                    values.put( key, a.get( key ) );
+                    setValue( key, a.get( key ) );
                 }
             }
         }
