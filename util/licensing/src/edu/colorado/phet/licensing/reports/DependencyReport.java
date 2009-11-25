@@ -20,7 +20,7 @@ import edu.colorado.phet.licensing.util.FileUtils;
  */
 public class DependencyReport {
 
-    private File trunk;
+    private final File trunk;
 
     public DependencyReport( File trunk ) {
         this.trunk = trunk;
