@@ -118,7 +118,7 @@ public class SimInfo {
     }
 
     public static AnnotatedFile[] getIssues( AnnotatedFile[] resources ) {
-        ArrayList list = new ArrayList();
+        ArrayList<AnnotatedFile> list = new ArrayList<AnnotatedFile>();
         for ( int i = 0; i < resources.length; i++ ) {
             AnnotatedFile resource = resources[i];
             if ( !hideEntry( resource.getResourceAnnotation() ) ) {
@@ -129,7 +129,7 @@ public class SimInfo {
     }
 
     private LicenseInfo[] getIssues( LicenseInfo[] licenseInfo ) {
-        ArrayList list = new ArrayList();
+        ArrayList<LicenseInfo> list = new ArrayList<LicenseInfo>();
         for ( int i = 0; i < licenseInfo.length; i++ ) {
             LicenseInfo resource = licenseInfo[i];
             if ( !hideEntry( resource ) ) {

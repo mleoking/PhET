@@ -64,7 +64,7 @@ public class LicenseReport {
         //project dependencies (including common projects)
         //contrib dependencies
 
-        ArrayList issues = new ArrayList();
+        ArrayList<LicenseIssue> issues = new ArrayList<LicenseIssue>();
         issues.addAll( Arrays.asList( getDataIssues( trunk, project ) ) );
         issues.addAll( Arrays.asList( getSourceIssues( project ) ) );
         issues.addAll( Arrays.asList( getProjectDependencies( project ) ) );
@@ -74,7 +74,7 @@ public class LicenseReport {
 
     private LicenseIssue[] getProjectDependencies( PhetProject project ) {
         PhetProject[] dep = project.getAllDependencies();
-        ArrayList issues = new ArrayList();
+        ArrayList<LicenseIssue> issues = new ArrayList<LicenseIssue>();
         for ( int i = 0; i < dep.length; i++ ) {
             PhetProject phetProject = dep[i];
             if ( !phetProject.equals( project ) ) {

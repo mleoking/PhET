@@ -8,11 +8,16 @@ import java.util.ArrayList;
  * Aug 7, 2008 at 9:40:14 PM
  */
 public class ResourceAnnotationList {
-    private ArrayList lines = new ArrayList();
-    private String description;
+    
+    private final ArrayList<ResourceAnnotationElement> lines = new ArrayList<ResourceAnnotationElement>();
+    private final String description;
 
     public ResourceAnnotationList( String description ) {
         this.description = description;
+    }
+    
+    public String getDescription() {
+        return description;
     }
 
     public void addResourceAnnotation( ResourceAnnotation resourceAnnotation ) {
@@ -108,7 +113,7 @@ public class ResourceAnnotationList {
     }
 
     public ResourceAnnotation getEntry( String name ) {
-        ArrayList elements = new ArrayList();
+        ArrayList<ResourceAnnotationElement> elements = new ArrayList<ResourceAnnotationElement>();
         for ( int i = 0; i < lines.size(); i++ ) {
             ResourceAnnotationElement element = (ResourceAnnotationElement) lines.get( i );
             if ( element instanceof ResourceAnnotation && ( (ResourceAnnotation) element ).getName().equals( name ) ) {

@@ -12,10 +12,9 @@ import edu.colorado.phet.buildtools.PhetProject;
  * Aug 4, 2008 at 7:10:23 PM
  */
 public class DataProcessor {
-    private File trunk;
 
     public AnnotatedFile[] visitDirectory( PhetProject phetProject, File dir ) {
-        ArrayList list = new ArrayList();
+        ArrayList<AnnotatedFile> annotatedFiles = new ArrayList<AnnotatedFile>();
         File licenseFile = new File( dir, "license.txt" );
         ResourceAnnotationList resourceAnnotationList;
         if ( licenseFile.exists() ) {
@@ -35,14 +34,14 @@ public class DataProcessor {
             File file = f[i];
             if ( file.isDirectory() ) {
                 if ( !ignoreDirectory( phetProject, file ) ) {
-                    AnnotatedFile[] fx = visitDirectory( phetProject, file );
-                    list.addAll( Arrays.asList( fx ) );
+                    AnnotatedFile[] annotatedFile = visitDirectory( phetProject, file );
+                    annotatedFiles.addAll( Arrays.asList( annotatedFile ) );
                 }
             }
             else {
                 if ( !ignoreFile( phetProject, file ) ) {
-                    ResourceAnnotation fx = visitFile( phetProject, resourceAnnotationList, file );
-                    list.add( new AnnotatedFile( file, fx ) );
+                    ResourceAnnotation annotatedFile = visitFile( phetProject, resourceAnnotationList, file );
+                    annotatedFiles.add( new AnnotatedFile( file, annotatedFile ) );
                 }
             }
         }
@@ -53,7 +52,7 @@ public class DataProcessor {
                 System.out.println( resourceAnnotationList.toText() );
             }
         }
-        return (AnnotatedFile[]) list.toArray( new AnnotatedFile[list.size()] );
+        return (AnnotatedFile[]) annotatedFiles.toArray( new AnnotatedFile[annotatedFiles.size()] );
     }
 
     protected ResourceAnnotation visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file ) {
