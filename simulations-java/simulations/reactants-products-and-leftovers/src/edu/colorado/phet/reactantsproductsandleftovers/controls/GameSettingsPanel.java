@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -21,14 +22,17 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.Gam
 
 
 public class GameSettingsPanel extends JPanel {
+    
+    private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLUE, 4 ), new CompoundBorder( new LineBorder( Color.BLACK, 2 ), new EmptyBorder( 14, 14, 14, 14 ) ) );
+    private static final Color BACKGROUND = Color.YELLOW;
 
     private final JRadioButton[] levelRadioButtons;
     private final JRadioButton timerOnRadioButton, timerOffRadioButton;
     
     public GameSettingsPanel( final GameModel model ) {
         super();
-        setBackground( Color.YELLOW );
-        setBorder( new CompoundBorder( new LineBorder( Color.BLUE, 4 ), new CompoundBorder( new LineBorder( Color.BLACK, 2 ), new EmptyBorder( 14, 14, 14, 14 ) ) ) );
+        setBorder( BORDER );
+        setBackground( BACKGROUND );
         
         // Title
         JLabel titleLabel = new JLabel( "Game Settings" );
@@ -93,11 +97,13 @@ public class GameSettingsPanel extends JPanel {
         // listen to model
         model.addGameChangeListener( new GameChangeAdapter() {
 
+            @Override
             public void levelChanged() {
                 setLevel( model.getLevel() );
             }
 
-            public void timerEnableChanged() {
+            @Override
+            public void timerEnabledChanged() {
                 setTimerEnabled( model.isTimerEnabled() );
             }
         });
