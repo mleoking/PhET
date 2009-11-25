@@ -22,15 +22,16 @@ public class DependencyReport {
     }
 
     public static void main( String[] args ) throws IOException {
-        String trunkPath;
+        String trunkPath = Config.DEFAULT_TRUNK_PATH;
         if ( args.length > 0 ) {
             trunkPath = args[0];
         }
-        else {
-            trunkPath = Config.TRUNK_PATH;
+        File trunk = new File( trunkPath );
+        if ( !trunk.isDirectory() ) {
+            System.err.println( trunk + " is not a directory." );
+            System.exit( 1 );
         }
-        File trunkFile = new File( trunkPath );
-        new DependencyReport( trunkFile ).start();
+        new DependencyReport( trunk ).start();
     }
 
     public void start() throws IOException {

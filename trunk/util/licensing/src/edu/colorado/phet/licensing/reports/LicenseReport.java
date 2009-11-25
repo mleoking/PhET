@@ -1,9 +1,11 @@
 package edu.colorado.phet.licensing.reports;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.licensing.AnnotatedFile;
 import edu.colorado.phet.licensing.Config;
@@ -11,15 +13,24 @@ import edu.colorado.phet.licensing.SimInfo;
 
 public class LicenseReport {
     public static void main( String[] args ) {
-        new LicenseReport().start();
+        String trunkPath = Config.DEFAULT_TRUNK_PATH;
+        if ( args.length > 0 ) {
+            trunkPath = args[0];
+        }
+        File trunk = new File( trunkPath );
+        if ( !trunk.isDirectory() ) {
+            System.err.println( trunk + " is not a directory." );
+            System.exit( 1 );
+        }
+        new LicenseReport().start( trunk );
     }
 
-    private void start() {
-        PhetProject[] phetProject = PhetProject.getAllProjects( Config.SIMULATIONS_JAVA );
+    private void start( File trunk ) {
+        PhetProject[] phetProject = PhetProject.getAllProjects( new File( trunk, BuildToolsPaths.SIMULATIONS_JAVA ) );
         for ( int i = 0; i < phetProject.length; i++ ) {
             PhetProject project = phetProject[i];
             System.out.println( "Project: " + project.getName() );
-            LicenseIssue[] licenseIssue = getLicenseIssues( project );
+            LicenseIssue[] licenseIssue = getLicenseIssues( trunk, project );
             for ( int j = 0; j < licenseIssue.length; j++ ) {
                 LicenseIssue issue = licenseIssue[j];
                 System.out.println( "\t" + issue );
@@ -27,7 +38,7 @@ public class LicenseReport {
         }
     }
 
-    private LicenseIssue[] getLicenseIssues( PhetProject project ) {
+    private LicenseIssue[] getLicenseIssues( File trunk, PhetProject project ) {
         //report on:
         // -media (images + audio)
         // -code used in the project
@@ -48,7 +59,7 @@ public class LicenseReport {
         //contrib dependencies
 
         ArrayList issues = new ArrayList();
-        issues.addAll( Arrays.asList( getDataIssues( project ) ) );
+        issues.addAll( Arrays.asList( getDataIssues( trunk, project ) ) );
         issues.addAll( Arrays.asList( getSourceIssues( project ) ) );
         issues.addAll( Arrays.asList( getProjectDependencies( project ) ) );
         issues.addAll( Arrays.asList( getLibraryIssues( project ) ) );
@@ -75,9 +86,9 @@ public class LicenseReport {
         return new LicenseIssue[0];
     }
 
-    private LicenseIssue[] getDataIssues( PhetProject project ) {
+    private LicenseIssue[] getDataIssues( File trunk, PhetProject project ) {
         try {
-            SimInfo issues = SimInfo.getSimInfo( Config.TRUNK, project.getName() ).getIssues();
+            SimInfo issues = SimInfo.getSimInfo( trunk, project.getName() ).getIssues();
             AnnotatedFile[] a = issues.getResources();
             LicenseIssue[] out = new LicenseIssue[a.length];
             for ( int i = 0; i < out.length; i++ ) {

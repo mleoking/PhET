@@ -14,18 +14,15 @@ import edu.colorado.phet.buildtools.PhetProject;
 public class PlainTextReport {
 
     public static void main( String[] args ) throws IOException {
-
-        if ( args.length != 1 ) {
-            System.out.println( "usage: " + PlainTextReport.class.getName() + " absolute_path_to_trunk" );
-            System.exit( 1 );
+        String trunkPath = Config.DEFAULT_TRUNK_PATH;
+        if ( args.length > 0 ) {
+            trunkPath = args[0];
         }
-
-        File trunk = new File( args[0] );
+        File trunk = new File( trunkPath );
         if ( !trunk.isDirectory() ) {
-            System.out.println( trunk + " is not a directory" );
+            System.err.println( trunk + " is not a directory." );
             System.exit( 1 );
         }
-
         new PlainTextReport().start( trunk );
     }
 
@@ -35,12 +32,12 @@ public class PlainTextReport {
         File baseDir = new File( trunk, BuildToolsPaths.SIMULATIONS_JAVA );
         String[] simNames = PhetProject.getSimNames( baseDir );
         for ( int i = 0; i < simNames.length; i++ ) {
-            visitSim( simNames[i] );
+            visitSim( trunk, simNames[i] );
         }
     }
 
-    private void visitSim( String simName ) throws IOException {
-        SimInfo sim = SimInfo.getSimInfo(Config.TRUNK, simName );
+    private void visitSim( File trunk, String simName ) throws IOException {
+        SimInfo sim = SimInfo.getSimInfo( trunk, simName );
         System.out.println( sim.getIssues() );
     }
 }
