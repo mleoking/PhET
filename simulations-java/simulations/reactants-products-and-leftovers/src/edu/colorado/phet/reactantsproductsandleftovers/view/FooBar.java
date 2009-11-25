@@ -22,7 +22,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameChangeAdapter;
 
 
-public class ScoreboardPanel extends JPanel {
+public class FooBar extends JPanel {
     
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLUE, 4 ), new CompoundBorder( new LineBorder( Color.BLACK, 2 ), new EmptyBorder( 5, 14, 5, 14 ) ) );
     private static final Color BACKGROUND = Color.YELLOW;
@@ -35,7 +35,7 @@ public class ScoreboardPanel extends JPanel {
     private final JLabel timerIcon;
     private final JButton newGameButton;
  
-    public ScoreboardPanel( final GameModel model ) {
+    public FooBar( final GameModel model ) {
         super();
         setBorder( BORDER );
         setBackground( BACKGROUND );
