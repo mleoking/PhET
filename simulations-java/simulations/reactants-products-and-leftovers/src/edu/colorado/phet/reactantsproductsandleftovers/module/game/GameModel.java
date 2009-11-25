@@ -19,7 +19,7 @@ public class GameModel extends RPALModel {
     
     private static final int CHALLENGES_PER_GAME = 10;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 );
-    private static final boolean DEFAULT_IS_TIMED = false;
+    private static final boolean DEFAULT_IS_TIMED = true;
     
     private final ArrayList<GameChangeListener> listeners;
     
@@ -27,7 +27,7 @@ public class GameModel extends RPALModel {
     private ChemicalReaction challengeReaction, guessReaction;
     private ChallengeType challengeType;
     private int level;
-    private double score;
+    private double points;
     private int attempts;
     private boolean timerEnabled;
     
@@ -43,7 +43,7 @@ public class GameModel extends RPALModel {
     public void newGame( int level, boolean timerEnabled ) {
         setLevel( level );
         setTimerEnabled( timerEnabled );
-        setScore( 0 );
+        setPoints( 0 );
         challengeNumber = 0;
         newChallenge(); //XXX should probably generate all 10 challenges at once, since our algorithm isn't random, and in case we need history
         fireNewGame();
@@ -115,6 +115,10 @@ public class GameModel extends RPALModel {
         return timerEnabled;
     }
     
+    public int getTime() {
+        return 0; //XXX calculate time in seconds from RPALClock
+    }
+    
     private void setAttempts( int attempts ) {
         if ( attempts != this.attempts ) {
             this.attempts = attempts;
@@ -126,15 +130,15 @@ public class GameModel extends RPALModel {
         return attempts;
     }
     
-    private void setScore( double score ) {
-        if ( score != this.score ) {
-            this.score = score;
-            fireScoreChanged();
+    private void setPoints( double score ) {
+        if ( score != this.points ) {
+            this.points = score;
+            firePointsChanged();
         }
     }
     
-    public double getScore() {
-        return score;
+    public double getPoints() {
+        return points;
     }
     
     public ChemicalReaction getChallengeReaction() {
@@ -148,17 +152,19 @@ public class GameModel extends RPALModel {
     public interface GameChangeListener {
         public void newGame();
         public void challengeChanged();
-        public void scoreChanged();
+        public void pointsChanged();
         public void levelChanged();
-        public void timerEnableChanged();
+        public void timerEnabledChanged();
+        public void timeChanged();
     }
     
     public static class GameChangeAdapter implements GameChangeListener {
         public void newGame() {}
         public void challengeChanged() {}
-        public void scoreChanged() {}
+        public void pointsChanged() {}
         public void levelChanged() {}
-        public void timerEnableChanged() {}
+        public void timerEnabledChanged() {}
+        public void timeChanged() {}
     }
     
     public void addGameChangeListener( GameChangeListener listener ) {
@@ -183,10 +189,10 @@ public class GameModel extends RPALModel {
         }
     }
     
-    private void fireScoreChanged() {
+    private void firePointsChanged() {
         ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
         for ( GameChangeListener listener : listenersCopy ) {
-            listener.scoreChanged();
+            listener.pointsChanged();
         }
     }
     
@@ -200,7 +206,14 @@ public class GameModel extends RPALModel {
     private void fireTimerEnabledChanged() {
         ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
         for ( GameChangeListener listener : listenersCopy ) {
-            listener.timerEnableChanged();
+            listener.timerEnabledChanged();
+        }
+    }
+    
+    private void fireTimeChanged() {
+        ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameChangeListener listener : listenersCopy ) {
+            listener.timeChanged();
         }
     }
 }
