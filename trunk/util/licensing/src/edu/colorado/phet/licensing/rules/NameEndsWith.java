@@ -17,6 +17,6 @@ public class NameEndsWith extends AbstractRule {
     }
 
     public boolean matches( LicenseInfo info ) {
-        return false; //TODO why?
+        return endsWithPattern( info.getID() );
     }
 }

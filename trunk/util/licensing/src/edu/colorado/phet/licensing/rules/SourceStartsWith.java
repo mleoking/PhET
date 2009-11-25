@@ -17,6 +17,6 @@ public class SourceStartsWith extends AbstractRule {
     }
 
     public boolean matches( LicenseInfo info ) {
-        return false;
+        return false; // LicenseInfo doesn't have a source property
     }
 }
