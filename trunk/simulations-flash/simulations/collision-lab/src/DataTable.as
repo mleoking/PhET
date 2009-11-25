@@ -187,7 +187,7 @@ package{
 					result += "0";
 				}//end for()
 			}//end if()
-			
+			return result;
 		}//end padZeroes
 		
 	}//end of class

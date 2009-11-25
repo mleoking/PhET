@@ -128,6 +128,8 @@ package{
 			target.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
 			target.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
 			target.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
+			target.addEventListener(MouseEvent.MOUSE_OVER, showPosition);
+			target.addEventListener(MouseEvent.MOUSE_OUT, unshowPosition);
 			var theStage:Object = thisBallImage.myTableView.canvas;//target.parent;
 			var clickOffset:Point;
 			function startTargetDrag(evt:MouseEvent):void{	
@@ -158,6 +160,14 @@ package{
 				}
 			}//end of dragTarget()
 			
+			function showPosition(evt:MouseEvent):void{
+				trace("BallImage rollover ballhandle" + indx);
+			}
+			
+			function unshowPosition(evt:MouseEvent):void{
+				trace("BallImage rollout ballhandle" + indx);
+			}
+			
 		}//end makeBallDraggable()
 		
 		public function makeArrowDraggable():void{
@@ -171,6 +181,8 @@ package{
 			target.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
 			target.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
 			target.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
+			target.addEventListener(MouseEvent.MOUSE_OVER, showVelocity);
+			target.addEventListener(MouseEvent.MOUSE_OUT, unshowVelocity);
 			var theStage:Object = thisBallImage;//target.parent;
 			var clickOffset:Point;
 			function startTargetDrag(evt:MouseEvent):void{	
@@ -201,7 +213,21 @@ package{
 					evt.updateAfterEvent();
 				}
 			}//end of dragTarget()
+			function showVelocity(evt:MouseEvent):void{
+				trace("showVelocity rollover " +indx);
+			}
+			function unshowVelocity(evt:MouseEvent):void{
+				trace("showVelocity rollout" + indx);
+			}
 		}//end of makeArrowDraggable()
+		
+		public function showArrow(tOrF:Boolean):void{
+			if(tOrF){
+				this.arrowImage.visible = true;
+			}else{
+				this.arrowImage.visible = false;
+			}
+		}//end showArrow()
 		
 		public function updateVelocityArrow():void{
 			var vel:TwoVector = this.myModel.ball_arr[this.ballIndex].velocity;
