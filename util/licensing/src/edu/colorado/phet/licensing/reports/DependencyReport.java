@@ -1,10 +1,14 @@
-package edu.colorado.phet.licensing;
+package edu.colorado.phet.licensing.reports;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
 import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.licensing.AnnotatedFile;
+import edu.colorado.phet.licensing.Config;
+import edu.colorado.phet.licensing.ResourceAnnotation;
+import edu.colorado.phet.licensing.SimInfo;
 import edu.colorado.phet.licensing.util.FileUtils;
 
 /**

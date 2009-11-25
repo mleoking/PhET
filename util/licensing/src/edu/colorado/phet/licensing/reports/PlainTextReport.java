@@ -1,4 +1,4 @@
-package edu.colorado.phet.licensing;
+package edu.colorado.phet.licensing.reports;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,12 +6,17 @@ import java.util.Date;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.licensing.Config;
+import edu.colorado.phet.licensing.SimInfo;
 
 /**
  * Created by: Sam
  * Aug 4, 2008 at 7:10:23 PM
  */
 public class PlainTextReport {
+    
+    // intended to be called via main
+    private PlainTextReport() {}
 
     public static void main( String[] args ) throws IOException {
         String trunkPath = Config.DEFAULT_TRUNK_PATH;
