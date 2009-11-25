@@ -4,6 +4,8 @@ These are for internal use only; for putting information in the About->Credits d
 To start, launch edu.colorado.phet.licensing.DependencyReport with an arg of the absolute path to trunk, or modify your working copy of Config to contain this information.
 (May also require your working directory be set to simulations-java).
 
+To annotate resources used in a simulation, place a license.txt in each subdirectory (recursively) of the sim's data directory; it should have an entry for each file in that directory (see glaciers example below). 
+
 Here is a supported grammar defined by AnnotationParser:
 resource file = (line \n)*
 line = comment | annotation
@@ -17,6 +19,7 @@ ch = any character except for equals signs and newlines (but includes whitespace
 
 For a simple example of this grammar, see the sample main in AnnotationParser
 
+For license.txt in particular, the id must be a filename in the same directory as the license.txt file.
 The supported keys for the license.txt processing system are: source,author,license,notes,same,licensefile
 These are identified in ResourceAnnotation.
 
