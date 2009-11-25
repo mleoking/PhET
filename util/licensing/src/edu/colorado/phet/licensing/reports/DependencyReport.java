@@ -137,7 +137,7 @@ public class DependencyReport {
         File baseDir = new File( trunk, "simulations-java" );
         String[] simNames = PhetProject.getSimNames( baseDir );
 
-        ArrayList simHTMLs = new ArrayList();
+        ArrayList<SimHTML> simHTMLs = new ArrayList<SimHTML>();
         int count = 0;
         for ( int i = 0; i < simNames.length; i++ ) {
             DependencyReport.SimHTML info = visitSim( simNames[i] );
