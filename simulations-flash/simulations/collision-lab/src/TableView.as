@@ -116,6 +116,17 @@
 			this.update(); //to make extra balls invisible
 		}//end of createBallImages()
 		
+		public function showArrowsOnBallImages(tOrF:Boolean):void{
+			var maxNbrBalls:int = this.myModel.maxNbrBalls;
+			for(var i:int = 0; i < maxNbrBalls; i++){
+				if(tOrF){
+					this.ball_arr[i].showArrow(true);
+				}else{
+					this.ball_arr[i].showArrow(false);
+				}
+			}
+		}//end showArrowsOnBallImages()
+		
 /*
 		public function createBallImages2():void{
 			var nbrBalls:int = this.myModel.nbrBalls;

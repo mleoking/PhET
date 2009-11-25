@@ -5,6 +5,7 @@
 	import fl.events.*;
 	import flash.text.*;
 	import flash.ui.*;
+	import fl.controls.*;
 	
 	public class ControlPanel extends Sprite{
 		private var myModel:Model;
@@ -33,10 +34,29 @@
 		}
 		
 		public function initializeComponents():void{
+			this.velocity_rb.addEventListener(MouseEvent.CLICK, showVelocityArrows);
+			this.momentum_rb.addEventListener(MouseEvent.CLICK, showMomentumArrows);
+			this.none_rb.addEventListener(MouseEvent.CLICK, showNoArrows)
 			this.showPaths_cb.addEventListener(MouseEvent.CLICK, showOrErasePaths);
 			this.timeRateSlider.addEventListener(SliderEvent.CHANGE, setTimeRate);
 			this.elasticitySlider.addEventListener(SliderEvent.CHANGE, setElasticity);
 			
+		}
+		
+		public function showVelocityArrows(evt:MouseEvent):void{
+			if(evt.target.selected){
+				this.myMainView.myTableView.showArrowsOnBallImages(true);
+			}
+			//trace("velocity rb clicked. target is "+evt.target.selected);
+		}
+		public function showMomentumArrows(evt:MouseEvent):void{
+			trace("momentum rb clicked.target is "+evt.target.selected);
+		}
+		public function showNoArrows(evt:MouseEvent):void{
+			if(evt.target.selected){
+				this.myMainView.myTableView.showArrowsOnBallImages(false);
+			}
+			//trace("no rb clicked.target is "+evt.target.selected);
 		}
 		
 		public function showOrErasePaths(evt:MouseEvent){
