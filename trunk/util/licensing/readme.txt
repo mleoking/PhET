@@ -1,10 +1,36 @@
-This program is a multimedia browser for phet applications.
-The purposes is to be able to view and annotate images and sound used in phet simulations for purposes of copyright and licensing.
+This program is a utility to help us visualize and annotate images, sound and data files used in phet simulations for purposes of copyright and licensing.
+These are for internal use only; for putting information in the About->Credits dialog, see build-process, such as PhetProject.copyLicenseInfo.
 
-To start, set the TRUNK_PATH in Config, then launch edu.colorado.phet.licensing.DisplayDependenciesHTML (I think your working directory must be set to simulations-java).
+To start, launch edu.colorado.phet.licensing.DependencyReport with an arg of the absolute path to trunk, or modify your working copy of Config to contain this information.
+(May also require your working directory be set to simulations-java).
 
-Let me know if you have questions or comments.
+Here is a supported grammar defined by AnnotationParser:
+resource file = (line \n)*
+line = comment | annotation
+comment = #.*
+annotation = id (attribute )*
+attribute = key=value
+key = ch*
+id = ch*
+value = ch*
+ch = any character except for equals signs and newlines (but includes whitespace)
+
+For a simple example of this grammar, see the sample main in AnnotationParser
+
+The supported keys for the license.txt processing system are: source,author,license,notes,same,licensefile
+These are identified in ResourceAnnotation.
+
+Here are some examples from glaciers license.txt
+
+bear.png source=http://openclipart.org/people/lemmling/lemmling_Cartoon_bear.svg author=lemmling license=http://creativecommons.org
+boreholeDrill.png source=http://openclipart.org author=Machovka license=http://creativecommons.org
+boreholeDrillOnButton.png source=PhET author=pixelzoom
+boreholeDrillOffButton.png source=PhET author=pixelzoom
+glacialBudgetMeter.png source=PhET author=Archie Paulson
+
+For additional discussion, see #1908 in Unfuddle.  Let me know if you have questions or comments.
 
 Sam Reid
 8-17-2006
 updated 12-5-2008
+updated 11-25-2009
