@@ -9,6 +9,7 @@ import edu.colorado.phet.licensing.AnnotatedFile;
 import edu.colorado.phet.licensing.Config;
 import edu.colorado.phet.licensing.ResourceAnnotation;
 import edu.colorado.phet.licensing.SimInfo;
+import edu.colorado.phet.licensing.rules.PhetRuleSet;
 import edu.colorado.phet.licensing.util.FileUtils;
 
 /**
@@ -122,7 +123,8 @@ public class DependencyReport {
     }
 
     private void generateRuleSet() throws IOException {
-        FileUtils.copy( new File( trunk, "util/licensing/src/edu/colorado/phet/licensing/PhetRuleSet.java" ), new File( trunk, "util/licensing/deploy/" + getRuleSetFilename() ) );//make txt so as not to confuse browsers
+        String sourceFileName = PhetRuleSet.class.getName().replace( ".", "/" ) + ".java";
+        FileUtils.copy( new File( trunk, "util/licensing/src/" + sourceFileName ), new File( trunk, "util/licensing/deploy/" + getRuleSetFilename() ) );//make txt so as not to confuse browsers
     }
 
     private void generateSimReport() throws IOException {

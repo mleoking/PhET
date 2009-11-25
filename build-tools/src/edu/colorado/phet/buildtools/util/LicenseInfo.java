@@ -3,7 +3,6 @@ package edu.colorado.phet.buildtools.util;
 import java.io.*;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 import edu.colorado.phet.licensing.ResourceAnnotation;
 
 /**
@@ -58,7 +57,7 @@ public class LicenseInfo {
         return new ResourceAnnotation( line ).getName();
     }
 
-    public String getLicenseName() {
+    public String getLicense() {
         return new ResourceAnnotation( line ).getLicense();
     }
 

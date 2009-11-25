@@ -3,17 +3,20 @@ package edu.colorado.phet.licensing.rules;
 import edu.colorado.phet.buildtools.util.LicenseInfo;
 import edu.colorado.phet.licensing.ResourceAnnotation;
 
-public class Author extends AbstractRule {
-    
-    public Author( String pattern ) {
+/**
+ * Rule stating that the "license" annotation must start with a specified string.
+ */
+public class LicenseStartsWith extends AbstractRule {
+
+    public LicenseStartsWith( String pattern ) {
         super( pattern );
     }
 
     public boolean matches( ResourceAnnotation annotation ) {
-        return startsWithPattern( annotation.getAuthor() );
+        return startsWithPattern( annotation.getLicense() );
     }
 
     public boolean matches( LicenseInfo info ) {
-        return false;
+        return startsWithPattern( info.getLicense() );
     }
 }
