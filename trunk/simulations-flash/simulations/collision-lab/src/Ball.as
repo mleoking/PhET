@@ -4,15 +4,18 @@ package{
 	//import statements go here
 	
 	public class Ball {
-		var mass:Number;
-		var radius:Number;
+		private var mass:Number;
+		private var radius:Number;
 		var position:TwoVector;
 		var velocity:TwoVector;
 		private var momentum:TwoVector;
 		
 		public function Ball(mass:Number, position:TwoVector, velocity:TwoVector ){
 			this.mass = mass;
-			this.radius = 0.15;   //radius in meters 
+			//2D mass = rho*pi*r^2, so r = C*mass^1/2
+			//3D mass = rho*(4*pi/3)*r^3, so r = C*mass^1/3
+			//this.radius = 0.15*Math.sqrt(this.mass);   //radius in meters
+			this.radius = 0.15*Math.pow(this.mass, 1/3)
 			this.position = position;
 			this.velocity = velocity;
 			this.momentum = new TwoVector(this.mass*this.velocity.getX(),this.mass*this.velocity.getY());
@@ -21,6 +24,19 @@ package{
 		//reset position to position at previous timestep
 		public function backupOneStep():void{
 			this.position.setXY(this.position.getXLast(), this.position.getYLast());
+		}
+		
+		public function setMass(mass:Number):void{
+			this.mass = mass;
+			this.radius = 0.15*Math.sqrt(this.mass);
+		}
+		
+		public function getMass():Number{
+			return this.mass;
+		}
+		
+		public function getRadius():Number{
+			return this.radius;
 		}
 		
 		public function getMomentum():TwoVector{

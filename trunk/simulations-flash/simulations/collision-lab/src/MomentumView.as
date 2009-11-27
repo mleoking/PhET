@@ -97,6 +97,7 @@
 				this.momentum_arr[i].y = this.borderHeight/2;
 				this.canvas.addChild(this.momentum_arr[i]);
 				this.momentum_arr[i].setArrow(this.myModel.ball_arr[i].getMomentum());
+				this.momentum_arr[i].makeThisDraggable();
 				//trace("MomentumView.canvas.stage: "+this.canvas.stage);
 				//Util.makeClipDraggable(this.momentum_arr[i]);
 				//trace("i = "+i+"  momentum_arr[i]"+momentum_arr[i]);
@@ -106,10 +107,12 @@
 			this.totMomentum = new Arrow(maxN);  //index of total momentum is N = maxNbrBalls
 			this.totMomentum.setText("Tot");
 			this.totMomentum.setColor(0x00ff00);	//tot momentum arrow is green
+			this.totMomentum.setShaftWidth(4);
 			this.totMomentum.x = this.borderWidth/2;
 			this.totMomentum.y = this.borderHeight/2;
 			this.canvas.addChild(this.totMomentum);
 			this.totMomentum.setArrow(this.myModel.getTotalMomentum());
+			this.totMomentum.makeThisDraggable();
 			//trace("py: "+this.myModel.ball_arr[0].getMomentum().getY());
 			//trace("px: "+this.myModel.ball_arr[0].getMomentum().getX());
 			//trace("theta: "+this.myModel.ball_arr[0].getMomentum().getAngle())
