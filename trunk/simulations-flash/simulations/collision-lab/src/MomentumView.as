@@ -3,6 +3,7 @@
 	import flash.events.*;
 	import fl.events.*;
 	import flash.text.*;
+	import fl.controls.*;
 	
 	public class MomentumView extends Sprite{
 		var myModel:Model;
@@ -19,6 +20,7 @@
 		var momentum_arr:Array;		//array of momentum arrows in graphic
 		var totMomentum:Arrow;
 		var tipToTailDisplayOn:Boolean; //true if momentum arrows displayed tip-to-tail
+		var tipToTail_cb:CheckBox;
 		
 		public function MomentumView(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
@@ -27,6 +29,8 @@
 			this.canvas = new Sprite();
 			this.border = new Sprite();
 			this.myMainView.addChild(this.canvas);
+			this.tipToTail_cb = new CheckBox();
+			
 			//this.canvas.addChild(this.border);
 			this.initialize();
 			
@@ -39,12 +43,13 @@
 			this.stageW = this.myMainView.stageW;
 			this.stageH = this.myMainView.stageH;
 			this.canvas.x = this.stageW - this.borderWidth;
-			this.canvas.y = this.stageH - this.borderHeight;
+			this.canvas.y = this.stageH - this.borderHeight - 30;
 			this.momentum_arr = new Array(this.myModel.nbrBalls);
 			//trace("MomentumView.stageW: "+this.stageW);
 			//trace("MomentumView.stageH: "+this.stageH);
 			this.drawBorder();
 			this.drawMarquee();
+			this.setupCheckBox();
 			this.drawArrows();
 			this.update();
 		}
@@ -88,6 +93,26 @@
 
 		}//end of drawMarquee
 		
+		private function setupCheckBox():void{
+			this.tipToTail_cb.label = "Tip-to-Tail";
+			this.tipToTail_cb.selected = true;
+			this.tipToTail_cb.y = this.borderHeight - this.tipToTail_cb.height;
+			this.canvas.addChild(this.tipToTail_cb);
+			this.tipToTail_cb.addEventListener(MouseEvent.CLICK, tipToTailChangeListener);
+			
+		}//end of setupCheckBox
+		
+		private function tipToTailChangeListener(evt:MouseEvent):void{
+			this.tipToTailDisplayOn = evt.target.selected;
+			if(this.tipToTailDisplayOn){this.arrangeArrowsTipToTail();}
+			//trace("MomentumView.evt.target.selected: "+evt.target.selected);
+		}
+		
+		private function tipToTailCheckBoxOff():void{
+			this.tipToTailDisplayOn = false;
+			this.tipToTail_cb.selected = false;
+		}
+		
 		//called once, at startUp
 		private function drawArrows():void{
 			var maxN:int = this.myModel.maxNbrBalls;
@@ -118,7 +143,18 @@
 			//trace("theta: "+this.myModel.ball_arr[0].getMomentum().getAngle())
 		}
 		
-	
+		private function arrangeArrowsTipToTail():void{
+			this.totMomentum.x = this.borderWidth/2;
+			this.totMomentum.y = this.borderHeight/2;
+			this.momentum_arr[0].x = this.borderWidth/2;
+			this.momentum_arr[0].y = this.borderHeight/2;
+			var N:int = this.myModel.nbrBalls;			
+			for(var i:int = 1; i < N; i++){
+				var arrowIM1:Arrow = this.momentum_arr[i-1];  //IM1 = "i minus 1"
+				this.momentum_arr[i].x = arrowIM1.x + arrowIM1.getTipX();
+				this.momentum_arr[i].y = arrowIM1.y + arrowIM1.getTipY();
+			}//end for
+		}//end arangeArrowsTipToTail();
 		
 		public function update():void{
 			var N:int = this.myModel.nbrBalls;
@@ -137,11 +173,7 @@
 			}
 			//position momentum arrows tip-to-tail
 			if(tipToTailDisplayOn){
-				for(i = 1; i < N; i++){
-					var arrowIM1:Arrow = this.momentum_arr[i-1];  //IM1 = "i minus 1"
-					this.momentum_arr[i].x = arrowIM1.x + arrowIM1.getTipX();
-					this.momentum_arr[i].y = arrowIM1.y + arrowIM1.getTipY();
-				}//end for
+				this.arrangeArrowsTipToTail();
 			}//end if
 			this.totMomentum.setArrow(this.myModel.getTotalMomentum());
 			//trace("momentum view update");

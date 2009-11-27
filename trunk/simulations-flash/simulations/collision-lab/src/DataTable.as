@@ -57,7 +57,7 @@ package{
 			this.canvas = new Sprite;
 			this.addChild(this.canvas);
 			this.myMainView.addChild(this);
-			this.drawBorder(this.nbrBalls);  //nbr of rows 
+			
 			//layout textFields
 			for(var i:int = 0; i < this.maxNbrBalls + 1; i++){ 
 				this.canvas.addChild(this.rowCanvas_arr[i]);
@@ -69,7 +69,7 @@ package{
 					this.text_arr[i][j].text = "row"+i;
 					this.text_arr[i][j].width = this.colWidth;
 					this.text_arr[i][j].height = this.rowHeight;
-					this.text_arr[i][j].border = true;
+					this.text_arr[i][j].border = false;
 					//Not user-settable: ballnbr, mass, px, py
 					//0)ball  1)mass  2)x  3)y  4)vx  5)vy  6)px  7)py
 					if(i == 0 || j == 0 || j == 6 || j == 7){
@@ -86,6 +86,7 @@ package{
 					}
 				}//for(j)
 			}//for(i)
+			this.drawBorder(this.nbrBalls);  //nbr of rows 
 			this.makeHeaderRow();
 			this.setNbrDisplayedRows();
 			this.createTextChangeListeners();
@@ -97,14 +98,16 @@ package{
 			var g:Graphics = this.canvas.graphics;
 			//var rowHeight = 30;
 			var rowWidth = this.nbrColumns*this.colWidth;//0.85*this.myMainView.myTableView.width;
+			var bWidth = 5;   //borderWidth
+			var del = bWidth/2;
 			g.clear();
-			g.lineStyle(5,0x2222ff);
+			g.lineStyle(bWidth,0x2222ff);
 			g.beginFill(0xffff99);
-			g.moveTo(0,0);
-			g.lineTo(rowWidth, 0);
-			g.lineTo(rowWidth, nbrRows*this.rowHeight);
-			g.lineTo(0, nbrRows*this.rowHeight);
-			g.lineTo(0,0);
+			g.moveTo(0 - del,0 - del);
+			g.lineTo(rowWidth + del, 0 - del);
+			g.lineTo(rowWidth + del, nbrRows*this.rowHeight +del);
+			g.lineTo(0 - del, nbrRows*this.rowHeight + del);
+			g.lineTo(0 - del,0 - del);
 			g.endFill();
 		}//end drawBorder()
 		

@@ -28,8 +28,8 @@
 			this.canvas = new Sprite();
 			this.myMainView.addChild(this);
 			this.addChild(this.canvas);
-			this.xOffset = 20;
-			this.yOffset = 60;
+			this.xOffset = 10;
+			this.yOffset = 30;
 			this.canvas.x = xOffset;
 			this.canvas.y = yOffset;
 			this.playButtons = new PlayPauseButtons(this.myModel);

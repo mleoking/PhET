@@ -10,8 +10,8 @@ package{
 		var initPos:Array;		//array of initial positions of balls
 		var initVel:Array;		//array of initial velocities of balls
 		var borderOn:Boolean;	//if true, balls elastically reflect from border 
-		var borderWidth:int;	//length of horizontal border in meters
-		var borderHeight:int;	//length of vertical border in meters
+		var borderWidth:Number;	//length of horizontal border in meters
+		var borderHeight:Number;	//length of vertical border in meters
 		var e:Number;			//elasticity = 0 to 1: 0 = perfectly inelastic, 1 = perfectly elastic
 		var time:Number;		//simulation time in seconds = real time
 		var lastTime:Number;	//time of previous step
@@ -33,7 +33,7 @@ package{
 		
 		public function Model(){
 			this.borderOn = true;
-			this.borderWidth = 3;
+			this.borderWidth = 3.2;
 			this.borderHeight = 2;
 			this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
 			this.nbrBalls = 3;		//adjustable by user

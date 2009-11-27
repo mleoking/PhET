@@ -128,14 +128,14 @@ package{
 		public function drawLayer5():void{  //arrowHeadHandle
 			var g:Graphics = this.arrowHeadHandle.graphics;
 			var currentColor:uint = 0xffffff;
-			var alpha1:Number = 0.4;
-			var r:Number = 5;
+			var alpha1:Number = 0;
+			var r:Number = 10;
 			g.clear();
 			g.beginFill(currentColor, alpha1);
 			g.drawCircle(0,0,r);
 			g.endFill();
-			this.arrowHeadHandle.x = this.arrowImage.getTipX();
-			this.arrowHeadHandle.y = this.arrowImage.getTipY();
+			this.arrowHeadHandle.x = this.arrowImage.getHeadCenterX();
+			this.arrowHeadHandle.y = this.arrowImage.getHeadCenterY();
 		}//end of drawLayer5()
 		
 		
@@ -183,14 +183,21 @@ package{
 				}
 			}//end of dragTarget()
 			
+			//following produced dataTable = null  maybe due to startup order?
+			//var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
+			
 			function highlightPositionTextFields():void{
 				//trace("BallImage.myTableView.myMainView.myDataTable:"+thisBallImage.myTableView.myMainView.myDataTable);
-				thisBallImage.myTableView.myMainView.myDataTable.text_arr[thisBallImage.ballIndex+1][2].visible = false;
-				thisBallImage.myTableView.myMainView.myDataTable.text_arr[thisBallImage.ballIndex+1][3].visible = false;
+				var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
+				dataTable.text_arr[thisBallImage.ballIndex+1][2].background = true;
+				dataTable.text_arr[thisBallImage.ballIndex+1][3].background = true;
+				dataTable.text_arr[thisBallImage.ballIndex+1][2].backgroundColor = 0xffff55;
+				dataTable.text_arr[thisBallImage.ballIndex+1][3].backgroundColor = 0xffff55;
 			}
 			function unHighlightPositionTextFields():void{
-				thisBallImage.myTableView.myMainView.myDataTable.text_arr[thisBallImage.ballIndex+1][2].visible = true;
-				thisBallImage.myTableView.myMainView.myDataTable.text_arr[thisBallImage.ballIndex+1][3].visible = true;
+				var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
+				dataTable.text_arr[thisBallImage.ballIndex+1][2].background = false;
+				dataTable.text_arr[thisBallImage.ballIndex+1][3].background = false;
 			}
 			
 			//unused
@@ -246,8 +253,8 @@ package{
 				if(clickOffset != null){  //if dragging
 					//trace("theStage.mouseX: "+theStage.mouseX);
 					//trace("theStage.mouseY: "+theStage.mouseY);
-					target.x = theStage.mouseX - clickOffset.x;
-					target.y = theStage.mouseY - clickOffset.y;
+					target.x = theStage.mouseX;// - clickOffset.x;
+					target.y = theStage.mouseY;// - clickOffset.y;
 					var velocityX:Number = target.x/thisBallImage.arrowImage.scale;
 					var velocityY:Number = -target.y/thisBallImage.arrowImage.scale;
 					//trace("velocityX: "+velocityX+"    velocityY: "+velocityY);
@@ -262,9 +269,17 @@ package{
 			}//end of dragTarget()
 			function showVelocity(evt:MouseEvent):void{
 				//trace("showVelocity rollover " +indx);
+				var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
+				dataTable.text_arr[thisBallImage.ballIndex+1][4].background = true;
+				dataTable.text_arr[thisBallImage.ballIndex+1][5].background = true;
+				dataTable.text_arr[thisBallImage.ballIndex+1][4].backgroundColor = 0xffff55;
+				dataTable.text_arr[thisBallImage.ballIndex+1][5].backgroundColor = 0xffff55;
 			}
 			function unshowVelocity(evt:MouseEvent):void{
 				//trace("showVelocity rollout" + indx);
+				var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
+				dataTable.text_arr[thisBallImage.ballIndex+1][4].background = false;
+				dataTable.text_arr[thisBallImage.ballIndex+1][5].background = false;
 			}
 		}//end of makeArrowDraggable()
 		

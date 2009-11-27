@@ -28,7 +28,8 @@ package{
 		
 		public function setMass(mass:Number):void{
 			this.mass = mass;
-			this.radius = 0.15*Math.sqrt(this.mass);
+			this.radius = 0.15*Math.pow(this.mass, 1/3)
+			//this.radius = 0.15*Math.sqrt(this.mass);
 		}
 		
 		public function getMass():Number{

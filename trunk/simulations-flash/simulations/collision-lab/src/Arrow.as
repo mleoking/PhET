@@ -19,6 +19,7 @@ package{
 		var tFormat:TextFormat;	//format for textfield
 		var fillColor:uint;		//color of arrow
 		var lineColor:uint;		//color of arrow border
+		var newFunction:Function;		//new function, if needed
 		
 		public function Arrow(indx:Number){
 			this.index = indx+1;		//arrows are labeled 1, 2, ...
@@ -94,6 +95,21 @@ package{
 			return LY;
 		}
 		
+		//x coordinate in pixels of center of head of arrow
+		public function getHeadCenterX():Number{
+			var headCntr:Number = this.lengthInPix - this.headL/2;
+			//trace("Arrow: "+this.lengthInPix);
+			//trace("Arrow: "+headCntr)
+			var LX:Number = headCntr*Math.cos(this.angleInRad);
+			return LX;
+		}
+		//y screen coordinate in pixels of tip of arrow
+		public function getHeadCenterY():Number{
+			var headCntr:Number = this.lengthInPix - this.headL/2;
+			var LY:Number = -headCntr*Math.sin(this.angleInRad);
+			return LY;
+		}
+		
 		public function setText(myText:String){
 			this.tField.text = myText;
 			//trace("Arrow.setText called. text is " + myText);
@@ -106,6 +122,10 @@ package{
 		
 		public function makeThisDraggable():void{
 			Util.makeRotatedClipDraggable(this);
+		}
+		
+		public function addNewFunction(newFunction:Function):void{
+			this.newFunction = newFunction;
 		}
 		
 	}//end of class
