@@ -81,6 +81,13 @@ package{
 			}
 		}
 		
+		public function setMass(ballNbr:int, mass:Number):void{
+			//trace("Model.setMass() called. ballNbr is "+ballNbr+"   mass is "+mass);
+			this.ball_arr[ballNbr].setMass(mass);
+			this.updateViews();
+			//this.updateViews();
+		}
+		
 		//called once, at startup
 		public function initializeBalls():void{
 			this.atInitialConfig = true;
@@ -157,6 +164,38 @@ package{
 			//trace("Model:elasticity: "+this.e);
 		}
 		
+		public function setX(indx:int, xPos:Number):void{
+			this.ball_arr[indx].position.setX(xPos);
+			if(this.atInitialConfig){
+				this.initPos[indx].setX(xPos);
+			}
+			this.updateViews();
+		}
+		
+		public function setY(indx:int, yPos:Number):void{
+			this.ball_arr[indx].position.setY(yPos);
+			if(this.atInitialConfig){
+				this.initPos[indx].setY(yPos);
+			}
+			this.updateViews();
+		}
+		
+		public function setVX(indx:int, xVel:Number):void{
+			this.ball_arr[indx].velocity.setX(xVel);
+			if(this.atInitialConfig){
+				this.initVel[indx].setX(xVel);
+			}
+			this.updateViews();
+		}
+		
+		public function setVY(indx:int, yVel:Number):void{
+			this.ball_arr[indx].velocity.setY(yVel);
+			if(this.atInitialConfig){
+				this.initVel[indx].setY(yVel);
+			}
+			this.updateViews();
+		}
+		
 		public function stepForward(evt:TimerEvent):void{
 			//trace("stepForward called.  elasticity is " + this.e);
 			//need function without event argument
@@ -199,7 +238,7 @@ package{
 				//trace("i: "+i+"  y: "+this.ball_arr[i].position.getY());
 				
 				//reflect at borders
-				var radius:Number = this.ball_arr[i].radius;
+				var radius:Number = this.ball_arr[i].getRadius();
 				
 				//if ball beyond border, then backup to previous position and reflect
 				//this guarantees no penetration of border
@@ -264,7 +303,7 @@ package{
 					var xj:Number = ball_arr[j].position.getX();
 					var yj:Number = ball_arr[j].position.getY();
 					var dist:Number = Math.sqrt((xj-xi)*(xj-xi)+(yj-yi)*(yj-yi));
-					var distMin:Number = ball_arr[i].radius + ball_arr[j].radius;
+					var distMin:Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
 					if(dist < distMin){
 						//trace("elasticity before collision: "+this.e);
 						this.collideBalls(i, j);
@@ -298,8 +337,8 @@ package{
 				var v2n:Number = (1/d)*(v2x*delX + v2y*delY);
 				var v1t:Number = (1/d)*(-v1x*delY + v1y*delX);
 				var v2t:Number = (1/d)*(-v2x*delY + v2y*delX);
-				var m1:Number = ball_arr[i].mass;
-				var m2:Number = ball_arr[j].mass;
+				var m1:Number = ball_arr[i].getMass();
+				var m2:Number = ball_arr[j].getMass();
 				//normal components of velocities after collision (P for prime = after)
 				//trace("Model.e: "+this.e);
 				var v1nP:Number = ((m1 - m2*this.e)*v1n + m2*(1+this.e)*v2n)/(m1 + m2);

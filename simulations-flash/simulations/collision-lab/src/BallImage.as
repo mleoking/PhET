@@ -94,7 +94,7 @@ package{
 		public function drawLayer1():void{
 			var g:Graphics = this.ballBody.graphics;
 			var currentColor:uint = this.myTableView.ballColor_arr[this.ballIndex];
-			var r:Number = this.myBall.radius;
+			var r:Number = this.myBall.getRadius();
 			g.clear();
 			g.lineStyle(1,0x000000);
 			g.beginFill(currentColor);
@@ -118,7 +118,7 @@ package{
 			var g:Graphics = this.ballHandle.graphics;
 			var currentColor:uint = 0xffff00;
 			var alpha1:Number = 0;
-			var r:Number = this.myBall.radius;
+			var r:Number = this.myBall.getRadius();
 			g.clear();
 			g.beginFill(currentColor, alpha1);
 			g.drawCircle(0,0,r*pixelsPerMeter);
@@ -138,6 +138,7 @@ package{
 			this.arrowHeadHandle.y = this.arrowImage.getTipY();
 		}//end of drawLayer5()
 		
+		
 		public function makeBallDraggable():void{
 			var target:Sprite = this.ballHandle;
 			var thisBallImage:BallImage = this;
@@ -149,8 +150,8 @@ package{
 			target.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
 			target.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
 			target.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
-			target.addEventListener(MouseEvent.MOUSE_OVER, showPosition);
-			target.addEventListener(MouseEvent.MOUSE_OUT, unshowPosition);
+			target.addEventListener(MouseEvent.MOUSE_OVER, highlightPositionTextFields);
+			target.addEventListener(MouseEvent.MOUSE_OUT, unHighlightPositionTextFields);
 			var theStage:Object = thisBallImage.myTableView.canvas;//target.parent;
 			var clickOffset:Point;
 			function startTargetDrag(evt:MouseEvent):void{	
@@ -182,12 +183,23 @@ package{
 				}
 			}//end of dragTarget()
 			
+			function highlightPositionTextFields():void{
+				//trace("BallImage.myTableView.myMainView.myDataTable:"+thisBallImage.myTableView.myMainView.myDataTable);
+				thisBallImage.myTableView.myMainView.myDataTable.text_arr[thisBallImage.ballIndex+1][2].visible = false;
+				thisBallImage.myTableView.myMainView.myDataTable.text_arr[thisBallImage.ballIndex+1][3].visible = false;
+			}
+			function unHighlightPositionTextFields():void{
+				thisBallImage.myTableView.myMainView.myDataTable.text_arr[thisBallImage.ballIndex+1][2].visible = true;
+				thisBallImage.myTableView.myMainView.myDataTable.text_arr[thisBallImage.ballIndex+1][3].visible = true;
+			}
+			
+			//unused
 			function showPosition(evt:MouseEvent):void{
 				thisBallImage.tFieldPosition.visible = true;
 				thisBallImage.updateTFieldPosition();
 				//trace("BallImage rollover ballhandle" + indx);
 			}
-			
+			//unused
 			function unshowPosition(evt:MouseEvent):void{
 				thisBallImage.tFieldPosition.visible = false;
 				//trace("BallImage rollout ballhandle" + indx);
@@ -195,6 +207,7 @@ package{
 			
 		}//end makeBallDraggable()
 		
+		//unused
 		private function updateTFieldPosition():void{
 			var pos:TwoVector = this.myModel.ball_arr[this.ballIndex].position;
 			var xPos = Util.round(pos.getX(),2);;
@@ -248,10 +261,10 @@ package{
 				}
 			}//end of dragTarget()
 			function showVelocity(evt:MouseEvent):void{
-				trace("showVelocity rollover " +indx);
+				//trace("showVelocity rollover " +indx);
 			}
 			function unshowVelocity(evt:MouseEvent):void{
-				trace("showVelocity rollout" + indx);
+				//trace("showVelocity rollout" + indx);
 			}
 		}//end of makeArrowDraggable()
 		

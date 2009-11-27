@@ -54,6 +54,42 @@ package{
 			}//end of dragTarget()
 		}//end of makeClipDraggable
 		
+		public static function makeRotatedClipDraggable(target:Sprite):void{
+			target.buttonMode = true;
+			target.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
+			target.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
+			target.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
+			var theStage:Object = target.parent;
+			var clickOffset:Point;
+			function startTargetDrag(evt:MouseEvent):void{	
+				//problem with localX, localY if sprite is rotated.
+				var rotation:Number = evt.target.rotation;
+				var rads:Number = rotation*Math.PI/180;
+				//trace("Util.makeRotatedClipDraggable() rotation = "+rotation);
+				var sinTheta:Number = Math.sin(rads);
+				var cosTheta:Number = Math.cos(rads);
+				var x:Number = evt.localX;
+				var y:Number = evt.localY;
+				var xP:Number = x*cosTheta - y*sinTheta;
+				var yP:Number = x*sinTheta + y*cosTheta;
+				clickOffset = new Point(xP,yP);
+			}
+			function stopTargetDrag(evt:MouseEvent):void{
+				//trace("stop dragging");
+				clickOffset = null;
+			}
+			function dragTarget(evt:MouseEvent):void{
+				if(clickOffset != null){  //if dragging
+				
+					//trace("theStage.mouseX: "+theStage.mouseX);
+					//trace("theStage.mouseY: "+theStage.mouseY);
+					target.x = theStage.mouseX - clickOffset.x;
+					target.y = theStage.mouseY - clickOffset.y;
+					evt.updateAfterEvent();
+				}
+			}//end of dragTarget()
+		}//end of makeRotatedClipDraggable
+		
 		public static function round(input:Number, nPlaces:int):Number{
 			var result:Number;
 			var factor:Number = Math.pow(10, nPlaces);

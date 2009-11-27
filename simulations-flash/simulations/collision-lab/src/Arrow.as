@@ -9,7 +9,7 @@ package{
 		var index:int; 		//text label for arrow
 		var canvas:Sprite;	//canvas holds arrow graphic, but not text label
 		var scale:Number;		//adjustable scale for graphic, pixels per unit lengh of arrow
-		var shaftW:int;			//width of shaft in pixels
+		private var shaftW:int;			//width of shaft in pixels
 		var shaftL:int;			//length of shaft in pixels
 		var headL:int;			//length of head in pixels
 		var lengthInPix:Number;	//length of arrow (shaft+head) in pixels
@@ -44,6 +44,10 @@ package{
 			this.addChild(this.canvas);
 			this.addChild(tField);
 		}//end of constructor
+		
+		public function setShaftWidth(shaftW:int):void{
+			this.shaftW = shaftW;
+		}
 		
 		public function drawHorizArrow():void{
 			this.shaftL = this.lengthInPix - this.headL;
@@ -98,6 +102,10 @@ package{
 		
 		public function setScale(scale:Number):void{
 			this.scale = scale;
+		}
+		
+		public function makeThisDraggable():void{
+			Util.makeRotatedClipDraggable(this);
 		}
 		
 	}//end of class
