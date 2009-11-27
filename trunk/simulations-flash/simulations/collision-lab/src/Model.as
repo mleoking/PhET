@@ -2,7 +2,7 @@
 package{
 	import flash.events.*;
 	import flash.utils.*;
-	import flash.geom.Point;
+	import flash.geom.*;
 	
 	public class Model{
 		var nbrBalls:int;  		//current nbr of interacting balls
@@ -40,9 +40,9 @@ package{
 			this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
 			this.nbrBalls = 3;		//adjustable by user
 			this.maxNbrBalls = 5;
+			this.CM = new Point();
 			this.ball_arr = new Array(this.maxNbrBalls);  //only first nbrBalls elements of array are used
 			this.initializeBalls();
-			this.CM = new Point(0,0);
 			//this.setCenterOfMass();
 			this.time = 0;
 			this.timeStep = 0.01;
@@ -92,6 +92,7 @@ package{
 		public function setMass(ballNbr:int, mass:Number):void{
 			//trace("Model.setMass() called. ballNbr is "+ballNbr+"   mass is "+mass);
 			this.ball_arr[ballNbr].setMass(mass);
+			this.setCenterOfMass();
 			this.updateViews();
 			//this.updateViews();
 		}
@@ -177,6 +178,7 @@ package{
 			if(this.atInitialConfig){
 				this.initPos[indx].setX(xPos);
 			}
+			this.setCenterOfMass();
 			this.updateViews();
 		}
 		
@@ -185,6 +187,7 @@ package{
 			if(this.atInitialConfig){
 				this.initPos[indx].setY(yPos);
 			}
+			this.setCenterOfMass();
 			this.updateViews();
 		}
 		
@@ -258,6 +261,7 @@ package{
 						this.ball_arr[i].position.setXY(xLast,yLast);
 						this.ball_arr[i].velocity.setY(-vY);
 					}
+					this.setCenterOfMass();
 				}//end if(borderOn)
 				
 				//following reflection code does not work when going backward in time
@@ -397,10 +401,8 @@ package{
 			var totMass:Number = 0;
 			var sumXiMi:Number = 0
 			var sumYiMi:Number = 0
-			trace("this.nbrBalls: "+this.nbrBalls);
 			for(var i:int = 0; i < this.nbrBalls; i++){
-				var m:Number = this.ball_arr[i].mass;
-				trace("Model.ball_arr[i], i = "+i+" this.ball_arr[i]: "+this.ball_arr[i]);
+				var m:Number = this.ball_arr[i].getMass();
 				var x:Number = this.ball_arr[i].position.getX();
 				var y:Number = this.ball_arr[i].position.getY();
 				totMass += m;
@@ -409,7 +411,7 @@ package{
 			}
 			this.CM.x = sumXiMi/totMass;
 			this.CM.y = sumYiMi/totMass;
-		}//end getCenterOfMass();
+		}//end setCenterOfMass();
 		
 		public function registerView(aView:Object):void{
 			this.nbrViews += 1;
