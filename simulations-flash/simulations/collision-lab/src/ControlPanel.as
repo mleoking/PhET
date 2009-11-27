@@ -36,7 +36,9 @@
 		public function initializeComponents():void{
 			this.velocity_rb.addEventListener(MouseEvent.CLICK, showVelocityArrows);
 			this.momentum_rb.addEventListener(MouseEvent.CLICK, showMomentumArrows);
-			this.none_rb.addEventListener(MouseEvent.CLICK, showNoArrows)
+			this.none_rb.addEventListener(MouseEvent.CLICK, showNoArrows);
+			this.showCM_cb.addEventListener(MouseEvent.CLICK, showCM);
+			this.reflectingBorder_cb.addEventListener(MouseEvent.CLICK, borderOnOrOff);
 			this.showPaths_cb.addEventListener(MouseEvent.CLICK, showOrErasePaths);
 			this.timeRateSlider.addEventListener(SliderEvent.CHANGE, setTimeRate);
 			this.elasticitySlider.addEventListener(SliderEvent.CHANGE, setElasticity);
@@ -59,7 +61,17 @@
 			//trace("no rb clicked.target is "+evt.target.selected);
 		}
 		
-		public function showOrErasePaths(evt:MouseEvent){
+		private function showCM(evt:MouseEvent):void{
+			trace("ControlPanel.showCM: " + evt.target.selected);
+		}
+		
+		private function borderOnOrOff(evt:MouseEvent):void{
+			this.myModel.setReflectingBorder(evt.target.selected);
+			this.myMainView.myTableView.drawBorder();
+			//trace("ControlPanel.borderOnOrOff: " + evt.target.selected);
+		}
+		
+		public function showOrErasePaths(evt:MouseEvent):void{
 			//trace("ControlPanel.showOrErasePaths.evt.target.selected: "+evt.target.selected);
 			if(evt.target.selected){
 				this.myMainView.myTableView.myTrajectories.pathsOn();

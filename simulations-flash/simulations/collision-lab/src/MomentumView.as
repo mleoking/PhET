@@ -123,9 +123,7 @@
 				this.canvas.addChild(this.momentum_arr[i]);
 				this.momentum_arr[i].setArrow(this.myModel.ball_arr[i].getMomentum());
 				this.momentum_arr[i].makeThisDraggable();
-				//trace("MomentumView.canvas.stage: "+this.canvas.stage);
-				//Util.makeClipDraggable(this.momentum_arr[i]);
-				//trace("i = "+i+"  momentum_arr[i]"+momentum_arr[i]);
+				this.momentum_arr[i].addEventListener(MouseEvent.MOUSE_DOWN, dragListener);
 			}
 			//trace("this.momentum_arr[0].parent"+this.momentum_arr[0].parent);
 			
@@ -138,9 +136,7 @@
 			this.canvas.addChild(this.totMomentum);
 			this.totMomentum.setArrow(this.myModel.getTotalMomentum());
 			this.totMomentum.makeThisDraggable();
-			//trace("py: "+this.myModel.ball_arr[0].getMomentum().getY());
-			//trace("px: "+this.myModel.ball_arr[0].getMomentum().getX());
-			//trace("theta: "+this.myModel.ball_arr[0].getMomentum().getAngle())
+			this.totMomentum.addEventListener(MouseEvent.MOUSE_DOWN, dragListener);
 		}
 		
 		private function arrangeArrowsTipToTail():void{
@@ -155,6 +151,15 @@
 				this.momentum_arr[i].y = arrowIM1.y + arrowIM1.getTipY();
 			}//end for
 		}//end arangeArrowsTipToTail();
+		
+		public function testFunction():void{
+			trace("testFunction callel.");
+		}
+		
+		public function dragListener(evt:MouseEvent):void{
+			this.tipToTailDisplayOn = false;
+			this.tipToTail_cb.selected = false;
+		}
 		
 		public function update():void{
 			var N:int = this.myModel.nbrBalls;

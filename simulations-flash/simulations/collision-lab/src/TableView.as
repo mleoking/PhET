@@ -7,20 +7,20 @@
 	public class TableView extends Sprite{
 		var myModel:Model;
 		var myMainView:MainView;			//mediator and container of views
-		var canvas:Sprite;		//background on which everything is placed
+		var canvas:Sprite;					//background on which everything is placed
 		var myTrajectories:Trajectories;	//Sprite showing trajectories (paths) of balls
+		var CM:CenterOfMass;				//library symbol
 		var showingPaths:Boolean;			//true if paths are shown
 		var playButtons:PlayPauseButtons;	//class to hold library symbol
-		var border:Sprite;		//reflecting border
-		var borderColor:uint;	//color of border 0xrrggbb
-		var timeText:TextField;	//label containing current time
-		var pixelsPerMeter:int;	//scale of view
-		var ball_arr:Array;		//array of ball images
-		//var ballImageTest:BallImage; //for testing BallImage Class
-		var ballLabels:Array;	//array of ball labels: 1, 2, 3, ...
-		var ballColor_arr:Array;	//array of uint for colors of balls
-		var xOffset:Number;		//x of upper left corner of canvas
-		var yOffset:Number;		//y of upper left corner of canvas
+		var border:Sprite;					//reflecting border
+		var borderColor:uint;				//color of border 0xrrggbb
+		var timeText:TextField;				//label containing current time
+		var pixelsPerMeter:int;				//scale of view
+		var ball_arr:Array;					//array of ball images
+		var ballLabels:Array;				//array of ball labels: 1, 2, 3, ...
+		var ballColor_arr:Array;			//array of uint for colors of balls
+		var xOffset:Number;					//x of upper left corner of canvas
+		var yOffset:Number;					//y of upper left corner of canvas
 		
 		public function TableView(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
@@ -45,6 +45,8 @@
 			this.createBallColors();
 			//this.createBallImages2();
 			this.createBallImages();
+			this.CM = new CenterOfMass();	//library symbol
+			this.canvas.addChild(this.CM);
 			
 			this.update();
 			//this.ballImageTest = new BallImage(this.myModel, 2, this);
@@ -57,19 +59,23 @@
 			var thickness:Number = 6;  //border thickness in pixels
 			var del:Number = thickness/2;
 			//trace("width: "+W+"    height: "+H);
-			with(this.canvas.graphics){
-				clear();
-				lineStyle(thickness,0xFF0000);
-				var x0:Number = 0;
-				var y0:Number = 0;
-				beginFill(0x77ff77);
-				moveTo(-del, -del);
-				lineTo(W+del, -del);
-				lineTo(W+del, +H+del);
-				lineTo(-del, +H);
-				lineTo(-del, -del);
-				endFill();
+			var g:Graphics = this.canvas.graphics
+			g.clear();
+			if(this.myModel.borderOn){
+				g.lineStyle(thickness,0xFF0000);
+			}else{
+				g.lineStyle(thickness,0xffcccc);
 			}
+			var x0:Number = 0;
+			var y0:Number = 0;
+			g.beginFill(0x77ff77);
+			g.moveTo(-del, -del);
+			g.lineTo(W+del, -del);
+			g.lineTo(W+del, +H+del);
+			g.lineTo(-del, +H);
+			g.lineTo(-del, -del);
+			g.endFill();
+			
 			//position playButtons
 			this.playButtons.x = W/2;
 			this.playButtons.y = H + this.playButtons.height/2;

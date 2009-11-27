@@ -19,7 +19,7 @@ package{
 		var tFormat:TextFormat;	//format for textfield
 		var fillColor:uint;		//color of arrow
 		var lineColor:uint;		//color of arrow border
-		var newFunction:Function;		//new function, if needed
+		//var newFunction:Function;		//new function, if needed
 		
 		public function Arrow(indx:Number){
 			this.index = indx+1;		//arrows are labeled 1, 2, ...
@@ -44,6 +44,7 @@ package{
 			this.drawHorizArrow();
 			this.addChild(this.canvas);
 			this.addChild(tField);
+			//this.newFunction = null;
 		}//end of constructor
 		
 		public function setShaftWidth(shaftW:int):void{
@@ -124,9 +125,9 @@ package{
 			Util.makeRotatedClipDraggable(this);
 		}
 		
-		public function addNewFunction(newFunction:Function):void{
-			this.newFunction = newFunction;
-		}
+		//public function addNewFunction(newFunction:Function):void{
+			//this.newFunction = newFunction;
+		//}
 		
 	}//end of class
 }//end of package
