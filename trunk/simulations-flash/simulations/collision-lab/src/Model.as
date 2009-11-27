@@ -2,6 +2,7 @@
 package{
 	import flash.events.*;
 	import flash.utils.*;
+	import flash.geom.Point;
 	
 	public class Model{
 		var nbrBalls:int;  		//current nbr of interacting balls
@@ -9,6 +10,7 @@ package{
 		var ball_arr:Array;		//array of balls
 		var initPos:Array;		//array of initial positions of balls
 		var initVel:Array;		//array of initial velocities of balls
+		var CM:Point;			//center-of-mass of system
 		var borderOn:Boolean;	//if true, balls elastically reflect from border 
 		var borderWidth:Number;	//length of horizontal border in meters
 		var borderHeight:Number;	//length of vertical border in meters
@@ -40,6 +42,8 @@ package{
 			this.maxNbrBalls = 5;
 			this.ball_arr = new Array(this.maxNbrBalls);  //only first nbrBalls elements of array are used
 			this.initializeBalls();
+			this.CM = new Point(0,0);
+			//this.setCenterOfMass();
 			this.time = 0;
 			this.timeStep = 0.01;
 			this.timeRate = 1;
@@ -81,6 +85,10 @@ package{
 			}
 		}
 		
+		public function setReflectingBorder(tOrF:Boolean):void{
+			this.borderOn = tOrF;
+		}
+		
 		public function setMass(ballNbr:int, mass:Number):void{
 			//trace("Model.setMass() called. ballNbr is "+ballNbr+"   mass is "+mass);
 			this.ball_arr[ballNbr].setMass(mass);
@@ -108,8 +116,6 @@ package{
 				this.ball_arr[i] = new Ball(1.0, initPos[i].clone(), initVel[i].clone());
 			}
 			this.nbrBallsChanged = true;
-			//trace("myModel.initPos[0]: "+this.initPos[0].getX());
-			
 			var maxN:int = this.maxNbrBalls;
 			//initialize colliders array
 			this.colliders = new Array(maxN);
@@ -124,6 +130,7 @@ package{
 				}
 			}
 			//No point in updating views, since views not created yet
+			this.setCenterOfMass();
 		}//end of initializeBalls()
 		
 		//called whenever reset button pushed by user or when nbrBalls changes
@@ -137,6 +144,7 @@ package{
 			}
 			//trace("myModel.ball_arr[0].position.getX(): "+this.ball_arr[0].position.getX());
 			this.time = 0;
+			this.setCenterOfMass();
 			this.updateViews();
 		}//end of initializePositions()
 		
@@ -240,15 +248,17 @@ package{
 				//reflect at borders
 				var radius:Number = this.ball_arr[i].getRadius();
 				
-				//if ball beyond border, then backup to previous position and reflect
+				//if ball beyond reflecting border, then backup to previous position and reflect
 				//this guarantees no penetration of border
-				if((x+radius) > this.borderWidth || (x-radius)< 0){
-					this.ball_arr[i].position.setXY(xLast,yLast);
-					this.ball_arr[i].velocity.setX(-vX);
-				}else if((y+radius) > this.borderHeight || (y-radius)< 0){
-					this.ball_arr[i].position.setXY(xLast,yLast);
-					this.ball_arr[i].velocity.setY(-vY);
-				}
+				if(this.borderOn){
+					if((x+radius) > this.borderWidth || (x-radius)< 0){
+						this.ball_arr[i].position.setXY(xLast,yLast);
+						this.ball_arr[i].velocity.setX(-vX);
+					}else if((y+radius) > this.borderHeight || (y-radius)< 0){
+						this.ball_arr[i].position.setXY(xLast,yLast);
+						this.ball_arr[i].velocity.setY(-vY);
+					}
+				}//end if(borderOn)
 				
 				//following reflection code does not work when going backward in time
 				/*
@@ -382,6 +392,24 @@ package{
 			var totP:TwoVector = new TwoVector(pX, pY);
 			return totP;
 		}
+		
+		public function setCenterOfMass():void{
+			var totMass:Number = 0;
+			var sumXiMi:Number = 0
+			var sumYiMi:Number = 0
+			trace("this.nbrBalls: "+this.nbrBalls);
+			for(var i:int = 0; i < this.nbrBalls; i++){
+				var m:Number = this.ball_arr[i].mass;
+				trace("Model.ball_arr[i], i = "+i+" this.ball_arr[i]: "+this.ball_arr[i]);
+				var x:Number = this.ball_arr[i].position.getX();
+				var y:Number = this.ball_arr[i].position.getY();
+				totMass += m;
+				sumXiMi += m*x;
+				sumYiMi += m*y;
+			}
+			this.CM.x = sumXiMi/totMass;
+			this.CM.y = sumYiMi/totMass;
+		}//end getCenterOfMass();
 		
 		public function registerView(aView:Object):void{
 			this.nbrViews += 1;
