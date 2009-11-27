@@ -25,6 +25,7 @@
 		public function TableView(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
 			this.myMainView = myMainView;
+			this.CM = new CenterOfMass();	//library symbol
 			this.canvas = new Sprite();
 			this.myMainView.addChild(this);
 			this.addChild(this.canvas);
@@ -45,7 +46,6 @@
 			this.createBallColors();
 			//this.createBallImages2();
 			this.createBallImages();
-			this.CM = new CenterOfMass();	//library symbol
 			this.canvas.addChild(this.CM);
 			
 			this.update();
@@ -246,6 +246,9 @@
 				//this.myModel.atInitialConfig = false;
 			}
 			this.timeText.text = "Time = " + Math.round(100*this.myModel.time)/100;
+			
+			this.CM.x = this.pixelsPerMeter*this.myModel.CM.x;
+			this.CM.y = this.pixelsPerMeter*(yMax - this.myModel.CM.y);
 		}
 		
 	}//end of class

@@ -173,7 +173,9 @@ package{
 					var ballX:Number = thisBallImage.x/pixelsPerMeter;
 					var ballY:Number = H - thisBallImage.y/pixelsPerMeter;
 					//trace("ballY: "+ballY);
-					modelRef.ball_arr[indx].position.setXY(ballX, ballY);
+					//modelRef.ball_arr[indx].position.setXY(ballX, ballY);
+					modelRef.setX(indx, ballX);
+					modelRef.setY(indx, ballY);
 					if(modelRef.atInitialConfig){
 						modelRef.initPos[indx].setXY(ballX, ballY);
 					}
