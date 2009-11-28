@@ -13,6 +13,7 @@
 		var showingPaths:Boolean;			//true if paths are shown
 		var playButtons:PlayPauseButtons;	//class to hold library symbol
 		var border:Sprite;					//reflecting border
+		var invisibleBorder:Sprite;			//handle for dragging
 		var borderColor:uint;				//color of border 0xrrggbb
 		var timeText:TextField;				//label containing current time
 		var pixelsPerMeter:int;				//scale of view
@@ -33,7 +34,11 @@
 			this.yOffset = 30;
 			this.canvas.x = xOffset;
 			this.canvas.y = yOffset;
+			this.border = new Sprite();
+			this.invisibleBorder = new Sprite();
 			this.playButtons = new PlayPauseButtons(this.myModel);
+			this.canvas.addChild(this.border);
+			this.canvas.addChild(this.invisibleBorder);
 			this.canvas.addChild(this.playButtons);
 			this.myModel.registerView(this);
 			this.pixelsPerMeter = 200;
@@ -41,13 +46,14 @@
 			this.myTrajectories = new Trajectories(this.myModel, this);
 			this.canvas.addChild(this.myTrajectories);
 			this.drawBorder();
+			this.drawInvisibleBorder();
 			this.makeTimeLabel();
 			this.ballColor_arr = new Array(10);  //start with 10 colors
 			this.createBallColors();
 			//this.createBallImages2();
 			this.createBallImages();
 			this.canvas.addChild(this.CM);
-			
+			Util.makePanelDraggableWithBorder(this, this.invisibleBorder);
 			this.update();
 			//this.ballImageTest = new BallImage(this.myModel, 2, this);
 			//this.myModel.startMotion();
@@ -59,7 +65,7 @@
 			var thickness:Number = 6;  //border thickness in pixels
 			var del:Number = thickness/2;
 			//trace("width: "+W+"    height: "+H);
-			var g:Graphics = this.canvas.graphics
+			var g:Graphics = this.border.graphics
 			g.clear();
 			if(this.myModel.borderOn){
 				g.lineStyle(thickness,0xFF0000);
@@ -80,6 +86,23 @@
 			this.playButtons.x = W/2;
 			this.playButtons.y = H + this.playButtons.height/2;
 		}//end of drawBorder();
+		
+		public function drawInvisibleBorder():void{
+			var W:Number = this.myModel.borderWidth * this.pixelsPerMeter;
+			var H:Number = this.myModel.borderHeight * this.pixelsPerMeter;
+			var thickness:Number = 6;  //border thickness in pixels
+			var del:Number = thickness/2;
+			//trace("width: "+W+"    height: "+H);
+			var g:Graphics = this.invisibleBorder.graphics
+			g.clear();
+			g.lineStyle(thickness,0xffffff,0);
+			g.moveTo(-del, -del);
+			g.lineTo(W+del, -del);
+			g.lineTo(W+del, +H+del);
+			g.lineTo(-del, +H);
+			g.lineTo(-del, -del);
+		}//end of drawInvisibleBorder();
+		
 		
 		public function makeTimeLabel():void{
 			this.timeText = new TextField();

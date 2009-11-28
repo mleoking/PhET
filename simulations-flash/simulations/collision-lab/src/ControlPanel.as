@@ -31,6 +31,8 @@
 			this.changeNbrBallButtons.removeBallButton.buttonMode = true;
 			var nbrString:String = String(this.nbrBalls);
 			this.changeNbrBallButtons.nbrReadout.text = nbrString;
+			//this.background.border.buttonMode = true;
+			Util.makePanelDraggableWithBorder(this, this.background.border);
 		}
 		
 		public function initializeComponents():void{
