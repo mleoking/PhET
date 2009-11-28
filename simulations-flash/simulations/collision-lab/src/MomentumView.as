@@ -7,10 +7,11 @@
 	
 	public class MomentumView extends Sprite{
 		var myModel:Model;
-		var myMainView:MainView;			//mediator and container of views
-		var canvas:Sprite;		//background on which everything is placed
-		var border:Sprite;		//border
-		var borderColor:uint;	//color of border 0xrrggbb
+		var myMainView:MainView;	//mediator and container of views
+		var canvas:Sprite;			//background on which everything is placed
+		var border:Sprite;			//border
+		var invisibleBorder:Sprite;	//grabbable border
+		var borderColor:uint;		//color of border 0xrrggbb
 		var borderWidth:Number;
 		var borderHeight:Number;
 		var marquee:TextField;
@@ -21,15 +22,19 @@
 		var totMomentum:Arrow;
 		var tipToTailDisplayOn:Boolean; //true if momentum arrows displayed tip-to-tail
 		var tipToTail_cb:CheckBox;
+		var scale_slider:Slider;
 		
 		public function MomentumView(myModel:Model, myMainView:MainView){
 			this.myModel = myModel;
 			this.myMainView = myMainView;
 			this.myModel.registerView(this);
 			this.canvas = new Sprite();
-			this.border = new Sprite();
-			this.myMainView.addChild(this.canvas);
+			this.invisibleBorder = new Sprite();
+			this.myMainView.addChild(this);
+			this.addChild(this.canvas);
+			this.canvas.addChild(this.invisibleBorder);
 			this.tipToTail_cb = new CheckBox();
+			this.scale_slider = new Slider();
 			
 			//this.canvas.addChild(this.border);
 			this.initialize();
@@ -48,9 +53,12 @@
 			//trace("MomentumView.stageW: "+this.stageW);
 			//trace("MomentumView.stageH: "+this.stageH);
 			this.drawBorder();
+			this.drawInvisibleBorder();
 			this.drawMarquee();
 			this.setupCheckBox();
+			this.setupSlider();
 			this.drawArrows();
+			Util.makePanelDraggableWithBorder(this, this.invisibleBorder);
 			this.update();
 		}
 		
@@ -74,6 +82,23 @@
 				endFill();
 			}
 		}//end of drawBorder();
+		
+		public function drawInvisibleBorder():void{
+			var W:Number = this.borderWidth;
+			var H:Number = this.borderHeight;
+			var thickness:Number = 6;  //border thickness in pixels
+			var del:Number = thickness/2;
+			//trace("width: "+W+"    height: "+H);
+			with(this.invisibleBorder.graphics){
+				clear();
+				lineStyle(thickness,0x000000,0);
+				moveTo(-del, -del);
+				lineTo(W+del, -del);
+				lineTo(W+del, +H+del);
+				lineTo(-del, +H);
+				lineTo(-del, -del);
+			}
+		}//end of drawInvisibleBorder();
 		
 		public function drawMarquee():void{
 			this.marquee = new TextField();
@@ -99,8 +124,21 @@
 			this.tipToTail_cb.y = this.borderHeight - this.tipToTail_cb.height;
 			this.canvas.addChild(this.tipToTail_cb);
 			this.tipToTail_cb.addEventListener(MouseEvent.CLICK, tipToTailChangeListener);
-			
 		}//end of setupCheckBox
+		
+		private function setupSlider():void{
+			this.scale_slider.direction = SliderDirection.VERTICAL;
+			this.scale_slider.minimum = 0;
+			this.scale_slider.maximum = 1;
+			this.scale_slider.snapInterval = 0.01;
+			this.scale_slider.value = 0.5;
+			this.scale_slider.liveDragging = true;
+			this.canvas.addChild(this.scale_slider);
+			this.scale_slider.height = 0.6*this.borderHeight;
+			this.scale_slider.x = 0.93*this.borderWidth;
+			this.scale_slider.y = 0.5*this.borderHeight- this.scale_slider.height;// - this.scale_slider.height/2;
+			this.scale_slider.addEventListener(Event.CHANGE, sliderChangeListener);
+		}
 		
 		private function tipToTailChangeListener(evt:MouseEvent):void{
 			this.tipToTailDisplayOn = evt.target.selected;
@@ -108,10 +146,24 @@
 			//trace("MomentumView.evt.target.selected: "+evt.target.selected);
 		}
 		
+		private function sliderChangeListener(evt:SliderEvent):void{
+			this.setScaleOfArrows(evt.target.value*100);
+			//trace("MomentumView slider value = "+evt.target.value);
+		}
+		
 		private function tipToTailCheckBoxOff():void{
 			this.tipToTailDisplayOn = false;
 			this.tipToTail_cb.selected = false;
 		}
+		
+		private function setScaleOfArrows(scale:Number):void{
+			var maxN:int = this.myModel.maxNbrBalls;
+			for(var i:int = 0; i < maxN; i++){
+				this.momentum_arr[i].setScale(scale);
+			}
+			this.totMomentum.setScale(scale);
+			this.update();
+		}//end setScaleOfArrows()
 		
 		//called once, at startUp
 		private function drawArrows():void{
@@ -152,9 +204,6 @@
 			}//end for
 		}//end arangeArrowsTipToTail();
 		
-		public function testFunction():void{
-			trace("testFunction callel.");
-		}
 		
 		public function dragListener(evt:MouseEvent):void{
 			this.tipToTailDisplayOn = false;

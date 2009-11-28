@@ -11,6 +11,7 @@ package{
 		var nbrBalls:int;
 		var maxNbrBalls:int;
 		var canvas:Sprite;			//canvas holds several rowCanvases
+		var invisibleBorder:Sprite;	//draggable border
 		var rowCanvas_arr:Array;	//array of Sprites, each holds one row of textFields
 		var colWidth:int;			//width of column in pix
 		var rowHeight:int;			//height of row in pix
@@ -55,7 +56,9 @@ package{
 			//var colWidth = 60;
 			//var colHeight = 25;
 			this.canvas = new Sprite;
+			this.invisibleBorder = new Sprite();
 			this.addChild(this.canvas);
+			this.canvas.addChild(this.invisibleBorder);
 			this.myMainView.addChild(this);
 			
 			//layout textFields
@@ -90,6 +93,7 @@ package{
 			this.makeHeaderRow();
 			this.setNbrDisplayedRows();
 			this.createTextChangeListeners();
+			Util.makePanelDraggableWithBorder(this, this.invisibleBorder);
 			this.update();
 		}//end of initialize()
 		
@@ -109,6 +113,16 @@ package{
 			g.lineTo(0 - del, nbrRows*this.rowHeight + del);
 			g.lineTo(0 - del,0 - del);
 			g.endFill();
+			
+			var gI:Graphics = this.invisibleBorder.graphics;
+			gI.clear();
+			gI.lineStyle(bWidth,0x000000, 0);
+			gI.moveTo(0 - del,0 - del);
+			gI.lineTo(rowWidth + del, 0 - del);
+			gI.lineTo(rowWidth + del, nbrRows*this.rowHeight +del);
+			gI.lineTo(0 - del, nbrRows*this.rowHeight + del);
+			gI.lineTo(0 - del,0 - del);
+			
 		}//end drawBorder()
 		
 		//header row is 
