@@ -35,8 +35,8 @@ package{
 			function startTargetDrag(evt:MouseEvent):void{	
 				//problem with localX, localY if sprite is rotated.
 				clickOffset = new Point(evt.localX, evt.localY);
-				trace("evt.localX: "+evt.localX);
-				trace("evt.localY: "+evt.localY);
+				//trace("evt.localX: "+evt.localX);
+				//trace("evt.localY: "+evt.localY);
 			}
 			function stopTargetDrag(evt:MouseEvent):void{
 				//trace("stop dragging");
@@ -53,6 +53,31 @@ package{
 				}
 			}//end of dragTarget()
 		}//end of makeClipDraggable
+		
+		public static function makePanelDraggableWithBorder(panel:Sprite, border:Sprite):void{
+			border.buttonMode = true;
+			border.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
+			border.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
+			border.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
+			var clickOffset:Point;
+			function startTargetDrag(evt:MouseEvent):void{	
+				//problem with localX, localY if sprite is rotated.
+				clickOffset = new Point(evt.stageX - panel.x, evt.stageY - panel.y);
+			}
+			function stopTargetDrag(evt:MouseEvent):void{
+				//trace("stop dragging");
+				clickOffset = null;
+			}
+			function dragTarget(evt:MouseEvent):void{
+				if(clickOffset != null){  //if dragging
+					//trace("theStage.mouseX: "+theStage.mouseX);
+					//trace("theStage.mouseY: "+theStage.mouseY);
+					panel.x = evt.stageX - clickOffset.x;
+					panel.y = evt.stageY - clickOffset.y;
+					evt.updateAfterEvent();
+				}
+			}//end of dragTarget()
+		}//end of makePanelDraggableWithBorder
 		
 		public static function makeRotatedClipDraggable(target:Sprite):void{
 			target.buttonMode = true;

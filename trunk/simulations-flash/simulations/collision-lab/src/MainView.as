@@ -34,10 +34,10 @@ package{
 			this.myModel.updateViews();
 			this.myDataTable.x = 60;
 			this.myDataTable.y = this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
-			this.controlPanel.background.width = 150;
-			this.controlPanel.background.height = 300;
+			this.controlPanel.background.width = 170;
+			this.controlPanel.background.height = 350;
 			this.controlPanel.x = stageW - 0.75*this.controlPanel.width;
-			this.controlPanel.y = 0.6*this.controlPanel.height;
+			this.controlPanel.y = 20;//0.3*this.controlPanel.height;
 			//trace("stageW: "+stageW+"   stageH: "+stageH);
 		}//end of initialize()
 	}//end of class
