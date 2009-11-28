@@ -64,7 +64,8 @@
 		}
 		
 		private function showCM(evt:MouseEvent):void{
-			trace("ControlPanel.showCM: " + evt.target.selected);
+			this.myMainView.myTableView.CM.visible = evt.target.selected;
+			//trace("ControlPanel.showCM: " + evt.target.selected);
 		}
 		
 		private function borderOnOrOff(evt:MouseEvent):void{

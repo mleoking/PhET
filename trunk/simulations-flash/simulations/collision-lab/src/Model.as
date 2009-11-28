@@ -66,6 +66,7 @@ package{
 				this.nbrBalls += 1;
 				//trace("Model.nbrBalls: "+this.nbrBalls);
 				this.nbrBallsChanged = true;
+				this.setCenterOfMass();
 				this.updateViews();
 				this.nbrBallsChanged = false;
 				//this.ball_arr = new Array(nbrBalls);
@@ -78,6 +79,7 @@ package{
 			if(this.nbrBalls > 0){
 				this.nbrBalls -= 1;
 				this.nbrBallsChanged = true;
+				this.setCenterOfMass();
 				this.updateViews();
 				this.nbrBallsChanged = false;
 				//this.ball_arr = new Array(nbrBalls);
