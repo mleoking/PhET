@@ -42,7 +42,7 @@ SELECT
 	session.timestamp,
 	session.message_version,
 	session.server_revision,
-	sim_type.name AS sim_name,
+	sim_type.name AS sim_type,
 	sim_project.name AS sim_project,
 	sim_name.name AS sim_name,
 	session.sim_major_version,
