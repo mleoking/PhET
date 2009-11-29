@@ -178,20 +178,30 @@ public class FlashSimulationProject extends PhetProject {
 
     private void buildOfflineJARs() {
         Locale[] locales = getLocales();
-        for ( int i = 0; i < locales.length; i++ ) {
-            buildOfflineJAR( locales[i] );
+        try {
+            // now we only build flash launcher once. -JO
+            FlashLauncherProject launcherProject = new FlashLauncherProject( getTrunk() );
+            launcherProject.build();
+            for ( int i = 0; i < locales.length; i++ ) {
+                buildOfflineJAR( locales[i], launcherProject );
+            }
         }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
+
     }
 
-    private void buildOfflineJAR( Locale locale ) {
+    private void buildOfflineJAR( Locale locale, FlashLauncherProject launcherProject ) {
         System.out.println( "Working in " + getOfflineJARContentsDir().getAbsolutePath() );
 
         FileUtils.delete( getOfflineJARContentsDir(), true );
         getOfflineJARContentsDir().mkdirs();
         try {
             // copy class files for FlashLauncher
-            FlashLauncherProject launcherProject = new FlashLauncherProject( getTrunk() );
-            launcherProject.build();
             FileUtils.unzip( launcherProject.getDefaultDeployJar(), getOfflineJARContentsDir() );
 
             // The FlashLauncherProject came with a jar-launcher.properties, which should be deleted for
@@ -257,10 +267,11 @@ public class FlashSimulationProject extends PhetProject {
 
             new MyAntTaskRunner().runTask( jar );
 
-            if (BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified()) {
-                signJAR(destFile);
-            } else {
-                System.out.println("Jarsigner credentials not specified in build file, skipping jar signing.");
+            if ( BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified() ) {
+                signJAR( destFile );
+            }
+            else {
+                System.out.println( "Jarsigner credentials not specified in build file, skipping jar signing." );
             }
         }
         catch( Exception e ) {
