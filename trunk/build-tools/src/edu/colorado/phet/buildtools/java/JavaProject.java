@@ -24,6 +24,7 @@ import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 public abstract class JavaProject extends PhetProject {
     public JavaProject( File projectRoot ) throws IOException {
@@ -198,6 +199,9 @@ public abstract class JavaProject extends PhetProject {
         System.out.println( "Building JNLP for locale=" + locale + ", simulation=" + simulationName );
         BuildJNLPTask j = new BuildJNLPTask();
         j.buildJNLP( this, simulationName, locale, dev, codebase );
+        if ( dev && locale.equals( LocaleUtils.stringToLocale( "en" ) ) ) {
+            j.buildJNLP( this, simulationName, locale, false, codebase, "-production" );
+        }
         System.out.println( "Finished Building JNLP" );
     }
 

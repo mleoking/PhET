@@ -22,23 +22,27 @@ import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 public class BuildJNLPTask {
 
     protected void buildJNLP( JavaProject project, String simulationName, Locale locale, boolean dev, String codebase ) throws Exception {
+        buildJNLP( project, simulationName, locale, dev, codebase, "" );
+    }
+
+    protected void buildJNLP( JavaProject project, String simulationName, Locale locale, boolean dev, String codebase, String suffix ) throws Exception {
         Simulation simulation = project.getSimulation( simulationName, locale );
         File JNLP_TEMPLATE = new File( project.getTrunk(), BuildToolsPaths.WEBSTART_TEMPLATE );
-        FileUtils.filter( JNLP_TEMPLATE, getDestFile( project, simulationName, locale ), createJNLPFilterMap( simulation, project, simulationName, locale, codebase, dev ), "UTF-16" );
+        FileUtils.filter( JNLP_TEMPLATE, getDestFile( project, simulationName, locale, suffix ), createJNLPFilterMap( simulation, project, simulationName, locale, codebase, dev, suffix ), "UTF-16" );
     }
 
-    private String getJNLPFileName( String simulationName, Locale locale ) {
-        return "" + simulationName + "_" + locale + ".jnlp";
+    private String getJNLPFileName( String simulationName, Locale locale, String suffix ) {
+        return "" + simulationName + "_" + locale + suffix + ".jnlp";
     }
 
-    private File getDestFile( PhetProject phetProject, String simulationName, Locale locale ) {
-        return new File( phetProject.getDeployDir(), getJNLPFileName( simulationName, locale ) );
+    private File getDestFile( PhetProject phetProject, String simulationName, Locale locale, String suffix ) {
+        return new File( phetProject.getDeployDir(), getJNLPFileName( simulationName, locale, suffix ) );
     }
 
-    private HashMap createJNLPFilterMap( Simulation simulation, JavaProject project, String simulationName, Locale locale, String codebase, boolean dev ) {
+    private HashMap createJNLPFilterMap( Simulation simulation, JavaProject project, String simulationName, Locale locale, String codebase, boolean dev, String suffix ) {
         HashMap map = new HashMap();
         map.put( "PROJECT.NAME", StringEscapeUtils.escapeHtml( simulation.getTitle() ) );
-        map.put( "JNLP.NAME", getJNLPFileName( simulationName, locale ) );
+        map.put( "JNLP.NAME", getJNLPFileName( simulationName, locale, suffix ) );
         map.put( "PROJECT.JAR", project.getJarFile().getName() );
         map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//TODO: map this to correct sim-specific (possibly online) URL
         map.put( "PROJECT.MAINCLASS", simulation.getMainclass() );
