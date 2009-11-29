@@ -96,7 +96,7 @@ package{
 			var currentColor:uint = this.myTableView.ballColor_arr[this.ballIndex];
 			var r:Number = this.myBall.getRadius();
 			g.clear();
-			g.lineStyle(1,0x000000);
+			g.lineStyle(1,0x000000,1,false);
 			g.beginFill(currentColor);
 			g.drawCircle(0,0,r*pixelsPerMeter);
 			g.endFill();

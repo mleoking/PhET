@@ -6,11 +6,13 @@
 	import flash.text.*;
 	import flash.ui.*;
 	import fl.controls.*;
+	import fl.managers.StyleManager;
 	
 	public class ControlPanel extends Sprite{
 		private var myModel:Model;
 		private var myMainView:MainView;
 		private var nbrBalls;
+		private var tFormat:TextFormat;
 		//private var changeNbrBallButtons:ChangeNbrBallButtons;	//libary symbol instance
 		
 		public function ControlPanel(myModel:Model, myMainView:MainView){
@@ -18,6 +20,7 @@
 			this.myMainView = myMainView;
 			this.myMainView.addChild(this);
 			this.nbrBalls = this.myModel.nbrBalls;
+			this.tFormat = new TextFormat();
 			//this.myModel.registerView(this);
 			//this.changeNbrBallButtons = new ChangeNbrBallButtons();
 			this.initialize();
@@ -36,6 +39,18 @@
 		}
 		
 		public function initializeComponents():void{
+			this.tFormat.size = 12;
+			this.tFormat.font = "Arial";
+			StyleManager.setStyle("textFormat",tFormat);
+			//var tField:TextField = new TextField();
+			//tField.autoSize = TextFieldAutoSize.LEFT;
+			//StyleManager.setStyle("autoSize",TextFieldAutoSize.LEFT);
+			this.velocity_rb.textField.autoSize = TextFieldAutoSize.LEFT;
+			this.momentum_rb.textField.autoSize = TextFieldAutoSize.LEFT;
+			this.none_rb.textField.autoSize = TextFieldAutoSize.LEFT;
+			this.showCM_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+			this.reflectingBorder_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+			this.showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.velocity_rb.addEventListener(MouseEvent.CLICK, showVelocityArrows);
 			this.momentum_rb.addEventListener(MouseEvent.CLICK, showMomentumArrows);
 			this.none_rb.addEventListener(MouseEvent.CLICK, showNoArrows);
