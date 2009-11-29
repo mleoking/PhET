@@ -38,7 +38,7 @@ package{
 			this.borderWidth = 3.2;
 			this.borderHeight = 2;
 			this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
-			this.nbrBalls = 3;		//adjustable by user
+			this.nbrBalls = 2;		//adjustable by user
 			this.maxNbrBalls = 5;
 			this.CM = new Point();
 			this.ball_arr = new Array(this.maxNbrBalls);  //only first nbrBalls elements of array are used
@@ -47,7 +47,7 @@ package{
 			this.time = 0;
 			this.timeStep = 0.01;
 			this.timeRate = 1;
-			this.updateRate = 3;
+			this.updateRate = 1;
 			this.frameCount = 0;
 			
 			this.msTimer = new Timer(this.timeStep*1000);
@@ -102,15 +102,16 @@ package{
 		//called once, at startup
 		public function initializeBalls():void{
 			this.atInitialConfig = true;
+			this.starting = true;
 			this.initPos = new Array(this.maxNbrBalls);
 			this.initVel = new Array(this.maxNbrBalls);
-			initPos[0] = new TwoVector(0.2,0.2);
-			initPos[1] = new TwoVector(0.5,0.5);
+			initPos[0] = new TwoVector(0.5,0.5);
+			initPos[1] = new TwoVector(1.5,0.5);
 			initPos[2] = new TwoVector(1,1);
 			initPos[3] = new TwoVector(1.2, 1.2);
 			initPos[4] = new TwoVector(1.2, 0.2);
-			initVel[0] = new TwoVector(0.7,0.8);
-			initVel[1] = new TwoVector(0.12,2);
+			initVel[0] = new TwoVector(2,0);
+			initVel[1] = new TwoVector(-2,0);
 			initVel[2] = new TwoVector(-0.5,-0.25);
 			initVel[3] = new TwoVector(1.1,0.2);
 			initVel[4] = new TwoVector(-1.1,0);
@@ -140,6 +141,7 @@ package{
 		public function initializePositions():void{
 			//trace("Model.initializePositions() called");
 			this.atInitialConfig = true;
+			this.starting = true;
 			for (var i = 0; i < this.nbrBalls; i++){
 				//new Ball(mass, position, velocity);
 				this.ball_arr[i].position = initPos[i].clone();
@@ -193,6 +195,17 @@ package{
 			this.updateViews();
 		}
 		
+		public function setXY(indx:int, xPos:Number, yPos:Number):void{
+			this.ball_arr[indx].position.setX(xPos);
+			this.ball_arr[indx].position.setY(yPos);
+			if(this.atInitialConfig){
+				this.initPos[indx].setX(xPos);
+				this.initPos[indx].setY(yPos);
+			}
+			this.setCenterOfMass();
+			this.updateViews();
+		}
+		
 		public function setVX(indx:int, xVel:Number):void{
 			this.ball_arr[indx].velocity.setX(xVel);
 			if(this.atInitialConfig){
@@ -235,6 +248,7 @@ package{
 			if(reversing){
 				dt *= -1;
 			}
+			//this.lastTime = this.time; //should this be here or at end of method
 			this.time += dt;
 			//trace("dt_after: "+dt);
 			for(var i:int = 0; i < this.nbrBalls; i++){
@@ -246,7 +260,8 @@ package{
 				var yLast = y;	//previous value of y before update
 				x += vX*dt;
 				y += vY*dt;
-				this.ball_arr[i].position.setXY(x,y);
+				//this.ball_arr[i].position.setXY(x,y);
+				this.setXY(i, x, y);
 				//trace("i: "+i+"  x: "+this.ball_arr[i].position.getX());
 				//trace("i: "+i+"  y: "+this.ball_arr[i].position.getY());
 				
@@ -256,30 +271,20 @@ package{
 				//if ball beyond reflecting border, then backup to previous position and reflect
 				//this guarantees no penetration of border
 				if(this.borderOn){
-					if((x+radius) > this.borderWidth || (x-radius)< 0){
-						this.ball_arr[i].position.setXY(xLast,yLast);
+					if((x+radius) > this.borderWidth){
+						this.setX(i, this.borderWidth - (1.001)*radius);
+						this.ball_arr[i].velocity.setX(-vX);  
+					}else if((x-radius)< 0){
+						this.setX(i, (1.001)*radius);
 						this.ball_arr[i].velocity.setX(-vX);
-					}else if((y+radius) > this.borderHeight || (y-radius)< 0){
-						this.ball_arr[i].position.setXY(xLast,yLast);
+					}else if((y+radius) > this.borderHeight){
+						this.setY(i, this.borderHeight - (1.001)*radius);
+						this.ball_arr[i].velocity.setY(-vY);
+					}else if((y-radius)< 0){
+						this.setY(i, (1.001)*radius);
 						this.ball_arr[i].velocity.setY(-vY);
 					}
-					this.setCenterOfMass();
-				}//end if(borderOn)
-				
-				//following reflection code does not work when going backward in time
-				/*
-				if((x+radius) > this.borderWidth){
-					this.ball_arr[i].velocity.setX(-Math.abs(vX));
-				}else if((x-radius) < 0){
-					this.ball_arr[i].velocity.setX(Math.abs(vX));
-				}
-				if((y+radius) > this.borderHeight){
-					this.ball_arr[i].velocity.setY(-Math.abs(vY));
-				}else if((y-radius) < 0){
-					this.ball_arr[i].velocity.setY(Math.abs(vY));
-				}
-				*/
-				
+				}//end if(borderOn)			
 			}//for loop
 			this.timeHolder = getTimer();
 			
@@ -324,8 +329,9 @@ package{
 						//trace("elasticity before collision: "+this.e);
 						this.collideBalls(i, j);
 						this.colliders[i][j] = 1;  //ball have collided
+						//trace("collision detected. i = "+i+"   j = "+j+"   at time = "+this.time);
 					}else {
-						this.colliders[i][j] = 0;	//balls not touching
+						this.colliders[i][j] = 0;	//balls not yet collided
 					}
 					
 				}//for(j=..)
@@ -333,21 +339,29 @@ package{
 		}//detectCollision
 		
 		public function collideBalls(i:int, j:int):void{
-			if(colliders[i][j] == 0){ //if balls not collided yet
-				//trace("collision between i: " + i + " and j: " + j);
-				//var totP:TwoVector = this.getTotalMomentum();
-				//trace("Before:   pX: " + totP.getX() + "   pY:" + totP.getY());
-				var x1:Number = ball_arr[i].position.getX();
-				var x2:Number = ball_arr[j].position.getX();
-				var y1:Number = ball_arr[i].position.getY();
-				var y2:Number = ball_arr[j].position.getY();
-				var delX:Number = x2 - x1;
-				var delY:Number = y2 - y1;
-				var d:Number = Math.sqrt(delX*delX + delY*delY);
+			if(colliders[i][j] == 0 && !starting){ //if balls not collided yet and not first step
+				trace("collideBalls(), between i: " + i + " and j: " + j);
+				//Balls have already overlapped, so currently have incorrect positions
+				var tC:Number = this.getContactTime(i,j);
+				var delTBefore = tC - this.lastTime;
+				var delTAfter = this.time - tC;
+				//trace("contact time is "+tC);
 				var v1x:Number = ball_arr[i].velocity.getX();
 				var v2x:Number = ball_arr[j].velocity.getX();
 				var v1y:Number = ball_arr[i].velocity.getY();
 				var v2y:Number = ball_arr[j].velocity.getY();
+				//get positions at tC:
+				var x1:Number = ball_arr[i].position.getXLast() + v1x*delTBefore;
+				var x2:Number = ball_arr[j].position.getXLast() + v2x*delTBefore;
+				var y1:Number = ball_arr[i].position.getYLast() + v1y*delTBefore;
+				var y2:Number = ball_arr[j].position.getYLast() + v2y*delTBefore;
+				var delX:Number = x2 - x1;
+				var delY:Number = y2 - y1;
+				var d:Number = Math.sqrt(delX*delX + delY*delY);
+				var Ri:Number = this.ball_arr[i].getRadius();
+				var Rj:Number = this.ball_arr[j].getRadius();
+				var S:Number = Ri + Rj; 
+				trace("sum of radii = "+S+"   separation at contact = "+d);
 				//normal and tangential components of initial velocities
 				var v1n:Number = (1/d)*(v1x*delX + v1y*delY);
 				var v2n:Number = (1/d)*(v2x*delX + v2y*delY);
@@ -365,20 +379,88 @@ package{
 				var v2yP = (1/d)*(v2nP*delY + v2t*delX);
 				this.ball_arr[i].velocity.setXY(v1xP, v1yP);
 				this.ball_arr[j].velocity.setXY(v2xP, v2yP);
-				//backup to step just before penentration so balls cannot get stuck
-				this.ball_arr[i].backupOneStep();
-				this.ball_arr[j].backupOneStep();
-				//var v1Mag:Number = Math.sqrt(v1n*v1n + v1t*v1t);
-				//var v2Mag:Number = Math.sqrt(v2n*v2n + v2t*v2t);
-				//var nHat:TwoVector = new TwoVector()
 				
-				//var totP:TwoVector = this.getTotalMomentum();
-				//trace("After:   pX: " + totP.getX() + "   pY:" + totP.getY());
-				//trace("KETot: "+this.getTotalKE());
-				//trace("v1: "+v1Mag+"  v1:"+ball_arr[i].velocity.getLength());
-				//trace("v2: "+v2Mag+"  v1:"+ball_arr[j].velocity.getLength());
-			}
+				//balls currently are overlapped, so first backup!
+				x1 = ball_arr[i].position.getXLast();
+				x2 = ball_arr[j].position.getXLast();
+				y1 = ball_arr[i].position.getYLast();
+				y2 = ball_arr[j].position.getYLast();
+				var newXi:Number = x1 + v1x*delTBefore + v1xP*delTAfter;
+				var newYi:Number = y1 + v1y*delTBefore + v1yP*delTAfter;
+				var newXj:Number = x2 + v2x*delTBefore + v2xP*delTAfter;
+				var newYj:Number = y2 + v2y*delTBefore + v2yP*delTAfter;
+				//trace("i = "+i+"  xInit = "+x1+"   xFinal = "+newXi);
+				//trace("j = "+j+"  xInit = "+x2+"   xFinal = "+newXj);
+				//trace("i = "+i+"  v1x = "+v1x+"   v1xP = "+v1xP);
+				//trace("j = "+j+"  v2x = "+v2x+"   v2xP = "+v2xP);
+				this.setXY(i, newXi, newYi);
+				this.setXY(j, newXj, newYj);
+				//this.ball_arr[i].position.setXY(newXi, newYi);
+				//this.ball_arr[j].position.setXY(newXj, newYj);
+				//backup to step just before penentration so balls cannot get stuck
+				
+			}else{ //end if(colliders[i][j] == 0)
+				//if balls already collided, but still not separated, or just starting then pull apart keeping C.M. fixed
+				this.separateBalls(i,j);
+			}//end else
 		}//collideBalls
+		
+		//Check if balls i, j overlap. If they do, separate them, keeping C.M. fixed.
+		public function separateBalls(i:int, j:int):void{
+				var x1:Number = ball_arr[i].position.getX();
+				var x2:Number = ball_arr[j].position.getX();
+				var y1:Number = ball_arr[i].position.getY();
+				var y2:Number = ball_arr[j].position.getY();
+				var delX:Number = x2 - x1;
+				var delY:Number = y2 - y1;
+				var delR:Number = Math.sqrt(delX*delX + delY*delY);
+				var R1:Number = this.ball_arr[i].getRadius();
+				var R2:Number = this.ball_arr[j].getRadius();
+				var OL:Number = (R1+R2) - delR;  //overlap distance
+				if(OL > 0){
+					var balliNbr:int = i -1; var balljNbr:int = j -1;
+					trace("Model: ball numbers "+balliNbr+" and "+balljNbr+" overlapped at time "+this.time);
+					var m1:Number = ball_arr[i].getMass();
+					var m2:Number = ball_arr[j].getMass();
+					trace("overlap is "+OL);
+					var delXBall1:Number = -m2*OL*delX/(delR*(m1+m2));
+					var delYBall1:Number = -m2*OL*delY/(delR*(m1+m2));
+					var delXBall2:Number = m1*OL*delX/(delR*(m1+m2));
+					var delYBall2:Number = m1*OL*delY/(delR*(m1+m2));
+					trace("xBall1: "+x1+"   delXBall1: "+delXBall1);
+					this.ball_arr[i].position.setXY(x1 + delXBall1, y1 + delYBall1);
+					this.ball_arr[j].position.setXY(x2 + delXBall2, y2 + delYBall2);
+				}
+		}//end separateBalls(i, j);
+		
+		//get contact time between balls i and j
+		public function getContactTime(i:int, j:int):Number{
+			var tC:Number;  //contact time
+			//tC = this.lastTime;
+			var x1:Number = this.ball_arr[i].position.getXLast();
+			var y1:Number = this.ball_arr[i].position.getYLast();
+			var x2:Number = this.ball_arr[j].position.getXLast();
+			var y2:Number = this.ball_arr[j].position.getYLast();
+			var v1x:Number = this.ball_arr[i].velocity.getX();
+			var v1y:Number = this.ball_arr[i].velocity.getY();
+			var v2x:Number = this.ball_arr[j].velocity.getX();
+			var v2y:Number = this.ball_arr[j].velocity.getY();
+			var delX:Number = x2 - x1;
+			var delY:Number = y2 - y1;
+			var delVx:Number = v2x - v1x;
+			var delVy:Number = v2y - v1y;
+			var R1:Number = this.ball_arr[i].getRadius();
+			var R2:Number = this.ball_arr[j].getRadius();
+			var SSq:Number = (R1+R2)*(R1+R2);		//square of center-to-center separation of balls at contact
+			var delRDotDelV:Number = delX*delVx + delY*delVy;
+			var delVSq = delVx*delVx + delVy*delVy;
+			var delRSq = delX*delX + delY*delY;
+			var delT:Number = (-delRDotDelV - Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
+			tC = this.lastTime + delT;
+			//trace("getContactTime: this.lastTime = "+this.lastTime+"   delRDotDelV: "+delRDotDelV);
+			//trace("delRDotDelV: "+delRDotDelV+"  delVSq: "+delVSq+"   delRSq: "+delRSq+"   SSq: "+SSq+"   delVSq: "+delVSq);
+			return tC;
+		}//end getContactTime()
 		
 		public function getTotalKE():Number{
 			var KETot:Number = 0;
@@ -421,6 +503,7 @@ package{
 		}
 		
 		public function updateViews():void{
+			//trace("Model.updateViews called at time = "+this.time);
 			for (var i:int = 0; i < nbrViews; i++){
 				this.view_arr[i].update();
 			}
