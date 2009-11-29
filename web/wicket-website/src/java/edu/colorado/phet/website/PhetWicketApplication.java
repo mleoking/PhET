@@ -114,6 +114,8 @@ public class PhetWicketApplication extends WebApplication {
         String wicketMode = getServletContext().getInitParameter( "configuration" );
         System.out.println( "Running as: " + wicketMode );
 
+        System.out.println( "Detected phet-document-root: " + getServletContext().getInitParameter( "phet-document-root" ) );
+
     }
 
     private PhetLocales supportedLocales = null;
