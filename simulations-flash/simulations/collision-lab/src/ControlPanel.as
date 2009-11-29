@@ -45,15 +45,18 @@
 			//var tField:TextField = new TextField();
 			//tField.autoSize = TextFieldAutoSize.LEFT;
 			//StyleManager.setStyle("autoSize",TextFieldAutoSize.LEFT);
-			this.velocity_rb.textField.autoSize = TextFieldAutoSize.LEFT;
-			this.momentum_rb.textField.autoSize = TextFieldAutoSize.LEFT;
-			this.none_rb.textField.autoSize = TextFieldAutoSize.LEFT;
+			this.oneD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
+			this.twoD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
+			this.showVelocities_cb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.showCM_cb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.reflectingBorder_cb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-			this.velocity_rb.addEventListener(MouseEvent.CLICK, showVelocityArrows);
-			this.momentum_rb.addEventListener(MouseEvent.CLICK, showMomentumArrows);
-			this.none_rb.addEventListener(MouseEvent.CLICK, showNoArrows);
+			//this.velocity_rb.addEventListener(MouseEvent.CLICK, showVelocityArrows);
+			//this.momentum_rb.addEventListener(MouseEvent.CLICK, showMomentumArrows);
+			//this.none_rb.addEventListener(MouseEvent.CLICK, showNoArrows);
+			this.oneD_rb.addEventListener(MouseEvent.CLICK, oneDModeOn);
+			this.twoD_rb.addEventListener(MouseEvent.CLICK, oneDModeOff);
+			this.showVelocities_cb.addEventListener(MouseEvent.CLICK, showVelocityArrows);
 			this.showCM_cb.addEventListener(MouseEvent.CLICK, showCM);
 			this.reflectingBorder_cb.addEventListener(MouseEvent.CLICK, borderOnOrOff);
 			this.showPaths_cb.addEventListener(MouseEvent.CLICK, showOrErasePaths);
@@ -62,20 +65,15 @@
 			
 		}
 		
+		public function oneDModeOn(evt:MouseEvent):void{
+			this.myModel.setOneDMode(true);
+		}
+		public function oneDModeOff(evt:MouseEvent):void{
+			this.myModel.setOneDMode(false);
+		}
+		
 		public function showVelocityArrows(evt:MouseEvent):void{
-			if(evt.target.selected){
-				this.myMainView.myTableView.showArrowsOnBallImages(true);
-			}
-			//trace("velocity rb clicked. target is "+evt.target.selected);
-		}
-		public function showMomentumArrows(evt:MouseEvent):void{
-			trace("momentum rb clicked.target is "+evt.target.selected);
-		}
-		public function showNoArrows(evt:MouseEvent):void{
-			if(evt.target.selected){
-				this.myMainView.myTableView.showArrowsOnBallImages(false);
-			}
-			//trace("no rb clicked.target is "+evt.target.selected);
+			this.myMainView.myTableView.showArrowsOnBallImages(evt.target.selected);
 		}
 		
 		private function showCM(evt:MouseEvent):void{

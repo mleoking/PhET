@@ -74,7 +74,7 @@
 			}
 			var x0:Number = 0;
 			var y0:Number = 0;
-			g.beginFill(0x77ff77);
+			g.beginFill(0xccffcc);
 			g.moveTo(-del, -del);
 			g.lineTo(W+del, -del);
 			g.lineTo(W+del, +H+del);
