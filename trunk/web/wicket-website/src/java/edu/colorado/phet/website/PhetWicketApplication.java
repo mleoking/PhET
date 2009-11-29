@@ -1,5 +1,6 @@
 package edu.colorado.phet.website;
 
+import java.io.File;
 import java.util.*;
 
 import org.apache.wicket.Request;
@@ -116,6 +117,18 @@ public class PhetWicketApplication extends WebApplication {
 
         System.out.println( "Detected phet-document-root: " + getServletContext().getInitParameter( "phet-document-root" ) );
 
+    }
+
+    public File getPhetDocumentRoot() {
+        String location = getServletContext().getInitParameter( "phet-document-root" );
+        if ( location == null ) {
+            return null;
+        }
+        File file = new File( location );
+        if ( !file.exists() ) {
+            return null;
+        }
+        return file;
     }
 
     private PhetLocales supportedLocales = null;
