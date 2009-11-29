@@ -111,6 +111,9 @@ public class PhetWicketApplication extends WebApplication {
         mount( new HybridUrlCodingStrategy( "/error/404", NotFoundPage.class ) );
         mount( new HybridUrlCodingStrategy( "/activities", BlankPage.class ) );
 
+        String wicketMode = getServletContext().getInitParameter( "configuration" );
+        System.out.println( "Running as: " + wicketMode );
+
     }
 
     private PhetLocales supportedLocales = null;
