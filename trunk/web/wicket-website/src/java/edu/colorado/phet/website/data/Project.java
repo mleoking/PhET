@@ -5,8 +5,6 @@ import java.io.File;
 
 public class Project implements Serializable {
 
-    // TODO: add "live" object and properties
-
     private int id;
     private String name;
     private int versionMajor;
