@@ -3,12 +3,17 @@
 
 1) Apache Tomcat 6.x  (could in the future be moved to different server software, but this is used right now)
 2) PostgreSQL (preferably 8.x, I'm using 8.4)
+3) Apache HTTPD 2.2.x (untested on 2.0 or lower, but would probably run)
+4) Apache Tomcat Connector (mod_jk, http://tomcat.apache.org/connectors-doc/ and tested with 1.2.28)
 
 * Installation
 
 Not covered here. Used http://www.ubuntugeek.com/tomcat-6-installation-on-ubuntu-feisty.html for Tomcat (ignoring the
 installing-java part), and used PostgreSQL's default installer. Thus $CATALINA_HOME$ is /usr/share/tomcat6 on
-phet-server and my development machines, and PostgreSQL is installed in /opt/PostgreSQL/8.4.
+phet-server and my development machines, and PostgreSQL is installed in /opt/PostgreSQL/8.4. Apache HTTPD can also use
+a standard installation, many documents are available online (or for linux, just install the packages).
+mod_jk can be downloaded from the above mentioned website, installed as mod_jk.so what is usually
+/usr/lib/apache2/modules/ and loaded as a module in httpd.conf.
 
 * PostgreSQL configuration
 
@@ -39,10 +44,39 @@ database).
               maxActive="30"
               maxIdle="10"/>
 
+* Apache HTTPD configuration
+
+Whether using straight hosting or virtual hosts, a particular document root should be chosen that will hold all of the
+"static" files, like the sims, publications and workshops directories. /var/www/wicket will be used in this example.
+
+mod_jk should be installed, loaded, and jk globals should be specified in httpd.conf. ex:
+LoadModule jk_module /usr/lib/apache2/modules/mod_jk.so
+JkWorkersFile /etc/apache2/workers.properties
+JkShmFile /var/log/apache2/mod_jk.shm
+JkLogFile /var/log/apache2/mod_jk.log
+JkLogLevel info
+JkLogStampFormat "[%a %b %d %H:%M:%S %Y] "
+
+workers.properties will contain information about how to communicate with Tomcat (IE host / port). ex:
+worker.list=worker1
+worker.worker1.type=ajp13
+worker.worker1.host=localhost
+worker.worker1.port=8009
+
+Furthermore, for the particular host / virtual host, the following parameters should be specified. ex:
+DocumentRoot /var/www/wicket
+JkMount /* worker1
+JkUnMount /sims/* worker1
+JkUnMount /publications/* worker1
+JkUnMount /workshops/* worker1
+
+Apache HTTPD will need to be restarted after those changes.
+
 * Tomcat configuration
 
 In $CATALINA_HOME$/conf/server.xml, make sure the Connector elements being used have useBodyEncodingForURI="true",
 otherwise UTF-8 characters sent through translation that aren't in the Basic Multilingual Plane will be clobbered.
+Specifically, the 8009-port connector will be used.
 
 For a development machine, add this line to $CATALINA_HOME$/conf/context.xml within the Context element:
 <Parameter name="configuration" value="development" override="false"/>
@@ -52,11 +86,16 @@ For a production machine, use this line instead:
 
 The configuration parameter above will trigger either the "development" or "deployment" mode for Wicket.
 
+An additional configuration parameter
+should be added to context.xml of the form below, so that the website knows the location of the HTTPD document root:
+<Parameter name="phet-document-root" value="/var/www/wicket" override="true"/>
+
 Additionally, the temp dir (usually $CATALINA_HOME$/temp) should definitely be writable by the Tomcat daemon, since
 this is the location of EHCache's temporary files.
 
 Also the appropriate JDBC driver should be copied into $CATALINA_HOME$/lib/
     (ie trunk/web/wicket-website/contrib/postgresql-8.3-604.jdbc4.jar).
+    
 
 * IDE setup
 
