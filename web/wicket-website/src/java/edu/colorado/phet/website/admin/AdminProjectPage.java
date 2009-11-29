@@ -1,6 +1,10 @@
 package edu.colorado.phet.website.admin;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Properties;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
@@ -11,6 +15,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -35,6 +40,28 @@ public class AdminProjectPage extends AdminPage {
         add( new ProjectForm( "edit-form" ) );
 
         add( new AddSimulationForm( "simulations-form" ) );
+
+        File projectPropertiesFile = project.getProjectProperties( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot() );
+
+        if ( projectPropertiesFile.exists() ) {
+            String lab = "Detected project properties: ";
+            try {
+                Properties properties = new Properties();
+                properties.load( new FileInputStream( projectPropertiesFile ) );
+                for ( Object o : properties.keySet() ) {
+                    String key = (String) o;
+                    String value = properties.getProperty( key );
+                    lab += key + ": " + value + "\n";
+                }
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            add( new Label( "project-properties", lab ) );
+        }
+        else {
+            add( new Label( "project-properties", "No project properties detected" ) );
+        }
 
     }
 

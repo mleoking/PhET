@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.data;
 
 import java.io.Serializable;
+import java.io.File;
 
 public class Project implements Serializable {
 
@@ -34,6 +35,10 @@ public class Project implements Serializable {
             ret += getVersionDev();
         }
         return ret;
+    }
+
+    public File getProjectProperties( File docRoot ) {
+        return new File( docRoot, "sims/" + name + "/" + name + ".properties" );
     }
 
     // getters and setters
