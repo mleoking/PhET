@@ -91,6 +91,7 @@ package{
 		public function drawStep():void{
 			//trace("Trajectories.drawStep() called.");
 			this.currentColor = this.darkColor;
+			//this.currentAlpha == 1
 			if(this.currentAlpha == 1){
 				this.currentAlpha = 0;
 			}else{

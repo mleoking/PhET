@@ -71,6 +71,7 @@
 			this.buttonView.myPlayPauseButton.gotoAndStop(1);
 			this.buttonView.playPauseLabel.text = playText;
 			this.myModel.stopMotion();
+			//this.myModel.detectCollision();
 			this.myModel.singleFrame();
 		}
 		

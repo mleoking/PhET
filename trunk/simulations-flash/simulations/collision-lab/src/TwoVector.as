@@ -25,6 +25,11 @@ package{
 			return clone;
 		}
 		
+		public function initializeXLastYLast():void{
+			this.xLast = this.xComponent;
+			this.yLast = this.yComponent;
+		}
+		
 		private function setLength():void{
 			this.length = Math.sqrt(xComponent*xComponent + yComponent*yComponent);
 		}

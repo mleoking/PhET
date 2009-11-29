@@ -22,8 +22,9 @@ package{
 		var playing:Boolean;	//true if motion is playing, false if paused
 		var nbrBallsChanged:Boolean;  //true if number of balls is changed
 		var atInitialConfig:Boolean;  //true if t = 0;
-		var starting:Boolean;	//true if playing and 1st step not yet taken;
+		var starting:Boolean;	//true if playing and 1st step not yet taken, used to step time-based vs. frame-based animation;
 		var reversing:Boolean;	//false if going forward in time, true if going backward
+		var oneDMode:Boolean;	//true if motions restricted to 1D
 		//var realTimer:Timer;	//real timer, used to maintain time-based updates
 		var timeHolder:int;		//scatch for hold results of getTimer
 		var timeRate:Number;	//0 to 1: to slow down or speed up action, 1 = realtime, 0 = paused
@@ -38,8 +39,9 @@ package{
 			this.borderWidth = 3.2;
 			this.borderHeight = 2;
 			this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
-			this.nbrBalls = 2;		//adjustable by user
+			this.nbrBalls = 3;		//adjustable by user
 			this.maxNbrBalls = 5;
+			this.oneDMode = false;
 			this.CM = new Point();
 			this.ball_arr = new Array(this.maxNbrBalls);  //only first nbrBalls elements of array are used
 			this.initializeBalls();
@@ -47,7 +49,7 @@ package{
 			this.time = 0;
 			this.timeStep = 0.01;
 			this.timeRate = 1;
-			this.updateRate = 1;
+			this.updateRate = 3;		
 			this.frameCount = 0;
 			
 			this.msTimer = new Timer(this.timeStep*1000);
@@ -110,8 +112,8 @@ package{
 			initPos[2] = new TwoVector(1,1);
 			initPos[3] = new TwoVector(1.2, 1.2);
 			initPos[4] = new TwoVector(1.2, 0.2);
-			initVel[0] = new TwoVector(2,0);
-			initVel[1] = new TwoVector(-2,0);
+			initVel[0] = new TwoVector(2,1);
+			initVel[1] = new TwoVector(-1,0);
 			initVel[2] = new TwoVector(-0.5,-0.25);
 			initVel[3] = new TwoVector(1.1,0.2);
 			initVel[4] = new TwoVector(-1.1,0);
@@ -134,8 +136,23 @@ package{
 				}
 			}
 			//No point in updating views, since views not created yet
+			this.separateAllBalls(); //should be necessary, but just in case
 			this.setCenterOfMass();
 		}//end of initializeBalls()
+		
+		public function setOneDMode(tOrF:Boolean):void{
+			this.oneDMode = tOrF;
+			if(this.oneDMode){
+				for (var i = 0; i < this.nbrBalls; i++){
+					this.setY(i, 1);
+					this.setVY(i,0);
+				}
+				this.separateAllBalls();
+			}else{
+				this.initializePositions();  //back to 2D
+			}
+			//trace("Model.setOneDMode: "+tOrF);
+		}
 		
 		//called whenever reset button pushed by user or when nbrBalls changes
 		public function initializePositions():void{
@@ -146,6 +163,12 @@ package{
 				//new Ball(mass, position, velocity);
 				this.ball_arr[i].position = initPos[i].clone();
 				this.ball_arr[i].velocity = initVel[i].clone();
+				if(this.oneDMode){
+					this.setY(i, 1);
+					this.setVY(i,0);
+				}
+				//this.ball_arr[i].position.initializeXLastYLast();
+				//this.ball_arr[i].velocity.initializeXLastYLast();
 			}
 			//trace("myModel.ball_arr[0].position.getX(): "+this.ball_arr[0].position.getX());
 			this.time = 0;
@@ -154,11 +177,12 @@ package{
 		}//end of initializePositions()
 		
 		public function startMotion():void{
+			this.starting = true;
+			this.playing = true;
+			this.reversing = false;
+			//this.separateAllBalls();  //check if any balls overlapping before starting
 			msTimer.start();  
 			this.atInitialConfig = false;
-			this.playing = true;
-			this.starting = true;
-			this.reversing = false;
 		}//startMotion()
 		
 		public function stopMotion():void{
@@ -183,7 +207,7 @@ package{
 				this.initPos[indx].setX(xPos);
 			}
 			this.setCenterOfMass();
-			this.updateViews();
+			if(!playing){this.updateViews();}  //when playing, singleStep() controls updateVeiws 
 		}
 		
 		public function setY(indx:int, yPos:Number):void{
@@ -192,7 +216,7 @@ package{
 				this.initPos[indx].setY(yPos);
 			}
 			this.setCenterOfMass();
-			this.updateViews();
+			if(!playing){this.updateViews();}
 		}
 		
 		public function setXY(indx:int, xPos:Number, yPos:Number):void{
@@ -203,7 +227,7 @@ package{
 				this.initPos[indx].setY(yPos);
 			}
 			this.setCenterOfMass();
-			this.updateViews();
+			if(!playing){this.updateViews();}
 		}
 		
 		public function setVX(indx:int, xVel:Number):void{
@@ -211,7 +235,7 @@ package{
 			if(this.atInitialConfig){
 				this.initVel[indx].setX(xVel);
 			}
-			this.updateViews();
+			if(!playing){this.updateViews();}
 		}
 		
 		public function setVY(indx:int, yVel:Number):void{
@@ -219,7 +243,7 @@ package{
 			if(this.atInitialConfig){
 				this.initVel[indx].setY(yVel);
 			}
-			this.updateViews();
+			if(!playing){this.updateViews();}
 		}
 		
 		public function stepForward(evt:TimerEvent):void{
@@ -237,9 +261,10 @@ package{
 				var realDt = getTimer() - timeHolder;
 				dt = realDt/1000;
 			}else{
-				//frame-based animation
+				//frame-based animation for singleStep or after pause
 				dt = this.timeStep;
 			}
+			//trace("Model.singleStep(). this.time = "+this.time+",   dt = "+dt);
 			if(starting){
 				this.starting = false;
 			}
@@ -248,7 +273,9 @@ package{
 			if(reversing){
 				dt *= -1;
 			}
-			//this.lastTime = this.time; //should this be here or at end of method
+			if(!reversing){
+				this.lastTime = this.time; //should this be here or at end of method
+			}
 			this.time += dt;
 			//trace("dt_after: "+dt);
 			for(var i:int = 0; i < this.nbrBalls; i++){
@@ -262,9 +289,6 @@ package{
 				y += vY*dt;
 				//this.ball_arr[i].position.setXY(x,y);
 				this.setXY(i, x, y);
-				//trace("i: "+i+"  x: "+this.ball_arr[i].position.getX());
-				//trace("i: "+i+"  y: "+this.ball_arr[i].position.getY());
-				
 				//reflect at borders
 				var radius:Number = this.ball_arr[i].getRadius();
 				
@@ -297,7 +321,9 @@ package{
 				this.updateViews();
 				//this.timeHolder = getTimer();
 			}
-			this.lastTime = this.time;
+			if(reversing){
+				this.lastTime = this.time;
+			}
 		}//end of singleStep()
 		
 		//move forward one Frame = several steps
@@ -315,7 +341,6 @@ package{
 		}
 		
 		public function detectCollision():void{
-			//var colliders_arr:Array = new Array(2);
 			var N:int = this.nbrBalls;
 			for (var i:int = 0; i < N; i++){
 				for (var j:int = i+1; j < N; j++){
@@ -327,9 +352,10 @@ package{
 					var distMin:Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
 					if(dist < distMin){
 						//trace("elasticity before collision: "+this.e);
+						//trace("collision detected. i = "+i+"   j = "+j+"   at time: "+this.time+"   dist: "+dist+"   distMin: "+distMin);
 						this.collideBalls(i, j);
 						this.colliders[i][j] = 1;  //ball have collided
-						//trace("collision detected. i = "+i+"   j = "+j+"   at time = "+this.time);
+						
 					}else {
 						this.colliders[i][j] = 0;	//balls not yet collided
 					}
@@ -338,9 +364,27 @@ package{
 			}//for(i=..)
 		}//detectCollision
 		
+		public function separateAllBalls():void{
+			//trace("separateAllBalls() called.");
+			var N:int = this.nbrBalls;
+			for (var i:int = 0; i < N; i++){
+				for (var j:int = i+1; j < N; j++){
+					var xi:Number = ball_arr[i].position.getX();
+					var yi:Number = ball_arr[i].position.getY();
+					var xj:Number = ball_arr[j].position.getX();
+					var yj:Number = ball_arr[j].position.getY();
+					var dist:Number = Math.sqrt((xj-xi)*(xj-xi)+(yj-yi)*(yj-yi));
+					var distMin:Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
+					if(dist < distMin){
+						separateBalls(i,j);
+					}
+				}//for(j=..)
+			}//for(i=..)
+		}//end separateAllBalls();
+		
 		public function collideBalls(i:int, j:int):void{
 			if(colliders[i][j] == 0 && !starting){ //if balls not collided yet and not first step
-				trace("collideBalls(), between i: " + i + " and j: " + j);
+				//trace("collideBalls(), between i: " + i + " and j: " + j + "  at time "+this.time);
 				//Balls have already overlapped, so currently have incorrect positions
 				var tC:Number = this.getContactTime(i,j);
 				var delTBefore = tC - this.lastTime;
@@ -361,7 +405,7 @@ package{
 				var Ri:Number = this.ball_arr[i].getRadius();
 				var Rj:Number = this.ball_arr[j].getRadius();
 				var S:Number = Ri + Rj; 
-				trace("sum of radii = "+S+"   separation at contact = "+d);
+				//trace("sum of radii = "+S+"   separation at contact = "+d);
 				//normal and tangential components of initial velocities
 				var v1n:Number = (1/d)*(v1x*delX + v1y*delY);
 				var v2n:Number = (1/d)*(v2x*delX + v2y*delY);
@@ -389,15 +433,8 @@ package{
 				var newYi:Number = y1 + v1y*delTBefore + v1yP*delTAfter;
 				var newXj:Number = x2 + v2x*delTBefore + v2xP*delTAfter;
 				var newYj:Number = y2 + v2y*delTBefore + v2yP*delTAfter;
-				//trace("i = "+i+"  xInit = "+x1+"   xFinal = "+newXi);
-				//trace("j = "+j+"  xInit = "+x2+"   xFinal = "+newXj);
-				//trace("i = "+i+"  v1x = "+v1x+"   v1xP = "+v1xP);
-				//trace("j = "+j+"  v2x = "+v2x+"   v2xP = "+v2xP);
 				this.setXY(i, newXi, newYi);
 				this.setXY(j, newXj, newYj);
-				//this.ball_arr[i].position.setXY(newXi, newYi);
-				//this.ball_arr[j].position.setXY(newXj, newYj);
-				//backup to step just before penentration so balls cannot get stuck
 				
 			}else{ //end if(colliders[i][j] == 0)
 				//if balls already collided, but still not separated, or just starting then pull apart keeping C.M. fixed
@@ -419,17 +456,21 @@ package{
 				var OL:Number = (R1+R2) - delR;  //overlap distance
 				if(OL > 0){
 					var balliNbr:int = i -1; var balljNbr:int = j -1;
-					trace("Model: ball numbers "+balliNbr+" and "+balljNbr+" overlapped at time "+this.time);
+					//trace("Model: ball numbers "+balliNbr+" and "+balljNbr+" overlapped at time "+this.time);
 					var m1:Number = ball_arr[i].getMass();
 					var m2:Number = ball_arr[j].getMass();
-					trace("overlap is "+OL);
-					var delXBall1:Number = -m2*OL*delX/(delR*(m1+m2));
-					var delYBall1:Number = -m2*OL*delY/(delR*(m1+m2));
-					var delXBall2:Number = m1*OL*delX/(delR*(m1+m2));
-					var delYBall2:Number = m1*OL*delY/(delR*(m1+m2));
-					trace("xBall1: "+x1+"   delXBall1: "+delXBall1);
+					//trace("overlap is "+OL);
+					var extraBit:Number = 1.000001;
+					var delXBall1:Number = -extraBit*m2*OL*delX/(delR*(m1+m2));
+					var delYBall1:Number = -extraBit*m2*OL*delY/(delR*(m1+m2));
+					var delXBall2:Number = extraBit*m1*OL*delX/(delR*(m1+m2));
+					var delYBall2:Number = extraBit*m1*OL*delY/(delR*(m1+m2));
+					//trace("xBall1: "+x1+"   delXBall1: "+delXBall1);
 					this.ball_arr[i].position.setXY(x1 + delXBall1, y1 + delYBall1);
 					this.ball_arr[j].position.setXY(x2 + delXBall2, y2 + delYBall2);
+					this.ball_arr[i].position.initializeXLastYLast();
+					this.ball_arr[j].position.initializeXLastYLast();
+					this.updateViews();
 				}
 		}//end separateBalls(i, j);
 		
@@ -449,15 +490,19 @@ package{
 			var delY:Number = y2 - y1;
 			var delVx:Number = v2x - v1x;
 			var delVy:Number = v2y - v1y;
+			var delVSq = delVx*delVx + delVy*delVy;
 			var R1:Number = this.ball_arr[i].getRadius();
 			var R2:Number = this.ball_arr[j].getRadius();
 			var SSq:Number = (R1+R2)*(R1+R2);		//square of center-to-center separation of balls at contact
 			var delRDotDelV:Number = delX*delVx + delY*delVy;
-			var delVSq = delVx*delVx + delVy*delVy;
 			var delRSq = delX*delX + delY*delY;
-			var delT:Number = (-delRDotDelV - Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
+			if(reversing){
+				var delT:Number = (-delRDotDelV + Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
+			}else{
+				delT = (-delRDotDelV - Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
+			}
 			tC = this.lastTime + delT;
-			//trace("getContactTime: this.lastTime = "+this.lastTime+"   delRDotDelV: "+delRDotDelV);
+			//trace("getContactTime: this.lastTime = "+this.lastTime+"  this.time: "+this.time+"   delT:"+delT+"   tC: "+tC);
 			//trace("delRDotDelV: "+delRDotDelV+"  delVSq: "+delVSq+"   delRSq: "+delRSq+"   SSq: "+SSq+"   delVSq: "+delVSq);
 			return tC;
 		}//end getContactTime()

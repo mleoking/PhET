@@ -39,6 +39,7 @@ package{
 			this.myBall = this.myModel.ball_arr[this.ballIndex];
 			this.ballBody = new Sprite();
 			this.arrowImage = new Arrow(indx);
+			this.arrowImage.setColor(0x00ff00);
 			this.ballHandle = new Sprite();
 			this.arrowHeadHandle = new Sprite();
 			
@@ -163,6 +164,7 @@ package{
 			function stopTargetDrag(evt:MouseEvent):void{
 				//trace("stop dragging");
 				clickOffset = null;
+				thisBallImage.myModel.separateAllBalls();
 			}
 			function dragTarget(evt:MouseEvent):void{
 				if(clickOffset != null){  //if dragging
@@ -180,7 +182,7 @@ package{
 						modelRef.initPos[indx].setXY(ballX, ballY);
 					}
 					modelRef.updateViews();
-					thisBallImage.updateTFieldPosition();
+					//thisBallImage.updateTFieldPosition();
 					evt.updateAfterEvent();
 				}
 			}//end of dragTarget()
