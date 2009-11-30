@@ -1,29 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--projectile-motion-strings_vi.xml created Tue Dec 02 10:09:06 ICT 2008 using: projectile-motion 1.00.00 (22510), translation-utility 1.08.00 (25822)-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_vi.xml created Fri Nov 27 10:51:56 ICT 2009 using: projectile-motion 2.00.00 (30671), translation-utility 2.03.00 (36202) thg 10 30, 2009-->
 <SimStrings>
-<string key="dragLabel" value="he so can"/>
-<string key="userChoice" value="Chọn vật bắn"/>
-<string key="altitudeLabel" value="cao/mặt biển(m)"/>
-<string key="football" value="quả bóng đá"/>
-<string key="golfball" value="quả banh golf"/>
+<string key="dragLabel" value="Hệ số cản"/>
+<string key="userChoice" value="Chọn đạn tử"/>
+<string key="altitudeLabel" value="Cao độ/biển (m)"/>
+<string key="football" value="Bóng đá"/>
+<string key="golfball" value="Banh golf"/>
+<string key="simTitle" value="Chuyển động của đạn tử"/>
 <string key="collision" value="Va chạm!"/>
-<string key="adultHuman" value="người lớn"/>
-<string key="time" value="t.gian(s)"/>
-<string key="buick" value="xe ôtô"/>
-<string key="diameter" value="kich thuoc (m)"/>
-<string key="initSpeed" value="Vo (m/s)"/>
-<string key="bowlingball" value="bóng bowling"/>
-<string key="piano" value="đàn piano"/>
-<string key="sound" value="Bật/tắt âm"/>
-<string key="range" value="xa (m)"/>
-<string key="height" value="cao (m)"/>
-<string key="mass" value="m (kg)"/>
-<string key="pumpkin" value="trái bí ngô"/>
+<string key="adultHuman" value="Người"/>
+<string key="time" value="Thời gian (s)"/>
+<string key="buick" value="Xe Buick"/>
+<string key="diameter" value="Đường kính (m)"/>
+<string key="initSpeed" value="Tốc độ ban đầu (m/s)"/>
+<string key="bowlingball" value="Bóng bowling"/>
+<string key="piano" value="Đàn piano"/>
+<string key="sound" value="Âm thanh"/>
+<string key="range" value="Tầm xa (m)"/>
+<string key="mass" value="Khối lượng (kg)"/>
+<string key="height" value="Độ cao (m)"/>
+<string key="pumpkin" value="Bí ngô"/>
 <string key="score" value="Trúng mục tiêu!"/>
-<string key="angle" value="goc nghieng (o)"/>
-<string key="baseball" value="quả bóng chày"/>
-<string key="airResistance" value="Sức cản khôg khí"/>
+<string key="angle" value="Góc (độ)"/>
+<string key="baseball" value="Bóng chày"/>
+<string key="airResistance" value="Sức cản không khí"/>
 <string key="fire" value="Bắn"/>
 <string key="erase" value="Xóa"/>
-<string key="tankshell" value="quả đạn pháo"/>
+<string key="tankshell" value="Đạn"/>
 </SimStrings>
