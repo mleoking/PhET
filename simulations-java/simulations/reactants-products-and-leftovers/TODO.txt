@@ -1,10 +1,12 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- ChemicalReaction model only responds to changes in reactant quantities, make it work in reverse for changes to products and leftovers
+- make changes so that stuff in first 2 modules can be used in Game module
+- can't keep the "guess" in a ChemicalReaction, since the guess may not be a well-formed reaction
 
 MEDIUM PRIORITY
 - PSwing memory leak affects tab traversal, #1874
+- make ImageLayoutStrategy be associated with the chemical reaction type
 
 LOW PRIORITY
 - is there any issue with H image being 2 different sizes? (eg, in H2 and H2O)
