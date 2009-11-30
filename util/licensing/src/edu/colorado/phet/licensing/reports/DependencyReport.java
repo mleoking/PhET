@@ -27,7 +27,7 @@ public class DependencyReport {
     }
 
     public static void main( String[] args ) throws IOException {
-        File trunk = Config.getTrunkPath(args);
+        File trunk = Config.getTrunk(args);
         new DependencyReport( trunk ).start();
     }
 
