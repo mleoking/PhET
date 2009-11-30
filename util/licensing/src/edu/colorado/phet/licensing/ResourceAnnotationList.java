@@ -87,15 +87,7 @@ public class ResourceAnnotationList {
 
     // this is a unit test
     public static void main( String[] args ) {
-        String trunkPath = Config.DEFAULT_TRUNK_PATH;
-        if ( args.length > 0 ) {
-            trunkPath = args[0];
-        }
-        File trunk = new File( trunkPath );
-        if ( !trunk.isDirectory() ) {
-            System.err.println( trunk + " is not a directory." );
-            System.exit( 1 );
-        }
+        File trunk = Config.getTrunkPath(args);
         File testFile = new File( trunk, "/simulations-java/simulations/glaciers/data/glaciers/images/license.txt" ); // some test file that we know exists
         ResourceAnnotationList list = read( testFile );
         System.out.println( list.toText() );

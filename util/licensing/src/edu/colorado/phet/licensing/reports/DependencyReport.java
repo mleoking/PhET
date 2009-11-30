@@ -27,15 +27,7 @@ public class DependencyReport {
     }
 
     public static void main( String[] args ) throws IOException {
-        String trunkPath = Config.DEFAULT_TRUNK_PATH;
-        if ( args.length > 0 ) {
-            trunkPath = args[0];
-        }
-        File trunk = new File( trunkPath );
-        if ( !trunk.isDirectory() ) {
-            System.err.println( trunk + " is not a directory." );
-            System.exit( 1 );
-        }
+        File trunk = Config.getTrunkPath(args);
         new DependencyReport( trunk ).start();
     }
 
@@ -148,7 +140,7 @@ public class DependencyReport {
         String content = "Sims with no known issues:<br>";
 
         for ( int i = 0; i < simHTMLs.size(); i++ ) {
-            SimHTML html = (SimHTML) simHTMLs.get( i );
+            SimHTML html = simHTMLs.get( i );
             if ( html.getIssues().isEmpty() ) {
                 content += html.getIssues().getProjectName() + "<br>";
             }
@@ -157,14 +149,14 @@ public class DependencyReport {
 
         content += "Sims with known issues (" + count + " issues found):<br>";
         for ( int i = 0; i < simHTMLs.size(); i++ ) {
-            SimHTML html = (SimHTML) simHTMLs.get( i );
+            SimHTML html = simHTMLs.get( i );
             if ( !html.getIssues().isEmpty() ) {
                 content += html.getHeader() + "<br>";
             }
         }
         content += "<br><br>";
         for ( int i = 0; i < simHTMLs.size(); i++ ) {
-            content += ( (SimHTML) simHTMLs.get( i ) ).getBody();
+            content += simHTMLs.get( i ).getBody();
         }
         bufferedWriter.write( "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n" +
                               "    \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
