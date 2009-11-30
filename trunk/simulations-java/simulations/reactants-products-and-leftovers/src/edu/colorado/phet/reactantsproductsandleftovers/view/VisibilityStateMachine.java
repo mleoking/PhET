@@ -11,6 +11,9 @@ import edu.umd.cs.piccolo.PNode;
  * Nodes may be members of more than one state.
  * When a state is added, all of its nodes are made initially invisible.
  * Only one state may be visible at a time.
+ * <p>
+ * Note that "state machine" is probably a bad name for this class, since (unlike a 
+ * typical state machine) this implementation does not define the transitions between states.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
