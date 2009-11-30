@@ -10,7 +10,6 @@ MEDIUM PRIORITY
 
 LOW PRIORITY
 - is there any issue with H image being 2 different sizes? (eg, in H2 and H2O)
-- get Illustrator files for sandwich images from Noah P.
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
 - move equation below Before/After boxes?
 - set font size of spinners instead of scaling (up/down arrows don't resize on Mac)
