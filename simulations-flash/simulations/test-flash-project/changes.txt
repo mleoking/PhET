@@ -1,3 +1,5 @@
+# 2.02.04 (36928) Nov 29, 2009
+11/29/09 Testing direct SWF redirection
 # 2.02.03 (33505) Jul 21, 2009
 7/21/09 Test for trying to get Dubson's evnironment to work
 # 2.02.02 (32343) Jun 8, 2009
