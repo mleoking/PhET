@@ -14,5 +14,9 @@
         <property name="versionRevision"/>
         <property name="versionTimestamp"/>
         <property name="visible"/>
+        <set name="simulations" inverse="true">
+            <key column="project"/>
+            <one-to-many class="edu.colorado.phet.website.data.Simulation"/>
+        </set>
     </class>
 </hibernate-mapping>
