@@ -1,3 +1,5 @@
+# 2.02.06 (36932) Nov 29, 2009
+11/29/09 Testing disabling of redirection (sim-specific)
 # 2.02.05 (36930) Nov 29, 2009
 11/29/09 Retesting direct SWF redirection
 # 2.02.04 (36928) Nov 29, 2009
