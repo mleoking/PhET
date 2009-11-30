@@ -21,10 +21,9 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     private static final String AUTHOR_KEY = "author"; // person or organization that created the resource
     private static final String LICENSE_KEY = "license"; // the type of license, see PhetRuleSet for a list of recognized licenses
     private static final String NOTES_KEY = "notes"; // any misc notes that you want to include
-    private static final String SAME_KEY = "same";  // if this resource is a copy of another, put the resource's name here
     private static final String LICENSEFILE_KEY = "licensefile";  // file that contains the actual license text
     
-    private static final String[] KEYS = { SOURCE_KEY, AUTHOR_KEY, LICENSE_KEY, NOTES_KEY, SAME_KEY, LICENSEFILE_KEY };
+    private static final String[] KEYS = { SOURCE_KEY, AUTHOR_KEY, LICENSE_KEY, NOTES_KEY, LICENSEFILE_KEY };
     
     private String name;
     private HashMap<String,String> values; // maps keys to values
@@ -55,10 +54,6 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
 
     public String getLicense() {
         return getValue( LICENSE_KEY );
-    }
-
-    public String getSame() {
-        return getValue( SAME_KEY );
     }
 
     public String getNotes() {
