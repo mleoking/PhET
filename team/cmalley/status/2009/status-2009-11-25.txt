@@ -1,0 +1,39 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: November 19-25, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Reactants, Products and Leftovers:
+  - Game design meeting
+  - revised Game design doc (mockups and scenarios)
+  - started implementing Game
+  - cleanup image files
+  
+  build process:
+  - #1902, open file descriptors in resource deploy process
+  - #1908,1915,1916,1917, debugging, cleanup and changes related to license package
+  
+  flash:
+  - #1897, translation of privacy dialog
+  - #1898, 1899, i18n issues in statistics details dialog
+  - #1902, duplicate code
+  
+  misc:
+  - status meeting
+  - looked at Y&F installer issue for JB
+
+WHAT'S NEXT:
+
+  - continue work on Reactants, Products and Leftovers
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   February 12-15
+  
+--
