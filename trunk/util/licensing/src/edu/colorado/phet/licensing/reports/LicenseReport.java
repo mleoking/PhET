@@ -19,7 +19,7 @@ public class LicenseReport {
     private LicenseReport() {}
     
     public static void main( String[] args ) {
-        File trunk = Config.getTrunkPath(args);
+        File trunk = Config.getTrunk(args);
         new LicenseReport().start( trunk );
     }
 

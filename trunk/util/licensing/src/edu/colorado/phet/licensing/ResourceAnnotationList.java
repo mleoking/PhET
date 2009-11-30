@@ -87,7 +87,7 @@ public class ResourceAnnotationList {
 
     // this is a unit test
     public static void main( String[] args ) {
-        File trunk = Config.getTrunkPath(args);
+        File trunk = Config.getTrunk(args);
         File testFile = new File( trunk, "/simulations-java/simulations/glaciers/data/glaciers/images/license.txt" ); // some test file that we know exists
         ResourceAnnotationList list = read( testFile );
         System.out.println( list.toText() );
