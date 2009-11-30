@@ -8,6 +8,13 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+/**
+ * This class defines a command-line utility that can be used to obtain
+ * information about the timestamp of the signature of a JAR file.  This was
+ * created because there did not seem to be support for obtaining this
+ * information using any of the expected utilities (i.e. jarsigner and jar).
+ * 
+ */
 public class TimestampUtil {
 
     //returns timestamp date or null if not present
@@ -51,7 +58,10 @@ public class TimestampUtil {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length == 0) printUsage();
+        if (args.length == 0){
+        	printUsage();
+        	return;
+        }
         Timestamp timestamp = getTimestamp(new File(args[0]));
         if (timestamp == null) {
             System.out.println("No timestamp found");
