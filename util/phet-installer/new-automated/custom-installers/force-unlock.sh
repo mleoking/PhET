@@ -12,8 +12,8 @@
 #----------------------------------------------------------------------------
 
 echo "================================================================" | tee --append custom-installer-builder-log.txt
-echo " Unlock forced by `whoami` on: " | tee --append installer-builder-log.txt
-echo " `date`"  | tee --append installer-builder-log.txt
+echo " Unlock forced by `whoami` on: " | tee --append custom-installer-builder-log.txt
+echo " `date`"  | tee --append custom-installer-builder-log.txt
 echo "================================================================" | tee --append custom-installer-builder-log.txt
 
 /usr/local/php/bin/php ./bin/force-unlock.php
