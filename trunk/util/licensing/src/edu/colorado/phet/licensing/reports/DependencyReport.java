@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.licensing.AnnotatedFile;
-import edu.colorado.phet.licensing.Config;
-import edu.colorado.phet.licensing.ResourceAnnotation;
-import edu.colorado.phet.licensing.SimInfo;
+import edu.colorado.phet.licensing.*;
 import edu.colorado.phet.licensing.rules.PhetRuleSet;
 import edu.colorado.phet.licensing.util.FileUtils;
 
@@ -27,7 +24,11 @@ public class DependencyReport {
     }
 
     public static void main( String[] args ) throws IOException {
-        File trunk = Config.getTrunk(args);
+        if ( args.length != 1 ) {
+            System.out.println( "usage: " + DependencyReport.class.getName() + " absolute_path_to_trunk" );
+            System.exit( 1 );
+        }
+        File trunk = new TrunkDirectory( args[0] );
         new DependencyReport( trunk ).start();
     }
 

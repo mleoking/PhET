@@ -6,8 +6,8 @@ import java.util.Date;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.licensing.Config;
 import edu.colorado.phet.licensing.SimInfo;
+import edu.colorado.phet.licensing.TrunkDirectory;
 
 /**
  * Created by: Sam
@@ -19,7 +19,11 @@ public class PlainTextReport {
     private PlainTextReport() {}
 
     public static void main( String[] args ) throws IOException {
-        File trunk = Config.getTrunk(args);
+        if ( args.length != 1 ) {
+            System.out.println( "usage: " + PlainTextReport.class.getName() + " absolute_path_to_trunk" );
+            System.exit( 1 );
+        }
+        File trunk = new TrunkDirectory( args[0] );
         new PlainTextReport().start( trunk );
     }
 

@@ -8,9 +8,9 @@ import java.util.Arrays;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.licensing.AnnotatedFile;
-import edu.colorado.phet.licensing.Config;
 import edu.colorado.phet.licensing.LicenseIssue;
 import edu.colorado.phet.licensing.SimInfo;
+import edu.colorado.phet.licensing.TrunkDirectory;
 import edu.colorado.phet.licensing.LicenseIssue.DataFileLicenseIssue;
 
 public class LicenseReport {
@@ -19,7 +19,11 @@ public class LicenseReport {
     private LicenseReport() {}
     
     public static void main( String[] args ) {
-        File trunk = Config.getTrunk(args);
+        if ( args.length != 1 ) {
+            System.out.println( "usage: " + LicenseReport.class.getName() + " absolute_path_to_trunk" );
+            System.exit( 1 );
+        }
+        File trunk = new TrunkDirectory( args[0] );
         new LicenseReport().start( trunk );
     }
 
