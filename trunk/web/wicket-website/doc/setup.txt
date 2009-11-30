@@ -86,9 +86,10 @@ For a production machine, use this line instead:
 
 The configuration parameter above will trigger either the "development" or "deployment" mode for Wicket.
 
-An additional configuration parameter
-should be added to context.xml of the form below, so that the website knows the location of the HTTPD document root:
+An additional configuration parameters should be added to context.xml of the form below, so that the website knows the
+location of various files:
 <Parameter name="phet-document-root" value="/var/www/wicket" override="true"/>
+<Parameter name="build-local-properties" value="/usr/share/tomcat6/conf/build-local.properties" override="true"/>
 
 Additionally, the temp dir (usually $CATALINA_HOME$/temp) should definitely be writable by the Tomcat daemon, since
 this is the location of EHCache's temporary files.
