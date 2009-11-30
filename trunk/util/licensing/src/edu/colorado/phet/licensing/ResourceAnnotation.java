@@ -14,7 +14,7 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     
     /**
      * A resource annotation consists of key-value pairs.
-     * These are the supported keys.
+     * These are the supported keys, not all are required.
      * To add a new key: add a constant, document it, add it to KEYS, and create a get method.
      */
     private static final String SOURCE_KEY = "source"; // where we found the resource (organization, URL, etc.)
