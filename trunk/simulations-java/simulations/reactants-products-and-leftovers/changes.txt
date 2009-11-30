@@ -1,3 +1,4 @@
+11/30/09 visibility state machine, for managing visibility of nodes for the various states of the Game
 11/30/09 check in Illustator files for sandwich images, from Noah P.
 11/24/09 first pass at scoreboard
 11/24/09 scale image files (for first 2 modules) to desired size, change scaling constants in RPALConstants
