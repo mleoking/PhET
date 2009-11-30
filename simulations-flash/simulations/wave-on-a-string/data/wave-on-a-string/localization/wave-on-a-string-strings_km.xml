@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_km.xml created Tue Nov 24 14:35:08 GMT+07:00 2009 using: wave-on-a-string 2.00.00 (30671), translation-utility 2.02.00 (34911) Sep 9, 2009-->
+<SimStrings>
+<string key="manual" value="ដោយដៃ"/>
+<string key="resetTimer" value="កែតម្រូវ"/>
+<string key="simTitle" value="រលកលើខ្សែ"/>
+<string key="showHelp" value="បង្ហាញ"/>
+<string key="amplitude" value="អាំព្លីទូត"/>
+<string key="pausePlay" value="ផ្អាក/ផ្តើម"/>
+<string key="step" value="ជំហាន"/>
+<string key="tension" value="តំណឹង"/>
+<string key="startTimer" value="ផ្តើម/ផ្អាក"/>
+<string key="pulseWidth" value="ទទឹង Pulse"/>
+<string key="rulerHelp" value="ទាញបន្ទាត់"/>
+<string key="high" value="កំពស់"/>
+<string key="wiggleWrench" value="ទាញមូលម៉ាឡេត"/>
+<string key="timer" value="ក្រូណូមែត"/>
+<string key="oscillate" value="លំយោល"/>
+<string key="rulers" value="បន្ទាត់"/>
+<string key="frequency" value="ប្រេកង់"/>
+<string key="wrenchHelp" value="ទាញម៉ាឡេត"/>
+<string key="fixedEnd" value="ចុងនៅនឹង"/>
+<string key="refLineHelp" value="ទាញបន្ទាត់យោង"/>
+<string key="hideHelp" value="លាក់ជំនួយ"/>
+<string key="timerHelp" value="ទាញក្រូណូម៉ែត"/>
+<string key="looseEnd" value="ចុងមិនចង"/>
+<string key="noEnd" value="គ្មានចុង"/>
+<string key="paused" value="ផ្អាក"/>
+<string key="reset" value="កែតម្រូវ"/>
+<string key="low" value="ទាប"/>
+</SimStrings>
