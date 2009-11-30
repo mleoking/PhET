@@ -97,7 +97,7 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		_level0.common = this;
 		
 		if( !hasFlashVars() && fromPhetWebsite() && _level0.backupSimName ) {
-			openExternalLink( "http://phet.colorado.edu/sims/" + _level0.backupSimName + "/" + _level0.backupSimName + "_en.html" );
+			redirect( "http://phet.colorado.edu/sims/" + _level0.backupSimName + "/" + _level0.backupSimName + "_en.html" );
 		}
 		
 		// DEVELOPMENT: catch key events to this object
@@ -462,6 +462,10 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 	
 	public function openExternalLink(str : String) {
 		getURL(str, "_blank");
+	}
+	
+	public function redirect( str : String ) {
+		getURL( str, "_self" );
 	}
 
     public function defaultHighContrastFunction( contrast : Boolean ) {
