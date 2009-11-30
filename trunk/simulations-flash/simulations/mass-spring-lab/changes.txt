@@ -1,3 +1,5 @@
+# 2.01.00 (36934) Nov 29, 2009
+11/29/09 > Multiple Internationalization fixes
 # 2.00.03 (31921) May 19, 2009
 5/19/09 Added arabic common strings translation
 # 2.00.02 (31882) May 18, 2009
