@@ -20,6 +20,8 @@ package{
 		var timeStep:Number;	//time step in seconds
 		var msTimer:Timer;		//millisecond timer
 		var playing:Boolean;	//true if motion is playing, false if paused
+		var soundOn:Boolean;	//true if sound enabled
+		var sounding:Boolean;	//true if click sound is to be played, click sound during collision
 		var nbrBallsChanged:Boolean;  //true if number of balls is changed
 		var atInitialConfig:Boolean;  //true if t = 0;
 		var starting:Boolean;	//true if playing and 1st step not yet taken, used to step time-based vs. frame-based animation;
@@ -33,6 +35,7 @@ package{
 		var colliders:Array;	//2D array of ij pairs: value = 1 if pair colliding, 0 if not colliding.
 		var view_arr:Array;		//views of this model
 		var nbrViews:int;		//number of views
+		
 		
 		public function Model(){
 			this.borderOn = true;
@@ -105,6 +108,8 @@ package{
 		public function initializeBalls():void{
 			this.atInitialConfig = true;
 			this.starting = true;
+			this.soundOn = false;
+			this.sounding = false;
 			this.initPos = new Array(this.maxNbrBalls);
 			this.initVel = new Array(this.maxNbrBalls);
 			initPos[0] = new TwoVector(0.5,0.5);
@@ -298,15 +303,19 @@ package{
 					if((x+radius) > this.borderWidth){
 						this.setX(i, this.borderWidth - (1.001)*radius);
 						this.ball_arr[i].velocity.setX(-vX);  
+						this.playClickSound();
 					}else if((x-radius)< 0){
 						this.setX(i, (1.001)*radius);
 						this.ball_arr[i].velocity.setX(-vX);
+						this.playClickSound();
 					}else if((y+radius) > this.borderHeight){
 						this.setY(i, this.borderHeight - (1.001)*radius);
 						this.ball_arr[i].velocity.setY(-vY);
+						this.playClickSound();
 					}else if((y-radius)< 0){
 						this.setY(i, (1.001)*radius);
 						this.ball_arr[i].velocity.setY(-vY);
+						this.playClickSound();
 					}
 				}//end if(borderOn)			
 			}//for loop
@@ -383,6 +392,7 @@ package{
 		}//end separateAllBalls();
 		
 		public function collideBalls(i:int, j:int):void{
+			this.playClickSound();
 			if(colliders[i][j] == 0 && !starting){ //if balls not collided yet and not first step
 				//trace("collideBalls(), between i: " + i + " and j: " + j + "  at time "+this.time);
 				//Balls have already overlapped, so currently have incorrect positions
@@ -460,7 +470,7 @@ package{
 					var m1:Number = ball_arr[i].getMass();
 					var m2:Number = ball_arr[j].getMass();
 					//trace("overlap is "+OL);
-					var extraBit:Number = 1.000001;
+					var extraBit:Number = 1.0001;
 					var delXBall1:Number = -extraBit*m2*OL*delX/(delR*(m1+m2));
 					var delYBall1:Number = -extraBit*m2*OL*delY/(delR*(m1+m2));
 					var delXBall2:Number = extraBit*m1*OL*delX/(delR*(m1+m2));
@@ -496,12 +506,17 @@ package{
 			var SSq:Number = (R1+R2)*(R1+R2);		//square of center-to-center separation of balls at contact
 			var delRDotDelV:Number = delX*delVx + delY*delVy;
 			var delRSq = delX*delX + delY*delY;
-			if(reversing){
-				var delT:Number = (-delRDotDelV + Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
-			}else{
-				delT = (-delRDotDelV - Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
+			//if collision is superslow, then set collision time = half-way point since last time step
+			if(delVSq < 0.000000001){
+				tC = this.lastTime + 0.5(this.time - this.lastTime);
+			}else{ //if collision is normal
+				if(reversing){
+					var delT:Number = (-delRDotDelV + Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
+				}else{
+					delT = (-delRDotDelV - Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
+				}
+				tC = this.lastTime + delT;
 			}
-			tC = this.lastTime + delT;
 			//trace("getContactTime: this.lastTime = "+this.lastTime+"  this.time: "+this.time+"   delT:"+delT+"   tC: "+tC);
 			//trace("delRDotDelV: "+delRDotDelV+"  delVSq: "+delVSq+"   delRSq: "+delRSq+"   SSq: "+SSq+"   delVSq: "+delVSq);
 			return tC;
@@ -541,6 +556,14 @@ package{
 			this.CM.x = sumXiMi/totMass;
 			this.CM.y = sumYiMi/totMass;
 		}//end setCenterOfMass();
+		
+		private function playClickSound():void{
+			if(soundOn){
+				this.sounding = true;
+				this.updateViews();
+				this.sounding = false;
+			}
+		}
 		
 		public function registerView(aView:Object):void{
 			this.nbrViews += 1;

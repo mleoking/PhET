@@ -10,6 +10,7 @@ package{
 		//var 
 		var controlPanel:ControlPanel;
 		var momentumView:MomentumView;
+		var mySoundMaker:SoundMaker;
 		var phetLogo:Sprite;
 		var stageH:Number;
 		var stageW:Number;
@@ -18,7 +19,6 @@ package{
 			this.stageH = stageH;
 			this.stageW = stageW;
 			this.myModel = myModel;
-			
 			//this.initialize();
 		}//end of constructor
 		
@@ -30,6 +30,7 @@ package{
 			this.myDataTable = new DataTable(myModel, this);
 			this.controlPanel = new ControlPanel(myModel, this);
 			this.momentumView = new MomentumView(myModel, this);
+			this.mySoundMaker = new SoundMaker(myModel, this);
 			this.phetLogo = new PhETLogo();
 			this.myModel.updateViews();
 			this.myDataTable.x = 60;

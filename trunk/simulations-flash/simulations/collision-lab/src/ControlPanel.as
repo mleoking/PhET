@@ -60,6 +60,7 @@
 			this.showCM_cb.addEventListener(MouseEvent.CLICK, showCM);
 			this.reflectingBorder_cb.addEventListener(MouseEvent.CLICK, borderOnOrOff);
 			this.showPaths_cb.addEventListener(MouseEvent.CLICK, showOrErasePaths);
+			this.sound_cb.addEventListener(MouseEvent.CLICK, soundOnOrOff);
 			this.timeRateSlider.addEventListener(SliderEvent.CHANGE, setTimeRate);
 			this.elasticitySlider.addEventListener(SliderEvent.CHANGE, setElasticity);
 			
@@ -95,6 +96,11 @@
 				this.myMainView.myTableView.myTrajectories.pathsOff();
 			}
 		}
+		
+		public function soundOnOrOff(evt:MouseEvent):void{
+			this.myModel.soundOn = evt.target.selected;
+		}
+		
 		public function setTimeRate(evt:SliderEvent):void{
 			//trace("time slider: "+evt.target.value);
 			this.myModel.setTimeRate(evt.target.value);
