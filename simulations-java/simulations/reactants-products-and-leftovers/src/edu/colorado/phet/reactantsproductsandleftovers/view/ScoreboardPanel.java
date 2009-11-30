@@ -26,7 +26,7 @@ public class ScoreboardPanel extends JPanel {
     
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLUE, 4 ), new CompoundBorder( new LineBorder( Color.BLACK, 2 ), new EmptyBorder( 5, 14, 5, 14 ) ) );
     private static final Color BACKGROUND = Color.YELLOW;
-    private static final PhetFont FONT = new PhetFont();
+    private static final PhetFont FONT = new PhetFont( 16 );
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.0" );
     private static final NumberFormat ONE_DIGIT_TIME_FORMAT = new DecimalFormat( "0" );
     private static final NumberFormat TWO_DIGIT_TIME_FORMAT = new DecimalFormat( "00" );
