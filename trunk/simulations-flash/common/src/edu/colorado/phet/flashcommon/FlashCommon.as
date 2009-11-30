@@ -96,6 +96,10 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		// make it accessible from everywhere
 		_level0.common = this;
 		
+		if( !hasFlashVars() && fromPhetWebsite() && _level0.backupSimName ) {
+			openExternalLink( "http://phet.colorado.edu/sims/" + _level0.backupSimName + "/" + _level0.backupSimName + "_en.html" );
+		}
+		
 		// DEVELOPMENT: catch key events to this object
 		Key.addListener(this);
 		
