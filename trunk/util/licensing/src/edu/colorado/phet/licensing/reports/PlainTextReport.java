@@ -19,15 +19,7 @@ public class PlainTextReport {
     private PlainTextReport() {}
 
     public static void main( String[] args ) throws IOException {
-        String trunkPath = Config.DEFAULT_TRUNK_PATH;
-        if ( args.length > 0 ) {
-            trunkPath = args[0];
-        }
-        File trunk = new File( trunkPath );
-        if ( !trunk.isDirectory() ) {
-            System.err.println( trunk + " is not a directory." );
-            System.exit( 1 );
-        }
+        File trunk = Config.getTrunkPath(args);
         new PlainTextReport().start( trunk );
     }
 
