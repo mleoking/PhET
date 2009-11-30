@@ -2,6 +2,8 @@ package edu.colorado.phet.website.data;
 
 import java.io.Serializable;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Project implements Serializable {
 
@@ -13,6 +15,8 @@ public class Project implements Serializable {
     private int versionRevision;
     private long versionTimestamp;
     private boolean visible;
+
+    private Set simulations = new HashSet();
 
     public Project() {
     }
@@ -103,5 +107,13 @@ public class Project implements Serializable {
 
     public void setVisible( boolean visible ) {
         this.visible = visible;
+    }
+
+    public Set getSimulations() {
+        return simulations;
+    }
+
+    public void setSimulations( Set simulations ) {
+        this.simulations = simulations;
     }
 }

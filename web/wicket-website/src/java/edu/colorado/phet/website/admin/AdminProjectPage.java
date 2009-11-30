@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.wicket.PageParameters;
@@ -12,6 +14,8 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
@@ -26,6 +30,8 @@ public class AdminProjectPage extends AdminPage {
     private Project project;
     private int projectId;
     private Label title;
+
+    private List<Simulation> simulations = new LinkedList<Simulation>();
 
     public AdminProjectPage( PageParameters parameters ) {
         super( parameters );
@@ -62,6 +68,13 @@ public class AdminProjectPage extends AdminPage {
         else {
             add( new Label( "project-properties", "No project properties detected" ) );
         }
+
+        add( new ListView( "simulation", simulations ) {
+            protected void populateItem( ListItem item ) {
+                Simulation sim = (Simulation) item.getModel().getObject();
+                item.add( new Label( "simulation-name", sim.getName() ) );
+            }
+        } );
 
     }
 
@@ -150,6 +163,9 @@ public class AdminProjectPage extends AdminPage {
     private class StartTask implements HibernateTask {
         public boolean run( Session session ) {
             project = (Project) session.load( Project.class, projectId );
+            for ( Object o : project.getSimulations() ) {
+                simulations.add( (Simulation) o );
+            }
             return true;
         }
     }
