@@ -17,3 +17,6 @@ Smaller Daughter Nucleus.png author=PhET
 Uranium Nucleus Small.png author=PhET 
 RadiationSymbolWithPerspective.png author=PhET
 reactor_core.gif source=http://www.mne.psu.edu/edwards/PROJECTS/PSBR/PSBR.HTM author=Penn State license=Used with permission, see A. Paulson or J. Blanco for details.
+geiger_probe.png author=PhET
+geiger_probe_1.png author=PhET
+geiger_probe_2.png author=PhET
