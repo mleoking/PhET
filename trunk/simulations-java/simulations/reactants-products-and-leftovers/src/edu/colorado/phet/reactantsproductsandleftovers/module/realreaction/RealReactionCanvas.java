@@ -24,11 +24,11 @@ public class RealReactionCanvas extends RPALCanvas {
 
     private final RealReactionModel model;
     
-    // these nodes don't change
+    // these nodes are final, allocated once
     private final ReactionChoiceNode reactionChoiceNode;
     private final RightArrowNode arrowNode;
 
-    // these nodes change based based on reaction
+    // these nodes are mutable, allocated when reaction changes
     private RealReactionEquationNode equationNode;
     private RealReactionBeforeNode beforeNode;
     private RealReactionAfterNode afterNode;
@@ -51,7 +51,7 @@ public class RealReactionCanvas extends RPALCanvas {
         resetAllButtonWrapper.scale( 1.25 );
         addChild( resetAllButtonWrapper );
         
-        model.addChangeListeners( new ChangeListener() {
+        model.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateNodes();
             }

@@ -1,3 +1,5 @@
+12/1/09 add equation to Game canvas, flesh out parts of Game canvas
+12/1/09 fix some doc and typos in Real Reaction canvas and model
 12/1/09 smiley and frowny faces for Game
 11/30/09 visibility state machine, for managing visibility of nodes for the various states of the Game
 11/30/09 check in Illustator files for sandwich images, from Noah P.
