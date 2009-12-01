@@ -17,6 +17,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import edu.colorado.phet.buildtools.util.ProjectPropertiesFile;
@@ -35,6 +36,8 @@ public class AdminProjectPage extends AdminPage {
     private String statusString = null;
 
     private List<Simulation> simulations = new LinkedList<Simulation>();
+
+    private static Logger logger = Logger.getLogger( AdminProjectPage.class.getName() );
 
     public AdminProjectPage( PageParameters parameters ) {
         super( parameters );
@@ -72,19 +75,6 @@ public class AdminProjectPage extends AdminPage {
                 item.add( new Label( "simulation-name", sim.getName() ) );
             }
         } );
-
-        try {
-            project.debugProjectFiles( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot() );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        catch( TransformerException e ) {
-            e.printStackTrace();
-        }
-        catch( ParserConfigurationException e ) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -130,12 +120,13 @@ public class AdminProjectPage extends AdminPage {
         protected void onSubmit() {
             super.onSubmit();
 
-            System.out.println( "visible: " + visible.getModelValue() );
-            System.out.println( "major: " + major.getModelObjectAsString() );
-            System.out.println( "minor: " + minor.getModelObjectAsString() );
-            System.out.println( "dev: " + dev.getModelObjectAsString() );
-            System.out.println( "revision: " + revision.getModelObjectAsString() );
-            System.out.println( "timestamp: " + timestamp.getModelObjectAsString() );
+            logger.info( "setting project values for " + project.getName() );
+            logger.info( "visible: " + visible.getModelValue() );
+            logger.info( "major: " + major.getModelObjectAsString() );
+            logger.info( "minor: " + minor.getModelObjectAsString() );
+            logger.info( "dev: " + dev.getModelObjectAsString() );
+            logger.info( "revision: " + revision.getModelObjectAsString() );
+            logger.info( "timestamp: " + timestamp.getModelObjectAsString() );
 
             HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {

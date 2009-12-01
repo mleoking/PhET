@@ -6,6 +6,7 @@ import java.util.MissingResourceException;
 import org.apache.wicket.Component;
 import org.apache.wicket.Localizer;
 import org.apache.wicket.model.IModel;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
@@ -17,6 +18,8 @@ import edu.colorado.phet.website.util.StringUtils;
 public class PhetLocalizer extends Localizer {
 
     private static final String UNTRANSLATED_VALUE = "<!-- untranslated value -->";
+
+    private static Logger logger = Logger.getLogger( PhetLocalizer.class.getName() );
 
     public PhetLocalizer() {
     }
@@ -129,7 +132,7 @@ public class PhetLocalizer extends Localizer {
 
         if ( !checkDefault ) {
             // return either null or the default value, since we won't check the default language
-            //System.out.println( "Shortcut default value on " + key + ": " + defaultValue );
+            logger.info( "Shortcut default value on " + key + ": " + defaultValue );
             return defaultValue;
         }
 

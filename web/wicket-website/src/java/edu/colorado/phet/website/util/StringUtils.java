@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.apache.log4j.Logger;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
@@ -19,6 +20,8 @@ import edu.colorado.phet.website.translation.PhetLocalizer;
  * Includes static functions (with their own transaction handling) that handle setting and getting of localization strings
  */
 public class StringUtils {
+
+    private static Logger logger = Logger.getLogger( StringUtils.class.getName() );
 
     /**
      * Returns a default (English) string from the database
@@ -58,13 +61,13 @@ public class StringUtils {
             tx.commit();
         }
         catch( RuntimeException e ) {
-            System.out.println( "WARNING: exception:\n" + e );
+            logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }
@@ -100,13 +103,13 @@ public class StringUtils {
             tx.commit();
         }
         catch( RuntimeException e ) {
-            System.out.println( "WARNING: exception:\n" + e );
+            logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }
@@ -210,13 +213,13 @@ public class StringUtils {
             tx.commit();
         }
         catch( RuntimeException e ) {
-            System.out.println( "Exception: " + e );
+            logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }
@@ -226,7 +229,7 @@ public class StringUtils {
     }
 
     public static boolean setString( Session session, String key, String value, int translationId ) {
-        System.out.println( "Request to set string with key=" + key + " and value=" + value );
+        logger.info( "Request to set string with key=" + key + " and value=" + value );
         if ( value == null ) {
             return false;
         }
@@ -266,13 +269,13 @@ public class StringUtils {
             tx.commit();
         }
         catch( RuntimeException e ) {
-            System.out.println( "Exception: " + e );
+            logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }

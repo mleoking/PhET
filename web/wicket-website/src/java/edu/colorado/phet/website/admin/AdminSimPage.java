@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
@@ -33,6 +34,8 @@ import edu.colorado.phet.website.util.StringUtils;
 public class AdminSimPage extends AdminPage {
     private Simulation simulation = null;
     private List<LocalizedSimulation> localizedSimulations;
+
+    private static Logger logger = Logger.getLogger( AdminSimPage.class.getName() );
 
     public AdminSimPage( PageParameters parameters ) {
         super( parameters );
@@ -75,12 +78,13 @@ public class AdminSimPage extends AdminPage {
             tx.commit();
         }
         catch( RuntimeException e ) {
+            logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }
@@ -453,7 +457,7 @@ public class AdminSimPage extends AdminPage {
                 ret += string;
             }
 
-            System.out.println( "Submitted:\n" + ret + "\nEND" );
+            logger.info( "Submitted:\n" + ret + "\nEND" );
 
             handleString( ret );
         }

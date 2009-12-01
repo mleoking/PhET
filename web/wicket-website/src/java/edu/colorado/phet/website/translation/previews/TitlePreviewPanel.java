@@ -3,6 +3,7 @@ package edu.colorado.phet.website.translation.previews;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -14,6 +15,9 @@ import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 
 public class TitlePreviewPanel extends PhetPanel {
+
+    private static Logger logger = Logger.getLogger( TitlePreviewPanel.class.getName() );
+
     public TitlePreviewPanel( String id, PageContext context ) {
         super( id, context );
 
@@ -29,13 +33,13 @@ public class TitlePreviewPanel extends PhetPanel {
             tx.commit();
         }
         catch( RuntimeException e ) {
-            System.out.println( "Exception: " + e );
+            logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }

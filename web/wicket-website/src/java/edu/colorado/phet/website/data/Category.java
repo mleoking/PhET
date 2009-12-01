@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.menu.NavMenu;
@@ -18,6 +19,8 @@ public class Category implements Serializable {
     private List subcategories = new LinkedList();
     private List simulations = new LinkedList();
     private Category parent;
+
+    private static Logger logger = Logger.getLogger( Category.class.getName() );
 
     public Category() {
     }
@@ -62,7 +65,7 @@ public class Category implements Serializable {
      */
     public static Category getCategoryFromPath( Session session, String categoriesString ) {
         Category category;
-        System.out.println( "categoriesString = " + categoriesString );
+        logger.debug( "categoriesString = " + categoriesString );
         String[] categories = categoriesString.split( "/" );
         int categoryIndex = categories.length - 1;
         if ( categories[categoryIndex].equals( "" ) ) {
@@ -71,11 +74,11 @@ public class Category implements Serializable {
         String categoryName = categories[categoryIndex];
         category = HibernateUtils.getCategoryByName( session, categoryName );
         if ( category == null ) {
-            System.out.println( "WARNING: attempt to access category " + categoriesString + " resulted in failure" );
+            logger.warn( "WARNING: attempt to access category " + categoriesString + " resulted in failure" );
             return category;
         }
 
-        System.out.println( "category path: " + category.getCategoryPath() );
+        logger.debug( "category path: " + category.getCategoryPath() );
 
         if ( !category.getCategoryPath().equals( categoriesString ) ) {
             throw new RuntimeException( "category path doesn't match category strings: " + category.getCategoryPath() + " != " + categoriesString );
@@ -118,7 +121,7 @@ public class Category implements Serializable {
             return null;
         }
         if ( getParent().isRoot() ) {
-            System.out.println( "My parent is root, I am " + getName() );
+            logger.warn( "My parent is root, I am " + getName() );
             return getName();
         }
         else {

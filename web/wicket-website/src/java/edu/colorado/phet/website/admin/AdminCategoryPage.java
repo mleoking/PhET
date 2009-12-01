@@ -6,6 +6,7 @@ import java.util.*;
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
@@ -23,6 +24,8 @@ public class AdminCategoryPage extends AdminPage {
     private List<SimOrderItem> items;
     private List<SimOrderItem> allItems;
     private Map<Simulation, String> titleMap;
+
+    private static Logger logger = Logger.getLogger( AdminCategoryPage.class.getName() );
 
     public AdminCategoryPage( PageParameters parameters ) {
         super( parameters );
@@ -104,7 +107,7 @@ public class AdminCategoryPage extends AdminPage {
                         return true;
                     }
                 } );
-                System.out.println( "add: #" + item.getId() + " success: " + success );
+                logger.info( "add: #" + item.getId() + " success: " + success );
                 return success;
             }
 
@@ -119,7 +122,7 @@ public class AdminCategoryPage extends AdminPage {
                         return true;
                     }
                 } );
-                System.out.println( "remove: #" + item.getId() + " at " + index + " success: " + success );
+                logger.info( "remove: #" + item.getId() + " at " + index + " success: " + success );
                 return success;
             }
 
@@ -132,7 +135,7 @@ public class AdminCategoryPage extends AdminPage {
                         return true;
                     }
                 } );
-                System.out.println( "swap: #" + a.getId() + ", " + b.getId() + " at " + aIndex + ", " + bIndex + " success: " + success );
+                logger.info( "swap: #" + a.getId() + ", " + b.getId() + " at " + aIndex + ", " + bIndex + " success: " + success );
                 return success;
             }
 

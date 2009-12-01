@@ -11,6 +11,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -26,6 +27,8 @@ public class RegisterPage extends PhetPage {
     private PasswordTextField password;
     private PasswordTextField passwordCopy;
     private Model errorModel;
+
+    private static Logger logger = Logger.getLogger( RegisterPage.class.getName() );
 
     // TODO: spruce up error messages (and add them so they are visible to the user)
 
@@ -95,24 +98,24 @@ public class RegisterPage extends PhetPage {
                     tx.commit();
                 }
                 catch( RuntimeException e ) {
+                    logger.warn( e );
                     if ( tx != null && tx.isActive() ) {
                         try {
                             tx.rollback();
                         }
                         catch( HibernateException e1 ) {
-                            System.out.println( "ERROR: Error rolling back transaction" );
+                            logger.error( "ERROR: Error rolling back transaction", e1 );
                         }
                         throw e;
                     }
                     error = true;
                     errorString += " | Internal error occurred";
-                    System.out.println( e );
                 }
             }
 
             if ( error ) {
-                System.out.println( "Error registering" );
-                System.out.println( "Reason: " + errorString );
+                logger.error( "Error registering" );
+                logger.error( "Reason: " + errorString );
                 errorModel.setObject( errorString );
             }
             else {

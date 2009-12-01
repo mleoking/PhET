@@ -33,7 +33,7 @@ public class StaticPage extends PhetRegularPage {
             add( panel );
         }
         catch( RuntimeException e ) {
-            System.out.println( e );
+            e.printStackTrace();
         }
         catch( NoSuchMethodException e ) {
             e.printStackTrace();

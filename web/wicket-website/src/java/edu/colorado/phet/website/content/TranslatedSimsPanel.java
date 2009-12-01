@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
@@ -23,6 +24,9 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class TranslatedSimsPanel extends PhetPanel {
+
+    private static Logger logger = Logger.getLogger( TranslatedSimsPanel.class.getName() );
+
     public TranslatedSimsPanel( String id, final PageContext context ) {
         super( id, context );
 
@@ -144,9 +148,9 @@ public class TranslatedSimsPanel extends PhetPanel {
 
         Long d = System.currentTimeMillis();
 
-        System.out.println( "a-b: " + ( b - a ) );
-        System.out.println( "b-c: " + ( c - b ) );
-        System.out.println( "c-d: " + ( d - c ) );
+        logger.debug( "a-b: " + ( b - a ) );
+        logger.debug( "b-c: " + ( c - b ) );
+        logger.debug( "c-d: " + ( d - c ) );
 
     }
 

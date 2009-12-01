@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,6 +19,9 @@ import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
 public class AdminSimsPage extends AdminPage {
+
+    private static Logger logger = Logger.getLogger( AdminSimsPage.class.getName() );
+
     public AdminSimsPage( PageParameters parameters ) {
         super( parameters );
 
@@ -48,12 +52,13 @@ public class AdminSimsPage extends AdminPage {
             tx.commit();
         }
         catch( RuntimeException e ) {
+            logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }
