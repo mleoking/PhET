@@ -47,11 +47,11 @@ public class RealReactionModel extends RPALModel {
         return reaction;
     }
     
-    public void addChangeListeners( ChangeListener listener ) {
+    public void addChangeListener( ChangeListener listener ) {
         listeners.add( listener );
     }
     
-    public void removeChangeListeners( ChangeListener listener ) {
+    public void removeChangeListener( ChangeListener listener ) {
         listeners.remove( listener );
     }
     

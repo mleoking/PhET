@@ -21,10 +21,10 @@ public class GameModel extends RPALModel {
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 );
     private static final boolean DEFAULT_IS_TIMED = true;
     
-    private final ArrayList<GameChangeListener> listeners;
+    private final ArrayList<GameListener> listeners;
     
     private int challengeNumber;
-    private ChemicalReaction challengeReaction, guessReaction;
+    private ChemicalReaction reaction;
     private ChallengeType challengeType;
     private int level;
     private double points;
@@ -32,7 +32,7 @@ public class GameModel extends RPALModel {
     private boolean timerEnabled;
     
     public GameModel() {
-        listeners = new ArrayList<GameChangeListener>();
+        listeners = new ArrayList<GameListener>();
         newGame( LEVEL_RANGE.getDefault(), DEFAULT_IS_TIMED );
     }
     
@@ -54,24 +54,19 @@ public class GameModel extends RPALModel {
         setAttempts( 0 );
         newReaction();
         newChallengeType();
-        fireChallengeChanged();
+        fireReactionChanged();
     }
     
     private void newReaction() {
         
-        challengeReaction = new WaterReaction(); //XXX choose based on level and challengeNumber
-        for ( Reactant reactant : challengeReaction.getReactants() ) {
+        reaction = new WaterReaction(); //XXX choose based on level and challengeNumber
+        for ( Reactant reactant : reaction.getReactants() ) {
             reactant.setQuantity( getRandomQuantity() );
-        }
-        
-        guessReaction = new WaterReaction(); //XXX must be same type as challengeReaction
-        for ( Reactant reactant : guessReaction.getReactants() ) {
-            reactant.setQuantity( 0 );
         }
     }
     
     private int getRandomQuantity() {
-        return 1 + (int)( Math.random() * getQuantityRange().getMax() );
+        return 1 + (int)( Math.random() * getQuantityRange().getMax() ); //XXX should this be zero sometimes?
     }
     
     /*
@@ -141,78 +136,75 @@ public class GameModel extends RPALModel {
         return points;
     }
     
-    public ChemicalReaction getChallengeReaction() {
-        return challengeReaction;
+    public ChemicalReaction getReaction() {
+        return reaction;
     }
     
-    public ChemicalReaction getGuessReaction() {
-        return guessReaction;
-    }
-    
-    public interface GameChangeListener {
+    public interface GameListener {
         public void newGame();
-        public void challengeChanged();
+        public void reactionChanged();
         public void pointsChanged();
         public void levelChanged();
         public void timerEnabledChanged();
         public void timeChanged();
     }
     
-    public static class GameChangeAdapter implements GameChangeListener {
+    public static class GameAdapter implements GameListener {
         public void newGame() {}
-        public void challengeChanged() {}
+        public void reactionChanged() {}
         public void pointsChanged() {}
         public void levelChanged() {}
         public void timerEnabledChanged() {}
         public void timeChanged() {}
     }
     
-    public void addGameChangeListener( GameChangeListener listener ) {
+    public void addGameListener( GameListener listener ) {
         listeners.add( listener );
     }
     
-    public void removeGameChangeListener( GameChangeListener listener ) {
+    public void removeGameListener( GameListener listener ) {
         listeners.remove( listener );
     }
     
     private void fireNewGame() {
-        ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( GameChangeListener listener : listenersCopy ) {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameListener listener : listenersCopy ) {
             listener.newGame();
         }
     }
     
-    private void fireChallengeChanged() {
-        ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( GameChangeListener listener : listenersCopy ) {
-            listener.challengeChanged();
+    private void fireReactionChanged() {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameListener listener : listenersCopy ) {
+            listener.reactionChanged();
         }
     }
     
     private void firePointsChanged() {
-        ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( GameChangeListener listener : listenersCopy ) {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameListener listener : listenersCopy ) {
             listener.pointsChanged();
         }
     }
     
     private void fireLevelChanged() {
-        ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( GameChangeListener listener : listenersCopy ) {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameListener listener : listenersCopy ) {
             listener.levelChanged();
         }
     }
     
     private void fireTimerEnabledChanged() {
-        ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( GameChangeListener listener : listenersCopy ) {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameListener listener : listenersCopy ) {
             listener.timerEnabledChanged();
         }
     }
     
+    //XXX model needs a clock
     private void fireTimeChanged() {
-        ArrayList<GameChangeListener> listenersCopy = new ArrayList<GameChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( GameChangeListener listener : listenersCopy ) {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameListener listener : listenersCopy ) {
             listener.timeChanged();
         }
     }

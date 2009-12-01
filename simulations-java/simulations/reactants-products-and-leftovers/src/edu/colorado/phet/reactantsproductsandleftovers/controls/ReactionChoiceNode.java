@@ -65,7 +65,7 @@ public class ReactionChoiceNode extends PhetPNode {
         addChild( new PSwing( panel ) );
         
         // when the model changes, select the proper radio button
-        model.addChangeListeners( new ChangeListener() {
+        model.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 for ( int i = 0; i < reactions.length; i++ ) {
                     if ( reactions[i] == model.getReaction() ) {

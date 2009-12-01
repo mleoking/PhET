@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
-import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameChangeAdapter;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 
 
 public class ScoreboardPanel extends JPanel {
@@ -87,7 +87,7 @@ public class ScoreboardPanel extends JPanel {
         layout.addComponent( newGameButton, row, column++ );
         
         // listen to model
-        model.addGameChangeListener( new GameChangeAdapter() {
+        model.addGameListener( new GameAdapter() {
 
             @Override
             public void levelChanged() {
