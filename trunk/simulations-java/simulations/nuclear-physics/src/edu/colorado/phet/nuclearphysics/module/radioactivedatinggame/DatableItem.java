@@ -223,8 +223,15 @@ public class DatableItem implements AnimatedModelElement {
 	}
 
     public boolean contains( Point2D pt ) {
-        //find what pixel this corresponds to in the image
-        ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( getBoundingRect(), new Rectangle2D.Double( 0, 0, getImage().getWidth(), getImage().getHeight() ) );
+    	
+    	// TODO: Dec 1 2009 - Need to work with Noah to decide if it is better
+    	// to require touching by the probe tip, or just getting in the ballpark.
+    	
+    	// return getBoundingRect().contains(pt);
+    	
+        // Determine if one of the non-transparent pixels in the image is being touched.
+        ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( getBoundingRect(), 
+        		new Rectangle2D.Double( 0, 0, getImage().getWidth(), getImage().getHeight() ) );
         Point unrotatedPoint = modelViewTransform2D.modelToView( pt );
 
         Point2D imageCenter = new Point2D.Double( getImage().getWidth() / 2, getImage().getHeight() / 2 );
