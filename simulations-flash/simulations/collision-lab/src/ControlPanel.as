@@ -34,6 +34,7 @@
 			this.changeNbrBallButtons.removeBallButton.buttonMode = true;
 			var nbrString:String = String(this.nbrBalls);
 			this.changeNbrBallButtons.nbrReadout.text = nbrString;
+			this.elasticityLabel.text = "1.00";
 			//this.background.border.buttonMode = true;
 			Util.makePanelDraggableWithBorder(this, this.background.border);
 		}
@@ -105,6 +106,8 @@
 		
 		public function setElasticity(evt:SliderEvent):void{
 			this.myModel.setElasticity(evt.target.value);
+			var e_str:String = String(evt.target.value);
+			this.elasticityLabel.text = e_str;
 			//trace("e slider: "+evt.target.value);
 		}
 		
