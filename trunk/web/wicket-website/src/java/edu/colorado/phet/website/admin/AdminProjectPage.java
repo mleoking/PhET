@@ -248,6 +248,7 @@ public class AdminProjectPage extends AdminPage {
             HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
                     Simulation simulation = new Simulation();
+                    simulation.setSimulationVisible( true );
                     simulation.setName( name );
                     if ( typeString.equals( JAVA_STRING ) ) {
                         simulation.setType( Simulation.TYPE_JAVA );

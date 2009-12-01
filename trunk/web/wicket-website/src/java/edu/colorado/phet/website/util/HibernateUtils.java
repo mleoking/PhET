@@ -133,7 +133,7 @@ public class HibernateUtils {
     }
 
     public static List<LocalizedSimulation> getAllVisibleSimulationsWithLocale( Session session, Locale locale ) {
-        List simulations = session.createQuery( "select l from LocalizedSimulation as l where l.locale = :locale and l.simulation.project.visible = true" ).setLocale( "locale", locale ).list();
+        List simulations = session.createQuery( "select l from LocalizedSimulation as l where l.locale = :locale and l.simulation.project.visible = true and l.simulation.simulationVisible = true" ).setLocale( "locale", locale ).list();
         List<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
         for ( Object simulation : simulations ) {
             ret.add( (LocalizedSimulation) simulation );
@@ -336,7 +336,7 @@ public class HibernateUtils {
     }
 
     public static List<LocalizedSimulation> preferredFullSimulationList( Session session, Locale locale ) {
-        List sims = session.createQuery( "select s from Simulation as s where s.project.visible = true" ).list();
+        List sims = session.createQuery( "select s from Simulation as s where s.project.visible = true and s.simulationVisible = true" ).list();
         LinkedList<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
         for ( Object sim : sims ) {
             Simulation simulation = (Simulation) sim;

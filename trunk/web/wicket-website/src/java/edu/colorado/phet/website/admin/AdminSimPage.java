@@ -111,6 +111,7 @@ public class AdminSimPage extends AdminPage {
         add( new UnderConstructionForm( "under-construction" ) );
         add( new GuidanceRecommendedForm( "guidance-recommended" ) );
         add( new ClassroomTestedForm( "classroom-tested" ) );
+        add( new VisibleForm( "simulation-visibility" ) );
 
         add( new KilobytesForm( "kilobytes" ) );
 
@@ -523,6 +524,27 @@ public class AdminSimPage extends AdminPage {
 
         public boolean getCurrentValue() {
             return simulation.isClassroomTested();
+        }
+    }
+
+    private class VisibleForm extends CheckBoxForm {
+        public VisibleForm( String id ) {
+            super( id );
+        }
+
+        public void handle( final boolean val ) {
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                    sim.setSimulationVisible( val );
+                    session.update( sim );
+                    return true;
+                }
+            } );
+        }
+
+        public boolean getCurrentValue() {
+            return simulation.isSimulationVisible();
         }
     }
 
