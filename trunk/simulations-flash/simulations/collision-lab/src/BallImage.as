@@ -148,6 +148,7 @@ package{
 			var modelRef:Model = this.myModel;
 			var H:Number = modelRef.borderHeight;
 			
+			//target.addEventListener(MouseEvent.MOUSE_OVER, bringToTop);
 			target.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
 			target.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
 			target.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
@@ -155,7 +156,14 @@ package{
 			target.addEventListener(MouseEvent.MOUSE_OUT, unHighlightPositionTextFields);
 			var theStage:Object = thisBallImage.myTableView.canvas;//target.parent;
 			var clickOffset:Point;
+			
+			function bringToTop(evt:MouseEvent):void{
+				thisBallImage.myTableView.canvas.addChild(thisBallImage);
+			}
+			
 			function startTargetDrag(evt:MouseEvent):void{	
+				thisBallImage.myTableView.canvas.addChild(thisBallImage);
+				thisBallImage.myTableView.canvas.addChild(thisBallImage.myTableView.CM);
 				//problem with localX, localY if sprite is rotated.
 				clickOffset = new Point(evt.localX, evt.localY);
 				//trace("evt.localX: "+evt.localX);

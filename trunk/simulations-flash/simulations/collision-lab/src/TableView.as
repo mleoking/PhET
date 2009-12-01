@@ -16,6 +16,7 @@
 		var invisibleBorder:Sprite;			//handle for dragging
 		var borderColor:uint;				//color of border 0xrrggbb
 		var timeText:TextField;				//label containing current time
+		var totKEText:TextField;			//label showing total KE of particles
 		var pixelsPerMeter:int;				//scale of view
 		var ball_arr:Array;					//array of ball images
 		var ballLabels:Array;				//array of ball labels: 1, 2, 3, ...
@@ -48,6 +49,7 @@
 			this.drawBorder();
 			this.drawInvisibleBorder();
 			this.makeTimeLabel();
+			this.makeTotKELabel();
 			this.ballColor_arr = new Array(10);  //start with 10 colors
 			this.createBallColors();
 			//this.createBallImages2();
@@ -123,6 +125,25 @@
 			this.timeText.y = H + 10;
 		}
 		
+		public function makeTotKELabel():void{
+			this.totKEText = new TextField();
+			this.totKEText.text = "KEtot = ";
+			this.totKEText.selectable = false;
+			this.totKEText.autoSize = TextFieldAutoSize.RIGHT;
+			var tFormat:TextFormat = new TextFormat();
+			tFormat.font = "Arial";
+			tFormat.bold = true;
+			tFormat.color = 0x000000;
+			tFormat.size = 12;
+			this.totKEText.defaultTextFormat = tFormat;
+			//this.timeText.setTextFormat(tFormat);
+			this.canvas.addChild(this.totKEText);
+			var W:Number = this.myModel.borderWidth * this.pixelsPerMeter;
+			var H:Number = this.myModel.borderHeight * this.pixelsPerMeter;
+			this.totKEText.x = 30; //W - 2.5*this.totKEText.width;
+			this.totKEText.y = H + 10;
+		}
+		
 		
 		public function createBallColors():void{
 			this.ballColor_arr[0] = 0xff0000;
@@ -190,6 +211,7 @@
 				//this.myModel.atInitialConfig = false;
 			}
 			this.timeText.text = "Time = " + Math.round(100*this.myModel.time)/100;
+			this.totKEText.text = "KEtot = " + Math.round(100*this.myModel.getTotalKE())/100;
 			
 			this.CM.x = this.pixelsPerMeter*this.myModel.CM.x;
 			this.CM.y = this.pixelsPerMeter*(yMax - this.myModel.CM.y);

@@ -472,18 +472,21 @@ package{
 				var delR:Number = Math.sqrt(delX*delX + delY*delY);
 				var R1:Number = this.ball_arr[i].getRadius();
 				var R2:Number = this.ball_arr[j].getRadius();
+				var S:Number = R1 + R2;
 				var OL:Number = (R1+R2) - delR;  //overlap distance
 				if(OL > 0){
-					var balliNbr:int = i -1; var balljNbr:int = j -1;
+					var balliNbr:int = i + 1; var balljNbr:int = j + 1;
+					trace("Model: ball numbers "+balliNbr+" and "+balljNbr+" overlap: "+OL);
 					//trace("Model: ball numbers "+balliNbr+" and "+balljNbr+" overlapped at time "+this.time);
 					var m1:Number = ball_arr[i].getMass();
 					var m2:Number = ball_arr[j].getMass();
 					//trace("overlap is "+OL);
-					var extraBit:Number = 1.001;
-					var delXBall1:Number = -extraBit*m2*OL*delX/(delR*(m1+m2));
-					var delYBall1:Number = -extraBit*m2*OL*delY/(delR*(m1+m2));
-					var delXBall2:Number = extraBit*m1*OL*delX/(delR*(m1+m2));
-					var delYBall2:Number = extraBit*m1*OL*delY/(delR*(m1+m2));
+					var extraBit:Number = 0.03*S;
+					OL = OL + extraBit;
+					var delXBall1:Number = -m2*OL*delX/(delR*(m1+m2));
+					var delYBall1:Number = -m2*OL*delY/(delR*(m1+m2));
+					var delXBall2:Number = m1*OL*delX/(delR*(m1+m2));
+					var delYBall2:Number = m1*OL*delY/(delR*(m1+m2));
 					//trace("xBall1: "+x1+"   delXBall1: "+delXBall1);
 					this.ball_arr[i].position.setXY(x1 + delXBall1, y1 + delYBall1);
 					this.ball_arr[j].position.setXY(x2 + delXBall2, y2 + delYBall2);
