@@ -302,19 +302,19 @@ package{
 				if(this.borderOn){
 					if((x+radius) > this.borderWidth){
 						this.setX(i, this.borderWidth - (1.001)*radius);
-						this.ball_arr[i].velocity.setX(-vX);  
+						this.ball_arr[i].velocity.setX(-e*vX);  
 						this.playClickSound();
 					}else if((x-radius)< 0){
 						this.setX(i, (1.001)*radius);
-						this.ball_arr[i].velocity.setX(-vX);
+						this.ball_arr[i].velocity.setX(-e*vX);
 						this.playClickSound();
 					}else if((y+radius) > this.borderHeight){
 						this.setY(i, this.borderHeight - (1.001)*radius);
-						this.ball_arr[i].velocity.setY(-vY);
+						this.ball_arr[i].velocity.setY(-e*vY);
 						this.playClickSound();
 					}else if((y-radius)< 0){
 						this.setY(i, (1.001)*radius);
-						this.ball_arr[i].velocity.setY(-vY);
+						this.ball_arr[i].velocity.setY(-e*vY);
 						this.playClickSound();
 					}
 				}//end if(borderOn)			
