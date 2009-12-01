@@ -43,7 +43,7 @@ public class DnaStrandNode2 extends PNode {
 		addChild(strand2Node);
 		
 		// Update the shape of the DNA strands.
-		updateStrandShape();
+		updateStrandShapes();
 		
 		// Set up the visible bounds, if turned on.
 		if (SHOW_BOUNDS){
@@ -61,7 +61,7 @@ public class DnaStrandNode2 extends PNode {
 		updateOffset();
 	}
 	
-    private void updateStrandShape() {
+    private void updateStrandShapes() {
 
     	// We only want the shape, and not any translation associated with the
     	// shape, so we create our own transform that only does the scaling
@@ -74,8 +74,14 @@ public class DnaStrandNode2 extends PNode {
     	// Create the transformed shape.
 		Shape transformedShape = scalingOnlyTransform.createTransformedShape(dnaStrand.getStrand1Shape());
 		
-		// Set the shape and color.
+		// Set the shape.
 		strand1Node.setPathTo(transformedShape);
+		
+    	// Create the transformed shape.
+		transformedShape = scalingOnlyTransform.createTransformedShape(dnaStrand.getStrand2Shape());
+		
+		// Set the shape.
+		strand2Node.setPathTo(transformedShape);
     }
     
     private void updateOffset() {
