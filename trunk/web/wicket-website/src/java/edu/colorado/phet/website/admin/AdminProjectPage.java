@@ -1,23 +1,20 @@
 package edu.colorado.phet.website.admin;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
+import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import edu.colorado.phet.buildtools.util.ProjectPropertiesFile;
@@ -44,6 +41,7 @@ public class AdminProjectPage extends AdminPage {
 
         projectId = parameters.getInt( "projectId" );
 
+        // fill in project, simulation list and status string
         HibernateUtils.wrapTransaction( getHibernateSession(), new StartTask() );
 
         title = new Label( "project-name", getTitleString() );
@@ -73,6 +71,12 @@ public class AdminProjectPage extends AdminPage {
             protected void populateItem( ListItem item ) {
                 Simulation sim = (Simulation) item.getModel().getObject();
                 item.add( new Label( "simulation-name", sim.getName() ) );
+            }
+        } );
+
+        add( new Link( "synchronize-link" ) {
+            public void onClick() {
+                Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot(), getHibernateSession(), project.getName() );
             }
         } );
 
