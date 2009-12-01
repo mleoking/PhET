@@ -19,6 +19,17 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author John Blanco
  */
 public class DnaStrand {
+	
+	// Length of one "cycle" of the DNA strand, in nanometers.
+	private static final double DNA_WAVE_LENGTH = 5;
+	
+	// Spacing between each "sample" that defines the DNA strand shape.
+	// Larger numbers mean finer resolution, and thus a curvier shape.  This
+	// is in nanometers.
+	private static final double DNA_SAMPLE_SPACING = 1;
+	
+	// Offset in the x direction between the two DNA strands.
+	private static final double DNA_INTER_STRAND_OFFSET = 4;
 
 	private DoubleGeneralPath strand1Shape = new DoubleGeneralPath();
 	private Line2D strand2Shape;
@@ -67,10 +78,15 @@ public class DnaStrand {
 	}
 	
 	private void updateStrandShapes(){
-		strand1Shape.moveTo(-size.getWidth() / 2, 0);
-		strand1Shape.lineTo(-size.getWidth() / 4, 0);
-		strand1Shape.moveTo(0, 0);
-		strand1Shape.lineTo(size.getWidth() / 2, 0);
+		double startPosX = -size.getWidth() / 2;
+		double startPosy = 0;
+		strand1Shape.moveTo(startPosX, startPosy);
+		double angle = 0;
+		double angleIncrement = Math.PI * 2 / DNA_WAVE_LENGTH;
+		for (double xPos = startPosX; xPos - startPosX < size.getWidth(); xPos += DNA_SAMPLE_SPACING){
+			strand1Shape.lineTo( (float)xPos, (float)(Math.sin(angle) * size.getHeight() / 2));
+			angle += angleIncrement;
+		}
 	}
 	
 	public static class GeneSegmentShape extends Area {
