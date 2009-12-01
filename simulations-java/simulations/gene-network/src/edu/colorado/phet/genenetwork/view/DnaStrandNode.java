@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * 
  * @author John Blanco
  */
-public class DnaStrandNode2 extends PNode {
+public class DnaStrandNode extends PNode {
 
 	private static final boolean SHOW_BOUNDS = true;
 	private static final Stroke STRAND_STROKE = new BasicStroke(2);
@@ -31,7 +31,7 @@ public class DnaStrandNode2 extends PNode {
 	private PPath strand2Node;
 	private ModelViewTransform2D mvt;
 	
-	public DnaStrandNode2(DnaStrand dnaStrand, ModelViewTransform2D mvt){
+	public DnaStrandNode(DnaStrand dnaStrand, ModelViewTransform2D mvt){
 	
 		this.dnaStrand = dnaStrand;
 		this.mvt = mvt;
