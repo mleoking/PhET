@@ -28,7 +28,7 @@ public class LicenseReport {
     }
 
     private void start( File trunk ) {
-        PhetProject[] phetProject = PhetProject.getAllProjects( new File( trunk, BuildToolsPaths.SIMULATIONS_JAVA ) );
+        PhetProject[] phetProject = PhetProject.getAllProjects( trunk );
         for ( int i = 0; i < phetProject.length; i++ ) {
             PhetProject project = phetProject[i];
             System.out.println( "Project: " + project.getName() );

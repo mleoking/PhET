@@ -30,7 +30,7 @@ public class DataProcessor {
         }
 
         File[] f = dir.listFiles();
-        for ( int i = 0; i < f.length; i++ ) {
+        for ( int i = 0; f!=null && i < f.length; i++ ) {
             File file = f[i];
             if ( file.isDirectory() ) {
                 if ( !ignoreDirectory( phetProject, file ) ) {
