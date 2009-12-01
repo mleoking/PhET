@@ -93,6 +93,9 @@ public class GameCanvas extends RPALCanvas {
         scoreboardPanelWrapper.setOffset( x, y ) ;
         
         //XXX put smiley face in upper center of Before or After box, depending on challenge type
+        x = gameSettingsPanelWrapper.getFullBoundsReference().getMaxX() + 20;
+        y = gameSettingsPanelWrapper.getYOffset();
+        smileyFaceNode.setOffset( x, y );
         
         // put frowny face in same location as smiley face
         frownyFaceNode.setOffset( smileyFaceNode.getOffset() );
