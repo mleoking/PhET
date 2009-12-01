@@ -43,8 +43,14 @@ public class DnaStrand {
 		
 		// Create the gene segments, which are the places where genes will
 		// eventually be placed.
-		Shape LacIGeneShape = new LacIGene(null).getShape();
-		geneSectionShapeList.add(new GeneSegmentShape(LacIGeneShape, new Point2D.Double(-20, 0)));
+		Shape lacIGeneShape = new LacIGene(null).getShape();
+		geneSectionShapeList.add(new GeneSegmentShape(lacIGeneShape, new Point2D.Double(-40, 0)));
+		Shape lacPromoterShape = new LacPromoter(null).getShape();
+		geneSectionShapeList.add(new GeneSegmentShape(lacPromoterShape, new Point2D.Double(5, 0)));
+		Shape lacOperatorShape = new LacOperator(null).getShape();
+		geneSectionShapeList.add(new GeneSegmentShape(lacOperatorShape, new Point2D.Double(15, 0)));
+		Shape lacZGeneShape = new LacZGene(null).getShape();
+		geneSectionShapeList.add(new GeneSegmentShape(lacZGeneShape, new Point2D.Double(30, 0)));
 	}
 	
 	public Point2D getPositionRef() {
