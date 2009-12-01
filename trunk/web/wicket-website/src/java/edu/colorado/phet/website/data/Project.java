@@ -57,7 +57,7 @@ public class Project implements Serializable {
         return new ProjectPropertiesFile( new File( docRoot, "sims/" + name + "/" + name + ".properties" ) );
     }
 
-    private File getProjectRoot( File docRoot ) {
+    public File getProjectRoot( File docRoot ) {
         return new File( docRoot, "sims/" + name );
     }
 
@@ -175,14 +175,16 @@ public class Project implements Serializable {
                     Simulation sim = (Simulation) o;
                     if ( !usedSims.contains( sim ) ) {
                         appendWarning( builder, "Found sim " + sim.getName() + " in database, but did not find in project directory" );
+                        warning = true;
                     }
                     else {
                         for ( Object o1 : sim.getLocalizedSimulations() ) {
                             LocalizedSimulation lsim = (LocalizedSimulation) o1;
                             if ( !usedLSims.contains( lsim ) ) {
                                 appendWarning( builder, "Found translation " + lsim.getLocaleString() + " for sim " + sim.getName() + " in database, but did not find in project directory" );
+                                warning = true;
                             }
-                        }                                          
+                        }
                     }
                 }
             }
@@ -195,6 +197,15 @@ public class Project implements Serializable {
         else {
             appendWarning( builder, "Could not find project properties file" );
             warning = true;
+        }
+
+        for ( Object o : getSimulations() ) {
+            Simulation sim = (Simulation) o;
+            int detected = sim.detectSimKilobytes( docRoot );
+            if ( sim.getKilobytes() != detected ) {
+                appendWarning( builder, "Sim kilobytes inaccurate. file: " + detected + " db: " + sim.getKilobytes() );
+                warning = true;
+            }
         }
 
         if ( !warning ) {
