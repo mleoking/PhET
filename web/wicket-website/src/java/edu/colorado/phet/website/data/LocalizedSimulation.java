@@ -11,7 +11,6 @@ public class LocalizedSimulation implements Serializable {
     private int id;
     private Locale locale;
     private String title;
-    private String description;
     private Simulation simulation;
 
     public LocalizedSimulation() {
@@ -92,14 +91,6 @@ public class LocalizedSimulation implements Serializable {
 
     public void setTitle( String title ) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription( String description ) {
-        this.description = description;
     }
 
     public Simulation getSimulation() {

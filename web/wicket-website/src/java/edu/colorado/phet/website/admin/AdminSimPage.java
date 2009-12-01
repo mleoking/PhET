@@ -119,7 +119,6 @@ public class AdminSimPage extends AdminPage {
                 item.add( new Label( "lang-en", lsim.getLocale().getDisplayName( english ) ) );
                 item.add( new Label( "lang-locale", lsim.getLocale().getDisplayName( lsim.getLocale() ) ) );
                 item.add( new Label( "title", lsim.getTitle() ) );
-                item.add( new Label( "description", lsim.getDescription() ) );
                 item.add( new Link( "remove" ) {
                     public void onClick() {
                         boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
@@ -580,7 +579,6 @@ public class AdminSimPage extends AdminPage {
 
         private TextField localeField;
         private TextField titleField;
-        private TextArea descriptionArea;
 
         public ModifyTranslationForm( String id ) {
             super( id );
@@ -590,8 +588,6 @@ public class AdminSimPage extends AdminPage {
             add( localeField );
             titleField = new TextField( "title", new Model( "" ) );
             add( titleField );
-            descriptionArea = new TextArea( "description", new Model( "" ) );
-            add( descriptionArea );
         }
 
         @Override
@@ -600,7 +596,6 @@ public class AdminSimPage extends AdminPage {
 
             final Locale locale = LocaleUtils.stringToLocale( localeField.getModelObjectAsString() );
             final String title = titleField.getModelObjectAsString();
-            final String description = descriptionArea.getModelObjectAsString();
 
             HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
@@ -611,7 +606,6 @@ public class AdminSimPage extends AdminPage {
                         LocalizedSimulation lsim = new LocalizedSimulation();
                         lsim.setLocale( locale );
                         lsim.setTitle( title );
-                        lsim.setDescription( description );
                         lsim.setSimulation( (Simulation) session.load( Simulation.class, simulation.getId() ) );
                         session.save( lsim );
                         localizedSimulations.add( lsim );
@@ -620,12 +614,10 @@ public class AdminSimPage extends AdminPage {
                     else {
                         LocalizedSimulation lsim = (LocalizedSimulation) matching.get( 0 );
                         lsim.setTitle( title );
-                        lsim.setDescription( description );
                         session.update( lsim );
                         for ( LocalizedSimulation s : localizedSimulations ) {
                             if ( s.getLocale().equals( locale ) ) {
                                 s.setTitle( title );
-                                s.setDescription( description );
                             }
                         }
                     }
