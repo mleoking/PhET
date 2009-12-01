@@ -225,8 +225,11 @@ public class Project implements Serializable {
 
                         simulation.setKilobytes( simulation.detectSimKilobytes( docRoot ) );
 
-                        List llist = session.createQuery( "select ls from LocalizedSimulation as ls where ls.locale = :locale and ls.simulation = :simulation" )
-                                .setLocale( "locale", simLocale ).setEntity( "simulation", simulation ).list();
+                        List llist = new LinkedList();
+                        if ( !createdSims.contains( simulation ) ) {
+                            llist = session.createQuery( "select ls from LocalizedSimulation as ls where ls.locale = :locale and ls.simulation = :simulation" )
+                                    .setLocale( "locale", simLocale ).setEntity( "simulation", simulation ).list();
+                        }
                         if ( llist.size() > 1 ) {
                             throw new RuntimeException( "Multiple localized simulations per one locale and simulation? BAD THINGS! Fix that database!" );
                         }
