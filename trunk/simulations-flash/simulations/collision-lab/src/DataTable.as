@@ -18,7 +18,7 @@ package{
 		var text_arr:Array;			//2D array of textFields
 		var nbrColumns:int;			//nbr of columns in data table
 		var tFormat:TextFormat;
-		var manualUpdating:Boolean;	//true if use is typing into textField, need to prevent input-model-output loop
+		var manualUpdating:Boolean;	//true if user is typing into textField, needed to prevent input-model-output loop
 		//var currentBody:int;		//number of body associated with currently-selected textField
 		//var currentProperty:int;	//property number of currently-selected textField, 1 = mass, 2 = x, etc
 		//var testField:TextField;		//for testing purposing
@@ -31,7 +31,7 @@ package{
 			this.nbrBalls = this.myModel.nbrBalls;
 			this.nbrColumns = 8;
 			this.colWidth = 60;
-			this.rowHeight = 25;
+			this.rowHeight = 27;
 			this.rowCanvas_arr = new Array(this.maxNbrBalls + 1); //header row + row for each ball
 			this.text_arr = new Array(this.maxNbrBalls);	//9 columns
 			this.tFormat = new TextFormat();
@@ -70,8 +70,8 @@ package{
 					this.text_arr[i][j].x = j*this.colWidth;
 					this.text_arr[i][j].y = 0;
 					this.text_arr[i][j].text = "row"+i;
-					this.text_arr[i][j].width = this.colWidth;
-					this.text_arr[i][j].height = this.rowHeight;
+					this.text_arr[i][j].width = this.colWidth - 5;
+					this.text_arr[i][j].height = this.rowHeight - 5;
 					this.text_arr[i][j].border = false;
 					//Not user-settable: ballnbr, mass, px, py
 					//0)ball  1)mass  2)x  3)y  4)vx  5)vy  6)px  7)py
@@ -79,10 +79,10 @@ package{
 						this.text_arr[i][j].type = TextFieldType.DYNAMIC;
 						this.text_arr[i][j].selectable = false;
 					}else if(j > 0 && j < 4){
-						this.text_arr[i][j].type = TextFieldType.INPUT;
+						this.dressInputTextField(i, j);
 						this.text_arr[i][j].restrict = "0-9.";
 					}else if(j == 4 || j == 5){
-						this.text_arr[i][j].type = TextFieldType.INPUT;
+						this.dressInputTextField(i, j);
 						this.text_arr[i][j].restrict = "0-9.\\-";  //velocities can be negative
 					}else{
 						trace("ERROR in DataTable.initialize. Invalid value of j");
@@ -96,6 +96,13 @@ package{
 			Util.makePanelDraggableWithBorder(this, this.invisibleBorder);
 			this.update();
 		}//end of initialize()
+		
+		public function dressInputTextField(i:int, j:int):void{
+			this.text_arr[i][j].type = TextFieldType.INPUT;
+			this.text_arr[i][j].border = true;
+			this.text_arr[i][j].background = true;
+			this.text_arr[i][j].backgroundColor = 0xffffff;
+		}
 		
 		private function drawBorder(nbrBalls:int):void{
 			var nbrRows:int = nbrBalls + 1;  //one header row + 1 row per ball

@@ -168,16 +168,16 @@ package{
 			}
 			function dragTarget(evt:MouseEvent):void{
 				if(clickOffset != null){  //if dragging
-					//trace("theStage.mouseX: "+theStage.mouseX);
-					//trace("theStage.mouseY: "+theStage.mouseY);
+					//adjust x position
 					thisBallImage.x = theStage.mouseX - clickOffset.x;
-					thisBallImage.y = theStage.mouseY - clickOffset.y;
 					var ballX:Number = thisBallImage.x/pixelsPerMeter;
-					var ballY:Number = H - thisBallImage.y/pixelsPerMeter;
-					//trace("ballY: "+ballY);
-					//modelRef.ball_arr[indx].position.setXY(ballX, ballY);
 					modelRef.setX(indx, ballX);
-					modelRef.setY(indx, ballY);
+					//if not in 1DMode, adjust y position
+					if(!thisBallImage.myModel.oneDMode){
+						thisBallImage.y = theStage.mouseY - clickOffset.y;
+						var ballY:Number = H - thisBallImage.y/pixelsPerMeter;
+						modelRef.setY(indx, ballY);
+					}
 					if(modelRef.atInitialConfig){
 						modelRef.initPos[indx].setXY(ballX, ballY);
 					}
@@ -193,15 +193,18 @@ package{
 			function highlightPositionTextFields():void{
 				//trace("BallImage.myTableView.myMainView.myDataTable:"+thisBallImage.myTableView.myMainView.myDataTable);
 				var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
-				dataTable.text_arr[thisBallImage.ballIndex+1][2].background = true;
-				dataTable.text_arr[thisBallImage.ballIndex+1][3].background = true;
-				dataTable.text_arr[thisBallImage.ballIndex+1][2].backgroundColor = 0xffff55;
-				dataTable.text_arr[thisBallImage.ballIndex+1][3].backgroundColor = 0xffff55;
+				//dataTable.text_arr[thisBallImage.ballIndex+1][2].background = true;
+				//dataTable.text_arr[thisBallImage.ballIndex+1][3].background = true;
+				dataTable.text_arr[thisBallImage.ballIndex+1][2].backgroundColor = 0xffff33;
+				dataTable.text_arr[thisBallImage.ballIndex+1][3].backgroundColor = 0xffff33;
 			}
 			function unHighlightPositionTextFields():void{
 				var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
-				dataTable.text_arr[thisBallImage.ballIndex+1][2].background = false;
-				dataTable.text_arr[thisBallImage.ballIndex+1][3].background = false;
+				dataTable.text_arr[thisBallImage.ballIndex+1][2].backgroundColor = 0xffffff;
+				dataTable.text_arr[thisBallImage.ballIndex+1][3].backgroundColor = 0xffffff;
+				//dataTable.text_arr[thisBallImage.ballIndex+1][2].background = false;
+				//dataTable.text_arr[thisBallImage.ballIndex+1][3].background = false;
+				
 			}
 			
 			//unused
@@ -255,14 +258,18 @@ package{
 			}
 			function dragTarget(evt:MouseEvent):void{
 				if(clickOffset != null){  //if dragging
-					//trace("theStage.mouseX: "+theStage.mouseX);
-					//trace("theStage.mouseY: "+theStage.mouseY);
+					//adjust x-component of velocity
 					target.x = theStage.mouseX;// - clickOffset.x;
-					target.y = theStage.mouseY;// - clickOffset.y;
 					var velocityX:Number = target.x/thisBallImage.arrowImage.scale;
-					var velocityY:Number = -target.y/thisBallImage.arrowImage.scale;
+					modelRef.setVX(indx, velocityX);
+					//if not in 1DMode, set y-component of velocity
+					if(!modelRef.oneDMode){
+						target.y = theStage.mouseY;// - clickOffset.y;
+						var velocityY:Number = -target.y/thisBallImage.arrowImage.scale;
+						modelRef.setVY(indx, velocityY);
+					}
 					//trace("velocityX: "+velocityX+"    velocityY: "+velocityY);
-					modelRef.ball_arr[indx].velocity.setXY(velocityX, velocityY);
+					//modelRef.ball_arr[indx].velocity.setXY(velocityX, velocityY);
 					if(modelRef.atInitialConfig){
 						modelRef.initVel[indx].setXY(velocityX, velocityY);
 					}
@@ -274,16 +281,18 @@ package{
 			function showVelocity(evt:MouseEvent):void{
 				//trace("showVelocity rollover " +indx);
 				var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
-				dataTable.text_arr[thisBallImage.ballIndex+1][4].background = true;
-				dataTable.text_arr[thisBallImage.ballIndex+1][5].background = true;
-				dataTable.text_arr[thisBallImage.ballIndex+1][4].backgroundColor = 0xffff55;
-				dataTable.text_arr[thisBallImage.ballIndex+1][5].backgroundColor = 0xffff55;
+				//dataTable.text_arr[thisBallImage.ballIndex+1][4].background = true;
+				//dataTable.text_arr[thisBallImage.ballIndex+1][5].background = true;
+				dataTable.text_arr[thisBallImage.ballIndex+1][4].backgroundColor = 0xffff33;
+				dataTable.text_arr[thisBallImage.ballIndex+1][5].backgroundColor = 0xffff33;
 			}
 			function unshowVelocity(evt:MouseEvent):void{
 				//trace("showVelocity rollout" + indx);
 				var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
-				dataTable.text_arr[thisBallImage.ballIndex+1][4].background = false;
-				dataTable.text_arr[thisBallImage.ballIndex+1][5].background = false;
+				dataTable.text_arr[thisBallImage.ballIndex+1][4].backgroundColor = 0xffffff;
+				dataTable.text_arr[thisBallImage.ballIndex+1][5].backgroundColor = 0xffffff;
+				//dataTable.text_arr[thisBallImage.ballIndex+1][4].background = false;
+				//dataTable.text_arr[thisBallImage.ballIndex+1][5].background = false;
 			}
 		}//end of makeArrowDraggable()
 		
