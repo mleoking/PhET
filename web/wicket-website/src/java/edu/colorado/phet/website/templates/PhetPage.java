@@ -2,6 +2,8 @@ package edu.colorado.phet.website.templates;
 
 import java.util.Locale;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.Session;
 import org.apache.wicket.behavior.HeaderContributor;
@@ -34,6 +36,8 @@ public abstract class PhetPage extends WebPage {
     private String variation;
 
     private Long initStart;
+
+    private static Logger logger = Logger.getLogger( PhetPage.class.getName() );
 
     public PhetPage( PageParameters parameters ) {
         this( parameters, true );
@@ -70,15 +74,16 @@ public abstract class PhetPage extends WebPage {
         Session wicketSession = getSession();
         wicketSession.setLocale( myLocale );
 
+        logger.info( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
+        logger.info( "path of this page is: " + path );
+        logger.debug( "prefix of this page is: " + prefix );
+        logger.debug( "Session id is: " + wicketSession.getId() );
 
-        System.out.println( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
-        //System.out.println( "prefix of this page is: " + prefix );
-        System.out.println( "path of this page is: " + path );
-        //System.out.println( "Session id is: " + wicketSession.getId() );
-
-//        for ( Object o : parameters.keySet() ) {
-//            System.out.println( "[" + o.toString() + "] = " + parameters.get( o ).toString() );
-//        }
+        if ( logger.isEnabledFor( Level.DEBUG ) ) {
+            for ( Object o : parameters.keySet() ) {
+                System.out.println( "[" + o.toString() + "] = " + parameters.get( o ).toString() );
+            }
+        }
 
         // visual display
         if ( addTemplateBindings ) {
@@ -127,7 +132,7 @@ public abstract class PhetPage extends WebPage {
             }
         }
 
-//        System.out.println( "request cycle is a : " + getRequestCycle().getClass().getSimpleName() );
+        logger.debug( "request cycle is a : " + getRequestCycle().getClass().getSimpleName() );
     }
 
     public Locale getMyLocale() {
@@ -176,19 +181,19 @@ public abstract class PhetPage extends WebPage {
     protected void onBeforeRender() {
         super.onBeforeRender();
         renderStart = System.currentTimeMillis();
-        //System.out.println( "Debug: page stateless = " + isPageStateless() );
-        System.out.println( "Pre-render: " + ( renderStart - initStart ) + " ms" );
+        logger.debug( "Debug: page stateless = " + isPageStateless() );
+        logger.info( "Pre-render: " + ( renderStart - initStart ) + " ms" );
     }
 
     @Override
     protected void onAfterRender() {
         super.onAfterRender();
-        System.out.println( "Render: " + ( System.currentTimeMillis() - renderStart ) + " ms" );
+        logger.info( "Render: " + ( System.currentTimeMillis() - renderStart ) + " ms" );
     }
 
     @Override
     protected void onDetach() {
-//        System.out.println( "Detaching page" );
+        logger.debug( "Detaching page" );
         super.onDetach();
     }
 
