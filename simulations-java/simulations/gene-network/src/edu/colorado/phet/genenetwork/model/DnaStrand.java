@@ -5,7 +5,6 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -24,8 +23,7 @@ public class DnaStrand {
 	private static final double DNA_WAVE_LENGTH = 3;
 	
 	// Spacing between each "sample" that defines the DNA strand shape.
-	// Larger numbers mean finer resolution, and thus a curvier shape.  This
-	// is in nanometers.
+	// Larger numbers mean finer resolution.  This is in nanometers.
 	private static final double DNA_SAMPLE_SPACING = 0.5;
 	
 	// Offset in the x direction between the two DNA strands.
@@ -46,7 +44,7 @@ public class DnaStrand {
 		// Create the gene segments, which are the places where genes will
 		// eventually be placed.
 		Shape LacIGeneShape = new LacIGene(null).getShape();
-		geneSectionShapeList.add( new GeneSegmentShape( LacIGeneShape, new Point2D.Double( -20, 0) ) );
+		geneSectionShapeList.add(new GeneSegmentShape(LacIGeneShape, new Point2D.Double(-20, 0)));
 	}
 	
 	public Point2D getPositionRef() {
