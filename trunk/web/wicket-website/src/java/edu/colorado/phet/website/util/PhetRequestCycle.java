@@ -5,6 +5,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.protocol.http.WebRequestCycle;
 import org.apache.wicket.protocol.http.request.WebClientInfo;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 public class PhetRequestCycle extends WebRequestCycle {
@@ -15,23 +16,25 @@ public class PhetRequestCycle extends WebRequestCycle {
     public static final String KSU_RIPPER_USER_AGENT = "httrack-web-mirror-ar";
     public static final String YOUNG_AND_FREEDMAN_USER_AGENT = "httrack-web-mirror-yf";
 
+    private static Logger logger = Logger.getLogger( PhetRequestCycle.class.getName() );
+
     public PhetRequestCycle( WebApplication webApplication, WebRequest webRequest, Response response ) {
         super( webApplication, webRequest, response );
     }
 
     @Override
     protected void onBeginRequest() {
-//        System.out.println( "onBeginRequest" );
+        logger.debug( "onBeginRequest" );
         start = System.currentTimeMillis();
-        System.out.println( "----------" );
+        logger.info( "----------" );
         session = HibernateUtils.getInstance().openSession();
         super.onBeginRequest();
     }
 
     @Override
     protected void onEndRequest() {
-//        System.out.println( "onEndRequest" );
-        System.out.println( "Request cycle: " + ( System.currentTimeMillis() - start ) + " ms" );
+        logger.debug( "onEndRequest" );
+        logger.info( "Request cycle: " + ( System.currentTimeMillis() - start ) + " ms" );
         session.close();
         super.onEndRequest();
     }

@@ -21,7 +21,7 @@ public class IndexPanel extends PhetPanel {
         super( id, context );
 
         add( new StaticImage( "ksu-logo", "/images/sponsors/ECSME-combined-logo-small.jpg", null ) );
-        add( new StaticImage( "jila-logo", "/images/sponsors/jila_logo_small.gif", null ) );
+        //add( new StaticImage( "jila-logo", "/images/sponsors/jila_logo_small.gif", null ) );
         add( new StaticImage( "nsf-logo", "/images/sponsors/nsf-logo-small.gif", null ) );
         add( new StaticImage( "hewlett-logo", "/images/sponsors/hewlett-logo-small.jpg", null ) );
 

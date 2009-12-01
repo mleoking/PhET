@@ -3,10 +3,9 @@ package edu.colorado.phet.website;
 import java.io.File;
 import java.util.*;
 
-import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
-import org.apache.wicket.Session;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.wicket.*;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
@@ -113,7 +112,13 @@ public class PhetWicketApplication extends WebApplication {
         mount( new HybridUrlCodingStrategy( "/activities", BlankPage.class ) );
 
         String wicketMode = getServletContext().getInitParameter( "configuration" );
-        System.out.println( "Running as: " + wicketMode );
+        System.out.println( "Running as: " + getConfigurationType() );
+
+        if ( getConfigurationType().equals( Application.DEPLOYMENT ) ) {
+            Logger logger = Logger.getLogger( "edu.colorado.phet.website" );
+            logger.setLevel( Level.WARN );
+            System.out.println( "Setting logging level for edu.colorado.phet.website to WARN" );
+        }
 
         System.out.println( "Detected phet-document-root: " + getServletContext().getInitParameter( "phet-document-root" ) );
 
