@@ -91,7 +91,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         rootNode.addChild(rovingModelElementLayer);
                 
         // Add the DNA strand to the canvas.
-        dnaStrandLayer.addChild(new DnaStrandNode(model.getDnaStrand(), mvt));
+        dnaStrandLayer.addChild(new DnaStrandNode(model.getDnaStrand(), mvt, getBackground()));
         
         // Add any model elements that are already present in the model.
         for (SimpleModelElement modelElement : model.getAllSimpleModelElements()){

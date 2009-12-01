@@ -31,7 +31,7 @@ public class DnaStrandNode extends PNode {
 	private PPath strand2Node;
 	private ModelViewTransform2D mvt;
 	
-	public DnaStrandNode(DnaStrand dnaStrand, ModelViewTransform2D mvt){
+	public DnaStrandNode(DnaStrand dnaStrand, ModelViewTransform2D mvt, Color emptyGeneSegmentColor){
 	
 		this.dnaStrand = dnaStrand;
 		this.mvt = mvt;
@@ -54,7 +54,7 @@ public class DnaStrandNode extends PNode {
 		
 		// Add the gene segment shapes.
 		for (DnaStrand.GeneSegmentShape geneSegmentShape : dnaStrand.getGeneSegmentShapeList()){
-			addChild(new GeneSegmentNode(geneSegmentShape, mvt));
+			addChild(new GeneSegmentNode(geneSegmentShape, mvt, emptyGeneSegmentColor));
 		}
 		
 		// Set our initial position.
@@ -93,10 +93,11 @@ public class DnaStrandNode extends PNode {
     	private static final Stroke OUTLINE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_BUTT,
     			BasicStroke.JOIN_BEVEL, 0, new float[] {8, 5}, 0);
     	
-		public GeneSegmentNode(DnaStrand.GeneSegmentShape geneSegmentShape, ModelViewTransform2D mvt) {
+		public GeneSegmentNode(DnaStrand.GeneSegmentShape geneSegmentShape, ModelViewTransform2D mvt, Color color) {
 			super();
 			setStroke(OUTLINE_STROKE);
 			setStrokePaint(Color.BLACK);
+			setPaint(color);
 			
 	    	// We only want the shape, and not any translation associated with the
 	    	// shape, so we create our own transform that only does the scaling
