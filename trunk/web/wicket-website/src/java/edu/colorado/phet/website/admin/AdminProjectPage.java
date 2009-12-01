@@ -1,12 +1,12 @@
 package edu.colorado.phet.website.admin;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.io.IOException;
 
-import javax.xml.transform.TransformerException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
@@ -32,6 +32,8 @@ public class AdminProjectPage extends AdminPage {
     private int projectId;
     private Label title;
 
+    private String statusString = null;
+
     private List<Simulation> simulations = new LinkedList<Simulation>();
 
     public AdminProjectPage( PageParameters parameters ) {
@@ -50,12 +52,19 @@ public class AdminProjectPage extends AdminPage {
 
         ProjectPropertiesFile projectPropertiesFile = project.getProjectPropertiesFile( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot() );
 
+        Label projectChecks = null;
         if ( projectPropertiesFile.exists() ) {
-            add( new Label( "project-properties", "Detected project properties: " + projectPropertiesFile.getFullVersionString() ) );
+            String str = "Detected project properties: " + projectPropertiesFile.getFullVersionString();
+            if ( statusString != null ) {
+                str += "<br/>" + statusString;
+            }
+            projectChecks = new Label( "project-properties", str );
         }
         else {
-            add( new Label( "project-properties", "No project properties detected" ) );
+            projectChecks = new Label( "project-properties", "No project properties detected" );
         }
+        projectChecks.setEscapeModelStrings( false );
+        add( projectChecks );
 
         add( new ListView( "simulation", simulations ) {
             protected void populateItem( ListItem item ) {
@@ -167,6 +176,7 @@ public class AdminProjectPage extends AdminPage {
             for ( Object o : project.getSimulations() ) {
                 simulations.add( (Simulation) o );
             }
+            statusString = project.consistencyCheck( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot() );
             return true;
         }
     }

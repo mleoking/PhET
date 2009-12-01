@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,6 +16,7 @@ import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProjectPropertiesFile;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.flashlauncher.util.XMLUtils;
 
 public class Project implements Serializable {
@@ -55,6 +57,122 @@ public class Project implements Serializable {
         return new ProjectPropertiesFile( new File( docRoot, "sims/" + name + "/" + name + ".properties" ) );
     }
 
+    private void appendWarning( StringBuilder builder, String message ) {
+        builder.append( "<br/><font color='#FF0000'>WARNING: " + message + "</font>" );
+    }
+
+    /**
+     * Returns a string with information about project consistency between the database representation and the files in
+     * the deployment directory
+     * <p/>
+     * NOTE: should be persistent when this is called.
+     *
+     * @param docRoot Document root file
+     * @return Information string
+     */
+    public String consistencyCheck( File docRoot ) {
+        StringBuilder builder = new StringBuilder();
+        builder.append( "project: <font color='#0000FF'>" + name + "</font>" );
+
+        File projectRoot = new File( docRoot, "sims/" + name );
+        ProjectPropertiesFile projectProperties = getProjectPropertiesFile( docRoot );
+
+        boolean warning = false;
+
+        if ( projectProperties.exists() ) {
+            if ( projectProperties.getMajorVersion() != versionMajor ) {
+                appendWarning( builder, "Major version mismatch! properties: " + projectProperties.getMajorVersion() + " db: " + versionMajor );
+                warning = true;
+            }
+            if ( projectProperties.getMinorVersion() != versionMinor ) {
+                appendWarning( builder, "Minor version mismatch! properties: " + projectProperties.getMinorVersion() + " db: " + versionMinor );
+                warning = true;
+            }
+            if ( projectProperties.getDevVersion() != versionDev ) {
+                appendWarning( builder, "Dev version mismatch! properties: " + projectProperties.getDevVersion() + " db: " + versionDev );
+                warning = true;
+            }
+            if ( projectProperties.getSVNVersion() != versionRevision ) {
+                appendWarning( builder, "revision mismatch! properties: " + projectProperties.getSVNVersion() + " db: " + versionRevision );
+                warning = true;
+            }
+            if ( projectProperties.getVersionTimestamp() != versionTimestamp ) {
+                appendWarning( builder, "Timestamp version mismatch! properties: " + projectProperties.getVersionTimestamp() + " db: " + versionTimestamp );
+                warning = true;
+            }
+
+            try {
+                Document document = XMLUtils.toDocument( FileUtils.loadFileAsString( new File( projectRoot, name + ".xml" ) ) );
+
+                NodeList simulations = document.getElementsByTagName( "simulation" );
+
+                for ( int i = 0; i < simulations.getLength(); i++ ) {
+                    Element element = (Element) simulations.item( i );
+
+                    String simName = element.getAttribute( "name" );
+                    String simLocaleString = element.getAttribute( "locale" );
+                    String simTitle = ( (Element) ( element.getElementsByTagName( "title" ).item( 0 ) ) ).getChildNodes().item( 0 ).getNodeValue();
+
+                    Locale simLocale = LocaleUtils.stringToLocale( simLocaleString );
+
+                    Simulation sim = null;
+                    LocalizedSimulation lsim = null;
+
+                    for ( Object o : getSimulations() ) {
+                        Simulation so = (Simulation) o;
+                        if ( so.getName().equals( simName ) ) {
+                            sim = so;
+                            break;
+                        }
+                    }
+
+                    if ( sim != null ) {
+                        for ( Object o : sim.getLocalizedSimulations() ) {
+                            LocalizedSimulation lo = (LocalizedSimulation) o;
+                            if ( lo.getLocale().equals( simLocale ) ) {
+                                lsim = lo;
+                                break;
+                            }
+                        }
+
+                        if ( lsim != null ) {
+                            if ( !lsim.getTitle().equals( simTitle ) ) {
+                                appendWarning( builder, "Sim title changed? xml: " + simTitle + " db: " + lsim.getTitle() );
+                                warning = true;
+                            }
+                        }
+                        else {
+                            appendWarning( builder, "Could not find translation " + simLocaleString + " for simulation " + simName );
+                            warning = true;
+                        }
+                    }
+                    else {
+                        appendWarning( builder, "Could not find simulation " + simName + " in the DB" );
+                        warning = true;
+                    }
+                }
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+                appendWarning( builder, "Error matching XML and simulations" );
+                warning = true;
+            }
+        }
+        else {
+            appendWarning( builder, "Could not find project properties file" );
+            warning = true;
+        }
+
+        if ( !warning ) {
+            builder.append( " <font color='#00FF00'>OK</font><br/>" );
+        }
+        else {
+            builder.append( "<br/>" );
+        }
+
+        return builder.toString();
+    }
+
     public void debugProjectFiles( File docRoot ) throws IOException, TransformerException, ParserConfigurationException {
         File projectRoot = new File( docRoot, "sims/" + name );
 
@@ -74,11 +192,11 @@ public class Project implements Serializable {
         for ( int i = 0; i < simulations.getLength(); i++ ) {
             Element element = (Element) simulations.item( i );
 
-            String name = element.getAttribute( "name" );
-            String locale = element.getAttribute( "locale" );
-            String title = ( (Element) ( element.getElementsByTagName( "title" ).item( 0 ) ) ).getChildNodes().item( 0 ).getNodeValue();
+            String simName = element.getAttribute( "name" );
+            String simLocaleString = element.getAttribute( "locale" );
+            String simTitle = ( (Element) ( element.getElementsByTagName( "title" ).item( 0 ) ) ).getChildNodes().item( 0 ).getNodeValue();
 
-            System.out.println( "  " + name + " " + locale + " " + title );
+            System.out.println( "  " + simName + " " + simLocaleString + " " + simTitle );
         }
 
     }
