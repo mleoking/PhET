@@ -3,13 +3,13 @@ package edu.colorado.phet.website.data;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -18,6 +18,8 @@ import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProjectPropertiesFile;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.flashlauncher.util.XMLUtils;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
 
 public class Project implements Serializable {
 
@@ -31,6 +33,9 @@ public class Project implements Serializable {
     private boolean visible;
 
     private Set simulations = new HashSet();
+
+    private static Logger logger = Logger.getLogger( Project.class.getName() );
+    private static Logger syncLogger = Logger.getLogger( Project.class.getName() + ".sync" );
 
     public Project() {
     }
@@ -67,6 +72,237 @@ public class Project implements Serializable {
 
     private void appendWarning( StringBuilder builder, String message ) {
         builder.append( "<br/><font color='#FF0000'>WARNING: " + message + "</font>" );
+    }
+
+    /**
+     * Synchronizes the in-database projects, simulations, and translations to correspond to the files in the project
+     * directory
+     *
+     * @param docRoot     The document root
+     * @param session     A Hibernate session (preferably the one in the request cycle, but you can pull one out of other
+     *                    sources)
+     * @param projectName The project name to synchronize
+     */
+    public static void synchronizeProject( final File docRoot, final Session session, final String projectName ) {
+
+        syncLogger.info( "Synchronizing project " + projectName + " with docroot " + docRoot.getAbsolutePath() );
+
+
+        // wrap it in a transaction for exception handling. this should properly roll back anything that goes bad, and will
+        // log any exceptions
+        HibernateUtils.wrapTransaction( session, new HibernateTask() {
+            public boolean run( Session session ) {
+                try {
+                    File projectRoot = new File( docRoot, "sims/" + projectName );
+                    if ( !projectRoot.exists() ) {
+                        syncLogger.warn( "Project root " + projectRoot.getAbsolutePath() + " for project " + projectName + " does not exist" );
+                        return false;
+                    }
+
+                    boolean hasSWF = ( new File( projectRoot, projectName + ".swf" ) ).exists();
+
+                    int type = hasSWF ? Simulation.TYPE_FLASH : Simulation.TYPE_JAVA;
+                    syncLogger.info( "detecting project type as: " + ( type == Simulation.TYPE_JAVA ? "java" : "flash" ) );
+
+                    List plist = session.createQuery( "select p from Project as p where p.name = :name" ).setString( "name", projectName ).list();
+                    if ( plist.size() > 1 ) {
+                        throw new RuntimeException( "Multiple projects per one name? BAD THINGS! Fix that database!" );
+                    }
+                    boolean projectExisted = plist.size() == 1;
+
+                    Project project;
+                    if ( projectExisted ) {
+                        syncLogger.info( "Project already exists" );
+                        project = (Project) plist.get( 0 );
+                    }
+                    else {
+                        syncLogger.info( "Project doesn't exit. Creating" );
+                        project = new Project();
+                        project.setName( projectName );
+                        project.setVisible( true );
+                    }
+
+                    ProjectPropertiesFile projectProperties = project.getProjectPropertiesFile( docRoot );
+                    if ( project.versionMajor != projectProperties.getMajorVersion() ) {
+                        syncLogger.info( "Updating Major to " + projectProperties.getMajorVersion() );
+                        project.setVersionMajor( projectProperties.getMajorVersion() );
+                    }
+                    if ( project.versionMinor != projectProperties.getMinorVersion() ) {
+                        syncLogger.info( "Updating Minor to " + projectProperties.getMinorVersion() );
+                        project.setVersionMinor( projectProperties.getMinorVersion() );
+                    }
+                    if ( project.versionDev != projectProperties.getDevVersion() ) {
+                        syncLogger.info( "Updating Dev to " + projectProperties.getDevVersion() );
+                        project.setVersionDev( projectProperties.getDevVersion() );
+                    }
+                    if ( project.versionRevision != projectProperties.getSVNVersion() ) {
+                        syncLogger.info( "Updating Revision to " + projectProperties.getSVNVersion() );
+                        project.setVersionRevision( projectProperties.getSVNVersion() );
+                    }
+                    if ( project.versionTimestamp != projectProperties.getVersionTimestamp() ) {
+                        syncLogger.info( "Updating Timestamp to " + projectProperties.getVersionTimestamp() );
+                        project.setVersionTimestamp( projectProperties.getVersionTimestamp() );
+                    }
+
+                    // used so we know which simulations we have already encountered
+                    Map<String, Simulation> simulationCache = new HashMap<String, Simulation>();
+
+                    // used for session save / update at the end
+                    List<Simulation> modifiedSims = new LinkedList<Simulation>();
+                    List<Simulation> createdSims = new LinkedList<Simulation>();
+                    List<LocalizedSimulation> modifiedLSims = new LinkedList<LocalizedSimulation>();
+                    List<LocalizedSimulation> createdLSims = new LinkedList<LocalizedSimulation>();
+
+                    // so that we know which simulations we haven't found
+                    Set<Simulation> missedSimulations = new HashSet<Simulation>( project.getSimulations() );
+                    Set<LocalizedSimulation> missedLocalizedSimulations = new HashSet<LocalizedSimulation>();
+
+
+                    Document document = XMLUtils.toDocument( FileUtils.loadFileAsString( new File( projectRoot, projectName + ".xml" ) ) );
+                    NodeList simulationNodes = document.getElementsByTagName( "simulation" );
+
+                    for ( int i = 0; i < simulationNodes.getLength(); i++ ) {
+                        Element element = (Element) simulationNodes.item( i );
+
+                        String simName = element.getAttribute( "name" );
+                        String simLocaleString = element.getAttribute( "locale" );
+                        String simTitle = ( (Element) ( element.getElementsByTagName( "title" ).item( 0 ) ) ).getChildNodes().item( 0 ).getNodeValue();
+
+                        Locale simLocale = LocaleUtils.stringToLocale( simLocaleString );
+
+                        syncLogger.info( "Reading localized simulation XML for: " + simName + " - " + simLocaleString + " - " + simTitle );
+
+                        if ( !project.getSimulationJARFile( docRoot, simName, simLocale ).exists() ) {
+                            syncLogger.warn( "Simulation JAR file does not exist for specified XML entry. Most likely not deployed yet" );
+                            syncLogger.warn( "Skipping" );
+                            continue;
+                        }
+
+                        // pick or create the simulation
+                        Simulation simulation;
+                        if ( simulationCache.containsKey( simName ) ) {
+                            // we've already obtained the simulation
+                            simulation = simulationCache.get( simName );
+                        }
+                        else {
+                            // we need to either grab or create the simulation
+                            List slist = session.createQuery( "select s from Simulation as s where s.name = :name" ).setString( "name", simName ).list();
+                            if ( slist.size() > 1 ) {
+                                throw new RuntimeException( "Multiple simulations per one name? BAD THINGS! Fix that database!" );
+                            }
+                            if ( slist.isEmpty() ) {
+                                syncLogger.info( "Cannot find a simulation for " + simName + ", will create one" );
+                                simulation = new Simulation();
+                                simulation.setName( simName );
+                                simulation.setType( type );
+                                simulation.setProject( project );
+                                simulation.setDesignTeam( "" );
+                                simulation.setLibraries( "" );
+                                simulation.setThanksTo( "" );
+                                simulation.setUnderConstruction( false );
+                                simulation.setGuidanceRecommended( false );
+                                simulation.setClassroomTested( false );
+                                createdSims.add( simulation );
+                            }
+                            else {
+                                simulation = (Simulation) slist.get( 0 );
+                                missedSimulations.remove( simulation );
+                                modifiedSims.add( simulation );
+                                syncLogger.info( "Found simulation " + simulation.getName() );
+                                if ( simulation.getProject().getId() != project.getId() ) {
+                                    syncLogger.warn( "Found simulation " + simulation.getName() + " specified with a different project " + simulation.getProject().getName() + " instead of " + project.getName() + "." );
+                                    syncLogger.warn( "Modifying to match the current project (with type)" );
+                                    syncLogger.warn( "This may be caused by creating a new simulation. If so, ignore the above two messages" );
+                                    simulation.setProject( project );
+                                    simulation.setType( type );
+                                }
+                                missedLocalizedSimulations.addAll( simulation.getLocalizedSimulations() );
+                            }
+                        }
+
+                        simulation.setKilobytes( simulation.detectSimKilobytes( docRoot ) );
+
+                        List llist = session.createQuery( "select ls from LocalizedSimulation as ls where ls.locale = :locale and ls.simulation = :simulation" )
+                                .setLocale( "locale", simLocale ).setEntity( "simulation", simulation ).list();
+                        if ( llist.size() > 1 ) {
+                            throw new RuntimeException( "Multiple localized simulations per one locale and simulation? BAD THINGS! Fix that database!" );
+                        }
+
+                        if ( llist.isEmpty() ) {
+                            syncLogger.info( "Creating lsim for " + simulation.getName() + " with locale " + simLocaleString + " and title " + simTitle );
+                            LocalizedSimulation lsim = new LocalizedSimulation();
+                            createdLSims.add( lsim );
+                            lsim.setSimulation( simulation );
+                            lsim.setTitle( simTitle );
+                            lsim.setLocale( simLocale );
+                        }
+                        else {
+                            LocalizedSimulation lsim = (LocalizedSimulation) llist.get( 0 );
+                            missedLocalizedSimulations.remove( lsim );
+                            if ( !lsim.getTitle().equals( simTitle ) ) {
+                                syncLogger.info( "Changing lsim title for " + lsim.getSimulation().getName() + " and locale " + simLocaleString + " from '" + lsim.getTitle() + "' to '" + simTitle + "'" );
+                                lsim.setTitle( simTitle );
+                                modifiedLSims.add( lsim );
+                            }
+                        }
+
+                    }
+
+                    for ( Simulation simulation : missedSimulations ) {
+                        logger.warn( "Did not have XML information for simulation " + simulation.getName() + " that is already within the project" );
+                    }
+
+                    if ( !missedSimulations.isEmpty() ) {
+                        logger.warn( "Maybe these simulations were deleted in the repository, or renamed?" );
+                        logger.warn( "Manual changes will be needed to remove the old version, including deleting references to the simulations first" );
+                    }
+
+                    for ( LocalizedSimulation localizedSimulation : missedLocalizedSimulations ) {
+                        logger.warn( "Did not have XML information for localized simulation " + localizedSimulation.getSimulation().getName() + ":" + localizedSimulation.getLocaleString() + "." );
+                    }
+
+                    if ( !missedLocalizedSimulations.isEmpty() ) {
+                        logger.warn( "Maybe these translations were deleted in the repository? Manual modifications or deletions are necessary" );
+                        logger.warn( "Visit the simulation page(s) to manually remove translations" );
+                    }
+
+                    // save the project
+                    if ( projectExisted ) {
+                        session.update( project );
+                    }
+                    else {
+                        session.save( project );
+                    }
+
+                    for ( Simulation sim : modifiedSims ) {
+                        session.update( sim );
+                    }
+                    for ( LocalizedSimulation lsim : modifiedLSims ) {
+                        session.update( lsim );
+                    }
+                    for ( Simulation sim : createdSims ) {
+                        session.save( sim );
+                    }
+                    for ( LocalizedSimulation lsim : createdLSims ) {
+                        session.save( lsim );
+                    }
+                }
+                catch( TransformerException e ) {
+                    e.printStackTrace();
+                    return false;
+                }
+                catch( ParserConfigurationException e ) {
+                    e.printStackTrace();
+                    return false;
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                    return false;
+                }
+
+                return true;
+            }
+        } );
     }
 
     /**
