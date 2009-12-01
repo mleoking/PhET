@@ -51,9 +51,6 @@
 			this.showCM_cb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.reflectingBorder_cb.textField.autoSize = TextFieldAutoSize.LEFT;
 			this.showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-			//this.velocity_rb.addEventListener(MouseEvent.CLICK, showVelocityArrows);
-			//this.momentum_rb.addEventListener(MouseEvent.CLICK, showMomentumArrows);
-			//this.none_rb.addEventListener(MouseEvent.CLICK, showNoArrows);
 			this.oneD_rb.addEventListener(MouseEvent.CLICK, oneDModeOn);
 			this.twoD_rb.addEventListener(MouseEvent.CLICK, oneDModeOff);
 			this.showVelocities_cb.addEventListener(MouseEvent.CLICK, showVelocityArrows);

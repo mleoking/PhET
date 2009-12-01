@@ -375,20 +375,29 @@ package{
 		
 		public function separateAllBalls():void{
 			//trace("separateAllBalls() called.");
-			var N:int = this.nbrBalls;
-			for (var i:int = 0; i < N; i++){
-				for (var j:int = i+1; j < N; j++){
-					var xi:Number = ball_arr[i].position.getX();
-					var yi:Number = ball_arr[i].position.getY();
-					var xj:Number = ball_arr[j].position.getX();
-					var yj:Number = ball_arr[j].position.getY();
-					var dist:Number = Math.sqrt((xj-xi)*(xj-xi)+(yj-yi)*(yj-yi));
-					var distMin:Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
-					if(dist < distMin){
-						separateBalls(i,j);
-					}
-				}//for(j=..)
-			}//for(i=..)
+			//var allBallsSeparated:Boolean = false;
+			//loop through all balls repeatedly until no overlap between any pair
+			var cntr:int = 0;
+			while(cntr <= 10){
+				//allBallsSeparated = true; 
+				var N:int = this.nbrBalls;
+				for (var i:int = 0; i < N; i++){
+					for (var j:int = i+1; j < N; j++){
+						var xi:Number = ball_arr[i].position.getX();
+						var yi:Number = ball_arr[i].position.getY();
+						var xj:Number = ball_arr[j].position.getX();
+						var yj:Number = ball_arr[j].position.getY();
+						var dist:Number = Math.sqrt((xj-xi)*(xj-xi)+(yj-yi)*(yj-yi));
+						var distMin:Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
+						if(dist <= distMin){
+							separateBalls(i,j);
+							trace("Model: Ball " + i + " and "+ j + " overlap at round " + cntr);
+							//allBallsSeparated = false;
+						}
+					}//for(j=..)
+				}//for(i=..)
+				cntr += 1;
+			}//end while()
 		}//end separateAllBalls();
 		
 		public function collideBalls(i:int, j:int):void{
@@ -470,7 +479,7 @@ package{
 					var m1:Number = ball_arr[i].getMass();
 					var m2:Number = ball_arr[j].getMass();
 					//trace("overlap is "+OL);
-					var extraBit:Number = 1.0001;
+					var extraBit:Number = 1.001;
 					var delXBall1:Number = -extraBit*m2*OL*delX/(delR*(m1+m2));
 					var delYBall1:Number = -extraBit*m2*OL*delY/(delR*(m1+m2));
 					var delXBall2:Number = extraBit*m1*OL*delX/(delR*(m1+m2));
