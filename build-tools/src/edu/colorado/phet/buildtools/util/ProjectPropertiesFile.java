@@ -35,6 +35,17 @@ public class ProjectPropertiesFile extends AbstractPropertiesFile {
         setHeader( FILE_HEADER );
     }
 
+    /**
+     * So we can pull values from this file without having an explicit copy of the project. (For example, if we are the
+     * website)
+     *
+     * @param propertiesFile The project properties file
+     */
+    public ProjectPropertiesFile( File propertiesFile ) {
+        super( propertiesFile );
+        setHeader( FILE_HEADER );
+    }
+
     public void setMajorVersion( int value ) {
         setProperty( KEY_VERSION_MAJOR, FORMAT_VERSION_MAJOR.format( value ) );
     }
