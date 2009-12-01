@@ -79,6 +79,10 @@ public class DependencyReport {
 
     private String getContribHTML( File dir ) {
         File licenseInfoFile = new File( dir, "license-info.txt" );
+        if (!licenseInfoFile.exists()){
+            System.err.println("Warning: No license-info.txt found for "+dir.getAbsolutePath());
+            return dir.getName()+": Warning: no license-info.txt found<br>";
+        }
         try {
             BufferedReader bufferedReader = new BufferedReader( new FileReader( licenseInfoFile ) );
             String line = bufferedReader.readLine();
