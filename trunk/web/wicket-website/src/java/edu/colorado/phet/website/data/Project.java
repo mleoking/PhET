@@ -218,34 +218,6 @@ public class Project implements Serializable {
         return builder.toString();
     }
 
-    public void debugProjectFiles( File docRoot ) throws IOException, TransformerException, ParserConfigurationException {
-        File projectRoot = new File( docRoot, "sims/" + name );
-
-        ProjectPropertiesFile projectProperties = new ProjectPropertiesFile( new File( projectRoot, name + ".properties" ) );
-
-        System.out.println( "project: " + name );
-        System.out.println( "major: " + projectProperties.getMajorVersion() );
-        System.out.println( "minor: " + projectProperties.getMinorVersion() );
-        System.out.println( "dev: " + projectProperties.getDevVersion() );
-        System.out.println( "revision: " + projectProperties.getSVNVersion() );
-        System.out.println( "timestamp: " + projectProperties.getVersionTimestamp() );
-
-        Document document = XMLUtils.toDocument( FileUtils.loadFileAsString( new File( projectRoot, name + ".xml" ) ) );
-
-        NodeList simulations = document.getElementsByTagName( "simulation" );
-
-        for ( int i = 0; i < simulations.getLength(); i++ ) {
-            Element element = (Element) simulations.item( i );
-
-            String simName = element.getAttribute( "name" );
-            String simLocaleString = element.getAttribute( "locale" );
-            String simTitle = ( (Element) ( element.getElementsByTagName( "title" ).item( 0 ) ) ).getChildNodes().item( 0 ).getNodeValue();
-
-            System.out.println( "  " + simName + " " + simLocaleString + " " + simTitle );
-        }
-
-    }
-
     // getters and setters
 
     public int getId() {

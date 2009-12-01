@@ -3,6 +3,7 @@ package edu.colorado.phet.website.test;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.apache.log4j.Logger;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.data.TranslatedString;
@@ -10,6 +11,8 @@ import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.util.HibernateUtils;
 
 public class InitializeTranslations {
+
+    private static Logger logger = Logger.getLogger( InitializeTranslations.class.getName() );
 
     public static void addString( Session session, Translation translation, String key, String value ) {
         TranslatedString str = new TranslatedString();
@@ -185,12 +188,13 @@ public class InitializeTranslations {
             tx.commit();
         }
         catch( RuntimeException e ) {
+            logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "Error rolling back transaction" );
+                    logger.error( "Error rolling back transaction", e1 );
                 }
                 throw e;
             }

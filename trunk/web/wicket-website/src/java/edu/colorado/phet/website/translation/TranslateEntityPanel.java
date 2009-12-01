@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -44,6 +45,8 @@ public class TranslateEntityPanel extends PhetPanel {
     private PreviewHolder panel;
     private Map<String, IModel> stringModelMap = new HashMap<String, IModel>();
     private TranslationEditPage page;
+
+    private static Logger logger = Logger.getLogger( TranslateEntityPanel.class.getName() );
 
     public TranslateEntityPanel( String id, final PageContext context, final TranslationEditPage page, final TranslationEntity entity, final int translationId, final Locale testLocale ) {
         super( id, context );
@@ -203,13 +206,13 @@ public class TranslateEntityPanel extends PhetPanel {
             tx.commit();
         }
         catch( RuntimeException e ) {
-            System.out.println( "Exception: " + e );
+            logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }
@@ -237,7 +240,7 @@ public class TranslateEntityPanel extends PhetPanel {
     @Override
     protected void onAfterRender() {
         super.onAfterRender();
-        System.out.println( "TranslateEntityPanel Render: " + ( System.currentTimeMillis() - renderStart ) + " ms" );
+        logger.info( "TranslateEntityPanel Render: " + ( System.currentTimeMillis() - renderStart ) + " ms" );
     }
 
 }

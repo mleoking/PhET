@@ -5,6 +5,7 @@ import java.util.*;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
@@ -26,6 +27,9 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class SimulationDisplay extends PhetRegularPage {
+
+    private static Logger logger = Logger.getLogger( SimulationDisplay.class.getName() );
+
     public SimulationDisplay( PageParameters parameters ) {
         super( parameters );
 
@@ -51,12 +55,13 @@ public class SimulationDisplay extends PhetRegularPage {
             tx.commit();
         }
         catch( RuntimeException e ) {
+            logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }
@@ -70,7 +75,7 @@ public class SimulationDisplay extends PhetRegularPage {
         boolean showIndex = false;
 
         if ( parameters.containsKey( "query-string" ) ) {
-            System.out.println( "Query string: " + parameters.getString( "query-string" ) );
+            logger.debug( "Query string: " + parameters.getString( "query-string" ) );
             if ( parameters.getString( "query-string" ).equals( "/index" ) ) {
                 showIndex = true;
             }
@@ -79,7 +84,7 @@ public class SimulationDisplay extends PhetRegularPage {
             }
         }
         else {
-            System.out.println( "No query string" );
+            logger.debug( "No query string" );
         }
 
         NavLocation location;

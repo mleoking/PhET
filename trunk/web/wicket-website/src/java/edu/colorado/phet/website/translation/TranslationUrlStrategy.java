@@ -7,6 +7,7 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.request.RequestParameters;
 import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
 import org.apache.wicket.request.target.component.BookmarkablePageRequestTarget;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,6 +19,8 @@ import edu.colorado.phet.website.util.PhetUrlMapper;
 public class TranslationUrlStrategy implements IRequestTargetUrlCodingStrategy {
     private String prefix;
     private PhetUrlMapper mapper;
+
+    private static Logger logger = Logger.getLogger( TranslationUrlStrategy.class.getName() );
 
     public TranslationUrlStrategy( String prefix, PhetUrlMapper mapper ) {
         this.mapper = mapper;
@@ -33,9 +36,9 @@ public class TranslationUrlStrategy implements IRequestTargetUrlCodingStrategy {
     }
 
     public IRequestTarget decode( RequestParameters requestParameters ) {
-        System.out.println( "X decode( RequestParameters ): " + requestParameters );
-        System.out.println( "X Path: " + requestParameters.getPath() );
-        System.out.println( "X ComponentPath: " + requestParameters.getComponentPath() );
+        logger.debug( "X decode( RequestParameters ): " + requestParameters );
+        logger.debug( "X Path: " + requestParameters.getPath() );
+        logger.debug( "X ComponentPath: " + requestParameters.getComponentPath() );
         PageParameters params = new PageParameters( requestParameters.getParameters() );
 
         String basePath = requestParameters.getPath();
@@ -54,13 +57,13 @@ public class TranslationUrlStrategy implements IRequestTargetUrlCodingStrategy {
             tx.commit();
         }
         catch( RuntimeException e ) {
-            System.out.println( "Exception: " + e );
+            logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }
@@ -118,14 +121,14 @@ public class TranslationUrlStrategy implements IRequestTargetUrlCodingStrategy {
             String halfPath = stripPath( str );
             String path = stripTranslationId( halfPath );
             int translationId = readTranslationId( halfPath );
-            System.out.println( "Translated page? id=" + String.valueOf( translationId ) + "\n\tstr=" + str + "\n\thalfPath=" + halfPath + "\n\tpath=" + path );
+            logger.debug( "Translated page? id=" + String.valueOf( translationId ) + "\n\tstr=" + str + "\n\thalfPath=" + halfPath + "\n\tpath=" + path );
             Class clazz = mapper.getMappedClass( path );
             boolean ret = clazz != null;
-            System.out.println( " XMatches? : " + str + " = " + ret + ( ret ? " for " + clazz.getCanonicalName() : "" ) );
+            logger.debug( " XMatches? : " + str + " = " + ret + ( ret ? " for " + clazz.getCanonicalName() : "" ) );
             return ret;
         }
         catch( RuntimeException e ) {
-            System.out.println( e );
+            logger.warn( e );
             return false;
         }
     }

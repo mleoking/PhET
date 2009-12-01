@@ -81,7 +81,7 @@ public abstract class PhetPage extends WebPage {
 
         if ( logger.isEnabledFor( Level.DEBUG ) ) {
             for ( Object o : parameters.keySet() ) {
-                System.out.println( "[" + o.toString() + "] = " + parameters.get( o ).toString() );
+                logger.debug( "[" + o.toString() + "] = " + parameters.get( o ).toString() );
             }
         }
 

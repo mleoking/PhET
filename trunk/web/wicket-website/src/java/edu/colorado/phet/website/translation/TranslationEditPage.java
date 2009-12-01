@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.authorization.AuthorizationException;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -20,6 +21,8 @@ public class TranslationEditPage extends TranslationPage {
     private TranslationEntityListPanel entityListPanel;
     private Locale testLocale;
     private String selectedEntityName = null;
+
+    private static Logger logger = Logger.getLogger( TranslationEditPage.class.getName() );
 
     public TranslationEditPage( PageParameters parameters ) {
         super( parameters );
@@ -42,12 +45,13 @@ public class TranslationEditPage extends TranslationPage {
             tx.commit();
         }
         catch( RuntimeException e ) {
+            logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }

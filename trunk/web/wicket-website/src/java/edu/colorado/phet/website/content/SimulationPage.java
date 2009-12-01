@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -20,6 +21,9 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 
 public class SimulationPage extends PhetMenuPage {
+
+    private static Logger logger = Logger.getLogger( SimulationPage.class.getName() );
+
     public SimulationPage( PageParameters parameters ) {
         super( parameters );
 
@@ -43,12 +47,13 @@ public class SimulationPage extends PhetMenuPage {
             tx.commit();
         }
         catch( RuntimeException e ) {
+            logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }

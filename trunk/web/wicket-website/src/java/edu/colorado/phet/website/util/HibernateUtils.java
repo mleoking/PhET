@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
+import org.apache.log4j.Logger;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
@@ -16,6 +17,8 @@ import edu.colorado.phet.website.translation.PhetLocalizer;
 public class HibernateUtils {
 
     private static org.hibernate.SessionFactory sessionFactory;
+
+    private static Logger logger = Logger.getLogger( HibernateUtils.class.getName() );
 
     private HibernateUtils() {
     }
@@ -376,13 +379,13 @@ public class HibernateUtils {
         }
         catch( RuntimeException e ) {
             ret = false;
-            System.out.println( "Exception: " + e );
+            logger.warn( "Exception", e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction!", e1 );
                 }
                 throw e;
             }

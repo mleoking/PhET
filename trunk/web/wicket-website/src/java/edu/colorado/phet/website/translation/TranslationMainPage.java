@@ -13,6 +13,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -31,6 +32,8 @@ public class TranslationMainPage extends TranslationPage {
     private LocaleModel selectedLocaleModel;
     private PhetLocales phetLocales;
 
+    private static Logger logger = Logger.getLogger( TranslationMainPage.class.getName() );
+
     public TranslationMainPage( PageParameters parameters ) {
         super( parameters );
 
@@ -39,15 +42,6 @@ public class TranslationMainPage extends TranslationPage {
         Form createTranslationForm = new CreateTranslationForm();
 
         List<LocaleModel> models = new LinkedList<LocaleModel>();
-//        Locale[] localeArray = Locale.getAvailableLocales();
-//        for ( Locale locale : localeArray ) {
-//            models.add( new LocaleModel( locale ) );
-//        }
-//        Collections.sort( models, new Comparator<LocaleModel>() {
-//            public int compare( LocaleModel a, LocaleModel b ) {
-//                return a.getObject().toString().compareTo( b.getObject().toString() );
-//            }
-//        } );
 
         for ( String name : phetLocales.getSortedNames() ) {
             Locale locale = phetLocales.getLocale( name );
@@ -88,13 +82,13 @@ public class TranslationMainPage extends TranslationPage {
             tx.commit();
         }
         catch( RuntimeException e ) {
-            System.out.println( "Exception: " + e );
+            logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }
@@ -147,7 +141,7 @@ public class TranslationMainPage extends TranslationPage {
 
         @Override
         protected void onSubmit() {
-            System.out.println( selectedLocaleModel );
+            logger.debug( selectedLocaleModel );
 
             if ( selectedLocaleModel.locale != null ) {
 
@@ -172,13 +166,13 @@ public class TranslationMainPage extends TranslationPage {
                     tx.commit();
                 }
                 catch( RuntimeException e ) {
-                    System.out.println( "Exception: " + e );
+                    logger.warn( "Exception: " + e );
                     if ( tx != null && tx.isActive() ) {
                         try {
                             tx.rollback();
                         }
                         catch( HibernateException e1 ) {
-                            System.out.println( "ERROR: Error rolling back transaction" );
+                            logger.error( "ERROR: Error rolling back transaction", e1 );
                         }
                         throw e;
                     }
@@ -243,13 +237,13 @@ public class TranslationMainPage extends TranslationPage {
                             }
                         }
                         catch( RuntimeException e ) {
-                            System.out.println( "Exception: " + e );
+                            logger.warn( "Exception: " + e );
                             if ( tx != null && tx.isActive() ) {
                                 try {
                                     tx.rollback();
                                 }
                                 catch( HibernateException e1 ) {
-                                    System.out.println( "ERROR: Error rolling back transaction" );
+                                    logger.error( "ERROR: Error rolling back transaction", e1 );
                                 }
                                 throw e;
                             }
@@ -301,13 +295,13 @@ public class TranslationMainPage extends TranslationPage {
                             tx.commit();
                         }
                         catch( RuntimeException e ) {
-                            System.out.println( "Exception: " + e );
+                            logger.warn( "Exception: " + e );
                             if ( tx != null && tx.isActive() ) {
                                 try {
                                     tx.rollback();
                                 }
                                 catch( HibernateException e1 ) {
-                                    System.out.println( "ERROR: Error rolling back transaction" );
+                                    logger.error( "ERROR: Error rolling back transaction", e1 );
                                 }
                                 throw e;
                             }

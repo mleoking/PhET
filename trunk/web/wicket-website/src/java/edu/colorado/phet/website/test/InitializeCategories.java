@@ -5,12 +5,15 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.util.HibernateUtils;
 
 public class InitializeCategories {
+
+    private static Logger logger = Logger.getLogger( InitializeCategories.class.getName() );
 
     public static void addSimsToCategory( Session session, Category category, String[] names ) {
         category.setAuto( false );
@@ -290,12 +293,13 @@ public class InitializeCategories {
             tx.commit();
         }
         catch( RuntimeException e ) {
+            logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "Error rolling back transaction" );
+                    logger.error( "Error rolling back transaction", e1 );
                 }
                 throw e;
             }
@@ -304,10 +308,10 @@ public class InitializeCategories {
     }
 
     public static void traceCategory( Category category, String buf ) {
-        System.out.println( buf + "CAT name: " + category.getName() + " id: " + category.getId() );
+        logger.debug( buf + "CAT name: " + category.getName() + " id: " + category.getId() );
         for ( Object o : category.getSimulations() ) {
             Simulation sim = (Simulation) o;
-            System.out.println( buf + "  " + sim.getName() );
+            logger.debug( buf + "  " + sim.getName() );
         }
         for ( Object o : category.getSubcategories() ) {
             Category cat = (Category) o;

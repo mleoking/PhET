@@ -5,6 +5,7 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.request.RequestParameters;
 import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
 import org.apache.wicket.request.target.component.BookmarkablePageRequestTarget;
+import org.apache.log4j.Logger;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
@@ -12,6 +13,8 @@ import edu.colorado.phet.website.PhetWicketApplication;
 public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     private String prefix;
     private PhetUrlMapper mapper;
+
+    private static Logger logger = Logger.getLogger( PhetUrlStrategy.class.getName() );
 
     public PhetUrlStrategy( String prefix, PhetUrlMapper mapper ) {
         this.mapper = mapper;
@@ -31,9 +34,9 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     }
 
     public IRequestTarget decode( RequestParameters requestParameters ) {
-        //System.out.println( "X decode( RequestParameters ): " + requestParameters );
-        //System.out.println( "X Path: " + requestParameters.getPath() );
-        //System.out.println( "X ComponentPath: " + requestParameters.getComponentPath() );
+        logger.debug( "X decode( RequestParameters ): " + requestParameters );
+        logger.debug( "X Path: " + requestParameters.getPath() );
+        logger.debug( "X ComponentPath: " + requestParameters.getComponentPath() );
         PageParameters params = new PageParameters( requestParameters.getParameters() );
         String requestPath = requestParameters.getPath();
         String strippedPath = stripPath( requestPath );
@@ -75,7 +78,7 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     public boolean matches( String str ) {
         Class clazz = mapper.getMappedClass( stripPath( str ) );
         boolean ret = clazz != null;
-        //System.out.println( " XMatches? : " + str + " = " + ret + ( ret ? " for " + clazz.getCanonicalName() : "" ) );
+        logger.debug( " XMatches? : " + str + " = " + ret + ( ret ? " for " + clazz.getCanonicalName() : "" ) );
         return ret;
     }
 }

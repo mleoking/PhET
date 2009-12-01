@@ -3,12 +3,15 @@ package edu.colorado.phet.website.test;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.util.HibernateUtils;
 
 public class InitializeUsers {
+
+    private static Logger logger = Logger.getLogger( InitializeUsers.class.getName() );
 
     public static void main( String[] args ) {
 
@@ -36,12 +39,13 @@ public class InitializeUsers {
             tx.commit();
         }
         catch( RuntimeException e ) {
+            logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "Error rolling back transaction" );
+                    logger.error( "Error rolling back transaction", e1 );
                 }
                 throw e;
             }

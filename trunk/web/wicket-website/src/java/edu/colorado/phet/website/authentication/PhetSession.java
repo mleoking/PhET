@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.Request;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebSession;
@@ -18,6 +19,8 @@ public class PhetSession extends WebSession {
 
     private boolean signedIn = false;
     private PhetUser user = null;
+
+    private static Logger logger = Logger.getLogger( PhetSession.class.getName() );
 
     public static PhetSession get() {
         return (PhetSession) Session.get();
@@ -41,19 +44,18 @@ public class PhetSession extends WebSession {
             query.setString( "password", hash );
             query.setString( "compatiblePassword", compatibleHash );
 
-            //System.out.println( "Attempting to authenticate " + username + " with " + hash );
-
             user = (PhetUser) query.uniqueResult();
 
             tx.commit();
         }
         catch( RuntimeException e ) {
+            logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }

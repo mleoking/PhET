@@ -40,6 +40,8 @@ public class PhetWicketApplication extends WebApplication {
 
     private List<Translation> translations = new LinkedList<Translation>();
 
+    private static Logger logger = Logger.getLogger( PhetWicketApplication.class.getName() );
+
     public Class getHomePage() {
         return IndexPage.class;
     }
@@ -111,16 +113,15 @@ public class PhetWicketApplication extends WebApplication {
         mount( new HybridUrlCodingStrategy( "/error/404", NotFoundPage.class ) );
         mount( new HybridUrlCodingStrategy( "/activities", BlankPage.class ) );
 
-        String wicketMode = getServletContext().getInitParameter( "configuration" );
-        System.out.println( "Running as: " + getConfigurationType() );
+        logger.info( "Running as: " + getConfigurationType() );
+        logger.info( "Detected phet-document-root: " + getServletContext().getInitParameter( "phet-document-root" ) );
 
         if ( getConfigurationType().equals( Application.DEPLOYMENT ) ) {
-            Logger logger = Logger.getLogger( "edu.colorado.phet.website" );
-            logger.setLevel( Level.WARN );
-            System.out.println( "Setting logging level for edu.colorado.phet.website to WARN" );
+            Level loggerLevel = Level.WARN;
+            logger.info( "Setting logging level for edu.colorado.phet.website to " + loggerLevel );
+            Logger baseLogger = Logger.getLogger( "edu.colorado.phet.website" );
+            baseLogger.setLevel( loggerLevel );
         }
-
-        System.out.println( "Detected phet-document-root: " + getServletContext().getInitParameter( "phet-document-root" ) );
 
     }
 
@@ -156,13 +157,13 @@ public class PhetWicketApplication extends WebApplication {
             tx.commit();
         }
         catch( RuntimeException e ) {
-            System.out.println( "WARNING: exception:\n" + e );
+            logger.warn( "WARNING: exception:\n" + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }
@@ -211,7 +212,7 @@ public class PhetWicketApplication extends WebApplication {
 
     public void addTranslation( Translation translation ) {
         String localeString = LocaleUtils.localeToString( translation.getLocale() );
-        System.out.println( "Adding translation for " + localeString );
+        logger.info( "Adding translation for " + localeString );
         getResourceSettings().getLocalizer().clearCache();
         translations.add( translation );
         mount( new PhetUrlStrategy( localeString, mapper ) );
@@ -220,7 +221,7 @@ public class PhetWicketApplication extends WebApplication {
 
     public void removeTranslation( Translation translation ) {
         String localeString = LocaleUtils.localeToString( translation.getLocale() );
-        System.out.println( "Removing translation for " + localeString );
+        logger.info( "Removing translation for " + localeString );
         getResourceSettings().getLocalizer().clearCache();
         int oldNumTranslations = translations.size();
         for ( Translation tr : translations ) {

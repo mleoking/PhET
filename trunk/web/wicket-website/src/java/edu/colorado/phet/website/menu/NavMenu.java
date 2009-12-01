@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,6 +26,8 @@ import edu.colorado.phet.website.util.links.Linkable;
 public class NavMenu {
     private HashMap<String, NavLocation> cache = new HashMap<String, NavLocation>();
     private List<NavLocation> locations = new LinkedList<NavLocation>();
+
+    private static Logger logger = Logger.getLogger( NavMenu.class.getName() );
 
     public NavMenu() {
         NavLocation home = new NavLocation( null, "home", IndexPage.getLinker() );
@@ -115,12 +118,13 @@ public class NavMenu {
             tx.commit();
         }
         catch( RuntimeException e ) {
+            logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
+                    logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
             }

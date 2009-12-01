@@ -3,6 +3,7 @@ package edu.colorado.phet.website.translation.entities;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -13,6 +14,9 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class SimulationMainEntity extends TranslationEntity {
+
+    private static Logger logger = Logger.getLogger( SimulationMainEntity.class.getName() );
+
     public SimulationMainEntity() {
         addString( "simulationMainPanel.translatedVersions" );
         addString( "simulationMainPanel.screenshot.alt", "{0} will by replaced by the title of the simulation" );
@@ -49,13 +53,13 @@ public class SimulationMainEntity extends TranslationEntity {
                     tx.commit();
                 }
                 catch( RuntimeException e ) {
-                    System.out.println( "Exception: " + e );
+                    logger.warn( "Exception: " + e );
                     if ( tx != null && tx.isActive() ) {
                         try {
                             tx.rollback();
                         }
                         catch( HibernateException e1 ) {
-                            System.out.println( "ERROR: Error rolling back transaction" );
+                            logger.error( "ERROR: Error rolling back transaction", e1 );
                         }
                         throw e;
                     }

@@ -8,10 +8,13 @@ import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.parser.XmlTag;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.log4j.Logger;
 
 public class LocalizedText extends WebComponent {
 
     private Object[] args = null;
+
+    private static Logger logger = Logger.getLogger( LocalizedText.class.getName() );
 
     public LocalizedText( String id ) {
         super( id );
@@ -35,15 +38,14 @@ public class LocalizedText extends WebComponent {
         String body = getLocalizer().getString( key, this );
         if ( args != null ) {
             try {
-//                System.out.println( "formatting: " + body );
                 body = MessageFormat.format( body, args );
             }
             catch( RuntimeException e ) {
-                System.out.println( "message-format error" );
+                logger.warn( "message-format error" );
                 body = "*error*";
             }
         }
-        //System.out.println( "body:\n" + body + "\n" );
+        logger.debug( "body:\n" + body + "\n" );
         replaceComponentTagBody( markupStream, openTag, body );
     }
 
