@@ -46,7 +46,7 @@ public class TranslatedSimsPanel extends PhetPanel {
                 for ( Object lsim : lsims ) {
                     LocalizedSimulation localizedSimulation = (LocalizedSimulation) lsim;
 
-                    if ( !localizedSimulation.getSimulation().getProject().isVisible() ) {
+                    if ( !localizedSimulation.getSimulation().isVisible() ) {
                         continue;
                     }
 

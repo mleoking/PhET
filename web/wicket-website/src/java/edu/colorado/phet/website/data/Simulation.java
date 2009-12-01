@@ -27,6 +27,7 @@ public class Simulation implements Serializable {
     private boolean underConstruction;
     private boolean guidanceRecommended;
     private boolean classroomTested;
+    private boolean simulationVisible;
 
     public static final int TYPE_JAVA = 0;
     public static final int TYPE_FLASH = 1;
@@ -205,5 +206,17 @@ public class Simulation implements Serializable {
 
     public void setClassroomTested( boolean classroomTested ) {
         this.classroomTested = classroomTested;
+    }
+
+    public boolean isSimulationVisible() {
+        return simulationVisible;
+    }
+
+    public void setSimulationVisible( boolean simulationVisible ) {
+        this.simulationVisible = simulationVisible;
+    }
+
+    public boolean isVisible() {
+        return isSimulationVisible() && project.isVisible();
     }
 }

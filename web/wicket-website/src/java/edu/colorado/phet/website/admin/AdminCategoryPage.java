@@ -44,7 +44,7 @@ public class AdminCategoryPage extends AdminPage {
                 List sims = session.createQuery( "select s from Simulation as s" ).list();
                 for ( Object s : sims ) {
                     Simulation simulation = (Simulation) s;
-                    if ( simulation.getProject().isVisible() ) {
+                    if ( simulation.isVisible() ) {
                         allSimulations.add( simulation );
                     }
                 }

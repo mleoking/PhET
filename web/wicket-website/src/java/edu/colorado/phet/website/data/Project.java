@@ -203,6 +203,7 @@ public class Project implements Serializable {
                                 simulation.setUnderConstruction( false );
                                 simulation.setGuidanceRecommended( false );
                                 simulation.setClassroomTested( false );
+                                simulation.setSimulationVisible( true );
                                 createdSims.add( simulation );
                             }
                             else {

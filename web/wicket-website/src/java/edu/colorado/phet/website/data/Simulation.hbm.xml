@@ -16,6 +16,7 @@
         <property name="underConstruction"/>
         <property name="guidanceRecommended"/>
         <property name="classroomTested"/>
+        <property name="simulationVisible" column="visible"/>
         <many-to-one name="project" class="edu.colorado.phet.website.data.Project" not-null="true" lazy="false"/>
         <set name="localizedSimulations" inverse="true">
             <key column="simulation"/>
