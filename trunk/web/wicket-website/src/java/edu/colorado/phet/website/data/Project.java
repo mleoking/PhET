@@ -173,6 +173,7 @@ public class Project implements Serializable {
                         syncLogger.debug( "Reading localized simulation XML for: " + simName + " - " + simLocaleString + " - " + simTitle );
 
                         if ( !project.getSimulationJARFile( docRoot, simName, simLocale ).exists() ) {
+                            syncLogger.warn( "Project: " + projectName + " sim: " + simName + ", locale: " + simLocaleString );
                             syncLogger.warn( "Simulation JAR file does not exist for specified XML entry. Most likely not deployed yet" );
                             syncLogger.warn( "Skipping" );
                             continue;
