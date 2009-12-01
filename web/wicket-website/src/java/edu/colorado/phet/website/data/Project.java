@@ -57,6 +57,14 @@ public class Project implements Serializable {
         return new ProjectPropertiesFile( new File( docRoot, "sims/" + name + "/" + name + ".properties" ) );
     }
 
+    private File getProjectRoot( File docRoot ) {
+        return new File( docRoot, "sims/" + name );
+    }
+
+    private File getSimulationJARFile( File docRoot, String simulationName, Locale locale ) {
+        return new File( getProjectRoot( docRoot ), simulationName + "_" + LocaleUtils.localeToString( locale ) + ".jar" );
+    }
+
     private void appendWarning( StringBuilder builder, String message ) {
         builder.append( "<br/><font color='#FF0000'>WARNING: " + message + "</font>" );
     }
@@ -115,6 +123,12 @@ public class Project implements Serializable {
 
                     Locale simLocale = LocaleUtils.stringToLocale( simLocaleString );
 
+                    File simulationJAR = getSimulationJARFile( docRoot, simName, simLocale );
+                    if ( !simulationJAR.exists() ) {
+                        builder.append( "<br/>" + simulationJAR.getName() + " does not exist" );
+                        continue;
+                    }
+
                     Simulation sim = null;
                     LocalizedSimulation lsim = null;
 
@@ -137,7 +151,7 @@ public class Project implements Serializable {
 
                         if ( lsim != null ) {
                             if ( !lsim.getTitle().equals( simTitle ) ) {
-                                appendWarning( builder, "Sim title changed? xml: " + simTitle + " db: " + lsim.getTitle() );
+                                appendWarning( builder, "Sim title changed? (" + simName + ", " + simLocaleString + ") xml: " + simTitle + " db: " + lsim.getTitle() );
                                 warning = true;
                             }
                         }
