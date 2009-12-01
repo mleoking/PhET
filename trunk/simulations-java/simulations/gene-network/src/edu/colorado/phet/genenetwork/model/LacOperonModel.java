@@ -31,14 +31,12 @@ public class LacOperonModel implements IObtainGeneModelElements {
 	private static final double DNA_STRAND_WIDTH = MODEL_AREA_WIDTH * 1.3;
 	private static final double DNA_STRAND_HEIGHT = 1.5;  // In nanometers.
 	private static final Dimension2D DNA_STRAND_SIZE = new PDimension(DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
-	private static final Point2D DNA_STRAND_POSITION = new Point2D.Double(0, 0);
-	private static final Rectangle2D DNA_STRAND_LOCATION = new Rectangle2D.Double(-DNA_STRAND_WIDTH / 2, 
-			-MODEL_AREA_HEIGHT * 0.2, DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
+	private static final Point2D DNA_STRAND_POSITION = new Point2D.Double(0, -20);
 	
 	// Constant that defines where the mobile model elements can go.
 	private static final Rectangle2D MOTION_BOUNDS = new Rectangle2D.Double(MODEL_BOUNDS.getMinX(), 
-			DNA_STRAND_LOCATION.getCenterY(), MODEL_BOUNDS.getWidth(),
-			MODEL_BOUNDS.getHeight() - DNA_STRAND_LOCATION.getMinY() + MODEL_BOUNDS.getMinY());
+			DNA_STRAND_POSITION.getY(), MODEL_BOUNDS.getWidth(),
+			MODEL_BOUNDS.getHeight() - DNA_STRAND_POSITION.getY() + MODEL_BOUNDS.getMinY());
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -196,49 +194,6 @@ public class LacOperonModel implements IObtainGeneModelElements {
         	rnaPolymeraseList.add(rnaPolymerase);
         }
         
-        // Create and position the elements that sit on the DNA strand.
-        
-        double xPosition = DNA_STRAND_LOCATION.getMinX(); // Start at the far left side of the strand.
-        
-        xPosition += 3; // Add a little space on far left side.
-        
-        xPosition += lacIPromoter.getShape().getBounds2D().getWidth() / 2;
-        lacIPromoter.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        xPosition += lacIPromoter.getShape().getBounds2D().getWidth() / 2;
-        
-        xPosition += 2; // The spec shows a little bit of space here.
-        
-        xPosition += lacIGene.getShape().getBounds2D().getWidth() / 2;
-        lacIGene.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        xPosition += lacIGene.getShape().getBounds2D().getWidth() / 2;
-        
-        xPosition = DNA_STRAND_LOCATION.getMinX() + 0.45 * DNA_STRAND_LOCATION.getWidth();
-        
-        xPosition += capBindingRegion.getShape().getBounds2D().getWidth() / 2;
-        capBindingRegion.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        xPosition += capBindingRegion.getShape().getBounds2D().getWidth() / 2;
-        
-        xPosition += lacPromoter.getShape().getBounds2D().getWidth() / 2;
-        lacPromoter.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        xPosition += lacPromoter.getShape().getBounds2D().getWidth() / 2;
-        
-        xPosition += lacOperator.getShape().getBounds2D().getWidth() / 2;
-        lacOperator.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        xPosition += lacOperator.getShape().getBounds2D().getWidth() / 2;
-        
-        xPosition += 2; // The spec shows some space here.
-
-        xPosition += lacZGene.getShape().getBounds2D().getWidth() / 2;
-        lacZGene.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        xPosition += lacZGene.getShape().getBounds2D().getWidth() / 2;
-        
-        xPosition += 1; // The spec shows some space here.
-
-        xPosition += lacYGene.getShape().getBounds2D().getWidth() / 2;
-        lacYGene.setPosition(xPosition, DNA_STRAND_LOCATION.getCenterY());
-        xPosition += lacYGene.getShape().getBounds2D().getWidth() / 2;
-        
-        // Force the CAP to attach to the CAP binding region on the DNA.
         if (cap.considerProposalFrom(capBindingRegion) == true){
         	cap.attach(capBindingRegion);
         }
@@ -259,20 +214,6 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	return lacOperator.isLacIAttached();
     }
 
-    /**
-     * Get the location and size of the DNA strand.  The DNA strand is unique
-     * amongst the model elements in that there is only one, it does not move,
-     * and the shape of its representation is not specified in the model.
-     * This is because nothing really binds directly to it, but to the sub-
-     * portions of the strand that ARE specified as model elements.
-     * 
-     * @return
-     */
-    public Rectangle2D getDnaPosition(){
-    	return new Rectangle2D.Double(DNA_STRAND_LOCATION.getX(), DNA_STRAND_LOCATION.getY(),
-    			DNA_STRAND_LOCATION.getWidth(), DNA_STRAND_LOCATION.getHeight());
-    }
-    
     public DnaStrand getDnaStrand(){
     	return dnaStrand;
     }
