@@ -69,7 +69,7 @@ public class Simulation implements Serializable {
         File projectRoot = project.getProjectRoot( docRoot );
         switch( type ) {
             case TYPE_JAVA:
-                return (int) ( new File( projectRoot, project.getName() + "_all.jar" ) ).length() / 1024;
+                return (int) ( new File( projectRoot, project.getName() + "_all.jar" ) ).length() / 1000;
             case TYPE_FLASH:
                 return (int) ( new File( projectRoot, name + "_en.jar" ) ).length() / 1024;
             default:
