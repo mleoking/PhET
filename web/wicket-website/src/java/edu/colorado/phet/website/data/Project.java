@@ -114,6 +114,9 @@ public class Project implements Serializable {
 
                 NodeList simulations = document.getElementsByTagName( "simulation" );
 
+                Set<Simulation> usedSims = new HashSet<Simulation>();
+                Set<LocalizedSimulation> usedLSims = new HashSet<LocalizedSimulation>();
+
                 for ( int i = 0; i < simulations.getLength(); i++ ) {
                     Element element = (Element) simulations.item( i );
 
@@ -136,6 +139,7 @@ public class Project implements Serializable {
                         Simulation so = (Simulation) o;
                         if ( so.getName().equals( simName ) ) {
                             sim = so;
+                            usedSims.add( so );
                             break;
                         }
                     }
@@ -145,6 +149,7 @@ public class Project implements Serializable {
                             LocalizedSimulation lo = (LocalizedSimulation) o;
                             if ( lo.getLocale().equals( simLocale ) ) {
                                 lsim = lo;
+                                usedLSims.add( lo );
                                 break;
                             }
                         }
@@ -163,6 +168,21 @@ public class Project implements Serializable {
                     else {
                         appendWarning( builder, "Could not find simulation " + simName + " in the DB" );
                         warning = true;
+                    }
+                }
+
+                for ( Object o : getSimulations() ) {
+                    Simulation sim = (Simulation) o;
+                    if ( !usedSims.contains( sim ) ) {
+                        appendWarning( builder, "Found sim " + sim.getName() + " in database, but did not find in project directory" );
+                    }
+                    else {
+                        for ( Object o1 : sim.getLocalizedSimulations() ) {
+                            LocalizedSimulation lsim = (LocalizedSimulation) o1;
+                            if ( !usedLSims.contains( lsim ) ) {
+                                appendWarning( builder, "Found translation " + lsim.getLocaleString() + " for sim " + sim.getName() + " in database, but did not find in project directory" );
+                            }
+                        }                                          
                     }
                 }
             }
