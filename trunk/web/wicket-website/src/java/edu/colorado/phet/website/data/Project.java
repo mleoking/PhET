@@ -1,9 +1,21 @@
 package edu.colorado.phet.website.data;
 
-import java.io.Serializable;
 import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.ProjectPropertiesFile;
+import edu.colorado.phet.flashlauncher.util.XMLUtils;
 
 public class Project implements Serializable {
 
@@ -39,8 +51,36 @@ public class Project implements Serializable {
         return ret;
     }
 
-    public File getProjectProperties( File docRoot ) {
-        return new File( docRoot, "sims/" + name + "/" + name + ".properties" );
+    public ProjectPropertiesFile getProjectPropertiesFile( File docRoot ) {
+        return new ProjectPropertiesFile( new File( docRoot, "sims/" + name + "/" + name + ".properties" ) );
+    }
+
+    public void debugProjectFiles( File docRoot ) throws IOException, TransformerException, ParserConfigurationException {
+        File projectRoot = new File( docRoot, "sims/" + name );
+
+        ProjectPropertiesFile projectProperties = new ProjectPropertiesFile( new File( projectRoot, name + ".properties" ) );
+
+        System.out.println( "project: " + name );
+        System.out.println( "major: " + projectProperties.getMajorVersion() );
+        System.out.println( "minor: " + projectProperties.getMinorVersion() );
+        System.out.println( "dev: " + projectProperties.getDevVersion() );
+        System.out.println( "revision: " + projectProperties.getSVNVersion() );
+        System.out.println( "timestamp: " + projectProperties.getVersionTimestamp() );
+
+        Document document = XMLUtils.toDocument( FileUtils.loadFileAsString( new File( projectRoot, name + ".xml" ) ) );
+
+        NodeList simulations = document.getElementsByTagName( "simulation" );
+
+        for ( int i = 0; i < simulations.getLength(); i++ ) {
+            Element element = (Element) simulations.item( i );
+
+            String name = element.getAttribute( "name" );
+            String locale = element.getAttribute( "locale" );
+            String title = ( (Element) ( element.getElementsByTagName( "title" ).item( 0 ) ) ).getChildNodes().item( 0 ).getNodeValue();
+
+            System.out.println( "  " + name + " " + locale + " " + title );
+        }
+
     }
 
     // getters and setters

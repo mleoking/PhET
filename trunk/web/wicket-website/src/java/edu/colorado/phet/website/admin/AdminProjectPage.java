@@ -1,12 +1,12 @@
 package edu.colorado.phet.website.admin;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
+import java.io.IOException;
+
+import javax.xml.transform.TransformerException;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
@@ -19,6 +19,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
+import edu.colorado.phet.buildtools.util.ProjectPropertiesFile;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.data.Simulation;
@@ -47,23 +48,10 @@ public class AdminProjectPage extends AdminPage {
 
         add( new AddSimulationForm( "simulations-form" ) );
 
-        File projectPropertiesFile = project.getProjectProperties( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot() );
+        ProjectPropertiesFile projectPropertiesFile = project.getProjectPropertiesFile( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot() );
 
         if ( projectPropertiesFile.exists() ) {
-            String lab = "Detected project properties: ";
-            try {
-                Properties properties = new Properties();
-                properties.load( new FileInputStream( projectPropertiesFile ) );
-                for ( Object o : properties.keySet() ) {
-                    String key = (String) o;
-                    String value = properties.getProperty( key );
-                    lab += key + ": " + value + "\n";
-                }
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-            add( new Label( "project-properties", lab ) );
+            add( new Label( "project-properties", "Detected project properties: " + projectPropertiesFile.getFullVersionString() ) );
         }
         else {
             add( new Label( "project-properties", "No project properties detected" ) );
@@ -75,6 +63,19 @@ public class AdminProjectPage extends AdminPage {
                 item.add( new Label( "simulation-name", sim.getName() ) );
             }
         } );
+
+        try {
+            project.debugProjectFiles( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        catch( TransformerException e ) {
+            e.printStackTrace();
+        }
+        catch( ParserConfigurationException e ) {
+            e.printStackTrace();
+        }
 
     }
 
