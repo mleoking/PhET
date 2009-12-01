@@ -205,6 +205,7 @@ public class Project implements Serializable {
                                 simulation.setClassroomTested( false );
                                 simulation.setSimulationVisible( true );
                                 createdSims.add( simulation );
+                                simulationCache.put( simName, simulation );
                             }
                             else {
                                 simulation = (Simulation) slist.get( 0 );
