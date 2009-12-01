@@ -68,7 +68,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	private static final Color BODY_COLOR = Color.DARK_GRAY;
 	private static final double READOUT_WIDTH_PROPORTION = 0.80;
 	private static final double READOUT_HEIGHT_PROPORTION = 0.16;
-	private static final double PROBE_SIZE_SCALE_FACTOR = 0.45;  // Adjust in order to change size of probe.
+	private static final double PROBE_SIZE_SCALE_FACTOR = 0.9;  // Adjust in order to change size of probe.
 	private static final Font HALF_LIFE_SELECTION_FONT = new PhetFont(16);
 	private static final double AIR_PROBE_HEIGHT_PROPORTION = 0.5;
 	private static final double MAX_AIR_PROBE_EXTENSION_PROPORTION = 0.333;
@@ -424,7 +424,7 @@ public class RadiometricDatingMeterNode extends PNode {
             _mvt = mvt;
             _dragBounds = probeDragBounds;
 
-            _imageNode = NuclearPhysicsResources.getImageNode( "geiger_probe_2.png" );
+            _imageNode = NuclearPhysicsResources.getImageNode( "geiger_probe_3.png" );
             _imageNode.rotateAboutPoint( probeModel.getAngle(), 0.1, 0.1 );
             _imageNode.scale( PROBE_SIZE_SCALE_FACTOR );
             addChild( _imageNode );
