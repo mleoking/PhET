@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--charges-and-fields-strings_vi.xml created Wed Oct 07 19:40:09 ICT 2009 using: charges-and-fields 2.03.00 (30671), translation-utility 2.02.00 (34911) thg 9 9, 2009-->
+<!--charges-and-fields-strings_vi.xml created Tue Dec 01 12:51:06 ICT 2009 using: charges-and-fields 2.03.00 (30671), translation-utility 2.03.00 (36202) thg 10 30, 2009-->
 <SimStrings>
 <string key="directionOnly" value="Chỉ có hướng"/>
 <string key="grid" value="Lưới"/>
@@ -12,7 +12,7 @@
 <string key="showEField" value="Hiển thị điện trường"/>
 <string key="oneNanoC" value="1 nC"/>
 <string key="showHiRes" value="Độ phân giải cao"/>
-<string key="EFieldSensors" value="Bộ dò điện trường"/>
+<string key="EFieldSensors" value="Điện tích thử"/>
 <string key="eFieldUnit" value="V/m"/>
 <string key="clear" value="Xoá"/>
 <string key="plot" value="Vẽ"/>
