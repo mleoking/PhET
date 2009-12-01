@@ -348,13 +348,13 @@
         global $g_bitrock_dists;
 
         $build_prefix  = installer_get_full_dist_name($dist);
-        $buildfile_ext = file_get_extension(BITROCK_LOCAL_MIRROR_BUILDFILE);
+        $buildfile_ext = file_get_extension(BITROCK_KSU_LOCAL_MIRROR_BUILDFILE);
 
         $new_buildfile = BITROCK_BUILDFILE_DIR."${build_prefix}.${buildfile_ext}";
 
         file_create_parents_of_file($new_buildfile);
 
-        if (!copy(BITROCK_LOCAL_MIRROR_BUILDFILE, $new_buildfile)) {
+        if (!copy(BITROCK_KSU_LOCAL_MIRROR_BUILDFILE, $new_buildfile)) {
             return false;
         }
 
