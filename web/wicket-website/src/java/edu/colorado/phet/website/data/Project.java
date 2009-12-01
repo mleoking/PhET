@@ -206,6 +206,7 @@ public class Project implements Serializable {
                             }
                             else {
                                 simulation = (Simulation) slist.get( 0 );
+                                simulationCache.put( simName, simulation );
                                 missedSimulations.remove( simulation );
                                 modifiedSims.add( simulation );
                                 syncLogger.info( "Found simulation " + simulation.getName() );
