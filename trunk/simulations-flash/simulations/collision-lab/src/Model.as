@@ -52,7 +52,7 @@ package{
 			this.time = 0;
 			this.timeStep = 0.01;
 			this.timeRate = 1;
-			this.updateRate = 3;		
+			this.updateRate = 1;		
 			this.frameCount = 0;
 			
 			this.msTimer = new Timer(this.timeStep*1000);
