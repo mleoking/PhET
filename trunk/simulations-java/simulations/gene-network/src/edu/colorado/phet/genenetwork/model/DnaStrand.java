@@ -21,18 +21,18 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class DnaStrand {
 	
 	// Length of one "cycle" of the DNA strand, in nanometers.
-	private static final double DNA_WAVE_LENGTH = 5;
+	private static final double DNA_WAVE_LENGTH = 3;
 	
 	// Spacing between each "sample" that defines the DNA strand shape.
 	// Larger numbers mean finer resolution, and thus a curvier shape.  This
 	// is in nanometers.
-	private static final double DNA_SAMPLE_SPACING = 1;
+	private static final double DNA_SAMPLE_SPACING = 0.5;
 	
 	// Offset in the x direction between the two DNA strands.
-	private static final double DNA_INTER_STRAND_OFFSET = 4;
+	private static final double DNA_INTER_STRAND_OFFSET = 0.75;
 
 	private DoubleGeneralPath strand1Shape = new DoubleGeneralPath();
-	private Line2D strand2Shape;
+	private DoubleGeneralPath strand2Shape = new DoubleGeneralPath();
 	private final Dimension2D size;
 	private Point2D position = new Point2D.Double();
 	private ArrayList<GeneSegmentShape> geneSectionShapeList = new ArrayList<GeneSegmentShape>();
@@ -69,6 +69,10 @@ public class DnaStrand {
 		return strand1Shape.getGeneralPath();
 	}
 	
+	public Shape getStrand2Shape(){
+		return strand2Shape.getGeneralPath();
+	}
+	
 	/**
 	 * Get a list of the shapes that represent the spaces on the DNA strand
 	 * where the genes should go.
@@ -79,12 +83,15 @@ public class DnaStrand {
 	
 	private void updateStrandShapes(){
 		double startPosX = -size.getWidth() / 2;
-		double startPosy = 0;
-		strand1Shape.moveTo(startPosX, startPosy);
+		double startPosY = 0;
+		strand1Shape.moveTo(startPosX, startPosY);
+		strand2Shape.moveTo(startPosX + DNA_INTER_STRAND_OFFSET, startPosY);
 		double angle = 0;
-		double angleIncrement = Math.PI * 2 / DNA_WAVE_LENGTH;
-		for (double xPos = startPosX; xPos - startPosX < size.getWidth(); xPos += DNA_SAMPLE_SPACING){
-			strand1Shape.lineTo( (float)xPos, (float)(Math.sin(angle) * size.getHeight() / 2));
+		double angleIncrement = Math.PI * 2 * DNA_SAMPLE_SPACING / DNA_WAVE_LENGTH;
+		for (double xPos = startPosX; xPos - startPosX - DNA_INTER_STRAND_OFFSET < size.getWidth(); xPos += DNA_SAMPLE_SPACING){
+			strand1Shape.lineTo( (float)xPos, (float)(-Math.sin(angle) * size.getHeight() / 2));
+			strand2Shape.lineTo( (float)xPos + DNA_INTER_STRAND_OFFSET,
+					(float)(-Math.sin(angle) * size.getHeight() / 2));
 			angle += angleIncrement;
 		}
 	}
