@@ -203,7 +203,7 @@ public class Project implements Serializable {
             Simulation sim = (Simulation) o;
             int detected = sim.detectSimKilobytes( docRoot );
             if ( sim.getKilobytes() != detected ) {
-                appendWarning( builder, "Sim kilobytes inaccurate. file: " + detected + " db: " + sim.getKilobytes() );
+                appendWarning( builder, "Sim " + sim.getName() + " kilobytes inaccurate. file: " + detected + " db: " + sim.getKilobytes() );
                 warning = true;
             }
         }
