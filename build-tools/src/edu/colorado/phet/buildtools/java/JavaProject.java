@@ -87,11 +87,11 @@ public abstract class JavaProject extends PhetProject {
 
         java.setClassname( getSimulation( simulationName ).getMainclass() );
         java.setFork( true );
-        String args = "";
+        String args = "-dev";
         String[] a = getSimulation( simulationName ).getArgs();
         for ( int i = 0; i < a.length; i++ ) {
             String s = a[i];
-            args += s + " ";
+            args += " " + s ;
         }
         java.setArgs( args );
 
@@ -110,7 +110,6 @@ public abstract class JavaProject extends PhetProject {
             java.setJvmargs( "-Djavaws.phet.locale=" + language ); //XXX #1057, backward compatibility, delete after IOM
         }
 
-        java.setArgs( "-dev" ); // program arg to run in developer mode
         File file = new File( getTrunk(), BuildToolsPaths.BUILD_TOOLS_DIR + "/test-output.txt" );
         java.setOutput( file );
 
