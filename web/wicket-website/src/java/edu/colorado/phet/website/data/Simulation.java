@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.data;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.*;
 
@@ -62,6 +63,18 @@ public class Simulation implements Serializable {
 
     public String getImageUrl() {
         return "/sims/" + getProject().getName() + "/" + getName() + "-screenshot.png";
+    }
+
+    public int detectSimKilobytes( File docRoot ) {
+        File projectRoot = project.getProjectRoot( docRoot );
+        switch( type ) {
+            case TYPE_JAVA:
+                return (int) ( new File( projectRoot, project.getName() + "_all.jar" ) ).length() / 1024;
+            case TYPE_FLASH:
+                return (int) ( new File( projectRoot, name + "_en.jar" ) ).length() / 1024;
+            default:
+                throw new RuntimeException( "Simulation type not handled? type = " + type );
+        }
     }
 
     public boolean isJava() {
