@@ -1,3 +1,4 @@
+12/1/09 smiley and frowny faces for Game
 11/30/09 visibility state machine, for managing visibility of nodes for the various states of the Game
 11/30/09 check in Illustator files for sandwich images, from Noah P.
 11/24/09 first pass at scoreboard
