@@ -102,7 +102,7 @@ public class Project implements Serializable {
                     boolean hasSWF = ( new File( projectRoot, projectName + ".swf" ) ).exists();
 
                     int type = hasSWF ? Simulation.TYPE_FLASH : Simulation.TYPE_JAVA;
-                    syncLogger.info( "detecting project type as: " + ( type == Simulation.TYPE_JAVA ? "java" : "flash" ) );
+                    syncLogger.debug( "detecting project type as: " + ( type == Simulation.TYPE_JAVA ? "java" : "flash" ) );
 
                     List plist = session.createQuery( "select p from Project as p where p.name = :name" ).setString( "name", projectName ).list();
                     if ( plist.size() > 1 ) {
@@ -112,7 +112,7 @@ public class Project implements Serializable {
 
                     Project project;
                     if ( projectExisted ) {
-                        syncLogger.info( "Project already exists" );
+                        syncLogger.debug( "Project already exists" );
                         project = (Project) plist.get( 0 );
                     }
                     else {
@@ -170,7 +170,7 @@ public class Project implements Serializable {
 
                         Locale simLocale = LocaleUtils.stringToLocale( simLocaleString );
 
-                        syncLogger.info( "Reading localized simulation XML for: " + simName + " - " + simLocaleString + " - " + simTitle );
+                        syncLogger.debug( "Reading localized simulation XML for: " + simName + " - " + simLocaleString + " - " + simTitle );
 
                         if ( !project.getSimulationJARFile( docRoot, simName, simLocale ).exists() ) {
                             syncLogger.warn( "Simulation JAR file does not exist for specified XML entry. Most likely not deployed yet" );
@@ -209,7 +209,7 @@ public class Project implements Serializable {
                                 simulationCache.put( simName, simulation );
                                 missedSimulations.remove( simulation );
                                 modifiedSims.add( simulation );
-                                syncLogger.info( "Found simulation " + simulation.getName() );
+                                syncLogger.debug( "Found simulation " + simulation.getName() );
                                 if ( simulation.getProject().getId() != project.getId() ) {
                                     syncLogger.warn( "Found simulation " + simulation.getName() + " specified with a different project " + simulation.getProject().getName() + " instead of " + project.getName() + "." );
                                     syncLogger.warn( "Modifying to match the current project (with type)" );

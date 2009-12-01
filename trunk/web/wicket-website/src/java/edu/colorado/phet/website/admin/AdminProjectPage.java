@@ -35,6 +35,7 @@ public class AdminProjectPage extends AdminPage {
     private List<Simulation> simulations = new LinkedList<Simulation>();
 
     private static Logger logger = Logger.getLogger( AdminProjectPage.class.getName() );
+    private AdminProjectPage.ProjectForm projectForm;
 
     public AdminProjectPage( PageParameters parameters ) {
         super( parameters );
@@ -47,7 +48,8 @@ public class AdminProjectPage extends AdminPage {
         title = new Label( "project-name", getTitleString() );
         add( title );
 
-        add( new ProjectForm( "edit-form" ) );
+        projectForm = new ProjectForm( "edit-form" );
+        add( projectForm );
 
         add( new AddSimulationForm( "simulations-form" ) );
 
@@ -77,6 +79,15 @@ public class AdminProjectPage extends AdminPage {
         add( new Link( "synchronize-link" ) {
             public void onClick() {
                 Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot(), getHibernateSession(), project.getName() );
+                // TODO: get rid of this ugly way of updating everything on the page
+                simulations.clear();
+                HibernateUtils.wrapTransaction( getHibernateSession(), new StartTask() );
+                projectForm.update( project );
+                title.setModel( new Model( getTitleString() ) );
+
+                PageParameters params = new PageParameters();
+                params.put( "projectId", projectId );
+                setResponsePage( AdminProjectPage.class, params );
             }
         } );
 
@@ -93,6 +104,34 @@ public class AdminProjectPage extends AdminPage {
         private TextField revision;
         private TextField timestamp;
         private DropDownChoice visible;
+
+        public void setMajor( int major ) {
+            this.major.setModel( new Model( String.valueOf( major ) ) );
+        }
+
+        public void setMinor( int minor ) {
+            this.minor.setModel( new Model( String.valueOf( minor ) ) );
+        }
+
+        public void setDev( int dev ) {
+            this.dev.setModel( new Model( String.valueOf( dev ) ) );
+        }
+
+        public void setRevision( int revision ) {
+            this.revision.setModel( new Model( String.valueOf( revision ) ) );
+        }
+
+        public void setTimestamp( long timestamp ) {
+            this.timestamp.setModel( new Model( String.valueOf( timestamp ) ) );
+        }
+
+        public void update( Project project ) {
+            setMajor( project.getVersionMajor() );
+            setMinor( project.getVersionMinor() );
+            setDev( project.getVersionDev() );
+            setRevision( project.getVersionRevision() );
+            setTimestamp( project.getVersionTimestamp() );
+        }
 
         public ProjectForm( String id ) {
             super( id );
