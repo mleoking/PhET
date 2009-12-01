@@ -2,12 +2,15 @@
 
 package edu.colorado.phet.genenetwork.model;
 
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Primary model for the Lac Operon flavor of this sim.
@@ -27,6 +30,8 @@ public class LacOperonModel implements IObtainGeneModelElements {
 	// Constants that define where in the model space the DNA strand will be.
 	private static final double DNA_STRAND_WIDTH = MODEL_AREA_WIDTH * 1.3;
 	private static final double DNA_STRAND_HEIGHT = 4;  // In nanometers.
+	private static final Dimension2D DNA_STRAND_SIZE = new PDimension(DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
+	private static final Point2D DNA_STRAND_POSITION = new Point2D.Double(0, 0);
 	private static final Rectangle2D DNA_STRAND_LOCATION = new Rectangle2D.Double(-DNA_STRAND_WIDTH / 2, 
 			-MODEL_AREA_HEIGHT * 0.2, DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
 	
@@ -42,7 +47,10 @@ public class LacOperonModel implements IObtainGeneModelElements {
     private final GeneNetworkClock clock;
     protected ArrayList<Listener> listeners = new ArrayList<Listener>();
     
-    // Lists of model elements for which multiple instances can exist.
+    // The DNA strand.
+    private final DnaStrand dnaStrand = new DnaStrand( DNA_STRAND_SIZE, DNA_STRAND_POSITION );
+    
+    // Lists of simple model elements for which multiple instances can exist.
     private final ArrayList<LacI> lacIList = new ArrayList<LacI>();
     private final ArrayList<LacZ> lacZList = new ArrayList<LacZ>();
     private final ArrayList<Glucose> glucoseList = new ArrayList<Glucose>();
@@ -51,7 +59,7 @@ public class LacOperonModel implements IObtainGeneModelElements {
     private final ArrayList<MessengerRna> messengerRnaList = new ArrayList<MessengerRna>();
     private final ArrayList<TransformationArrow> transformationArrowList = new ArrayList<TransformationArrow>();
     
-    // Lists of model elements for which only one instance can exist.
+    // Lists of simple model elements for which only one instance can exist.
     private final Cap cap = null;
     private final CapBindingRegion capBindingRegion = null;
     private final LacOperator lacOperator = null;
@@ -263,6 +271,10 @@ public class LacOperonModel implements IObtainGeneModelElements {
     public Rectangle2D getDnaPosition(){
     	return new Rectangle2D.Double(DNA_STRAND_LOCATION.getX(), DNA_STRAND_LOCATION.getY(),
     			DNA_STRAND_LOCATION.getWidth(), DNA_STRAND_LOCATION.getHeight());
+    }
+    
+    public DnaStrand getDnaStrand(){
+    	return dnaStrand;
     }
     
     //----------------------------------------------------------------------------
