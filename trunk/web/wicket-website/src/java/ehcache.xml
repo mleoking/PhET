@@ -631,6 +631,13 @@ not perform any function when used with JMX monitors.
             memoryStoreEvictionPolicy="LRU"
             />
 
+    <!--
+    Caching parameters are chosen for a few reasons:
+    * Don't put anything else on disk. Probably slower than actual DB access
+    * Try to hold as much as we can in memory (for now, this could change in the future)
+    * Try not to evict data that is static and used often
+    -->
+
     <cache name="edu.colorado.phet.website.data.PhetUser"
            maxElementsInMemory="1000"
            eternal="false"
