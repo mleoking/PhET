@@ -148,7 +148,7 @@
 		}
 		
 		private function sliderChangeListener(evt:SliderEvent):void{
-			this.setScaleOfArrows(evt.target.value*100);
+			this.setScaleOfArrows(10+evt.target.value*300);
 			//trace("MomentumView slider value = "+evt.target.value);
 		}
 		
