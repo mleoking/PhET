@@ -25,7 +25,7 @@ package{
 			this.index = indx+1;		//arrows are labeled 1, 2, ...
 			this.canvas = new Sprite();
 			this.scale = 50;			//adjustable
-			this.shaftW = 6;
+			this.shaftW = 7;
 			this.headL = 12;
 			this.tField = new TextField();
 			this.tFormat = new TextFormat();
@@ -52,6 +52,12 @@ package{
 		}
 		
 		public function drawHorizArrow():void{
+			var minArrowLength:Number = 12;
+			this.headL = Math.min(minArrowLength, this.lengthInPix);
+			if(this.lengthInPix < minArrowLength){
+				this.shaftW = 0.7*this.headL;
+			}
+			
 			this.shaftL = this.lengthInPix - this.headL;
 			with(this.canvas.graphics){
 				clear();

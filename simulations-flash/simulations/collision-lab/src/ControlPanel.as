@@ -113,14 +113,22 @@
 		
 		public function addBall(evt:MouseEvent):void{
 			this.myModel.addBall();
-			var nbrString = String(this.myModel.nbrBalls);
-			this.changeNbrBallButtons.nbrReadout.text = nbrString;
+			this.nbrBalls = this.myModel.nbrBalls;
+			var nbrBalls_str:String = String(this.myModel.nbrBalls);
+			this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
+			if(this.nbrBalls == 5){
+				this.changeNbrBallButtons.addBallButton.visible = false;
+			}
 		}
 		
 		public function removeBall(evt:MouseEvent):void{
 			this.myModel.removeBall();
-			var nbrString = String(this.myModel.nbrBalls);
-			this.changeNbrBallButtons.nbrReadout.text = nbrString;
+			this.nbrBalls = this.myModel.nbrBalls;
+			var nbrBalls_str:String = String(this.myModel.nbrBalls);
+			this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
+			if(this.nbrBalls <= 4){
+				this.changeNbrBallButtons.addBallButton.visible = true;
+			}
 		}
 		
 		//may not be necessary, since this is a controller, not a view
