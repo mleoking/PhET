@@ -54,10 +54,11 @@ package{
 		public function drawHorizArrow():void{
 			var minArrowLength:Number = 12;
 			this.headL = Math.min(minArrowLength, this.lengthInPix);
-			if(this.lengthInPix < minArrowLength){
-				this.shaftW = 0.7*this.headL;
-			}
-			
+			//following 3 lines often cause shaftW to get set to zero 
+			//if(this.lengthInPix < minArrowLength){
+				//this.shaftW = 0.7*this.headL;
+			//}
+			//trace("Arrow.drawHorizArrow called.  shaftW is "+ this.shaftW+"   index is "+this.index);
 			this.shaftL = this.lengthInPix - this.headL;
 			with(this.canvas.graphics){
 				clear();

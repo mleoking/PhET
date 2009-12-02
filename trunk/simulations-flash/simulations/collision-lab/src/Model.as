@@ -405,7 +405,7 @@ package{
 			var balliNbr:String = String(i + 1); var balljNbr:String = String(j + 1);
 			//if(colliders[i][j] == 0 && !starting){ //if balls overlapped, but not collided yet, and not first step
 				
-				trace("Model.collideBalls(), between i: " + balliNbr + " and j: " + balljNbr + "  at time "+this.time);
+				//trace("Model.collideBalls(), between i: " + balliNbr + " and j: " + balljNbr + "  at time "+this.time);
 				//Balls have already overlapped, so currently have incorrect positions
 				var tC:Number = this.getContactTime(i,j);
 				var delTBefore = tC - this.lastTime;
@@ -526,7 +526,7 @@ package{
 			var SSq:Number = (R1+R2)*(R1+R2);		//square of center-to-center separation of balls at contact
 			var delRDotDelV:Number = delX*delVx + delY*delVy;
 			var delRSq = delX*delX + delY*delY;
-			trace("Model.getContactTime(). DelVsq = "+ delVSq);
+			//trace("Model.getContactTime(). DelVsq = "+ delVSq);
 			//if collision is superslow, then set collision time = half-way point since last time step
 			if(delVSq < 0.000000001){
 				trace("entering delVSq < 0.000000001 if stmt..");
