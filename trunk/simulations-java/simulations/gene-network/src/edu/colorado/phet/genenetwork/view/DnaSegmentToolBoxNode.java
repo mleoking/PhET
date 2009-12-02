@@ -53,6 +53,8 @@ public class DnaSegmentToolBoxNode extends PNode {
 	// The various grabbable things in the box.
 	private LacZGeneToolBoxNode lacZGene;
 	private LacIGeneToolBoxNode lacIGene;
+	private LacIBindingRegionToolBoxNode lacIBindingRegion;
+	private PolymeraseBindingRegionToolBoxNode polymeraseBindingRegion;
 	
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -76,6 +78,10 @@ public class DnaSegmentToolBoxNode extends PNode {
 		addChild(lacZGene);
 		lacIGene = new LacIGeneToolBoxNode(model, MVT);
 		addChild(lacIGene);
+		lacIBindingRegion = new LacIBindingRegionToolBoxNode(model, MVT);
+		addChild(lacIBindingRegion);
+		polymeraseBindingRegion = new PolymeraseBindingRegionToolBoxNode(model, MVT);
+		addChild(polymeraseBindingRegion);
 		
 		// Do the initial layout.
 		updateLayout(parent);
@@ -95,6 +101,8 @@ public class DnaSegmentToolBoxNode extends PNode {
     	
     	// Position the grabbable items.
     	PBounds boxBounds = boxNode.getFullBounds();
+    	lacIBindingRegion.setOffset(boxBounds.width * 0.5, boxBounds.height * 0.2);
+    	polymeraseBindingRegion.setOffset(boxBounds.width * 0.3, boxBounds.height / 4);
     	lacZGene.setOffset(boxBounds.width * 0.65, boxBounds.height / 4);
     	lacIGene.setOffset(boxBounds.width * 0.85, boxBounds.height / 4);
 	}
