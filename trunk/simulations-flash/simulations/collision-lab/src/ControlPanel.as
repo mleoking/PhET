@@ -12,6 +12,7 @@
 		private var myModel:Model;
 		private var myMainView:MainView;
 		private var nbrBalls;
+		private var maxNbrBalls;
 		private var tFormat:TextFormat;
 		//private var changeNbrBallButtons:ChangeNbrBallButtons;	//libary symbol instance
 		
@@ -20,6 +21,7 @@
 			this.myMainView = myMainView;
 			this.myMainView.addChild(this);
 			this.nbrBalls = this.myModel.nbrBalls;
+			this.maxNbrBalls = this.myModel.maxNbrBalls;
 			this.tFormat = new TextFormat();
 			//this.myModel.registerView(this);
 			//this.changeNbrBallButtons = new ChangeNbrBallButtons();
@@ -116,7 +118,7 @@
 			this.nbrBalls = this.myModel.nbrBalls;
 			var nbrBalls_str:String = String(this.myModel.nbrBalls);
 			this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
-			if(this.nbrBalls == 5){
+			if(this.nbrBalls == this.maxNbrBalls){
 				this.changeNbrBallButtons.addBallButton.visible = false;
 			}
 		}
@@ -126,7 +128,7 @@
 			this.nbrBalls = this.myModel.nbrBalls;
 			var nbrBalls_str:String = String(this.myModel.nbrBalls);
 			this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
-			if(this.nbrBalls <= 4){
+			if(this.nbrBalls < this.maxNbrBalls){
 				this.changeNbrBallButtons.addBallButton.visible = true;
 			}
 		}
