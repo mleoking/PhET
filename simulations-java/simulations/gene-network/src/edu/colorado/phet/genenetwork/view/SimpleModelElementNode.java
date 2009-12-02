@@ -37,16 +37,29 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class SimpleModelElementNode extends PPath {
 	
+    //----------------------------------------------------------------------------
+    // Class Data
+    //----------------------------------------------------------------------------
+
 	private static final boolean SHOW_CENTER_DOT = false;
 	private static final boolean SHOW_ATTACHMENT_POINTS = false;
 	private static final Font LABEL_FONT = new PhetFont(16, true );
+	
+    //----------------------------------------------------------------------------
+    // Instance Data
+    //----------------------------------------------------------------------------
 	
 	private final SimpleModelElement modelElement;
 	private final ModelViewTransform2D mvt;
 	
 	private PhetPPath centerDot = new PhetPPath(Color.RED, new BasicStroke(2), Color.RED);
 	
-	public SimpleModelElementNode(final SimpleModelElement modelElement, final ModelViewTransform2D mvt){
+    //----------------------------------------------------------------------------
+    // Constructor(s)
+    //----------------------------------------------------------------------------
+	
+	public SimpleModelElementNode(final SimpleModelElement modelElement, final ModelViewTransform2D mvt, 
+			boolean showLabel){
 	
 		this.modelElement = modelElement;
 		this.mvt = mvt;
@@ -70,8 +83,8 @@ public class SimpleModelElementNode extends PPath {
 		updateShape();
 		updatePaintAndStroke(false);
 		
-		// If there is a label text value, show it.
-		if (modelElement.getLabel() != null){
+		// If there is a label text value, and showing it is enabled, show it.
+		if (showLabel == true && modelElement.getLabel() != null){
 			PText labelNode = new PText(modelElement.getLabel());
 			labelNode.setFont(LABEL_FONT);
 			labelNode.setOffset(getFullBoundsReference().getCenterX() - labelNode.getFullBoundsReference().width / 2, 
@@ -131,6 +144,10 @@ public class SimpleModelElementNode extends PPath {
             }
         });
 	}
+	
+    //----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
 	
 	/**
 	 * This method forces the node to become visible regardless of the state

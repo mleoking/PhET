@@ -68,22 +68,22 @@ public class LacOperonLegendPanelContents extends JPanel {
        	addLegendItem2( createLactoseNode(), 20, labelText, row );
        	row++;
 
-		simpleElementNode = new SimpleModelElementNode(new LacI(), MVT);
+		simpleElementNode = new SimpleModelElementNode(new LacI(), MVT, false);
 		labelText = "LacI";
        	addLegendItem2( simpleElementNode, 30, labelText, row );
        	row++;
 
-		simpleElementNode = new SimpleModelElementNode(new Cap(), MVT);
+		simpleElementNode = new SimpleModelElementNode(new Cap(), MVT, false);
 		labelText = "CAP";
        	addLegendItem2( simpleElementNode, 25, labelText, row );
        	row++;
 
-       	simpleElementNode = new SimpleModelElementNode(new RnaPolymerase(), MVT);
+       	simpleElementNode = new SimpleModelElementNode(new RnaPolymerase(), MVT, false);
 		labelText = "RNA Polymerase";
        	addLegendItem2( simpleElementNode, 40, labelText, row );
        	row++;
        	
-		simpleElementNode = new SimpleModelElementNode(new LacZ(), MVT);
+		simpleElementNode = new SimpleModelElementNode(new LacZ(), MVT, false);
 		labelText = "LacZ";
        	addLegendItem2( simpleElementNode, 35, labelText, row );
        	row++;
@@ -116,10 +116,10 @@ public class LacOperonLegendPanelContents extends JPanel {
      */
     private PNode createLactoseNode(){
     	PNode lactoseNode = new PNode();
-    	PNode glucoseNode = new SimpleModelElementNode(new Glucose(), MVT);
+    	PNode glucoseNode = new SimpleModelElementNode(new Glucose(), MVT, false);
     	glucoseNode.setOffset(-glucoseNode.getFullBoundsReference().width / 2, 0);
     	lactoseNode.addChild(glucoseNode);
-    	PNode galactoseNode = new SimpleModelElementNode(new Galactose(), MVT);
+    	PNode galactoseNode = new SimpleModelElementNode(new Galactose(), MVT, false);
     	galactoseNode.setOffset(galactoseNode.getFullBoundsReference().width / 2, 0);
     	lactoseNode.addChild(galactoseNode);
     	return lactoseNode;

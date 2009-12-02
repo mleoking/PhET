@@ -17,7 +17,8 @@ public class LacZGeneToolBoxNode extends PNode {
 	private PPath availableForInsertionNode;
 	
 	public LacZGeneToolBoxNode(IObtainGeneModelElements model, ModelViewTransform2D mvt) {
-		availableForInsertionNode = new SimpleModelElementNode(new LacZGene(model), mvt);
+		availableForInsertionNode = new SimpleModelElementNode(new LacZGene(model), mvt, true);
 		addChild(availableForInsertionNode);
+		
 	}
 }
