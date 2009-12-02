@@ -21,7 +21,7 @@ public class GeneNetworkStrings {
     public static final String MESSAGE_NOT_A_CONFIG = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
     
     // Captions for items in the DNA segment tool box.
-    public static final String POLYMERASE_TOOL_BOX_CAPTION = PhetCommonResources.getString( "Toolbox.Polymerase" );
-    public static final String POLYMERASE_BINDING_REGION_TOOL_BOX_CAPTION = PhetCommonResources.getString( "PolymeraseBindingRegion" );
-    public static final String LACI_BINDING_REGION_TOOL_BOX_CAPTION = PhetCommonResources.getString( "Toolbox.LacIBindingRegion" );
+    public static final String POLYMERASE_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.Polymerase" );
+    public static final String POLYMERASE_BINDING_REGION_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.PolymeraseBindingRegion" );
+    public static final String LACI_BINDING_REGION_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.LacIBindingRegion" );
 }
