@@ -2,7 +2,8 @@
 //BallImage has 5 sprite layers,
 // 1: colored ball, on bottom, not grabbable
 // 2: velocity arrow, not grabbable
-// 3: textField label
+// 2a: ball number label
+// 3: arrowHead indicator (shows location of arrowHead when arrow length is small
 // 4: transparent disk for dragging ball, to set position
 // 5: transparent arrow head, for dragging velocity arrow, to set velocity, on top
 
@@ -21,6 +22,7 @@ package{
 		var ballBody:Sprite;
 		var arrowImage:Arrow;
 		var ballHandle:Sprite;
+		var arrowHeadIndicator:Sprite; 		//shows user where tip of arrow head is
 		var arrowHeadHandle:Sprite;
 		var tFormat:TextFormat;				//format for ball label text
 		var tFormat2:TextFormat;			//format for ball position and velocity readouts
@@ -41,10 +43,9 @@ package{
 			this.arrowImage = new Arrow(indx);
 			this.arrowImage.setColor(0x00ff00);
 			this.ballHandle = new Sprite();
+			this.arrowHeadIndicator = new Sprite();
 			this.arrowHeadHandle = new Sprite();
-			
-			//this.canvas = new Sprite();
-			//this.addChild(this.canvas);
+
 			
 			this.tFieldBallNbr = new TextField();
 			//this.tFieldPosition = new TextField();
@@ -69,12 +70,13 @@ package{
 			tFormat2.font = "Arial";
 			tFormat2.color = 0x000000;
 			tFormat2.size = 14;
-			this.tFieldBallNbr.setTextFormat(tFormat);
+			this.tFieldBallNbr.defaultTextFormat = tFormat; //setTextFormat(tFormat);
 			//this.tFieldPosition.defaultTextFormat = tFormat2;
 			//this.tFieldVelocity.defaultTextFormat = tFormat2;
 			this.setLayerDepths();
 			this.drawLayer1();
 			this.drawLayer2();
+			this.drawLayer2a();
 			this.drawLayer3();
 			this.drawLayer4();
 			this.drawLayer5();
@@ -89,6 +91,7 @@ package{
 			this.addChild(this.arrowImage);
 			this.addChild(this.tFieldBallNbr);
 			this.addChild(this.ballHandle);
+			this.addChild(this.arrowHeadIndicator);
 			this.addChild(this.arrowHeadHandle);
 		}
 		
@@ -109,10 +112,24 @@ package{
 			this.arrowImage.setText("");
 		}//end of drawLayer2()
 		
-		public function drawLayer3():void{
-			this.tFieldBallNbr.autoSize = TextFieldAutoSize.CENTER;
+		public function drawLayer2a():void{
+			var ballNbr:int = this.ballIndex + 1;
+			var ballNbr_str:String = String(ballNbr);
+			this.tFieldBallNbr.text = ballNbr_str;
+			this.tFieldBallNbr.autoSize = TextFieldAutoSize.LEFT;
+			this.tFieldBallNbr.height = 15;
 			this.tFieldBallNbr.x = -this.tFieldBallNbr.width/2;
 			this.tFieldBallNbr.y = -this.tFieldBallNbr.height/2;
+		}
+		
+		public function drawLayer3():void{
+			var g:Graphics = this.arrowHeadIndicator.graphics;
+			//var currentColor:uint = 0xffff00;
+			//var alpha1:Number = 0;
+			var rInPix:Number = 10;
+			g.clear();
+			g.lineStyle(1,0x000000);
+			g.drawCircle(0,0,rInPix);
 		}//end of drawLayer3();
 		
 		public function drawLayer4():void{	//ballHandle
@@ -133,7 +150,7 @@ package{
 			var r:Number = 10;
 			g.clear();
 			g.beginFill(currentColor, alpha1);
-			g.lineStyle(1,0x000000);
+			//g.lineStyle(1,0x000000);
 			g.drawCircle(1,0,r);
 			g.endFill();
 			this.arrowHeadHandle.x = this.arrowImage.getHeadCenterX();
@@ -249,14 +266,17 @@ package{
 				if(clickOffset != null){  //if dragging
 					//adjust x-component of velocity
 					target.x = theStage.mouseX;// - clickOffset.x;
+					thisBallImage.arrowHeadIndicator.x = target.x;
 					var velocityX:Number = target.x/thisBallImage.arrowImage.scale;
 					modelRef.setVX(indx, velocityX);
 					//if not in 1DMode, set y-component of velocity
 					if(!modelRef.oneDMode){
 						target.y = theStage.mouseY;// - clickOffset.y;
+						thisBallImage.arrowHeadIndicator.y = target.y;
 						var velocityY:Number = -target.y/thisBallImage.arrowImage.scale;
 						modelRef.setVY(indx, velocityY);
 					}
+					var distInPix:Number = Math.sqrt(target.x*target.x + target.y*target.y); 
 					//trace("velocityX: "+velocityX+"    velocityY: "+velocityY);
 					//modelRef.ball_arr[indx].velocity.setXY(velocityX, velocityY);
 					if(modelRef.atInitialConfig){
@@ -288,9 +308,11 @@ package{
 		public function showArrow(tOrF:Boolean):void{
 			if(tOrF){
 				this.arrowImage.visible = true;
+				this.arrowHeadIndicator.visible = true;
 				this.arrowHeadHandle.visible = true;
 			}else{
 				this.arrowImage.visible = false;
+				this.arrowHeadIndicator.visible = false;
 				this.arrowHeadHandle.visible = false;
 			}
 		}//end showArrow()
@@ -300,6 +322,8 @@ package{
 			//this.myModel.updateViews();
 			this.arrowImage.setArrow(vel);
 			var scaleFactor:Number = this.arrowImage.scale;
+			this.arrowHeadIndicator.x = scaleFactor*vel.getX();
+			this.arrowHeadIndicator.y = -scaleFactor*vel.getY();
 			this.arrowHeadHandle.x = scaleFactor*vel.getX();
 			this.arrowHeadHandle.y = -scaleFactor*vel.getY();
 		}
