@@ -42,8 +42,8 @@
 		}//end of constructor
 		
 		public function initialize():void{
-			this.borderWidth = 300;
-			this.borderHeight = 300;
+			this.borderWidth = 250;
+			this.borderHeight = 250;
 			this.tipToTailDisplayOn = true;
 			this.stageW = this.myMainView.stageW;
 			this.stageH = this.myMainView.stageH;
@@ -121,6 +121,7 @@
 		private function setupCheckBox():void{
 			this.tipToTail_cb.label = "Tip-to-Tail";
 			this.tipToTail_cb.selected = true;
+			this.tipToTail_cb.textField.width = 0.7*this.borderWidth;
 			this.tipToTail_cb.y = this.borderHeight - this.tipToTail_cb.height;
 			this.canvas.addChild(this.tipToTail_cb);
 			this.tipToTail_cb.addEventListener(MouseEvent.CLICK, tipToTailChangeListener);

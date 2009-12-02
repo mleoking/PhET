@@ -279,7 +279,7 @@ package{
 				dt *= -1;
 			}
 			if(!reversing){
-				this.lastTime = this.time; //should this be here or at end of method
+				this.lastTime = this.time; //should this be here or at end of method?
 			}
 			this.time += dt;
 			//trace("dt_after: "+dt);
@@ -402,8 +402,10 @@ package{
 		
 		public function collideBalls(i:int, j:int):void{
 			this.playClickSound();
-			if(colliders[i][j] == 0 && !starting){ //if balls not collided yet and not first step
-				//trace("collideBalls(), between i: " + i + " and j: " + j + "  at time "+this.time);
+			var balliNbr:String = String(i + 1); var balljNbr:String = String(j + 1);
+			//if(colliders[i][j] == 0 && !starting){ //if balls overlapped, but not collided yet, and not first step
+				
+				trace("Model.collideBalls(), between i: " + balliNbr + " and j: " + balljNbr + "  at time "+this.time);
 				//Balls have already overlapped, so currently have incorrect positions
 				var tC:Number = this.getContactTime(i,j);
 				var delTBefore = tC - this.lastTime;
@@ -435,7 +437,7 @@ package{
 				//normal components of velocities after collision (P for prime = after)
 				//trace("Model.e: "+this.e);
 				var v1nP:Number = ((m1 - m2*this.e)*v1n + m2*(1+this.e)*v2n)/(m1 + m2);
-				var v2nP:Number = this.e*(v1n - v2n) + v1nP;
+				var v2nP:Number = (this.e + 0.00001)*(v1n - v2n) + v1nP;
 				var v1xP = (1/d)*(v1nP*delX - v1t*delY);
 				var v1yP = (1/d)*(v1nP*delY + v1t*delX);
 				var v2xP = (1/d)*(v2nP*delX - v2t*delY);
@@ -444,21 +446,27 @@ package{
 				this.ball_arr[j].velocity.setXY(v2xP, v2yP);
 				
 				//balls currently are overlapped, so first backup!
-				x1 = ball_arr[i].position.getXLast();
-				x2 = ball_arr[j].position.getXLast();
-				y1 = ball_arr[i].position.getYLast();
-				y2 = ball_arr[j].position.getYLast();
-				var newXi:Number = x1 + v1x*delTBefore + v1xP*delTAfter;
-				var newYi:Number = y1 + v1y*delTBefore + v1yP*delTAfter;
-				var newXj:Number = x2 + v2x*delTBefore + v2xP*delTAfter;
-				var newYj:Number = y2 + v2y*delTBefore + v2yP*delTAfter;
+				//x1 = ball_arr[i].position.getXLast();
+				//x2 = ball_arr[j].position.getXLast();
+				//y1 = ball_arr[i].position.getYLast();
+				//y2 = ball_arr[j].position.getYLast();
+				//var newXi:Number = x1 + v1x*delTBefore + v1xP*delTAfter;
+				//var newYi:Number = y1 + v1y*delTBefore + v1yP*delTAfter;
+				//var newXj:Number = x2 + v2x*delTBefore + v2xP*delTAfter;
+				//var newYj:Number = y2 + v2y*delTBefore + v2yP*delTAfter;
+				var newXi:Number = x1 + v1xP*delTAfter;
+				var newYi:Number = y1 + v1yP*delTAfter;
+				var newXj:Number = x2 + v2xP*delTAfter;
+				var newYj:Number = y2 + v2yP*delTAfter;
+				
 				this.setXY(i, newXi, newYi);
 				this.setXY(j, newXj, newYj);
 				
-			}else{ //end if(colliders[i][j] == 0)
+			//}else{ //end if(colliders[i][j] == 0)
 				//if balls already collided, but still not separated, or just starting then pull apart keeping C.M. fixed
-				this.separateBalls(i,j);
-			}//end else
+				//trace("Model.collideBalls calling separateBalls(): " + balliNbr + " and " + balljNbr+"at t = "+this.time);
+				//this.separateBalls(i,j);
+			//}//end else
 		}//collideBalls
 		
 		//Check if balls i, j overlap. If they do, separate them, keeping C.M. fixed.
@@ -476,7 +484,7 @@ package{
 				var OL:Number = (R1+R2) - delR;  //overlap distance
 				if(OL > 0){
 					var balliNbr:int = i + 1; var balljNbr:int = j + 1;
-					trace("Model: ball numbers "+balliNbr+" and "+balljNbr+" overlap: "+OL);
+					trace("Model.separateBalls: ball numbers "+balliNbr+" and "+balljNbr+" overlap: "+OL);
 					//trace("Model: ball numbers "+balliNbr+" and "+balljNbr+" overlapped at time "+this.time);
 					var m1:Number = ball_arr[i].getMass();
 					var m2:Number = ball_arr[j].getMass();
@@ -518,9 +526,12 @@ package{
 			var SSq:Number = (R1+R2)*(R1+R2);		//square of center-to-center separation of balls at contact
 			var delRDotDelV:Number = delX*delVx + delY*delVy;
 			var delRSq = delX*delX + delY*delY;
+			trace("Model.getContactTime(). DelVsq = "+ delVSq);
 			//if collision is superslow, then set collision time = half-way point since last time step
 			if(delVSq < 0.000000001){
-				tC = this.lastTime + 0.5(this.time - this.lastTime);
+				trace("entering delVSq < 0.000000001 if stmt..");
+				tC = this.lastTime + 0.5*(this.time - this.lastTime);
+				trace("delVSq<0.000000001, tC is "+tC);
 			}else{ //if collision is normal
 				if(reversing){
 					var delT:Number = (-delRDotDelV + Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
