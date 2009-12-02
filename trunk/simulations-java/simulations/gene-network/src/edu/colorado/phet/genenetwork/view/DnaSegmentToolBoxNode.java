@@ -29,7 +29,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 	
 	// Defines the width of the tool box as a proportion of the parent window's
 	// width.
-	static final double WIDTH_PROPORTION = 0.6;
+	static final double WIDTH_PROPORTION = 0.7;
 	
 	// Aspect ratio, width divided by height, from which the height will be
 	// calculated.
@@ -102,12 +102,14 @@ public class DnaSegmentToolBoxNode extends PNode {
     	setOffset(((double)parent.getWidth() - width) / 2,
     			parent.getHeight() - boxNode.getHeight() - OFFSET_FROM_BOTTOM);
     	
-    	// Position the grabbable items.
+    	// Position the grabbable items.  Since the shapes of these vary quite
+    	// a lot, making them line up well requires tweaking the multipliers
+    	// below on an individual basis.
     	PBounds boxBounds = boxNode.getFullBounds();
-    	polymerase.setOffset(boxBounds.width * 0.2, boxBounds.height * 0.2);
+    	polymerase.setOffset(boxBounds.width * 0.1, boxBounds.height * 0.25);
     	polymeraseBindingRegion.setOffset(boxBounds.width * 0.3, boxBounds.height / 4);
-    	lacIBindingRegion.setOffset(boxBounds.width * 0.5, boxBounds.height * 0.2);
-    	lacZGene.setOffset(boxBounds.width * 0.65, boxBounds.height / 4);
-    	lacIGene.setOffset(boxBounds.width * 0.85, boxBounds.height / 4);
+    	lacIBindingRegion.setOffset(boxBounds.width * 0.5, boxBounds.height * 0.25);
+    	lacZGene.setOffset(boxBounds.width * 0.7, boxBounds.height * 0.25);
+    	lacIGene.setOffset(boxBounds.width * 0.88, boxBounds.height * 0.25);
 	}
 }
