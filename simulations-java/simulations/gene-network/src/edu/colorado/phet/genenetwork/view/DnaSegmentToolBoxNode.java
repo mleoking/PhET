@@ -52,6 +52,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 
 	// The various grabbable things in the box.
 	private LacZGeneToolBoxNode lacZGene;
+	private LacIGeneToolBoxNode lacIGene;
 	
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -73,6 +74,8 @@ public class DnaSegmentToolBoxNode extends PNode {
 		// Create the grabbable items in the box.
 		lacZGene = new LacZGeneToolBoxNode(model, MVT);
 		addChild(lacZGene);
+		lacIGene = new LacIGeneToolBoxNode(model, MVT);
+		addChild(lacIGene);
 		
 		// Do the initial layout.
 		updateLayout(parent);
@@ -92,6 +95,7 @@ public class DnaSegmentToolBoxNode extends PNode {
     	
     	// Position the grabbable items.
     	PBounds boxBounds = boxNode.getFullBounds();
-    	lacZGene.setOffset(boxBounds.width / 2, boxBounds.height / 3);
+    	lacZGene.setOffset(boxBounds.width * 0.65, boxBounds.height / 4);
+    	lacIGene.setOffset(boxBounds.width * 0.85, boxBounds.height / 4);
 	}
 }
