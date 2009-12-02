@@ -1,6 +1,6 @@
 ﻿//View and Controller of ball in TableView
 //BallImage has 5 sprite layers,
-// 1: colored ball, on bottom, not grabbable, has position textField as Child
+// 1: colored ball, on bottom, not grabbable
 // 2: velocity arrow, not grabbable
 // 3: textField label
 // 4: transparent disk for dragging ball, to set position
@@ -25,8 +25,8 @@ package{
 		var tFormat:TextFormat;				//format for ball label text
 		var tFormat2:TextFormat;			//format for ball position and velocity readouts
 		var tFieldBallNbr:TextField;		//label = ball number
-		var tFieldPosition:TextField;		//label showing x, y coords of ball during dragging
-		var tFieldVelocity:TextField;		//label showing v_x, v_y during dragging
+		//var tFieldPosition:TextField;		//label showing x, y coords of ball during dragging
+		//var tFieldVelocity:TextField;		//label showing v_x, v_y during dragging
 		var xEqString:String;				//"x = "  All text must be programmatically set for internationalization
 		var yEqString:String;				//"y = "
 		
@@ -47,17 +47,17 @@ package{
 			//this.addChild(this.canvas);
 			
 			this.tFieldBallNbr = new TextField();
-			this.tFieldPosition = new TextField();
-			this.tFieldVelocity = new TextField();
+			//this.tFieldPosition = new TextField();
+			//this.tFieldVelocity = new TextField();
 			var ballNbr:String = String(1 + this.ballIndex);
 			this.tFieldBallNbr.text = ballNbr;
 			this.xEqString = "x = ";
 			this.yEqString = "y = ";
-			this.tFieldBallNbr.selectable = false;
-			this.tFieldPosition.selectable = false;
-			this.tFieldVelocity.selectable = false;
-			this.tFieldPosition.visible = false;
-			this.tFieldPosition.multiline = true;
+			//this.tFieldBallNbr.selectable = false;
+			//this.tFieldPosition.selectable = false;
+			//this.tFieldVelocity.selectable = false;
+			//this.tFieldPosition.visible = false;
+			//this.tFieldPosition.multiline = true;
 			//this.tFieldPosition.border = true;
 			this.tFormat = new TextFormat();
 			tFormat.font = "Arial";
@@ -70,8 +70,8 @@ package{
 			tFormat2.color = 0x000000;
 			tFormat2.size = 14;
 			this.tFieldBallNbr.setTextFormat(tFormat);
-			this.tFieldPosition.defaultTextFormat = tFormat2;
-			this.tFieldVelocity.defaultTextFormat = tFormat2;
+			//this.tFieldPosition.defaultTextFormat = tFormat2;
+			//this.tFieldVelocity.defaultTextFormat = tFormat2;
 			this.setLayerDepths();
 			this.drawLayer1();
 			this.drawLayer2();
@@ -85,7 +85,7 @@ package{
 		private function setLayerDepths():void{
 			this.myTableView.canvas.addChild(this);
 			this.addChild(this.ballBody);
-			this.addChild(this.tFieldPosition);
+			//this.addChild(this.tFieldPosition);
 			this.addChild(this.arrowImage);
 			this.addChild(this.tFieldBallNbr);
 			this.addChild(this.ballHandle);
@@ -133,7 +133,8 @@ package{
 			var r:Number = 10;
 			g.clear();
 			g.beginFill(currentColor, alpha1);
-			g.drawCircle(0,0,r);
+			g.lineStyle(1,0x000000);
+			g.drawCircle(1,0,r);
 			g.endFill();
 			this.arrowHeadHandle.x = this.arrowImage.getHeadCenterX();
 			this.arrowHeadHandle.y = this.arrowImage.getHeadCenterY();
@@ -215,29 +216,9 @@ package{
 				
 			}
 			
-			//unused
-			function showPosition(evt:MouseEvent):void{
-				thisBallImage.tFieldPosition.visible = true;
-				thisBallImage.updateTFieldPosition();
-				//trace("BallImage rollover ballhandle" + indx);
-			}
-			//unused
-			function unshowPosition(evt:MouseEvent):void{
-				thisBallImage.tFieldPosition.visible = false;
-				//trace("BallImage rollout ballhandle" + indx);
-			}
-			
+		
 		}//end makeBallDraggable()
 		
-		//unused
-		private function updateTFieldPosition():void{
-			var pos:TwoVector = this.myModel.ball_arr[this.ballIndex].position;
-			var xPos = Util.round(pos.getX(),2);;
-			var yPos = Util.round(pos.getY(),2);
-			this.tFieldPosition.text = this.xEqString + xPos + "\n" + this.yEqString + yPos;
-			this.tFieldPosition.x = 0.6*this.ballBody.width;
-			this.tFieldPosition.y = -15;
-		}
 		
 		public function makeArrowDraggable():void{
 			var target:Sprite = this.arrowHeadHandle;
@@ -307,8 +288,10 @@ package{
 		public function showArrow(tOrF:Boolean):void{
 			if(tOrF){
 				this.arrowImage.visible = true;
+				this.arrowHeadHandle.visible = true;
 			}else{
 				this.arrowImage.visible = false;
+				this.arrowHeadHandle.visible = false;
 			}
 		}//end showArrow()
 		

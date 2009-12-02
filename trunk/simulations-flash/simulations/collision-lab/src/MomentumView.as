@@ -171,6 +171,7 @@
 			var maxN:int = this.myModel.maxNbrBalls;
 			for(var i:int = 0; i < maxN; i++){
 				this.momentum_arr[i] = new Arrow(i);
+				this.momentum_arr[i].setShaftWidth(8);
 				this.momentum_arr[i].x = this.borderWidth/2;
 				this.momentum_arr[i].y = this.borderHeight/2;
 				this.canvas.addChild(this.momentum_arr[i]);
