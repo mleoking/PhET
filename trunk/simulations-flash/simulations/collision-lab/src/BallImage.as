@@ -130,6 +130,7 @@ package{
 			g.clear();
 			g.lineStyle(1,0x000000);
 			g.drawCircle(0,0,rInPix);
+			this.arrowHeadIndicator.visible = false;
 		}//end of drawLayer3();
 		
 		public function drawLayer4():void{	//ballHandle
@@ -275,8 +276,22 @@ package{
 						thisBallImage.arrowHeadIndicator.y = target.y;
 						var velocityY:Number = -target.y/thisBallImage.arrowImage.scale;
 						modelRef.setVY(indx, velocityY);
+					}else{
+						target.y = 0;// - clickOffset.y;
+						thisBallImage.arrowHeadIndicator.y = target.y;
+						velocityY = -target.y/thisBallImage.arrowImage.scale;
+						modelRef.setVY(indx, velocityY);
 					}
 					var distInPix:Number = Math.sqrt(target.x*target.x + target.y*target.y); 
+					var rInPix:Number = thisBallImage.pixelsPerMeter*thisBallImage.myBall.getRadius();
+					//trace("distInPix: "+distInPix+"   r:"+rInPix);
+					if(distInPix < rInPix){
+						//trace("inside");
+						thisBallImage.arrowHeadIndicator.visible = true;
+					}else{
+						//trace("outside");
+						thisBallImage.arrowHeadIndicator.visible = false;
+					}
 					//trace("velocityX: "+velocityX+"    velocityY: "+velocityY);
 					//modelRef.ball_arr[indx].velocity.setXY(velocityX, velocityY);
 					if(modelRef.atInitialConfig){
