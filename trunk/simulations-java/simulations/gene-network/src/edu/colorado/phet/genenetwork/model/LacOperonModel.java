@@ -315,6 +315,13 @@ public class LacOperonModel implements IObtainGeneModelElements {
 		return lacIGene;
 	}
     
+	public LacOperator createAndAddLacOperator(Point2D initialPosition) {
+		assert lacOperator == null; // Only one exists in this model, so multiple calls to this shouldn't occur.
+		lacOperator = new LacOperator(this, initialPosition);
+		notifyModelElementAdded(lacOperator);
+		return lacOperator;
+	}
+    
     private void handleClockTicked(double dt){
 
     	// Step the elements for which there can be multiple instances.
