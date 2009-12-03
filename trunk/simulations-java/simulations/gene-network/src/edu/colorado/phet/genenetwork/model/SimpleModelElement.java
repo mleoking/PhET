@@ -117,6 +117,10 @@ public abstract class SimpleModelElement implements IModelElement{
 		setPosition(newPosition.getX(), newPosition.getY());
 	}
 	
+	public void move(double xDelta, double yDelta){
+		setPosition(position.getX() + xDelta, position.getY() + yDelta);
+	}
+	
 	public Paint getPaint(){
 		return paint;
 	}

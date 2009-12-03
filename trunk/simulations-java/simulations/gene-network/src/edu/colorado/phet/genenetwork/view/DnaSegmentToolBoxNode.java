@@ -4,12 +4,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
 import edu.umd.cs.piccolo.PNode;
@@ -38,11 +38,6 @@ public class DnaSegmentToolBoxNode extends PNode {
 	// Offset from the bottom of the window.
 	static final double OFFSET_FROM_BOTTOM = 10;
 	
-	// Transform for scaling the "tools" (which are elements of the DNA
-	// strand) 
-	static final ModelViewTransform2D MVT = new ModelViewTransform2D(new Point2D.Double(0, 0),
-			new Point2D.Double(0, 0), 5, true);
-
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -61,33 +56,33 @@ public class DnaSegmentToolBoxNode extends PNode {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public DnaSegmentToolBoxNode(final JComponent parent, IObtainGeneModelElements model, ModelViewTransform2D mvt) {
+	public DnaSegmentToolBoxNode(final PhetPCanvas canvas, IObtainGeneModelElements model, ModelViewTransform2D mvt) {
 		
 		// Register for events indicating that the parent window was resized.
-		parent.addComponentListener(new ComponentAdapter() {
+		canvas.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent e) {
-		    	updateLayout(parent);
+		    	updateLayout(canvas);
 		    }
 		});
 		
 		// Create the surrounding box.
-		boxNode = new PhetPPath(new RoundRectangle2D.Double(0, 0, parent.getWidth(), 100, 15, 15), Color.WHITE, new BasicStroke(2f), Color.BLACK);
+		boxNode = new PhetPPath(new RoundRectangle2D.Double(0, 0, canvas.getWidth(), 100, 15, 15), Color.WHITE, new BasicStroke(2f), Color.BLACK);
 		addChild(boxNode);
 		
 		// Create the grabbable items in the box.
-		lacZGene = new LacZGeneToolBoxNode(model, MVT);
+		lacZGene = new LacZGeneToolBoxNode(model, mvt, canvas);
 		addChild(lacZGene);
-		lacIGene = new LacIGeneToolBoxNode(model, MVT);
+		lacIGene = new LacIGeneToolBoxNode(model, mvt);
 		addChild(lacIGene);
-		lacIBindingRegion = new LacIBindingRegionToolBoxNode(model, MVT);
+		lacIBindingRegion = new LacIBindingRegionToolBoxNode(model, mvt);
 		addChild(lacIBindingRegion);
-		polymeraseBindingRegion = new PolymeraseBindingRegionToolBoxNode(model, MVT);
+		polymeraseBindingRegion = new PolymeraseBindingRegionToolBoxNode(model, mvt);
 		addChild(polymeraseBindingRegion);
-		polymerase = new PolymeraseToolBoxNode(model, MVT);
+		polymerase = new PolymeraseToolBoxNode(model, mvt);
 		addChild(polymerase);
 		
 		// Do the initial layout.
-		updateLayout(parent);
+		updateLayout(canvas);
 	}
 	
     //----------------------------------------------------------------------------
