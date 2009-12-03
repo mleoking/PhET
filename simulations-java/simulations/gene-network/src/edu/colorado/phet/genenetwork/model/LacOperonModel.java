@@ -329,6 +329,13 @@ public class LacOperonModel implements IObtainGeneModelElements {
 		return lacPromoter;
 	}
     
+	public RnaPolymerase createAndAddRnaPolymerase(Point2D initialPosition) {
+		RnaPolymerase rnaPolymerase = new RnaPolymerase(this, initialPosition);
+		rnaPolymeraseList.add(rnaPolymerase);
+		notifyModelElementAdded(rnaPolymerase);
+		return rnaPolymerase;
+	}
+    
     private void handleClockTicked(double dt){
 
     	// Step the elements for which there can be multiple instances.

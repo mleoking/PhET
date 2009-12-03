@@ -70,6 +70,14 @@ public interface IObtainGeneModelElements {
 	LacPromoter createAndAddLacPromoter(Point2D initialPosition);
 
 	/**
+	 * Create an RNA Polymerase and add it to the model.
+	 * 
+	 * @return A reference to the newly created model element, null if some
+	 * problem prevented the creation.
+	 */
+	RnaPolymerase createAndAddRnaPolymerase(Point2D initialPosition);
+
+	/**
 	 * Get a list of all simple model elements in the model.
 	 * 
 	 * @return

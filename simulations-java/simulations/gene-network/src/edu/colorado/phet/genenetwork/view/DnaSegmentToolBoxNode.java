@@ -50,7 +50,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 	private LacIGeneToolBoxNode2 lacIGene;
 	private LacOperatorToolBoxNode2 lacIBindingRegion;
 	private LacPromoterToolBoxNode2 lacPromoter;
-	private PolymeraseToolBoxNode polymerase;
+	private RnaPolymeraseToolBoxNode2 polymerase;
 	
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -78,7 +78,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 		addChild(lacIBindingRegion);
 		lacPromoter = new LacPromoterToolBoxNode2(model, mvt, canvas);
 		addChild(lacPromoter);
-		polymerase = new PolymeraseToolBoxNode(model, mvt);
+		polymerase = new RnaPolymeraseToolBoxNode2(model, mvt, canvas);
 		addChild(polymerase);
 		
 		// Do the initial layout.
