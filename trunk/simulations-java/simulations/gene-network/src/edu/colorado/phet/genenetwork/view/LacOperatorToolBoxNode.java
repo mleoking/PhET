@@ -31,4 +31,9 @@ public class LacOperatorToolBoxNode extends ToolBoxItemNode {
 		setSelectionNode(new SimpleModelElementNode(new LacOperator(getModel()), SCALING_MVT, true));
 		setCaption(GeneNetworkStrings.LACI_BINDING_REGION_TOOL_BOX_CAPTION);
 	}
+	
+	@Override
+	protected void updatePositionWhenReleased() {
+		getModelElement().setPosition(getModel().getDnaStrand().getLacOperatorLocation());
+	}
 }
