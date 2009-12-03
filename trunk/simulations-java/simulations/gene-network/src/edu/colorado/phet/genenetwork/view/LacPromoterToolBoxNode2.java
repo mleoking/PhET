@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
-import edu.colorado.phet.genenetwork.model.LacOperator;
 import edu.colorado.phet.genenetwork.model.LacPromoter;
 
 public class LacPromoterToolBoxNode2 extends ToolBoxItemNode {
