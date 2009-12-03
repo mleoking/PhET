@@ -46,11 +46,11 @@ public class DnaSegmentToolBoxNode extends PNode {
 	private PhetPPath boxNode;
 
 	// The various grabbable things in the box.
-	private LacZGeneToolBoxNode2 lacZGene;
-	private LacIGeneToolBoxNode2 lacIGene;
-	private LacOperatorToolBoxNode2 lacIBindingRegion;
-	private LacPromoterToolBoxNode2 lacPromoter;
-	private RnaPolymeraseToolBoxNode2 polymerase;
+	private LacZGeneToolBoxNode lacZGene;
+	private LacIGeneToolBoxNode lacIGene;
+	private LacOperatorToolBoxNode lacIBindingRegion;
+	private LacPromoterToolBoxNode lacPromoter;
+	private RnaPolymeraseToolBoxNode polymerase;
 	
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -70,15 +70,15 @@ public class DnaSegmentToolBoxNode extends PNode {
 		addChild(boxNode);
 		
 		// Create the grabbable items in the box.
-		lacZGene = new LacZGeneToolBoxNode2(model, mvt, canvas);
+		lacZGene = new LacZGeneToolBoxNode(model, mvt, canvas);
 		addChild(lacZGene);
-		lacIGene = new LacIGeneToolBoxNode2(model, mvt, canvas);
+		lacIGene = new LacIGeneToolBoxNode(model, mvt, canvas);
 		addChild(lacIGene);
-		lacIBindingRegion = new LacOperatorToolBoxNode2(model, mvt, canvas);
+		lacIBindingRegion = new LacOperatorToolBoxNode(model, mvt, canvas);
 		addChild(lacIBindingRegion);
-		lacPromoter = new LacPromoterToolBoxNode2(model, mvt, canvas);
+		lacPromoter = new LacPromoterToolBoxNode(model, mvt, canvas);
 		addChild(lacPromoter);
-		polymerase = new RnaPolymeraseToolBoxNode2(model, mvt, canvas);
+		polymerase = new RnaPolymeraseToolBoxNode(model, mvt, canvas);
 		addChild(polymerase);
 		
 		// Do the initial layout.
