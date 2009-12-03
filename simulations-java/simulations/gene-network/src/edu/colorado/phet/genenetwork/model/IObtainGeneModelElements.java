@@ -95,6 +95,17 @@ public interface IObtainGeneModelElements {
      */
 	boolean isLacIAttachedToDna();
 
+    /**
+     * Returns true if the lac operator (a.k.a. lacI binding region) is
+     * present in the DNA strand.
+     */
+    boolean isLacOperatorPresent();
+
+    /**
+     * Returns true if the lac Z gene is present in the DNA strand.
+     */
+    boolean isLacZGenePresent();
+
 	/**
 	 * Add a new messenger RNA to the model.
 	 * @param mRna
