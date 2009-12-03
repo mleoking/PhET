@@ -1,2 +1,4 @@
+# 0.00.02 (37109) Dec 3, 2009
+12/3/09 First posting of working version.
 # 0.00.01 (36942) Nov 30, 2009
 11/30/09 First dev version posted
