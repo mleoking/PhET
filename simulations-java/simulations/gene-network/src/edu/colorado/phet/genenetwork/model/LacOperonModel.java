@@ -308,6 +308,13 @@ public class LacOperonModel implements IObtainGeneModelElements {
 		return lacZGene;
 	}
     
+	public LacIGene createAndAddLacIGene(Point2D initialPosition) {
+		assert lacIGene == null; // Only one exists in this model, so multiple calls to this shouldn't occur.
+		lacIGene = new LacIGene(this, initialPosition);
+		notifyModelElementAdded(lacIGene);
+		return lacIGene;
+	}
+    
     private void handleClockTicked(double dt){
 
     	// Step the elements for which there can be multiple instances.

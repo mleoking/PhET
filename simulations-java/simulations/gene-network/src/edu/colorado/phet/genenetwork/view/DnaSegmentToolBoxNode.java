@@ -47,7 +47,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 
 	// The various grabbable things in the box.
 	private LacZGeneToolBoxNode2 lacZGene;
-	private LacIGeneToolBoxNode lacIGene;
+	private LacIGeneToolBoxNode2 lacIGene;
 	private LacIBindingRegionToolBoxNode lacIBindingRegion;
 	private PolymeraseBindingRegionToolBoxNode polymeraseBindingRegion;
 	private PolymeraseToolBoxNode polymerase;
@@ -72,7 +72,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 		// Create the grabbable items in the box.
 		lacZGene = new LacZGeneToolBoxNode2(model, mvt, canvas);
 		addChild(lacZGene);
-		lacIGene = new LacIGeneToolBoxNode(model, mvt);
+		lacIGene = new LacIGeneToolBoxNode2(model, mvt, canvas);
 		addChild(lacIGene);
 		lacIBindingRegion = new LacIBindingRegionToolBoxNode(model, mvt);
 		addChild(lacIBindingRegion);
