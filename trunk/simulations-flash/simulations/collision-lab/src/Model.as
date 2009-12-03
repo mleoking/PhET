@@ -363,18 +363,18 @@ package{
 						//trace("elasticity before collision: "+this.e);
 						//trace("collision detected. i = "+i+"   j = "+j+"   at time: "+this.time+"   dist: "+dist+"   distMin: "+distMin);
 						this.collideBalls(i, j);
-						this.colliders[i][j] = 1;  //ball have collided
+						//this.colliders[i][j] = 1;  //ball have collided
 						
-					}else {
-						this.colliders[i][j] = 0;	//balls not yet collided
-					}
+					}//else {
+						//this.colliders[i][j] = 0;	//balls not yet collided
+					//}
 					
 				}//for(j=..)
 			}//for(i=..)
 		}//detectCollision
 		
 		public function separateAllBalls():void{
-			//trace("separateAllBalls() called.");
+			trace("separateAllBalls() called at time = "+this.time);
 			//var allBallsSeparated:Boolean = false;
 			//loop through all balls repeatedly until no overlap between any pair
 			var cntr:int = 0;

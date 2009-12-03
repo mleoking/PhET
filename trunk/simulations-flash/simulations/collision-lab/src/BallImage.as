@@ -170,7 +170,8 @@ package{
 			//target.addEventListener(MouseEvent.MOUSE_OVER, bringToTop);
 			target.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
 			target.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
-			target.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
+			target.stage.
+			addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
 			target.addEventListener(MouseEvent.MOUSE_OVER, highlightPositionTextFields);
 			target.addEventListener(MouseEvent.MOUSE_OUT, unHighlightPositionTextFields);
 			var theStage:Object = thisBallImage.myTableView.canvas;//target.parent;
