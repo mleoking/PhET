@@ -19,6 +19,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class DnaStrand {
 	
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+
 	// Length of one "cycle" of the DNA strand, in nanometers.
 	private static final double DNA_WAVE_LENGTH = 3;
 	
@@ -29,28 +33,41 @@ public class DnaStrand {
 	// Offset in the x direction between the two DNA strands.
 	private static final double DNA_INTER_STRAND_OFFSET = 0.75;
 
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+
 	private DoubleGeneralPath strand1Shape = new DoubleGeneralPath();
 	private DoubleGeneralPath strand2Shape = new DoubleGeneralPath();
 	private final Dimension2D size;
 	private Point2D position = new Point2D.Double();
-	private ArrayList<GeneSegmentShape> geneSectionShapeList = new ArrayList<GeneSegmentShape>();
 	
+	// The "spaces" or shapes where specific pieces of the strand, such as a
+	// gene, can reside.
+	private LacIGene lacIGeneSpace = new LacIGene(null);
+	private LacPromoter lacPromoterSpace = new LacPromoter(null);
+	private LacOperator lacOperatorSpace = new LacOperator(null);
+	private LacZGene lacZGeneSpace = new LacZGene(null);
+	
+	// References to model elements that are also a segment of this DNA strand.
+	private LacZGene lacZGene;
+	
+    //------------------------------------------------------------------------
+    // Constructor(s)
+    //------------------------------------------------------------------------
+
 	public DnaStrand(Dimension2D size, Point2D initialPosition){
+		
 		this.size = new PDimension(size);
 		setPosition(initialPosition);
 		
 		updateStrandShapes();
 		
-		// Create the gene segments, which are the places where genes will
-		// eventually be placed.
-		Shape lacIGeneShape = new LacIGene(null).getShape();
-		geneSectionShapeList.add(new GeneSegmentShape(lacIGeneShape, new Point2D.Double(-40, 0)));
-		Shape lacPromoterShape = new LacPromoter(null).getShape();
-		geneSectionShapeList.add(new GeneSegmentShape(lacPromoterShape, new Point2D.Double(5, 0)));
-		Shape lacOperatorShape = new LacOperator(null).getShape();
-		geneSectionShapeList.add(new GeneSegmentShape(lacOperatorShape, new Point2D.Double(15, 0)));
-		Shape lacZGeneShape = new LacZGene(null).getShape();
-		geneSectionShapeList.add(new GeneSegmentShape(lacZGeneShape, new Point2D.Double(30, 0)));
+		// Set the offsets for the various DNA segments.
+		lacIGeneSpace.setPosition(-40, 0);
+		lacPromoterSpace.setPosition(5, 0);
+		lacOperatorSpace.setPosition(15, 0);
+		lacZGeneSpace.setPosition(30, 0);
 	}
 	
 	public Point2D getPositionRef() {
@@ -78,11 +95,60 @@ public class DnaStrand {
 	}
 	
 	/**
+	 * Get the location in absolute model space (i.e. not relative to the DNA
+	 * strand's position) of the LacZGene space on the DNA strand.
+	 * 
+	 * @return
+	 */
+	public Point2D getLacZGeneLocation(){
+		return new Point2D.Double(getPositionRef().getX() + lacZGeneSpace.getPositionRef().getX(),
+				getPositionRef().getY() + lacZGeneSpace.getPositionRef().getY());
+	}
+	
+	/**
+	 * Get the location in absolute model space (i.e. not relative to the DNA
+	 * strand's position) of the LacIGene space on the DNA strand.
+	 * 
+	 * @return
+	 */
+	public Point2D getLacIGeneLocation(){
+		return new Point2D.Double(getPositionRef().getX() + lacIGeneSpace.getPositionRef().getX(),
+				getPositionRef().getY() + lacIGeneSpace.getPositionRef().getY());
+	}
+	
+	/**
+	 * Get the location in absolute model space (i.e. not relative to the DNA
+	 * strand's position) of the lac promoter space on the DNA strand.
+	 * 
+	 * @return
+	 */
+	public Point2D getLacPromoterLocation(){
+		return new Point2D.Double(getPositionRef().getX() + lacPromoterSpace.getPositionRef().getX(),
+				getPositionRef().getY() + lacPromoterSpace.getPositionRef().getY());
+	}
+	
+	/**
+	 * Get the location in absolute model space (i.e. not relative to the DNA
+	 * strand's position) of the lac operator space on the DNA strand.
+	 * 
+	 * @return
+	 */
+	public Point2D getLacOperatorLocation(){
+		return new Point2D.Double(getPositionRef().getX() + lacOperatorSpace.getPositionRef().getX(),
+				getPositionRef().getY() + lacOperatorSpace.getPositionRef().getY());
+	}
+	
+	/**
 	 * Get a list of the shapes that represent the spaces on the DNA strand
 	 * where the genes should go.
 	 */
 	public ArrayList<GeneSegmentShape> getGeneSegmentShapeList(){
-		return new ArrayList<GeneSegmentShape>(geneSectionShapeList);
+		ArrayList<GeneSegmentShape> shapeList = new ArrayList<GeneSegmentShape>();
+		shapeList.add(new GeneSegmentShape(lacIGeneSpace.getShape(), lacIGeneSpace.getPositionRef()));
+		shapeList.add(new GeneSegmentShape(lacPromoterSpace.getShape(), lacPromoterSpace.getPositionRef()));
+		shapeList.add(new GeneSegmentShape(lacOperatorSpace.getShape(), lacOperatorSpace.getPositionRef()));
+		shapeList.add(new GeneSegmentShape(lacZGeneSpace.getShape(), lacZGeneSpace.getPositionRef()));
+		return shapeList;
 	}
 	
 	private void updateStrandShapes(){
@@ -100,6 +166,10 @@ public class DnaStrand {
 		}
 	}
 	
+    //------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+
 	public static class GeneSegmentShape extends Area {
 
 		private final Point2D offsetFromDnaStrandPos = new Point2D.Double();
