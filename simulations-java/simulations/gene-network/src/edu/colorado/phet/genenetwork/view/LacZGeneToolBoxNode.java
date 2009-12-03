@@ -9,9 +9,11 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
 import edu.colorado.phet.genenetwork.model.LacZGene;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -35,33 +37,44 @@ public class LacZGeneToolBoxNode extends PComposite {
         addInputEventListener(new PBasicInputEventHandler(){
         	@Override
             public void mouseDragged(PInputEvent event) {
+        		// Figure out the correspondence between this drag event and model space.
+    			Point2D mouseCanvasPos = event.getCanvasPosition();
+    			System.out.println("Mouse pos in screen coords: " + mouseCanvasPos);
+    			Point2D mouseWorldPos = new Point2D.Double(mouseCanvasPos.getX(), mouseCanvasPos.getY()); 
+    			canvas.getPhetRootNode().screenToWorld(mouseWorldPos);
+    			System.out.println("Mouse pos in world coords: " + mouseWorldPos);
+    			Point2D mouseModelPos = mvt.viewToModel(mouseWorldPos);
+    			System.out.println("Mouse pos in model coords: " + mouseModelPos);
+        		
         		if (lacZGene == null){
-        			System.out.println("canvas position: " + event.getPosition());
         			// Add a new LacZ to the model.
-        			AffineTransform screenToIntermediateTransform = null;
-        			try {
-						screenToIntermediateTransform = event.getCamera().getTransform().createInverse();
-						screenToIntermediateTransform = canvas.getTransform().createInverse();
-					} catch (NoninvertibleTransformException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-        			Point2D mouseScreenPos = event.getPosition();
-        			System.out.println("Mouse pos in screen coords: " + mouseScreenPos);
-        			Point2D mouseIntermediatePos = screenToIntermediateTransform.transform(mouseScreenPos, null);
-        			System.out.println("Mouse pos in intermediate coords: " + mouseIntermediatePos);
-        			Point2D mouseModelPos = mvt.viewToModel(mouseIntermediatePos);
-        			System.out.println("Mouse pos in model coords: " + mouseModelPos);
         			lacZGene = model.createAndAddLacZGene(mouseModelPos);
         		}
-        		else{
-        			// Move the gene.
-            		Point2D mouseMovement = mvt.viewToModelDifferential(
-            				new Point2D.Double(event.getDeltaRelativeTo(getParent()).width,
-            				event.getDeltaRelativeTo(getParent()).height));
-        			lacZGene.move(mouseMovement.getX(), mouseMovement.getY());
-        			System.out.println("Mouse Pos: " + event.getCanvasPosition());
-        		}
+       			// Move the gene.
+       			lacZGene.setPosition(mouseModelPos);
+       			
+    			/*
+    			 * doesn't quite work right.
+                Point2D out =mvt.viewToModelDifferential(new Point2D.Double(event.getDeltaRelativeTo(getParent()).width,event.getDeltaRelativeTo(getParent()).height));
+                lacZGene.setPosition(lacZGene.getPositionRef().getX()+out.getX(),lacZGene.getPositionRef().getY()+out.getY());
+                lacZGene.setDragging(true);
+    			 */
+
+    			/*
+    			 * doesn't work quite right.
+    	        PNode draggedNode = event.getPickedNode();
+    	        PDimension d = event.getDeltaRelativeTo(draggedNode);
+    	        draggedNode.localToParent(d);
+    	        lacZGene.move(mvt.viewToModelDifferentialX(d.width), mvt.viewToModelDifferentialY(d.height));
+    			 */
+
+    	        /*
+        		Point2D mouseMovement = mvt.viewToModelDifferential(
+        				new Point2D.Double(event.getDeltaRelativeTo(getParent()).width,
+        				event.getDeltaRelativeTo(getParent()).height));
+    			lacZGene.move(mouseMovement.getX(), mouseMovement.getY());
+    			System.out.println("Mouse Pos: " + event.getCanvasPosition());
+    			*/
             }
 
             @Override
