@@ -341,7 +341,7 @@ package{
 		public function showArrow(tOrF:Boolean):void{
 			if(tOrF){
 				this.arrowImage.visible = true;
-				this.arrowHeadIndicator.visible = true;
+				this.arrowHeadIndicator.visible = false;
 				this.arrowHeadHandle.visible = true;
 			}else{
 				this.arrowImage.visible = false;

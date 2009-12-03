@@ -77,7 +77,7 @@
 				moveTo(-del, -del);
 				lineTo(W+del, -del);
 				lineTo(W+del, +H+del);
-				lineTo(-del, +H);
+				lineTo(-del, +H+del);
 				lineTo(-del, -del);
 				endFill();
 			}
