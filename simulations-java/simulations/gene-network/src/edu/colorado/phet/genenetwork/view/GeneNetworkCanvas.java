@@ -41,13 +41,11 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     // Model
     private IObtainGeneModelElements model;
     
-    // View 
-    private PNode rootNode;
-    
     // Model-view transform.
     private ModelViewTransform2D mvt;
     
     // Layers for creating the desired overlap behavior.
+    private PNode toolBoxLayer;
     private PNode dnaStrandLayer;
     private PNode rovingModelElementLayer;
     
@@ -80,15 +78,13 @@ public class GeneNetworkCanvas extends PhetPCanvas {
 			}
 		});
         
-        // Root of our scene graph
-        rootNode = new PNode();
-        addWorldChild( rootNode );
-        
         // Layers.
+        toolBoxLayer = new PNode();
+        addScreenChild(toolBoxLayer);
         dnaStrandLayer = new PNode();
-        rootNode.addChild(dnaStrandLayer);
+        addWorldChild(dnaStrandLayer);
         rovingModelElementLayer = new PNode();
-        rootNode.addChild(rovingModelElementLayer);
+        addWorldChild(rovingModelElementLayer);
                 
         // Add the DNA strand to the canvas.
         dnaStrandLayer.addChild(new DnaStrandNode(model.getDnaStrand(), mvt, getBackground()));
@@ -99,9 +95,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         }
         
         // Add the tool box.
-        
-        addScreenChild(new DnaSegmentToolBoxNode(this, model, mvt));
-        
+        toolBoxLayer.addChild(new DnaSegmentToolBoxNode(this, model, mvt));
     }
 
     //------------------------------------------------------------------------
