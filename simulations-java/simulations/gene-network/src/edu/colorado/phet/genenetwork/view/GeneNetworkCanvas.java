@@ -134,7 +134,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     //------------------------------------------------------------------------
     
     private void addModelElement(final SimpleModelElement modelElement){
-    	final SimpleModelElementNode modelElementNode = new SimpleModelElementNode(modelElement, mvt, false);
+    	final SimpleModelElementNode modelElementNode = new SimpleModelElementNode(modelElement, mvt, true);
     	
     	if (modelElement.isPartOfDnaStrand()){
     		dnaStrandLayer.addChild(modelElementNode);

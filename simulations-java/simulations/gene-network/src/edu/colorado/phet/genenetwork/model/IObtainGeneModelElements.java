@@ -1,5 +1,6 @@
 package edu.colorado.phet.genenetwork.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -33,6 +34,14 @@ public interface IObtainGeneModelElements {
 	LacYGene getLacYGene();
 
 	LacIPromoter getLacIPromoter();
+	
+	/**
+	 * Create a lacZ gene and add it to the model.
+	 * 
+	 * @return A reference to the newly created model element, null if some
+	 * problem prevented the creation.
+	 */
+	LacZGene createAndAddLacZGene(Point2D initialPosition);
 
 	/**
 	 * Get a list of all simple model elements in the model.

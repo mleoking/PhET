@@ -58,14 +58,14 @@ public class LacOperonModel implements IObtainGeneModelElements {
     private final ArrayList<TransformationArrow> transformationArrowList = new ArrayList<TransformationArrow>();
     
     // Lists of simple model elements for which only one instance can exist.
-    private final Cap cap = null;
-    private final CapBindingRegion capBindingRegion = null;
-    private final LacOperator lacOperator = null;
-    private final LacIGene lacIGene = null;
-    private final LacZGene lacZGene = null;
-    private final LacYGene lacYGene = null;
-    private final LacIPromoter lacIPromoter = null;
-    private final LacPromoter lacPromoter = null;
+    private Cap cap = null;
+    private CapBindingRegion capBindingRegion = null;
+    private LacOperator lacOperator = null;
+    private LacIGene lacIGene = null;
+    private LacZGene lacZGene = null;
+    private LacYGene lacYGene = null;
+    private LacIPromoter lacIPromoter = null;
+    private LacPromoter lacPromoter = null;
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -300,6 +300,13 @@ public class LacOperonModel implements IObtainGeneModelElements {
     	lacIList.add(lacI);
     	notifyModelElementAdded(lacI);
     }
+    
+	public LacZGene createAndAddLacZGene(Point2D initialPosition) {
+		assert lacZGene == null; // Only one exists in this model, so multiple calls to this shouldn't occur.
+		lacZGene = new LacZGene(this, initialPosition);
+		notifyModelElementAdded(lacZGene);
+		return lacZGene;
+	}
     
     private void handleClockTicked(double dt){
 
