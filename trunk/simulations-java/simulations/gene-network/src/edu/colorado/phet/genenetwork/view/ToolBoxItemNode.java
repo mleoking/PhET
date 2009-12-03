@@ -67,6 +67,7 @@ public abstract class ToolBoxItemNode extends PComposite {
         		if (modelElement == null){
         			// Add the new model element to the model.
         			addModelElement(mouseCanvasPos);
+        			modelElement.setDragging(true);
         		}
        			// Move the model element.
        			modelElement.setPosition(mouseModelPos);
@@ -76,6 +77,7 @@ public abstract class ToolBoxItemNode extends PComposite {
             public void mouseReleased(PInputEvent event) {
             	// Release our reference to the model element so that we will
             	// create a new one if clicked again.
+            	modelElement.setDragging(false);
             	modelElement = null;
             }
         });
