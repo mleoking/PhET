@@ -31,4 +31,9 @@ public class LacPromoterToolBoxNode extends ToolBoxItemNode {
 		setSelectionNode(new SimpleModelElementNode(new LacPromoter(getModel()), SCALING_MVT, true));
 		setCaption(GeneNetworkStrings.POLYMERASE_BINDING_REGION_TOOL_BOX_CAPTION);
 	}
+	
+	@Override
+	protected void updatePositionWhenReleased() {
+		getModelElement().setPosition(getModel().getDnaStrand().getLacPromoterLocation());
+	}
 }

@@ -28,4 +28,9 @@ public class LacIGeneToolBoxNode extends ToolBoxItemNode {
 	protected void initializeSelectionNode() {
 		setSelectionNode(new SimpleModelElementNode(new LacIGene(getModel()), SCALING_MVT, true));
 	}
+	
+	@Override
+	protected void updatePositionWhenReleased() {
+		getModelElement().setPosition(getModel().getDnaStrand().getLacIGeneLocation());
+	}
 }

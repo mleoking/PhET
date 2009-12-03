@@ -28,4 +28,9 @@ public class LacZGeneToolBoxNode extends ToolBoxItemNode {
 	protected void initializeSelectionNode() {
 		setSelectionNode(new SimpleModelElementNode(new LacZGene(getModel()), SCALING_MVT, true));
 	}
+
+	@Override
+	protected void updatePositionWhenReleased() {
+		getModelElement().setPosition(getModel().getDnaStrand().getLacZGeneLocation());
+	}
 }

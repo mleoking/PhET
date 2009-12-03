@@ -78,6 +78,7 @@ public abstract class ToolBoxItemNode extends PComposite {
             	// Release our reference to the model element so that we will
             	// create a new one if clicked again.
             	modelElement.setDragging(false);
+            	updatePositionWhenReleased();
             	modelElement = null;
             }
         });
@@ -99,6 +100,14 @@ public abstract class ToolBoxItemNode extends PComposite {
 	 */
 	protected abstract void addModelElement(Point2D position);
 	
+	/**
+	 * Called when the user releases the newly added model element, overridden
+	 * for specific behavior.
+	 */
+	protected void updatePositionWhenReleased(){
+		// Does nothing in base class.
+	}
+	
 	protected void setSelectionNode(SimpleModelElementNode selectionNode){
 		assert this.selectionNode == null; // Currently doesn't support setting this multiple times.
 		this.selectionNode = selectionNode;
@@ -108,6 +117,10 @@ public abstract class ToolBoxItemNode extends PComposite {
 	protected void setModelElement(SimpleModelElement modelElement){
 		assert this.modelElement == null; // Shouldn't end up setting this on top of another. 
 		this.modelElement = modelElement;
+	}
+	
+	protected SimpleModelElement getModelElement(){
+		return modelElement;
 	}
 	
 	protected void setCaption(String captionString){
