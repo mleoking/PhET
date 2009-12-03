@@ -44,6 +44,14 @@ public interface IObtainGeneModelElements {
 	LacZGene createAndAddLacZGene(Point2D initialPosition);
 
 	/**
+	 * Create a lacI gene and add it to the model.
+	 * 
+	 * @return A reference to the newly created model element, null if some
+	 * problem prevented the creation.
+	 */
+	LacIGene createAndAddLacIGene(Point2D initialPosition);
+
+	/**
 	 * Get a list of all simple model elements in the model.
 	 * 
 	 * @return
