@@ -371,11 +371,7 @@ package{
 						//trace("collision detected. i = "+i+"   j = "+j+"   at time: "+this.time+"   dist: "+dist+"   distMin: "+distMin);
 						this.collideBalls(i, j);
 						//this.colliders[i][j] = 1;  //ball have collided
-						
-					}//else {
-						//this.colliders[i][j] = 0;	//balls not yet collided
-					//}
-					
+					}
 				}//for(j=..)
 			}//for(i=..)
 		}//detectCollision
@@ -458,15 +454,6 @@ package{
 				this.ball_arr[i].velocity.setXY(v1xP, v1yP);
 				this.ball_arr[j].velocity.setXY(v2xP, v2yP);
 				
-				//balls currently are overlapped, so first backup!
-				//x1 = ball_arr[i].position.getXLast();
-				//x2 = ball_arr[j].position.getXLast();
-				//y1 = ball_arr[i].position.getYLast();
-				//y2 = ball_arr[j].position.getYLast();
-				//var newXi:Number = x1 + v1x*delTBefore + v1xP*delTAfter;
-				//var newYi:Number = y1 + v1y*delTBefore + v1yP*delTAfter;
-				//var newXj:Number = x2 + v2x*delTBefore + v2xP*delTAfter;
-				//var newYj:Number = y2 + v2y*delTBefore + v2yP*delTAfter;
 				var newXi:Number = x1 + v1xP*delTAfter;
 				var newYi:Number = y1 + v1yP*delTAfter;
 				var newXj:Number = x2 + v2xP*delTAfter;

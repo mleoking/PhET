@@ -196,6 +196,7 @@ package{
 			var ballNbr = Number(evt.target.name);  //first ball is ball 1, is Model.ball_arr[0]
 			this.myModel.setMass(ballNbr - 1, mass);
 			this.myMainView.myTableView.ball_arr[ballNbr - 1].drawLayer1();  //redraw ballImage for new diameter
+			this.myMainView.myTableView.ball_arr[ballNbr - 1].drawLayer4();  //redraw ballImage for new diameter
 			this.manualUpdating = false;
 			//trace("DataTable.changeMassListener().mass:  "+mass);
 			//trace("DataTable.curretBody:"+this.currentBody);
