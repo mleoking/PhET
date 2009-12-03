@@ -35,6 +35,8 @@ public interface IObtainGeneModelElements {
 
 	LacIPromoter getLacIPromoter();
 	
+	DnaStrand getDnaStrand();
+	
 	/**
 	 * Create a lacZ gene and add it to the model.
 	 * 
