@@ -211,9 +211,17 @@ public class LacOperonModel implements IObtainGeneModelElements {
     }
     
     public boolean isLacIAttachedToDna(){
-    	return lacOperator.isLacIAttached();
+    	if (lacOperator == null){
+    		return false;
+    	}
+    	else{
+    		return lacOperator.isLacIAttached();
+    	}
     }
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getDnaStrand()
+	 */
     public DnaStrand getDnaStrand(){
     	return dnaStrand;
     }
