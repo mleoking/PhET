@@ -52,6 +52,14 @@ public interface IObtainGeneModelElements {
 	LacIGene createAndAddLacIGene(Point2D initialPosition);
 
 	/**
+	 * Create a lac operator and add it to the model.
+	 * 
+	 * @return A reference to the newly created model element, null if some
+	 * problem prevented the creation.
+	 */
+	LacOperator createAndAddLacOperator(Point2D initialPosition);
+
+	/**
 	 * Get a list of all simple model elements in the model.
 	 * 
 	 * @return

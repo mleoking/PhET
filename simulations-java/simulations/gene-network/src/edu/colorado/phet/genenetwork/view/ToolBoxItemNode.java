@@ -3,6 +3,7 @@ package edu.colorado.phet.genenetwork.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -18,9 +19,9 @@ public abstract class ToolBoxItemNode extends PComposite {
 		new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(0, 0), 5, true);
 	private static final double CAPTION_OFFSET_FROM_SELECTION_NODE = 4;
 	
-	private IObtainGeneModelElements model;
-	private SimpleModelElementNode selectionNode;
-	private HTMLNode caption;
+	private final IObtainGeneModelElements model;
+	private SimpleModelElementNode selectionNode = null;
+	private HTMLNode caption = null;
 	private SimpleModelElement modelElement = null;
 
 	public ToolBoxItemNode(final IObtainGeneModelElements model, final ModelViewTransform2D mvt, final PhetPCanvas canvas) {
@@ -69,6 +70,8 @@ public abstract class ToolBoxItemNode extends PComposite {
 	
 	protected void setCaption(String captionString){
 		caption = new HTMLNode(captionString);
+		caption.setFont(new PhetFont(16, true));
+		addChild(caption);
 	}
 	
 	private void updateLayout(){
@@ -76,7 +79,7 @@ public abstract class ToolBoxItemNode extends PComposite {
 		// are set.
 		if (caption != null && selectionNode != null){
 			caption.setOffset(-caption.getFullBoundsReference().getWidth() / 2,
-					selectionNode.getFullBoundsReference().getMinY() - CAPTION_OFFSET_FROM_SELECTION_NODE);
+					selectionNode.getFullBoundsReference().getMaxY() + CAPTION_OFFSET_FROM_SELECTION_NODE);
 		}
 	}
 	
