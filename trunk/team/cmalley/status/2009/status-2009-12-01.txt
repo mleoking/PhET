@@ -1,0 +1,32 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: November 20 - December 1, 2009 (Mon-Tue)
+
+ACCOMPLISHMENTS:
+
+  Reactants, Products and Leftovers:
+  - small amount of work on Game
+  
+  build process:
+  - #1918, remove "same=" feature from license files
+  - #1892, verify that Flash jar files build faster
+  - #1921, discuss PBG JNLP testing with Sam
+  - #1926, add -dev to program args for Test feature in PBG
+  
+  misc:
+  - email discussion about statistics filtering of dev versions
+
+WHAT'S NEXT:
+
+  - continue work on Reactants, Products and Leftovers
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   February 12-15
+  
+--
