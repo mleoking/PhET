@@ -1,3 +1,5 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.genenetwork.view;
 
 import java.awt.geom.Point2D;
@@ -13,17 +15,39 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
+/**
+ * Base class for the model elements that appear in the tool box.  This class
+ * handles the common functionality, and subclasses implement the needed
+ * unique behavior.
+ * 
+ * @author John Blanco
+ */
 public abstract class ToolBoxItemNode extends PComposite {
 	
+	//----------------------------------------------------------------------------
+	// Class Data
+	//----------------------------------------------------------------------------
+
+	// Fixed transform for setting the size of the items in the tool box,
+	// which may not be exactly what it is in the model.
 	protected static final ModelViewTransform2D SCALING_MVT = 
 		new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(0, 0), 5, true);
+	
 	private static final double CAPTION_OFFSET_FROM_SELECTION_NODE = 4;
 	
+    //----------------------------------------------------------------------------
+    // Instance Data
+    //----------------------------------------------------------------------------
+
 	private final IObtainGeneModelElements model;
 	private SimpleModelElementNode selectionNode = null;
 	private HTMLNode caption = null;
 	private SimpleModelElement modelElement = null;
 
+    //----------------------------------------------------------------------------
+    // Constructor(s)
+    //----------------------------------------------------------------------------
+    
 	public ToolBoxItemNode(final IObtainGeneModelElements model, final ModelViewTransform2D mvt, final PhetPCanvas canvas) {
 		
 		this.model = model;
@@ -50,11 +74,27 @@ public abstract class ToolBoxItemNode extends PComposite {
 
             @Override
             public void mouseReleased(PInputEvent event) {
+            	// Release our reference to the model element so that we will
+            	// create a new one if clicked again.
+            	modelElement = null;
             }
         });
 	}
 
+	//----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
+
+	/**
+	 * Method overridden by subclasses to set up the node that users will
+	 * click on in order to add one to the model.
+	 */
 	protected abstract void initializeSelectionNode();
+	
+	/**
+	 * Method overridden by subclasses for adding the appropriate model
+	 * element to the model.
+	 */
 	protected abstract void addModelElement(Point2D position);
 	
 	protected void setSelectionNode(SimpleModelElementNode selectionNode){
