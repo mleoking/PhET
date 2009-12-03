@@ -52,12 +52,22 @@ public interface IObtainGeneModelElements {
 	LacIGene createAndAddLacIGene(Point2D initialPosition);
 
 	/**
-	 * Create a lac operator and add it to the model.
+	 * Create a lac operator (a.k.a. lacI binding region) and add it to the
+	 * model.
 	 * 
 	 * @return A reference to the newly created model element, null if some
 	 * problem prevented the creation.
 	 */
 	LacOperator createAndAddLacOperator(Point2D initialPosition);
+
+	/**
+	 * Create a lac promoter (a.k.a. polymerase binding region) and add it to
+	 * the model.
+	 * 
+	 * @return A reference to the newly created model element, null if some
+	 * problem prevented the creation.
+	 */
+	LacPromoter createAndAddLacPromoter(Point2D initialPosition);
 
 	/**
 	 * Get a list of all simple model elements in the model.
