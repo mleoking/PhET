@@ -49,7 +49,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 	private LacZGeneToolBoxNode2 lacZGene;
 	private LacIGeneToolBoxNode2 lacIGene;
 	private LacOperatorToolBoxNode2 lacIBindingRegion;
-	private PolymeraseBindingRegionToolBoxNode polymeraseBindingRegion;
+	private LacPromoterToolBoxNode2 lacPromoter;
 	private PolymeraseToolBoxNode polymerase;
 	
     //----------------------------------------------------------------------------
@@ -76,8 +76,8 @@ public class DnaSegmentToolBoxNode extends PNode {
 		addChild(lacIGene);
 		lacIBindingRegion = new LacOperatorToolBoxNode2(model, mvt, canvas);
 		addChild(lacIBindingRegion);
-		polymeraseBindingRegion = new PolymeraseBindingRegionToolBoxNode(model, mvt);
-		addChild(polymeraseBindingRegion);
+		lacPromoter = new LacPromoterToolBoxNode2(model, mvt, canvas);
+		addChild(lacPromoter);
 		polymerase = new PolymeraseToolBoxNode(model, mvt);
 		addChild(polymerase);
 		
@@ -102,7 +102,7 @@ public class DnaSegmentToolBoxNode extends PNode {
     	// below on an individual basis.
     	PBounds boxBounds = boxNode.getFullBounds();
     	polymerase.setOffset(boxBounds.width * 0.1, boxBounds.height * 0.25);
-    	polymeraseBindingRegion.setOffset(boxBounds.width * 0.3, boxBounds.height / 4);
+    	lacPromoter.setOffset(boxBounds.width * 0.3, boxBounds.height / 4);
     	lacIBindingRegion.setOffset(boxBounds.width * 0.5, boxBounds.height * 0.25);
     	lacZGene.setOffset(boxBounds.width * 0.7, boxBounds.height * 0.25);
     	lacIGene.setOffset(boxBounds.width * 0.88, boxBounds.height * 0.25);
