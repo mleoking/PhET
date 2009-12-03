@@ -132,7 +132,7 @@
 			this.scale_slider.minimum = 0;
 			this.scale_slider.maximum = 1;
 			this.scale_slider.snapInterval = 0.01;
-			this.scale_slider.value = 0.5;
+			this.scale_slider.value = 0.2;
 			this.scale_slider.liveDragging = true;
 			this.canvas.addChild(this.scale_slider);
 			this.scale_slider.height = 0.6*this.borderHeight;
