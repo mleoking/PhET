@@ -54,16 +54,18 @@ public class LacIGene extends SimpleModelElement {
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
-		mRnaGenCountdownTimer -= dt;
-		if (mRnaGenCountdownTimer <= 0){
-			// Time to generate the next strand of messenger RNA.  This is
-			// done by creating a transformation arrow that will lead to the
-			// creation of the actual mRNA.
-			MessengerRna mRna = new LacIMessengerRna(getModel(), 20);
-			MessengerRnaTransformationArrow arrow = new MessengerRnaTransformationArrow(getModel(), mRna);
-			arrow.setPosition(getPositionRef().getX(), getPositionRef().getY() + 7);
-			getModel().addTransformationArrow(arrow);
-			mRnaGenCountdownTimer = PERIOD_OF_MRNA_GENERATION;
+		if (!isUserControlled()){
+			mRnaGenCountdownTimer -= dt;
+			if (mRnaGenCountdownTimer <= 0){
+				// Time to generate the next strand of messenger RNA.  This is
+				// done by creating a transformation arrow that will lead to the
+				// creation of the actual mRNA.
+				MessengerRna mRna = new LacIMessengerRna(getModel(), 20);
+				MessengerRnaTransformationArrow arrow = new MessengerRnaTransformationArrow(getModel(), mRna);
+				arrow.setPosition(getPositionRef().getX(), getPositionRef().getY() + 7);
+				getModel().addTransformationArrow(arrow);
+				mRnaGenCountdownTimer = PERIOD_OF_MRNA_GENERATION;
+			}
 		}
 	}
 

@@ -57,23 +57,26 @@ public class LacPromoter extends SimpleModelElement {
 	
 	@Override
 	public void stepInTime(double dt) {
-		switch (attachmentState){
-		case UNATTACHED_AND_AVAILABLE:
-			attemptToStartAttaching();
-			break;
-		case MOVING_TOWARDS_ATTACHMENT:
-			checkAttachmentCompleted();
-			break;
-		case ATTACHED:
-			// TODO
-			break;
-		case UNATTACHED_BUT_UNAVALABLE:
-			// TODO
-			break;
-		default:
-			// Should never get here, should be debugged if it does.
-			assert false;
-			break;
+		if (!isUserControlled()){
+			
+			switch (attachmentState){
+			case UNATTACHED_AND_AVAILABLE:
+				attemptToStartAttaching();
+				break;
+			case MOVING_TOWARDS_ATTACHMENT:
+				checkAttachmentCompleted();
+				break;
+			case ATTACHED:
+				// TODO
+				break;
+			case UNATTACHED_BUT_UNAVALABLE:
+				// TODO
+				break;
+			default:
+				// Should never get here, should be debugged if it does.
+				assert false;
+				break;
+			}
 		}
 		super.stepInTime(dt);
 	}

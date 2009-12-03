@@ -256,10 +256,12 @@ public abstract class SimpleModelElement implements IModelElement{
 	}
 
 	public void stepInTime(double dt) {
-		if (motionStrategy != null){
-			motionStrategy.doUpdatePositionAndMotion(dt);
+		if (!isUserControlled()){
+			if (motionStrategy != null){
+				motionStrategy.doUpdatePositionAndMotion(dt);
+			}
+			doFadeInOut(dt);
 		}
-		doFadeInOut(dt);
 	}
 	
 	private void doFadeInOut(double dt){
