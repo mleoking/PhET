@@ -13,9 +13,9 @@ import edu.colorado.phet.genenetwork.model.LacIGene;
  * 
  * @author John Blanco
  */
-public class LacIGeneToolBoxNode2 extends ToolBoxItemNode {
+public class LacIGeneToolBoxNode extends ToolBoxItemNode {
 
-	public LacIGeneToolBoxNode2(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public LacIGeneToolBoxNode(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 

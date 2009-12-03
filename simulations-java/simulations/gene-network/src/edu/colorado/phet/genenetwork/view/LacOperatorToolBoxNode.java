@@ -15,9 +15,9 @@ import edu.colorado.phet.genenetwork.model.LacOperator;
  * 
  * @author John Blanco
  */
-public class LacOperatorToolBoxNode2 extends ToolBoxItemNode {
+public class LacOperatorToolBoxNode extends ToolBoxItemNode {
 
-	public LacOperatorToolBoxNode2(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public LacOperatorToolBoxNode(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 

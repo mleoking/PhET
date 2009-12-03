@@ -14,9 +14,9 @@ import edu.colorado.phet.genenetwork.model.RnaPolymerase;
  * 
  * @author John Blanco
  */
-public class RnaPolymeraseToolBoxNode2 extends ToolBoxItemNode {
+public class RnaPolymeraseToolBoxNode extends ToolBoxItemNode {
 
-	public RnaPolymeraseToolBoxNode2(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public RnaPolymeraseToolBoxNode(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 

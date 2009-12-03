@@ -15,9 +15,9 @@ import edu.colorado.phet.genenetwork.model.LacPromoter;
  * 
  * @author John Blanco
  */
-public class LacPromoterToolBoxNode2 extends ToolBoxItemNode {
+public class LacPromoterToolBoxNode extends ToolBoxItemNode {
 
-	public LacPromoterToolBoxNode2(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public LacPromoterToolBoxNode(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 
