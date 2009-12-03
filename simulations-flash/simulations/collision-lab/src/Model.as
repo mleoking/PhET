@@ -69,6 +69,12 @@ package{
 			//trace("Model.addBall() called");
 			if(this.nbrBalls < this.maxNbrBalls){
 				this.nbrBalls += 1;
+				if(this.oneDMode){
+					for (var i = 0; i < this.nbrBalls; i++){
+						this.setY(i, 1);
+						this.setVY(i,0);
+					}
+				}
 				//trace("Model.nbrBalls: "+this.nbrBalls);
 				this.nbrBallsChanged = true;
 				this.separateAllBalls();
