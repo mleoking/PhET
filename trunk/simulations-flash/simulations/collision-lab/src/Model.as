@@ -71,6 +71,7 @@ package{
 				this.nbrBalls += 1;
 				//trace("Model.nbrBalls: "+this.nbrBalls);
 				this.nbrBallsChanged = true;
+				this.separateAllBalls();
 				this.setCenterOfMass();
 				this.updateViews();
 				this.nbrBallsChanged = false;
@@ -164,7 +165,7 @@ package{
 			//trace("Model.initializePositions() called");
 			this.atInitialConfig = true;
 			this.starting = true;
-			for (var i = 0; i < this.nbrBalls; i++){
+			for (var i:int = 0; i < this.nbrBalls; i++){
 				//new Ball(mass, position, velocity);
 				this.ball_arr[i].position = initPos[i].clone();
 				this.ball_arr[i].velocity = initVel[i].clone();
@@ -398,6 +399,12 @@ package{
 				}//for(i=..)
 				cntr += 1;
 			}//end while()
+			//if atInitialConfig, reset initial positions
+			if(atInitialConfig){
+				for (i = 0; i < this.nbrBalls; i++){
+					this.initPos[i] = this.ball_arr[i].position.clone();
+				}
+			}
 		}//end separateAllBalls();
 		
 		public function collideBalls(i:int, j:int):void{

@@ -166,12 +166,13 @@ package{
 			var indx:int = ballIndex;
 			var modelRef:Model = this.myModel;
 			var H:Number = modelRef.borderHeight;
+			var ballX:Number;	//current ball coordinates in meters
+			var ballY:Number; 
 			
 			//target.addEventListener(MouseEvent.MOUSE_OVER, bringToTop);
 			target.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
 			target.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
-			target.stage.
-			addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
+			target.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
 			target.addEventListener(MouseEvent.MOUSE_OVER, highlightPositionTextFields);
 			target.addEventListener(MouseEvent.MOUSE_OUT, unHighlightPositionTextFields);
 			var theStage:Object = thisBallImage.myTableView.canvas;//target.parent;
@@ -182,6 +183,8 @@ package{
 			}
 			
 			function startTargetDrag(evt:MouseEvent):void{	
+				//next two lines bring selected ball to top, so velocity arrow visible
+				//and bring C.M. icon to top, so not hidden behind any ball
 				thisBallImage.myTableView.canvas.addChild(thisBallImage);
 				thisBallImage.myTableView.canvas.addChild(thisBallImage.myTableView.CM);
 				//problem with localX, localY if sprite is rotated.
@@ -191,19 +194,33 @@ package{
 			}
 			function stopTargetDrag(evt:MouseEvent):void{
 				//trace("stop dragging");
-				clickOffset = null;
-				thisBallImage.myModel.separateAllBalls();
-			}
+				if(clickOffset != null){
+					clickOffset = null;
+					//trace("before separateAllBalls(), index = "+indx+ "thisBallImage.x = "+thisBallImage.x);
+					thisBallImage.myModel.separateAllBalls();
+					//trace("after separateAllBalls(), index = "+indx+ "thisBallImage.x = "+thisBallImage.x);
+					//thisBallImage.x = theStage.mouseX - clickOffset.x;
+					//var ballX:Number = thisBallImage.x/pixelsPerMeter;
+					//var ballY:Number = H - thisBallImage.y/pixelsPerMeter;
+					//ballX = thisBallImage.x/pixelsPerMeter;
+					//ballY = H - thisBallImage.y/pixelsPerMeter;
+					//if(modelRef.atInitialConfig){
+						//modelRef.initPos[indx].setXY(ballX, ballY);
+					//}
+				}//end stopTargetDrag()
+				
+			}//end stopTargetDrag()
+			
 			function dragTarget(evt:MouseEvent):void{
 				if(clickOffset != null){  //if dragging
 					//adjust x position
 					thisBallImage.x = theStage.mouseX - clickOffset.x;
-					var ballX:Number = thisBallImage.x/pixelsPerMeter;
+					ballX = thisBallImage.x/pixelsPerMeter;
 					modelRef.setX(indx, ballX);
 					//if not in 1DMode, adjust y position
 					if(!thisBallImage.myModel.oneDMode){
 						thisBallImage.y = theStage.mouseY - clickOffset.y;
-						var ballY:Number = H - thisBallImage.y/pixelsPerMeter;
+						ballY = H - thisBallImage.y/pixelsPerMeter;
 						modelRef.setY(indx, ballY);
 					}
 					if(modelRef.atInitialConfig){
