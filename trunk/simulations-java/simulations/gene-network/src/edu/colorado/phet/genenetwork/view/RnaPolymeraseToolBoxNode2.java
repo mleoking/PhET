@@ -8,6 +8,12 @@ import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
 import edu.colorado.phet.genenetwork.model.RnaPolymerase;
 
+/**
+ * Class that represents an RNA polymerase enzyme in the tool box, and that
+ * allows users to click on it to add it to the model.
+ * 
+ * @author John Blanco
+ */
 public class RnaPolymeraseToolBoxNode2 extends ToolBoxItemNode {
 
 	public RnaPolymeraseToolBoxNode2(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
