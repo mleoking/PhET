@@ -218,6 +218,14 @@ public class LacOperonModel implements IObtainGeneModelElements {
     		return lacOperator.isLacIAttached();
     	}
     }
+    
+    public boolean isLacOperatorPresent(){
+    	return lacOperator != null;
+    }
+
+    public boolean isLacZGenePresent(){
+    	return lacZGene != null;
+    }
 
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getDnaStrand()

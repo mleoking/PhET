@@ -144,7 +144,9 @@ public class RnaPolymerase extends SimpleModelElement {
 				lacPromoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 				recoveryCountdownTimer = RECOVERY_TIME;
 				
-				if ( !getModel().isLacIAttachedToDna()){
+				if ( getModel().isLacZGenePresent() && 
+					 getModel().isLacOperatorPresent() &&
+					 !getModel().isLacIAttachedToDna()) {
 					// The way is clear for us to traverse the DNA strand and
 					// transcribe the messenger RNA for LacZ.
 					setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
