@@ -7,6 +7,12 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
 import edu.colorado.phet.genenetwork.model.LacIGene;
 
+/**
+ * Class the represents LacI in the tool box, and that allows users to
+ * click on it to add it to the model.
+ * 
+ * @author John Blanco
+ */
 public class LacIGeneToolBoxNode2 extends ToolBoxItemNode {
 
 	public LacIGeneToolBoxNode2(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {

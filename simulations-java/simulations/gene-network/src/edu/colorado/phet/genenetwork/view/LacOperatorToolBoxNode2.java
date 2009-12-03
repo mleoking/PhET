@@ -8,6 +8,13 @@ import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
 import edu.colorado.phet.genenetwork.model.LacOperator;
 
+/**
+ * Class that represents a LacI binding region, also known as the lac operator,
+ * in the tool box, and that allows users to click on it to add it to the
+ * model.
+ * 
+ * @author John Blanco
+ */
 public class LacOperatorToolBoxNode2 extends ToolBoxItemNode {
 
 	public LacOperatorToolBoxNode2(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {

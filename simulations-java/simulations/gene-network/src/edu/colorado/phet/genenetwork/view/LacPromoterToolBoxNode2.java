@@ -8,6 +8,13 @@ import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
 import edu.colorado.phet.genenetwork.model.LacPromoter;
 
+/**
+ * Class that represents a polymerase binding region, also known as the lac
+ * promoter, in the tool box, and that allows users to click on it to add it
+ * to the model.
+ * 
+ * @author John Blanco
+ */
 public class LacPromoterToolBoxNode2 extends ToolBoxItemNode {
 
 	public LacPromoterToolBoxNode2(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
