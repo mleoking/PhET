@@ -39,11 +39,11 @@ public class LacI extends SimpleModelElement {
 	
 	// Time definitions for the amount of time to attach and then to be
 	// "unavailable".
-	private static double ATTACHMENT_TIME = 8; // In seconds.
+	private static double ATTACHMENT_TIME = 12; // In seconds.
 	private static double UNAVAILABLE_TIME = 5; // In seconds.
 	
 	// Time of existence.
-	private static final double EXISTENCE_TIME = 20; // Seconds.
+	private static final double EXISTENCE_TIME = 30; // Seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -55,7 +55,6 @@ public class LacI extends SimpleModelElement {
 	private Point2D targetPositionForLacOperatorAttachment = new Point2D.Double();
 	private double attachementTimeCountdown = 0;
 	private double unavailableTimeCountdown = 0;
-	private double existenceTimeCountdown = EXISTENCE_TIME;
 	
     //------------------------------------------------------------------------
     // Constructors
