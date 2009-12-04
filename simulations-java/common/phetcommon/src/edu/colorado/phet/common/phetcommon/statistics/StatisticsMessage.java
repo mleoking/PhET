@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 public abstract class StatisticsMessage {
 
-    private final ArrayList fields = new ArrayList();
+    private final ArrayList<StatisticsMessageField> fields = new ArrayList<StatisticsMessageField>();
 
     public StatisticsMessage( String messageType, String messageVersion ) {
         addField( new StatisticsMessageField( "Common.statistics.message_type", "message_type", messageType ) );
