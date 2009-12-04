@@ -105,11 +105,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     }
 
     //------------------------------------------------------------------------
-    // Accessors
-    //------------------------------------------------------------------------
-    
-    //------------------------------------------------------------------------
-    // Canvas Layout
+    // Methods
     //------------------------------------------------------------------------
     
     /*
@@ -125,13 +121,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         else if ( GeneNetworkConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
-        
-        //XXX lay out nodes
     }
-    
-    //------------------------------------------------------------------------
-    // Other Methods
-    //------------------------------------------------------------------------
     
     private void addModelElement(final SimpleModelElement modelElement){
     	final SimpleModelElementNode modelElementNode = new SimpleModelElementNode(modelElement, mvt, true);
