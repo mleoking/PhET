@@ -21,7 +21,7 @@ public class LacIGeneToolBoxNode extends ToolBoxItemNode {
 	}
 
 	@Override
-	protected void addModelElement(Point2D position) {
+	protected void handleAddRequest(Point2D position) {
 		setModelElement(getModel().createAndAddLacIGene(position));
 	}
 

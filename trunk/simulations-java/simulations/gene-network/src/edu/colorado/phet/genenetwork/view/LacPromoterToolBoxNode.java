@@ -24,7 +24,7 @@ public class LacPromoterToolBoxNode extends ToolBoxItemNode {
 	}
 
 	@Override
-	protected void addModelElement(Point2D position) {
+	protected void handleAddRequest(Point2D position) {
 		setModelElement(getModel().createAndAddLacPromoter(position));
 	}
 

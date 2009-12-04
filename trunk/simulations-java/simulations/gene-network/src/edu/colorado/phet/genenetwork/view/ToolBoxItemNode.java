@@ -69,7 +69,7 @@ public abstract class ToolBoxItemNode extends PComposite {
         		
         		if (modelElement == null){
         			// Add the new model element to the model.
-        			addModelElement(mouseCanvasPos);
+        			handleAddRequest(mouseCanvasPos);
         			modelElement.setDragging(true);
         		}
        			// Move the model element.
@@ -109,7 +109,7 @@ public abstract class ToolBoxItemNode extends PComposite {
 	 * Method overridden by subclasses for adding the appropriate model
 	 * element to the model.
 	 */
-	protected abstract void addModelElement(Point2D position);
+	protected abstract void handleAddRequest(Point2D position);
 	
 	/**
 	 * Called when the user releases the newly added model element, overridden
