@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.genenetwork.view;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -11,7 +12,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.GeneNetworkConstants;
 import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
-import edu.colorado.phet.genenetwork.model.MessengerRna;
 import edu.colorado.phet.genenetwork.model.ModelElementListenerAdapter;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.colorado.phet.genenetwork.module.LacOperonDefaults;
@@ -96,6 +96,11 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         
         // Add the tool box.
         toolBoxLayer.addChild(new DnaSegmentToolBoxNode(this, model, mvt));
+        
+        // TODO: Temp - add the lactose syringe.
+        LactoseSyringeNode lactoseSyringe = new LactoseSyringeNode(); 
+        rovingModelElementLayer.addChild(lactoseSyringe);
+        lactoseSyringe.setOffset(700, 0);
     }
 
     //------------------------------------------------------------------------
