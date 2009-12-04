@@ -17,6 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 /**
  * XMLPersistenceManager handles save and loading objects.
@@ -41,8 +42,6 @@ public class XMLPersistenceManager {
     private static final String LOAD_ERROR_MESSAGE = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.load.error.message" );
     private static final String LOAD_ERROR_DECODE = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.load.error.decode" );
     private static final String LOAD_ERROR_CONTENTS = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.load.error.contents" );
-    
-    private static final String ERROR_TITLE = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.title.error" );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -159,7 +158,7 @@ public class XMLPersistenceManager {
         protected void showError( String format, String errorMessage ) {
             Object[] args = { errorMessage };
             String message = MessageFormat.format( format, args );
-            JOptionPane.showMessageDialog( _parentFrame, message, ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
+            PhetOptionPane.showErrorDialog( _parentFrame, message );
         }
     }
     
@@ -190,7 +189,7 @@ public class XMLPersistenceManager {
                 // If the file exists, confirm overwrite.
                 if ( selectedFile.exists() ) {
                     String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-                    int reply = JOptionPane.showConfirmDialog( getParentFrame(), SAVE_CONFIRM_MESSAGE, title, JOptionPane.YES_NO_CANCEL_OPTION );
+                    int reply = PhetOptionPane.showYesNoDialog( getParentFrame(), SAVE_CONFIRM_MESSAGE, title );
                     if ( reply != JOptionPane.YES_OPTION ) {
                         return;
                     }

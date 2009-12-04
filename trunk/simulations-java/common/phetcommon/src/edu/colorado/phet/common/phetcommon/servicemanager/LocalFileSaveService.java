@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
-import java.awt.*;
+import java.awt.Component;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,9 +10,11 @@ import java.io.InputStream;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.FileSaveService;
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 /**
  * Performs local file save feature that conforms to JNLP file save service interface.
@@ -48,8 +50,7 @@ public class LocalFileSaveService implements FileSaveService {
             }
             else {
                 String message = PhetCommonResources.getInstance().getLocalizedString( "Save.confirm.message" );
-                String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-                int reply = JOptionPane.showConfirmDialog( owner, message, title, JOptionPane.YES_NO_CANCEL_OPTION );
+                int reply = PhetOptionPane.showYesNoDialog( owner, message );
                 if ( reply != JOptionPane.YES_OPTION ) {
                     return null;
                 }

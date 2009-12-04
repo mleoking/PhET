@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.menu.DeveloperMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -108,13 +109,13 @@ public class PhetFrame extends JFrame {
 
                     System.out.println( "Clearing session counts." );
                     SessionCounter.getInstance().clear();
-                    JOptionPane.showMessageDialog( PhetFrame.this, "Preferences file and session counts cleared, press OK to exit.\nFile is " + path + "" );
+                    PhetOptionPane.showMessageDialog( PhetFrame.this, "Preferences file and session counts cleared, press OK to exit.\nFile is " + path + "" );
                     System.exit( 0 );
                 }
                 catch( Throwable t ) {
                     t.printStackTrace();
                     System.out.println( "Could not clear preferences, t=" + t );
-                    JOptionPane.showMessageDialog( PhetFrame.this, "Couldn't clear preferences, perhaps you are not running with permission to do so." );
+                    PhetOptionPane.showMessageDialog( PhetFrame.this, "Couldn't clear preferences, perhaps you are not running with permission to do so." );
                 }
             }
         } );

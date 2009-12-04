@@ -22,19 +22,39 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
  */
 public class PhetOptionPane {
     
+    public static int showMessageDialog( Component parent, String message ) {
+        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.message" );
+        return showJOptionPaneDialog( parent, message, title, JOptionPane.INFORMATION_MESSAGE );
+    }
+    
     public static int showMessageDialog( Component parent, String message, String title ) {
         return showJOptionPaneDialog( parent, message, title, JOptionPane.INFORMATION_MESSAGE );
+    }
+    
+    public static int showMessageDialog( Component parent, String message, String title, int messageType ) {
+        return showJOptionPaneDialog( parent, message, title, messageType );
+    }
+    
+    public static int showOKCancelDialog( Component parent, String message ) {
+        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
+        return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
     }
     
     public static int showOKCancelDialog( Component parent, String message, String title ) {
         return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
     }
     
+    public static int showYesNoDialog( Component parent, String message ) {
+        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
+        return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION );
+    }
+    
     public static int showYesNoDialog( Component parent, String message, String title ) {
         return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION );
     }
     
-    public static int showWarningDialog( Component parent, String message, String title ) {
+    public static int showWarningDialog( Component parent, String message ) {
+        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.warning" );
         return showJOptionPaneDialog( parent, message, title, JOptionPane.WARNING_MESSAGE );
     }
     
@@ -43,10 +63,6 @@ public class PhetOptionPane {
         return showJOptionPaneDialog( parent, message, title, JOptionPane.ERROR_MESSAGE );
     }
     
-    public static int showErrorDialog( Component parent, String message, String title ) {
-        return showJOptionPaneDialog( parent, message, title, JOptionPane.ERROR_MESSAGE );
-    }
-
     private static int showJOptionPaneDialog( Component parent, String message, String title, int messageType ) {
         return showJOptionPaneDialog( parent, message, title, messageType, JOptionPane.DEFAULT_OPTION );
     }
@@ -129,9 +145,9 @@ public class PhetOptionPane {
         System.out.println( "value=" + value );
         value = PhetOptionPane.showYesNoDialog( null, "yes/no question", "title" );
         System.out.println( "value=" + value );
-        value = PhetOptionPane.showWarningDialog( null, "warning", "title" );
+        value = PhetOptionPane.showWarningDialog( null, "warning" );
         System.out.println( "value=" + value );
-        value = PhetOptionPane.showErrorDialog( null, "error", "title" );
+        value = PhetOptionPane.showErrorDialog( null, "error" );
         System.out.println( "value=" + value );
         System.exit( 0 );
     }
