@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
@@ -24,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 /**
  * HelpMenu
@@ -61,7 +61,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
                     phetApplication.getActiveModule().showMegaHelp();
                 }
                 else {
-                    JOptionPane.showMessageDialog( PhetApplication.getInstance().getPhetFrame(),
+                    PhetOptionPane.showMessageDialog( PhetApplication.getInstance().getPhetFrame(),
                                                    "No MegaHelp available for this module." );
                 }
             }

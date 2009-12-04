@@ -52,6 +52,7 @@ import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -413,7 +414,7 @@ public class ModelSlider extends JPanel {
             String maximum = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.Maximum" );
             String youentered = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.YouEntered" );
             String description = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.Description" );
-            JOptionPane.showMessageDialog( this, outofrange + ".\n" + minimum + "= " + ive.getMin()
+            PhetOptionPane.showMessageDialog( this, outofrange + ".\n" + minimum + "= " + ive.getMin()
                                                  + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
                                                  + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );
             double value = getValue();

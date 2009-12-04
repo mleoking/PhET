@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 /**
@@ -175,7 +176,7 @@ public class TimeSeriesControlPanel extends JPanel {
     }
 
     private boolean confirmClear() {
-        return JOptionPane.showConfirmDialog( this, TimeseriesResources.getString("Common.confirm.clear.graphs" ) )== JOptionPane.YES_OPTION;
+        return PhetOptionPane.showYesNoDialog( this, TimeseriesResources.getString("Common.confirm.clear.graphs" ) )== JOptionPane.YES_OPTION;
     }
 
     public void setSpeedControlVisible( boolean b ) {
