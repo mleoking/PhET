@@ -69,10 +69,10 @@ class IndividualSimulationPage extends SitePage {
 
         $sim_encoding = $_REQUEST['sim'];
 
-        $result = 'failure';
+        $this->sim_result = 'failure';
         try {
             $this->sim = SimFactory::inst()->getByExactWebEncodedName($sim_encoding);
-            $result = 'success';
+            $this->sim_result = 'success';
         }
         catch (PhetSimException $e) {
             try {
@@ -83,7 +83,7 @@ class IndividualSimulationPage extends SitePage {
                 
                 // If the redirect doesn't work, change the title (and provide a link)
                 $this->set_title('PhET - This simulation has moved', '', FALSE);
-                $result = 'redirect';
+                $this->sim_result = 'redirect';
                 return;
             }
             catch (PhetSimException $e) {
@@ -181,7 +181,7 @@ EOT;
             return $result;
         }
 
-        if ($result == 'redirect') {
+        if ($this->sim_result == 'redirect') {
             // Doing a 301 redirect because of a case insensitive
             // match (case sensitive match did not work)
             print <<<EOT
