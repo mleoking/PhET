@@ -48,6 +48,7 @@ interface SimulationInterface {
     public function getThumbnailUrl();
 
     public function getPageUrl();
+    public function getAbsolutePageUrl();
 
     public function getLaunchFilename($requested_locale = Locale::DEFAULT_LOCALE);
     public function getLaunchUrl($requested_locale = Locale::DEFAULT_LOCALE);

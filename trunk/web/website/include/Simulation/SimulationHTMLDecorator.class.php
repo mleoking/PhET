@@ -202,6 +202,10 @@ class SimulationHTMLDecorator implements SimulationInterface {
         return WebUtils::inst()->toHtml($this->sim->getPageUrl());
     }
 
+    public function getAbsolutePageUrl() {
+        return WebUtils::inst()->toHtml($this->sim->getAbsolutePageUrl());
+    }
+
     public function getNameFromXML($locale = Locale::DEFAULT_LOCALE) {
         return WebUtils::inst()->toHtml($this->sim->getNameFromXML($locale), 'UTF-8');
     }

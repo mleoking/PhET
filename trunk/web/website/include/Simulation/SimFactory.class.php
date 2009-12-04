@@ -231,6 +231,19 @@ class SimFactory {
         throw new PhetSimException("Simulation encoding '{$sim_encoding}' not found");
     }
 
+    public function getByExactWebEncodedNameCaseInsensitive($sim_encoding) {
+        $map = $this->getWebEncodedNameToIdMap();
+
+        // Straight exact match with web encoded name
+        foreach($map as $encoding => $sim) {
+            if (0 === strcasecmp($encoding, $sim_encoding)) {
+                return $this->getById($sim['sim_id']);
+            }
+        }
+
+        throw new PhetSimException("Simulation encoding '{$sim_encoding}' not found");
+    }
+
     public function getCloseWebEncodings($sim_encoding, $close_enough_distance = 4) {
         $map = $this->getWebEncodedNameToIdMap();
 

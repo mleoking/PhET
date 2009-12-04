@@ -280,6 +280,10 @@ abstract class BaseSimulation implements SimulationInterface {
         return SITE_ROOT.'simulations/sims.php?sim='.WebUtils::inst()->encodeString($this->getName());
     }
 
+    public function getAbsolutePageUrl() {
+        return 'http://'.PHET_DOMAIN_NAME.'/simulations/sims.php?sim='.WebUtils::inst()->encodeString($this->getName());
+    }
+
     public function getDownloadFilename($locale = Locale::DEFAULT_LOCALE) {
         return self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.jar";
     }
