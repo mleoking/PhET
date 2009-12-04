@@ -36,6 +36,8 @@ public interface IGeneNetworkModelControl {
 
 	LacIPromoter getLacIPromoter();
 	
+	LacPromoter getLacPromoter();
+	
 	DnaStrand getDnaStrand();
 	
 	/**

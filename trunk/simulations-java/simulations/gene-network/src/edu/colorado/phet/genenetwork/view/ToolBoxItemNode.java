@@ -11,7 +11,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
-import edu.colorado.phet.genenetwork.model.LacIGene;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -70,19 +69,26 @@ public abstract class ToolBoxItemNode extends PComposite {
         		if (modelElement == null){
         			// Add the new model element to the model.
         			handleAddRequest(mouseCanvasPos);
-        			modelElement.setDragging(true);
+        			if (modelElement != null){
+        				// If a model element was added, it is now being dragged.
+        				modelElement.setDragging(true);
+        			}
         		}
-       			// Move the model element.
-       			modelElement.setPosition(mouseModelPos);
+       			// Move the model element (if it exists).
+        		if (modelElement != null){
+        			modelElement.setPosition(mouseModelPos);
+        		}
             }
 
             @Override
             public void mouseReleased(PInputEvent event) {
-            	modelElement.setDragging(false);
-            	updatePositionWhenReleased();
-            	// Release our reference to the model element so that we will
-            	// create a new one if clicked again.
-            	modelElement = null;
+            	if (modelElement != null){
+            		modelElement.setDragging(false);
+            		updatePositionWhenReleased();
+            		// Release our reference to the model element so that we will
+            		// create a new one if clicked again.
+            		modelElement = null;
+            	}
             }
         });
         
@@ -106,8 +112,9 @@ public abstract class ToolBoxItemNode extends PComposite {
 	protected abstract void initializeSelectionNode();
 	
 	/**
-	 * Method overridden by subclasses for adding the appropriate model
-	 * element to the model.
+	 * Handle a request made the the user to add an instance of the
+	 * corresponding model element to the model.  This method is overridden
+	 * by subclasses for implementing the appropriate behavior.
 	 */
 	protected abstract void handleAddRequest(Point2D position);
 	

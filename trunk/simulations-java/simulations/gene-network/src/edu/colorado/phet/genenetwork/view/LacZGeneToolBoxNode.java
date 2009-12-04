@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
-import edu.colorado.phet.genenetwork.model.LacIGene;
 import edu.colorado.phet.genenetwork.model.LacZGene;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 
@@ -23,7 +22,11 @@ public class LacZGeneToolBoxNode extends ToolBoxItemNode {
 
 	@Override
 	protected void handleAddRequest(Point2D position) {
-		setModelElement(getModel().createAndAddLacZGene(position));
+		if (getModel().getLacZGene() == null){
+			// No corresponding model element currently exists, so go ahead
+			// and add one.
+			setModelElement(getModel().createAndAddLacZGene(position));
+		}
 	}
 
 	@Override
