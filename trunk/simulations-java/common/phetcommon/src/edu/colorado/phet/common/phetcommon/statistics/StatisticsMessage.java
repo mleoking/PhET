@@ -43,7 +43,7 @@ public abstract class StatisticsMessage {
             if ( i > 0 ) {
                 text += "\n";
             }
-            text += getField( i ).getHumanReadableName() + ": " + getField(i).getValue();
+            text += getField( i ).getHumanReadableName() + " " + getField(i).getValue();
         }
         return text;
     }
