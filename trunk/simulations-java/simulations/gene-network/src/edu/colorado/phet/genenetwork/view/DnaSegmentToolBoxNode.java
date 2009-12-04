@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
@@ -52,11 +54,24 @@ public class DnaSegmentToolBoxNode extends PNode {
 	private LacPromoterToolBoxNode lacPromoter;
 	private RnaPolymeraseToolBoxNode polymerase;
 	
+	// Reference to the model.
+	private IGeneNetworkModelControl model;
+	
+	// Reference to the model-view transform.
+	private ModelViewTransform2D mvt;
+	
+	// Reference to the canvas upon which we are placed.
+	private PhetPCanvas canvas;
+	
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
 	public DnaSegmentToolBoxNode(final PhetPCanvas canvas, IGeneNetworkModelControl model, ModelViewTransform2D mvt) {
+		
+		this.canvas = canvas;
+		this.model = model;
+		this.mvt = mvt;
 		
 		// Register for events indicating that the parent window was resized.
 		canvas.addComponentListener(new ComponentAdapter() {
@@ -106,5 +121,19 @@ public class DnaSegmentToolBoxNode extends PNode {
     	lacIBindingRegion.setOffset(boxBounds.width * 0.5, boxBounds.height * 0.25);
     	lacZGene.setOffset(boxBounds.width * 0.7, boxBounds.height * 0.25);
     	lacIGene.setOffset(boxBounds.width * 0.88, boxBounds.height * 0.25);
+    	
+    	// Let the model know our size, so that the model elements can figure
+    	// out when they are being put back in the box.  Note that some of the
+    	// odd-looking stuff related to the Y dimension is due to the
+    	// inversion of the Y axis.
+    	Point2D originInWorldCoords = localToGlobal(new Point2D.Double(boxBounds.x, boxBounds.y + boxBounds.height));
+    	canvas.getPhetRootNode().screenToWorld(originInWorldCoords);
+    	Point2D oppositeCornerInWorldCoords = localToGlobal(new Point2D.Double(boxBounds.getMaxX(), boxBounds.getMinY()));
+    	canvas.getPhetRootNode().screenToWorld(oppositeCornerInWorldCoords);
+    	Rectangle2D modelRect = new Rectangle2D.Double(mvt.viewToModelX(originInWorldCoords.getX()),
+    			mvt.viewToModelY(originInWorldCoords.getY()),
+    			mvt.viewToModelDifferentialX(oppositeCornerInWorldCoords.getX() - originInWorldCoords.getX()),
+    			mvt.viewToModelDifferentialY(oppositeCornerInWorldCoords.getY() - originInWorldCoords.getY()));
+    	model.setToolBoxRect( modelRect );
 	}
 }

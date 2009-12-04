@@ -1,6 +1,7 @@
 package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -138,4 +139,19 @@ public interface IGeneNetworkModelControl {
 	 * Remove a listener.
 	 */
 	void removeListener(GeneNetworkModelListener listener);
+	
+	/**
+	 * Set the location in model space of the tool box that may be present in
+	 * the view.  This is used to allow model components to determine whether
+	 * or not they are being moved over the tool box.
+	 * 
+	 * @param rect
+	 */
+	void setToolBoxRect(Rectangle2D rect);
+	
+	/**
+	 * Get a boolean value indicating whether a given point in model space is
+	 * in the tool box.
+	 */
+	boolean isPointInToolBox(Point2D pt);
 }

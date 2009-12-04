@@ -82,6 +82,12 @@ public abstract class ToolBoxItemNode extends PComposite {
 
             @Override
             public void mouseReleased(PInputEvent event) {
+    			Point2D mouseCanvasPos = event.getCanvasPosition();
+    			System.out.println("mouseCanvasPos @ release = " + mouseCanvasPos);
+    			Point2D mouseWorldPos = new Point2D.Double(mouseCanvasPos.getX(), mouseCanvasPos.getY()); 
+    			System.out.println("mouseWorldPos @ release = " + mouseWorldPos);
+    			canvas.getPhetRootNode().screenToWorld(mouseWorldPos);
+    			System.out.println("screenToWorld mouseWorldPos @ release = " + mouseWorldPos);
             	if (modelElement != null){
             		modelElement.setDragging(false);
             		updatePositionWhenReleased();
