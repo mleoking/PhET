@@ -182,6 +182,13 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		return lacIPromoter;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacPromoter()
+	 */
+	public LacPromoter getLacPromoter() {
+		return lacPromoter;
+	}
+
 	private void addInitialModelElements() {
 		
         // Initialize the elements that are floating around the cell.

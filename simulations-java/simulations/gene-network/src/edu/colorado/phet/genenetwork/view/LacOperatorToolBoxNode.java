@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
-import edu.colorado.phet.genenetwork.model.LacIGene;
 import edu.colorado.phet.genenetwork.model.LacOperator;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 
@@ -25,7 +24,11 @@ public class LacOperatorToolBoxNode extends ToolBoxItemNode {
 
 	@Override
 	protected void handleAddRequest(Point2D position) {
-		setModelElement(getModel().createAndAddLacOperator(position));
+		if (getModel().getLacOperator() == null){
+			// No corresponding model element currently exists, so go ahead
+			// and add one.
+			setModelElement(getModel().createAndAddLacOperator(position));
+		}
 	}
 
 	@Override
