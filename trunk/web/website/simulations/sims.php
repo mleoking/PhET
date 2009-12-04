@@ -77,9 +77,10 @@ class IndividualSimulationPage extends SitePage {
         catch (PhetSimException $e) {
             try {
                 $this->sim = SimFactory::inst()->getByExactWebEncodedNameCaseInsensitive($sim_encoding);
+
                 // Create a 301 redirect
-                Header('HTTP/1.1 301 Moved Permanently');
-                Header('Location: '.$this->sim->getAbsolutePageUrl());
+                header('Location: '.$this->sim->getAbsolutePageUrl(), TRUE, 301);
+                print "hs:".headers_sent().":hs<br />\n";
                 
                 // If the redirect doesn't work, change the title (and provide a link)
                 $this->set_title('PhET - This simulation has moved', '', FALSE);
