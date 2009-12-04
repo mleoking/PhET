@@ -424,7 +424,7 @@ public class RadiometricDatingMeterNode extends PNode {
             _mvt = mvt;
             _dragBounds = probeDragBounds;
 
-            _imageNode = NuclearPhysicsResources.getImageNode( "geiger_probe_3.png" );
+            _imageNode = NuclearPhysicsResources.getImageNode( "geiger_probe_6.png" );
             _imageNode.rotateAboutPoint( probeModel.getAngle(), 0.1, 0.1 );
             _imageNode.scale( PROBE_SIZE_SCALE_FACTOR );
             addChild( _imageNode );
