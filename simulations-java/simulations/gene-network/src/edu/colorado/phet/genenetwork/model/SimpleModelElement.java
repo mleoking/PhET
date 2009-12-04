@@ -345,6 +345,10 @@ public abstract class SimpleModelElement implements IModelElement{
 
     public void setDragging(boolean dragging) {
         this.dragging=dragging;
+        if (dragging == false){
+        	System.out.println("Location in model space = " + getPositionRef());
+        	System.out.println("In tool box = " + model.isPointInToolBox(getPositionRef()));
+        }
     }
     
     protected enum ExistenceState { FADING_IN, EXISTING, FADING_OUT };

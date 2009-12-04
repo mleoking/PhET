@@ -66,6 +66,12 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     private LacYGene lacYGene = null;
     private LacIPromoter lacIPromoter = null;
     private LacPromoter lacPromoter = null;
+    
+    // Location, in model space, of the tool box that is shown in the view.
+    // This is needed so that we can figure out when the user has moved a
+    // model element over the toolbox (and is probably trying to remove it
+    // from the model).
+    private Rectangle2D toolBoxRect = new Rectangle2D.Double(0, 0, 0, 0);
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -99,94 +105,105 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     //----------------------------------------------------------------------------
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacIList()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getLacIList()
 	 */
 	public ArrayList<LacI> getLacIList() {
 		return lacIList;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacZList()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getLacZList()
 	 */
 	public ArrayList<LacZ> getLacZList() {
 		return lacZList;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getGlucoseList()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getGlucoseList()
 	 */
 	public ArrayList<Glucose> getGlucoseList() {
 		return glucoseList;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getGalactoseList()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getGalactoseList()
 	 */
 	public ArrayList<Galactose> getGalactoseList() {
 		return galactoseList;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getRnaPolymeraseList()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getRnaPolymeraseList()
 	 */
 	public ArrayList<RnaPolymerase> getRnaPolymeraseList() {
 		return rnaPolymeraseList;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getCap()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getCap()
 	 */
 	public Cap getCap() {
 		return cap;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getCapBindingRegion()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getCapBindingRegion()
 	 */
 	public CapBindingRegion getCapBindingRegion() {
 		return capBindingRegion;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacOperator()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getLacOperator()
 	 */
 	public LacOperator getLacOperator() {
 		return lacOperator;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacIGene()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getLacIGene()
 	 */
 	public LacIGene getLacIGene() {
 		return lacIGene;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacZGene()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getLacZGene()
 	 */
 	public LacZGene getLacZGene() {
 		return lacZGene;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacYGene()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getLacYGene()
 	 */
 	public LacYGene getLacYGene() {
 		return lacYGene;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacIPromoter()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getLacIPromoter()
 	 */
 	public LacIPromoter getLacIPromoter() {
 		return lacIPromoter;
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getLacPromoter()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getLacPromoter()
 	 */
 	public LacPromoter getLacPromoter() {
 		return lacPromoter;
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#setToolBoxRect()
+	 */
+	public void setToolBoxRect(Rectangle2D rect){
+		toolBoxRect.setFrame(rect);
+	}
+	
+	public boolean isPointInToolBox(Point2D pt){
+		return toolBoxRect.contains(pt);
 	}
 
 	private void addInitialModelElements() {
@@ -235,7 +252,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     }
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getDnaStrand()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getDnaStrand()
 	 */
     public DnaStrand getDnaStrand(){
     	return dnaStrand;
@@ -265,7 +282,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     }
     
     /* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IObtainModelElements#getAllSimpleModelElements()
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getAllSimpleModelElements()
 	 */
     public ArrayList<SimpleModelElement> getAllSimpleModelElements(){
     	ArrayList<SimpleModelElement> allSimples = new ArrayList<SimpleModelElement>();
