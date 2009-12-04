@@ -22,13 +22,17 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
  */
 public class PhetOptionPane {
     
+    private static final String TITLE_MESSAGE = PhetCommonResources.getInstance().getLocalizedString( "Common.title.message" );
+    private static final String TITLE_CONFIRM = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
+    private static final String TITLE_WARNING = PhetCommonResources.getInstance().getLocalizedString( "Common.title.warning" );
+    private static final String TITLE_ERROR = PhetCommonResources.getInstance().getLocalizedString( "Common.title.error" );
+    
     public static int showMessageDialog( Component parent, String message ) {
-        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.message" );
-        return showJOptionPaneDialog( parent, message, title, JOptionPane.INFORMATION_MESSAGE );
+        return showMessageDialog( parent, message, TITLE_MESSAGE );
     }
     
     public static int showMessageDialog( Component parent, String message, String title ) {
-        return showJOptionPaneDialog( parent, message, title, JOptionPane.INFORMATION_MESSAGE );
+        return showMessageDialog( parent, message, title, JOptionPane.INFORMATION_MESSAGE );
     }
     
     public static int showMessageDialog( Component parent, String message, String title, int messageType ) {
@@ -36,8 +40,7 @@ public class PhetOptionPane {
     }
     
     public static int showOKCancelDialog( Component parent, String message ) {
-        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-        return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
+        return showOKCancelDialog( parent, message, TITLE_CONFIRM );
     }
     
     public static int showOKCancelDialog( Component parent, String message, String title ) {
@@ -45,22 +48,27 @@ public class PhetOptionPane {
     }
     
     public static int showYesNoDialog( Component parent, String message ) {
-        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-        return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION );
+        return showYesNoDialog( parent, message, TITLE_CONFIRM );
     }
     
     public static int showYesNoDialog( Component parent, String message, String title ) {
         return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION );
     }
     
+    public static int showYesNoCancelDialog( Component parent, String message ) {
+        return showYesNoCancelDialog( parent, message, TITLE_CONFIRM );
+    }
+    
+    public static int showYesNoCancelDialog( Component parent, String message, String title ) {
+        return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION );
+    }
+    
     public static int showWarningDialog( Component parent, String message ) {
-        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.warning" );
-        return showJOptionPaneDialog( parent, message, title, JOptionPane.WARNING_MESSAGE );
+        return showJOptionPaneDialog( parent, message, TITLE_WARNING, JOptionPane.WARNING_MESSAGE );
     }
     
     public static int showErrorDialog( Component parent, String message ) {
-        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.error" );
-        return showJOptionPaneDialog( parent, message, title, JOptionPane.ERROR_MESSAGE );
+        return showJOptionPaneDialog( parent, message, TITLE_ERROR, JOptionPane.ERROR_MESSAGE );
     }
     
     private static int showJOptionPaneDialog( Component parent, String message, String title, int messageType ) {

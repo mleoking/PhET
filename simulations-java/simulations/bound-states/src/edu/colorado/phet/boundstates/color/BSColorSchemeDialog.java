@@ -15,6 +15,7 @@ import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.boundstates.BSAbstractApplication;
 import edu.colorado.phet.boundstates.BSResources;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -35,7 +36,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.Listener {
+public class BSColorSchemeDialog extends PaintImmediateDialog implements ColorChooserFactory.Listener {
 
     //----------------------------------------------------------------------------
     // Class data

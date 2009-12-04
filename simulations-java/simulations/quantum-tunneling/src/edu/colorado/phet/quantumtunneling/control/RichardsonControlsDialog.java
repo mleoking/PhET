@@ -9,13 +9,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
 
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.DoubleSpinner;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -29,7 +29,7 @@ import edu.colorado.phet.quantumtunneling.model.RichardsonSolver;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class RichardsonControlsDialog extends JDialog {
+public class RichardsonControlsDialog extends PaintImmediateDialog {
 
     //----------------------------------------------------------------------
     // Class data

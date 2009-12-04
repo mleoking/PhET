@@ -24,7 +24,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.MathStrings;
@@ -40,7 +40,7 @@ import edu.colorado.phet.fourier.model.FourierSeries;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ExpandSumDialog extends JDialog implements SimpleObserver {
+public class ExpandSumDialog extends PaintImmediateDialog implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data

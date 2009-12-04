@@ -21,6 +21,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.MathStrings;
@@ -1051,8 +1052,7 @@ public class DiscreteControlPanel extends FourierAbstractControlPanel implements
      */
     private void handleSoundError( String message, Exception exception ) {
         // Display the message in an Error dialog
-        String title = FourierResources.getString( "sound.error.title" );
-        JOptionPane.showMessageDialog( this, message, title, JOptionPane.ERROR_MESSAGE );
+        PhetOptionPane.showErrorDialog( this, message );
         // Disable the UI control for sound
         _soundCheckBox.setSelected( false );
         _soundCheckBox.setEnabled( false );

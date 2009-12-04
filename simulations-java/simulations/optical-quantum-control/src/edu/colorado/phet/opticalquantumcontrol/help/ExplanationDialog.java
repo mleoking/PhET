@@ -11,16 +11,9 @@
 
 package edu.colorado.phet.opticalquantumcontrol.help;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
+import java.awt.*;
 
-import javax.swing.JDialog;
-
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
@@ -37,7 +30,7 @@ import edu.colorado.phet.opticalquantumcontrol.OQCResources;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ExplanationDialog extends JDialog {
+public class ExplanationDialog extends PaintImmediateDialog {
 
     //----------------------------------------------------------------------------
     // Class data

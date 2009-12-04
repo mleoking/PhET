@@ -7,12 +7,13 @@ import java.awt.Frame;
 
 import javax.swing.JDialog;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.control.ModelConstantsPanel;
 import edu.colorado.phet.glaciers.model.Glacier;
 
 
-public class ModelConstantsDialog extends JDialog {
+public class ModelConstantsDialog extends PaintImmediateDialog {
     
     private final ModelConstantsPanel _panel;
 

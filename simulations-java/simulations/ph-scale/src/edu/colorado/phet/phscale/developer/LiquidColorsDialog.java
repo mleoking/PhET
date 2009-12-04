@@ -4,9 +4,9 @@ package edu.colorado.phet.phscale.developer;
 
 import java.awt.Frame;
 
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 
@@ -16,7 +16,7 @@ import edu.colorado.phet.phscale.model.LiquidDescriptor;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LiquidColorsDialog extends JDialog {
+public class LiquidColorsDialog extends PaintImmediateDialog {
 
     public LiquidColorsDialog( Frame owner ) {
         super( owner );

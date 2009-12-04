@@ -4,8 +4,6 @@ package edu.colorado.phet.acidbasesolutions;
 
 import java.awt.Frame;
 
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.acidbasesolutions.module.comparing.ComparingModule;
 import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModule;
 import edu.colorado.phet.acidbasesolutions.module.solutions.SolutionsModule;
@@ -17,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -136,8 +135,7 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
             }
             else {
                 String message = ABSStrings.MESSAGE_NOT_A_CONFIG;
-                String title = ABSStrings.TITLE_ERROR;
-                JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
+                PhetOptionPane.showErrorDialog( getPhetFrame(), message );
             }
         }
     }

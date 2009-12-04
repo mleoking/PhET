@@ -77,7 +77,6 @@ public class GlaciersStrings {
     public static final String TITLE_INTRO = GlaciersResources.getString( "title.introduction" );
     public static final String TITLE_CLIMATE_CONTROLS = GlaciersResources.getString( "title.climateControls" );
     public static final String TITLE_ELA_VERSUS_TIME = GlaciersResources.getString( "title.elaVersusTime" );
-    public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
     public static final String TITLE_EXPERIMENTS = GlaciersResources.getString( "title.experiments" );
     public static final String TITLE_GRAPH_CONTROLS = GlaciersResources.getString( "title.graphControls" );
     public static final String TITLE_GLACIAL_BUDGET_VERSUS_ELEVATION = GlaciersResources.getString( "title.glacialBudgetVersusElevation" );

@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -43,7 +44,7 @@ import edu.colorado.phet.quantumtunneling.module.QTModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Listener {
+public class ColorSchemeDialog extends PaintImmediateDialog implements ColorChooserFactory.Listener {
 
     //----------------------------------------------------------------------------
     // Class data

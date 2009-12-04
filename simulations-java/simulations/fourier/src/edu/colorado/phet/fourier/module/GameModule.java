@@ -23,6 +23,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.fourier.FourierConstants;
@@ -297,7 +298,7 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
                 _instructionsHaveBeenDisplayed = true;
                 String message = FourierResources.getString( "GameInstructionsDialog.message" );
                 String title = FourierResources.getString( "GameInstructionsDialog.title" );
-                JOptionPane.showMessageDialog( PhetApplication.getInstance().getPhetFrame(), message, title, JOptionPane.PLAIN_MESSAGE );
+                PhetOptionPane.showMessageDialog( PhetApplication.getInstance().getPhetFrame(), message, title, JOptionPane.PLAIN_MESSAGE );
             }
         }
     }

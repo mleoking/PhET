@@ -20,13 +20,13 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
@@ -38,7 +38,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractVa
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class BSAbstractConfigureDialog extends JDialog implements Observer {
+public abstract class BSAbstractConfigureDialog extends PaintImmediateDialog implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data

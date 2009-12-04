@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.glaciers.module.advanced.AdvancedModule;
 import edu.colorado.phet.glaciers.module.intro.IntroModule;
@@ -162,7 +163,7 @@ public class GlaciersApplication extends PiccoloPhetApplication {
                 _advancedModule.load( advancedConfig );
             }
             else {
-                JOptionPane.showMessageDialog( getPhetFrame(), GlaciersStrings.MESSAGE_NOT_A_CONFIG_FILE, GlaciersStrings.TITLE_ERROR, JOptionPane.ERROR_MESSAGE );
+                PhetOptionPane.showErrorDialog( getPhetFrame(), GlaciersStrings.MESSAGE_NOT_A_CONFIG_FILE );
             }
         }
     }

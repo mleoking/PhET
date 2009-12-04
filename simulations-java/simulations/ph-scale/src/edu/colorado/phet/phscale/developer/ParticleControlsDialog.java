@@ -5,10 +5,10 @@ package edu.colorado.phet.phscale.developer;
 import java.awt.Frame;
 import java.awt.Insets;
 
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -21,7 +21,7 @@ import edu.colorado.phet.phscale.view.beaker.ParticlesNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ParticleControlsDialog extends JDialog {
+public class ParticleControlsDialog extends PaintImmediateDialog {
 
     //----------------------------------------------------------------------------
     // Instance data

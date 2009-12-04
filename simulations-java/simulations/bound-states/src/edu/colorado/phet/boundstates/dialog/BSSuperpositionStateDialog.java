@@ -24,9 +24,10 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.DoubleSpinner;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 
 /**
@@ -41,7 +42,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSuperpositionStateDialog extends JDialog implements Observer {
+public class BSSuperpositionStateDialog extends PaintImmediateDialog implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -451,8 +452,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             Object[] objs = { equation };
             MessageFormat format = new MessageFormat( pattern );
             String message = format.format( objs );
-            String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-            int reply = JOptionPane.showConfirmDialog( this, message, title, JOptionPane.YES_NO_CANCEL_OPTION );
+            int reply = PhetOptionPane.showYesNoDialog( this, message );
             if ( reply == JOptionPane.YES_OPTION) {
                 // Yes -> normalize, apply
                 normalize();
@@ -476,8 +476,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             if ( !_localCoefficients.isNormalized( NORMALIZATION_ERROR ) ) {
                 message = BSResources.getString( "message.confirmNormalizeApplyClose" );
             }
-            String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-            int reply = JOptionPane.showConfirmDialog( this, message, title, JOptionPane.YES_NO_CANCEL_OPTION );
+            int reply = PhetOptionPane.showYesNoCancelDialog( this, message );
             if ( reply == JOptionPane.YES_OPTION ) {
                 // Yes -> normalize, apply, close
                 normalize();

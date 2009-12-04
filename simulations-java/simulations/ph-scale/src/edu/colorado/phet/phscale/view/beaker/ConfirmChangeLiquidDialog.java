@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
@@ -20,7 +21,7 @@ import edu.colorado.phet.phscale.PHScaleStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ConfirmChangeLiquidDialog extends JDialog {
+public class ConfirmChangeLiquidDialog extends PaintImmediateDialog {
 
     //----------------------------------------------------------------------------
     // Instance data

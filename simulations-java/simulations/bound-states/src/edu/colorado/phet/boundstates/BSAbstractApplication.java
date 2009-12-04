@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.boundstates;
 
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorsMenu;
@@ -19,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManage
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 
@@ -251,8 +250,7 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
             }
             else {
                 String message = BSResources.getString( "message.notAConfigFile" );
-                String title = BSResources.getString( "title.error" );
-                JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
+                PhetOptionPane.showErrorDialog( getPhetFrame(), message );
             }
         }
     }

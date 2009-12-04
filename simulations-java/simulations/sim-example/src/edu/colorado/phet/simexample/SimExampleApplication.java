@@ -5,7 +5,6 @@ package edu.colorado.phet.simexample;
 import java.awt.Frame;
 
 import javax.swing.JMenu;
-import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -13,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.simexample.module.example.ExampleModule;
 import edu.colorado.phet.simexample.persistence.ExampleConfig;
@@ -136,8 +136,7 @@ public class SimExampleApplication extends PiccoloPhetApplication {
             }
             else {
                 String message = SimExampleStrings.MESSAGE_NOT_A_CONFIG;
-                String title = SimExampleStrings.TITLE_ERROR;
-                JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
+                PhetOptionPane.showErrorDialog( getPhetFrame(), message );
             }
         }
     }
