@@ -9,7 +9,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 public class Galactose extends SimpleSugar {
 
-	public Galactose(IObtainGeneModelElements model, Point2D initialPosition) {
+	public Galactose(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, initialPosition, Color.ORANGE);
 		
 		// Add attachment point for Glucose.
@@ -20,11 +20,11 @@ public class Galactose extends SimpleSugar {
 				new PDimension(getWidth()/2, 0)));
 	}
 
-    public Galactose(IObtainGeneModelElements model, double x, double y) {
+    public Galactose(IGeneNetworkModelControl model, double x, double y) {
         this(model, new Point2D.Double(x,y));
     }
 
-	public Galactose(IObtainGeneModelElements model){
+	public Galactose(IGeneNetworkModelControl model){
 		this(model, new Point2D.Double());
 	}
 	

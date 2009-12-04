@@ -7,12 +7,12 @@ public class LacITransformationArrow extends TransformationArrow {
 	private static final double ARROW_LENGTH = 5;
 	private final LacI lacIToAddToModel;
 	
-	public LacITransformationArrow(IObtainGeneModelElements model, Point2D initialPosition, LacI lacI) {
+	public LacITransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition, LacI lacI) {
 		super(model, initialPosition, ARROW_LENGTH);
 		lacIToAddToModel = lacI;
 	}
 
-	public LacITransformationArrow(IObtainGeneModelElements model, LacI lacI) {
+	public LacITransformationArrow(IGeneNetworkModelControl model, LacI lacI) {
 		this(model, new Point2D.Double(0,0), lacI);
 	}
 

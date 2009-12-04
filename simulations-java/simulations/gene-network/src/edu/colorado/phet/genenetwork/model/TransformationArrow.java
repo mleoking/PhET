@@ -43,14 +43,14 @@ public class TransformationArrow extends SimpleModelElement {
     // Constructors
     //------------------------------------------------------------------------
 	
-	public TransformationArrow(IObtainGeneModelElements model, Point2D initialPosition, double length) {
+	public TransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition, double length) {
 		
 		super(model, createShape(length), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
 		
 		setMotionStrategy(new StillnessMotionStrategy(this));
 	}
 	
-	public TransformationArrow(IObtainGeneModelElements model, Point2D initialPosition) {
+	public TransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition) {
 		this(model, initialPosition, DEFAULT_LENGTH);
 	}
 

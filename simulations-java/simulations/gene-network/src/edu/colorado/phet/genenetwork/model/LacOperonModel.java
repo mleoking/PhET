@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * Primary model for the Lac Operon flavor of this sim.
  */
-public class LacOperonModel implements IObtainGeneModelElements {
+public class LacOperonModel implements IGeneNetworkModelControl {
     
 	//----------------------------------------------------------------------------
 	// Class Data

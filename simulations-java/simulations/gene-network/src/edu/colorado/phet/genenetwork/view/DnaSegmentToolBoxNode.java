@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
+import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -56,7 +56,7 @@ public class DnaSegmentToolBoxNode extends PNode {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public DnaSegmentToolBoxNode(final PhetPCanvas canvas, IObtainGeneModelElements model, ModelViewTransform2D mvt) {
+	public DnaSegmentToolBoxNode(final PhetPCanvas canvas, IGeneNetworkModelControl model, ModelViewTransform2D mvt) {
 		
 		// Register for events indicating that the parent window was resized.
 		canvas.addComponentListener(new ComponentAdapter() {

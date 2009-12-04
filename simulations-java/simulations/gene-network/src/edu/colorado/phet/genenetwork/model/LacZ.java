@@ -27,14 +27,14 @@ public class LacZ extends SimpleModelElement {
 			new Color(185, 147, 187), new Point2D.Double(SIZE * 5, 0), Color.WHITE);
 	private static final double EXISTENCE_TIME = 15; // Seconds.
 	
-	public LacZ(IObtainGeneModelElements model, Point2D initialPosition) {
+	public LacZ(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.GLUCOSE, new PDimension(0, -SIZE/2)));
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.GALACTOSE, new PDimension(0, -SIZE/2)));
 		setMotionStrategy(new StillnessMotionStrategy(this));
 	}
 	
-	public LacZ(IObtainGeneModelElements model) {
+	public LacZ(IGeneNetworkModelControl model) {
 		this(model, new Point2D.Double());
 	}
 	

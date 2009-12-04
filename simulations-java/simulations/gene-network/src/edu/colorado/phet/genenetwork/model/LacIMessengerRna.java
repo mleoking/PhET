@@ -12,11 +12,11 @@ public class LacIMessengerRna extends MessengerRna {
 
 	private static final double EXISTENCE_TIME = 2.0; // In seconds.
 	
-	public LacIMessengerRna(IObtainGeneModelElements model, Point2D initialPosition, double initialLength) {
+	public LacIMessengerRna(IGeneNetworkModelControl model, Point2D initialPosition, double initialLength) {
 		super(model, initialPosition, initialLength, true, EXISTENCE_TIME);
 	}
 
-	public LacIMessengerRna(IObtainGeneModelElements model, double initialLength) {
+	public LacIMessengerRna(IGeneNetworkModelControl model, double initialLength) {
 		this(model, new Point2D.Double(), initialLength);
 	}
 	

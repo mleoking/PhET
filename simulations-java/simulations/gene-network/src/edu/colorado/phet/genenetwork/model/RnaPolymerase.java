@@ -53,7 +53,7 @@ public class RnaPolymerase extends SimpleModelElement {
     // Constructor(s)
     //------------------------------------------------------------------------
 	
-	public RnaPolymerase(IObtainGeneModelElements model, Point2D initialPosition) {
+	public RnaPolymerase(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		
 		// This binding point should is hand tweaked to make it work.
@@ -62,7 +62,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 	}
 	
-	public RnaPolymerase(IObtainGeneModelElements model) {
+	public RnaPolymerase(IGeneNetworkModelControl model) {
 		this(model, new Point2D.Double());
 	}
 	

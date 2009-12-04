@@ -49,7 +49,7 @@ public abstract class MessengerRna extends SimpleModelElement {
 	// Constructor(s)
 	//----------------------------------------------------------------------------
 	
-	protected MessengerRna(IObtainGeneModelElements model, Point2D initialPosition, double initialLength,
+	protected MessengerRna(IGeneNetworkModelControl model, Point2D initialPosition, double initialLength,
 			boolean fadeIn, double existenceTime) {
 		super(model, createInitialShape(), initialPosition, ELEMENT_PAINT, fadeIn, existenceTime);
 		while (length < initialLength){
@@ -57,7 +57,7 @@ public abstract class MessengerRna extends SimpleModelElement {
 		}
 	}
 	
-	public MessengerRna(IObtainGeneModelElements model, double initialLength, boolean fadeIn, double existenceTime) {
+	public MessengerRna(IGeneNetworkModelControl model, double initialLength, boolean fadeIn, double existenceTime) {
 		this(model, new Point2D.Double(0, 0), initialLength, fadeIn, existenceTime);
 	}
 

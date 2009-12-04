@@ -7,7 +7,7 @@ public class LacZTransformationArrow extends TransformationArrow {
 	private static final double ARROW_LENGTH = 5;
 	private final LacZ lacZToAddToModel;
 	
-	public LacZTransformationArrow(IObtainGeneModelElements model, Point2D initialPosition, LacZ lacZ) {
+	public LacZTransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition, LacZ lacZ) {
 		super(model, initialPosition, ARROW_LENGTH);
 		lacZToAddToModel = lacZ;
 	}

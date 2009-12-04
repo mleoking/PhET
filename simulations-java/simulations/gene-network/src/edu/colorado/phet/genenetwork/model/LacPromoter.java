@@ -41,13 +41,13 @@ public class LacPromoter extends SimpleModelElement {
     // Constructor(s)
     //------------------------------------------------------------------------
 
-	public LacPromoter(IObtainGeneModelElements model, Point2D initialPosition) {
+	public LacPromoter(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.RNA_POLYMERASE, 
 				RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET));
 	}
 	
-	public LacPromoter(IObtainGeneModelElements model) {
+	public LacPromoter(IGeneNetworkModelControl model) {
 		this(model, new Point2D.Double());
 	}
 	
