@@ -31,14 +31,14 @@ public class Cap extends SimpleModelElement {
 	private AttachmentState capBindingRegionAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	Point2D targetPositionForAttachingToBindingRegion = new Point2D.Double();
 	
-	public Cap(IObtainGeneModelElements model, Point2D initialPosition) {
+	public Cap(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.CAP_BINDING_REGION, 
 				CAP_BINDING_REGION_ATTACHMENT_OFFSET));
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 	}
 	
-	public Cap(IObtainGeneModelElements model) {
+	public Cap(IGeneNetworkModelControl model) {
 		this(model, new Point2D.Double());
 	}
 	

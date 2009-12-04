@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
-import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
+import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.RnaPolymerase;
 
 /**
@@ -16,7 +16,7 @@ import edu.colorado.phet.genenetwork.model.RnaPolymerase;
  */
 public class RnaPolymeraseToolBoxNode extends ToolBoxItemNode {
 
-	public RnaPolymeraseToolBoxNode(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public RnaPolymeraseToolBoxNode(IGeneNetworkModelControl model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 

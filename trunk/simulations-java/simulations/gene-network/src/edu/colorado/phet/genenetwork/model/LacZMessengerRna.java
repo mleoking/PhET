@@ -12,7 +12,7 @@ public class LacZMessengerRna extends MessengerRna {
 	
 	public static final double EXISTENCE_TIME = 8; // In seconds.
 
-	public LacZMessengerRna(IObtainGeneModelElements model,double initialLength) {
+	public LacZMessengerRna(IGeneNetworkModelControl model,double initialLength) {
 		super(model, initialLength, false, EXISTENCE_TIME);
 	}
 

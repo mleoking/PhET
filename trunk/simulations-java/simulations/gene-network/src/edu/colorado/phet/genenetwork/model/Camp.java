@@ -20,11 +20,11 @@ public class Camp extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = Color.RED;
 	private static float DIAMETER = 2.0f;  // In nanometers.
 	
-	public Camp(IObtainGeneModelElements model, Point2D initialPosition) {
+	public Camp(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 	}
 	
-	public Camp(IObtainGeneModelElements model) {
+	public Camp(IGeneNetworkModelControl model) {
 		this(model, new Point2D.Double());
 	}
 	

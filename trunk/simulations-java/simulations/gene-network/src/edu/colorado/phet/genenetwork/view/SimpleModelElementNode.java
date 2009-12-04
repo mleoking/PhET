@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
@@ -44,6 +45,9 @@ public class SimpleModelElementNode extends PPath {
 	private static final boolean SHOW_CENTER_DOT = false;
 	private static final boolean SHOW_ATTACHMENT_POINTS = false;
 	private static final Font LABEL_FONT = new PhetFont(16, true );
+	private static final Stroke NORMAL_STROKE = new BasicStroke(2);
+	private static final Stroke GHOST_MODE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_BUTT,
+			BasicStroke.JOIN_BEVEL, 0, new float[] {8, 5}, 0);
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -53,6 +57,8 @@ public class SimpleModelElementNode extends PPath {
 	private final ModelViewTransform2D mvt;
 	
 	private PhetPPath centerDot = new PhetPPath(Color.RED, new BasicStroke(2), Color.RED);
+	
+	private boolean ghostModeEnabled = false;
 	
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -159,6 +165,16 @@ public class SimpleModelElementNode extends PPath {
 		updatePaintAndStroke(true);
 	}
 	
+	/**
+	 * Set "ghost mode", which is a mode in which the node is presented as a
+	 * non-filled shape with a dotted outline.  This is generally intended to
+	 * convey the idea that the corresponding shape can or should go at a
+	 * given location, but is not currently AT that location.
+	 */
+	public void setGhostMode(boolean ghostModeEnabled){
+		this.ghostModeEnabled = ghostModeEnabled;
+	}
+	
     private void updateOffset() {
         setOffset( mvt.modelToView( modelElement.getPositionRef() ));
     }
@@ -176,7 +192,7 @@ public class SimpleModelElementNode extends PPath {
     	// Create the transformed shape.
 		Shape transformedShape = scalingOnlyTransform.createTransformedShape(modelElement.getShape());
 		
-		// Set the shape and color.
+		// Set the node to this shape.
 		setPathTo(transformedShape);
     }
     
@@ -186,23 +202,30 @@ public class SimpleModelElementNode extends PPath {
     		alpha = (int)Math.round(modelElement.getExistenceStrength() * 255);
     	}
     	setStrokePaint(new Color(0, 0, 0, alpha));
-    	Paint currentPaint = modelElement.getPaint();
-    	Paint newPaint = currentPaint;
-    	if (currentPaint instanceof GradientPaint){
-    		GradientPaint gp = (GradientPaint)currentPaint;
-    		alpha = (int)Math.round(modelElement.getExistenceStrength() * 255);
-    		Color color1 = new Color(gp.getColor1().getRed(), gp.getColor1().getGreen(),
-    				gp.getColor1().getBlue(), alpha);
-    		Color color2 = new Color(gp.getColor2().getRed(), gp.getColor2().getGreen(),
-    				gp.getColor2().getBlue(), alpha);
-    		
-    		newPaint = new GradientPaint(gp.getPoint1(), color1, gp.getPoint2(), color2);
+    	if (!ghostModeEnabled){
+    		setStroke(NORMAL_STROKE);
+    		Paint currentPaint = modelElement.getPaint();
+    		Paint newPaint = currentPaint;
+    		if (currentPaint instanceof GradientPaint){
+    			GradientPaint gp = (GradientPaint)currentPaint;
+    			alpha = (int)Math.round(modelElement.getExistenceStrength() * 255);
+    			Color color1 = new Color(gp.getColor1().getRed(), gp.getColor1().getGreen(),
+    					gp.getColor1().getBlue(), alpha);
+    			Color color2 = new Color(gp.getColor2().getRed(), gp.getColor2().getGreen(),
+    					gp.getColor2().getBlue(), alpha);
+    			
+    			newPaint = new GradientPaint(gp.getPoint1(), color1, gp.getPoint2(), color2);
+    		}
+    		else if (currentPaint instanceof Color){
+    			Color oldColor = (Color)currentPaint;
+    			alpha = (int)Math.round(modelElement.getExistenceStrength() * 255);
+    			newPaint = new Color(oldColor.getRed(), oldColor.getGreen(), oldColor.getBlue(), alpha);
+    		}
+    		setPaint(newPaint);
     	}
-    	else if (currentPaint instanceof Color){
-    		Color oldColor = (Color)currentPaint;
-    		alpha = (int)Math.round(modelElement.getExistenceStrength() * 255);
-    		newPaint = new Color(oldColor.getRed(), oldColor.getGreen(), oldColor.getBlue(), alpha);
+    	else{
+    		setStroke(GHOST_MODE_STROKE);
+    		setPaint(null);
     	}
-    	setPaint(newPaint);
     }
 }

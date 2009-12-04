@@ -26,12 +26,12 @@ public class CapBindingRegion extends SimpleModelElement {
 	
 	private Cap capAttachmentPartner = null;
 	
-	public CapBindingRegion(IObtainGeneModelElements model, Point2D initialPosition) {
+	public CapBindingRegion(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.CAP, CAP_ATTACHMENT_POINT_OFFSET));
 	}
 	
-	public CapBindingRegion(IObtainGeneModelElements model) {
+	public CapBindingRegion(IGeneNetworkModelControl model) {
 		this(model, new Point2D.Double());
 	}
 	

@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
-import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
+import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.LacOperator;
 
 /**
@@ -17,7 +17,7 @@ import edu.colorado.phet.genenetwork.model.LacOperator;
  */
 public class LacOperatorToolBoxNode extends ToolBoxItemNode {
 
-	public LacOperatorToolBoxNode(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public LacOperatorToolBoxNode(IGeneNetworkModelControl model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 

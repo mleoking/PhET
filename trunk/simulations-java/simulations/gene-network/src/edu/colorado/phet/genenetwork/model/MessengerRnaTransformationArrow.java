@@ -14,12 +14,12 @@ public class MessengerRnaTransformationArrow extends TransformationArrow {
 	private final MessengerRna mRna;
 	private boolean lacIAdded = false;
 	
-	public MessengerRnaTransformationArrow(IObtainGeneModelElements model, Point2D initialPosition, MessengerRna mRna) {
+	public MessengerRnaTransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition, MessengerRna mRna) {
 		super(model, initialPosition, ARROW_LENGTH);
 		this.mRna = mRna;
 	}
 
-	public MessengerRnaTransformationArrow(IObtainGeneModelElements model, MessengerRna mRna) {
+	public MessengerRnaTransformationArrow(IGeneNetworkModelControl model, MessengerRna mRna) {
 		this(model, new Point2D.Double(0,0), mRna);
 	}
 

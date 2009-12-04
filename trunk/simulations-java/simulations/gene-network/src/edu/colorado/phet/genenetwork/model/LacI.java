@@ -60,14 +60,14 @@ public class LacI extends SimpleModelElement {
     // Constructors
     //------------------------------------------------------------------------
 	
-	public LacI(IObtainGeneModelElements model, Point2D initialPosition) {
+	public LacI(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 		// Add binding point for LacOperator.
 		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_OPERATOR, LAC_OPERATOR_ATTACHMENT_POINT_OFFSET));
 	}
 	
-	public LacI(IObtainGeneModelElements model) {
+	public LacI(IGeneNetworkModelControl model) {
 		this(model, new Point2D.Double());
 	}
 	

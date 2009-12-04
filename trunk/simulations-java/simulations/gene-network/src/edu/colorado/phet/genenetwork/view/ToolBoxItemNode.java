@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
+import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -39,7 +39,7 @@ public abstract class ToolBoxItemNode extends PComposite {
     // Instance Data
     //----------------------------------------------------------------------------
 
-	private final IObtainGeneModelElements model;
+	private final IGeneNetworkModelControl model;
 	private SimpleModelElementNode selectionNode = null;
 	private HTMLNode caption = null;
 	private SimpleModelElement modelElement = null;
@@ -48,7 +48,7 @@ public abstract class ToolBoxItemNode extends PComposite {
     // Constructor(s)
     //----------------------------------------------------------------------------
     
-	public ToolBoxItemNode(final IObtainGeneModelElements model, final ModelViewTransform2D mvt, final PhetPCanvas canvas) {
+	public ToolBoxItemNode(final IGeneNetworkModelControl model, final ModelViewTransform2D mvt, final PhetPCanvas canvas) {
 		
 		this.model = model;
 		initializeSelectionNode();
@@ -138,7 +138,7 @@ public abstract class ToolBoxItemNode extends PComposite {
 		}
 	}
 	
-	protected IObtainGeneModelElements getModel(){
+	protected IGeneNetworkModelControl getModel(){
 		return model;
 	}
 }

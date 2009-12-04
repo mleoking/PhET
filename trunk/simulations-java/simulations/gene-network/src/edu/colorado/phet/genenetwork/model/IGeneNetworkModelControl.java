@@ -4,12 +4,13 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
- * Interface that allows the user to obtain the model elements that are
- * currently in existence within the model.
+ * Interface that allows the user to control and to obtain information about a
+ * gene network model.  This interface is designed to accomodate the specific
+ * needs of this simulation, and not a generic gene network model.
  * 
  * @author John Blanco
  */
-public interface IObtainGeneModelElements {
+public interface IGeneNetworkModelControl {
 
 	ArrayList<LacI> getLacIList();
 

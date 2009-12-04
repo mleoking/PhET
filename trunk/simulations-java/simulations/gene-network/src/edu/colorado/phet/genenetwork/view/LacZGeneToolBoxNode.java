@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
+import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.LacZGene;
 
 /**
@@ -15,7 +15,7 @@ import edu.colorado.phet.genenetwork.model.LacZGene;
  */
 public class LacZGeneToolBoxNode extends ToolBoxItemNode {
 
-	public LacZGeneToolBoxNode(IObtainGeneModelElements model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public LacZGeneToolBoxNode(IGeneNetworkModelControl model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		super(model, mvt, canvas);
 	}
 

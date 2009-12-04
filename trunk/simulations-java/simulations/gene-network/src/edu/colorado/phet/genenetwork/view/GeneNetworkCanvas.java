@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.GeneNetworkConstants;
-import edu.colorado.phet.genenetwork.model.IObtainGeneModelElements;
+import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
 import edu.colorado.phet.genenetwork.model.ModelElementListenerAdapter;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
@@ -39,7 +39,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     //------------------------------------------------------------------------
 
     // Model
-    private IObtainGeneModelElements model;
+    private IGeneNetworkModelControl model;
     
     // Model-view transform.
     private ModelViewTransform2D mvt;

@@ -45,16 +45,16 @@ public abstract class SimpleModelElement implements IModelElement{
     protected ArrayList<IModelElementListener> listeners = new ArrayList<IModelElementListener>();
     private ArrayList<AttachmentPoint> bindingPoints = new ArrayList<AttachmentPoint>();
     private AbstractMotionStrategy motionStrategy = null;
-    private final IObtainGeneModelElements model;
+    private final IGeneNetworkModelControl model;
     private boolean dragging;
     private double existenceTimeCountdown;
     private double existenceTime;
-
+    
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
 	
-    public SimpleModelElement(IObtainGeneModelElements model, Shape initialShape, Point2D initialPosition,
+    public SimpleModelElement(IGeneNetworkModelControl model, Shape initialShape, Point2D initialPosition,
     		Paint paint, boolean fadeIn, double existenceTime){
 		
 		this.model = model;
@@ -93,7 +93,7 @@ public abstract class SimpleModelElement implements IModelElement{
 		return shape;
 	}
 	
-	protected IObtainGeneModelElements getModel(){
+	protected IGeneNetworkModelControl getModel(){
 		return model;
 	}
 	
