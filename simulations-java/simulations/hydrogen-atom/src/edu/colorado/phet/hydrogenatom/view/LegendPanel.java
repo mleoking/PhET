@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -189,7 +190,7 @@ public class LegendPanel extends JPanel {
     /**
      * LegendDialog displays the legend in a dialog.
      */
-    public static class LegendDialog extends JDialog {
+    public static class LegendDialog extends PaintImmediateDialog {
 
         public LegendDialog( Frame owner ) {
             super( owner );

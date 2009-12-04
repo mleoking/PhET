@@ -7,9 +7,9 @@ import java.awt.Image;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.opticaltweezers.charts.PositionHistogramPanel;
 
 /**
@@ -17,7 +17,7 @@ import edu.colorado.phet.opticaltweezers.charts.PositionHistogramPanel;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PositionHistogramSnapshotDialog extends JDialog {
+public class PositionHistogramSnapshotDialog extends PaintImmediateDialog {
     
     /**
      * Constructor.

@@ -17,9 +17,13 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -32,7 +36,7 @@ import edu.colorado.phet.hydrogenatom.model.BohrModel;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TransitionsDialog extends JDialog {
+public class TransitionsDialog extends PaintImmediateDialog {
 
     private static final String TRANSITION_FORMAT = "{0} <-> {1}";
     private static final DecimalFormat WAVELENGTH_FORMATTER = new DecimalFormat( "0" );

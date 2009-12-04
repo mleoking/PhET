@@ -1,3 +1,4 @@
+12/4/09 #89, subclass PaintImmediateDialog instead of JDialog
 # 2.02.00 (36275) Oct 30, 2009
 10/30/09 new production version with minor enhancements
 # 2.01.06 (33564) Jul 23, 2009

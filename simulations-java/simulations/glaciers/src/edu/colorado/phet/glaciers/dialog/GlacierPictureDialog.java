@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
@@ -19,7 +20,7 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlacierPictureDialog extends JDialog {
+public class GlacierPictureDialog extends PaintImmediateDialog {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -32,7 +33,6 @@ public class GlacierPictureDialog extends JDialog {
      */
     public GlacierPictureDialog( Frame owner ) {
         super( owner, false /* nonmodal */);
-        
         setResizable( false );
 
         // picture
