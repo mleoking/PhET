@@ -1,3 +1,5 @@
+# 3.18.04 (37116) Dec 4, 2009
+12/4/09 Incorporated new version of the probe image
 # 3.18.03 (37063) Dec 2, 2009
 12/2/09 Incorported new probe image and made it bigger, made some changes to strings based on feedback.
 # 3.18.02 (36847) Nov 23, 2009
