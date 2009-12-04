@@ -6,14 +6,17 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
- * PhetOptionPane provides basic JOptionPane functionality, but uses a PaintImmediateDialog
+ * PhetOptionPane provides JOptionPane-like functionality, but uses a PaintImmediateDialog
  * to address issues with AWT thread priority (see Unfuddle #89).
+ * The interface differs from JOptionPane, and is oriented towards common dialogs that 
+ * need to be displated in PhET simulations.
  * <p>
  * All dialogs are modal and non-resizable.
  * Return values are identical to (and obtained from) JOptionPane.
@@ -27,51 +30,51 @@ public class PhetOptionPane {
     private static final String TITLE_WARNING = PhetCommonResources.getInstance().getLocalizedString( "Common.title.warning" );
     private static final String TITLE_ERROR = PhetCommonResources.getInstance().getLocalizedString( "Common.title.error" );
     
-    public static int showMessageDialog( Component parent, String message ) {
+    public static int showMessageDialog( Component parent, Object message ) {
         return showMessageDialog( parent, message, TITLE_MESSAGE );
     }
     
-    public static int showMessageDialog( Component parent, String message, String title ) {
+    public static int showMessageDialog( Component parent, Object message, String title ) {
         return showMessageDialog( parent, message, title, JOptionPane.INFORMATION_MESSAGE );
     }
     
-    public static int showMessageDialog( Component parent, String message, String title, int messageType ) {
+    public static int showMessageDialog( Component parent, Object message, String title, int messageType ) {
         return showJOptionPaneDialog( parent, message, title, messageType );
     }
     
-    public static int showOKCancelDialog( Component parent, String message ) {
+    public static int showOKCancelDialog( Component parent, Object message ) {
         return showOKCancelDialog( parent, message, TITLE_CONFIRM );
     }
     
-    public static int showOKCancelDialog( Component parent, String message, String title ) {
+    public static int showOKCancelDialog( Component parent, Object message, String title ) {
         return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
     }
     
-    public static int showYesNoDialog( Component parent, String message ) {
+    public static int showYesNoDialog( Component parent, Object message ) {
         return showYesNoDialog( parent, message, TITLE_CONFIRM );
     }
     
-    public static int showYesNoDialog( Component parent, String message, String title ) {
+    public static int showYesNoDialog( Component parent, Object message, String title ) {
         return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION );
     }
     
-    public static int showYesNoCancelDialog( Component parent, String message ) {
+    public static int showYesNoCancelDialog( Component parent, Object message ) {
         return showYesNoCancelDialog( parent, message, TITLE_CONFIRM );
     }
     
-    public static int showYesNoCancelDialog( Component parent, String message, String title ) {
+    public static int showYesNoCancelDialog( Component parent, Object message, String title ) {
         return showJOptionPaneDialog( parent, message, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION );
     }
     
-    public static int showWarningDialog( Component parent, String message ) {
+    public static int showWarningDialog( Component parent, Object message ) {
         return showJOptionPaneDialog( parent, message, TITLE_WARNING, JOptionPane.WARNING_MESSAGE );
     }
     
-    public static int showErrorDialog( Component parent, String message ) {
+    public static int showErrorDialog( Component parent, Object message ) {
         return showJOptionPaneDialog( parent, message, TITLE_ERROR, JOptionPane.ERROR_MESSAGE );
     }
     
-    private static int showJOptionPaneDialog( Component parent, String message, String title, int messageType ) {
+    private static int showJOptionPaneDialog( Component parent, Object message, String title, int messageType ) {
         return showJOptionPaneDialog( parent, message, title, messageType, JOptionPane.DEFAULT_OPTION );
     }
    
@@ -79,7 +82,7 @@ public class PhetOptionPane {
      * Shows a dialog using a JOptionPane.
      * Return values are obtained from JOptionPane, see its javadoc.
      */
-    private static int showJOptionPaneDialog( Component parent, String message, String title, int messageType, int optionType ) {
+    private static int showJOptionPaneDialog( Component parent, Object message, String title, int messageType, int optionType ) {
 
         // Use a JOptionPane to get the right dialog look and layout
         JOptionPane pane = new JOptionPane( message, messageType, optionType );
@@ -148,6 +151,8 @@ public class PhetOptionPane {
     /* tests */
     public static void main( String[] args ) {
         int value = PhetOptionPane.showMessageDialog( null, "message", "title" );
+        System.out.println( "value=" + value );
+        value = PhetOptionPane.showMessageDialog( null, new JLabel( "JLabel" ), "title" );
         System.out.println( "value=" + value );
         value = PhetOptionPane.showOKCancelDialog( null, "ok question", "title" );
         System.out.println( "value=" + value );
