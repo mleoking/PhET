@@ -230,9 +230,9 @@ public class DatableItem implements AnimatedModelElement {
     	// return getBoundingRect().contains(pt);
     	
         // Determine if one of the non-transparent pixels in the image is being touched.
-        ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( getBoundingRect(), 
+        ModelViewTransform2D derotatingTransform = new ModelViewTransform2D( getBoundingRect(), 
         		new Rectangle2D.Double( 0, 0, getImage().getWidth(), getImage().getHeight() ) );
-        Point unrotatedPoint = modelViewTransform2D.modelToView( pt );
+        Point unrotatedPoint = derotatingTransform.modelToView( pt );
 
         Point2D imageCenter = new Point2D.Double( getImage().getWidth() / 2, getImage().getHeight() / 2 );
         Vector2D unrotatedVector = new Vector2D.Double( imageCenter, unrotatedPoint );
@@ -247,7 +247,7 @@ public class DatableItem implements AnimatedModelElement {
             return false;
         }
     }
-
+    
     private boolean isPixelOpaque( Point pixelpt ) {
         if ( getImage().getType() == BufferedImage.TYPE_INT_ARGB ) {
             int[] pixel = getImage().getData().getPixel( pixelpt.x, pixelpt.y, (int[]) null );
