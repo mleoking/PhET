@@ -7,8 +7,6 @@ import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JDialog;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -19,6 +17,7 @@ import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Climate.ClimateAdapter;
@@ -31,7 +30,7 @@ import edu.colorado.phet.glaciers.util.UnitsConverter;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TemperatureVersusElevationChart extends JDialog {
+public class TemperatureVersusElevationChart extends PaintImmediateDialog {
     
     private static final Range TEMPERATURE_RANGE_METRIC = new Range( -20, 8 ); // degrees C
     private static final Range TEMPERATURE_RANGE_ENGLISH = new Range( 

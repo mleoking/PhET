@@ -5,8 +5,7 @@ package edu.colorado.phet.opticaltweezers.dialog;
 import java.awt.Font;
 import java.awt.Frame;
 
-import javax.swing.JDialog;
-
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.PositionHistogramPanel;
@@ -18,7 +17,7 @@ import edu.colorado.phet.opticaltweezers.model.Laser;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PositionHistogramDialog extends JDialog {
+public class PositionHistogramDialog extends PaintImmediateDialog {
     
     private PositionHistogramPanel _panel;
     

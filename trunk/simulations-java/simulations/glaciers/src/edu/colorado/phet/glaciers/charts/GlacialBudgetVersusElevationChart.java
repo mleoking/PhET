@@ -9,8 +9,6 @@ import java.awt.Stroke;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JDialog;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -22,6 +20,7 @@ import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Climate;
@@ -34,7 +33,7 @@ import edu.colorado.phet.glaciers.util.UnitsConverter;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlacialBudgetVersusElevationChart extends JDialog {
+public class GlacialBudgetVersusElevationChart extends PaintImmediateDialog {
     
     private static final Range GLACIAL_BUDGET_RANGE_METRIC = new Range( -19, 19 ); // meters/yr
     private static final Range GLACIAL_BUDGET_RANGE_ENGLISH = new Range( 
