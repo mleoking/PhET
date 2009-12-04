@@ -126,4 +126,14 @@ public interface IGeneNetworkModelControl {
     void addLacZ(LacZ lacZ);
 
 	void addLacI(LacI lacIToAddToModel);
+	
+	/**
+	 * Add a listener.
+	 */
+	void addListener(GeneNetworkModelListener listener);
+	
+	/**
+	 * Remove a listener.
+	 */
+	void removeListener(GeneNetworkModelListener listener);
 }

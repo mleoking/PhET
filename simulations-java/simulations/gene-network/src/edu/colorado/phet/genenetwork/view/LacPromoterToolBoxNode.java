@@ -6,7 +6,9 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
+import edu.colorado.phet.genenetwork.model.LacIGene;
 import edu.colorado.phet.genenetwork.model.LacPromoter;
+import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 
 /**
  * Class that represents a polymerase binding region, also known as the lac
@@ -35,5 +37,15 @@ public class LacPromoterToolBoxNode extends ToolBoxItemNode {
 	@Override
 	protected void updatePositionWhenReleased() {
 		getModelElement().setPosition(getModel().getDnaStrand().getLacPromoterLocation());
+	}
+	
+	@Override
+	protected void handleModelElementAdded(SimpleModelElement modelElement) {
+		if (modelElement instanceof LacPromoter){
+			// Since only one of this type of model element can exist in the
+			// model at once, when one comes into existence this node should
+			// change state to indicate that another one can not be added.
+			getSelectionNode().setGhostMode(true);
+		}
 	}
 }

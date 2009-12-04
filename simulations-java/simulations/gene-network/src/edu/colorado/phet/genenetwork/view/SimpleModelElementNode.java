@@ -47,7 +47,7 @@ public class SimpleModelElementNode extends PPath {
 	private static final Font LABEL_FONT = new PhetFont(16, true );
 	private static final Stroke NORMAL_STROKE = new BasicStroke(2);
 	private static final Stroke GHOST_MODE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_BUTT,
-			BasicStroke.JOIN_BEVEL, 0, new float[] {8, 5}, 0);
+			BasicStroke.JOIN_BEVEL, 0, new float[] {4, 2}, 0);
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -173,6 +173,7 @@ public class SimpleModelElementNode extends PPath {
 	 */
 	public void setGhostMode(boolean ghostModeEnabled){
 		this.ghostModeEnabled = ghostModeEnabled;
+		updatePaintAndStroke(false);
 	}
 	
     private void updateOffset() {
