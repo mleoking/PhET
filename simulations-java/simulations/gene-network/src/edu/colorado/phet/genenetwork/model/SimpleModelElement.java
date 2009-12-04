@@ -190,7 +190,8 @@ public abstract class SimpleModelElement implements IModelElement{
 	
 	/**
 	 * This element is being removed from the model.  Do any cleanup needed
-	 * and send out notifications.
+	 * and send out notifications.  This should NOT be called by subclasses
+	 * wanting to remove themselves.  See removeSelfFromModel for that.
 	 */
 	public void removeFromModel(){
 		notifyRemovedFromModel();
@@ -210,6 +211,15 @@ public abstract class SimpleModelElement implements IModelElement{
 		{
 			listener.positionChanged();
 		}
+	}
+	
+	/**
+	 * Remove ourself from the model in which we are contained.  This is done
+	 * by setting the existence strength to 0, which will lead the model to
+	 * remove us.
+	 */
+	protected void removeSelfFromModel(){
+		setExistenceStrength(0);
 	}
 	
 	private void notifyExistenceStrengthChanged(){
@@ -253,6 +263,14 @@ public abstract class SimpleModelElement implements IModelElement{
 	public boolean releaseAttachmentWith(IModelElement modelElement) {
 		// Always refuses to release in the base class.
 		return false;
+	}
+	
+	/**
+	 * This method is overridden by subclasses in order to implement the
+	 * behavior relevant to their specific set of attachments.
+	 */
+	protected  void releaseAllAttachments(){
+		// Does nothing in the base class.
 	}
 
 	public void stepInTime(double dt) {
@@ -345,9 +363,11 @@ public abstract class SimpleModelElement implements IModelElement{
 
     public void setDragging(boolean dragging) {
         this.dragging=dragging;
-        if (dragging == false){
-        	System.out.println("Location in model space = " + getPositionRef());
-        	System.out.println("In tool box = " + model.isPointInToolBox(getPositionRef()));
+        if (dragging == false && model.isPointInToolBox(getPositionRef()) ){
+        	// This model element is being placed into the tool box.  This is
+        	// handled by removing ourself from the model.
+        	System.out.println(getClass().getName() + " is being removed from the model.");
+        	removeSelfFromModel();
         }
     }
     
