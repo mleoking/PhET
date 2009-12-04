@@ -69,10 +69,27 @@ class IndividualSimulationPage extends SitePage {
 
         $sim_encoding = $_REQUEST['sim'];
 
+        $result = 'failure';
         try {
             $this->sim = SimFactory::inst()->getByExactWebEncodedName($sim_encoding);
+            $result = 'success';
         }
         catch (PhetSimException $e) {
+            try {
+                $this->sim = SimFactory::inst()->getByExactWebEncodedNameCaseInsensitive($sim_encoding);
+                // Create a 301 redirect
+                Header('HTTP/1.1 301 Moved Permanently');
+                Header('Location: '.$this->sim->getAbsolutePageUrl());
+                
+                // If the redirect doesn't work, change the title (and provide a link)
+                $this->set_title('PhET - This simulation has moved', '', FALSE);
+                $result = 'redirect';
+                return;
+            }
+            catch (PhetSimException $e) {
+                // Intentional pass through to find close sims
+            }
+
             $this->close_sims = $this->find_close_sims($sim_encoding);
             return;
         }
@@ -162,6 +179,20 @@ EOT;
         $result = parent::render_content();
         if (!$result) {
             return $result;
+        }
+
+        if ($result == 'redirect') {
+            // Doing a 301 redirect because of a case insensitive
+            // match (case sensitive match did not work)
+            print <<<EOT
+<h3>This simulation has moved, if you are not automatically redirected, <a href="{$this->sim->getAbsolutePageUrl()}">please go here to find it.</a></h3>
+<div class="image_center">
+                    {$this->sim->getScreenshotImageTag()}
+</div>
+
+EOT;
+            
+            return;
         }
 
         if (is_null($this->sim)) {
