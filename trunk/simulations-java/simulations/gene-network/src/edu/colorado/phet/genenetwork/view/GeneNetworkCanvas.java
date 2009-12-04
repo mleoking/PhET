@@ -12,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.GeneNetworkConstants;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
+import edu.colorado.phet.genenetwork.model.GeneNetworkModelListener;
 import edu.colorado.phet.genenetwork.model.ModelElementListenerAdapter;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.colorado.phet.genenetwork.module.LacOperonDefaults;
@@ -72,7 +73,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         		true);
         
         // Register for notifications from the model.
-        model.addListener(new LacOperonModel.Listener() {
+        model.addListener(new GeneNetworkModelListener() {
 			public void modelElementAdded(SimpleModelElement modelElement) {
 				addModelElement(modelElement);
 			}

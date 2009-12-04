@@ -43,7 +43,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     //----------------------------------------------------------------------------
     
     private final GeneNetworkClock clock;
-    protected ArrayList<Listener> listeners = new ArrayList<Listener>();
+    protected ArrayList<GeneNetworkModelListener> listeners = new ArrayList<GeneNetworkModelListener>();
     
     // The DNA strand.
     private final DnaStrand dnaStrand = new DnaStrand( DNA_STRAND_SIZE, DNA_STRAND_POSITION );
@@ -411,13 +411,13 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	
     protected void notifyModelElementAdded(SimpleModelElement modelElement){
         // Notify all listeners of the addition of this model element.
-        for (Listener listener : listeners)
+        for (GeneNetworkModelListener listener : listeners)
         {
             listener.modelElementAdded(modelElement); 
         }        
     }
 
-    public void addListener(Listener listener) {
+    public void addListener(GeneNetworkModelListener listener) {
         if (listeners.contains( listener ))
         {
             // Don't bother re-adding.
@@ -429,11 +429,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
         listeners.add( listener );
     }
     
-    public void removeListener(Listener listener){
+    public void removeListener(GeneNetworkModelListener listener){
     	listeners.remove(listener);
-    }
-	
-    public interface Listener {
-        void modelElementAdded(SimpleModelElement modelElement);
     }
 }
