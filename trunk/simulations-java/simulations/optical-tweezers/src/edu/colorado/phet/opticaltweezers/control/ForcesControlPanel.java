@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationAdapter;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationEvent;
@@ -399,7 +400,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
                     Component parent = PiccoloPhetApplication.getInstance().getPhetFrame();
                     String message = OTResources.getString( "message.keepTrapForceConstantInfoDialog" );
                     String title = OTResources.getString( "title.keepTrapForceConstantInfoDialog" );
-                    JOptionPane.showMessageDialog( parent, message, title, JOptionPane.INFORMATION_MESSAGE );
+                    PhetOptionPane.showMessageDialog( parent, message, title, JOptionPane.INFORMATION_MESSAGE );
                 }
             }
         }

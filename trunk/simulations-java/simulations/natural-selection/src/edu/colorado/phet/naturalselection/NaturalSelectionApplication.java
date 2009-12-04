@@ -1,9 +1,15 @@
 package edu.colorado.phet.naturalselection;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Toolkit;
 import java.util.Enumeration;
 
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -12,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.naturalselection.developer.DeveloperControlsMenuItem;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
@@ -168,8 +175,7 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
             }
             else {
                 String message = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
-                String title = PhetCommonResources.getString( "Common.title.error" );
-                JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
+                PhetOptionPane.showErrorDialog( getPhetFrame(), message );
             }
         }
     }

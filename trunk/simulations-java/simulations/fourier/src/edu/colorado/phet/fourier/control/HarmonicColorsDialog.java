@@ -21,6 +21,7 @@ import java.text.MessageFormat;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -35,7 +36,7 @@ import edu.colorado.phet.fourier.view.HarmonicColors;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory.Listener {
+public class HarmonicColorsDialog extends PaintImmediateDialog implements ColorChooserFactory.Listener {
 
     //----------------------------------------------------------------------------
     // Class data

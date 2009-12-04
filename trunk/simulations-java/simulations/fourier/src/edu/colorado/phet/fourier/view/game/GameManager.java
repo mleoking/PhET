@@ -22,6 +22,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.enums.GameLevel;
@@ -319,7 +320,7 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
             JFrame frame = PhetApplication.getInstance().getPhetFrame();
             String title = FourierResources.getString( "WinDialog.title" );
             String message = FourierResources.getString( "WinDialog.message" );
-            JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );
+            PhetOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );
 
             // Start a new game.
             newGame();

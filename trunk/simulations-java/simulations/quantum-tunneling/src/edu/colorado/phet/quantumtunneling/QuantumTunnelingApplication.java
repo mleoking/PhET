@@ -12,7 +12,6 @@
 package edu.colorado.phet.quantumtunneling;
 
 import javax.swing.JMenu;
-import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -22,11 +21,11 @@ import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManage
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorSchemeMenu;
 import edu.colorado.phet.quantumtunneling.debug.RichardsonControlsMenuItem;
-import edu.colorado.phet.quantumtunneling.model.RichardsonSolver;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTGlobalConfig;
@@ -177,8 +176,7 @@ public class QuantumTunnelingApplication extends PhetApplication {
             }
             else {
                 String message = QTResources.getString( "message.notAConfigFile" );
-                String title = QTResources.getString( "title.error" );
-                JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
+                PhetOptionPane.showErrorDialog( getPhetFrame(), message );
             }
         }
     }

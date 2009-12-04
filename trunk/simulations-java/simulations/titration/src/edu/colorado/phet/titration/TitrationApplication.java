@@ -4,12 +4,11 @@ package edu.colorado.phet.titration;
 
 import java.awt.Frame;
 
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.titration.menu.TitrationOptionsMenu;
 import edu.colorado.phet.titration.module.advanced.AdvancedModule;
@@ -143,8 +142,7 @@ public class TitrationApplication extends PiccoloPhetApplication {
             }
             else {
                 String message = TitrationStrings.MESSAGE_NOT_A_CONFIG;
-                String title = TitrationStrings.TITLE_ERROR;
-                JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
+                PhetOptionPane.showErrorDialog( getPhetFrame(), message );
             }
         }
     }

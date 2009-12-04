@@ -12,6 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
@@ -27,7 +28,7 @@ import edu.colorado.phet.faraday.module.ICompassGridModule;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GridControlsDialog extends JDialog implements ActionListener, ChangeListener {
+public class GridControlsDialog extends PaintImmediateDialog implements ActionListener, ChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data

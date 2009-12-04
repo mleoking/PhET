@@ -7,8 +7,6 @@ import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JDialog;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -20,6 +18,7 @@ import org.jfree.data.xy.XYDataItem;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
@@ -34,7 +33,7 @@ import edu.colorado.phet.glaciers.util.UnitsConverter;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ELAVersusTimeChart extends JDialog {
+public class ELAVersusTimeChart extends PaintImmediateDialog {
     
     private static final Range ELEVATION_RANGE_METRIC = new Range( 2000, 6000 ); // meters
     private static final Range ELEVATION_RANGE_ENGLISH = new Range( 

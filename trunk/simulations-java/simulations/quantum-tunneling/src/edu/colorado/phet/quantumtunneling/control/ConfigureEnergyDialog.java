@@ -25,10 +25,12 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.TextAnchor;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.controls.DoubleSpinner;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
@@ -44,7 +46,7 @@ import edu.colorado.phet.quantumtunneling.view.EnergyPlot;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ConfigureEnergyDialog extends JDialog {
+public class ConfigureEnergyDialog extends PaintImmediateDialog {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -636,8 +638,7 @@ public class ConfigureEnergyDialog extends JDialog {
     private void handleClose() {
         if ( _teChanged || _peChanged ) {
             String message = QTResources.getString( "message.unsavedChanges" );
-            String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-            int reply = JOptionPane.showConfirmDialog( this, message, title, JOptionPane.YES_NO_CANCEL_OPTION );
+            int reply = PhetOptionPane.showYesNoCancelDialog( this, message );
             if ( reply == JOptionPane.YES_OPTION) {
                 handleApply();
                 dispose();

@@ -13,13 +13,12 @@ package edu.colorado.phet.fourier;
 
 import java.awt.Color;
 
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fourier.control.FourierOptionsMenu;
 import edu.colorado.phet.fourier.module.D2CModule;
@@ -173,8 +172,7 @@ public class FourierApplication extends PiccoloPhetApplication {
             }
             else {
                 String message = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
-                String title = PhetCommonResources.getString( "Common.title.error" );
-                JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
+                PhetOptionPane.showErrorDialog( getPhetFrame(), message );
             }
         }
     }

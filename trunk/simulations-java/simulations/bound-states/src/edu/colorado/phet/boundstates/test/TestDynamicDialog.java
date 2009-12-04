@@ -22,6 +22,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
+
 /**
  * TestDynamicDialog demonstrates how to dynamically change 
  * the input area of a custom dialog.
@@ -84,7 +86,7 @@ public class TestDynamicDialog extends JFrame implements ActionListener, ChangeL
         }
     }
     
-    public static class DynamicDialog extends JDialog {
+    public static class DynamicDialog extends PaintImmediateDialog {
         
         JPanel _inputPanel;
         

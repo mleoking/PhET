@@ -5,14 +5,13 @@ package edu.colorado.phet.glaciers.dialog;
 import java.awt.Dimension;
 import java.awt.Frame;
 
-import javax.swing.JDialog;
-
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.control.EvolutionStatePanel;
 import edu.colorado.phet.glaciers.model.Glacier;
 
 
-public class EvolutionStateDialog extends JDialog {
+public class EvolutionStateDialog extends PaintImmediateDialog {
     
     private final EvolutionStatePanel _panel;
 

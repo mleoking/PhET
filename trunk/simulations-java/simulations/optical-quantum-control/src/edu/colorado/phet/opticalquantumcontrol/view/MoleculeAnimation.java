@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
@@ -409,7 +410,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         JFrame frame = PhetApplication.getInstance().getPhetFrame();
         String message = OQCResources.WIN_DIALOG_MESSAGE;
         String title = OQCResources.WIN_DIALOG_TITLE;
-        JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );
+        PhetOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );
 
         // Start a new "game".
         _module.newGame();

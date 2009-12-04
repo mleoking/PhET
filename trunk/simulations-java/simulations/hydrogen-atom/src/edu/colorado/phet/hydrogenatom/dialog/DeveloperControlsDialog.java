@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -47,7 +48,7 @@ import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DeveloperControlsDialog extends JDialog implements ColorChooserFactory.Listener {
+public class DeveloperControlsDialog extends PaintImmediateDialog implements ColorChooserFactory.Listener {
 
     // Color chips (marker class)
     private static class ColorChip extends JLabel {
