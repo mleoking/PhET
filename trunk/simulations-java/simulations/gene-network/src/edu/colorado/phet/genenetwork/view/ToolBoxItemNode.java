@@ -9,7 +9,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
+import edu.colorado.phet.genenetwork.model.LacIGene;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -54,6 +56,7 @@ public abstract class ToolBoxItemNode extends PComposite {
 		initializeSelectionNode();
 		updateLayout();
 		
+		// Set up handling of mouse events.
         addInputEventListener(new CursorHandler());
         addInputEventListener(new PBasicInputEventHandler(){
         	@Override
@@ -75,12 +78,20 @@ public abstract class ToolBoxItemNode extends PComposite {
 
             @Override
             public void mouseReleased(PInputEvent event) {
-            	// Release our reference to the model element so that we will
-            	// create a new one if clicked again.
             	modelElement.setDragging(false);
             	updatePositionWhenReleased();
+            	// Release our reference to the model element so that we will
+            	// create a new one if clicked again.
             	modelElement = null;
             }
+        });
+        
+        // Register for model events that might affect us.
+        model.addListener(new GeneNetworkModelAdapter(){
+        	@Override
+        	public void modelElementAdded(SimpleModelElement modelElement) { 
+        		handleModelElementAdded(modelElement);
+        	};
         });
 	}
 
@@ -108,6 +119,16 @@ public abstract class ToolBoxItemNode extends PComposite {
 		// Does nothing in base class.
 	}
 	
+	/**
+	 * Called when a new simple model element is added to the model.  This
+	 * method should be overridden for subclass-specific behavior.
+	 * 
+	 * @param modelElement
+	 */
+	protected void handleModelElementAdded(SimpleModelElement modelElement){
+		// Does nothing in base class.
+	}
+	
 	protected void setSelectionNode(SimpleModelElementNode selectionNode){
 		assert this.selectionNode == null; // Currently doesn't support setting this multiple times.
 		this.selectionNode = selectionNode;
@@ -121,6 +142,10 @@ public abstract class ToolBoxItemNode extends PComposite {
 	
 	protected SimpleModelElement getModelElement(){
 		return modelElement;
+	}
+	
+	protected SimpleModelElementNode getSelectionNode(){
+		return selectionNode;
 	}
 	
 	protected void setCaption(String captionString){
