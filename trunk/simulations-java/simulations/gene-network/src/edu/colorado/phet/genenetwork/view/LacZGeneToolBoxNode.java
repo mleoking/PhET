@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.LacZGene;
+import edu.colorado.phet.genenetwork.model.ModelElementListenerAdapter;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 
 /**
@@ -46,6 +47,14 @@ public class LacZGeneToolBoxNode extends ToolBoxItemNode {
 			// model at once, when one comes into existence this node should
 			// change state to indicate that another one can not be added.
 			getSelectionNode().setGhostMode(true);
+			
+			// Listen for when this element is removed from the model and exit
+			// "ghost mode" when it does.
+			modelElement.addListener(new ModelElementListenerAdapter(){
+				public void removedFromModel() {
+					getSelectionNode().setGhostMode(false);
+				};
+			});
 		}
 	}
 }
