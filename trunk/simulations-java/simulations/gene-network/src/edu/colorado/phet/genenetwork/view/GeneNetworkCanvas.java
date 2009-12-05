@@ -139,9 +139,11 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     		@Override
     		public void removedFromModel() {
     	    	if ( rovingModelElementLayer.getChildrenReference().contains(modelElementNode) ){
-    	    		rovingModelElementLayer.removeChild(modelElementNode);}
+    	    		rovingModelElementLayer.removeChild(modelElementNode);
+    	    	}
     	    	if ( dnaStrandLayer.getChildrenReference().contains(modelElementNode) ){
-    	    		dnaStrandLayer.removeChild(modelElementNode);}
+    	    		dnaStrandLayer.removeChild(modelElementNode);
+    	    	}
     		}
     	});
     }    
