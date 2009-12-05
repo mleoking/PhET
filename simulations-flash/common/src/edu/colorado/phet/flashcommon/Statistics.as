@@ -85,7 +85,7 @@ class edu.colorado.phet.flashcommon.Statistics {
 	
 	public function fieldFormat(field : String, val, humanReadable : Boolean) {
 		if(humanReadable) {
-			return fieldTranslate(field) + ": " + unescape(messageEscape(val) + "\n");
+			return fieldTranslate(field) + " " + unescape(messageEscape(val) + "\n");
 		} else {
 			return field + " = '" + messageEscape(val) + "' \n";
 		}
