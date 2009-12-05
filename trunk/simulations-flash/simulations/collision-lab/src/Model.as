@@ -106,6 +106,7 @@ package{
 		public function setMass(ballNbr:int, mass:Number):void{
 			//trace("Model.setMass() called. ballNbr is "+ballNbr+"   mass is "+mass);
 			this.ball_arr[ballNbr].setMass(mass);
+			this.separateAllBalls();
 			this.setCenterOfMass();
 			this.updateViews();
 			//this.updateViews();
@@ -148,7 +149,7 @@ package{
 				}
 			}
 			//No point in updating views, since views not created yet
-			this.separateAllBalls(); //should be necessary, but just in case
+			this.separateAllBalls(); //should not be necessary, but just in case
 			this.setCenterOfMass();
 		}//end of initializeBalls()
 		
@@ -214,6 +215,10 @@ package{
 		}
 		
 		public function setX(indx:int, xPos:Number):void{
+			if(isNaN(xPos)){
+				var ballNbr:int = indx + 1;
+				trace("ERROR: ball number " + ballNbr + ": xPos is NaN.");
+			}
 			this.ball_arr[indx].position.setX(xPos);
 			if(this.atInitialConfig){
 				this.initPos[indx].setX(xPos);
@@ -223,6 +228,10 @@ package{
 		}
 		
 		public function setY(indx:int, yPos:Number):void{
+			if(isNaN(yPos)){
+				var ballNbr:int = indx + 1;
+				trace("ERROR: ball number " + ballNbr + ": yPos is NaN.");
+			}
 			this.ball_arr[indx].position.setY(yPos);
 			if(this.atInitialConfig){
 				this.initPos[indx].setY(yPos);
@@ -232,6 +241,10 @@ package{
 		}
 		
 		public function setXY(indx:int, xPos:Number, yPos:Number):void{
+			if(isNaN(xPos) || isNaN(yPos)){
+				var ballNbr:int = indx + 1;
+				trace("ERROR: ball number " + ballNbr + ":  xPos = " + xPos + "  yPos = " + yPos);
+			}
 			this.ball_arr[indx].position.setX(xPos);
 			this.ball_arr[indx].position.setY(yPos);
 			if(this.atInitialConfig){
@@ -253,6 +266,16 @@ package{
 		public function setVY(indx:int, yVel:Number):void{
 			this.ball_arr[indx].velocity.setY(yVel);
 			if(this.atInitialConfig){
+				this.initVel[indx].setY(yVel);
+			}
+			if(!playing){this.updateViews();}
+		}
+		
+		public function setVXVY(indx:int, xVel:Number, yVel:Number):void{
+			this.ball_arr[indx].velocity.setX(xVel);
+			this.ball_arr[indx].velocity.setY(yVel);
+			if(this.atInitialConfig){
+				this.initVel[indx].setX(xVel);
 				this.initVel[indx].setY(yVel);
 			}
 			if(!playing){this.updateViews();}
@@ -303,28 +326,7 @@ package{
 				this.setXY(i, x, y);
 				//reflect at borders
 				var radius:Number = this.ball_arr[i].getRadius();
-				
-				//if ball beyond reflecting border, then backup to previous position and reflect
-				//this guarantees no penetration of border
-				if(this.borderOn){
-					if((x+radius) > this.borderWidth){
-						this.setX(i, this.borderWidth - (1.001)*radius);
-						this.ball_arr[i].velocity.setX(-e*vX);  
-						this.playClickSound();
-					}else if((x-radius)< 0){
-						this.setX(i, (1.001)*radius);
-						this.ball_arr[i].velocity.setX(-e*vX);
-						this.playClickSound();
-					}else if((y+radius) > this.borderHeight){
-						this.setY(i, this.borderHeight - (1.001)*radius);
-						this.ball_arr[i].velocity.setY(-e*vY);
-						this.playClickSound();
-					}else if((y-radius)< 0){
-						this.setY(i, (1.001)*radius);
-						this.ball_arr[i].velocity.setY(-e*vY);
-						this.playClickSound();
-					}
-				}//end if(borderOn)			
+				checkAndProcessWallCollision(i, x, y, vX, vY);
 			}//for loop
 			this.timeHolder = getTimer();
 			
@@ -356,6 +358,31 @@ package{
 			this.reversing = false;
 		}
 		
+		//if ball beyond reflecting border, then translate to back to edge and reflect
+		public function checkAndProcessWallCollision(index:int, x:Number, y:Number, vX:Number, vY:Number):void{
+			var i:int = index;
+			if(this.borderOn){
+				var radius:Number = this.ball_arr[i].getRadius();
+				if((x+radius) > this.borderWidth){
+					this.setX(i, this.borderWidth - (1.001)*radius);
+					this.setVX(i, -e*vX);   //ball_arr[i].velocity.setX(-e*vX);  
+					this.playClickSound();
+				}else if((x-radius)< 0){
+					this.setX(i, (1.001)*radius);
+					this.setVX(i, -e*vX) //ball_arr[i].velocity.setX(-e*vX);
+					this.playClickSound();
+				}else if((y+radius) > this.borderHeight){
+					this.setY(i, this.borderHeight - (1.001)*radius);
+					this.setVY(i, -e*vY); //ball_arr[i].velocity.setY(-e*vY);
+					this.playClickSound();
+				}else if((y-radius)< 0){
+					this.setY(i, (1.001)*radius);
+					this.setVY(i, -e*vY); //ball_arr[i].velocity.setY(-e*vY);
+					this.playClickSound();
+				}
+			}//end if(borderOn)
+		}//end of checkWallAndProcessCollision()
+		
 		public function detectCollision():void{
 			var N:int = this.nbrBalls;
 			for (var i:int = 0; i < N; i++){
@@ -380,22 +407,25 @@ package{
 			trace("separateAllBalls() called at time = "+this.time);
 			//var allBallsSeparated:Boolean = false;
 			//loop through all balls repeatedly until no overlap between any pair
+			//var overlappingBalls:Boolean = true;
+			//var wallCollision:Boolean = true;
 			var cntr:int = 0;
-			while(cntr <= 10){
+			while(cntr <= 20){
 				//allBallsSeparated = true; 
 				var N:int = this.nbrBalls;
 				for (var i:int = 0; i < N; i++){
+					var xi:Number = ball_arr[i].position.getX();
+					var yi:Number = ball_arr[i].position.getY();
+					this.checkWallCollisionAndSeparate(i, xi, yi);
+					//overlappingBalls = false;
 					for (var j:int = i+1; j < N; j++){
-						var xi:Number = ball_arr[i].position.getX();
-						var yi:Number = ball_arr[i].position.getY();
 						var xj:Number = ball_arr[j].position.getX();
 						var yj:Number = ball_arr[j].position.getY();
 						var dist:Number = Math.sqrt((xj-xi)*(xj-xi)+(yj-yi)*(yj-yi));
 						var distMin:Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
 						if(dist <= distMin){
-							separateBalls(i,j);
 							trace("Model: Ball " + i + " and "+ j + " overlap at round " + cntr);
-							//allBallsSeparated = false;
+							separateBalls(i,j);
 						}
 					}//for(j=..)
 				}//for(i=..)
@@ -408,6 +438,41 @@ package{
 				}
 			}
 		}//end separateAllBalls();
+		
+		//If ball is outside border, translate back in fully, and return wallCollision boolean.
+		//Used in separateAllBalls().
+		public function checkWallCollisionAndSeparate(index:int, x:Number, y:Number){
+			var i:int = index;
+			if(this.borderOn){
+				var radius:Number = this.ball_arr[i].getRadius();
+				if((x+radius) > this.borderWidth){
+					this.setX(i, this.borderWidth - 2*radius);
+				}else if((x-radius)< 0){
+					this.setX(i, 2*radius);
+				}else if((y+radius) > this.borderHeight){
+					this.setY(i, this.borderHeight - 2*radius);
+				}else if((y-radius)< 0){
+					this.setY(i, 2*radius);
+				}
+			}//end if(borderOn)
+		}//end checkWallCollisionAndSeparate()
+		
+		public function checkWallCollision(i:int, x:Number, y:Number):String{
+			var collidedWithWall:String = "No";
+			if(this.borderOn){
+				var radius:Number = this.ball_arr[i].getRadius();
+				if((x+radius) > this.borderWidth){
+					collidedWithWall = "R";  //collided with Right Wall
+				}else if((x-radius)< 0){
+					collidedWithWall = "L";  //collided with Left Wall
+				}else if((y+radius) > this.borderHeight){
+					collidedWithWall = "T";  //collided with Top Wall
+				}else if((y-radius)< 0){
+					collidedWithWall = "B";  //collided with Bottom Wall
+				}
+			}//end if(borderOn)
+			return collidedWithWall;
+		}//end checkWallCollision
 		
 		public function collideBalls(i:int, j:int):void{
 			this.playClickSound();
@@ -451,8 +516,10 @@ package{
 				var v1yP = (1/d)*(v1nP*delY + v1t*delX);
 				var v2xP = (1/d)*(v2nP*delX - v2t*delY);
 				var v2yP = (1/d)*(v2nP*delY + v2t*delX);
-				this.ball_arr[i].velocity.setXY(v1xP, v1yP);
-				this.ball_arr[j].velocity.setXY(v2xP, v2yP);
+				this.setVXVY(i, v1xP, v1yP);
+				this.setVXVY(j, v2xP, v2yP);
+				//this.ball_arr[i].velocity.setXY(v1xP, v1yP);
+				//this.ball_arr[j].velocity.setXY(v2xP, v2yP);
 				
 				var newXi:Number = x1 + v1xP*delTAfter;
 				var newYi:Number = y1 + v1yP*delTAfter;
@@ -484,20 +551,39 @@ package{
 				var OL:Number = (R1+R2) - delR;  //overlap distance
 				if(OL > 0){
 					var balliNbr:int = i + 1; var balljNbr:int = j + 1;
-					trace("Model.separateBalls: ball numbers "+balliNbr+" and "+balljNbr+" overlap: "+OL);
+					//trace("Model.separateBalls: ball numbers "+balliNbr+" and "+balljNbr+" overlap: "+OL+"  delX: "+delX+"  delY: "+delY);
 					//trace("Model: ball numbers "+balliNbr+" and "+balljNbr+" overlapped at time "+this.time);
 					var m1:Number = ball_arr[i].getMass();
 					var m2:Number = ball_arr[j].getMass();
 					//trace("overlap is "+OL);
-					var extraBit:Number = 0.03*S;
+					var extraBit:Number = 0.04*S;
 					OL = OL + extraBit;
+					if(delR == 0){//to prevent delXBall or delYBall from becoming NaN
+						delX = 1; delR = 1; 
+						} 
 					var delXBall1:Number = -m2*OL*delX/(delR*(m1+m2));
 					var delYBall1:Number = -m2*OL*delY/(delR*(m1+m2));
 					var delXBall2:Number = m1*OL*delX/(delR*(m1+m2));
 					var delYBall2:Number = m1*OL*delY/(delR*(m1+m2));
-					//trace("xBall1: "+x1+"   delXBall1: "+delXBall1);
-					this.ball_arr[i].position.setXY(x1 + delXBall1, y1 + delYBall1);
-					this.ball_arr[j].position.setXY(x2 + delXBall2, y2 + delYBall2);
+					var iHitWall:String = this.checkWallCollision(i, x1 + delXBall1, y1 + delYBall1);
+					var jHitWall:String = this.checkWallCollision(j, x2 + delXBall2, y2 + delYBall2);
+					//trace("Ball "+ balliNbr+ " hit wall "+ iHitWall + ".  Ball " + balljNbr +" hit wall " + jHitWall);
+					var wallXOffset:Number = 0;  //translate both balls away from colliding wall
+					var wallYOffset:Number = 0;
+					if(iHitWall == "T" || jHitWall == "T"){
+						wallYOffset = -(R1 + R2);
+					}else if(iHitWall == "B" || jHitWall == "B"){
+						wallYOffset = R1 + R2;
+					}
+					if(iHitWall == "L" || jHitWall == "L"){
+						wallXOffset = R1 + R2;
+					}else if(iHitWall == "R" || jHitWall == "R"){
+						wallXOffset = -(R1 + R2);
+					}
+					//trace("calling setXY() from separateBalls(i,j)");
+					//trace("ball "+i+"  x1 = "+x1+"  delXBall1 = "+delXBall1+"  wallXOffset= "+wallXOffset);
+					this.setXY(i, x1 + delXBall1 + wallXOffset, y1 + delYBall1 + wallYOffset);
+					this.setXY(j, x2 + delXBall2 + wallXOffset, y2 + delYBall2 + wallYOffset);
 					this.ball_arr[i].position.initializeXLastYLast();
 					this.ball_arr[j].position.initializeXLastYLast();
 					this.updateViews();
