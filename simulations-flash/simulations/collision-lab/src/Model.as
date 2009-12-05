@@ -218,6 +218,7 @@ package{
 			if(isNaN(xPos)){
 				var ballNbr:int = indx + 1;
 				trace("ERROR: ball number " + ballNbr + ": xPos is NaN.");
+				this.setX(indx, initPos[indx].getX());
 			}
 			this.ball_arr[indx].position.setX(xPos);
 			if(this.atInitialConfig){
@@ -231,6 +232,7 @@ package{
 			if(isNaN(yPos)){
 				var ballNbr:int = indx + 1;
 				trace("ERROR: ball number " + ballNbr + ": yPos is NaN.");
+				this.setX(indx, initPos[indx].getY());
 			}
 			this.ball_arr[indx].position.setY(yPos);
 			if(this.atInitialConfig){
@@ -241,18 +243,8 @@ package{
 		}
 		
 		public function setXY(indx:int, xPos:Number, yPos:Number):void{
-			if(isNaN(xPos) || isNaN(yPos)){
-				var ballNbr:int = indx + 1;
-				trace("ERROR: ball number " + ballNbr + ":  xPos = " + xPos + "  yPos = " + yPos);
-			}
-			this.ball_arr[indx].position.setX(xPos);
-			this.ball_arr[indx].position.setY(yPos);
-			if(this.atInitialConfig){
-				this.initPos[indx].setX(xPos);
-				this.initPos[indx].setY(yPos);
-			}
-			this.setCenterOfMass();
-			if(!playing){this.updateViews();}
+			this.setX(indx, xPos);
+			this.setY(indx, yPos)
 		}
 		
 		public function setVX(indx:int, xVel:Number):void{
@@ -282,10 +274,8 @@ package{
 		}
 		
 		public function stepForward(evt:TimerEvent):void{
-			//trace("stepForward called.  elasticity is " + this.e);
 			//need function without event argument
 			this.singleStep();
-			
 		}//stepForward
 		
 		public function singleStep():void{
@@ -405,10 +395,7 @@ package{
 		
 		public function separateAllBalls():void{
 			trace("separateAllBalls() called at time = "+this.time);
-			//var allBallsSeparated:Boolean = false;
 			//loop through all balls repeatedly until no overlap between any pair
-			//var overlappingBalls:Boolean = true;
-			//var wallCollision:Boolean = true;
 			var cntr:int = 0;
 			while(cntr <= 20){
 				//allBallsSeparated = true; 
