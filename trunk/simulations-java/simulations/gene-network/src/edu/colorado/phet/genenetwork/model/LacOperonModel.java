@@ -393,24 +393,52 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     	}
     	if (capBindingRegion != null){
     		capBindingRegion.stepInTime(dt);
+    		if (capBindingRegion.getExistenceStrength() == 0){
+    			capBindingRegion.removeFromModel();
+    			capBindingRegion = null;
+    		}
     	}
     	if (lacOperator != null){
     		lacOperator.stepInTime(dt);
+    		if (lacOperator.getExistenceStrength() == 0){
+    			lacOperator.removeFromModel();
+    			lacOperator = null;
+    		}
     	}
     	if (lacIGene != null){
     		lacIGene.stepInTime(dt);
+    		if (lacIGene.getExistenceStrength() == 0){
+    			lacIGene.removeFromModel();
+    			lacIGene = null;
+    		}
     	}
     	if (lacYGene != null){
     		lacYGene.stepInTime(dt);
+    		if (lacYGene.getExistenceStrength() == 0){
+    			lacYGene.removeFromModel();
+    			lacYGene = null;
+    		}
     	}
     	if (lacZGene != null){
     		lacZGene.stepInTime(dt);
+    		if (lacZGene.getExistenceStrength() == 0){
+    			lacZGene.removeFromModel();
+    			lacZGene = null;
+    		}
     	}
     	if (lacIPromoter != null){
     		lacIPromoter.stepInTime(dt);
+    		if (lacIPromoter.getExistenceStrength() == 0){
+    			lacIPromoter.removeFromModel();
+    			lacIPromoter = null;
+    		}
     	}
     	if (lacPromoter != null){
     		lacPromoter.stepInTime(dt);
+    		if (lacPromoter.getExistenceStrength() == 0){
+    			lacPromoter.removeFromModel();
+    			lacPromoter = null;
+    		}
     	}
     }
     
