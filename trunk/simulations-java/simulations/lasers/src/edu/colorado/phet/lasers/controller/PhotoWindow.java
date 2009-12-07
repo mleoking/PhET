@@ -10,12 +10,15 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
@@ -26,7 +29,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PhotoWindow extends JDialog {
+public class PhotoWindow extends PaintImmediateDialog {
 
     public PhotoWindow( JFrame owner, BufferedImage img ) {
         super( owner, false );
