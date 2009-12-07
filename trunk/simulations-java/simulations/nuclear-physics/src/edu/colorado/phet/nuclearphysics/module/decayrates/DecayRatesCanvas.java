@@ -92,7 +92,8 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	
     	_model.getClock().addClockListener(new ClockAdapter(){
     	    public void clockTicked( ClockEvent clockEvent ) {
-    			if (_proportionsChartUpdateCounter++ % PROPORTIONS_CHART_UPDATE_COUNT == 0){
+    			if ((_proportionsChartUpdateCounter++ % PROPORTIONS_CHART_UPDATE_COUNT == 0) &&
+    				(_model.getNumActiveNuclei() > 0))	{
     				updateChartData();
     			}
     	    }
