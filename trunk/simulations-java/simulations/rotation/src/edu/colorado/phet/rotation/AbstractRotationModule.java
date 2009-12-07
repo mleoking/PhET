@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -8,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
@@ -121,7 +123,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     }
 
     private boolean confirmReset() {
-        int val = JOptionPane.showConfirmDialog( rotationSimulationPanel, PhetCommonResources.getString( "ControlPanel.message.confirmResetAll" ) );
+        int val = PhetOptionPane.showYesNoDialog( rotationSimulationPanel, PhetCommonResources.getString( "ControlPanel.message.confirmResetAll" ) );
         return val == JOptionPane.OK_OPTION;
     }
 
