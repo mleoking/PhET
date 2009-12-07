@@ -3,9 +3,11 @@ package edu.colorado.phet.eatingandexercise.module.eatingandexercise;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 
 /**
@@ -17,7 +19,7 @@ public class EatingAndExerciseHelpButton extends JButton {
         super( getHelpString() );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( EatingAndExerciseHelpButton.this, EatingAndExerciseResources.getString( "help.message" ), getHelpString(), JOptionPane.INFORMATION_MESSAGE );
+                PhetOptionPane.showMessageDialog( EatingAndExerciseHelpButton.this, EatingAndExerciseResources.getString( "help.message" ), getHelpString() );
             }
         } );
     }
