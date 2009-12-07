@@ -10,19 +10,21 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
+
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * A dialog that shows monitor panels for each of the species in the simulation
  */
-public class SpeciesMonitorDialog extends JDialog {
+public class SpeciesMonitorDialog extends PaintImmediateDialog {
     private String[] speciesPanelTitles = new String[]{
             IdealGasResources.getString( "IdealGasMonitorPanel.Heavy_species" ),
             IdealGasResources.getString( "IdealGasMonitorPanel.Light_species" )
