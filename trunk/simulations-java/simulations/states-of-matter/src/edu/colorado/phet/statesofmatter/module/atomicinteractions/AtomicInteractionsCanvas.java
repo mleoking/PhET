@@ -4,10 +4,12 @@ package edu.colorado.phet.statesofmatter.module.atomicinteractions;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -62,12 +64,13 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
     // Constant used to control size of push pin.
     private static final double PUSH_PIN_WIDTH = CANVAS_WIDTH * 0.10;
     
-    // The following constant control whether the wiggle me appears.  This
+    // The following constant controls whether the wiggle me appears.  This
     // was requested in the original specification, but after being reviewed
-    // on 9/4/2008, it was requested that it be removed.  It is being left
-    // in the code in case it is ever brought back.  Note that it is not fully
-    // debugged, so will likely take some effort to get it working correctly.
-    private static final boolean ENABLE_WIGGLE_ME = false;
+    // on 9/4/2008, it was requested that it be removed.  Then, after
+    // interviews conducted in late 2009, it was decide that it should be
+    // added back.  The constant is being kept in case this decision is
+    // reversed (again) at some point in the future.
+    private static final boolean ENABLE_WIGGLE_ME = true;
     
     // Constant to turn on/off a set of vertical lines that can be used to
     // check the alignment between the graph and the atoms.
@@ -279,17 +282,22 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         if ((!m_wiggleMeShown) && (ENABLE_WIGGLE_ME)){
             // The wiggle me has not yet been shown, so show it.
             m_wiggleMe = new DefaultWiggleMe( this, "Move atom and release." );  // Note: Make this a string if the wiggle-me is ever added back in.
+            m_wiggleMe.setBackground(Color.YELLOW);
             m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
             double wiggleMeScale = WIGGLE_ME_HEIGHT / m_wiggleMe.getFullBoundsReference().height;
             m_wiggleMe.scale( wiggleMeScale );
             addWorldChild( m_wiggleMe );
             
-            // Animate from off to the left to the position of the movable atom.
-            PBounds diagramBounds = m_interactionPotentialDiagram.getFullBoundsReference();
-            m_wiggleMe.setOffset( diagramBounds.getMinX() - (diagramBounds.width * 0.5), 
+            // Animate from off the screen to the position of the movable atom.
+            Rectangle viewportBounds = getBounds();
+            Point2D wiggleMeInitialXPos = new Point2D.Double(viewportBounds.getMaxX(), 0);
+            getPhetRootNode().screenToWorld(wiggleMeInitialXPos);
+            wiggleMeInitialXPos.setLocation(wiggleMeInitialXPos.getX() + m_wiggleMe.getFullBoundsReference().width / 2, 0);
+            m_wiggleMe.setOffset( wiggleMeInitialXPos.getX(), 
                     m_interactionPotentialDiagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height );
             m_wiggleMe.animateToPositionScaleRotation( m_model.getMovableAtomRef().getX(),
-                    m_interactionPotentialDiagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height, wiggleMeScale, 0, 5000 );
+                    m_interactionPotentialDiagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height,
+                    wiggleMeScale, 0, 3000 );
             
             // Clicking anywhere on the canvas makes the wiggle me go away.
             addInputEventListener( new PBasicInputEventHandler() {
@@ -300,6 +308,10 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
                     m_wiggleMe = null;
                 }
             } );
+            
+            // Indicate that the wiggle-me has been shown so that we don't end
+            // up showing it again.
+            m_wiggleMeShown = true;
         }
     }
 
