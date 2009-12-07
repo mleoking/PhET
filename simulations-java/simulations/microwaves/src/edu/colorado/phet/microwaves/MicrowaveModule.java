@@ -19,6 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -246,7 +247,7 @@ public abstract class MicrowaveModule extends Module {
         }
     }
 
-    static class PhysicalParamsDlg extends JDialog {
+    static class PhysicalParamsDlg extends PaintImmediateDialog {
 
         private JTextField cTF;
         private JTextField dTF;
