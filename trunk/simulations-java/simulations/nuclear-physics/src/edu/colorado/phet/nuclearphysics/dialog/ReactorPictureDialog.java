@@ -13,11 +13,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
@@ -28,7 +28,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
  * Shows a picture of the interior of a real nuclear reactor.
  *
  */
-public class ReactorPictureDialog extends JDialog {
+public class ReactorPictureDialog extends PaintImmediateDialog {
 
     //----------------------------------------------------------------------------
     // Class Data
