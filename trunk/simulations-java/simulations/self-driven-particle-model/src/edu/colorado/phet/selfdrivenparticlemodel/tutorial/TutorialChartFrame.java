@@ -4,6 +4,8 @@ package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,7 +16,7 @@ import java.awt.*;
  * Copyright (c) Aug 25, 2005 by Sam Reid
  */
 
-public class TutorialChartFrame extends JDialog {
+public class TutorialChartFrame extends PaintImmediateDialog {
     public TutorialChartFrame( String title, JFreeChart chart, JFrame owner ) {
         super( owner, title );
         setContentPane( new ChartPanel( chart ) );
