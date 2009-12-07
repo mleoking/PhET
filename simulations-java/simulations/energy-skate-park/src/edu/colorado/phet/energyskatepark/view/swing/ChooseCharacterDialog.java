@@ -1,29 +1,34 @@
 package edu.colorado.phet.energyskatepark.view.swing;
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.SkaterCharacter;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.event.MouseInputAdapter;
+
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.SkaterCharacter;
 
 /**
  * Author: Sam Reid
  * Mar 30, 2007, 1:16:29 PM
  */
-public class ChooseCharacterDialog extends JDialog {
+public class ChooseCharacterDialog extends PaintImmediateDialog {
     private JPanel contentPanel = new JPanel( new GridBagLayout() );
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private ArrayList characterPanels = new ArrayList();
