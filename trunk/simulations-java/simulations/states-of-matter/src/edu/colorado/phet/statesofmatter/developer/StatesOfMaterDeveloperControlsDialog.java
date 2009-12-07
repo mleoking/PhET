@@ -2,12 +2,20 @@
 
 package edu.colorado.phet.statesofmatter.developer;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -17,6 +25,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -35,7 +44,7 @@ import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModu
  *
  * @author Chris Malley (cmalley@pixelzoom.com), John Blanco
  */
-public class StatesOfMaterDeveloperControlsDialog extends JDialog {
+public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -116,8 +125,6 @@ public class StatesOfMaterDeveloperControlsDialog extends JDialog {
     }
 
     private JPanel createInputPanel() {
-
-        Frame parentFrame = PhetApplication.getInstance().getPhetFrame();
 
         // Thermostat selection.
         ThermostatSelectionPanel thermostatSelectionPanel = new ThermostatSelectionPanel();
