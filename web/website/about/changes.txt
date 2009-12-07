@@ -1,3 +1,4 @@
+12-7-2009: Nuclear Physics (3.19) - Minor user interface improvements to Radioactive Dating Game based on user feedback.
 10-30-2009: Glaciers (2.02) - add snow patch between terminus and ELA
 10-1-2009: Ladybug Motion 2D (1.00) - Updated version information
 9-29-2009: Moving Man (1.26) - User interface improvements for charts
