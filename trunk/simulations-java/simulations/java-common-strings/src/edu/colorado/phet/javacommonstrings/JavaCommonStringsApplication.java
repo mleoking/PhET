@@ -2,9 +2,8 @@
 
 package edu.colorado.phet.javacommonstrings;
 
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 /**
  * To translate common strings, we bundle phetcommon-strings*.properties into a JAR, along with this main.
@@ -24,7 +23,6 @@ public class JavaCommonStringsApplication {
               "This JAR file contains common strings used by all PhET Java simulations." + "<br>" +
               "You can use this JAR file to translate common strings with Translation Utility." + "<br>" +
               "But testing those translations is not currently supported." + "</html>";
-        String title = "";
-        JOptionPane.showMessageDialog( null, message, title, JOptionPane.PLAIN_MESSAGE );
+        PhetOptionPane.showMessageDialog( null, message );
     }
 }
