@@ -1,12 +1,14 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
-import javax.swing.*;
+import static edu.colorado.phet.movingman.MovingManResources.getString;
+
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.movingman.ArrowPanel;
 import edu.colorado.phet.movingman.MovingManApplication;
-import static edu.colorado.phet.movingman.MovingManResources.getString;
 import edu.colorado.phet.movingman.motion.AbstractMotionModule;
 
 /**
@@ -59,10 +61,8 @@ public class MovingManMotionModule extends AbstractMotionModule implements Arrow
         if ( getTimeSeriesModel().getRecordTime() == 0 ) {
             return true;
         }
-        int option = JOptionPane.showConfirmDialog( movingManMotionSimPanel,
-                                                    getString( "plot.confirm-clear" ),
-                                                    getString( "plot.confirm-reset" ),
-                                                    JOptionPane.YES_NO_CANCEL_OPTION );
+        //XXX should this really be calling showYesNoDialog?
+        int option = PhetOptionPane.showYesNoCancelDialog( movingManMotionSimPanel, getString( "plot.confirm-clear" ) );
         return option == JOptionPane.OK_OPTION;
     }
 
