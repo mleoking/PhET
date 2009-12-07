@@ -1,4 +1,5 @@
 ﻿//The Model for Collision Lab
+//Version 2 of Model with exact calculation of next collision time
 package{
 	import flash.events.*;
 	import flash.utils.*;
@@ -17,6 +18,7 @@ package{
 		var e:Number;			//elasticity = 0 to 1: 0 = perfectly inelastic, 1 = perfectly elastic
 		var time:Number;		//simulation time in seconds = real time
 		var lastTime:Number;	//time of previous step
+		var contactTime:Number;	//time of first collision during time step
 		var timeStep:Number;	//time step in seconds
 		var msTimer:Timer;		//millisecond timer
 		var playing:Boolean;	//true if motion is playing, false if paused
@@ -32,7 +34,11 @@ package{
 		var timeRate:Number;	//0 to 1: to slow down or speed up action, 1 = realtime, 0 = paused
 		var updateRate:int;		//number of time steps between graphics updates
 		var frameCount:int;		//when frameCount reaches frameRate, update graphics
-		var colliders:Array;	//2D array of ij pairs: value = 1 if pair colliding, 0 if not colliding.
+		var collisionType:String; //"None" or collsion with wall = "Wall" or collision with another ball = "Ball"  
+		var wallHit_arr:Array; 	//data for ball/wall hit: [i, string], string = R or L or T or B
+		var ballHit_arr:Array;	//data for ball i/ball j hit: [i, j]
+		//var colliders:Array;	//2D array of ij pairs: value = 1 if pair colliding, 0 if not colliding.
+		
 		var view_arr:Array;		//views of this model
 		var nbrViews:int;		//number of views
 		
@@ -47,10 +53,12 @@ package{
 			this.oneDMode = false;
 			this.CM = new Point();
 			this.ball_arr = new Array(this.maxNbrBalls);  //only first nbrBalls elements of array are used
+			this.wallHit_arr = new Array(2);
+			this.ballHit_arr = new Array(2);
 			this.initializeBalls();
 			//this.setCenterOfMass();
 			this.time = 0;
-			this.timeStep = 0.02;
+			this.timeStep = 0.01;
 			this.timeRate = 1;
 			this.updateRate = 1;		
 			this.frameCount = 0;
@@ -136,18 +144,7 @@ package{
 			}
 			this.nbrBallsChanged = true;
 			var maxN:int = this.maxNbrBalls;
-			//initialize colliders array
-			this.colliders = new Array(maxN);
-			//in AS3, duplicate variable definition in same method causes compile error message
-			//so do not use var i:int more than one
-			for (i = 0; i < maxN; i++){
-				this.colliders[i] = new Array(maxN);
-			}
-			for (i = 0; i < maxN; i++){
-				for (var j:int = 0; j < maxN; j++){
-					this.colliders[i][j] = 0;  //0 if not colliding
-				}
-			}
+
 			//No point in updating views, since views not created yet
 			this.separateAllBalls(); //should not be necessary, but just in case
 			this.setCenterOfMass();
@@ -225,7 +222,7 @@ package{
 				this.initPos[indx].setX(xPos);
 			}
 			this.setCenterOfMass();
-			//if(!playing){this.updateViews();}  //when playing, singleStep() controls updateVeiws 
+			if(!playing){this.updateViews();}  //when playing, singleStep() controls updateVeiws 
 		}
 		
 		public function setY(indx:int, yPos:Number):void{
@@ -239,12 +236,13 @@ package{
 				this.initPos[indx].setY(yPos);
 			}
 			this.setCenterOfMass();
-			//if(!playing){this.updateViews();}
+			if(!playing){this.updateViews();}
 		}
 		
 		public function setXY(indx:int, xPos:Number, yPos:Number):void{
 			this.setX(indx, xPos);
 			this.setY(indx, yPos)
+			if(!playing){this.updateViews();}
 		}
 		
 		public function setVX(indx:int, xVel:Number):void{
@@ -301,8 +299,9 @@ package{
 			if(!reversing){
 				this.lastTime = this.time; //should this be here or at end of method?
 			}
-			this.time += dt;
+			this.time += dt; //to be undone if collision
 			//trace("dt_after: "+dt);
+			//step all balls forward in time and check for collisions
 			for(var i:int = 0; i < this.nbrBalls; i++){
 				var x:Number = this.ball_arr[i].position.getX();
 				var y:Number = this.ball_arr[i].position.getY();
@@ -312,22 +311,41 @@ package{
 				var yLast = y;	//previous value of y before update
 				x += vX*dt;
 				y += vY*dt;
-				//this.ball_arr[i].position.setXY(x,y);
 				this.setXY(i, x, y);
-				//reflect at borders
-				var radius:Number = this.ball_arr[i].getRadius();
-				checkAndProcessWallCollision(i, x, y, vX, vY);
 			}//for loop
 			this.timeHolder = getTimer();
 			
-			this.detectCollision();
+			this.detectAllCollisions(); 
+			
+			if(this.collisionType != "None"){
+				
+				this.processCollision();
+				
+				//reset to positions at contactTime
+				for(i = 0; i < this.nbrBalls; i++){
+					var x1:Number = this.ball_arr[i].position.getXLast();
+					var y1:Number = this.ball_arr[i].position.getYLast();
+					//get velocites
+					var v1X:Number = this.ball_arr[i].velocity.getXLast();
+					var v1Y:Number = this.ball_arr[i].velocity.getYLast();
+					var delT:Number = this.contactTime - this.lastTime;
+					x = x1 + v1X*delT;
+					y = y1 + v1Y*delT;
+					this.setXY(i, x, y);
+					//when backing up from collision, must reset xLast and yLast
+					this.ball_arr[i].position.setXLast(x1);
+					this.ball_arr[i].position.setYLast(y1);
+				}
+			}//end if(this.collisionType != "None")
+			
+			//this.detectCollision();		//old code
+			
 			this.frameCount += 1;
 			if(this.frameCount == this.updateRate){
 				//var interval:int = getTimer() - this.timeHolder;
 				//trace("getTimer()"+ interval);
 				this.frameCount = 0;
 				this.updateViews();
-				//this.timeHolder = getTimer();
 			}
 			if(reversing){
 				this.lastTime = this.time;
@@ -347,6 +365,234 @@ package{
 			this.singleFrame();
 			this.reversing = false;
 		}
+		
+		//check whether any balls collided with wall or with other balls
+		public function detectAllCollisions():void{
+			var nbrCollisions:int = 0;
+			this.collisionType = "None";
+			if(!reversing){
+				this.contactTime = this.time;  //contact time of first collision
+			}else{
+				this.contactTime = this.lastTime;
+			}
+			
+			var N:int = this.nbrBalls;
+			var tC:Number;  //candidate contact time
+			for (var i:int = 0; i < N; i++){
+				var xi:Number = ball_arr[i].position.getX();
+				var yi:Number = ball_arr[i].position.getY();
+				//check if collided with wall
+				var wallHitMade:String = this.checkWallCollision(i, xi, yi);
+				if(wallHitMade != "No"){
+					nbrCollisions += 1;
+				}
+				//now check ball-ball collisions
+				for (var j:int = i+1; j < N; j++){
+					var xj:Number = ball_arr[j].position.getX();
+					var yj:Number = ball_arr[j].position.getY();
+					var dist:Number = Math.sqrt((xj-xi)*(xj-xi)+(yj-yi)*(yj-yi));
+					var distMin:Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
+					if(dist < distMin){
+						//trace("elasticity before collision: "+this.e);
+						var balliNbr:String = String(i+1);
+						var balljNbr:String = String(j+1);
+						nbrCollisions += 1;
+						tC = this.getContactTime(i, j); //test code
+						//trace("collision detected. i = "+balliNbr+"   j = "+balljNbr+"   at time: "+this.time+"   contactTime: "+tC);					
+						if( tC < this.contactTime){
+							this.contactTime = tC;
+							this.collisionType = "Ball";
+							this.ballHit_arr[0] = i;
+							this.ballHit_arr[1] = j;
+						}
+					}//end if
+				}//for(j=..)
+			}//for(i=..)
+			if(nbrCollisions > 1){
+				trace(nbrCollisions + " collisions in one step");
+			}
+			//trace("1st contact time: "+this.contactTime);
+
+		}//end detectAllCollisions()
+		
+		public function processCollision():void{
+			if(this.collisionType != "None"){
+				if(this.collisionType == "Wall"){
+					this.collideWithWall();
+				}else if(this.collisionType == "Ball"){
+					var i:int = this.ballHit_arr[0];
+					var j:int = this.ballHit_arr[1];
+					this.collideBalls(i, j);
+				}else{
+					trace("ERROR in Model.processCollision().  this.collisionType is " + this.collisionType);
+				}
+				this.time = this.contactTime;
+			}//end if(this.collisionType != "None")
+		}//end processCollision()
+		
+
+		public function collideWithWall():void{
+			if(this.collisionType != "Wall"){
+				trace("ERROR: collisionType should be Wall.  It is " + this.collisionType);
+			}
+			var i:int = this.wallHit_arr[0];
+			var whichWall:String = this.wallHit_arr[1];
+			var vX = this.ball_arr[i].velocity.getX();
+			var vY = this.ball_arr[i].velocity.getY();
+			
+			if(whichWall == "L" || whichWall == "R"){
+				this.setVX(i, -e*vX);
+			}else if(whichWall == "T" || whichWall == "B"){
+				this.setVY(i, -e*vY);
+			}
+			this.collisionType = "None";  //maybe unnecessary but can't hurt
+		}//end collideWithWall()
+		
+		public function checkWallCollision(i:int, x:Number, y:Number):String{
+			//trace("checkWallCollision called. ball "+i+"  x = "+x+"   y = "+y);
+			var tC:Number;  //wall collision time
+			var collidedWithWall:String = "No";
+			if(this.borderOn){
+				var radius:Number = this.ball_arr[i].getRadius();
+				if((x+radius) > this.borderWidth){
+					collidedWithWall = "R";  //collided with Right Wall
+				}else if((x-radius)< 0){
+					collidedWithWall = "L";  //collided with Left Wall
+				}else if((y+radius) > this.borderHeight){
+					collidedWithWall = "T";  //collided with Top Wall
+				}else if((y-radius)< 0){
+					collidedWithWall = "B";  //collided with Bottom Wall
+				}
+			}//end if(borderOn)
+			if(collidedWithWall != "No"){
+				tC = getWallCollisionTime(i, collidedWithWall);
+				//trace("checkWallCollision called: "+collidedWithWall+"  ball:"+ i);
+				if(tC < this.contactTime){
+					this.contactTime = tC;
+					this.collisionType = "Wall";
+					this.wallHit_arr[0] = i;
+					this.wallHit_arr[1] = collidedWithWall;
+				}
+			}//end if(collidedWithWall ..
+			return collidedWithWall;
+		}//end checkWallCollision
+		
+		public function getWallCollisionTime(ballIndex:int, wall:String):Number{
+			var i:int = ballIndex;
+			var R:Number = this.ball_arr[i].getRadius();
+			var x1:Number = this.ball_arr[i].position.getXLast();
+			var y1:Number = this.ball_arr[i].position.getYLast();
+			var v1x:Number = this.ball_arr[i].velocity.getX();
+			var v1y:Number = this.ball_arr[i].velocity.getY();
+			var tC:Number;  //time of first contact between ball and wall
+			if(wall == "L"){
+				tC = this.lastTime + (R - x1)/v1x;
+			}else if(wall == "R"){
+				tC = this.lastTime + (this.borderWidth - R - x1)/v1x;
+			}else if(wall == "T"){
+				tC = this.lastTime +(this.borderHeight - R - y1)/v1y;
+			}else if(wall == "B"){
+				tC = this.lastTime +(R - y1)/v1y;
+			}else {
+				trace("ERROR! Model.getWallCollisionTime called without proper wall collision string.");
+			}
+			var ballNbr:int = ballIndex + 1;
+			trace("Wall collision with ballNbr "+ballNbr+"  wall = "+wall+"  at time "+tC);
+			//trace("last time = "+this.lastTime+"   this.time = "+this.time);
+			return tC;
+		}//end of getWallCollisionTime()
+		
+		public function collideBalls(i:int, j:int):void{
+			this.playClickSound();
+			var balliNbr:String = String(i + 1); var balljNbr:String = String(j + 1);
+			//if(colliders[i][j] == 0 && !starting){ //if balls overlapped, but not collided yet, and not first step
+				
+				//trace("Model.collideBalls(), between i: " + balliNbr + " and j: " + balljNbr + "  at time "+this.time);
+				//Balls have already overlapped, so currently have incorrect positions
+				var tC:Number = this.contactTime; //this.getContactTime(i,j);
+				var delTBefore = tC - this.lastTime;
+				var delTAfter = this.time - tC;
+				//trace("contact time is "+tC);
+				var v1x:Number = ball_arr[i].velocity.getX();
+				var v2x:Number = ball_arr[j].velocity.getX();
+				var v1y:Number = ball_arr[i].velocity.getY();
+				var v2y:Number = ball_arr[j].velocity.getY();
+				//get positions at tC:
+				var x1:Number = ball_arr[i].position.getXLast() + v1x*delTBefore;
+				var x2:Number = ball_arr[j].position.getXLast() + v2x*delTBefore;
+				var y1:Number = ball_arr[i].position.getYLast() + v1y*delTBefore;
+				var y2:Number = ball_arr[j].position.getYLast() + v2y*delTBefore;
+				var delX:Number = x2 - x1;
+				var delY:Number = y2 - y1;
+				var d:Number = Math.sqrt(delX*delX + delY*delY);
+				var Ri:Number = this.ball_arr[i].getRadius();
+				var Rj:Number = this.ball_arr[j].getRadius();
+				var S:Number = Ri + Rj; 
+				//trace("sum of radii = "+S+"   separation at contact = "+d);
+				//normal and tangential components of initial velocities
+				var v1n:Number = (1/d)*(v1x*delX + v1y*delY);
+				var v2n:Number = (1/d)*(v2x*delX + v2y*delY);
+				var v1t:Number = (1/d)*(-v1x*delY + v1y*delX);
+				var v2t:Number = (1/d)*(-v2x*delY + v2y*delX);
+				var m1:Number = ball_arr[i].getMass();
+				var m2:Number = ball_arr[j].getMass();
+				//normal components of velocities after collision (P for prime = after)
+				//trace("Model.e: "+this.e);
+				var v1nP:Number = ((m1 - m2*this.e)*v1n + m2*(1+this.e)*v2n)/(m1 + m2);
+				var v2nP:Number = (this.e + 0.00001)*(v1n - v2n) + v1nP;
+				var v1xP = (1/d)*(v1nP*delX - v1t*delY);
+				var v1yP = (1/d)*(v1nP*delY + v1t*delX);
+				var v2xP = (1/d)*(v2nP*delX - v2t*delY);
+				var v2yP = (1/d)*(v2nP*delY + v2t*delX);
+				this.setVXVY(i, v1xP, v1yP);
+				this.setVXVY(j, v2xP, v2yP);
+
+		}//collideBalls
+		
+
+		//get contact time between balls i and j
+		public function getContactTime(i:int, j:int):Number{
+			var tC:Number;  //contact time
+			//tC = this.lastTime;
+			var x1:Number = this.ball_arr[i].position.getXLast();
+			var y1:Number = this.ball_arr[i].position.getYLast();
+			var x2:Number = this.ball_arr[j].position.getXLast();
+			var y2:Number = this.ball_arr[j].position.getYLast();
+			var v1x:Number = this.ball_arr[i].velocity.getX();
+			var v1y:Number = this.ball_arr[i].velocity.getY();
+			var v2x:Number = this.ball_arr[j].velocity.getX();
+			var v2y:Number = this.ball_arr[j].velocity.getY();
+			var delX:Number = x2 - x1;
+			var delY:Number = y2 - y1;
+			var delVx:Number = v2x - v1x;
+			var delVy:Number = v2y - v1y;
+			var delVSq = delVx*delVx + delVy*delVy;
+			var R1:Number = this.ball_arr[i].getRadius();
+			var R2:Number = this.ball_arr[j].getRadius();
+			var SSq:Number = (R1+R2)*(R1+R2);		//square of center-to-center separation of balls at contact
+			var delRDotDelV:Number = delX*delVx + delY*delVy;
+			var delRSq = delX*delX + delY*delY;
+			//trace("Model.getContactTime(). DelVsq = "+ delVSq);
+			//if collision is superslow, then set collision time = half-way point since last time step
+			if(delVSq < 0.000000001){
+				//trace("entering delVSq < 0.000000001 if stmt..");
+				tC = this.lastTime + 0.5*(this.time - this.lastTime);
+				//trace("delVSq<0.000000001, tC is "+tC);
+			}else{ //if collision is normal
+				if(reversing){
+					var delT:Number = (-delRDotDelV + Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
+				}else{
+					delT = (-delRDotDelV - Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
+				}
+				tC = this.lastTime + delT;
+			}
+			//trace("getContactTime: this.lastTime = " + this.lastTime + "  this.time: "+this.time+"   i:"+i+"   j:"+j+"   tC: "+tC);
+			//trace("getContactTime: this.lastTime = "+this.lastTime+"  this.time: "+this.time+"   delT:"+delT+"   tC: "+tC);
+			//trace("delRDotDelV: "+delRDotDelV+"  delVSq: "+delVSq+"   delRSq: "+delRSq+"   SSq: "+SSq+"   delVSq: "+delVSq);
+			return tC;
+		}//end getContactTime()
+		
+
 		
 		//if ball beyond reflecting border, then translate to back to edge and reflect
 		public function checkAndProcessWallCollision(index:int, x:Number, y:Number, vX:Number, vY:Number):void{
@@ -373,26 +619,11 @@ package{
 			}//end if(borderOn)
 		}//end of checkWallAndProcessCollision()
 		
-		public function detectCollision():void{
-			var N:int = this.nbrBalls;
-			for (var i:int = 0; i < N; i++){
-				for (var j:int = i+1; j < N; j++){
-					var xi:Number = ball_arr[i].position.getX();
-					var yi:Number = ball_arr[i].position.getY();
-					var xj:Number = ball_arr[j].position.getX();
-					var yj:Number = ball_arr[j].position.getY();
-					var dist:Number = Math.sqrt((xj-xi)*(xj-xi)+(yj-yi)*(yj-yi));
-					var distMin:Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
-					if(dist < distMin){
-						//trace("elasticity before collision: "+this.e);
-						//trace("collision detected. i = "+i+"   j = "+j+"   at time: "+this.time+"   dist: "+dist+"   distMin: "+distMin);
-						this.collideBalls(i, j);
-						//this.colliders[i][j] = 1;  //ball have collided
-					}
-				}//for(j=..)
-			}//for(i=..)
-		}//detectCollision
-		
+		//*********************************************************************
+		//**********separate balls code****************************************
+		//if ball overlaps other ball or wall after drag, then separate********
+		//*********************************************************************
+		//Check if balls i, j overlap. If they do, separate them, keeping C.M. fixed.
 		public function separateAllBalls():void{
 			trace("separateAllBalls() called at time = "+this.time);
 			//loop through all balls repeatedly until no overlap between any pair
@@ -444,86 +675,6 @@ package{
 			}//end if(borderOn)
 		}//end checkWallCollisionAndSeparate()
 		
-		public function checkWallCollision(i:int, x:Number, y:Number):String{
-			var collidedWithWall:String = "No";
-			if(this.borderOn){
-				var radius:Number = this.ball_arr[i].getRadius();
-				if((x+radius) > this.borderWidth){
-					collidedWithWall = "R";  //collided with Right Wall
-				}else if((x-radius)< 0){
-					collidedWithWall = "L";  //collided with Left Wall
-				}else if((y+radius) > this.borderHeight){
-					collidedWithWall = "T";  //collided with Top Wall
-				}else if((y-radius)< 0){
-					collidedWithWall = "B";  //collided with Bottom Wall
-				}
-			}//end if(borderOn)
-			return collidedWithWall;
-		}//end checkWallCollision
-		
-		public function collideBalls(i:int, j:int):void{
-			this.playClickSound();
-			var balliNbr:String = String(i + 1); var balljNbr:String = String(j + 1);
-			//if(colliders[i][j] == 0 && !starting){ //if balls overlapped, but not collided yet, and not first step
-				
-				//trace("Model.collideBalls(), between i: " + balliNbr + " and j: " + balljNbr + "  at time "+this.time);
-				//Balls have already overlapped, so currently have incorrect positions
-				var tC:Number = this.getContactTime(i,j);
-				var delTBefore = tC - this.lastTime;
-				var delTAfter = this.time - tC;
-				//trace("contact time is "+tC);
-				var v1x:Number = ball_arr[i].velocity.getX();
-				var v2x:Number = ball_arr[j].velocity.getX();
-				var v1y:Number = ball_arr[i].velocity.getY();
-				var v2y:Number = ball_arr[j].velocity.getY();
-				//get positions at tC:
-				var x1:Number = ball_arr[i].position.getXLast() + v1x*delTBefore;
-				var x2:Number = ball_arr[j].position.getXLast() + v2x*delTBefore;
-				var y1:Number = ball_arr[i].position.getYLast() + v1y*delTBefore;
-				var y2:Number = ball_arr[j].position.getYLast() + v2y*delTBefore;
-				var delX:Number = x2 - x1;
-				var delY:Number = y2 - y1;
-				var d:Number = Math.sqrt(delX*delX + delY*delY);
-				var Ri:Number = this.ball_arr[i].getRadius();
-				var Rj:Number = this.ball_arr[j].getRadius();
-				var S:Number = Ri + Rj; 
-				//trace("sum of radii = "+S+"   separation at contact = "+d);
-				//normal and tangential components of initial velocities
-				var v1n:Number = (1/d)*(v1x*delX + v1y*delY);
-				var v2n:Number = (1/d)*(v2x*delX + v2y*delY);
-				var v1t:Number = (1/d)*(-v1x*delY + v1y*delX);
-				var v2t:Number = (1/d)*(-v2x*delY + v2y*delX);
-				var m1:Number = ball_arr[i].getMass();
-				var m2:Number = ball_arr[j].getMass();
-				//normal components of velocities after collision (P for prime = after)
-				//trace("Model.e: "+this.e);
-				var v1nP:Number = ((m1 - m2*this.e)*v1n + m2*(1+this.e)*v2n)/(m1 + m2);
-				var v2nP:Number = (this.e + 0.00001)*(v1n - v2n) + v1nP;
-				var v1xP = (1/d)*(v1nP*delX - v1t*delY);
-				var v1yP = (1/d)*(v1nP*delY + v1t*delX);
-				var v2xP = (1/d)*(v2nP*delX - v2t*delY);
-				var v2yP = (1/d)*(v2nP*delY + v2t*delX);
-				this.setVXVY(i, v1xP, v1yP);
-				this.setVXVY(j, v2xP, v2yP);
-				//this.ball_arr[i].velocity.setXY(v1xP, v1yP);
-				//this.ball_arr[j].velocity.setXY(v2xP, v2yP);
-				
-				var newXi:Number = x1 + v1xP*delTAfter;
-				var newYi:Number = y1 + v1yP*delTAfter;
-				var newXj:Number = x2 + v2xP*delTAfter;
-				var newYj:Number = y2 + v2yP*delTAfter;
-				
-				this.setXY(i, newXi, newYi);
-				this.setXY(j, newXj, newYj);
-				
-			//}else{ //end if(colliders[i][j] == 0)
-				//if balls already collided, but still not separated, or just starting then pull apart keeping C.M. fixed
-				//trace("Model.collideBalls calling separateBalls(): " + balliNbr + " and " + balljNbr+"at t = "+this.time);
-				//this.separateBalls(i,j);
-			//}//end else
-		}//collideBalls
-		
-		//Check if balls i, j overlap. If they do, separate them, keeping C.M. fixed.
 		public function separateBalls(i:int, j:int):void{
 				var x1:Number = ball_arr[i].position.getX();
 				var x2:Number = ball_arr[j].position.getX();
@@ -577,46 +728,7 @@ package{
 				}
 		}//end separateBalls(i, j);
 		
-		//get contact time between balls i and j
-		public function getContactTime(i:int, j:int):Number{
-			var tC:Number;  //contact time
-			//tC = this.lastTime;
-			var x1:Number = this.ball_arr[i].position.getXLast();
-			var y1:Number = this.ball_arr[i].position.getYLast();
-			var x2:Number = this.ball_arr[j].position.getXLast();
-			var y2:Number = this.ball_arr[j].position.getYLast();
-			var v1x:Number = this.ball_arr[i].velocity.getX();
-			var v1y:Number = this.ball_arr[i].velocity.getY();
-			var v2x:Number = this.ball_arr[j].velocity.getX();
-			var v2y:Number = this.ball_arr[j].velocity.getY();
-			var delX:Number = x2 - x1;
-			var delY:Number = y2 - y1;
-			var delVx:Number = v2x - v1x;
-			var delVy:Number = v2y - v1y;
-			var delVSq = delVx*delVx + delVy*delVy;
-			var R1:Number = this.ball_arr[i].getRadius();
-			var R2:Number = this.ball_arr[j].getRadius();
-			var SSq:Number = (R1+R2)*(R1+R2);		//square of center-to-center separation of balls at contact
-			var delRDotDelV:Number = delX*delVx + delY*delVy;
-			var delRSq = delX*delX + delY*delY;
-			//trace("Model.getContactTime(). DelVsq = "+ delVSq);
-			//if collision is superslow, then set collision time = half-way point since last time step
-			if(delVSq < 0.000000001){
-				trace("entering delVSq < 0.000000001 if stmt..");
-				tC = this.lastTime + 0.5*(this.time - this.lastTime);
-				trace("delVSq<0.000000001, tC is "+tC);
-			}else{ //if collision is normal
-				if(reversing){
-					var delT:Number = (-delRDotDelV + Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
-				}else{
-					delT = (-delRDotDelV - Math.sqrt(delRDotDelV*delRDotDelV - delVSq*(delRSq - SSq)))/delVSq;
-				}
-				tC = this.lastTime + delT;
-			}
-			//trace("getContactTime: this.lastTime = "+this.lastTime+"  this.time: "+this.time+"   delT:"+delT+"   tC: "+tC);
-			//trace("delRDotDelV: "+delRDotDelV+"  delVSq: "+delVSq+"   delRSq: "+delRSq+"   SSq: "+SSq+"   delVSq: "+delVSq);
-			return tC;
-		}//end getContactTime()
+		//**********end separate balls code**************************************
 		
 		public function getTotalKE():Number{
 			var KETot:Number = 0;
@@ -656,7 +768,7 @@ package{
 		private function playClickSound():void{
 			if(soundOn){
 				this.sounding = true;
-				this.updateViews();
+				//this.updateViews();
 				this.sounding = false;
 			}
 		}
@@ -675,3 +787,84 @@ package{
 		
 	}//end of class
 }//end of package
+
+//obsolete Code
+/*
+public function collideBalls1(i:int, j:int):void{
+			this.playClickSound();
+			var balliNbr:String = String(i + 1); var balljNbr:String = String(j + 1);
+			//if(colliders[i][j] == 0 && !starting){ //if balls overlapped, but not collided yet, and not first step
+				
+				//trace("Model.collideBalls(), between i: " + balliNbr + " and j: " + balljNbr + "  at time "+this.time);
+				//Balls have already overlapped, so currently have incorrect positions
+				var tC:Number = this.getContactTime(i,j);
+				var delTBefore = tC - this.lastTime;
+				var delTAfter = this.time - tC;
+				//trace("contact time is "+tC);
+				var v1x:Number = ball_arr[i].velocity.getX();
+				var v2x:Number = ball_arr[j].velocity.getX();
+				var v1y:Number = ball_arr[i].velocity.getY();
+				var v2y:Number = ball_arr[j].velocity.getY();
+				//get positions at tC:
+				var x1:Number = ball_arr[i].position.getXLast() + v1x*delTBefore;
+				var x2:Number = ball_arr[j].position.getXLast() + v2x*delTBefore;
+				var y1:Number = ball_arr[i].position.getYLast() + v1y*delTBefore;
+				var y2:Number = ball_arr[j].position.getYLast() + v2y*delTBefore;
+				var delX:Number = x2 - x1;
+				var delY:Number = y2 - y1;
+				var d:Number = Math.sqrt(delX*delX + delY*delY);
+				var Ri:Number = this.ball_arr[i].getRadius();
+				var Rj:Number = this.ball_arr[j].getRadius();
+				var S:Number = Ri + Rj; 
+				//trace("sum of radii = "+S+"   separation at contact = "+d);
+				//normal and tangential components of initial velocities
+				var v1n:Number = (1/d)*(v1x*delX + v1y*delY);
+				var v2n:Number = (1/d)*(v2x*delX + v2y*delY);
+				var v1t:Number = (1/d)*(-v1x*delY + v1y*delX);
+				var v2t:Number = (1/d)*(-v2x*delY + v2y*delX);
+				var m1:Number = ball_arr[i].getMass();
+				var m2:Number = ball_arr[j].getMass();
+				//normal components of velocities after collision (P for prime = after)
+				//trace("Model.e: "+this.e);
+				var v1nP:Number = ((m1 - m2*this.e)*v1n + m2*(1+this.e)*v2n)/(m1 + m2);
+				var v2nP:Number = (this.e + 0.00001)*(v1n - v2n) + v1nP;
+				var v1xP = (1/d)*(v1nP*delX - v1t*delY);
+				var v1yP = (1/d)*(v1nP*delY + v1t*delX);
+				var v2xP = (1/d)*(v2nP*delX - v2t*delY);
+				var v2yP = (1/d)*(v2nP*delY + v2t*delX);
+				this.setVXVY(i, v1xP, v1yP);
+				this.setVXVY(j, v2xP, v2yP);
+				//this.ball_arr[i].velocity.setXY(v1xP, v1yP);
+				//this.ball_arr[j].velocity.setXY(v2xP, v2yP);
+				
+				var newXi:Number = x1 + v1xP*delTAfter;
+				var newYi:Number = y1 + v1yP*delTAfter;
+				var newXj:Number = x2 + v2xP*delTAfter;
+				var newYj:Number = y2 + v2yP*delTAfter;
+				
+				this.setXY(i, newXi, newYi);
+				this.setXY(j, newXj, newYj);
+
+		}//collideBalls
+		
+		public function detectCollision():void{
+			var N:int = this.nbrBalls;
+			for (var i:int = 0; i < N; i++){
+				var xi:Number = ball_arr[i].position.getX();
+				var yi:Number = ball_arr[i].position.getY();
+				for (var j:int = i+1; j < N; j++){
+					var xj:Number = ball_arr[j].position.getX();
+					var yj:Number = ball_arr[j].position.getY();
+					var dist:Number = Math.sqrt((xj-xi)*(xj-xi)+(yj-yi)*(yj-yi));
+					var distMin:Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
+					if(dist < distMin){
+						//trace("elasticity before collision: "+this.e);
+						//trace("collision detected. i = "+i+"   j = "+j+"   at time: "+this.time+"   dist: "+dist+"   distMin: "+distMin);
+						this.collideBalls(i, j);
+						//this.colliders[i][j] = 1;  //ball have collided
+					}
+				}//for(j=..)
+			}//for(i=..)
+		}//detectCollision
+		
+*/

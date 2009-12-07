@@ -1,4 +1,5 @@
 ﻿//Draws paths(trajectories) of balls in TableView
+//Version 1, no good handling of multiple events in same timeStep
 package{
 	import flash.display.*;
 	//import flash.events.*;
@@ -88,6 +89,7 @@ package{
 			}
 		}
 		
+		//called from TableView.update();
 		public function drawStep():void{
 			//trace("Trajectories.drawStep() called.");
 			this.currentColor = this.darkColor;

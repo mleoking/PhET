@@ -41,6 +41,7 @@ package{
 			this.myBall = this.myModel.ball_arr[this.ballIndex];
 			this.ballBody = new Sprite();
 			this.arrowImage = new Arrow(indx);
+			this.arrowImage.setScale(100);  //normal scale is 50
 			this.arrowImage.setColor(0x00ff00);
 			this.ballHandle = new Sprite();
 			this.arrowHeadIndicator = new Sprite();
