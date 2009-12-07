@@ -19,6 +19,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.ACVoltageSource
 import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -29,7 +30,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * Date: Jun 9, 2004
  * Time: 10:19:00 AM
  */
-public abstract class ComponentEditor extends JDialog {
+public abstract class ComponentEditor extends PaintImmediateDialog {
     protected CCKModule module;
     protected CircuitComponent circuitComponent;
     private Component parent;
