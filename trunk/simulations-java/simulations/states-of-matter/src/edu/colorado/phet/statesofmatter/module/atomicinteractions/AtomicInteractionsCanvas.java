@@ -297,11 +297,11 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
             Rectangle viewportBounds = getBounds();
             Point2D wiggleMeInitialXPos = new Point2D.Double(viewportBounds.getMaxX(), 0);
             getPhetRootNode().screenToWorld(wiggleMeInitialXPos);
-            wiggleMeInitialXPos.setLocation(wiggleMeInitialXPos.getX() + m_wiggleMe.getFullBoundsReference().width / 2, 0);
+            wiggleMeInitialXPos.setLocation(wiggleMeInitialXPos.getX(), 0);
             m_wiggleMe.setOffset( wiggleMeInitialXPos.getX(), m_model.getMovableAtomRef().getY() );
             m_wiggleMe.animateToPositionScaleRotation( 
             		m_model.getMovableAtomRef().getX() + m_model.getMovableAtomRef().getRadius(),
-            		m_model.getMovableAtomRef().getY(), wiggleMeScale, 0, 3000 );
+            		m_model.getMovableAtomRef().getY(), wiggleMeScale, 0, 2000 );
             
             // Clicking anywhere on the canvas makes the wiggle me go away.
             addInputEventListener( new PBasicInputEventHandler() {
