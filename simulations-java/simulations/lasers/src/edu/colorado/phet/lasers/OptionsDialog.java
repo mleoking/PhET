@@ -1,13 +1,15 @@
 package edu.colorado.phet.lasers;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -19,7 +21,7 @@ import edu.colorado.phet.lasers.view.PhotonGraphic;
  * Author: Sam Reid
  * Aug 29, 2007, 7:21:38 PM
  */
-public class OptionsDialog extends JDialog {
+public class OptionsDialog extends PaintImmediateDialog {
     private LasersApplication laserApplication;
 
     public OptionsDialog( final LasersApplication laserApplication ) {

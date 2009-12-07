@@ -12,13 +12,13 @@ import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.lasers.LasersResources;
 
-public class EnergyLevelsDialog extends JDialog {
+public class EnergyLevelsDialog extends PaintImmediateDialog {
 
     public EnergyLevelsDialog( Frame parent, JPanel energyLevelsPanel ) {
         super( parent, LasersResources.getString( "EnergyLevelsDialog.Title" ) );
