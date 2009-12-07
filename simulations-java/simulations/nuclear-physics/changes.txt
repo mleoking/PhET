@@ -1,3 +1,5 @@
+# 3.19.00 (37144) Dec 7, 2009
+12/7/09 >Radioactive Dating Game: Improved probe appearance and some graph labels based on user feedback.
 # 3.18.04 (37116) Dec 4, 2009
 12/4/09 Incorporated new version of the probe image
 # 3.18.03 (37063) Dec 2, 2009
