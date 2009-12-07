@@ -1,18 +1,23 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.quantumwaveinterference.controls.PropagatorPanel;
 import edu.colorado.phet.quantumwaveinterference.controls.ResolutionControl;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
 import edu.colorado.phet.quantumwaveinterference.phetcommon.UIController;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * User: Sam Reid
@@ -121,7 +126,7 @@ public class QWIOptionsMenu extends JMenu {
     private void printModelParameters() {
         Map modelParams = qwiModule.getModelParameters();
         String text = toText( modelParams );
-        JOptionPane.showMessageDialog( this, text );
+        PhetOptionPane.showMessageDialog( this, text );
     }
 
     private String toText( Map modelParams ) {
