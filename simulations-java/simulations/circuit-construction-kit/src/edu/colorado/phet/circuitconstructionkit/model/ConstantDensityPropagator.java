@@ -259,7 +259,7 @@ public class ConstantDensityPropagator implements ModelElement {
                 //                    StackTraceElement stackTraceElement = se[i];
                 //                    System.err.println( stackTraceElement );
                 //                }
-                //                JOptionPane.showMessageDialog( null, "No outgoing wires, current=" + current );
+                //                PhetOptionPane.showMessageDialog( null, "No outgoing wires, current=" + current );
                 return;
             }
             //choose the branch with the furthest away electron
