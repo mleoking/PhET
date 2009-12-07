@@ -4,16 +4,20 @@
 
 package edu.colorado.phet.conductivity.macro.battery;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.conductivity.ConductivityApplication;
 import edu.colorado.phet.conductivity.ConductivityResources;
 
@@ -76,7 +80,7 @@ public class BatterySpinner {
 
     private void handleErrorInput() {
         conductivityApplication.stopClock();
-        JOptionPane.showMessageDialog( spinner, "Value out of range: Voltage should be betwen 0 and 2 Volts.", "Invalid Voltage", JOptionPane.ERROR_MESSAGE );
+        PhetOptionPane.showErrorDialog( spinner, "Value out of range: Voltage should be betwen 0 and 2 Volts." );
         conductivityApplication.startClock();
         spinner.setValue( new Double( battery.getVoltage() ) );//doesn't fix the text field
         if ( spinner.getEditor() instanceof JSpinner.DefaultEditor ) {
