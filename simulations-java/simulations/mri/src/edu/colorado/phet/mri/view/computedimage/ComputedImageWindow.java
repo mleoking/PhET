@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.mri.view.computedimage;
 
+import java.awt.HeadlessException;
+import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.mri.model.Detector;
 import edu.colorado.phet.mri.model.SampleScannerB;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * ComputeImageWindow
@@ -24,7 +24,7 @@ import java.awt.geom.Rectangle2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ComputedImageWindow extends JDialog {
+public class ComputedImageWindow extends PaintImmediateDialog {
 
     public ComputedImageWindow( Rectangle2D sampleBounds, SampleScannerB scanner, Detector detector ) throws HeadlessException {
 //    public ComputedImageWindow( Rectangle2D sampleBounds, SampleScanner scanner, Detector detector ) throws HeadlessException {
