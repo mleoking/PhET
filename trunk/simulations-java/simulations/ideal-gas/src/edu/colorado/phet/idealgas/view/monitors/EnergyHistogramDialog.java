@@ -10,17 +10,6 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
-import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.idealgas.IdealGasResources;
-import edu.colorado.phet.idealgas.instrumentation.Histogram;
-import edu.colorado.phet.idealgas.model.GasMolecule;
-import edu.colorado.phet.idealgas.model.HeavySpecies;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.LightSpecies;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,11 +19,24 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.*;
+
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
+import edu.colorado.phet.idealgas.IdealGasResources;
+import edu.colorado.phet.idealgas.instrumentation.Histogram;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.LightSpecies;
+
 /**
  * A non-modal dialog that shows histograms of energy and average speed of the particles in
  * an IdealGasModel.
  */
-public class EnergyHistogramDialog extends JDialog {
+public class EnergyHistogramDialog extends PaintImmediateDialog {
 
     //----------------------------------------------------------------
     // Instance fields

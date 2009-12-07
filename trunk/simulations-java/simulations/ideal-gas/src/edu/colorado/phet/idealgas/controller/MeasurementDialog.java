@@ -6,17 +6,24 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-
-public class MeasurementDialog extends JDialog {
+public class MeasurementDialog extends PaintImmediateDialog {
 
     private IdealGasModule module;
     private ArrayList visibleInstruments = new ArrayList();
