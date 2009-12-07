@@ -1,9 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.controls;
 
-import net.n3.nanoxml.*;
-
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -15,6 +16,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import net.n3.nanoxml.*;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
@@ -23,12 +25,12 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.circuitconstructionkit.persistence.CircuitXML;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -309,7 +311,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         Circuit circuit = CircuitXML.parseXML( parsed, module.getCircuitChangeListener(), module );
         if ( isOldVersionCCK( str ) ) {
             flipY( circuit );
-            JOptionPane.showMessageDialog( this, "<html>The file you loaded is from an earlier version of this program, <br>and some " +
+            PhetOptionPane.showMessageDialog( this, "<html>The file you loaded is from an earlier version of this program, <br>and some " +
                                                  "parts of the circuit may be oriented incorrectly.  <br><br>Manually correct any problems, and be sure to save the new circuit.</html>" );
         }
         module.setCircuit( circuit );
@@ -411,8 +413,8 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             e.printStackTrace();
             StringWriter sw = new StringWriter();
             e.printStackTrace( new PrintWriter( sw ) );
-            JOptionPane.showMessageDialog( module.getSimulationPanel(), sw.getBuffer().toString(),
-                                           CCKResources.getString( "CCK3ControlPanel.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
+            PhetOptionPane.showMessageDialog( module.getSimulationPanel(), sw.getBuffer().toString(),
+                                           CCKResources.getString( "CCK3ControlPanel.ErrorLoadingHelpDialog" ) );
         }
     }
 
