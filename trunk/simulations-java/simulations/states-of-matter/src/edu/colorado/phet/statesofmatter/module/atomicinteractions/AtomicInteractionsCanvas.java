@@ -131,12 +131,14 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
             }
             public void fixedAtomRemoved(StatesOfMatterAtom particle){
                 handleFixedParticleRemoved( particle );
+                clearWiggleMe();
             }
             public void movableAtomAdded(StatesOfMatterAtom particle){
                 handleMovableParticleAdded( particle );
             }
             public void movableAtomRemoved(StatesOfMatterAtom particle){
                 handleMovableParticleRemoved( particle );
+                clearWiggleMe();
             }
             public void movableAtomDiameterChanged(){
             	updateMinimumXForMovableAtom();
@@ -250,6 +252,7 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         m_movableParticleNode.setShowAttractiveForces( showForces );
         m_fixedParticleNode.setShowAttractiveForces( showForces );
         m_showAttractiveForces = showForces;
+        clearWiggleMe();
     }
     
     /**
@@ -260,6 +263,7 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         m_movableParticleNode.setShowRepulsiveForces( showForces );
         m_fixedParticleNode.setShowRepulsiveForces( showForces );
         m_showRepulsiveForces = showForces;
+        clearWiggleMe();
     }
     
     /**
@@ -270,6 +274,7 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         m_movableParticleNode.setShowTotalForces( showForces );
         m_fixedParticleNode.setShowTotalForces( showForces );
         m_showTotalForces = showForces;
+        clearWiggleMe();
     }
     
     protected void updateLayout() {
@@ -301,10 +306,8 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
             // Clicking anywhere on the canvas makes the wiggle me go away.
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
-                    m_wiggleMe.setEnabled( false );
-                    removeWorldChild( m_wiggleMe );
+                	clearWiggleMe();
                     removeInputEventListener( this );
-                    m_wiggleMe = null;
                 }
             } );
             
@@ -493,5 +496,13 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
             m_fixedParticleNode.setForces( m_model.getAttractiveForce(), -m_model.getRepulsiveForce() );
             m_movableParticleNode.setForces( -m_model.getAttractiveForce(), m_model.getRepulsiveForce() );
         }
+    }
+    
+    private void clearWiggleMe(){
+    	if (m_wiggleMe != null){
+    		m_wiggleMe.setEnabled(false);
+            removeWorldChild( m_wiggleMe );
+            m_wiggleMe = null;
+    	}
     }
 }
