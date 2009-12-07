@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import javax.swing.*;
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 
 /**
  * MeterWindow
@@ -18,6 +18,6 @@ import javax.swing.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MeterWindow extends JDialog {
+public class MeterWindow extends PaintImmediateDialog {
 
 }
