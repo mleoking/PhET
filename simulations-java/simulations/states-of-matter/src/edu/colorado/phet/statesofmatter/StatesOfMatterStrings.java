@@ -78,4 +78,6 @@ public class StatesOfMatterStrings {
     public static final String CLOCK_SPEED_CONTROL_CAPTION = StatesOfMatterResources.getString("ClockSpeedControlCaption");
 
     public static final String RESET = StatesOfMatterResources.getString("Reset");
+
+    public static final String WIGGLE_ME_CAPTION = StatesOfMatterResources.getString("WiggleMeCaption");
 }

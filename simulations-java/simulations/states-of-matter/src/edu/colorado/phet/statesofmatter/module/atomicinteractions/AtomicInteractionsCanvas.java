@@ -281,7 +281,7 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         
         if ((!m_wiggleMeShown) && (ENABLE_WIGGLE_ME)){
             // The wiggle me has not yet been shown, so show it.
-            m_wiggleMe = new DefaultWiggleMe( this, "Move atom and release." );  // Note: Make this a string if the wiggle-me is ever added back in.
+            m_wiggleMe = new DefaultWiggleMe( this, StatesOfMatterStrings.WIGGLE_ME_CAPTION );
             m_wiggleMe.setBackground(Color.YELLOW);
             m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.LEFT_CENTER );
             double wiggleMeScale = WIGGLE_ME_HEIGHT / m_wiggleMe.getFullBoundsReference().height;
