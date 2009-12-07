@@ -46,6 +46,7 @@
 
 package edu.colorado.phet.quantumwaveinterference.phetcommon;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import javax.swing.*;
@@ -56,7 +57,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class JFontChooser extends JDialog {
+public class JFontChooser extends PaintImmediateDialog {
     public static int OK_OPTION = 0;
     public static int CANCEL_OPTION = 1;
 
