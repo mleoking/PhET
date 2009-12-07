@@ -1,9 +1,13 @@
 package edu.colorado.phet.eatingandexercise.control;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -16,7 +20,7 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodI
  * Created by: Sam
  * Jun 26, 2008 at 8:55:58 AM
  */
-public class BalancedDietDialog extends JDialog {
+public class BalancedDietDialog extends PaintImmediateDialog {
     public BalancedDietDialog( final CaloricFoodItem item ) {
         JPanel contentPane = new VerticalLayoutPanel();
 //        contentPane.setLayout( new GridBagLayout() );
