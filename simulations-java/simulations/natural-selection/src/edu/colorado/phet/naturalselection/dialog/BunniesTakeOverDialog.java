@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -23,7 +24,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Jonathan Olson
  */
-public class BunniesTakeOverDialog extends JDialog {
+public class BunniesTakeOverDialog extends PaintImmediateDialog {
     private static final Dimension CANVAS_DIMENSION = new Dimension( 480, 481 );
 
     public BunniesTakeOverDialog( Frame frame, final NaturalSelectionModule module ) {

@@ -1,11 +1,13 @@
 package edu.colorado.phet.naturalselection.developer;
 
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
@@ -18,7 +20,7 @@ import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DeveloperControlsDialog extends JDialog {
+public class DeveloperControlsDialog extends PaintImmediateDialog {
 
     //----------------------------------------------------------------------------
     // Instance data
