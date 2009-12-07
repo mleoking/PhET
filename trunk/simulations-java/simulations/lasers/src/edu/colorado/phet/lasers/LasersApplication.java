@@ -22,13 +22,13 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.*;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ClockProfiler;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.quantum.model.AtomicState;
@@ -128,7 +128,7 @@ public class LasersApplication extends PiccoloPhetApplication {
                 probSlider.setValue( AtomicState.getStimulationLikelihood() );
                 JPanel jp = new JPanel();
                 jp.add( probSlider );
-                JOptionPane.showMessageDialog( getPhetFrame(), jp );
+                PhetOptionPane.showMessageDialog( getPhetFrame(), jp );
             }
         } );
         optionMenu.add( stimProbmenuItem );
