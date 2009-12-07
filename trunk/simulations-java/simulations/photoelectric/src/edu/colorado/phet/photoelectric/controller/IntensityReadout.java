@@ -18,13 +18,13 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -87,7 +87,7 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
             this.beam.setPhotonsPerSecond( photonsPerSecond );
         }
         catch( NumberFormatException e1 ) {
-            JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), PhotoelectricResources.getString( "Intensity.message" ) );
+            PhetOptionPane.showErrorDialog( SwingUtilities.getRoot( component ), PhotoelectricResources.getString( "Intensity.message" ) );
             readout.setText( format.format( beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ) );
         }
     }

@@ -19,7 +19,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
@@ -27,6 +26,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.controls.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
@@ -141,7 +141,7 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
                 update( wavelength );
             }
             catch( NumberFormatException e1 ) {
-                JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
+                PhetOptionPane.showErrorDialog( SwingUtilities.getRoot( component ),
                         PhotoelectricResources.getString( "Wavelength.message" ) );
                 setText( beam.getWavelength() );
             }
