@@ -10,15 +10,19 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -82,14 +86,14 @@ public class BatteryReadout extends GraphicLayerSet {
             }
             else {
                 focusLossTemporary = true;
-                JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
+                PhetOptionPane.showErrorDialog( SwingUtilities.getRoot( component ),
                                                "Voltage must be between -" + Double.toString( maxVoltage ) +
                                                "V and " + Double.toString( maxVoltage ) + "V" );
                 focusLossTemporary = false;
             }
         }
         catch( NumberFormatException e1 ) {
-            JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
+            PhetOptionPane.showErrorDialog( SwingUtilities.getRoot( component ),
                                            "Voltage must be numeric, or a number followed by \"V\"" );
             updateText( battery.getVoltage() );
         }

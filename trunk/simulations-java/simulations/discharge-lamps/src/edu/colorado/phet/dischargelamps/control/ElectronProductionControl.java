@@ -21,6 +21,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
@@ -180,7 +181,7 @@ new Insets( 0, 0, 0, 0 ), 0, 0 );
                     model.setCurrent( value * maxCurrent / 100, currentDisplayFactor );
                 }
                 catch( NumberFormatException nfe ) {
-                    JOptionPane.showMessageDialog( PhetUtilities.getPhetFrame(), DischargeLampsResources.getString( "Message.notPctFormat" ) );
+                    PhetOptionPane.showErrorDialog( PhetUtilities.getPhetFrame(), DischargeLampsResources.getString( "Message.notPctFormat" ) );
                 }
             }
         } );

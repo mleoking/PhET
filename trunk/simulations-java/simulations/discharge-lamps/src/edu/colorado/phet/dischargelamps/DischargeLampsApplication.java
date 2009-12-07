@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
@@ -72,8 +73,7 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
                         ( (Clock) clock ).setTimingStrategy( new TimingStrategy.Constant( clockTickSlider.getValue() ) );
                     }
                 } );
-                int confirm = JOptionPane.showConfirmDialog( getPhetFrame(), clockTickSlider, DischargeLampsResources.getString( "simulation.speed" ), 
-                                                             JOptionPane.OK_CANCEL_OPTION );
+                int confirm = PhetOptionPane.showOKCancelDialog( getPhetFrame(), clockTickSlider, DischargeLampsResources.getString( "simulation.speed" ) );
                 // If the user canceled, reset the clock to its original value
                 if ( confirm == JOptionPane.CANCEL_OPTION ) {
                     ( (Clock) clock ).setTimingStrategy( new TimingStrategy.Constant( dt ) );
