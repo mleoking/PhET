@@ -1,18 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
-import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
-import edu.colorado.phet.selfdrivenparticlemodel.tutorial.TutorialChartFrame;
-import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwing;
-import org.jfree.data.xy.XYDataItem;
-import org.jfree.data.xy.XYSeries;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -20,6 +12,22 @@ import java.awt.event.KeyListener;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
+import org.jfree.data.xy.XYDataItem;
+import org.jfree.data.xy.XYSeries;
+
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
+import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.TutorialChartFrame;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * User: Sam Reid
@@ -228,7 +236,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
             return val;
         }
         catch( NumberFormatException numberFormatException ) {
-//            JOptionPane.showMessageDialog( jTextField, "Couldn't understand Critical Exponent (in Red Box): " + jTextField.getText() );
+//            PhetOptionPane.showMessageDialog( jTextField, "Couldn't understand Critical Exponent (in Red Box): " + jTextField.getText() );
             throw new NoEtaCriticalException();
 //            return 3;
         }
