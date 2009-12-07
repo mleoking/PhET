@@ -5,19 +5,21 @@ package edu.colorado.phet.eatingandexercise.module.eatingandexercise;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
-import edu.colorado.phet.eatingandexercise.EatingAndExerciseApplication;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
@@ -147,7 +149,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
         JButton disclaimerButton = new JButton( EatingAndExerciseResources.getString( "disclaimer" ) );
         disclaimerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( parentFrame, EatingAndExerciseStrings.DISCLAIMER );
+                PhetOptionPane.showMessageDialog( parentFrame, EatingAndExerciseStrings.DISCLAIMER );
             }
         } );
         _clockControlPanel.add( new EatingAndExerciseHelpButton(), 0 );

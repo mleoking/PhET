@@ -1,12 +1,12 @@
 package edu.colorado.phet.eatingandexercise.module.eatingandexercise;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
-import javax.swing.*;
-
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.Human;
@@ -30,7 +30,7 @@ public class BMIHelpButtonNode extends GradientButtonNode {
                 String line4 = EatingAndExerciseResources.getString( "bmi.normal" );
                 String line5 = EatingAndExerciseResources.getString( "bmi.overweight" );
                 String line6 = EatingAndExerciseResources.getString( "bmi.obese" );
-                JOptionPane.showMessageDialog( parentComponent, currentBMI + new DecimalFormat( "0.0" ).format( human.getBMI() ) + "\n\n" +
+                PhetOptionPane.showMessageDialog( parentComponent, currentBMI + new DecimalFormat( "0.0" ).format( human.getBMI() ) + "\n\n" +
                                                                 line1 +
                                                                 line2 +
                                                                 line3 +

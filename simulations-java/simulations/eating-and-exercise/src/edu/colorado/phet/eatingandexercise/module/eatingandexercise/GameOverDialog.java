@@ -38,7 +38,7 @@ public class GameOverDialog {
         timer.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getClock().pause();
-//                JOptionPane.showMessageDialog( parentFrame, "Game Over.  Body died from " + causeOfDeath + ". Click to start over." );
+//                PhetOptionPane.showMessageDialog( parentFrame, "Game Over.  Body died from " + causeOfDeath + ". Click to start over." );
                 Object[] options = {"Restart"};
                 JOptionPane.showOptionDialog( parentFrame, "Game Over", "Game Over", JOptionPane.OK_OPTION,
                                               JOptionPane.WARNING_MESSAGE, null, options, options[0] ); //default button title
