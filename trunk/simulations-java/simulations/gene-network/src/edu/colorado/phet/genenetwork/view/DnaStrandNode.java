@@ -52,7 +52,7 @@ public class DnaStrandNode extends PNode {
 		}
 		
 		// Add the gene segment shapes.
-		for (DnaStrand.GeneSegmentShape geneSegmentShape : dnaStrand.getGeneSegmentShapeList()){
+		for (DnaStrand.DnaSegmentSpace geneSegmentShape : dnaStrand.getDnaSegmentSpaces()){
 			addChild(new GeneSegmentNode(geneSegmentShape, mvt, emptyGeneSegmentColor));
 		}
 		
@@ -92,7 +92,7 @@ public class DnaStrandNode extends PNode {
     	private static final Stroke OUTLINE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_BUTT,
     			BasicStroke.JOIN_BEVEL, 0, new float[] {8, 5}, 0);
     	
-		public GeneSegmentNode(DnaStrand.GeneSegmentShape geneSegmentShape, ModelViewTransform2D mvt, Color color) {
+		public GeneSegmentNode(DnaStrand.DnaSegmentSpace geneSegmentShape, ModelViewTransform2D mvt, Color color) {
 			super();
 			setStroke(OUTLINE_STROKE);
 			setStrokePaint(Color.BLACK);

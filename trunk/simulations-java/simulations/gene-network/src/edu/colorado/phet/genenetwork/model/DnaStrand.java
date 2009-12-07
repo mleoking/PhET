@@ -49,9 +49,6 @@ public class DnaStrand {
 	private LacOperator lacOperatorSpace = new LacOperator(null);
 	private LacZGene lacZGeneSpace = new LacZGene(null);
 	
-	// References to model elements that are also a segment of this DNA strand.
-	private LacZGene lacZGene;
-	
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
@@ -139,15 +136,15 @@ public class DnaStrand {
 	}
 	
 	/**
-	 * Get a list of the shapes that represent the spaces on the DNA strand
-	 * where the genes should go.
+	 * Get a list of the spaces in the DNA strand where genes and promoters
+	 * and all that will eventually go.
 	 */
-	public ArrayList<GeneSegmentShape> getGeneSegmentShapeList(){
-		ArrayList<GeneSegmentShape> shapeList = new ArrayList<GeneSegmentShape>();
-		shapeList.add(new GeneSegmentShape(lacIGeneSpace.getShape(), lacIGeneSpace.getPositionRef()));
-		shapeList.add(new GeneSegmentShape(lacPromoterSpace.getShape(), lacPromoterSpace.getPositionRef()));
-		shapeList.add(new GeneSegmentShape(lacOperatorSpace.getShape(), lacOperatorSpace.getPositionRef()));
-		shapeList.add(new GeneSegmentShape(lacZGeneSpace.getShape(), lacZGeneSpace.getPositionRef()));
+	public ArrayList<DnaSegmentSpace> getDnaSegmentSpaces(){
+		ArrayList<DnaSegmentSpace> shapeList = new ArrayList<DnaSegmentSpace>();
+		shapeList.add(new DnaSegmentSpace(lacIGeneSpace.getShape(), lacIGeneSpace.getPositionRef()));
+		shapeList.add(new DnaSegmentSpace(lacPromoterSpace.getShape(), lacPromoterSpace.getPositionRef()));
+		shapeList.add(new DnaSegmentSpace(lacOperatorSpace.getShape(), lacOperatorSpace.getPositionRef()));
+		shapeList.add(new DnaSegmentSpace(lacZGeneSpace.getShape(), lacZGeneSpace.getPositionRef()));
 		return shapeList;
 	}
 	
@@ -170,17 +167,67 @@ public class DnaStrand {
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
-	public static class GeneSegmentShape extends Area {
+	/**
+	 * This class represents a space on the DNA segment where a gene or a
+	 * promoter or whatever can reside.
+	 */
+	public static class DnaSegmentSpace extends Area {
 
+		// Offset in space from the DNA strand where this space exists.
 		private final Point2D offsetFromDnaStrandPos = new Point2D.Double();
 		
-		public GeneSegmentShape(Shape s, Point2D offsetFromDnaStrandPos) {
+		// State variable to says whether this space should be presented to
+		// the user in a normal or "eye catching" manner.
+		private boolean eyeCatching = false;
+
+	    protected ArrayList<DnaSegmentSpace.Listener> listeners = new ArrayList<DnaSegmentSpace.Listener>();
+		
+		public DnaSegmentSpace(Shape s, Point2D offsetFromDnaStrandPos) {
 			super(s);
 			this.offsetFromDnaStrandPos.setLocation(offsetFromDnaStrandPos);
 		}
 		
+		public void addListener(DnaSegmentSpace.Listener listener) {
+			if (listeners.contains( listener ))
+			{
+				// Don't bother re-adding.
+				System.err.println(getClass().getName() + "- Warning: Attempting to re-add a listener that is already listening.");
+				assert false;
+				return;
+			}
+			
+			listeners.add( listener );
+		}
+		
+		public void removeListener(DnaSegmentSpace.Listener listener){
+			listeners.remove(listener);
+		}
+		
 		public Point2D getOffsetFromDnaStrandPosRef(){
 			return offsetFromDnaStrandPos;
+		}
+		
+		public boolean isEyeCatching(){
+			return eyeCatching;
+		}
+		
+		public void setEyeCatching(boolean eyeCatching){
+			if (this.eyeCatching != eyeCatching){
+				this.eyeCatching = eyeCatching;
+				notifyEyeCatchingStateChanged();
+			}
+		}
+		
+		private void notifyEyeCatchingStateChanged(){
+			// Notify all listeners of the change to the eye catching state.
+			for (Listener listener : listeners)
+			{
+				listener.eyeCatchingStateChange();
+			}
+		}
+		
+		interface Listener {
+			void eyeCatchingStateChange();
 		}
 	}
 }
