@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
@@ -15,7 +16,7 @@ import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
  *
  * @author Jonathan Olson
  */
-public class GameOverDialog extends JDialog {
+public class GameOverDialog extends PaintImmediateDialog {
 
     public GameOverDialog( Frame frame, final NaturalSelectionModule module ) {
         super( frame );
