@@ -264,7 +264,7 @@ public class QWIModule extends PiccoloModule {
 
     public boolean confirmReset() {
         return true;
-//        int answer = JOptionPane.showConfirmDialog( getPhetFrame(), "Are you sure you want to reset everything?" );
+//        int answer = PhetOptionPane.showYesNoDialog( getPhetFrame(), "Are you sure you want to reset everything?" );
 //        return answer == JOptionPane.YES_OPTION;
     }
 

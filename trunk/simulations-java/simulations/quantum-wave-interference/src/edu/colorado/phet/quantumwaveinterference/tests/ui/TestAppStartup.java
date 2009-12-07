@@ -11,17 +11,19 @@
 
 package edu.colorado.phet.quantumwaveinterference.tests.ui;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
-import edu.colorado.phet.common.phetcommon.model.clock.*;
-import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
+
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -31,12 +33,18 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.*;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 /**
@@ -132,7 +140,7 @@ public class TestAppStartup extends PhetTestApplication {
                 jButton.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         Frame frame = PhetApplication.getInstance().getPhetFrame();
-                        JOptionPane.showMessageDialog( frame, "Press OK" );
+                        PhetOptionPane.showMessageDialog( frame, "Press OK" );
                     }
                 } );
 
@@ -186,7 +194,7 @@ public class TestAppStartup extends PhetTestApplication {
                     // reset after confirming
                     public void actionPerformed( ActionEvent e ) {
                         Frame frame = PhetApplication.getInstance().getPhetFrame();
-                        int rval = JOptionPane.showConfirmDialog( frame, "Reset all settings?", "Confirm", JOptionPane.YES_NO_OPTION );
+                        int rval = PhetOptionPane.showYesNoDialog( frame, "Reset all settings?" );
                         if( rval == JOptionPane.YES_OPTION ) {
                             // TODO reset controls here...
                         }

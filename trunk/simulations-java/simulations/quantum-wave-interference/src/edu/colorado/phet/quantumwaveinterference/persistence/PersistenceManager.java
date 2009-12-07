@@ -292,10 +292,9 @@ public class PersistenceManager implements IProguardKeepClass {
      */
     public void showError( String format, String errorMessage ) {
         Window frame = getFrame();
-        String title = QWIResources.getString( "error" );
         Object[] args = {errorMessage};
         String message = MessageFormat.format( format, args );
-        JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
+        PhetOptionPane.showErrorDialog( frame, message );
     }
 
     /**
