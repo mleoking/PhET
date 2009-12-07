@@ -59,7 +59,7 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
     private static final double BUTTON_HEIGHT = CANVAS_WIDTH * 0.06;
     
     // Constant used to control size of wiggle me.
-    private static final double WIGGLE_ME_HEIGHT = CANVAS_HEIGHT * 0.10;
+    private static final double WIGGLE_ME_HEIGHT = CANVAS_HEIGHT * 0.06;
     
     // Constant used to control size of push pin.
     private static final double PUSH_PIN_WIDTH = CANVAS_WIDTH * 0.10;
@@ -283,7 +283,7 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
             // The wiggle me has not yet been shown, so show it.
             m_wiggleMe = new DefaultWiggleMe( this, "Move atom and release." );  // Note: Make this a string if the wiggle-me is ever added back in.
             m_wiggleMe.setBackground(Color.YELLOW);
-            m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
+            m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.LEFT_CENTER );
             double wiggleMeScale = WIGGLE_ME_HEIGHT / m_wiggleMe.getFullBoundsReference().height;
             m_wiggleMe.scale( wiggleMeScale );
             addWorldChild( m_wiggleMe );
@@ -293,11 +293,10 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
             Point2D wiggleMeInitialXPos = new Point2D.Double(viewportBounds.getMaxX(), 0);
             getPhetRootNode().screenToWorld(wiggleMeInitialXPos);
             wiggleMeInitialXPos.setLocation(wiggleMeInitialXPos.getX() + m_wiggleMe.getFullBoundsReference().width / 2, 0);
-            m_wiggleMe.setOffset( wiggleMeInitialXPos.getX(), 
-                    m_interactionPotentialDiagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height );
-            m_wiggleMe.animateToPositionScaleRotation( m_model.getMovableAtomRef().getX(),
-                    m_interactionPotentialDiagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height,
-                    wiggleMeScale, 0, 3000 );
+            m_wiggleMe.setOffset( wiggleMeInitialXPos.getX(), m_model.getMovableAtomRef().getY() );
+            m_wiggleMe.animateToPositionScaleRotation( 
+            		m_model.getMovableAtomRef().getX() + m_model.getMovableAtomRef().getRadius(),
+            		m_model.getMovableAtomRef().getY(), wiggleMeScale, 0, 3000 );
             
             // Clicking anywhere on the canvas makes the wiggle me go away.
             addInputEventListener( new PBasicInputEventHandler() {
