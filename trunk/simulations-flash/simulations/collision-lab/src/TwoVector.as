@@ -93,6 +93,14 @@ package{
 			return this.yLast;
 		}
 		
+		public function setXLast(xLast:Number):void{
+			this.xLast = xLast;
+		}
+		
+		public function setYLast(yLast:Number):void{
+			this.yLast = yLast;
+		}
+		
 		
 		
 
