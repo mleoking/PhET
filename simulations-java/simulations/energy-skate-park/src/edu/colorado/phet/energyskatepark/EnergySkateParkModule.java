@@ -1,10 +1,17 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark;
 
+import java.awt.Frame;
+import java.awt.Toolkit;
+import java.awt.geom.Point2D;
+
+import javax.swing.JOptionPane;
+
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -19,10 +26,6 @@ import edu.colorado.phet.energyskatepark.view.WiggleMeInSpace;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTimePanel;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -288,7 +291,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void confirmAndReset() {
-        int response = JOptionPane.showConfirmDialog( getSimulationPanel(), EnergySkateParkStrings.getString( "message.confirm-reset" ), EnergySkateParkStrings.getString( "message.confirm-reset-title" ), JOptionPane.YES_NO_OPTION );
+        int response = PhetOptionPane.showYesNoDialog( getSimulationPanel(), EnergySkateParkStrings.getString( "message.confirm-reset" ) );
         if( response == JOptionPane.OK_OPTION ) {
             reset();
         }
