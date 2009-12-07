@@ -1,16 +1,20 @@
 package edu.colorado.phet.semiconductor.macro.circuit.battery;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 
 /**
@@ -46,7 +50,7 @@ public class BatterySpinner {
                             setVoltage( volts );
                         }
                         else {
-                            JOptionPane.showMessageDialog( getSpinner(), "Please enter a voltage between " + min + " and " + max + " volts." );
+                            PhetOptionPane.showMessageDialog( getSpinner(), "Please enter a voltage between " + min + " and " + max + " volts." );
                             spinner.setValue( new Double( battery.getVoltage() ) );//doesn't fix the text field
                             if ( spinner.getEditor() instanceof JSpinner.DefaultEditor ) {
                                 final JSpinner.DefaultEditor ed = (JSpinner.DefaultEditor) spinner.getEditor();
