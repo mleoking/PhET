@@ -19,6 +19,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.LampGraphic;
@@ -96,7 +97,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         JButton resetBtn = new JButton( LasersResources.getString( "LaserControlPanel.Reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                int choice = JOptionPane.showConfirmDialog( PhetApplication.getInstance().getPhetFrame(),
+                int choice = PhetOptionPane.showYesNoDialog( PhetApplication.getInstance().getPhetFrame(),
                                                             LasersResources.getString( "ResetAll.confirmationMessage" ) );
                 if ( choice == JOptionPane.OK_OPTION ) {
                     module.reset();
