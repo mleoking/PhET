@@ -1,16 +1,18 @@
 /*  */
 package edu.colorado.phet.forces1d.common.plotdevice;
 
-import java.awt.*;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
@@ -70,7 +72,7 @@ public class FloatingControl extends VerticalLayoutPanel {
             public void actionPerformed( ActionEvent e ) {
                 boolean paused = plotDeviceModel.isPaused();
                 plotDeviceModel.setPaused( true );
-                int option = JOptionPane.showConfirmDialog( apparatusPanel, Force1DResources.get( "FloatingControl.sureToClear" ), Force1DResources.get( "FloatingControl.confirmReset" ), JOptionPane.YES_NO_CANCEL_OPTION );
+                int option = PhetOptionPane.showYesNoDialog( apparatusPanel, Force1DResources.get( "FloatingControl.sureToClear" ) );
                 if ( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
                     plotDeviceModel.reset();
                 }
