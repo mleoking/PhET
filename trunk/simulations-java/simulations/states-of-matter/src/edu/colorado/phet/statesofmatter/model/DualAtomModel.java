@@ -258,6 +258,7 @@ public class DualAtomModel {
     		}
             m_ljPotentialCalculator.setSigma( sigma );
             notifyInteractionPotentialChanged();
+            m_movableAtom.setPosition(m_ljPotentialCalculator.calculateMinimumForceDistance(), 0);
             ((ConfigurableStatesOfMatterAtom)m_fixedAtom).setRadius( sigma / 2 );
             notifyFixedAtomDiameterChanged();
             ((ConfigurableStatesOfMatterAtom)m_movableAtom).setRadius( sigma / 2 );
