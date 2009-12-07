@@ -11,18 +11,20 @@
 
 package edu.colorado.phet.quantumwaveinterference.persistence;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.quantumwaveinterference.QWIResources;
-
-import javax.jnlp.*;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Window;
 import java.beans.ExceptionListener;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
 import java.text.MessageFormat;
+
+import javax.jnlp.*;
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 
 /**
  * ConfigManager manages the application's configuration.
@@ -107,7 +109,7 @@ public class PersistenceManager implements IProguardKeepClass {
         if( selectedFile.exists() ) {
             String title = QWIResources.getString( "confirm" );
             String message = QWIResources.getString( "confirm.save" );
-            int reply = JOptionPane.showConfirmDialog( frame, message, title, JOptionPane.YES_NO_OPTION );
+            int reply = PhetOptionPane.showYesNoDialog( frame, message, title );
             if( reply != JOptionPane.YES_OPTION ) {
                 return;
             }
