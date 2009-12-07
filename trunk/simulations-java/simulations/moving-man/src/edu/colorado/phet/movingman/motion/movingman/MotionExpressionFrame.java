@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
 import edu.colorado.phet.movingman.MovingManResources;
@@ -14,7 +15,7 @@ import edu.colorado.phet.movingman.MovingManResources;
  * Created by: Sam
  * Dec 5, 2007 at 8:58:57 PM
  */
-public class MotionExpressionFrame extends JDialog {
+public class MotionExpressionFrame extends PaintImmediateDialog {
     private JTextField expressionTextField;
     private OptionsMenu.MovingManOptions module;
 
