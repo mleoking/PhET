@@ -40,6 +40,14 @@ public class PaintImmediateDialog extends JDialog {
         super( owner, modal );
     }
     
+    public PaintImmediateDialog( Frame owner, String title, boolean modal ) {
+        super( owner, title, modal );
+    }
+    
+    public PaintImmediateDialog( Dialog owner, String title, boolean modal ) {
+        super( owner, title, modal );
+    }
+    
     public void setVisible( boolean b ) {
         final Container contentPane = getContentPane();
         Timer timer = new Timer( 60, new ActionListener() {

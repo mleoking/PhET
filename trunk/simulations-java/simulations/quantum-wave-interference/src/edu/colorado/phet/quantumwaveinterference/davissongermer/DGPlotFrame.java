@@ -1,6 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ import java.text.DecimalFormat;
  * Time: 2:40:30 PM
  */
 
-public class DGPlotFrame extends JDialog {
+public class DGPlotFrame extends PaintImmediateDialog {
     private DGPlotPanel dgPlotPanel;
     private Frame owner;
     private DGModule dgModule;
