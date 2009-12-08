@@ -31,7 +31,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	private static final double DNA_STRAND_WIDTH = MODEL_AREA_WIDTH * 1.3;
 	private static final double DNA_STRAND_HEIGHT = 1.5;  // In nanometers.
 	private static final Dimension2D DNA_STRAND_SIZE = new PDimension(DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
-	private static final Point2D DNA_STRAND_POSITION = new Point2D.Double(0, -20);
+	private static final Point2D DNA_STRAND_POSITION = new Point2D.Double(0, -15);
 	
 	// Constant that defines where the mobile model elements can go.
 	private static final Rectangle2D MOTION_BOUNDS = new Rectangle2D.Double(MODEL_BOUNDS.getMinX(), 
