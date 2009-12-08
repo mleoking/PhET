@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantityControlNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.umd.cs.piccolo.PNode;
@@ -44,7 +44,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
 
     private final BoxNode boxNode;
     private final ArrayList<ArrayList<SubstanceImageNode>> imageNodeLists; // one list of images per reactant
-    private final ArrayList<ReactantQuantityControlNode> quantityControlNodes; // quantity controls for reactants
+    private final ArrayList<QuantityValueNode> quantityValueNodes; // quantity controls for reactants
     private final ImageLayoutStrategy imageLayoutStrategy;
     
     public AbstractBeforeNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames, ImageLayoutStrategy imageLayoutStrategy ) {
@@ -61,7 +61,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         this.imageLayoutStrategy = imageLayoutStrategy;
         
         imageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
-        quantityControlNodes = new ArrayList<ReactantQuantityControlNode>();
+        quantityValueNodes = new ArrayList<QuantityValueNode>();
         
         // box
         boxNode = new BoxNode( BOX_SIZE );
@@ -82,9 +82,10 @@ public abstract class AbstractBeforeNode extends PhetPNode {
             imageNodeLists.add( new ArrayList<SubstanceImageNode>() );
             
             // one quantity control for each reactant
-            ReactantQuantityControlNode controlNode = new ReactantQuantityControlNode( reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
-            addChild( controlNode );
-            quantityControlNodes.add( controlNode );
+            QuantityValueNode quantityNode = new QuantityValueNode( reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
+            quantityNode.setEditable( true );
+            addChild( quantityNode );
+            quantityValueNodes.add( quantityNode );
         }
         
         // layout, origin at upper-left corner of box
@@ -101,19 +102,19 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         x = boxNode.getFullBoundsReference().getMinX() + margin + ( deltaX / 2 );
         y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
         for ( int i = 0; i < reactants.length; i++ ) {
-            quantityControlNodes.get( i ).setOffset( x, y );
+            quantityValueNodes.get( i ).setOffset( x, y );
             x += deltaX;
         }
         
         // reactants bracket, after doing layout of leftover quantity displays
-        double startX = quantityControlNodes.get( 0 ).getFullBoundsReference().getMinX();
-        double endX = quantityControlNodes.get( quantityControlNodes.size() - 1 ).getFullBoundsReference().getMaxX();
+        double startX = quantityValueNodes.get( 0 ).getFullBoundsReference().getMinX();
+        double endX = quantityValueNodes.get( quantityValueNodes.size() - 1 ).getFullBoundsReference().getMaxX();
         double width = endX - startX;
         PNode leftoversLabelNode = new BracketedLabelNode( RPALStrings.LABEL_REACTANTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
         addChild( leftoversLabelNode );
         x = startX;
         y = 0;
-        for ( ReactantQuantityControlNode node : quantityControlNodes ) {
+        for ( QuantityValueNode node : quantityValueNodes ) {
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
         }
         leftoversLabelNode.setOffset( x, y );
@@ -127,7 +128,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
     public void cleanup() {
         reaction.removeChangeListener( reactionChangeListener );
         // controls that are listening to reactants
-        for ( ReactantQuantityControlNode node : quantityControlNodes ) {
+        for ( QuantityValueNode node : quantityValueNodes ) {
             node.cleanup();
         }
         // images that are listening to reactants
@@ -176,7 +177,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
                     SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                     imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                     imageNodes.add( imageNode );
-                    imageLayoutStrategy.addNode( imageNode, previousNode, quantityControlNodes.get( i ) );
+                    imageLayoutStrategy.addNode( imageNode, previousNode, quantityValueNodes.get( i ) );
                     previousNode = imageNode;
                 }
             }
