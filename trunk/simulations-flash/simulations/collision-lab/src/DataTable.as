@@ -20,7 +20,9 @@ package{
 		var rowCanvas_arr:Array;	//array of Sprites, each holds one row of textFields
 		var colWidth:int;			//width of column in pix
 		var rowHeight:int;			//height of row in pix
+		var rowWidth:int;			//width of row in pix, used to set borderwidth
 		var text_arr:Array;			//row of textFields, one for each of 9 columns
+		var toggleButton:Button;	//button to toggle full or partial data display
 		var massSlider_arr:Array;	//array of mass sliders
 		var nbrColumns:int;			//nbr of columns in full data table
 		var tFormat:TextFormat;
@@ -35,7 +37,6 @@ package{
 			this.maxNbrBalls = this.myModel.maxNbrBalls;
 			this.nbrBalls = this.myModel.nbrBalls;
 			this.nbrColumns = 8;
-			//this.nbrColumns2 = 2;
 			this.colWidth = 60;
 			this.rowHeight = 27;
 			this.rowCanvas_arr = new Array(this.maxNbrBalls + 1); //header row + row for each ball
@@ -63,7 +64,7 @@ package{
 			}//for(i)
 			this.manualUpdating = false;
 			this.initialize(); //initialize full data table
-			this.displayPartialDataTable();
+			this.displayPartialDataTable(true);
 			//this.initialize2(); //initialize partial data table
 			
 		}//end of constructor
@@ -74,9 +75,14 @@ package{
 			//var colHeight = 25;
 			this.canvas = new Sprite;
 			this.invisibleBorder = new Sprite();
+			//this.toggleButton = new Button()
 			this.addChild(this.canvas);
 			this.canvas.addChild(this.invisibleBorder);
+			//this.canvas.addChild(this.toggleButton);
 			this.myMainView.addChild(this);
+			//this.setupToggleButton();
+			
+			//this.x = 60;
 			
 			//layout textFields in full data table
 			for(var i:int = 0; i < this.maxNbrBalls + 1; i++){ 
@@ -114,7 +120,8 @@ package{
 					}
 				}//for(j)
 			}//for(i)
-			this.drawBorder(this.nbrBalls, this.nbrColumns*this.colWidth);  //nbr of rows 
+			this.drawBorder(this.nbrBalls);  //nbr of rows 
+			//this.canvas.addChild(this.toggleButton);
 			this.makeHeaderRow();
 			this.setNbrDisplayedRows();
 			this.createTextChangeListeners();
@@ -130,11 +137,11 @@ package{
 			this.text_arr[i][j].backgroundColor = 0xffffff;
 		}
 		
-		private function drawBorder(nbrBalls:int, rowWidth:int):void{
+		private function drawBorder(nbrBalls:int):void{
 			var nbrRows:int = nbrBalls + 1;  //one header row + 1 row per ball
 			var g:Graphics = this.canvas.graphics;
 			//var rowHeight = 30;
-			var rowWidth = this.nbrColumns*this.colWidth;//0.85*this.myMainView.myTableView.width;
+			//var rowWidth = this.rowWidth; //this.nbrColumns*this.colWidth;//0.85*this.myMainView.myTableView.width;
 			var bWidth = 5;   //borderWidth
 			var del = bWidth/2;
 			g.clear();
@@ -180,34 +187,54 @@ package{
 			}//end for i
 		}//end makeHeaderRow
 		
+		
+		public function setupToggleButton():void{
+			this.toggleButton = new Button();
+			//trace(this.toggleButton);
+			
+			this.canvas.addChild(this.toggleButton);
+			this.toggleButton.emphasized = true;
+			this.toggleButton.width = 30;
+			this.toggleButton.label = "MoreOrLess";
+			this.toggleButton.x = -3*this.toggleButton.width;
+			this.toggleButton.buttonMode = true;
+		}
+		
+		
 		public function setupSlider(mSlider:Slider):void{
-			//mSlider.direction = SliderDirection.VERTICAL;
 			mSlider.minimum = 0.1;
 			mSlider.maximum = 3.0;
 			mSlider.snapInterval = 0.1;
 			mSlider.value = 1;
 			mSlider.width = 2*this.colWidth;
 			mSlider.liveDragging = true;
-			//mSlider.y = 0.5*this.borderHeight- mSlider.height;// - mSlider.height/2;
 			mSlider.addEventListener(Event.CHANGE, massSliderListener);
 		}//end setupMassSlider()
 		
-		public function displayPartialDataTable():void{
-			//hide all but 1st two columns
+		public function displayPartialDataTable(tOrF:Boolean):void{
+			if(tOrF){
+				this.rowWidth = 4.5*this.colWidth;
+				this.x = 150;
+			}else{
+				this.rowWidth = this.nbrColumns*this.colWidth;
+				this.x = 60;
+			}
+			this.drawBorder(this.nbrBalls);
+			//hide all but 1st two columns for partial
 			//this.drawBorder(this.nbrBalls, 4.5*this.colWidth)
 			for(var i:int = 0; i < this.maxNbrBalls + 1; i++){
 				if(i > 0){
-					this.massSlider_arr[i - 1].visible = true;
+					this.massSlider_arr[i - 1].visible = tOrF;
 				}
 				for(var j:int = 2; j < this.nbrColumns; j++){
-					this.text_arr[i][j].visible = false;
+					this.text_arr[i][j].visible = !tOrF;
 				}//end for j
 			}//end for i
 		}//end displayPartialDataTable()
 		
 		public function setNbrDisplayedRows():void{
 			this.nbrBalls = this.myModel.nbrBalls;
-			this.drawBorder(this.nbrBalls, this.nbrColumns*this.colWidth);
+			this.drawBorder(this.nbrBalls);
 			for(var i:int = 0; i < this.maxNbrBalls + 1; i++){
 				if(i < this.nbrBalls + 1){
 					this.rowCanvas_arr[i].visible = true;
@@ -245,6 +272,7 @@ package{
 			var mass = Number(evt.target.text);
 			var ballNbr = Number(evt.target.name);  //first ball is ball 1, is Model.ball_arr[0]
 			this.myModel.setMass(ballNbr - 1, mass);
+			this.massSlider_arr[ballNbr - 1].value = mass;
 			this.myMainView.myTableView.ball_arr[ballNbr - 1].drawLayer1();  //redraw ballImage for new diameter
 			this.myMainView.myTableView.ball_arr[ballNbr - 1].drawLayer4();  //redraw ballImage for new diameter
 			this.manualUpdating = false;

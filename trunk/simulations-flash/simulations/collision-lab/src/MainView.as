@@ -33,7 +33,7 @@ package{
 			this.mySoundMaker = new SoundMaker(myModel, this);
 			this.phetLogo = new PhETLogo();
 			this.myModel.updateViews();
-			this.myDataTable.x = 60;
+			//this.myDataTable.x = 60;
 			this.myDataTable.y = this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
 			this.controlPanel.background.width = 170;
 			this.controlPanel.background.height = 350;
