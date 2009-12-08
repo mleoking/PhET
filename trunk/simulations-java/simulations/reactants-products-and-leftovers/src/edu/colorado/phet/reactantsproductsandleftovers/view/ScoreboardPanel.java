@@ -80,9 +80,10 @@ public class ScoreboardPanel extends JPanel {
         layout.addComponent( levelValue, row, column++ );
         layout.addComponent( Box.createHorizontalStrut( 20 ), row, column++ );
         layout.setMinimumWidth( column, timerIcon.getPreferredSize().width );
-        layout.addComponent( timerIcon, row, column++ );
-        layout.setMinimumWidth( column, timerValue.getPreferredSize().width ); // permanent space for timer icon
+        layout.addComponent( timerIcon, row, column );
+        layout.setMinimumWidth( column, timerIcon.getPreferredSize().width ); // permanent space for timer icon
         layout.setMinimumHeight( row, timerIcon.getPreferredSize().height );   // permanent space for timer icon
+        column++;
         layout.addComponent( timerValue, row, column++ );
         layout.addComponent( Box.createHorizontalStrut( 20 ), row, column++ );
         layout.addComponent( newGameButton, row, column++ );
