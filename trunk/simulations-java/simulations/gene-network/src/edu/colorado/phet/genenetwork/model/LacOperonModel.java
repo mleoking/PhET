@@ -108,7 +108,46 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	 * Reset the model, which will remove all model elements.
 	 */
 	public void reset(){
-		System.out.println("Reset called, stubbed.");
+	    removeElementsFromModel(lacIList);
+	    removeElementsFromModel(lacZList);
+	    removeElementsFromModel(glucoseList);
+	    removeElementsFromModel(galactoseList);
+	    removeElementsFromModel(rnaPolymeraseList);
+	    removeElementsFromModel(messengerRnaList);
+	    removeElementsFromModel(transformationArrowList);
+
+	    if (cap != null){
+	    	cap.removeFromModel();
+	    	cap = null;
+	    }
+	    if (capBindingRegion != null){
+	    	capBindingRegion.removeFromModel();
+	    	capBindingRegion = null;
+	    }
+	    if (lacOperator != null){
+	    	lacOperator.removeFromModel();
+	    	lacOperator = null;
+	    }
+	    if (lacIGene != null){
+	    	lacIGene.removeFromModel();
+	    	lacIGene = null;
+	    }
+	    if (lacZGene != null){
+	    	lacZGene.removeFromModel();
+	    	lacZGene = null;
+	    }
+	    if (lacYGene != null){
+	    	lacYGene.removeFromModel();
+	    	lacYGene = null;
+	    }
+	    if (lacIPromoter != null){
+	    	lacIPromoter.removeFromModel();
+	    	lacIPromoter = null;
+	    }
+	    if (lacPromoter != null){
+	    	lacPromoter.removeFromModel();
+	    	lacPromoter = null;
+	    }
 	}
 	
 	/* (non-Javadoc)
@@ -462,6 +501,13 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     		}
     	}
     	elements.removeAll(toBeRemoved);
+    }
+    
+    private void removeElementsFromModel(ArrayList<? extends IModelElement>elements){
+    	for (IModelElement element : elements){
+   			element.removeFromModel();
+    	}
+    	elements.clear();
     }
     
     //------------------------------------------------------------------------
