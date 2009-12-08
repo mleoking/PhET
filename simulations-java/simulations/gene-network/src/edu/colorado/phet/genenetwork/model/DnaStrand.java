@@ -167,6 +167,33 @@ public class DnaStrand {
 				};
 			});
 		}
+		else if (modelElement instanceof LacZGene){
+			lacZGeneSpace.setEyeCatching(true);
+			modelElement.addListener(new ModelElementListenerAdapter(){
+				public void removedFromModel() {
+					// Become non-eyecatching when element is removed.
+					lacZGeneSpace.setEyeCatching(false);
+				};
+			});
+		}
+		else if (modelElement instanceof LacPromoter){
+			lacPromoterSpace.setEyeCatching(true);
+			modelElement.addListener(new ModelElementListenerAdapter(){
+				public void removedFromModel() {
+					// Become non-eyecatching when element is removed.
+					lacPromoterSpace.setEyeCatching(false);
+				};
+			});
+		}
+		else if (modelElement instanceof LacOperator){
+			lacOperatorSpace.setEyeCatching(true);
+			modelElement.addListener(new ModelElementListenerAdapter(){
+				public void removedFromModel() {
+					// Become non-eyecatching when element is removed.
+					lacOperatorSpace.setEyeCatching(false);
+				};
+			});
+		}
 	}
 	
 	private void updateStrandShapes(){
