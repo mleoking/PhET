@@ -24,4 +24,7 @@ public class GeneNetworkStrings {
     public static final String POLYMERASE_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.Polymerase" );
     public static final String POLYMERASE_BINDING_REGION_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.PolymeraseBindingRegion" );
     public static final String LACI_BINDING_REGION_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.LacIBindingRegion" );
+    
+    public static final String CLOCK_SPEED_CONTROL_CAPTION = GeneNetworkResources.getString("ClockSpeedControlCaption");
+
 }
