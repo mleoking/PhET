@@ -3,6 +3,13 @@
 package edu.colorado.phet.genenetwork.module;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
@@ -41,8 +48,36 @@ public class LacOperonModule extends PiccoloModule {
         setSimulationPanel( canvas );
 
         // Clock controls
+        /*
+         * TODO: This was how it was done without the reset button.  Reinstate
+         * if the reset button is done some other way.
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
         setClockControlPanel( clockControlPanel );
+         */
+        clockControlPanel = new PiccoloClockControlPanel( getClock() );
+        JPanel clockPanelWithResetButton = new JPanel();
+        clockPanelWithResetButton.add(clockControlPanel);
+        JPanel spacePanel = new JPanel();
+        spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.X_AXIS ) );
+        spacePanel.add( Box.createHorizontalStrut( 30 ) );
+        clockPanelWithResetButton.add(spacePanel);
+        JButton resetButton = new JButton("Reset All");
+        resetButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.reset();
+			}
+		});
+        clockPanelWithResetButton.add(resetButton);
+        setClockControlPanel( clockPanelWithResetButton );
+        
+        // Add the Reset All button.  This is a little bit of a departure from
+        // most PhET sims in that it is on the bottom panel rather than on the
+        // control panel.
+        /*
+        JPanel panel = new JPanel();
+        panel.add(new JButton("Reset All"));
+        setHelpPanel(panel);
+        */
 
         // Help
         if ( hasHelp() ) {
