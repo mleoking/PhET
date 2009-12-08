@@ -1,5 +1,8 @@
 package edu.colorado.phet.reactantsproductsandleftovers.controls;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
@@ -10,16 +13,17 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantCh
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LeftoversDisplayNode extends SubstanceValueDisplayNode {
+public class LeftoversValueNode extends SubstanceValueNode {
     
     private final Reactant reactant;
     private final ReactantChangeListener reactantChangeListener;
     
-    public LeftoversDisplayNode( final Reactant reactant, IntegerRange range, double imageScale, boolean showName ) {
-        super( reactant, range, imageScale, showName );
+    public LeftoversValueNode( final Reactant reactant, IntegerRange range, double imageScale, boolean showName ) {
+        super( reactant, range, reactant.getLeftovers(), imageScale, showName, false /* editable */ );
         
         this.reactant = reactant;
         
+        // update this control when the model changes
         reactantChangeListener = new ReactantChangeAdapter() {
             @Override
             public void leftoversChanged() {
@@ -28,7 +32,12 @@ public class LeftoversDisplayNode extends SubstanceValueDisplayNode {
         };
         reactant.addReactantChangeListener( reactantChangeListener );
         
-        setValue( reactant.getLeftovers() );
+        // update the model when this control changes
+        setSpinnerChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                reactant.setLeftovers( getValue() );
+            }
+        });
     }
     
     public void cleanup() {

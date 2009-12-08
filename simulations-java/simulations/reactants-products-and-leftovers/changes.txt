@@ -1,3 +1,5 @@
+12/8/09 refactor value controls and displays to be reusable in Game
+12/8/09 use null names for bread/meat/cheese/sandwich, since they are never displayed
 12/1/09 add equation to Game canvas, flesh out parts of Game canvas
 12/1/09 fix some doc and typos in Real Reaction canvas and model
 12/1/09 smiley and frowny faces for Game

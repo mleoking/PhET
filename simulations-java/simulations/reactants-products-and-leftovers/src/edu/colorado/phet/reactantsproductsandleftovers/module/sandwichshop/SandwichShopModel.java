@@ -20,19 +20,19 @@ public class SandwichShopModel extends RPALModel {
     
     public static class Bread extends Reactant {
         public Bread( int coefficient, int quantity ) {
-            super( RPALStrings.BREAD, RPALImages.BREAD, coefficient, quantity );
+            super( null /* name */, RPALImages.BREAD, coefficient, quantity );
         }
     }
     
     public static class Meat extends Reactant {
         public Meat( int coefficient, int quantity ) {
-            super( RPALStrings.MEAT, RPALImages.MEAT, coefficient, quantity );
+            super( null /* name */, RPALImages.MEAT, coefficient, quantity );
         }
     }
     
     public static class Cheese extends Reactant {
         public Cheese( int coefficient, int quantity ) {
-            super( RPALStrings.CHEESE, RPALImages.CHEESE, coefficient, quantity );
+            super( null /* name */, RPALImages.CHEESE, coefficient, quantity );
         }
     }
     
