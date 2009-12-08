@@ -104,6 +104,13 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     // Methods
     //----------------------------------------------------------------------------
 
+	/**
+	 * Reset the model, which will remove all model elements.
+	 */
+	public void reset(){
+		System.out.println("Reset called, stubbed.");
+	}
+	
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getLacIList()
 	 */
