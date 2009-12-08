@@ -52,8 +52,8 @@ public class DnaStrandNode extends PNode {
 		}
 		
 		// Add the gene segment shapes.
-		for (DnaStrand.DnaSegmentSpace geneSegmentShape : dnaStrand.getDnaSegmentSpaces()){
-			addChild(new GeneSegmentNode(geneSegmentShape, mvt, emptyGeneSegmentColor));
+		for (DnaStrand.DnaSegmentSpace dnaSegmentSpace : dnaStrand.getDnaSegmentSpaces()){
+			addChild(new DnaSegementSpaceNode(dnaSegmentSpace, mvt, emptyGeneSegmentColor));
 		}
 		
 		// Set our initial position.
@@ -87,16 +87,26 @@ public class DnaStrandNode extends PNode {
         setOffset( mvt.modelToView( dnaStrand.getPositionRef() ));
     }
     
-    private static class GeneSegmentNode extends PPath {
+    //------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+
+    private static class DnaSegementSpaceNode extends PPath {
 
     	private static final Stroke OUTLINE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_BUTT,
     			BasicStroke.JOIN_BEVEL, 0, new float[] {8, 5}, 0);
+    	private static final Color EYE_CATCHING_COLOR = Color.YELLOW;
     	
-		public GeneSegmentNode(DnaStrand.DnaSegmentSpace geneSegmentShape, ModelViewTransform2D mvt, Color color) {
+    	private DnaStrand.DnaSegmentSpace dnaSegmentSpace;
+    	private Color nonEyeCatchingColor;
+    	
+		public DnaSegementSpaceNode(final DnaStrand.DnaSegmentSpace dnaSegmentSpace, ModelViewTransform2D mvt, Color colorWhenEmpty) {
+			
 			super();
+			this.nonEyeCatchingColor = colorWhenEmpty;
+			this.dnaSegmentSpace = dnaSegmentSpace;
 			setStroke(OUTLINE_STROKE);
 			setStrokePaint(Color.BLACK);
-			setPaint(color);
 			
 	    	// We only want the shape, and not any translation associated with the
 	    	// shape, so we create our own transform that only does the scaling
@@ -107,14 +117,34 @@ public class DnaStrandNode extends PNode {
 	    			mvt.getAffineTransform().getScaleY());
 	    	
 	    	// Create the transformed shape.
-			Shape transformedShape = scalingOnlyTransform.createTransformedShape(geneSegmentShape);
+			Shape transformedShape = scalingOnlyTransform.createTransformedShape(dnaSegmentSpace);
 			
 			// Set the shape.
 			setPathTo(transformedShape);
 			
 			// Set our offset, which is generally expected to be relative to
 			// the DNA strand node of which this is a part.
-			setOffset(scalingOnlyTransform.transform(geneSegmentShape.getOffsetFromDnaStrandPosRef(), null));
+			setOffset(scalingOnlyTransform.transform(dnaSegmentSpace.getOffsetFromDnaStrandPosRef(), null));
+			
+			// Register for changes that might concern us.
+			dnaSegmentSpace.addListener(new DnaStrand.DnaSegmentSpace.Listener() {
+				
+				public void eyeCatchingStateChange() {
+					updateEyeCatching();
+				}
+			});
+			
+			// Set initial fill.
+			updateEyeCatching();
+		}
+		
+		private void updateEyeCatching(){
+			if (dnaSegmentSpace.isEyeCatching()){
+				setPaint(EYE_CATCHING_COLOR);
+			}
+			else{
+				setPaint(nonEyeCatchingColor);
+			}
 		}
     }
 }

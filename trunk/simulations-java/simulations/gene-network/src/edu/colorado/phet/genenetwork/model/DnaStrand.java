@@ -44,16 +44,16 @@ public class DnaStrand {
 	
 	// The "spaces" or shapes where specific pieces of the strand, such as a
 	// gene, can reside.
-	private LacIGene lacIGeneSpace = new LacIGene(null);
-	private LacPromoter lacPromoterSpace = new LacPromoter(null);
-	private LacOperator lacOperatorSpace = new LacOperator(null);
-	private LacZGene lacZGeneSpace = new LacZGene(null);
+	private DnaSegmentSpace lacIGeneSpace;
+	private DnaSegmentSpace lacPromoterSpace;
+	private DnaSegmentSpace lacOperatorSpace;
+	private DnaSegmentSpace lacZGeneSpace;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
 
-	public DnaStrand(Dimension2D size, Point2D initialPosition){
+	public DnaStrand(IGeneNetworkModelControl model, Dimension2D size, Point2D initialPosition){
 		
 		this.size = new PDimension(size);
 		setPosition(initialPosition);
@@ -61,10 +61,17 @@ public class DnaStrand {
 		updateStrandShapes();
 		
 		// Set the offsets for the various DNA segments.
-		lacIGeneSpace.setPosition(-40, 0);
-		lacPromoterSpace.setPosition(5, 0);
-		lacOperatorSpace.setPosition(15, 0);
-		lacZGeneSpace.setPosition(30, 0);
+		lacIGeneSpace = new DnaSegmentSpace(new LacIGene(null).getShape(), new Point2D.Double(-40, 0));
+		lacPromoterSpace = new DnaSegmentSpace(new LacPromoter(null).getShape(), new Point2D.Double(5, 0));
+		lacOperatorSpace = new DnaSegmentSpace(new LacOperator(null).getShape(), new Point2D.Double(15, 0));
+		lacZGeneSpace = new DnaSegmentSpace(new LacZGene(null).getShape(), new Point2D.Double(30, 0));
+		
+		// Register for model events that concern us.
+		model.addListener(new GeneNetworkModelAdapter(){
+			public void modelElementAdded(SimpleModelElement modelElement) {
+				handleModelElementAdded(modelElement);
+			}
+		});
 	}
 	
 	public Point2D getPositionRef() {
@@ -98,8 +105,8 @@ public class DnaStrand {
 	 * @return
 	 */
 	public Point2D getLacZGeneLocation(){
-		return new Point2D.Double(getPositionRef().getX() + lacZGeneSpace.getPositionRef().getX(),
-				getPositionRef().getY() + lacZGeneSpace.getPositionRef().getY());
+		return new Point2D.Double(getPositionRef().getX() + lacZGeneSpace.getOffsetFromDnaStrandPosRef().getX(),
+				getPositionRef().getY() + lacZGeneSpace.getOffsetFromDnaStrandPosRef().getY());
 	}
 	
 	/**
@@ -109,8 +116,8 @@ public class DnaStrand {
 	 * @return
 	 */
 	public Point2D getLacIGeneLocation(){
-		return new Point2D.Double(getPositionRef().getX() + lacIGeneSpace.getPositionRef().getX(),
-				getPositionRef().getY() + lacIGeneSpace.getPositionRef().getY());
+		return new Point2D.Double(getPositionRef().getX() + lacIGeneSpace.getOffsetFromDnaStrandPosRef().getX(),
+				getPositionRef().getY() + lacIGeneSpace.getOffsetFromDnaStrandPosRef().getY());
 	}
 	
 	/**
@@ -120,8 +127,8 @@ public class DnaStrand {
 	 * @return
 	 */
 	public Point2D getLacPromoterLocation(){
-		return new Point2D.Double(getPositionRef().getX() + lacPromoterSpace.getPositionRef().getX(),
-				getPositionRef().getY() + lacPromoterSpace.getPositionRef().getY());
+		return new Point2D.Double(getPositionRef().getX() + lacPromoterSpace.getOffsetFromDnaStrandPosRef().getX(),
+				getPositionRef().getY() + lacPromoterSpace.getOffsetFromDnaStrandPosRef().getY());
 	}
 	
 	/**
@@ -131,8 +138,8 @@ public class DnaStrand {
 	 * @return
 	 */
 	public Point2D getLacOperatorLocation(){
-		return new Point2D.Double(getPositionRef().getX() + lacOperatorSpace.getPositionRef().getX(),
-				getPositionRef().getY() + lacOperatorSpace.getPositionRef().getY());
+		return new Point2D.Double(getPositionRef().getX() + lacOperatorSpace.getOffsetFromDnaStrandPosRef().getX(),
+				getPositionRef().getY() + lacOperatorSpace.getOffsetFromDnaStrandPosRef().getY());
 	}
 	
 	/**
@@ -141,11 +148,25 @@ public class DnaStrand {
 	 */
 	public ArrayList<DnaSegmentSpace> getDnaSegmentSpaces(){
 		ArrayList<DnaSegmentSpace> shapeList = new ArrayList<DnaSegmentSpace>();
-		shapeList.add(new DnaSegmentSpace(lacIGeneSpace.getShape(), lacIGeneSpace.getPositionRef()));
-		shapeList.add(new DnaSegmentSpace(lacPromoterSpace.getShape(), lacPromoterSpace.getPositionRef()));
-		shapeList.add(new DnaSegmentSpace(lacOperatorSpace.getShape(), lacOperatorSpace.getPositionRef()));
-		shapeList.add(new DnaSegmentSpace(lacZGeneSpace.getShape(), lacZGeneSpace.getPositionRef()));
+		shapeList.add(lacIGeneSpace);
+		shapeList.add(lacPromoterSpace);
+		shapeList.add(lacOperatorSpace);
+		shapeList.add(lacZGeneSpace);
 		return shapeList;
+	}
+	
+	private void handleModelElementAdded(SimpleModelElement modelElement){
+		// Set the "eye catching" mode for any model elements that are added,
+		// and register to clear it if the element is removed.
+		if (modelElement instanceof LacIGene){
+			lacIGeneSpace.setEyeCatching(true);
+			modelElement.addListener(new ModelElementListenerAdapter(){
+				public void removedFromModel() {
+					// Become non-eyecatching when element is removed.
+					lacIGeneSpace.setEyeCatching(false);
+				};
+			});
+		}
 	}
 	
 	private void updateStrandShapes(){
@@ -226,7 +247,7 @@ public class DnaStrand {
 			}
 		}
 		
-		interface Listener {
+		public interface Listener {
 			void eyeCatchingStateChange();
 		}
 	}
