@@ -52,7 +52,6 @@ public class DnaSegmentToolBoxNode extends PNode {
 	private LacIGeneToolBoxNode lacIGene;
 	private LacOperatorToolBoxNode lacIBindingRegion;
 	private LacPromoterToolBoxNode lacPromoter;
-	private RnaPolymeraseToolBoxNode polymerase;
 	
 	// Reference to the model.
 	private IGeneNetworkModelControl model;
@@ -93,8 +92,6 @@ public class DnaSegmentToolBoxNode extends PNode {
 		addChild(lacIBindingRegion);
 		lacPromoter = new LacPromoterToolBoxNode(model, mvt, canvas);
 		addChild(lacPromoter);
-		polymerase = new RnaPolymeraseToolBoxNode(model, mvt, canvas);
-		addChild(polymerase);
 		
 		// Do the initial layout.
 		updateLayout(canvas);
@@ -116,11 +113,10 @@ public class DnaSegmentToolBoxNode extends PNode {
     	// a lot, making them line up well requires tweaking the multipliers
     	// below on an individual basis.
     	PBounds boxBounds = boxNode.getFullBounds();
-    	polymerase.setOffset(boxBounds.width * 0.1, boxBounds.height * 0.25);
-    	lacPromoter.setOffset(boxBounds.width * 0.3, boxBounds.height / 4);
-    	lacIBindingRegion.setOffset(boxBounds.width * 0.5, boxBounds.height * 0.25);
-    	lacZGene.setOffset(boxBounds.width * 0.7, boxBounds.height * 0.25);
-    	lacIGene.setOffset(boxBounds.width * 0.88, boxBounds.height * 0.25);
+    	lacIGene.setOffset(boxBounds.width * 0.12, boxBounds.height * 0.25);
+    	lacZGene.setOffset(boxBounds.width * 0.4, boxBounds.height * 0.25);
+    	lacPromoter.setOffset(boxBounds.width * 0.63, boxBounds.height / 4);
+    	lacIBindingRegion.setOffset(boxBounds.width * 0.87, boxBounds.height * 0.25);
     	
     	// Let the model know our size, so that the model elements can figure
     	// out when they are being put back in the box.  Note that some of the
