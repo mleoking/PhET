@@ -3,10 +3,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
-import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
-import edu.colorado.phet.reactantsproductsandleftovers.model.WaterReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.*;
 
 /**
  * Model for the "Game" module.
@@ -59,7 +56,17 @@ public class GameModel extends RPALModel {
     
     private void newReaction() {
         
-        reaction = new WaterReaction(); //XXX choose based on level and challengeNumber
+        //XXX this needs to be chosen based on level and challengeNumber
+        if ( level == 1 ) {
+            reaction = new WaterReaction();
+        }
+        else if ( level == 2 ) {
+            reaction = new AmmoniaReaction();
+        }
+        else {
+            reaction = new MethaneReaction();
+        }
+        
         for ( Reactant reactant : reaction.getReactants() ) {
             reactant.setQuantity( getRandomQuantity() );
         }
