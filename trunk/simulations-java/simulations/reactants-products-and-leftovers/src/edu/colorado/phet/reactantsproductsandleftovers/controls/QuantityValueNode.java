@@ -10,6 +10,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.Substance
 
 /**
  * Displays the quantity value for a Substance.
+ * By default, the value is not editable.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

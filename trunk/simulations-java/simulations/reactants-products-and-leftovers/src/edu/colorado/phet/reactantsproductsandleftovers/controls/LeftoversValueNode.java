@@ -10,6 +10,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantCh
 
 /**
  * Displays the leftovers value for a Reactant.
+ * By default, the value is not editable.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
