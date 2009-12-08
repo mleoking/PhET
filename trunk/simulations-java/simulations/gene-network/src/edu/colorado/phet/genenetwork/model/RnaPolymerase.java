@@ -33,7 +33,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			new Color(17, 149, 210), new Point2D.Double(WIDTH * 5, 0), Color.WHITE);
 	private static Dimension2D LAC_PROMOTER_ATTACHMENT_POINT_OFFSET = new PDimension(WIDTH * 0.15, -HEIGHT * 0.3);
 	private static Dimension2D MESSENGER_RNA_OUTPUT_OFFSET = new PDimension(-WIDTH * 0.2, -HEIGHT * 0.05);
-	private static double MIN_ATTACH_BEFORE_TRAVERSING_TIME = 3;  // Seconds.
+	private static double MIN_ATTACH_BEFORE_TRAVERSING_TIME = 0.5;  // Seconds.
 	private static double RECOVERY_TIME = 7;                  // Seconds.
 	private static double TIME_TO_START_PRODUCING_MRNA = 2; // Seconds.
 	
