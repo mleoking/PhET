@@ -59,10 +59,6 @@ public class LacOperonApplication extends PiccoloPhetApplication {
 
         Module firstModule = new LacOperonModule( parentFrame );
         addModule( firstModule );
-
-        Module secondModule = new LacOperonModule( parentFrame );
-        secondModule.setName( "Another Example" );
-        addModule( secondModule );
     }
 
     /*
