@@ -46,7 +46,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     protected ArrayList<GeneNetworkModelListener> listeners = new ArrayList<GeneNetworkModelListener>();
     
     // The DNA strand.
-    private final DnaStrand dnaStrand = new DnaStrand( DNA_STRAND_SIZE, DNA_STRAND_POSITION );
+    private final DnaStrand dnaStrand = new DnaStrand( this, DNA_STRAND_SIZE, DNA_STRAND_POSITION );
     
     // Lists of simple model elements for which multiple instances can exist.
     private final ArrayList<LacI> lacIList = new ArrayList<LacI>();
