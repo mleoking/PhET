@@ -1,3 +1,5 @@
+# 3.20.00 (37230) Dec 8, 2009
+12/8/09 >Radioactive Dating Game: Fixed an issue where the graph on the 2nd tab would run with no nuclei added.
 # 3.19.00 (37144) Dec 7, 2009
 12/7/09 >Radioactive Dating Game: Improved probe appearance and some graph labels based on user feedback.
 # 3.18.04 (37116) Dec 4, 2009
