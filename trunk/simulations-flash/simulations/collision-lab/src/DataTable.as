@@ -1,8 +1,13 @@
 ﻿//view of table of numbers for displaying and setting initial conditions
+//one of two data tables is displayed: full data table or partial data table
+//each has header row + row for each ball
+//partial data table has column for ball number, col for mass, and col for mass slider
+
 package{
 	import flash.display.*;
 	import flash.events.*;
-	//import fl.events.*;
+	import fl.events.*;
+	import fl.controls.*;
 	import flash.text.*;
 	
 	public class DataTable extends Sprite{
@@ -10,17 +15,17 @@ package{
 		var myMainView:MainView;
 		var nbrBalls:int;
 		var maxNbrBalls:int;
-		var canvas:Sprite;			//canvas holds several rowCanvases
+		var canvas:Sprite;			//canvas holds several rowCanvases, full data table
 		var invisibleBorder:Sprite;	//draggable border
 		var rowCanvas_arr:Array;	//array of Sprites, each holds one row of textFields
 		var colWidth:int;			//width of column in pix
 		var rowHeight:int;			//height of row in pix
-		var text_arr:Array;			//2D array of textFields
-		var nbrColumns:int;			//nbr of columns in data table
+		var text_arr:Array;			//row of textFields, one for each of 9 columns
+		var massSlider_arr:Array;	//array of mass sliders
+		var nbrColumns:int;			//nbr of columns in full data table
 		var tFormat:TextFormat;
 		var manualUpdating:Boolean;	//true if user is typing into textField, needed to prevent input-model-output loop
-		//var currentBody:int;		//number of body associated with currently-selected textField
-		//var currentProperty:int;	//property number of currently-selected textField, 1 = mass, 2 = x, etc
+		var sliderUpdating:Boolean; //true if use is using mass slider
 		//var testField:TextField;		//for testing purposing
 		
 		public function DataTable(myModel:Model, myMainView:MainView){
@@ -30,17 +35,26 @@ package{
 			this.maxNbrBalls = this.myModel.maxNbrBalls;
 			this.nbrBalls = this.myModel.nbrBalls;
 			this.nbrColumns = 8;
+			//this.nbrColumns2 = 2;
 			this.colWidth = 60;
 			this.rowHeight = 27;
 			this.rowCanvas_arr = new Array(this.maxNbrBalls + 1); //header row + row for each ball
-			this.text_arr = new Array(this.maxNbrBalls);	//9 columns
+			this.text_arr = new Array(this.maxNbrBalls + 1);	//rows
+			this.massSlider_arr = new Array(this.maxNbrBalls + 1); 
 			this.tFormat = new TextFormat();
 			this.tFormat.font = "Arial";
 			this.tFormat.size = 14;
 			this.tFormat.align = TextFormatAlign.CENTER;
+			//create textfields for full data table and mass sliders for partial data table
 			for(var i:int = 0; i < this.maxNbrBalls + 1; i++){  //header row + row for each ball
-				this.text_arr[i] = new Array(this.nbrColumns);
 				this.rowCanvas_arr[i] = new Sprite();
+				this.text_arr[i] = new Array(this.nbrColumns);
+				if(i > 0){
+					var k:int = i - 1;
+					this.massSlider_arr[k] = new Slider();
+					this.massSlider_arr[k].name = k; //label slider with ball number: 0, 1, ..
+					this.setupSlider(this.massSlider_arr[k]);
+				}
 				for(var j:int = 0; j < this.nbrColumns; j++){
 					this.text_arr[i][j] = new TextField();
 					this.text_arr[i][j].defaultTextFormat = tFormat;
@@ -48,10 +62,13 @@ package{
 				}//for(j)
 			}//for(i)
 			this.manualUpdating = false;
-			this.initialize();
+			this.initialize(); //initialize full data table
+			this.displayPartialDataTable();
+			//this.initialize2(); //initialize partial data table
 			
 		}//end of constructor
 		
+		//create full data table
 		private function initialize():void{
 			//var colWidth = 60;
 			//var colHeight = 25;
@@ -61,9 +78,17 @@ package{
 			this.canvas.addChild(this.invisibleBorder);
 			this.myMainView.addChild(this);
 			
-			//layout textFields
+			//layout textFields in full data table
 			for(var i:int = 0; i < this.maxNbrBalls + 1; i++){ 
 				this.canvas.addChild(this.rowCanvas_arr[i]);
+				
+				if(i > 0){
+					var k:int = i - 1;
+					this.rowCanvas_arr[i].addChild(this.massSlider_arr[k]);
+					this.massSlider_arr[k].x = 2.2*this.colWidth;
+					this.massSlider_arr[k].y = 0.2*this.rowHeight;
+					this.massSlider_arr[k].visible = false;
+				}
 				for(var j:int = 0; j < this.nbrColumns; j++){
 					this.rowCanvas_arr[i].addChild(this.text_arr[i][j]);
 					this.rowCanvas_arr[i].y = i*this.rowHeight;
@@ -89,13 +114,14 @@ package{
 					}
 				}//for(j)
 			}//for(i)
-			this.drawBorder(this.nbrBalls);  //nbr of rows 
+			this.drawBorder(this.nbrBalls, this.nbrColumns*this.colWidth);  //nbr of rows 
 			this.makeHeaderRow();
 			this.setNbrDisplayedRows();
 			this.createTextChangeListeners();
 			Util.makePanelDraggableWithBorder(this, this.invisibleBorder);
 			this.update();
-		}//end of initialize()
+		}//end of initialize1()
+		
 		
 		public function dressInputTextField(i:int, j:int):void{
 			this.text_arr[i][j].type = TextFieldType.INPUT;
@@ -104,7 +130,7 @@ package{
 			this.text_arr[i][j].backgroundColor = 0xffffff;
 		}
 		
-		private function drawBorder(nbrBalls:int):void{
+		private function drawBorder(nbrBalls:int, rowWidth:int):void{
 			var nbrRows:int = nbrBalls + 1;  //one header row + 1 row per ball
 			var g:Graphics = this.canvas.graphics;
 			//var rowHeight = 30;
@@ -129,7 +155,6 @@ package{
 			gI.lineTo(rowWidth + del, nbrRows*this.rowHeight +del);
 			gI.lineTo(0 - del, nbrRows*this.rowHeight + del);
 			gI.lineTo(0 - del,0 - del);
-			
 		}//end drawBorder()
 		
 		//header row is 
@@ -140,10 +165,10 @@ package{
 			//this.text_arr[0][2].text = "radius";
 			this.text_arr[0][2].text = "x";
 			this.text_arr[0][3].text = "y";
-			this.text_arr[0][4].text = "vx";
-			this.text_arr[0][5].text = "vy";
-			this.text_arr[0][6].text = "px";
-			this.text_arr[0][7].text = "py";
+			this.text_arr[0][4].text = "Vx";
+			this.text_arr[0][5].text = "Vy";
+			this.text_arr[0][6].text = "Px";
+			this.text_arr[0][7].text = "Py";
 			this.tFormat.bold = true;
 			for(var i:int = 0; i < this.maxNbrBalls + 1; i++){
 				if(i != 0){this.text_arr[i][0].text = i;}
@@ -155,9 +180,34 @@ package{
 			}//end for i
 		}//end makeHeaderRow
 		
+		public function setupSlider(mSlider:Slider):void{
+			//mSlider.direction = SliderDirection.VERTICAL;
+			mSlider.minimum = 0.1;
+			mSlider.maximum = 3.0;
+			mSlider.snapInterval = 0.1;
+			mSlider.value = 1;
+			mSlider.width = 2*this.colWidth;
+			mSlider.liveDragging = true;
+			//mSlider.y = 0.5*this.borderHeight- mSlider.height;// - mSlider.height/2;
+			mSlider.addEventListener(Event.CHANGE, massSliderListener);
+		}//end setupMassSlider()
+		
+		public function displayPartialDataTable():void{
+			//hide all but 1st two columns
+			//this.drawBorder(this.nbrBalls, 4.5*this.colWidth)
+			for(var i:int = 0; i < this.maxNbrBalls + 1; i++){
+				if(i > 0){
+					this.massSlider_arr[i - 1].visible = true;
+				}
+				for(var j:int = 2; j < this.nbrColumns; j++){
+					this.text_arr[i][j].visible = false;
+				}//end for j
+			}//end for i
+		}//end displayPartialDataTable()
+		
 		public function setNbrDisplayedRows():void{
 			this.nbrBalls = this.myModel.nbrBalls;
-			this.drawBorder(this.nbrBalls);
+			this.drawBorder(this.nbrBalls, this.nbrColumns*this.colWidth);
 			for(var i:int = 0; i < this.maxNbrBalls + 1; i++){
 				if(i < this.nbrBalls + 1){
 					this.rowCanvas_arr[i].visible = true;
@@ -228,9 +278,20 @@ package{
 		private function changeVYListener(evt:Event):void{
 			this.manualUpdating = true;
 			var yVel = Number(evt.target.text);
-			var ballNbr = Number(evt.target.name);  //first ball is ball 1, is Model.ball_arr[0]
+			var ballNbr:int = Number(evt.target.name);  //first ball is ball 1, is Model.ball_arr[0]
 			this.myModel.setVY(ballNbr - 1, yVel);
 			this.manualUpdating = false;
+		}
+		
+		private function massSliderListener(evt:SliderEvent):void{
+			this.sliderUpdating = true;
+			var ballNbr:int = Number(evt.target.name); 
+			var mass = Number(evt.target.value);
+			this.myModel.setMass(ballNbr, mass);
+			this.myMainView.myTableView.ball_arr[ballNbr].drawLayer1();  //redraw ballImage for new diameter
+			this.myMainView.myTableView.ball_arr[ballNbr].drawLayer4();  //redraw ballImage for new diameter
+			this.sliderUpdating = false;
+			trace("ball "+ballNbr + "   value: "+evt.target.value);
 		}
 		
 		public function update():void{
@@ -273,6 +334,13 @@ package{
 				}//end for j
 			}//end for i
 			}//end if(!manualUpdating)
+			
+			if(sliderUpdating){
+				for(i = 0; i < this.maxNbrBalls; i++){
+					mass = this.myModel.ball_arr[i].getMass();
+					this.text_arr[i+1][1].text = this.round(mass, 1);
+				}
+			}
 			
 			//update Momenta fields regardless of whether user is manually updating other fields
 			for(i = 1; i < this.maxNbrBalls + 1; i++){  //skip header row
