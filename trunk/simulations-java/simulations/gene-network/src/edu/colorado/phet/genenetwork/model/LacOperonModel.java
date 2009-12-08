@@ -90,14 +90,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 			}
         });
         
-        // TODO: As of Nov 23, 2009, it was decided that the sim should start
-        // out with just the DNA showing, and the users should build up the
-        // gene network.  However, it is probably worthwhile to keep the code
-        // that adds the initial model elements around for a while for testing
-        // purposes.  So it is commented out for now - please delete it
-        // permanently when appropriate.
-        
-//        addInitialModelElements();
+        addInitialModelElements();
     }
 
     //----------------------------------------------------------------------------
@@ -148,6 +141,8 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	    	lacPromoter.removeFromModel();
 	    	lacPromoter = null;
 	    }
+	    
+	    addInitialModelElements();
 	}
 	
 	/* (non-Javadoc)
@@ -255,20 +250,10 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	private void addInitialModelElements() {
 		
         // Initialize the elements that are floating around the cell.
-		
-        randomlyInitModelElement(cap);
-
         for (int i = 0; i < 2; i++){
         	RnaPolymerase rnaPolymerase = new RnaPolymerase(this);
         	randomlyInitModelElement(rnaPolymerase);
         	rnaPolymeraseList.add(rnaPolymerase);
-        }
-        
-        if (cap.considerProposalFrom(capBindingRegion) == true){
-        	cap.attach(capBindingRegion);
-        }
-        else{
-        	System.err.println(getClass().getName() + " - Error: Unable to attach CAP to CAP binding region.");
         }
 	}
 
@@ -322,7 +307,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     
     private void randomlyInitModelElement(SimpleModelElement modelElement){
     	modelElement.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
-    			(RAND.nextDouble() - 0.5) * (MODEL_AREA_HEIGHT / 2));
+    			(RAND.nextDouble() / 2) * (MODEL_AREA_HEIGHT / 2));
     	double maxVel = 2;
     	modelElement.setVelocity((RAND.nextDouble() - 0.5) * maxVel, (RAND.nextDouble() - 0.5) * maxVel);
     }
