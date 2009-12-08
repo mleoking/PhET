@@ -14,13 +14,13 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.Substance
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class QuantityValueNode extends SubstanceValueNode {
+public class QuantityValueNode extends ValueNode {
     
     private final Substance substance;
     private final SubstanceChangeListener substanceChangeListener;
     
     public QuantityValueNode( final Substance substance, IntegerRange range, double imageScale, boolean showName ) {
-        super( substance, range, substance.getQuantity(), imageScale, showName, false /* editable */ );
+        super( range, substance.getQuantity(), substance.getImage(), imageScale, substance.getName(), false /* editable */ );
         
         this.substance = substance;
 
@@ -30,11 +30,16 @@ public class QuantityValueNode extends SubstanceValueNode {
             public void quantityChanged() {
                 setValue( substance.getQuantity() );
             }
+            
+            @Override
+            public void imageChanged() {
+                setImage( substance.getImage() );
+            }
         };
         substance.addSubstanceChangeListener( substanceChangeListener );
 
         // update the model when this control changes
-        setSpinnerChangeListener( new ChangeListener() {
+        addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 substance.setQuantity( getValue() );
             }
@@ -42,7 +47,6 @@ public class QuantityValueNode extends SubstanceValueNode {
     }
     
     public void cleanup() {
-        super.cleanup();
         substance.removeSubstanceChangeListener( substanceChangeListener );
     }
 }
