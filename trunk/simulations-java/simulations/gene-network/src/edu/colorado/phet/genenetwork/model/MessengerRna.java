@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 /**
  * Class that represents messenger RNA in the model.
  * 
- * NOTE: For the purposes of this sim, it is assume that the messenger RNA is
+ * NOTE: For the purposes of this sim, it is assumed that the messenger RNA is
  * always fairly horizontal in the model, and never vertical.
  * 
  * @author John Blanco
