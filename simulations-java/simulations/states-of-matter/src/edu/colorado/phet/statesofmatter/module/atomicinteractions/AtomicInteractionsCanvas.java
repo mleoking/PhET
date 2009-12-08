@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
@@ -24,12 +23,12 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.InteractionPotentialDiagramNode;
 import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
+import edu.colorado.phet.statesofmatter.view.MyWiggleMe;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
 import edu.colorado.phet.statesofmatter.view.PushpinNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -92,7 +91,7 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
     private boolean m_showRepulsiveForces;
     private boolean m_showTotalForces;
     private GradientButtonNode m_retrieveAtomButtonNode;
-    private DefaultWiggleMe m_wiggleMe;
+    private MyWiggleMe m_wiggleMe;
     private boolean m_wiggleMeShown;
     private PushpinNode m_pushPinNode;
     private PNode m_fixedParticleLayer;
@@ -131,14 +130,12 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
             }
             public void fixedAtomRemoved(StatesOfMatterAtom particle){
                 handleFixedParticleRemoved( particle );
-                clearWiggleMe();
             }
             public void movableAtomAdded(StatesOfMatterAtom particle){
                 handleMovableParticleAdded( particle );
             }
             public void movableAtomRemoved(StatesOfMatterAtom particle){
                 handleMovableParticleRemoved( particle );
-                clearWiggleMe();
             }
             public void movableAtomDiameterChanged(){
             	updateMinimumXForMovableAtom();
@@ -252,7 +249,6 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         m_movableParticleNode.setShowAttractiveForces( showForces );
         m_fixedParticleNode.setShowAttractiveForces( showForces );
         m_showAttractiveForces = showForces;
-        clearWiggleMe();
     }
     
     /**
@@ -263,7 +259,6 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         m_movableParticleNode.setShowRepulsiveForces( showForces );
         m_fixedParticleNode.setShowRepulsiveForces( showForces );
         m_showRepulsiveForces = showForces;
-        clearWiggleMe();
     }
     
     /**
@@ -274,7 +269,6 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         m_movableParticleNode.setShowTotalForces( showForces );
         m_fixedParticleNode.setShowTotalForces( showForces );
         m_showTotalForces = showForces;
-        clearWiggleMe();
     }
     
     protected void updateLayout() {
@@ -286,9 +280,9 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         
         if ((!m_wiggleMeShown) && (ENABLE_WIGGLE_ME)){
             // The wiggle me has not yet been shown, so show it.
-            m_wiggleMe = new DefaultWiggleMe( this, StatesOfMatterStrings.WIGGLE_ME_CAPTION );
-            m_wiggleMe.setBackground(Color.YELLOW);
+            m_wiggleMe = new MyWiggleMe( this, StatesOfMatterStrings.WIGGLE_ME_CAPTION );
             m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.LEFT_CENTER );
+            m_wiggleMe.setArrowFillPaint(Color.YELLOW);
             double wiggleMeScale = WIGGLE_ME_HEIGHT / m_wiggleMe.getFullBoundsReference().height;
             m_wiggleMe.scale( wiggleMeScale );
             addWorldChild( m_wiggleMe );
