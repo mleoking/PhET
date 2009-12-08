@@ -1,8 +1,10 @@
 package edu.colorado.phet.reactantsproductsandleftovers.controls;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -14,42 +16,52 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Substance;
-import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class that for nodes that display some integer value related to a Substance.
+ * Base class for value controls that appears under the Before and After boxes.
+ * Displays a value in histogram and numeric form.
+ * The numeric value is optionally editable, via a spinner.
+ * Labeled using an image and text label.
+ * The origin is at the top-center of the histogram bar.
+ * <p>
+ * This control has no dependencies on the model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class SubstanceValueNode extends PhetPNode {
+public class ValueNode extends PhetPNode {
     
     private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;
     private static final Font VALUE_FONT = new PhetFont( 22 );
     private static final Font NAME_FONT = new PhetFont( 18 );
     
+    private final ArrayList<ChangeListener> listeners;
     private final IntegerHistogramBarNode barNode;
-    private final SubstanceImageNode imageNode;
+    private final PImage imageNode;
     private final HTMLNode nameNode;
     private final IntegerSpinnerNode spinnerNode;
     private final PText valueNode;
     
-    public SubstanceValueNode( final Substance substance, IntegerRange range, int value, double imageScale, boolean showName, boolean editable ) {
+    private int value;
+    
+    public ValueNode( IntegerRange range, int value, Image image, double imageScale, String name, boolean editable ) {
         super();
         
         assert( range.contains( value ) );
+        
+        listeners = new ArrayList<ChangeListener>();
         
         // bar
         barNode = new IntegerHistogramBarNode( range, HISTOGRAM_BAR_SIZE );
 
         // image
-        imageNode = new SubstanceImageNode( substance );
+        imageNode = new PImage( image );
         imageNode.scale( imageScale );
         
         // name
-        nameNode = new HTMLNode( HTMLUtils.toHTMLString( substance.getName() ) );
+        nameNode = new HTMLNode( HTMLUtils.toHTMLString( name ) );
         nameNode.setFont( NAME_FONT );
 
         // editable value
@@ -68,7 +80,7 @@ public abstract class SubstanceValueNode extends PhetPNode {
         // rendering order
         addChild( barNode );
         addChild( imageNode );
-        if ( showName ) {
+        if ( name != null ) {
             addChild( nameNode );
         }
         addChild( spinnerNode );
@@ -98,21 +110,18 @@ public abstract class SubstanceValueNode extends PhetPNode {
         
         updateLayout();
         setEditable( editable );
+        this.value = value; // force update
         setValue( value );
     }
     
-    public void cleanup() {
-        imageNode.cleanup();
-    }
-    
-    protected void setSpinnerChangeListener( ChangeListener listener ) {
-        spinnerNode.addChangeListener( listener );
-    }
-    
     public void setValue( int value ) {
-        barNode.setValue( value );
-        spinnerNode.setValue( value );
-        valueNode.setText( String.valueOf( value ) );
+        if ( value != this.value ) {
+            this.value = value;
+            barNode.setValue( value );
+            spinnerNode.setValue( value );
+            valueNode.setText( String.valueOf( value ) );
+            fireStateChanged();
+        }
     }
     
     public int getValue() {
@@ -129,6 +138,10 @@ public abstract class SubstanceValueNode extends PhetPNode {
             removeChild( spinnerNode );
             addChild( valueNode );
         }
+    }
+    
+    public void setImage( Image image ) {
+        imageNode.setImage( image );
     }
     
     private void updateLayout() {
@@ -154,4 +167,19 @@ public abstract class SubstanceValueNode extends PhetPNode {
         nameNode.setOffset( x, y );
     }
 
+    public void addChangeListener( ChangeListener listener ) {
+        listeners.add( listener );
+    }
+    
+    public void removeChangeListener( ChangeListener listener ) {
+        listeners.remove( listener );
+    }
+    
+    private void fireStateChanged() {
+        ChangeEvent event = new ChangeEvent( this );
+        ArrayList<ChangeListener> listenersCopy = new ArrayList<ChangeListener>( listeners ); // avoid ConcurrentModificationException
+        for ( ChangeListener listener : listenersCopy ) {
+            listener.stateChanged( event );
+        }
+    }
 }
