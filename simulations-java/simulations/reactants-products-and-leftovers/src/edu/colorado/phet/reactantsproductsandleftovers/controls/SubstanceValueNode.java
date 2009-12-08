@@ -16,7 +16,6 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -130,14 +129,6 @@ public abstract class SubstanceValueNode extends PhetPNode {
             removeChild( spinnerNode );
             addChild( valueNode );
         }
-    }
-    
-    public PNode removeChild( PNode child ) {
-        PNode removedNode = null;
-        if ( indexOfChild( child ) != -1 ) {
-            removedNode = super.removeChild( child );
-        }
-       return removedNode;
     }
     
     private void updateLayout() {
