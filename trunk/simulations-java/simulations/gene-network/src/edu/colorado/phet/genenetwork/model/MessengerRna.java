@@ -104,8 +104,9 @@ public abstract class MessengerRna extends SimpleModelElement {
 		// Add a new point to the list.  The new point is always added at a Y
 		// offset of 0 so that it looks like it is being produced from the
 		// same location, but all the other points are moved up or down a
-		// little to make the output look wavy.
-		double yVariation = (RAND.nextDouble() - 0.5) * growthAmount;
+		// little to make the output look wavy.  The waviness is biased a bit
+		// to make it grow in the up direction.
+		double yVariation = 1.5 * (RAND.nextDouble() - 0.3) * growthAmount;
 		for (Point2D point : points){
 			point.setLocation(point.getX(), point.getY() + yVariation);
 		}
