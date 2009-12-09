@@ -21,9 +21,9 @@ public class ReactantsProductsAndLeftoversApplication extends PiccoloPhetApplica
     public ReactantsProductsAndLeftoversApplication( PhetApplicationConfig config ) {
         super( config );
         Frame parentFrame = getPhetFrame();
+        addModule( new GameModule( parentFrame ) ); //XXX move this last after development
         addModule( new SandwichShopModule( parentFrame ) );
         addModule( new RealReactionModule( parentFrame ) );
-        addModule( new GameModule( parentFrame ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {

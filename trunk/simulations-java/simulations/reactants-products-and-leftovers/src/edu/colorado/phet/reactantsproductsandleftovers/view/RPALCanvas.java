@@ -47,7 +47,7 @@ public class RPALCanvas extends PhetPCanvas {
     }
 
     protected void removeChild( PNode node ) {
-        if ( rootNode.indexOfChild( node ) != -1 ) {
+        if ( node != null && rootNode.indexOfChild( node ) != -1 ) {
             rootNode.removeChild( node );
         }
     }

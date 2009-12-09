@@ -27,6 +27,7 @@ public class RPALStrings {
     public static final String LABEL_LEVEL = RPALResources.getString( "label.level" );
     public static final String LABEL_TIMER = RPALResources.getString( "label.timer" );
     public static final String LABEL_SCORE = RPALResources.getString( "label.score" );
+    public static final String LABEL_REACTION_NUMBER = RPALResources.getString( "label.reactionNumber" );
     
     // buttons
     public static final String BUTTON_CHECK = RPALResources.getString( "button.check" );
