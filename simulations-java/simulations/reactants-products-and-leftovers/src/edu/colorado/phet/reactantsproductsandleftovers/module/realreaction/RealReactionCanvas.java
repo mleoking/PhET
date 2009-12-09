@@ -63,21 +63,15 @@ public class RealReactionCanvas extends RPALCanvas {
 
     private void updateNodes() {
 
-        if ( equationNode != null ) {
-            removeChild( equationNode );
-        }
+        removeChild( equationNode );
         equationNode = new RealReactionEquationNode( model.getReaction() );
         addChild( equationNode );
 
-        if ( beforeNode != null ) {
-            removeChild( beforeNode );
-        }
+        removeChild( beforeNode );
         beforeNode = new RealReactionBeforeNode( model );
         addChild( beforeNode );
 
-        if ( afterNode != null ) {
-            removeChild( afterNode );
-        }
+        removeChild( afterNode );
         afterNode = new RealReactionAfterNode( model );
         addChild( afterNode );
 

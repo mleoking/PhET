@@ -83,6 +83,10 @@ public class GameModel extends RPALModel {
         challengeType = ChallengeType.GUESS_AFTER; //XXX
     }
     
+    public int getChallengeNumber() {
+        return challengeNumber;
+    }
+    
     public ChallengeType getChallengeType() {
         return challengeType;
     }
