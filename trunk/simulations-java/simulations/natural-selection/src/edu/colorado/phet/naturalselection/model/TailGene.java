@@ -13,7 +13,7 @@ public class TailGene extends Gene {
     public static final Allele TAIL_LONG_ALLELE = new Allele( NaturalSelectionStrings.GENE_TAIL_LONG );
 
     private TailGene() {
-        super( TAIL_SHORT_ALLELE, TAIL_LONG_ALLELE );
+        super( TAIL_SHORT_ALLELE, TAIL_LONG_ALLELE, TAIL_SHORT_ALLELE );
     }
 
     private static TailGene instance = null;

@@ -83,10 +83,10 @@ public class GenePanel extends JPanel {
 
         colorWhite = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_WHITE );
         colorBrown = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_BROWN );
-        colorPD = createButton( true );
-        colorPR = createButton( false );
-        colorSD = createButton( false );
-        colorSR = createButton( true );
+        colorPD = createButton( false );
+        colorPR = createButton( true );
+        colorSD = createButton( true );
+        colorSR = createButton( false );
         createFourGroup( ColorGene.getInstance(), colorPD, colorPR, colorSD, colorSR );
 
         tailRegular = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TAIL_SHORT );
@@ -305,8 +305,8 @@ public class GenePanel extends JPanel {
 
     public void reset() {
         // set dominance back to the primary traits on the panel
-        colorPD.setSelected( true );
-        colorSR.setSelected( true );
+        colorPR.setSelected( true );
+        colorSD.setSelected( true );
         tailPD.setSelected( true );
         tailSR.setSelected( true );
         teethPD.setSelected( true );

@@ -33,6 +33,8 @@ public abstract class Gene implements Bunny.Listener {
      */
     private Allele dominantAllele;
 
+    private Allele defaultDominantAllele;
+
     /**
      * Whether or not this gene will mutate (during the next generation)
      */
@@ -44,22 +46,25 @@ public abstract class Gene implements Bunny.Listener {
     /**
      * Constructor, builds a gene from two alleles
      *
-     * @param primaryAllele   The primary (usually default) allele
-     * @param secondaryAllele The secondary (usually mutated) allele
+     * @param primaryAllele         The primary (usually default) allele
+     * @param secondaryAllele       The secondary (usually mutated) allele
+     * @param defaultDominantAllele The default dominant allele
      */
-    protected Gene( Allele primaryAllele, Allele secondaryAllele ) {
+    protected Gene( Allele primaryAllele, Allele secondaryAllele, Allele defaultDominantAllele ) {
 
         this.primaryAllele = primaryAllele;
         this.secondaryAllele = secondaryAllele;
 
-        dominantAllele = this.primaryAllele;
+        this.defaultDominantAllele = defaultDominantAllele;
+
+        dominantAllele = defaultDominantAllele;
 
         listeners = new LinkedList<GeneListener>();
 
     }
 
     public void reset() {
-        dominantAllele = primaryAllele;
+        dominantAllele = defaultDominantAllele;
         primaryCount = secondaryCount = 0;
         mutatable = false;
     }
@@ -133,6 +138,10 @@ public abstract class Gene implements Bunny.Listener {
      * If it changed, then notify listeners
      */
     public void refreshPhenotypeCount() {
+        if ( model == null ) {
+            return;
+        }
+
         int oldPrimary = primaryCount;
         int oldSecondary = secondaryCount;
 

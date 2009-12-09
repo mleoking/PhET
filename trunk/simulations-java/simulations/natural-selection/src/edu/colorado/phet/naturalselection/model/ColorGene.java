@@ -13,7 +13,9 @@ public class ColorGene extends Gene {
     public static final Allele BROWN_ALLELE = new Allele( NaturalSelectionStrings.GENE_COLOR_BROWN );
 
     private ColorGene() {
-        super( WHITE_ALLELE, BROWN_ALLELE );
+        super( WHITE_ALLELE, BROWN_ALLELE, BROWN_ALLELE );
+
+        setDominantAllele( BROWN_ALLELE );
     }
 
     private static ColorGene instance = null;

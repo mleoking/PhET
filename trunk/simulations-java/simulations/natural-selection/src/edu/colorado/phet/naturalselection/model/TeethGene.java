@@ -13,7 +13,7 @@ public class TeethGene extends Gene {
     public static final Allele TEETH_LONG_ALLELE = new Allele( NaturalSelectionStrings.GENE_TEETH_LONG );
 
     private TeethGene() {
-        super( TEETH_SHORT_ALLELE, TEETH_LONG_ALLELE );
+        super( TEETH_SHORT_ALLELE, TEETH_LONG_ALLELE, TEETH_SHORT_ALLELE );
     }
 
     private static TeethGene instance = null;
