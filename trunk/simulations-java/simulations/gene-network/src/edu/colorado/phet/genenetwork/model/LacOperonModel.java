@@ -254,6 +254,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
         	RnaPolymerase rnaPolymerase = new RnaPolymerase(this);
         	randomlyInitModelElement(rnaPolymerase);
         	rnaPolymeraseList.add(rnaPolymerase);
+        	notifyModelElementAdded(rnaPolymerase);
         }
 	}
 
