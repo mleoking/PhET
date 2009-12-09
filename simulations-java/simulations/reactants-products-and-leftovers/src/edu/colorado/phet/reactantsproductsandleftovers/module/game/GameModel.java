@@ -30,20 +30,24 @@ public class GameModel extends RPALModel {
     
     public GameModel() {
         listeners = new ArrayList<GameListener>();
-        newGame( LEVEL_RANGE.getDefault(), DEFAULT_IS_TIMED );
+        startGame( LEVEL_RANGE.getDefault(), DEFAULT_IS_TIMED );
     }
     
     public void reset() {
         //XXX do we need this in the Game?
     }
     
-    public void newGame( int level, boolean timerEnabled ) {
+    public void startGame( int level, boolean timerEnabled ) {
         setLevel( level );
         setTimerEnabled( timerEnabled );
         setPoints( 0 );
         challengeNumber = 0;
         newChallenge(); //XXX should probably generate all 10 challenges at once, since our algorithm isn't random, and in case we need history
-        fireNewGame();
+        fireGameStarted();
+    }
+    
+    public void endGame() {
+        fireGameEnded();
     }
     
     private void newChallenge() {
@@ -152,7 +156,8 @@ public class GameModel extends RPALModel {
     }
     
     public interface GameListener {
-        public void newGame();
+        public void gameStarted();
+        public void gameEnded();
         public void reactionChanged();
         public void pointsChanged();
         public void levelChanged();
@@ -161,7 +166,8 @@ public class GameModel extends RPALModel {
     }
     
     public static class GameAdapter implements GameListener {
-        public void newGame() {}
+        public void gameStarted() {}
+        public void gameEnded() {}
         public void reactionChanged() {}
         public void pointsChanged() {}
         public void levelChanged() {}
@@ -177,10 +183,17 @@ public class GameModel extends RPALModel {
         listeners.remove( listener );
     }
     
-    private void fireNewGame() {
+    private void fireGameStarted() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
         for ( GameListener listener : listenersCopy ) {
-            listener.newGame();
+            listener.gameStarted();
+        }
+    }
+    
+    private void fireGameEnded() {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameListener listener : listenersCopy ) {
+            listener.gameEnded();
         }
     }
     

@@ -4,6 +4,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.GameSettingsPanel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
@@ -24,6 +25,7 @@ public class GameCanvas extends RPALCanvas {
     private final FaceNode beforeFaceNode, afterFaceNode;
     private final RightArrowNode arrowNode;
     private final ReactionNumberLabelNode reactionNumberLabelNode;
+    private final PhetPNode parentNode;
     
     // these nodes are mutable, allocated when reaction changes
     private RealReactionEquationNode equationNode;
@@ -33,65 +35,90 @@ public class GameCanvas extends RPALCanvas {
     public GameCanvas( GameModel model, Resettable resettable ) {
         super();
         
-        // right-pointing arrow
-        arrowNode = new RightArrowNode();
-        addChild( arrowNode );
-        
-        // reaction number label
-        reactionNumberLabelNode = new ReactionNumberLabelNode( model );
-        addChild( reactionNumberLabelNode );
+        parentNode = new PhetPNode();
+        addChild( parentNode );
         
         // game settings
         GameSettingsPanel gameSettingsPanel = new GameSettingsPanel( model );
         gameSettingsPanelWrapper = new PSwing( gameSettingsPanel );
         gameSettingsPanelWrapper.scale( 1.5 ); //XXX scale
-//        addChild( gameSettingsPanelWrapper );
+        addChild( gameSettingsPanelWrapper );
+        
+        // right-pointing arrow
+        arrowNode = new RightArrowNode();
+        parentNode.addChild( arrowNode );
+        
+        // reaction number label
+        reactionNumberLabelNode = new ReactionNumberLabelNode( model );
+        parentNode.addChild( reactionNumberLabelNode );
         
         // scoreboard
         ScoreboardPanel scoreboardPanel = new ScoreboardPanel( model );
         scoreboardPanelWrapper = new PSwing( scoreboardPanel );
         scoreboardPanelWrapper.scale( 1.5 ); //XXX scale
-        addChild( scoreboardPanelWrapper );
+        parentNode.addChild( scoreboardPanelWrapper );
         
         // faces, for indicating correct/incorrect answers
         beforeFaceNode = new FaceNode();
-        addChild( beforeFaceNode );
+        parentNode.addChild( beforeFaceNode );
         afterFaceNode = new FaceNode();
-        addChild( afterFaceNode );
+        parentNode.addChild( afterFaceNode );
         
         this.model = model;
         model.addGameListener( new GameAdapter() {
+            
+            // When a game starts, hide the game settings panel.
+            @Override
+            public void gameStarted() {
+                setGameSettingsVisible( false );
+            }
+            
+            // When a game ends, show the game settings panel.
+            @Override 
+            public void gameEnded() {
+                setGameSettingsVisible( true );
+            }
+            
+            // When the reaction changes, rebuild dynamic nodes.
             @Override
             public void reactionChanged() {
                 updateNodes();
             }
+            
         } );
-
+        
         updateNodes();
+        
+        setGameSettingsVisible( true );
    }
+    
+    private void setGameSettingsVisible( boolean visible ) {
+        gameSettingsPanelWrapper.setVisible( visible );
+        parentNode.setVisible( !visible );
+    }
     
     private void updateNodes() {
 
-        removeChild( equationNode );
+        parentNode.removeChild( equationNode );
         equationNode = new RealReactionEquationNode( model.getReaction() );
-        addChild( equationNode );
+        parentNode.addChild( equationNode );
 
-        removeChild( beforeNode );
+        parentNode.removeChild( beforeNode );
         beforeNode = new GameBeforeNode();
-        addChild( beforeNode );
+        parentNode.addChild( beforeNode );
 
-        removeChild( afterNode );
+        parentNode.removeChild( afterNode );
         afterNode = new GameAfterNode();
-        addChild( afterNode );
+        parentNode.addChild( afterNode );
         
         beforeFaceNode.moveToFront();
         afterFaceNode.moveToFront();
-
+        
         updateNodesLayout();
     }
     
     private void updateNodesLayout() {
-
+        
         double x = 0;
         double y = 0;
         
@@ -119,14 +146,9 @@ public class GameCanvas extends RPALCanvas {
         y = beforeNode.getYOffset();
         afterNode.setOffset( x, y );
         
-        // game settings, horizontally and vertically centered in the play area
-        x = equationNode.getXOffset();
-        y = equationNode.getFullBoundsReference().getMaxY() + 20;
-        gameSettingsPanelWrapper.setOffset( x, y );
-        
         // scoreboard, at bottom center of play area
-        x = gameSettingsPanelWrapper.getFullBoundsReference().getCenterX() - ( scoreboardPanelWrapper.getFullBoundsReference().getWidth() / 2 );
-        y = gameSettingsPanelWrapper.getFullBoundsReference().getMaxY() + 20;
+        x = beforeNode.getFullBoundsReference().getMinX();
+        y = beforeNode.getFullBoundsReference().getMaxY() + 40;
         scoreboardPanelWrapper.setOffset( x, y ) ;
         
         // faces in upper center of Before box
@@ -138,6 +160,11 @@ public class GameCanvas extends RPALCanvas {
         x = afterNode.getFullBoundsReference().getCenterX() - ( afterFaceNode.getFullBoundsReference().getWidth() / 2 );
         y = afterNode.getYOffset() + 20;
         afterFaceNode.setOffset( x, y );
+        
+        // game settings, horizontally and vertically centered on everything else
+        x = parentNode.getFullBoundsReference().getCenterX() - ( gameSettingsPanelWrapper.getFullBoundsReference().getWidth() / 2 );
+        y =  parentNode.getFullBoundsReference().getCenterY() - ( gameSettingsPanelWrapper.getFullBoundsReference().getHeight() / 2 );
+        gameSettingsPanelWrapper.setOffset( x, y );
     }
 
     /*

@@ -31,6 +31,7 @@ public class ScoreboardPanel extends JPanel {
     private static final NumberFormat ONE_DIGIT_TIME_FORMAT = new DecimalFormat( "0" );
     private static final NumberFormat TWO_DIGIT_TIME_FORMAT = new DecimalFormat( "00" );
     
+    private final GameModel model;
     private final JLabel scoreValue, levelValue, timerValue;
     private final JLabel timerIcon;
     private final JButton newGameButton;
@@ -39,6 +40,8 @@ public class ScoreboardPanel extends JPanel {
         super();
         setBorder( BORDER );
         setBackground( BACKGROUND );
+        
+        this.model = model;
         
         // Score
         JLabel scoreLabel = new JLabel( RPALStrings.LABEL_SCORE );
@@ -162,7 +165,8 @@ public class ScoreboardPanel extends JPanel {
     }
     
     private void handleNewGame() {
-        //XXX
+        //XXX what else?...
+        model.endGame();
     }
 
 }
