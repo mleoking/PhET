@@ -39,11 +39,6 @@ public class LacOperatorToolBoxNode extends ToolBoxItemNode {
 	}
 	
 	@Override
-	protected void updatePositionWhenReleased() {
-		getModelElement().setPosition(getModel().getDnaStrand().getLacOperatorLocation());
-	}
-	
-	@Override
 	protected void handleModelElementAdded(SimpleModelElement modelElement) {
 		if (modelElement instanceof LacOperator){
 			// Since only one of this type of model element can exist in the

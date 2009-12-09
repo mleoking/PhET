@@ -32,7 +32,11 @@ public abstract class ToolBoxItemNode extends PComposite {
 	// Fixed transform for setting the size of the items in the tool box,
 	// which may not be exactly what it is in the model.
 	protected static final ModelViewTransform2D SCALING_MVT = 
-		new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(0, 0), 5, true);
+		new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(0, 0), 6, true);
+	
+	// Distance at which items added into the model can be pulled in to the
+	// DNA chain.
+	protected static final double LOCK_TO_DNA_DISTANCE = 5;
 	
 	private static final double CAPTION_OFFSET_FROM_SELECTION_NODE = 4;
 	
@@ -90,7 +94,6 @@ public abstract class ToolBoxItemNode extends PComposite {
     			System.out.println("screenToWorld mouseWorldPos @ release = " + mouseWorldPos);
             	if (modelElement != null){
             		modelElement.setDragging(false);
-            		updatePositionWhenReleased();
             		// Release our reference to the model element so that we will
             		// create a new one if clicked again.
             		modelElement = null;
@@ -123,14 +126,6 @@ public abstract class ToolBoxItemNode extends PComposite {
 	 * by subclasses for implementing the appropriate behavior.
 	 */
 	protected abstract void handleAddRequest(Point2D position);
-	
-	/**
-	 * Called when the user releases the newly added model element, overridden
-	 * for specific behavior.
-	 */
-	protected void updatePositionWhenReleased(){
-		// Does nothing in base class.
-	}
 	
 	/**
 	 * Called when a new simple model element is added to the model.  This
