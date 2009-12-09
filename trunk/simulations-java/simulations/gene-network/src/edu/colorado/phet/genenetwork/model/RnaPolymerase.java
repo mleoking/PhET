@@ -35,7 +35,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	private static Dimension2D MESSENGER_RNA_OUTPUT_OFFSET = new PDimension(-WIDTH * 0.2, -HEIGHT * 0.05);
 	private static double MIN_ATTACH_BEFORE_TRAVERSING_TIME = 0.5;  // Seconds.
 	private static double RECOVERY_TIME = 7;                  // Seconds.
-	private static double TIME_TO_START_PRODUCING_MRNA = 2; // Seconds.
+	private static double TIME_TO_START_PRODUCING_MRNA = 3; // Seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -149,9 +149,7 @@ public class RnaPolymerase extends SimpleModelElement {
 					 !getModel().isLacIAttachedToDna()) {
 					// The way is clear for us to traverse the DNA strand and
 					// transcribe the messenger RNA for LacZ.
-					setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
-							new Point2D.Double(getPositionRef().getX() + 10, getPositionRef().getY()), 8));
-					setMotionStrategy(new TraverseDnaMotionStrategy(this, LacOperonModel.getMotionBounds(), 37));
+					setMotionStrategy(new TraverseDnaMotionStrategy(this, LacOperonModel.getMotionBounds(), 40));
 					traversing = true;
 				}
 				else{
@@ -167,8 +165,8 @@ public class RnaPolymerase extends SimpleModelElement {
 				// again.
 				lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 				
+				// If mRNA was being transcribed, release it.
 				if (mRna != null){
-					// Release the messenger RNA that we created.
 					mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
 							new Point2D.Double(mRna.getPositionRef().getX(), mRna.getPositionRef().getY() + 30), 4));
 					mRna = null;
