@@ -1,9 +1,6 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- Game: "How many reactants?" question with down arrow
-- Game: "How many products & leftovers?" question with down arrow
-- Game: Check, Next, Try Again, and Show Answer buttons
 - Game: animated curtains
 - Game: Summary dialog
 - Game: seconds timer

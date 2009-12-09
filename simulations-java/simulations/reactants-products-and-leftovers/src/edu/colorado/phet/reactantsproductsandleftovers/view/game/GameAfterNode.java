@@ -44,6 +44,14 @@ public class GameAfterNode extends PhetPNode {
         y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
         titleNode.setOffset( x, y );
     }
+    
+    /**
+     * Box width, used by layout code.
+     * @return
+     */
+    public double getBoxWidth() {
+        return boxNode.getFullBoundsReference().getWidth();
+    }
 
     /**
      * Box height, used by layout code.
