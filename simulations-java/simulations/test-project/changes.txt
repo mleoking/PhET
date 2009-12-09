@@ -1,3 +1,5 @@
+# 2.06.00 (37237) Dec 9, 2009
+12/9/09 Testing for production deployment (connection settings)
 # 2.05.02 (36921) Nov 29, 2009
 11/29/09 Testing non "-dev" JNLP deploy
 # 2.05.01 (35656) Oct 9, 2009
