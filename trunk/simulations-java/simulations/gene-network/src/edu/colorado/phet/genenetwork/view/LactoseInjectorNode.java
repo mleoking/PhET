@@ -5,8 +5,10 @@ package edu.colorado.phet.genenetwork.view;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.genenetwork.GeneNetworkResources;
+import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -44,12 +46,18 @@ public class LactoseInjectorNode extends PNode {
 	PNode bodyImage;
 	PNode unpressedButtonImage;
 	PNode pressedButtonImage;
+	IGeneNetworkModelControl model;
+	ModelViewTransform2D mvt;
 	
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
 
-	public LactoseInjectorNode() {
+	public LactoseInjectorNode(final IGeneNetworkModelControl model, ModelViewTransform2D mvt) {
+		
+		this.model = model;
+		this.mvt = mvt;
+		
         // Load the graphic images for this device.  IMPORTANT: This code
 		// assumes that the place where the lactose comes out is at the
 		// bottom center of this image.
@@ -79,6 +87,7 @@ public class LactoseInjectorNode extends PNode {
         	@Override
             public void mousePressed( PInputEvent event ) {
                 unpressedButtonImage.setVisible(false);
+                model.createAndAddLactose(new Point2D.Double(), null);
             }
         	
         	@Override
