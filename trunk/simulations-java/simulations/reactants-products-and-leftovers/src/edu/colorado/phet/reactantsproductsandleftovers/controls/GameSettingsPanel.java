@@ -74,7 +74,7 @@ public class GameSettingsPanel extends JPanel {
         JButton startButton = new JButton( "Start!" );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.newGame( getLevel(), isTimerEnabled() );
+                model.startGame( getLevel(), isTimerEnabled() );
             }
         });
         
