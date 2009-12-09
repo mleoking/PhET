@@ -25,7 +25,7 @@ public class GameInstructionsNode extends PComposite {
         double x = 0;
         double y = 0;
         htmlNode.setOffset( 0, 0 );
-        x = htmlNode.getFullBounds().getCenterX() - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
+        x = htmlNode.getFullBounds().getCenterX();
         y = htmlNode.getFullBounds().getMaxY() + 10;
         arrowNode.setOffset( x, y );
     }
