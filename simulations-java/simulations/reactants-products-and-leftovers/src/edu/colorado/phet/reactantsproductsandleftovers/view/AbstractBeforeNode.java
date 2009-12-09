@@ -29,9 +29,11 @@ import edu.umd.cs.piccolo.util.PDimension;
 public abstract class AbstractBeforeNode extends PhetPNode {
     
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
-    private static final double TITLE_Y_SPACING = 10;
-    private static final double CONTROLS_Y_SPACING = 15;
+    
     private static final Font TITLE_FONT = new PhetFont( 24 );
+    private static final double TITLE_Y_SPACING = 10;
+    
+    private static final double CONTROLS_Y_SPACING = 15;
     
     private static final double BRACKET_Y_SPACING = 3;
     private static final PhetFont BRACKET_FONT = new PhetFont( 16 );

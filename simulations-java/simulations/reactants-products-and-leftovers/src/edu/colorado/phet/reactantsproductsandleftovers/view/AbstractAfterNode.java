@@ -33,11 +33,11 @@ import edu.umd.cs.piccolo.util.PDimension;
 public abstract class AbstractAfterNode extends PhetPNode {
     
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
-    private static final double TITLE_Y_SPACING = 10;
-    private static final double LEFT_MARGIN = 0;
-    private static final double RIGHT_MARGIN = LEFT_MARGIN;
-    private static final double CONTROLS_Y_SPACING = 15;
+    
     private static final Font TITLE_FONT = new PhetFont( 24 );
+    private static final double TITLE_Y_SPACING = 10;
+    
+    private static final double CONTROLS_Y_SPACING = 15;
 
     private static final double BRACKET_Y_SPACING = 3;
     private static final PhetFont BRACKET_FONT = new PhetFont( 16 );
@@ -120,8 +120,8 @@ public abstract class AbstractAfterNode extends PhetPNode {
         y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
         titleNode.setOffset( x, y );
         // product quantity displays, horizontally centered in "cells"
-        final double deltaX = ( boxNode.getFullBoundsReference().getWidth() - LEFT_MARGIN - RIGHT_MARGIN ) / ( products.length + reactants.length );
-        x = boxNode.getFullBoundsReference().getMinX() + LEFT_MARGIN + ( deltaX / 2 );
+        final double deltaX = boxNode.getFullBoundsReference().getWidth() / ( products.length + reactants.length );
+        x = boxNode.getFullBoundsReference().getMinX() + ( deltaX / 2 );
         y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
         for ( int i = 0; i < products.length; i++ ) {
             quantityValueNodes.get( i ).setOffset( x, y );
