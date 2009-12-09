@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
+
 /**
  * This is a base class for model elements that exist inside a cell or in
  * extracellular space, and that are not composed of any other model elements.
@@ -28,6 +29,11 @@ public abstract class SimpleModelElement implements IModelElement{
 	// Range at which a bond forms when two binding partners are moving
 	// towards each other.
 	protected static final double ATTACHMENT_FORMING_DISTANCE = 1; // In nanometers.
+	
+	// Distance at which a model element that lives on the DNA strand is
+	// allowed to jump to it.  Beyond this distance, it is essentially in an
+	// illegal location.
+	protected static final double LOCK_TO_DNA_DISTANCE = 5; // In nanometers.
 	
 	// Rate at which elements fade in and out of existence.
 	protected static final double FADE_RATE = 0.05;
@@ -361,14 +367,56 @@ public abstract class SimpleModelElement implements IModelElement{
 		return motionStrategy;
 	}
 
+	/**
+	 * Set the state that indicates whether or not the user is dragging this
+	 * model element.
+	 */
     public void setDragging(boolean dragging) {
         this.dragging=dragging;
-        if (dragging == false && model.isPointInToolBox(getPositionRef()) ){
-        	// This model element is being placed into the tool box.  This is
-        	// handled by removing ourself from the model.
-        	System.out.println(getClass().getName() + " is being removed from the model.");
-        	removeSelfFromModel();
+        if ( dragging == false ){
+        	if (model.isPointInToolBox(getPositionRef()) || !isInAllowableLocation()){
+	        	// This model element is being released by the user in a location
+	        	// that is either inside the tool box or is in a disallowed
+	        	// location, so remove it from the model.
+	        	System.out.println(getClass().getName() + " is being removed from the model.");
+	        	removeSelfFromModel();
+        	}
+        	else{
+        		// The element is being released by the user outside the
+        		// toolbox.  See if it needs to be moved to any particular
+        		// location.
+        		if (isPartOfDnaStrand()){
+        			// This element is part of the DNA strand, so move it to
+        			// the correct location with the strand.
+        			setPosition(getDefaultLocation());
+        		}
+        	}
         }
+    }
+    
+    /**
+     * Returns a value indicating whether the model element is in a
+     * "allowable location".  This is generally intended to be overridden
+     * by subclasses that should only be in certain places within the model,
+     * such as those that reside on the DNA strand.
+     */
+    protected boolean isInAllowableLocation(){
+    	return true;
+    }
+    
+    /**
+     * Get the location where this model element should reside within the
+     * model.  This should be overridden for each element that has a default
+     * location, such as those that reside on the DNA strand.  Some elements
+     * will not have a default location, and for them this should not be
+     * overridden.
+     */
+    protected Point2D getDefaultLocation(){
+    	assert false; // Should never be invoked in the base class, and yet
+    	              // not all element will necessarily need to override
+    	              // this method, so just make sure it gets noticed if
+    	              // we end up here.
+    	return new Point2D.Double(0, 0);
     }
     
     protected enum ExistenceState { FADING_IN, EXISTING, FADING_OUT };
