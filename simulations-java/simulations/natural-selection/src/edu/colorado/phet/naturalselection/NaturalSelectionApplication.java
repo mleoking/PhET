@@ -1,15 +1,9 @@
 package edu.colorado.phet.naturalselection;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.util.Enumeration;
 
-import javax.swing.JMenu;
-import javax.swing.SwingUtilities;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
