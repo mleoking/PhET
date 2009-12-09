@@ -16,7 +16,7 @@ public class GameModel extends RPALModel {
     
     private static final int CHALLENGES_PER_GAME = 10;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 );
-    private static final boolean DEFAULT_TIMER_ENABLED = false;
+    private static final boolean DEFAULT_TIMER_ENABLED = true;
     
     private final ArrayList<GameListener> listeners;
     
