@@ -1,3 +1,4 @@
+12/9/09 use GradientButtonNode for buttons
 12/9/09 switch between game settings and main scenegraph via "New Game" and "Start!" buttons
 12/9/09 add a bunch more stuff to the Game canvas, start implementing Before/After views
 12/9/09 replace smile and frown classes with one "face" class that can smile or frown

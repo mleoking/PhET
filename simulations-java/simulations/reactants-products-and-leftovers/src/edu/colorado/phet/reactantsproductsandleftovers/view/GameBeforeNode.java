@@ -45,11 +45,19 @@ public class GameBeforeNode extends PhetPNode {
     }
     
     /**
+     * Box width, used by layout code.
+     * @return
+     */
+    public double getBoxWidth() {
+        return boxNode.getFullBoundsReference().getWidth();
+    }
+    
+    /**
      * Box height, used by layout code.
      * @return
      */
     public double getBoxHeight() {
         return boxNode.getFullBoundsReference().getHeight();
     }
-
+    
 }
