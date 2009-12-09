@@ -3,7 +3,6 @@
 package edu.colorado.phet.genenetwork.view;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -12,7 +11,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Node that represents the thing that the user interacts with in order to
