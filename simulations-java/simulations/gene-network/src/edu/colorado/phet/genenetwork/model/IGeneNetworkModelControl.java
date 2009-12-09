@@ -4,6 +4,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 /**
  * Interface that allows the user to control and to obtain information about a
  * gene network model.  This interface is designed to accomodate the specific
@@ -82,6 +84,11 @@ public interface IGeneNetworkModelControl {
 	 * problem prevented the creation.
 	 */
 	RnaPolymerase createAndAddRnaPolymerase(Point2D initialPosition);
+
+	/**
+	 * Create a molecule of lactose and inject it into the model.
+	 */
+	void createAndAddLactose(Point2D initialPosition, Vector2D initialVelocity);
 
 	/**
 	 * Get a list of all simple model elements in the model.

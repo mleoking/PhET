@@ -8,12 +8,19 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Primary model for the Lac Operon flavor of this sim.
+ * Primary model for the Lac Operon flavor of this sim.  The primary
+ * responsibilities for this class are:
+ * - To maintain the references of the individual model elements.
+ * - To step each individual element in time.
+ * - To provide an API for adding new model elements.
+ * - To provide an API for obtaining references to and information about
+ *   model elements.
  */
 public class LacOperonModel implements IGeneNetworkModelControl {
     
@@ -406,6 +413,17 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		rnaPolymeraseList.add(rnaPolymerase);
 		notifyModelElementAdded(rnaPolymerase);
 		return rnaPolymerase;
+	}
+	
+	public void createAndAddLactose(Point2D initialPosition, Vector2D initialVelocity){
+		Galactose galactose = new Galactose(this, initialPosition);
+		galactose.setMotionStrategy(new RandomWalkMotionStrategy(galactose, MODEL_BOUNDS));
+		Glucose glucose = new Glucose(this, initialPosition);
+		glucose.setMotionStrategy(new RandomWalkMotionStrategy(glucose, MODEL_BOUNDS));
+		galactoseList.add(galactose);
+		notifyModelElementAdded(galactose);
+		glucoseList.add(glucose);
+		notifyModelElementAdded(glucose);
 	}
     
     private void handleClockTicked(double dt){
