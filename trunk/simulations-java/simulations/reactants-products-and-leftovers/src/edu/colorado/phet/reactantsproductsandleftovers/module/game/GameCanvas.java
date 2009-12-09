@@ -12,10 +12,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.GameSettingsPanel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
-import edu.colorado.phet.reactantsproductsandleftovers.view.game.FaceNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.game.GameAfterNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.game.GameBeforeNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.game.ReactionNumberLabelNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.*;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -35,6 +32,7 @@ public class GameCanvas extends RPALCanvas {
     private final PhetPNode parentNode;
     private final GradientButtonNode checkButton, nextButton, tryAgainButton, showAnswerButton;
     private final PhetPNode buttonsParentNode;
+    private final GameInstructionsNode beforeInstructions, afterInstructions;
     
     // these nodes are mutable, allocated when reaction changes
     private RealReactionEquationNode equationNode;
@@ -84,6 +82,12 @@ public class GameCanvas extends RPALCanvas {
         buttonsParentNode.addChild( tryAgainButton );
         showAnswerButton = new GradientButtonNode( RPALStrings.BUTTON_SHOW_ANSWER, 20, Color.YELLOW );
         buttonsParentNode.addChild( showAnswerButton );
+        
+        // instructions
+        beforeInstructions = new GameInstructionsNode( RPALStrings.QUESTION_HOW_MANY_REACTANTS );
+        parentNode.addChild( beforeInstructions );
+        afterInstructions = new GameInstructionsNode( RPALStrings.QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS );
+        parentNode.addChild( afterInstructions );
         
         this.model = model;
         model.addGameListener( new GameAdapter() {
@@ -136,6 +140,8 @@ public class GameCanvas extends RPALCanvas {
         beforeFaceNode.moveToFront();
         afterFaceNode.moveToFront();
         buttonsParentNode.moveToFront();
+        beforeInstructions.moveToFront();
+        afterInstructions.moveToFront();
         
         updateNodesLayout();
     }
@@ -198,6 +204,16 @@ public class GameCanvas extends RPALCanvas {
         x = ( beforeNode.getBoxWidth() - showAnswerButton.getFullBoundsReference().getWidth() ) / 2;
         y = ( beforeNode.getBoxHeight() - showAnswerButton.getFullBoundsReference().getHeight() - 10 );
         showAnswerButton.setOffset( x, y );
+        
+        // instructions in Before box
+        x = beforeNode.getXOffset() + ( ( beforeNode.getBoxWidth() - beforeInstructions.getFullBoundsReference().getWidth() ) / 2 );
+        y = beforeNode.getYOffset() + 40;
+        beforeInstructions.setOffset( x, y );
+        
+        // instructions in After box
+        x = afterNode.getXOffset() + ( ( afterNode.getBoxWidth() - afterInstructions.getFullBoundsReference().getWidth() ) / 2 );
+        y = afterNode.getYOffset() + 40;
+        afterInstructions.setOffset( x, y );
         
         // game settings, horizontally and vertically centered on everything else
         x = parentNode.getFullBoundsReference().getCenterX() - ( gameSettingsPanelWrapper.getFullBoundsReference().getWidth() / 2 );
