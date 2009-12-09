@@ -3,20 +3,20 @@
 package edu.colorado.phet.genenetwork.model;
 
 import java.awt.Color;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
 public class Glucose extends SimpleSugar {
+	
+	private static final Dimension2D GALACTOSE_ATTACHMENT_POINT_OFFSET = new PDimension(getWidth()/2, 0);
+	private static final Dimension2D LAC_Z_ATTACHMENT_POINT_OFFSET = new PDimension(getWidth()/2, 0);
+	
+	private Galactose galactoseBondingPartner;
 
 	public Glucose(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, initialPosition, Color.BLUE);
-		// Add attachment point for Galactose.
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.GALACTOSE,
-				new PDimension(-getWidth()/2, 0)));
-		// Add attachment point for LacZ.
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_Z,
-				new PDimension(-getWidth()/2, 0)));
 	}
 	
     public Glucose(IGeneNetworkModelControl model, double x,double y) {
@@ -29,6 +29,21 @@ public class Glucose extends SimpleSugar {
 	
 	public Glucose(){
 		this(null);
+	}
+	
+	public Dimension2D getGalactoseAttachmentPointOffset(){
+		return GALACTOSE_ATTACHMENT_POINT_OFFSET;
+	}
+	
+	public void attach(Galactose galactose){
+		assert galactoseBondingPartner == null; // Should not be requested to attach if already attached.
+		
+		galactoseBondingPartner = galactose;
+		
+		// Glucose is (arbitrarily) assumed to be the dominant partner, and
+		// galactose is expected to move to wherever it is rather than the
+		// other way round.  So there is no movement here to the partner's
+		// location or adjustment of the motion strategy.
 	}
 	
 	@Override

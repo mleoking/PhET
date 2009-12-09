@@ -416,10 +416,22 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	}
 	
 	public void createAndAddLactose(Point2D initialPosition, Vector2D initialVelocity){
-		Galactose galactose = new Galactose(this, initialPosition);
-		galactose.setMotionStrategy(new RandomWalkMotionStrategy(galactose, MODEL_BOUNDS));
-		Glucose glucose = new Glucose(this, initialPosition);
+		
+		// Create the two simple model element that comprise lactose.  Note
+		// that glucose is considered to be the "dominant partner", so its
+		// motion strategy is set while galactose is left alone, assuming that
+		// it will attach to glucose and follow it around.
+		Glucose glucose = new Glucose(this);
+		double offset = glucose.getShape().getBounds2D().getWidth() / 2;
+		glucose.setPosition(initialPosition.getX() - offset, initialPosition.getY());
 		glucose.setMotionStrategy(new RandomWalkMotionStrategy(glucose, MODEL_BOUNDS));
+		Galactose galactose = new Galactose(this);
+		
+		// Attach these two to one another.
+		glucose.attach(galactose);
+		galactose.attach(glucose);
+		
+		// Add these elements to the list.
 		galactoseList.add(galactose);
 		notifyModelElementAdded(galactose);
 		glucoseList.add(glucose);
