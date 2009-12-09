@@ -23,7 +23,6 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.InteractionPotentialDiagramNode;
 import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
-import edu.colorado.phet.statesofmatter.view.MyWiggleMe;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
 import edu.colorado.phet.statesofmatter.view.PushpinNode;
 import edu.umd.cs.piccolo.PNode;
@@ -91,7 +90,7 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
     private boolean m_showRepulsiveForces;
     private boolean m_showTotalForces;
     private GradientButtonNode m_retrieveAtomButtonNode;
-    private MyWiggleMe m_wiggleMe;
+    private DefaultWiggleMe m_wiggleMe;
     private boolean m_wiggleMeShown;
     private PushpinNode m_pushPinNode;
     private PNode m_fixedParticleLayer;
@@ -280,9 +279,13 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         
         if ((!m_wiggleMeShown) && (ENABLE_WIGGLE_ME)){
             // The wiggle me has not yet been shown, so show it.
-            m_wiggleMe = new MyWiggleMe( this, StatesOfMatterStrings.WIGGLE_ME_CAPTION );
+            m_wiggleMe = new DefaultWiggleMe( this, StatesOfMatterStrings.WIGGLE_ME_CAPTION );
             m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.LEFT_CENTER );
+            m_wiggleMe.setTextColor(Color.YELLOW);
             m_wiggleMe.setArrowFillPaint(Color.YELLOW);
+            m_wiggleMe.setArrowStrokePaint(Color.YELLOW);
+            m_wiggleMe.setBalloonFillPaint(new Color(0, 0, 0, 0));   // Fully transparent.
+            m_wiggleMe.setBalloonStrokePaint(new Color(0, 0, 0, 0)); // Fully transparent.
             double wiggleMeScale = WIGGLE_ME_HEIGHT / m_wiggleMe.getFullBoundsReference().height;
             m_wiggleMe.scale( wiggleMeScale );
             addWorldChild( m_wiggleMe );
