@@ -11,7 +11,7 @@ import java.awt.geom.Dimension2D;
  * 
  * @author John Blanco
  */
-public class DeferToLeaderMotionStrategy extends AbstractMotionStrategy {
+public class FollowTheLeaderMotionStrategy extends AbstractMotionStrategy {
 
 	private IModelElement leader;
 	private Dimension2D leaderToFollowerOffset;
@@ -22,7 +22,7 @@ public class DeferToLeaderMotionStrategy extends AbstractMotionStrategy {
 		}
 	};
 	
-	public DeferToLeaderMotionStrategy(IModelElement follower, IModelElement leader, Dimension2D offset) {
+	public FollowTheLeaderMotionStrategy(IModelElement follower, IModelElement leader, Dimension2D offset) {
 		super(follower);
 		this.leaderToFollowerOffset = offset;
 		
