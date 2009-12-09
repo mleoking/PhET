@@ -2,7 +2,7 @@ package edu.colorado.phet.naturalselection.defaults;
 
 import java.awt.*;
 
-import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.model.*;
 
 /**
  * Defaults for the simulation
@@ -55,4 +55,8 @@ public class NaturalSelectionDefaults {
     public static final double FOOD_SELECTION_BLEND_SCALE = 0.2;
     public static final int MUTATING_BUNNY_BASE = 1;
     public static final int MUTATING_BUNNY_PER_BUNNIES = 7;
+
+    public static final Allele COLOR_DOMINANT_ALLELE = ColorGene.BROWN_ALLELE;
+    public static final Allele TAIL_DOMINANT_ALLELE = TailGene.TAIL_LONG_ALLELE;
+    public static final Allele TEETH_DOMINANT_ALLELE = TeethGene.TEETH_LONG_ALLELE;
 }
