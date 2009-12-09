@@ -1,4 +1,4 @@
-package edu.colorado.phet.reactantsproductsandleftovers.view;
+package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
+import edu.colorado.phet.reactantsproductsandleftovers.view.BoxNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
