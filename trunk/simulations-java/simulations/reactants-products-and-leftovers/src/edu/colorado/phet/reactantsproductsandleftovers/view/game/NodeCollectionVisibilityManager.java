@@ -1,4 +1,4 @@
-package edu.colorado.phet.reactantsproductsandleftovers.view;
+package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
 import java.util.HashMap;
 import java.util.Set;

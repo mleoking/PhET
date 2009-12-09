@@ -12,6 +12,10 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.GameSettingsPanel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.FaceNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.GameAfterNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.GameBeforeNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.ReactionNumberLabelNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
