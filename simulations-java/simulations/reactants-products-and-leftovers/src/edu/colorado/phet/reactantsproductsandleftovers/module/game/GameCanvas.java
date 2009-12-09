@@ -205,14 +205,14 @@ public class GameCanvas extends RPALCanvas {
         y = ( beforeNode.getBoxHeight() - showAnswerButton.getFullBoundsReference().getHeight() - 10 );
         showAnswerButton.setOffset( x, y );
         
-        // instructions in Before box
+        // instructions centered in Before box
         x = beforeNode.getXOffset() + ( ( beforeNode.getBoxWidth() - beforeInstructions.getFullBoundsReference().getWidth() ) / 2 );
-        y = beforeNode.getYOffset() + 40;
+        y = beforeNode.getYOffset() + ( ( beforeNode.getBoxHeight() - beforeInstructions.getFullBoundsReference().getHeight() ) / 2 );
         beforeInstructions.setOffset( x, y );
         
-        // instructions in After box
+        // instructions centered in After box
         x = afterNode.getXOffset() + ( ( afterNode.getBoxWidth() - afterInstructions.getFullBoundsReference().getWidth() ) / 2 );
-        y = afterNode.getYOffset() + 40;
+        y = afterNode.getYOffset() + ( ( afterNode.getBoxHeight() - afterInstructions.getFullBoundsReference().getHeight() ) / 2 );;
         afterInstructions.setOffset( x, y );
         
         // game settings, horizontally and vertically centered on everything else
