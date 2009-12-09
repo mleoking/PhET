@@ -16,6 +16,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.game.*;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
+ * Canvas for the "Game" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
