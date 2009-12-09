@@ -1,15 +1,21 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- make changes so that stuff in first 2 modules can be used in Game module
-- can't keep the "guess" in a ChemicalReaction, since the guess may not be a well-formed reaction
+- Game: "How many reactants?" question with down arrow
+- Game: "How many products & leftovers?" question with down arrow
+- Game: Check, Next, Try Again, and Show Answer buttons
+- Game: animated curtains
+- Game: Summary dialog
+- Game: seconds timer
+- Game: state machine to control visibility of game nodes
+- Game: value nodes below before/after boxes
+- Game: images in before/after boxes
 
 MEDIUM PRIORITY
 - PSwing memory leak affects tab traversal, #1874
 - make ImageLayoutStrategy be associated with the chemical reaction type
 
 LOW PRIORITY
-- is there any issue with H image being 2 different sizes? (eg, in H2 and H2O)
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
 - move equation below Before/After boxes?
 - set font size of spinners instead of scaling (up/down arrows don't resize on Mac)
