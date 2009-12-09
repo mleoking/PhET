@@ -24,7 +24,9 @@ public class FollowTheLeaderMotionStrategy extends AbstractMotionStrategy {
 	
 	public FollowTheLeaderMotionStrategy(IModelElement follower, IModelElement leader, Dimension2D offset) {
 		super(follower);
+		this.leader = leader;
 		this.leaderToFollowerOffset = offset;
+		
 		
 		// Register for updates from the "leader".
 		leader.addListener(leaderMotionListener);
