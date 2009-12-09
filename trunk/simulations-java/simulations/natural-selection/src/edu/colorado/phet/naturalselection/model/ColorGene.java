@@ -1,6 +1,7 @@
 package edu.colorado.phet.naturalselection.model;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 
 /**
  * The gene for different colors of fur (singleton)
@@ -13,7 +14,7 @@ public class ColorGene extends Gene {
     public static final Allele BROWN_ALLELE = new Allele( NaturalSelectionStrings.GENE_COLOR_BROWN );
 
     private ColorGene() {
-        super( WHITE_ALLELE, BROWN_ALLELE, BROWN_ALLELE );
+        super( WHITE_ALLELE, BROWN_ALLELE, NaturalSelectionDefaults.COLOR_DOMINANT_ALLELE );
 
         setDominantAllele( BROWN_ALLELE );
     }

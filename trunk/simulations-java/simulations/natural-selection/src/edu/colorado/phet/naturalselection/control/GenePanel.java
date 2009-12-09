@@ -83,26 +83,29 @@ public class GenePanel extends JPanel {
 
         colorWhite = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_WHITE );
         colorBrown = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_BROWN );
-        colorPD = createButton( false );
-        colorPR = createButton( true );
-        colorSD = createButton( true );
-        colorSR = createButton( false );
+        boolean colorPrimary = ColorGene.getInstance().getPrimaryAllele() == ColorGene.getInstance().getDominantAllele();
+        colorPD = createButton( colorPrimary );
+        colorPR = createButton( !colorPrimary );
+        colorSD = createButton( !colorPrimary );
+        colorSR = createButton( colorPrimary );
         createFourGroup( ColorGene.getInstance(), colorPD, colorPR, colorSD, colorSR );
 
         tailRegular = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TAIL_SHORT );
         tailBig = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TAIL_LONG );
-        tailPD = createButton( true );
-        tailPR = createButton( false );
-        tailSD = createButton( false );
-        tailSR = createButton( true );
+        boolean tailPrimary = TailGene.getInstance().getPrimaryAllele() == TailGene.getInstance().getDominantAllele();
+        tailPD = createButton( tailPrimary );
+        tailPR = createButton( !tailPrimary );
+        tailSD = createButton( !tailPrimary );
+        tailSR = createButton( tailPrimary );
         createFourGroup( TailGene.getInstance(), tailPD, tailPR, tailSD, tailSR );
 
         teethRegular = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TEETH_SHORT );
         teethLong = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TEETH_LONG );
-        teethPD = createButton( true );
-        teethPR = createButton( false );
-        teethSD = createButton( false );
-        teethSR = createButton( true );
+        boolean teethPrimary = TeethGene.getInstance().getPrimaryAllele() == TeethGene.getInstance().getDominantAllele();
+        teethPD = createButton( teethPrimary );
+        teethPR = createButton( !teethPrimary );
+        teethSD = createButton( !teethPrimary );
+        teethSR = createButton( teethPrimary );
         createFourGroup( TeethGene.getInstance(), teethPD, teethPR, teethSD, teethSR );
 
         colorLabel = new JLabel( NaturalSelectionStrings.GENE_COLOR_NAME );
