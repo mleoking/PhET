@@ -16,7 +16,7 @@ public class GameModel extends RPALModel {
     
     private static final int CHALLENGES_PER_GAME = 10;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 );
-    private static final boolean DEFAULT_IS_TIMED = true;
+    private static final boolean DEFAULT_TIMER_ENABLED = false;
     
     private final ArrayList<GameListener> listeners;
     
@@ -30,7 +30,7 @@ public class GameModel extends RPALModel {
     
     public GameModel() {
         listeners = new ArrayList<GameListener>();
-        startGame( LEVEL_RANGE.getDefault(), DEFAULT_IS_TIMED );
+        startGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
     }
     
     public void reset() {
