@@ -68,11 +68,12 @@ public class NaturalSelectionController {
             }
         } );
 
-        controlPanel.getResetAllButton().addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                module.reset();
-            }
-        } );
+//        controlPanel.getResetAllButton().addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent actionEvent ) {
+//                module.reset();
+//            }
+//        } );
+        controlPanel.getResetAllButton().addResettable( module );
 
         // when a bunny is selected, inform the pedigree chart to display that bunny
         canvas.getLandscapeNode().addListener( new LandscapeNode.Listener() {

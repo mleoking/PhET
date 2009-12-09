@@ -7,6 +7,7 @@ import java.awt.event.ComponentListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
@@ -33,7 +34,7 @@ public class NaturalSelectionControlPanel extends JPanel {
     private GenerationProgressPanel generationProgressPanel;
 
     // buttons
-    private JButton resetAllButton;
+    private ResetAllButton resetAllButton;
 
     /**
      * Constructor
@@ -148,7 +149,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         rightPanel.add( switcherPanel );
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
 
-        resetAllButton = new JButton( NaturalSelectionStrings.RESET_ALL );
+        resetAllButton = new ResetAllButton( this );
         rightPanel.add( resetAllButton );
 
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 5 ) ) );
@@ -204,7 +205,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         return selectionPanel;
     }
 
-    public JButton getResetAllButton() {
+    public ResetAllButton getResetAllButton() {
         return resetAllButton;
     }
 
