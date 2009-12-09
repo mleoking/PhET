@@ -36,11 +36,6 @@ public class LacZGeneToolBoxNode extends ToolBoxItemNode {
 	}
 
 	@Override
-	protected void updatePositionWhenReleased() {
-		getModelElement().setPosition(getModel().getDnaStrand().getLacZGeneLocation());
-	}
-	
-	@Override
 	protected void handleModelElementAdded(SimpleModelElement modelElement) {
 		if (modelElement instanceof LacZGene){
 			// Since only one of this type of model element can exist in the

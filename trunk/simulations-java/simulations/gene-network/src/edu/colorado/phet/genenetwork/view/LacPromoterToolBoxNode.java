@@ -39,11 +39,6 @@ public class LacPromoterToolBoxNode extends ToolBoxItemNode {
 	}
 	
 	@Override
-	protected void updatePositionWhenReleased() {
-		getModelElement().setPosition(getModel().getDnaStrand().getLacPromoterLocation());
-	}
-	
-	@Override
 	protected void handleModelElementAdded(SimpleModelElement modelElement) {
 		if (modelElement instanceof LacPromoter){
 			// Since only one of this type of model element can exist in the

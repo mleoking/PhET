@@ -36,11 +36,6 @@ public class LacIGeneToolBoxNode extends ToolBoxItemNode {
 	}
 	
 	@Override
-	protected void updatePositionWhenReleased() {
-		getModelElement().setPosition(getModel().getDnaStrand().getLacIGeneLocation());
-	}
-
-	@Override
 	protected void handleModelElementAdded(SimpleModelElement modelElement) {
 		if (modelElement instanceof LacIGene){
 			// Since only one of this type of model element can exist in the
