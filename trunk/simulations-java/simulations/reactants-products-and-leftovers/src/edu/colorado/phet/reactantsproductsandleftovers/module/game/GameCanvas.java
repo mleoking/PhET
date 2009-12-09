@@ -1,11 +1,14 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
+import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.GameSettingsPanel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
@@ -26,6 +29,8 @@ public class GameCanvas extends RPALCanvas {
     private final RightArrowNode arrowNode;
     private final ReactionNumberLabelNode reactionNumberLabelNode;
     private final PhetPNode parentNode;
+    private final GradientButtonNode checkButton, nextButton, tryAgainButton, showAnswerButton;
+    private final PhetPNode buttonsParentNode;
     
     // these nodes are mutable, allocated when reaction changes
     private RealReactionEquationNode equationNode;
@@ -63,6 +68,18 @@ public class GameCanvas extends RPALCanvas {
         parentNode.addChild( beforeFaceNode );
         afterFaceNode = new FaceNode();
         parentNode.addChild( afterFaceNode );
+        
+        // buttons, all under the same parent, to facilitate moving between Before & After boxes
+        buttonsParentNode = new PhetPNode();
+        parentNode.addChild( buttonsParentNode );
+        checkButton = new GradientButtonNode( RPALStrings.BUTTON_CHECK, 20, Color.YELLOW );
+        buttonsParentNode.addChild( checkButton );
+        nextButton = new GradientButtonNode( RPALStrings.BUTTON_NEXT, 20, Color.YELLOW );
+        buttonsParentNode.addChild( nextButton );
+        tryAgainButton = new GradientButtonNode( RPALStrings.BUTTON_TRY_AGAIN, 20, Color.YELLOW );
+        buttonsParentNode.addChild( tryAgainButton );
+        showAnswerButton = new GradientButtonNode( RPALStrings.BUTTON_SHOW_ANSWER, 20, Color.YELLOW );
+        buttonsParentNode.addChild( showAnswerButton );
         
         this.model = model;
         model.addGameListener( new GameAdapter() {
@@ -111,8 +128,10 @@ public class GameCanvas extends RPALCanvas {
         afterNode = new GameAfterNode();
         parentNode.addChild( afterNode );
         
+        // move a bunch of static nodes to the front
         beforeFaceNode.moveToFront();
         afterFaceNode.moveToFront();
+        buttonsParentNode.moveToFront();
         
         updateNodesLayout();
     }
@@ -160,6 +179,21 @@ public class GameCanvas extends RPALCanvas {
         x = afterNode.getFullBoundsReference().getCenterX() - ( afterFaceNode.getFullBoundsReference().getWidth() / 2 );
         y = afterNode.getYOffset() + 20;
         afterFaceNode.setOffset( x, y );
+        
+        //XXX buttons in Before box for now, they need to go in the proper box based on challenge type
+        buttonsParentNode.setOffset( beforeNode.getOffset() );
+        x = ( beforeNode.getBoxWidth() - checkButton.getFullBoundsReference().getWidth() ) / 2;
+        y = ( beforeNode.getBoxHeight() - checkButton.getFullBoundsReference().getHeight() - 10 );
+        checkButton.setOffset( x, y );
+        x = ( beforeNode.getBoxWidth() - nextButton.getFullBoundsReference().getWidth() ) / 2;
+        y = ( beforeNode.getBoxHeight() - nextButton.getFullBoundsReference().getHeight() - 10 );
+        nextButton.setOffset( x, y );
+        x = ( beforeNode.getBoxWidth() - tryAgainButton.getFullBoundsReference().getWidth() ) / 2;
+        y = ( beforeNode.getBoxHeight() - tryAgainButton.getFullBoundsReference().getHeight() - 10 );
+        tryAgainButton.setOffset( x, y );
+        x = ( beforeNode.getBoxWidth() - showAnswerButton.getFullBoundsReference().getWidth() ) / 2;
+        y = ( beforeNode.getBoxHeight() - showAnswerButton.getFullBoundsReference().getHeight() - 10 );
+        showAnswerButton.setOffset( x, y );
         
         // game settings, horizontally and vertically centered on everything else
         x = parentNode.getFullBoundsReference().getCenterX() - ( gameSettingsPanelWrapper.getFullBoundsReference().getWidth() / 2 );
