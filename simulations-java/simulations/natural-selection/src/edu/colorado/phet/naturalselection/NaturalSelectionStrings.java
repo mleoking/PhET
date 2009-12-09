@@ -31,7 +31,6 @@ public class NaturalSelectionStrings {
     public static final String FOOD = NaturalSelectionResources.getString( "natural-selection.food" );
     public static final String NONE = NaturalSelectionResources.getString( "natural-selection.none" );
     public static final String PEDIGREE_CHART = NaturalSelectionResources.getString( "natural-selection.pedigreeChart" );
-    public static final String RESET_ALL = NaturalSelectionResources.getString( "natural-selection.resetAll" );
     public static final String HEREDITY = NaturalSelectionResources.getString( "natural-selection.heredity" );
     public static final String ADD_A_FRIEND = NaturalSelectionResources.getString( "natural-selection.addAFriend" );
     public static final String MUTATION_COMING = NaturalSelectionResources.getString( "natural-selection.mutationComing" );

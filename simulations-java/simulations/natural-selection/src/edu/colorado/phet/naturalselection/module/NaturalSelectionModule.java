@@ -62,6 +62,7 @@ public class NaturalSelectionModule extends PiccoloModule {
      * Reset the entire module
      */
     public void reset() {
+        super.reset();
         Bunny.bunnyCount = 0;
         controlPanel.reset();
         canvas.reset();
