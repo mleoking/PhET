@@ -182,4 +182,15 @@ public class LacPromoter extends SimpleModelElement {
 	public boolean isPartOfDnaStrand() {
 		return true;
 	}
+	
+	@Override
+	protected boolean isInAllowableLocation() {
+		// Find out if we are within range of our location on the DNA strand.
+		return getPositionRef().distance(getModel().getDnaStrand().getLacPromoterLocation()) < LOCK_TO_DNA_DISTANCE;
+	}
+
+	@Override
+	protected Point2D getDefaultLocation() {
+		return getModel().getDnaStrand().getLacPromoterLocation();
+	}
 }

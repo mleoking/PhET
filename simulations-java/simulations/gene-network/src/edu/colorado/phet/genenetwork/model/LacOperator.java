@@ -166,4 +166,15 @@ public class LacOperator extends SimpleModelElement {
 	public static Dimension2D getLacIAttachementPointOffset() {
 		return LAC_I_ATTACHMENT_POINT_OFFSET;
 	}
+	
+	@Override
+	protected boolean isInAllowableLocation() {
+		// Find out if we are within range of our location on the DNA strand.
+		return getPositionRef().distance(getModel().getDnaStrand().getLacOperatorLocation()) < LOCK_TO_DNA_DISTANCE;
+	}
+
+	@Override
+	protected Point2D getDefaultLocation() {
+		return getModel().getDnaStrand().getLacOperatorLocation();
+	}
 }
