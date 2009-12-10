@@ -422,8 +422,8 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		// motion strategy is set while galactose is left alone, assuming that
 		// it will attach to glucose and follow it around.
 		Glucose glucose = new Glucose(this);
-		double offset = glucose.getShape().getBounds2D().getWidth() / 2;
-		glucose.setPosition(initialPosition.getX() - offset, initialPosition.getY());
+		double xOffset = glucose.getShape().getBounds2D().getWidth() / 2;
+		glucose.setPosition(initialPosition.getX() - xOffset, initialPosition.getY());
 		glucose.setMotionStrategy(new RandomWalkMotionStrategy(glucose, MODEL_BOUNDS));
 		Galactose galactose = new Galactose(this);
 		

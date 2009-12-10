@@ -32,7 +32,7 @@ public class Glucose extends SimpleSugar {
 	}
 	
 	public Dimension2D getGalactoseAttachmentPointOffset(){
-		return GALACTOSE_ATTACHMENT_POINT_OFFSET;
+		return new PDimension(GALACTOSE_ATTACHMENT_POINT_OFFSET);
 	}
 	
 	public void attach(Galactose galactose){

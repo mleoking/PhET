@@ -4,6 +4,8 @@ package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Dimension2D;
 
+import edu.umd.cs.piccolo.util.PDimension;
+
 /**
  * This is a motion strategy that defers to a leader, meaning that it never
  * decides to move on its own, but instead watches the motion of the leader
@@ -25,7 +27,7 @@ public class FollowTheLeaderMotionStrategy extends AbstractMotionStrategy {
 	public FollowTheLeaderMotionStrategy(IModelElement follower, IModelElement leader, Dimension2D offset) {
 		super(follower);
 		this.leader = leader;
-		this.leaderToFollowerOffset = offset;
+		this.leaderToFollowerOffset = new PDimension(offset);
 		
 		
 		// Register for updates from the "leader".
