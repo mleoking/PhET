@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
@@ -18,6 +18,6 @@ public class RPALClock extends ConstantDtClock {
     //----------------------------------------------------------------------------
     
     public RPALClock() {
-        super( 1000 / 25, 1 );
+        super( 1000 / 5, 1 );
     }
 }

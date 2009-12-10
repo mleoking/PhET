@@ -2,6 +2,9 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.*;
 
@@ -18,6 +21,7 @@ public class GameModel extends RPALModel {
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 );
     private static final boolean DEFAULT_TIMER_ENABLED = true;
     
+    private final IClock clock;
     private final ArrayList<GameListener> listeners;
     
     private int challengeNumber;
@@ -27,10 +31,33 @@ public class GameModel extends RPALModel {
     private double points;
     private int attempts;
     private boolean timerEnabled;
+    private long startTime; // System time in ms when the game started
+    private long elapsedTime; // ms
     
-    public GameModel() {
+    public GameModel( IClock clock ) {
+        
+        this.clock = clock;
+        clock.addClockListener( new ClockAdapter() {
+            
+            @Override
+            public void clockTicked( ClockEvent clockEvent ) {
+                elapsedTime = clockEvent.getWallTime() - startTime;
+                if ( timerEnabled ) {
+                    fireTimeChanged();
+                }
+            }
+        } );
+        
         listeners = new ArrayList<GameListener>();
-        startGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
+        challengeNumber = 0;
+        reaction = new WaterReaction();
+        challengeType = ChallengeType.GUESS_AFTER;
+        level = LEVEL_RANGE.getDefault();
+        points = 0;
+        attempts = 0;
+        timerEnabled = DEFAULT_TIMER_ENABLED;
+        startTime = 0;
+        elapsedTime = 0;
     }
     
     public void reset() {
@@ -43,10 +70,19 @@ public class GameModel extends RPALModel {
         setPoints( 0 );
         challengeNumber = 0;
         newChallenge(); //XXX should probably generate all 10 challenges at once, since our algorithm isn't random, and in case we need history
+        elapsedTime = 0;
+        clock.resetSimulationTime();
+        clock.start();
+        startTime = System.currentTimeMillis(); // don't use clock.getWallTime, it's not valid until the clock ticks
         fireGameStarted();
     }
     
+    public void stopTimer() {
+        clock.pause();
+    }
+    
     public void endGame() {
+        clock.pause();
         fireGameEnded();
     }
     
@@ -125,8 +161,8 @@ public class GameModel extends RPALModel {
         return timerEnabled;
     }
     
-    public int getTime() {
-        return 0; //XXX calculate time in seconds from RPALClock
+    public long getElapsedTime() {
+        return elapsedTime;
     }
     
     private void setAttempts( int attempts ) {
