@@ -8,8 +8,10 @@ package{
 		var nbrBalls:int;  		//current nbr of interacting balls
 		var maxNbrBalls:int;	//maximum nbr of interacting balls (5?)
 		var ball_arr:Array;		//array of balls
-		var initPos:Array;		//array of initial positions of balls
-		var initVel:Array;		//array of initial velocities of balls
+		var startingPos:Array;	//array of initial positions of balls, ResetAll Button
+		var startingVel:Array;	//array of initial velocities of balls, ResetAll Button
+		var initPos:Array;		//array of initial positions of balls, after reset, to repeat expt
+		var initVel:Array;		//array of initial velocities of balls, after reset, to repeat expt
 		var CM:Point;			//center-of-mass of system
 		var borderOn:Boolean;	//if true, balls elastically reflect from border 
 		var borderWidth:Number;	//length of horizontal border in meters
@@ -32,7 +34,7 @@ package{
 		var timeRate:Number;	//0 to 1: to slow down or speed up action, 1 = realtime, 0 = paused
 		var updateRate:int;		//number of time steps between graphics updates
 		var frameCount:int;		//when frameCount reaches frameRate, update graphics
-		var colliders:Array;	//2D array of ij pairs: value = 1 if pair colliding, 0 if not colliding.
+		//var colliders:Array;	//2D array of ij pairs: value = 1 if pair colliding, 0 if not colliding.
 		var view_arr:Array;		//views of this model
 		var nbrViews:int;		//number of views
 		
@@ -42,11 +44,11 @@ package{
 			this.borderWidth = 3.2;
 			this.borderHeight = 2;
 			this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
-			this.nbrBalls = 3;		//adjustable by user
 			this.maxNbrBalls = 5;
-			this.oneDMode = false;
+			this.oneDMode = true;
 			this.CM = new Point();
 			this.ball_arr = new Array(this.maxNbrBalls);  //only first nbrBalls elements of array are used
+			this.createInitialBallData();
 			this.initializeBalls();
 			//this.setCenterOfMass();
 			this.time = 0;
@@ -113,45 +115,56 @@ package{
 		}
 		
 		//called once, at startup
+		public function createInitialBallData():void{
+			this.startingPos = new Array(this.maxNbrBalls);
+			this.startingVel = new Array(this.maxNbrBalls);
+			startingPos[0] = new TwoVector(0.5,1);
+			startingPos[1] = new TwoVector(1.5,0.5);
+			startingPos[2] = new TwoVector(1,1);
+			startingPos[3] = new TwoVector(1.2, 1.2);
+			startingPos[4] = new TwoVector(1.2, 0.2);
+			startingVel[0] = new TwoVector(2,0);
+			startingVel[1] = new TwoVector(-1,0);
+			startingVel[2] = new TwoVector(-0.5,-0.25);
+			startingVel[3] = new TwoVector(1.1,0.2);
+			startingVel[4] = new TwoVector(-1.1,0);
+		}
+		
 		public function initializeBalls():void{
+			this.nbrBalls = 1;		//adjustable by user
 			this.atInitialConfig = true;
 			this.starting = true;
 			this.soundOn = false;
 			this.sounding = false;
 			this.initPos = new Array(this.maxNbrBalls);
 			this.initVel = new Array(this.maxNbrBalls);
-			initPos[0] = new TwoVector(0.5,0.5);
-			initPos[1] = new TwoVector(1.5,0.5);
-			initPos[2] = new TwoVector(1,1);
-			initPos[3] = new TwoVector(1.2, 1.2);
-			initPos[4] = new TwoVector(1.2, 0.2);
-			initVel[0] = new TwoVector(2,1);
-			initVel[1] = new TwoVector(-1,0);
-			initVel[2] = new TwoVector(-0.5,-0.25);
-			initVel[3] = new TwoVector(1.1,0.2);
-			initVel[4] = new TwoVector(-1.1,0);
-			for (var i = 0; i < this.maxNbrBalls; i++){
+			for(var i:int = 0; i < this.maxNbrBalls; i++){
+				initPos[i] = startingPos[i].clone();
+				initVel[i] = startingVel[i].clone();
+			}
+			for (i = 0; i < this.maxNbrBalls; i++){
 				//new Ball(mass, position, velocity);
 				this.ball_arr[i] = new Ball(1.0, initPos[i].clone(), initVel[i].clone());
 			}
 			this.nbrBallsChanged = true;
 			var maxN:int = this.maxNbrBalls;
-			//initialize colliders array
-			this.colliders = new Array(maxN);
-			//in AS3, duplicate variable definition in same method causes compile error message
-			//so do not use var i:int more than one
-			for (i = 0; i < maxN; i++){
-				this.colliders[i] = new Array(maxN);
-			}
-			for (i = 0; i < maxN; i++){
-				for (var j:int = 0; j < maxN; j++){
-					this.colliders[i][j] = 0;  //0 if not colliding
-				}
-			}
 			//No point in updating views, since views not created yet
 			this.separateAllBalls(); //should not be necessary, but just in case
 			this.setCenterOfMass();
 		}//end of initializeBalls()
+		
+		public function resetAll():void{
+			//trace("Model.resetAll() called");
+			this.nbrBalls = 1;
+			this.e = 1;			//set elasticity of collisions, 1 = perfectly elastic
+			this.timeRate = 1;
+			this.setOneDMode(true);
+			this.nbrBallsChanged = true;
+			this.separateAllBalls();
+			this.setCenterOfMass();
+			this.updateViews();
+			this.nbrBallsChanged = false;
+		}//end resetAll()
 		
 		public function setOneDMode(tOrF:Boolean):void{
 			this.oneDMode = tOrF;

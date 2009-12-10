@@ -121,7 +121,8 @@ package{
 				}//for(j)
 			}//for(i)
 			this.drawBorder(this.nbrBalls);  //nbr of rows 
-			//this.canvas.addChild(this.toggleButton);
+			//manually set rowWidth for 1st call to setupToggleButton()
+			this.rowWidth = 4.5*this.colWidth;
 			this.setupToggleButton();
 			this.makeHeaderRow();
 			this.setNbrDisplayedRows();
@@ -194,8 +195,7 @@ package{
 			this.toggleButton.emphasized = true;
 			this.toggleButton.width = 90;
 			this.toggleButton.label = "More Data";
-			trace("this.rowWidth: "+this.rowWidth);
-			this.toggleButton.x = -1.2*this.toggleButton.width;
+			this.toggleButton.x = this.rowWidth + 0.2*this.toggleButton.width;
 			this.toggleButton.addEventListener(MouseEvent.CLICK, toggleButtonClick);
 			//this.toggleButton.buttonMode = true;  //only works with Sprites
 		}
@@ -220,6 +220,7 @@ package{
 				this.rowWidth = this.nbrColumns*this.colWidth;
 				this.x = 60;
 			}
+			this.toggleButton.x = this.rowWidth + 0.2*this.toggleButton.width;
 			this.drawBorder(this.nbrBalls);
 			//hide all but 1st two columns for partial
 			//this.drawBorder(this.nbrBalls, 4.5*this.colWidth)
