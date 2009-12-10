@@ -19,9 +19,8 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  */
 public abstract class SimpleSugar extends SimpleModelElement {
 	
-	public static double HEIGHT = 2;
-	
-	private static double sideLength;
+	public static final double HEIGHT = 2;
+	private static final double SIDE_LENGTH = HEIGHT / 2 / Math.sin(Math.PI/3);
 	
 	public SimpleSugar(IGeneNetworkModelControl model, Point2D initialPosition, Paint paint) {
 		super(model, createShape(), initialPosition, paint, false, Double.POSITIVE_INFINITY);
@@ -30,13 +29,12 @@ public abstract class SimpleSugar extends SimpleModelElement {
 	private static Shape createShape(){
 		// Create a hexagon shape.
 		DoubleGeneralPath path = new DoubleGeneralPath();
-		sideLength = HEIGHT / 2 / Math.sin(Math.PI/3);
-		path.moveTo(-sideLength / 2, -HEIGHT / 2);
+		path.moveTo(-SIDE_LENGTH / 2, -HEIGHT / 2);
 		
 		double angle = Math.PI;
 		
 		for (int i = 0; i < 6; i++){
-			angle = lineToRelative(path, sideLength, angle);
+			angle = lineToRelative(path, SIDE_LENGTH, angle);
 		}
 
         return AffineTransform.getTranslateInstance(-path.getGeneralPath().getBounds2D().getCenterX(), 
@@ -44,7 +42,7 @@ public abstract class SimpleSugar extends SimpleModelElement {
 	}
 	
 	public static double getSideLength(){
-		return sideLength;
+		return SIDE_LENGTH;
 	}
 	
 	public static double getWidth(){

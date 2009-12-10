@@ -36,8 +36,11 @@ public class Galactose extends SimpleSugar {
 		
 		glucoseBondingPartner = glucose;
 		Dimension2D offset = glucoseBondingPartner.getGalactoseAttachmentPointOffset();
-		offset.setSize(offset.getWidth() + GLUCOSE_ATTACHMENT_OFFSET.getWidth(),
-				offset.getHeight() + GLUCOSE_ATTACHMENT_OFFSET.getHeight());
+		offset.setSize(offset.getWidth() - GLUCOSE_ATTACHMENT_OFFSET.getWidth(),
+				offset.getHeight() - GLUCOSE_ATTACHMENT_OFFSET.getHeight());
+		Point2D position = new Point2D.Double(glucose.getPositionRef().getX() + offset.getWidth(),
+				glucose.getPositionRef().getY() + offset.getHeight());
+		setPosition(position);
 		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, glucoseBondingPartner, offset));
 	}
 	
