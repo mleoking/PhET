@@ -1,0 +1,40 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: December 3-9, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Reactants, Products and Leftovers:
+  - many changes to spinners/histograms to make them reusable in Game tab
+  - added elements to Game play area (buttons, instructions, smile/frown, timer,...)
+  
+  common code:
+  - #89, fixed blank secondary windows in common code
+  - #1898, fixed i18n of Statistics Details dialog
+  
+  misc:
+  - status meeting
+  - discussed "Balancing Equations" and "Titration" sims with Kelly
+  - scheduled lead/developer meeting with Kelly
+  - created an Unfuddle milestone for upcoming full redeploy
+  - #89, fixed blank secondary windows in many sims
+  - created tickets for some "big picture" issues (1944, 1945)
+  - #1956, identified issues with Eating And Exercise
+  - identified misc sim problems (1951,1952,1953,1954,1955,1957,1959)
+  - helped JB with problem deploying to tigercat
+  - took a quick look at Natural Section sim
+
+WHAT'S NEXT:
+
+  - continue work on Reactants, Products and Leftovers
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   February 12-15
+  
+--
