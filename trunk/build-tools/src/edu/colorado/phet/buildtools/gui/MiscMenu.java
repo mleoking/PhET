@@ -92,15 +92,26 @@ public class MiscMenu extends JMenu {
             }
         } );
         add( batchTest );
+        {
 
-        JMenuItem buildAndDeployAll = new JMenuItem( "Batch Deploy All sims" );
-        buildAndDeployAll.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-//                batchDeploy( PhetProject.getAllSimulations( trunk ), selectDeployStrategy() );
-                batchDeploy( select( PhetProject.getAllSimulations( trunk ) ), selectDeployStrategy() );
-            }
-        } );
-        add( buildAndDeployAll );
+            JMenuItem buildAndDeployAll = new JMenuItem("Batch Deploy All sims");
+            buildAndDeployAll.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    batchDeploy(select(PhetProject.getAllSimulations(trunk)), selectDeployStrategy());
+                }
+            });
+            add(buildAndDeployAll);
+        }
+
+        {
+            JMenuItem buildAndDeployAll = new JMenuItem("Batch Deploy All Java Sims");
+            buildAndDeployAll.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    batchDeploy(select(JavaProject.getJavaSimulations(trunk)), selectDeployStrategy());
+                }
+            });
+            add(buildAndDeployAll);
+        }
 
         JMenuItem generateJNLP = new JMenuItem( "Generate Prod JNLP" );
         generateJNLP.addActionListener( new ActionListener() {
