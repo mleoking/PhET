@@ -75,12 +75,12 @@ package{
 			//var colHeight = 25;
 			this.canvas = new Sprite;
 			this.invisibleBorder = new Sprite();
-			//this.toggleButton = new Button()
+			this.toggleButton = new Button()
 			this.addChild(this.canvas);
 			this.canvas.addChild(this.invisibleBorder);
-			//this.canvas.addChild(this.toggleButton);
+			this.canvas.addChild(this.toggleButton);
 			this.myMainView.addChild(this);
-			//this.setupToggleButton();
+			
 			
 			//this.x = 60;
 			
@@ -122,6 +122,7 @@ package{
 			}//for(i)
 			this.drawBorder(this.nbrBalls);  //nbr of rows 
 			//this.canvas.addChild(this.toggleButton);
+			this.setupToggleButton();
 			this.makeHeaderRow();
 			this.setNbrDisplayedRows();
 			this.createTextChangeListeners();
@@ -189,16 +190,16 @@ package{
 		
 		
 		public function setupToggleButton():void{
-			this.toggleButton = new Button();
-			//trace(this.toggleButton);
-			
-			this.canvas.addChild(this.toggleButton);
+			//this.canvas.addChild(this.toggleButton);
 			this.toggleButton.emphasized = true;
-			this.toggleButton.width = 30;
-			this.toggleButton.label = "MoreOrLess";
-			this.toggleButton.x = -3*this.toggleButton.width;
-			this.toggleButton.buttonMode = true;
+			this.toggleButton.width = 90;
+			this.toggleButton.label = "More Data";
+			trace("this.rowWidth: "+this.rowWidth);
+			this.toggleButton.x = -1.2*this.toggleButton.width;
+			this.toggleButton.addEventListener(MouseEvent.CLICK, toggleButtonClick);
+			//this.toggleButton.buttonMode = true;  //only works with Sprites
 		}
+		
 		
 		
 		public function setupSlider(mSlider:Slider):void{
@@ -321,6 +322,17 @@ package{
 			this.sliderUpdating = false;
 			trace("ball "+ballNbr + "   value: "+evt.target.value);
 		}
+		
+		private function toggleButtonClick(evt:MouseEvent):void{
+			trace(evt.target.label);
+			if(evt.target.label == "More Data"){
+				evt.target.label = "Less Data";
+				this.displayPartialDataTable(false);
+			}else if(evt.target.label == "Less Data"){
+				evt.target.label = "More Data";
+				this.displayPartialDataTable(true);
+			}
+		}//toggleButtonClick
 		
 		public function update():void{
 			this.setNbrDisplayedRows();
