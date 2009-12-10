@@ -45,8 +45,8 @@ public class SimpleModelElementNode extends PPath {
 	private static final boolean SHOW_CENTER_DOT = false;
 	private static final boolean SHOW_ATTACHMENT_POINTS = false;
 	private static final Font LABEL_FONT = new PhetFont(16, true );
-	private static final Stroke NORMAL_STROKE = new BasicStroke(2);
-	private static final Stroke GHOST_MODE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_BUTT,
+	private static final Stroke NORMAL_STROKE = new BasicStroke(1);
+	private static final Stroke GHOST_MODE_STROKE = new BasicStroke(1.0f, BasicStroke.CAP_BUTT,
 			BasicStroke.JOIN_BEVEL, 0, new float[] {4, 2}, 0);
 	
     //----------------------------------------------------------------------------
@@ -69,6 +69,7 @@ public class SimpleModelElementNode extends PPath {
 	
 		this.modelElement = modelElement;
 		this.mvt = mvt;
+		setStroke(NORMAL_STROKE);
 		
 		// Register for important event notifications from the model.
 		modelElement.addListener(new ModelElementListenerAdapter() {
