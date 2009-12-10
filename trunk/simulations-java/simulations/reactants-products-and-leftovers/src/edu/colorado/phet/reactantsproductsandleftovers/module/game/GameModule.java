@@ -20,7 +20,7 @@ public class GameModule extends PiccoloModule {
         super( RPALStrings.TITLE_GAME, new RPALClock(), true /* startsPaused */ );
 
         // Model
-        model = new GameModel();
+        model = new GameModel( getClock() );
         
         // Canvas
         GameCanvas canvas = new GameCanvas( model, this );

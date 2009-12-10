@@ -1,3 +1,4 @@
+12/9/09 hook up game timer to clock
 12/9/09 add before/after instructions for game
 12/9/09 use GradientButtonNode for game buttons (Check, Next, Try Again, Show Answer)
 12/9/09 switch between game settings and main scenegraph via "New Game" and "Start!" buttons

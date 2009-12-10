@@ -109,13 +109,13 @@ public class ScoreboardPanel extends JPanel {
             public void timerEnabledChanged() {
                 setTimerVisible( model.isTimerEnabled() );
                 if ( model.isTimerEnabled() ) {
-                    setTime( model.getTime() );
+                    setTime( model.getElapsedTime() );
                 }
             }
             
             @Override
             public void timeChanged() {
-                setTime( model.getTime() );
+                setTime( model.getElapsedTime() );
             }
         });
         
@@ -123,7 +123,7 @@ public class ScoreboardPanel extends JPanel {
         setPoints( model.getPoints() );
         setLevel( model.getLevel() );
         setTimerVisible( model.isTimerEnabled() );
-        setTime( model.getTime() );
+        setTime( model.getElapsedTime() );
     }
     
     private void setPoints( double points ) {
@@ -143,13 +143,14 @@ public class ScoreboardPanel extends JPanel {
         timerValue.setVisible( visible );
     }
     
-    private void setTime( int timeInSeconds ) {
+    private void setTime( long elapsedMillis ) {
+        long elapsedSec = ( elapsedMillis / 1000 );
         int secondsPerMinute = 60;
         int minutesPerHour = 60;
         int secondsPerHour = minutesPerHour * secondsPerMinute;
-        int hours = (int) ( timeInSeconds / secondsPerHour );
-        int minutes = (int) ( timeInSeconds - ( hours * secondsPerHour ) ) / secondsPerMinute;
-        int seconds = (int) ( timeInSeconds - ( hours * secondsPerHour ) - ( minutes * secondsPerMinute ) );
+        int hours = (int) ( elapsedSec / secondsPerHour );
+        int minutes = (int) ( elapsedSec - ( hours * secondsPerHour ) ) / secondsPerMinute;
+        int seconds = (int) ( elapsedSec - ( hours * secondsPerHour ) - ( minutes * secondsPerMinute ) );
         String valueString = "";
         if ( hours > 0 ) {
             // hours:minutes:seconds

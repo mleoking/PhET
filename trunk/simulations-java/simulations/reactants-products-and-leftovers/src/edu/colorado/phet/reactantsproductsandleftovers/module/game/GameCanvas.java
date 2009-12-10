@@ -11,7 +11,10 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.GameSettingsPanel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
-import edu.colorado.phet.reactantsproductsandleftovers.view.*;
+import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
+import edu.colorado.phet.reactantsproductsandleftovers.view.RealReactionEquationNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.ScoreboardPanel;
 import edu.colorado.phet.reactantsproductsandleftovers.view.game.*;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -25,7 +28,7 @@ public class GameCanvas extends RPALCanvas {
     private final GameModel model;
     
     // these nodes are final, allocated once
-    private final PSwing gameSettingsPanelWrapper;
+    private final PhetPNode gameSettingsNode;
     private final PSwing scoreboardPanelWrapper;
     private final FaceNode beforeFaceNode, afterFaceNode;
     private final RightArrowNode arrowNode;
@@ -48,9 +51,11 @@ public class GameCanvas extends RPALCanvas {
         
         // game settings
         GameSettingsPanel gameSettingsPanel = new GameSettingsPanel( model );
-        gameSettingsPanelWrapper = new PSwing( gameSettingsPanel );
+        PSwing gameSettingsPanelWrapper = new PSwing( gameSettingsPanel );
         gameSettingsPanelWrapper.scale( 1.5 ); //XXX scale
-        addChild( gameSettingsPanelWrapper );
+        gameSettingsNode = new PhetPNode();
+        gameSettingsNode.addChild( gameSettingsPanelWrapper );
+        addChild( gameSettingsNode );
         
         // right-pointing arrow
         arrowNode = new RightArrowNode();
@@ -119,7 +124,7 @@ public class GameCanvas extends RPALCanvas {
    }
     
     private void setGameSettingsVisible( boolean visible ) {
-        gameSettingsPanelWrapper.setVisible( visible );
+        gameSettingsNode.setVisible( visible );
         parentNode.setVisible( !visible );
     }
     
@@ -217,9 +222,9 @@ public class GameCanvas extends RPALCanvas {
         afterInstructions.setOffset( x, y );
         
         // game settings, horizontally and vertically centered on everything else
-        x = parentNode.getFullBoundsReference().getCenterX() - ( gameSettingsPanelWrapper.getFullBoundsReference().getWidth() / 2 );
-        y =  parentNode.getFullBoundsReference().getCenterY() - ( gameSettingsPanelWrapper.getFullBoundsReference().getHeight() / 2 );
-        gameSettingsPanelWrapper.setOffset( x, y );
+        x = parentNode.getFullBoundsReference().getCenterX() - ( gameSettingsNode.getFullBoundsReference().getWidth() / 2 );
+        y =  parentNode.getFullBoundsReference().getCenterY() - ( gameSettingsNode.getFullBoundsReference().getHeight() / 2 );
+        gameSettingsNode.setOffset( x, y );
     }
 
     /*
