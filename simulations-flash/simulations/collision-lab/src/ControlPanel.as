@@ -14,6 +14,7 @@
 		private var nbrBalls;
 		private var maxNbrBalls;
 		private var tFormat:TextFormat;
+		private var resetButton:NiceButton;
 		//private var changeNbrBallButtons:ChangeNbrBallButtons;	//libary symbol instance
 		
 		public function ControlPanel(myModel:Model, myMainView:MainView){
@@ -34,6 +35,7 @@
 			this.changeNbrBallButtons.removeBallButton.addEventListener(MouseEvent.MOUSE_DOWN, removeBall);
 			this.changeNbrBallButtons.addBallButton.buttonMode = true;
 			this.changeNbrBallButtons.removeBallButton.buttonMode = true;
+			this.resetButton = new NiceButton(this.resetButton_sp, 80, resetAll);
 			var nbrString:String = String(this.nbrBalls);
 			this.changeNbrBallButtons.nbrReadout.text = nbrString;
 			this.elasticityLabel.text = "1.00";
@@ -71,6 +73,17 @@
 		}
 		public function oneDModeOff(evt:MouseEvent):void{
 			this.myModel.setOneDMode(false);
+		}
+		
+		private function resetAll():void{
+			this.myModel.resetAll();
+			this.oneD_rb.selected = true;
+			var nbrBalls_str:String = String(this.myModel.nbrBalls);
+			this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
+			this.timeRateSlider.value = 1;
+			this.myModel.setTimeRate(1);
+			this.elasticitySlider.value = 1;
+			this.myModel.setElasticity(1);
 		}
 		
 		public function showVelocityArrows(evt:MouseEvent):void{
