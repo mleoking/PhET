@@ -1,14 +1,13 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- Game: animated curtains
-- Game: Summary dialog
-- Game: seconds timer
-- Game: state machine to control visibility of game nodes
 - Game: value nodes below before/after boxes
 - Game: images in before/after boxes
+- Game: Summary dialog
+- Game: state machine to control visibility of game nodes
 
 MEDIUM PRIORITY
+- Game: animated curtains
 - PSwing memory leak affects tab traversal, #1874
 - make ImageLayoutStrategy be associated with the chemical reaction type
 
