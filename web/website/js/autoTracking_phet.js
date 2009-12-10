@@ -3,7 +3,7 @@ var simIdentifier = ''; // No identifier for now
 
 function listenToClicks() {
     var domains    = ["phet.colorado.edu"];
-    var fileTypes  = [".doc",".xls",".exe",".zip",".pdf",".mp3"];
+    var fileTypes  = [".doc",".xls",".exe",".zip",".pdf",".mp3",".bin"];
 
     if (document.getElementsByTagName) {
         var aTags = document.getElementsByTagName('a');
@@ -29,8 +29,8 @@ function listenToClicks() {
                     }
 
                     // look for a sim file extension for direct download
-                    if (((aTags[i].pathname.indexOf(".html") != -1) ||
-                        (aTags[i].pathname.indexOf(".jnlp") != -1)) &&
+                    if (
+                        (aTags[i].pathname.indexOf(".jnlp") != -1) &&
                         (aTags[i].pathname.indexOf("sims") != -1)) {
                         // file extension was found, go to next anchor
                         startListening(aTags[i],"click",trackOnlineSims);
