@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class InjectionMotionStrategy extends AbstractMotionStrategy {
 	
 	private static final double RATE_OF_SLOWING = 0.3;          // Proportion per second.
-	private static final double PRE_RANDOM_WALK_TIME = 3.0;     // In seconds.
+	private static final double PRE_RANDOM_WALK_TIME = 4.0;     // In seconds.
 	private static final Random RAND = new Random();
 	
 	private Rectangle2D bounds;
