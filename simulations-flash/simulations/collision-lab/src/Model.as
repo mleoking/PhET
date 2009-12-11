@@ -21,6 +21,7 @@ package{
 		var lastTime:Number;	//time of previous step
 		var timeStep:Number;	//time step in seconds
 		var msTimer:Timer;		//millisecond timer
+		var colliding:Boolean;	//true if wall-ball or ball-ball collision has occured in current timestep
 		var playing:Boolean;	//true if motion is playing, false if paused
 		var soundOn:Boolean;	//true if sound enabled
 		var sounding:Boolean;	//true if click sound is to be played, click sound during collision
@@ -45,7 +46,7 @@ package{
 			this.borderHeight = 2;
 			this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
 			this.maxNbrBalls = 5;
-			this.oneDMode = true;
+			this.oneDMode = false;
 			this.CM = new Point();
 			this.ball_arr = new Array(this.maxNbrBalls);  //only first nbrBalls elements of array are used
 			this.createInitialBallData();
@@ -123,8 +124,8 @@ package{
 			startingPos[2] = new TwoVector(1,1);
 			startingPos[3] = new TwoVector(1.2, 1.2);
 			startingPos[4] = new TwoVector(1.2, 0.2);
-			startingVel[0] = new TwoVector(2,0);
-			startingVel[1] = new TwoVector(-1,0);
+			startingVel[0] = new TwoVector(1,0.3);
+			startingVel[1] = new TwoVector(-1,-0.5);
 			startingVel[2] = new TwoVector(-0.5,-0.25);
 			startingVel[3] = new TwoVector(1.1,0.2);
 			startingVel[4] = new TwoVector(-1.1,0);
@@ -158,7 +159,7 @@ package{
 			this.nbrBalls = 1;
 			this.e = 1;			//set elasticity of collisions, 1 = perfectly elastic
 			this.timeRate = 1;
-			this.setOneDMode(true);
+			this.setOneDMode(false);
 			this.nbrBallsChanged = true;
 			this.separateAllBalls();
 			this.setCenterOfMass();
@@ -294,12 +295,17 @@ package{
 		public function singleStep():void{
 			if(this.atInitialConfig){this.atInitialConfig = false;}
 			var dt:Number;
-			if(playing && !starting){
+			if(playing && !starting  && !colliding){
 				//time-based aminimation
 				var realDt = getTimer() - timeHolder;
 				dt = realDt/1000;
+				//dt = this.timeStep;
+			}else if(this.colliding){
+				//frame-based animation for collision, for stability of algorithm
+				dt = 0.01*this.timeStep;
+				trace("Model collision occured at time"+this.time);
+				this.colliding = false;
 			}else{
-				//frame-based animation for singleStep or after pause
 				dt = this.timeStep;
 			}
 			//trace("Model.singleStep(). this.time = "+this.time+",   dt = "+dt);
@@ -366,22 +372,27 @@ package{
 			var i:int = index;
 			if(this.borderOn){
 				var radius:Number = this.ball_arr[i].getRadius();
+				var onePlusDelta:Number = 1.0001;
 				if((x+radius) > this.borderWidth){
-					this.setX(i, this.borderWidth - (1.001)*radius);
+					this.setX(i, this.borderWidth - onePlusDelta*radius);
 					this.setVX(i, -e*vX);   //ball_arr[i].velocity.setX(-e*vX);  
 					this.playClickSound();
+					this.colliding = true;
 				}else if((x-radius)< 0){
-					this.setX(i, (1.001)*radius);
+					this.setX(i, onePlusDelta*radius);
 					this.setVX(i, -e*vX) //ball_arr[i].velocity.setX(-e*vX);
 					this.playClickSound();
+					this.colliding = true;
 				}else if((y+radius) > this.borderHeight){
-					this.setY(i, this.borderHeight - (1.001)*radius);
+					this.setY(i, this.borderHeight - onePlusDelta*radius);
 					this.setVY(i, -e*vY); //ball_arr[i].velocity.setY(-e*vY);
 					this.playClickSound();
+					this.colliding = true;
 				}else if((y-radius)< 0){
-					this.setY(i, (1.001)*radius);
+					this.setY(i, onePlusDelta*radius);
 					this.setVY(i, -e*vY); //ball_arr[i].velocity.setY(-e*vY);
 					this.playClickSound();
+					this.colliding = true;
 				}
 			}//end if(borderOn)
 		}//end of checkWallAndProcessCollision()
@@ -400,6 +411,7 @@ package{
 						//trace("elasticity before collision: "+this.e);
 						//trace("collision detected. i = "+i+"   j = "+j+"   at time: "+this.time+"   dist: "+dist+"   distMin: "+distMin);
 						this.collideBalls(i, j);
+						this.colliding = true;
 						//this.colliders[i][j] = 1;  //ball have collided
 					}
 				}//for(j=..)
@@ -521,6 +533,8 @@ package{
 				//this.ball_arr[i].velocity.setXY(v1xP, v1yP);
 				//this.ball_arr[j].velocity.setXY(v2xP, v2yP);
 				
+				//Don't allow balls to rebound after collision during timestep of collision
+				//this seems to improve stability
 				var newXi:Number = x1 + v1xP*delTAfter;
 				var newYi:Number = y1 + v1yP*delTAfter;
 				var newXj:Number = x2 + v2xP*delTAfter;
