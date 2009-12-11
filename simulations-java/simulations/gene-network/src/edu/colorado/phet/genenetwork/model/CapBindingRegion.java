@@ -28,7 +28,6 @@ public class CapBindingRegion extends SimpleModelElement {
 	
 	public CapBindingRegion(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.CAP, CAP_ATTACHMENT_POINT_OFFSET));
 	}
 	
 	public CapBindingRegion(IGeneNetworkModelControl model) {
@@ -54,14 +53,6 @@ public class CapBindingRegion extends SimpleModelElement {
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
-	}
-
-	public boolean availableForAttaching(ModelElementType elementType) {
-		boolean available = false;
-		if (elementType == ModelElementType.CAP && capAttachmentPartner == null){
-			available = true;
-		}
-		return available;
 	}
 
 	public boolean considerProposalFrom(IModelElement modelElement) {

@@ -56,9 +56,6 @@ public class RnaPolymerase extends SimpleModelElement {
 	public RnaPolymerase(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		
-		// This binding point should is hand tweaked to make it work.
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_PROMOTER, LAC_PROMOTER_ATTACHMENT_POINT_OFFSET));
-		
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 	}
 	
@@ -183,14 +180,6 @@ public class RnaPolymerase extends SimpleModelElement {
 			}
 		}
 		super.stepInTime(dt);
-	}
-
-	public boolean availableForBonding(ModelElementType elementType) {
-		boolean available = false;
-		if (elementType == ModelElementType.LAC_PROMOTER && lacPromoterAttachmentPartner == null){
-			available = true;
-		}
-		return available;
 	}
 
 	public boolean considerProposalFrom(LacPromoter lacPromoter) {

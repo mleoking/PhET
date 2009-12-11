@@ -49,7 +49,6 @@ public abstract class SimpleModelElement implements IModelElement{
 	private ExistenceState existenceState = ExistenceState.EXISTING; // Controls whether fading in or out.
 	private Vector2D.Double velocity = new Vector2D.Double();
     protected ArrayList<IModelElementListener> listeners = new ArrayList<IModelElementListener>();
-    private ArrayList<AttachmentPoint> bindingPoints = new ArrayList<AttachmentPoint>();
     private AbstractMotionStrategy motionStrategy = null;
     private final IGeneNetworkModelControl model;
     private boolean dragging;
@@ -88,9 +87,6 @@ public abstract class SimpleModelElement implements IModelElement{
     	return dragging;
     }
     
-    // TODO: Stubbed and hacked, get rid of this ASAP.
-	public ModelElementType getType(){return ModelElementType.CAMP;};
-	
 	public boolean isPartOfDnaStrand(){
 		// Assumed not to be part of DNA strand in base class, override as needed.
 		return false;
@@ -161,18 +157,6 @@ public abstract class SimpleModelElement implements IModelElement{
 		}
 	}
 	
-	public AttachmentPoint getAttachmentPointForElement(ModelElementType elementType){
-		AttachmentPoint matchingBindingPoint = null;
-		for (AttachmentPoint bindingPoint : bindingPoints){
-			if (bindingPoint.getElementType() == elementType){
-				// We have a match.
-				matchingBindingPoint = bindingPoint;
-				break;
-			}
-		}
-		return matchingBindingPoint;
-	}
-	
 	public double getExistenceStrength() {
 		return existenceStrength;
 	}
@@ -201,14 +185,6 @@ public abstract class SimpleModelElement implements IModelElement{
 		notifyRemovedFromModel();
 	}
 
-	/**
-	 * Add a binding point to the list that is being maintained for this model
-	 * element.
-	 */
-	protected void addAttachmentPoint(AttachmentPoint bindingPoint){
-		bindingPoints.add(bindingPoint);
-	}
-	
 	protected void notifyPositionChanged(){
 		// Notify all listeners of the position change.
 		for (IModelElementListener listener : listeners)

@@ -43,8 +43,6 @@ public class LacPromoter extends SimpleModelElement {
 
 	public LacPromoter(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.RNA_POLYMERASE, 
-				RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET));
 	}
 	
 	public LacPromoter(IGeneNetworkModelControl model) {
@@ -126,14 +124,6 @@ public class LacPromoter extends SimpleModelElement {
 		}
 	}
 	
-	public boolean availableForBonding(ModelElementType elementType) {
-		boolean available = false;
-		if (elementType == ModelElementType.RNA_POLYMERASE && rnaPolymeraseAttachmentPartner == null){
-			available = true;
-		}
-		return available;
-	}
-
 	public boolean considerProposalFrom(IModelElement modelElement) {
 		boolean proposalAccepted = false;
 

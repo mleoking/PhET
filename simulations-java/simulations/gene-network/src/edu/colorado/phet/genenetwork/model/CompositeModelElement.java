@@ -99,11 +99,6 @@ public class CompositeModelElement implements IModelElement {
 		return null;
 	}
 
-	public boolean availableForBonding(ModelElementType elementType) {
-		// Always says no in the base class.
-		return false;
-	}
-
 	public boolean considerProposalFrom(IModelElement modelElement) {
 		// Always refuses proposal in the base class.
 		return false;
@@ -125,16 +120,6 @@ public class CompositeModelElement implements IModelElement {
 		// if not overridden it will not initiate any bonds.
 	}
 
-	public AttachmentPoint getAttachmentPointForElement(ModelElementType type) {
-		// Return null, indicating that no binding point exists for the specified type.
-		return null;
-	}
-
-	public ModelElementType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	protected void setMotionStrategy(AbstractMotionStrategy newMotionStrategy){
 		motionStrategy = newMotionStrategy;
 	}
