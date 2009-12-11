@@ -51,4 +51,36 @@ public class Glucose extends SimpleSugar {
 	public boolean isBoundToGalactose(){
 		return !(galactoseAttachmentPartner == null);
 	}
+	
+	public boolean considerProposalFrom(LacZ lacZ){
+		boolean proposalAccepted = false;
+		
+		if (lacIAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE && 
+			getExistenceState() == ExistenceState.EXISTING){
+			
+			assert lacZAttachmentPartner == null;  // For debug - Make sure consistent with attachment state.
+			lacZAttachmentPartner = lacZ;
+			lacIAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+			proposalAccepted = true;
+			
+			// Set ourself up to move toward the attaching location.
+			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(this, lacZ,
+					LacZ.getGlucoseAttachmentPointOffset(), LacOperonModel.getMotionBounds()));
+		}
+		
+		return proposalAccepted;
+	}
+	
+	public void attach(LacZ lacZ){
+		if (lacZ != lacZAttachmentPartner){
+			// For this bond, it is expected that we were already moving
+			// towards this partner.  If not, it's unexpected.
+			System.err.println(getClass().getName() + " - Error: Attach request from non-partner.");
+			assert false;
+			return;
+		}
+		setPosition(lacZ.getGlucoseAttachmentPointLocation());
+		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, lacZ, LacZ.getGlucoseAttachmentPointOffset()));
+		lacIAttachmentState = AttachmentState.ATTACHED;
+	}
 }
