@@ -36,7 +36,7 @@ public class LactoseInjectorNode extends PNode {
 	private static final double INJECTOR_HEIGHT = 120;
 	
 	// Angle of rotation of this node.
-	private static final double ROTATION_ANGLE = Math.PI/4;
+	private static final double ROTATION_ANGLE = Math.PI/3;
 	
 	// Offset of button within this node.  This was determined by trial and
 	// error and will need to be tweaked if the images change.
@@ -45,7 +45,7 @@ public class LactoseInjectorNode extends PNode {
 	// Velocity at which lactose is injected in to the model.  This assumes
 	// that injection is down and to the left.  May need to generalize to be
 	// a function of the rotation angle some day.
-	private static final Vector2D NOMINAL_LACTOSE_INJECTION_VELOCITY = new Vector2D.Double(-15, -15);
+	private static final Vector2D NOMINAL_LACTOSE_INJECTION_VELOCITY = (new Vector2D.Double(0, -20)).rotate(-ROTATION_ANGLE);
 	
 	// Random number generator.
 	private static final Random RAND = new Random();
@@ -93,7 +93,7 @@ public class LactoseInjectorNode extends PNode {
         // Set up the injection point offset.  This is currently fixed, which
         // assumes that the node is rotated so that it is pointing down and to
         // the left.  This may need to be generalized some day.
-        injectionPointOffset.setSize(-getFullBoundsReference().width * 0.35, getFullBoundsReference().height * 0.35);
+        injectionPointOffset.setSize(-getFullBoundsReference().width * 0.35, getFullBoundsReference().height * 0.25);
         
         // Set up the button handling.
         unpressedButtonImage.setPickable(true);
