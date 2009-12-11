@@ -48,6 +48,10 @@ public class Glucose extends SimpleSugar {
 		// location or adjustment of the motion strategy.
 	}
 	
+	public AttachmentState getLacZAttachmentState(){
+		return lacIAttachmentState;
+	}
+	
 	public boolean isBoundToGalactose(){
 		return !(galactoseAttachmentPartner == null);
 	}
