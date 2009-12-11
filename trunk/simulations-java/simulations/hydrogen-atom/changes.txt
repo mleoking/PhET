@@ -1,3 +1,5 @@
+# 1.08.01 (37358) Dec 11, 2009
+12/11/09 test version for milestone "full redeploy, 2010 Q1"
 12/4/09 #89, subclass PaintImmediateDialog instead of JDialog
 # 1.08.00 (30610) Apr 20, 2009
 4/20/09 Batch deploy as part of IOM milestone with revision 30609
