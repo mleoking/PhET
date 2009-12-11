@@ -1,3 +1,5 @@
+# 2.02.00 (37321) Dec 11, 2009
+12/11/09 > Common interface fixes, improvements, and Khmer support.
 # 2.01.00 (36936) Nov 29, 2009
 11/29/09 > Keyboard accessibility, changed cross colors for colorblindness, and "user choice" now can score.
 # 2.00.03 (36694) Nov 16, 2009
