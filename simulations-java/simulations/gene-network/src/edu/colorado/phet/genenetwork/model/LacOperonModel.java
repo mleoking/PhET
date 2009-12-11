@@ -250,6 +250,32 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		toolBoxRect.setFrame(rect);
 	}
 	
+	/**
+	 * Search through all of the glucose molecules finding those that are
+	 * formed into lactose and, of those, return the closest one that is not
+	 * bound to LacZ.
+	 * 
+	 * @return A reference to a glucose molecule that is bound to a galactose
+	 * and therefore part of lactose.  Returns null if no available lactose
+	 * can be found.
+	 */
+	public Glucose findNearestFreeLactose(Point2D pt){
+		double distance = Double.POSITIVE_INFINITY;
+		Glucose nearestFreeGlucose = null;
+		for (Glucose glucose : glucoseList){
+			if (glucose.isBoundToGalactose() && 
+				glucose.getLacZAttachmentState() == AttachmentState.UNATTACHED_AND_AVAILABLE && 
+				pt.distance(glucose.getPositionRef()) < distance){
+				
+				// This is the best candidate so far.
+				nearestFreeGlucose = glucose;
+				distance = pt.distance(glucose.getPositionRef());
+			}
+		}
+		
+		return nearestFreeGlucose;
+	}
+	
 	public boolean isPointInToolBox(Point2D pt){
 		return toolBoxRect.contains(pt);
 	}
