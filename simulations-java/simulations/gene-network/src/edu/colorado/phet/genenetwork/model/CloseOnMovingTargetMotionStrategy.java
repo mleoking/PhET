@@ -28,7 +28,7 @@ public class CloseOnMovingTargetMotionStrategy extends
 	};
 
 	public CloseOnMovingTargetMotionStrategy(IModelElement modelElement, IModelElement targetElement, 
-			Dimension2D attachmentPointOffset,Rectangle2D bounds) {
+			Dimension2D attachmentPointOffset, Rectangle2D bounds) {
 		super(modelElement, bounds);
 		this.targetElement = targetElement;
 		targetElement.addListener(targetListener);
