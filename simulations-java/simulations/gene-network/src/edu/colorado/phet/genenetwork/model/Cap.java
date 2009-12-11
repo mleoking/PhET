@@ -33,8 +33,6 @@ public class Cap extends SimpleModelElement {
 	
 	public Cap(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.CAP_BINDING_REGION, 
-				CAP_BINDING_REGION_ATTACHMENT_OFFSET));
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 	}
 	
@@ -44,11 +42,6 @@ public class Cap extends SimpleModelElement {
 	
 	public Cap(){
 		this(null);
-	}
-	
-	@Override
-	public ModelElementType getType() {
-		return ModelElementType.CAP;
 	}
 	
 	private static Shape createActiveConformationShape(){
@@ -88,6 +81,10 @@ public class Cap extends SimpleModelElement {
 	
 	@Override
 	public void stepInTime(double dt) {
+		/*
+		 * TODO: This needs to be reworked for the new approach if we
+		 * end up keeping CAP binding region in the sim.  As of Dec
+		 * 2009, there is some question about this.
 		if (capBindingRegionPartner != null){
 			if (capBindingRegionAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
 				// We are moving towards attaching to a partner.
@@ -106,10 +103,11 @@ public class Cap extends SimpleModelElement {
 					setMotionStrategy(new StillnessMotionStrategy(this));
 				}
 				else{
-					getMotionStrategyRef().setDestination(xDest, yDest);
+					getMotionStrategyRefef().setDestination(xDest, yDest);
 				}
 			}
 		}
+		 */
 		super.stepInTime(dt);
 	}
 

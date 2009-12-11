@@ -45,9 +45,4 @@ public class Glucose extends SimpleSugar {
 		// other way round.  So there is no movement here to the partner's
 		// location or adjustment of the motion strategy.
 	}
-	
-	@Override
-	public ModelElementType getType() {
-		return ModelElementType.GLUCOSE;
-	}
 }

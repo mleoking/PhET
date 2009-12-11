@@ -25,11 +25,6 @@ public class LacYGene extends SimpleModelElement {
 	}
 	
 	@Override
-	public ModelElementType getType() {
-		return ModelElementType.LAC_Y_GENE;
-	}
-	
-	@Override
 	public String getLabel() {
 		// TODO: i18n
 		return "LacY Gene";

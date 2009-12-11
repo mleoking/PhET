@@ -120,11 +120,6 @@ public abstract class MessengerRna extends SimpleModelElement {
 		length += growthAmount;
 	}
 	
-	@Override
-	public ModelElementType getType() {
-		return ModelElementType.MESSENGER_RNA;
-	}
-	
 	private static Shape createInitialShape(){
 		return new Ellipse2D.Double(-THICKNESS / 2, -THICKNESS / 2, THICKNESS, THICKNESS);
 	}

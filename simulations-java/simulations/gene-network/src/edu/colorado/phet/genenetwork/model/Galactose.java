@@ -43,9 +43,4 @@ public class Galactose extends SimpleSugar {
 		setPosition(position);
 		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, glucoseBondingPartner, offset));
 	}
-	
-	@Override
-	public ModelElementType getType() {
-		return ModelElementType.GALACTOSE;
-	}
 }

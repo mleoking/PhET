@@ -126,11 +126,6 @@ public class LacPromoter extends SimpleModelElement {
 		}
 	}
 	
-	@Override
-	public ModelElementType getType() {
-		return ModelElementType.LAC_PROMOTER;
-	}
-	
 	public boolean availableForBonding(ModelElementType elementType) {
 		boolean available = false;
 		if (elementType == ModelElementType.RNA_POLYMERASE && rnaPolymeraseAttachmentPartner == null){
