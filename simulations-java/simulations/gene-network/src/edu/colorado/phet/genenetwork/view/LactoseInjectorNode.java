@@ -4,7 +4,6 @@ package edu.colorado.phet.genenetwork.view;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
