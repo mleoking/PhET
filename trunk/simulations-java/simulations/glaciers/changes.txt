@@ -1,3 +1,5 @@
+# 2.02.01 (37356) Dec 11, 2009
+12/11/09 test version for milestone "full redeploy, 2010 Q1"
 12/4/09 #89, subclass PaintImmediateDialog instead of JDialog
 # 2.02.00 (36275) Oct 30, 2009
 10/30/09 new production version with minor enhancements
