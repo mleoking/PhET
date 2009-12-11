@@ -1,3 +1,5 @@
+# 2.03.00 (37296) Dec 10, 2009
+12/10/09 > Common interface fixes, improvements, and Khmer support.
 # 2.02.02 (30828) Apr 23, 2009
 4/23/09 test #1446, PBG Flash deploy on Mac
 # 2.02.01 (30708) Apr 21, 2009
