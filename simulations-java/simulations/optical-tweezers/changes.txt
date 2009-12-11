@@ -1,3 +1,5 @@
+# 2.02.01 (37369) Dec 11, 2009
+12/11/09 test version for milestone "full redeploy, 2010 Q1"
 12/4/09 #89, subclass PaintImmediateDialog instead of JDialog
 10/23/09 FluidControlsDialog doesn't repaint while clock is running, extend PaintImmediatelyDialog
 # 2.02.00 (30671) Apr 21, 2009
