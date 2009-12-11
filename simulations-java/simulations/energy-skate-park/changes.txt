@@ -1,3 +1,5 @@
+# 2.05.07 (37348) Dec 11, 2009
+12/11/09 test version for milestone "full redeploy, 2010 Q1"
 # 2.05.06 (32959) Jul 1, 2009
 > Added Joules and meters on the Energy vs. Position graph
 > Improvements for internationalization
