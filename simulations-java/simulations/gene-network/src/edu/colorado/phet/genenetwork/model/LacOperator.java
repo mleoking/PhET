@@ -158,7 +158,7 @@ public class LacOperator extends SimpleModelElement {
 	}
 
 	public static Dimension2D getLacIAttachementPointOffset() {
-		return LAC_I_ATTACHMENT_POINT_OFFSET;
+		return new PDimension(LAC_I_ATTACHMENT_POINT_OFFSET);
 	}
 	
 	@Override
