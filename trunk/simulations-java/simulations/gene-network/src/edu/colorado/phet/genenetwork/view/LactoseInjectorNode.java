@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.genenetwork.view;
 
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -14,6 +16,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Node that represents the thing that the user interacts with in order to
@@ -47,11 +50,12 @@ public class LactoseInjectorNode extends PNode {
     // Instance Data
     //------------------------------------------------------------------------
 
-	PNode bodyImage;
-	PNode unpressedButtonImage;
-	PNode pressedButtonImage;
-	IGeneNetworkModelControl model;
-	ModelViewTransform2D mvt;
+	private PNode bodyImage;
+	private PNode unpressedButtonImage;
+	private PNode pressedButtonImage;
+	private IGeneNetworkModelControl model;
+	private ModelViewTransform2D mvt;
+	private Dimension2D injectionPointOffset = new PDimension();
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -82,6 +86,11 @@ public class LactoseInjectorNode extends PNode {
         rotateAboutPoint( ROTATION_ANGLE, new Point2D.Double( bodyImage.getFullBoundsReference().width / 2, bodyImage.getFullBoundsReference().height / 2));
         scale(scale);
         
+        // Set up the injection point offset.  This is currently fixed, which
+        // assumes that the node is rotated so that it is pointing down and to
+        // the left.  This may need to be generalized some day.
+        injectionPointOffset.setSize(-getFullBoundsReference().width * 0.35, getFullBoundsReference().height * 0.35);
+        
         // Set up the button handling.
         unpressedButtonImage.setPickable(true);
         pressedButtonImage.setPickable(false);
@@ -91,8 +100,7 @@ public class LactoseInjectorNode extends PNode {
         	@Override
             public void mousePressed( PInputEvent event ) {
                 unpressedButtonImage.setVisible(false);
-                // TODO: Need to actually calculate the injection location.
-                model.createAndAddLactose(new Point2D.Double(55, 45), LACTOSE_INJECTION_VELOCITY);
+                injectLactose();
             }
         	
         	@Override
@@ -100,5 +108,12 @@ public class LactoseInjectorNode extends PNode {
                 unpressedButtonImage.setVisible(true);
             }
         });
+	}
+	
+	private void injectLactose(){
+        // Calculate the injection point.
+		double injectionPointX = mvt.viewToModelX(getFullBoundsReference().getCenter2D().getX() + injectionPointOffset.getWidth());
+		double injectionPointY = mvt.viewToModelY(getFullBoundsReference().getCenter2D().getY() + injectionPointOffset.getHeight());
+        model.createAndAddLactose(new Point2D.Double(injectionPointX, injectionPointY), LACTOSE_INJECTION_VELOCITY);
 	}
 }
