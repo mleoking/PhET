@@ -5,6 +5,7 @@ package edu.colorado.phet.genenetwork.view;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.genenetwork.GeneNetworkResources;
@@ -38,6 +39,9 @@ public class LactoseInjectorNode extends PNode {
 	// Offset of button within this node.  This was determined by trial and
 	// error and will need to be tweaked if the images change.
 	private static final Point2D BUTTON_OFFSET = new Point2D.Double(45, 45);
+	
+	// Velocity at which lactose is injected in to the model.
+	private static final Vector2D LACTOSE_INJECTION_VELOCITY = new Vector2D.Double(-15, -15);
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -87,7 +91,8 @@ public class LactoseInjectorNode extends PNode {
         	@Override
             public void mousePressed( PInputEvent event ) {
                 unpressedButtonImage.setVisible(false);
-                model.createAndAddLactose(new Point2D.Double(), null);
+                // TODO: Need to actually calculate the injection location.
+                model.createAndAddLactose(new Point2D.Double(55, 45), LACTOSE_INJECTION_VELOCITY);
             }
         	
         	@Override
