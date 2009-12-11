@@ -42,10 +42,9 @@ public class LactoseInjectorNode extends PNode {
 	// error and will need to be tweaked if the images change.
 	private static final Point2D BUTTON_OFFSET = new Point2D.Double(45, 45);
 	
-	// Velocity at which lactose is injected in to the model.  This assumes
-	// that injection is down and to the left.  May need to generalize to be
-	// a function of the rotation angle some day.
-	private static final Vector2D NOMINAL_LACTOSE_INJECTION_VELOCITY = (new Vector2D.Double(0, -20)).rotate(-ROTATION_ANGLE);
+	// Velocity at which lactose is injected in to the model.
+	private static final Vector2D NOMINAL_LACTOSE_INJECTION_VELOCITY = 
+		(new Vector2D.Double(0, -20)).rotate(-ROTATION_ANGLE);
 	
 	// Random number generator.
 	private static final Random RAND = new Random();
