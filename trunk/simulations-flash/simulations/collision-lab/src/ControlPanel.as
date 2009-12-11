@@ -134,6 +134,9 @@
 			if(this.nbrBalls == this.maxNbrBalls){
 				this.changeNbrBallButtons.addBallButton.visible = false;
 			}
+			if(this.nbrBalls > 1){
+				this.changeNbrBallButtons.removeBallButton.visible = true;
+			}
 		}
 		
 		public function removeBall(evt:MouseEvent):void{
@@ -144,7 +147,10 @@
 			if(this.nbrBalls < this.maxNbrBalls){
 				this.changeNbrBallButtons.addBallButton.visible = true;
 			}
-		}
+			if(this.nbrBalls == 1){
+				this.changeNbrBallButtons.removeBallButton.visible = false;
+			}
+		}//end removeBall()
 		
 		//may not be necessary, since this is a controller, not a view
 		public function update():void{
