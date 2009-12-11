@@ -42,6 +42,7 @@ public class LacZ extends SimpleModelElement {
 	//----------------------------------------------------------------------------
 
 	private Glucose glucoseAttachmentPartner = null;
+	private AttachmentState glucoseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
@@ -63,6 +64,35 @@ public class LacZ extends SimpleModelElement {
 	//----------------------------------------------------------------------------
 	// Methods
 	//----------------------------------------------------------------------------
+	
+	@Override
+	public void stepInTime(double dt) {
+		super.stepInTime(dt);
+		if (getExistenceState() == ExistenceState.EXISTING &&
+			glucoseAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
+			
+			// Look for some lactose to attach to.
+			glucoseAttachmentPartner = getModel().findNearestFreeLactose(getPositionRef());
+			
+			if (glucoseAttachmentPartner != null){
+				// We found a lactose that is free, so start the process of
+				// attaching to it.
+				if (glucoseAttachmentPartner.considerProposalFrom(this) != true){
+					assert false;  // As designed, this should always succeed, so debug if it doesn't.
+				}
+				else{
+					glucoseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+				}
+			}
+		}
+		else if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+			// See if the glucose is close enough to finalize the attachment.
+			if (getPositionRef().distance(glucoseAttachmentPartner.getLacZAttachmentPointLocation()) < ATTACHMENT_INITIATION_RANGE){
+				// Finalize the attachment.
+				glucoseAttachmentPartner.attach(this);
+			}
+		}
+	}
 	
 	private static Shape createShape(){
 		// Start with a circle.

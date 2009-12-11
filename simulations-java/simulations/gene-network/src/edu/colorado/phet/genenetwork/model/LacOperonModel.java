@@ -250,14 +250,8 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		toolBoxRect.setFrame(rect);
 	}
 	
-	/**
-	 * Search through all of the glucose molecules finding those that are
-	 * formed into lactose and, of those, return the closest one that is not
-	 * bound to LacZ.
-	 * 
-	 * @return A reference to a glucose molecule that is bound to a galactose
-	 * and therefore part of lactose.  Returns null if no available lactose
-	 * can be found.
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#findNearestFreeLactose(Point2D pt)
 	 */
 	public Glucose findNearestFreeLactose(Point2D pt){
 		double distance = Double.POSITIVE_INFINITY;
