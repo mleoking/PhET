@@ -1,3 +1,5 @@
+# 2.06.01 (37333) Dec 11, 2009
+12/11/09 testing jarsigner failure in dev deploy
 # 2.06.00 (37237) Dec 9, 2009
 12/9/09 Testing for production deployment (connection settings)
 # 2.05.02 (36921) Nov 29, 2009
