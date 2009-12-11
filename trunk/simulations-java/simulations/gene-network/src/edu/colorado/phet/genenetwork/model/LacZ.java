@@ -23,12 +23,26 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class LacZ extends SimpleModelElement {
 	
+	//----------------------------------------------------------------------------
+	// Class Data
+	//----------------------------------------------------------------------------
+
 	private static final double SIZE = 10; // In nanometers.
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-SIZE, 0), 
 			new Color(185, 147, 187), new Point2D.Double(SIZE * 5, 0), Color.WHITE);
 	private static final double EXISTENCE_TIME = 15; // Seconds.
 	private static final Dimension2D LACTOSE_ATTACHMENT_POINT_OFFSET = new PDimension(0, -SIZE/2);
 	
+	//----------------------------------------------------------------------------
+	// Instance Data
+	//----------------------------------------------------------------------------
+
+	private Glucose glucoseAttachmentPartner = null;
+	
+	//----------------------------------------------------------------------------
+	// Constructor(s)
+	//----------------------------------------------------------------------------
+
 	public LacZ(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
 		setMotionStrategy(new StillnessMotionStrategy(this));
@@ -41,6 +55,10 @@ public class LacZ extends SimpleModelElement {
 	public LacZ(){
 		this(null);
 	}
+	
+	//----------------------------------------------------------------------------
+	// Methods
+	//----------------------------------------------------------------------------
 	
 	private static Shape createShape(){
 		// Start with a circle.
