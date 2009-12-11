@@ -47,7 +47,6 @@ public class LacOperator extends SimpleModelElement {
 	public LacOperator(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		// Add binding point for LacI.
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.LAC_I, LAC_I_ATTACHMENT_POINT_OFFSET));
 	}
 	
 	public LacOperator(IGeneNetworkModelControl model) {

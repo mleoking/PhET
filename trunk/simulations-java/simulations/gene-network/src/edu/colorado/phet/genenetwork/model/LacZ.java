@@ -29,8 +29,6 @@ public class LacZ extends SimpleModelElement {
 	
 	public LacZ(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.GLUCOSE, new PDimension(0, -SIZE/2)));
-		addAttachmentPoint(new AttachmentPoint(ModelElementType.GALACTOSE, new PDimension(0, -SIZE/2)));
 		setMotionStrategy(new StillnessMotionStrategy(this));
 	}
 	
