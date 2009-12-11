@@ -21,7 +21,7 @@ public class Glucose extends SimpleSugar {
 		super(model, initialPosition, Color.BLUE);
 	}
 	
-    public Glucose(IGeneNetworkModelControl model, double x,double y) {
+    public Glucose(IGeneNetworkModelControl model, double x, double y) {
         this(model, new Point2D.Double(x,y));
     }
 
@@ -37,15 +37,11 @@ public class Glucose extends SimpleSugar {
 		return new PDimension(GALACTOSE_ATTACHMENT_POINT_OFFSET);
 	}
 	
-	public void attach(Galactose galactose){
+	public void formLactose(Galactose galactose){
 		assert galactoseAttachmentPartner == null; // Should not be requested to attach if already attached.
 		
 		galactoseAttachmentPartner = galactose;
-		
-		// Glucose is (arbitrarily) assumed to be the dominant partner, and
-		// galactose is expected to move to wherever it is rather than the
-		// other way round.  So there is no movement here to the partner's
-		// location or adjustment of the motion strategy.
+		galactoseAttachmentPartner.attach(this);  // This will move galactose to the appropriate location.
 	}
 	
 	public AttachmentState getLacZAttachmentState(){

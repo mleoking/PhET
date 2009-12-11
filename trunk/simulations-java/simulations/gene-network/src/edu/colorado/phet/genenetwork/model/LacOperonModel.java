@@ -454,8 +454,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		Galactose galactose = new Galactose(this);
 		
 		// Attach these two to one another.
-		glucose.attach(galactose);
-		galactose.attach(glucose);
+		glucose.formLactose(galactose);
 		
 		// Add these elements to the list.
 		galactoseList.add(galactose);
