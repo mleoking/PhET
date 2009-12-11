@@ -90,5 +90,8 @@ public class LacZ extends SimpleModelElement {
 		return new Point2D.Double(getPositionRef().getX() + LACTOSE_ATTACHMENT_POINT_OFFSET.getWidth(),
 				getPositionRef().getY() + LACTOSE_ATTACHMENT_POINT_OFFSET.getHeight());
 	}
-
+	
+	public static Dimension2D getLactoseAttachementPointOffset() {
+		return new PDimension(LACTOSE_ATTACHMENT_POINT_OFFSET);
+	}
 }
