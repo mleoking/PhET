@@ -45,8 +45,6 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 			DNA_STRAND_POSITION.getY(), MODEL_BOUNDS.getWidth(),
 			MODEL_BOUNDS.getHeight() - DNA_STRAND_POSITION.getY() + MODEL_BOUNDS.getMinY());
 	
-	
-	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -426,7 +424,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		Glucose glucose = new Glucose(this);
 		double xOffset = glucose.getShape().getBounds2D().getWidth() / 2;
 		glucose.setPosition(initialPosition.getX() - xOffset, initialPosition.getY());
-		glucose.setMotionStrategy(new InjectionMotionStrategy(glucose, MODEL_BOUNDS, initialVelocity));
+		glucose.setMotionStrategy(new InjectionMotionStrategy(glucose, MOTION_BOUNDS, initialVelocity));
 		Galactose galactose = new Galactose(this);
 		
 		// Attach these two to one another.
