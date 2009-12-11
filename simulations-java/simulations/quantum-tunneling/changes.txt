@@ -1,3 +1,5 @@
+# 1.10.01 (37372) Dec 11, 2009
+12/11/09 test version for milestone "full redeploy, 2010 Q1"
 8/19/09 migrate Complex and MutableComplex to phetcommon
 # 1.10.00 (30671) Apr 21, 2009
 4/21/09 Batch deploy as part of IOM milestone with revision 30670
