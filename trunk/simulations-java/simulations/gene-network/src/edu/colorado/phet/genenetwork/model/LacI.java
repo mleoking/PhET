@@ -149,11 +149,6 @@ public class LacI extends SimpleModelElement {
 		}
 	}
 
-	@Override
-	public ModelElementType getType() {
-		return ModelElementType.LAC_I;
-	}
-
 	public boolean considerProposalFrom(LacOperator lacOperator) {
 		boolean proposalAccepted = false;
 		

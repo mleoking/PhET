@@ -28,11 +28,6 @@ public class Camp extends SimpleModelElement {
 		this(model, new Point2D.Double());
 	}
 	
-	@Override
-	public ModelElementType getType() {
-		return ModelElementType.CAMP;
-	}
-	
 	private static Shape createShape(){
 		return new Ellipse2D.Double(-DIAMETER/2, -DIAMETER/2, DIAMETER, DIAMETER);
 	}

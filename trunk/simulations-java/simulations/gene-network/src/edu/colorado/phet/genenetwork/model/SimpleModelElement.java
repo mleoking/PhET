@@ -88,7 +88,8 @@ public abstract class SimpleModelElement implements IModelElement{
     	return dragging;
     }
     
-	public abstract ModelElementType getType();
+    // TODO: Stubbed and hacked, get rid of this ASAP.
+	public ModelElementType getType(){return ModelElementType.CAMP;};
 	
 	public boolean isPartOfDnaStrand(){
 		// Assumed not to be part of DNA strand in base class, override as needed.
@@ -168,9 +169,6 @@ public abstract class SimpleModelElement implements IModelElement{
 				matchingBindingPoint = bindingPoint;
 				break;
 			}
-		}
-		if (matchingBindingPoint == null){
-			System.err.println(getClass().getName() + " - Warning: " + this.getType() + " has no binding point found for " + elementType);
 		}
 		return matchingBindingPoint;
 	}

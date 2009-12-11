@@ -59,11 +59,6 @@ public class LacOperator extends SimpleModelElement {
 	//----------------------------------------------------------------------------
 	
 	@Override
-	public ModelElementType getType() {
-		return ModelElementType.LAC_OPERATOR;
-	}
-	
-	@Override
 	public void stepInTime(double dt) {
 		switch (attachmentState){
 		case UNATTACHED_AND_AVAILABLE:

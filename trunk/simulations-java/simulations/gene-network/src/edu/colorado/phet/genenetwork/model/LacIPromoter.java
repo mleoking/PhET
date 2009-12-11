@@ -25,11 +25,6 @@ public class LacIPromoter extends SimpleModelElement {
 	}
 	
 	@Override
-	public ModelElementType getType() {
-		return ModelElementType.LAC_I_PROMOTER;
-	}
-	
-	@Override
 	public boolean isPartOfDnaStrand() {
 		return true;
 	}

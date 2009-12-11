@@ -47,11 +47,6 @@ public class LacIGene extends SimpleModelElement {
     //------------------------------------------------------------------------
 	
 	@Override
-	public ModelElementType getType() {
-		return ModelElementType.LAC_I_GENE;
-	}
-
-	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
 		if (!isUserControlled()){

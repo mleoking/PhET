@@ -84,10 +84,4 @@ public class TransformationArrow extends SimpleModelElement {
 		
 		return area;
 	}
-	
-	@Override
-	public ModelElementType getType() {
-		// TODO Here until the whole type thing is permanently removed.
-		return null;
-	}
 }

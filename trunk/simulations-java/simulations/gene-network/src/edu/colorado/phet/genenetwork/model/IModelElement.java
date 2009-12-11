@@ -17,8 +17,6 @@ public interface IModelElement {
     void setVelocity(double xVel, double yVel);
     void stepInTime(double dt);
     boolean releaseAttachmentWith(IModelElement modelElement);
-	ModelElementType getType();
-	AttachmentPoint getAttachmentPointForElement(ModelElementType type);
 	boolean isPartOfDnaStrand();
     boolean isUserControlled();
     

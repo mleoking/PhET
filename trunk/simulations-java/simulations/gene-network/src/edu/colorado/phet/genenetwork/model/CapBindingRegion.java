@@ -35,11 +35,6 @@ public class CapBindingRegion extends SimpleModelElement {
 		this(model, new Point2D.Double());
 	}
 	
-	@Override
-	public ModelElementType getType() {
-		return ModelElementType.CAP_BINDING_REGION;
-	}
-	
 	private static Shape createShape(){
 		
 		GeneralPath outline = new GeneralPath();

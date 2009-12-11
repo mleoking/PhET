@@ -74,11 +74,6 @@ public class RnaPolymerase extends SimpleModelElement {
     // Methods
     //------------------------------------------------------------------------
 	
-	@Override
-	public ModelElementType getType() {
-		return ModelElementType.RNA_POLYMERASE;
-	}
-	
 	public Point2D getAttachmentPointLocation(LacPromoter lacPromoter){
 		return new Point2D.Double(getPositionRef().getX() + LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getWidth(),
 				getPositionRef().getY() + LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getHeight());
