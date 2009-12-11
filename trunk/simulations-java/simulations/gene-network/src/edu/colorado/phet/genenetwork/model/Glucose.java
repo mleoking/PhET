@@ -83,4 +83,13 @@ public class Glucose extends SimpleSugar {
 		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, lacZ, LacZ.getGlucoseAttachmentPointOffset()));
 		lacIAttachmentState = AttachmentState.ATTACHED;
 	}
+	
+	/**
+	 * Get the location in absolute model space of this element's attachment
+	 * point for LacZ.
+	 */
+	public Point2D getLacZAttachmentPointLocation(){
+		return (new Point2D.Double(getPositionRef().getX() + LAC_Z_ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + LAC_Z_ATTACHMENT_POINT_OFFSET.getHeight()));
+	}
 }
