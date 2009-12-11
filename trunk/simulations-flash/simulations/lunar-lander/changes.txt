@@ -1,3 +1,5 @@
+# 2.02.00 (37307) Dec 10, 2009
+12/10/09 > Common interface fixes, improvements, and Khmer support.
 # 2.01.00 (36710) Nov 16, 2009
 11/16/09 > Added Khmer language support
 # 2.00.00 (30671) Apr 21, 2009
