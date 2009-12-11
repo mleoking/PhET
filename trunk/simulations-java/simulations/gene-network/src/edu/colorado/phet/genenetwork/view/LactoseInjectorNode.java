@@ -5,6 +5,7 @@ package edu.colorado.phet.genenetwork.view;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -36,14 +37,18 @@ public class LactoseInjectorNode extends PNode {
 	
 	// Angle of rotation of this node.
 	private static final double ROTATION_ANGLE = Math.PI/4;
-//	private static final double ROTATION_ANGLE = 0;
 	
 	// Offset of button within this node.  This was determined by trial and
 	// error and will need to be tweaked if the images change.
 	private static final Point2D BUTTON_OFFSET = new Point2D.Double(45, 45);
 	
-	// Velocity at which lactose is injected in to the model.
-	private static final Vector2D LACTOSE_INJECTION_VELOCITY = new Vector2D.Double(-15, -15);
+	// Velocity at which lactose is injected in to the model.  This assumes
+	// that injection is down and to the left.  May need to generalize to be
+	// a function of the rotation angle some day.
+	private static final Vector2D NOMINAL_LACTOSE_INJECTION_VELOCITY = new Vector2D.Double(-15, -15);
+	
+	// Random number generator.
+	private static final Random RAND = new Random();
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -113,6 +118,8 @@ public class LactoseInjectorNode extends PNode {
         // Calculate the injection point.
 		double injectionPointX = mvt.viewToModelX(getFullBoundsReference().getCenter2D().getX() + injectionPointOffset.getWidth());
 		double injectionPointY = mvt.viewToModelY(getFullBoundsReference().getCenter2D().getY() + injectionPointOffset.getHeight());
-        model.createAndAddLactose(new Point2D.Double(injectionPointX, injectionPointY), LACTOSE_INJECTION_VELOCITY);
+		Vector2D initialVelocity = new Vector2D.Double(NOMINAL_LACTOSE_INJECTION_VELOCITY);
+		initialVelocity.rotate((RAND.nextDouble() - 0.5) * Math.PI * 0.15);
+        model.createAndAddLactose(new Point2D.Double(injectionPointX, injectionPointY), initialVelocity); 
 	}
 }
