@@ -6,10 +6,13 @@ import edu.colorado.phet.common.motion.graphs._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
-
+import javax.swing.JButton
+import edu.colorado.phet.scalacommon.util.Observable
 //This subclass of AbstractChartNode adds information about charts and chart serieses
 abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel)
         extends AbstractChartNode(canvas, model) {
+
+  def goButtonModel = model.goButtonModel
   def forceGraph: MotionSeriesGraph = forceGraph(true)
 
   def forceGraph(showGravitySeries: Boolean): MotionSeriesGraph = {
@@ -35,6 +38,9 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
 
     val parallelForceControlGraph = new MotionSeriesGraph(appliedForceSeries, canvas, timeseriesModel, updateableObject, model, -2000, 2000) {
       for (s <- forceSeriesList.tail) addSeries(s)
+//      setAdditionalControlPanelFillNone()
+//      setAdditionalControlPanelBackground(MotionSeriesDefaults.EARTH_COLOR)
+      addControl(new GoButton(goButtonModel))
       addControl(new SeriesSelectionControl("forces.parallel-title-with-units".translate, 5) {
         addToGrid(appliedForceSeries, createEditableLabel)
         for (s <- forceSeriesList.tail) addToGrid(s)
@@ -64,6 +70,9 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       getJFreeChartNode.setBuffered(false)
       getJFreeChartNode.setPiccoloSeries()
       for (s <- energySeriesList.tail) addSeries(s)
+//      setAdditionalControlPanelFillNone()
+//      setAdditionalControlPanelBackground(MotionSeriesDefaults.EARTH_COLOR)
+      addControl(new GoButton(goButtonModel))
       addControl(new SeriesSelectionControl("forces.energy-title-with-units".translate, 7) {
         for (s <- energySeriesList) addToGrid(s)
       })
