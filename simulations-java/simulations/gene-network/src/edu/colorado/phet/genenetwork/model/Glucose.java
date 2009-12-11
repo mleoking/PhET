@@ -13,7 +13,9 @@ public class Glucose extends SimpleSugar {
 	private static final Dimension2D GALACTOSE_ATTACHMENT_POINT_OFFSET = new PDimension(getWidth()/2, 0);
 	private static final Dimension2D LAC_Z_ATTACHMENT_POINT_OFFSET = new PDimension(getWidth()/2, 0);
 	
-	private Galactose galactoseBondingPartner;
+	private Galactose galactoseAttachmentPartner;
+	private LacZ lacZAttachmentPartner;
+	private AttachmentState lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 
 	public Glucose(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, initialPosition, Color.BLUE);
@@ -36,13 +38,17 @@ public class Glucose extends SimpleSugar {
 	}
 	
 	public void attach(Galactose galactose){
-		assert galactoseBondingPartner == null; // Should not be requested to attach if already attached.
+		assert galactoseAttachmentPartner == null; // Should not be requested to attach if already attached.
 		
-		galactoseBondingPartner = galactose;
+		galactoseAttachmentPartner = galactose;
 		
 		// Glucose is (arbitrarily) assumed to be the dominant partner, and
 		// galactose is expected to move to wherever it is rather than the
 		// other way round.  So there is no movement here to the partner's
 		// location or adjustment of the motion strategy.
+	}
+	
+	public boolean isBoundToGalactose(){
+		return !(galactoseAttachmentPartner == null);
 	}
 }
