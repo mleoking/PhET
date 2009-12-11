@@ -31,7 +31,11 @@ public class LacZ extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-SIZE, 0), 
 			new Color(185, 147, 187), new Point2D.Double(SIZE * 5, 0), Color.WHITE);
 	private static final double EXISTENCE_TIME = 15; // Seconds.
-	private static final Dimension2D LACTOSE_ATTACHMENT_POINT_OFFSET = new PDimension(0, -SIZE/2);
+	
+	// Attachment point for glucose.  Note that glucose generally only
+	// attaches when it is bound up in lactose, so this is essentially the
+	// lactose offset too.
+	private static final Dimension2D GLUCOSE_ATTACHMENT_POINT_OFFSET = new PDimension(0, -SIZE/2);
 	
 	//----------------------------------------------------------------------------
 	// Instance Data
@@ -86,12 +90,12 @@ public class LacZ extends SimpleModelElement {
 	 * Get the location in absolute space of the attachment point for this
 	 * type of model element.
 	 */
-	public Point2D getAttachmentPointLocation(LacI lacI){
-		return new Point2D.Double(getPositionRef().getX() + LACTOSE_ATTACHMENT_POINT_OFFSET.getWidth(),
-				getPositionRef().getY() + LACTOSE_ATTACHMENT_POINT_OFFSET.getHeight());
+	public Point2D getGlucoseAttachmentPointLocation(){
+		return new Point2D.Double(getPositionRef().getX() + GLUCOSE_ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + GLUCOSE_ATTACHMENT_POINT_OFFSET.getHeight());
 	}
 	
-	public static Dimension2D getLactoseAttachementPointOffset() {
-		return new PDimension(LACTOSE_ATTACHMENT_POINT_OFFSET);
+	public static Dimension2D getGlucoseAttachmentPointOffset() {
+		return new PDimension(GLUCOSE_ATTACHMENT_POINT_OFFSET);
 	}
 }
