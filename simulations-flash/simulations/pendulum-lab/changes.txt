@@ -1,3 +1,5 @@
+# 2.02.00 (37319) Dec 11, 2009
+12/11/09 > Common interface fixes, improvements, and Khmer support.
 # 2.01.00 (36935) Nov 29, 2009
 11/29/09 Keyboard accessibility enhancements and fixes
 # 2.00.06 (32966) Jul 2, 2009
