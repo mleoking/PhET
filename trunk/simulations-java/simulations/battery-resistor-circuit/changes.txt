@@ -1,3 +1,5 @@
+# 1.02.01 (37335) Dec 11, 2009
+12/11/09 test version for milestone "full redeploy, 2010 Q1"
 # 1.02.00 (30589) Apr 20, 2009
 4/20/09 Batch deploy as part of IOM milestone with revision 30588
 # 1.01.07 (29972) Mar 27, 2009
