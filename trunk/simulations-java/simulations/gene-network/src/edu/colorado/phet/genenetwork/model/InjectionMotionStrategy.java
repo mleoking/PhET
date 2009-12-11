@@ -4,6 +4,7 @@ package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
@@ -16,11 +17,12 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class InjectionMotionStrategy extends AbstractMotionStrategy {
 	
-	private static final double RATE_OF_SLOWING = 0.3;  // Proportion per second.
-	private static final double LINEAR_TIME = 1.5;        // In seconds.
+	private static final double RATE_OF_SLOWING = 0.3;          // Proportion per second.
+	private static final double PRE_RANDOM_WALK_TIME = 3.0;     // In seconds.
+	private static final Random RAND = new Random();
 	
 	private Rectangle2D bounds;
-	private double linearMotionCountdown = LINEAR_TIME;
+	private double preRandomWalkCountdown = PRE_RANDOM_WALK_TIME;
 	private RandomWalkMotionStrategy randomWalkMotionStrategy;
 	
 	public InjectionMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Vector2D initialVelocity) {
@@ -37,24 +39,41 @@ public class InjectionMotionStrategy extends AbstractMotionStrategy {
 		Point2D position = modelElement.getPositionRef();
 		Vector2D velocity = modelElement.getVelocityRef();
 		
-		if (linearMotionCountdown > 0){
+		if (preRandomWalkCountdown > 0){
 			if ((position.getX() > bounds.getMaxX() && velocity.getX() > 0) ||
-					(position.getX() < bounds.getMinX() && velocity.getX() < 0) ||
-					(position.getY() > bounds.getMaxY() && velocity.getY() > 0) ||
-					(position.getY() < bounds.getMinY() && velocity.getY() < 0)){
+				(position.getX() < bounds.getMinX() && velocity.getX() < 0) ||
+				(position.getY() > bounds.getMaxY() && velocity.getY() > 0) ||
+				(position.getY() < bounds.getMinY() && velocity.getY() < 0)){
 				
-				// We are at or past the boundary, so stop forward motion.
-				modelElement.setVelocity(0, 0);
+				// We are out of bounds, so we need to "bounce".
+				if ((position.getX() > bounds.getMaxX() && velocity.getX() > 0) ||
+				    (position.getX() < bounds.getMinX() && velocity.getX() < 0)){
+					// Reverse velocity in the X direction.
+					velocity.setComponents(-velocity.getX(), velocity.getY());
+				}
+				if ((position.getY() > bounds.getMaxY() && velocity.getY() > 0) ||
+				    (position.getY() < bounds.getMinY() && velocity.getY() < 0)){
+						// Reverse velocity in the Y direction.
+						velocity.setComponents(velocity.getX(), -velocity.getY());
+				}
 			}
-			
+			else{
+				// We are in bounds.  Based on a probability that increases as
+				// time goes on, decide whether to simulate a "bump".
+				if (RAND.nextDouble() > 0.9 + (0.1 * (preRandomWalkCountdown/PRE_RANDOM_WALK_TIME))){
+					velocity.rotate(RAND.nextDouble() * Math.PI / 4);
+				}
+			}
+				
 			if (modelElement.getVelocityRef().getMagnitude() > 0){
 				// Update position.
-				modelElement.setPosition( modelElement.getPositionRef().getX() + modelElement.getVelocityRef().getX() * dt, 
+				modelElement.setPosition( 
+						modelElement.getPositionRef().getX() + modelElement.getVelocityRef().getX() * dt, 
 						modelElement.getPositionRef().getY() + modelElement.getVelocityRef().getY() * dt );
 				// Slow down.
 				velocity.scale(1 - (RATE_OF_SLOWING * dt));
 			}
-			linearMotionCountdown -= dt;
+			preRandomWalkCountdown -= dt;
 		}
 		else{
 			randomWalkMotionStrategy.doUpdatePositionAndMotion(dt);
