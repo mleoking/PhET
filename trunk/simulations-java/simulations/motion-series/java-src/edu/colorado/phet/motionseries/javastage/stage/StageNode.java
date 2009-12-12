@@ -5,19 +5,22 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * This represents a node in the stage coordinate frame.
+ *
+ * @see StageCanvas#addStageNode(edu.umd.cs.piccolo.PNode)
  */
 public class StageNode extends PNode {
     /**
      * The stage in which this StageNode is positioned
      */
     private Stage stage;
+
     /**
-     * The StageContainer in which the Stage is contained
+     * The StageContainer in which the Stage is contained, allows us to know how the
      */
     private StageContainer stageContainer;
 
     /**
-     * The node to be displayed
+     * The node depicted by this StageNode.
      */
     private PNode node;
 
@@ -31,8 +34,8 @@ public class StageNode extends PNode {
         this.node = node;
 
         addChild(node);
-        stageContainer.addListener(new StageContainer.Listener() {
-            public void changed() {
+        stageContainer.addContainerBoundsChangeListener(new StageContainer.Listener() {
+            public void stageContainerBoundsChanged() {
                 updateLayout();
             }
         });
@@ -44,6 +47,9 @@ public class StageNode extends PNode {
         updateLayout();
     }
 
+    /**
+     * Updates the layout when the Stage or StageContainer bounds change by centering the Stage in the StageContainer.
+     */
     public void updateLayout() {
         double canvasX = stageContainer.getContainerBounds().getX();
         double canvasY = stageContainer.getContainerBounds().getY();
