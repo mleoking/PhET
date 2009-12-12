@@ -232,12 +232,16 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
         removeStageNode(new ModelNode(transform, node));
     }
 
+    public boolean containsModelNode(PNode node) {
+        return containsStageNode(new ModelNode(transform, node));
+    }
+
     public void panModelViewport(double dx, double dy) {
         transform.panModelViewport(dx, dy);
     }
 
     public boolean containsStageNode(PNode node) {
-        return containsScreenNode(new StageNode(stage, this, node));//todo: requires equality tests to work
+        return containsScreenNode(new StageNode(stage, this, node));
     }
 
     public void updateDebugRegions() {

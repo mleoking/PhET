@@ -9,9 +9,9 @@ import edu.umd.cs.piccolo.PNode;
  * Represents a node in model coordinates.  Ordinarily this class will be for internal use by StageCanvas only,
  * and not used by client code; however, this class is left as public in case custom behavior is needed.
  *
+ * @author Sam Reid
  * @see StageCanvas
  * @see StageCanvas#addModelNode(edu.umd.cs.piccolo.PNode)
- * @author Sam Reid
  */
 public class ModelNode extends PNode {
     /**
@@ -50,5 +50,24 @@ public class ModelNode extends PNode {
      */
     public void updateTransform() {
         setTransform(transform.getAffineTransform());
+    }
+
+    /**
+     * Checks for equality based on the reference equality of the constituent node and transform object.  This is used in StageCanvas's containment checking methods.
+     *
+     * @param o the object to check for equality
+     * @return true if the this node and the specified object are considered equal
+     * @see edu.colorado.phet.motionseries.javastage.stage.StageCanvas#containsModelNode(edu.umd.cs.piccolo.PNode)
+     */
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ModelNode modelNode = (ModelNode) o;
+
+        if (transform != modelNode.transform) return false;
+        if (node != modelNode.node) return false;
+
+        return true;
     }
 }
