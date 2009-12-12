@@ -12,12 +12,14 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 /**
+ * Provides a demonstration of the StageCanvas class and its supporting classes.
+ *
  * @author Sam Reid
  */
 public class TestStageCanvas {
     private JFrame frame = new JFrame();
     private PhetPPath rectNode;
-    private MyPText stageText;
+    private BasicPText stageText;
     private StageCanvas canvas;
 
     public void updateRectNodeLocation() {
@@ -35,13 +37,13 @@ public class TestStageCanvas {
         double stageHeight = 100;
         Rectangle.Double modelBounds = new Rectangle2D.Double(0, 0, 2E-6, 1E-6);
         canvas = new StageCanvas(stageWidth, stageHeight, modelBounds);
-        canvas.addScreenNode(new MyPText("Hello from screen at 50,50", 50, 50));
-        stageText = new MyPText("Hello from Stage at 100,50", 100, 50, 0.5);
+        canvas.addScreenNode(new BasicPText("Hello from screen at 50,50", 50, 50));
+        stageText = new BasicPText("Hello from Stage at 100,50", 100, 50, 0.5);
         canvas.addStageNode(stageText);
         canvas.addStageNode(new PhetPPath(new Rectangle2D.Double(0, 0, stageWidth, stageHeight), new BasicStroke(2), Color.yellow));
-        canvas.addScreenNode(new MyPText("Hello from screen at 100,100", 100, 100));
+        canvas.addScreenNode(new BasicPText("Hello from screen at 100,100", 100, 100));
         canvas.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5E-6, 0.5E-6), Color.blue));
-        canvas.addModelNode(new MyPText("hello from left edge of world bounds", modelBounds.getMinX(), modelBounds.getCenterY(), 1E-6 / 100));
+        canvas.addModelNode(new BasicPText("hello from left edge of world bounds", modelBounds.getMinX(), modelBounds.getCenterY(), 1E-6 / 100));
 
         //center one node beneath another, though they be in different coordinate frames
         rectNode = new PhetPPath(new Rectangle2D.Double(0, 0, 50, 10), Color.red);
@@ -71,7 +73,7 @@ public class TestStageCanvas {
         frame.setContentPane(canvas);
         canvas.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-                canvas.toggleDebugs();
+                canvas.toggleDebugRegionVisibility();
             }
         });
         canvas.setPanEventHandler(null);
