@@ -39,13 +39,22 @@ public class TestStageCanvas {
         double stageHeight = 100;
         Rectangle.Double modelBounds = new Rectangle2D.Double(0, 0, 2E-6, 1E-6);
         canvas = new StageCanvas(stageWidth, stageHeight, modelBounds);
-        canvas.addScreenNode(new PositionedTextNode("Hello from screen at 50,50", 50, 50));
-        stageTextNode = new PositionedTextNode("Hello from Stage at 100,50", 100, 50, 0.5);
+
+        GridNode screenGridNode = new GridNode(1f, 0, 100, 100);
+        canvas.addScreenNode(screenGridNode);
+        GridNode stageGridNode = new GridNode(1f, 0, 0, 10, 10, 20, 10);
+        canvas.addStageNode(stageGridNode);
+        GridNode modelGridNode = new GridNode(1E-6 / 600f, modelBounds.getX(), modelBounds.getY(), modelBounds.getWidth() / 11.0, modelBounds.getHeight() / 11.0, 11, 11);
+        canvas.addModelNode(modelGridNode);
+
+        canvas.addScreenNode(new PositionedTextNode("Screen at 50,50", 50, 50));
+        stageTextNode = new PositionedTextNode("Stage at 100,50", 100, 50, 0.5);
         canvas.addStageNode(stageTextNode);
         canvas.addStageNode(new PhetPPath(new Rectangle2D.Double(0, 0, stageWidth, stageHeight), new BasicStroke(2), Color.yellow));
-        canvas.addScreenNode(new PositionedTextNode("Hello from screen at 100,100", 100, 100));
+        canvas.addScreenNode(new PositionedTextNode("Screen at 100,100", 100, 100));
         canvas.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5E-6, 0.5E-6), Color.blue));
-        canvas.addModelNode(new PositionedTextNode("hello from left edge of world bounds", modelBounds.getMinX(), modelBounds.getCenterY(), 1E-6 / 100));
+        canvas.addModelNode(new PositionedTextNode("hello from left edge of world bounds", modelBounds.getMinX(), modelBounds.getCenterY(), 1E-6 / 400));
+        canvas.addModelNode(new PositionedTextNode("hello from center of model bounds", modelBounds.getCenterX(), modelBounds.getCenterY(), 1E-6 / 400));
 
         //center one node beneath another, though they be in different coordinate frames
         rectNode = new PhetPPath(new Rectangle2D.Double(0, 0, 50, 10), Color.red);
@@ -61,11 +70,12 @@ public class TestStageCanvas {
 
         //todo: maybe stage bounds should be mutable, since it is preferable to create the nodes as children of the canvas
 
-        new Timer(15, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                canvas.panModelViewport(-1E-8 / 4, -1E-8 / 4);
-            }
-        }).start();
+//        new Timer(15, new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                canvas.panModelViewport(-1E-8 / 4, -1E-8 / 4);
+//            }
+//        }).start();
+        canvas.panModelViewport(-1E-8/4, -1E-8/4);
 
         canvas.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
@@ -80,16 +90,12 @@ public class TestStageCanvas {
 
         frame.setContentPane(contentPane);
 
-        GridNode screenGridNode = new GridNode(0, 100, 100);
-        canvas.addScreenNode(screenGridNode);
-        GridNode stageGridNode = new GridNode(0, 0, 10, 10, 20, 10);
-        canvas.addStageNode(stageGridNode);
 
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
         controlPanel.add(new VisibilityCheckBox("Show Screen Grid", screenGridNode));
         controlPanel.add(new VisibilityCheckBox("Show Stage Grid", stageGridNode));
-        controlPanel.add(new JCheckBox("Show Model Grid"));
+        controlPanel.add(new VisibilityCheckBox("Show Model Grid", modelGridNode));
         contentPane.add(controlPanel, BorderLayout.EAST);
     }
 
@@ -113,7 +119,7 @@ public class TestStageCanvas {
         int nx;
         int ny;
 
-        private GridNode(double x0, double y0, double dx, double dy, int nx, int ny) {
+        private GridNode(double strokeWidth, double x0, double y0, double dx, double dy, int nx, int ny) {
             this.x0 = x0;
             this.y0 = y0;
             this.dx = dx;
@@ -123,12 +129,12 @@ public class TestStageCanvas {
 
             for (int i = 0; i < nx + 1; i++) {//the +1 puts the end caps on the gridlines
                 double x = x0 + i * dx;
-                PhetPPath path = new PhetPPath(new Line2D.Double(x, y0, x, y0 + ny * dy), new BasicStroke(1), getColor(i));
+                PhetPPath path = new PhetPPath(new Line2D.Double(x, y0, x, y0 + ny * dy), new BasicStroke((float) strokeWidth), getColor(i));
                 addChild(path);
             }
             for (int k = 0; k < ny + 1; k++) {
                 double y = y0 + k * dy;
-                PhetPPath path = new PhetPPath(new Line2D.Double(x0, y, x0 + nx * dx, y), new BasicStroke(1), getColor(k));
+                PhetPPath path = new PhetPPath(new Line2D.Double(x0, y, x0 + nx * dx, y), new BasicStroke((float) strokeWidth), getColor(k));
                 addChild(path);
             }
         }
@@ -142,8 +148,8 @@ public class TestStageCanvas {
         /**
          * Creates a grid that is symmetrical in x-y
          */
-        private GridNode(double x0, double dx, int nx) {
-            this(x0, x0, dx, dx, nx, nx);
+        private GridNode(double strokeWidth, double x0, double dx, int nx) {
+            this(strokeWidth, x0, x0, dx, dx, nx, nx);
         }
     }
 

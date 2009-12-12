@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * <p/>
  * This class provides convenience methods for transforming between the various coordinate frames, and provides the capability of obtaining bounds of one coordinate frame in another coordinate frame.
  * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  This, for example, is provided by StageCanvas#getStageInScreenCoordinates
- *
+ * <p/>
  * ToDo:
  * //todo: compute stage bounds dynamically, based on contents of the stage?
  *
@@ -202,42 +202,93 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
         return utilityStageNode.globalToLocal(new PDimension(dx, dy));
     }
 
+    /**
+     * Transforms a Rectangle2D from stage coordinates to screen coordinates.
+     *
+     * @param shape a Rectangle2D in stage coordinates
+     * @return the Rectangle2D
+     */
     public Rectangle2D stageToScreen(Rectangle2D shape) {
-        return utilityStageNode.localToGlobal(shape);
+        //Uses a defensive copy to prevent changing the supplied argument, as piccolo normally does.
+        return utilityStageNode.localToGlobal(new Rectangle2D.Double(0, 0, shape.getWidth(), shape.getHeight()));
     }
 
+    /**
+     * Sets the bounds of the Stage
+     *
+     * @param width  the new Stage width
+     * @param height the new Stage height
+     */
     public void setStageBounds(double width, double height) {
         stage.setSize(width, height);
         stageBoundsDebugRegion.setPathTo(getStageInScreenCoordinates());
         transform.setViewBounds(new Rectangle2D.Double(0, 0, width, height));
     }
 
+    /**
+     * Adds the specified node to the stage coordinate frame.
+     *
+     * @param node the node to be added to the stage coordinate frame.
+     */
     public void addStageNode(PNode node) {
         addScreenNode(new StageNode(stage, this, node));
     }
 
+    /**
+     * Removes the specified node from the stage coordinate frame.  Does nothing if the node was not already added.
+     *
+     * @param node the node to be removed from the stage coordinate frame.
+     */
     public void removeStageNode(PNode node) {
         removeScreenNode(new StageNode(stage, this, node));
     }
 
+    /**
+     * Returns true if the node is present in the screen coordinate frame.
+     *
+     * @param node the node for which to check containment
+     * @return true if the node is present in the screen coordinate frame.
+     */
+    public boolean containsStageNode(PNode node) {
+        return containsScreenNode(new StageNode(stage, this, node));
+    }
+
+    /**
+     * Adds the specified node to the model coordinate frame.
+     *
+     * @param node the node to be added to the model coordinate frame.
+     */
     public void addModelNode(PNode node) {
         addStageNode(new ModelNode(transform, node));
     }
 
+    /**
+     * Removes the specified node from the model coordinate frame.  Does nothing if the node was not already added.
+     *
+     * @param node the node to be removed from the model coordinate frame.
+     */
     public void removeModelNode(PNode node) {
         removeStageNode(new ModelNode(transform, node));
     }
 
+    /**
+     * Returns true if the specified node is contained in the stage coordinate frame.
+     *
+     * @param node the node for which to check containment.
+     * @return true if the specified node is contained in the stage coordinate frame.
+     */
     public boolean containsModelNode(PNode node) {
         return containsStageNode(new ModelNode(transform, node));
     }
 
+    /**
+     * Translates the model view transform by the specified model offset.
+     *
+     * @param dx the model x-coordinate by which to translate the model viewport
+     * @param dy the model y-coordinate by which to translate the model viewport
+     */
     public void panModelViewport(double dx, double dy) {
         transform.panModelViewport(dx, dy);
-    }
-
-    public boolean containsStageNode(PNode node) {
-        return containsScreenNode(new StageNode(stage, this, node));
     }
 
     //////////////////////////////////////////////////////////
@@ -249,11 +300,19 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
         stageContainerDebugRegion.setPathTo(getContainerBounds());
     }
 
+    /**
+     * Toggles the visibility of the debug regions.
+     */
     public void toggleDebugRegionVisibility() {
         toggleScreenNode(stageContainerDebugRegion);
         toggleScreenNode(stageBoundsDebugRegion);
     }
 
+    /**
+     * Adds the node to the screen coordinate frame if it wasn't already contained, and vice-versa.
+     *
+     * @param node the node for which to toggle containment.
+     */
     public void toggleScreenNode(PNode node) {
         if (!containsScreenNode(node))
             addScreenNode(node);
