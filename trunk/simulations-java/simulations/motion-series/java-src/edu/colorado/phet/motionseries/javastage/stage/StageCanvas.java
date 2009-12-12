@@ -25,6 +25,9 @@ import java.util.ArrayList;
  * This class provides convenience methods for transforming between the various coordinate frames, and provides the capability of obtaining bounds of one coordinate frame in another coordinate frame.
  * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  This, for example, is provided by StageCanvas#getStageInScreenCoordinates
  *
+ * ToDo:
+ * //todo: compute stage bounds dynamically, based on contents of the stage?
+ *
  * @author Sam Reid
  */
 public class StageCanvas extends PSwingCanvas implements StageContainer {
@@ -209,13 +212,6 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
         transform.setViewBounds(new Rectangle2D.Double(0, 0, width, height));
     }
 
-    public void toggleScreenNode(PNode node) {
-        if (!containsScreenNode(node))
-            addScreenNode(node);
-        else
-            removeScreenNode(node);
-    }
-
     public void addStageNode(PNode node) {
         addScreenNode(new StageNode(stage, this, node));
     }
@@ -244,6 +240,10 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
         return containsScreenNode(new StageNode(stage, this, node));
     }
 
+    //////////////////////////////////////////////////////////
+    // Methods for Debugging
+    //////////////////////////////////////////////////////////
+
     public void updateDebugRegions() {
         stageBoundsDebugRegion.setPathTo(getStageInScreenCoordinates());
         stageContainerDebugRegion.setPathTo(getContainerBounds());
@@ -252,5 +252,12 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
     public void toggleDebugRegionVisibility() {
         toggleScreenNode(stageContainerDebugRegion);
         toggleScreenNode(stageBoundsDebugRegion);
+    }
+
+    public void toggleScreenNode(PNode node) {
+        if (!containsScreenNode(node))
+            addScreenNode(node);
+        else
+            removeScreenNode(node);
     }
 }
