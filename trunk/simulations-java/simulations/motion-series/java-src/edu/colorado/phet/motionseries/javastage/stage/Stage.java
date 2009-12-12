@@ -1,3 +1,4 @@
+/* Copyright 2004-2010, University of Colorado */
 package edu.colorado.phet.motionseries.javastage.stage;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -7,6 +8,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
  * This represents a coordinate frame analogous to what was called the "intermediate" coordinate frame in previous incarnations.
  * <p/>
  * Normally the client code will interact with the Stage through interacting with the StageNode, but this class is left public in case custom behavior is required.
+ *
+ * @see StageCanvas
+ * @author Sam Reid
  */
 public class Stage extends SimpleObservable {
     private double width;

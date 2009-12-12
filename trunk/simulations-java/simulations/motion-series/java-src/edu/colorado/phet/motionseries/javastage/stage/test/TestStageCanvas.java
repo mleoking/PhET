@@ -1,3 +1,4 @@
+/* Copyright 2004-2010, University of Colorado */
 package edu.colorado.phet.motionseries.javastage.stage.test;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -6,13 +7,13 @@ import edu.colorado.phet.motionseries.javastage.stage.StageCanvas;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * @author Sam Reid
+ */
 public class TestStageCanvas {
     private JFrame frame = new JFrame();
     private PhetPPath rectNode;
@@ -62,21 +63,24 @@ public class TestStageCanvas {
 
         Timer timer = new Timer(15, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                canvas.panModelViewport(-1E-8/4, -1E-8/4);
+                canvas.panModelViewport(-1E-8 / 4, -1E-8 / 4);
             }
         });
         timer.start();
 
         frame.setContentPane(canvas);
-//        canvas.toggleDebugs();
-
+        canvas.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                canvas.toggleDebugs();
+            }
+        });
         canvas.setPanEventHandler(null);
         canvas.setZoomEventHandler(null);
-
     }
 
     private void start() {
         frame.setVisible(true);
+        canvas.requestFocus();
     }
 
     public static void main(String[] args) {
