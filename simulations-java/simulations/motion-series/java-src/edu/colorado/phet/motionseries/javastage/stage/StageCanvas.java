@@ -14,23 +14,41 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * The StageCanvas is a PSwingCanvas that provides direct support for the three coordinate frames typically used in PhET simulations:
+ * The model coordinate frame, which is used to depict the physical system that is depicted.  Typically this will have physical units such as meters or nanometers.
+ * The stage coordinate frame, which automatically scales up and down with the size of the container.
+ * The screen coordinate frame, which is the same as pixel coordinates for absolute/global positioning of nodes.
+ * <p/>
+ * This class provides convenience methods for transforming between the various coordinate frames, and provides the capability of obtaining bounds of one coordinate frame in another coordinate frame.
+ * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  This, for example, is provided by StageCanvas#getStageInScreenCoordinates
+ */
 public class StageCanvas extends PSwingCanvas implements StageContainer {
-    private double stageWidth;
-    private double stageHeight;
-    private Rectangle2D modelBounds;
+    /**
+     * Stage model object represents the
+     */
     private Stage stage;
-    private PText utilityStageNode = new PText("Utility node"); //to facilitate transforms
+    /**
+     * This node is used to make coordinate transforms.  It is a child of the stage node, and is invisible and unpickable.
+     */
+    private PText utilityStageNode = new PText("Utility node");
 
     //use screen coordinates instead of stage coordinates to keep stroke a fixed width
     private PhetPPath stageContainerDebugRegion;
     private PhetPPath stageBoundsDebugRegion;
+    /**
+     * A rectangular transform that projects model bounds to stage bounds.
+     */
     private ModelViewTransform2D transform;
 
+    /**
+     * Constructs a StageCanvas with the specified dimensions and model bounds.
+     *
+     * @param stageWidth  the width of the stage
+     * @param stageHeight the height of the stage
+     * @param modelBounds the rectangular bounds depicted in the physical model.
+     */
     public StageCanvas(double stageWidth, double stageHeight, Rectangle2D modelBounds) {
-        this.stageWidth = stageWidth;
-        this.stageHeight = stageHeight;
-        this.modelBounds = modelBounds;
-
         stage = new Stage(stageWidth, stageHeight);
 
         stageContainerDebugRegion = new PhetPPath(getContainerBounds(), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{20, 8}, 0f), Color.blue);
@@ -41,46 +59,68 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
         utilityStageNode.setPickable(false);
         addStageNode(utilityStageNode);
 
-        addListener(new Listener() {
-            public void changed() {
+        addContainerBoundsChangeListener(new Listener() {
+            public void stageContainerBoundsChanged() {
                 updateRegions();
             }
         });
     }
 
     /**
-     * Creates a StageCanvas with scale sx = sy
+     * Creates a StageCanvas with scale sx = sy.
+     *
+     * @param stageWidth  the width of the stage
+     * @param modelBounds the rectangular bounds depicted by the physical model
+     * @see StageCanvas#StageCanvas(double, double, java.awt.geom.Rectangle2D)
      */
     public StageCanvas(double stageWidth, Rectangle2D modelBounds) {
         this(stageWidth, modelBounds.getHeight() / modelBounds.getWidth() * stageWidth, modelBounds);
     }
 
+    /**
+     * Returns the bounds of this StageContainer as a defensive copy.
+     *
+     * @return the bounds of this StageContainer.
+     */
     public Rectangle2D getContainerBounds() {
         return new Rectangle2D.Double(0, 0, getWidth(), getHeight());
     }
 
-    public void addListener(final Listener listener) {//todo: need to be able to remove listeners
+    public void addContainerBoundsChangeListener(final Listener listener) {//todo: need to be able to remove listeners
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                listener.changed();
+                listener.stageContainerBoundsChanged();
             }
         });
-    }
-
-    public void addChild(PNode node) {
-        getLayer().addChild(node);
     }
 
     public boolean containsChild(PNode node) {//todo: make sure they weren't asking about a stage or model node
         return getLayer().getChildrenReference().contains(node);
     }
 
+    /**
+     * Adds the specified node to the screen coordinate frame of this StageCanvas.
+     *
+     * @param screenNode the node to add to the screen coordinate frame.
+     */
     public void addScreenNode(PNode screenNode) {
-        addChild(screenNode);
+        getLayer().addChild(screenNode);
     }
 
-    //get the rectangle that entails the stage, but in screen coordinates
+    /**
+     * Removes the specified node from the screen coordinate frame of this StageCanvas.
+     *
+     * @param node the node to be removed
+     */
+    public void removeScreenNode(PNode node) {
+        getLayer().removeChild(node);
+    }
 
+    /**
+     * Returns the rectangle that entails the stage, but in screen coordinates.
+     *
+     * @return the rectangle that entails the stage in screen coordinates.
+     */
     public Rectangle2D getStageInScreenCoordinates() {
         return stageToScreen(new Rectangle2D.Double(0, 0, stage.getWidth(), stage.getHeight()));
     }
@@ -89,7 +129,7 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
         return utilityStageNode.localToGlobal(transform.modelToView(x, y));
     }
 
-    Dimension2D canvasToStageDelta(double dx, double dy) {
+    public Dimension2D canvasToStageDelta(double dx, double dy) {
         return utilityStageNode.globalToLocal(new PDimension(dx, dy));
     }
 
@@ -108,14 +148,6 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
             addScreenNode(node);
         else
             removeScreenNode(node);
-    }
-
-    public void removeScreenNode(PNode node) {
-        removeChild(node);
-    }
-
-    private void removeChild(PNode node) {
-        getLayer().removeChild(node);
     }
 
     public void addStageNode(PNode node) {
