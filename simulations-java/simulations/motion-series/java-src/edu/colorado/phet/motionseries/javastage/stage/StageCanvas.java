@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * <p/>
  * This class provides convenience methods for transforming between the various coordinate frames, and provides the capability of obtaining bounds of one coordinate frame in another coordinate frame.
  * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  This, for example, is provided by StageCanvas#getStageInScreenCoordinates
+ *
  * @author Sam Reid
  */
 public class StageCanvas extends PSwingCanvas implements StageContainer {
@@ -32,12 +33,17 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
      */
     private Stage stage;
     /**
-     * This node is used to make coordinate transforms.  It is a child of the stage node, and is invisible and unpickable.
+     * This node is used internally to make coordinate transforms.  It is a child of the stage node, and is invisible and unpickable.
      */
     private PText utilityStageNode = new PText("Utility node");
 
-    //use screen coordinates instead of stage coordinates to keep stroke a fixed width
+    /**
+     * This is a screen node used for debugging purposes to depict the bounds of the canvas.
+     */
     private PhetPPath stageContainerDebugRegion;
+    /**
+     * This is a screen node used for debuggin purposes to depict the bounds of the stage.  It is shown in screen coordinates instead of stage coordinates to keep stroke a fixed width.
+     */
     private PhetPPath stageBoundsDebugRegion;
     /**
      * A rectangular transform that projects model bounds to stage bounds.
@@ -64,7 +70,7 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
 
         addContainerBoundsChangeListener(new Listener() {
             public void stageContainerBoundsChanged() {
-                updateRegions();
+                updateDebugRegions();
             }
         });
     }
@@ -117,9 +123,6 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
                 listeners.remove(stageCanvasComponentAdapter);
             }
         }
-
-        //if removeComponentListener uses reference equality, we could implement SCCA.equals and use this body:
-        //removeComponentListener(new StageCanvasComponentAdapter(listener));
     }
 
     /**
@@ -155,6 +158,12 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
         getLayer().removeChild(node);
     }
 
+    /**
+     * Returns true if this StageCanvas contains the specified screen node, false otherwise.
+     *
+     * @param node the node for which to check visibility
+     * @return true if this StageCanvas contains the specified screen node, false otherwise.
+     */
     public boolean containsScreenNode(PNode node) {
         return getLayer().getChildrenReference().contains(node);
     }
@@ -162,16 +171,30 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
     /**
      * Returns the rectangle that entails the stage, but in screen coordinates.
      *
-     * @return the rectangle that entails the stage in screen coordinates.
+     * @return the rectangle that entails the stage, but in screen coordinates.
      */
     public Rectangle2D getStageInScreenCoordinates() {
         return stageToScreen(new Rectangle2D.Double(0, 0, stage.getWidth(), stage.getHeight()));
     }
 
+    /**
+     * Transforms the specified point from model coordinates to screen coordinates.
+     *
+     * @param x the model x-coordinate to transform
+     * @param y the model y-coordinate to transform
+     * @return the new Point2D in screen coordinates
+     */
     public Point2D modelToScreen(double x, double y) {
         return utilityStageNode.localToGlobal(transform.modelToView(x, y));
     }
 
+    /**
+     * Transforms the specified dimension (i.e. a delta) from a model coordinates to stage coordinates.
+     *
+     * @param dx the model delta along the x-axis to transform
+     * @param dy the model delta along the y-axis to transform
+     * @return the dimension in stage coordinates.
+     */
     public Dimension2D canvasToStageDelta(double dx, double dy) {
         return utilityStageNode.globalToLocal(new PDimension(dx, dy));
     }
@@ -217,12 +240,12 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
         return containsScreenNode(new StageNode(stage, this, node));//todo: requires equality tests to work
     }
 
-    public void updateRegions() {
+    public void updateDebugRegions() {
         stageBoundsDebugRegion.setPathTo(getStageInScreenCoordinates());
         stageContainerDebugRegion.setPathTo(getContainerBounds());
     }
 
-    public void toggleDebugs() {
+    public void toggleDebugRegionVisibility() {
         toggleScreenNode(stageContainerDebugRegion);
         toggleScreenNode(stageBoundsDebugRegion);
     }
