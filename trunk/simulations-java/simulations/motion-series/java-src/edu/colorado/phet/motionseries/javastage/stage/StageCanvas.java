@@ -31,6 +31,7 @@ import java.util.ArrayList;
  * <p/>
  * ToDo:
  * //todo: compute stage bounds dynamically, based on contents of the stage?
+ * //todo: maybe stage bounds should be mutable, since it is preferable to create the nodes as children of the canvas
  *
  * @author Sam Reid
  */
@@ -216,7 +217,7 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
      */
     public Rectangle2D stageToScreen(Rectangle2D shape) {
         //Uses a defensive copy to prevent changing the supplied argument, as piccolo normally does.
-        return utilityStageNode.localToGlobal(new Rectangle2D.Double(0, 0, shape.getWidth(), shape.getHeight()));
+        return utilityStageNode.localToGlobal(new Rectangle2D.Double(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight()));
     }
 
     /**
