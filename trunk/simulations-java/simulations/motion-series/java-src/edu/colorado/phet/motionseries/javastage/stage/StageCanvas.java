@@ -19,8 +19,12 @@ import java.util.ArrayList;
 /**
  * The StageCanvas is a PSwingCanvas that provides direct support for the three coordinate frames typically used in PhET simulations:
  * The model coordinate frame, which is used to depict the physical system that is depicted.  Typically this will have physical units such as meters or nanometers.
- * The stage coordinate frame, which automatically scales up and down with the size of the container.
+ * The stage coordinate frame, which automatically scales up and down with the size of the container, and is guaranteed to be 100% visible on the screen.
  * The screen coordinate frame, which is the same as pixel coordinates for absolute/global positioning of nodes.
+ * <p/>
+ * To use this canvas, create a node that is specified in coordinates in the frame in which it will be added.
+ * For example: In a simulation which shows a meter stick in model coordinates (assuming model coordinates are meters),
+ * the MeterStickNode would have a length of 1.0 and be added to the model coordinate frame.
  * <p/>
  * This class provides convenience methods for transforming between the various coordinate frames, and provides the capability of obtaining bounds of one coordinate frame in another coordinate frame.
  * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  This, for example, is provided by StageCanvas#getStageInScreenCoordinates
@@ -62,14 +66,16 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
      */
     public StageCanvas(double stageWidth, double stageHeight, Rectangle2D modelBounds) {
         stage = new Stage(stageWidth, stageHeight);
-
-        stageContainerDebugRegion = new PhetPPath(getContainerBounds(), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{20, 8}, 0f), Color.blue);
-        stageBoundsDebugRegion = new PhetPPath(getStageInScreenCoordinates(), new BasicStroke(4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{17, 5}, 0f), Color.red);
         transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight));
-
         utilityStageNode.setVisible(false);
         utilityStageNode.setPickable(false);
         addStageNode(utilityStageNode);
+
+        //Create the debug regions, both specified in screen coordinates so we have control over the stroke width:
+        //The debug region to depict the stage container.
+        stageContainerDebugRegion = new PhetPPath(getContainerBounds(), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{20, 8}, 0f), Color.blue);
+        //The debug region to depict the stage itself.
+        stageBoundsDebugRegion = new PhetPPath(getStageInScreenCoordinates(), new BasicStroke(4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{17, 5}, 0f), Color.red);
 
         addContainerBoundsChangeListener(new Listener() {
             public void stageContainerBoundsChanged() {

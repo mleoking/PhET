@@ -75,7 +75,6 @@ public class TestStageCanvas {
 //                canvas.panModelViewport(-1E-8 / 4, -1E-8 / 4);
 //            }
 //        }).start();
-        canvas.panModelViewport(-1E-8/4, -1E-8/4);
 
         canvas.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
