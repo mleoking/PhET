@@ -1,3 +1,4 @@
+/* Copyright 2004-2010, University of Colorado */
 package edu.colorado.phet.motionseries.javastage.stage;
 
 import java.awt.geom.Rectangle2D;
@@ -5,6 +6,9 @@ import java.awt.geom.Rectangle2D;
 /**
  * This interface represents the bounds (in screen coordinates) of an object that contains a Stage.
  * Currently this is only implemented in StageCanvas, but future versions may include PNodes that act as StageContainers themselves.
+ *
+ * @see StageCanvas
+ * @author Sam Reid
  */
 public interface StageContainer {
     /**

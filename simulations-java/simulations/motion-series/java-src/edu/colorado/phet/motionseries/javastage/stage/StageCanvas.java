@@ -1,3 +1,4 @@
+/* Copyright 2004-2010, University of Colorado */
 package edu.colorado.phet.motionseries.javastage.stage;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -13,6 +14,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  * The StageCanvas is a PSwingCanvas that provides direct support for the three coordinate frames typically used in PhET simulations:
@@ -22,6 +24,7 @@ import java.awt.geom.Rectangle2D;
  * <p/>
  * This class provides convenience methods for transforming between the various coordinate frames, and provides the capability of obtaining bounds of one coordinate frame in another coordinate frame.
  * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  This, for example, is provided by StageCanvas#getStageInScreenCoordinates
+ * @author Sam Reid
  */
 public class StageCanvas extends PSwingCanvas implements StageContainer {
     /**
@@ -86,16 +89,52 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
         return new Rectangle2D.Double(0, 0, getWidth(), getHeight());
     }
 
-    public void addContainerBoundsChangeListener(final Listener listener) {//todo: need to be able to remove listeners
-        addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                listener.stageContainerBoundsChanged();
-            }
-        });
+    /**
+     * Adds a listener for changes in the size of this StageContainerBounds.
+     *
+     * @param listener the callback implementation
+     */
+    public void addContainerBoundsChangeListener(Listener listener) {
+        StageCanvasComponentAdapter canvasComponentAdapter = new StageCanvasComponentAdapter(listener);
+        addComponentListener(canvasComponentAdapter);
+        listeners.add(canvasComponentAdapter);
     }
 
-    public boolean containsChild(PNode node) {//todo: make sure they weren't asking about a stage or model node
-        return getLayer().getChildrenReference().contains(node);
+    /**
+     * This list keeps track of the registered StageNode#Listener implementors.
+     */
+    private ArrayList<StageCanvasComponentAdapter> listeners = new ArrayList<StageCanvasComponentAdapter>();
+
+    /**
+     * Removes any references to the specified listener
+     *
+     * @param listener the callback implementation to be removed.
+     */
+    public void removeContainerBoundsChangeListener(Listener listener) {
+        for (StageCanvasComponentAdapter stageCanvasComponentAdapter : listeners) {
+            if (listener == stageCanvasComponentAdapter.listener) {
+                removeComponentListener(stageCanvasComponentAdapter);
+                listeners.remove(stageCanvasComponentAdapter);
+            }
+        }
+
+        //if removeComponentListener uses reference equality, we could implement SCCA.equals and use this body:
+        //removeComponentListener(new StageCanvasComponentAdapter(listener));
+    }
+
+    /**
+     * This adapter class facilitates removal of StageNode#Listener implementors.
+     */
+    private static class StageCanvasComponentAdapter extends ComponentAdapter {
+        private Listener listener;
+
+        private StageCanvasComponentAdapter(Listener listener) {
+            this.listener = listener;
+        }
+
+        public void componentResized(ComponentEvent e) {
+            listener.stageContainerBoundsChanged();
+        }
     }
 
     /**
@@ -114,6 +153,10 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
      */
     public void removeScreenNode(PNode node) {
         getLayer().removeChild(node);
+    }
+
+    public boolean containsScreenNode(PNode node) {
+        return getLayer().getChildrenReference().contains(node);
     }
 
     /**
@@ -171,11 +214,7 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
     }
 
     public boolean containsStageNode(PNode node) {
-        return containsChild(new StageNode(stage, this, node));//todo: requires equality tests to work
-    }
-
-    public boolean containsScreenNode(PNode node) {
-        return containsChild(node);
+        return containsScreenNode(new StageNode(stage, this, node));//todo: requires equality tests to work
     }
 
     public void updateRegions() {

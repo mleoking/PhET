@@ -1,3 +1,4 @@
+/* Copyright 2004-2010, University of Colorado */
 package edu.colorado.phet.motionseries.javastage.stage;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -7,6 +8,10 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * Represents a node in model coordinates.  Ordinarily this class will be for internal use by StageCanvas only,
  * and not used by client code; however, this class is left as public in case custom behavior is needed.
+ *
+ * @see StageCanvas
+ * @see StageCanvas#addModelNode(edu.umd.cs.piccolo.PNode)
+ * @author Sam Reid
  */
 public class ModelNode extends PNode {
     /**

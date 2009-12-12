@@ -1,3 +1,4 @@
+/* Copyright 2004-2010, University of Colorado */
 package edu.colorado.phet.motionseries.javastage.stage;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -6,7 +7,9 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * This represents a node in the stage coordinate frame.
  *
+ * @see StageCanvas
  * @see StageCanvas#addStageNode(edu.umd.cs.piccolo.PNode)
+ * @author Sam Reid
  */
 public class StageNode extends PNode {
     /**
