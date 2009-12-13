@@ -22,6 +22,11 @@ import java.util.ArrayList;
  * The model coordinate frame, which is used to depict the physical system that is depicted.  Typically this will have physical units such as meters or nanometers.
  * The stage coordinate frame, which automatically scales up and down with the size of the container, and is guaranteed to be 100% visible on the screen.
  * The screen coordinate frame, which is the same as pixel coordinates for absolute/global positioning of nodes.
+ *
+ * This component is meant as a replacement for PhetPCanvas, a clearer interface and implementation for similar functionality.
+ * It is also meant as an alternative to custom approaches such as ABSAbstractCanvas (and duplicates), which use the following scheme:
+ * create a new "root node", which is added as a child of the "world" (and centered in the world) to obtain automatic scaling.
+ * Using StageCanvas to obtain automatic scaling, nodes are added to the stage. 
  * <p/>
  * To use this canvas, create a node that is specified in coordinates in the frame in which it will be added.
  * For example: In a simulation which shows a meter stick in model coordinates (assuming model coordinates are meters),
