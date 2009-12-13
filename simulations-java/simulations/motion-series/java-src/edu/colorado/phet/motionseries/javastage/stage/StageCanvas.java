@@ -45,7 +45,7 @@ import java.util.ArrayList;
  * 2. The logic for how the stage is centered in the container is duplicated in instances.  Should this be a shared strategy pattern in case it needs to be modified?
  * 3. What about having a StageContainerNode for when we want to embed a stage coordinate frame in a node (not necessarily a top level canvas)?
  *  In Scala this was solved by mixing in a StageContainer trait, but in Java this could be done with duplication of code.
- * 4. How to handle screen à model mouse events?  We should provide a sample usage to make sure it's very easy. 
+ * 4. How to handle screen to model mouse events?  We should provide a sample usage to make sure it's very easy. 
  *
  * @author Sam Reid
  */
