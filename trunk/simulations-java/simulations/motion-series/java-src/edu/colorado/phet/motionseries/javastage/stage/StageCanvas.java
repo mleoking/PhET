@@ -2,6 +2,7 @@
 package edu.colorado.phet.motionseries.javastage.stage;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -35,9 +36,10 @@ import java.util.ArrayList;
  *
  * @author Sam Reid
  */
-public class StageCanvas extends PSwingCanvas implements StageContainer {
+public class StageCanvas extends PhetPCanvas implements StageContainer {
+    //TODO: this should be switched to extends PSwingCanvas when phetcommon is unfrozen; MotionControlGraph is requiring a PhetPCanvas, but should be rewritten to use PSwingCanvas
     /**
-     * Stage model object represents the
+     * Represents the bounds of the stage, scaled uniformly so that it fits in the center of the StageCanvas.
      */
     private Stage stage;
     /**
@@ -354,5 +356,13 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
             addScreenNode(node);
         else
             removeScreenNode(node);
+    }
+
+    public ModelViewTransform2D getModelStageTransform() {
+        return transform;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }
