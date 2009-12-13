@@ -38,6 +38,13 @@ import java.util.ArrayList;
  * ToDo:
  * //todo: compute stage bounds dynamically, based on contents of the stage?
  * //todo: maybe stage bounds should be mutable, since it is preferable to create the nodes as children of the canvas
+ * //todo: make sure we have covered 100% of the coordinate frame transforms, from each frame to each other frame, for Point2D, Dimension2D and Rectangle2D
+ *
+ * Design questions:
+ * 1. Should we factor out the hard-coded model coordinates, but make it easy to add (possibly multiple) new model coordinate frames?
+ * 2. The logic for how the stage is centered in the container is duplicated in instances.  Should this be a shared strategy pattern in case it needs to be modified?
+ * 3. What about having a StageContainerNode for when we want to embed a stage coordinate frame in a node (not necessarily a top level canvas)?
+ *  In Scala this was solved by mixing in a StageContainer trait, but in Java this could be done with duplication of code. 
  *
  * @author Sam Reid
  */
