@@ -16,6 +16,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.tests.MyCanvas
 import javax.swing.{JFrame}
 import edu.colorado.phet.motionseries.controls.{ComboBoxNode}
+import edu.colorado.phet.motionseries.javastage.stage.StageCanvas
 
 abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   adjustableCoordinateModel: AdjustableCoordinateModel,
@@ -24,7 +25,9 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   frame: JFrame,
                                   modelViewport: Rectangle2D,
                                   val stageContainerArea: StageContainerArea)
-        extends MyCanvas(800, modelViewport) { //max y should be about 10 in default case
+        extends StageCanvas(800, modelViewport) { //max y should be about 10 in default case
+  val transform = super.getModelStageTransform
+  val stage = super.getStage
   setBackground(MotionSeriesDefaults.SKY_GRADIENT_BOTTOM)
 
   val playAreaNode = new PNode
@@ -188,17 +191,17 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
 
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
-    appliedForceSliderNode.setOffset(stage.width / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY)
+    appliedForceSliderNode.setOffset(stage.getWidth/ 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY)
     addBehindVectorNodes(appliedForceSliderNode)
   }
 
   if (showObjectSelectionNode) {
     addStageNode(new ComboBoxNode(model, this) {
-      setOffset(stage.width / 2 - getFullBounds.getWidth / 2, stage.height - getFullBounds.getHeight - 2)
+      setOffset(stage.getWidth/ 2 - getFullBounds.getWidth / 2, stage.getHeight- getFullBounds.getHeight - 2)
     })
   }
 
-  override def containerBounds = stageContainerArea.getBounds(getWidth, getHeight)
+  override def getContainerBounds = stageContainerArea.getBounds(getWidth, getHeight)
 }
 
 class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,

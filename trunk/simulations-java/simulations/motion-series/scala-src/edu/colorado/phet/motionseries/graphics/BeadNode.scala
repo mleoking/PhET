@@ -14,6 +14,7 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.tests.MyCanvas
 import edu.colorado.phet.motionseries.model.{MovingManBead, ForceBead, Bead}
+import edu.colorado.phet.motionseries.javastage.stage.StageCanvas
 
 class ForceDragBeadNode(bead: ForceBead,
                         transform: ModelViewTransform2D,
@@ -39,7 +40,7 @@ class PositionDragBeadNode(bead: MovingManBead,
                            transform: ModelViewTransform2D,
                            imageName: String,
                            leftImageName: String,
-                           dragListener: () => Unit, canvas: MyCanvas) extends BeadNode(bead, transform, imageName) {
+                           dragListener: () => Unit, canvas: StageCanvas) extends BeadNode(bead, transform, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
@@ -48,7 +49,7 @@ class PositionDragBeadNode(bead: MovingManBead,
       val delta = event.getCanvasDelta
       //todo: make it so we can get this information (a) more easily and (b) without a reference to the canvas:MyCanvas
       val screenDelta = canvas.canvasToStageDelta(delta.getWidth, delta.getHeight)
-      val modelDelta = canvas.transform.viewToModelDifferential(screenDelta.getWidth(), screenDelta.getHeight())
+      val modelDelta = canvas.getModelStageTransform.viewToModelDifferential(screenDelta.getWidth(), screenDelta.getHeight())
       bead.setDesiredPosition(bead.desiredPosition + modelDelta.x)
       //      bead.setPosition(bead.position + modelDelta.x)
       dragListener()
