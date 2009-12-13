@@ -112,7 +112,7 @@ public class StageCanvas extends PhetPCanvas implements StageContainer {
      *
      * @param listener the callback implementation
      */
-    public void addContainerBoundsChangeListener(Listener listener) {
+    public void addContainerBoundsChangeListener(StageContainer.Listener listener) {
         StageCanvasComponentAdapter canvasComponentAdapter = new StageCanvasComponentAdapter(listener);
         addComponentListener(canvasComponentAdapter);
         listeners.add(canvasComponentAdapter);
