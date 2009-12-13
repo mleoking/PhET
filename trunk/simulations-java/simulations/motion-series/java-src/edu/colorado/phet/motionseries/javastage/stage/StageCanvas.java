@@ -102,7 +102,7 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
      * @return the bounds of this StageContainer.
      */
     public Rectangle2D getContainerBounds() {
-        return new Rectangle2D.Double(0, 0, getWidth(), getHeight());
+        return getScreenBounds();
     }
 
     /**
@@ -133,6 +133,15 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
                 listeners.remove(stageCanvasComponentAdapter);
             }
         }
+    }
+
+    /**
+     * Returns the size of the screen in screen coordinates, the same as the rectangle representing the bounds of this component.
+     *
+     * @return the Rectangle2D representing the screen
+     */
+    public Rectangle2D getScreenBounds() {
+        return new Rectangle2D.Double(0, 0, getWidth(), getHeight());
     }
 
     /**
@@ -196,6 +205,26 @@ public class StageCanvas extends PSwingCanvas implements StageContainer {
      */
     public Point2D modelToScreen(double x, double y) {
         return utilityStageNode.localToGlobal(transform.modelToView(x, y));
+    }
+
+    public Rectangle2D modelToScreen(Rectangle2D modelRectangle) {
+        return utilityStageNode.localToGlobal(transform.modelToView(modelRectangle));
+    }
+
+    public Rectangle2D screenToModel(Rectangle2D screenRectangle) {
+        Rectangle2D intermediate = utilityStageNode.globalToLocal(new Rectangle2D.Double(screenRectangle.getX(), screenRectangle.getY(), screenRectangle.getWidth(), screenRectangle.getHeight()));
+        return viewToModel(transform, intermediate);
+    }
+
+    /**
+    * Todo: This should be moved to transform.viewToModel(Rectangle2D) when the code is unfrozen.
+     */
+    private static Rectangle2D viewToModel(ModelViewTransform2D transform, Rectangle2D rectangle) {
+        Point2D topLeft = transform.viewToModel(rectangle.getX(), rectangle.getY());
+        Point2D bottomRight = transform.viewToModel(rectangle.getMaxX(), rectangle.getMaxY());
+        Rectangle2D viewRect = new Rectangle2D.Double();
+        viewRect.setFrameFromDiagonal(topLeft, bottomRight);
+        return viewRect;
     }
 
     /**
