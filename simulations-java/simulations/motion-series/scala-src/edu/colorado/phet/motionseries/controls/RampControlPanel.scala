@@ -20,8 +20,9 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import edu.umd.cs.piccolox.pswing.{PSwing}
-import edu.umd.cs.piccolo.PNode
+import edu.umd.cs.piccolo.{PCanvas, PNode}
+import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PSwing}
+
 class RampControlPanel(model: MotionSeriesModel,
                        wordModel: WordModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -209,7 +210,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
   getContentPanel.setAnchor(GridBagConstraints.CENTER)
 }
 
-class ComboBoxNode(objectModel: ObjectModel, canvas: PhetPCanvas) extends PNode {
+class ComboBoxNode(objectModel: ObjectModel, canvas: PSwingCanvas) extends PNode {
   val text = new PSwing(new TitleLabel("controls.choose-object".translate))
   addChild(text)
   val boxPanel = new ObjectSelectionComboBox(objectModel)

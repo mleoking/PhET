@@ -51,7 +51,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
       else
         gameModel.nextObject()
     }, if (gameModel.isLastObject(scalaRampObject)) "game.show-summary".translate else "game.ok".translate)
-    summaryScreen.centerWithin(stage.width, stage.height)
+    summaryScreen.centerWithin(stage.getWidth, stage.getHeight)
     addStageNode(summaryScreen)
     summaryScreen.requestFocus()
   })
@@ -76,7 +76,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   addStageNode(doorBackgroundNode)
 
   val doorNode = new PNode() {
-    val bead = new BeadNode(gameModel.door, transform, MotionSeriesDefaults.door.imageFilename)
+    val bead = new BeadNode(gameModel.door, getModelStageTransform, MotionSeriesDefaults.door.imageFilename)
     addChild(bead)
 
     gameModel.doorListeners += (() => {

@@ -18,6 +18,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.javastage.stage.StageCanvas
 
 case class Graph(title: String, graph: MotionControlGraph, minimized: Boolean)
 
@@ -153,7 +154,7 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
   }
 }
 
-class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: MotionSeriesModel,
+class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: StageCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: MotionSeriesModel,
                         minRangeValue: Double, maxRangeValue: Double)
         extends MotionControlGraph(canvas, defaultSeries, "".literal, "".literal, minRangeValue, maxRangeValue, true, timeseriesModel, updateableObject) {
   setCenterControls(true)
