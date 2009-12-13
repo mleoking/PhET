@@ -27,7 +27,7 @@ ACCOMPLISHMENTS:
 
 WHAT'S NEXT:
 
-  - continue work on Reactants, Products and Leftovers
+  - continue work on Reactants, Products and Leftovers 
   
 ISSUES:
 
