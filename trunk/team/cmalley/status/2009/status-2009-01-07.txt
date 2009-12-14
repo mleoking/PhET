@@ -5,7 +5,7 @@ PERIOD: December 30 - January 7, 2009 (Tue-Thu)
 
 ACCOMPLISHMENTS:
 
-  acid-base-solutions:
+  acid-base-solutions: 
   - discussion about Wendy's feedback
   - discussion about representation of chemical structures
   
