@@ -37,12 +37,23 @@ public class LacZ extends SimpleModelElement {
 	// lactose offset too.
 	private static final Dimension2D GLUCOSE_ATTACHMENT_POINT_OFFSET = new PDimension(0, -SIZE/2);
 	
+	// Amount of time that lactose is attached before it is "digested",
+	// meaning that it is broken apart and released.
+	private static final double LACTOSE_ATTACHMENT_TIME = 1;  // In seconds.
+	
+	// Amount of time after releasing one lactose molecule until it is okay
+	// to start trying to attach to another.  This is needed to prevent the
+	// LacZ from getting into a state where it can never fade out.
+	private static final double RECOVERY_TIME = 0.250;  // In seconds.
+	
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
 
 	private Glucose glucoseAttachmentPartner = null;
 	private AttachmentState glucoseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	private double lactoseAttachmentCountdownTimer;
+	private double recoverCountdownTimer;
 	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
@@ -85,6 +96,9 @@ public class LacZ extends SimpleModelElement {
 					
 					// Prevent fadeout from occurring while attached to lactose.
 					setOkayToFade(false);
+					
+					// Start the attachment timer/counter.
+					lactoseAttachmentCountdownTimer = LACTOSE_ATTACHMENT_TIME;
 				}
 			}
 		}
@@ -94,6 +108,25 @@ public class LacZ extends SimpleModelElement {
 				// Finalize the attachment.
 				glucoseAttachmentPartner.attach(this);
 				glucoseAttachmentState = AttachmentState.ATTACHED;
+			}
+		}
+		else if (glucoseAttachmentState == AttachmentState.ATTACHED){
+			lactoseAttachmentCountdownTimer -= dt;
+			if (lactoseAttachmentCountdownTimer <= 0){
+				// Time to break down and release the lactose.
+				glucoseAttachmentPartner.releaseGalactose();
+				glucoseAttachmentPartner.detach(this);
+				glucoseAttachmentPartner = null;
+				glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+				setOkayToFade(true);
+				recoverCountdownTimer = RECOVERY_TIME;
+			}
+		}
+		else if (glucoseAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
+			recoverCountdownTimer -= dt;
+			if (recoverCountdownTimer <= 0){
+				// Recovery is complete.
+				glucoseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			}
 		}
 	}
