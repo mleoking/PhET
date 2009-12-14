@@ -34,6 +34,5 @@ public class CloseOnMovingTargetMotionStrategy extends DirectedRandomWalkMotionS
 	private void updateDestination(){
 		setDestination(targetElement.getPositionRef().getX() + offsetFromTarget.getWidth(),
 				targetElement.getPositionRef().getY() + offsetFromTarget.getHeight());
-		System.out.println(getDestination());
 	}
 }
