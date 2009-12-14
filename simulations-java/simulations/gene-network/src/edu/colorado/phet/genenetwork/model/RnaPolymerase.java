@@ -16,8 +16,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
- * Class that represents the CAP, which is an acronym for something, but I
- * don't know what.
+ * Class that represents RNA Polymerase, which is the stuff that transcribes
+ * DNA, in the model.
  * 
  * @author John Blanco
  */
