@@ -79,8 +79,12 @@ public class Glucose extends SimpleSugar {
 			assert false;
 			return;
 		}
-		setPosition(lacZ.getGlucoseAttachmentPointLocation());
-		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, lacZ, LacZ.getGlucoseAttachmentPointOffset()));
+		setPosition(lacZ.getGlucoseAttachmentPointLocation().getX() - LAC_Z_ATTACHMENT_POINT_OFFSET.getWidth(),
+				lacZ.getGlucoseAttachmentPointLocation().getY() - LAC_Z_ATTACHMENT_POINT_OFFSET.getHeight());
+		Dimension2D followingOffset = new PDimension(
+				LacZ.getGlucoseAttachmentPointOffset().getWidth() - LAC_Z_ATTACHMENT_POINT_OFFSET.getWidth(),
+				LacZ.getGlucoseAttachmentPointOffset().getHeight() - LAC_Z_ATTACHMENT_POINT_OFFSET.getHeight());
+		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, lacZ, followingOffset));
 		lacIAttachmentState = AttachmentState.ATTACHED;
 	}
 	
