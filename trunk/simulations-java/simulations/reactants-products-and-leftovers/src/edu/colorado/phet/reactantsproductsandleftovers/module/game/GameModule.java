@@ -31,13 +31,5 @@ public class GameModule extends PiccoloModule {
         
         // no clock controls
         setClockControlPanel( null );
-
-        // Set initial state
-        reset();
-    }
-    
-    public void reset() {
-        super.reset();
-        model.reset();
     }
 }

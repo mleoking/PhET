@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.*;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 
 /**
  * Model for the "Game" module.
@@ -15,22 +16,19 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.*;
  */
 public class GameModel extends RPALModel {
     
-    public static enum ChallengeType { GUESS_AFTER, GUESS_BEFORE };
-    
     private static final int CHALLENGES_PER_GAME = 10;
-    private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 );
+    private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
     private static final boolean DEFAULT_TIMER_ENABLED = true;
     
     private final IClock clock;
     private final ArrayList<GameListener> listeners;
     
+    private GameChallenge[] challenges;
     private int challengeNumber;
-    private ChemicalReaction reaction;
-    private ChallengeType challengeType;
     private int level;
-    private double points;
-    private int attempts;
     private boolean timerEnabled;
+    private int attempts;
+    private double points;
     private long startTime; // System time in ms when the game started
     private long elapsedTime; // ms
     
@@ -38,7 +36,6 @@ public class GameModel extends RPALModel {
         
         this.clock = clock;
         clock.addClockListener( new ClockAdapter() {
-            
             @Override
             public void clockTicked( ClockEvent clockEvent ) {
                 elapsedTime = clockEvent.getWallTime() - startTime;
@@ -49,27 +46,14 @@ public class GameModel extends RPALModel {
         } );
         
         listeners = new ArrayList<GameListener>();
-        challengeNumber = 0;
-        reaction = new WaterReaction();
-        challengeType = ChallengeType.GUESS_AFTER;
-        level = LEVEL_RANGE.getDefault();
-        points = 0;
-        attempts = 0;
-        timerEnabled = DEFAULT_TIMER_ENABLED;
-        startTime = 0;
-        elapsedTime = 0;
-    }
-    
-    public void reset() {
-        //XXX do we need this in the Game?
+        startGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
     }
     
     public void startGame( int level, boolean timerEnabled ) {
         setLevel( level );
         setTimerEnabled( timerEnabled );
         setPoints( 0 );
-        challengeNumber = 0;
-        newChallenge(); //XXX should probably generate all 10 challenges at once, since our algorithm isn't random, and in case we need history
+        newChallenges();
         elapsedTime = 0;
         clock.resetSimulationTime();
         clock.start();
@@ -77,58 +61,69 @@ public class GameModel extends RPALModel {
         fireGameStarted();
     }
     
-    public void stopTimer() {
-        clock.pause();
-    }
-    
     public void endGame() {
         clock.pause();
-        fireGameEnded();
-    }
-    
-    private void newChallenge() {
-        challengeNumber++;
-        setAttempts( 0 );
-        newReaction();
-        newChallengeType();
-        fireReactionChanged();
-    }
-    
-    private void newReaction() {
-        
-        //XXX this needs to be chosen based on level and challengeNumber
-        if ( level == 1 ) {
-            reaction = new WaterReaction();
-        }
-        else if ( level == 2 ) {
-            reaction = new AmmoniaReaction();
+        if ( challengeNumber == CHALLENGES_PER_GAME - 1 ) {
+            fireGameCompleted();
         }
         else {
-            reaction = new MethaneReaction();
-        }
-        
-        for ( Reactant reactant : reaction.getReactants() ) {
-            reactant.setQuantity( getRandomQuantity() );
+            fireGameAborted();
         }
     }
     
-    private int getRandomQuantity() {
-        return 1 + (int)( Math.random() * getQuantityRange().getMax() ); //XXX should this be zero sometimes?
+    public void nextChallenge() {
+        challengeNumber++;
+        if ( challengeNumber < CHALLENGES_PER_GAME ) {
+            setAttempts( 0 );
+            fireChallengeChanged();
+        }
+        else {
+            endGame();
+        }
+    }
+    
+    private void newChallenges() {
+        challengeNumber = 0;
+        challenges = new GameChallenge[ CHALLENGES_PER_GAME ];
+        for ( int i = 0; i < challenges.length; i++ ) {
+            ChemicalReaction reaction;
+            ChallengeType challengeType;
+            if ( level == 1 ) {
+                reaction = new WaterReaction();
+                challengeType = ChallengeType.GUESS_AFTER;
+            }
+            else if ( level == 2 ) {
+                reaction = new AmmoniaReaction();
+                challengeType = ChallengeType.GUESS_BEFORE;
+            }
+            else {
+                reaction = new MethaneReaction();
+                challengeType = ChallengeType.GUESS_BEFORE;
+            }
+            for ( Reactant reactant : reaction.getReactants() ) {
+                reactant.setQuantity( getRandomQuantity() );
+            }
+            challenges[i] = new GameChallenge( reaction, challengeType );
+        }
     }
     
     /*
-     * Chooses a challenge type based on level and which challenge we're currently on. 
+     * Generates a random non-zero quantity.
      */
-    private void newChallengeType() {
-        challengeType = ChallengeType.GUESS_AFTER; //XXX
+    private int getRandomQuantity() {
+        return 1 + (int)( Math.random() * getQuantityRange().getMax() );
     }
     
     public int getChallengeNumber() {
         return challengeNumber;
     }
     
+    public ChemicalReaction getReaction() {
+        return challenges[challengeNumber].getReaction();
+    }
+    
     public ChallengeType getChallengeType() {
-        return challengeType;
+        return challenges[challengeNumber].getChallengeType();
     }
     
     public static int getChallengesPerGame() {
@@ -168,7 +163,7 @@ public class GameModel extends RPALModel {
     private void setAttempts( int attempts ) {
         if ( attempts != this.attempts ) {
             this.attempts = attempts;
-            //XXX notify?
+            fireAttemptsChanged();
         }
     }
     
@@ -187,26 +182,26 @@ public class GameModel extends RPALModel {
         return points;
     }
     
-    public ChemicalReaction getReaction() {
-        return reaction;
-    }
-    
     public interface GameListener {
-        public void gameStarted();
-        public void gameEnded();
-        public void reactionChanged();
-        public void pointsChanged();
-        public void levelChanged();
-        public void timerEnabledChanged();
-        public void timeChanged();
+        public void gameStarted(); // a new game was started
+        public void gameCompleted(); // the current game was completed
+        public void gameAborted(); // the current game was aborted before it was completed
+        public void challengeChanged(); // the challenge changed
+        public void pointsChanged(); // the number of points changed
+        public void levelChanged(); // the level of difficulty changed
+        public void attemptsChanged(); // the number of attempts changed
+        public void timerEnabledChanged(); // the timer was enabled or disabled
+        public void timeChanged(); // the time shown on the timer changed
     }
     
     public static class GameAdapter implements GameListener {
         public void gameStarted() {}
-        public void gameEnded() {}
-        public void reactionChanged() {}
+        public void gameCompleted() {}
+        public void gameAborted() {}
+        public void challengeChanged() {}
         public void pointsChanged() {}
         public void levelChanged() {}
+        public void attemptsChanged() {}
         public void timerEnabledChanged() {}
         public void timeChanged() {}
     }
@@ -226,17 +221,24 @@ public class GameModel extends RPALModel {
         }
     }
     
-    private void fireGameEnded() {
+    private void fireGameCompleted() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
         for ( GameListener listener : listenersCopy ) {
-            listener.gameEnded();
+            listener.gameCompleted();
         }
     }
     
-    private void fireReactionChanged() {
+    private void fireGameAborted() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
         for ( GameListener listener : listenersCopy ) {
-            listener.reactionChanged();
+            listener.gameAborted();
+        }
+    }
+    
+    private void fireChallengeChanged() {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameListener listener : listenersCopy ) {
+            listener.challengeChanged();
         }
     }
     
@@ -254,6 +256,13 @@ public class GameModel extends RPALModel {
         }
     }
     
+    private void fireAttemptsChanged() {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        for ( GameListener listener : listenersCopy ) {
+            listener.attemptsChanged();
+        }
+    }
+    
     private void fireTimerEnabledChanged() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
         for ( GameListener listener : listenersCopy ) {
@@ -261,7 +270,6 @@ public class GameModel extends RPALModel {
         }
     }
     
-    //XXX model needs a clock
     private void fireTimeChanged() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
         for ( GameListener listener : listenersCopy ) {
