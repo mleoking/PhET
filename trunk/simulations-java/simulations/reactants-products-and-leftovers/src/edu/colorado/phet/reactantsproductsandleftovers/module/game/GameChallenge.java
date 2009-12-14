@@ -6,7 +6,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 
 public class GameChallenge {
     
-    public static enum ChallengeType { GUESS_AFTER, GUESS_BEFORE };
+    public static enum ChallengeType { HOW_MANY_REACTANTS, HOW_MANY_PRODUCTS_AND_LEFTOVERS };
 
     private final ChemicalReaction reaction;
     private final ChallengeType challengeType;

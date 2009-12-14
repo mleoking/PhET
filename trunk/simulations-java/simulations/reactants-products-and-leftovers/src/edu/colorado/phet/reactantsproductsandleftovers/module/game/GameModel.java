@@ -90,15 +90,15 @@ public class GameModel extends RPALModel {
             ChallengeType challengeType;
             if ( level == 1 ) {
                 reaction = new WaterReaction();
-                challengeType = ChallengeType.GUESS_AFTER;
+                challengeType = ChallengeType.HOW_MANY_REACTANTS;
             }
             else if ( level == 2 ) {
                 reaction = new AmmoniaReaction();
-                challengeType = ChallengeType.GUESS_BEFORE;
+                challengeType = ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS;
             }
             else {
                 reaction = new MethaneReaction();
-                challengeType = ChallengeType.GUESS_BEFORE;
+                challengeType = ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS;
             }
             for ( Reactant reactant : reaction.getReactants() ) {
                 reactant.setQuantity( getRandomQuantity() );
