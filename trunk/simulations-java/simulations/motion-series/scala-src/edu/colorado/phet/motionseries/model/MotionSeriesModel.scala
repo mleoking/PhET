@@ -26,7 +26,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordModel[RecordedState] with ObjectModel with RampSurfaceModel {
-  def goButtonModel = new GoButtonVisibilityModel//todo: persist
+  def goButtonModel = new GoButtonVisibilityModel //todo: persist
 
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
@@ -106,8 +106,9 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     bead.thermalEnergy = 0.0
   }
 
-  private val resetListeners = new ArrayBuffer[()=>Unit]
-  def resetListeners_+=( listener: ()=>Unit) = resetListeners+= listener
+  private val resetListeners = new ArrayBuffer[() => Unit]
+
+  def resetListeners_+=(listener: () => Unit) = resetListeners += listener
 
   override def resetAll() = {
     super.resetAll()

@@ -262,7 +262,7 @@ class ItemReadout(text: String, gameModel: RobotMovingCompanyGameModel, counter:
   addChild(textNode)
   gameModel.addListenerByName(update())
   def update() = {
-    textNode.setText("game.item-readout-counter.pattern.name-count".messageformat(text,counter().toString))
+    textNode.setText("game.item-readout-counter.pattern.name-count".messageformat(text, counter().toString))
   }
   update()
 }
@@ -335,9 +335,9 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
     case Result(_, true, _, _) => "game.result.crashed".translate
     case Result(true, false, _, _) => "game.result.delivered-successfully".translate
     case Result(false, false, _, _) => "game.result.missed-the-house".translate
-    case _ => "Disappeared?".literal//should never happen
+    case _ => "Disappeared?".literal //should never happen
   }
-  val pText = new PText("game.result.description.pattern.name-text".messageformat(scalaRampObject.name,text))
+  val pText = new PText("game.result.description.pattern.name-text".messageformat(scalaRampObject.name, text))
   pText.setFont(new PhetFont(22, true))
   addChild(pText)
   pText.setOffset(background.getFullBounds.getCenterX - pText.getFullBounds.width / 2, 20)
@@ -358,8 +358,8 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
     setFont(new PhetFont(14, true))
   }
 
-  layoutNode.addChild(new SummaryText("game.summary.pattern.points-multiplier".messageformat(result.objectPoints,result.scoreMultiplier)), constraints(0, 0, 2))
-  layoutNode.addChild(new SummaryText("game.summary.pattern.energy-points".messageformat(result.robotEnergy,result.pointsPerJoule)), constraints(0, 1, 2))
+  layoutNode.addChild(new SummaryText("game.summary.pattern.points-multiplier".messageformat(result.objectPoints, result.scoreMultiplier)), constraints(0, 0, 2))
+  layoutNode.addChild(new SummaryText("game.summary.pattern.energy-points".messageformat(result.robotEnergy, result.pointsPerJoule)), constraints(0, 1, 2))
   layoutNode.addChild(new SummaryText("game.summary.pattern.earned-object-points".messageformat(result.totalObjectPoints)), constraints(2, 0, 1))
   layoutNode.addChild(new SummaryText("game.summary.pattern.earned-energy-points".messageformat(result.totalEnergyPoints)), constraints(2, 1, 1))
   layoutNode.addChild(new PhetPPath(new Line2D.Double(0, 0, 100, 0), new BasicStroke(2), Color.black), constraints(2, 2, 1))
@@ -375,11 +375,11 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
 
 object TestSummaryScreen {
   def main(args: Array[String]) {
-    val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0,MotionSeriesDefaults.objects)
+    val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objects)
     val summaryScreenNode = new SummaryScreenNode(robotMovingCompanyGameModel,
       MotionSeriesDefaults.objects(0), new Result(true, false, 64, 100), a => {
-      a.setVisible(false)
-    }, "Ok".literal)
+        a.setVisible(false)
+      }, "Ok".literal)
     val frame = new JFrame
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
     frame.setSize(800, 600)

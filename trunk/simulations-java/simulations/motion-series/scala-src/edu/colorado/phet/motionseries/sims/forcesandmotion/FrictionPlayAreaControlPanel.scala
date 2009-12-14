@@ -9,7 +9,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 import edu.colorado.phet.motionseries.swing._
 import edu.colorado.phet.motionseries.model.{MotionSeriesModel, ForceBead, Bead}
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.{AlignedSliderSetLayoutStrategy, HorizontalLayoutStrategy, AbstractValueControl}
-import java.awt.{GridBagConstraints, GridBagLayout, GridLayout}
+import java.awt.{GridBagConstraints, GridBagLayout}
 import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResources}
 
 class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, bead: Bead)

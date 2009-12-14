@@ -5,7 +5,7 @@ import java.awt.geom.{Point2D, Line2D}
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.scalacommon.math.Vector2D
-import edu.colorado.phet.motionseries.graphics.{RotationModel, Rotatable}
+import edu.colorado.phet.motionseries.graphics.{Rotatable}
 
 case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
   def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)
@@ -19,7 +19,7 @@ case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't 
   def angle = (endPoint - startPoint).getAngle
 }
 
-class RampSegment(_state: RampSegmentState) extends Observable with Rotatable{
+class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
   private var state = _state
 
   def this(startPt: Point2D, endPt: Point2D) = this (new RampSegmentState(startPt, endPt))
@@ -52,7 +52,8 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable{
   }
 
   override def angle = state.angle
-  override def angle_=(a:Double) = {
+
+  override def angle_=(a: Double) = {
     super.angle_=(a)
     setAngle(a)
   }

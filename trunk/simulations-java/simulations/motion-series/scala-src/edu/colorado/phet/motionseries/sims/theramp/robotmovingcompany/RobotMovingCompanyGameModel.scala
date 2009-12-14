@@ -13,7 +13,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
                                   clock: ScalaClock,
                                   initAngle: Double,
                                   val appliedForceAmount: Double,
-                                  val objectList:List[MotionSeriesObject]) 
+                                  val objectList: List[MotionSeriesObject])
         extends Observable {
   val DEFAULT_ROBOT_ENERGY = appliedForceAmount * 6
   val energyScale = MotionSeriesDefaults.rampRobotForce / appliedForceAmount / 10.0

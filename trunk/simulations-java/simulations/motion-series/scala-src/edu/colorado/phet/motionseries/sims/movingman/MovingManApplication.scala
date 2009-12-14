@@ -52,7 +52,6 @@ class MovingManCanvas(model: MotionSeriesModel,
                       modelViewport: Rectangle2D,
                       stageContainerArea: StageContainerArea)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport, stageContainerArea) {
-
   override def getContainerBounds = stageContainerArea.getBounds(getWidth, getHeight)
 
   override def addHeightAndAngleIndicators() = {}

@@ -8,7 +8,6 @@ import edu.colorado.phet.common.motion.graphs._
 import edu.colorado.phet.common.motion.model._
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock
 import edu.colorado.phet.common.piccolophet.nodes.{ShadowHTMLNode}
-import edu.colorado.phet.common.piccolophet.{PhetPCanvas}
 import edu.colorado.phet.common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.{FlowLayout, Color}
 import javax.swing.{JTextField, JPanel, JLabel}
