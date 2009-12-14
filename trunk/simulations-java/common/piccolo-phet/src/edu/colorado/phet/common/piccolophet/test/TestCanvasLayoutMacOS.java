@@ -68,12 +68,10 @@ public class TestCanvasLayoutMacOS extends JFrame {
 
             addComponentListener( new ComponentAdapter() {
 
-                // If the component is resized while visible, update the layout.
+                // When the component is resized, update the layout.
                 @Override
                 public void componentResized( ComponentEvent e ) {
-                    if ( e.getComponent().isShowing() ) {
-                        updateLayout();
-                    }
+                    updateLayout();
                 }
 
                 // When the component is made visible, update the layout.
@@ -90,9 +88,7 @@ public class TestCanvasLayoutMacOS extends JFrame {
                  * via setVisible(true) or by its being added to the component hierarchy.
                  */
                 public void ancestorAdded( AncestorEvent e ) {
-                    if ( e.getComponent().isShowing() ) {
-                        updateLayout();
-                    }
+                    updateLayout();
                 }
 
                 public void ancestorMoved( AncestorEvent event ) {}
