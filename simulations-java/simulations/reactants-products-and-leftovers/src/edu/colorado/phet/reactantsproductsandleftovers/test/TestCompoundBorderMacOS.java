@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * 
+ * See Unfuddle #2018.
  * On Mac OS 10.6.2 with Java 1.6.0_17, the PSwing compound border doesn't look the same as the pure Swing border.
  * See screenshot attached to the ticket.
  *
