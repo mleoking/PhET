@@ -19,9 +19,6 @@ public class CloseOnMovingTargetMotionStrategy extends
 		public void positionChanged(){
 			updateDestination();
 		};
-		public void removedFromModel() {
-			targetElement.removeListener(targetListener);
-		};
 	};
 
 	public CloseOnMovingTargetMotionStrategy(IModelElement modelElement, IModelElement targetElement, 
