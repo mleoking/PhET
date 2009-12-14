@@ -104,15 +104,15 @@ public class GameCanvas extends RPALCanvas {
                 setGameSettingsVisible( false );
             }
             
-            // When a game ends, show the game settings panel.
+            // When a game is aborted, show the game settings panel.
             @Override 
-            public void gameEnded() {
+            public void gameAborted() {
                 setGameSettingsVisible( true );
             }
             
             // When the reaction changes, rebuild dynamic nodes.
             @Override
-            public void reactionChanged() {
+            public void challengeChanged() {
                 updateNodes();
             }
             

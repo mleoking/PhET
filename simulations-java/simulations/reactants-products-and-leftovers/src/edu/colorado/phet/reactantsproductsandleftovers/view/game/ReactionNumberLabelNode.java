@@ -23,7 +23,7 @@ public class ReactionNumberLabelNode extends PText {
         setTextPaint( COLOR );
         setNumber( model.getChallengeNumber() );
         model.addGameListener( new GameAdapter() {
-            public void reactionChanged() {
+            public void challengeChanged() {
                 setNumber( model.getChallengeNumber() );
             }
         });

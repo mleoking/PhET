@@ -1,3 +1,5 @@
+12/14/09 more changes to Game model, generate all 10 challenges at start of game
+12/14/09 remove reset from Game module
 12/9/09 hook up game timer to clock
 12/9/09 add before/after instructions for game
 12/9/09 use GradientButtonNode for game buttons (Check, Next, Try Again, Show Answer)
