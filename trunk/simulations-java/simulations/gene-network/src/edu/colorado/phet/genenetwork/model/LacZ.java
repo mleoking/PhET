@@ -90,6 +90,7 @@ public class LacZ extends SimpleModelElement {
 			if (getGlucoseAttachmentPointLocation().distance(glucoseAttachmentPartner.getLacZAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
 				// Finalize the attachment.
 				glucoseAttachmentPartner.attach(this);
+				glucoseAttachmentState = AttachmentState.ATTACHED;
 			}
 		}
 	}
