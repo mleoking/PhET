@@ -13,7 +13,7 @@ public class Galactose extends SimpleSugar {
 	private static final Dimension2D GLUCOSE_ATTACHMENT_OFFSET = new PDimension(-getWidth()/2, 0);
 	private static final Dimension2D LAC_Z_ATTACHMENT_OFFSET = new PDimension(-getWidth()/2, 0);
 
-	private Glucose glucoseBondingPartner;
+	private Glucose glucoseAttachmentPartner;
 
 	public Galactose(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, initialPosition, Color.ORANGE);
@@ -32,15 +32,25 @@ public class Galactose extends SimpleSugar {
 	}
 	
 	public void attach(Glucose glucose){
-		assert glucoseBondingPartner == null; // Should not be requested to attach if already attached.
+		assert glucoseAttachmentPartner == null; // Should not be requested to attach if already attached.
 		
-		glucoseBondingPartner = glucose;
-		Dimension2D offset = glucoseBondingPartner.getGalactoseAttachmentPointOffset();
+		glucoseAttachmentPartner = glucose;
+		Dimension2D offset = glucoseAttachmentPartner.getGalactoseAttachmentPointOffset();
 		offset.setSize(offset.getWidth() - GLUCOSE_ATTACHMENT_OFFSET.getWidth(),
 				offset.getHeight() - GLUCOSE_ATTACHMENT_OFFSET.getHeight());
 		Point2D position = new Point2D.Double(glucose.getPositionRef().getX() + offset.getWidth(),
 				glucose.getPositionRef().getY() + offset.getHeight());
 		setPosition(position);
-		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, glucoseBondingPartner, offset));
+		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, glucoseAttachmentPartner, offset));
+	}
+	
+	public void detach(Glucose glucose){
+		assert glucose == glucoseAttachmentPartner;
+		
+		glucoseAttachmentPartner = null;
+		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+		
+		// As soon as this detaches it starts to fade out.
+		setExistenceTime(0);
 	}
 }
