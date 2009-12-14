@@ -50,6 +50,7 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 		Point2D position = modelElement.getPositionRef();
 		Vector2D velocity = modelElement.getVelocityRef();
 		
+		// Bounce back toward the inside if we are outside of the motion bounds.
 		if ((position.getX() > bounds.getMaxX() && velocity.getX() > 0) ||
 			(position.getX() < bounds.getMinX() && velocity.getX() < 0))	{
 			// Reverse direction in the X direction.
