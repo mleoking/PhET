@@ -238,6 +238,7 @@ public abstract class SimpleModelElement implements IModelElement{
 	
 	public void removeListener(IModelElementListener listener){
 		listeners.remove(listener);
+		listeners.clear();
 	}
 	
 	public boolean releaseAttachmentWith(IModelElement modelElement) {
