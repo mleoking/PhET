@@ -87,7 +87,7 @@ public class LacZ extends SimpleModelElement {
 		}
 		else if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
 			// See if the glucose is close enough to finalize the attachment.
-			if (getPositionRef().distance(glucoseAttachmentPartner.getLacZAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
+			if (getGlucoseAttachmentPointLocation().distance(glucoseAttachmentPartner.getLacZAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
 				// Finalize the attachment.
 				glucoseAttachmentPartner.attach(this);
 			}
