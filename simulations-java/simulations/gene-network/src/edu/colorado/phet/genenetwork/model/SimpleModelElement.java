@@ -200,6 +200,7 @@ public abstract class SimpleModelElement implements IModelElement{
 	 */
 	public void removeFromModel(){
 		notifyRemovedFromModel();
+		listeners.clear();
 	}
 
 	protected void notifyPositionChanged(){
@@ -255,7 +256,6 @@ public abstract class SimpleModelElement implements IModelElement{
 	
 	public void removeListener(IModelElementListener listener){
 		listeners.remove(listener);
-		listeners.clear();
 	}
 	
 	public boolean releaseAttachmentWith(IModelElement modelElement) {
