@@ -49,7 +49,11 @@ public class TestCanvasLayoutMacOS extends JFrame {
         
         protected void updateLayout() {
             Dimension2D worldSize = getWorldSize();
-            //WORKAROUND: Removing this conditional makes the problem go away.
+            /*
+             * WORKAROUND: Removing this conditional makes the problem go away.
+             * But this is not a good general workaround, because layout is typically
+             * based on the worldSize.
+             */
             if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
                 osTextNode.setOffset( 100, 100 );
                 javaTextNode.setOffset( osTextNode.getXOffset(), osTextNode.getFullBoundsReference().getMaxY() + 10 );
