@@ -7,6 +7,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -100,10 +101,14 @@ public class TestCanvasLayoutMacOS extends JFrame {
     }
     
     public static void main( String[] args ) {
-        JFrame frame = new TestCanvasLayoutMacOS();
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        SwingUtils.centerWindowOnScreen( frame );
-        frame.setVisible( true );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                JFrame frame = new TestCanvasLayoutMacOS();
+                frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+                SwingUtils.centerWindowOnScreen( frame );
+                frame.setVisible( true );
+            }
+        } );
     }
 
 }
