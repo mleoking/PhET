@@ -4,8 +4,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 /**
  * This class represents a motion strategy for a simple model element that
  * causes it to move in a somewhat random fashion but also move towards an
