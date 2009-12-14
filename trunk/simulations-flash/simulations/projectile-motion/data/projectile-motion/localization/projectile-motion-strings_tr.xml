@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_tr.xml created Wed Dec 09 16:49:14 EET 2009 using: projectile-motion 2.01.00 (36936), translation-utility 2.03.00 (36202) Eki 29, 2009-->
 <SimStrings>
 <string key="dragLabel" value="sürüklenme katsayısı"/>
 <string key="userChoice" value="Kullanıcı Seçimi"/>
