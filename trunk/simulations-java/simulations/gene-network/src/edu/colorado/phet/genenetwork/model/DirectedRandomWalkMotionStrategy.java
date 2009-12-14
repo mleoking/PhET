@@ -62,9 +62,10 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
     		modelElement.setVelocity(velocity.getX(), -velocity.getY());
     	}
 
-        if (!modelElement.isUserControlled())
-		modelElement.setPosition( modelElement.getPositionRef().getX() + modelElement.getVelocityRef().getX() * dt, 
-				modelElement.getPositionRef().getY() + modelElement.getVelocityRef().getY() * dt );
+        if (!modelElement.isUserControlled()){
+        	modelElement.setPosition( modelElement.getPositionRef().getX() + modelElement.getVelocityRef().getX() * dt, 
+        			modelElement.getPositionRef().getY() + modelElement.getVelocityRef().getY() * dt );
+        }
 		
 		// See if it is time to change the motion and, if so, do it.
 		if (updateCount == myUpdateValue){
