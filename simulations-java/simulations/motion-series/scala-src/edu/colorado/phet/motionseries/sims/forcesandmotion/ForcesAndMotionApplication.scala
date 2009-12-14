@@ -67,7 +67,7 @@ class FrictionModule(frame: PhetFrame, clock: ScalaClock)
           false, false, false, true, -6, false, 0.0, false, true, MotionSeriesDefaults.forceMotionFrictionViewport, MotionSeriesDefaults.forceMotionFrictionArea, false) {
   motionSeriesModel.selectedObject = MotionSeriesDefaults.custom // so that it resizes
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(motionSeriesModel.bead))
-  frictionPlayAreaControlPanel.setOffset(canvas.stage.getWidth/ 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, canvas.stage.getHeight- frictionPlayAreaControlPanel.getFullBounds.getHeight - 2)
+  frictionPlayAreaControlPanel.setOffset(canvas.stage.getWidth / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, canvas.stage.getHeight - frictionPlayAreaControlPanel.getFullBounds.getHeight - 2)
   canvas.addBehindVectorNodes(frictionPlayAreaControlPanel)
   motionSeriesModel.frictionless = false
 }
@@ -84,7 +84,7 @@ class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloP
   addModule(new IntroModule(getPhetFrame, newClock))
   addModule(new FrictionModule(getPhetFrame, newClock))
   addModule(new GraphingModule(getPhetFrame, newClock))
-  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock, 1E-8.toRadians, MotionSeriesDefaults.forcesAndMotionRobotForce,MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
+  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock, 1E-8.toRadians, MotionSeriesDefaults.forcesAndMotionRobotForce, MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
 }
 
 object ForcesAndMotionApplicationMain {

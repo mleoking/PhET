@@ -140,15 +140,15 @@ class VectorViewModel extends Observable {
   }
 }
 
-class CoordinateFrameModel(rampSegment:RampSegment) extends Observable { //TODO: if snapped to the ramp, should rotate with ramp
+class CoordinateFrameModel(rampSegment: RampSegment) extends Observable { //TODO: if snapped to the ramp, should rotate with ramp
   private var _proposedAngle = 0.0 //the angle the user has tried to drag the coordinate frame to, not including snapping
   private val snapRange = 5.0.toRadians
   private var snappedToRamp = false
 
-  rampSegment.addListener( ()=> if (snappedToRamp) proposedAngle = rampSegment.angle )
-  
+  rampSegment.addListener(() => if (snappedToRamp) proposedAngle = rampSegment.angle)
+
   def angle = {
-    val angleList = rampSegment.angle :: 0.0::Nil
+    val angleList = rampSegment.angle :: 0.0 :: Nil
     val acceptedAngles = for (s <- angleList if (proposedAngle - s).abs < snapRange) yield s
     if (acceptedAngles.length == 0) proposedAngle
     else acceptedAngles(0) //take the first snap angle from the list
@@ -156,12 +156,12 @@ class CoordinateFrameModel(rampSegment:RampSegment) extends Observable { //TODO:
 
   def proposedAngle = _proposedAngle
 
-  def proposedAngle_=(d:Double) = {
-    _proposedAngle = MathUtil.clamp(0,d,PI/2)
+  def proposedAngle_=(d: Double) = {
+    _proposedAngle = MathUtil.clamp(0, d, PI / 2)
     notifyListeners()
   }
 
   def dropped() {
-    snappedToRamp = angle == rampSegment.angle 
+    snappedToRamp = angle == rampSegment.angle
   }
 }
