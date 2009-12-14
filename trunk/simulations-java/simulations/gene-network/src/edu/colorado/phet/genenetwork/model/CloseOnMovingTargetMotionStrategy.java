@@ -11,8 +11,7 @@ import java.awt.geom.Rectangle2D;
  * 
  * @author John Blanco
  */
-public class CloseOnMovingTargetMotionStrategy extends
-		LinearMotionStrategy {
+public class CloseOnMovingTargetMotionStrategy extends DirectedRandomWalkMotionStrategy {
 	
 	private Dimension2D offsetFromTarget;
 	private final IModelElement targetElement;
@@ -25,7 +24,7 @@ public class CloseOnMovingTargetMotionStrategy extends
 
 	public CloseOnMovingTargetMotionStrategy(IModelElement modelElement, IModelElement targetElement, 
 			Dimension2D offsetFromTarget, Rectangle2D bounds) {
-		super(modelElement, bounds, new Point2D.Double(), 5);
+		super(modelElement, bounds);
 		this.targetElement = targetElement;
 		this.offsetFromTarget = offsetFromTarget;
 		targetElement.addListener(targetListener);
@@ -33,8 +32,8 @@ public class CloseOnMovingTargetMotionStrategy extends
 	}
 	
 	private void updateDestination(){
-		setDestination(targetElement.getPositionRef().getX() + offsetFromTarget.getHeight(),
-				targetElement.getPositionRef().getY() + offsetFromTarget.getWidth());
+		setDestination(targetElement.getPositionRef().getX() + offsetFromTarget.getWidth(),
+				targetElement.getPositionRef().getY() + offsetFromTarget.getHeight());
 		System.out.println(getDestination());
 	}
 }
