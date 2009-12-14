@@ -57,12 +57,14 @@ public class TestCanvasLayoutMacOS extends JFrame {
                 // When the component is resized, update the layout.
                 @Override
                 public void componentResized( ComponentEvent e ) {
+                    System.out.println( "componentResized" );
                     updateLayout();
                 }
 
                 // When the component is made visible, update the layout.
                 @Override
                 public void componentShown( ComponentEvent e ) {
+                    System.out.println( "componentShown" );
                     updateLayout();
                 }
             } );
@@ -74,6 +76,7 @@ public class TestCanvasLayoutMacOS extends JFrame {
                  * via setVisible(true) or by its being added to the component hierarchy.
                  */
                 public void ancestorAdded( AncestorEvent e ) {
+                    System.out.println( "ancestorAdded" );
                     updateLayout();
                 }
 
@@ -85,6 +88,7 @@ public class TestCanvasLayoutMacOS extends JFrame {
         
         protected void updateLayout() {
             PDimension canvasSize = new PDimension( getWidth(), getHeight() );
+            System.out.println( "updateLayout canvasSize=" + canvasSize.width + "x" + canvasSize.height );
             if ( canvasSize.getWidth() > 0 && canvasSize.getHeight() > 0 ) {
                 // center in the canvas
                 double x = ( canvasSize.getWidth() - pathNode.getFullBoundsReference().getWidth() ) / 2;
