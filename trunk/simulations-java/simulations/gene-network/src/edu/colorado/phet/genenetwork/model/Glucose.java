@@ -15,7 +15,7 @@ public class Glucose extends SimpleSugar {
 	
 	private Galactose galactoseAttachmentPartner;
 	private LacZ lacZAttachmentPartner;
-	private AttachmentState lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	private AttachmentState lacZAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 
 	public Glucose(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, initialPosition, Color.BLUE);
@@ -45,7 +45,7 @@ public class Glucose extends SimpleSugar {
 	}
 	
 	public AttachmentState getLacZAttachmentState(){
-		return lacIAttachmentState;
+		return lacZAttachmentState;
 	}
 	
 	public boolean isBoundToGalactose(){
@@ -55,12 +55,12 @@ public class Glucose extends SimpleSugar {
 	public boolean considerProposalFrom(LacZ lacZ){
 		boolean proposalAccepted = false;
 		
-		if (lacIAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE && 
+		if (lacZAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE && 
 			getExistenceState() == ExistenceState.EXISTING){
 			
 			assert lacZAttachmentPartner == null;  // For debug - Make sure consistent with attachment state.
 			lacZAttachmentPartner = lacZ;
-			lacIAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+			lacZAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
 			proposalAccepted = true;
 			
 			// Set ourself up to move toward the attaching location.
@@ -85,7 +85,28 @@ public class Glucose extends SimpleSugar {
 				LacZ.getGlucoseAttachmentPointOffset().getWidth() - LAC_Z_ATTACHMENT_POINT_OFFSET.getWidth(),
 				LacZ.getGlucoseAttachmentPointOffset().getHeight() - LAC_Z_ATTACHMENT_POINT_OFFSET.getHeight());
 		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, lacZ, followingOffset));
-		lacIAttachmentState = AttachmentState.ATTACHED;
+		lacZAttachmentState = AttachmentState.ATTACHED;
+	}
+	
+	public void detach(LacZ lacZ){
+		assert lacZ == lacZAttachmentPartner;
+		lacZAttachmentPartner = null;
+		lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+	}
+	
+	/**
+	 * This is called to force this molecule to release the attached galactose
+	 * molecule, essentially breaking down from lactose into the constituent
+	 * molecules.
+	 */
+	public void releaseGalactose(){
+		if (galactoseAttachmentPartner == null){
+			System.err.println(getClass().getName() + " - Error: Told to detach galactose when not attached.");
+			return;
+		}
+		galactoseAttachmentPartner.detach(this);
+		galactoseAttachmentPartner = null;
 	}
 	
 	/**
