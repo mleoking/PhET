@@ -54,6 +54,7 @@ public abstract class SimpleModelElement implements IModelElement{
     private boolean dragging;
     private double existenceTimeCountdown;
     private double existenceTime;
+    private boolean okayToFade = true;
     
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -98,6 +99,22 @@ public abstract class SimpleModelElement implements IModelElement{
 	
 	protected IGeneNetworkModelControl getModel(){
 		return model;
+	}
+	
+	/**
+	 * Set the "okayToFade" state, which (as you might imagine) allows the
+	 * model element to fade out of existence.  This is generally used to
+	 * prevent the element from fading away when it is doing something where a
+	 * fadeout could be awkward or troublesome.
+	 * 
+	 * Note that this does NOT pause the existence clock, so it is very
+	 * possible that when clearing this flag after having had it set for a
+	 * while that the object will start fading right away.
+	 * 
+	 * @param okayToFade
+	 */
+	protected void setOkayToFade(boolean okayToFade){
+		this.okayToFade = okayToFade;
 	}
 	
 	protected void setShape(Shape shape){
@@ -289,7 +306,7 @@ public abstract class SimpleModelElement implements IModelElement{
 			break;
 			
 		case FADING_OUT:
-			if (getExistenceStrength() > 0){
+			if (getExistenceStrength() > 0 && okayToFade){
 				setExistenceStrength(Math.max(getExistenceStrength() - FADE_RATE, 0));
 			}
 			// Note: When we get fully faded out, we will be removed from the model.
