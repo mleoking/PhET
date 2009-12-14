@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * Demonstrates the problem reported in Unfuddle #2015.
  * On Mac OS 10.6.2 with Java 1.6.0_17, the scenegraph's layout visibly changes when the canvas becomes visible.
+ * The red square jumps from the upper-left to the center of the canvas.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -37,7 +38,7 @@ public class TestCanvasLayoutMacOS extends JFrame {
         
         public TestCanvas() {
             super();
-            // red rectangle
+            // red square
             pathNode = new PPath( new Rectangle2D.Double( 0, 0, 200, 200 ) );
             pathNode.setPaint( Color.RED );
             getLayer().addChild( pathNode );
