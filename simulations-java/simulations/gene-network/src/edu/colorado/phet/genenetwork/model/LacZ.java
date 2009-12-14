@@ -82,6 +82,9 @@ public class LacZ extends SimpleModelElement {
 				}
 				else{
 					glucoseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+					
+					// Prevent fadeout from occurring while attached to lactose.
+					setOkayToFade(false);
 				}
 			}
 		}
