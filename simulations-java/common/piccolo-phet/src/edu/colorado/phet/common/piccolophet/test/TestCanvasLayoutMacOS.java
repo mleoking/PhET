@@ -1,16 +1,20 @@
 package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.Dimension;
-import java.awt.geom.Dimension2D;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Demonstrates the problem reported in Unfuddle #2015.
@@ -27,7 +31,7 @@ public class TestCanvasLayoutMacOS extends JFrame {
         pack();
     }
     
-    private class TestCanvas extends PhetPCanvas {
+    private class TestCanvas extends PCanvas { // subclass PCanvas to rule out issues with PhetPCanvas
         
         private final PNode rootNode;
         private final PText osTextNode, javaTextNode;
@@ -52,15 +56,57 @@ public class TestCanvasLayoutMacOS extends JFrame {
             osTextNode.setOffset( 0, 0 );
             javaTextNode.setOffset( osTextNode.getXOffset(), osTextNode.getFullBoundsReference().getMaxY() + 10 );
             
+            addListeners();
             updateLayout();
         }
         
+        /*
+         * This is similar to what's done in PhetPCanvas constructor.
+         * We add listeners that tell us when to update the scenegraph layout.
+         */
+        private void addListeners() {
+
+            addComponentListener( new ComponentAdapter() {
+
+                // If the component is resized while visible, update the layout.
+                @Override
+                public void componentResized( ComponentEvent e ) {
+                    if ( e.getComponent().isShowing() ) {
+                        updateLayout();
+                    }
+                }
+
+                // When the component is made visible, update the layout.
+                @Override
+                public void componentShown( ComponentEvent e ) {
+                    updateLayout();
+                }
+            } );
+
+            addAncestorListener( new AncestorListener() {
+
+                /* 
+                 * Called when the source or one of its ancestors is make visible either
+                 * via setVisible(true) or by its being added to the component hierarchy.
+                 */
+                public void ancestorAdded( AncestorEvent e ) {
+                    if ( e.getComponent().isShowing() ) {
+                        updateLayout();
+                    }
+                }
+
+                public void ancestorMoved( AncestorEvent event ) {}
+
+                public void ancestorRemoved( AncestorEvent event ) {}
+            } );
+        }
+        
         protected void updateLayout() {
-            Dimension2D worldSize = getWorldSize();
-            if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
+            PDimension canvasSize = new PDimension( getWidth(), getHeight() );
+            if ( canvasSize.getWidth() > 0 && canvasSize.getHeight() > 0 ) {
                 // center rootNode in the canvas
-                double x = ( worldSize.getWidth() - rootNode.getFullBoundsReference().getWidth() ) / 2;
-                double y = ( worldSize.getHeight() - rootNode.getFullBoundsReference().getHeight() ) / 2;;
+                double x = ( canvasSize.getWidth() - rootNode.getFullBoundsReference().getWidth() ) / 2;
+                double y = ( canvasSize.getHeight() - rootNode.getFullBoundsReference().getHeight() ) / 2;;
                 rootNode.setOffset( x, y );
             }
         }
