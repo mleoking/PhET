@@ -1,19 +1,19 @@
 package edu.colorado.phet.common.piccolophet.test;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -33,36 +33,21 @@ public class TestCanvasLayoutMacOS extends JFrame {
     
     private class TestCanvas extends PCanvas { // subclass PCanvas to rule out issues with PhetPCanvas
         
-        private final PNode rootNode;
-        private final PText osTextNode, javaTextNode;
+        private final PPath pathNode;
         
         public TestCanvas() {
             super();
-            
-            rootNode = new PNode();
-            getLayer().addChild( rootNode );
-            
-            // OS version
-            osTextNode = new PText( System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" ) );
-            osTextNode.setFont( new PhetFont( 40 ) );
-            rootNode.addChild( osTextNode );
-            
-            // Java version
-            javaTextNode = new PText( "Java " + System.getProperty( "java.version" ) );
-            javaTextNode.setFont( new PhetFont(  40 ) );
-            rootNode.addChild( javaTextNode );
-            
-            // static layout, relative to rootNode
-            osTextNode.setOffset( 0, 0 );
-            javaTextNode.setOffset( osTextNode.getXOffset(), osTextNode.getFullBoundsReference().getMaxY() + 10 );
-            
+            // red rectangle
+            pathNode = new PPath( new Rectangle2D.Double( 0, 0, 200, 200 ) );
+            pathNode.setPaint( Color.RED );
+            getLayer().addChild( pathNode );
             addListeners();
             updateLayout();
         }
         
         /*
-         * This is similar to what's done in PhetPCanvas constructor.
-         * We add listeners that tell us when to update the scenegraph layout.
+         * This is a simplified version of what's done in PhetPCanvas constructor.
+         * Listeners that tell us when to update the scenegraph layout.
          */
         private void addListeners() {
 
@@ -100,12 +85,13 @@ public class TestCanvasLayoutMacOS extends JFrame {
         protected void updateLayout() {
             PDimension canvasSize = new PDimension( getWidth(), getHeight() );
             if ( canvasSize.getWidth() > 0 && canvasSize.getHeight() > 0 ) {
-                // center rootNode in the canvas
-                double x = ( canvasSize.getWidth() - rootNode.getFullBoundsReference().getWidth() ) / 2;
-                double y = ( canvasSize.getHeight() - rootNode.getFullBoundsReference().getHeight() ) / 2;;
-                rootNode.setOffset( x, y );
+                // center in the canvas
+                double x = ( canvasSize.getWidth() - pathNode.getFullBoundsReference().getWidth() ) / 2;
+                double y = ( canvasSize.getHeight() - pathNode.getFullBoundsReference().getHeight() ) / 2;;
+                pathNode.setOffset( x, y );
             }
         }
+        
     }
     
     public static void main( String[] args ) {
