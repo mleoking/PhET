@@ -81,10 +81,11 @@ class GraphingModule(frame: PhetFrame, clock: ScalaClock)
 
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
-  addModule(new IntroModule(getPhetFrame, newClock))
-  addModule(new FrictionModule(getPhetFrame, newClock))
+  //todo: re-enable extra modules
+//  addModule(new IntroModule(getPhetFrame, newClock))
+//  addModule(new FrictionModule(getPhetFrame, newClock))
   addModule(new GraphingModule(getPhetFrame, newClock))
-  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock, 1E-8.toRadians, MotionSeriesDefaults.forcesAndMotionRobotForce, MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
+//  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock, 1E-8.toRadians, MotionSeriesDefaults.forcesAndMotionRobotForce, MotionSeriesDefaults.objectsForForce1DGame)) //todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
 }
 
 object ForcesAndMotionApplicationMain {
