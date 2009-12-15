@@ -99,6 +99,13 @@ public class LacZ extends SimpleModelElement {
 					
 					// Start the attachment timer/counter.
 					lactoseAttachmentCountdownTimer = LACTOSE_ATTACHMENT_TIME;
+					
+					// Move towards the partner.
+					Dimension2D offsetFromTarget = new PDimension(
+							Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
+							Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
+					setMotionStrategy(new CloseOnMovingTargetMotionStrategy(this, glucoseAttachmentPartner, offsetFromTarget,
+							LacOperonModel.getMotionBounds()));
 				}
 			}
 		}
@@ -108,6 +115,7 @@ public class LacZ extends SimpleModelElement {
 				// Finalize the attachment.
 				glucoseAttachmentPartner.attach(this);
 				glucoseAttachmentState = AttachmentState.ATTACHED;
+				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 			}
 		}
 		else if (glucoseAttachmentState == AttachmentState.ATTACHED){
