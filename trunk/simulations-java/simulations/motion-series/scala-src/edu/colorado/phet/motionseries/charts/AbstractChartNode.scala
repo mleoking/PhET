@@ -127,10 +127,9 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
     _graphSetNode.setBounds(padX, y + padY, canvas.getWidth - padX * 2, h - padY * 2)
   }
 
-  //  def graphSetNode: PNode
   private var _graphSetNode: GraphSetNode = null
 
-  def minimGraphs(graphs: Seq[Graph]) = (for (g <- graphs) yield new MinimizableControlGraph(g.title, g.graph, g.minimized)).toArray
+  def toMinimizableControlGraphs(graphs: Seq[Graph]) = (for (g <- graphs) yield new MinimizableControlGraph(g.title, g.graph, g.minimized)).toArray
 
   def correlateDomains(graphs: Seq[Graph]) = {
     for (a <- graphs; g = a.graph) {
@@ -144,7 +143,7 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
 
   def init(graphs: Seq[Graph]) = {
     correlateDomains(graphs)
-    _graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(minimGraphs(graphs)))) {
+    _graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(toMinimizableControlGraphs(graphs)))) {
       override def getMaxAvailableHeight(availableHeight: Double) = availableHeight
       setAlignedLayout()
     }
@@ -153,8 +152,13 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
   }
 }
 
-class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: StageCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: MotionSeriesModel,
-                        minRangeValue: Double, maxRangeValue: Double)
+class MotionSeriesGraph(defaultSeries: ControlGraphSeries,
+                        canvas: StageCanvas,
+                        timeseriesModel: TimeSeriesModel,
+                        updateableObject: UpdateableObject,
+                        model: MotionSeriesModel,
+                        minRangeValue: Double,
+                        maxRangeValue: Double)
         extends MotionControlGraph(canvas, defaultSeries, "".literal, "".literal, minRangeValue, maxRangeValue, true, timeseriesModel, updateableObject) {
   setCenterControls(true)
   getJFreeChartNode.getChart.getXYPlot.getRangeAxis.setTickLabelFont(new PhetFont(14, true))
