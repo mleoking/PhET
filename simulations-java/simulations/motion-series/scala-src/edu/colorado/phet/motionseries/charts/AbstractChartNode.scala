@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock
 import edu.colorado.phet.common.piccolophet.nodes.{ShadowHTMLNode}
 import edu.colorado.phet.common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.{FlowLayout, Color}
-import javax.swing.{JTextField, JPanel, JLabel}
 import edu.colorado.phet.motionseries.model.{MotionSeriesModel}
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
@@ -18,6 +17,9 @@ import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.javastage.stage.StageCanvas
+import edu.umd.cs.piccolox.pswing.PSwing
+import java.beans.{PropertyChangeEvent, PropertyChangeListener}
+import javax.swing._
 
 case class Graph(title: String, graph: MotionControlGraph, minimized: Boolean)
 
@@ -167,6 +169,18 @@ class MotionSeriesGraph(defaultSeries: ControlGraphSeries,
   getJFreeChartNode.getChart.getXYPlot.setRangeGridlinePaint(Color.gray)
   getJFreeChartNode.setBuffered(false)
   getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
+
+  //  getJFreeChartNode.addChild(new PText("Hello there"))
+  val clearButton = new PSwing(new JButton(new AbstractAction("Clear"){
+    def actionPerformed(e: ActionEvent) = {}
+  }))
+
+  def updateClearButtonLocation() = clearButton.setOffset(getJFreeChartNode.getFullBounds.getWidth - clearButton.getFullBounds.getWidth, 0)
+  updateClearButtonLocation()
+  getJFreeChartNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener{
+    def propertyChange(evt: PropertyChangeEvent) = updateClearButtonLocation()
+  })
+  getJFreeChartNode.addChild(clearButton)
   def reset() = {
     setDomainUpperBound(MotionSeriesDefaults.MAX_CHART_DISPLAY_TIME)
     setVerticalRange(minRangeValue, maxRangeValue)
