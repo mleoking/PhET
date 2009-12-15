@@ -8,8 +8,8 @@ import edu.umd.cs.piccolo.PNode;
  * This represents a node in the stage coordinate frame.
  *
  * @author Sam Reid
- * @see StageCanvas
- * @see StageCanvas#addStageNode(edu.umd.cs.piccolo.PNode)
+ * @see PlayArea
+ * @see PlayArea#addStageNode(edu.umd.cs.piccolo.PNode)
  */
 public class StageNode extends PNode {
     /**
@@ -51,11 +51,11 @@ public class StageNode extends PNode {
     }
 
     /**
-     * Checks for equality based on the reference equality of the node, stage and stageContainer.  This is used in StageCanvas's containment checking methods.
+     * Checks for equality based on the reference equality of the node, stage and stageContainer.  This is used in PlayArea's containment checking methods.
      *
      * @param o the object to check for equality
      * @return true if the this node and the specified object are considered equal
-     * @see edu.colorado.phet.motionseries.javastage.stage.StageCanvas#containsStageNode(edu.umd.cs.piccolo.PNode)
+     * @see PlayArea#containsStageNode(edu.umd.cs.piccolo.PNode)
      */
     public boolean equals(Object o) {
         if (this == o) return true;

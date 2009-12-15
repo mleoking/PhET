@@ -3,7 +3,7 @@ package edu.colorado.phet.motionseries.javastage.stage.test;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.motionseries.javastage.stage.StageCanvas;
+import edu.colorado.phet.motionseries.javastage.stage.PlayArea;
 import edu.colorado.phet.motionseries.javastage.stage.StageContainer;
 import edu.umd.cs.piccolo.PNode;
 
@@ -18,22 +18,22 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 /**
- * Provides a demonstration of the StageCanvas class and its supporting classes.
+ * Provides a demonstration of the PlayArea class and its supporting classes.
  *
  * @author Sam Reid
  */
-public class TestStageCanvas {
+public class TestPlayArea {
     private final JFrame frame = new JFrame();
-    private final StageCanvas canvas;
+    private final PlayArea canvas;
 
-    public TestStageCanvas() {
+    public TestPlayArea() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         SwingUtils.centerWindowOnScreen(frame);
 
         double stageWidth = 800;
         Rectangle.Double modelBounds = new Rectangle2D.Double(0, 0, 1, 1);
-        canvas = new StageCanvas(stageWidth, modelBounds);
+        canvas = new PlayArea(stageWidth, modelBounds);
 
         //Add nodes for depicting grids in each coordinate frame.
         GridNode screenGridNode = new GridNode(1f, 0, 100, 100);
@@ -156,7 +156,7 @@ public class TestStageCanvas {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new TestStageCanvas().start();
+                new TestPlayArea().start();
             }
         });
     }

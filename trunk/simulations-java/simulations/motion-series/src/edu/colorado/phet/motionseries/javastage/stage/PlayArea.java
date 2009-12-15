@@ -7,7 +7,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -18,7 +17,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
- * The StageCanvas is a PSwingCanvas that provides direct support for the three coordinate frames typically used in PhET simulations:
+ * The PlayArea is a PSwingCanvas that provides direct support for the three coordinate frames typically used in PhET simulations:
  * The model coordinate frame, which is used to depict the physical system that is depicted.  Typically this will have physical units such as meters or nanometers.
  * The stage coordinate frame, which automatically scales up and down with the size of the container, and is guaranteed to be 100% visible on the screen.
  * The screen coordinate frame, which is the same as pixel coordinates for absolute/global positioning of nodes.
@@ -26,14 +25,14 @@ import java.util.ArrayList;
  * This component is meant as a replacement for PhetPCanvas, a clearer interface and implementation for similar functionality.
  * It is also meant as an alternative to custom approaches such as ABSAbstractCanvas (and duplicates), which use the following scheme:
  * create a new "root node", which is added as a child of the "world" (and centered in the world) to obtain automatic scaling.
- * Using StageCanvas to obtain automatic scaling, nodes are added to the stage. 
+ * Using PlayArea to obtain automatic scaling, nodes are added to the stage.
  * <p/>
- * To use this canvas, create a node that is specified in coordinates in the frame in which it will be added.
+ * To use this component, create a node that is specified in coordinates in the frame in which it will be added.
  * For example: In a simulation which shows a meter stick in model coordinates (assuming model coordinates are meters),
  * the MeterStickNode would have a length of 1.0 and be added to the model coordinate frame.
  * <p/>
  * This class provides convenience methods for transforming between the various coordinate frames, and provides the capability of obtaining bounds of one coordinate frame in another coordinate frame.
- * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  This, for example, is provided by StageCanvas#getStageInScreenCoordinates
+ * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  This, for example, is provided by PlayArea#getStageInScreenCoordinates
  * <p/>
  * ToDo:
  * //todo: compute stage bounds dynamically, based on contents of the stage?
@@ -50,10 +49,10 @@ import java.util.ArrayList;
  *
  * @author Sam Reid
  */
-public class StageCanvas extends PhetPCanvas implements StageContainer {
+public class PlayArea extends PhetPCanvas implements StageContainer {
     //TODO: this should be switched to extends PSwingCanvas when phetcommon is unfrozen; MotionControlGraph is requiring a PhetPCanvas, but should be rewritten to use PSwingCanvas
     /**
-     * Represents the bounds of the stage, scaled uniformly so that it fits in the center of the StageCanvas.
+     * Represents the bounds of the stage, scaled uniformly so that it fits in the center of the PlayArea.
      */
     private Stage stage;
     /**
@@ -75,13 +74,13 @@ public class StageCanvas extends PhetPCanvas implements StageContainer {
     private ModelViewTransform2D transform;
 
     /**
-     * Constructs a StageCanvas with the specified dimensions and model bounds.
+     * Constructs a PlayArea with the specified dimensions and model bounds.
      *
      * @param stageWidth  the width of the stage
      * @param stageHeight the height of the stage
      * @param modelBounds the rectangular bounds depicted in the physical model.
      */
-    public StageCanvas(double stageWidth, double stageHeight, Rectangle2D modelBounds) {
+    public PlayArea(double stageWidth, double stageHeight, Rectangle2D modelBounds) {
         stage = new Stage(stageWidth, stageHeight);
         transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight));
         utilityStageNode.setVisible(false);
@@ -102,13 +101,13 @@ public class StageCanvas extends PhetPCanvas implements StageContainer {
     }
 
     /**
-     * Creates a StageCanvas with scale sx = sy.
+     * Creates a PlayArea with scale sx = sy.
      *
      * @param stageWidth  the width of the stage
      * @param modelBounds the rectangular bounds depicted by the physical model
-     * @see StageCanvas#StageCanvas(double, double, java.awt.geom.Rectangle2D)
+     * @see PlayArea#PlayArea(double, double, java.awt.geom.Rectangle2D)
      */
-    public StageCanvas(double stageWidth, Rectangle2D modelBounds) {
+    public PlayArea(double stageWidth, Rectangle2D modelBounds) {
         this(stageWidth, modelBounds.getHeight() / modelBounds.getWidth() * stageWidth, modelBounds);
     }
 
@@ -176,7 +175,7 @@ public class StageCanvas extends PhetPCanvas implements StageContainer {
     }
 
     /**
-     * Adds the specified node to the screen coordinate frame of this StageCanvas.
+     * Adds the specified node to the screen coordinate frame of this PlayArea.
      *
      * @param screenNode the node to add to the screen coordinate frame.
      */
@@ -185,7 +184,7 @@ public class StageCanvas extends PhetPCanvas implements StageContainer {
     }
 
     /**
-     * Removes the specified node from the screen coordinate frame of this StageCanvas.
+     * Removes the specified node from the screen coordinate frame of this PlayArea.
      *
      * @param node the node to be removed
      */
@@ -194,10 +193,10 @@ public class StageCanvas extends PhetPCanvas implements StageContainer {
     }
 
     /**
-     * Returns true if this StageCanvas contains the specified screen node, false otherwise.
+     * Returns true if this PlayArea contains the specified screen node, false otherwise.
      *
      * @param node the node for which to check visibility
-     * @return true if this StageCanvas contains the specified screen node, false otherwise.
+     * @return true if this PlayArea contains the specified screen node, false otherwise.
      */
     public boolean containsScreenNode(PNode node) {
         return getLayer().getChildrenReference().contains(node);

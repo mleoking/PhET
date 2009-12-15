@@ -16,7 +16,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.tests.MyCanvas
 import javax.swing.{JFrame}
 import edu.colorado.phet.motionseries.controls.{ComboBoxNode}
-import edu.colorado.phet.motionseries.javastage.stage.StageCanvas
+import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 
 abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   adjustableCoordinateModel: AdjustableCoordinateModel,
@@ -25,7 +25,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   frame: JFrame,
                                   modelViewport: Rectangle2D,
                                   val stageContainerArea: StageContainerArea)
-        extends StageCanvas(800, modelViewport) { //max y should be about 10 in default case
+        extends PlayArea(800, modelViewport) { //max y should be about 10 in default case
   val transform = super.getModelStageTransform
   val stage = super.getStage
   setBackground(MotionSeriesDefaults.SKY_GRADIENT_BOTTOM)

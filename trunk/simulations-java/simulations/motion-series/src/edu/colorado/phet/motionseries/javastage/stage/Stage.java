@@ -4,12 +4,12 @@ package edu.colorado.phet.motionseries.javastage.stage;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
- * This model element of the MVC pattern represents the area in a StageCanvas that scales up and down automatically.  It is characterized by a width and height only.
+ * This model element of the MVC pattern represents the area in a PlayArea that scales up and down automatically.  It is characterized by a width and height only.
  * This represents a coordinate frame analogous to what was called the "intermediate" coordinate frame in previous incarnations.
  * <p/>
  * Normally the client code will interact with the Stage through interacting with the StageNode, but this class is left public in case custom behavior is required.
  *
- * @see StageCanvas
+ * @see PlayArea
  * @author Sam Reid
  */
 public class Stage extends SimpleObservable {
