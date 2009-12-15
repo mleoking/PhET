@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 public class Galactose extends SimpleSugar {
@@ -47,9 +48,10 @@ public class Galactose extends SimpleSugar {
 		assert glucose == glucoseAttachmentPartner;
 		
 		glucoseAttachmentPartner = null;
-		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+		setMotionStrategy(new LinearThenRandomMotionStrategy(this, LacOperonModel.getMotionBounds(), 
+				new Vector2D.Double(3, -8), 1));
 		
-		// As soon as this detaches it starts to fade out.
-		setExistenceTime(0);
+		// This should fade out shortly after detaching.
+		setExistenceTime(1);
 	}
 }
