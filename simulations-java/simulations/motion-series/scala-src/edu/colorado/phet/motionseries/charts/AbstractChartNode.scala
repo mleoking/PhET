@@ -143,7 +143,7 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
 
   def init(graphs: Seq[Graph]) = {
     correlateDomains(graphs)
-    val minimizableGraphs = for (g <- graphs) yield new MinimizableControlGraph(g.title, g.graph, g.minimized)
+    val minimizableGraphs = for (g <- graphs) yield new MinimizableMotionSeriesGraph(g.title, g.graph, g.minimized, model)
     _graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(minimizableGraphs.toArray))) {
       override def getMaxAvailableHeight(availableHeight: Double) = availableHeight
       setAlignedLayout()
@@ -151,6 +151,37 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
     addChild(_graphSetNode)
     updateLayout()
   }
+}
+
+//Adds the clear button to the strip also containing the close button
+class MinimizableMotionSeriesGraph(title: String,
+                                   controlGraph: ControlGraph,
+                                   minimized: Boolean,
+                                   model: MotionSeriesModel)
+        extends MinimizableControlGraph(title, controlGraph, minimized) {
+  val clearButton = new PSwing(new JButton(new AbstractAction("Clear") { //todo: internationalize
+    def actionPerformed(e: ActionEvent) = {
+      //todo: coalesce with RecordModelControlPanel, duplicated from there
+      model.clearHistory()
+      model.setPaused(true)
+      model.setRecord(true)
+    }
+  }))
+
+  def updateClearButtonVisible() = clearButton.setVisible(model.getRecordingHistory.length > 0)
+  model.addListenerByName {
+    updateClearButtonVisible()
+  }
+  updateClearButtonVisible()
+
+  //todo: should use the bounds of the minimize button
+  def updateClearButtonLocation() = clearButton.setOffset(getCloseButton.getFullBounds.getX - clearButton.getFullBounds.getWidth, 5)
+  updateClearButtonLocation()
+
+  getCloseButton.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener {
+    def propertyChange(evt: PropertyChangeEvent) = updateClearButtonLocation()
+  })
+  getCloseButton.getParent.addChild(clearButton) //todo: when code freeze is lifted, improve API on minimizable control graph for adding buttons
 }
 
 class MotionSeriesGraph(defaultSeries: ControlGraphSeries,
@@ -169,29 +200,6 @@ class MotionSeriesGraph(defaultSeries: ControlGraphSeries,
   getJFreeChartNode.setBuffered(false)
   getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
 
-  //  getJFreeChartNode.addChild(new PText("Hello there"))
-  val clearButton = new PSwing(new JButton(new AbstractAction("Clear") {
-    def actionPerformed(e: ActionEvent) = {
-      //todo: coalesce with RecordModelControlPanel, duplicated from there
-      model.clearHistory()
-      model.setPaused(true)
-      model.setRecord(true)
-    }
-  }))
-
-  def updateClearButtonVisible() = clearButton.setVisible(model.getRecordingHistory.length > 0)
-  model.addListenerByName {
-    updateClearButtonVisible()
-  }
-  updateClearButtonVisible()
-
-  //todo: should use the bounds of the minimize button
-  def updateClearButtonLocation() = clearButton.setOffset(getJFreeChartNode.getFullBounds.getWidth - clearButton.getFullBounds.getWidth * 2, 5)
-  updateClearButtonLocation()
-  getJFreeChartNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener {
-    def propertyChange(evt: PropertyChangeEvent) = updateClearButtonLocation()
-  })
-  getJFreeChartNode.addChild(clearButton)
   def reset() = {
     setDomainUpperBound(MotionSeriesDefaults.MAX_CHART_DISPLAY_TIME)
     setVerticalRange(minRangeValue, maxRangeValue)
