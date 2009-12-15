@@ -171,13 +171,24 @@ class MotionSeriesGraph(defaultSeries: ControlGraphSeries,
   getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
 
   //  getJFreeChartNode.addChild(new PText("Hello there"))
-  val clearButton = new PSwing(new JButton(new AbstractAction("Clear"){
-    def actionPerformed(e: ActionEvent) = {}
+  val clearButton = new PSwing(new JButton(new AbstractAction("Clear") {
+    def actionPerformed(e: ActionEvent) = {
+      //todo: coalesce with RecordModelControlPanel, duplicated from there
+      model.clearHistory()
+      model.setPaused(true)
+      model.setRecord(true)
+    }
   }))
 
-  def updateClearButtonLocation() = clearButton.setOffset(getJFreeChartNode.getFullBounds.getWidth - clearButton.getFullBounds.getWidth, 0)
+  model.addListenerByName{
+    clearButton.setVisible(model.getRecordingHistory.length>0)  
+  }
+  clearButton.setVisible(model.getRecordingHistory.length>0)
+
+  //todo: should use the bounds of the minimize button
+  def updateClearButtonLocation() = clearButton.setOffset(getJFreeChartNode.getFullBounds.getWidth - clearButton.getFullBounds.getWidth*2, 5)
   updateClearButtonLocation()
-  getJFreeChartNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener{
+  getJFreeChartNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener {
     def propertyChange(evt: PropertyChangeEvent) = updateClearButtonLocation()
   })
   getJFreeChartNode.addChild(clearButton)
