@@ -33,9 +33,12 @@ public class LacI extends SimpleModelElement {
 	private static double WIDTH = 7;   // In nanometers.
 	private static double HEIGHT = 4;  // In nanometers.
 	
-	// Attachment point offset.
+	// Attachment point offset for attaching to lac operator.
 	private static PDimension LAC_OPERATOR_ATTACHMENT_POINT_OFFSET = 
 		new PDimension(0, -HEIGHT / 2  + LacOperator.getBindingRegionSize().getHeight());
+	
+	// Attachment point offset for attaching to glucose.
+	private static PDimension GLUCOSE_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT / 2);
 	
 	// Time definitions for the amount of time to attach and then to be
 	// "unavailable".
@@ -45,15 +48,20 @@ public class LacI extends SimpleModelElement {
 	// Time of existence.
 	private static final double EXISTENCE_TIME = 30; // Seconds.
 	
+	// Amount of time that lactose remains attached before being released.
+	private static final double LACTOSE_ATTACHMENT_TIME = 3;  // In seconds.
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 	
 	private LacOperator lacOperatorAttachmentPartner = null;
-	private Lactose lactoseAttachmentPartner = null;
 	private AttachmentState lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	private Glucose glucoseAttachmentPartner = null;
+	private AttachmentState glucoseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private Point2D targetPositionForLacOperatorAttachment = new Point2D.Double();
 	private double attachementTimeCountdown = 0;
+	private double lactoseAttachmentCountdownTimer;
 	private double unavailableTimeCountdown = 0;
 	
     //------------------------------------------------------------------------
@@ -120,7 +128,7 @@ public class LacI extends SimpleModelElement {
 	}
 
 	private void updateAttachements(double dt) {
-		// Do any update of attachments that is needed.
+		// Update any attachment state related to lac operator first.
 		if (lacOperatorAttachmentState == AttachmentState.ATTACHED){
 			attachementTimeCountdown -= dt;
 			if (attachementTimeCountdown <= 0){
@@ -146,6 +154,54 @@ public class LacI extends SimpleModelElement {
 				}
 			}
 		}
+		
+		// Now update any attachment state related to lactose.  Note that the
+		// variable names are actually "glucose" since that is the molecule
+		// to which we try to attach once we verify that it is attached to
+		// galactose, thus forming lactose.
+		if (getExistenceState() == ExistenceState.EXISTING &&
+			glucoseAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
+				
+			// Look for some lactose to attach to.
+			glucoseAttachmentPartner = getModel().findNearestFreeLactose(getPositionRef());
+			
+			if (glucoseAttachmentPartner != null){
+				// We found a lactose that is free, so start the process of
+				// attaching to it.
+				if (glucoseAttachmentPartner.considerProposalFrom(this) != true){
+					assert false;  // As designed, this should always succeed, so debug if it doesn't.
+				}
+				else{
+					glucoseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+					
+					// Prevent fadeout from occurring while attached to lactose.
+					setOkayToFade(false);
+				}
+			}
+		}
+		else if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+			// See if we are close enough to lock in.
+			// See if the glucose is close enough to finalize the attachment.
+			if (getGlucoseAttachmentPointLocation().distance(glucoseAttachmentPartner.getLacZAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
+				// Finalize the attachment.
+				glucoseAttachmentPartner.attach(this);
+				glucoseAttachmentState = AttachmentState.ATTACHED;
+				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+			}
+		}
+	}
+
+	/**
+	 * Get the location in absolute space of the attachment point for this
+	 * type of model element.
+	 */
+	public Point2D getGlucoseAttachmentPointLocation(){
+		return new Point2D.Double(getPositionRef().getX() + GLUCOSE_ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + GLUCOSE_ATTACHMENT_POINT_OFFSET.getHeight());
+	}
+	
+	public static Dimension2D getGlucoseAttachmentPointOffset() {
+		return new PDimension(GLUCOSE_ATTACHMENT_POINT_OFFSET);
 	}
 
 	public boolean considerProposalFrom(LacOperator lacOperator) {
