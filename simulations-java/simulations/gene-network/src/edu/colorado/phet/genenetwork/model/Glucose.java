@@ -93,6 +93,9 @@ public class Glucose extends SimpleSugar {
 		lacZAttachmentPartner = null;
 		lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+		
+		// Once broken down from being a part of lactose, this fades away.
+		setExistenceTime(0);
 	}
 	
 	/**
