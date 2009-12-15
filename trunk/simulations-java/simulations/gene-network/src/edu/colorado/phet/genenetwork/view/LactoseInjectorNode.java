@@ -33,7 +33,7 @@ public class LactoseInjectorNode extends PNode {
 	// Height of the injector prior to rotation.  This is in world size, which
 	// is close to pixels (but not quite exactly due to all that transform
 	// craziness).
-	private static final double INJECTOR_HEIGHT = 120;
+	private static final double INJECTOR_HEIGHT = 200;
 	
 	// Angle of rotation of this node.
 	private static final double ROTATION_ANGLE = Math.PI/3;
