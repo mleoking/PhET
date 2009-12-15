@@ -258,7 +258,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		Glucose nearestFreeGlucose = null;
 		for (Glucose glucose : glucoseList){
 			if (glucose.isBoundToGalactose() && 
-				glucose.getLacZAttachmentState() == AttachmentState.UNATTACHED_AND_AVAILABLE && 
+				glucose.isAvailableForAttaching() && 
 				pt.distance(glucose.getPositionRef()) < distance){
 				
 				// This is the best candidate so far.
