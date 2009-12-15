@@ -131,8 +131,6 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
 
   private var _graphSetNode: GraphSetNode = null
 
-  def toMinimizableControlGraphs(graphs: Seq[Graph]) = (for (g <- graphs) yield new MinimizableControlGraph(g.title, g.graph, g.minimized)).toArray
-
   def correlateDomains(graphs: Seq[Graph]) = {
     for (a <- graphs; g = a.graph) {
       g.addListener(new MotionControlGraph.Listener() {
@@ -145,7 +143,8 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
 
   def init(graphs: Seq[Graph]) = {
     correlateDomains(graphs)
-    _graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(toMinimizableControlGraphs(graphs)))) {
+    val minimizableGraphs = for (g <- graphs) yield new MinimizableControlGraph(g.title, g.graph, g.minimized)
+    _graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(minimizableGraphs.toArray))) {
       override def getMaxAvailableHeight(availableHeight: Double) = availableHeight
       setAlignedLayout()
     }
@@ -180,13 +179,14 @@ class MotionSeriesGraph(defaultSeries: ControlGraphSeries,
     }
   }))
 
-  model.addListenerByName{
-    clearButton.setVisible(model.getRecordingHistory.length>0)  
+  def updateClearButtonVisible() = clearButton.setVisible(model.getRecordingHistory.length > 0)
+  model.addListenerByName {
+    updateClearButtonVisible()
   }
-  clearButton.setVisible(model.getRecordingHistory.length>0)
+  updateClearButtonVisible()
 
   //todo: should use the bounds of the minimize button
-  def updateClearButtonLocation() = clearButton.setOffset(getJFreeChartNode.getFullBounds.getWidth - clearButton.getFullBounds.getWidth*2, 5)
+  def updateClearButtonLocation() = clearButton.setOffset(getJFreeChartNode.getFullBounds.getWidth - clearButton.getFullBounds.getWidth * 2, 5)
   updateClearButtonLocation()
   getJFreeChartNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener {
     def propertyChange(evt: PropertyChangeEvent) = updateClearButtonLocation()
