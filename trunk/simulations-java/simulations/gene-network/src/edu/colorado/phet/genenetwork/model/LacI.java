@@ -120,6 +120,31 @@ public class LacI extends SimpleModelElement {
 		return area;
 	}
 	
+	private static Shape createInactiveConformationShape(){
+		
+		// Create the overall outline.
+		GeneralPath outline = new GeneralPath();
+		
+		outline.moveTo(0, (float)HEIGHT/2);
+		outline.quadTo((float)WIDTH / 2, (float)HEIGHT / 2, (float)WIDTH/2, -(float)HEIGHT/3);
+		outline.quadTo(0, (float)-HEIGHT * 0.8, (float)-WIDTH/2, (float)-HEIGHT/3);
+		outline.lineTo((float)-WIDTH/2, (float)(HEIGHT * 0.25));
+		outline.closePath();
+		Area area = new Area(outline);
+		
+		// Get the shape of a lactose molecule and shift it to the appropriate
+		// position.
+		Shape lactoseShape = new Lactose().getShape();
+		AffineTransform transform = new AffineTransform();
+		transform.setToTranslation(	0, HEIGHT/2 );
+		lactoseShape = transform.createTransformedShape(lactoseShape);
+		
+		// Subtract off the shape of the lactose molecule.
+		area.subtract(new Area(lactoseShape));
+		
+		return area;
+	}
+	
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
@@ -187,6 +212,7 @@ public class LacI extends SimpleModelElement {
 				glucoseAttachmentPartner.attach(this);
 				glucoseAttachmentState = AttachmentState.ATTACHED;
 				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+				setShape(createInactiveConformationShape());
 			}
 		}
 	}
