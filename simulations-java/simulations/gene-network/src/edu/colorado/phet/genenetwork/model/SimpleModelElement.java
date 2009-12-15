@@ -299,8 +299,14 @@ public abstract class SimpleModelElement implements IModelElement{
 				existenceTimeCountdown -= dt;
 				if (existenceTimeCountdown <= 0){
 					// Time to fade out.
-					setExistenceState(ExistenceState.FADING_OUT);
-					onTransitionToFadingOutState();
+					if (okayToFade){
+						setExistenceState(ExistenceState.FADING_OUT);
+						onTransitionToFadingOutState();
+					}
+					else{
+						// Hold the counter at zero until it is okay to fade.
+						existenceTimeCountdown = 0;
+					}
 				}
 			}
 			break;

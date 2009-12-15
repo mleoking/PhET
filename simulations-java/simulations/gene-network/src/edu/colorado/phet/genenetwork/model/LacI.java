@@ -40,16 +40,16 @@ public class LacI extends SimpleModelElement {
 	// Attachment point offset for attaching to glucose.
 	private static PDimension GLUCOSE_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT / 2);
 	
-	// Time definitions for the amount of time to attach and then to be
-	// "unavailable".
-	private static double ATTACHMENT_TIME = 12; // In seconds.
+	// Time definition for the amount of time that this is unavailable after
+	// detaching.  Prevents instant detach/re-attach cycles.
 	private static double UNAVAILABLE_TIME = 5; // In seconds.
 	
 	// Time of existence.
 	private static final double EXISTENCE_TIME = 30; // Seconds.
 	
-	// Amount of time that lactose remains attached before being released.
-	private static final double LACTOSE_ATTACHMENT_TIME = 3;  // In seconds.
+	// Amount of time that this element and the lactose it bonds with
+	// continues to exist after the bond has occurred.
+	private static final double POST_LACTOSE_BOND_EXISTENCE_TIME = 7;
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -61,7 +61,7 @@ public class LacI extends SimpleModelElement {
 	private AttachmentState glucoseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private Point2D targetPositionForLacOperatorAttachment = new Point2D.Double();
 	private double attachementTimeCountdown = 0;
-	private double lactoseAttachmentCountdownTimer;
+	private double postLactoseBondCountdownTimer;
 	private double unavailableTimeCountdown = 0;
 	
     //------------------------------------------------------------------------
@@ -153,29 +153,16 @@ public class LacI extends SimpleModelElement {
 	}
 
 	private void updateAttachements(double dt) {
-		// Update any attachment state related to lac operator first.
-		if (lacOperatorAttachmentState == AttachmentState.ATTACHED){
-			attachementTimeCountdown -= dt;
-			if (attachementTimeCountdown <= 0){
-				// It is time to detach.
-				lacOperatorAttachmentPartner.detach(this);
-				lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-				lacOperatorAttachmentPartner = null;
-				unavailableTimeCountdown = UNAVAILABLE_TIME;
-				
-				// Set our motion strategy to move up towards some random
-				// point at the top of the motion area.  This just looks
-				// better than allowing it to drift behind the DNA.
-				setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBounds()));
-			}
-		}
-		else if (lacOperatorAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
+		// Update any attachment state related to lac operator first.  Note
+		// that it is up to the lac operator to initiate and teminate the
+		// attachment, so most of the effort for this relationship happens
+		// in that class.
+		if (lacOperatorAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
 			if (unavailableTimeCountdown != Double.POSITIVE_INFINITY){
 				unavailableTimeCountdown -= dt;
 				if (unavailableTimeCountdown <= 0){
 					// The recovery period is over, we can be available again.
 					lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-					getMotionStrategyRef().setDestination(null);
 				}
 			}
 		}
@@ -205,14 +192,29 @@ public class LacI extends SimpleModelElement {
 			}
 		}
 		else if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
-			// See if we are close enough to lock in.
-			// See if the glucose is close enough to finalize the attachment.
+			// See if we are close enough to finalize the bond with glucose.
 			if (getGlucoseAttachmentPointLocation().distance(glucoseAttachmentPartner.getLacZAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
+				
 				// Finalize the attachment.
 				glucoseAttachmentPartner.attach(this);
 				glucoseAttachmentState = AttachmentState.ATTACHED;
 				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 				setShape(createInactiveConformationShape());
+				
+				// If we are currently attached to the lac operator, detach
+				// from it now, since the basic idea is that when lactose
+				// attaches to lacI it prevents it from being able to attach
+				// to the DNA.
+				if (lacOperatorAttachmentPartner != null){
+					lacOperatorAttachmentPartner.detach(this);
+					lacOperatorAttachmentPartner = null;
+					lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+					setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBounds()));
+				}
+				
+				// Set ourself and the lactose up so that we will fade out of
+				// existence.
+				setExistenceTime(POST_LACTOSE_BOND_EXISTENCE_TIME);
 			}
 		}
 	}
@@ -240,11 +242,12 @@ public class LacI extends SimpleModelElement {
 			lacOperatorAttachmentPartner = lacOperator;
 			lacOperatorAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
 			proposalAccepted = true;
+			setOkayToFade(false);
 			
 			// Set ourself up to move toward the attaching location.
-			double xDest = lacOperatorAttachmentPartner.getAttachmentPointLocation(this).getX() - 
+			double xDest = lacOperatorAttachmentPartner.getLacIAttachmentPointLocation().getX() - 
 				LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getWidth();
-			double yDest = lacOperatorAttachmentPartner.getAttachmentPointLocation(this).getY() -
+			double yDest = lacOperatorAttachmentPartner.getLacIAttachmentPointLocation().getY() -
 				LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getHeight();
 			getMotionStrategyRef().setDestination(xDest, yDest);
 			targetPositionForLacOperatorAttachment.setLocation(xDest, yDest);
@@ -276,7 +279,6 @@ public class LacI extends SimpleModelElement {
 		setMotionStrategy(new StillnessMotionStrategy(this));
 		setPosition(targetPositionForLacOperatorAttachment);
 		lacOperatorAttachmentState = AttachmentState.ATTACHED;
-		attachementTimeCountdown = ATTACHMENT_TIME;
 	}
 	
 	/**
@@ -299,6 +301,9 @@ public class LacI extends SimpleModelElement {
 		}
 		
 		lacOperatorAttachmentPartner = null;
-		lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+		lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+		unavailableTimeCountdown = UNAVAILABLE_TIME;
+		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBounds()));
+		setOkayToFade(true);
 	}
 }

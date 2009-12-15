@@ -32,13 +32,15 @@ public class LacOperator extends SimpleModelElement {
 	private static final double HEIGHT = 3;  // In nanometers.
 	private static final Dimension2D LAC_I_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT/2); 
 	private static final Dimension2D ATTACHMENT_REGION_SIZE = new PDimension(WIDTH * 0.5, HEIGHT / 2);
+	private static double LAC_I_ATTACHMENT_TIME = 12; // In seconds.
 	
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
 	
 	private LacI lacIAttachmentPartner = null;
-	private AttachmentState attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE; 
+	private AttachmentState lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	private double lacIAttachmentCountdownTimer;
 	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
@@ -59,7 +61,7 @@ public class LacOperator extends SimpleModelElement {
 	
 	@Override
 	public void stepInTime(double dt) {
-		switch (attachmentState){
+		switch (lacIAttachmentState){
 		case UNATTACHED_AND_AVAILABLE:
 			attemptToStartAttaching();
 			break;
@@ -67,7 +69,7 @@ public class LacOperator extends SimpleModelElement {
 			checkAttachmentCompleted();
 			break;
 		case ATTACHED:
-			// TODO
+			checkTimeToDetach(dt);
 			break;
 		case UNATTACHED_BUT_UNAVALABLE:
 			// TODO
@@ -81,7 +83,7 @@ public class LacOperator extends SimpleModelElement {
 	}
 	
 	public boolean isLacIAttached(){
-		return (attachmentState == AttachmentState.ATTACHED);
+		return (lacIAttachmentState == AttachmentState.ATTACHED);
 	}
 	
 	private void attemptToStartAttaching(){
@@ -93,11 +95,21 @@ public class LacOperator extends SimpleModelElement {
 			if (getPositionRef().distance(lacI.getPositionRef()) < ATTACHMENT_INITIATION_RANGE){
 				if (lacI.considerProposalFrom(this)){
 					// Attachment formed.
-					attachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+					lacIAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
 					lacIAttachmentPartner = lacI;
 					break;
 				}
 			}
+		}
+	}
+	
+	private void checkTimeToDetach(double dt){
+		lacIAttachmentCountdownTimer -= dt;
+		if (lacIAttachmentCountdownTimer <= 0){
+			// Time to release the lacI.
+			lacIAttachmentPartner.detach(this);
+			lacIAttachmentPartner = null;
+			lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 		}
 	}
 	
@@ -113,8 +125,12 @@ public class LacOperator extends SimpleModelElement {
 		if (lacIAttachmentPtLocation.distance(lacIAttachmentPartner.getAttachmentPointLocation(this)) < ATTACHMENT_FORMING_DISTANCE){
 			// Close enough to attach.
 			lacIAttachmentPartner.attach(this);
-			attachmentState = AttachmentState.ATTACHED;
+			lacIAttachmentState = AttachmentState.ATTACHED;
 		}
+		
+		// Set the countdown timer that will control how long these remain
+		// attached to one another.
+		lacIAttachmentCountdownTimer = LAC_I_ATTACHMENT_TIME;
 	}
 
 	private static Shape createShape(){
@@ -137,7 +153,7 @@ public class LacOperator extends SimpleModelElement {
 	 * Get the location in absolute space of the attachment point for the
 	 * specified type of model element.
 	 */
-	public Point2D getAttachmentPointLocation(LacI lacI){
+	public Point2D getLacIAttachmentPointLocation(){
 		return new Point2D.Double(getPositionRef().getX() + LAC_I_ATTACHMENT_POINT_OFFSET.getWidth(),
 				getPositionRef().getY() + LAC_I_ATTACHMENT_POINT_OFFSET.getHeight());
 	}
@@ -149,7 +165,7 @@ public class LacOperator extends SimpleModelElement {
 		}
 		
 		lacIAttachmentPartner = null;
-		attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+		lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	}
 	
 	@Override
