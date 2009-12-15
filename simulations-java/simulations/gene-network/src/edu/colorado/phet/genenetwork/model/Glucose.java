@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 public class Glucose extends SimpleSugar {
@@ -92,10 +93,11 @@ public class Glucose extends SimpleSugar {
 		assert lacZ == lacZAttachmentPartner;
 		lacZAttachmentPartner = null;
 		lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+		setMotionStrategy(new LinearThenRandomMotionStrategy(this, LacOperonModel.getMotionBounds(), 
+				new Vector2D.Double(-3, -8), 1));
 		
 		// Once broken down from being a part of lactose, this fades away.
-		setExistenceTime(0);
+		setExistenceTime(0.5);
 	}
 	
 	/**

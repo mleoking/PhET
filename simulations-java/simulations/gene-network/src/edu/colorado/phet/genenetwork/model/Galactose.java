@@ -52,6 +52,6 @@ public class Galactose extends SimpleSugar {
 				new Vector2D.Double(3, -8), 1));
 		
 		// This should fade out shortly after detaching.
-		setExistenceTime(1);
+		setExistenceTime(0.5);
 	}
 }
