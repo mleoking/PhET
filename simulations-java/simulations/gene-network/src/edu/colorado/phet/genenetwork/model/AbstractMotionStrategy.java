@@ -3,6 +3,7 @@
 package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Base class for the various motion strategies that can be exhibited by a
@@ -14,17 +15,40 @@ public abstract class AbstractMotionStrategy {
 	
 	private IModelElement modelElement;
 	private Point2D destination = null;
+	private Rectangle2D bounds = new Rectangle2D.Double(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY,
+			Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 	
-	public AbstractMotionStrategy(IModelElement modelElement){
+	public AbstractMotionStrategy(IModelElement modelElement, Rectangle2D bounds){
 		this.modelElement = modelElement;
+		if (bounds != null){
+			this.bounds.setFrame(bounds);
+		}
 	}
 
-    //Clients should generally call this method to cause motion, since it checks to see whether the element is user controlled.
+	public AbstractMotionStrategy(IModelElement modelElement){
+		this(modelElement, null);
+	}
+
+	public Rectangle2D getBounds() {
+		return new Rectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+	}
+	
+	public Rectangle2D getBoundsRef() {
+		return bounds;
+	}
+	
+	public void setBounds(Rectangle2D bounds) {
+		this.bounds.setFrame(bounds);
+	}
+	
+    // Clients should generally call this method to cause motion, since it
+	// checks to see whether the element is user controlled.
 	public void doUpdatePositionAndMotion(double dt){
         if (!modelElement.isUserControlled()){
             updatePositionAndMotion(dt);
         }
     }
+
 	public abstract void updatePositionAndMotion(double dt);
 
 	protected IModelElement getModelElement(){

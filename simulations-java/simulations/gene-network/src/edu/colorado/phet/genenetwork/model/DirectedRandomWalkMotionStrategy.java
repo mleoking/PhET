@@ -24,13 +24,11 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	protected static double MAX_VELOCITY = 10;  // In nanometers per second
 	protected static double MIN_VELOCITY = 3;  // In nanometers per second
 
-	private Rectangle2D bounds;
 	private int myUpdateValue;  // Used to stagger updates, for a better look and more even computational load.
 	private int updateCount = 0;
 	
 	public DirectedRandomWalkMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Point2D destination) {
-		super(modelElement);
-		this.bounds = bounds;
+		super(modelElement, bounds);
 		if (destination != null){
 			setDestination(destination.getX(),	destination.getY());
 		}
@@ -51,13 +49,13 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 		Vector2D velocity = modelElement.getVelocityRef();
 		
 		// Bounce back toward the inside if we are outside of the motion bounds.
-		if ((position.getX() > bounds.getMaxX() && velocity.getX() > 0) ||
-			(position.getX() < bounds.getMinX() && velocity.getX() < 0))	{
+		if ((position.getX() > getBounds().getMaxX() && velocity.getX() > 0) ||
+			(position.getX() < getBounds().getMinX() && velocity.getX() < 0))	{
 			// Reverse direction in the X direction.
 			modelElement.setVelocity(-velocity.getX(), velocity.getY());
 		}
-		if ((position.getY() > bounds.getMaxY() && velocity.getY() > 0) ||
-    		(position.getY() < bounds.getMinY() && velocity.getY() < 0))	{
+		if ((position.getY() > getBounds().getMaxY() && velocity.getY() > 0) ||
+    		(position.getY() < getBounds().getMinY() && velocity.getY() < 0))	{
     		// Reverse direction in the Y direction.
     		modelElement.setVelocity(velocity.getX(), -velocity.getY());
     	}

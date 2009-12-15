@@ -17,11 +17,8 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class LinearMotionStrategy extends AbstractMotionStrategy {
 	
-	private Rectangle2D bounds;
-	
 	public LinearMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Point2D destination, double velocityScaler) {
-		super(modelElement);
-		this.bounds = bounds;
+		super(modelElement, bounds);
 		setDestination(destination.getX(),	destination.getY());
 		double angleOfTravel = Math.atan2(getDestination().getY() - modelElement.getPositionRef().getY(), 
     			getDestination().getX() - modelElement.getPositionRef().getX());
@@ -47,10 +44,10 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 			getModelElement().setPosition(getDestination());
 			getModelElement().setVelocity(0, 0);
 		}
-		else if ((position.getX() > bounds.getMaxX() && velocity.getX() > 0) ||
-			     (position.getX() < bounds.getMinX() && velocity.getX() < 0) ||
-			     (position.getY() > bounds.getMaxY() && velocity.getY() > 0) ||
-		         (position.getY() < bounds.getMinY() && velocity.getY() < 0)){
+		else if ((position.getX() > getBounds().getMaxX() && velocity.getX() > 0) ||
+			     (position.getX() < getBounds().getMinX() && velocity.getX() < 0) ||
+			     (position.getY() > getBounds().getMaxY() && velocity.getY() > 0) ||
+		         (position.getY() < getBounds().getMinY() && velocity.getY() < 0)){
 			
 			// We are at or past the boundary, so stop forward motion.
 			modelElement.setVelocity(0, 0);
