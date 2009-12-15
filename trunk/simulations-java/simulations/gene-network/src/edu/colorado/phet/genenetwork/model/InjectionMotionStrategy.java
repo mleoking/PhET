@@ -21,13 +21,11 @@ public class InjectionMotionStrategy extends AbstractMotionStrategy {
 	private static final double PRE_RANDOM_WALK_TIME = 4.0;     // In seconds.
 	private static final Random RAND = new Random();
 	
-	private Rectangle2D bounds;
 	private double preRandomWalkCountdown = PRE_RANDOM_WALK_TIME;
 	private RandomWalkMotionStrategy randomWalkMotionStrategy;
 	
 	public InjectionMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Vector2D initialVelocity) {
-		super(modelElement);
-		this.bounds = bounds;
+		super(modelElement, bounds);
 		getModelElement().setVelocity(initialVelocity);
 		randomWalkMotionStrategy = new RandomWalkMotionStrategy(modelElement, bounds);
 	}
@@ -40,19 +38,19 @@ public class InjectionMotionStrategy extends AbstractMotionStrategy {
 		Vector2D velocity = modelElement.getVelocityRef();
 		
 		if (preRandomWalkCountdown > 0){
-			if ((position.getX() > bounds.getMaxX() && velocity.getX() > 0) ||
-				(position.getX() < bounds.getMinX() && velocity.getX() < 0) ||
-				(position.getY() > bounds.getMaxY() && velocity.getY() > 0) ||
-				(position.getY() < bounds.getMinY() && velocity.getY() < 0)){
+			if ((position.getX() > getBounds().getMaxX() && velocity.getX() > 0) ||
+				(position.getX() < getBounds().getMinX() && velocity.getX() < 0) ||
+				(position.getY() > getBounds().getMaxY() && velocity.getY() > 0) ||
+				(position.getY() < getBounds().getMinY() && velocity.getY() < 0)){
 				
 				// We are out of bounds, so we need to "bounce".
-				if ((position.getX() > bounds.getMaxX() && velocity.getX() > 0) ||
-				    (position.getX() < bounds.getMinX() && velocity.getX() < 0)){
+				if ((position.getX() > getBounds().getMaxX() && velocity.getX() > 0) ||
+				    (position.getX() < getBounds().getMinX() && velocity.getX() < 0)){
 					// Reverse velocity in the X direction.
 					velocity.setComponents(-velocity.getX(), velocity.getY());
 				}
-				if ((position.getY() > bounds.getMaxY() && velocity.getY() > 0) ||
-				    (position.getY() < bounds.getMinY() && velocity.getY() < 0)){
+				if ((position.getY() > getBounds().getMaxY() && velocity.getY() > 0) ||
+				    (position.getY() < getBounds().getMinY() && velocity.getY() < 0)){
 						// Reverse velocity in the Y direction.
 						velocity.setComponents(velocity.getX(), -velocity.getY());
 				}

@@ -56,7 +56,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	public RnaPolymerase(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
 	}
 	
 	public RnaPolymerase(IGeneNetworkModelControl model) {

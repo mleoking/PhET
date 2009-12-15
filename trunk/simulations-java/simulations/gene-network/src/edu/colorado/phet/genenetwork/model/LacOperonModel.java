@@ -40,9 +40,13 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	private static final Dimension2D DNA_STRAND_SIZE = new PDimension(DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
 	private static final Point2D DNA_STRAND_POSITION = new Point2D.Double(0, -15);
 	
-	// Constant that defines where the mobile model elements can go.
+	// Constants that define where the mobile model elements can go.
 	private static final Rectangle2D MOTION_BOUNDS = new Rectangle2D.Double(MODEL_BOUNDS.getMinX(), 
 			DNA_STRAND_POSITION.getY(), MODEL_BOUNDS.getWidth(),
+			MODEL_BOUNDS.getHeight() - DNA_STRAND_POSITION.getY() + MODEL_BOUNDS.getMinY());
+	
+	private static final Rectangle2D MOTION_BOUNDS_EXCLUDING_DNA = new Rectangle2D.Double(MODEL_BOUNDS.getMinX(), 
+			DNA_STRAND_POSITION.getY() + DNA_STRAND_HEIGHT * 3, MODEL_BOUNDS.getWidth(),
 			MODEL_BOUNDS.getHeight() - DNA_STRAND_POSITION.getY() + MODEL_BOUNDS.getMinY());
 	
     //----------------------------------------------------------------------------
@@ -291,6 +295,16 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     
     public static Rectangle2D getMotionBounds(){
     	return MOTION_BOUNDS;
+    }
+    
+    /**
+     * The the area of the model where it is okay to move around and not end
+     * up overlapping the DNA.
+     * 
+     * @return
+     */
+    public static Rectangle2D getMotionBoundsExcludingDna(){
+    	return MOTION_BOUNDS_EXCLUDING_DNA;
     }
     
     public boolean isLacIAttachedToDna(){

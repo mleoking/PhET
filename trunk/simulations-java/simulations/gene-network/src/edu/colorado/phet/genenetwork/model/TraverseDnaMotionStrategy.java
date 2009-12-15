@@ -4,9 +4,6 @@ package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D.Double;
-
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * This class defines a specialize motion strategy that makes an element
@@ -21,15 +18,13 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class TraverseDnaMotionStrategy extends AbstractMotionStrategy {
 	
 	private static final double DNA_TRAVERSAL_SPEED = 6; // In nanometers per second.
-	private Rectangle2D bounds;
 	private LinearMotionStrategy linearMotionStrategy;
 	private DetachFromDnaThenRandomMotionWalkStrategy detachStrategy;
 	private boolean attached;
 	
 	public TraverseDnaMotionStrategy(IModelElement modelElement, Rectangle2D bounds, double traversalDistance) {
 		
-		super(modelElement);
-		this.bounds = bounds;
+		super(modelElement, bounds);
 		
 		// Create two motion strategies - one to use initially, and one to use
 		// once the DNA has been traversed.
