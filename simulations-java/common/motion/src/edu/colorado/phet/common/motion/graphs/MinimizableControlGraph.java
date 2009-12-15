@@ -189,4 +189,8 @@ public class MinimizableControlGraph extends PNode {
     public void addControl( JComponent jComponent ) {
         getControlGraph().addControl( jComponent );
     }
+
+    public PSwing getCloseButton() {
+        return closeButton;
+    }
 }
