@@ -14,7 +14,7 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.tests.MyCanvas
 import edu.colorado.phet.motionseries.model.{MovingManBead, ForceBead, Bead}
-import edu.colorado.phet.motionseries.javastage.stage.StageCanvas
+import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 
 class ForceDragBeadNode(bead: ForceBead,
                         transform: ModelViewTransform2D,
@@ -40,7 +40,7 @@ class PositionDragBeadNode(bead: MovingManBead,
                            transform: ModelViewTransform2D,
                            imageName: String,
                            leftImageName: String,
-                           dragListener: () => Unit, canvas: StageCanvas) extends BeadNode(bead, transform, imageName) {
+                           dragListener: () => Unit, canvas: PlayArea) extends BeadNode(bead, transform, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {

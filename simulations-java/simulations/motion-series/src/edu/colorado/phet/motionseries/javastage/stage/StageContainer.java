@@ -5,9 +5,9 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * This interface represents the bounds (in screen coordinates) of an object that contains a Stage.
- * Currently this is only implemented in StageCanvas, but future versions may include PNodes that act as StageContainers themselves.
+ * Currently this is only implemented in PlayArea, but future versions may include PNodes that act as StageContainers themselves.
  *
- * @see StageCanvas
+ * @see PlayArea
  * @author Sam Reid
  */
 public interface StageContainer {

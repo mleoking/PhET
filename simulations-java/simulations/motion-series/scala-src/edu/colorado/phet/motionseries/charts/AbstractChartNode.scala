@@ -16,7 +16,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import edu.colorado.phet.motionseries.javastage.stage.StageCanvas
+import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 import edu.umd.cs.piccolox.pswing.PSwing
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import javax.swing._
@@ -154,7 +154,7 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
 }
 
 class MotionSeriesGraph(defaultSeries: ControlGraphSeries,
-                        canvas: StageCanvas,
+                        canvas: PlayArea,
                         timeseriesModel: TimeSeriesModel,
                         updateableObject: UpdateableObject,
                         model: MotionSeriesModel,
