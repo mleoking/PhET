@@ -11,7 +11,6 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class Galactose extends SimpleSugar {
 	
 	private static final Dimension2D GLUCOSE_ATTACHMENT_OFFSET = new PDimension(-getWidth()/2, 0);
-	private static final Dimension2D LAC_Z_ATTACHMENT_OFFSET = new PDimension(-getWidth()/2, 0);
 
 	private Glucose glucoseAttachmentPartner;
 

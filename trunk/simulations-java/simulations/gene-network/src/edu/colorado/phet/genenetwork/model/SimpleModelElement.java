@@ -343,16 +343,29 @@ public abstract class SimpleModelElement implements IModelElement{
 	
 	/**
 	 * Set the time that this model element will exist after fading in (if it
-	 * fades in) and before fading out.  Note that this will only work when
-	 * the element is fading in, after that it's too late.
+	 * fades in) and before fading out.  Generally, this is used in two ways.
+	 * The first is during object construction to set the time that an object
+	 * will live in the model before it starts to fade.  The other is after
+	 * something has occurred to an object whose existence time was previously
+	 * infinite, and that now needs to fade out.  In the second case, setting
+	 * the time to zero will initiate an immediate fade out.
+	 * 
+	 * Note that if the existence time had started counting down, calling this
+	 * method will effectively reset it to the new value.
+	 * 
+	 * Also note that calling this at a time when the object had already
+	 * started fading out would have no effect.
 	 * 
 	 * @param existenceTime
 	 */
 	protected void setExistenceTime(double existenceTime){
-		if (existenceState != ExistenceState.FADING_IN){
-			System.err.println(getClass().getName() + " - Warning: Setting existence time when not fading in, this will have no affect.");
+		if (existenceState == ExistenceState.FADING_OUT){
+			System.err.println(getClass().getName() + " - Warning: setExistenceTime called when already fading, this will have no effect.");
 		}
-		this.existenceTime = existenceTime;
+		else{
+			this.existenceTime = existenceTime;
+			existenceTimeCountdown = existenceTime;
+		}
 	}
 	
 	protected AbstractMotionStrategy getMotionStrategyRef(){
