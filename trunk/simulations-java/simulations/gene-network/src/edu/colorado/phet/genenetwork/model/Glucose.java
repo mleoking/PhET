@@ -154,6 +154,29 @@ public class Glucose extends SimpleSugar {
 	}
 	
 	/**
+	 * Set the time for lactose to exist, after which it will fade out.  This
+	 * was created to allow lactose to fade out at the same time as lacI when
+	 * they are all bonded together.
+	 * 
+	 * TODO: As of this writing (Dec 15, 2009), lactose fades out after being
+	 * bonded to LacI.  We don't know if this is the desired behavior, since
+	 * it isn't specified, so the behavior may eventually be changed such that
+	 * lactose can only be removed after being broken down by LacZ.  If that
+	 * becomes the case, this method should go away.
+	 * 
+	 * @param existenceTime
+	 */
+	public void setLactoseExistenceTime(double existenceTime){
+		
+		assert galactoseAttachmentPartner != null;
+		galactoseAttachmentPartner.setOkayToFade(true);
+		galactoseAttachmentPartner.setExistenceTime(existenceTime);
+		setExistenceTime(existenceTime);
+		setOkayToFade(true);
+		
+	}
+	
+	/**
 	 * This is called to force this molecule to release the attached galactose
 	 * molecule, essentially breaking down from lactose into the constituent
 	 * molecules.

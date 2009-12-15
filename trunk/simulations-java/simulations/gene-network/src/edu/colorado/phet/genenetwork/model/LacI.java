@@ -214,7 +214,9 @@ public class LacI extends SimpleModelElement {
 				
 				// Set ourself and the lactose up so that we will fade out of
 				// existence.
+				setOkayToFade(true);
 				setExistenceTime(POST_LACTOSE_BOND_EXISTENCE_TIME);
+				glucoseAttachmentPartner.setLactoseExistenceTime(POST_LACTOSE_BOND_EXISTENCE_TIME);
 			}
 		}
 	}
@@ -256,20 +258,6 @@ public class LacI extends SimpleModelElement {
 		return proposalAccepted;
 	}
 	
-	@Override
-	protected void onTransitionToFadingOutState() {
-		// Terminate any attachments or pending attachments to other model
-		// elements.
-		if (lacOperatorAttachmentState == AttachmentState.ATTACHED || 
-			lacOperatorAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
-			
-			lacOperatorAttachmentPartner.detach(this);
-			lacOperatorAttachmentPartner = null;
-			lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-			unavailableTimeCountdown = Double.POSITIVE_INFINITY;
-		}
-	}
-
 	public void attach(LacOperator lacOperator){
 		if (lacOperator != lacOperatorAttachmentPartner){
 			System.err.println(getClass().getName() + " - Error: Finalize request from non-partner.");
