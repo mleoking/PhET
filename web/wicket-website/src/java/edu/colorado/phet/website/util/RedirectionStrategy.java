@@ -16,7 +16,23 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static Map<String, String> map = new HashMap<String, String>();
 
     static {
-        map.put( "index.php", "/" );
+        map.put( "/index.php", "/" );
+        map.put( "/simulations/index.php", "/en/simulations/category/featured" );
+        map.put( "/tech_support/index.php", "/en/troubleshooting" );
+        map.put( "/tech_support/support-flash.php", "/en/troubleshooting/flash" );
+        map.put( "/tech_support/support-java.php", "/en/troubleshooting/java" );
+        map.put( "/tech_support/support-javascript.php", "/en/troubleshooting/javascript" );
+        map.put( "/contribute/index.php", "/en/contribute" );
+        map.put( "/research/index.php", "/en/research" );
+        map.put( "/about/index.php", "/en/about" );
+
+        map.put( "/simulations/sims.php?sim=Circuit_Construction_Kit_DC_Only", "/en/simulation/circuit-construction-kit/circuit-construction-kit-dc" );
+
+        // TODO: add all URLs
+    }
+
+    private static String morphPath( String str ) {
+        return "/" + str;
     }
 
     public String getMountPath() {
@@ -30,8 +46,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
     public IRequestTarget decode( RequestParameters requestParameters ) {
         String requestPath = requestParameters.getPath();
-        if ( map.containsKey( requestPath ) ) {
-            return new PermanentRedirectRequestTarget( map.get( requestPath ) );
+        String path = morphPath( requestPath );
+        if ( map.containsKey( path ) ) {
+            return new PermanentRedirectRequestTarget( map.get( path ) );
         }
 
         logger.error( "Did not find path: " + requestPath );
@@ -44,7 +61,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     }
 
     public boolean matches( String path ) {
-        boolean inMap = map.containsKey( path );
+        boolean inMap = map.containsKey( morphPath( path ) );
 
         logger.debug( "testing: " + path );
 
