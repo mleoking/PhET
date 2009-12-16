@@ -185,10 +185,10 @@ public class PlayArea extends PhetPCanvas implements StageContainer {
     /**
      * Adds the specified node to the screen coordinate frame of this PlayArea.
      *
-     * @param screenNode the node to add to the screen coordinate frame.
+     * @param node the node to add to the screen coordinate frame.
      */
-    public void addScreenNode(PNode screenNode) {
-        getLayer().addChild(screenNode);
+    public void addScreenNode(PNode node) {
+        getLayer().addChild(node);
     }
 
     /**
