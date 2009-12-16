@@ -63,9 +63,10 @@ public abstract class AbstractMotionStrategy {
 	}
 
 	/**
-	 * The the destination towards which the element should be moving.
-	 * Setting the value to null indicates no destination, which may not make
-	 * sense for all motion strategies.
+	 * Set the destination towards which the element should be moving.
+	 * Setting the value to null indicates no destination, which makes sense
+	 * in some cases (such as a random walk), but not in others (such as a
+	 * linear strategy).
 	 * 
 	 * @param destination
 	 */
