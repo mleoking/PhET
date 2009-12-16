@@ -18,7 +18,7 @@ public class StageNode extends PNode {
     private Stage stage;
 
     /**
-     * The StageContainer in which the Stage is contained, allows us to know how the
+     * The StageContainer in which the Stage is contained, provides the bounds that this StageNode should resize to fill.
      */
     private StageContainer stageContainer;
 
