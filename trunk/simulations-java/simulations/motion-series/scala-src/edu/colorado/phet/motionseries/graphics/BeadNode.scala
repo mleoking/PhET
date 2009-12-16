@@ -12,22 +12,24 @@ import edu.umd.cs.piccolo.nodes.PImage
 import java.awt.image.BufferedImage
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
-import edu.colorado.phet.motionseries.tests.MyCanvas
 import edu.colorado.phet.motionseries.model.{MovingManBead, ForceBead, Bead}
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 
 class ForceDragBeadNode(bead: ForceBead,
                         transform: ModelViewTransform2D,
                         imageName: String,
-                        dragListener: () => Unit) extends BeadNode(bead, transform, imageName) {
+                        dragListener: () => Unit)
+        extends BeadNode(bead, transform, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
       val delta = event.getCanvasDelta
       val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
       val sign = modelDelta dot bead.getRampUnitVector
+      dragListener()  //it makes more sense to call the drag listener last after setting the parallel applied force.  However, in GoButton's visibility model,
+      //the go button is relying on the sim starting before the applied force gets set as part of the logic to decide whether to show the go button.  The go button
+      //should not appear when the user drags the object (which was happening when dragListener() was called after setting the applied force.
       bead.parallelAppliedForce = bead.parallelAppliedForce + sign / MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE
-      dragListener()
     }
 
     override def mouseReleased(event: PInputEvent) = {
