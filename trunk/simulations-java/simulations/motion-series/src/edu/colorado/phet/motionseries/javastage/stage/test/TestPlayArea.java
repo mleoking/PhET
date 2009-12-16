@@ -69,6 +69,11 @@ public class TestPlayArea {
         //Shows a text node at 0.25,0.25 in model coordinates.
         playArea.addModelNode(new PositionedTextNode("Model at 0.25,0.25", 0.25, 0.25, 2E-3 ));
         
+        //Shows the model origin (0,0) as a orange circle. It'll be in the lower-left corner of the stage bounds.
+        PhetPPath originPath = new PhetPPath(new Ellipse2D.Double(-1,-1,2,2), Color.orange);
+        originPath.scale( 2E-2 );
+        playArea.addModelNode( originPath );
+        
         //center one node beneath another, though they be in different coordinate frames
         final PhetPPath redRectangleNode = new PhetPPath(new Rectangle2D.Double(0, 0, 50, 10), Color.red);
         playArea.addScreenNode(redRectangleNode);
