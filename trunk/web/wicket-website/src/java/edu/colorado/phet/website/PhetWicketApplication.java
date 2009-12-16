@@ -3,6 +3,7 @@ package edu.colorado.phet.website;
 import java.io.File;
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Level;
@@ -255,5 +256,13 @@ public class PhetWicketApplication extends WebApplication {
     @Override
     protected IRequestCycleProcessor newRequestCycleProcessor() {
         return new PhetCycleProcessor();
+    }
+
+    @Override
+    protected WebRequest newWebRequest( HttpServletRequest servletRequest ) {
+
+        logger.debug( "Creating WebRequest for " + servletRequest.getRequestURI() );
+
+        return super.newWebRequest( servletRequest );
     }
 }
