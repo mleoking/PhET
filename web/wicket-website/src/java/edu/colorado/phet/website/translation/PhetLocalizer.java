@@ -3,10 +3,10 @@ package edu.colorado.phet.website.translation;
 import java.util.Locale;
 import java.util.MissingResourceException;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
 import org.apache.wicket.Localizer;
 import org.apache.wicket.model.IModel;
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
