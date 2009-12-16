@@ -98,26 +98,6 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
   titleNode.setOffset(getFullBounds.getWidth / 2 - titleNode.getFullBounds.getWidth / 2, 20)
   addChild(titleNode)
 
-  def directionKeyNode(dx: Double, dy: Double) = {
-    new PImage(MotionSeriesResources.getImage("robotmovingcompany/empty-key.png".literal)) {
-      val b = getFullBounds
-      val y1 = b.getCenterY + b.getHeight * dy
-      val y2 = b.getCenterY - b.getHeight * dy
-      val x1 = b.getCenterX + b.getWidth * dx
-      val x2 = b.getCenterX - b.getWidth * dx
-      val node = new ArrowNode(new Point2D.Double(x1, y1), new Point2D.Double(x2, y2), 20, 20, 10) {
-        setPaint(Color.black)
-        setStroke(new BasicStroke(2))
-        setStrokePaint(Color.gray)
-      }
-      scale(0.8)
-      addChild(node)
-    }
-  }
-
-  val leftKey = directionKeyNode(1 / 5.0, 0)
-  val rightKey = directionKeyNode(-1 / 5.0, 0)
-
   val text = new PNode {
     val mottoBorder = new PText("game.intro.our-motto".translate)
 
@@ -128,12 +108,8 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
     addChild(mottoBody)
     mottoBody.setOffset(0, mottoBorder.getFullBounds.getHeight)
   }
+  val buttonCluster = new KeyboardButtonIcons
 
-  val buttonCluster = new PNode {
-    addChild(leftKey)
-    addChild(rightKey)
-    rightKey.setOffset(leftKey.getFullBounds.getMaxX + 10, leftKey.getFullBounds.getY)
-  }
   val labeledButtonCluster = new PNode {
     addChild(text)
     addChild(buttonCluster)
