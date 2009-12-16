@@ -1,5 +1,8 @@
 package edu.colorado.phet.website.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.apache.wicket.IRequestTarget;
 import org.apache.wicket.request.RequestParameters;
@@ -9,6 +12,12 @@ import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
 public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
     private static Logger logger = Logger.getLogger( RedirectionStrategy.class.getName() );
+
+    private static Map<String, String> map = new HashMap<String, String>();
+
+    static {
+        map.put( "index.php", "/" );
+    }
 
     public String getMountPath() {
         return "";
@@ -21,8 +30,13 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
     public IRequestTarget decode( RequestParameters requestParameters ) {
         String requestPath = requestParameters.getPath();
-        //return null;
-        return new PermanentRedirectRequestTarget( "/" );
+        if ( map.containsKey( requestPath ) ) {
+            return new PermanentRedirectRequestTarget( map.get( requestPath ) );
+        }
+
+        logger.error( "Did not find path: " + requestPath );
+
+        throw new RuntimeException( "Did not find path: " + requestPath );
     }
 
     public boolean matches( IRequestTarget requestTarget ) {
@@ -30,10 +44,16 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     }
 
     public boolean matches( String path ) {
-        //return true;
+        boolean inMap = map.containsKey( path );
 
-        logger.debug( "Checking " + path );
+        logger.debug( "testing: " + path );
 
-        return path.indexOf( "index.php" ) != -1;
+        if ( inMap ) {
+            return true;
+        }
+
+        // TODO: add in more complicated redirection matching here?
+
+        return false;
     }
 }
