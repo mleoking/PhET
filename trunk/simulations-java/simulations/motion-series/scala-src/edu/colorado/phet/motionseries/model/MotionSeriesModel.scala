@@ -26,8 +26,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
         extends RecordModel[RecordedState] with ObjectModel with RampSurfaceModel {
-  def goButtonModel = new GoButtonVisibilityModel //todo: persist
-
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
@@ -82,6 +80,9 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   private var totalThermalEnergyOnClear = 0.0
   val maxDrops = (60 * 0.75).toInt
   val elapsedTimeHistory = new ArrayBuffer[Long]
+
+  val _goButtonModel = new GoButtonVisibilityModel(this)//Todo: since passes this, must be initialized after much of the above state
+  def goButtonModel = _goButtonModel
 
   def createBead(x: Double, width: Double, height: Double) =
     new MovingManBead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
