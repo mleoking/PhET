@@ -1,3 +1,4 @@
+Made it so that force vector labels must be at least a specified minimum distance from the origin.
 For the game modes, changed the grabbing area from "center of object is anywhere in front of house" to "center of object is within 15% of the door area".
 Added on-screen instructions to game modes.
 Unpause the sim before modifying the applied force, since the go button is supposed to stay invisible if the user starts the sim by dragging the object

@@ -294,7 +294,13 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
 
       val proposedLocation = vector.getValue * 0.6
-      val vectorToLabel = if (proposedLocation.magnitude > maxDistToLabel) new Vector2D(vector.getValue.getAngle) * maxDistToLabel else proposedLocation
+      
+      val minDistToLabel = maxDistToLabel/2.0//todo: improve heuristics for this, or make it settable in the constructor
+      
+      var vectorToLabel = if (proposedLocation.magnitude > maxDistToLabel) new Vector2D(vector.getValue.getAngle) * maxDistToLabel
+      	else if (proposedLocation.magnitude < minDistToLabel && proposedLocation.magnitude>1E-2) new Vector2D(vector.getValue.getAngle ) * minDistToLabel
+      	else proposedLocation 
+      
       val textLocation = transform.modelToViewDouble(vectorToLabel + tailLocation.getValue)
       abbreviatonTextNode.setOffset(textLocation.x - abbreviatonTextNode.getFullBounds.getWidth / 2, textLocation.y - abbreviatonTextNode.getFullBounds.getHeight / 2)
       abbreviatonTextNode.setVisible(vectorToLabel.magnitude > 1E-2)
