@@ -16,6 +16,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static Map<String, String> map = new HashMap<String, String>();
 
     static {
+        // initialize redirection mapping
         map.put( "/index.php", "/" );
         map.put( "/simulations/index.php", "/en/simulations/category/featured" );
         map.put( "/tech_support/index.php", "/en/troubleshooting" );
@@ -51,6 +52,11 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return new PermanentRedirectRequestTarget( map.get( path ) );
         }
 
+        if ( path.length() == 3 ) {
+            // redirect "/ar" to "/ar/" and others, to avoid those error pages
+            return new PermanentRedirectRequestTarget( path + "/" );
+        }
+
         logger.error( "Did not find path: " + requestPath );
 
         throw new RuntimeException( "Did not find path: " + requestPath );
@@ -66,6 +72,10 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         logger.debug( "testing: " + path );
 
         if ( inMap ) {
+            return true;
+        }
+
+        if ( path.length() == 2 && path.indexOf( "." ) == -1 ) {
             return true;
         }
 
