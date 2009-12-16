@@ -15,7 +15,7 @@ public class LacIGene extends SimpleModelElement {
 	private static final double WIDTH = 20;  // Nanometers. 
 	private static final double HEIGHT = 4;  // Nanometers.
 	
-	private static final double PERIOD_OF_MRNA_GENERATION = 10; // In seconds.
+	private static final double PERIOD_OF_MRNA_GENERATION = 15; // In seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -31,7 +31,7 @@ public class LacIGene extends SimpleModelElement {
 				new Point2D.Double(), new Color(167, 167, 167), false, Double.POSITIVE_INFINITY);
 		
 		// Set the timer so that the first one happens pretty quickly.
-		mRnaGenCountdownTimer = PERIOD_OF_MRNA_GENERATION / 8;
+		mRnaGenCountdownTimer = PERIOD_OF_MRNA_GENERATION / 10;
 	}
 	
     public LacIGene(IGeneNetworkModelControl model, double x, double y) {
