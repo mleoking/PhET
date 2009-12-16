@@ -159,7 +159,7 @@ class MinimizableMotionSeriesGraph(title: String,
                                    minimized: Boolean,
                                    model: MotionSeriesModel)
         extends MinimizableControlGraph(title, controlGraph, minimized) {
-  val clearButton = new PSwing(new JButton(new AbstractAction("Clear") { //todo: internationalize
+  val clearButton = new PSwing(new JButton(new AbstractAction("controls.clear".translate) {
     def actionPerformed(e: ActionEvent) = {
       //todo: coalesce with RecordModelControlPanel, duplicated from there
       model.clearHistory()
