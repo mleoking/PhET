@@ -75,6 +75,12 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   val doorBackgroundNode = new BeadNode(gameModel.doorBackground, transform, MotionSeriesDefaults.doorBackground.imageFilename)
   addStageNode(doorBackgroundNode)
 
+
+  class InstructionsNode extends PNode{
+    addChild(new PText("hello"))
+  }
+  addStageNode(new InstructionsNode)
+
   val doorNode = new PNode() {
     val bead = new BeadNode(gameModel.door, getModelStageTransform, MotionSeriesDefaults.door.imageFilename)
     addChild(bead)
