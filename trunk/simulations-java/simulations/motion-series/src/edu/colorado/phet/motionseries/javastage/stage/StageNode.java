@@ -51,7 +51,8 @@ public class StageNode extends PNode {
     }
 
     /**
-     * Checks for equality based on the reference equality of the node, stage and stageContainer.  This is used in PlayArea's containment checking methods.
+     * Checks for equality based on the reference equality of the node, stage and stageContainer.
+     * This is used in PlayArea's containment checking methods.
      *
      * @param o the object to check for equality
      * @return true if the this node and the specified object are considered equal

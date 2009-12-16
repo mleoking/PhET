@@ -18,8 +18,10 @@ import java.util.ArrayList;
 
 /**
  * The PlayArea is a PSwingCanvas that provides direct support for the three coordinate frames typically used in PhET simulations:
- * The model coordinate frame, which is used to depict the physical system that is depicted.  Typically this will have physical units such as meters or nanometers.
- * The stage coordinate frame, which automatically scales up and down with the size of the container, and is guaranteed to be 100% visible on the screen.
+ * The model coordinate frame, which is used to depict the physical system that is depicted.  
+ * Typically this will have physical units such as meters or nanometers.
+ * The stage coordinate frame, which automatically scales up and down with the size of the container, and is guaranteed 
+ * to be 100% visible on the screen.
  * The screen coordinate frame, which is the same as pixel coordinates for absolute/global positioning of nodes.
  *
  * This component is meant as a replacement for PhetPCanvas, a clearer interface and implementation for similar functionality.
@@ -39,11 +41,13 @@ import java.util.ArrayList;
  * ToDo:
  * //todo: compute stage bounds dynamically, based on contents of the stage?
  * //todo: maybe stage bounds should be mutable, since it is preferable to create the nodes as children of the canvas
- * //todo: make sure we have covered 100% of the coordinate frame transforms, from each frame to each other frame, for Point2D, Dimension2D and Rectangle2D
+ * //todo: make sure we have covered 100% of the coordinate frame transforms, from each frame to each other frame, 
+ *         for Point2D, Dimension2D and Rectangle2D
  *
  * Design questions:
  * 1. Should we factor out the hard-coded model coordinates, but make it easy to add (possibly multiple) new model coordinate frames?
- * 2. The logic for how the stage is centered in the container is duplicated in instances.  Should this be a shared strategy pattern in case it needs to be modified?
+ * 2. The logic for how the stage is centered in the container is duplicated in instances.  
+ *    Should this be a shared strategy pattern in case it needs to be modified?
  * 3. What about having a StageContainerNode for when we want to embed a stage coordinate frame in a node (not necessarily a top level canvas)?
  *  In Scala this was solved by mixing in a StageContainer trait, but in Java this could be done with duplication of code.
  * 4. How to handle screen to model mouse events?  We should provide a sample usage to make sure it's very easy.
@@ -68,7 +72,8 @@ public class PlayArea extends PhetPCanvas implements StageContainer {
      */
     private PhetPPath stageContainerDebugRegion;
     /**
-     * This is a screen node used for debuggin purposes to depict the bounds of the stage.  It is shown in screen coordinates instead of stage coordinates to keep stroke a fixed width.
+     * This is a screen node used for debuggin purposes to depict the bounds of the stage.
+     * It is shown in screen coordinates instead of stage coordinates to keep stroke a fixed width.
      */
     private PhetPPath stageBoundsDebugRegion;
     /**
