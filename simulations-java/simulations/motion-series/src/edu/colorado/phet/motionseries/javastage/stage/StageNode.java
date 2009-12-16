@@ -75,20 +75,20 @@ public class StageNode extends PNode {
      * Updates the layout when the Stage or StageContainer bounds change by centering the Stage in the StageContainer.
      */
     protected void updateLayout() {
-        double canvasX = stageContainer.getContainerBounds().getX();
-        double canvasY = stageContainer.getContainerBounds().getY();
-        double canvasWidth = stageContainer.getContainerBounds().getWidth();
-        double canvasHeight = stageContainer.getContainerBounds().getHeight();
-        if (canvasWidth > 0 && canvasHeight > 0) {
-            double widthScale = canvasWidth / stage.getWidth();
-            double heightScale = canvasHeight / stage.getHeight();
+        double containerX = stageContainer.getContainerBounds().getX();
+        double containerY = stageContainer.getContainerBounds().getY();
+        double containerWidth = stageContainer.getContainerBounds().getWidth();
+        double containerHeight = stageContainer.getContainerBounds().getHeight();
+        if (containerWidth > 0 && containerHeight > 0) {
+            double widthScale = containerWidth / stage.getWidth();
+            double heightScale = containerHeight / stage.getHeight();
             double scale = Math.min(widthScale, heightScale);
             double patchedScale = (scale > 0) ? scale : 1.0;
             setScale(patchedScale);
 
             double scaledWidth = patchedScale * stage.getWidth();
             double scaledHeight = patchedScale * stage.getHeight();
-            setOffset(canvasWidth / 2 - scaledWidth / 2 + canvasX, canvasHeight / 2 - scaledHeight / 2 + canvasY);
+            setOffset(containerWidth / 2 - scaledWidth / 2 + containerX, containerHeight / 2 - scaledHeight / 2 + containerY);
         }
     }
 }
