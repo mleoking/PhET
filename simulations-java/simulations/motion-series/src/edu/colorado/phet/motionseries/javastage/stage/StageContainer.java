@@ -5,14 +5,16 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * This interface represents the bounds (in screen coordinates) of an object that contains a Stage.
- * Currently this is only implemented in PlayArea, but future versions may include PNodes that act as StageContainers themselves.
+ * Currently this is only implemented in PlayArea, but future versions may include PNodes that act 
+ * as StageContainers themselves.
  *
  * @see PlayArea
  * @author Sam Reid
  */
 public interface StageContainer {
     /**
-     * Returns the bounds of the StageContainer.  This must be given as a defensive copy, as clients should be able to mutate this as part of Piccolo's coordinate transform system.
+     * Returns the bounds of the StageContainer.  This must be given as a defensive copy, 
+     * as clients should be able to mutate this as part of Piccolo's coordinate transform system.
      *
      * @return the bounds of the StageContainer.
      */
