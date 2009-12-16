@@ -58,9 +58,8 @@ class MotionSeriesModel(defaultBeadPosition: Double,
 
   val manBead = createBead(defaultManPosition, 1, 3)
 
-  val wallRange = () => {
-    new Range(-rampSegments(0).length, rampSegments(1).length)
-  }
+  val wallRange = () => new Range(-rampSegments(0).length, rampSegments(1).length)
+  
   val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
     //todo: allow different values for different segments
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
@@ -229,9 +228,11 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   def walls = _walls
 
   def walls_=(b: Boolean) = {
-    _walls = b
-    updateSegmentLengths()
-    notifyListeners()
+	  if (b != walls){
+		  	_walls = b
+    		updateSegmentLengths()
+    		notifyListeners()
+	  }
   }
 
   //duplicates some work with wallrange
@@ -243,7 +244,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   }
 
   def setSegmentLengths(seg0Length: Double, seg1Length: Double) = {
-    rampSegments(0).startPoint = new Vector2D(-seg0Length, 0)
+    rampSegments(0).startPoint = new Vector2D(rampSegments(0).angle) * -seg0Length
     rampSegments(0).endPoint = new Vector2D(0, 0)
 
     rampSegments(1).startPoint = new Vector2D(0, 0)
