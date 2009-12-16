@@ -49,7 +49,7 @@ public class ModelNode extends PNode {
     /*
      * Called when the underlying model -> stage transform changes.
      */
-    private void updateTransform() {
+    protected void updateTransform() {
         setTransform(transform.getAffineTransform());
     }
 

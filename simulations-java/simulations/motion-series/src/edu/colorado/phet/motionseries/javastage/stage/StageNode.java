@@ -71,10 +71,10 @@ public class StageNode extends PNode {
         return true;
     }
 
-    /**
+    /*
      * Updates the layout when the Stage or StageContainer bounds change by centering the Stage in the StageContainer.
      */
-    public void updateLayout() {
+    protected void updateLayout() {
         double canvasX = stageContainer.getContainerBounds().getX();
         double canvasY = stageContainer.getContainerBounds().getY();
         double canvasWidth = stageContainer.getContainerBounds().getWidth();
