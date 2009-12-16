@@ -74,7 +74,8 @@ class MotionSeriesModule(frame: PhetFrame,
   })
 
   //pause on start/reset, and unpause (and start recording) when the user applies a force
-  motionSeriesModel.setPaused(true)
+  def initPauseValue() =  motionSeriesModel.setPaused(true)
+  initPauseValue()
 
   def resetRampModule(): Unit = {
     motionSeriesModel.resetAll()
@@ -82,8 +83,7 @@ class MotionSeriesModule(frame: PhetFrame,
     fbdModel.resetAll()
     coordinateSystemModel.resetAll()
     vectorViewModel.resetAll()
-    //pause on startup/reset, and unpause (and start recording) when the user applies a force
-    motionSeriesModel.setPaused(true)
+    initPauseValue()
     resetAll()
   }
 

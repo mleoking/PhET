@@ -1,3 +1,5 @@
+Unpause the sim before modifying the applied force, since the go button is supposed to stay invisible if the user starts the sim by dragging the object
+Added a clear button to the charts.  They are only visible when the sim can be cleared.
 # 1.03.62 (36607) Nov 13, 2009
 Added the object selection combo box to the test scenario, see #1880
 # 1.03.61 (36605) Nov 12, 2009
