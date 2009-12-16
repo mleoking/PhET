@@ -15,13 +15,15 @@ import java.awt.geom.Ellipse2D;
  */
 public class PositionedTextNode extends PNode {
     public PositionedTextNode(String text, double x, double y, double scale) {
+        
         PText t = new PText(text);
-        setScale(scale);
         addChild(t);
 
         PhetPPath phetPPath = new PhetPPath(new Ellipse2D.Double(-2, -2, 4, 4), Color.blue);
         addChild(phetPPath);
+        
         setOffset(x, y);
+        setScale(scale);
     }
 
     public PositionedTextNode(String text, double x, double y) {
