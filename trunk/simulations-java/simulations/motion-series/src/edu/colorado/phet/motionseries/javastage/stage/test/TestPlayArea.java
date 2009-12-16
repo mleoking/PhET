@@ -39,7 +39,7 @@ public class TestPlayArea {
         //Add nodes for depicting grids in each coordinate frame.
         GridNode screenGridNode = new GridNode(1f, 0, 100, 100);
         canvas.addScreenNode(screenGridNode);
-        GridNode stageGridNode = new GridNode(0.2f, 0, 0, stageWidth / 10, stageWidth / 10, 10, 10);
+        GridNode stageGridNode = new GridNode(1f, 0, 0, stageWidth / 10, stageWidth / 10, 10, 10);
         canvas.addStageNode(stageGridNode);
         GridNode modelGridNode = new GridNode(1f / 600f, modelBounds.getX(), modelBounds.getY(), modelBounds.getWidth() / 10.0, modelBounds.getHeight() / 10.0, 10, 10);
         canvas.addModelNode(modelGridNode);
@@ -67,7 +67,7 @@ public class TestPlayArea {
         canvas.addModelNode(new PositionedTextNode("hello from center of model bounds", modelBounds.getCenterX(), modelBounds.getCenterY(), 2E-3));
         
         //Shows a text node at 0.25,0.25 in model coordinates.
-        canvas.addModelNode(new PositionedTextNode("Model at 0.25,0.25", 0.2, 0.2, 2E-3 ));
+        canvas.addModelNode(new PositionedTextNode("Model at 0.25,0.25", 0.25, 0.25, 2E-3 ));
         
         //center one node beneath another, though they be in different coordinate frames
         final PhetPPath redRectangleNode = new PhetPPath(new Rectangle2D.Double(0, 0, 50, 10), Color.red);
@@ -131,10 +131,10 @@ public class TestPlayArea {
                 Rectangle2D r = canvas.screenToModel(canvas.getScreenBounds());
                 DecimalFormat f = new DecimalFormat("0.0000000");
                 textArea.setText("Visible Model Bounds:" +
-                        "\n" + f.format(r.getX()) +
-                        "\n" + f.format(r.getY()) +
-                        "\n" + f.format(r.getWidth()) +
-                        "\n" + f.format(r.getHeight()));
+                        "\n x=" + f.format(r.getX()) +
+                        "\n y=" + f.format(r.getY()) +
+                        "\n w=" + f.format(r.getWidth()) +
+                        "\n h=" + f.format(r.getHeight()));
             }
         });
         contentPane.add(controlPanel, BorderLayout.EAST);
