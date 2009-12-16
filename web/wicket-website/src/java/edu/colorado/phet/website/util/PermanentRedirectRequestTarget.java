@@ -1,12 +1,12 @@
 package edu.colorado.phet.website.util;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.wicket.RequestContext;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.protocol.http.WebResponse;
-import org.apache.wicket.protocol.http.portlet.PortletRequestContext;
+import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 
 /**
@@ -14,7 +14,7 @@ import org.apache.wicket.request.target.basic.RedirectRequestTarget;
  */
 public class PermanentRedirectRequestTarget extends RedirectRequestTarget {
 
-    private static Logger logger = Logger.getLogger( PhetCycleProcessor.class.getName() );
+    private static Logger logger = Logger.getLogger( PermanentRedirectRequestTarget.class.getName() );
 
     private String url;
 
@@ -35,45 +35,35 @@ public class PermanentRedirectRequestTarget extends RedirectRequestTarget {
 
     @Override
     public void respond( RequestCycle requestCycle ) {
-        WebResponse response = (WebResponse) requestCycle.getResponse();
-        response.reset();
-
         logger.info( "redirecting to " + url );
 
-        // added this line from the RedirectRequestTarget Wicket implementation
-        response.getHttpServletResponse().setStatus( HttpServletResponse.SC_MOVED_PERMANENTLY );
+        WebResponse response = (WebResponse) requestCycle.getResponse();
+        response.reset();
+        HttpServletResponse httpResponse = response.getHttpServletResponse();
+        HttpServletRequest httpRequest = ( (ServletWebRequest) requestCycle.getRequest() ).getHttpServletRequest();
+
+        int status = HttpServletResponse.SC_MOVED_PERMANENTLY;
+
+        logger.info( "status: " + status );
+        httpResponse.setStatus( status );
+
+        String location;
+
         if ( url.startsWith( "/" ) ) {
-            // context-absolute url
-
-            RequestContext rc = RequestContext.get();
-            String continueTo = null;
-            if ( rc.isPortletRequest() && ( (PortletRequestContext) rc ).isEmbedded() ) {
-                response.redirect( url );
-            }
-            else {
-                String location = RequestCycle.get()
-                        .getRequest()
-                        .getRelativePathPrefixToContextRoot() +
-                                  url.substring( 1 );
-
-                if ( location.startsWith( "./" ) && location.length() > 2 ) {
-                    location = location.substring( 2 );
-                }
-
-                response.redirect( location );
-            }
+            location = "http://" + httpRequest.getHeader( "Host" ) + url;
         }
-        else if ( url.indexOf( "://" ) > 0 ) {
-            // absolute url
-            response.redirect( url );
+        else if ( url.indexOf( "://" ) != -1 ) {
+            location = url;
         }
         else {
-            // relative url
-            response.redirect( RequestCycle.get()
-                    .getRequest()
-                    .getRelativePathPrefixToWicketHandler() +
-                               url );
+            location = requestCycle.getRequest().getRelativePathPrefixToWicketHandler() + url;
         }
+        location = httpResponse.encodeRedirectURL( location );
+
+        response.setHeader( "Location", location );
+
+        logger.info( "location: " + location );
+
     }
 
 }
