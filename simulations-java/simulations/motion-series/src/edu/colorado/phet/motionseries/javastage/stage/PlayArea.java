@@ -18,42 +18,60 @@ import java.util.ArrayList;
 
 /**
  * The PlayArea is a PSwingCanvas that provides direct support for the three coordinate frames typically used in PhET simulations:
+ * <p>
+ * <ol>
+ * <li>
  * The model coordinate frame, which is used to depict the physical system that is depicted.  
  * Typically this will have physical units such as meters or nanometers.
+ * <li>
  * The stage coordinate frame, which automatically scales up and down with the size of the container, and is guaranteed 
  * to be 100% visible on the screen.
+ * <li>
  * The screen coordinate frame, which is the same as pixel coordinates for absolute/global positioning of nodes.
- *
+ * </ol>
+ * <p>
  * This component is meant as a replacement for PhetPCanvas, a clearer interface and implementation for similar functionality.
  * It is also meant as an alternative to custom approaches such as ABSAbstractCanvas (and duplicates), which use the following scheme:
  * create a new "root node", which is added as a child of the "world" (and centered in the world) to obtain automatic scaling.
  * Using PlayArea to obtain automatic scaling, nodes are added to the stage.
- * <p/>
+ * <p>
  * To use this component, create a node that is specified in coordinates in the frame in which it will be added.
  * For example: In a simulation which shows a meter stick in model coordinates (assuming model coordinates are meters),
  * the MeterStickNode would have a length of 1.0 and be added to the model coordinate frame.
- * <p/>
+ * <p>
  * This class provides convenience methods for transforming between the various coordinate frames, and provides the capability of 
  * obtaining bounds of one coordinate frame in another coordinate frame.
  * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  
  * This, for example, is provided by PlayArea#getStageInScreenCoordinates
- * <p/>
+ * <p>
  * ToDo:
+ * <ul>
+ * <li>
  * //todo: compute stage bounds dynamically, based on contents of the stage?
+ * <li>
  * //todo: maybe stage bounds should be mutable, since it is preferable to create the nodes as children of the canvas
+ * <li>
  * //todo: make sure we have covered 100% of the coordinate frame transforms, from each frame to each other frame, 
  *         for Point2D, Dimension2D and Rectangle2D
- *
+ * </ul>
+ * <p>
  * Design questions:
- * 1. Should we factor out the hard-coded model coordinates, but make it easy to add (possibly multiple) new model coordinate frames?
- * 2. The logic for how the stage is centered in the container is duplicated in instances.  
- *    Should this be a shared strategy pattern in case it needs to be modified?
- * 3. What about having a StageContainerNode for when we want to embed a stage coordinate frame in a node (not necessarily a top level canvas)?
- *  In Scala this was solved by mixing in a StageContainer trait, but in Java this could be done with duplication of code.
- * 4. How to handle screen to model mouse events?  We should provide a sample usage to make sure it's very easy.
- * 5. I'm worried about the asymmetry in how the model->stage and stage->view transforms are specified, stored and organized.  
- *    This seems like it is more restrictive than necessary; perhaps a strategy is warranted?  
- *
+ * <ul>
+ * <li>
+ * Should we factor out the hard-coded model coordinates, but make it easy to add (possibly multiple) new model coordinate frames?
+ * <li>
+ * The logic for how the stage is centered in the container is duplicated in instances.  
+ * Should this be a shared strategy pattern in case it needs to be modified?
+ * <li>
+ * What about having a StageContainerNode for when we want to embed a stage coordinate frame in a node (not necessarily a top level canvas)?
+ * In Scala this was solved by mixing in a StageContainer trait, but in Java this could be done with duplication of code.
+ * <li>
+ * How to handle screen to model mouse events?  We should provide a sample usage to make sure it's very easy.
+ * <li>
+ * I'm worried about the asymmetry in how the model->stage and stage->view transforms are specified, stored and organized.  
+ * This seems like it is more restrictive than necessary; perhaps a strategy is warranted? 
+ * </ul>
+ * 
  * @author Sam Reid
  */
 public class PlayArea extends PhetPCanvas implements StageContainer {
