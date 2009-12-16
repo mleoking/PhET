@@ -18,29 +18,32 @@ import java.util.ArrayList;
 
 /**
  * The PlayArea is a PSwingCanvas that provides direct support for the three coordinate frames typically used in PhET simulations:
- * <p>
  * <ol>
  * <li>
- * The model coordinate frame, which is used to depict the physical system that is depicted.  
- * Typically this will have physical units such as meters or nanometers.
- * <li>
- * The stage coordinate frame, which automatically scales up and down with the size of the container, and is guaranteed 
- * to be 100% visible on the screen.
- * <li>
  * The screen coordinate frame, which is the same as pixel coordinates for absolute/global positioning of nodes.
+ * <li>
+ * The stage coordinate frame, which automatically scales up and down with the size of the container.
+ * The stage is scaled to fit the visible area of the container, while maintaining aspect ratio. 
+ * If the aspect radio of the container differs from the aspect ratio of the stage, the current policy 
+ * is to center the stage in the container.
+ * <li>
+ * The model coordinate frame, corresponding to the coordinates of the physical system being modeled.
+ * Typically this will be in distance units, such as meters or nanometers.
+ * The bounds of the model are mapped to the bounds of the stage.
+ * If the bounds of the model and stage have different aspect ratios, the model will appear "stretched" in one dimension.
  * </ol>
  * <p>
- * This component is meant as a replacement for PhetPCanvas, a clearer interface and implementation for similar functionality.
+ * This component is meant to replace PhetPCanvas, by providing similar functionality with a clearer interface.
  * It is also meant as an alternative to custom approaches such as ABSAbstractCanvas (and duplicates), which use the following scheme:
  * create a new "root node", which is added as a child of the "world" (and centered in the world) to obtain automatic scaling.
- * Using PlayArea to obtain automatic scaling, nodes are added to the stage.
+ * Using PlayArea to obtain automatic scaling, nodes are added to the stage or model.
  * <p>
  * To use this component, create a node that is specified in coordinates in the frame in which it will be added.
  * For example: In a simulation which shows a meter stick in model coordinates (assuming model coordinates are meters),
  * the MeterStickNode would have a length of 1.0 and be added to the model coordinate frame.
  * <p>
- * This class provides convenience methods for transforming between the various coordinate frames, and provides the capability of 
- * obtaining bounds of one coordinate frame in another coordinate frame.
+ * This class provides convenience methods for transforming between the various coordinate frames, 
+ * and provides the capability of obtaining bounds of one coordinate frame in another coordinate frame.
  * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  
  * This, for example, is provided by PlayArea#getStageInScreenCoordinates
  * <p>
