@@ -60,7 +60,7 @@ import java.util.ArrayList;
  * <li>
  * Should we factor out the hard-coded model coordinates, but make it easy to add (possibly multiple) new model coordinate frames?
  * <li>
- * The logic for how the stage is centered in the container is duplicated in instances.  
+ * The logic for how the stage is centered in the container is in StageNode.updateLayout.  
  * Should this be a shared strategy pattern in case it needs to be modified?
  * <li>
  * What about having a StageContainerNode for when we want to embed a stage coordinate frame in a node (not necessarily a top level canvas)?
