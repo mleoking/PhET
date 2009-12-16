@@ -14,15 +14,15 @@ import edu.umd.cs.piccolo.PNode;
  * @see PlayArea#addStageNode(edu.umd.cs.piccolo.PNode)
  */
 public class StageNode extends PNode {
-    /**
+    /*
      * The stage in which this StageNode is positioned
      */
-    private Stage stage;
+    private final Stage stage;
 
-    /**
+    /*
      * The StageContainer in which the Stage is contained, provides the bounds that this StageNode should resize to fill.
      */
-    private StageContainer stageContainer;
+    private final StageContainer stageContainer;
 
     /**
      * The node depicted by this StageNode.
