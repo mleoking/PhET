@@ -120,7 +120,8 @@ public class PlayArea extends PhetPCanvas implements StageContainer {
     }
 
     /**
-     * Returns the bounds of this StageContainer as a defensive copy.
+     * Returns the bounds of this StageContainer.
+     * This allocates a new Rectangle2D each time that it's called.
      *
      * @return the bounds of this StageContainer.
      */
@@ -160,6 +161,7 @@ public class PlayArea extends PhetPCanvas implements StageContainer {
 
     /**
      * Returns the size of the screen in screen coordinates, the same as the rectangle representing the bounds of this component.
+     * This allocates a new Rectangle2D each time that it's called.
      *
      * @return the Rectangle2D representing the screen
      */
