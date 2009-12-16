@@ -31,8 +31,10 @@ import java.util.ArrayList;
  * For example: In a simulation which shows a meter stick in model coordinates (assuming model coordinates are meters),
  * the MeterStickNode would have a length of 1.0 and be added to the model coordinate frame.
  * <p/>
- * This class provides convenience methods for transforming between the various coordinate frames, and provides the capability of obtaining bounds of one coordinate frame in another coordinate frame.
- * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  This, for example, is provided by PlayArea#getStageInScreenCoordinates
+ * This class provides convenience methods for transforming between the various coordinate frames, and provides the capability of 
+ * obtaining bounds of one coordinate frame in another coordinate frame.
+ * For example, client code may wish to know "what are the bounds of the stage in screen coordinates?"  
+ * This, for example, is provided by PlayArea#getStageInScreenCoordinates
  * <p/>
  * ToDo:
  * //todo: compute stage bounds dynamically, based on contents of the stage?
@@ -45,7 +47,8 @@ import java.util.ArrayList;
  * 3. What about having a StageContainerNode for when we want to embed a stage coordinate frame in a node (not necessarily a top level canvas)?
  *  In Scala this was solved by mixing in a StageContainer trait, but in Java this could be done with duplication of code.
  * 4. How to handle screen to model mouse events?  We should provide a sample usage to make sure it's very easy.
- * 5. I'm worried about the asymmetry in how the model->stage and stage->view transforms are specified, stored and organized.  This seems like it is more restrictive than necessary; perhaps a strategy is warranted?  
+ * 5. I'm worried about the asymmetry in how the model->stage and stage->view transforms are specified, stored and organized.  
+ *    This seems like it is more restrictive than necessary; perhaps a strategy is warranted?  
  *
  * @author Sam Reid
  */
