@@ -1,6 +1,8 @@
 /* Copyright 2004-2010, University of Colorado */
 package edu.colorado.phet.motionseries.javastage.stage;
 
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 
@@ -75,10 +77,11 @@ public class StageNode extends PNode {
      * Updates the layout when the Stage or StageContainer bounds change by centering the Stage in the StageContainer.
      */
     protected void updateLayout() {
-        double containerX = stageContainer.getContainerBounds().getX();
-        double containerY = stageContainer.getContainerBounds().getY();
-        double containerWidth = stageContainer.getContainerBounds().getWidth();
-        double containerHeight = stageContainer.getContainerBounds().getHeight();
+        Rectangle2D containerBounds = stageContainer.getContainerBounds(); // allocates a Rectangle2D
+        double containerX = containerBounds.getX();
+        double containerY = containerBounds.getY();
+        double containerWidth = containerBounds.getWidth();
+        double containerHeight = containerBounds.getHeight();
         if (containerWidth > 0 && containerHeight > 0) {
             double widthScale = containerWidth / stage.getWidth();
             double heightScale = containerHeight / stage.getHeight();
