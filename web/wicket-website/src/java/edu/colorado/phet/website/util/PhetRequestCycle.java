@@ -30,7 +30,13 @@ public class PhetRequestCycle extends WebRequestCycle {
     private static Logger logger = Logger.getLogger( PhetRequestCycle.class.getName() );
 
     public PhetRequestCycle( WebApplication webApplication, WebRequest webRequest, Response response ) {
+        this( webApplication, webRequest, response, webRequest.getHttpServletRequest().getRequestURI() );
+    }
+
+    public PhetRequestCycle( WebApplication webApplication, WebRequest webRequest, Response response, String originalRequest ) {
         super( webApplication, webRequest, response );
+
+        logger.debug( "created request cycle for " + originalRequest );
     }
 
     @Override

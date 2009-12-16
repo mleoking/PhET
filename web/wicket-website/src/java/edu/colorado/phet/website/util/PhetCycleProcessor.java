@@ -3,6 +3,7 @@ package edu.colorado.phet.website.util;
 import org.apache.log4j.Logger;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
+import org.apache.wicket.request.IRequestCodingStrategy;
 
 public class PhetCycleProcessor extends WebRequestCycleProcessor {
 
@@ -11,7 +12,7 @@ public class PhetCycleProcessor extends WebRequestCycleProcessor {
     public PhetCycleProcessor() {
         super();
 
-
+        logger.debug( "created PhetCycleProcessor" );
     }
 
 
@@ -21,5 +22,10 @@ public class PhetCycleProcessor extends WebRequestCycleProcessor {
         logger.warn( "error encountered!" );
 
         super.respond( e, requestCycle );
+    }
+
+    @Override
+    protected IRequestCodingStrategy newRequestCodingStrategy() {
+        return new PhetRequestCodingStrategy();
     }
 }
