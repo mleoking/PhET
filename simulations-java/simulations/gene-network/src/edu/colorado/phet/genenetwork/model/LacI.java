@@ -45,11 +45,17 @@ public class LacI extends SimpleModelElement {
 	private static double UNAVAILABLE_TIME = 5; // In seconds.
 	
 	// Time of existence.
-	private static final double EXISTENCE_TIME = 30; // Seconds.
+	private static final double EXISTENCE_TIME = 50; // Seconds.
 	
 	// Amount of time that this element and the lactose it bonds with
 	// continues to exist after the bond has occurred.
 	private static final double POST_LACTOSE_BOND_EXISTENCE_TIME = 7;
+	
+	// Point where the lacI heads towards when it is first created.  This was
+	// needed due to a tendency for it to hang around the general area where
+	// it was spawned and thus be a long way from the DNA binding region.
+	// This point is empirically determined, tweak as needed.
+	private static final Point2D INITIAL_DESTINATION_POINT = new Point2D.Double(20, 0);
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -60,8 +66,6 @@ public class LacI extends SimpleModelElement {
 	private Glucose glucoseAttachmentPartner = null;
 	private AttachmentState glucoseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private Point2D targetPositionForLacOperatorAttachment = new Point2D.Double();
-	private double attachementTimeCountdown = 0;
-	private double postLactoseBondCountdownTimer;
 	private double unavailableTimeCountdown = 0;
 	
     //------------------------------------------------------------------------
@@ -70,8 +74,8 @@ public class LacI extends SimpleModelElement {
 	
 	public LacI(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
-		// Add binding point for LacOperator.
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds(),
+				INITIAL_DESTINATION_POINT));
 	}
 	
 	public LacI(IGeneNetworkModelControl model) {
@@ -148,8 +152,19 @@ public class LacI extends SimpleModelElement {
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
-		
 		updateAttachements(dt);
+		Point2D currentDestination = getMotionStrategyRef().getDestination();
+		if ( currentDestination != null && 
+			 currentDestination.getX() == INITIAL_DESTINATION_POINT.getX() && 
+			 currentDestination.getY() == INITIAL_DESTINATION_POINT.getY()){
+			
+			if (currentDestination.distance(getPositionRef()) < 4){
+				// We were moving toward the initial destination and are in
+				// the neighborhood, so we can stop any directed motion and
+				// just hang out here until we are told to do otherwise.
+				getMotionStrategyRef().setDestination(null);
+			}
+		}
 	}
 
 	private void updateAttachements(double dt) {
@@ -238,7 +253,10 @@ public class LacI extends SimpleModelElement {
 		boolean proposalAccepted = false;
 		
 		if (lacOperatorAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE && 
-			getExistenceState() == ExistenceState.EXISTING){
+			getExistenceState() == ExistenceState.EXISTING &&
+			glucoseAttachmentPartner == null){
+			
+			// We can accept the proposal.
 			
 			assert lacOperatorAttachmentPartner == null;  // For debug - Make sure consistent with attachment state.
 			lacOperatorAttachmentPartner = lacOperator;
