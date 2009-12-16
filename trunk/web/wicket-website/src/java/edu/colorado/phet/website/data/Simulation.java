@@ -9,10 +9,8 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 public class Simulation implements Serializable {
     private int id;
     private String name;
-    private int type;
     private Project project;
 
-    // TODO: put kilobytes into database
     private int kilobytes;
     private Set localizedSimulations = new HashSet();
     private Set categories = new HashSet();
@@ -28,9 +26,6 @@ public class Simulation implements Serializable {
     private boolean guidanceRecommended;
     private boolean classroomTested;
     private boolean simulationVisible;
-
-    public static final int TYPE_JAVA = 0;
-    public static final int TYPE_FLASH = 1;
 
     public Simulation() {
     }
@@ -68,13 +63,13 @@ public class Simulation implements Serializable {
 
     public int detectSimKilobytes( File docRoot ) {
         File projectRoot = project.getProjectRoot( docRoot );
-        switch( type ) {
-            case TYPE_JAVA:
+        switch( getType() ) {
+            case Project.TYPE_JAVA:
                 return (int) ( new File( projectRoot, project.getName() + "_all.jar" ) ).length() / 1000;
-            case TYPE_FLASH:
+            case Project.TYPE_FLASH:
                 return (int) ( new File( projectRoot, name + "_en.jar" ) ).length() / 1024;
             default:
-                throw new RuntimeException( "Simulation type not handled? type = " + type );
+                throw new RuntimeException( "Simulation type not handled? type = " + getType() );
         }
     }
 
@@ -105,11 +100,7 @@ public class Simulation implements Serializable {
     }
 
     public int getType() {
-        return type;
-    }
-
-    public void setType( int type ) {
-        this.type = type;
+        return project.getType();
     }
 
     public Project getProject() {

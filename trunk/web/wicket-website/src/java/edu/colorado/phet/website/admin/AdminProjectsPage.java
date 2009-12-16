@@ -7,12 +7,9 @@ import java.util.List;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.Project;
@@ -78,7 +75,6 @@ public class AdminProjectsPage extends AdminPage {
 
         add( projectList );
 
-        add( new AddProjectForm( "add-project-form" ) );
     }
 
     private void sortProjects() {
@@ -89,38 +85,4 @@ public class AdminProjectsPage extends AdminPage {
         } );
     }
 
-    private class AddProjectForm extends Form {
-        private TextField nameField;
-
-        private AddProjectForm( String id ) {
-            super( id );
-
-            nameField = new TextField( "name", new Model( "" ) );
-
-            add( nameField );
-        }
-
-        @Override
-        protected void onSubmit() {
-            final String name = nameField.getModelObjectAsString();
-            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
-                public boolean run( Session session ) {
-                    // TODO: don't create duplicate projects?
-                    Project project = new Project();
-                    project.setName( name );
-                    project.setVersionMajor( 0 );
-                    project.setVersionMinor( 0 );
-                    project.setVersionDev( 0 );
-                    project.setVersionRevision( 0 );
-                    project.setVersionTimestamp( 0 );
-                    project.setVisible( false );
-                    session.save( project );
-
-                    projects.add( project );
-                    sortProjects();
-                    return true;
-                }
-            } );
-        }
-    }
 }

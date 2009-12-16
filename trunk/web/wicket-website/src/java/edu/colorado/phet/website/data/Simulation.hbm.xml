@@ -8,7 +8,6 @@
             <generator class="increment"/>
         </id>
         <property name="name"/>
-        <property name="type"/>
         <property name="designTeam"/>
         <property name="libraries"/>
         <property name="thanksTo"/>

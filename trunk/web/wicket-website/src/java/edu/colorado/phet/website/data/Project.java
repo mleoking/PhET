@@ -23,8 +23,12 @@ import edu.colorado.phet.website.util.HibernateUtils;
 
 public class Project implements Serializable {
 
+    public static final int TYPE_JAVA = 0;
+    public static final int TYPE_FLASH = 1;
+
     private int id;
     private String name;
+    private int type;
     private int versionMajor;
     private int versionMinor;
     private int versionDev;
@@ -101,8 +105,8 @@ public class Project implements Serializable {
 
                     boolean hasSWF = ( new File( projectRoot, projectName + ".swf" ) ).exists();
 
-                    int type = hasSWF ? Simulation.TYPE_FLASH : Simulation.TYPE_JAVA;
-                    syncLogger.debug( "detecting project type as: " + ( type == Simulation.TYPE_JAVA ? "java" : "flash" ) );
+                    int type = hasSWF ? TYPE_FLASH : TYPE_JAVA;
+                    syncLogger.debug( "detecting project type as: " + ( type == TYPE_JAVA ? "java" : "flash" ) );
 
                     List plist = session.createQuery( "select p from Project as p where p.name = :name" ).setString( "name", projectName ).list();
                     if ( plist.size() > 1 ) {
@@ -120,6 +124,7 @@ public class Project implements Serializable {
                         project = new Project();
                         project.setName( projectName );
                         project.setVisible( true );
+                        project.setType( type );
                     }
 
                     ProjectPropertiesFile projectProperties = project.getProjectPropertiesFile( docRoot );
@@ -195,7 +200,6 @@ public class Project implements Serializable {
                                 syncLogger.info( "Cannot find a simulation for " + simName + ", will create one" );
                                 simulation = new Simulation();
                                 simulation.setName( simName );
-                                simulation.setType( type );
                                 simulation.setProject( project );
                                 simulation.setDesignTeam( "" );
                                 simulation.setLibraries( "" );
@@ -218,7 +222,6 @@ public class Project implements Serializable {
                                     syncLogger.warn( "Modifying to match the current project (with type)" );
                                     syncLogger.warn( "This may be caused by creating a new simulation. If so, ignore the above two messages" );
                                     simulation.setProject( project );
-                                    simulation.setType( type );
                                 }
                                 missedLocalizedSimulations.addAll( simulation.getLocalizedSimulations() );
                             }
@@ -461,6 +464,14 @@ public class Project implements Serializable {
         return builder.toString();
     }
 
+    public boolean isJava() {
+        return getType() == 0;
+    }
+
+    public boolean isFlash() {
+        return getType() == 1;
+    }
+
     // getters and setters
 
     public int getId() {
@@ -477,6 +488,14 @@ public class Project implements Serializable {
 
     public void setName( String name ) {
         this.name = name;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType( int type ) {
+        this.type = type;
     }
 
     public int getVersionMajor() {
