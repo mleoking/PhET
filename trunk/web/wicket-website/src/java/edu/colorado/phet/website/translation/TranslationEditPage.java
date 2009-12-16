@@ -2,9 +2,9 @@ package edu.colorado.phet.website.translation;
 
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.authorization.AuthorizationException;
-import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

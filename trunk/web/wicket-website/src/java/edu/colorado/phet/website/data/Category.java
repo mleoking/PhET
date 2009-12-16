@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.hibernate.Session;
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.menu.NavMenu;

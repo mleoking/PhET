@@ -1,9 +1,9 @@
 package edu.colorado.phet.website.test;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.data.PhetUser;

@@ -2,12 +2,12 @@ package edu.colorado.phet.website.translation;
 
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.IRequestTarget;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.request.RequestParameters;
 import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
 import org.apache.wicket.request.target.component.BookmarkablePageRequestTarget;
-import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

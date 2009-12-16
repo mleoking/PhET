@@ -3,10 +3,10 @@ package edu.colorado.phet.website.admin;
 import java.io.Serializable;
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;

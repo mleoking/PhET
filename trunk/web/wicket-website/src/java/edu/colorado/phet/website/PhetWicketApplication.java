@@ -3,11 +3,16 @@ package edu.colorado.phet.website;
 import java.io.File;
 import java.util.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.wicket.*;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.protocol.http.WebResponse;
+import org.apache.wicket.request.IRequestCycleProcessor;
+import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
 import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 import org.hibernate.HibernateException;
@@ -28,10 +33,7 @@ import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.templates.StaticPage;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.translation.TranslationUrlStrategy;
-import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.PhetRequestCycle;
-import edu.colorado.phet.website.util.PhetUrlMapper;
-import edu.colorado.phet.website.util.PhetUrlStrategy;
+import edu.colorado.phet.website.util.*;
 
 public class PhetWicketApplication extends WebApplication {
 
@@ -235,5 +237,23 @@ public class PhetWicketApplication extends WebApplication {
         }
         unmount( localeString );
         sortTranslations();
+    }
+
+    public static void permanentRedirect( PhetRequestCycle cycle, final String url ) {
+        RedirectRequestTarget target = new RedirectRequestTarget( url ) {
+            @Override
+            public void respond( RequestCycle requestCycle ) {
+                WebResponse response = (WebResponse) requestCycle.getResponse();
+                response.reset();
+                response.getHttpServletResponse().setStatus( HttpServletResponse.SC_MOVED_PERMANENTLY );
+                response.redirect( url );
+            }
+        };
+        cycle.setRequestTarget( target );
+    }
+
+    @Override
+    protected IRequestCycleProcessor newRequestCycleProcessor() {
+        return new PhetCycleProcessor();
     }
 }

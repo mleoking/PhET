@@ -1,24 +1,13 @@
 package edu.colorado.phet.website.admin;
 
-import java.util.*;
-
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.website.data.LocalizedSimulation;
-import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.util.StringUtils;
 
 // TODO: move the simulation list panel to a separate page, so if something goes bad, this page is still accessible

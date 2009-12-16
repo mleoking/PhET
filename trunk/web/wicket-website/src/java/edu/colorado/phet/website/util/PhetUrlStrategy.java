@@ -1,11 +1,11 @@
 package edu.colorado.phet.website.util;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.IRequestTarget;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.request.RequestParameters;
 import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
 import org.apache.wicket.request.target.component.BookmarkablePageRequestTarget;
-import org.apache.log4j.Logger;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;

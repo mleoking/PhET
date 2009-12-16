@@ -36,6 +36,7 @@ public class PhetRequestCycle extends WebRequestCycle {
     @Override
     protected void onBeginRequest() {
         logger.debug( "onBeginRequest" );
+        logger.debug( "request for: " + getWebRequest().getHttpServletRequest().getRequestURI() );
         start = System.currentTimeMillis();
         logger.info( "----------" );
         session = HibernateUtils.getInstance().openSession();

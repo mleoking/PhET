@@ -2,10 +2,10 @@ package edu.colorado.phet.website.content;
 
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 

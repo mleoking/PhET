@@ -2,10 +2,10 @@ package edu.colorado.phet.website.test;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.Simulation;

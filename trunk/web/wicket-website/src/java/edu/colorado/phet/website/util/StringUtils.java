@@ -3,11 +3,11 @@ package edu.colorado.phet.website.util;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.apache.log4j.Logger;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;

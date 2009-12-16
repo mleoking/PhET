@@ -2,9 +2,9 @@ package edu.colorado.phet.website.util;
 
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
-import org.apache.log4j.Logger;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
