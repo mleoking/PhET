@@ -71,7 +71,7 @@ public class TestPlayArea {
         playArea.addModelNode( originPath );
         
         /*
-         * This block of code demonstrates how to adjust alignment of nodes in different coordiate frames.
+         * This block of code demonstrates how to adjust alignment of nodes in different coordinate frames.
          * In this case, a red rectangle in screen coordinates is positioned below text in stage coordinates.
          */
         {
