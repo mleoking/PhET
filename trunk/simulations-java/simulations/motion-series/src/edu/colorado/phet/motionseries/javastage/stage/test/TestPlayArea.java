@@ -44,55 +44,62 @@ public class TestPlayArea {
         GridNode modelGridNode = new GridNode(1f / 600f, modelBounds.getX(), modelBounds.getY(), modelBounds.getWidth() / 10.0, modelBounds.getHeight() / 10.0, 10, 10);
         playArea.addModelNode(modelGridNode);
 
-        //Add a node in screen coordinates at 50,50
+        // Text node in screen coordinates
         playArea.addScreenNode(new PositionedTextNode("Screen at 100,100", 100, 100));
 
-        //Add a node to the stage coordinates at 100,50
-        final PositionedTextNode stageTextNode = new PositionedTextNode("Stage at 200,200", 200, 200, 1);
-        playArea.addStageNode(stageTextNode);
-
-        //Add a yellow rectangle that shows the stage bounds.
+        // Yellow rectangle that shows the stage bounds.
         playArea.addStageNode(new PhetPPath(new Rectangle2D.Double(0, 0, stageWidth, stageWidth), new BasicStroke(4), Color.yellow));
 
-        //Show a text node at 100,100 in screen coordinates
+        // Text node in screen coordinates
         playArea.addScreenNode(new PositionedTextNode("Screen at 200,200", 200, 200));
 
-        //Shows a green circle in model coordinates.
+        // Green circle in model coordinates.
         playArea.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5, 0.5), Color.green));
 
-        //Shows a text node at the left edge of world bounds
+        // Text node at the left edge of world bounds
         playArea.addModelNode(new PositionedTextNode("hello from left edge of world bounds", modelBounds.getMinX(), modelBounds.getCenterY(), 2E-3));
 
-        //Shows a text node at the center of model bounds.
+        // Text node at the center of model bounds.
         playArea.addModelNode(new PositionedTextNode("hello from center of model bounds", modelBounds.getCenterX(), modelBounds.getCenterY(), 2E-3));
         
-        //Shows a text node at 0.25,0.25 in model coordinates.
+        // Text node in model coordinates.
         playArea.addModelNode(new PositionedTextNode("Model at 0.25,0.25", 0.25, 0.25, 2E-3 ));
         
-        //Shows the model origin (0,0) as a orange circle. It'll be in the lower-left corner of the stage bounds.
+        // Model origin (0,0) as a orange circle. It'll be in the lower-left corner of the stage bounds.
         PhetPPath originPath = new PhetPPath(new Ellipse2D.Double(-1,-1,2,2), Color.orange);
         originPath.scale( 2E-2 );
         playArea.addModelNode( originPath );
         
-        //center one node beneath another, though they be in different coordinate frames
-        final PhetPPath redRectangleNode = new PhetPPath(new Rectangle2D.Double(0, 0, 50, 10), Color.red);
-        playArea.addScreenNode(redRectangleNode);
+        /*
+         * This block of code demonstrates how to adjust alignment of nodes in different coordiate frames.
+         * In this case, a red rectangle in screen coordinates is positioned below text in stage coordinates.
+         */
+        {
+            // Text node in stage coordinates
+            final PositionedTextNode stageTextNode = new PositionedTextNode( "Stage at 200,200", 200, 200, 1 );
+            playArea.addStageNode( stageTextNode );
 
-        //This is a closure for updating the rectangle bounds.
-        final Runnable updateRedRectangleBounds = new Runnable() {
-            public void run() {
-                Rectangle2D stageTextNodeBoundsInScreenCoordinates = playArea.stageToScreen(stageTextNode.getFullBounds());
-                redRectangleNode.setOffset(stageTextNodeBoundsInScreenCoordinates.getCenterX() - redRectangleNode.getFullBounds().getWidth() / 2, stageTextNodeBoundsInScreenCoordinates.getMaxY());
-            }
-        };
-        updateRedRectangleBounds.run();
+            // Red rect in screen coordinates
+            final PhetPPath redRectangleNode = new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 10 ), Color.red );
+            playArea.addScreenNode( redRectangleNode );
 
-        //coordinates can change, so need to update when they do
-        playArea.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                updateRedRectangleBounds.run();
-            }
-        });
+            //This is a closure for updating the rectangle bounds.
+            final Runnable updateRedRectangleBounds = new Runnable() {
+                public void run() {
+                    Rectangle2D stageTextNodeBoundsInScreenCoordinates = playArea.stageToScreen( stageTextNode.getFullBounds() );
+                    // left aligned, below text
+                    redRectangleNode.setOffset( stageTextNodeBoundsInScreenCoordinates.getMinX(), stageTextNodeBoundsInScreenCoordinates.getMaxY() );
+                }
+            };
+            updateRedRectangleBounds.run();
+
+            // Update when the play area changes size
+            playArea.addComponentListener( new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    updateRedRectangleBounds.run();
+                }
+            } );
+        }
 
         //Make it so the mouse doesn't pan or zoom the PLayer's camera
         playArea.setPanEventHandler(null);
