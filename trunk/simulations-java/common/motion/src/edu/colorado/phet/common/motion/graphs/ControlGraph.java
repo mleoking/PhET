@@ -301,6 +301,22 @@ public class ControlGraph extends PNode {
         zoomControl.addHorizontalZoomListener( zoomListener );
     }
 
+    public void setAdditionalControlPanelFillNone(){
+        additionalControlPanel.setFillNone();
+    }
+
+    public void setAdditionalControlPanelBackground(Color color){
+        additionalControlPanel.setBackground(color);
+    }
+
+    public PSwing getAdditionalControls() {
+        return additionalControls;
+    }
+
+    public VerticalLayoutPanel getAdditionalControlPanel() {
+        return additionalControlPanel;
+    }
+
     public void addControl( JComponent component ) {
         additionalControlPanel.add( component );
         disableDoubleBuffering(additionalControls.getComponent());
