@@ -24,7 +24,7 @@ import java.text.DecimalFormat;
  */
 public class TestPlayArea {
     private final JFrame frame = new JFrame();
-    private final PlayArea canvas;
+    private final PlayArea playArea;
 
     public TestPlayArea() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,68 +34,68 @@ public class TestPlayArea {
         double stageWidth = 800;
         double stageHeight = 800;
         Rectangle.Double modelBounds = new Rectangle2D.Double(0, 0, 1, 1);
-        canvas = new PlayArea(stageWidth, stageHeight, modelBounds);
+        playArea = new PlayArea(stageWidth, stageHeight, modelBounds);
 
         //Add nodes for depicting grids in each coordinate frame.
         GridNode screenGridNode = new GridNode(1f, 0, 100, 100);
-        canvas.addScreenNode(screenGridNode);
+        playArea.addScreenNode(screenGridNode);
         GridNode stageGridNode = new GridNode(1f, 0, 0, stageWidth / 10, stageWidth / 10, 10, 10);
-        canvas.addStageNode(stageGridNode);
+        playArea.addStageNode(stageGridNode);
         GridNode modelGridNode = new GridNode(1f / 600f, modelBounds.getX(), modelBounds.getY(), modelBounds.getWidth() / 10.0, modelBounds.getHeight() / 10.0, 10, 10);
-        canvas.addModelNode(modelGridNode);
+        playArea.addModelNode(modelGridNode);
 
         //Add a node in screen coordinates at 50,50
-        canvas.addScreenNode(new PositionedTextNode("Screen at 100,100", 100, 100));
+        playArea.addScreenNode(new PositionedTextNode("Screen at 100,100", 100, 100));
 
         //Add a node to the stage coordinates at 100,50
         final PositionedTextNode stageTextNode = new PositionedTextNode("Stage at 200,200", 200, 200, 1);
-        canvas.addStageNode(stageTextNode);
+        playArea.addStageNode(stageTextNode);
 
         //Add a yellow rectangle that shows the stage bounds.
-        canvas.addStageNode(new PhetPPath(new Rectangle2D.Double(0, 0, stageWidth, stageWidth), new BasicStroke(4), Color.yellow));
+        playArea.addStageNode(new PhetPPath(new Rectangle2D.Double(0, 0, stageWidth, stageWidth), new BasicStroke(4), Color.yellow));
 
         //Show a text node at 100,100 in screen coordinates
-        canvas.addScreenNode(new PositionedTextNode("Screen at 200,200", 200, 200));
+        playArea.addScreenNode(new PositionedTextNode("Screen at 200,200", 200, 200));
 
         //Shows a green circle in model coordinates.
-        canvas.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5, 0.5), Color.green));
+        playArea.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5, 0.5), Color.green));
 
         //Shows a text node at the left edge of world bounds
-        canvas.addModelNode(new PositionedTextNode("hello from left edge of world bounds", modelBounds.getMinX(), modelBounds.getCenterY(), 2E-3));
+        playArea.addModelNode(new PositionedTextNode("hello from left edge of world bounds", modelBounds.getMinX(), modelBounds.getCenterY(), 2E-3));
 
         //Shows a text node at the center of model bounds.
-        canvas.addModelNode(new PositionedTextNode("hello from center of model bounds", modelBounds.getCenterX(), modelBounds.getCenterY(), 2E-3));
+        playArea.addModelNode(new PositionedTextNode("hello from center of model bounds", modelBounds.getCenterX(), modelBounds.getCenterY(), 2E-3));
         
         //Shows a text node at 0.25,0.25 in model coordinates.
-        canvas.addModelNode(new PositionedTextNode("Model at 0.25,0.25", 0.25, 0.25, 2E-3 ));
+        playArea.addModelNode(new PositionedTextNode("Model at 0.25,0.25", 0.25, 0.25, 2E-3 ));
         
         //center one node beneath another, though they be in different coordinate frames
         final PhetPPath redRectangleNode = new PhetPPath(new Rectangle2D.Double(0, 0, 50, 10), Color.red);
-        canvas.addScreenNode(redRectangleNode);
+        playArea.addScreenNode(redRectangleNode);
 
         //This is a closure for updating the rectangle bounds.
         final Runnable updateRedRectangleBounds = new Runnable() {
             public void run() {
-                Rectangle2D stageTextNodeBoundsInScreenCoordinates = canvas.stageToScreen(stageTextNode.getFullBounds());
+                Rectangle2D stageTextNodeBoundsInScreenCoordinates = playArea.stageToScreen(stageTextNode.getFullBounds());
                 redRectangleNode.setOffset(stageTextNodeBoundsInScreenCoordinates.getCenterX() - redRectangleNode.getFullBounds().getWidth() / 2, stageTextNodeBoundsInScreenCoordinates.getMaxY());
             }
         };
         updateRedRectangleBounds.run();
 
         //coordinates can change, so need to update when they do
-        canvas.addComponentListener(new ComponentAdapter() {
+        playArea.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 updateRedRectangleBounds.run();
             }
         });
 
         //Make it so the mouse doesn't pan or zoom the PLayer's camera
-        canvas.setPanEventHandler(null);
-        canvas.setZoomEventHandler(null);
+        playArea.setPanEventHandler(null);
+        playArea.setZoomEventHandler(null);
 
         //Add the canvas to the frame
         JPanel contentPane = new JPanel(new BorderLayout());
-        contentPane.add(canvas, BorderLayout.CENTER);
+        contentPane.add(playArea, BorderLayout.CENTER);
         frame.setContentPane(contentPane);
 
         //Create a control panel for interacting with the canvas.
@@ -106,7 +106,7 @@ public class TestPlayArea {
         controlPanel.add(new VisibilityCheckBox("Show Model Grid", modelGridNode));
         final Timer panTimer = new Timer(15, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                canvas.panModelViewport(-1E-3, -1E-3);
+                playArea.panModelViewport(-1E-3, -1E-3);
             }
         });
         controlPanel.add(new JButton(new AbstractAction("Pan model viewport") {
@@ -121,14 +121,14 @@ public class TestPlayArea {
         }));
         controlPanel.add(new JButton(new AbstractAction("Toggle Debug Regions") {
             public void actionPerformed(ActionEvent e) {
-                canvas.toggleDebugRegionVisibility();
+                playArea.toggleDebugRegionVisibility();
             }
         }));
         final JTextArea textArea = new JTextArea(6, 8);
         controlPanel.add(textArea);
-        canvas.addContainerBoundsChangeListener(new StageContainer.Listener() {
+        playArea.addContainerBoundsChangeListener(new StageContainer.Listener() {
             public void stageContainerBoundsChanged() {
-                Rectangle2D r = canvas.screenToModel(canvas.getScreenBounds());
+                Rectangle2D r = playArea.screenToModel(playArea.getScreenBounds());
                 DecimalFormat f = new DecimalFormat("0.0000000");
                 textArea.setText("Visible Model Bounds:" +
                         "\n x=" + f.format(r.getX()) +
@@ -154,7 +154,7 @@ public class TestPlayArea {
 
     private void start() {
         frame.setVisible(true);
-        canvas.requestFocus();
+        playArea.requestFocus();
     }
 
     public static void main(String[] args) {
