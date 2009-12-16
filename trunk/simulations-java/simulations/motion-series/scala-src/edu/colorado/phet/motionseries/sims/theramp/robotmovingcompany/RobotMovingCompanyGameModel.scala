@@ -73,7 +73,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     val sel = selectedObject
     model.setPaused(true)
 
-    _bead = model.createBead(-model.rampSegments(0).length, sel.width)
+    _bead = model.createBead(-model.rampSegments(0).length+sel.width/2.0+model.leftWall.width/2.0, sel.width)
 
     bead.mass = sel.mass
     bead.staticFriction = sel.staticFriction
