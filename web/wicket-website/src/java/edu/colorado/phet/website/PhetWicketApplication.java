@@ -3,17 +3,12 @@ package edu.colorado.phet.website;
 import java.io.File;
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.wicket.*;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
-import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.request.IRequestCycleProcessor;
-import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
 import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 import org.hibernate.HibernateException;
@@ -240,29 +235,12 @@ public class PhetWicketApplication extends WebApplication {
         sortTranslations();
     }
 
-    public static void permanentRedirect( PhetRequestCycle cycle, final String url ) {
-        RedirectRequestTarget target = new RedirectRequestTarget( url ) {
-            @Override
-            public void respond( RequestCycle requestCycle ) {
-                WebResponse response = (WebResponse) requestCycle.getResponse();
-                response.reset();
-                response.getHttpServletResponse().setStatus( HttpServletResponse.SC_MOVED_PERMANENTLY );
-                response.redirect( url );
-            }
-        };
-        cycle.setRequestTarget( target );
-    }
-
     @Override
+    /**
+     * Override request cycle processor, so we can handle things like redirection
+     */
     protected IRequestCycleProcessor newRequestCycleProcessor() {
         return new PhetCycleProcessor();
     }
 
-    @Override
-    protected WebRequest newWebRequest( HttpServletRequest servletRequest ) {
-
-        logger.debug( "Creating WebRequest for " + servletRequest.getRequestURI() );
-
-        return super.newWebRequest( servletRequest );
-    }
 }
