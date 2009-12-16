@@ -32,8 +32,9 @@ public class TestPlayArea {
         SwingUtils.centerWindowOnScreen(frame);
 
         double stageWidth = 800;
+        double stageHeight = 800;
         Rectangle.Double modelBounds = new Rectangle2D.Double(0, 0, 1, 1);
-        canvas = new PlayArea(stageWidth, modelBounds);
+        canvas = new PlayArea(stageWidth, stageHeight, modelBounds);
 
         //Add nodes for depicting grids in each coordinate frame.
         GridNode screenGridNode = new GridNode(1f, 0, 100, 100);
@@ -56,15 +57,18 @@ public class TestPlayArea {
         //Show a text node at 100,100 in screen coordinates
         canvas.addScreenNode(new PositionedTextNode("Screen at 200,200", 200, 200));
 
-        //Shows a blue circle in model coordinates.
-        canvas.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5, 0.5), Color.blue));
+        //Shows a green circle in model coordinates.
+        canvas.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5, 0.5), Color.green));
 
         //Shows a text node at the left edge of world bounds
         canvas.addModelNode(new PositionedTextNode("hello from left edge of world bounds", modelBounds.getMinX(), modelBounds.getCenterY(), 2E-3));
 
         //Shows a text node at the center of model bounds.
         canvas.addModelNode(new PositionedTextNode("hello from center of model bounds", modelBounds.getCenterX(), modelBounds.getCenterY(), 2E-3));
-
+        
+        //Shows a text node at 0.25,0.25 in model coordinates.
+        canvas.addModelNode(new PositionedTextNode("Model at 0.25,0.25", 0.2, 0.2, 2E-3 ));
+        
         //center one node beneath another, though they be in different coordinate frames
         final PhetPPath redRectangleNode = new PhetPPath(new Rectangle2D.Double(0, 0, 50, 10), Color.red);
         canvas.addScreenNode(redRectangleNode);
