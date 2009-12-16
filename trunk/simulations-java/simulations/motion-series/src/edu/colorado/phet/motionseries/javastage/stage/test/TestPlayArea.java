@@ -57,7 +57,7 @@ public class TestPlayArea {
         playArea.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5, 0.5), Color.green));
 
         // Text node at the left edge of world bounds
-        playArea.addModelNode(new PositionedTextNode("hello from left edge of world bounds", modelBounds.getMinX(), modelBounds.getCenterY(), 2E-3));
+        playArea.addModelNode(new PositionedTextNode("hello from left edge of model bounds", modelBounds.getMinX(), modelBounds.getCenterY(), 2E-3));
 
         // Text node at the center of model bounds.
         playArea.addModelNode(new PositionedTextNode("hello from center of model bounds", modelBounds.getCenterX(), modelBounds.getCenterY(), 2E-3));
