@@ -29,13 +29,17 @@ public class LacPromoter extends SimpleModelElement {
 	private static float HEIGHT = 2.5f;
 	public static float WIDTH = 10;
 	public Dimension2D RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT/2);
+	public double ATTACH_TO_LAC_I_TIME = 0.5;   // In seconds.
+	public double ATTACHMENT_RECOVERY_TIME = 3; // In seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
 	private RnaPolymerase rnaPolymeraseAttachmentPartner = null;
-	private AttachmentState attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE; 
+	private AttachmentState attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	private double attachmentCountdownTimer;
+	private double recoveryCountdownTimer;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -65,10 +69,10 @@ public class LacPromoter extends SimpleModelElement {
 				checkAttachmentCompleted();
 				break;
 			case ATTACHED:
-				// TODO
+				checkReadyToDetach(dt);
 				break;
 			case UNATTACHED_BUT_UNAVALABLE:
-				// TODO
+				checkWhetherRecovered(dt);
 				break;
 			default:
 				// Should never get here, should be debugged if it does.
@@ -121,6 +125,27 @@ public class LacPromoter extends SimpleModelElement {
 			// Close enough to attach.
 			rnaPolymeraseAttachmentPartner.attach(this);
 			attachmentState = AttachmentState.ATTACHED;
+			attachmentCountdownTimer = ATTACH_TO_LAC_I_TIME;
+		}
+	}
+	
+	private void checkReadyToDetach(double dt){
+		assert rnaPolymeraseAttachmentPartner != null;
+		
+		attachmentCountdownTimer -= dt;
+		
+		if (attachmentCountdownTimer <= 0){
+			// Time to detach.
+			rnaPolymeraseAttachmentPartner.detach(this);
+			recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
+			attachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+		}
+	}
+	
+	private void checkWhetherRecovered(double dt){
+		recoveryCountdownTimer -= dt;
+		if (recoveryCountdownTimer < 0){
+			attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 		}
 	}
 	
@@ -151,18 +176,6 @@ public class LacPromoter extends SimpleModelElement {
 		return outline;
 	}
 
-	public void detach(RnaPolymerase rnaPolymerase) {
-		if (rnaPolymerase != rnaPolymeraseAttachmentPartner){
-			System.err.println(getClass().getName() + " - Warning: Request to disconnect received from non-partner.");
-			return;
-		}
-		
-		rnaPolymeraseAttachmentPartner = null;
-		attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-		// TODO: Do I need to block attachment to a new one for a while?  For
-		// no assume no.
-	}
-	
 	@Override
 	public boolean isPartOfDnaStrand() {
 		return true;
