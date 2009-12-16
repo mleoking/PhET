@@ -75,9 +75,16 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   val doorBackgroundNode = new BeadNode(gameModel.doorBackground, transform, MotionSeriesDefaults.doorBackground.imageFilename)
   addStageNode(doorBackgroundNode)
 
-
-  class InstructionsNode extends PNode{
-    addChild(new PText("hello"))
+  class InstructionsNode extends PNode {
+    val iconSet = new KeyboardButtonIcons {
+      scale(0.4)
+    }
+    addChild(iconSet)
+    val textNode = new PText("game.instructions.press-arrow-keys".translate){
+      setOffset(iconSet.getFullBounds.getCenterX - getFullBounds.getWidth / 2, iconSet.getFullBounds.getMaxY)
+    }
+    addChild(textNode)
+    setOffset(getStage.getWidth-getFullBounds.getWidth,5)
   }
   addStageNode(new InstructionsNode)
 
