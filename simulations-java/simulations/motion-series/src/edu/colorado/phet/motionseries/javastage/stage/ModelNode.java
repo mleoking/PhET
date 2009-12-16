@@ -46,10 +46,10 @@ public class ModelNode extends PNode {
         updateTransform();
     }
 
-    /**
+    /*
      * Called when the underlying model -> stage transform changes.
      */
-    public void updateTransform() {
+    private void updateTransform() {
         setTransform(transform.getAffineTransform());
     }
 
