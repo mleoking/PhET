@@ -83,13 +83,19 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     bead.surfaceFrictionStrategy = surfaceModel
     bead.crashListeners += (() => itemLostOffCliff(sel))
     val beadRef = _bead //use a reference for closures below
-    def _inFrontOfHouse(b: Bead) = b.position >= house.minX && b.position <= house.maxX
+
+    def _inFrontOfDoor(b: Bead) = {
+      val range = 1.15 //NP: I would simply make the grabbing area smaller - maybe 10-15% beyond the door border.
+      val leftSide = door.position - door.width / 2.0 * range
+      val rightSide = door.position + door.width / 2.0 * range
+      b.position >= leftSide && b.position <= rightSide
+    }
 
     model.stepListeners += (() => {
       if (!containsKey(sel)) { //todo: this line is a workaround that makes sure the following logic only happesn if this object hasn't been scored already
         //todo: it should be rewritten to remove listeners when an object is scored
-        val inFrontOfHouse = _inFrontOfHouse(beadRef)
-        if (inFrontOfHouse)
+        val inFrontOfDoor = _inFrontOfDoor(beadRef)
+        if (inFrontOfDoor)
           _doorOpenAmount = _doorOpenAmount + 0.1
         else
           _doorOpenAmount = _doorOpenAmount - 0.1
@@ -103,8 +109,8 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
         if (!containsKey(sel)) {
           val pushing = abs(beadRef.parallelAppliedForce) > 0
           val atRest = abs(beadRef.velocity) < 1E-6
-          val inFrontOfHouse = _inFrontOfHouse(beadRef)
-          val stoppedAtHouse = inFrontOfHouse && atRest //okay to be pushing
+          val inFrontOfDoor = _inFrontOfDoor(beadRef)
+          val stoppedAtHouse = inFrontOfDoor && atRest //okay to be pushing
           val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
           val crashed = atRest && beadRef.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
           if (stoppedAtHouse) {
