@@ -31,7 +31,8 @@ public class TraverseDnaMotionStrategy extends AbstractMotionStrategy {
 		Point2D detachPoint = new Point2D.Double(getModelElement().getPositionRef().getX() + traversalDistance, 
 				getModelElement().getPositionRef().getY());
 		linearMotionStrategy = new LinearMotionStrategy(modelElement, bounds, detachPoint, DNA_TRAVERSAL_SPEED);
-		detachStrategy = new DetachFromDnaThenRandomMotionWalkStrategy(modelElement, bounds);
+		detachStrategy = 
+			new DetachFromDnaThenRandomMotionWalkStrategy(modelElement, LacOperonModel.getMotionBoundsExcludingDna() );
 		attached = true;
 	}
 
