@@ -13,26 +13,29 @@ public class PhetRequestCodingStrategy extends WebRequestCodingStrategy {
     private static Logger logger = Logger.getLogger( PhetRequestCodingStrategy.class.getName() );
 
     public PhetRequestCodingStrategy() {
-        logger.debug( "Created PhetRequestCodingStrategy" );
     }
 
     public PhetRequestCodingStrategy( Settings settings ) {
         super( settings );
-        logger.debug( "Created PhetRequestCodingStrategy" );
     }
 
     @Override
+    /**
+     * Test for redirections before doing the default Wicket behavior. If we detect that we need to redirect the URL,
+     * then that will cut in first.
+     */
     public IRequestTargetUrlCodingStrategy urlCodingStrategyForPath( String path ) {
 
         logger.debug( "urlCodingStrategyForPath: " + path );
 
-        IRequestTargetUrlCodingStrategy strategy = super.urlCodingStrategyForPath( path );
+        IRequestTargetUrlCodingStrategy testStrategy = new RedirectionStrategy();
+        IRequestTargetUrlCodingStrategy strategy;
 
-        if ( strategy == null ) {
-            IRequestTargetUrlCodingStrategy testStrategy = new RedirectionStrategy();
-            if ( testStrategy.matches( path ) ) {
-                strategy = testStrategy;
-            }
+        if ( testStrategy.matches( path ) ) {
+            strategy = testStrategy;
+        }
+        else {
+            strategy = super.urlCodingStrategyForPath( path );
         }
 
         return strategy;
