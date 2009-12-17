@@ -13,11 +13,12 @@ import java.awt.geom.Rectangle2D;
  */
 public class ThereAndBackMotionStrategy extends LinearMotionStrategy {
 
+	
 	private static final double DEFAULT_VELOCITY = 10;
 	
 	private Point2D startingPoint = new Point2D.Double();
 	private boolean outwardBound = true;
-	
+	private boolean tripCompleted = false;
 	
 	public ThereAndBackMotionStrategy(IModelElement modelElement, Point2D destination, Rectangle2D bounds) {
 		super(modelElement, bounds, destination, DEFAULT_VELOCITY);
@@ -26,9 +27,15 @@ public class ThereAndBackMotionStrategy extends LinearMotionStrategy {
 
 	@Override
 	public void updatePositionAndMotion(double dt) {
+		super.updatePositionAndMotion(dt);
 		if (outwardBound && isDestinationReached()){
-			// We're reached the remote destination, time for the return trip.
+			// We've reached the remote destination, time for the return trip.
 			setDestination(startingPoint);
+			outwardBound = false;
 		}
+	}
+	
+	public boolean isTripCompleted(){
+		return tripCompleted;
 	}
 }
