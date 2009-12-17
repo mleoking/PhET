@@ -20,6 +20,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.RealReactionEquation
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ScoreboardPanel;
 import edu.colorado.phet.reactantsproductsandleftovers.view.game.*;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.DevValuesNode.DevAfterValuesNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.DevValuesNode.DevBeforeValuesNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
