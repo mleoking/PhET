@@ -52,6 +52,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	private boolean transcribing = false;
 	private Point2D traversalStartPt = new Point2D.Double();
 	private MessengerRna mRna = null;
+	private boolean bumpingLacI;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -110,6 +111,24 @@ public class RnaPolymerase extends SimpleModelElement {
 			recoveryCountdownTimer = RECOVERY_TIME;
 		}
 		lacPromoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+	}
+	
+	/**
+	 * Simulate a motion that is meant to look like this polymerase molecule
+	 * bumps against the LacI that is on the DNA strand and is thus blocked
+	 * from proceeding, and so returns to its original position.
+	 */
+	public void doLacIBump(){
+		
+		// This is set up to moved a fixed, hard-coded distance and then
+		// return.  At some point, it may be desirable to make this more
+		// "real", in the sense that it would detect when it comes in contact
+		// with the LacI and turn around at that point.  For now (Dec 17 2009),
+		// this is the quickest and easiest way to get the desired behavior.
+		double distanceToTravel = 5; // In nanometers.
+		Point2D turnAroundPoint = new Point2D.Double(getPositionRef().getX() + distanceToTravel, getPositionRef().getY());
+		setMotionStrategy(new ThereAndBackMotionStrategy(this, turnAroundPoint, LacOperonModel.getMotionBounds()));
+		bumpingLacI = true;
 	}
 	
 	private static Shape createActiveConformationShape(){
@@ -185,6 +204,19 @@ public class RnaPolymerase extends SimpleModelElement {
 					// This has been unattached long enough and is ready to attach
 					// again.
 					lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				}
+			}
+		}
+		else if (lacPromoterAttachmentState == AttachmentState.ATTACHED){
+			if (bumpingLacI){
+				// We are in the process of simulating a "bump" motion.  See
+				// if we are done.
+				assert getMotionStrategyRef() instanceof ThereAndBackMotionStrategy;
+				ThereAndBackMotionStrategy strategy = (ThereAndBackMotionStrategy)getMotionStrategyRef();
+				if (strategy.isTripCompleted()){
+					// The simulated bump is complete - go back to being still.
+					setMotionStrategy(new StillnessMotionStrategy(this));
+					bumpingLacI = false;
 				}
 			}
 		}
