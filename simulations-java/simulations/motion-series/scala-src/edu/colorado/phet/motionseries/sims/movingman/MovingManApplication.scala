@@ -17,6 +17,7 @@ import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 import edu.colorado.phet.motionseries.{MotionSeriesModule, MotionSeriesDefaults}
 import edu.colorado.phet.motionseries.swing.ScalaValueControl
 import edu.umd.cs.piccolox.pswing.PSwing
+import java.lang.String
 
 class BasicMovingManModule(frame: PhetFrame,
                            clock: ScalaClock,
@@ -58,7 +59,7 @@ class MovingManCanvas(model: MotionSeriesModel,
 
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
 
-  override def createBeadNode(b: MovingManBead, t: ModelViewTransform2D, s: String, listener: () => Unit) =
+  override def createBeadNode(b: MovingManBead, t: ModelViewTransform2D, imageName: String, crashImageName:String,listener: () => Unit) =
     new PositionDragBeadNode(b, t, "moving-man/moving-man-standing.gif".literal, "moving-man/moving-man-left.gif".literal, listener, this)
 
   playAreaVectorNode.addVector(new PlayAreaVector(model.bead.velocityVector, MotionSeriesDefaults.PLAY_AREA_VELOCITY_VECTOR_SCALE),
