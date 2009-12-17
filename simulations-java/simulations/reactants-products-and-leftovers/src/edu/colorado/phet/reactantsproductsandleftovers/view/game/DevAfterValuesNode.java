@@ -11,6 +11,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Developer node that shows the product and leftover values in the After box.
+ * This node is not internationalized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
