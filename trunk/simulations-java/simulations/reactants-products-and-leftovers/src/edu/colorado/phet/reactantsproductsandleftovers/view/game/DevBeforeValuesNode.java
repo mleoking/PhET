@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * 
- * Developer node that shows the reactant quantities.
+ * Developer node that shows the reactant values in the Before box.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

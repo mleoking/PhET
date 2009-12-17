@@ -10,8 +10,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.Gam
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * 
- * Developer node that shows the reactant quantities.
+ * Developer node that shows the product and leftover values in the After box.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
