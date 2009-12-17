@@ -4,6 +4,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
@@ -37,6 +38,8 @@ public class GameCanvas extends RPALCanvas {
     private final GradientButtonNode checkButton, nextButton, tryAgainButton, showAnswerButton;
     private final PhetPNode buttonsParentNode;
     private final GameInstructionsNode beforeInstructions, afterInstructions;
+    private final DevBeforeValuesNode devBeforeValuesNode;
+    private final DevAfterValuesNode devAfterValuesNode;
     
     // these nodes are mutable, allocated when reaction changes
     private RealReactionEquationNode equationNode;
@@ -95,6 +98,14 @@ public class GameCanvas extends RPALCanvas {
         afterInstructions = new GameInstructionsNode( RPALStrings.QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS );
         parentNode.addChild( afterInstructions );
         
+        // dev nodes
+        devBeforeValuesNode = new DevBeforeValuesNode( model );
+        devAfterValuesNode = new DevAfterValuesNode( model );
+        if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+            parentNode.addChild( devBeforeValuesNode );
+            parentNode.addChild( devAfterValuesNode );
+        }
+        
         this.model = model;
         model.addGameListener( new GameAdapter() {
             
@@ -148,6 +159,8 @@ public class GameCanvas extends RPALCanvas {
         buttonsParentNode.moveToFront();
         beforeInstructions.moveToFront();
         afterInstructions.moveToFront();
+        devBeforeValuesNode.moveToFront();
+        devAfterValuesNode.moveToFront();
         
         updateNodesLayout();
     }
@@ -220,6 +233,16 @@ public class GameCanvas extends RPALCanvas {
         x = afterNode.getXOffset() + ( ( afterNode.getBoxWidth() - afterInstructions.getFullBoundsReference().getWidth() ) / 2 );
         y = afterNode.getYOffset() + ( ( afterNode.getBoxHeight() - afterInstructions.getFullBoundsReference().getHeight() ) / 2 );;
         afterInstructions.setOffset( x, y );
+        
+        // dev values in upper-left of Before box
+        x = beforeNode.getXOffset() + 10;
+        y = beforeNode.getYOffset() + 10;
+        devBeforeValuesNode.setOffset( x, y );
+        
+        // dev values in upper-left of After box
+        x = afterNode.getXOffset() + 10;
+        y = afterNode.getYOffset() + 10;
+        devAfterValuesNode.setOffset( x, y );
         
         // game settings, horizontally and vertically centered on everything else
         x = parentNode.getFullBoundsReference().getCenterX() - ( gameSettingsNode.getFullBoundsReference().getWidth() / 2 );
