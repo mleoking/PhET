@@ -97,7 +97,8 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   def createBeadNode(b: MovingManBead, t: ModelViewTransform2D, imageName: String, crashImageName:String, listener: () => Unit): BeadNode = new ForceDragBeadNode(b, t, imageName, crashImageName, listener)
 
   //todo: this line was continually calling setImage on the imageNode
-  model.addListenerByName(beadNode.setImage(MotionSeriesResources.getImage(model.selectedObject.imageFilename)))
+  model.addListenerByName(beadNode.setImages(MotionSeriesResources.getImage(model.selectedObject.imageFilename),
+    MotionSeriesResources.getImage(model.selectedObject.crashImageFilename)))
   playAreaNode.addChild(beadNode)
 
   playAreaNode.addChild(new CoordinateFrameNode(model, adjustableCoordinateModel, transform))
@@ -156,7 +157,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
 }
 
 class ReturnObjectButton(model: MotionSeriesModel) extends GradientButtonNode("controls.return-object".translate, Color.orange) {
-  def updateVisibility() = setVisible(model.beadInModelViewportRange)
+  def updateVisibility() = setVisible(model.beadInModelViewportRange || model.bead.isCrashed)
   updateVisibility()
   model.addListener(updateVisibility)
 

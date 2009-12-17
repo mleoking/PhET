@@ -20,7 +20,7 @@ class ForceDragBeadNode(bead: ForceBead,
                         imageName: String,
                         crashImageName: String,
                         dragListener: () => Unit)
-        extends BeadNode(bead, transform, imageName,crashImageName) {
+        extends BeadNode(bead, transform, imageName, crashImageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
@@ -42,11 +42,10 @@ class ForceDragBeadNode(bead: ForceBead,
 class PositionDragBeadNode(bead: MovingManBead,
                            transform: ModelViewTransform2D,
                            imageName: String,
-                           crashImageName: String,
                            leftImageName: String,
                            dragListener: () => Unit,
                            canvas: PlayArea)
-        extends BeadNode(bead, transform, imageName,crashImageName) {
+        extends BeadNode(bead, transform, imageName, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
@@ -84,20 +83,24 @@ class PositionDragBeadNode(bead: MovingManBead,
   }
 }
 
-class BeadNode(bead: Bead, transform: ModelViewTransform2D, image: BufferedImage, crashImage: BufferedImage) extends PNode {
+class BeadNode(bead: Bead,
+               transform: ModelViewTransform2D,
+               private var image: BufferedImage,
+               private var crashImage: BufferedImage)
+        extends PNode {
   def this(bead: Bead, transform: ModelViewTransform2D, imageName: String, crashImageName: String) = this (bead, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(crashImageName))
-  def this(bead: Bead, transform: ModelViewTransform2D, imageName: String) = this (bead, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(imageName))
 
-  bead.crashListeners += (()=>{
-    setImage(crashImage)
-    println("set crash image")
-  })
+  def this(bead: Bead, transform: ModelViewTransform2D, imageName: String) = this (bead, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(imageName))
 
   val imageNode = new PImage(image)
 
-  def setImage(im: BufferedImage) = {
-//    println("set other image")
-    imageNode.setImage(im)
+  //todo: images were specified in constructor; why can they be overidden like this?
+  def setImages(im: BufferedImage, crashIm: BufferedImage) = {
+    image = im
+    crashImage = crashIm
+    val imageToSet = if (bead.isCrashed) crashImage else image
+    if (!(imageNode.getImage eq imageToSet))//avoid redraw if possible
+      imageNode.setImage(imageToSet)
     update()
   }
   addChild(imageNode)
@@ -115,7 +118,7 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, image: BufferedImage
     imageNode.translate(viewPosition.x - delta.x / 2 * scale, viewPosition.y - delta.y * scale)
     imageNode.scale(scale)
 
-    val angle = bead.getAngle
+    val angle = if (bead.isCrashed) 0.0 else bead.getAngle
     val vec = new Vector2D(angle)
     val flipY = new Vector2D(vec.x, -vec.y)
 

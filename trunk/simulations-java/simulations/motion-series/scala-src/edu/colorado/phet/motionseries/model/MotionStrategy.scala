@@ -11,6 +11,9 @@ trait MotionStrategyMemento {
 }
 
 abstract class MotionStrategy(val bead: ForceBead) {
+
+  def isCrashed:Boolean
+  
   def stepInTime(dt: Double)
 
   def position2D: Vector2D
@@ -81,6 +84,8 @@ abstract class MotionStrategy(val bead: ForceBead) {
 }
 
 class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceBead) extends MotionStrategy(bead) {
+  def isCrashed = true
+
   def stepInTime(dt: Double) = {}
 
   override def normalForce = gravityForce * -1
@@ -97,6 +102,8 @@ class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceBead) extends Mo
 }
 
 class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, bead: ForceBead) extends MotionStrategy(bead: ForceBead) {
+  def isCrashed = false
+
   override def toString = "position = ".literal + position2D
 
   def getAngle = _angle
@@ -127,6 +134,8 @@ class AirborneMemento(p: Vector2D, v: Vector2D, a: Double) extends MotionStrateg
 }
 
 class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
+  def isCrashed = false
+
   def getMemento = {
     new MotionStrategyMemento {
       def getMotionStrategy(bead: ForceBead) = new Grounded(bead)

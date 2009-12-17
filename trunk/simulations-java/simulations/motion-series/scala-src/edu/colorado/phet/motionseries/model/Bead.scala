@@ -215,4 +215,6 @@ abstract class Bead(private var _state: BeadState,
     val sum = velocities.foldLeft(0.0)(_ + _)
     sum / velocities.size
   }
+
+  def isCrashed:Boolean
 }

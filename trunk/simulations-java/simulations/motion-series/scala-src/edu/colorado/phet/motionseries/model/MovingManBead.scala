@@ -77,6 +77,8 @@ abstract class MovingManStrategy(bead: ForceBead) extends MotionStrategy(bead) {
 }
 
 class PositionMotionStrategy(bead: ForceBead) extends MovingManStrategy(bead) {
+  def isCrashed = false
+
   def getMemento = new MotionStrategyMemento {
     def getMotionStrategy(bead: ForceBead) = new PositionMotionStrategy(bead)
   }
@@ -97,6 +99,8 @@ class PositionMotionStrategy(bead: ForceBead) extends MovingManStrategy(bead) {
 }
 
 class VelocityMotionStrategy(bead: ForceBead) extends MovingManStrategy(bead) {
+  def isCrashed = false
+
   def getMemento = new MotionStrategyMemento {
     def getMotionStrategy(bead: ForceBead) = new VelocityMotionStrategy(bead)
   }

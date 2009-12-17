@@ -151,4 +151,6 @@ class ForceBead(_state: BeadState,
   }
 
   def acceleration = forceToParallelAcceleration(totalForce)
+
+  def isCrashed = motionStrategy.isCrashed
 }
