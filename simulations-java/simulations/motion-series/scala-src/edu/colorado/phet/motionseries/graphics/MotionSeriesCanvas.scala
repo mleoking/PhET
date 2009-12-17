@@ -85,7 +85,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   }
   addWallsAndDecorations()
 
-  val beadNode = createBeadNode(model.bead, transform, model.selectedObject.imageFilename, () => {
+  val beadNode = createBeadNode(model.bead, transform, model.selectedObject.imageFilename, model.selectedObject.crashImageFilename,() => {
     if (model.isPlayback) {
       model.clearHistoryRemainder()
       model.setRecord(true)
@@ -94,8 +94,9 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   })
 
   //todo: shouldn't assume ForceBead subclass
-  def createBeadNode(b: MovingManBead, t: ModelViewTransform2D, s: String, listener: () => Unit): BeadNode = new ForceDragBeadNode(b, t, s, listener)
+  def createBeadNode(b: MovingManBead, t: ModelViewTransform2D, imageName: String, crashImageName:String, listener: () => Unit): BeadNode = new ForceDragBeadNode(b, t, imageName, crashImageName, listener)
 
+  //todo: this line was continually calling setImage on the imageNode
   model.addListenerByName(beadNode.setImage(MotionSeriesResources.getImage(model.selectedObject.imageFilename)))
   playAreaNode.addChild(beadNode)
 
