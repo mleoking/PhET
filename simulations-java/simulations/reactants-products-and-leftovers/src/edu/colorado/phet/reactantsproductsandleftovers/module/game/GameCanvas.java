@@ -133,10 +133,31 @@ public class GameCanvas extends RPALCanvas {
             
         } );
         
+        // Check button checks the user's solution
+        checkButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "GameCanvas.checkButton.actionPerformed" ); //XXX
+            }
+        });
+        
         // Next button advanced to the next challenge
         nextButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.nextChallenge();
+            }
+        });
+        
+        // Try Again button lets the user make another attempt
+        tryAgainButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "GameCanvas.tryAgainButton.actionPerformed" ); //XXX
+            }
+        });
+        
+        // Show Answer button shows the answer
+        showAnswerButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "GameCanvas.showAnswerButton.actionPerformed" ); //XXX
             }
         });
         
