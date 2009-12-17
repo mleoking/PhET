@@ -16,6 +16,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  */
 public class GameModel extends RPALModel {
     
+    private static final boolean DEBUG_OUTPUT_ENABLED = true;
+    
     private static final int CHALLENGES_PER_GAME = 10;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
     private static final boolean DEFAULT_TIMER_ENABLED = true;
@@ -105,6 +107,7 @@ public class GameModel extends RPALModel {
             }
             challenges[i] = new GameChallenge( reaction, challengeType );
         }
+        fireChallengeChanged();
     }
     
     /*
@@ -216,6 +219,9 @@ public class GameModel extends RPALModel {
     
     private void fireGameStarted() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel.fireGameStarted, notifying " + listenersCopy.size() + " listeners" );
+        }
         for ( GameListener listener : listenersCopy ) {
             listener.gameStarted();
         }
@@ -223,6 +229,9 @@ public class GameModel extends RPALModel {
     
     private void fireGameCompleted() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel.fireGameCompleted, notifying " + listenersCopy.size() + " listeners" );
+        }
         for ( GameListener listener : listenersCopy ) {
             listener.gameCompleted();
         }
@@ -230,6 +239,9 @@ public class GameModel extends RPALModel {
     
     private void fireGameAborted() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel.fireGameAborted, notifying " + listenersCopy.size() + " listeners" );
+        }
         for ( GameListener listener : listenersCopy ) {
             listener.gameAborted();
         }
@@ -237,6 +249,9 @@ public class GameModel extends RPALModel {
     
     private void fireChallengeChanged() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel.fireChallengeChanged, notifying " + listenersCopy.size() + " listeners" );
+        }
         for ( GameListener listener : listenersCopy ) {
             listener.challengeChanged();
         }
@@ -244,6 +259,9 @@ public class GameModel extends RPALModel {
     
     private void firePointsChanged() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel.firePointsChanged, notifying " + listenersCopy.size() + " listeners" );
+        }
         for ( GameListener listener : listenersCopy ) {
             listener.pointsChanged();
         }
@@ -251,6 +269,9 @@ public class GameModel extends RPALModel {
     
     private void fireLevelChanged() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel.fireLevelChanged, notifying " + listenersCopy.size() + " listeners" );
+        }
         for ( GameListener listener : listenersCopy ) {
             listener.levelChanged();
         }
@@ -258,6 +279,9 @@ public class GameModel extends RPALModel {
     
     private void fireAttemptsChanged() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel.fireAttemptsChanged, notifying " + listenersCopy.size() + " listeners" );
+        }
         for ( GameListener listener : listenersCopy ) {
             listener.attemptsChanged();
         }
@@ -265,6 +289,9 @@ public class GameModel extends RPALModel {
     
     private void fireTimerEnabledChanged() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel.fireTimerEnabledChanged, notifying " + listenersCopy.size() + " listeners" );
+        }
         for ( GameListener listener : listenersCopy ) {
             listener.timerEnabledChanged();
         }
