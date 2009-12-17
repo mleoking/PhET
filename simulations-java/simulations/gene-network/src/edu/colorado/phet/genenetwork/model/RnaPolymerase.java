@@ -125,7 +125,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		// "real", in the sense that it would detect when it comes in contact
 		// with the LacI and turn around at that point.  For now (Dec 17 2009),
 		// this is the quickest and easiest way to get the desired behavior.
-		double distanceToTravel = 5; // In nanometers.
+		double distanceToTravel = 1; // In nanometers.
 		Point2D turnAroundPoint = new Point2D.Double(getPositionRef().getX() + distanceToTravel, getPositionRef().getY());
 		setMotionStrategy(new ThereAndBackMotionStrategy(this, turnAroundPoint, LacOperonModel.getMotionBounds()));
 		bumpingLacI = true;

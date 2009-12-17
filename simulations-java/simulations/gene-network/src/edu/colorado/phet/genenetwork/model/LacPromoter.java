@@ -9,6 +9,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -28,9 +29,10 @@ public class LacPromoter extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new Color(0, 137, 225);
 	private static float HEIGHT = 2.5f;
 	public static float WIDTH = 10;
-	public Dimension2D RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT/2);
-	public double ATTACH_TO_LAC_I_TIME = 0.5;   // In seconds.
-	public double ATTACHMENT_RECOVERY_TIME = 3; // In seconds.
+	public static final  Dimension2D RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT/2);
+	public static final  double ATTACH_TO_RNA_POLYMERASE_TIME = 0.5;   // In seconds.
+	public static final  double ATTACHMENT_RECOVERY_TIME = 3; // In seconds.
+	public static final Random RAND = new Random(); 
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -125,7 +127,7 @@ public class LacPromoter extends SimpleModelElement {
 			// Close enough to attach.
 			rnaPolymeraseAttachmentPartner.attach(this);
 			attachmentState = AttachmentState.ATTACHED;
-			attachmentCountdownTimer = ATTACH_TO_LAC_I_TIME;
+			attachmentCountdownTimer = ATTACH_TO_RNA_POLYMERASE_TIME;
 		}
 	}
 	
@@ -135,10 +137,30 @@ public class LacPromoter extends SimpleModelElement {
 		attachmentCountdownTimer -= dt;
 		
 		if (attachmentCountdownTimer <= 0){
-			// Time to detach.
-			rnaPolymeraseAttachmentPartner.detach(this);
-			recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
-			attachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+			// It's time to detach.  Is the way clear to traverse the DNA?
+			if (!getModel().isLacIAttachedToDna()){
+				// It is possible to traverse the DNA, so just detach the
+				// polymerase so that it can do this.
+				rnaPolymeraseAttachmentPartner.detach(this);
+				recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
+				attachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+			}
+			else{
+				// The way is blocked.  Based on probability, either simulate
+				// a bumping of the LacI, or just detach and float away.
+				if (RAND.nextDouble() < 0.8){
+					// Make the polymerase bump the lacI.
+					rnaPolymeraseAttachmentPartner.doLacIBump();
+					// Reset the timer.
+					attachmentCountdownTimer = ATTACH_TO_RNA_POLYMERASE_TIME + 1; // Need extra time for the bump.
+				}
+				else{
+					// Just detach the polymerase.
+					rnaPolymeraseAttachmentPartner.detach(this);
+					recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
+					attachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+				}
+			}
 		}
 	}
 	
