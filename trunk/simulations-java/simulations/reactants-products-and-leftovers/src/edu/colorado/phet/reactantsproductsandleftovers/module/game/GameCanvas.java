@@ -2,6 +2,8 @@
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -48,7 +50,7 @@ public class GameCanvas extends RPALCanvas {
     private GameBeforeNode beforeNode;
     private GameAfterNode afterNode;
     
-    public GameCanvas( GameModel model, Resettable resettable ) {
+    public GameCanvas( final GameModel model, Resettable resettable ) {
         super();
         
         parentNode = new PhetPNode();
@@ -131,8 +133,15 @@ public class GameCanvas extends RPALCanvas {
             
         } );
         
-        updateNodes();
+        // Next button advanced to the next challenge
+        nextButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.nextChallenge();
+            }
+        });
         
+        // initial state
+        updateNodes();
         setGameSettingsVisible( true );
    }
     
@@ -233,7 +242,7 @@ public class GameCanvas extends RPALCanvas {
                 challengeBoxNode = afterNode;
             }
             double boxWidth = beforeNode.getBoxWidth(); //XXX boxes should be the same size, but should call challengeBoxNode.getBoxWidth
-            double boxHeight = beforeNode.getBoxHeight(); //XXX boxes should be the same size, but should call challengeBoxNode.getBoxHeight
+            double boxHeight = beforeNode.getBoxHeight(); //XXX boxes should be the same size, but should call challengeBoxNode.getBoxHeight 
             x = challengeBoxNode.getXOffset() + ( ( boxWidth - buttonsParentNode.getFullBoundsReference().getWidth() ) / 2 );
             y = challengeBoxNode.getYOffset() + boxHeight - buttonsParentNode.getFullBoundsReference().getHeight() - 10;
             buttonsParentNode.setOffset( x, y );

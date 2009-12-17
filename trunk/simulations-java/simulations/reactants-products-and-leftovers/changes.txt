@@ -1,3 +1,4 @@
+12/17/09 hook up Next button to advance to next challenge
 12/17/09 show all buttons at bottom of proper box, based on challenge type
 12/17/09 dev nodes to show before/after values (so I don't have to think while testing)
 12/17/09 show challenge # starting at 1 in view, model starts at 0
