@@ -20,6 +20,7 @@ public class EmailAccount {
         props.put( "mail.smtp.host", host );
         // To see what is going on behind the scene
         props.put( "mail.debug", "true" );
+//        props.put("mail.smtp.starttls.enable","true");//necessary if you use servers that require STARTTLS, otherwise you receive an error: Must issue a STARTTLS command first
 
         props.put( "mail.smtp.auth", "true" );
         props.put( "password", password );
