@@ -11,12 +11,14 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.GameSettingsPanel;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RealReactionEquationNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ScoreboardPanel;
 import edu.colorado.phet.reactantsproductsandleftovers.view.game.*;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -209,20 +211,33 @@ public class GameCanvas extends RPALCanvas {
         y = afterNode.getYOffset() + 20;
         afterFaceNode.setOffset( x, y );
         
-        //XXX buttons in Before box for now, they need to go in the proper box based on challenge type
-        buttonsParentNode.setOffset( beforeNode.getOffset() );
-        x = ( beforeNode.getBoxWidth() - checkButton.getFullBoundsReference().getWidth() ) / 2;
-        y = ( beforeNode.getBoxHeight() - checkButton.getFullBoundsReference().getHeight() - 10 );
-        checkButton.setOffset( x, y );
-        x = ( beforeNode.getBoxWidth() - nextButton.getFullBoundsReference().getWidth() ) / 2;
-        y = ( beforeNode.getBoxHeight() - nextButton.getFullBoundsReference().getHeight() - 10 );
-        nextButton.setOffset( x, y );
-        x = ( beforeNode.getBoxWidth() - tryAgainButton.getFullBoundsReference().getWidth() ) / 2;
-        y = ( beforeNode.getBoxHeight() - tryAgainButton.getFullBoundsReference().getHeight() - 10 );
-        tryAgainButton.setOffset( x, y );
-        x = ( beforeNode.getBoxWidth() - showAnswerButton.getFullBoundsReference().getWidth() ) / 2;
-        y = ( beforeNode.getBoxHeight() - showAnswerButton.getFullBoundsReference().getHeight() - 10 );
-        showAnswerButton.setOffset( x, y );
+        // buttons
+        {
+            //XXX arrange all button is a row for now
+            x = 0;
+            y = 0;
+            checkButton.setOffset( x, y );
+            x = checkButton.getFullBoundsReference().getMaxX() + 10;
+            y = checkButton.getYOffset();
+            nextButton.setOffset( x, y );
+            x = nextButton.getFullBoundsReference().getMaxX() + 10;
+            y = nextButton.getYOffset();
+            tryAgainButton.setOffset( x, y );
+            x = tryAgainButton.getFullBoundsReference().getMaxX() + 10;
+            y = tryAgainButton.getYOffset();
+            showAnswerButton.setOffset( x, y );
+            
+            // put buttons at bottom center of the proper box
+            PNode challengeBoxNode = beforeNode;
+            if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+                challengeBoxNode = afterNode;
+            }
+            double boxWidth = beforeNode.getBoxWidth(); //XXX boxes should be the same size, but should call challengeBoxNode.getBoxWidth
+            double boxHeight = beforeNode.getBoxHeight(); //XXX boxes should be the same size, but should call challengeBoxNode.getBoxHeight
+            x = challengeBoxNode.getXOffset() + ( ( boxWidth - buttonsParentNode.getFullBoundsReference().getWidth() ) / 2 );
+            y = challengeBoxNode.getYOffset() + boxHeight - buttonsParentNode.getFullBoundsReference().getHeight() - 10;
+            buttonsParentNode.setOffset( x, y );
+        }
         
         // instructions centered in Before box
         x = beforeNode.getXOffset() + ( ( beforeNode.getBoxWidth() - beforeInstructions.getFullBoundsReference().getWidth() ) / 2 );
