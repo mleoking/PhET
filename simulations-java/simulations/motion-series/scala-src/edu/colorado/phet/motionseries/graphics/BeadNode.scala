@@ -94,6 +94,12 @@ class BeadNode(bead: Bead,
 
   val imageNode = new PImage(image)
 
+  //This is to support showing crash images during game mode
+  //todo: refactor game mode to use the bead.isCrashed model value
+  bead.crashListeners += (()=>{
+    imageNode.setImage(crashImage)
+  })
+
   //todo: images were specified in constructor; why can they be overidden like this?
   def setImages(im: BufferedImage, crashIm: BufferedImage) = {
     image = im
