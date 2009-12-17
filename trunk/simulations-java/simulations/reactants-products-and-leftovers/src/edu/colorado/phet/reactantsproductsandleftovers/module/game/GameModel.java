@@ -87,6 +87,7 @@ public class GameModel extends RPALModel {
     private void newChallenges() {
         challengeNumber = 0;
         challenges = new GameChallenge[ CHALLENGES_PER_GAME ];
+        //TODO: ensure that we don't have the same challenge twice in a row, or should they all be different?
         for ( int i = 0; i < challenges.length; i++ ) {
             ChemicalReaction reaction;
             ChallengeType challengeType;
