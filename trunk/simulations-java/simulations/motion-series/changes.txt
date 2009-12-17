@@ -1,3 +1,4 @@
+# 1.03.63 (37564) Dec 16, 2009
 Made it so the "Return Object" button appears when the object is crashed, not only when the object is offscreen
 Made it so that objects appear broken after crashing
 Added an invisible wall to the left hand side of the game modes so that objects can't be pushed beyond the edge of the leftmost ramp segment.
