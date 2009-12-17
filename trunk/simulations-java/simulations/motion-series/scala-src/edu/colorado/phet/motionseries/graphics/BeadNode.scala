@@ -18,15 +18,16 @@ import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 class ForceDragBeadNode(bead: ForceBead,
                         transform: ModelViewTransform2D,
                         imageName: String,
+                        crashImageName: String,
                         dragListener: () => Unit)
-        extends BeadNode(bead, transform, imageName) {
+        extends BeadNode(bead, transform, imageName,crashImageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
       val delta = event.getCanvasDelta
       val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
       val sign = modelDelta dot bead.getRampUnitVector
-      dragListener()  //it makes more sense to call the drag listener last after setting the parallel applied force.  However, in GoButton's visibility model,
+      dragListener() //it makes more sense to call the drag listener last after setting the parallel applied force.  However, in GoButton's visibility model,
       //the go button is relying on the sim starting before the applied force gets set as part of the logic to decide whether to show the go button.  The go button
       //should not appear when the user drags the object (which was happening when dragListener() was called after setting the applied force.
       bead.parallelAppliedForce = bead.parallelAppliedForce + sign / MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE
@@ -41,8 +42,11 @@ class ForceDragBeadNode(bead: ForceBead,
 class PositionDragBeadNode(bead: MovingManBead,
                            transform: ModelViewTransform2D,
                            imageName: String,
+                           crashImageName: String,
                            leftImageName: String,
-                           dragListener: () => Unit, canvas: PlayArea) extends BeadNode(bead, transform, imageName) {
+                           dragListener: () => Unit,
+                           canvas: PlayArea)
+        extends BeadNode(bead, transform, imageName,crashImageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
@@ -80,12 +84,19 @@ class PositionDragBeadNode(bead: MovingManBead,
   }
 }
 
-class BeadNode(bead: Bead, transform: ModelViewTransform2D, image: BufferedImage) extends PNode {
-  def this(bead: Bead, transform: ModelViewTransform2D, imageName: String) = this (bead, transform, MotionSeriesResources.getImage(imageName))
+class BeadNode(bead: Bead, transform: ModelViewTransform2D, image: BufferedImage, crashImage: BufferedImage) extends PNode {
+  def this(bead: Bead, transform: ModelViewTransform2D, imageName: String, crashImageName: String) = this (bead, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(crashImageName))
+  def this(bead: Bead, transform: ModelViewTransform2D, imageName: String) = this (bead, transform, MotionSeriesResources.getImage(imageName), MotionSeriesResources.getImage(imageName))
+
+  bead.crashListeners += (()=>{
+    setImage(crashImage)
+    println("set crash image")
+  })
 
   val imageNode = new PImage(image)
 
   def setImage(im: BufferedImage) = {
+//    println("set other image")
     imageNode.setImage(im)
     update()
   }

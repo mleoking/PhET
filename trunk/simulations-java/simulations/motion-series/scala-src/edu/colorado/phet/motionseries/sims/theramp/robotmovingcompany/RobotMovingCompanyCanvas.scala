@@ -203,7 +203,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     val lastBead = _currentBead
     _currentBead = bead
 
-    val beadNode = new BeadNode(bead, transform, a.imageFilename)
+    val beadNode = new BeadNode(bead, transform, a.imageFilename,a.crashImageFilename)
     addStageNode(beadNode)
     val icon = new ObjectIcon(a)
     val pt = transform.modelToView(-10, -1)
