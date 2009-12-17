@@ -17,13 +17,17 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public abstract class DevValuesNode extends PText {
     
+    private static final PhetFont FONT = new PhetFont( 18 );
+    private static final Color TEXT_COLOR = Color.BLACK;
+    private static final Color BACKGROUND_COLOR = new Color( 255, 255, 255, 125 ); // transparent white
+    
     private final GameModel model;
 
     public DevValuesNode( GameModel model ) {
         super();
-        setFont( new PhetFont( 18 ) );
-        setTextPaint( Color.BLACK );
-        setPaint( new Color( 255, 255, 255, 125 ) ); // transparent white
+        setFont( FONT );
+        setTextPaint( TEXT_COLOR );
+        setPaint( BACKGROUND_COLOR );
         this.model = model;
         model.addGameListener( new GameAdapter() {
             public void challengeChanged() {
