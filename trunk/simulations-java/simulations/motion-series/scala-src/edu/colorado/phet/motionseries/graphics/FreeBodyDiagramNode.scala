@@ -278,7 +278,11 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   arrowNode.setPaint(vector.getPaint)
   addChild(arrowNode)
   private val abbreviatonTextNode = {
-    val html = new OutlineHTMLNode(vector.html, new PhetFont(22, true), vector.color, Color.black)
+    val html = new ShadowHTMLNode(vector.html, vector.color)//buggy constructor, see ShadowHTMLNode
+    html.setShadowColor(vector.color)
+    html.setColor(Color.black)
+    html.setShadowOffset(2,2)
+    html.setFont(new PhetFont(22, false))
     //for performance, buffer these outlines; htmlnodes are very processor intensive, each outline is 5 htmlnodes and there are many per sim
     new PImage(html.toImage)
   }
