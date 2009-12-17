@@ -1,0 +1,38 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: December 10-16, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Reactants, Products and Leftovers:
+  - small amount of work on Game model
+  
+  common code:
+  - #2015, investigated canvas layout problem
+  - #2018, investigated compound border problem
+  - #1948, discussed possible solutions and issues with moving/renaming sims
+  - #2019, investigated a permanent solution for keeping copyright notice up to date
+  - #1907, reviewed Sam's next-generation play area
+  
+  misc:
+  - status meeting
+  - helped JB with border redraw problem in Lac Operon
+  - met with Kelly to discuss Acid Base Solution redesign ideas
+  - #1964, redeployed all Java sims to dev, created test tickets for each project in Unfuddle
+  - #2020, discussed issue with Google Chrome saving downloaded JNLP files
+
+WHAT'S NEXT:
+
+  - meet with Sam to discuss #1907 (next-generation play area)
+  - continue work on Reactants, Products and Leftovers 
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   February 12-15
+  
+--
