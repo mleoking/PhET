@@ -20,19 +20,13 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 	public LinearMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Point2D destination, double velocityScaler) {
 		super(modelElement, bounds);
 		setDestination(destination.getX(),	destination.getY());
+		double angleOfTravel = Math.atan2(getDestination().getY() - getModelElement().getPositionRef().getY(), 
+    			getDestination().getX() - getModelElement().getPositionRef().getX());
+		getModelElement().setVelocity(velocityScaler * Math.cos(angleOfTravel), velocityScaler * Math.sin(angleOfTravel));
 	}
 	
 	public LinearMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Vector2D velocityVector, double time){
 		this(modelElement, bounds, velocityAndTimeToPoint(modelElement, velocityVector, time), velocityVector.getMagnitude());
-	}
-
-	@Override
-	public void setDestination(double x, double y) {
-		super.setDestination(x, y);
-		double angleOfTravel = Math.atan2(getDestination().getY() - getModelElement().getPositionRef().getY(), 
-    			getDestination().getX() - getModelElement().getPositionRef().getX());
-		double velocityScaler = getModelElement().getVelocityRef().getMagnitude();
-		getModelElement().setVelocity(velocityScaler * Math.cos(angleOfTravel), velocityScaler * Math.sin(angleOfTravel));
 	}
 
 	@Override
