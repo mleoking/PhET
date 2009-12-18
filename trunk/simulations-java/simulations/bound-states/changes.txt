@@ -1,3 +1,5 @@
+# 1.05.02 (37590) Dec 17, 2009
+12/17/09 fix for #1283, fix Load feature to restore drag handles for selected potential
 # 1.05.01 (37337) Dec 11, 2009
 12/11/09 test version for milestone "full redeploy, 2010 Q1"
 8/19/09 migrate Complex and MutableComplex to phetcommon
