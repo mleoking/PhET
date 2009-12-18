@@ -33,6 +33,7 @@ public class LacPromoter extends SimpleModelElement {
 	public static final  double ATTACH_TO_RNA_POLYMERASE_TIME = 0.5;   // In seconds.
 	public static final  double ATTACHMENT_RECOVERY_TIME = 3; // In seconds.
 	public static final Random RAND = new Random(); 
+	private static final int MAX_BUMPS = 10;
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -42,6 +43,7 @@ public class LacPromoter extends SimpleModelElement {
 	private AttachmentState attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private double attachmentCountdownTimer;
 	private double recoveryCountdownTimer;
+	private int bumpCount = 0;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -128,6 +130,7 @@ public class LacPromoter extends SimpleModelElement {
 			rnaPolymeraseAttachmentPartner.attach(this);
 			attachmentState = AttachmentState.ATTACHED;
 			attachmentCountdownTimer = ATTACH_TO_RNA_POLYMERASE_TIME;
+			bumpCount = 0;
 		}
 	}
 	
@@ -148,11 +151,12 @@ public class LacPromoter extends SimpleModelElement {
 			else{
 				// The way is blocked.  Based on probability, either simulate
 				// a bumping of the LacI, or just detach and float away.
-				if (RAND.nextDouble() < 0.8){
+				if (RAND.nextDouble() < (double)(MAX_BUMPS - bumpCount) / (double)MAX_BUMPS){
 					// Make the polymerase bump the lacI.
 					rnaPolymeraseAttachmentPartner.doLacIBump();
 					// Reset the timer.
 					attachmentCountdownTimer = ATTACH_TO_RNA_POLYMERASE_TIME + 1; // Need extra time for the bump.
+					bumpCount++;
 				}
 				else{
 					// Just detach the polymerase.
