@@ -76,108 +76,6 @@ public class RnaPolymerase extends SimpleModelElement {
     // Methods
     //------------------------------------------------------------------------
 	
-	public Point2D getAttachmentPointLocation(LacPromoter lacPromoter){
-		return new Point2D.Double(getPositionRef().getX() + LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getWidth(),
-				getPositionRef().getY() + LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getHeight());
-	}
-	
-	public void attach(LacPromoter lacPromoter){
-		if (lacPromoter != lacPromoterAttachmentPartner){
-			System.err.println(getClass().getName() + " - Error: Attachment request from non-partner.");
-			assert false;
-			return;
-		}
-		setMotionStrategy(new StillnessMotionStrategy(this));
-		setPosition(targetPositionForLacPromoterAttachment);
-		lacPromoterAttachmentState = AttachmentState.ATTACHED;
-	}
-	
-	public void detach(LacPromoter lacPromoter){
-		// Error checking.
-		if (lacPromoter != lacPromoterAttachmentPartner){
-			System.err.println(getClass().getName() + " - Error: Attachment request from non-partner.");
-			assert false;
-			return;
-		}
-		
-		if (lacPromoterAttachmentState == AttachmentState.ATTACHED){
-			if (getModel().isLacZGenePresent() && !getModel().isLacIAttachedToDna()){
-				// The way is clear for traversing.
-				traversing = true;
-				traversalStartPt.setLocation(getPositionRef());
-				setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
-						new Vector2D.Double(TRAVERSAL_SPEED, 0), MAX_TRAVERSAL_TIME));
-			}
-			else{
-				// Can't traverse, so just detach.
-				setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
-				recoveryCountdownTimer = RECOVERY_TIME;
-			}
-			lacPromoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-		}
-		else if (lacPromoterAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
-			// We are being asked to terminate the engagement, which can
-			// happen in cases such as when our potential partner gets removed
-			// from the model.
-			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-			lacPromoterAttachmentPartner = null;
-			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
-			bumpingLacI = false;
-		}
-	}
-	
-	/**
-	 * Simulate a motion that is meant to look like this polymerase molecule
-	 * bumps against the LacI that is on the DNA strand and is thus blocked
-	 * from proceeding, and so returns to its original position.
-	 */
-	public void doLacIBump(){
-		
-		// This is set up to moved a fixed, hard-coded distance and then
-		// return.  At some point, it may be desirable to make this more
-		// "real", in the sense that it would detect when it comes in contact
-		// with the LacI and turn around at that point.  For now (Dec 17 2009),
-		// this is the quickest and easiest way to get the desired behavior.
-		double distanceToTravel = 1; // In nanometers.
-		Point2D turnAroundPoint = new Point2D.Double(getPositionRef().getX() + distanceToTravel, getPositionRef().getY());
-		setMotionStrategy(new ThereAndBackMotionStrategy(this, turnAroundPoint, LacOperonModel.getMotionBounds(), 5));
-		bumpingLacI = true;
-	}
-	
-	private static Shape createActiveConformationShape(){
-		
-		// Create the overall outline.
-		GeneralPath basicShape = new GeneralPath();
-		
-		basicShape.moveTo(WIDTH / 2, -HEIGHT/2);
-		basicShape.lineTo(0, -HEIGHT/2);
-		basicShape.lineTo(-WIDTH * 0.4f, 0);
-		basicShape.curveTo(0, HEIGHT * 0.6f, WIDTH/4, HEIGHT * 0.4f, WIDTH / 2, HEIGHT/4);
-		basicShape.closePath();
-		Area area = new Area(basicShape);
-		
-		// Get the shape of the promoter and shift it to the appropriate
-		// position.
-		Shape promoterShape = new LacPromoter(null).getShape();
-		AffineTransform transform = new AffineTransform();
-		transform.setToTranslation(	basicShape.getBounds2D().getMaxX() - promoterShape.getBounds().getMaxX(), -HEIGHT/2 );
-		promoterShape = transform.createTransformedShape(promoterShape);
-		
-		// Subtract off the shape of the binding region.
-		area.subtract(new Area(promoterShape));
-		
-		// Get the shape of the CAP and shift it to the appropriate location.
-		Shape capShape = new Cap(null).getShape();
-		transform = new AffineTransform();
-		transform.setToTranslation(	promoterShape.getBounds2D().getMinX() - capShape.getBounds2D().getWidth()/2, -2 );
-		capShape = transform.createTransformedShape(capShape);
-		
-		// Subtract off the shape of the camp.
-		area.subtract(new Area(capShape));
-		
-		return area;
-	}
-	
 	@Override
 	public void stepInTime(double dt) {
 		if (lacPromoterAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
@@ -235,7 +133,125 @@ public class RnaPolymerase extends SimpleModelElement {
 		}
 		super.stepInTime(dt);
 	}
+	
+	@Override
+	public void setDragging(boolean dragging) {
+		if (dragging = true && lacPromoterAttachmentPartner != null){
+			// The user has grabbed this node and is moving it, so release
+			// any hold on the lac promoter.
+			lacPromoterAttachmentPartner.detach(this);
+			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			lacPromoterAttachmentPartner = null;
+			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+			bumpingLacI = false;
+		}
+		super.setDragging(dragging);
+	}
 
+	public Point2D getAttachmentPointLocation(LacPromoter lacPromoter){
+		return new Point2D.Double(getPositionRef().getX() + LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getHeight());
+	}
+	
+	public void attach(LacPromoter lacPromoter){
+		if (lacPromoter != lacPromoterAttachmentPartner){
+			System.err.println(getClass().getName() + " - Error: Attachment request from non-partner.");
+			assert false;
+			return;
+		}
+		setMotionStrategy(new StillnessMotionStrategy(this));
+		setPosition(targetPositionForLacPromoterAttachment);
+		lacPromoterAttachmentState = AttachmentState.ATTACHED;
+	}
+	
+	public void detach(LacPromoter lacPromoter){
+		// Error checking.
+		if (lacPromoter != lacPromoterAttachmentPartner){
+			System.err.println(getClass().getName() + " - Error: Attachment request from non-partner.");
+			assert false;
+			return;
+		}
+		
+		if (lacPromoterAttachmentState == AttachmentState.ATTACHED){
+			if (getModel().isLacZGenePresent() && !getModel().isLacIAttachedToDna()){
+				// The way is clear for traversing.
+				traversing = true;
+				traversalStartPt.setLocation(getPositionRef());
+				setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
+						new Vector2D.Double(TRAVERSAL_SPEED, 0), MAX_TRAVERSAL_TIME));
+			}
+			else{
+				// Can't traverse, so just detach.
+				setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+				recoveryCountdownTimer = RECOVERY_TIME;
+			}
+			lacPromoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+		}
+		else if (lacPromoterAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+			// We are being asked to terminate the engagement, which can
+			// happen in cases such as when our potential partner gets removed
+			// from the model.
+			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+		}
+		lacPromoterAttachmentPartner = null;
+		// Make sure the flag that indicates that LacI is being bumped is not
+		// set.
+		bumpingLacI = false;
+	}
+	
+	/**
+	 * Simulate a motion that is meant to look like this polymerase molecule
+	 * bumps against the LacI that is on the DNA strand and is thus blocked
+	 * from proceeding, and so returns to its original position.
+	 */
+	public void doLacIBump(){
+		
+		// This is set up to moved a fixed, hard-coded distance and then
+		// return.  At some point, it may be desirable to make this more
+		// "real", in the sense that it would detect when it comes in contact
+		// with the LacI and turn around at that point.  For now (Dec 17 2009),
+		// this is the quickest and easiest way to get the desired behavior.
+		double distanceToTravel = 1; // In nanometers.
+		Point2D turnAroundPoint = new Point2D.Double(getPositionRef().getX() + distanceToTravel, getPositionRef().getY());
+		setMotionStrategy(new ThereAndBackMotionStrategy(this, turnAroundPoint, LacOperonModel.getMotionBounds(), 5));
+		bumpingLacI = true;
+	}
+	
+	private static Shape createActiveConformationShape(){
+		
+		// Create the overall outline.
+		GeneralPath basicShape = new GeneralPath();
+		
+		basicShape.moveTo(WIDTH / 2, -HEIGHT/2);
+		basicShape.lineTo(0, -HEIGHT/2);
+		basicShape.lineTo(-WIDTH * 0.4f, 0);
+		basicShape.curveTo(0, HEIGHT * 0.6f, WIDTH/4, HEIGHT * 0.4f, WIDTH / 2, HEIGHT/4);
+		basicShape.closePath();
+		Area area = new Area(basicShape);
+		
+		// Get the shape of the promoter and shift it to the appropriate
+		// position.
+		Shape promoterShape = new LacPromoter(null).getShape();
+		AffineTransform transform = new AffineTransform();
+		transform.setToTranslation(	basicShape.getBounds2D().getMaxX() - promoterShape.getBounds().getMaxX(), -HEIGHT/2 );
+		promoterShape = transform.createTransformedShape(promoterShape);
+		
+		// Subtract off the shape of the binding region.
+		area.subtract(new Area(promoterShape));
+		
+		// Get the shape of the CAP and shift it to the appropriate location.
+		Shape capShape = new Cap(null).getShape();
+		transform = new AffineTransform();
+		transform.setToTranslation(	promoterShape.getBounds2D().getMinX() - capShape.getBounds2D().getWidth()/2, -2 );
+		capShape = transform.createTransformedShape(capShape);
+		
+		// Subtract off the shape of the camp.
+		area.subtract(new Area(capShape));
+		
+		return area;
+	}
+	
 	public boolean considerProposalFrom(LacPromoter lacPromoter) {
 		boolean proposalAccepted = false;
 		
