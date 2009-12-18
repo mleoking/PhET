@@ -85,6 +85,24 @@ public class LacOperator extends SimpleModelElement {
 		}
 	}
 	
+	@Override
+	public void setDragging(boolean dragging) {
+		if (dragging == true){
+			if (lacIAttachmentPartner != null){
+				// Reaching this point in the code indicates that the user is
+				// dragging this node, but a lac I is either attached or one
+				// its way to us.  This lac I should be released.
+				lacIAttachmentPartner.detach(this);
+				lacIAttachmentPartner = null;
+				
+				// Set our state to unattached and available.  This is safe
+				// because we won't be stepped again until we are released.
+				lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
+		}
+		super.setDragging(dragging);
+	}
+
 	public boolean isLacIAttached(){
 		return (lacIAttachmentState == AttachmentState.ATTACHED);
 	}
