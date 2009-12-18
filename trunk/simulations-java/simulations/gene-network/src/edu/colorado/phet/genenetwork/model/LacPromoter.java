@@ -162,6 +162,7 @@ public class LacPromoter extends SimpleModelElement {
 				// It is possible to traverse the DNA, so just detach the
 				// polymerase so that it can do this.
 				rnaPolymeraseAttachmentPartner.detach(this);
+				rnaPolymeraseAttachmentPartner = null;
 				recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
 				rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 			}
@@ -178,6 +179,7 @@ public class LacPromoter extends SimpleModelElement {
 				else{
 					// Just detach the polymerase.
 					rnaPolymeraseAttachmentPartner.detach(this);
+					rnaPolymeraseAttachmentPartner = null;
 					recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
 					rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 				}
@@ -233,5 +235,19 @@ public class LacPromoter extends SimpleModelElement {
 	@Override
 	protected Point2D getDefaultLocation() {
 		return getModel().getDnaStrand().getLacPromoterLocation();
+	}
+
+	/**
+	 * Release any relationship that we have with a specific RNA polymerase
+	 * molecule.  This was created to allow RNA polymerase to terminate the
+	 * relationship when it is grabbed by the user.
+	 * 
+	 * @param rnaPolymerase
+	 */
+	public void detach(RnaPolymerase rnaPolymerase) {
+		assert rnaPolymerase == rnaPolymeraseAttachmentPartner;
+		rnaPolymeraseAttachmentPartner = null;
+		rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+		recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
 	}
 }
