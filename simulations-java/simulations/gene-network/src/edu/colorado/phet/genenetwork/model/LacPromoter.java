@@ -40,8 +40,8 @@ public class LacPromoter extends SimpleModelElement {
     //------------------------------------------------------------------------
 
 	private RnaPolymerase rnaPolymeraseAttachmentPartner = null;
-	private AttachmentState attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-	private double attachmentCountdownTimer;
+	private AttachmentState rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	private double rnaPolymeraseAttachmentCountdownTimer;
 	private double recoveryCountdownTimer;
 	private int bumpCount = 0;
 
@@ -65,7 +65,7 @@ public class LacPromoter extends SimpleModelElement {
 	public void stepInTime(double dt) {
 		
 		if (!isUserControlled()){
-			switch (attachmentState){
+			switch (rnaPolymeraseAttachmentState){
 			case UNATTACHED_AND_AVAILABLE:
 				attemptToStartAttaching();
 				break;
@@ -87,6 +87,25 @@ public class LacPromoter extends SimpleModelElement {
 		}
 	}
 	
+	@Override
+	public void setDragging(boolean dragging) {
+		if (dragging == true){
+			if (rnaPolymeraseAttachmentPartner != null){
+				// Reaching this point in the code indicates that the user is
+				// dragging this node, but an RNA polymerase is either
+				// attached or about to be attached.  This RNA polymerase
+				// should be released.
+				rnaPolymeraseAttachmentPartner.detach(this);
+				rnaPolymeraseAttachmentPartner = null;
+				
+				// Set our state to unattached and available.  This is safe
+				// because we won't be stepped again until we are released.
+				rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
+		}
+		super.setDragging(dragging);
+	}
+
 	/**
 	 * Get the location in absolute space of the attachment point for the
 	 * specified type of model element.
@@ -95,8 +114,6 @@ public class LacPromoter extends SimpleModelElement {
 		return new Point2D.Double(getPositionRef().getX() + RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET.getWidth(),
 				getPositionRef().getY() + RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET.getHeight());
 	}
-	
-
 
 	private void attemptToStartAttaching(){
 		assert rnaPolymeraseAttachmentPartner == null;
@@ -107,7 +124,7 @@ public class LacPromoter extends SimpleModelElement {
 			if (getPositionRef().distance(rnaPolymerase.getPositionRef()) < ATTACHMENT_INITIATION_RANGE){
 				if (rnaPolymerase.considerProposalFrom(this)){
 					// Attachment formed.
-					attachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+					rnaPolymeraseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
 					rnaPolymeraseAttachmentPartner = rnaPolymerase;
 					break;
 				}
@@ -128,8 +145,8 @@ public class LacPromoter extends SimpleModelElement {
 				rnaPolymeraseAttachmentPartner.getAttachmentPointLocation(this)) < ATTACHMENT_FORMING_DISTANCE){
 			// Close enough to attach.
 			rnaPolymeraseAttachmentPartner.attach(this);
-			attachmentState = AttachmentState.ATTACHED;
-			attachmentCountdownTimer = ATTACH_TO_RNA_POLYMERASE_TIME;
+			rnaPolymeraseAttachmentState = AttachmentState.ATTACHED;
+			rnaPolymeraseAttachmentCountdownTimer = ATTACH_TO_RNA_POLYMERASE_TIME;
 			bumpCount = 0;
 		}
 	}
@@ -137,16 +154,16 @@ public class LacPromoter extends SimpleModelElement {
 	private void checkReadyToDetach(double dt){
 		assert rnaPolymeraseAttachmentPartner != null;
 		
-		attachmentCountdownTimer -= dt;
+		rnaPolymeraseAttachmentCountdownTimer -= dt;
 		
-		if (attachmentCountdownTimer <= 0){
+		if (rnaPolymeraseAttachmentCountdownTimer <= 0){
 			// It's time to detach.  Is the way clear to traverse the DNA?
 			if (!getModel().isLacIAttachedToDna()){
 				// It is possible to traverse the DNA, so just detach the
 				// polymerase so that it can do this.
 				rnaPolymeraseAttachmentPartner.detach(this);
 				recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
-				attachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+				rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 			}
 			else{
 				// The way is blocked.  Based on probability, either simulate
@@ -155,14 +172,14 @@ public class LacPromoter extends SimpleModelElement {
 					// Make the polymerase bump the lacI.
 					rnaPolymeraseAttachmentPartner.doLacIBump();
 					// Reset the timer.
-					attachmentCountdownTimer = ATTACH_TO_RNA_POLYMERASE_TIME + 1; // Need extra time for the bump.
+					rnaPolymeraseAttachmentCountdownTimer = ATTACH_TO_RNA_POLYMERASE_TIME + 1; // Need extra time for the bump.
 					bumpCount++;
 				}
 				else{
 					// Just detach the polymerase.
 					rnaPolymeraseAttachmentPartner.detach(this);
 					recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
-					attachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+					rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 				}
 			}
 		}
@@ -171,7 +188,7 @@ public class LacPromoter extends SimpleModelElement {
 	private void checkWhetherRecovered(double dt){
 		recoveryCountdownTimer -= dt;
 		if (recoveryCountdownTimer < 0){
-			attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 		}
 	}
 	

@@ -93,24 +93,37 @@ public class RnaPolymerase extends SimpleModelElement {
 	}
 	
 	public void detach(LacPromoter lacPromoter){
+		// Error checking.
 		if (lacPromoter != lacPromoterAttachmentPartner){
 			System.err.println(getClass().getName() + " - Error: Attachment request from non-partner.");
 			assert false;
 			return;
 		}
-		if (getModel().isLacZGenePresent() && !getModel().isLacIAttachedToDna()){
-			// The way is clear for traversing.
-			traversing = true;
-			traversalStartPt.setLocation(getPositionRef());
-			setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
-					new Vector2D.Double(TRAVERSAL_SPEED, 0), MAX_TRAVERSAL_TIME));
+		
+		if (lacPromoterAttachmentState == AttachmentState.ATTACHED){
+			if (getModel().isLacZGenePresent() && !getModel().isLacIAttachedToDna()){
+				// The way is clear for traversing.
+				traversing = true;
+				traversalStartPt.setLocation(getPositionRef());
+				setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
+						new Vector2D.Double(TRAVERSAL_SPEED, 0), MAX_TRAVERSAL_TIME));
+			}
+			else{
+				// Can't traverse, so just detach.
+				setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+				recoveryCountdownTimer = RECOVERY_TIME;
+			}
+			lacPromoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		}
-		else{
-			// Can't traverse, so just detach.
-			setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
-			recoveryCountdownTimer = RECOVERY_TIME;
+		else if (lacPromoterAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+			// We are being asked to terminate the engagement, which can
+			// happen in cases such as when our potential partner gets removed
+			// from the model.
+			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			lacPromoterAttachmentPartner = null;
+			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+			bumpingLacI = false;
 		}
-		lacPromoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 	}
 	
 	/**
