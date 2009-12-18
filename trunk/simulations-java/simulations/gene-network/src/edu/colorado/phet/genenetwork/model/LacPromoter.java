@@ -63,8 +63,8 @@ public class LacPromoter extends SimpleModelElement {
 	
 	@Override
 	public void stepInTime(double dt) {
+		
 		if (!isUserControlled()){
-			
 			switch (attachmentState){
 			case UNATTACHED_AND_AVAILABLE:
 				attemptToStartAttaching();
@@ -83,8 +83,8 @@ public class LacPromoter extends SimpleModelElement {
 				assert false;
 				break;
 			}
+			super.stepInTime(dt);
 		}
-		super.stepInTime(dt);
 	}
 	
 	/**
