@@ -487,52 +487,66 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     		cap.stepInTime(dt);
     	}
     	if (capBindingRegion != null){
-    		capBindingRegion.stepInTime(dt);
     		if (capBindingRegion.getExistenceStrength() == 0){
     			capBindingRegion.removeFromModel();
     			capBindingRegion = null;
     		}
+    		else{
+    			capBindingRegion.stepInTime(dt);
+    		}
     	}
     	if (lacOperator != null){
-    		lacOperator.stepInTime(dt);
     		if (lacOperator.getExistenceStrength() == 0){
     			lacOperator.removeFromModel();
     			lacOperator = null;
     		}
+    		else{
+    			lacOperator.stepInTime(dt);
+    		}
     	}
     	if (lacIGene != null){
-    		lacIGene.stepInTime(dt);
     		if (lacIGene.getExistenceStrength() == 0){
     			lacIGene.removeFromModel();
     			lacIGene = null;
     		}
+    		else{
+    			lacIGene.stepInTime(dt);
+    		}
     	}
     	if (lacYGene != null){
-    		lacYGene.stepInTime(dt);
     		if (lacYGene.getExistenceStrength() == 0){
     			lacYGene.removeFromModel();
     			lacYGene = null;
     		}
+    		else{
+    			lacYGene.stepInTime(dt);
+    		}
     	}
     	if (lacZGene != null){
-    		lacZGene.stepInTime(dt);
     		if (lacZGene.getExistenceStrength() == 0){
     			lacZGene.removeFromModel();
     			lacZGene = null;
     		}
+    		else{
+    			lacZGene.stepInTime(dt);
+    		}
     	}
     	if (lacIPromoter != null){
-    		lacIPromoter.stepInTime(dt);
     		if (lacIPromoter.getExistenceStrength() == 0){
     			lacIPromoter.removeFromModel();
     			lacIPromoter = null;
     		}
+    		else{
+    			lacIPromoter.stepInTime(dt);
+    		}
     	}
     	if (lacPromoter != null){
-    		lacPromoter.stepInTime(dt);
     		if (lacPromoter.getExistenceStrength() == 0){
     			lacPromoter.removeFromModel();
     			lacPromoter = null;
+    		}
+    		else{
+    			lacPromoter.stepInTime(dt);
     		}
     	}
     }
@@ -540,13 +554,15 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     private void stepElementsInTime(ArrayList<? extends IModelElement>elements, double dt){
     	ArrayList<IModelElement> toBeRemoved = new ArrayList<IModelElement>();
     	for (IModelElement element : elements){
-    		element.stepInTime(dt);
     		if (element.getExistenceStrength() <= 0){
     			// If a model element gets to the point where its existence
     			// strength is zero, it has essentially died, or dissolved, or
     			// just "ceased to be", so should be removed from the model.
     			toBeRemoved.add(element);
     			element.removeFromModel();
+    		}
+    		else{
+    			element.stepInTime(dt);
     		}
     	}
     	elements.removeAll(toBeRemoved);
