@@ -880,33 +880,43 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _harmonicOscillatorDragManager.setColorScheme( _colorScheme );
             _squareDragManager.setPotential( _squarePotential );
             _squareDragManager.setColorScheme( _colorScheme );
-
+            
             // set the potential that is selected
             BSWellType wellType = config.loadSelectedWellType();
             BSAbstractPotential potential = null;
+            BSAbstractDragManager defaultDragManager = null;
             if ( wellType == BSWellType.ASYMMETRIC ) {
                 potential = _asymmetricPotential;
+                defaultDragManager = _asymmetricDragManager;
             }
             else if ( wellType == BSWellType.COULOMB_1D ) {
                 assert ( _coulomb1DPotential != null );
                 potential = _coulomb1DPotential;
+                defaultDragManager = _coulomb1DDragManager;
             }
             else if ( wellType == BSWellType.COULOMB_3D ) {
                 assert ( _coulomb3DPotential != null );
                 potential = _coulomb3DPotential;
+                defaultDragManager = _coulomb3DDragManager;
             }
             else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
                 potential = _harmonicOscillatorPotential;
+                defaultDragManager = _harmonicOscillatorDragManager;
             }
             else if ( wellType == BSWellType.SQUARE ) {
                 potential = _squarePotential;
+                defaultDragManager = _squareDragManager;
             }
             else {
                 throw new IllegalArgumentException( "unsupported wellType: " + wellType );
             }
             assert ( potential != null );
             _model.setPotential( potential );
-
+            
+            // show the drag handles for the selected potential
+            hideAllDragManagers();
+            defaultDragManager.setVisible( true );
+            
             // Restore coefficients after setting potential
             double[] c = config.getSuperpositionCoefficients();
             for ( int i = 0; i < c.length; i++ ) {
