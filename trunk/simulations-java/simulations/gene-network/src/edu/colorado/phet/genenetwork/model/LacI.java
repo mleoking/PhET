@@ -74,7 +74,7 @@ public class LacI extends SimpleModelElement {
 	
 	public LacI(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds(),
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna(),
 				INITIAL_DESTINATION_POINT));
 	}
 	
@@ -98,7 +98,7 @@ public class LacI extends SimpleModelElement {
 			lacOperatorAttachmentPartner.detach(this);
 			lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			lacOperatorAttachmentPartner = null;
-			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 		}
 		super.setDragging(dragging);
 	}

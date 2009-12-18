@@ -146,7 +146,7 @@ public class Glucose extends SimpleSugar {
 		assert lacZ == lacZAttachmentPartner;
 		lacZAttachmentPartner = null;
 		lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-		setMotionStrategy(new LinearThenRandomMotionStrategy(this, LacOperonModel.getMotionBounds(), 
+		setMotionStrategy(new LinearThenRandomMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna(), 
 				new Vector2D.Double(-3, -8), 1));
 		
 		// Once broken down from being a part of lactose, this fades away.

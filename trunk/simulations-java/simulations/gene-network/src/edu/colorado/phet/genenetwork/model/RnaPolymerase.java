@@ -61,7 +61,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	public RnaPolymerase(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 	}
 	
 	public RnaPolymerase(IGeneNetworkModelControl model) {
@@ -104,7 +104,7 @@ public class RnaPolymerase extends SimpleModelElement {
 						mRna = null;
 						transcribing = false;
 						traversing = false;
-						setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+						setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 						recoveryCountdownTimer = RECOVERY_TIME;
 					}
 				}
@@ -142,7 +142,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			lacPromoterAttachmentPartner.detach(this);
 			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			lacPromoterAttachmentPartner = null;
-			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 			bumpingLacI = false;
 		}
 		super.setDragging(dragging);
@@ -182,7 +182,8 @@ public class RnaPolymerase extends SimpleModelElement {
 			}
 			else{
 				// Can't traverse, so just detach.
-				setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+				setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, 
+						LacOperonModel.getMotionBoundsAboveDna()));
 				recoveryCountdownTimer = RECOVERY_TIME;
 			}
 			lacPromoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
@@ -192,7 +193,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			// happen in cases such as when our potential partner gets removed
 			// from the model.
 			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 		}
 		lacPromoterAttachmentPartner = null;
 		// Make sure the flag that indicates that LacI is being bumped is not
