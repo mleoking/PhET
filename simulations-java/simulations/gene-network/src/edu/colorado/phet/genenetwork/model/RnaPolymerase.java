@@ -127,7 +127,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		// this is the quickest and easiest way to get the desired behavior.
 		double distanceToTravel = 1; // In nanometers.
 		Point2D turnAroundPoint = new Point2D.Double(getPositionRef().getX() + distanceToTravel, getPositionRef().getY());
-		setMotionStrategy(new ThereAndBackMotionStrategy(this, turnAroundPoint, LacOperonModel.getMotionBounds()));
+		setMotionStrategy(new ThereAndBackMotionStrategy(this, turnAroundPoint, LacOperonModel.getMotionBounds(), 5));
 		bumpingLacI = true;
 	}
 	
