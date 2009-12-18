@@ -90,6 +90,19 @@ public class LacI extends SimpleModelElement {
     // Methods
     //------------------------------------------------------------------------
 	
+	@Override
+	public void setDragging(boolean dragging) {
+		if (dragging == true && lacOperatorAttachmentPartner != null){
+			// The user has grabbed this node and is moving it, so release
+			// any relationship that exists with the lac operator.
+			lacOperatorAttachmentPartner.detach(this);
+			lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			lacOperatorAttachmentPartner = null;
+			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsExcludingDna()));
+		}
+		super.setDragging(dragging);
+	}
+
 	private static Shape createActiveConformationShape(){
 		
 		// Create the overall outline.
@@ -152,17 +165,20 @@ public class LacI extends SimpleModelElement {
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
-		updateAttachements(dt);
-		Point2D currentDestination = getMotionStrategyRef().getDestination();
-		if ( currentDestination != null && 
-			 currentDestination.getX() == INITIAL_DESTINATION_POINT.getX() && 
-			 currentDestination.getY() == INITIAL_DESTINATION_POINT.getY()){
-			
-			if (currentDestination.distance(getPositionRef()) < 4){
-				// We were moving toward the initial destination and are in
-				// the neighborhood, so we can stop any directed motion and
-				// just hang out here until we are told to do otherwise.
-				getMotionStrategyRef().setDestination(null);
+		
+		if (!isUserControlled()){
+			updateAttachements(dt);
+			Point2D currentDestination = getMotionStrategyRef().getDestination();
+			if ( currentDestination != null && 
+					currentDestination.getX() == INITIAL_DESTINATION_POINT.getX() && 
+					currentDestination.getY() == INITIAL_DESTINATION_POINT.getY()){
+				
+				if (currentDestination.distance(getPositionRef()) < 4){
+					// We were moving toward the initial destination and are in
+					// the neighborhood, so we can stop any directed motion and
+					// just hang out here until we are told to do otherwise.
+					getMotionStrategyRef().setDestination(null);
+				}
 			}
 		}
 	}
@@ -269,7 +285,8 @@ public class LacI extends SimpleModelElement {
 				LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getWidth();
 			double yDest = lacOperatorAttachmentPartner.getLacIAttachmentPointLocation().getY() -
 				LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getHeight();
-			getMotionStrategyRef().setDestination(xDest, yDest);
+			setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds(),
+					new Point2D.Double(xDest, yDest)));
 			targetPositionForLacOperatorAttachment.setLocation(xDest, yDest);
 		}
 		
