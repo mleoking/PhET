@@ -45,8 +45,8 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 			DNA_STRAND_POSITION.getY(), MODEL_BOUNDS.getWidth(),
 			MODEL_BOUNDS.getHeight() - DNA_STRAND_POSITION.getY() + MODEL_BOUNDS.getMinY());
 	
-	private static final Rectangle2D MOTION_BOUNDS_EXCLUDING_DNA = new Rectangle2D.Double(MODEL_BOUNDS.getMinX(), 
-			DNA_STRAND_POSITION.getY() + DNA_STRAND_HEIGHT * 3, MODEL_BOUNDS.getWidth(),
+	private static final Rectangle2D MOTION_BOUNDS_ABOVE_DNA = new Rectangle2D.Double(MODEL_BOUNDS.getMinX(), 
+			DNA_STRAND_POSITION.getY() + DNA_STRAND_HEIGHT + 10, MODEL_BOUNDS.getWidth(),
 			MODEL_BOUNDS.getHeight() - DNA_STRAND_POSITION.getY() + MODEL_BOUNDS.getMinY());
 	
     //----------------------------------------------------------------------------
@@ -299,12 +299,14 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     
     /**
      * The the area of the model where it is okay to move around and not end
-     * up overlapping the DNA.
+     * up overlapping the DNA.  This actually excludes an area that is quite a
+     * bit larger than the DNA so that model elements within it stay far
+     * enough above that they don't end up overlapping it at all.
      * 
      * @return
      */
-    public static Rectangle2D getMotionBoundsExcludingDna(){
-    	return MOTION_BOUNDS_EXCLUDING_DNA;
+    public static Rectangle2D getMotionBoundsAboveDna(){
+    	return MOTION_BOUNDS_ABOVE_DNA;
     }
     
     public boolean isLacIAttachedToDna(){
@@ -458,7 +460,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		Glucose glucose = new Glucose(this);
 		double xOffset = glucose.getShape().getBounds2D().getWidth() / 2;
 		glucose.setPosition(initialPosition.getX() - xOffset, initialPosition.getY());
-		glucose.setMotionStrategy(new InjectionMotionStrategy(glucose, MOTION_BOUNDS, initialVelocity));
+		glucose.setMotionStrategy(new InjectionMotionStrategy(glucose, MOTION_BOUNDS_ABOVE_DNA, initialVelocity));
 		Galactose galactose = new Galactose(this);
 		
 		// Attach these two to one another.
