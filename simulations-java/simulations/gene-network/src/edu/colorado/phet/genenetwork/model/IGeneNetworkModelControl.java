@@ -172,5 +172,9 @@ public interface IGeneNetworkModelControl {
 	 * can be found.
 	 */
 	Glucose findNearestFreeLactose(Point2D pt);
-
+	
+	/**
+	 * Returns true if it is okay to inject lactose, false if not.
+	 */
+	public boolean isLactoseInjectionAllowed();
 }

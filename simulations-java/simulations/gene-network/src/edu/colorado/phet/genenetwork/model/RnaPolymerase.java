@@ -283,6 +283,9 @@ public class RnaPolymerase extends SimpleModelElement {
 	 */
 	private boolean isOnLacZGene(){
 		LacZGene lacZGene = getModel().getLacZGene();
+		if (lacZGene == null){
+			return false;
+		}
 		Rectangle2D lacZGeneBounds = lacZGene.getShape().getBounds2D();
 		
 		// Create an "extended bounds" region where if our position in within

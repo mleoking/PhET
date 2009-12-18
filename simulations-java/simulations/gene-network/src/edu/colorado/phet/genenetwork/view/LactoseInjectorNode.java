@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.genenetwork.GeneNetworkResources;
+import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -111,6 +112,15 @@ public class LactoseInjectorNode extends PNode {
                 unpressedButtonImage.setVisible(true);
             }
         });
+        
+        // Listen for changes that affect this node's visibility.
+        model.addListener(new GeneNetworkModelAdapter(){
+        	public void lactoseInjectionAllowedStateChange(){
+        		updateVisibility();
+        	}
+        });
+        
+        updateVisibility();
 	}
 	
 	private void injectLactose(){
@@ -120,5 +130,16 @@ public class LactoseInjectorNode extends PNode {
 		Vector2D initialVelocity = new Vector2D.Double(NOMINAL_LACTOSE_INJECTION_VELOCITY);
 		initialVelocity.rotate((RAND.nextDouble() - 0.5) * Math.PI * 0.15);
         model.createAndAddLactose(new Point2D.Double(injectionPointX, injectionPointY), initialVelocity); 
+	}
+	
+	private void updateVisibility(){
+		if (model.isLactoseInjectionAllowed()){
+			setVisible(true);
+			unpressedButtonImage.setPickable(true);
+		}
+		else{
+			setVisible(false);
+			unpressedButtonImage.setPickable(false);
+		}
 	}
 }
