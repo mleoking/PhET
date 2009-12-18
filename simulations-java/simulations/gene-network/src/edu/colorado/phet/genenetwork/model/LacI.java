@@ -219,6 +219,17 @@ public class LacI extends SimpleModelElement {
 					
 					// Prevent fadeout from occurring while attached to lactose.
 					setOkayToFade(false);
+					
+					// If we are not moving towards the lac operator, move
+					// towards the lactose.
+					if (lacOperatorAttachmentPartner == null){
+						Dimension2D offsetFromTarget = new PDimension(
+								Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
+								Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
+
+						setMotionStrategy(new CloseOnMovingTargetMotionStrategy(this, glucoseAttachmentPartner,
+								offsetFromTarget, LacOperonModel.getMotionBoundsAboveDna()));
+					}
 				}
 			}
 		}
