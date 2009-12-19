@@ -12,6 +12,7 @@ import edu.colorado.phet.energyskatepark.model.BumpUpSplines;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSplineEnvironment;
 import edu.colorado.phet.energyskatepark.view.SplineMatch;
 import edu.umd.cs.piccolo.PNode;
@@ -229,11 +230,11 @@ public class SplineNode extends PNode {
 
     private SplineMatch getTrunkMatch( int index ) {
         if( initDragSpline == null ) {
-            System.out.println( "initdragspline was null" );
+            EnergySkateParkLogging.println( "initdragspline was null" );
             return null;
         }
         if( index < 0 || index > initDragSpline.length ) {
-            System.out.println( "index = " + index + ", initDragSpline.length=" + initDragSpline.length );
+            EnergySkateParkLogging.println( "index = " + index + ", initDragSpline.length=" + initDragSpline.length );
             return null;
         }
         else {
@@ -371,7 +372,7 @@ public class SplineNode extends PNode {
     private void proposeMatchesEndpoint( int index ) {
         if( index == 0 || index == numControlPointGraphics() - 1 ) {
             SplineMatch match = getEndpointMatch();
-            System.out.println( "match=" + match );
+            EnergySkateParkLogging.println( "match=" + match );
             if( match != null ) {
                 spline.setControlPointLocation( index, new SerializablePoint2D( match.getTarget().getFullBounds().getCenter2D() ) );
             }

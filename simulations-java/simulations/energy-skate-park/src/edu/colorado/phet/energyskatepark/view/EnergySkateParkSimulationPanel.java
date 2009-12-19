@@ -8,6 +8,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
 import edu.colorado.phet.energyskatepark.view.piccolo.SkaterNode;
 import edu.colorado.phet.energyskatepark.view.piccolo.SplineNode;
@@ -90,7 +91,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
                             keyTyped( e );
                             break;
                         default:
-                            System.out.println( "unknown key event type" );
+                            EnergySkateParkLogging.println( "unknown key event type" );
                             break;
                     }
                 }
@@ -110,7 +111,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         long heapMaxSize = Runtime.getRuntime().maxMemory();// Get maximum size of heap in bytes. The heap cannot grow beyond this size.// Any attempt will result in an OutOfMemoryException.
         long heapFreeSize = Runtime.getRuntime().freeMemory();// Get amount of free memory within the heap in bytes. This size will increase // after garbage collection and decrease as new objects are created.
         long currentUsage = heapSize - heapFreeSize;
-        System.out.println( "currentUsage=" + toMB( currentUsage ) + ", totalMemory=" + toMB( heapSize ) + ", maxMemory=" + toMB( heapMaxSize ) + ", freeMemory=" + toMB( heapFreeSize ) );
+        EnergySkateParkLogging.println( "currentUsage=" + toMB( currentUsage ) + ", totalMemory=" + toMB( heapSize ) + ", maxMemory=" + toMB( heapMaxSize ) + ", freeMemory=" + toMB( heapFreeSize ) );
     }
 
     private String toMB( long heapFreeSize ) {
@@ -155,7 +156,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private void debugScreenSize() {
-        System.out.println( "getSize( ) = " + getSize() );
+        EnergySkateParkLogging.println( "getSize( ) = " + getSize() );
     }
 
     private void updateThrust() {
@@ -277,7 +278,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         EnergySkateParkSpline energySkateParkSpline = new EnergySkateParkSpline( spline.getControlPoints() );
         energySkateParkSpline.setRollerCoasterMode( rollerCoaster );
         energySkateParkModel.addSplineSurface( energySkateParkSpline );
-        System.out.println( "change = " + change );
+        EnergySkateParkLogging.println( "change = " + change );
         if( change ) {
             TraversalState traversalState = energySkateParkModel.getBody( 0 ).getBestTraversalState( origState );
             energySkateParkModel.getBody( 0 ).setSpline( energySkateParkModel.getEnergySkateParkSpline( traversalState.getParametricFunction2D() ), traversalState.isTop(), traversalState.getAlpha() );
@@ -310,7 +311,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         multiKeyHandler.keyPressed( e );
         if( hasFocus() ) {
             if( e.getKeyCode() == KeyEvent.VK_P ) {
-                System.out.println( "spline.getSegmentPath().getLength() = " + energySkateParkModel.getSpline( 0 ).numControlPoints() );
+                EnergySkateParkLogging.println( "spline.getSegmentPath().getLength() = " + energySkateParkModel.getSpline( 0 ).numControlPoints() );
                 printControlPoints();
             }
             else if( e.getKeyCode() == KeyEvent.VK_A ) {
@@ -409,7 +410,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 //        skaterNode.get
         Rectangle2D d = skaterNode.getRedDotGlobalFullBounds();
 //        Point2D center = d.getc
-//        System.out.println( "screenRect = " + screenRect +", center="+center);
+//        EnergySkateParkLogging.println( "screenRect = " + screenRect +", center="+center);
 //        return screenRect.contains( d.getCenterX(),d.getCenterY());
         return screenRect.contains( d );
     }

@@ -2,6 +2,7 @@ package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.*;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 import java.awt.geom.Line2D;
 import java.io.Serializable;
@@ -67,7 +68,7 @@ public class Particle implements Serializable {
             double finalEnergy = getTotalEnergy();
             double dE = finalEnergy - origEnergy;
             if( Math.abs( dE ) > 1E-6 && getThrust().getMagnitude() == 0.0 ) {
-                System.out.println( "Particle.stepInTime: de = " + dE + ", strategy=" + updateClass + ", newStrategy=" + updateStrategy.getClass() );
+                EnergySkateParkLogging.println( "Particle.stepInTime: de = " + dE + ", strategy=" + updateClass + ", newStrategy=" + updateStrategy.getClass() );
             }
             update();
         }
@@ -276,7 +277,7 @@ public class Particle implements Serializable {
         particle1D.detach();
         double dE = getTotalEnergy() - origEnergy;
         if( Math.abs( dE ) > 1E-6 ) {
-            System.out.println( "Switching to freefall: energy discrepancy: dE=" + dE );
+            EnergySkateParkLogging.println( "Switching to freefall: energy discrepancy: dE=" + dE );
             if( dE > 0 ) {//gained energy
                 //can we reduce velocity to fix?
                 testCorrectVelocity( origEnergy );
@@ -295,13 +296,13 @@ public class Particle implements Serializable {
             }
         }
         else {
-            System.out.println( "can't correct with velocity correction" );
+            EnergySkateParkLogging.println( "can't correct with velocity correction" );
         }
     }
 
     private void verboseDebug( String s ) {
         if( verboseDebug ) {
-            System.out.println( s );
+            EnergySkateParkLogging.println( s );
         }
     }
 
@@ -453,7 +454,7 @@ public class Particle implements Serializable {
             //take a min over all possible crossover points
             SearchState searchState = getBestCrossPoint( newLoc, origAbove, origLoc );
             if( !Double.isInfinite( searchState.getDistance() ) ) {
-                System.out.println( "searchState.getDistance() = " + searchState.getDistance() );
+                EnergySkateParkLogging.println( "searchState.getDistance() = " + searchState.getDistance() );
             }
             boolean interactWithTrack = searchState.getDistance() < 0.2;//this number was determined heuristically for a set of tests (free parameter), doesn't work very well for large gravity field
             if( interactWithTrack ) {
@@ -461,7 +462,7 @@ public class Particle implements Serializable {
             }
             double finalEnergy = getTotalEnergy();
             if( shouldFixFreeFallEnergy() && Math.abs( finalEnergy - origEnergy ) >= 1E-6 ) {
-                System.out.println( "Energy error in freefall, interactWithTrack=" + interactWithTrack );
+                EnergySkateParkLogging.println( "Energy error in freefall, interactWithTrack=" + interactWithTrack );
             }
         }
 
@@ -481,20 +482,20 @@ public class Particle implements Serializable {
             AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( newNormalVelocity );
 
             double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
-//                System.out.println( "testv = " + testVal );
+//                EnergySkateParkLogging.println( "testv = " + testVal );
 
             double p = Math.abs( getVelocity().getMagnitude() / getGravity() / dt );
 
-//            System.out.println( "getVelocity() = " + getVelocity() + ", testVal=" + testVal + ", newVelocity=" + newVelocity );
+//            EnergySkateParkLogging.println( "getVelocity() = " + getVelocity() + ", testVal=" + testVal + ", newVelocity=" + newVelocity );
             boolean bounce = testVal >= ( stickiness + getTrackStickiness( cubicSpline ) );
             double GRAB_THRESHOLD = 3.0;
             if( p < GRAB_THRESHOLD ) {
-                System.out.println( "p = " + p );
-                System.out.println( "Grabbing due to small speed (for this g and dt), threshold=" + GRAB_THRESHOLD + ", v/(g*dt)=" + p );
+                EnergySkateParkLogging.println( "p = " + p );
+                EnergySkateParkLogging.println( "Grabbing due to small speed (for this g and dt), threshold=" + GRAB_THRESHOLD + ", v/(g*dt)=" + p );
                 bounce = false;
             }
 //            if( getVelocity().getMagnitude() < 1.0 ) {
-//                System.out.println( "Grabbing due to small speed, speed= " + getVelocity().getMagnitude() );
+//                EnergySkateParkLogging.println( "Grabbing due to small speed, speed= " + getVelocity().getMagnitude() );
 //                bounce = false;
 //            }
 
@@ -502,7 +503,7 @@ public class Particle implements Serializable {
 
             //make sure the velocity is toward the track to enable switching to track (otherwise over a tight curve, the particle doesn't leave the track when N~0)
             boolean velocityTowardTrack = isVelocityTowardTrack( origLoc, cubicSpline, newAlpha );
-//                System.out.println( "velocityTowardTrack = " + velocityTowardTrack );
+//                EnergySkateParkLogging.println( "velocityTowardTrack = " + velocityTowardTrack );
             if( bounce || !velocityTowardTrack ) {
                 double energyBeforeBounce = getTotalEnergy();
                 setVelocity( newVelocity );
@@ -517,7 +518,7 @@ public class Particle implements Serializable {
                 if( reorientOnBounce ) {
                     orientAngleOnTrack( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
                 }
-//                    System.out.println( "bounced" );
+//                    EnergySkateParkLogging.println( "bounced" );
             }
             else {
                 //grab the track
@@ -534,23 +535,23 @@ public class Particle implements Serializable {
 //                    updateStateFrom1D();
                 double dE2 = getTotalEnergy() - origEnergy;
                 if( Math.abs( dE2 ) > 1E-6 ) {
-//                    System.out.println( "Grabbed the track, dE0 = " + dE0 + ", de1=" + dE1 + ", de2=" + dE2 );
+//                    EnergySkateParkLogging.println( "Grabbed the track, dE0 = " + dE0 + ", de1=" + dE1 + ", de2=" + dE2 );
                     //energy error on track attachment.
                     if( dE2 < 0 ) {//lost energy
                         thermalEnergy += Math.abs( dE2 );
                     }
                     else {
-//                        System.out.println( "gained energy on track attachment" );
+//                        EnergySkateParkLogging.println( "gained energy on track attachment" );
                         //See if particle1d can fix energy problem
                         particle1D.fixEnergy( particle1D.getAlpha(), origEnergy );
                         updateStateFrom1D();
                         double dE3 = getTotalEnergy() - origEnergy;
                         if( Math.abs( dE3 ) > 1E-6 ) {
-                            System.out.println( "particle1d couldn't fix, deleting thermal energy (temporary solution): dE=" + Math.abs( dE3 ) );
+                            EnergySkateParkLogging.println( "particle1d couldn't fix, deleting thermal energy (temporary solution): dE=" + Math.abs( dE3 ) );
                             thermalEnergy -= Math.abs( dE3 );
                         }
                         else {
-//                            System.out.println( "particle1d fixed it." );
+//                            EnergySkateParkLogging.println( "particle1d fixed it." );
                         }
                     }
                 }
@@ -572,7 +573,7 @@ public class Particle implements Serializable {
             boolean crossed = origAbove[i] != above;
             if( crossed && ( alpha >= 0.0 && alpha <= 1.0 ) ) {
                 double ptLineDist = pointSegmentDistance( cubicSpline.evaluate( alpha ), new Line2D.Double( origLoc, pt ) );
-//                    System.out.println( "crossed spline[" + i + "] at alpha=" + alpha + ", ptLineDist=" + ptLineDist );
+//                    EnergySkateParkLogging.println( "crossed spline[" + i + "] at alpha=" + alpha + ", ptLineDist=" + ptLineDist );
                 if( ptLineDist < searchState.getDistance() ) {
                     searchState.setDistance( ptLineDist );
                     searchState.setTrack( cubicSpline );
@@ -639,18 +640,18 @@ public class Particle implements Serializable {
         setUpdateStrategy( new Particle1DUpdate() );
         AbstractVector2D newVelocity = particle1D.getVelocity2D();
         double dot = newVelocity.dot( origVel );
-//        System.out.println( "switched to track, velocity dot product= " + dot );
+//        EnergySkateParkLogging.println( "switched to track, velocity dot product= " + dot );
         if( dot < 0 ) {
-            System.out.println( "Velocities were in contrary directions" );
+            EnergySkateParkLogging.println( "Velocities were in contrary directions" );
         }
         double newEnergy = particle1D.getEnergy();
         double dE = ( newEnergy - origEnergy );
         if( dE <= 0 ) {
-//            System.out.println( "dE = " + dE );
+//            EnergySkateParkLogging.println( "dE = " + dE );
             particle1D.addThermalEnergy( Math.abs( dE ) );
         }
         else {
-            System.out.println( "gained energy on landing, not solved yet" ); //todo: solve energy problem on landing
+            EnergySkateParkLogging.println( "gained energy on landing, not solved yet" ); //todo: solve energy problem on landing
         }
         updateStateFrom1D();
     }

@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 import java.util.ArrayList;
 
@@ -130,13 +131,13 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
         } );
         for( double s = 0.0; s < 1.0; s += 0.1 ) {
             SerializablePoint2D at = parametricFunction2D.evaluate( s );
-            System.out.println( "s = " + s + ", at=" + at );
+            EnergySkateParkLogging.println( "s = " + s + ", at=" + at );
         }
         double delta = parametricFunction2D.getMetricDelta( 0, 1 );
-        System.out.println( "Spline length=" + delta );
+        EnergySkateParkLogging.println( "Spline length=" + delta );
 
         double fracDist = parametricFunction2D.getFractionalDistance( 0, delta );
-        System.out.println( "fracDist = " + fracDist );
+        EnergySkateParkLogging.println( "fracDist = " + fracDist );
 
     }
 

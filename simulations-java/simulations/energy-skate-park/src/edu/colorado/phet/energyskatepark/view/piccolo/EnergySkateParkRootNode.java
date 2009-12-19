@@ -10,6 +10,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -92,7 +93,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
                 map.put( new Double( EnergySkateParkModel.G_JUPITER ), Color.white );
                 map.put( new Double( EnergySkateParkModel.G_MOON ), Color.lightGray );
                 Double key = new Double( module.getEnergySkateParkModel().getGravity() );
-//                System.out.println( "module.getEnergySkateParkModel().getGravity() = " + module.getEnergySkateParkModel().getGravity() +", contains key="+map.containsKey( new Double(module.getEnergySkateParkModel().getGravity( ))));
+//                EnergySkateParkLogging.println( "module.getEnergySkateParkModel().getGravity() = " + module.getEnergySkateParkModel().getGravity() +", contains key="+map.containsKey( new Double(module.getEnergySkateParkModel().getGravity( ))));
                 Paint paint = (Paint)( map.containsKey( key ) ? map.get( key ) : Color.black );
                 gridNode.setGridPaint( paint );
             }
@@ -448,7 +449,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public static void main( String[] args ) {
-        System.out.println( "new Double(0).equals( new Double(-0)) = " + new Double( 0 ).equals( new Double( -0 ) ) );
+        EnergySkateParkLogging.println( "new Double(0).equals( new Double(-0)) = " + new Double( 0 ).equals( new Double( -0 ) ) );
     }
 
     public void setBackgroundVisible( boolean selected ) {

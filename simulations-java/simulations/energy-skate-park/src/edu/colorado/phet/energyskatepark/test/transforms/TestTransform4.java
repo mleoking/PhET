@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.test.transforms;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -73,7 +74,7 @@ public class TestTransform4 {
             }
 
             public void mousePressed( MouseEvent e ) {
-                System.out.println( "ch.getGlobalFullBounds() = " + ch1.getGlobalFullBounds() );
+                EnergySkateParkLogging.println( "ch.getGlobalFullBounds() = " + ch1.getGlobalFullBounds() );
                 Dimension2D d2 = world.getMinDimension();
                 world.setMinDimension( d2.getWidth() / 2, d2.getHeight() / 2 );
                 pCanvas.repaint();
@@ -119,7 +120,7 @@ public class TestTransform4 {
             double minSX = pCanvas.getWidth() / getMinDimension().getWidth();
             double minSY = pCanvas.getHeight() / getMinDimension().getHeight();
             double scale = Math.min( minSX, minSY );
-            System.out.println( "scale = " + scale );
+            EnergySkateParkLogging.println( "scale = " + scale );
             if( scale > 0 ) {
                 AffineTransform t = getTransformReference( true );
                 t.setTransform( scale, t.getShearY(), t.getShearX(), -scale, t.getTranslateX(), t.getTranslateY() + 600 );

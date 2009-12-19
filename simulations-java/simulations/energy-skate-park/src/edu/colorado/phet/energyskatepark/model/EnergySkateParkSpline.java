@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 import java.awt.geom.GeneralPath;
 import java.io.Serializable;
@@ -141,7 +142,7 @@ public class EnergySkateParkSpline implements Serializable {
     }
 
     public void printControlPointCode() {
-        System.out.println( "parametricFunction2D.toStringSerialization() = " + parametricFunction2D.toStringSerialization() );
+        EnergySkateParkLogging.println( "parametricFunction2D.toStringSerialization() = " + parametricFunction2D.toStringSerialization() );
     }
 
     public void setControlPointLocation( int index, SerializablePoint2D pt ) {

@@ -5,6 +5,8 @@ package edu.colorado.phet.energyskatepark.model;
 //Solve the differential equation  using 4th order Runge-Kutta Method
 //copywrite 2002 R Landau, Oregon State U
 
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -26,11 +28,11 @@ public class RK4 {
         t = Tmin;
         Diff diff = new DampedSpring();
         for( t = Tmin; t <= Tmax; t += h ) {
-            System.out.println( "RK4 t=" + t + " , x= " + y[0] + ", v= " + y[1] );//printout
+            EnergySkateParkLogging.println( "RK4 t=" + t + " , x= " + y[0] + ", v= " + y[1] );//printout
             w.println( t + " " + y[0] + " " + y[1] );//output to file
             rk4( t, y, h, diff );
         }
-        System.out.println( "Data stored in RK4.dat" );
+        EnergySkateParkLogging.println( "Data stored in RK4.dat" );
     }
 
 // ====== rk4 method below is *NOT TO BE MODIFIED. Instead, modify f method

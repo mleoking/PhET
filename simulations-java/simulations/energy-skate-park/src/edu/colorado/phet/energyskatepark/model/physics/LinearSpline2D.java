@@ -2,6 +2,7 @@ package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 import java.util.Arrays;
 
@@ -50,7 +51,7 @@ public class LinearSpline2D extends ControlPointParametricFunction2D {
         double dAlpha = 0.1;
         LinearSpline2D linearSpline2D = new LinearSpline2D( pts );
         for( double alpha = -1; alpha <= 2; alpha += dAlpha ) {
-            System.out.println( "alpha = " + alpha + ", location=" + linearSpline2D.evaluate( alpha ) );
+            EnergySkateParkLogging.println( "alpha = " + alpha + ", location=" + linearSpline2D.evaluate( alpha ) );
         }
     }
 }

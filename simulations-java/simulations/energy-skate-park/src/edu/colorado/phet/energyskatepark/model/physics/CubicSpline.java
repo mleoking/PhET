@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import Jama.Matrix;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -136,16 +137,16 @@ public class CubicSpline implements Serializable {
     public static void main( String[] args ) {
 //        CubicSpline spline = interpolate( new double[]{0, 1, 2}, new double[]{0, 1, 0} );
 //        for( double x = 0; x < 2.0-0.01; x += 0.1 ) {
-//            System.out.println( "x = " + x + ", y=" + spline.evaluate( x ) );
+//            EnergySkateParkLogging.println( "x = " + x + ", y=" + spline.evaluate( x ) );
 //        }
-//        System.out.println( "x = " + 2.0 + ", y=" + spline.evaluate( 2.0 ) );
+//        EnergySkateParkLogging.println( "x = " + 2.0 + ", y=" + spline.evaluate( 2.0 ) );
 
         CubicSpline spline = interpolate( new double[]{0, 1, 2}, new double[]{0, 1, 0} );
         for( double x = 0; x < 2.0 - 0.01; x += 0.1 ) {
-            System.out.println( spline.evaluate( x ) );
-//            System.out.println( "x = " + x + ", y=" + spline.evaluate( x ) );
+            EnergySkateParkLogging.println( spline.evaluate( x ) );
+//            EnergySkateParkLogging.println( "x = " + x + ", y=" + spline.evaluate( x ) );
         }
-        System.out.println( spline.evaluate( 2.0 ) );
-//        System.out.println( "x = " + 2.0 + ", y=" + spline.evaluate( 2.0 ) );
+        EnergySkateParkLogging.println( spline.evaluate( 2.0 ) );
+//        EnergySkateParkLogging.println( "x = " + 2.0 + ", y=" + spline.evaluate( 2.0 ) );
     }
 }

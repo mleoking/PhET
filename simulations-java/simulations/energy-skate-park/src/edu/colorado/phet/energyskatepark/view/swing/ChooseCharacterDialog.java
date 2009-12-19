@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 /**
  * Author: Sam Reid
@@ -75,7 +76,7 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
         characterPanel.addMouseListener( new MouseInputAdapter() {
             // implements java.awt.event.MouseListener
             public void mousePressed( MouseEvent e ) {
-                System.out.println( "e = " + e );
+                EnergySkateParkLogging.println( "e = " + e );
                 setSelection( characterPanel );
             }
         } );

@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.model.physics;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 import java.awt.geom.Line2D;
 import java.io.Serializable;
@@ -217,11 +218,11 @@ public abstract class ParametricFunction2D implements Serializable {
             metricDelta = getMetricDelta( alpha0, guess );
             count++;
             if( count > 100 ) {
-                System.out.println( "binary search failed: count=" + count );
+                EnergySkateParkLogging.println( "binary search failed: count=" + count );
                 break;
             }
         }
-//        System.out.println( "count = " + count );
+//        EnergySkateParkLogging.println( "count = " + count );
         return guess - alpha0;
     }
 
@@ -231,7 +232,7 @@ public abstract class ParametricFunction2D implements Serializable {
 //        double epsilon = 1E-6;
         double a0 = alpha - epsilon / 2;
         double a1 = alpha + epsilon / 2;
-//        System.out.println( "a0 = " + a0 +", a1="+a1);
+//        EnergySkateParkLogging.println( "a0 = " + a0 +", a1="+a1);
 
         Vector2D.Double vector = new Vector2D.Double( evaluate( a0 ), evaluate( a1 ) );
         if( vector.getMagnitude() == 0 ) {

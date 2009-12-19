@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -80,11 +81,11 @@ public class TestPhysics1D extends JFrame {
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 double e1 = particle.getTotalEnergy();
-//                System.out.println( "clockEvent = " + clockEvent.getSimulationTimeChange() );
+//                EnergySkateParkLogging.println( "clockEvent = " + clockEvent.getSimulationTimeChange() );
                 particle.stepInTime( clockEvent.getSimulationTimeChange() );
                 double e2 = particle.getTotalEnergy();
                 double relativeEnergyError = ( e2 - e1 ) / normTerm;
-//                System.out.println( "relativeEnergyError =" + relativeEnergyError );
+//                EnergySkateParkLogging.println( "relativeEnergyError =" + relativeEnergyError );
             }
         } );
 
@@ -141,7 +142,7 @@ public class TestPhysics1D extends JFrame {
 
                 particle.switchToTrack( cubicSpline, 0.01, true );
                 normTerm = particle.getTotalEnergy();
-                System.out.println( "normTerm = " + normTerm );
+                EnergySkateParkLogging.println( "normTerm = " + normTerm );
 //                enable
             }
         } );
@@ -196,7 +197,7 @@ public class TestPhysics1D extends JFrame {
         JButton outputSpline = new JButton( "print spline" );
         outputSpline.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                System.out.println( "particleStage = " + particleStage.toStringSerialization() );
+                EnergySkateParkLogging.println( "particleStage = " + particleStage.toStringSerialization() );
             }
         } );
         controlPanel.add( outputSpline, gridBagConstraints );
@@ -223,7 +224,7 @@ public class TestPhysics1D extends JFrame {
                 particleImageNode.update();
                 particleNode.update();
                 if( particle.isSplineMode() ) {
-                    System.out.println( "particle.getParticle1D().getRadiusOfCurvature() = " + particle.getParticle1D().getRadiusOfCurvature() );
+                    EnergySkateParkLogging.println( "particle.getParticle1D().getRadiusOfCurvature() = " + particle.getParticle1D().getRadiusOfCurvature() );
                 }
             }
         } );
@@ -335,7 +336,7 @@ public class TestPhysics1D extends JFrame {
         phetPPath.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 SerializablePoint2D coords = new SerializablePoint2D( event.getPositionRelativeTo( phetPPath ) );
-                System.out.println( "coords = " + coords );
+                EnergySkateParkLogging.println( "coords = " + coords );
 //                TraversalState traversalState=new TraversalState( cubicSpline, true,);
                 TraversalState traversalState = particle.getBestTraversalState( coords, new Vector2D.Double( 1, 0 ) );
                 closestPoint.setOffset( traversalState.getPosition() );
