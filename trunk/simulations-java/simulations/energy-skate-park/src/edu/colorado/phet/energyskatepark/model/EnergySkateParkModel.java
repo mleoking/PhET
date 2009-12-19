@@ -313,7 +313,7 @@ public class EnergySkateParkModel implements Serializable {
 
     public void addBody( Body body ) {
         bodies.add( body );
-//        System.out.println( "EnergySkateParkModel.addBody, bodies="+bodies.size() );
+//        EnergySkateParkLogging.println( "EnergySkateParkModel.addBody, bodies="+bodies.size() );
         if( bodies.size() == 1 ) {//The zero point potential now occurs at the center of mass of the skater.
             zeroPointPotentialY = 0;
             initZeroPointPotentialY = zeroPointPotentialY;
@@ -491,7 +491,7 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {
-//        System.out.println( "ESPM: listeners.size() = " + listeners.size() );
+//        EnergySkateParkLogging.println( "ESPM: listeners.size() = " + listeners.size() );
         listeners.add( listener );
     }
 

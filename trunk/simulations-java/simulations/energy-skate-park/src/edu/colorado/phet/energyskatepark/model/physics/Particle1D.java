@@ -9,6 +9,7 @@ import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.TrackWithFriction;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 import java.io.Serializable;
 import java.util.List;
@@ -90,18 +91,18 @@ public class Particle1D implements Serializable {
         }
 
 //        totalDE += getNormalizedEnergyDiff( initEnergy );
-//        System.out.println( "Particle1D[0]: dE=" + ( getEnergy() - initEnergy ) );
+//        EnergySkateParkLogging.println( "Particle1D[0]: dE=" + ( getEnergy() - initEnergy ) );
         assert ( !Double.isNaN( getEnergy() ) );
         if( getThrust().getMagnitude() == 0 ) {
             fixEnergy( initAlpha, initEnergy );
         }
 
-//        System.out.println( "Particle1D[1]: dE=" + ( getEnergy() - initEnergy ) );
+//        EnergySkateParkLogging.println( "Particle1D[1]: dE=" + ( getEnergy() - initEnergy ) );
 //        double dEFix = getNormalizedEnergyDiff( initEnergy );
-//            System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE + ", RC=" + getRadiusOfCurvature() );
+//            EnergySkateParkLogging.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE + ", RC=" + getRadiusOfCurvature() );
 
-//        System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE );// + ", RC=" + getRadiusOfCurvature() );
-//            System.out.println( "dEAfter = " + ( getEnergy() - initEnergy ) / initEnergy );
+//        EnergySkateParkLogging.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE );// + ", RC=" + getRadiusOfCurvature() );
+//            EnergySkateParkLogging.println( "dEAfter = " + ( getEnergy() - initEnergy ) / initEnergy );
         //look for an adjacent location that will give the correct energy
 
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -312,12 +313,12 @@ public class Particle1D implements Serializable {
                         verboseDebug( "Fixed position some, still need to fix velocity as well." );//todo: maybe should only do this if all velocity is not converted
                         correctEnergyReduceVelocity( e0 );
                         if( !MathUtil.isApproxEqual( e0, getEnergy(), 1E-8 ) ) {
-                            System.out.println( "Changed position & Velocity and still had energy error" );
+                            EnergySkateParkLogging.println( "Changed position & Velocity and still had energy error" );
                             new RuntimeException( "Energy error[123]" ).printStackTrace();
                         }
                     }
                     else {
-                        System.out.println( "Changed position, wanted to change velocity, but didn't have enough to fix it..., dE=" + ( getEnergy() - e0 ) );
+                        EnergySkateParkLogging.println( "Changed position, wanted to change velocity, but didn't have enough to fix it..., dE=" + ( getEnergy() - e0 ) );
                         new RuntimeException( "Energy error[456]" ).printStackTrace();
                     }
                 }
@@ -344,7 +345,7 @@ public class Particle1D implements Serializable {
 
     private void verboseDebug( String text ) {
         if( verbose ) {
-            System.out.println( text );
+            EnergySkateParkLogging.println( text );
         }
     }
 
@@ -384,11 +385,11 @@ public class Particle1D implements Serializable {
         double d = track.evaluate( a0 ).distance( track.evaluate( a1 ) );
         double dTheta = ( track.getAngle( a0 ) - track.getAngle( a1 ) );
         while( dTheta > Math.PI ) {//todo: these while loops look unsafe (rely on near-correct data from getAngle)
-            System.out.println( "|dTheta| was more than Pi radians, rotated by 2Pi" );
+            EnergySkateParkLogging.println( "|dTheta| was more than Pi radians, rotated by 2Pi" );
             dTheta -= Math.PI * 2;
         }
         while( dTheta < -Math.PI ) {//todo: these while loops look unsafe (rely on near-correct data from getAngle)
-            System.out.println( "|dTheta| was more than Pi radians, rotated by 2Pi" );
+            EnergySkateParkLogging.println( "|dTheta| was more than Pi radians, rotated by 2Pi" );
             dTheta += Math.PI * 2;
         }
         double curvature = dTheta / d;
@@ -401,11 +402,11 @@ public class Particle1D implements Serializable {
 
     double getRadiusOfCurvature() {
         if( cachedRCAlpha != alpha || !cachedRCTrack.equals( track ) ) {
-//            System.out.println( "cache miss" );
+//            EnergySkateParkLogging.println( "cache miss" );
             cachedRC = getRadiusOfCurvatureStatic( alpha, track );
             //if (Math.abs(cachedRC)<1E-3){
             //double value=getRadiusOfCurvatureStatic( alpha, track );
-            //System.out.println( "value = " + value );
+            //EnergySkateParkLogging.println( "value = " + value );
             //}
             cachedRCAlpha = alpha;
             try {
@@ -416,7 +417,7 @@ public class Particle1D implements Serializable {
             }
         }
         else {
-//            System.out.println( "cache hit" );
+//            EnergySkateParkLogging.println( "cache hit" );
         }
         return cachedRC;
     }
@@ -489,14 +490,14 @@ public class Particle1D implements Serializable {
     }
 
     public AbstractVector2D getNormalForce() {//todo some code duplication in Particle.Particle1DUpdate
-//        System.out.println( "getRadiusOfCurvature() = " + getRadiusOfCurvature() );
+//        EnergySkateParkLogging.println( "getRadiusOfCurvature() = " + getRadiusOfCurvature() );
         double radiusOfCurvature = getRadiusOfCurvature();
         if( Double.isInfinite( radiusOfCurvature ) ) {
-//            System.out.println( "infinite" );
+//            EnergySkateParkLogging.println( "infinite" );
 
             radiusOfCurvature = 100000;
-//            System.out.println( "radiusOfCurvature = " + radiusOfCurvature );
-//            System.out.println( " getCurvatureDirection()  = " + getCurvatureDirection() );
+//            EnergySkateParkLogging.println( "radiusOfCurvature = " + radiusOfCurvature );
+//            EnergySkateParkLogging.println( " getCurvatureDirection()  = " + getCurvatureDirection() );
             Vector2D.Double netForceRadial = new Vector2D.Double();
             netForceRadial.add( new Vector2D.Double( 0, mass * g ) );//gravity
             netForceRadial.add( new Vector2D.Double( xThrust * mass, yThrust * mass ) );//thrust
@@ -532,7 +533,7 @@ public class Particle1D implements Serializable {
         else {
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * 10000 );//todo factor out heuristic
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * getNormalForce().getMagnitude() );//todo factor out heuristic
-//            System.out.println( "friction = " + getTotalFriction() );
+//            EnergySkateParkLogging.println( "friction = " + getTotalFriction() );
             AbstractVector2D f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );
             if( ( Double.isNaN( f.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
             return f;//todo factor out heuristic
@@ -546,7 +547,7 @@ public class Particle1D implements Serializable {
 
     public class Euler implements UpdateStrategy {
         public void stepInTime( double dt ) {
-//            System.out.println( "nor = " + getNormalForce().getMagnitude() );
+//            EnergySkateParkLogging.println( "nor = " + getNormalForce().getMagnitude() );
             double origEnergy = getEnergy();
             SerializablePoint2D origLoc = getLocation();
             AbstractVector2D netForce = getNetForce();
@@ -562,7 +563,7 @@ public class Particle1D implements Serializable {
                     if( getEnergy() < origEnergy ) {
                         thermalEnergy += Math.abs( getEnergy() - origEnergy );//add some thermal to exactly match
                         if( Math.abs( getEnergy() - origEnergy ) > 1E-6 ) {
-                            System.out.println( "Added thermal, dE=" + ( getEnergy() - origEnergy ) );
+                            EnergySkateParkLogging.println( "Added thermal, dE=" + ( getEnergy() - origEnergy ) );
                         }
                     }
                     if( getEnergy() > origEnergy ) {
@@ -573,7 +574,7 @@ public class Particle1D implements Serializable {
                             double editThermal = Math.abs( getEnergy() - origEnergy );
                             thermalEnergy -= editThermal;
                             if( Math.abs( getEnergy() - origEnergy ) > 1E-6 ) {
-                                System.out.println( "Removed thermal, dE=" + ( getEnergy() - origEnergy ) );
+                                EnergySkateParkLogging.println( "Removed thermal, dE=" + ( getEnergy() - origEnergy ) );
                             }
                         }
                     }
@@ -588,7 +589,7 @@ public class Particle1D implements Serializable {
 
     private void debug( String s ) {
         if( debug ) {
-            System.out.println( s );
+            EnergySkateParkLogging.println( s );
         }
     }
 

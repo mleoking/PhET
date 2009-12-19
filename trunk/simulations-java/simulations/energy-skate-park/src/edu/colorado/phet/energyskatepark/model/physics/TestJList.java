@@ -1,5 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -26,7 +28,7 @@ public class TestJList extends JList {
         addListSelectionListener( new ListSelectionListener() {
             public void valueChanged( ListSelectionEvent e ) {
                 int index = getSelectedIndex();
-                System.out.println( "index = " + index );
+                EnergySkateParkLogging.println( "index = " + index );
                 TestState testState = defaultTestSet.getTest( index );
                 testPhysics1D.setTestState( testState );
             }

@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.test.transforms;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -105,7 +106,7 @@ public class TestTransform3 {
             double minSX = pCanvas.getWidth() / getMinDimension().getWidth();
             double minSY = pCanvas.getHeight() / getMinDimension().getHeight();
             double scale = Math.min( minSX, minSY );
-            System.out.println( "scale = " + scale );
+            EnergySkateParkLogging.println( "scale = " + scale );
             if( scale > 0 ) {
                 AffineTransform t = getTransformReference( true );
 

@@ -1,5 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
+
 /**
  * User: Sam Reid
  * Date: Feb 17, 2007
@@ -39,6 +41,6 @@ public class BinarySearch {
             }
         };
         double binarySearch = BinarySearch.search( f, 0, 3.5, 1, 0.01, 100 );
-        System.out.println( "binarySearch = " + binarySearch );
+        EnergySkateParkLogging.println( "binarySearch = " + binarySearch );
     }
 }

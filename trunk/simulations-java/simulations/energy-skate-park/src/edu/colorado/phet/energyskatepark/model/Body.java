@@ -10,6 +10,7 @@ import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -132,7 +133,7 @@ public class Body implements Serializable {
         }
         double err = Math.abs( origEnergy - getTotalEnergy() );
         if( err > 1E-5 && getThrust().getMagnitude() == 0 && !isUserControlled() && !isSplineUserControlled() ) {
-            System.out.println( "err = " + err );
+            EnergySkateParkLogging.println( "err = " + err );
             errorCount++;
             fractionalEnergyError += err / Math.abs( origEnergy );
         }
@@ -221,7 +222,7 @@ public class Body implements Serializable {
         TraversalState match = getSnapTrackMatch();
 
         if( match != null ) {
-            System.out.println( "match = " + match );
+            EnergySkateParkLogging.println( "match = " + match );
             setPosition( match.getPosition().getX(), match.getPosition().getY() + 1E-4 );
         }
     }
@@ -522,7 +523,7 @@ public class Body implements Serializable {
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
-//        System.out.println( "Body: listeners.size() = " + listeners.size() );
+//        EnergySkateParkLogging.println( "Body: listeners.size() = " + listeners.size() );
     }
 
     private void notifyThrustChanged() {

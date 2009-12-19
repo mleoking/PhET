@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.util.persistence.Point2DPersistenceDelegate;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.FileOpenService;
@@ -29,13 +30,13 @@ public class EnergySkateParkIO implements IProguardKeepClass {
     public static void save( EnergySkateParkModule module ) throws UnavailableServiceException, IOException {
         Component component = module.getEnergySkateParkSimulationPanel();
         String xml = toXMLString( module );
-        System.out.println( "xml = " + xml );
+        EnergySkateParkLogging.println( "xml = " + xml );
         InputStream stream = new ByteArrayInputStream( xml.getBytes() );
         FileContents data = new InputStreamFileContents( "esp_output", stream );
 
         FileSaveService fos = PhetServiceManager.getFileSaveService( component );
         FileContents out = fos.saveAsFileDialog( null, null, data );
-        System.out.println( "Saved file." );
+        EnergySkateParkLogging.println( "Saved file." );
     }
 
     private static String toXMLString( EnergySkateParkModule module ) {
@@ -65,7 +66,7 @@ public class EnergySkateParkIO implements IProguardKeepClass {
     }
 
     public static void open( String filename, EnergySkateParkModule module ) {
-        System.out.println( "filename = " + filename );
+        EnergySkateParkLogging.println( "filename = " + filename );
         XMLDecoder xmlDecoder = new XMLDecoder( Thread.currentThread().getContextClassLoader().getResourceAsStream( filename ) );
         Object obj = xmlDecoder.readObject();
         if( obj instanceof EnergySkateParkModuleBean ) {

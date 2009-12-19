@@ -2,6 +2,7 @@ package edu.colorado.phet.energyskatepark.test;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import junit.framework.TestCase;
 
 import java.util.Random;
@@ -40,7 +41,7 @@ public class TestNormalVectors extends TestCase {
         AbstractVector2D rotated = a.getRotatedInstance( -Math.PI / 2.0 );
 
         AbstractVector2D normed = a.getNormalVector();
-        System.out.println( "original vector=" + a + ", rotated vector= " + rotated + ", getNormalVector=" + normed );
+        EnergySkateParkLogging.println( "original vector=" + a + ", rotated vector= " + rotated + ", getNormalVector=" + normed );
         double error = rotated.getSubtractedInstance( normed ).getMagnitude();
         assertEquals( error, 0.0, 1E-6 );
         return error;

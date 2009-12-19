@@ -1,6 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.test.transforms;
 
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -46,7 +47,7 @@ public class WorldNode extends PNode {
         double minSX = pCanvas.getWidth() / minWidth;
         double minSY = pCanvas.getHeight() / minHeight;
         double scale = Math.min( minSX, minSY );
-        System.out.println( "scale = " + scale );
+        EnergySkateParkLogging.println( "scale = " + scale );
         if( scale > 0 ) {
             setScale( scale );
         }

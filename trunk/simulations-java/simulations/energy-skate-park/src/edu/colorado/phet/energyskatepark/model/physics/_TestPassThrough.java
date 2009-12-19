@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.model.physics;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import junit.framework.TestCase;
 
 import java.awt.geom.Line2D;
@@ -19,7 +20,7 @@ public class _TestPassThrough extends TestCase {
     }
 
     public void runTest( ParticleTestState testState, double dt, int iterations ) {
-        System.out.println( "Starting t=0, top=" + testState.getSide() + ", testState.getParticle().getPosition() = " + testState.getParticle().getPosition() );
+        EnergySkateParkLogging.println( "Starting t=0, top=" + testState.getSide() + ", testState.getParticle().getPosition() = " + testState.getParticle().getPosition() );
         boolean origSide = testState.getSide();
         double t = 0;
         for( int i = 0; i < iterations; i++ ) {
@@ -27,7 +28,7 @@ public class _TestPassThrough extends TestCase {
             t += dt;
             boolean side = testState.getSide();
             assertEquals( "Particle passed through at iteration: " + i, origSide, side );
-            System.out.println( "t=" + t + ", top=" + testState.getSide() + ", testState.getParticle().getPosition() = " + testState.getParticle().getPosition() );
+            EnergySkateParkLogging.println( "t=" + t + ", top=" + testState.getSide() + ", testState.getParticle().getPosition() = " + testState.getParticle().getPosition() );
         }
     }
 
@@ -48,13 +49,13 @@ public class _TestPassThrough extends TestCase {
 
 //    public void testPointSegmentDistance2() {
 //        double dist = pointSegmentDistance( new SPoint2D( 1.0, 0 ), new Line2D.Double( 0.0, 0.0, 2.0, 0.0 ) );
-//        System.out.println( "dist = " + dist );
+//        EnergySkateParkLogging.println( "dist = " + dist );
 //        assertEquals( "point line distance should be almost zero", 0.0, dist, 1E-4 );
 //    }
 
     public void testPointSegmentDistance() {
         double dist = Particle.pointSegmentDistance( new SerializablePoint2D( 1.0, 0 ), new Line2D.Double( 0.0, 0.0, 2.0, 0.0 ) );
-        System.out.println( "dist = " + dist );
+        EnergySkateParkLogging.println( "dist = " + dist );
         assertEquals( "point line distance should be almost zero", 0.0, dist, 1E-4 );
     }
 

@@ -156,7 +156,7 @@ public class EnergyTimePlot {
         phetPCanvas.addScreenChild( jFreeChartCursorNode );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
             public void cursorTimeChanged() {
-//                System.out.println( "jFreeChartCursorNode.getTime() = " + jFreeChartCursorNode.getTime() );
+//                EnergySkateParkLogging.println( "jFreeChartCursorNode.getTime() = " + jFreeChartCursorNode.getTime() );
                 timeSeriesModel.setPlaybackMode();
                 timeSeriesModel.setPlaybackTime( jFreeChartCursorNode.getTime() );
             }

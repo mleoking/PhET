@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.test.transforms;
 
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -84,6 +85,6 @@ public class TestTransforms {
 
     private void start() {
         frame.setVisible( true );
-        System.out.println( "worldNode4.getFullBounds() = " + worldNode4.getGlobalFullBounds() );
+        EnergySkateParkLogging.println( "worldNode4.getFullBounds() = " + worldNode4.getGlobalFullBounds() );
     }
 }
