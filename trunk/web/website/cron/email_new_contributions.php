@@ -24,7 +24,7 @@ chdir(dirname(__FILE__));
             'FROM contribution '.
             'WHERE '.
             "(contribution_date_created > (NOW() - INTERVAL {$interval} DAY)) AND ".
-            "(contribution_id != ".
+            "(contribution_id <> ALL ".
                 "(SELECT contribution_id FROM temporary_partial_contribution_track)".
                 ")";
 
@@ -35,7 +35,8 @@ chdir(dirname(__FILE__));
         $sql = 'SELECT * '.
             'FROM contribution '.
             'WHERE '.
-            "contribution_date_updated > (NOW() - INTERVAL {$interval} DAY)".
+            "contribution_date_created < (NOW() - INTERVAL {$interval} DAY) ".
+            "AND contribution_date_updated > (NOW() - INTERVAL {$interval} DAY) ".
             'AND contribution_date_created != contribution_date_updated';
         return db_get_rows_custom_query($sql);
     }
@@ -60,7 +61,7 @@ EOT;
         $num_new_contributions = count($new_contributions);
         $num_updated_contributions = count($updated_contributions);
         if (($num_new_contributions == 0) && ($num_updated_contributions == 0)) {
-            $subject = 'PhET Website: No new or updated contributions this week';
+            $subject = "PhET Website: No new or updated contributions in the past {$interval} days";
             $message = <<<EOT
 There are no new or updated contributions to the Teacher Ideas & Activites
 section of the website in the last {$interval} days.
@@ -68,9 +69,9 @@ section of the website in the last {$interval} days.
 EOT;
         }
         else {
-            $subject = "PhET Website: {$num_new_contributions} new, {$num_updated_contributions} updated contribution(s) this week";
+            $subject = "PhET Website: {$num_new_contributions} new, {$num_updated_contributions} updated contribution(s) in the past {$interval} days";
             
-            $message = wordwrap("There is/are {$num_new_contributions} new and {$num_updated_contributions} updated contribution(s) this week to the Teacher Ideas & Activities section of the website in the last {$interval} day(s).");
+            $message = wordwrap("There is/are {$num_new_contributions} new and {$num_updated_contributions} updated contribution(s) to the Teacher Ideas & Activities section of the website in the last {$interval} day(s).");
             if ($num_new_contributions > 0) {
                 $message .= "\n\nNew Contributions:\n\n";
                 $message .= display_contributions($new_contributions);
