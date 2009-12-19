@@ -2,10 +2,14 @@
 
 package edu.colorado.phet.genenetwork.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -49,7 +53,13 @@ public class LactoseInjectorNode extends PNode {
 	
 	// Random number generator.
 	private static final Random RAND = new Random();
-
+	
+    // Timer used for fading in and out.
+	private static final int BUTTON_DELAY_TIME = 40; // In milliseconds.
+    private static final Timer FADE_IN_TIMER = new Timer( BUTTON_DELAY_TIME, null );
+    private static final Timer FADE_OUT_TIMER = new Timer( BUTTON_DELAY_TIME, null );
+    private static final float FADE_INCREMENT = 0.05f;
+    
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -60,6 +70,7 @@ public class LactoseInjectorNode extends PNode {
 	private IGeneNetworkModelControl model;
 	private ModelViewTransform2D mvt;
 	private Dimension2D injectionPointOffset = new PDimension();
+	private float transparency;  // For fading.  0 is transparent, 1 is opaque.
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -120,6 +131,28 @@ public class LactoseInjectorNode extends PNode {
         	}
         });
         
+        // Set up listener to the timer used for fading in.
+		FADE_IN_TIMER.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+        		transparency = Math.min(1, transparency + FADE_INCREMENT);
+        		setTransparency(transparency);
+        		if (transparency >= 1){
+        			FADE_IN_TIMER.stop();
+        		}
+            }
+        } );
+        
+        // Set up listener to the timer used for fading out.
+		FADE_OUT_TIMER.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+        		transparency = Math.max(0, transparency - FADE_INCREMENT);
+        		setTransparency(transparency);
+        		if (transparency <= 0){
+        			FADE_OUT_TIMER.stop();
+        		}
+            }
+        } );
+        
         updateVisibility();
 	}
 	
@@ -134,11 +167,13 @@ public class LactoseInjectorNode extends PNode {
 	
 	private void updateVisibility(){
 		if (model.isLactoseInjectionAllowed()){
-			setVisible(true);
+			FADE_OUT_TIMER.stop();
+			FADE_IN_TIMER.start();
 			unpressedButtonImage.setPickable(true);
 		}
 		else{
-			setVisible(false);
+			transparency = 0;
+			setTransparency(transparency);
 			unpressedButtonImage.setPickable(false);
 		}
 	}
