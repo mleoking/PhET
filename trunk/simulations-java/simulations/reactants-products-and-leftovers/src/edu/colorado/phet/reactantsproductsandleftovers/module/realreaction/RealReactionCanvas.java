@@ -9,10 +9,11 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactionChoiceNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy.GridLayoutStrategy;
+import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.GridLayoutNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionEquationNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -127,14 +128,14 @@ public class RealReactionCanvas extends RPALCanvas {
     private static class RealReactionBeforeNode extends AbstractBeforeNode {
 
         public RealReactionBeforeNode( RealReactionModel model ) {
-            super( RPALStrings.LABEL_BEFORE_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutStrategy() );
+            super( RPALStrings.LABEL_BEFORE_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
         }
     }
     
     private static class RealReactionAfterNode extends AbstractAfterNode {
 
         public RealReactionAfterNode( RealReactionModel model ) {
-            super( RPALStrings.LABEL_AFTER_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutStrategy() );
+            super( RPALStrings.LABEL_AFTER_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
         }
     }
 }
