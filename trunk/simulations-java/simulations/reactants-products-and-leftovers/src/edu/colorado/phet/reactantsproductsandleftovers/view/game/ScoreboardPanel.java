@@ -167,7 +167,7 @@ public class ScoreboardPanel extends JPanel {
     
     private void handleNewGame() {
         //XXX what else?...
-        model.endGame();
+        model.newGame();
     }
 
 }

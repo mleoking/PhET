@@ -118,16 +118,33 @@ public class GameCanvas extends RPALCanvas {
         this.model = model;
         model.addGameListener( new GameAdapter() {
             
+            // User requested to start a new game.
+            @Override
+            public void newGame() {
+                gameSettingsNode.setVisible( true );
+                gameSummaryNode.setVisible( false );
+                parentNode.setVisible( false );
+            }
+            
             // When a game starts, hide the game settings panel.
             @Override
             public void gameStarted() {
-                setGameSettingsVisible( false );
+                gameSettingsNode.setVisible( false );
+                gameSummaryNode.setVisible( false );
+                parentNode.setVisible( true );
+            }
+            
+            @Override
+            public void gameCompleted() {
+                gameSummaryNode.setVisible( true );
             }
             
             // When a game is aborted, show the game settings panel.
             @Override 
             public void gameAborted() {
-                setGameSettingsVisible( true );
+                gameSettingsNode.setVisible( true );
+                gameSummaryNode.setVisible( false );
+                parentNode.setVisible( false );
             }
             
             // When the reaction changes, rebuild dynamic nodes.
@@ -168,14 +185,10 @@ public class GameCanvas extends RPALCanvas {
         
         // initial state
         updateNodes();
-        setGameSettingsVisible( true );
+        gameSettingsNode.setVisible( true );
+        gameSummaryNode.setVisible( false );
+        parentNode.setVisible( false );
    }
-    
-    private void setGameSettingsVisible( boolean visible ) {
-        gameSettingsNode.setVisible( visible );
-        gameSummaryNode.setVisible( !visible );
-        parentNode.setVisible( !visible );
-    }
     
     private void updateNodes() {
 

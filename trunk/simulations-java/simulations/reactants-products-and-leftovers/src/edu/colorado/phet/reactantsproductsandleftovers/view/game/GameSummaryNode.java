@@ -2,6 +2,8 @@ package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -30,7 +32,7 @@ public class GameSummaryNode extends PhetPNode {
     private final GameModel model;
     private final JLabel summaryLabel;
     
-    public GameSummaryNode( GameModel model ) {
+    public GameSummaryNode( final GameModel model ) {
         super();
         
         summaryLabel = new JLabel();
@@ -40,6 +42,11 @@ public class GameSummaryNode extends PhetPNode {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque( false );
         buttonPanel.add( newGameButton );
+        newGameButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.newGame();
+            }
+        });
         
         JPanel panel = new JPanel( new BorderLayout() );
         panel.setBorder( BORDER );
