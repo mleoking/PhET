@@ -56,9 +56,9 @@ public class GameModel extends RPALModel {
         fireNewGame();
     }
     
-    public void startGame( int level, boolean timerEnabled ) {
+    public void startGame( int level, boolean timerVisible ) {
         setLevel( level );
-        setTimerVisible( timerEnabled );
+        setTimerVisible( timerVisible );
         setPoints( 0 );
         newChallenges();
         timer.start();
@@ -151,10 +151,10 @@ public class GameModel extends RPALModel {
         return level;
     }
     
-    private void setTimerVisible( boolean timerEnabled ) {
-        if ( timerEnabled != this.timerVisible ) {
-            this.timerVisible = timerEnabled;
-            fireTimerEnabledChanged();
+    private void setTimerVisible( boolean visible ) {
+        if ( visible != this.timerVisible ) {
+            this.timerVisible = visible;
+            fireTimerVisibleChanged();
         }
     }
     
@@ -162,7 +162,11 @@ public class GameModel extends RPALModel {
         return timerVisible;
     }
     
-    public long getElapsedTime() {
+    /**
+     * Gets the time (in ms) since the current game was started.
+     * @return
+     */
+    public long getTime() {
         return timer.getTime();
     }
     
@@ -203,7 +207,7 @@ public class GameModel extends RPALModel {
         public void pointsChanged(); // the number of points changed
         public void levelChanged(); // the level of difficulty changed
         public void attemptsChanged(); // the number of attempts changed
-        public void timerEnabledChanged(); // the timer was enabled or disabled
+        public void timerVisibleChanged(); // the timer visibility was changed
         public void timeChanged(); // the time shown on the timer changed
     }
     
@@ -219,7 +223,7 @@ public class GameModel extends RPALModel {
         public void pointsChanged() {}
         public void levelChanged() {}
         public void attemptsChanged() {}
-        public void timerEnabledChanged() {}
+        public void timerVisibleChanged() {}
         public void timeChanged() {}
     }
     
@@ -311,13 +315,13 @@ public class GameModel extends RPALModel {
         }
     }
     
-    private void fireTimerEnabledChanged() {
+    private void fireTimerVisibleChanged() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
         if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireTimerEnabledChanged, notifying " + listenersCopy.size() + " listeners" );
+            System.out.println( "GameModel.fireTimerVisibleChanged, notifying " + listenersCopy.size() + " listeners" );
         }
         for ( GameListener listener : listenersCopy ) {
-            listener.timerEnabledChanged();
+            listener.timerVisibleChanged();
         }
     }
     
