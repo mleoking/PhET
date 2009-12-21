@@ -179,6 +179,12 @@ public interface IGeneNetworkModelControl {
 	public boolean isLactoseInjectionAllowed();
 	
 	/**
+	 * Set the state variable that controls whether or not the legend should
+	 * be visible
+	 */
+	public void setLegendVisible(boolean legendVisible);
+	
+	/**
 	 * Returns true if the legend should be visible, false if not.
 	 */
 	public boolean isLegendVisible();
