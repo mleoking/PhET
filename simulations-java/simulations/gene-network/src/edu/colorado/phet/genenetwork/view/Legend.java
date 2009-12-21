@@ -18,6 +18,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
+import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
+import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.LacIMessengerRna;
 import edu.colorado.phet.genenetwork.model.LacZ;
 import edu.colorado.phet.genenetwork.model.MessengerRna;
@@ -64,18 +66,24 @@ public class Legend extends PNode {
 	private SimpleModelElementNode transformationArrowLegendItem;
 	private HTMLNode transformationArrowCaption;
 	
-	
     //------------------------------------------------------------------------
     // Constructors
     //------------------------------------------------------------------------
     	
-	public Legend(final PhetPCanvas canvas){
+	public Legend(final IGeneNetworkModelControl model, final PhetPCanvas canvas){
 		
 		// Register for notifications of size change.
 		canvas.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent e) {
 		    	updateLayout(canvas);
 		    }
+		});
+		
+		// Register for notifications that can affect this node's visibility.
+		model.addListener(new GeneNetworkModelAdapter(){
+			public void legendVisibilityStateChange(){
+				updateVisibility(model);
+			}
 		});
 
 		background = new PhetPPath(BACKGROUND_COLOR, OUTLINE_STROKE, Color.BLACK);
@@ -115,6 +123,9 @@ public class Legend extends PNode {
 		
 		// Do initial layout.
 		updateLayout(canvas);
+		
+		// Update visibility.
+		updateVisibility(model);
 	}
 	
     //------------------------------------------------------------------------
@@ -179,5 +190,9 @@ public class Legend extends PNode {
 		
 		// Set the shape of the background.
 		background.setPathTo(new RoundRectangle2D.Double(0, 0, width, height, 8, 8));
+	}
+	
+	private void updateVisibility(IGeneNetworkModelControl model){
+		setVisible(model.isLegendVisible());
 	}
 }

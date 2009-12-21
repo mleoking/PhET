@@ -86,6 +86,9 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     
     // State variable that tracks whether lactose may be injected.
     private boolean isLactoseInjectionAllowed = false;
+    
+    // State variable that tracks whether the legend should be shown.
+    private boolean isLegendVisible = false;
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -288,6 +291,17 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 			this.isLactoseInjectionAllowed = isLactoseInjectionAllowed;
 			notifyLactoseInjectionAllowedStateChange();
 		}
+	}
+	
+	public void setLegendVisible(boolean isLegendVisible){
+		if (isLegendVisible != this.isLegendVisible){
+			this.isLegendVisible = isLegendVisible;
+			notifyLegendVisibilityStateChange();
+		}
+	}
+	
+	public boolean isLegendVisible(){
+		return this.isLegendVisible;
 	}
 	
 	public boolean isPointInToolBox(Point2D pt){
@@ -631,6 +645,14 @@ public class LacOperonModel implements IGeneNetworkModelControl {
         for (GeneNetworkModelListener listener : listeners)
         {
             listener.lactoseInjectionAllowedStateChange(); 
+        }        
+    }
+
+    protected void notifyLegendVisibilityStateChange(){
+        // Notify all listeners of the change to the legend visibility state.
+        for (GeneNetworkModelListener listener : listeners)
+        {
+            listener.legendVisibilityStateChange(); 
         }        
     }
 

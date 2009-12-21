@@ -23,4 +23,12 @@ public interface GeneNetworkModelListener {
      * that tracks whether or not lactose injection is allowed.
      */
     void lactoseInjectionAllowedStateChange();
+    
+    /**
+     * Notify the listener that a change has occurred to the state variable
+     * that tracks whether or not the legend should be visible to the user.
+     */
+    void legendVisibilityStateChange();
+    
+    
 }
