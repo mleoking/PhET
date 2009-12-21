@@ -253,7 +253,7 @@ public class GameCanvas extends RPALCanvas {
         
         // scoreboard, at bottom center of play area
         x = beforeNode.getFullBoundsReference().getMinX();
-        y = beforeNode.getFullBoundsReference().getMaxY() + 40;
+        y = beforeNode.getFullBoundsReference().getMaxY() + 10;
         scoreboardNode.setOffset( x, y ) ;
         
         // faces in upper center of Before box
