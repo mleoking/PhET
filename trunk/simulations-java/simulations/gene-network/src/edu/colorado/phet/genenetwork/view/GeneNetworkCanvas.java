@@ -98,10 +98,15 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         // Add the tool box.
         toolBoxLayer.addChild(new DnaSegmentToolBoxNode(this, model, mvt));
         
-        // TODO: Temp - add the lactose syringe.
-        LactoseInjectorNode lactoseSyringe = new LactoseInjectorNode(model, mvt); 
-        rovingModelElementLayer.addChild(lactoseSyringe);
-        lactoseSyringe.setOffset(900, 0);
+        // Add the lactose injector.
+        LactoseInjectorNode lactoseInjector = new LactoseInjectorNode(model, mvt); 
+        rovingModelElementLayer.addChild(lactoseInjector);
+        lactoseInjector.setOffset(900, 0);
+        
+        // Add the legend.
+        Legend legend = new Legend();
+        toolBoxLayer.addChild(legend);
+        legend.setOffset(20, 50);
     }
 
     //------------------------------------------------------------------------
