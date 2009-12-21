@@ -16,13 +16,15 @@ import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
-public class ScoreboardPanel extends JPanel {
+public class ScoreboardNode extends PhetPNode {
     
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLUE, 4 ), new CompoundBorder( new LineBorder( Color.BLACK, 2 ), new EmptyBorder( 5, 14, 5, 14 ) ) );
     private static final Color BACKGROUND = Color.YELLOW;
@@ -36,10 +38,8 @@ public class ScoreboardPanel extends JPanel {
     private final JLabel timerIcon;
     private final JButton newGameButton;
  
-    public ScoreboardPanel( final GameModel model ) {
+    public ScoreboardNode( final GameModel model ) {
         super();
-        setBorder( BORDER );
-        setBackground( BACKGROUND );
         
         this.model = model;
         
@@ -68,9 +68,12 @@ public class ScoreboardPanel extends JPanel {
             }
         } );
         
-        // layout, single row
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        this.setLayout( layout );
+        // panel, layout in a single row
+        JPanel panel = new JPanel();
+        panel.setBorder( BORDER );
+        panel.setBackground( BACKGROUND );
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        panel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int column = 0;
@@ -90,6 +93,10 @@ public class ScoreboardPanel extends JPanel {
         layout.addComponent( timerValue, row, column++ );
         layout.addComponent( Box.createHorizontalStrut( 20 ), row, column++ );
         layout.addComponent( newGameButton, row, column++ );
+        
+        // PSwing wrapper
+        PSwing pswing = new PSwing( panel );
+        addChild( pswing );
         
         // listen to model
         model.addGameListener( new GameAdapter() {
