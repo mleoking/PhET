@@ -37,7 +37,7 @@ public abstract class MessengerRna extends SimpleModelElement {
 
 	// Used so that every strand looks a little different.
 	private static final Random RAND = new Random();
-
+	
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
@@ -118,6 +118,26 @@ public abstract class MessengerRna extends SimpleModelElement {
 		
 		// Update the length.
 		length += growthAmount;
+	}
+	
+	/**
+	 * This method is used to create a shape that is the same every time and
+	 * that can thus be used in places like legends, keys, tool bars, etc.  It
+	 * was create for this purpose (i.e. putting mRNA on a legend panel) but
+	 * may end up having other uses.
+	 */
+	public void setPredictibleShape(){
+		points = new ArrayList<Point2D>();
+		double targetLength = length;
+		length = 0;
+		RAND.setSeed(3);  // This is what makes it predictable - setting the seed to a fixed value.
+		while (length < targetLength){
+			grow(GROWTH_SEGMENT_LENGTH);
+		}
+		
+		// Reseed the random number generator with the system clock time in
+		// order to make subsequently generated strings look random.
+		RAND.setSeed(System.currentTimeMillis());
 	}
 	
 	private static Shape createInitialShape(){

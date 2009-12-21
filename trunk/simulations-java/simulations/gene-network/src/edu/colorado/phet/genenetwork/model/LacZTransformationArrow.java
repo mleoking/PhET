@@ -8,7 +8,7 @@ public class LacZTransformationArrow extends TransformationArrow {
 	private final LacZ lacZToAddToModel;
 	
 	public LacZTransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition, LacZ lacZ) {
-		super(model, initialPosition, ARROW_LENGTH);
+		super(model, initialPosition, ARROW_LENGTH, true);
 		lacZToAddToModel = lacZ;
 	}
 

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -19,7 +20,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.LacIMessengerRna;
 import edu.colorado.phet.genenetwork.model.LacZ;
+import edu.colorado.phet.genenetwork.model.MessengerRna;
 import edu.colorado.phet.genenetwork.model.RnaPolymerase;
+import edu.colorado.phet.genenetwork.model.TransformationArrow;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -37,7 +40,7 @@ public class Legend extends PNode {
 
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(2f);
 	private static final Color BACKGROUND_COLOR = Color.WHITE;
-	private static final double SPACE_FROM_TOP_TO_FIRST_ITEM = 20;
+	private static final double SPACE_FROM_TOP_TO_FIRST_ITEM = 15;
 	private static final Font LABEL_FONT = new PhetFont(16, true);
 	private static final Color LABEL_COLOR = Color.BLACK;
 	
@@ -58,6 +61,8 @@ public class Legend extends PNode {
 	private HTMLNode lacZCaption;
 	private SimpleModelElementNode messengerRnaLegendItem;
 	private HTMLNode messengerRnaCaption;
+	private SimpleModelElementNode transformationArrowLegendItem;
+	private HTMLNode transformationArrowCaption;
 	
 	
     //------------------------------------------------------------------------
@@ -90,12 +95,23 @@ public class Legend extends PNode {
 		lacZCaption = new HTMLNode(GeneNetworkStrings.LAC_Z_LEGEND_CAPTION, LABEL_FONT, LABEL_COLOR);
 		background.addChild(lacZCaption);
 		
-		messengerRnaLegendItem = new SimpleModelElementNode(new LacIMessengerRna(15), MVT, false);
+		MessengerRna mRna = new LacIMessengerRna(15);
+		mRna.setPredictibleShape();
+		messengerRnaLegendItem = new SimpleModelElementNode(mRna, MVT, false);
 		messengerRnaLegendItem.setPickable(false);
 		background.addChild(messengerRnaLegendItem);
 		
 		messengerRnaCaption = new HTMLNode(GeneNetworkStrings.MESSENGER_RNA_LEGEND_CAPTION, LABEL_FONT, LABEL_COLOR);
 		background.addChild(messengerRnaCaption);
+		
+		transformationArrowLegendItem = new SimpleModelElementNode(new TransformationArrow(null, 
+				new Point2D.Double(0, 0), 5, false), MVT, false);
+		transformationArrowLegendItem.setPickable(false);
+		background.addChild(transformationArrowLegendItem);
+
+		transformationArrowCaption = new HTMLNode(GeneNetworkStrings.TRANSFORMATION_ARROW_LEGEND_CAPTION, 
+				LABEL_FONT, LABEL_COLOR);
+		background.addChild(transformationArrowCaption);
 		
 		// Do initial layout.
 		updateLayout(canvas);
@@ -123,11 +139,11 @@ public class Legend extends PNode {
 		
 		// Position polymerase caption.
 		rnaPolymeraseCaption.setOffset(xPos - rnaPolymeraseCaption.getFullBoundsReference().width / 2,
-				rnaPolymeraseLegendItem.getFullBoundsReference().getMaxY() + 6);
+				rnaPolymeraseLegendItem.getFullBoundsReference().getMaxY() + 3);
 		width = Math.max(rnaPolymeraseCaption.getFullBoundsReference().width, width);
 		
 		// Position the LacZ.
-		yPos = rnaPolymeraseCaption.getFullBoundsReference().getMaxY() + 35;
+		yPos = rnaPolymeraseCaption.getFullBoundsReference().getMaxY() + 40;
 		lacZLegendItem.setOffset(xPos, yPos);
 		width = Math.max(lacZLegendItem.getFullBoundsReference().width, width);
 		
@@ -147,9 +163,19 @@ public class Legend extends PNode {
 				messengerRnaLegendItem.getFullBoundsReference().getMaxY() + 5);
 		width = Math.max(messengerRnaCaption.getFullBoundsReference().width, width);
 		
-		// Expand the width by a fixed amount.
+		// Position the transformation arrow.
+		yPos = messengerRnaCaption.getFullBoundsReference().getMaxY() + 35;
+		transformationArrowLegendItem.setOffset(xPos, yPos);
+		width = Math.max(transformationArrowLegendItem.getFullBoundsReference().width, width);
+		
+		// Position the transformation arrow caption.
+		transformationArrowCaption.setOffset(xPos - transformationArrowCaption.getFullBoundsReference().width / 2,
+				transformationArrowLegendItem.getFullBoundsReference().getMaxY() + 5);
+		width = Math.max(transformationArrowCaption.getFullBoundsReference().width, width);
+		
+		// Expand the width by a fixed amount and set the height.
 		width = width * 1.15;
-		height = messengerRnaCaption.getFullBoundsReference().getMaxY() + 20;
+		height = transformationArrowCaption.getFullBoundsReference().getMaxY() + 20;
 		
 		// Set the shape of the background.
 		background.setPathTo(new RoundRectangle2D.Double(0, 0, width, height, 8, 8));
