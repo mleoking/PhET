@@ -49,6 +49,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     private PNode toolBoxLayer;
     private PNode dnaStrandLayer;
     private PNode rovingModelElementLayer;
+    private PNode legendLayer;
     
     //------------------------------------------------------------------------
     // Constructors
@@ -86,6 +87,8 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         addWorldChild(dnaStrandLayer);
         rovingModelElementLayer = new PNode();
         addWorldChild(rovingModelElementLayer);
+        legendLayer = new PNode();
+        addScreenChild(legendLayer);
                 
         // Add the DNA strand to the canvas.
         dnaStrandLayer.addChild(new DnaStrandNode(model.getDnaStrand(), mvt, getBackground()));
@@ -105,7 +108,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         
         // Add the legend.
         Legend legend = new Legend(model, this);
-        toolBoxLayer.addChild(legend);
+        legendLayer.addChild(legend);
         legend.setOffset(20, 20);
     }
 
