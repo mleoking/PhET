@@ -21,7 +21,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.game.DevValuesNode.D
 import edu.colorado.phet.reactantsproductsandleftovers.view.game.DevValuesNode.DevBeforeValuesNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionEquationNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the "Game" module.
@@ -34,7 +33,7 @@ public class GameCanvas extends RPALCanvas {
     
     // these nodes are final, allocated once
     private final PhetPNode gameSettingsNode;
-    private final PSwing scoreboardPanelWrapper;
+    private final ScoreboardNode scoreboardNode;
     private final FaceNode beforeFaceNode, afterFaceNode;
     private final RightArrowNode arrowNode;
     private final ReactionNumberLabelNode reactionNumberLabelNode;
@@ -78,10 +77,9 @@ public class GameCanvas extends RPALCanvas {
         parentNode.addChild( reactionNumberLabelNode );
         
         // scoreboard
-        ScoreboardPanel scoreboardPanel = new ScoreboardPanel( model );
-        scoreboardPanelWrapper = new PSwing( scoreboardPanel );
-        scoreboardPanelWrapper.scale( 1.5 ); //XXX scale
-        parentNode.addChild( scoreboardPanelWrapper );
+        scoreboardNode = new ScoreboardNode( model );
+        scoreboardNode.scale( 1.5 ); //XXX scale
+        parentNode.addChild( scoreboardNode );
         
         // faces, for indicating correct/incorrect answers
         beforeFaceNode = new FaceNode();
@@ -248,7 +246,7 @@ public class GameCanvas extends RPALCanvas {
         // scoreboard, at bottom center of play area
         x = beforeNode.getFullBoundsReference().getMinX();
         y = beforeNode.getFullBoundsReference().getMaxY() + 40;
-        scoreboardPanelWrapper.setOffset( x, y ) ;
+        scoreboardNode.setOffset( x, y ) ;
         
         // faces in upper center of Before box
         x = beforeNode.getFullBoundsReference().getCenterX() - ( beforeFaceNode.getFullBoundsReference().getWidth() / 2 );
