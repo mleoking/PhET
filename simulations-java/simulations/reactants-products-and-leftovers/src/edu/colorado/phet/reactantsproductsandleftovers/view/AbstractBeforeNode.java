@@ -112,14 +112,14 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         double startX = quantityValueNodes.get( 0 ).getFullBoundsReference().getMinX();
         double endX = quantityValueNodes.get( quantityValueNodes.size() - 1 ).getFullBoundsReference().getMaxX();
         double width = endX - startX;
-        PNode leftoversLabelNode = new BracketedLabelNode( RPALStrings.LABEL_REACTANTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
-        addChild( leftoversLabelNode );
+        PNode reactantsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_REACTANTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
+        addChild( reactantsLabelNode );
         x = startX;
         y = 0;
         for ( QuantityValueNode node : quantityValueNodes ) {
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
         }
-        leftoversLabelNode.setOffset( x, y );
+        reactantsLabelNode.setOffset( x, y );
         
         update();
     }
