@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_et.xml created Sun Dec 20 16:31:19 EET 2009 using: curve-fitting 2.01.00 (37297), translation-utility 2.03.00 (36202) Okt 29, 2009-->
+<SimStrings>
+<string key="cEquals" value="c ="/>
+<string key="clearAll" value="Eemalda kõik"/>
+<string key="deviations" value="näita hälbeid"/>
+<string key="bEquals" value="b ="/>
+<string key="aEquals" value="a ="/>
+<string key="quartic" value="Neljandat järku"/>
+<string key="simTitle" value="Kõvera moodustumine"/>
+<string key="bestFit" value="Täpseim"/>
+<string key="quadratic" value="Teist järku"/>
+<string key="bucketHelp2" value="või pane tagasi"/>
+<string key="bucketHelp1" value="Võta punktid..."/>
+<string key="cubic" value="Kolmandat järku"/>
+<string key="noFit" value="Ära näita"/>
+<string key="eEquals" value="e ="/>
+<string key="dEquals" value="d ="/>
+<string key="adjustableFit2" value="Reguleeritav:"/>
+<string key="dataPointHelp" value="veetavad veapiirid"/>
+<string key="bestFit2" value="Täpseim:"/>
+<string key="correlation" value="korrelatsioonikoefitsient"/>
+<string key="hideHelp" value="Peida selgitused"/>
+<string key="bucketLabel" value="Andme-\npunktid"/>
+<string key="chiSqHelp5" value=":    vastavus liiga hea (veapiirid liiga väikesed)"/>
+<string key="chiSqHelp4" value=":    vastavus hea (roheline ala)"/>
+<string key="chiSqHelp3" value=":    vastavus väike (punane ala)"/>
+<string key="chiSqHelp2" value="N = andmepunktide arv \n f = parameetrite arv kujutise puhul \n (f = 4 kolmandat järku kõvera puhul)"/>
+<string key="help" value="Aita"/>
+<string key="chiSqHelp1" value="Vähima hii-ruudu statistik on"/>
+<string key="adjustableFit" value="Reguleeritav"/>
+<string key="linear" value="Lineaarne"/>
+</SimStrings>
