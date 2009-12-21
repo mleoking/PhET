@@ -15,12 +15,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
-import edu.colorado.phet.reactantsproductsandleftovers.view.RealReactionEquationNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ScoreboardPanel;
 import edu.colorado.phet.reactantsproductsandleftovers.view.game.*;
 import edu.colorado.phet.reactantsproductsandleftovers.view.game.DevValuesNode.DevAfterValuesNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.game.DevValuesNode.DevBeforeValuesNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

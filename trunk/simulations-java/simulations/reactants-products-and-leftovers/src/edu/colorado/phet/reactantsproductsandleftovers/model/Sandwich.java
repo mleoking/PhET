@@ -4,7 +4,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
-import edu.colorado.phet.reactantsproductsandleftovers.view.SandwichImageFactory;
+import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichImageFactory;
 
 /**
  * Model of a sandwich, the product of our "reaction" analogy.
