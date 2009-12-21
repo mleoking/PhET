@@ -12,9 +12,9 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameListener;
 import edu.colorado.phet.reactantsproductsandleftovers.view.BoxNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy;
+import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy.GridLayoutStrategy;
+import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.GridLayoutNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -31,7 +31,7 @@ public class GameBeforeNode extends PhetPNode {
     private final GameModel model;
     private final BoxNode boxNode;
     private final GameListener gameListener;
-    private final ImageLayoutStrategy imageLayoutStrategy;
+    private final ImageLayoutNode imageLayoutNode;
     
     public GameBeforeNode( GameModel model ) {
         super();
@@ -64,8 +64,8 @@ public class GameBeforeNode extends PhetPNode {
         model.addGameListener( gameListener );
         
         // image layout strategy
-        imageLayoutStrategy = new GridLayoutStrategy();
-        imageLayoutStrategy.setBoxNode( boxNode );
+        imageLayoutNode = new GridLayoutNode( BOX_SIZE );
+        addChild( imageLayoutNode );
         addReactantImages();
     }
     
@@ -101,7 +101,7 @@ public class GameBeforeNode extends PhetPNode {
             for ( int j = 0; j < reactant.getQuantity(); j++ ) {
                 SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                imageLayoutStrategy.addNode( imageNode, previousNode, null );
+                imageLayoutNode.addNode( imageNode, previousNode, null );
                 previousNode = imageNode;
             }
         }

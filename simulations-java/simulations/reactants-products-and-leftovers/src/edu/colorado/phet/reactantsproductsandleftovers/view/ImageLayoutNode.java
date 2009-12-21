@@ -6,6 +6,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.GridLinesNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -13,67 +14,48 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Interface for specifying how image nodes are arranged in the Before and After boxes.
- * Also responsible for adding/removing image nodes in the scenegraph.
+ * Base class for nodes that arrange images in the Before and After boxes.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public interface ImageLayoutStrategy {
+public abstract class ImageLayoutNode extends PhetPNode {
     
-    /**
-     * Image nodes will be arranged in this box node.
-     * The box node is also the parent node of image nodes. 
-     * @param boxNode
-     */
-    public void setBoxNode( BoxNode boxNode );
+    private final PDimension boxSize;
+    
+    public ImageLayoutNode( PDimension boxSize ) {
+        this.boxSize = new PDimension( boxSize );
+    }
+    
+    protected double getBoxWidth() {
+        return boxSize.getWidth();
+    }
+    
+    protected double getBoxHeight() {
+        return boxSize.getHeight();
+    }
     
     /**
      * Adds node, relative to referenceNode, with knowledge of a related controlNode.
-     * The node is also added to the scenegraph, where it becomes a child of the box node.
+     * The node is also added to the scenegraph.
      * @param node
+     * @param parent
      * @param referenceNode
      * @param controlNode
      * @return
      */
-    public void addNode( PNode node, PNode referenceNode, PNode controlNode );
+    public abstract void addNode( PNode node, PNode referenceNode, PNode controlNode );
     
     /**
      * Removes node from the layout, and from the scenegraph.
      * @param node
+     * @param parent
      */
-    public void removeNode( PNode node );
-    
-    /*
-     * Base class that provides functionality common to all layout strategies.
-     */
-    abstract class AbstractImageLayoutStrategy implements ImageLayoutStrategy {
-        
-        private BoxNode boxNode;
-        
-        public void setBoxNode( BoxNode boxNode ) {
-            if ( this.boxNode != null ) {
-                throw new IllegalStateException( "setBoxNode should only be called once" );
-            }
-            this.boxNode = boxNode;
-        }
-        
-        protected BoxNode getBoxNode() {
-            return boxNode;
-        }
-        
-        public void addNode( PNode node ) {
-            boxNode.addChild( node );
-        }
-        
-        public void removeNode( PNode node ) {
-            boxNode.removeChild( node );
-        }
-    }
+    public abstract void removeNode( PNode node );
     
     /**
      * Stacks images vertically in the box.
      */
-    public static class StackedLayoutStrategy extends AbstractImageLayoutStrategy {
+    public static class StackedLayoutNode extends ImageLayoutNode {
 
         private static final double Y_MARGIN = 7;
         private static final double Y_SPACING = 28;
@@ -81,7 +63,8 @@ public interface ImageLayoutStrategy {
         private final PropertyChangeListener propertyChangeListener;
         private final HashMap<PNode,PBounds> fullBoundsMap; // keep track of node bounds, for adjusting the offset of dynamic images
         
-        public StackedLayoutStrategy() {
+        public StackedLayoutNode( PDimension boxSize ) {
+            super( boxSize );
             propertyChangeListener = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent event ) {
                     if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
@@ -99,10 +82,10 @@ public interface ImageLayoutStrategy {
          */
         public void addNode( PNode node, PNode referenceNode, PNode controlNode ) {
             // add the node to the scenegraph
-            super.addNode( node );
+            addChild( node );
             // set the node's offset
             double x = controlNode.getXOffset() - ( node.getFullBoundsReference().getWidth() / 2 );
-            double y = getBoxNode().getSizeReference().getHeight() - node.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_MARGIN;
+            double y = getBoxHeight() - node.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_MARGIN;
             if ( referenceNode != null ) {
                 y = referenceNode.getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_SPACING;
             }
@@ -113,7 +96,7 @@ public interface ImageLayoutStrategy {
         }
         
         public void removeNode( PNode node ) {
-            super.removeNode( node );
+            removeChild( node );
             fullBoundsMap.remove( node );
             node.removePropertyChangeListener( propertyChangeListener );
         }
@@ -140,7 +123,7 @@ public interface ImageLayoutStrategy {
     /**
      * Places images in a grid, one image per cell in the grid.
      */
-    public static class GridLayoutStrategy extends AbstractImageLayoutStrategy {
+    public static class GridLayoutNode extends ImageLayoutNode {
         
         private static final boolean DEBUG_SHOW_GRIDLINES = false;
 
@@ -152,25 +135,21 @@ public interface ImageLayoutStrategy {
         private final PNode[][] cells; // 2-dimensional grid of cells
         private PDimension cellSize;
         
-        public GridLayoutStrategy() {
+        public GridLayoutNode( PDimension boxSize ) {
+            super( boxSize );
             cells = new PNode[ROWS][COLUMNS];
-        }
-        
-        public void setBoxNode( BoxNode boxNode ) {
-            super.setBoxNode( boxNode );
             
             // compute cell size
-            PBounds b = boxNode.getFullBoundsReference();
-            double cellWidth = ( b.getWidth() - ( 2 * BOX_MARGIN ) ) / COLUMNS;
-            double cellHeight = ( b.getHeight() - ( 2 * BOX_MARGIN ) ) / ROWS;
+            double cellWidth = ( getBoxWidth() - ( 2 * BOX_MARGIN ) ) / COLUMNS;
+            double cellHeight = ( getBoxHeight() - ( 2 * BOX_MARGIN ) ) / ROWS;
             cellSize = new PDimension( cellWidth, cellHeight );
             
             // visualize grid lines
             if ( DEBUG_SHOW_GRIDLINES ) {
-                double gridWidth = b.getWidth() - ( 2 * BOX_MARGIN );
-                double gridHeight = b.getHeight() - ( 2 * BOX_MARGIN );
+                double gridWidth = getBoxWidth() - ( 2 * BOX_MARGIN );
+                double gridHeight = getBoxHeight() - ( 2 * BOX_MARGIN );
                 PNode gridLinesNode = new GridLinesNode( ROWS, COLUMNS, gridWidth, gridHeight, new BasicStroke( 1f ), Color.BLACK, null );
-                getBoxNode().addChild( gridLinesNode );
+                addChild( gridLinesNode );
                 gridLinesNode.setOffset( BOX_MARGIN, BOX_MARGIN );
             }
         }
@@ -181,8 +160,12 @@ public interface ImageLayoutStrategy {
          * @param controlNode ignored
          */
         public void addNode( PNode node, PNode referenceNode, PNode controlNode ) {
+            addNode( node );
+        }
+        
+        private void addNode( PNode node ) {
             // add the node to the scenegraph
-            super.addNode( node );
+            addChild( node );
             
             // find an empty cell in the grid
             int startRow = (int)( Math.random() * ROWS ); // start looking in a random row & column
@@ -233,14 +216,13 @@ public interface ImageLayoutStrategy {
             }
             
             // set the node's offset
-            PBounds b = getBoxNode().getFullBoundsReference();
-            double x = b.getMinX() + BOX_MARGIN + ( column * cellSize.getWidth() ) + cellXOffset;
-            double y = b.getMinY() + BOX_MARGIN + ( row * cellSize.getHeight() ) + cellYOffset;
+            double x = BOX_MARGIN + ( column * cellSize.getWidth() ) + cellXOffset;
+            double y = BOX_MARGIN + ( row * cellSize.getHeight() ) + cellYOffset;
             node.setOffset( x, y );
         }
         
         public void removeNode( PNode node ) {
-            super.removeNode( node );
+            removeChild( node );
             // remove node from the grid
             boolean removed = false;
             for ( int i = 0; i < ROWS && !removed; i++ ) {

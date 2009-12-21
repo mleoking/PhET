@@ -47,9 +47,9 @@ public abstract class AbstractBeforeNode extends PhetPNode {
     private final BoxNode boxNode;
     private final ArrayList<ArrayList<SubstanceImageNode>> imageNodeLists; // one list of images per reactant
     private final ArrayList<QuantityValueNode> quantityValueNodes; // quantity controls for reactants
-    private final ImageLayoutStrategy imageLayoutStrategy;
+    private final ImageLayoutNode imageLayoutNode;
     
-    public AbstractBeforeNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames, ImageLayoutStrategy imageLayoutStrategy ) {
+    public AbstractBeforeNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames, ImageLayoutNode imageLayoutNode ) {
         super();
         
         this.reaction = reaction;
@@ -60,7 +60,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         };
         reaction.addChangeListener( reactionChangeListener );
         
-        this.imageLayoutStrategy = imageLayoutStrategy;
+        this.imageLayoutNode = imageLayoutNode;
         
         imageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
         quantityValueNodes = new ArrayList<QuantityValueNode>();
@@ -68,7 +68,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
         // box
         boxNode = new BoxNode( BOX_SIZE );
         addChild( boxNode );
-        imageLayoutStrategy.setBoxNode( boxNode );
+        addChild( imageLayoutNode );
         
         // title for the box
         PText titleNode = new PText( title );
@@ -165,7 +165,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
                 while ( reactant.getQuantity() < imageNodes.size() ) {
                     SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
                     imageNode.cleanup();
-                    imageLayoutStrategy.removeNode( imageNode );
+                    imageLayoutNode.removeNode( imageNode );
                     imageNodes.remove( imageNode );
                 }
             }
@@ -179,7 +179,7 @@ public abstract class AbstractBeforeNode extends PhetPNode {
                     SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                     imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                     imageNodes.add( imageNode );
-                    imageLayoutStrategy.addNode( imageNode, previousNode, quantityValueNodes.get( i ) );
+                    imageLayoutNode.addNode( imageNode, previousNode, quantityValueNodes.get( i ) );
                     previousNode = imageNode;
                 }
             }

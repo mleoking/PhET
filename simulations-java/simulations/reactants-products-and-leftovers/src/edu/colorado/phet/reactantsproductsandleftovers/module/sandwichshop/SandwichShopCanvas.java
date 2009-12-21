@@ -6,9 +6,10 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy.StackedLayoutStrategy;
+import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.StackedLayoutNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichEquationNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -82,14 +83,14 @@ public class SandwichShopCanvas extends RPALCanvas {
     private static class SandwichShopBeforeNode extends AbstractBeforeNode {
 
         public SandwichShopBeforeNode( SandwichShopModel model ) {
-            super( RPALStrings.LABEL_BEFORE_SANDWICH, model.getReaction(), model.getQuantityRange(), false /* showSubstanceNames */, new StackedLayoutStrategy() );
+            super( RPALStrings.LABEL_BEFORE_SANDWICH, model.getReaction(), model.getQuantityRange(), false /* showSubstanceNames */, new StackedLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
         }
     }
     
     private static class SandwichShopAfterNode extends AbstractAfterNode {
 
         public SandwichShopAfterNode( SandwichShopModel model ) {
-            super( RPALStrings.LABEL_AFTER_SANDWICH, model.getReaction(), model.getQuantityRange(), false /* showSubstanceName */, new StackedLayoutStrategy() );
+            super( RPALStrings.LABEL_AFTER_SANDWICH, model.getReaction(), model.getQuantityRange(), false /* showSubstanceName */, new StackedLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
         }
     }
 }
