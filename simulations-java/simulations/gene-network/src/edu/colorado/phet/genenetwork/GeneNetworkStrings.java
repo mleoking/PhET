@@ -27,6 +27,7 @@ public class GeneNetworkStrings {
     // Captions for items in the legend.
     public static final String POLYMERASE_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.Polymerase" );
     public static final String LAC_Z_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.LacZ" );
+    public static final String LAC_I_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.LacI" );
     public static final String MESSENGER_RNA_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.MessengerRna" );
     public static final String TRANSFORMATION_ARROW_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.TransformationArrow" );
 

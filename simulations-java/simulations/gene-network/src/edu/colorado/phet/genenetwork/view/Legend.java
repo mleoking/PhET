@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
+import edu.colorado.phet.genenetwork.model.LacI;
 import edu.colorado.phet.genenetwork.model.LacIMessengerRna;
 import edu.colorado.phet.genenetwork.model.LacZ;
 import edu.colorado.phet.genenetwork.model.MessengerRna;
@@ -61,6 +62,8 @@ public class Legend extends PNode {
 	private HTMLNode rnaPolymeraseCaption;
 	private SimpleModelElementNode lacZLegendItem;
 	private HTMLNode lacZCaption;
+	private SimpleModelElementNode lacILegendItem;
+	private HTMLNode lacICaption;
 	private SimpleModelElementNode messengerRnaLegendItem;
 	private HTMLNode messengerRnaCaption;
 	private SimpleModelElementNode transformationArrowLegendItem;
@@ -102,6 +105,13 @@ public class Legend extends PNode {
 		
 		lacZCaption = new HTMLNode(GeneNetworkStrings.LAC_Z_LEGEND_CAPTION, LABEL_FONT, LABEL_COLOR);
 		background.addChild(lacZCaption);
+		
+		lacILegendItem = new SimpleModelElementNode(new LacI(), MVT, false);
+		lacILegendItem.setPickable(false);
+		background.addChild(lacILegendItem);
+		
+		lacICaption = new HTMLNode(GeneNetworkStrings.LAC_I_LEGEND_CAPTION, LABEL_FONT, LABEL_COLOR);
+		background.addChild(lacICaption);
 		
 		MessengerRna mRna = new LacIMessengerRna(15);
 		mRna.setPredictibleShape();
@@ -163,9 +173,19 @@ public class Legend extends PNode {
 				lacZLegendItem.getFullBoundsReference().getMaxY() + 5);
 		width = Math.max(lacZCaption.getFullBoundsReference().width, width);
 		
+		// Position the LacI.
+		yPos = lacZCaption.getFullBoundsReference().getMaxY() + 30;
+		lacILegendItem.setOffset(xPos, yPos);
+		width = Math.max(lacILegendItem.getFullBoundsReference().width, width);
+		
+		// Position the LacI caption.
+		lacICaption.setOffset(xPos - lacICaption.getFullBoundsReference().width / 2,
+				lacILegendItem.getFullBoundsReference().getMaxY() + 5);
+		width = Math.max(lacICaption.getFullBoundsReference().width, width);
+		
 		// Position the messenger RNA.  Note the mRNA is a bit unique in that
 		// it's offset if from the left side rather than the middle.
-		yPos = lacZCaption.getFullBoundsReference().getMaxY() + 35;
+		yPos = lacICaption.getFullBoundsReference().getMaxY() + 35;
 		messengerRnaLegendItem.setOffset(xPos - messengerRnaLegendItem.getFullBoundsReference().width / 2, yPos);
 		width = Math.max(messengerRnaLegendItem.getFullBoundsReference().width, width);
 		
