@@ -51,6 +51,10 @@ public class GameModel extends RPALModel {
         startGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
     }
     
+    public void newGame() {
+        fireNewGame();
+    }
+    
     public void startGame( int level, boolean timerEnabled ) {
         setLevel( level );
         setTimerEnabled( timerEnabled );
@@ -74,8 +78,8 @@ public class GameModel extends RPALModel {
     }
     
     public void nextChallenge() {
-        challengeNumber++;
-        if ( challengeNumber < CHALLENGES_PER_GAME ) {
+        if ( challengeNumber < CHALLENGES_PER_GAME - 1 ) {
+            challengeNumber++;
             setAttempts( 0 );
             fireChallengeChanged();
         }
@@ -187,6 +191,7 @@ public class GameModel extends RPALModel {
     }
     
     public interface GameListener {
+        public void newGame(); // user requested to start a new game
         public void gameStarted(); // a new game was started
         public void gameCompleted(); // the current game was completed
         public void gameAborted(); // the current game was aborted before it was completed
@@ -199,6 +204,7 @@ public class GameModel extends RPALModel {
     }
     
     public static class GameAdapter implements GameListener {
+        public void newGame() {}
         public void gameStarted() {}
         public void gameCompleted() {}
         public void gameAborted() {}
@@ -216,6 +222,16 @@ public class GameModel extends RPALModel {
     
     public void removeGameListener( GameListener listener ) {
         listeners.remove( listener );
+    }
+    
+    private void fireNewGame() {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel.newGame, notifying " + listenersCopy.size() + " listeners" );
+        }
+        for ( GameListener listener : listenersCopy ) {
+            listener.newGame();
+        }
     }
     
     private void fireGameStarted() {
