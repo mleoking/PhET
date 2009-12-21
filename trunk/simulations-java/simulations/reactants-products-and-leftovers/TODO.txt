@@ -6,6 +6,7 @@ HIGH PRIORITY
 - Game: Summary dialog
 - Game: state machine to control visibility of game nodes
 - investigate layout oddities with Scoreboard (rewrite in Piccolo?)
+- should Game summary node be draggable?
 
 MEDIUM PRIORITY
 - Game: animated curtains
