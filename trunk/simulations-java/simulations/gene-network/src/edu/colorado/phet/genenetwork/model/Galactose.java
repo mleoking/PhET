@@ -35,7 +35,7 @@ public class Galactose extends SimpleSugar {
 		assert glucoseAttachmentPartner == null; // Should not be requested to attach if already attached.
 		
 		glucoseAttachmentPartner = glucose;
-		Dimension2D offset = glucoseAttachmentPartner.getGalactoseAttachmentPointOffset();
+		Dimension2D offset = Glucose.getGalactoseAttachmentPointOffset();
 		offset.setSize(offset.getWidth() - GLUCOSE_ATTACHMENT_OFFSET.getWidth(),
 				offset.getHeight() - GLUCOSE_ATTACHMENT_OFFSET.getHeight());
 		Point2D position = new Point2D.Double(glucose.getPositionRef().getX() + offset.getWidth(),
