@@ -110,7 +110,7 @@ public class ValueNode extends PhetPNode {
         
         updateLayout();
         setEditable( editable );
-        this.value = value; // force update
+        this.value = value - 1; // force update
         setValue( value );
     }
     
