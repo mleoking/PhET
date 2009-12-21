@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -106,7 +107,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 		addChild(lacPromoter);
 		
 		// Add a check box for enabling/disabling the legend.
-		final JCheckBox legendControlCheckBox = new JCheckBox("Show Legend");
+		final JCheckBox legendControlCheckBox = new JCheckBox(GeneNetworkStrings.LEGEND_VISIBILITY_CONTROL_CAPTION);
 		legendControlCheckBox.setFont(new PhetFont(14, true));
 		legendControlCheckBox.setBackground(BACKGROUND_COLOR);
 		legendControlCheckBox.setSelected(model.isLegendVisible());
