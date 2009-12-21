@@ -1,4 +1,4 @@
-package edu.colorado.phet.reactantsproductsandleftovers.controls;
+package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
