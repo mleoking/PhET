@@ -5,6 +5,7 @@ HIGH PRIORITY
 - Game: images in before/after boxes
 - Game: Summary dialog
 - Game: state machine to control visibility of game nodes
+- investigate layout oddities with Scoreboard (rewrite in Piccolo?)
 
 MEDIUM PRIORITY
 - Game: animated curtains
