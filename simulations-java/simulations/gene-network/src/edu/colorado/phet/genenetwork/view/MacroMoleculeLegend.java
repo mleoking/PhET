@@ -42,7 +42,7 @@ public class MacroMoleculeLegend extends PNode {
     //------------------------------------------------------------------------
 
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(2f);
-	private static final Color BACKGROUND_COLOR = Color.WHITE;
+	private static final Color BACKGROUND_COLOR = new Color(255, 255, 220);
 	private static final double SPACE_FROM_TOP_TO_FIRST_ITEM = 15;
 	private static final Font LABEL_FONT = new PhetFont(16, true);
 	private static final Color LABEL_COLOR = Color.BLACK;
