@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy.StackedLayoutStrategy;
+import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichEquationNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**

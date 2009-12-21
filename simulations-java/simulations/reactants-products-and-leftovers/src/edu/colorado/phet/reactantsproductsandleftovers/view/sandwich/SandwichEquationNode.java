@@ -1,4 +1,4 @@
-package edu.colorado.phet.reactantsproductsandleftovers.view;
+package edu.colorado.phet.reactantsproductsandleftovers.view.sandwich;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -21,6 +21,9 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Product.ProductChan
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
+import edu.colorado.phet.reactantsproductsandleftovers.view.PlusNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 

@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.reactantsproductsandleftovers.view;
+package edu.colorado.phet.reactantsproductsandleftovers.view.sandwich;
 
 import java.awt.Image;
 import java.util.ArrayList;
