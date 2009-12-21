@@ -6,4 +6,6 @@ public class GeneNetworkModelAdapter implements GeneNetworkModelListener {
 
 	public void lactoseInjectionAllowedStateChange() { }
 
+	public void legendVisibilityStateChange() { }
+
 }

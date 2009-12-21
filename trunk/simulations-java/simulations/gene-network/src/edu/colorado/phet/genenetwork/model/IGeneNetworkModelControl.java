@@ -177,4 +177,11 @@ public interface IGeneNetworkModelControl {
 	 * Returns true if it is okay to inject lactose, false if not.
 	 */
 	public boolean isLactoseInjectionAllowed();
+	
+	/**
+	 * Returns true if the legend should be visible, false if not.
+	 */
+	public boolean isLegendVisible();
+	
+	
 }
