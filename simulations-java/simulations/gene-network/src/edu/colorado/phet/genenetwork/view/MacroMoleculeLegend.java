@@ -28,6 +28,7 @@ import edu.colorado.phet.genenetwork.model.RnaPolymerase;
 import edu.colorado.phet.genenetwork.model.TransformationArrow;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * This class represents the legend that allows the user to see the names of
@@ -43,7 +44,6 @@ public class MacroMoleculeLegend extends PNode {
 
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(2f);
 	private static final Color BACKGROUND_COLOR = new Color(255, 255, 220);
-	private static final double SPACE_FROM_TOP_TO_FIRST_ITEM = 15;
 	private static final Font LABEL_FONT = new PhetFont(16, true);
 	private static final Color LABEL_COLOR = Color.BLACK;
 	
@@ -58,6 +58,7 @@ public class MacroMoleculeLegend extends PNode {
     //------------------------------------------------------------------------
 
 	private PPath background;
+	private PText title;
 	private SimpleModelElementNode rnaPolymeraseLegendItem;
 	private HTMLNode rnaPolymeraseCaption;
 	private SimpleModelElementNode lacZLegendItem;
@@ -91,6 +92,10 @@ public class MacroMoleculeLegend extends PNode {
 
 		background = new PhetPPath(BACKGROUND_COLOR, OUTLINE_STROKE, Color.BLACK);
 		addChild(background);
+		
+		title = new PText(GeneNetworkStrings.MACRO_MOLECULE_LEGEND_TITLE);
+		title.setFont(new PhetFont(18, true));
+		addChild(title);
 		
 		rnaPolymeraseLegendItem = new SimpleModelElementNode(new RnaPolymerase(), MVT, false);
 		rnaPolymeraseLegendItem.setPickable(false);
@@ -151,10 +156,14 @@ public class MacroMoleculeLegend extends PNode {
 		double height = 0;
 		double xPos, yPos;
 		
-		// Position the RNA polymerase.
+		// Position the title.
 		xPos = background.getBoundsReference().width / 2;
-		yPos = SPACE_FROM_TOP_TO_FIRST_ITEM + (rnaPolymeraseLegendItem.getOffset().getY() - 
-				rnaPolymeraseLegendItem.getFullBoundsReference().getMinY());
+		yPos = 5;
+		title.setOffset(xPos - title.getFullBoundsReference().width / 2, yPos);
+		width = Math.max(title.getFullBoundsReference().width, width);
+		
+		// Position the RNA polymerase.
+		yPos = title.getFullBoundsReference().getMaxY() + 30;
 		rnaPolymeraseLegendItem.setOffset(xPos, yPos);
 		width = Math.max(rnaPolymeraseLegendItem.getFullBoundsReference().width, width);
 		
