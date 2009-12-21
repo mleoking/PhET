@@ -52,6 +52,9 @@ public class GameModel extends RPALModel {
     }
     
     public void newGame() {
+        if ( challengeNumber < CHALLENGES_PER_GAME -1 ) {
+            fireGameAborted();
+        }
         fireNewGame();
     }
     
