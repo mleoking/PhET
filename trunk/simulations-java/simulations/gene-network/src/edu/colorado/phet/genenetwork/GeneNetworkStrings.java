@@ -25,6 +25,7 @@ public class GeneNetworkStrings {
     public static final String LACI_BINDING_REGION_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.LacIBindingRegion" );
     
     // Captions for items in the legend.
+    public static final String MACRO_MOLECULE_LEGEND_TITLE = GeneNetworkResources.getString( "Legend.Title" );
     public static final String POLYMERASE_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.Polymerase" );
     public static final String LAC_Z_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.LacZ" );
     public static final String LAC_I_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.LacI" );
