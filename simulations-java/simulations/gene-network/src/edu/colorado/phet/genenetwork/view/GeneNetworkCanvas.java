@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.genenetwork.GeneNetworkConstants;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
-import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
 import edu.colorado.phet.genenetwork.model.ModelElementListenerAdapter;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
@@ -39,9 +38,6 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     // Instance Data
     //------------------------------------------------------------------------
 
-    // Model
-    private IGeneNetworkModelControl model;
-    
     // Model-view transform.
     private ModelViewTransform2D mvt;
     
@@ -57,8 +53,6 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     
     public GeneNetworkCanvas( LacOperonModel model ) {
         super( LacOperonDefaults.VIEW_SIZE );
-        
-        this.model = model;
         
         setBackground( GeneNetworkConstants.CANVAS_BACKGROUND );
         

@@ -25,7 +25,7 @@ public class Lactose extends CompositeModelElement {
     	
     	// Offset the positions of the molecules so that the binding point is
     	// in the same place.
-		Dimension2D bindingPointOffset = glucoseMolecule.getGalactoseAttachmentPointOffset();
+		Dimension2D bindingPointOffset = Glucose.getGalactoseAttachmentPointOffset();
 		glucoseMolecule.setPosition(-bindingPointOffset.getWidth(), -bindingPointOffset.getHeight());
 		galactoseMolecule.setPosition(bindingPointOffset.getWidth(), bindingPointOffset.getHeight());
 		
