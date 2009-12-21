@@ -72,18 +72,18 @@ public class LacI extends SimpleModelElement {
     // Constructors
     //------------------------------------------------------------------------
 	
-	public LacI(IGeneNetworkModelControl model, Point2D initialPosition) {
-		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
+	public LacI(IGeneNetworkModelControl model, Point2D initialPosition, boolean fadeIn) {
+		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna(),
 				INITIAL_DESTINATION_POINT));
 	}
 	
-	public LacI(IGeneNetworkModelControl model) {
-		this(model, new Point2D.Double());
+	public LacI(IGeneNetworkModelControl model, boolean fadeIn) {
+		this(model, new Point2D.Double(), fadeIn);
 	}
 	
 	public LacI(){
-		this(null);
+		this(null, false);
 	}
 	
     //------------------------------------------------------------------------
