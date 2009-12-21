@@ -35,7 +35,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * 
  * @author John Blanco
  */
-public class Legend extends PNode {
+public class MacroMoleculeLegend extends PNode {
 	
     //------------------------------------------------------------------------
     // Class Data
@@ -73,7 +73,7 @@ public class Legend extends PNode {
     // Constructors
     //------------------------------------------------------------------------
     	
-	public Legend(final IGeneNetworkModelControl model, final PhetPCanvas canvas){
+	public MacroMoleculeLegend(final IGeneNetworkModelControl model, final PhetPCanvas canvas){
 		
 		// Register for notifications of size change.
 		canvas.addComponentListener(new ComponentAdapter() {
