@@ -106,7 +106,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         // Add the legend.
         Legend legend = new Legend(this);
         toolBoxLayer.addChild(legend);
-        legend.setOffset(20, 50);
+        legend.setOffset(20, 20);
     }
 
     //------------------------------------------------------------------------

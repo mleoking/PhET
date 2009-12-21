@@ -8,7 +8,7 @@ public class LacITransformationArrow extends TransformationArrow {
 	private final LacI lacIToAddToModel;
 	
 	public LacITransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition, LacI lacI) {
-		super(model, initialPosition, ARROW_LENGTH);
+		super(model, initialPosition, ARROW_LENGTH, true);
 		lacIToAddToModel = lacI;
 	}
 

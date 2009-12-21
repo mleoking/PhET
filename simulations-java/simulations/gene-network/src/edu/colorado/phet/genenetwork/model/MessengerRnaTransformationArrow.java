@@ -15,7 +15,7 @@ public class MessengerRnaTransformationArrow extends TransformationArrow {
 	private boolean lacIAdded = false;
 	
 	public MessengerRnaTransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition, MessengerRna mRna) {
-		super(model, initialPosition, ARROW_LENGTH);
+		super(model, initialPosition, ARROW_LENGTH, true);
 		this.mRna = mRna;
 	}
 
