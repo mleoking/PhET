@@ -104,7 +104,7 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         lactoseInjector.setOffset(900, 0);
         
         // Add the legend.
-        Legend legend = new Legend();
+        Legend legend = new Legend(this);
         toolBoxLayer.addChild(legend);
         legend.setOffset(20, 50);
     }

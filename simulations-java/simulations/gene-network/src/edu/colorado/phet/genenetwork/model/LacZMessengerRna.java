@@ -22,7 +22,7 @@ public class LacZMessengerRna extends MessengerRna {
 		Point2D processArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX(),
 				bounds.getMaxY() + getPositionRef().getY() + 3);
 		getModel().addTransformationArrow(new LacZTransformationArrow(getModel(), processArrowPos,
-				new LacZ(getModel())));
+				new LacZ(getModel(), true)));
 		setMotionStrategy(new StillnessMotionStrategy(this));
 	}
 }

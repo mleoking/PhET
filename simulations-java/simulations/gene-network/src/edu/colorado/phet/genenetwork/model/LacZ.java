@@ -59,17 +59,17 @@ public class LacZ extends SimpleModelElement {
 	// Constructor(s)
 	//----------------------------------------------------------------------------
 
-	public LacZ(IGeneNetworkModelControl model, Point2D initialPosition) {
-		super(model, createShape(), initialPosition, ELEMENT_PAINT, true, EXISTENCE_TIME);
+	public LacZ(IGeneNetworkModelControl model, Point2D initialPosition, boolean fadeIn) {
+		super(model, createShape(), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
 		setMotionStrategy(new StillnessMotionStrategy(this));
 	}
 	
-	public LacZ(IGeneNetworkModelControl model) {
-		this(model, new Point2D.Double());
+	public LacZ(IGeneNetworkModelControl model, boolean fadeIn) {
+		this(model, new Point2D.Double(), fadeIn);
 	}
 	
 	public LacZ(){
-		this(null);
+		this(null, false);
 	}
 	
 	//----------------------------------------------------------------------------
