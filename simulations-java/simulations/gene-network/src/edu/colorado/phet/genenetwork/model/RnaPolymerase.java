@@ -78,56 +78,58 @@ public class RnaPolymerase extends SimpleModelElement {
 	
 	@Override
 	public void stepInTime(double dt) {
-		if (lacPromoterAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
-			if (traversing){
-				if (!transcribing){
-					if (isOnLacZGene()){
-						// We have moved into contact with the LacZ gene, so
-						// it is time to start transcribing.
-						mRna = new LacZMessengerRna(getModel(), 0);
-						mRna.setPosition(getPositionRef().getX() + MESSENGER_RNA_OUTPUT_OFFSET.getWidth(), 
-								getPositionRef().getY() + MESSENGER_RNA_OUTPUT_OFFSET.getHeight());
-						getModel().addMessengerRna(mRna);					
-						transcribing = true;
+		if (!isUserControlled()){
+			if (lacPromoterAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
+				if (traversing){
+					if (!transcribing){
+						if (isOnLacZGene()){
+							// We have moved into contact with the LacZ gene, so
+							// it is time to start transcribing.
+							mRna = new LacZMessengerRna(getModel(), 0);
+							mRna.setPosition(getPositionRef().getX() + MESSENGER_RNA_OUTPUT_OFFSET.getWidth(), 
+									getPositionRef().getY() + MESSENGER_RNA_OUTPUT_OFFSET.getHeight());
+							getModel().addMessengerRna(mRna);					
+							transcribing = true;
+						}
+					}
+					else{
+						// We are in the process of transcribing the DNA.
+						// Continue growing the messenger RNA until we run off the
+						// end of the gene.
+						mRna.grow(getVelocityRef().getMagnitude() * dt);
+						if (!isOnLacZGene()){
+							// We have traversed the gene.  Time to detach the
+							// mRNA as well as ourself.
+							mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
+									new Point2D.Double(mRna.getPositionRef().getX(), mRna.getPositionRef().getY() + 30), 4));
+							mRna = null;
+							transcribing = false;
+							traversing = false;
+							setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+							recoveryCountdownTimer = RECOVERY_TIME;
+						}
 					}
 				}
 				else{
-					// We are in the process of transcribing the DNA.
-					// Continue growing the messenger RNA until we run off the
-					// end of the gene.
-					mRna.grow(getVelocityRef().getMagnitude() * dt);
-					if (!isOnLacZGene()){
-						// We have traversed the gene.  Time to detach the
-						// mRNA as well as ourself.
-						mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
-								new Point2D.Double(mRna.getPositionRef().getX(), mRna.getPositionRef().getY() + 30), 4));
-						mRna = null;
-						transcribing = false;
-						traversing = false;
-						setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
-						recoveryCountdownTimer = RECOVERY_TIME;
+					recoveryCountdownTimer -= dt;
+					if (recoveryCountdownTimer <= 0){
+						// This has been unattached long enough and is ready to attach
+						// again.
+						lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 					}
 				}
 			}
-			else{
-				recoveryCountdownTimer -= dt;
-				if (recoveryCountdownTimer <= 0){
-					// This has been unattached long enough and is ready to attach
-					// again.
-					lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-				}
-			}
-		}
-		else if (lacPromoterAttachmentState == AttachmentState.ATTACHED){
-			if (bumpingLacI){
-				// We are in the process of simulating a "bump" motion.  See
-				// if we are done.
-				assert getMotionStrategyRef() instanceof ThereAndBackMotionStrategy;
-				ThereAndBackMotionStrategy strategy = (ThereAndBackMotionStrategy)getMotionStrategyRef();
-				if (strategy.isTripCompleted()){
-					// The simulated bump is complete - go back to being still.
-					setMotionStrategy(new StillnessMotionStrategy(this));
-					bumpingLacI = false;
+			else if (lacPromoterAttachmentState == AttachmentState.ATTACHED){
+				if (bumpingLacI){
+					// We are in the process of simulating a "bump" motion.  See
+					// if we are done.
+					assert getMotionStrategyRef() instanceof ThereAndBackMotionStrategy;
+					ThereAndBackMotionStrategy strategy = (ThereAndBackMotionStrategy)getMotionStrategyRef();
+					if (strategy.isTripCompleted()){
+						// The simulated bump is complete - go back to being still.
+						setMotionStrategy(new StillnessMotionStrategy(this));
+						bumpingLacI = false;
+					}
 				}
 			}
 		}
@@ -136,7 +138,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	
 	@Override
 	public void setDragging(boolean dragging) {
-		if (dragging = true && lacPromoterAttachmentPartner != null){
+		if (dragging == true && lacPromoterAttachmentPartner != null){
 			// The user has grabbed this node and is moving it, so release
 			// any hold on the lac promoter.
 			lacPromoterAttachmentPartner.detach(this);
