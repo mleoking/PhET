@@ -44,6 +44,7 @@ public class MacroMoleculeLegend extends PNode {
 
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(2f);
 	private static final Color BACKGROUND_COLOR = new Color(255, 255, 220);
+	private static final Font TITLE_FONT = new PhetFont(18, true);
 	private static final Font LABEL_FONT = new PhetFont(16, true);
 	private static final Color LABEL_COLOR = Color.BLACK;
 	
@@ -94,7 +95,7 @@ public class MacroMoleculeLegend extends PNode {
 		addChild(background);
 		
 		title = new PText(GeneNetworkStrings.MACRO_MOLECULE_LEGEND_TITLE);
-		title.setFont(new PhetFont(18, true));
+		title.setFont(TITLE_FONT);
 		addChild(title);
 		
 		rnaPolymeraseLegendItem = new SimpleModelElementNode(new RnaPolymerase(), MVT, false);
