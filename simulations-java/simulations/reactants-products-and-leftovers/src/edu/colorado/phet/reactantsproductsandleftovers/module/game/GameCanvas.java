@@ -44,6 +44,7 @@ public class GameCanvas extends RPALCanvas {
     private final GameInstructionsNode beforeInstructions, afterInstructions;
     private final DevBeforeValuesNode devBeforeValuesNode;
     private final DevAfterValuesNode devAfterValuesNode;
+    private final GameSummaryNode gameSummaryNode;
     
     // these nodes are mutable, allocated when reaction changes
     private RealReactionEquationNode equationNode;
@@ -53,16 +54,20 @@ public class GameCanvas extends RPALCanvas {
     public GameCanvas( final GameModel model, Resettable resettable ) {
         super();
         
+        // game settings
+        gameSettingsNode = new GameSettingsNode( model );
+        gameSettingsNode.scale( 1.5 ); //XXX scale
+        addChild( gameSettingsNode );
+        
+        // game summary
+        gameSummaryNode = new GameSummaryNode( model );
+        gameSummaryNode.scale( 1.5 ); //XXX scale
+        addChild( gameSummaryNode );
+        
+        // all other nodes are children of this node
         parentNode = new PhetPNode();
         addChild( parentNode );
-        
-        // game settings
-        GameSettingsPanel gameSettingsPanel = new GameSettingsPanel( model );
-        PSwing gameSettingsPanelWrapper = new PSwing( gameSettingsPanel );
-        gameSettingsPanelWrapper.scale( 1.5 ); //XXX scale
-        gameSettingsNode = new PhetPNode();
-        gameSettingsNode.addChild( gameSettingsPanelWrapper );
-        addChild( gameSettingsNode );
+        parentNode.moveToBack();
         
         // right-pointing arrow
         arrowNode = new RightArrowNode();
@@ -168,6 +173,7 @@ public class GameCanvas extends RPALCanvas {
     
     private void setGameSettingsVisible( boolean visible ) {
         gameSettingsNode.setVisible( visible );
+        gameSummaryNode.setVisible( !visible );
         parentNode.setVisible( !visible );
     }
     
@@ -288,6 +294,11 @@ public class GameCanvas extends RPALCanvas {
         x = afterNode.getXOffset() + 10;
         y = afterNode.getYOffset() + 10;
         devAfterValuesNode.setOffset( x, y );
+        
+        // game summmary, horizontally and vertically centered on everything else
+        x = parentNode.getFullBoundsReference().getCenterX() - ( gameSummaryNode.getFullBoundsReference().getWidth() / 2 );
+        y =  parentNode.getFullBoundsReference().getCenterY() - ( gameSummaryNode.getFullBoundsReference().getHeight() / 2 );
+        gameSummaryNode.setOffset( x, y );
         
         // game settings, horizontally and vertically centered on everything else
         x = parentNode.getFullBoundsReference().getCenterX() - ( gameSettingsNode.getFullBoundsReference().getWidth() / 2 );

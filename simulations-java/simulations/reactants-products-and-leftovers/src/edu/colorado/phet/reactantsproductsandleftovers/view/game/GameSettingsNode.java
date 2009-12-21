@@ -15,13 +15,15 @@ import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
-public class GameSettingsPanel extends JPanel {
+public class GameSettingsNode extends PhetPNode {
     
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLUE, 4 ), new CompoundBorder( new LineBorder( Color.BLACK, 2 ), new EmptyBorder( 14, 14, 14, 14 ) ) );
     private static final Color BACKGROUND = Color.YELLOW;
@@ -29,10 +31,8 @@ public class GameSettingsPanel extends JPanel {
     private final JRadioButton[] levelRadioButtons;
     private final JRadioButton timerOnRadioButton, timerOffRadioButton;
     
-    public GameSettingsPanel( final GameModel model ) {
+    public GameSettingsNode( final GameModel model ) {
         super();
-        setBorder( BORDER );
-        setBackground( BACKGROUND );
         
         // Title
         JLabel titleLabel = new JLabel( "Game Settings" );
@@ -78,10 +78,13 @@ public class GameSettingsPanel extends JPanel {
             }
         });
         
-        // layout
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
+        // panel
+        JPanel panel = new JPanel();
+        panel.setBackground( BACKGROUND );
+        panel.setBorder( BORDER );
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
         layout.setInsets( new Insets( 5, 5, 5, 5 ) );
-        this.setLayout( layout );
+        panel.setLayout( layout );
         int row = 0;
         int column = 0;
         layout.addComponent( titleLabel, row++, column, 2, 1, GridBagConstraints.CENTER );
@@ -93,6 +96,10 @@ public class GameSettingsPanel extends JPanel {
         column = 0;
         layout.addFilledComponent( separator, row++, column, 2, 1, GridBagConstraints.HORIZONTAL );
         layout.addComponent( startButton, row++, column, 2, 1, GridBagConstraints.CENTER );
+        
+        // PSwing wrapper
+        PSwing pswing = new PSwing( panel );
+        addChild( pswing );
         
         // listen to model
         model.addGameListener( new GameAdapter() {
