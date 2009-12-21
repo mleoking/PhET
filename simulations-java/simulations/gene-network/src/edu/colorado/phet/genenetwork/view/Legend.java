@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -18,11 +17,11 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
+import edu.colorado.phet.genenetwork.model.LacIMessengerRna;
 import edu.colorado.phet.genenetwork.model.LacZ;
 import edu.colorado.phet.genenetwork.model.RnaPolymerase;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class represents the legend that allows the user to see the names of
@@ -36,7 +35,6 @@ public class Legend extends PNode {
     // Class Data
     //------------------------------------------------------------------------
 
-	private static final Dimension2D SIZE = new PDimension(130, 300);
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(2f);
 	private static final Color BACKGROUND_COLOR = Color.WHITE;
 	private static final double SPACE_FROM_TOP_TO_FIRST_ITEM = 20;
@@ -58,6 +56,9 @@ public class Legend extends PNode {
 	private HTMLNode rnaPolymeraseCaption;
 	private SimpleModelElementNode lacZLegendItem;
 	private HTMLNode lacZCaption;
+	private SimpleModelElementNode messengerRnaLegendItem;
+	private HTMLNode messengerRnaCaption;
+	
 	
     //------------------------------------------------------------------------
     // Constructors
@@ -88,6 +89,13 @@ public class Legend extends PNode {
 		
 		lacZCaption = new HTMLNode(GeneNetworkStrings.LAC_Z_LEGEND_CAPTION, LABEL_FONT, LABEL_COLOR);
 		background.addChild(lacZCaption);
+		
+		messengerRnaLegendItem = new SimpleModelElementNode(new LacIMessengerRna(15), MVT, false);
+		messengerRnaLegendItem.setPickable(false);
+		background.addChild(messengerRnaLegendItem);
+		
+		messengerRnaCaption = new HTMLNode(GeneNetworkStrings.MESSENGER_RNA_LEGEND_CAPTION, LABEL_FONT, LABEL_COLOR);
+		background.addChild(messengerRnaCaption);
 		
 		// Do initial layout.
 		updateLayout(canvas);
@@ -128,9 +136,20 @@ public class Legend extends PNode {
 				lacZLegendItem.getFullBoundsReference().getMaxY() + 5);
 		width = Math.max(lacZCaption.getFullBoundsReference().width, width);
 		
+		// Position the messenger RNA.  Note the mRNA is a bit unique in that
+		// it's offset if from the left side rather than the middle.
+		yPos = lacZCaption.getFullBoundsReference().getMaxY() + 35;
+		messengerRnaLegendItem.setOffset(xPos - messengerRnaLegendItem.getFullBoundsReference().width / 2, yPos);
+		width = Math.max(messengerRnaLegendItem.getFullBoundsReference().width, width);
+		
+		// Position the messenger RNA caption.
+		messengerRnaCaption.setOffset(xPos - messengerRnaCaption.getFullBoundsReference().width / 2,
+				messengerRnaLegendItem.getFullBoundsReference().getMaxY() + 5);
+		width = Math.max(messengerRnaCaption.getFullBoundsReference().width, width);
+		
 		// Expand the width by a fixed amount.
 		width = width * 1.15;
-		height = lacZCaption.getFullBoundsReference().getMaxY() + 20;
+		height = messengerRnaCaption.getFullBoundsReference().getMaxY() + 20;
 		
 		// Set the shape of the background.
 		background.setPathTo(new RoundRectangle2D.Double(0, 0, width, height, 8, 8));

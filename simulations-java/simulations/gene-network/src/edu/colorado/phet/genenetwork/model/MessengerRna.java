@@ -49,7 +49,7 @@ public abstract class MessengerRna extends SimpleModelElement {
 	// Constructor(s)
 	//----------------------------------------------------------------------------
 	
-	protected MessengerRna(IGeneNetworkModelControl model, Point2D initialPosition, double initialLength,
+	public MessengerRna(IGeneNetworkModelControl model, Point2D initialPosition, double initialLength,
 			boolean fadeIn, double existenceTime) {
 		super(model, createInitialShape(), initialPosition, ELEMENT_PAINT, fadeIn, existenceTime);
 		while (length < initialLength){
