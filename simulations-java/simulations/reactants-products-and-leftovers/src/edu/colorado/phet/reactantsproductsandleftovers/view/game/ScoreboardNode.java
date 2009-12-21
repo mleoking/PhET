@@ -113,16 +113,16 @@ public class ScoreboardNode extends PhetPNode {
             }
 
             @Override
-            public void timerEnabledChanged() {
+            public void timerVisibleChanged() {
                 setTimerVisible( model.isTimerVisible() );
                 if ( model.isTimerVisible() ) {
-                    setTime( model.getElapsedTime() );
+                    setTime( model.getTime() );
                 }
             }
             
             @Override
             public void timeChanged() {
-                setTime( model.getElapsedTime() );
+                setTime( model.getTime() );
             }
         });
         
@@ -130,7 +130,7 @@ public class ScoreboardNode extends PhetPNode {
         setPoints( model.getPoints() );
         setLevel( model.getLevel() );
         setTimerVisible( model.isTimerVisible() );
-        setTime( model.getElapsedTime() );
+        setTime( model.getTime() );
     }
     
     private void setPoints( double points ) {

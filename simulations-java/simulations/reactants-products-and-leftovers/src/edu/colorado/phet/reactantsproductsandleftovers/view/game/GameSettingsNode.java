@@ -74,7 +74,7 @@ public class GameSettingsNode extends PhetPNode {
         JButton startButton = new JButton( "Start!" );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.startGame( getLevel(), isTimerEnabled() );
+                model.startGame( getLevel(), isTimerOnSelected() );
             }
         });
         
@@ -110,14 +110,14 @@ public class GameSettingsNode extends PhetPNode {
             }
 
             @Override
-            public void timerEnabledChanged() {
-                setTimerEnabled( model.isTimerVisible() );
+            public void timerVisibleChanged() {
+                setTimerOnSelected( model.isTimerVisible() );
             }
         });
         
         // initial state
         setLevel( model.getLevel() );
-        setTimerEnabled( model.isTimerVisible() );
+        setTimerOnSelected( model.isTimerVisible() );
     }
     
     private void setLevel( int level ) {
@@ -137,12 +137,12 @@ public class GameSettingsNode extends PhetPNode {
         return level;
     }
     
-    private void setTimerEnabled( boolean enabled ) {
-        timerOnRadioButton.setSelected( enabled );
-        timerOffRadioButton.setSelected( !enabled );
+    private void setTimerOnSelected( boolean selected ) {
+        timerOnRadioButton.setSelected( selected );
+        timerOffRadioButton.setSelected( !selected );
     }
     
-    private boolean isTimerEnabled() {
+    private boolean isTimerOnSelected() {
         return timerOnRadioButton.isSelected();
     }
 }
