@@ -260,7 +260,7 @@ public class GameCanvas extends RPALCanvas {
         
         // buttons
         {
-            //XXX arrange all button is a row for now
+            //XXX arrange all buttons in a row for now
             x = 0;
             y = 0;
             checkButton.setOffset( x, y );
