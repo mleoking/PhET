@@ -111,13 +111,13 @@ public class GameSettingsNode extends PhetPNode {
 
             @Override
             public void timerEnabledChanged() {
-                setTimerEnabled( model.isTimerEnabled() );
+                setTimerEnabled( model.isTimerVisible() );
             }
         });
         
         // initial state
         setLevel( model.getLevel() );
-        setTimerEnabled( model.isTimerEnabled() );
+        setTimerEnabled( model.isTimerVisible() );
     }
     
     private void setLevel( int level ) {

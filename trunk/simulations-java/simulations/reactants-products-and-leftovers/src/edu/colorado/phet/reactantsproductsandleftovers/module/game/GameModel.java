@@ -2,8 +2,9 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.*;
@@ -22,32 +23,29 @@ public class GameModel extends RPALModel {
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
     private static final boolean DEFAULT_TIMER_ENABLED = true;
     
-    private final IClock clock;
     private final ArrayList<GameListener> listeners;
+    private final GameTimer timer;
     
-    private GameChallenge[] challenges;
-    private int challengeNumber;
-    private int level;
-    private boolean timerEnabled;
-    private int attempts;
-    private double points;
-    private long startTime; // System time in ms when the game started
-    private long elapsedTime; // ms
+    private GameChallenge[] challenges; // the challenges that make up the current game
+    private int challengeNumber; // the current challenge that the user is attempting to solve
+    private int level; // level of difficulty
+    private boolean timerVisible; // is the timer visible?
+    private int attempts; // how many attempts the user has made at solving the current challenge
+    private double points; // how many points the user has earned for the current game
     
     public GameModel( IClock clock ) {
         
-        this.clock = clock;
-        clock.addClockListener( new ClockAdapter() {
-            @Override
-            public void clockTicked( ClockEvent clockEvent ) {
-                elapsedTime = clockEvent.getWallTime() - startTime;
-                if ( timerEnabled ) {
+        listeners = new ArrayList<GameListener>();
+        
+        timer = new GameTimer( clock );
+        timer.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                if ( timerVisible ) {
                     fireTimeChanged();
                 }
             }
         } );
         
-        listeners = new ArrayList<GameListener>();
         startGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
     }
     
@@ -60,18 +58,15 @@ public class GameModel extends RPALModel {
     
     public void startGame( int level, boolean timerEnabled ) {
         setLevel( level );
-        setTimerEnabled( timerEnabled );
+        setTimerVisible( timerEnabled );
         setPoints( 0 );
         newChallenges();
-        elapsedTime = 0;
-        clock.resetSimulationTime();
-        clock.start();
-        startTime = System.currentTimeMillis(); // don't use clock.getWallTime, it's not valid until the clock ticks
+        timer.start();
         fireGameStarted();
     }
     
     public void endGame() {
-        clock.pause();
+        timer.stop();
         if ( challengeNumber == CHALLENGES_PER_GAME - 1 ) {
             fireGameCompleted();
         }
@@ -156,19 +151,19 @@ public class GameModel extends RPALModel {
         return level;
     }
     
-    private void setTimerEnabled( boolean timerEnabled ) {
-        if ( timerEnabled != this.timerEnabled ) {
-            this.timerEnabled = timerEnabled;
+    private void setTimerVisible( boolean timerEnabled ) {
+        if ( timerEnabled != this.timerVisible ) {
+            this.timerVisible = timerEnabled;
             fireTimerEnabledChanged();
         }
     }
     
-    public boolean isTimerEnabled() {
-        return timerEnabled;
+    public boolean isTimerVisible() {
+        return timerVisible;
     }
     
     public long getElapsedTime() {
-        return elapsedTime;
+        return timer.getTime();
     }
     
     private void setAttempts( int attempts ) {
@@ -193,6 +188,12 @@ public class GameModel extends RPALModel {
         return points;
     }
     
+    //---------------------------------------------------------------------------------
+    //
+    //  Listener interface and related methods
+    //
+    //---------------------------------------------------------------------------------
+    
     public interface GameListener {
         public void newGame(); // user requested to start a new game
         public void gameStarted(); // a new game was started
@@ -206,6 +207,9 @@ public class GameModel extends RPALModel {
         public void timeChanged(); // the time shown on the timer changed
     }
     
+    /**
+     * Default implementation of GameListener, does nothing.
+     */
     public static class GameAdapter implements GameListener {
         public void newGame() {}
         public void gameStarted() {}
