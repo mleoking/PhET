@@ -1,3 +1,4 @@
+12/21/09 show reactant, product and leftover images in Before/After boxes for game
 12/21/09 abstraction of game timer
 12/21/09 add game summary node
 12/21/09 reorganize view package

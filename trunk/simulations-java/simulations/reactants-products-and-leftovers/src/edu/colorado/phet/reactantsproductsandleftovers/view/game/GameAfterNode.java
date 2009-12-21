@@ -7,7 +7,16 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameListener;
 import edu.colorado.phet.reactantsproductsandleftovers.view.BoxNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy;
+import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutStrategy.GridLayoutStrategy;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -20,9 +29,12 @@ public class GameAfterNode extends PhetPNode {
     private static final Font TITLE_FONT = new PhetFont( 24 );
     private static final double TITLE_Y_SPACING = 10;
     
+    private final GameModel model;
     private final BoxNode boxNode;
+    private final GameListener gameListener;
+    private final ImageLayoutStrategy imageLayoutStrategy;
     
-    public GameAfterNode() {
+    public GameAfterNode( GameModel model ) {
         super();
         
         // box
@@ -43,6 +55,23 @@ public class GameAfterNode extends PhetPNode {
         x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
         y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
         titleNode.setOffset( x, y );
+
+        // sync with model
+        this.model = model;
+        gameListener = new GameAdapter() {
+            //XXX show the user's guess, if applicable
+            //XXX show the answer, when requested
+        };
+        model.addGameListener( gameListener );
+        
+        // image layout strategy
+        imageLayoutStrategy = new GridLayoutStrategy();
+        imageLayoutStrategy.setBoxNode( boxNode );
+        addProductsAndLeftoversImages();
+    }
+    
+    public void cleanup() {
+        model.removeGameListener( gameListener );
     }
     
     /**
@@ -59,5 +88,36 @@ public class GameAfterNode extends PhetPNode {
      */
     public double getBoxHeight() {
         return boxNode.getFullBoundsReference().getHeight();
+    }
+    
+    /*
+     * Add images for the products and leftovers.
+     */
+    private void addProductsAndLeftoversImages() {
+        
+        // products
+        Product[] products = model.getReaction().getProducts();
+        PNode previousNode = null;
+        for ( int i = 0; i < products.length; i++ ) {
+            Product reactant = products[i];
+            for ( int j = 0; j < reactant.getQuantity(); j++ ) {
+                SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
+                imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
+                imageLayoutStrategy.addNode( imageNode, previousNode, null );
+                previousNode = imageNode;
+            }
+        }
+        
+        // leftovers
+        Reactant[] reactants = model.getReaction().getReactants();
+        for ( int i = 0; i < reactants.length; i++ ) {
+            Reactant reactant = reactants[i];
+            for ( int j = 0; j < reactant.getLeftovers(); j++ ) {
+                SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
+                imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
+                imageLayoutStrategy.addNode( imageNode, previousNode, null );
+                previousNode = imageNode;
+            }
+        }
     }
 }
