@@ -32,4 +32,5 @@ public class GeneNetworkStrings {
 
     public static final String CLOCK_SPEED_CONTROL_CAPTION = GeneNetworkResources.getString("ClockSpeedControlCaption");
 
+    public static final String LEGEND_VISIBILITY_CONTROL_CAPTION = GeneNetworkResources.getString("LegendVisibilityControlCaption");
 }
