@@ -1,9 +1,10 @@
-Files ending in .launch are Eclipse Run Configuration files.
+launch.tar contains Eclipse Run Configuration files, which have a .launch suffix.
+Put these in your workspace folder under .metadata/.plugins/org.eclipse.debug.core/.launches/.
+They will appear in the "Run->Run Configuration" dialog.
 
-If you create these with the "Run->Run Configuration" menu item, then Eclipse puts them 
-in the workspace folder under .metadata/.plugins/org.eclipse.debug.core/.launches.
+NOTE: We must check this in as an archive because Eclipse seems to find .launch files anywhere in the workspace.
 
-But by having the files here, they still show up in the Run list (no idea why, maybe .launch is special to Eclipse).
+To create this archive:
 
-To backup .launch files created via "Run->Run Configuration", run this at a shell:
-cd ~/phet-workspace ; cp .metadata/.plugins/org.eclipse.debug.core/.launches/*.launch cmalley/eclipse/run-configurations/
+cd ~/phet-workspace/.metadata/.plugins/org.eclipse.debug.core/.launches/
+tar cvf ~/phet-workspace/trunk/team/cmalley/eclipse/run-configurations/launch.tar .
