@@ -111,6 +111,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 		legendControlCheckBox.setFont(new PhetFont(14, true));
 		legendControlCheckBox.setBackground(BACKGROUND_COLOR);
 		legendControlCheckBox.setSelected(model.isLegendVisible());
+		legendControlCheckBox.setFocusable(false);
 		legendControlCheckBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				model.setLegendVisible(legendControlCheckBox.isSelected());
