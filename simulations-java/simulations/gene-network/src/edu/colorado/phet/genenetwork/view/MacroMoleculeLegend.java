@@ -44,8 +44,8 @@ public class MacroMoleculeLegend extends PNode {
 
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(2f);
 	private static final Color BACKGROUND_COLOR = new Color(255, 255, 220);
-	private static final Font TITLE_FONT = new PhetFont(18, true);
-	private static final Font LABEL_FONT = new PhetFont(16, true);
+	private static final Font TITLE_FONT = new PhetFont(20, true);
+	private static final Font LABEL_FONT = new PhetFont(16, false);
 	private static final Color LABEL_COLOR = Color.BLACK;
 	
 	// A local model-view transform that is used to scale the simple model
