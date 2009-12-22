@@ -70,7 +70,7 @@ class TranslationInstructionsPage extends SitePage {
                 </li>
 
                 <li>
-                    Press the "Submit to PhET" button when you've finished your translations. This saves the translations as a Java properties file. Note the properties file name and email address shown in the dialog.
+                    Press the "Submit to PhET" button when you've finished your translations. This saves your translation to a file, which you can mail to PhET. Note the file name and email address shown in the dialog.
                 </li>
 
                 <li>
