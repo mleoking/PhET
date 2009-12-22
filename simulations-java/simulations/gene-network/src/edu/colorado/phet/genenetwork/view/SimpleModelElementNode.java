@@ -91,22 +91,10 @@ public class SimpleModelElementNode extends PPath {
 		updateShape();
 		updatePaintAndStroke(false);
 		
-		// If this is part of the DNA sequence, put a partially transparent
-		// image of the DNA strand on it.
-		if (modelElement.isPartOfDnaStrand()){
-			double width = mvt.modelToViewDifferentialXDouble(modelElement.getShape().getBounds2D().getWidth());
-			double height = 10;
-			double cycles = width / 20;
-			DnaBackgroundNode dnaBackground = new DnaBackgroundNode(new PDimension(width, height), cycles, 5);
-			dnaBackground.setTransparency(0.2f);
-			addChild(dnaBackground);
-		}
-		
 		// If there is a label text value, and showing it is enabled, show it.
 		if (showLabel == true && modelElement.getLabel() != null){
-//			PText labelNode = new PText(modelElement.getLabel());
-//			labelNode.setFont(LABEL_FONT);
-			OutlineHTMLNode labelNode = new OutlineHTMLNode(modelElement.getLabel(), LABEL_FONT, Color.WHITE, Color.BLACK);
+			PText labelNode = new PText(modelElement.getLabel());
+			labelNode.setFont(LABEL_FONT);
 			labelNode.setOffset(getFullBoundsReference().getCenterX() - labelNode.getFullBoundsReference().width / 2, 
 					getFullBoundsReference().getCenterY() - labelNode.getFullBoundsReference().height / 2);
 			addChild(labelNode);
