@@ -1,3 +1,4 @@
+12/21/09 read-only values shown below After box in Game
 12/21/09 read-only values shown below Before box in Game
 12/21/09 refactor code for doing image layout in Before/After boxes to make it usable in Game
 12/21/09 show reactant, product and leftover images in Before/After boxes for game
