@@ -45,7 +45,6 @@ public class GameBeforeNode extends PhetPNode {
     private final BoxNode boxNode;
     private final GameListener gameListener;
     private final ImageLayoutNode imageLayoutNode;
-    private final ArrayList<QuantityValueNode> quantityValueNodes; // quantity controls for reactants
     
     public GameBeforeNode( GameModel model ) {
         super();
@@ -61,7 +60,7 @@ public class GameBeforeNode extends PhetPNode {
         addChild( titleNode );
         
         // one quantity control for each reactant
-        quantityValueNodes = new ArrayList<QuantityValueNode>();
+        ArrayList<QuantityValueNode> quantityValueNodes = new ArrayList<QuantityValueNode>();
         Reactant[] reactants = model.getReaction().getReactants();
         for ( Reactant reactant : reactants ) {
             QuantityValueNode quantityNode = new QuantityValueNode( reactant, model.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showName */ );
