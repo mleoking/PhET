@@ -439,18 +439,23 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     public void addLacZ(LacZ lacZ){
     	lacZList.add(lacZ);
     	notifyModelElementAdded(lacZ);
+    	
+    	// If LacZ is present, lactose injection should be allowed.
+    	setLactoseInjectionAllowed(true);
     }
     
     public void addLacI(LacI lacI){
     	lacIList.add(lacI);
     	notifyModelElementAdded(lacI);
+
+    	// If LacI is present, lactose injection should be allowed.
+    	setLactoseInjectionAllowed(true);
     }
     
 	public LacZGene createAndAddLacZGene(Point2D initialPosition) {
 		assert lacZGene == null; // Only one exists in this model, so multiple calls to this shouldn't occur.
 		lacZGene = new LacZGene(this, initialPosition);
 		notifyModelElementAdded(lacZGene);
-		updateLactoseInjectionAllowedState();
 		return lacZGene;
 	}
     
@@ -458,7 +463,6 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		assert lacIGene == null; // Only one exists in this model, so multiple calls to this shouldn't occur.
 		lacIGene = new LacIGene(this, initialPosition);
 		notifyModelElementAdded(lacIGene);
-		updateLactoseInjectionAllowedState();
 		return lacIGene;
 	}
     
@@ -466,7 +470,6 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		assert lacOperator == null; // Only one exists in this model, so multiple calls to this shouldn't occur.
 		lacOperator = new LacOperator(this, initialPosition);
 		notifyModelElementAdded(lacOperator);
-		updateLactoseInjectionAllowedState();
 		return lacOperator;
 	}
     
@@ -474,7 +477,6 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		assert lacPromoter == null; // Only one exists in this model, so multiple calls to this shouldn't occur.
 		lacPromoter = new LacPromoter(this, initialPosition);
 		notifyModelElementAdded(lacPromoter);
-		updateLactoseInjectionAllowedState();
 		return lacPromoter;
 	}
     
@@ -609,23 +611,6 @@ public class LacOperonModel implements IGeneNetworkModelControl {
    			element.removeFromModel();
     	}
     	elements.clear();
-    }
-    
-    private void updateLactoseInjectionAllowedState(){
-    	// This is a bit complicated, but the basic idea is that a minimum
-    	// number of components must be initially added in order to allow
-    	// lactose injection, but once it is allowed, it is okay to remove
-    	// some of them.
-    	if (isLactoseInjectionAllowed == false){
-    		if (lacIGene != null && lacZGene != null && lacOperator != null && lacPromoter != null){
-    			setLactoseInjectionAllowed(true);
-    		}
-    	}
-    	else{
-    		if (lacIGene == null && lacZGene == null && lacOperator == null && lacPromoter == null){
-    			setLactoseInjectionAllowed(false);
-    		}
-    	}
     }
     
     //------------------------------------------------------------------------
