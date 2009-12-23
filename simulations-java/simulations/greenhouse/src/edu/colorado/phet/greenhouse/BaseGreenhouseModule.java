@@ -242,8 +242,7 @@ public abstract class BaseGreenhouseModule extends Module {
         photonToGraphicsMap.clear();
         
         // Reset the slider that controls sim speed.
-        timeSpeedSlider.setValue(GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK);
-        getGreenhouseClock().setDt( GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK );
+        getGreenhouseClock().setDelay( GreenhouseClock.DEFAULT_DELAY_BETWEEN_TICKS );
     }
 
     public Earth getEarth() {
