@@ -45,8 +45,8 @@ import edu.colorado.phet.greenhouse.view.ThermometerGraphic;
 
 
 public abstract class BaseGreenhouseModule extends Module {
-	public double MAX_TIME_DELTA_PER_TICK = GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK;
-	public double MIN_TIME_DELTA_PER_TICK = GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK / 5;
+	private static final double MAX_TIME_BETWEEN_TICKS = (double)GreenhouseClock.DEFAULT_DELAY_BETWEEN_TICKS * 5;
+	private static final double MIN_TIME_BETWEEN_TICKS = (double)GreenhouseClock.DEFAULT_DELAY_BETWEEN_TICKS;
     private HashMap photonToGraphicsMap = new HashMap();
     protected CompositeGraphic drawingCanvas;
     private ThermometerGraphic thermometerGraphic;
@@ -72,7 +72,7 @@ public abstract class BaseGreenhouseModule extends Module {
     private static boolean s_firstTime = true;
     private Rectangle2D.Double modelBounds;
     private AtmosphereGraphic atmosphereGraphic;
-	private TimeSpeedSlider timeSpeedSlider;
+	private ClockDelaySlider timeSpeedSlider;
 
     protected BaseGreenhouseModule( String s ) {
         super( s, new GreenhouseClock() );
@@ -83,11 +83,10 @@ public abstract class BaseGreenhouseModule extends Module {
 
     	// Create the clock control panel, including slider.
     	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	timeSpeedSlider = new TimeSpeedSlider(MIN_TIME_DELTA_PER_TICK, MAX_TIME_DELTA_PER_TICK, "0.00",
-    			getGreenhouseClock(), GreenhouseResources.getString( "ClockPanel.SliderTitle" ));
+    	timeSpeedSlider = new ClockDelaySlider(150, 30, "0.00", getGreenhouseClock(), null);
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                getGreenhouseClock().setDt( timeSpeedSlider.getValue() );
+                getGreenhouseClock().setDelay((int)Math.round(MAX_TIME_BETWEEN_TICKS/timeSpeedSlider.getValue()));
             }
         } );
     	clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
