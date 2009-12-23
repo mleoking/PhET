@@ -8,19 +8,25 @@ public class GameChallenge {
     
     public static enum ChallengeType { HOW_MANY_REACTANTS, HOW_MANY_PRODUCTS_AND_LEFTOVERS };
 
-    private final ChemicalReaction reaction;
     private final ChallengeType challengeType;
+    private final ChemicalReaction reaction;
+    private final GameAnswer answer;
 
-    public GameChallenge( ChemicalReaction reaction, ChallengeType challengeType ) {
-        this.reaction = reaction;
+    public GameChallenge( ChallengeType challengeType, ChemicalReaction reaction ) {
         this.challengeType = challengeType;
-    }
-
-    public ChemicalReaction getReaction() {
-        return reaction;
+        this.reaction = reaction;
+        this.answer = new GameAnswer( reaction, challengeType );
     }
 
     public ChallengeType getChallengeType() {
         return challengeType;
+    }
+    
+    public ChemicalReaction getReaction() {
+        return reaction;
+    }
+
+    public GameAnswer getAnswer() {
+        return answer;
     }
 }

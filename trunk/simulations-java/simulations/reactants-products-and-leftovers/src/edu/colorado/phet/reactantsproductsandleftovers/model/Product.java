@@ -4,13 +4,33 @@ import java.awt.Image;
 
 /**
  * Chemical reactions yield one or more products, which have properties different from the reactants.
+ * This class is final and cannot be extended in order to support newInstance.
+ * This approach is an alternative to the evils of implementing clone.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Product extends Substance {
+public final /* yes, final, see javadoc! */ class Product extends Substance {
 
     public Product( String name, Image image, int coefficient, int quantity ) {
         super( name, image, coefficient, quantity );
+    }
+    
+    /**
+     * Copy constructor.
+     * @param product
+     */
+    public Product( Product product ) {
+        this( product.getName(), product.getImage(), product.getCoefficient(), product.getQuantity() );
+        // listeners are not copied.
+    }
+    
+    /**
+     * Factory method to create a new instance.
+     * @param product
+     * @return
+     */
+    public static Product newInstance( Product product ) {
+        return new Product( product );
     }
     
     // marker interface

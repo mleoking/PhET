@@ -65,8 +65,24 @@ public class ChemicalReaction {
         return reactants;
     }
     
+    public Reactant getReactant( int index ) {
+        return reactants[index];
+    }
+    
+    public int getNumberOfReactants() {
+        return reactants.length;
+    }
+    
     public Product[] getProducts() {
         return products;
+    }
+    
+    public Product getProduct( int index ) {
+        return products[index];
+    }
+    
+    public int getNumberOfProducts() {
+        return products.length;
     }
     
     /**

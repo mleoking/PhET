@@ -1,3 +1,8 @@
+12/23/09 add support for user's answer in Game model
+12/23/09 implement equals for reactants and products, for comparing user's answer in Game
+12/23/09 implement newInstance for reactants and products (requires final classes for reactants and products)
+12/23/09 delete Bread, Meat, Cheese, Sandwich classes
+12/23/09 better solution for updating sandwich image in Sandwich Shop model
 12/21/09 read-only values shown below After box in Game
 12/21/09 read-only values shown below Before box in Game
 12/21/09 refactor code for doing image layout in Before/After boxes to make it usable in Game

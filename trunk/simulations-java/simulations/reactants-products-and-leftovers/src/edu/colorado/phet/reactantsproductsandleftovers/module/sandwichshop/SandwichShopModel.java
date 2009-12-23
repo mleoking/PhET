@@ -1,8 +1,12 @@
 package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.*;
+import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichImageFactory;
 
 /**
  * Model for the "Sandwich Shop" module.
@@ -13,28 +17,8 @@ public class SandwichShopModel extends RPALModel {
     
     private final ChemicalReaction reaction;
     
-    private final Sandwich sandwich;
-    private final Bread bread;
-    private final Meat meat;
-    private final Cheese cheese;
-    
-    public static class Bread extends Reactant {
-        public Bread( int coefficient, int quantity ) {
-            super( null /* name */, RPALImages.BREAD, coefficient, quantity );
-        }
-    }
-    
-    public static class Meat extends Reactant {
-        public Meat( int coefficient, int quantity ) {
-            super( null /* name */, RPALImages.MEAT, coefficient, quantity );
-        }
-    }
-    
-    public static class Cheese extends Reactant {
-        public Cheese( int coefficient, int quantity ) {
-            super( null /* name */, RPALImages.CHEESE, coefficient, quantity );
-        }
-    }
+    private final Reactant bread, meat, cheese;
+    private final Product sandwich;
     
     public SandwichShopModel() {
         
@@ -42,18 +26,25 @@ public class SandwichShopModel extends RPALModel {
         final int quantity = getQuantityRange().getDefault();
         
         // reactants
-        bread = new Bread( coefficient, quantity );
-        meat = new Meat( coefficient, quantity );
-        cheese = new Cheese( coefficient, quantity );
+        bread = new Reactant( null /* name */, RPALImages.BREAD, coefficient, quantity );
+        meat = new Reactant( null /* name */, RPALImages.MEAT, coefficient, quantity );
+        cheese = new Reactant( null /* name */, RPALImages.CHEESE, coefficient, quantity );
         Reactant[] reactants = { bread, meat, cheese };
         
         // product, with dynamic image
-        sandwich = new Sandwich( 1, quantity, this );
+        sandwich = new Product( null /* name */, null /* image */, 1 /* coefficient */, quantity );
         Product[] products = { sandwich };
         
         // reaction
         reaction = new ChemicalReaction( RPALStrings.LABEL_SANDWICH_EQUATION, reactants, products );
-        sandwich.init();
+        
+        // dynamic sandwich image
+        reaction.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updateSandwichImage();
+            }
+        });
+        updateSandwichImage();
     }
     
     public void reset() {
@@ -63,19 +54,23 @@ public class SandwichShopModel extends RPALModel {
         }
     }
     
-    public Bread getBread() {
+    public Reactant getBread() {
         return bread;
     }
     
-    public Meat getMeat() {
+    public Reactant getMeat() {
         return meat;
     }
     
-    public Cheese getCheese() {
+    public Reactant getCheese() {
         return cheese;
     }
     
     public ChemicalReaction getReaction() {
         return reaction;
+    }
+    
+    private void updateSandwichImage() {
+        sandwich.setImage( SandwichImageFactory.createImage( this ) );
     }
 }
