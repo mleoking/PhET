@@ -1,3 +1,5 @@
+# 2.06.03 (37715) Dec 23, 2009
+12/23/09 Fixed an issue with the interaction between Reset All and the clock control slider.
 # 2.06.02 (37713) Dec 23, 2009
 12/23/09 > Fixed an issue where the temperature was changing when the sim speed was altered.
 # 2.06.01 (37357) Dec 11, 2009
