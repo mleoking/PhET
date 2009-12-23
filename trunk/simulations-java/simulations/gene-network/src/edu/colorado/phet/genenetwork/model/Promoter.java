@@ -80,6 +80,40 @@ public abstract class Promoter extends SimpleModelElement {
 		}
 	}
 	
+	/**
+	 * This method is used when a molecule of RNA polymerase was recently
+	 * attached, then detached, and wants to attach again after a short
+	 * period.  The use case for which this was created was when the RNA
+	 * polymerase is blocked from traversing the DNA strand and so does some
+	 * sort of "bounce" against the blocking agent.
+	 * 
+	 * @param rnaPolymerase
+	 * @return
+	 */
+	public boolean requestReattach(RnaPolymerase rnaPolymerase){
+
+		boolean reattachRequestAccepted = false;
+		
+		if ( rnaPolymeraseAttachmentPartner == null &&
+			 rnaPolymeraseAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
+			// We are in the correct state to accept the reattachment.  Note
+			// that we trust the molecule to have been recently attached and
+			// we don't verify it.
+			if (rnaPolymerase.considerProposalFrom(this)){
+				rnaPolymeraseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+				rnaPolymeraseAttachmentPartner = rnaPolymerase;
+				reattachRequestAccepted = true;
+			}
+			else{
+				// This should never happen, because the RNA polymerase
+				// requested reattachment.
+				assert false;
+			}
+		}
+		
+		return reattachRequestAccepted;
+	}
+	
 
 	public void setDragging(boolean dragging) {
 		if (dragging == true){
@@ -135,7 +169,7 @@ public abstract class Promoter extends SimpleModelElement {
 		for (RnaPolymerase rnaPolymerase : potentialPartnerList){
 			if (getPositionRef().distance(rnaPolymerase.getPositionRef()) < ATTACHMENT_INITIATION_RANGE){
 				if (rnaPolymerase.considerProposalFrom(this)){
-					// Attachment formed.
+					// Proposal accepted.
 					rnaPolymeraseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
 					rnaPolymeraseAttachmentPartner = rnaPolymerase;
 					break;
