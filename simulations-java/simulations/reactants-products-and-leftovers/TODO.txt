@@ -1,14 +1,14 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- Game: value nodes below before/after boxes
-- Game: images in before/after boxes
-- Game: Summary dialog
+- Game: support for "guess" in model
+- Game: "guess" value nodes below before/after boxes
+- Game: "guess" images in before/after boxes
 - Game: state machine to control visibility of game nodes
-- investigate layout oddities with Scoreboard (rewrite in Piccolo?)
-- should Game summary node be draggable?
 
 MEDIUM PRIORITY
+- should Game summary node be draggable?
+- should Game summary node be draggable?
 - Game: animated curtains
 - PSwing memory leak affects tab traversal, #1874
 - make ImageLayoutStrategy be associated with the chemical reaction type
