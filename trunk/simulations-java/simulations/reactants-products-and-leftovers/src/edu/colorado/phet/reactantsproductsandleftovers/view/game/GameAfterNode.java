@@ -15,6 +15,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNod
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameListener;
 import edu.colorado.phet.reactantsproductsandleftovers.view.BoxNode;
@@ -48,6 +49,8 @@ public class GameAfterNode extends PhetPNode {
     private final BoxNode boxNode;
     private final GameListener gameListener;
     private final ImageLayoutNode imageLayoutNode;
+    private final ArrayList<QuantityValueNode> quantityValueNodes;
+    private final ArrayList<LeftoversValueNode> leftoverValueNodes;
     
     public GameAfterNode( GameModel model ) {
         super();
@@ -63,7 +66,7 @@ public class GameAfterNode extends PhetPNode {
         addChild( titleNode );
         
         // one quantity display for each product
-        ArrayList<QuantityValueNode> quantityValueNodes = new ArrayList<QuantityValueNode>();
+        quantityValueNodes = new ArrayList<QuantityValueNode>();
         Product[] products = model.getReaction().getProducts();
         for ( Product product : products ) {
             QuantityValueNode quantityNode = new QuantityValueNode( product, model.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showNames */ );
@@ -72,7 +75,7 @@ public class GameAfterNode extends PhetPNode {
         }
         
         // one quantity display for each leftover
-        ArrayList<LeftoversValueNode> leftoverValueNodes = new ArrayList<LeftoversValueNode>();
+        leftoverValueNodes = new ArrayList<LeftoversValueNode>();
         Reactant[] reactants = model.getReaction().getReactants();
         for ( Reactant reactant : reactants ) {
             LeftoversValueNode leftoverNode = new LeftoversValueNode( reactant, model.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showNames */ );
@@ -145,6 +148,14 @@ public class GameAfterNode extends PhetPNode {
         imageLayoutNode = new GridLayoutNode( BOX_SIZE );
         addChild( imageLayoutNode );
         addProductsAndLeftoversImages();
+        
+        // default state
+        if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+            showUserAnswer( true /* editable */ );
+        }
+        else {
+            showCorrectAnswer();
+        }
     }
     
     public void cleanup() {
@@ -165,6 +176,52 @@ public class GameAfterNode extends PhetPNode {
      */
     public double getBoxHeight() {
         return boxNode.getFullBoundsReference().getHeight();
+    }
+    
+    public void showCorrectAnswer() {
+        
+        // products
+        for ( int i = 0; i < quantityValueNodes.size(); i++ ) {
+            QuantityValueNode valueNode = quantityValueNodes.get( i );
+            // attach to product of reaction
+            valueNode.setSubstance( model.getReaction().getProduct( i ) );
+            // set to read-only
+            valueNode.setEditable( false );
+        }
+        
+        // leftovers
+        for ( int i = 0; i < leftoverValueNodes.size(); i++ ) {
+            LeftoversValueNode valueNode = leftoverValueNodes.get( i );
+            // attach to reactant of reaction
+            valueNode.setReactant( model.getReaction().getReactant( i ) );
+            // set to read-only
+            valueNode.setEditable( false );
+        }
+        
+        //XXX show images for reaction
+    }
+    
+    public void showUserAnswer( boolean editable ) {
+        
+        // products
+        for ( int i = 0; i < quantityValueNodes.size(); i++ ) {
+            QuantityValueNode valueNode = quantityValueNodes.get( i );
+            // attach to product of user's answer
+            valueNode.setSubstance( model.getAnswer().getProduct( i ) );
+            // set editability
+            valueNode.setEditable( editable );
+        }
+        
+        // leftovers
+        for ( int i = 0; i < leftoverValueNodes.size(); i++ ) {
+            LeftoversValueNode valueNode = leftoverValueNodes.get( i );
+            // attach to reactant of user's answer
+            valueNode.setReactant( model.getAnswer().getReactant( i ) );
+            // set to read-only
+            valueNode.setEditable( editable );
+        }
+        
+        //XXX show images for user's answer
     }
     
     /*

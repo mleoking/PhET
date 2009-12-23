@@ -16,10 +16,10 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantCh
  */
 public class LeftoversValueNode extends ValueNode {
     
-    private final Reactant reactant;
+    private Reactant reactant;
     private final ReactantChangeListener reactantChangeListener;
     
-    public LeftoversValueNode( final Reactant reactant, IntegerRange range, double imageScale, boolean showName ) {
+    public LeftoversValueNode( Reactant reactant, IntegerRange range, double imageScale, boolean showName ) {
         super( range, reactant.getLeftovers(), reactant.getImage(), imageScale, reactant.getName(), false /* editable */ );
         
         this.reactant = reactant;
@@ -28,12 +28,12 @@ public class LeftoversValueNode extends ValueNode {
         reactantChangeListener = new ReactantChangeAdapter() {
             @Override
             public void leftoversChanged() {
-                setValue( reactant.getLeftovers() );
+                updateLeftovers();
             }
             
             @Override
             public void imageChanged() {
-                setImage( reactant.getImage() );
+                updateImage();
             }
         };
         reactant.addReactantChangeListener( reactantChangeListener );
@@ -41,12 +41,34 @@ public class LeftoversValueNode extends ValueNode {
         // update the model when this control changes
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                reactant.setLeftovers( getValue() );
+                updateModel();
             }
         });
     }
     
+    public void setReactant( Reactant reactant ) {
+        if ( reactant != this.reactant ) {
+            this.reactant.removeSubstanceChangeListener( reactantChangeListener );
+            this.reactant = reactant;
+            updateLeftovers();
+            updateImage();
+            this.reactant.addSubstanceChangeListener( reactantChangeListener );
+        }
+    }
+    
     public void cleanup() {
         reactant.removeReactantChangeListener( reactantChangeListener );
+    }
+    
+    private void updateLeftovers() {
+        setValue( reactant.getLeftovers() );
+    }
+    
+    private void updateImage() {
+        setImage( reactant.getImage() );
+    }
+    
+    private void updateModel() {
+        reactant.setLeftovers( getValue() );
     }
 }
