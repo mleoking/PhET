@@ -5,3 +5,4 @@ This project contains:
 - misc documentation
 - status reports
 - hours reports
+- Eclipse files
