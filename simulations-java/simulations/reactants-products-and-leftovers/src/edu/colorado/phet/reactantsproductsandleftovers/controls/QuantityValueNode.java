@@ -16,10 +16,10 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.Substance
  */
 public class QuantityValueNode extends ValueNode {
     
-    private final Substance substance;
+    private Substance substance;
     private final SubstanceChangeListener substanceChangeListener;
     
-    public QuantityValueNode( final Substance substance, IntegerRange range, double imageScale, boolean showName ) {
+    public QuantityValueNode( Substance substance, IntegerRange range, double imageScale, boolean showName ) {
         super( range, substance.getQuantity(), substance.getImage(), imageScale, substance.getName(), false /* editable */ );
         
         this.substance = substance;
@@ -28,12 +28,12 @@ public class QuantityValueNode extends ValueNode {
         substanceChangeListener = new SubstanceChangeAdapter() {
             @Override
             public void quantityChanged() {
-                setValue( substance.getQuantity() );
+                updateQuantity();
             }
             
             @Override
             public void imageChanged() {
-                setImage( substance.getImage() );
+                updateImage();
             }
         };
         substance.addSubstanceChangeListener( substanceChangeListener );
@@ -41,12 +41,34 @@ public class QuantityValueNode extends ValueNode {
         // update the model when this control changes
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                substance.setQuantity( getValue() );
+                updateModel();
             }
         });
     }
     
+    public void setSubstance( Substance substance ) {
+        if ( substance != this.substance ) {
+            this.substance.removeSubstanceChangeListener( substanceChangeListener );
+            this.substance = substance;
+            updateQuantity();
+            updateImage();
+            this.substance.addSubstanceChangeListener( substanceChangeListener );
+        }
+    }
+    
     public void cleanup() {
         substance.removeSubstanceChangeListener( substanceChangeListener );
+    }
+    
+    private void updateQuantity() {
+        setValue( substance.getQuantity() );
+    }
+    
+    private void updateImage() {
+        setImage( substance.getImage() );
+    }
+    
+    private void updateModel() {
+        substance.setQuantity( getValue() );
     }
 }

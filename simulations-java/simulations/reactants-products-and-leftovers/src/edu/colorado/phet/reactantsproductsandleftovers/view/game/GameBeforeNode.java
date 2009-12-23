@@ -13,6 +13,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameListener;
 import edu.colorado.phet.reactantsproductsandleftovers.view.BoxNode;
@@ -45,6 +46,7 @@ public class GameBeforeNode extends PhetPNode {
     private final BoxNode boxNode;
     private final GameListener gameListener;
     private final ImageLayoutNode imageLayoutNode;
+    private final ArrayList<QuantityValueNode> quantityValueNodes;
     
     public GameBeforeNode( GameModel model ) {
         super();
@@ -60,7 +62,7 @@ public class GameBeforeNode extends PhetPNode {
         addChild( titleNode );
         
         // one quantity control for each reactant
-        ArrayList<QuantityValueNode> quantityValueNodes = new ArrayList<QuantityValueNode>();
+        quantityValueNodes = new ArrayList<QuantityValueNode>();
         Reactant[] reactants = model.getReaction().getReactants();
         for ( Reactant reactant : reactants ) {
             QuantityValueNode quantityNode = new QuantityValueNode( reactant, model.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showName */ );
@@ -112,6 +114,14 @@ public class GameBeforeNode extends PhetPNode {
         imageLayoutNode = new GridLayoutNode( BOX_SIZE );
         addChild( imageLayoutNode );
         addReactantImages();
+        
+        // default state
+        if ( model.getChallengeType() == ChallengeType.HOW_MANY_REACTANTS ) {
+            showUserAnswer( true /* editable */ );
+        }
+        else {
+            showCorrectAnswer();
+        }
     }
     
     public void cleanup() {
@@ -132,6 +142,34 @@ public class GameBeforeNode extends PhetPNode {
      */
     public double getBoxHeight() {
         return boxNode.getFullBoundsReference().getHeight();
+    }
+    
+    public void showCorrectAnswer() {
+        
+        // reactants
+        for ( int i = 0; i < quantityValueNodes.size(); i++ ) {
+            QuantityValueNode valueNode = quantityValueNodes.get( i );
+            // attach to reactant of reaction
+            valueNode.setSubstance( model.getReaction().getReactant( i ) );
+            // set to read-only
+            valueNode.setEditable( false );
+        }
+        
+        //XXX show images for reaction
+    }
+    
+    public void showUserAnswer( boolean editable ) {
+        
+        // reactants
+        for ( int i = 0; i < quantityValueNodes.size(); i++ ) {
+            QuantityValueNode valueNode = quantityValueNodes.get( i );
+            // attach to reactant of user's answer
+            valueNode.setSubstance( model.getAnswer().getReactant( i ) );
+            // set editability
+            valueNode.setEditable( editable );
+        }
+        
+        //XXX show images for user's answer
     }
     
     /*
