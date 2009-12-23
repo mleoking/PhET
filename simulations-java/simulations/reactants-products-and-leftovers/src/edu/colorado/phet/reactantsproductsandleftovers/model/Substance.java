@@ -24,6 +24,21 @@ public abstract class Substance {
         listeners = new ArrayList<SubstanceChangeListener>();
     }
     
+    /**
+     * @param reactant
+     * @return
+     */
+    public boolean equals( Object obj ) {
+        if ( ! ( obj instanceof Substance ) ) { return false; }
+        Substance substance = (Substance) obj;
+        if ( !getName().equals( substance.getName() ) ) { return false; }
+        if ( getCoefficient() != substance.getCoefficient() ) { return false; }
+        if ( getQuantity() != substance.getQuantity() ) { return false; }
+        // images do not have to be the same, so that we're not forced to share image instances. Image.equals uses referential equality.
+        // listeners do not have to be the same.
+        return true;
+    }
+    
     public String getName() {
         return name;
     }
@@ -32,7 +47,7 @@ public abstract class Substance {
         return image;
     }
     
-    protected void setImage( Image image ) {
+    public void setImage( Image image ) {
         if ( image != this.image ) {
             this.image = image;
             fireImageChanged();

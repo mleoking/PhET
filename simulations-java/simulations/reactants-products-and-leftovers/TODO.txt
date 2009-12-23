@@ -1,7 +1,6 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- Game: support for "guess" in model
 - Game: "guess" value nodes below before/after boxes
 - Game: "guess" images in before/after boxes
 - Game: state machine to control visibility of game nodes

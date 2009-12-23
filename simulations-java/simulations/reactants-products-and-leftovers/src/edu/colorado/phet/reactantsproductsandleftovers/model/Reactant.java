@@ -5,10 +5,12 @@ import java.util.ArrayList;
 
 /**
  * A reactant is a substance that is initially involved in a chemical reaction.
+ * This class is final and cannot be extended in order to support newInstance.
+ * This approach is an alternative to the evils of implementing clone.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Reactant extends Substance {
+public final /* yes, final, see javadoc! */ class Reactant extends Substance {
     
     private int leftovers;
     private final ArrayList<ReactantChangeListener> listeners;
@@ -17,6 +19,38 @@ public class Reactant extends Substance {
         super( name, image, coefficient, quantity );
         this.leftovers = 0;
         listeners = new ArrayList<ReactantChangeListener>();
+    }
+    
+    /**
+     * Copy constructor.
+     * @param reactant
+     */
+    public Reactant( Reactant reactant ) {
+        this( reactant.getName(), reactant.getImage(), reactant.getCoefficient(), reactant.getQuantity() );
+        setLeftovers( reactant.getLeftovers() );
+        // listeners are not copied.
+    }
+    
+    /**
+     * Factory method to create a new instance.
+     * @param reactant
+     * @return
+     */
+    public static Reactant newInstance( Reactant reactant ) {
+        return new Reactant( reactant );
+    }
+    
+    /**
+     * @param reactant
+     * @return
+     */
+    public boolean equals( Object obj ) {
+        if ( ! ( obj instanceof Reactant ) ) { return false; }
+        Reactant reactant = (Reactant) obj;
+        if ( !super.equals( reactant ) ) { return false; }
+        if ( getLeftovers() != reactant.getLeftovers() ) { return false; }
+        // listeners do not have to be the same.
+        return true;
     }
     
     public void setLeftovers( int leftovers ) {

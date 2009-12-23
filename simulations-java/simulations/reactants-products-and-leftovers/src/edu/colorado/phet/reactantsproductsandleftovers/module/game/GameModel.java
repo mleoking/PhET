@@ -108,7 +108,7 @@ public class GameModel extends RPALModel {
             for ( Reactant reactant : reaction.getReactants() ) {
                 reactant.setQuantity( getRandomQuantity() );
             }
-            challenges[i] = new GameChallenge( reaction, challengeType );
+            challenges[i] = new GameChallenge( challengeType, reaction );
         }
         fireChallengeChanged();
     }
@@ -124,12 +124,20 @@ public class GameModel extends RPALModel {
         return challengeNumber;
     }
     
-    public ChemicalReaction getReaction() {
-        return challenges[challengeNumber].getReaction();
+    public GameChallenge getChallenge() {
+        return challenges[ getChallengeNumber() ];
     }
     
     public ChallengeType getChallengeType() {
-        return challenges[challengeNumber].getChallengeType();
+        return getChallenge().getChallengeType();
+    }
+    
+    public ChemicalReaction getReaction() {
+        return getChallenge().getReaction();
+    }
+    
+    public GameAnswer getAnswer() {
+        return getChallenge().getAnswer();
     }
     
     public static int getChallengesPerGame() {
