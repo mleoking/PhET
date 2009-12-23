@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -32,11 +33,19 @@ public class DnaStrand {
 	
 	// Offset in the x direction between the two DNA strands.
 	private static final double DNA_INTER_STRAND_OFFSET = 0.75;
+	
+	// Distance value used when trying to determine whether a given point is
+	// just above a location on the DNA strand.
+	private static final double RANGE_FOR_PROXIMITRY_TEST = 3;  // In nanometers.
+	
+	// Error range for comparing floating point values.
+	private static final double ERROR_RANGE = 0.01;
 
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
+	private IGeneNetworkModelControl model;
 	private DoubleGeneralPath strand1Shape = new DoubleGeneralPath();
 	private DoubleGeneralPath strand2Shape = new DoubleGeneralPath();
 	private final Dimension2D size;
@@ -55,6 +64,7 @@ public class DnaStrand {
 
 	public DnaStrand(IGeneNetworkModelControl model, Dimension2D size, Point2D initialPosition){
 		
+		this.model = model;
 		this.size = new PDimension(size);
 		setPosition(initialPosition);
 		
@@ -96,6 +106,111 @@ public class DnaStrand {
 	
 	public Shape getStrand2Shape(){
 		return strand2Shape.getGeneralPath();
+	}
+	
+	/**
+	 * Get a boolean value indicating whether the provided point is just above
+	 * the LacZ gene location on the DNA strand.  This is generally used when
+	 * traversing the DNA strand in order to know what should be transcribed.
+	 * 
+	 * @param pt
+	 * @return
+	 */
+	public boolean isOnLacZGeneSpace(Point2D pt){
+		Rectangle2D uncompensatedBounds = lacZGeneSpace.getBounds2D();
+		Rectangle2D compensatedBounds = new Rectangle2D.Double(
+			uncompensatedBounds.getX() + lacZGeneSpace.getOffsetFromDnaStrandPosRef().getX() + getPositionRef().getX(),
+			uncompensatedBounds.getY() + lacZGeneSpace.getOffsetFromDnaStrandPosRef().getY() + getPositionRef().getY(),
+			uncompensatedBounds.getWidth(),
+			uncompensatedBounds.getHeight() + RANGE_FOR_PROXIMITRY_TEST);
+		return compensatedBounds.contains(pt);
+	}
+	
+	/**
+	 * Returns true if the LacZ gene is in place on the DNA strand and false
+	 * if not.
+	 * 
+	 * @return
+	 */
+	public boolean isLacZGeneInPlace(){
+		LacZGene lacZGene = model.getLacZGene();
+		boolean lacZGeneInPlace = false;
+		if (lacZGene != null){
+			double xPos = lacZGeneSpace.getOffsetFromDnaStrandPosRef().getX() + getPositionRef().getX();
+			double yPos = lacZGeneSpace.getOffsetFromDnaStrandPosRef().getY() + getPositionRef().getY();
+			// Use a range for this test to account for floating point errors.
+			if ( lacZGene.getPositionRef().getX() + ERROR_RANGE > xPos &&
+				 lacZGene.getPositionRef().getX() - ERROR_RANGE <  xPos &&
+				 lacZGene.getPositionRef().getY() + ERROR_RANGE > yPos &&
+				 lacZGene.getPositionRef().getY() - ERROR_RANGE <  yPos ){
+				
+				lacZGeneInPlace = true;
+			}
+		}
+		
+		return lacZGeneInPlace;
+	}
+	
+	/**
+	 * Get a boolean value indicating whether the provided point is just above
+	 * the LacI gene location on the DNA strand.  This is generally used when
+	 * traversing the DNA strand in order to know what should be transcribed.
+	 * 
+	 * @param pt
+	 * @return
+	 */
+	public boolean isOnLacIGeneSpace(Point2D pt){
+		Rectangle2D uncompensatedBounds = lacIGeneSpace.getBounds2D();
+		Rectangle2D compensatedBounds = new Rectangle2D.Double(
+			uncompensatedBounds.getX() + lacIGeneSpace.getOffsetFromDnaStrandPosRef().getX() + getPositionRef().getX(),
+			uncompensatedBounds.getY() + lacIGeneSpace.getOffsetFromDnaStrandPosRef().getY() + getPositionRef().getY(),
+			uncompensatedBounds.getWidth(),
+			uncompensatedBounds.getHeight() + RANGE_FOR_PROXIMITRY_TEST);
+		return compensatedBounds.contains(pt);
+	}
+	
+	/**
+	 * Returns true if the LacZ gene is in place on the DNA strand and false
+	 * if not.
+	 * 
+	 * @return
+	 */
+	public boolean isLacIGeneInPlace(){
+		LacIGene lacIGene = model.getLacIGene();
+		boolean lacIGeneInPlace = false;
+		if (lacIGene != null){
+			double xPos = lacIGeneSpace.getOffsetFromDnaStrandPosRef().getX() + getPositionRef().getX();
+			double yPos = lacIGeneSpace.getOffsetFromDnaStrandPosRef().getY() + getPositionRef().getY();
+			// Use a range for this test to account for floating point errors.
+			if ( lacIGene.getPositionRef().getX() + ERROR_RANGE > xPos &&
+				 lacIGene.getPositionRef().getX() - ERROR_RANGE <  xPos &&
+				 lacIGene.getPositionRef().getY() + ERROR_RANGE > yPos &&
+				 lacIGene.getPositionRef().getY() - ERROR_RANGE <  yPos ){
+				
+				lacIGeneInPlace = true;
+			}
+		}
+		
+		return lacIGeneInPlace;
+	}
+	
+	/**
+	 * Get a boolean value indicating whether the provided point is just above
+	 * the lac operator (a.k.a. the lac I binding location) on the DNA strand.
+	 * This is generally used when traversing the DNA strand in order to know
+	 * if the traversal is blocked.
+	 * 
+	 * @param pt
+	 * @return
+	 */
+	public boolean isOnLacOperatorSpace(Point2D pt){
+		Rectangle2D uncompensatedBounds = lacOperatorSpace.getBounds2D();
+		Rectangle2D compensatedBounds = new Rectangle2D.Double(
+			uncompensatedBounds.getX() + lacOperatorSpace.getOffsetFromDnaStrandPosRef().getX() + getPositionRef().getX(),
+			uncompensatedBounds.getY() + lacOperatorSpace.getOffsetFromDnaStrandPosRef().getY() + getPositionRef().getY(),
+			uncompensatedBounds.getWidth(),
+			uncompensatedBounds.getHeight() + RANGE_FOR_PROXIMITRY_TEST);
+		return compensatedBounds.contains(pt);
 	}
 	
 	/**
