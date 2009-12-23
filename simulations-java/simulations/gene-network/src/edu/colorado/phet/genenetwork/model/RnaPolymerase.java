@@ -44,7 +44,7 @@ public class RnaPolymerase extends SimpleModelElement {
     // Instance Data
     //------------------------------------------------------------------------
 	
-	private LacPromoter lacPromoterAttachmentPartner = null;
+	private Promoter promoterAttachmentPartner = null;
 	private AttachmentState lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private Point2D targetPositionForLacPromoterAttachment = new Point2D.Double();
 	private double recoveryCountdownTimer;
@@ -138,25 +138,25 @@ public class RnaPolymerase extends SimpleModelElement {
 	
 	@Override
 	public void setDragging(boolean dragging) {
-		if (dragging == true && lacPromoterAttachmentPartner != null){
+		if (dragging == true && promoterAttachmentPartner != null){
 			// The user has grabbed this node and is moving it, so release
 			// any hold on the lac promoter.
-			lacPromoterAttachmentPartner.detach(this);
+			promoterAttachmentPartner.detach(this);
 			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-			lacPromoterAttachmentPartner = null;
+			promoterAttachmentPartner = null;
 			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 			bumpingLacI = false;
 		}
 		super.setDragging(dragging);
 	}
 
-	public Point2D getAttachmentPointLocation(LacPromoter lacPromoter){
+	public Point2D getLacPromoterAttachmentPointLocation(){
 		return new Point2D.Double(getPositionRef().getX() + LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getWidth(),
 				getPositionRef().getY() + LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getHeight());
 	}
 	
-	public void attach(LacPromoter lacPromoter){
-		if (lacPromoter != lacPromoterAttachmentPartner){
+	public void attach(Promoter promoter){
+		if (promoter != promoterAttachmentPartner){
 			System.err.println(getClass().getName() + " - Error: Attachment request from non-partner.");
 			assert false;
 			return;
@@ -166,9 +166,9 @@ public class RnaPolymerase extends SimpleModelElement {
 		lacPromoterAttachmentState = AttachmentState.ATTACHED;
 	}
 	
-	public void detach(LacPromoter lacPromoter){
+	public void detach(Promoter promoter){
 		// Error checking.
-		if (lacPromoter != lacPromoterAttachmentPartner){
+		if (promoter != promoterAttachmentPartner){
 			System.err.println(getClass().getName() + " - Error: Attachment request from non-partner.");
 			assert false;
 			return;
@@ -197,7 +197,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 		}
-		lacPromoterAttachmentPartner = null;
+		promoterAttachmentPartner = null;
 		// Make sure the flag that indicates that LacI is being bumped is not
 		// set.
 		bumpingLacI = false;
@@ -255,19 +255,19 @@ public class RnaPolymerase extends SimpleModelElement {
 		return area;
 	}
 	
-	public boolean considerProposalFrom(LacPromoter lacPromoter) {
+	public boolean considerProposalFrom(Promoter promoter) {
 		boolean proposalAccepted = false;
 		
 		if (lacPromoterAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
-			assert lacPromoterAttachmentPartner == null;  // For debug - Make sure consistent with attachment state.
-			lacPromoterAttachmentPartner = lacPromoter;
+			assert promoterAttachmentPartner == null;  // For debug - Make sure consistent with attachment state.
+			promoterAttachmentPartner = promoter;
 			proposalAccepted = true;
 			lacPromoterAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
 			
 			// Set ourself up to move toward the attaching location.
-			double xDest = lacPromoterAttachmentPartner.getAttachmentPointLocation(this).getX() - 
+			double xDest = promoterAttachmentPartner.getAttachmentPointLocation(this).getX() - 
 				LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getWidth();
-			double yDest = lacPromoterAttachmentPartner.getAttachmentPointLocation(this).getY() -
+			double yDest = promoterAttachmentPartner.getAttachmentPointLocation(this).getY() -
 				LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getHeight();
 			setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
 			getMotionStrategyRef().setDestination(xDest, yDest);
