@@ -20,13 +20,10 @@ public class LacPromoter extends Promoter {
     //------------------------------------------------------------------------
 
 	private static final Paint ELEMENT_PAINT = new Color(0, 137, 225);
-	private static final int MAX_BUMPS = 10;
 	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
-
-	private int bumpCount = 0;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -64,48 +61,5 @@ public class LacPromoter extends Promoter {
 	@Override
 	protected Point2D getDefaultLocation() {
 		return getModel().getDnaStrand().getLacPromoterLocation();
-	}
-
-	@Override
-	protected void checkAttachmentCompleted() {
-		super.checkAttachmentCompleted();
-		bumpCount = 0;
-	}
-	
-	@Override
-	protected void checkReadyToDetach(double dt){
-		assert rnaPolymeraseAttachmentPartner != null;
-		
-		rnaPolymeraseAttachmentCountdownTimer -= dt;
-		
-		if (rnaPolymeraseAttachmentCountdownTimer <= 0){
-			// It's time to detach.  Is the way clear to traverse the DNA?
-			if (!getModel().isLacIAttachedToDna()){
-				// It is possible to traverse the DNA, so just detach the
-				// polymerase so that it can do this.
-				rnaPolymeraseAttachmentPartner.detach(this);
-				rnaPolymeraseAttachmentPartner = null;
-				recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
-				rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-			}
-			else{
-				// The way is blocked.  Based on probability, either simulate
-				// a bumping of the LacI, or just detach and float away.
-				if (RAND.nextDouble() < (double)(MAX_BUMPS - bumpCount) / (double)MAX_BUMPS){
-					// Make the polymerase bump the lacI.
-					rnaPolymeraseAttachmentPartner.doLacIBump();
-					// Reset the timer.
-					rnaPolymeraseAttachmentCountdownTimer = ATTACH_TO_RNA_POLYMERASE_TIME + 1; // Need extra time for the bump.
-					bumpCount++;
-				}
-				else{
-					// Just detach the polymerase.
-					rnaPolymeraseAttachmentPartner.detach(this);
-					rnaPolymeraseAttachmentPartner = null;
-					recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
-					rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-				}
-			}
-		}
 	}
 }

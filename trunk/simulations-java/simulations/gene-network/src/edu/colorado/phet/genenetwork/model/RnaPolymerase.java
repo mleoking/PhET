@@ -11,11 +11,10 @@ import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.umd.cs.piccolo.util.PDimension;
-
 
 
 /**
@@ -39,12 +38,14 @@ public class RnaPolymerase extends SimpleModelElement {
 	private static double RECOVERY_TIME = 7;                  // Seconds.
 	private static double MAX_TRAVERSAL_TIME = 10; // In seconds.
 	private static double TRAVERSAL_SPEED = 5; // In nanometers/second.
+	private static Random RAND = new Random();
 	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 	
 	private Promoter promoterAttachmentPartner = null;
+	private Promoter previousPromoterAttachmentPartner = null;
 	private AttachmentState lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private Point2D targetPositionForLacPromoterAttachment = new Point2D.Double();
 	private double recoveryCountdownTimer;
@@ -52,7 +53,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	private boolean transcribing = false;
 	private Point2D traversalStartPt = new Point2D.Double();
 	private MessengerRna mRna = null;
-	private boolean bumpingLacI;
+	private boolean clearedToCrossLacOperator;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -81,15 +82,65 @@ public class RnaPolymerase extends SimpleModelElement {
 		if (!isUserControlled()){
 			if (lacPromoterAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
 				if (traversing){
+					DnaStrand dnaStrand = getModel().getDnaStrand();
 					if (!transcribing){
-						if (isOnLacZGene()){
-							// We have moved into contact with the LacZ gene, so
-							// it is time to start transcribing.
-							mRna = new LacZMessengerRna(getModel(), 0);
-							mRna.setPosition(getPositionRef().getX() + MESSENGER_RNA_OUTPUT_OFFSET.getWidth(), 
-									getPositionRef().getY() + MESSENGER_RNA_OUTPUT_OFFSET.getHeight());
-							getModel().addMessengerRna(mRna);					
-							transcribing = true;
+						Point2D myNose = new Point2D.Double( getPositionRef().getX() + getShape().getBounds2D().getMaxX(),
+								getPositionRef().getY());
+						if (!clearedToCrossLacOperator && dnaStrand.isOnLacOperatorSpace(myNose)){
+							// We are starting to cross the part of the DNA
+							// where lac I could be attached.  Determine if it
+							// is attached, which would block our way.
+							if (getModel().isLacIAttachedToDna()){
+								// Our path is blocked.  Go back or float away?  
+								if (RAND.nextDouble() < 0.95){
+									lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+									if (!previousPromoterAttachmentPartner.requestReattach(this)){
+										// Can't reattach, so wander off.
+										detachFromDna();
+									}
+								}
+								else{
+									// Don't even try to reattach - just wander off.
+									detachFromDna();
+								}
+							}
+							else{
+								// No lac I is attached, so we are clear to
+								// cross this part of the DNA strand.
+								clearedToCrossLacOperator = true;
+							}
+						}
+						else if (dnaStrand.isOnLacZGeneSpace(getPositionRef())){
+							if (dnaStrand.isLacZGeneInPlace()){
+								// We have moved into contact with the LacZ gene, so
+								// it is time to start transcribing.
+								mRna = new LacZMessengerRna(getModel(), 0);
+								mRna.setPosition(getPositionRef().getX() + MESSENGER_RNA_OUTPUT_OFFSET.getWidth(), 
+										getPositionRef().getY() + MESSENGER_RNA_OUTPUT_OFFSET.getHeight());
+								getModel().addMessengerRna(mRna);					
+								transcribing = true;
+							}
+							else{
+								// We are over the lac Z gene location, but
+								// the gene isn't there, so float away.
+								detachFromDna();
+							}
+						}
+						else if (dnaStrand.isOnLacIGeneSpace(getPositionRef())){
+							if (dnaStrand.isLacIGeneInPlace()){
+								// We have moved into contact with the LacI gene, so
+								// it is time to start transcribing.
+								mRna = new LacIMessengerRna(getModel(), 0);
+								mRna.setPosition(getPositionRef().getX() + MESSENGER_RNA_OUTPUT_OFFSET.getWidth(), 
+										getPositionRef().getY() + MESSENGER_RNA_OUTPUT_OFFSET.getHeight());
+								getModel().addMessengerRna(mRna);					
+								transcribing = true;
+							}
+							else{
+								// We are over the lac I gene location, but
+								// the gene isn't there, so float away.
+								detachFromDna();
+							}
 						}
 					}
 					else{
@@ -97,16 +148,13 @@ public class RnaPolymerase extends SimpleModelElement {
 						// Continue growing the messenger RNA until we run off the
 						// end of the gene.
 						mRna.grow(getVelocityRef().getMagnitude() * dt);
-						if (!isOnLacZGene()){
+						if (!dnaStrand.isOnLacIGeneSpace(getPositionRef()) && !dnaStrand.isOnLacZGeneSpace(getPositionRef())){
 							// We have traversed the gene.  Time to detach the
 							// mRNA as well as ourself.
 							mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
 									new Point2D.Double(mRna.getPositionRef().getX(), mRna.getPositionRef().getY() + 30), 4));
 							mRna = null;
-							transcribing = false;
-							traversing = false;
-							setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
-							recoveryCountdownTimer = RECOVERY_TIME;
+							detachFromDna();
 						}
 					}
 				}
@@ -116,19 +164,6 @@ public class RnaPolymerase extends SimpleModelElement {
 						// This has been unattached long enough and is ready to attach
 						// again.
 						lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-					}
-				}
-			}
-			else if (lacPromoterAttachmentState == AttachmentState.ATTACHED){
-				if (bumpingLacI){
-					// We are in the process of simulating a "bump" motion.  See
-					// if we are done.
-					assert getMotionStrategyRef() instanceof ThereAndBackMotionStrategy;
-					ThereAndBackMotionStrategy strategy = (ThereAndBackMotionStrategy)getMotionStrategyRef();
-					if (strategy.isTripCompleted()){
-						// The simulated bump is complete - go back to being still.
-						setMotionStrategy(new StillnessMotionStrategy(this));
-						bumpingLacI = false;
 					}
 				}
 			}
@@ -145,7 +180,6 @@ public class RnaPolymerase extends SimpleModelElement {
 			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			promoterAttachmentPartner = null;
 			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
-			bumpingLacI = false;
 		}
 		super.setDragging(dragging);
 	}
@@ -164,6 +198,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		setMotionStrategy(new StillnessMotionStrategy(this));
 		setPosition(targetPositionForLacPromoterAttachment);
 		lacPromoterAttachmentState = AttachmentState.ATTACHED;
+		clearedToCrossLacOperator = false;
 	}
 	
 	public void detach(Promoter promoter){
@@ -175,19 +210,11 @@ public class RnaPolymerase extends SimpleModelElement {
 		}
 		
 		if (lacPromoterAttachmentState == AttachmentState.ATTACHED){
-			if (getModel().isLacZGenePresent() && !getModel().isLacIAttachedToDna()){
-				// The way is clear for traversing.
-				traversing = true;
-				traversalStartPt.setLocation(getPositionRef());
-				setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
-						new Vector2D.Double(TRAVERSAL_SPEED, 0), MAX_TRAVERSAL_TIME));
-			}
-			else{
-				// Can't traverse, so just detach.
-				setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, 
-						LacOperonModel.getMotionBoundsAboveDna()));
-				recoveryCountdownTimer = RECOVERY_TIME;
-			}
+			// We were attached, so now start traversing.
+			traversing = true;
+			traversalStartPt.setLocation(getPositionRef());
+			setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
+					new Vector2D.Double(TRAVERSAL_SPEED, 0), MAX_TRAVERSAL_TIME));
 			lacPromoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		}
 		else if (lacPromoterAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
@@ -197,10 +224,8 @@ public class RnaPolymerase extends SimpleModelElement {
 			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 		}
+		previousPromoterAttachmentPartner = promoterAttachmentPartner;
 		promoterAttachmentPartner = null;
-		// Make sure the flag that indicates that LacI is being bumped is not
-		// set.
-		bumpingLacI = false;
 	}
 	
 	/**
@@ -218,7 +243,13 @@ public class RnaPolymerase extends SimpleModelElement {
 		double distanceToTravel = 1; // In nanometers.
 		Point2D turnAroundPoint = new Point2D.Double(getPositionRef().getX() + distanceToTravel, getPositionRef().getY());
 		setMotionStrategy(new ThereAndBackMotionStrategy(this, turnAroundPoint, LacOperonModel.getMotionBounds(), 5));
-		bumpingLacI = true;
+	}
+	
+	private void detachFromDna(){
+		transcribing = false;
+		traversing = false;
+		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+		recoveryCountdownTimer = RECOVERY_TIME;
 	}
 	
 	private static Shape createActiveConformationShape(){
@@ -269,36 +300,20 @@ public class RnaPolymerase extends SimpleModelElement {
 				LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getWidth();
 			double yDest = promoterAttachmentPartner.getAttachmentPointLocation(this).getY() -
 				LAC_PROMOTER_ATTACHMENT_POINT_OFFSET.getHeight();
-			setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
-			getMotionStrategyRef().setDestination(xDest, yDest);
 			targetPositionForLacPromoterAttachment.setLocation(xDest, yDest);
+			if (getPositionRef().distance(targetPositionForLacPromoterAttachment) > 10){
+				// We are a ways away, so move toward the destination in a
+				// somewhat random fashion.
+				setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+				getMotionStrategyRef().setDestination(xDest, yDest);
+			}
+			else{
+				// Head straight to the destination.
+				setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(),
+						targetPositionForLacPromoterAttachment, 3));
+			}
 		}
 		
 		return proposalAccepted;
-	}
-	
-	/**
-	 * Return true if we are on the lacI gene.  This is determined by looking
-	 * at whether we are directly above it and less than some min distance
-	 * away.
-	 * @return
-	 */
-	private boolean isOnLacZGene(){
-		LacZGene lacZGene = getModel().getLacZGene();
-		if (lacZGene == null){
-			return false;
-		}
-		Rectangle2D lacZGeneBounds = lacZGene.getShape().getBounds2D();
-		
-		// Create an "extended bounds" region where if our position in within
-		// those bounds, we consider ourself to be in contact with the gene.
-		// This region is the lac Z region extended upward by some amount.
-		Rectangle2D extendedBounds = new Rectangle2D.Double(
-				lacZGene.getPositionRef().getX() + lacZGeneBounds.getMinX(), 
-				lacZGene.getPositionRef().getY() + lacZGeneBounds.getMinY(),
-				lacZGeneBounds.getWidth(),
-				lacZGeneBounds.getHeight() * 2);
-		
-		return extendedBounds.contains(getPositionRef());
-	}
+	}	
 }
