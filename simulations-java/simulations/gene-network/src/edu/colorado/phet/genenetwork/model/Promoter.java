@@ -83,9 +83,9 @@ public abstract class Promoter extends SimpleModelElement {
 	/**
 	 * This method is used when a molecule of RNA polymerase was recently
 	 * attached, then detached, and wants to attach again after a short
-	 * period.  The use case for which this was created was when the RNA
-	 * polymerase is blocked from traversing the DNA strand and so does some
-	 * sort of "bounce" against the blocking agent.
+	 * period.  This was created for the case where the RNA polymerase
+	 * is blocked from traversing the DNA strand and so does some sort of
+	 * "bumping" against the blocking agent.
 	 * 
 	 * @param rnaPolymerase
 	 * @return
@@ -113,7 +113,6 @@ public abstract class Promoter extends SimpleModelElement {
 		
 		return reattachRequestAccepted;
 	}
-	
 
 	public void setDragging(boolean dragging) {
 		if (dragging == true){
