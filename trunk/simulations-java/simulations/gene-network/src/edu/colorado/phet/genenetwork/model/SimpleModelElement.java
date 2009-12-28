@@ -389,7 +389,6 @@ public abstract class SimpleModelElement implements IModelElement{
 	        	// This model element is being released by the user in a location
 	        	// that is either inside the tool box or is in a disallowed
 	        	// location, so remove it from the model.
-	        	System.out.println(getClass().getName() + " is being removed from the model.");
 	        	removeSelfFromModel();
         	}
         	else{
