@@ -151,9 +151,7 @@ public class RnaPolymerase extends SimpleModelElement {
 						if (!dnaStrand.isOnLacIGeneSpace(getPositionRef()) && !dnaStrand.isOnLacZGeneSpace(getPositionRef())){
 							// We have traversed the gene.  Time to detach the
 							// mRNA as well as ourself.
-							mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
-									new Point2D.Double(mRna.getPositionRef().getX(), mRna.getPositionRef().getY() + 30), 4));
-							mRna = null;
+							freeMessengerRna(true);
 							detachFromDna();
 						}
 					}
@@ -170,16 +168,44 @@ public class RnaPolymerase extends SimpleModelElement {
 		}
 		super.stepInTime(dt);
 	}
+
+	/**
+	 * Free the messenger RNA that has been transcribed.
+	 */
+	private void freeMessengerRna(boolean fullyFormed) {
+		mRna.setFullyFormed(fullyFormed);
+		mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
+				new Point2D.Double(mRna.getPositionRef().getX(), mRna.getPositionRef().getY() + 30), 4));
+		mRna = null;
+	}
 	
 	@Override
 	public void setDragging(boolean dragging) {
-		if (dragging == true && promoterAttachmentPartner != null){
-			// The user has grabbed this node and is moving it, so release
-			// any hold on the lac promoter.
-			promoterAttachmentPartner.detach(this);
-			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-			promoterAttachmentPartner = null;
-			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+		if (dragging == true){
+			// The user has grabbed this node.  See if we need to do anything
+			// special in response.
+			if (promoterAttachmentPartner != null){
+				// This polymerase was either attached to a promoter or moving
+				// towards attachment.  This relationship must be terminated.
+				promoterAttachmentPartner.detach(this);
+				lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				promoterAttachmentPartner = null;
+				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+			}
+			if (traversing){
+				// This polymerase was traversing the DNA strand, so the
+				// motion strategy must be changed.
+				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+				if (transcribing){
+					// This polymerase was transcribing the DNA into mRNA, so
+					// the mRNA needs to be detached and should be marked as
+					// not being fully formed.
+					freeMessengerRna(false);
+				}
+				traversing = false;
+				transcribing = false;
+				lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
 		}
 		super.setDragging(dragging);
 	}
