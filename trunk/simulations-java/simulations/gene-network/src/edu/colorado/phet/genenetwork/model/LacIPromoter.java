@@ -44,12 +44,4 @@ public class LacIPromoter extends Promoter {
 	protected Point2D getDefaultLocation() {
 		return getModel().getDnaStrand().getLacIPromoterLocation();
 	}
-
-	@Override
-	public Paint getPaint() {
-		// TODO Auto-generated method stub
-		return super.getPaint();
-	}
-	
-	
 }
