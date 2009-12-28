@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class LacIMessengerRna extends MessengerRna {
 
-	private static final double EXISTENCE_TIME = 2.0; // In seconds.
+	private static final double EXISTENCE_TIME = 7; // In seconds.
 	
 	public LacIMessengerRna(IGeneNetworkModelControl model, Point2D initialPosition, double initialLength, boolean fadeIn) {
 		super(model, initialPosition, initialLength, fadeIn, EXISTENCE_TIME);
