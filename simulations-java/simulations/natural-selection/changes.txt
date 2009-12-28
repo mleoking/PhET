@@ -1,3 +1,5 @@
+# 1.00.00 (37742) Dec 28, 2009
+12/28/09 First Natural Selection version
 # 0.01.43 (37267) Dec 9, 2009
 12/9/09 Changed to new Reset All button
 # 0.01.42 (37255) Dec 9, 2009
