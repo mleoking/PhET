@@ -82,8 +82,37 @@ public class RnaPolymerase extends SimpleModelElement {
 		if (!isUserControlled()){
 			if (lacPromoterAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
 				if (traversing){
+					// This polymerase is currently traversing the DNA strand.
 					DnaStrand dnaStrand = getModel().getDnaStrand();
-					if (!transcribing){
+					if (transcribing){
+						// This polymerase is currently transcribing a portion
+						// of the DNA strand. Continue growing the messenger
+						// RNA until we run off the end of the gene.
+						mRna.grow(getVelocityRef().getMagnitude() * dt);
+						if (!dnaStrand.isOnLacIGeneSpace(getPositionRef()) && !dnaStrand.isOnLacZGeneSpace(getPositionRef())){
+							// We have fully traversed the gene.  Time to
+							// detach the mRNA from us and ourself from the
+							// DNA.
+							freeMessengerRna(true);
+							detachFromDna();
+						}
+						else if ((dnaStrand.isOnLacIGeneSpace(getPositionRef()) && !dnaStrand.isLacIGeneInPlace()) ||
+								 (dnaStrand.isOnLacZGeneSpace(getPositionRef()) && !dnaStrand.isLacZGeneInPlace())){
+							// This polymerase was traversing a gene but the
+							// gene is no longer there, most likely because it
+							// was removed by the user.  This is a rare
+							// situation, but handling for it was explicitly
+							// requested.  Detach the mRNA, but mark it as
+							// incomplete, and then detach ourself from the
+							// DNA strand.
+							freeMessengerRna(false);
+							detachFromDna();
+						}
+					}
+					else{
+						// This polymerase is traversing the DNA but not yet
+						// transcribing it.
+						
 						Point2D myNose = new Point2D.Double( getPositionRef().getX() + getShape().getBounds2D().getMaxX(),
 								getPositionRef().getY());
 						if (!clearedToCrossLacOperator && dnaStrand.isOnLacOperatorSpace(myNose)){
@@ -141,18 +170,6 @@ public class RnaPolymerase extends SimpleModelElement {
 								// the gene isn't there, so float away.
 								detachFromDna();
 							}
-						}
-					}
-					else{
-						// We are in the process of transcribing the DNA.
-						// Continue growing the messenger RNA until we run off the
-						// end of the gene.
-						mRna.grow(getVelocityRef().getMagnitude() * dt);
-						if (!dnaStrand.isOnLacIGeneSpace(getPositionRef()) && !dnaStrand.isOnLacZGeneSpace(getPositionRef())){
-							// We have traversed the gene.  Time to detach the
-							// mRNA as well as ourself.
-							freeMessengerRna(true);
-							detachFromDna();
 						}
 					}
 				}
