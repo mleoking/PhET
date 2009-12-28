@@ -29,11 +29,15 @@ public class LacIMessengerRna extends MessengerRna {
 	
 	@Override
 	protected void onTransitionToFadingOutState() {
-		Rectangle2D bounds = getShape().getBounds2D();
-		Point2D processArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX(),
-				bounds.getMaxY() + getPositionRef().getY() + 3);
-		getModel().addTransformationArrow(new LacITransformationArrow(getModel(), processArrowPos,
-				new LacI(getModel(), true)));
 		setMotionStrategy(new StillnessMotionStrategy(this));
+		if (isFullyFormed()){
+			// Create and position the process arrow, which will in turn
+			// create the macromolecule.
+			Rectangle2D bounds = getShape().getBounds2D();
+			Point2D processArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX(),
+					bounds.getMaxY() + getPositionRef().getY() + 3);
+			getModel().addTransformationArrow(new LacITransformationArrow(getModel(), processArrowPos,
+					new LacI(getModel(), true)));
+		}
 	}
 }

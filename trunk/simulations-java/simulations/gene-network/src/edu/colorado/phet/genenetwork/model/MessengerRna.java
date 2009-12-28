@@ -44,6 +44,7 @@ public abstract class MessengerRna extends SimpleModelElement {
 	
 	private double length = 0;
 	private ArrayList<Point2D> points = new ArrayList<Point2D>();
+	private boolean fullyFormed = false;
 	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
@@ -121,9 +122,23 @@ public abstract class MessengerRna extends SimpleModelElement {
 	}
 	
 	/**
+	 * Set whether this mRNA strand is "fully formed", meaning that it is
+	 * capable of producing its target macromolecule.
+	 * 
+	 * @param fullyFormed
+	 */
+	public void setFullyFormed(boolean fullyFormed){
+		this.fullyFormed = fullyFormed;
+	}
+	
+	public boolean isFullyFormed(){
+		return fullyFormed;
+	}
+	
+	/**
 	 * This method is used to create a shape that is the same every time and
 	 * that can thus be used in places like legends, keys, tool bars, etc.  It
-	 * was create for this purpose (i.e. putting mRNA on a legend panel) but
+	 * was created for this purpose (i.e. putting mRNA on a legend panel) but
 	 * may end up having other uses.
 	 */
 	public void setPredictibleShape(){
