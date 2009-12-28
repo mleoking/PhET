@@ -1,7 +1,6 @@
 package edu.colorado.phet.genenetwork.model;
 
 
-import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
