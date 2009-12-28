@@ -37,7 +37,7 @@ public class LacIPromoter extends Promoter {
 	@Override
 	protected boolean isInAllowableLocation() {
 		// Find out if we are within range of our location on the DNA strand.
-		return getPositionRef().distance(getModel().getDnaStrand().getLacPromoterLocation()) < LOCK_TO_DNA_DISTANCE;
+		return getPositionRef().distance(getModel().getDnaStrand().getLacIPromoterLocation()) < LOCK_TO_DNA_DISTANCE;
 	}
 
 	@Override
