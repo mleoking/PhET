@@ -87,6 +87,9 @@ public abstract class Promoter extends SimpleModelElement {
 	 * is blocked from traversing the DNA strand and so does some sort of
 	 * "bumping" against the blocking agent.
 	 * 
+	 * This should NOT be used by a polymerase molecule that wants to attach
+	 * but was not recently attached - use the "attach" method for that.
+	 * 
 	 * @param rnaPolymerase
 	 * @return
 	 */
