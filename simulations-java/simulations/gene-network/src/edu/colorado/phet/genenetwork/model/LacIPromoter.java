@@ -12,7 +12,7 @@ public class LacIPromoter extends Promoter {
     // Class Data
     //------------------------------------------------------------------------
 
-	private static final Paint ELEMENT_PAINT = new Color(0, 204, 102);
+	private static final Paint ELEMENT_PAINT = new Color(0, 220, 0);
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -42,6 +42,14 @@ public class LacIPromoter extends Promoter {
 
 	@Override
 	protected Point2D getDefaultLocation() {
-		return getModel().getDnaStrand().getLacPromoterLocation();
+		return getModel().getDnaStrand().getLacIPromoterLocation();
 	}
+
+	@Override
+	public Paint getPaint() {
+		// TODO Auto-generated method stub
+		return super.getPaint();
+	}
+	
+	
 }

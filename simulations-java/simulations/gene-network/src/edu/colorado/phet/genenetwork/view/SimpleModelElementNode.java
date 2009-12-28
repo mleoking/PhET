@@ -71,7 +71,7 @@ public class SimpleModelElementNode extends PPath {
 		this.mvt = mvt;
 		setStroke(NORMAL_STROKE);
 		
-		// Register for important event notifications from the model.
+		// Register for important event notifications from the model element.
 		modelElement.addListener(new ModelElementListenerAdapter() {
 			
 			public void positionChanged() {

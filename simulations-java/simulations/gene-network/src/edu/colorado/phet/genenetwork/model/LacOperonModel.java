@@ -480,6 +480,13 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		return lacPromoter;
 	}
     
+	public LacIPromoter createAndAddLacIPromoter(Point2D initialPosition) {
+		assert lacIPromoter == null; // Only one exists in this model, so multiple calls to this shouldn't occur.
+		lacIPromoter = new LacIPromoter(this, initialPosition);
+		notifyModelElementAdded(lacIPromoter);
+		return lacIPromoter;
+	}
+    
 	public RnaPolymerase createAndAddRnaPolymerase(Point2D initialPosition) {
 		RnaPolymerase rnaPolymerase = new RnaPolymerase(this, initialPosition);
 		rnaPolymeraseList.add(rnaPolymerase);

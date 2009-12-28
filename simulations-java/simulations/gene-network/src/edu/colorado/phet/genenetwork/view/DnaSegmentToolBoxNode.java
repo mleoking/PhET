@@ -37,7 +37,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 	
 	// Defines the width of the tool box as a proportion of the parent window's
 	// width.
-	static final double WIDTH_PROPORTION = 0.7;
+	static final double WIDTH_PROPORTION = 0.8;
 	
 	// Aspect ratio, width divided by height, from which the height will be
 	// calculated.
@@ -57,6 +57,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 	private PhetPPath boxNode;
 
 	// The various grabbable things in the box.
+	private LacIPromoterToolBoxNode lacIPromoter;
 	private LacZGeneToolBoxNode lacZGene;
 	private LacIGeneToolBoxNode lacIGene;
 	private LacOperatorToolBoxNode lacIBindingRegion;
@@ -97,6 +98,8 @@ public class DnaSegmentToolBoxNode extends PNode {
 		addChild(boxNode);
 		
 		// Create the grabbable items in the box.
+		lacIPromoter = new LacIPromoterToolBoxNode(model, mvt, canvas);
+		addChild(lacIPromoter);
 		lacZGene = new LacZGeneToolBoxNode(model, mvt, canvas);
 		addChild(lacZGene);
 		lacIGene = new LacIGeneToolBoxNode(model, mvt, canvas);
@@ -140,13 +143,14 @@ public class DnaSegmentToolBoxNode extends PNode {
     	// a lot, making them line up well requires tweaking the multipliers
     	// below on an individual basis.
     	PBounds boxBounds = boxNode.getFullBounds();
-    	lacIGene.setOffset(boxBounds.width * 0.12, boxBounds.height * 0.25);
-    	lacZGene.setOffset(boxBounds.width * 0.4, boxBounds.height * 0.25);
-    	lacPromoter.setOffset(boxBounds.width * 0.63, boxBounds.height / 4);
-    	lacIBindingRegion.setOffset(boxBounds.width * 0.87, boxBounds.height * 0.25);
+    	lacIPromoter.setOffset(boxBounds.width * 0.11, boxBounds.height / 4);
+    	lacIGene.setOffset(boxBounds.width * 0.3, boxBounds.height * 0.25);
+    	lacZGene.setOffset(boxBounds.width * 0.5, boxBounds.height * 0.25);
+    	lacPromoter.setOffset(boxBounds.width * 0.71, boxBounds.height / 4);
+    	lacIBindingRegion.setOffset(boxBounds.width * 0.91, boxBounds.height * 0.25);
     	
     	// Position the check box button for turning the legend on and off.
-    	legendControlCheckBoxPSwing.setOffset(30,
+    	legendControlCheckBoxPSwing.setOffset(boxBounds.width * 0.3,
     			boxBounds.height - legendControlCheckBoxPSwing.getFullBoundsReference().height - 5);
     	
     	// Let the model know our size, so that the model elements can figure

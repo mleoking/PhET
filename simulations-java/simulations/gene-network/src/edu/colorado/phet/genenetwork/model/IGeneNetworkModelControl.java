@@ -78,6 +78,15 @@ public interface IGeneNetworkModelControl {
 	LacPromoter createAndAddLacPromoter(Point2D initialPosition);
 
 	/**
+	 * Create a lac I promoter (a.k.a. polymerase binding region) and add it to
+	 * the model.
+	 * 
+	 * @return A reference to the newly created model element, null if some
+	 * problem prevented the creation.
+	 */
+	LacIPromoter createAndAddLacIPromoter(Point2D position);
+
+	/**
 	 * Create an RNA Polymerase and add it to the model.
 	 * 
 	 * @return A reference to the newly created model element, null if some
@@ -188,6 +197,7 @@ public interface IGeneNetworkModelControl {
 	 * Returns true if the legend should be visible, false if not.
 	 */
 	public boolean isLegendVisible();
+
 	
 	
 }
