@@ -9,6 +9,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
@@ -45,8 +46,9 @@ public class MacroMoleculeLegend extends PNode {
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(2f);
 	private static final Color BACKGROUND_COLOR = new Color(255, 255, 220);
 	private static final Font TITLE_FONT = new PhetFont(20, true);
-	private static final Font LABEL_FONT = new PhetFont(16, false);
-	private static final Color LABEL_COLOR = Color.BLACK;
+	private static final double ICON_TO_CAPTION_HORIZONTAL_SPACING = 10;
+	private static final double INTER_LEGEND_TIME_VERTICAL_SPACING = 10;
+	private static final double SIDE_PADDING = 4;
 	
 	// A local model-view transform that is used to scale the simple model
 	// elements that appear on the legend.  The size is empirically
@@ -60,16 +62,7 @@ public class MacroMoleculeLegend extends PNode {
 
 	private PPath background;
 	private PText title;
-	private SimpleModelElementNode rnaPolymeraseLegendItem;
-	private HTMLNode rnaPolymeraseCaption;
-	private SimpleModelElementNode lacZLegendItem;
-	private HTMLNode lacZCaption;
-	private SimpleModelElementNode lacILegendItem;
-	private HTMLNode lacICaption;
-	private SimpleModelElementNode messengerRnaLegendItem;
-	private HTMLNode messengerRnaCaption;
-	private SimpleModelElementNode transformationArrowLegendItem;
-	private HTMLNode transformationArrowCaption;
+	private ArrayList<LegendEntry> legendEntries = new ArrayList<LegendEntry>();
 	
     //------------------------------------------------------------------------
     // Constructors
@@ -77,7 +70,7 @@ public class MacroMoleculeLegend extends PNode {
     	
 	public MacroMoleculeLegend(final IGeneNetworkModelControl model, final PhetPCanvas canvas){
 		
-		// Register for notifications of size change.
+		// Register for notifications of size change from the canvas.
 		canvas.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent e) {
 		    	updateLayout(canvas);
@@ -98,44 +91,32 @@ public class MacroMoleculeLegend extends PNode {
 		title.setFont(TITLE_FONT);
 		addChild(title);
 		
-		rnaPolymeraseLegendItem = new SimpleModelElementNode(new RnaPolymerase(), MVT, false);
-		rnaPolymeraseLegendItem.setPickable(false);
-		background.addChild(rnaPolymeraseLegendItem);
+		// Create the various legend items and add them to the list of items.
+		SimpleModelElementNode icon;
 		
-		rnaPolymeraseCaption = new HTMLNode(GeneNetworkStrings.POLYMERASE_LEGEND_CAPTION, LABEL_FONT, LABEL_COLOR);
-		background.addChild(rnaPolymeraseCaption);
+		icon = new SimpleModelElementNode(new RnaPolymerase(), MVT, false);
+		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.POLYMERASE_LEGEND_CAPTION));
 		
-		lacZLegendItem = new SimpleModelElementNode(new LacZ(), MVT, false);
-		lacZLegendItem.setPickable(false);
-		background.addChild(lacZLegendItem);
+		icon = new SimpleModelElementNode(new LacZ(), MVT, false);
+		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.LAC_Z_LEGEND_CAPTION));
 		
-		lacZCaption = new HTMLNode(GeneNetworkStrings.LAC_Z_LEGEND_CAPTION, LABEL_FONT, LABEL_COLOR);
-		background.addChild(lacZCaption);
-		
-		lacILegendItem = new SimpleModelElementNode(new LacI(), MVT, false);
-		lacILegendItem.setPickable(false);
-		background.addChild(lacILegendItem);
-		
-		lacICaption = new HTMLNode(GeneNetworkStrings.LAC_I_LEGEND_CAPTION, LABEL_FONT, LABEL_COLOR);
-		background.addChild(lacICaption);
+		icon = new SimpleModelElementNode(new LacI(), MVT, false);
+		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.LAC_I_LEGEND_CAPTION));
 		
 		MessengerRna mRna = new LacIMessengerRna(15);
 		mRna.setPredictibleShape();
-		messengerRnaLegendItem = new SimpleModelElementNode(mRna, MVT, false);
-		messengerRnaLegendItem.setPickable(false);
-		background.addChild(messengerRnaLegendItem);
+		icon = new SimpleModelElementNode(mRna, MVT, false);
+		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.MESSENGER_RNA_LEGEND_CAPTION));;
 		
-		messengerRnaCaption = new HTMLNode(GeneNetworkStrings.MESSENGER_RNA_LEGEND_CAPTION, LABEL_FONT, LABEL_COLOR);
-		background.addChild(messengerRnaCaption);
+		icon = new SimpleModelElementNode(new TransformationArrow(null, new Point2D.Double(0, 0), 5, false), MVT,
+				false);
+		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.TRANSFORMATION_ARROW_LEGEND_CAPTION));
 		
-		transformationArrowLegendItem = new SimpleModelElementNode(new TransformationArrow(null, 
-				new Point2D.Double(0, 0), 5, false), MVT, false);
-		transformationArrowLegendItem.setPickable(false);
-		background.addChild(transformationArrowLegendItem);
-
-		transformationArrowCaption = new HTMLNode(GeneNetworkStrings.TRANSFORMATION_ARROW_LEGEND_CAPTION, 
-				LABEL_FONT, LABEL_COLOR);
-		background.addChild(transformationArrowCaption);
+		// Add all items to the node.
+		for (LegendEntry le : legendEntries){
+			background.addChild(le.getIcon());
+			background.addChild(le.getCaption());
+		}
 		
 		// Do initial layout.
 		updateLayout(canvas);
@@ -153,76 +134,88 @@ public class MacroMoleculeLegend extends PNode {
 		// canvas is resized.  This may change after review with the
 		// designers.
 
-		double width = 0;
-		double height = 0;
-		double xPos, yPos;
+		double widestIconWidth = 0;
+		double widestCaptionWidth = 0;
+		
+		for (LegendEntry legendEntry : legendEntries ){
+			widestIconWidth = Math.max(legendEntry.getIcon().getFullBoundsReference().getWidth(), widestIconWidth);
+			widestCaptionWidth = Math.max(legendEntry.getCaption().getFullBoundsReference().getWidth(), widestCaptionWidth);
+		}
+		
+		double legendWidth = SIDE_PADDING * 2 + widestIconWidth + ICON_TO_CAPTION_HORIZONTAL_SPACING + widestCaptionWidth;
+		double centerOfIconColumn = SIDE_PADDING + widestIconWidth / 2;
+		double centerOfCaptionColumn = SIDE_PADDING + widestCaptionWidth + ICON_TO_CAPTION_HORIZONTAL_SPACING +
+			widestCaptionWidth / 2;
+		double yPos;
 		
 		// Position the title.
-		xPos = background.getBoundsReference().width / 2;
 		yPos = 5;
-		title.setOffset(xPos - title.getFullBoundsReference().width / 2, yPos);
-		width = Math.max(title.getFullBoundsReference().width, width);
+		title.setOffset(legendWidth / 2 - title.getFullBoundsReference().width / 2, yPos);
+		legendWidth = Math.max(title.getFullBoundsReference().width, legendWidth);
+		yPos = title.getFullBoundsReference().getMaxY();
 		
-		// Position the RNA polymerase.
-		yPos = title.getFullBoundsReference().getMaxY() + 30;
-		rnaPolymeraseLegendItem.setOffset(xPos, yPos);
-		width = Math.max(rnaPolymeraseLegendItem.getFullBoundsReference().width, width);
-		
-		// Position polymerase caption.
-		rnaPolymeraseCaption.setOffset(xPos - rnaPolymeraseCaption.getFullBoundsReference().width / 2,
-				rnaPolymeraseLegendItem.getFullBoundsReference().getMaxY() + 3);
-		width = Math.max(rnaPolymeraseCaption.getFullBoundsReference().width, width);
-		
-		// Position the LacZ.
-		yPos = rnaPolymeraseCaption.getFullBoundsReference().getMaxY() + 40;
-		lacZLegendItem.setOffset(xPos, yPos);
-		width = Math.max(lacZLegendItem.getFullBoundsReference().width, width);
-		
-		// Position the LacZ caption.
-		lacZCaption.setOffset(xPos - lacZCaption.getFullBoundsReference().width / 2,
-				lacZLegendItem.getFullBoundsReference().getMaxY() + 5);
-		width = Math.max(lacZCaption.getFullBoundsReference().width, width);
-		
-		// Position the LacI.
-		yPos = lacZCaption.getFullBoundsReference().getMaxY() + 30;
-		lacILegendItem.setOffset(xPos, yPos);
-		width = Math.max(lacILegendItem.getFullBoundsReference().width, width);
-		
-		// Position the LacI caption.
-		lacICaption.setOffset(xPos - lacICaption.getFullBoundsReference().width / 2,
-				lacILegendItem.getFullBoundsReference().getMaxY() + 5);
-		width = Math.max(lacICaption.getFullBoundsReference().width, width);
-		
-		// Position the messenger RNA.  Note the mRNA is a bit unique in that
-		// it's offset if from the left side rather than the middle.
-		yPos = lacICaption.getFullBoundsReference().getMaxY() + 35;
-		messengerRnaLegendItem.setOffset(xPos - messengerRnaLegendItem.getFullBoundsReference().width / 2, yPos);
-		width = Math.max(messengerRnaLegendItem.getFullBoundsReference().width, width);
-		
-		// Position the messenger RNA caption.
-		messengerRnaCaption.setOffset(xPos - messengerRnaCaption.getFullBoundsReference().width / 2,
-				messengerRnaLegendItem.getFullBoundsReference().getMaxY() + 5);
-		width = Math.max(messengerRnaCaption.getFullBoundsReference().width, width);
-		
-		// Position the transformation arrow.
-		yPos = messengerRnaCaption.getFullBoundsReference().getMaxY() + 35;
-		transformationArrowLegendItem.setOffset(xPos, yPos);
-		width = Math.max(transformationArrowLegendItem.getFullBoundsReference().width, width);
-		
-		// Position the transformation arrow caption.
-		transformationArrowCaption.setOffset(xPos - transformationArrowCaption.getFullBoundsReference().width / 2,
-				transformationArrowLegendItem.getFullBoundsReference().getMaxY() + 5);
-		width = Math.max(transformationArrowCaption.getFullBoundsReference().width, width);
-		
-		// Expand the width by a fixed amount and set the height.
-		width = width * 1.15;
-		height = transformationArrowCaption.getFullBoundsReference().getMaxY() + 20;
+		// Position each legend item.
+		for (LegendEntry legendEntry : legendEntries ){
+			
+			yPos += INTER_LEGEND_TIME_VERTICAL_SPACING;
+			double centerOfRow = yPos + legendEntry.getHeight();
+			
+			// Position the icon.  This is a bit tricky since the nodes are
+			// generally centered around their position.
+			PNode icon = legendEntry.getIcon();
+			icon.setOffset(0, 0);
+			double minX = icon.getFullBoundsReference().getMinX();
+			double iconWidth = icon.getFullBoundsReference().getWidth();
+			double minY = icon.getFullBoundsReference().getMinY();
+			double iconHeight = icon.getFullBoundsReference().getHeight();
+			icon.setOffset(centerOfIconColumn - iconWidth / 2 - minX, centerOfRow - iconHeight / 2 - minY);
+			
+			// Position the caption.
+			PNode caption = legendEntry.getCaption();
+			caption.setOffset(centerOfCaptionColumn - caption.getFullBoundsReference().width / 2,
+					centerOfRow - caption.getFullBoundsReference().height / 2);
+			
+			// Update the running vertical position tracker.
+			yPos = Math.max(icon.getFullBoundsReference().getMaxY(), caption.getFullBoundsReference().getMaxY());
+		}
 		
 		// Set the shape of the background.
-		background.setPathTo(new RoundRectangle2D.Double(0, 0, width, height, 8, 8));
+		background.setPathTo(new RoundRectangle2D.Double(0, 0, legendWidth, yPos, 8, 8));
 	}
 	
 	private void updateVisibility(IGeneNetworkModelControl model){
 		setVisible(model.isLegendVisible());
+	}
+	
+	/**
+	 * A very simple class that bundles together two PNodes, one that is a
+	 * graphical representation of an item and the other that is the
+	 * associated caption. 
+	 */
+	private static class LegendEntry {
+
+		private static final Font LABEL_FONT = new PhetFont(16, false);
+		private static final Color LABEL_COLOR = Color.BLACK;
+
+		private final PNode icon;
+		private final PNode caption;
+		
+		public LegendEntry(PNode icon, String captionText) {
+			this.icon = icon;
+			icon.setPickable(false);
+			this.caption = new HTMLNode(captionText, LABEL_FONT, LABEL_COLOR);
+		}
+
+		public PNode getIcon() {
+			return icon;
+		}
+
+		public PNode getCaption() {
+			return caption;
+		}
+		
+		public double getHeight(){
+			return Math.max(icon.getFullBoundsReference().height, caption.getFullBoundsReference().height);
+		}
 	}
 }
