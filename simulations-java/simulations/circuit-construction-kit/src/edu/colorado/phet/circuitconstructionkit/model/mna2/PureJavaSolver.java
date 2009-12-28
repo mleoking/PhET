@@ -119,10 +119,12 @@ public class PureJavaSolver extends CircuitSolver {
 
         //This workaround is to help improve behavior for situations such as a battery connected directly to a capacitor
         //See #1813 and TestTheveninCapacitorRC
+
+        boolean useWorkaround = true;
         void applySolution(CompanionMNA.CompanionSolution sol) {
             long elapsedSinceWorkaround = System.currentTimeMillis() - lastTimeWorkaroundApplied;
 
-            if (elapsedSinceWorkaround >= 0) {
+            if (elapsedSinceWorkaround >= 0 && useWorkaround) {
 
                 double oldCurrent = b.getCurrent();
                 double newCurrent = sol.getCurrent(getElement());
