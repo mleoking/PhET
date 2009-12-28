@@ -41,17 +41,6 @@ public class LacPromoter extends Promoter {
     // Methods
     //------------------------------------------------------------------------
 	
-	public boolean considerProposalFrom(IModelElement modelElement) {
-		boolean proposalAccepted = false;
-
-		if (modelElement instanceof CapBindingRegion && rnaPolymeraseAttachmentPartner == null){
-			rnaPolymeraseAttachmentPartner = (RnaPolymerase)modelElement;
-			proposalAccepted = true;
-		}
-		
-		return proposalAccepted;
-	}
-	
 	@Override
 	protected boolean isInAllowableLocation() {
 		// Find out if we are within range of our location on the DNA strand.
