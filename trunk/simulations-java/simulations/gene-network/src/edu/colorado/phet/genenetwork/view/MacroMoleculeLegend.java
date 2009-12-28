@@ -19,7 +19,9 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
+import edu.colorado.phet.genenetwork.model.Galactose;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
+import edu.colorado.phet.genenetwork.model.Glucose;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.LacI;
 import edu.colorado.phet.genenetwork.model.LacIMessengerRna;
@@ -47,14 +49,15 @@ public class MacroMoleculeLegend extends PNode {
 	private static final Color BACKGROUND_COLOR = new Color(255, 255, 220);
 	private static final Font TITLE_FONT = new PhetFont(20, true);
 	private static final double ICON_TO_CAPTION_HORIZONTAL_SPACING = 10;
-	private static final double INTER_LEGEND_TIME_VERTICAL_SPACING = 10;
-	private static final double SIDE_PADDING = 4;
+	private static final double INTER_LEGEND_ITEM_VERTICAL_SPACING = 14;
+	private static final double SIDE_PADDING = 8;
+	private static final double TOP_AND_BOTTOM_PADDING = 12;
 	
 	// A local model-view transform that is used to scale the simple model
 	// elements that appear on the legend.  The size is empirically
 	// determined, tweak as needed for optimal sizing.
 	private static final ModelViewTransform2D MVT = new ModelViewTransform2D(new Rectangle2D.Double(-1, -1, 2, 2),
-			new Rectangle2D.Double(-5, -5, 10, 10), true );
+			new Rectangle2D.Double(-4, -4, 8, 8), true );
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -92,7 +95,7 @@ public class MacroMoleculeLegend extends PNode {
 		addChild(title);
 		
 		// Create the various legend items and add them to the list of items.
-		SimpleModelElementNode icon;
+		PNode icon;
 		
 		icon = new SimpleModelElementNode(new RnaPolymerase(), MVT, false);
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.POLYMERASE_LEGEND_CAPTION));
@@ -103,13 +106,15 @@ public class MacroMoleculeLegend extends PNode {
 		icon = new SimpleModelElementNode(new LacI(), MVT, false);
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.LAC_I_LEGEND_CAPTION));
 		
-		MessengerRna mRna = new LacIMessengerRna(15);
+		icon = createLactoseNode();
+		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.LACTOSE_LEGEND_CAPTION));
+		
+		MessengerRna mRna = new LacIMessengerRna(10);
 		mRna.setPredictibleShape();
 		icon = new SimpleModelElementNode(mRna, MVT, false);
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.MESSENGER_RNA_LEGEND_CAPTION));;
 		
-		icon = new SimpleModelElementNode(new TransformationArrow(null, new Point2D.Double(0, 0), 5, false), MVT,
-				false);
+		icon = new SimpleModelElementNode(new TransformationArrow(null, new Point2D.Double(0, 0), 5, false), MVT, false);
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.TRANSFORMATION_ARROW_LEGEND_CAPTION));
 		
 		// Add all items to the node.
@@ -144,7 +149,7 @@ public class MacroMoleculeLegend extends PNode {
 		
 		double legendWidth = SIDE_PADDING * 2 + widestIconWidth + ICON_TO_CAPTION_HORIZONTAL_SPACING + widestCaptionWidth;
 		double centerOfIconColumn = SIDE_PADDING + widestIconWidth / 2;
-		double centerOfCaptionColumn = SIDE_PADDING + widestCaptionWidth + ICON_TO_CAPTION_HORIZONTAL_SPACING +
+		double centerOfCaptionColumn = SIDE_PADDING + widestIconWidth + ICON_TO_CAPTION_HORIZONTAL_SPACING +
 			widestCaptionWidth / 2;
 		double yPos;
 		
@@ -152,13 +157,12 @@ public class MacroMoleculeLegend extends PNode {
 		yPos = 5;
 		title.setOffset(legendWidth / 2 - title.getFullBoundsReference().width / 2, yPos);
 		legendWidth = Math.max(title.getFullBoundsReference().width, legendWidth);
-		yPos = title.getFullBoundsReference().getMaxY();
+		yPos = title.getFullBoundsReference().getMaxY() + TOP_AND_BOTTOM_PADDING;
 		
 		// Position each legend item.
 		for (LegendEntry legendEntry : legendEntries ){
 			
-			yPos += INTER_LEGEND_TIME_VERTICAL_SPACING;
-			double centerOfRow = yPos + legendEntry.getHeight();
+			double centerOfRow = yPos + legendEntry.getHeight() / 2;
 			
 			// Position the icon.  This is a bit tricky since the nodes are
 			// generally centered around their position.
@@ -177,16 +181,36 @@ public class MacroMoleculeLegend extends PNode {
 			
 			// Update the running vertical position tracker.
 			yPos = Math.max(icon.getFullBoundsReference().getMaxY(), caption.getFullBoundsReference().getMaxY());
+			if (legendEntry != legendEntries.get(legendEntries.size() - 1)){
+				yPos += INTER_LEGEND_ITEM_VERTICAL_SPACING;
+			}
 		}
 		
 		// Set the shape of the background.
-		background.setPathTo(new RoundRectangle2D.Double(0, 0, legendWidth, yPos, 8, 8));
+		background.setPathTo(new RoundRectangle2D.Double(0, 0, legendWidth, yPos + TOP_AND_BOTTOM_PADDING, 8, 8));
 	}
 	
 	private void updateVisibility(IGeneNetworkModelControl model){
 		setVisible(model.isLegendVisible());
 	}
 	
+    /**
+     * Generate an image of Lactose.  This is necessary because Lactose exists
+     * as a combination of two simple model elements in the model, so there is
+     * no model element that can be created easily as can be done for the
+     * simple model elements.
+     */
+    private PNode createLactoseNode(){
+    	PNode lactoseNode = new PNode();
+    	PNode glucoseNode = new SimpleModelElementNode(new Glucose(), MVT, false);
+    	glucoseNode.setOffset(-glucoseNode.getFullBoundsReference().width / 2, 0);
+    	lactoseNode.addChild(glucoseNode);
+    	PNode galactoseNode = new SimpleModelElementNode(new Galactose(), MVT, false);
+    	galactoseNode.setOffset(galactoseNode.getFullBoundsReference().width / 2, 0);
+    	lactoseNode.addChild(galactoseNode);
+    	return lactoseNode;
+    }
+
 	/**
 	 * A very simple class that bundles together two PNodes, one that is a
 	 * graphical representation of an item and the other that is the
