@@ -53,6 +53,7 @@ public class DnaStrand {
 	
 	// The "spaces" or shapes where specific pieces of the strand, such as a
 	// gene, can reside.
+	private DnaSegmentSpace lacIPromoterSpace;
 	private DnaSegmentSpace lacIGeneSpace;
 	private DnaSegmentSpace lacPromoterSpace;
 	private DnaSegmentSpace lacOperatorSpace;
@@ -71,7 +72,8 @@ public class DnaStrand {
 		updateStrandShapes();
 		
 		// Set the offsets for the various DNA segments.
-		lacIGeneSpace = new DnaSegmentSpace(new LacIGene(null).getShape(), new Point2D.Double(-40, 0));
+		lacIPromoterSpace = new DnaSegmentSpace(new LacIPromoter(null).getShape(), new Point2D.Double(-52, 0));
+		lacIGeneSpace = new DnaSegmentSpace(new LacIGene(null).getShape(), new Point2D.Double(-35, 0));
 		lacPromoterSpace = new DnaSegmentSpace(new LacPromoter(null).getShape(), new Point2D.Double(5, 0));
 		lacOperatorSpace = new DnaSegmentSpace(new LacOperator(null).getShape(), new Point2D.Double(15, 0));
 		lacZGeneSpace = new DnaSegmentSpace(new LacZGene(null).getShape(), new Point2D.Double(30, 0));
@@ -248,6 +250,17 @@ public class DnaStrand {
 	
 	/**
 	 * Get the location in absolute model space (i.e. not relative to the DNA
+	 * strand's position) of the lac I promoter space on the DNA strand.
+	 * 
+	 * @return
+	 */
+	public Point2D getLacIPromoterLocation(){
+		return new Point2D.Double(getPositionRef().getX() + lacIPromoterSpace.getOffsetFromDnaStrandPosRef().getX(),
+				getPositionRef().getY() + lacPromoterSpace.getOffsetFromDnaStrandPosRef().getY());
+	}
+	
+	/**
+	 * Get the location in absolute model space (i.e. not relative to the DNA
 	 * strand's position) of the lac operator space on the DNA strand.
 	 * 
 	 * @return
@@ -263,6 +276,7 @@ public class DnaStrand {
 	 */
 	public ArrayList<DnaSegmentSpace> getDnaSegmentSpaces(){
 		ArrayList<DnaSegmentSpace> shapeList = new ArrayList<DnaSegmentSpace>();
+		shapeList.add(lacIPromoterSpace);
 		shapeList.add(lacIGeneSpace);
 		shapeList.add(lacPromoterSpace);
 		shapeList.add(lacOperatorSpace);
@@ -273,7 +287,16 @@ public class DnaStrand {
 	private void handleModelElementAdded(SimpleModelElement modelElement){
 		// Set the "eye catching" mode for any model elements that are added,
 		// and register to clear it if the element is removed.
-		if (modelElement instanceof LacIGene){
+		if (modelElement instanceof LacIPromoter){
+			lacIPromoterSpace.setEyeCatching(true);
+			modelElement.addListener(new ModelElementListenerAdapter(){
+				public void removedFromModel() {
+					// Become non-eyecatching when element is removed.
+					lacIPromoterSpace.setEyeCatching(false);
+				};
+			});
+		}
+		else if (modelElement instanceof LacIGene){
 			lacIGeneSpace.setEyeCatching(true);
 			modelElement.addListener(new ModelElementListenerAdapter(){
 				public void removedFromModel() {
