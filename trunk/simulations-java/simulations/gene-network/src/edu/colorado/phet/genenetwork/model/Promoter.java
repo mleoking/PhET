@@ -47,7 +47,7 @@ public abstract class Promoter extends SimpleModelElement {
 	public Promoter(IGeneNetworkModelControl model, Point2D initialPosition, Paint paint,
 			boolean fadeIn, double existenceTime) {
 		
-		super(model, createShape(), new Point2D.Double(), new Color(112, 190, 237), false, Double.POSITIVE_INFINITY);
+		super(model, createShape(), new Point2D.Double(), paint, false, Double.POSITIVE_INFINITY);
 	}
 
     //------------------------------------------------------------------------
