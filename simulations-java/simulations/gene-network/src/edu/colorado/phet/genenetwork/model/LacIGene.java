@@ -15,8 +15,6 @@ public class LacIGene extends SimpleModelElement {
 	private static final double WIDTH = 20;  // Nanometers. 
 	private static final double HEIGHT = 4;  // Nanometers.
 	
-	private static final double PERIOD_OF_MRNA_GENERATION = 15; // In seconds.
-	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -29,9 +27,6 @@ public class LacIGene extends SimpleModelElement {
 	public LacIGene(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1),
 				new Point2D.Double(), new Color(167, 167, 167), false, Double.POSITIVE_INFINITY);
-		
-		// Set the timer so that the first one happens pretty quickly.
-		mRnaGenCountdownTimer = PERIOD_OF_MRNA_GENERATION / 10;
 	}
 	
     public LacIGene(IGeneNetworkModelControl model, double x, double y) {
@@ -46,6 +41,11 @@ public class LacIGene extends SimpleModelElement {
     // Methods
     //------------------------------------------------------------------------
 	
+	/*
+	 * TODO: This was removed when we changed the sim so that the lac I gene
+	 * is transcribed by RNA polymerase, instead of spontaneously generating
+	 * the mRNA.  This was done Dec 28, 2009, and should be permanently
+	 * removed once we are sure that it is what is desired.
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
@@ -63,6 +63,7 @@ public class LacIGene extends SimpleModelElement {
 			}
 		}
 	}
+	 */
 
 	@Override
 	public String getLabel() {
