@@ -3,29 +3,45 @@
 package edu.colorado.phet.genenetwork.model;
 
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.geom.Point2D;
-import java.awt.geom.RoundRectangle2D;
 
-public class LacIPromoter extends SimpleModelElement {
+public class LacIPromoter extends Promoter {
 
-	private static final double WIDTH = 10;  // Nanometers. 
-	private static final double HEIGHT = 2.5;  // Nanometers.
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+
+	private static final Paint ELEMENT_PAINT = new Color(0, 204, 102);
 	
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------
+    // Constructor(s)
+    //------------------------------------------------------------------------
+
 	public LacIPromoter(IGeneNetworkModelControl model, Point2D initialPosition) {
-		super(model, new RoundRectangle2D.Double(-WIDTH/2, -HEIGHT/2, WIDTH, HEIGHT, 1, 1),
-				new Point2D.Double(), new Color(112, 190, 237), false, Double.POSITIVE_INFINITY);
+		super(model, initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 	}
 	
-    public LacIPromoter(IGeneNetworkModelControl model, double x, double y) {
-        this(model, new Point2D.Double(x,y));
-    }
-
-	public LacIPromoter(IGeneNetworkModelControl model){
+	public LacIPromoter(IGeneNetworkModelControl model) {
 		this(model, new Point2D.Double());
 	}
 	
+    //------------------------------------------------------------------------
+    // Methods
+    //------------------------------------------------------------------------
+	
 	@Override
-	public boolean isPartOfDnaStrand() {
-		return true;
+	protected boolean isInAllowableLocation() {
+		// Find out if we are within range of our location on the DNA strand.
+		return getPositionRef().distance(getModel().getDnaStrand().getLacPromoterLocation()) < LOCK_TO_DNA_DISTANCE;
+	}
+
+	@Override
+	protected Point2D getDefaultLocation() {
+		return getModel().getDnaStrand().getLacPromoterLocation();
 	}
 }
