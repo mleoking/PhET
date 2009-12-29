@@ -198,7 +198,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
     }
 
     protected void updateDuringDrag() {
-        module.getCCKModel().stepInTime( 1.0 );//todo this is a hack to ensure things keep flowing during a drag operation.
+        module.getCCKModel().stepInTime(CCKModule.dt);//todo this is a hack to ensure things keep flowing during a drag operation.
     }
 
     public static class ResistorEditor extends ComponentEditor {
