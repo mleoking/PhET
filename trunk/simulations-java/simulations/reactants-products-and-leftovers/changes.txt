@@ -1,3 +1,4 @@
+12/29/09 add "check answer" to Game model, award points
 12/23/09 connect Before/After values to reaction or user's answer depending on challenge type
 12/23/09 make QuantityValueNode and LeftoversValueNode mutable, substance can be switched between reaction and user's answer
 12/23/09 add support for user's answer in Game model

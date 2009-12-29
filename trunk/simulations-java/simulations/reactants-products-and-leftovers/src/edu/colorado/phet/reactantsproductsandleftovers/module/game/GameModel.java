@@ -22,6 +22,8 @@ public class GameModel extends RPALModel {
     private static final int CHALLENGES_PER_GAME = 10;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
     private static final boolean DEFAULT_TIMER_ENABLED = true;
+    private static final double POINTS_FIRST_ATTEMPT = 1;  // points to award for correct answer on 1st attempt
+    private static final double POINTS_SECOND_ATTEMPT = 0.5; // points to award for correct answer on 2nd attempt
     
     private final ArrayList<GameListener> listeners;
     private final GameTimer timer;
@@ -84,6 +86,24 @@ public class GameModel extends RPALModel {
         else {
             endGame();
         }
+    }
+    
+    public boolean checkAnswer() {
+        boolean correct = false;
+        setAttempts( getAttempts() + 1 );
+        if ( getAnswer().isCorrect() ) {
+            correct = true;
+            if ( getAttempts() == 1 ) {
+                setPoints( getPoints() + POINTS_FIRST_ATTEMPT );
+            }
+            else if ( getAttempts() == 2 ){
+                setPoints( getPoints() + POINTS_SECOND_ATTEMPT );
+            }
+            else {
+                // subsequent attempts score zero points
+            }
+        }
+        return correct;
     }
     
     private void newChallenges() {
