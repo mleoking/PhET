@@ -2,11 +2,15 @@
 
 package edu.colorado.phet.genenetwork.model;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -49,6 +53,9 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 			DNA_STRAND_POSITION.getY() + DNA_STRAND_HEIGHT + 10, MODEL_BOUNDS.getWidth(),
 			MODEL_BOUNDS.getHeight() - DNA_STRAND_POSITION.getY() + MODEL_BOUNDS.getMinY());
 	
+	// Constants that control delayed enabling of lactose injection.
+	private static final int LACTOSE_INJECTION_ENABLE_DELAY = 3000;  // In milliseconds.
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -89,7 +96,17 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     
     // State variable that tracks whether the legend should be shown.
     private boolean isLegendVisible = false;
-
+    
+    // Timer used for delayed enabling of lactose injection.
+    private final Timer delayedLactoseInjectionEnableTimer = new Timer(LACTOSE_INJECTION_ENABLE_DELAY, 
+    		new ActionListener() {
+		
+		public void actionPerformed(ActionEvent e) {
+			setLactoseInjectionAllowed(true);
+			delayedLactoseInjectionEnableTimer.stop();
+		}
+	});
+    
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
@@ -287,9 +304,27 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	}
 
 	public void setLactoseInjectionAllowed(boolean isLactoseInjectionAllowed) {
+		// Always make sure that the delay time is stopped when this is called.
+		delayedLactoseInjectionEnableTimer.stop();
+		
+		// Do the actual set and notification.
 		if (isLactoseInjectionAllowed != this.isLactoseInjectionAllowed){
 			this.isLactoseInjectionAllowed = isLactoseInjectionAllowed;
 			notifyLactoseInjectionAllowedStateChange();
+		}
+	}
+	
+	/**
+	 * This method starts a timer that will, when it expires, enable lactose
+	 * injection.  If the timer is already running, the request will be
+	 * ignored.  This was created because the injector was appearing on the
+	 * screen at the same time as some other key elements, so people were
+	 * worried that it would distract, so there needed to be a means of
+	 * turning on lactose injection in a delayed fashion.
+	 */
+	public void startLactoseInjectionAllowedTimer(){
+		if (!isLactoseInjectionAllowed && !delayedLactoseInjectionEnableTimer.isRunning()){
+			delayedLactoseInjectionEnableTimer.restart();
 		}
 	}
 	
@@ -441,7 +476,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     	notifyModelElementAdded(lacZ);
     	
     	// If LacZ is present, lactose injection should be allowed.
-    	setLactoseInjectionAllowed(true);
+    	startLactoseInjectionAllowedTimer();
     }
     
     public void addLacI(LacI lacI){
@@ -449,7 +484,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     	notifyModelElementAdded(lacI);
 
     	// If LacI is present, lactose injection should be allowed.
-    	setLactoseInjectionAllowed(true);
+    	startLactoseInjectionAllowedTimer();
     }
     
 	public LacZGene createAndAddLacZGene(Point2D initialPosition) {
