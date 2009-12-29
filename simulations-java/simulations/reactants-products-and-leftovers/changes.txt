@@ -1,3 +1,5 @@
+12/29/09 switch values below Game boxes to show correct answer when requested
+12/29/09 control editability of values below Game boxes
 12/29/09 update layout of Game buttons when visibility of buttons changes
 12/29/09 wire up Game buttons
 12/29/09 specify node visibility for various states in Game

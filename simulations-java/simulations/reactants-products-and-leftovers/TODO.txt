@@ -2,7 +2,6 @@
 
 HIGH PRIORITY
 - Game: "guess" images in before/after boxes
-- Game: change editability of values below challenge box based on game state
 
 MEDIUM PRIORITY
 - should Game summary node be draggable?

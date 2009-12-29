@@ -224,30 +224,34 @@ public class GameCanvas extends RPALCanvas {
     }
     
     private void handleNewGame() {
+        showUserAnswer( false );
         visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
     private void handleGameStarted() {
+        showUserAnswer( true );
         visibilityManager.setVisibility( FIRST_ATTEMPT_STATE );
     }
     
     private void handleGameCompleted() {
+        showUserAnswer( false );
         visibilityManager.setVisibility( GAME_SUMMARY_STATE );
     }
 
     private void handleGameAborted() {
-        gameSettingsNode.setVisible( true );
-        gameSummaryNode.setVisible( false );
-        parentNode.setVisible( false );
+        showUserAnswer( false );
+        visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
     // When the challenge changes, rebuild dynamic nodes.
     private void handleChallengeChanged() {
+        showUserAnswer( true );
         visibilityManager.setVisibility( FIRST_ATTEMPT_STATE );
         updateNodes();
     }
     
     private void checkButtonPressed() {
+        showUserAnswer( false );
         boolean correct = model.checkAnswer();
         if ( correct ) {
             faceNode.smile();
@@ -274,10 +278,12 @@ public class GameCanvas extends RPALCanvas {
     }
     
     private void tryAgainButtonPressed() {
+        showUserAnswer( true );
         visibilityManager.setVisibility( SECOND_ATTEMPT_STATE );
     }
     
     private void showAnswerButtonPressed() {
+        showCorrectAnswer();
         visibilityManager.setVisibility( ANSWER_SHOWN_STATE );
     }
     
@@ -426,6 +432,24 @@ public class GameCanvas extends RPALCanvas {
         x = boxNode.getXOffset() + ( ( boxNode.getBoxWidth() - buttonMaxX ) / 2 );
         y = boxNode.getYOffset() + boxNode.getBoxHeight() - buttonMaxY - 10;
         buttonsParentNode.setOffset( x, y );
+    }
+    
+    private void showUserAnswer( boolean editable ) {
+        if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+            afterNode.showUserAnswer( editable );
+        }
+        else {
+            beforeNode.showUserAnswer( editable );
+        }
+    }
+    
+    private void showCorrectAnswer() {
+        if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+            afterNode.showCorrectAnswer();
+        }
+        else {
+            beforeNode.showCorrectAnswer();
+        }
     }
 
     /*
