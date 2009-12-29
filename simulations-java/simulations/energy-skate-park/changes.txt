@@ -1,3 +1,4 @@
+# 2.05.09 (37764) Dec 29, 2009
 > Performance improvements
 Made it so that the PaintImmediateDialog repaint timer doesn't repeat, see #2042, see #2072
 > Made the window come up at the default size of 1024x768 and centered, see #2071
