@@ -92,6 +92,7 @@ public abstract class TranslationEntity implements Serializable {
             cachedEntities.add( new TitlesEntity() );
             cachedEntities.add( new LanguagesEntity() );
             cachedEntities.add( new SimulationsEntity() );
+            cachedEntities.add( new SearchEntity() );
         }
         return cachedEntities;
     }
