@@ -29,7 +29,7 @@ div.rtl .simulation-main-image-panel {
 }
 
 .simulation-main-table {
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 .simulation-main-description {
@@ -51,7 +51,7 @@ div.rtl .simulation-main-image-panel {
     text-transform: uppercase;
     font-variant: small-caps;
     letter-spacing: 1px;
-    margin: 0 0 5px;
+    margin: 10px 0 5px;
     padding-top: 5px;
     border-top: 1px solid #cc6600;
 }
@@ -132,7 +132,7 @@ div.rtl .simulation-main-image-panel {
 
 /* TODO: Clean up this table CSS */
 table.system-requirements-table {
-    margin: 5px 0px 15px;
+    margin: 5px 0 5px;
     position: relative;
     left: 5px;
     width: 505px;
@@ -150,7 +150,7 @@ table.system-requirements-table td {
 }
 
 table.credits-table {
-    margin: 5px 0px 15px;
+    margin: 5px 0 15px;
     position: relative;
     left: 5px;
     width: 505px;
