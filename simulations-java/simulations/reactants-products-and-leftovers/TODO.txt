@@ -10,6 +10,7 @@ MEDIUM PRIORITY
 - Game: animated curtains
 - PSwing memory leak affects tab traversal, #1874
 - make ImageLayoutStrategy be associated with the chemical reaction type?
+- explicitly handle tab traversal in play area
 
 LOW PRIORITY
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
