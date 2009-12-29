@@ -29,8 +29,8 @@ public class AdminMainPage extends AdminPage {
 
         add( new Link( "debug-action" ) {
             public void onClick() {
-                //LuceneTest.addSimulations( getHibernateSession(), (PhetLocalizer) getLocalizer(), getNavMenu() );
-                LuceneTest.searchSimulations( getHibernateSession() );
+                LuceneTest.addSimulations( getHibernateSession(), (PhetLocalizer) getLocalizer(), getNavMenu() );
+                //LuceneTest.searchSimulations( getHibernateSession() );
             }
         } );
     }

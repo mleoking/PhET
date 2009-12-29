@@ -2,8 +2,12 @@ package edu.colorado.phet.website.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -17,6 +21,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.hibernate.Session;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.Keyword;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -28,6 +33,8 @@ import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.StringUtils;
 
 public class LuceneTest {
+
+    private static Logger logger = Logger.getLogger( LuceneTest.class.getName() );
 
     public static void addSimulations( Session session, PhetLocalizer localizer, final NavMenu menu ) {
         try {
@@ -67,25 +74,25 @@ public class LuceneTest {
                                 String keywords = "";
                                 for ( Object o2 : sim.getKeywords() ) {
                                     Keyword keyword = (Keyword) o2;
-                                    String key = StringUtils.getString( session, keyword.getKey(), lsim.getLocale() );
+                                    String key = StringUtils.getString( session, keyword.getLocalizationKey(), lsim.getLocale() );
                                     if ( key != null ) {
                                         keywords += key + " ";
                                     }
                                 }
                                 if ( keywords.length() > 0 ) {
-                                    doc.add( new Field( "sim_ " + prefix + "_keywords", keywords, Field.Store.NO, Field.Index.ANALYZED ) );
+                                    doc.add( new Field( "sim_" + prefix + "_keywords", keywords, Field.Store.NO, Field.Index.ANALYZED ) );
                                 }
 
                                 String topics = "";
                                 for ( Object o2 : sim.getTopics() ) {
                                     Keyword keyword = (Keyword) o2;
-                                    String key = StringUtils.getString( session, keyword.getKey(), lsim.getLocale() );
+                                    String key = StringUtils.getString( session, keyword.getLocalizationKey(), lsim.getLocale() );
                                     if ( key != null ) {
                                         topics += key + " ";
                                     }
                                 }
                                 if ( topics.length() > 0 ) {
-                                    doc.add( new Field( "sim_ " + prefix + "_topics", topics, Field.Store.NO, Field.Index.ANALYZED ) );
+                                    doc.add( new Field( "sim_" + prefix + "_topics", topics, Field.Store.NO, Field.Index.ANALYZED ) );
                                 }
 
                                 String categories = "";
@@ -97,10 +104,12 @@ public class LuceneTest {
                                     }
                                 }
                                 if ( categories.length() > 0 ) {
-                                    doc.add( new Field( "sim_ " + prefix + "_categories", categories, Field.Store.NO, Field.Index.ANALYZED ) );
+                                    doc.add( new Field( "sim_" + prefix + "_categories", categories, Field.Store.NO, Field.Index.ANALYZED ) );
                                 }
                             }
                             iwriter.addDocument( doc );
+
+                            logger.debug( "adding document: " + doc );
                         }
                         catch( IOException e ) {
                             e.printStackTrace();
@@ -179,6 +188,82 @@ public class LuceneTest {
         catch( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    private static void addBoostedTermQuery( BooleanQuery query, String field, String term, float boost ) {
+        TermQuery tquery = new TermQuery( new Term( field, term ) );
+        tquery.setBoost( boost );
+        query.add( tquery, BooleanClause.Occur.SHOULD );
+    }
+
+    public static List<LocalizedSimulation> testSearch( Session session, String queryString, final Locale locale ) {
+        final List<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
+
+        try {
+            Analyzer analyzer = new StandardAnalyzer( Version.LUCENE_CURRENT );
+            Directory directory = FSDirectory.open( new File( "/tmp/testindex" ) );
+
+            final IndexSearcher isearcher = new IndexSearcher( directory, true );
+
+            StringTokenizer tokenizer = new StringTokenizer( queryString );
+            BooleanQuery query = new BooleanQuery();
+
+            String localeString = LocaleUtils.localeToString( locale );
+
+            while ( tokenizer.hasMoreTokens() ) {
+                String term = tokenizer.nextToken();
+                addBoostedTermQuery( query, "sim_name", term, 1.0f );
+                addBoostedTermQuery( query, "sim_en_title", term, 1.0f );
+                addBoostedTermQuery( query, "sim_en_description", term, 1.0f );
+                addBoostedTermQuery( query, "sim_en_goals", term, 1.0f );
+                addBoostedTermQuery( query, "sim_en_keywords", term, 1.0f );
+                addBoostedTermQuery( query, "sim_en_topics", term, 1.0f );
+                addBoostedTermQuery( query, "sim_en_categories", term, 1.0f );
+                if ( !localeString.equals( "en" ) ) {
+                    addBoostedTermQuery( query, "sim_" + localeString + "_title", term, 4.0f );
+                    addBoostedTermQuery( query, "sim_" + localeString + "_description", term, 4.0f );
+                    addBoostedTermQuery( query, "sim_" + localeString + "_goals", term, 4.0f );
+                    addBoostedTermQuery( query, "sim_" + localeString + "_keywords", term, 4.0f );
+                    addBoostedTermQuery( query, "sim_" + localeString + "_topics", term, 4.0f );
+                    addBoostedTermQuery( query, "sim_" + localeString + "_categories", term, 4.0f );
+                }
+            }
+
+            logger.debug( "query: " + query );
+
+            final ScoreDoc[] hits = isearcher.search( query, null, 1000 ).scoreDocs;
+
+            HibernateUtils.wrapTransaction( session, new HibernateTask() {
+                public boolean run( Session session ) {
+                    for ( ScoreDoc hit : hits ) {
+                        try {
+                            float score = hit.score;
+                            Document doc = isearcher.doc( hit.doc );
+                            Simulation sim = (Simulation) session.load( Simulation.class, Integer.parseInt( doc.get( "sim_id" ) ) );
+                            logger.debug( score + ": " + sim.getName() + " " + doc.get( "sim_en_title" ) );
+                            LocalizedSimulation lsim = sim.getBestLocalizedSimulation( locale );
+                            if ( lsim != null ) {
+                                ret.add( lsim );
+                            }
+                        }
+                        catch( IOException e ) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    return true;
+                }
+            } );
+
+            isearcher.close();
+            directory.close();
+
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+        return ret;
     }
 
     public static void main( String[] args ) throws IOException, ParseException {

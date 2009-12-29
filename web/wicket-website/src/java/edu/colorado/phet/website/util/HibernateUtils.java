@@ -372,6 +372,7 @@ public class HibernateUtils {
         boolean ret;
         try {
             tx = session.beginTransaction();
+            tx.setTimeout( 600 );
 
             ret = task.run( session );
 

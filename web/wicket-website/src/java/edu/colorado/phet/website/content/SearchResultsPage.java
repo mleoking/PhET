@@ -1,9 +1,14 @@
 package edu.colorado.phet.website.content;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.wicket.PageParameters;
 
-import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.data.LocalizedSimulation;
+import edu.colorado.phet.website.panels.SimulationDisplayPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
+import edu.colorado.phet.website.test.LuceneTest;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -17,7 +22,15 @@ public class SearchResultsPage extends PhetRegularPage {
 
         initializeLocation( getNavMenu().getLocationByKey( "search.results" ) );
 
-        add( new InvisibleComponent( "search-results-panel" ) );
+        List<LocalizedSimulation> lsims = new LinkedList<LocalizedSimulation>();
+
+        // TODO: display query
+
+        if ( query != null ) {
+            lsims = LuceneTest.testSearch( getHibernateSession(), query, getPageContext().getLocale() );
+        }
+
+        add( new SimulationDisplayPanel( "search-results-panel", getPageContext(), lsims ) );
 
         // TODO: localize
         addTitle( "Search: " + query );
