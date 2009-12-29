@@ -19,7 +19,7 @@ public class LacPromoter extends Promoter {
     // Class Data
     //------------------------------------------------------------------------
 
-	private static final Paint ELEMENT_PAINT = new Color(0, 137, 225);
+	private static final Paint ELEMENT_PAINT = new Color(0, 153, 255);
 	
     //------------------------------------------------------------------------
     // Instance Data
