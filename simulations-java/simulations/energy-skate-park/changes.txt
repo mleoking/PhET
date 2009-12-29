@@ -1,3 +1,5 @@
+> Made the window come up at the default size of 1024x768 and centered, see #2071
+> Removed the phet logo from the control panel so that vertical scroll bars are not visible by default
 # 2.05.08 (37622) Dec 19, 2009
 Removed console debug output, see #2044
 # 2.05.07 (37348) Dec 11, 2009
