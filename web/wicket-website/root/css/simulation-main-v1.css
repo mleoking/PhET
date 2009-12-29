@@ -59,6 +59,8 @@ div.rtl .simulation-main-image-panel {
 .simulation-main-container h3 {
     color: #15337f;
     font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .sim-version {
@@ -120,7 +122,7 @@ div.rtl .simulation-main-image-panel {
 
 .keyword-list-holder {
     list-style-type: none;
-    margin: 0;
+    margin: 0 20px;
     padding: 0;
 }
 
