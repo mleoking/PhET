@@ -1,14 +1,18 @@
 package edu.colorado.phet.website.content;
 
+import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.wicket.PageParameters;
 
+import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.SimulationDisplayPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.test.LuceneTest;
+import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -24,6 +28,7 @@ public class SearchResultsPage extends PhetRegularPage {
 
         List<LocalizedSimulation> lsims = new LinkedList<LocalizedSimulation>();
 
+        PhetLocalizer localizer = (PhetLocalizer) getLocalizer();
         // TODO: display query
 
         if ( query != null ) {
@@ -32,8 +37,15 @@ public class SearchResultsPage extends PhetRegularPage {
 
         add( new SimulationDisplayPanel( "search-results-panel", getPageContext(), lsims ) );
 
-        // TODO: localize
-        addTitle( "Search: " + query );
+
+        if ( query != null ) {
+            addTitle( MessageFormat.format( localizer.getString( "search.title", this ), query ) );
+            add( new LocalizedText( "search-query", "search.query", new Object[]{query} ) );
+        }
+        else {
+            addTitle( MessageFormat.format( localizer.getString( "search.title", this ), "-" ) );
+            add( new InvisibleComponent( "search-query" ) );
+        }
 
     }
 
