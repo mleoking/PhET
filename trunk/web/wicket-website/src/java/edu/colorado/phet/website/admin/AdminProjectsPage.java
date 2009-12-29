@@ -7,11 +7,16 @@ import java.util.List;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
@@ -75,6 +80,17 @@ public class AdminProjectsPage extends AdminPage {
 
         add( projectList );
 
+        add( new UpdateSpecificProjectForm( "update-named-project-form" ) );
+
+        add( new Form( "update-all-projects-form" ) {
+            @Override
+            protected void onSubmit() {
+                for ( Project project : projects ) {
+                    Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot(), getHibernateSession(), project.getName() );
+                }
+            }
+        } );
+
     }
 
     private void sortProjects() {
@@ -83,6 +99,26 @@ public class AdminProjectsPage extends AdminPage {
                 return a.getName().compareTo( b.getName() );
             }
         } );
+    }
+
+    public final class UpdateSpecificProjectForm extends Form {
+        private static final long serialVersionUID = 1L;
+
+        private TextField projectText;
+
+        private final ValueMap properties = new ValueMap();
+
+        public UpdateSpecificProjectForm( final String id ) {
+            super( id );
+
+            add( projectText = new TextField( "project", new PropertyModel( properties, "project" ) ) );
+        }
+
+        public final void onSubmit() {
+            String projectName = projectText.getModelObjectAsString();
+
+            Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot(), getHibernateSession(), projectName );
+        }
     }
 
 }
