@@ -29,6 +29,12 @@ import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
+/**
+ * This is a page that generally has the PhET header (logo, search, sign off, etc), but can be instantiated without
+ * any extras with PhetPage( params, false ). Base class for all PhET web pages.
+ * <p/>
+ * For now, all direct subclasses should call addTitle exactly once
+ */
 public abstract class PhetPage extends WebPage {
 
     private Locale myLocale;

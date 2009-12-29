@@ -107,6 +107,9 @@ public class NavMenu {
         NavLocation byKeyword = new NavLocation( null, "simulations.by-keyword", SimulationDisplay.getLinker() );
         addLocation( byKeyword );
 
+        NavLocation searchResults = new NavLocation( null, "search.results", SearchResultsPage.getLinker( null ) );
+        addLocation( searchResults );
+
         Session session = HibernateUtils.getInstance().openSession();
         Transaction tx = null;
         try {

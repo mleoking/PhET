@@ -15,6 +15,9 @@ import edu.colorado.phet.website.panels.SponsorsPanel;
 import edu.colorado.phet.website.panels.TranslationLinksPanel;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
+/**
+ * This is a page with a menu on the left, and the PhET header and footer
+ */
 public abstract class PhetMenuPage extends PhetPage {
     public PhetMenuPage( PageParameters parameters ) {
         super( parameters, true );
