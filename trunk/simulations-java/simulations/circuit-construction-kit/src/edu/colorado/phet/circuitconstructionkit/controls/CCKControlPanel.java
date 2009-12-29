@@ -137,10 +137,8 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         }
 
         if ( module.getParameters().getAllowDynamics() ) {
-            addControl( Box.createVerticalStrut( 7 ) );
             addControl( new ResetDynamicsButton( module ) );
         }
-        addControl( Box.createVerticalStrut( 7 ) );
         super.addControlFullWidth( new HelpPanel( m ) );
     }
 
