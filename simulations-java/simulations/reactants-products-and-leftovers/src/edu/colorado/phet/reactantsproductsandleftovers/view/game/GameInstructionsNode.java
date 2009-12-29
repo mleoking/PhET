@@ -12,15 +12,27 @@ public class GameInstructionsNode extends PComposite {
     private static final PhetFont FONT = new PhetFont( 32 );
     private static final Color COLOR = Color.YELLOW;
     
+    private final HTMLNode htmlNode;
+    private final DownArrowNode arrowNode;
+    
     public GameInstructionsNode( String html ) {
         super();
         
-        HTMLNode htmlNode = new HTMLNode( html, FONT, COLOR );
+        htmlNode = new HTMLNode( html, FONT, COLOR );
         addChild( htmlNode );
         
-        DownArrowNode arrowNode = new DownArrowNode( 80 );
+        arrowNode = new DownArrowNode( 80 );
         addChild( arrowNode );
         
+        updateLayout();
+    }
+    
+    public void setText( String html ) {
+        htmlNode.setHTML( html );
+        updateLayout();
+    }
+    
+    private void updateLayout() {
         // layout, origin at upper left of text
         double x = 0;
         double y = 0;

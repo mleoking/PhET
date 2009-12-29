@@ -2,12 +2,10 @@ package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Stroke;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.LeftoversValueNode;
@@ -25,15 +23,12 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.GridLayoutNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
-public class GameAfterNode extends PhetPNode {
+public class GameAfterNode extends GameBoxNode {
     
-    private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     
     private static final String TITLE = RPALStrings.LABEL_AFTER_REACTION;
-    private static final Font TITLE_FONT = new PhetFont( 24 );
     private static final double TITLE_Y_SPACING = 10;
     
     private static final double CONTROLS_Y_SPACING = 15;
@@ -46,24 +41,13 @@ public class GameAfterNode extends PhetPNode {
     private static final double BRACKET_MIN_WIDTH = 95;
     
     private final GameModel model;
-    private final BoxNode boxNode;
     private final GameListener gameListener;
     private final ImageLayoutNode imageLayoutNode;
     private final ArrayList<QuantityValueNode> quantityValueNodes;
     private final ArrayList<LeftoversValueNode> leftoverValueNodes;
     
     public GameAfterNode( GameModel model ) {
-        super();
-        
-        // box
-        boxNode = new BoxNode( BOX_SIZE );
-        addChild( boxNode );
-        
-        // title for the box
-        PText titleNode = new PText( TITLE );
-        titleNode.setFont( TITLE_FONT );
-        titleNode.setTextPaint( Color.BLACK );
-        addChild( titleNode );
+        super( TITLE );
         
         // one quantity display for each product
         quantityValueNodes = new ArrayList<QuantityValueNode>();
@@ -86,8 +70,10 @@ public class GameAfterNode extends PhetPNode {
         // layout, origin at upper-left corner of box
         double x = 0;
         double y = 0;
+        PNode boxNode = getBoxNode();
         boxNode.setOffset( x, y );
         // title centered above box
+        PNode titleNode = getTitleNode();
         x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
         y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
         titleNode.setOffset( x, y );
@@ -145,7 +131,7 @@ public class GameAfterNode extends PhetPNode {
         model.addGameListener( gameListener );
         
         // images
-        imageLayoutNode = new GridLayoutNode( BOX_SIZE );
+        imageLayoutNode = new GridLayoutNode( getBoxSize() );
         addChild( imageLayoutNode );
         addProductsAndLeftoversImages();
         
@@ -160,22 +146,6 @@ public class GameAfterNode extends PhetPNode {
     
     public void cleanup() {
         model.removeGameListener( gameListener );
-    }
-    
-    /**
-     * Box width, used by layout code.
-     * @return
-     */
-    public double getBoxWidth() {
-        return boxNode.getFullBoundsReference().getWidth();
-    }
-
-    /**
-     * Box height, used by layout code.
-     * @return
-     */
-    public double getBoxHeight() {
-        return boxNode.getFullBoundsReference().getHeight();
     }
     
     public void showCorrectAnswer() {

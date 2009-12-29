@@ -1,3 +1,7 @@
+12/29/09 update layout of Game buttons when visibility of buttons changes
+12/29/09 wire up Game buttons
+12/29/09 specify node visibility for various states in Game
+12/29/09 rewrite manager for node visibility in Game
 12/29/09 add "check answer" to Game model, award points
 12/23/09 connect Before/After values to reaction or user's answer depending on challenge type
 12/23/09 make QuantityValueNode and LeftoversValueNode mutable, substance can be switched between reaction and user's answer
