@@ -114,10 +114,14 @@ public class TranslateEntityPanel extends PhetPanel {
                         target.addComponent( item );
                         //page.getEntityListPanel().updateEntity( entity );
                         if ( status == StringUtils.STRING_OUT_OF_DATE ) {
-                            entity.getOutOfDateMap().put( translationId, entity.getOutOfDateMap().get( translationId ) - 1 );
+                            Map<Integer, Integer> map = entity.getOutOfDateMap();
+                            Integer old = map.get( translationId );
+                            map.put( translationId, old - 1 );
                         }
                         else if ( status == StringUtils.STRING_UNTRANSLATED ) {
-                            entity.getUntranslatedMap().put( translationId, entity.getUntranslatedMap().get( translationId ) - 1 );
+                            Map<Integer, Integer> map = entity.getUntranslatedMap();
+                            Integer old = map.get( translationId );
+                            map.put( translationId, old - 1 );
                         }
                         target.addComponent( page.getEntityListPanel() );
                         add( new AttributeModifier( "class", new Model( "string-value" ) ) );
@@ -135,7 +139,6 @@ public class TranslateEntityPanel extends PhetPanel {
                 if ( ( (PhetSession) getSession() ).getUser().isTeamMember() ) {
                     //item.add( new InvisibleComponent( "translate-auto" ) );
 
-                    // TODO: remove after development
                     item.add( new AjaxLink( "translate-auto" ) {
                         public void onClick( AjaxRequestTarget target ) {
                             String value = TestTranslateString.translate( (String) model.getObject(), "en", testLocale.getLanguage() );
@@ -147,11 +150,15 @@ public class TranslateEntityPanel extends PhetPanel {
                             target.addComponent( item );
                             // TODO: consolidate with above functions
                             //page.getEntityListPanel().updateEntity( entity );
-                            if ( value != null && status == StringUtils.STRING_OUT_OF_DATE ) {
-                                entity.getOutOfDateMap().put( translationId, entity.getOutOfDateMap().get( translationId ) - 1 );
+                            if ( status == StringUtils.STRING_OUT_OF_DATE ) {
+                                Map<Integer, Integer> map = entity.getOutOfDateMap();
+                                Integer old = map.get( translationId );
+                                map.put( translationId, old - 1 );
                             }
-                            else if ( value != null && status == StringUtils.STRING_UNTRANSLATED ) {
-                                entity.getUntranslatedMap().put( translationId, entity.getUntranslatedMap().get( translationId ) - 1 );
+                            else if ( status == StringUtils.STRING_UNTRANSLATED ) {
+                                Map<Integer, Integer> map = entity.getUntranslatedMap();
+                                Integer old = map.get( translationId );
+                                map.put( translationId, old - 1 );
                             }
                             target.addComponent( page.getEntityListPanel() );
                             editableLabel.add( new AttributeModifier( "class", new Model( "string-value" ) ) );
