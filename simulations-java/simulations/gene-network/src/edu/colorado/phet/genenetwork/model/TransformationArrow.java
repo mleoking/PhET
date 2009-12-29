@@ -5,6 +5,7 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -31,6 +32,7 @@ public class TransformationArrow extends SimpleModelElement {
 	private static double HEAD_WIDTH = 2;       // In nanometers.
 	private static double HEAD_HEIGHT = 2;      // In nanometers.
 	private static double DEFAULT_LENGTH = 7;   // In nanometers.
+	private static double DEFAULT_POINTING_ANGLE = 0;   // In radians, 0 means straight up.
 	
 	private static double EXISTENCE_TIME = 0.1; // In seconds.
 	
@@ -38,27 +40,29 @@ public class TransformationArrow extends SimpleModelElement {
     // Instance Data
     //------------------------------------------------------------------------
 	
+	// Angle at which this arrow will point.  This is in radians, and a value
+	// of 0 means that it points straight up.
+	private final double pointingAngle;
 	
     //------------------------------------------------------------------------
     // Constructors
     //------------------------------------------------------------------------
 	
-	public TransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition, double length, boolean fadeIn) {
-		
-		super(model, createShape(length), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
-		
+	public TransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition, double length, boolean fadeIn, double pointingAngle) {
+		super(model, createShape(length, pointingAngle), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
+		this.pointingAngle = pointingAngle;
 		setMotionStrategy(new StillnessMotionStrategy(this));
 	}
 	
 	public TransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition) {
-		this(model, initialPosition, DEFAULT_LENGTH, true);
+		this(model, initialPosition, DEFAULT_LENGTH, true, DEFAULT_POINTING_ANGLE);
 	}
 	
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
 	
-	private static Shape createShape(double length){
+	private static Shape createShape(double length, double angle){
 
 		// Create the overall outline.
 		DoubleGeneralPath outline = new DoubleGeneralPath();
@@ -81,6 +85,13 @@ public class TransformationArrow extends SimpleModelElement {
 		Rectangle2D space2 = new Rectangle2D.Double(-WIDTH/2, -length/2 + spaceSize * 3, WIDTH, spaceSize);
 		area.subtract(new Area(space2));
 		
-		return area;
+		// Rotate the arrow to the specified angle.
+		AffineTransform rotationTransform = AffineTransform.getRotateInstance(angle);
+		
+		return rotationTransform.createTransformedShape(area);
+	}
+	
+	public double getPointingAngle() {
+		return pointingAngle;
 	}
 }
