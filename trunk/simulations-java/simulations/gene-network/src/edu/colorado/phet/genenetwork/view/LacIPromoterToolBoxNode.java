@@ -35,7 +35,7 @@ public class LacIPromoterToolBoxNode extends ToolBoxItemNode {
 	@Override
 	protected void initializeSelectionNode() {
 		setSelectionNode(new SimpleModelElementNode(new LacIPromoter(getModel()), SCALING_MVT, true));
-		setCaption(GeneNetworkStrings.POLYMERASE_BINDING_REGION_TOOL_BOX_CAPTION);
+		setCaption(GeneNetworkStrings.LAC_I_PROMOTER_TOOL_BOX_CAPTION);
 	}
 	
 	@Override
