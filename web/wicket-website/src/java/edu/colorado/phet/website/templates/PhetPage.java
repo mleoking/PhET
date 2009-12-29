@@ -23,6 +23,7 @@ import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.menu.NavMenu;
+import edu.colorado.phet.website.panels.SearchPanel;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
@@ -97,6 +98,8 @@ public abstract class PhetPage extends WebPage {
             add( new StaticImage( "page-header-title-image", "/images/logo-title.jpg", null ) );
 
             add( HeaderContributor.forCss( "/css/phetpage-v1.css" ) );
+
+            add( new SearchPanel( "search-panel", getPageContext() ) );
 
             if ( prefix.startsWith( "/translation" ) && getVariation() != null ) {
                 final Translation translation = new Translation();

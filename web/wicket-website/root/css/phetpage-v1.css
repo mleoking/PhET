@@ -24,6 +24,20 @@ div.rtl #page-header-logo {
     right: 0 !important;
 }
 
+#page-header-search {
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
+    text-align: right;
+    vertical-align: bottom;
+    color: white;
+}
+
+div.rtl #page-header-search {
+    right: auto !important;
+    left: 10px;
+}
+
 #page-header-title {
     position: absolute;
     width: 400px;

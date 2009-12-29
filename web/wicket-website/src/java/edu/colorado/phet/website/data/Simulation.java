@@ -38,6 +38,14 @@ public class Simulation implements Serializable {
         return "simulation." + name + ".learningGoals";
     }
 
+    /**
+     * Returns the best matching localized simulation.
+     * <p/>
+     * Note: should be in a Hibernate session, so localizedSimulations is instantiated
+     *
+     * @param bestLocale
+     * @return
+     */
     public LocalizedSimulation getBestLocalizedSimulation( Locale bestLocale ) {
         LocalizedSimulation englishSimulation = null;
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );
@@ -51,6 +59,10 @@ public class Simulation implements Serializable {
             }
         }
         return englishSimulation;
+    }
+
+    public LocalizedSimulation getEnglishSimulation() {
+        return getBestLocalizedSimulation( LocaleUtils.stringToLocale( "en" ) );
     }
 
     public String getThumbnailUrl() {

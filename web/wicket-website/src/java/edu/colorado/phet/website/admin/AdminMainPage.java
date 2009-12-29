@@ -8,6 +8,8 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
 
+import edu.colorado.phet.website.test.LuceneTest;
+import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.StringUtils;
 
 // TODO: move the simulation list panel to a separate page, so if something goes bad, this page is still accessible
@@ -27,7 +29,8 @@ public class AdminMainPage extends AdminPage {
 
         add( new Link( "debug-action" ) {
             public void onClick() {
-
+                //LuceneTest.addSimulations( getHibernateSession(), (PhetLocalizer) getLocalizer(), getNavMenu() );
+                LuceneTest.searchSimulations( getHibernateSession() );
             }
         } );
     }
