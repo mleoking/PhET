@@ -16,13 +16,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameListener;
-import edu.colorado.phet.reactantsproductsandleftovers.view.BoxNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.BracketedLabelNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.GridLayoutNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 
 
 public class GameAfterNode extends GameBoxNode {
