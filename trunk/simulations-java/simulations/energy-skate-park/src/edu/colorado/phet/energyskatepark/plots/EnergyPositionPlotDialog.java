@@ -3,12 +3,13 @@ package edu.colorado.phet.energyskatepark.plots;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.util.ESPPaintImmediateDialog;
 
 /**
  * Author: Sam Reid
  * Jun 29, 2007, 11:17:25 PM
  */
-public class EnergyPositionPlotDialog extends PaintImmediateDialog {
+public class EnergyPositionPlotDialog extends ESPPaintImmediateDialog {
     private EnergyPositionPlot energyPosition;
 
     public EnergyPositionPlotDialog( PhetFrame phetFrame, String title, boolean modal, EnergySkateParkModule energySkateParkModule ) {

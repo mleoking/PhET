@@ -48,6 +48,11 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             }
         } );
         addControl( reset );
+
+//        JButton button = new JButton("Reset 100x");
+//        button.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) { for (int i=0;i<100;i++) module.reset(); } });
+//        addControl(button);
+
         {
             JButton resetSkater = new JButton( EnergySkateParkStrings.getString( "controls.reset-character" ) );
             resetSkater.addActionListener( new ActionListener() {
