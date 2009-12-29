@@ -116,7 +116,7 @@ public class MacroMoleculeLegend extends PNode {
 		icon = new SimpleModelElementNode(mRna, MVT, false);
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.MESSENGER_RNA_LEGEND_CAPTION));;
 		
-		icon = new SimpleModelElementNode(new TransformationArrow(null, new Point2D.Double(0, 0), 5, false), MVT, false);
+		icon = new SimpleModelElementNode(new TransformationArrow(null, new Point2D.Double(0, 0), 5, false, 0), MVT, false);
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.TRANSFORMATION_ARROW_LEGEND_CAPTION));
 		
 		// Add all items to the node.
