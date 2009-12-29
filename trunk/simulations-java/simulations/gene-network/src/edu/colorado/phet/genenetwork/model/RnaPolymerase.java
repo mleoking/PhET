@@ -121,7 +121,7 @@ public class RnaPolymerase extends SimpleModelElement {
 							// is attached, which would block our way.
 							if (getModel().isLacIAttachedToDna()){
 								// Our path is blocked.  Go back or float away?  
-								if (RAND.nextDouble() < 0.90){
+								if (RAND.nextDouble() < 0.80){
 									lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 									if (!previousPromoterAttachmentPartner.requestReattach(this)){
 										// Can't reattach, so wander off.
