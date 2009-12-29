@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -22,38 +24,55 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.game.DevValuesNode.D
 import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionEquationNode;
 import edu.umd.cs.piccolo.PNode;
 
-/*
- * * Canvas for the "Game" module.
+/**
+ * Canvas for the "Game" module.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GameCanvas extends RPALCanvas {
-
+    
+    // node collection names, for managing visibility
+    private static final String GAME_SETTINGS_STATE = "gameSetting";
+    private static final String GAME_SUMMARY_STATE = "gameSummary";
+    private static final String FIRST_ATTEMPT_STATE = "firstAttempt";
+    private static final String FIRST_ATTEMPT_CORRECT_STATE = "firstAttemptCorrect";
+    private static final String FIRST_ATTEMPT_WRONG_STATE = "firstAttemptWrong";
+    private static final String SECOND_ATTEMPT_STATE = "secondAttempt";
+    private static final String SECOND_ATTEMPT_CORRECT_STATE = "secondAttemptCorrect";
+    private static final String SECOND_ATTEMPT_WRONG_STATE = "secondAttemptWrong";
+    private static final String ANSWER_SHOWN_STATE = "answerShown";
+    
+    private static final double BUTTON_X_SPACING = 20;
+    
     private final GameModel model;
-
-    // these nodes are final, allocated once
-    private final PhetPNode gameSettingsNode;
+    private final NodeVisibilityManager visibilityManager;
+    
+    // nodes allocated once, always visible
+    private final PhetPNode parentNode;
+    private final PhetPNode buttonsParentNode;
     private final ScoreboardNode scoreboardNode;
-    private final FaceNode beforeFaceNode, afterFaceNode;
     private final RightArrowNode arrowNode;
     private final ReactionNumberLabelNode reactionNumberLabelNode;
-    private final PhetPNode parentNode;
-    private final GradientButtonNode checkButton, nextButton, tryAgainButton,
-            showAnswerButton;
-    private final PhetPNode buttonsParentNode;
-    private final GameInstructionsNode beforeInstructions, afterInstructions;
+    
+    // nodes allocated once, visibility changes
+    private final PhetPNode gameSettingsNode;
+    private final FaceNode faceNode;
+    private final GradientButtonNode checkButton, nextButton, tryAgainButton, showAnswerButton;
+    private final GameInstructionsNode instructionsNode;
+    private final GameSummaryNode gameSummaryNode;
+    
+    // developer nodes, allocated once, always visible
     private final DevBeforeValuesNode devBeforeValuesNode;
     private final DevAfterValuesNode devAfterValuesNode;
-    private final GameSummaryNode gameSummaryNode;
 
-    // these nodes are mutable, allocated when reaction changes
+    // these nodes are mutable, allocated when reaction changes, always visible
     private RealReactionEquationNode equationNode;
     private GameBeforeNode beforeNode;
     private GameAfterNode afterNode;
 
     public GameCanvas( final GameModel model, Resettable resettable ) {
         super();
-
+        
         // game settings
         gameSettingsNode = new GameSettingsNode( model );
         gameSettingsNode.scale( 1.5 ); //XXX scale
@@ -82,11 +101,9 @@ public class GameCanvas extends RPALCanvas {
         scoreboardNode.scale( 1.5 ); //XXX scale
         parentNode.addChild( scoreboardNode );
 
-        // faces, for indicating correct/incorrect answers
-        beforeFaceNode = new FaceNode();
-        parentNode.addChild( beforeFaceNode );
-        afterFaceNode = new FaceNode();
-        parentNode.addChild( afterFaceNode );
+        // face, for indicating correct/incorrect answers
+        faceNode = new FaceNode();
+        parentNode.addChild( faceNode );
 
         // buttons, all under the same parent, to facilitate moving between Before & After boxes
         buttonsParentNode = new PhetPNode();
@@ -101,10 +118,8 @@ public class GameCanvas extends RPALCanvas {
         buttonsParentNode.addChild( showAnswerButton );
 
         // instructions
-        beforeInstructions = new GameInstructionsNode( RPALStrings.QUESTION_HOW_MANY_REACTANTS );
-        parentNode.addChild( beforeInstructions );
-        afterInstructions = new GameInstructionsNode( RPALStrings.QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS );
-        parentNode.addChild( afterInstructions );
+        instructionsNode = new GameInstructionsNode( "?" ); // text will be set based on challenge type
+        parentNode.addChild( instructionsNode );
 
         // dev nodes
         devBeforeValuesNode = new DevBeforeValuesNode( model );
@@ -144,68 +159,82 @@ public class GameCanvas extends RPALCanvas {
 
         } );
 
+        // when any button's visibility changes, update the layout of the buttons
+        PropertyChangeListener buttonVisibilityListener = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                if ( evt.getPropertyName() == PNode.PROPERTY_VISIBLE ) {
+                    updateButtonsLayout();
+                }
+            }
+        };
+        
         // Check button checks the user's solution
         checkButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                System.out.println( "GameCanvas.checkButton.actionPerformed" ); //XXX
-                boolean correct = model.checkAnswer();
-                if ( correct ) {
-                    //XXX
-                }
-                else {
-                    //XXX
-                }
+                checkButtonPressed();
             }
         } );
+        checkButton.addPropertyChangeListener( buttonVisibilityListener );
 
         // Next button advanced to the next challenge
         nextButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.nextChallenge();
+                nextButtonPressed();
             }
         } );
+        nextButton.addPropertyChangeListener( buttonVisibilityListener );
 
         // Try Again button lets the user make another attempt
         tryAgainButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                System.out.println( "GameCanvas.tryAgainButton.actionPerformed" ); //XXX
+                tryAgainButtonPressed();
             }
         } );
+        tryAgainButton.addPropertyChangeListener( buttonVisibilityListener );
 
         // Show Answer button shows the answer
         showAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                System.out.println( "GameCanvas.showAnswerButton.actionPerformed" ); //XXX
+                showAnswerButtonPressed();
             }
         } );
-
+        showAnswerButton.addPropertyChangeListener( buttonVisibilityListener );
+        
+        // visibility management
+        PNode[] allNodes = { gameSettingsNode, gameSummaryNode, parentNode, checkButton, nextButton, tryAgainButton, showAnswerButton, faceNode, instructionsNode };
+        visibilityManager = new NodeVisibilityManager( allNodes );
+        initVisibilityManager();
+        
         // initial state
         updateNodes();
-        gameSettingsNode.setVisible( true );
-        gameSummaryNode.setVisible( false );
-        parentNode.setVisible( false );
+        updateButtonsLayout();
+        visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
-    // User requested to start a new game, show the Game Settings panel.
+    private void initVisibilityManager() {
+        visibilityManager.add( GAME_SETTINGS_STATE, gameSettingsNode );
+        visibilityManager.add( FIRST_ATTEMPT_STATE, parentNode, checkButton, instructionsNode );
+        visibilityManager.add( FIRST_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode );
+        visibilityManager.add( FIRST_ATTEMPT_WRONG_STATE, parentNode, tryAgainButton, faceNode );
+        visibilityManager.add( SECOND_ATTEMPT_STATE, parentNode, checkButton, instructionsNode );
+        visibilityManager.add( SECOND_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode );
+        visibilityManager.add( SECOND_ATTEMPT_WRONG_STATE, parentNode, nextButton, showAnswerButton, faceNode );
+        visibilityManager.add( ANSWER_SHOWN_STATE, parentNode, nextButton );
+        visibilityManager.add( GAME_SUMMARY_STATE, gameSummaryNode, parentNode );
+    }
+    
     private void handleNewGame() {
-        gameSettingsNode.setVisible( true );
-        gameSummaryNode.setVisible( false );
-        parentNode.setVisible( false );
+        visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
-    // When a game starts, hide the Game Settings panel.
     private void handleGameStarted() {
-        gameSettingsNode.setVisible( false );
-        gameSummaryNode.setVisible( false );
-        parentNode.setVisible( true );
+        visibilityManager.setVisibility( FIRST_ATTEMPT_STATE );
     }
     
-    // When a game has been fully completed, show the game summary.
     private void handleGameCompleted() {
-        gameSummaryNode.setVisible( true );
+        visibilityManager.setVisibility( GAME_SUMMARY_STATE );
     }
 
-    // When a game is aborted, show the game settings panel.
     private void handleGameAborted() {
         gameSettingsNode.setVisible( true );
         gameSummaryNode.setVisible( false );
@@ -214,7 +243,42 @@ public class GameCanvas extends RPALCanvas {
     
     // When the challenge changes, rebuild dynamic nodes.
     private void handleChallengeChanged() {
+        visibilityManager.setVisibility( FIRST_ATTEMPT_STATE );
         updateNodes();
+    }
+    
+    private void checkButtonPressed() {
+        boolean correct = model.checkAnswer();
+        if ( correct ) {
+            faceNode.smile();
+            if ( model.getAttempts() == 1 ) {
+                visibilityManager.setVisibility( FIRST_ATTEMPT_CORRECT_STATE );
+            }
+            else {
+                visibilityManager.setVisibility( SECOND_ATTEMPT_CORRECT_STATE );
+            }
+        }
+        else {
+            faceNode.frown();
+            if ( model.getAttempts() == 1 ) {
+                visibilityManager.setVisibility( FIRST_ATTEMPT_WRONG_STATE );
+            }
+            else {
+                visibilityManager.setVisibility( SECOND_ATTEMPT_WRONG_STATE );
+            }
+        }
+    }
+    
+    private void nextButtonPressed() {
+        model.nextChallenge();
+    }
+    
+    private void tryAgainButtonPressed() {
+        visibilityManager.setVisibility( SECOND_ATTEMPT_STATE );
+    }
+    
+    private void showAnswerButtonPressed() {
+        visibilityManager.setVisibility( ANSWER_SHOWN_STATE );
     }
     
     private void updateNodes() {
@@ -240,13 +304,11 @@ public class GameCanvas extends RPALCanvas {
         parentNode.addChild( afterNode );
 
         // move a bunch of static nodes to the front
-        beforeFaceNode.moveToFront();
-        afterFaceNode.moveToFront();
-        buttonsParentNode.moveToFront();
-        beforeInstructions.moveToFront();
-        afterInstructions.moveToFront();
         devBeforeValuesNode.moveToFront();
         devAfterValuesNode.moveToFront();
+        buttonsParentNode.moveToFront();
+        faceNode.moveToFront();
+        instructionsNode.moveToFront();
 
         updateNodesLayout();
     }
@@ -285,54 +347,35 @@ public class GameCanvas extends RPALCanvas {
         y = Math.max( beforeNode.getFullBoundsReference().getMaxY(), afterNode.getFullBoundsReference().getMaxY() ) + 10;
         scoreboardNode.setOffset( x, y );
 
-        // faces in upper center of Before box
-        x = beforeNode.getFullBoundsReference().getCenterX() - ( beforeFaceNode.getFullBoundsReference().getWidth() / 2 );
-        y = beforeNode.getYOffset() + 20;
-        beforeFaceNode.setOffset( x, y );
-
-        // face in upper center of After box
-        x = afterNode.getFullBoundsReference().getCenterX() - ( afterFaceNode.getFullBoundsReference().getWidth() / 2 );
-        y = afterNode.getYOffset() + 20;
-        afterFaceNode.setOffset( x, y );
-
-        // buttons
+        // face centered in proper box
         {
-            //XXX arrange all buttons in a row for now
-            x = 0;
-            y = 0;
-            checkButton.setOffset( x, y );
-            x = checkButton.getFullBoundsReference().getMaxX() + 10;
-            y = checkButton.getYOffset();
-            nextButton.setOffset( x, y );
-            x = nextButton.getFullBoundsReference().getMaxX() + 10;
-            y = nextButton.getYOffset();
-            tryAgainButton.setOffset( x, y );
-            x = tryAgainButton.getFullBoundsReference().getMaxX() + 10;
-            y = tryAgainButton.getYOffset();
-            showAnswerButton.setOffset( x, y );
-
-            // put buttons at bottom center of the proper box
-            PNode challengeBoxNode = beforeNode;
+            GameBoxNode boxNode = null;
             if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
-                challengeBoxNode = afterNode;
+                boxNode = afterNode;
             }
-            double boxWidth = beforeNode.getBoxWidth(); //XXX boxes should be the same size, but should call challengeBoxNode.getBoxWidth
-            double boxHeight = beforeNode.getBoxHeight(); //XXX boxes should be the same size, but should call challengeBoxNode.getBoxHeight 
-            x = challengeBoxNode.getXOffset() + ( ( boxWidth - buttonsParentNode.getFullBoundsReference().getWidth() ) / 2 );
-            y = challengeBoxNode.getYOffset() + boxHeight - buttonsParentNode.getFullBoundsReference().getHeight() - 10;
-            buttonsParentNode.setOffset( x, y );
+            else {
+                boxNode = beforeNode;
+            }
+            x = boxNode.getXOffset() + ( ( boxNode.getBoxWidth() - faceNode.getFullBoundsReference().getWidth() ) / 2 );
+            y = boxNode.getYOffset() + ( ( boxNode.getBoxHeight() - faceNode.getFullBoundsReference().getHeight() ) / 2 );
+            faceNode.setOffset( x, y );
         }
-
-        // instructions centered in Before box
-        x = beforeNode.getXOffset() + ( ( beforeNode.getBoxWidth() - beforeInstructions.getFullBoundsReference().getWidth() ) / 2 );
-        y = beforeNode.getYOffset() + ( ( beforeNode.getBoxHeight() - beforeInstructions.getFullBoundsReference().getHeight() ) / 2 );
-        beforeInstructions.setOffset( x, y );
-
-        // instructions centered in After box
-        x = afterNode.getXOffset() + ( ( afterNode.getBoxWidth() - afterInstructions.getFullBoundsReference().getWidth() ) / 2 );
-        y = afterNode.getYOffset() + ( ( afterNode.getBoxHeight() - afterInstructions.getFullBoundsReference().getHeight() ) / 2 );
-        ;
-        afterInstructions.setOffset( x, y );
+       
+        // instructions centered in proper box
+        {
+            GameBoxNode boxNode = null;
+            if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+                instructionsNode.setText( RPALStrings.QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS );
+                boxNode = afterNode;
+            }
+            else {
+                instructionsNode.setText( RPALStrings.QUESTION_HOW_MANY_REACTANTS );
+                boxNode = beforeNode;
+            }
+            x = boxNode.getXOffset() + ( ( boxNode.getBoxWidth() - instructionsNode.getFullBoundsReference().getWidth() ) / 2 );
+            y = boxNode.getYOffset() + ( ( boxNode.getBoxHeight() - instructionsNode.getFullBoundsReference().getHeight() ) / 2 );
+            instructionsNode.setOffset( x, y );
+        }
 
         // dev values in upper-left of Before box
         x = beforeNode.getXOffset() + 10;
@@ -353,6 +396,36 @@ public class GameCanvas extends RPALCanvas {
         x = parentNode.getFullBoundsReference().getCenterX() - ( gameSettingsNode.getFullBoundsReference().getWidth() / 2 );
         y = parentNode.getFullBoundsReference().getCenterY() - ( gameSettingsNode.getFullBoundsReference().getHeight() / 2 );
         gameSettingsNode.setOffset( x, y );
+    }
+    
+    private void updateButtonsLayout() {
+        
+        // arrange all visible buttons in a row
+        double x = 0;
+        double y = 0;
+        double buttonMaxX = 0;
+        double buttonMaxY = 0;
+        for ( int i = 0; i < buttonsParentNode.getChildrenCount(); i++ ) {
+            PNode child = buttonsParentNode.getChild( i );
+            if ( child.getVisible() ) {
+                child.setOffset( x, y );
+                x += child.getFullBoundsReference().getWidth() + BUTTON_X_SPACING;
+                buttonMaxX = child.getFullBoundsReference().getMaxX();
+                buttonMaxY = child.getFullBoundsReference().getMaxY();
+            }
+        }
+        
+        // put visible buttons at bottom center of the proper box
+        GameBoxNode boxNode = null;
+        if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+            boxNode = afterNode;
+        }
+        else {
+            boxNode = beforeNode;
+        }
+        x = boxNode.getXOffset() + ( ( boxNode.getBoxWidth() - buttonMaxX ) / 2 );
+        y = boxNode.getYOffset() + boxNode.getBoxHeight() - buttonMaxY - 10;
+        buttonsParentNode.setOffset( x, y );
     }
 
     /*
