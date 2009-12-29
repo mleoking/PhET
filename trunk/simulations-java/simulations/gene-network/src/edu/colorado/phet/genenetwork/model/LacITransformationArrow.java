@@ -18,7 +18,7 @@ public class LacITransformationArrow extends TransformationArrow {
 
 	@Override
 	protected void onTransitionToExistingState() {
-		// Time to add our LacZ to the model.
+		// Time to add our LacI to the model.
 		lacIToAddToModel.setPosition(getPositionRef().getX(), getPositionRef().getY() + 5);
 		getModel().addLacI(lacIToAddToModel);
 	}
