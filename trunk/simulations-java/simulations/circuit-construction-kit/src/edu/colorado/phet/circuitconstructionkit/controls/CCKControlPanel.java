@@ -268,10 +268,14 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         } );
 
         JPanel visualizationPanel = new VerticalLayoutPanel();
-        visualizationPanel.add( lifelike );
+
+        JPanel radioButtons = new JPanel();
+
+        radioButtons.add( lifelike );
         if ( module.getParameters().allowSchematicMode() ) {
-            visualizationPanel.add( schematic );
+            radioButtons.add( schematic );
         }
+        visualizationPanel.add(radioButtons);
         if ( module.getParameters().allowShowReadouts() ) {
             visualizationPanel.add( new ShowReadoutPanel( module ) );
         }
