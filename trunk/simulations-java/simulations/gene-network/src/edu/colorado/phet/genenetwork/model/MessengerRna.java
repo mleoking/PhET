@@ -38,6 +38,10 @@ public abstract class MessengerRna extends SimpleModelElement {
 	// Used so that every strand looks a little different.
 	private static final Random RAND = new Random();
 	
+	// Constants that control when spawning occurs.
+	private static final double TIME_TO_FIRST_SPAWNING = 7; // In seconds.
+	private static final double TIME_BETWEEN_SPAWNINGS = 2; // In seconds.
+	
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
@@ -46,25 +50,37 @@ public abstract class MessengerRna extends SimpleModelElement {
 	private ArrayList<Point2D> points = new ArrayList<Point2D>();
 	private boolean fullyFormed = false;
 	
+	// Counter that tracks the number of "offspring" left to be spawned. 
+	private int spawnCounter;
+	
+	// Count down timer for the next spawning event.
+	private double spawningCountdownTimer = TIME_TO_FIRST_SPAWNING;
+	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
 	//----------------------------------------------------------------------------
 	
-	public MessengerRna(IGeneNetworkModelControl model, Point2D initialPosition, double initialLength,
-			boolean fadeIn, double existenceTime) {
-		super(model, createInitialShape(), initialPosition, ELEMENT_PAINT, fadeIn, existenceTime);
+	public MessengerRna(IGeneNetworkModelControl model, Point2D initialPosition, double initialLength, int spawnCount, boolean fadeIn) {
+		super(model, createInitialShape(), initialPosition, ELEMENT_PAINT, fadeIn, Double.POSITIVE_INFINITY);
+		this.spawnCounter = spawnCount;
 		while (length < initialLength){
 			grow(GROWTH_SEGMENT_LENGTH);
 		}
 	}
 	
-	public MessengerRna(IGeneNetworkModelControl model, double initialLength, boolean fadeIn, double existenceTime) {
-		this(model, new Point2D.Double(0, 0), initialLength, fadeIn, existenceTime);
+	public MessengerRna(IGeneNetworkModelControl model, double initialLength, int spawnCount, boolean fadeIn) {
+		this(model, new Point2D.Double(0, 0), initialLength, spawnCount, fadeIn);
 	}
 
 	//----------------------------------------------------------------------------
 	// Methods
 	//----------------------------------------------------------------------------
+	
+	/**
+	 * Method that is called when it is time to spawn.  Must be overridden in
+	 * descendent classes.
+	 */
+	abstract protected void spawn();
 	
 	/**
 	 * Grow the RNA strand by the specified length.
@@ -121,6 +137,10 @@ public abstract class MessengerRna extends SimpleModelElement {
 		length += growthAmount;
 	}
 	
+	public int getSpawnCounter() {
+		return spawnCounter;
+	}
+
 	/**
 	 * Set whether this mRNA strand is "fully formed", meaning that it is
 	 * capable of producing its target macromolecule.
@@ -155,6 +175,44 @@ public abstract class MessengerRna extends SimpleModelElement {
 		RAND.setSeed(System.currentTimeMillis());
 	}
 	
+	@Override
+	public void stepInTime(double dt) {
+		
+		if (spawningCountdownTimer != Double.POSITIVE_INFINITY){
+	
+			spawningCountdownTimer -= dt;
+			
+			// Time to spawn?
+			if (spawningCountdownTimer <= 0){
+				if (!isFullyFormed()){
+					// This mRNA was not fully formed, so it can't spawn.  Just
+					// start fading out.
+					setExistenceTime(0);
+					spawningCountdownTimer = Double.POSITIVE_INFINITY;
+				}
+				else{
+					if (spawnCounter > 0){
+						// Time to spawn a new whatever.
+						spawn();
+						spawnCounter--;
+					}
+					if (spawnCounter > 0){
+						// Set time until next spawning.
+						spawningCountdownTimer = TIME_BETWEEN_SPAWNINGS;
+					}
+					else{
+						// We've done all the spawning that we need to, so it's
+						// time to start fading away.
+						setExistenceTime(0);
+						spawningCountdownTimer = Double.POSITIVE_INFINITY;
+					}
+				}
+			}
+		}
+		
+		super.stepInTime(dt);
+	}
+
 	private static Shape createInitialShape(){
 		return new Ellipse2D.Double(-THICKNESS / 2, -THICKNESS / 2, THICKNESS, THICKNESS);
 	}
