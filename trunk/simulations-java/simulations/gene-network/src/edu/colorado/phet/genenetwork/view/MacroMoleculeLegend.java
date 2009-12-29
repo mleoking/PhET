@@ -56,8 +56,10 @@ public class MacroMoleculeLegend extends PNode {
 	// A local model-view transform that is used to scale the simple model
 	// elements that appear on the legend.  The size is empirically
 	// determined, tweak as needed for optimal sizing.
+	private static final double SCALING_FACTOR = 0.75;
+	private static final double BASE_SIZE = 5 * SCALING_FACTOR;
 	private static final ModelViewTransform2D MVT = new ModelViewTransform2D(new Rectangle2D.Double(-1, -1, 2, 2),
-			new Rectangle2D.Double(-4, -4, 8, 8), true );
+			new Rectangle2D.Double(-BASE_SIZE, -BASE_SIZE, BASE_SIZE * 2, BASE_SIZE * 2), true );
 	
     //------------------------------------------------------------------------
     // Instance Data
