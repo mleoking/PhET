@@ -3,12 +3,13 @@ package edu.colorado.phet.energyskatepark.plots;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.util.ESPPaintImmediateDialog;
 
 /**
  * Author: Sam Reid
  * Jun 29, 2007, 11:12:57 PM
  */
-public class BarChartDialog extends PaintImmediateDialog {
+public class BarChartDialog extends ESPPaintImmediateDialog {
     private BarGraphCanvas barGraphCanvas;
 
     public BarChartDialog( PhetFrame phetFrame, String title, boolean modal, EnergySkateParkModule module ) {

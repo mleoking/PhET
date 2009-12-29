@@ -15,7 +15,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -23,13 +22,14 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
+import edu.colorado.phet.energyskatepark.util.ESPPaintImmediateDialog;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 /**
  * Author: Sam Reid
  * Mar 30, 2007, 1:16:29 PM
  */
-public class ChooseCharacterDialog extends PaintImmediateDialog {
+public class ChooseCharacterDialog extends ESPPaintImmediateDialog {
     private JPanel contentPanel = new JPanel( new GridBagLayout() );
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private ArrayList characterPanels = new ArrayList();
