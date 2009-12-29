@@ -81,6 +81,7 @@ public class PhetWicketApplication extends WebApplication {
         StaticPage.addToMapper( mapper );
         IndexPage.addToMapper( mapper );
         SimsByKeywordPage.addToMapper( mapper );
+        SearchResultsPage.addToMapper( mapper );
 
         // set up the custom localizer
         getResourceSettings().setLocalizer( new PhetLocalizer() );
