@@ -93,7 +93,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         getModulePanel().setClockControlPanel( timePanel );
 
         setDefaults();
-        setLogoPanelVisible( Toolkit.getDefaultToolkit().getScreenSize().height > 768 );
+        setLogoPanelVisible( false );
         new WiggleMeInSpace( this ).start();
 
         final HelpBalloon trackHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString("help.grab-a-track"), HelpBalloon.TOP_CENTER, 20 );

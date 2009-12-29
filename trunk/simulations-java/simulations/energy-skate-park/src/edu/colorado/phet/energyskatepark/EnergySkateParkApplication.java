@@ -86,7 +86,6 @@ public class EnergySkateParkApplication extends PhetApplication {
 
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, EnergySkateParkConstants.PROJECT_NAME );
         appConfig.setLookAndFeel( new EnergySkateParkLookAndFeel() );
-        appConfig.setFrameSetup( new EnergySkateParkFrameSetup() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 
