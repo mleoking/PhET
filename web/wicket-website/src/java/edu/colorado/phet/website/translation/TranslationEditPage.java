@@ -12,7 +12,7 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.panels.PanelHolder;
-import edu.colorado.phet.website.translation.entities.CommonEntity;
+import edu.colorado.phet.website.translation.entities.TranslationEntity;
 
 public class TranslationEditPage extends TranslationPage {
     private int translationId;
@@ -60,9 +60,9 @@ public class TranslationEditPage extends TranslationPage {
 
         panelHolder = new PanelHolder( "translation-panel", getPageContext() );
         add( panelHolder );
-        CommonEntity commonEntity = new CommonEntity();
-        selectedEntityName = commonEntity.getDisplayName();
-        subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), this, commonEntity, translationId, testLocale );
+        TranslationEntity firstEntity = TranslationEntity.getTranslationEntities().get( 0 );
+        selectedEntityName = firstEntity.getDisplayName();
+        subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), this, firstEntity, translationId, testLocale );
         panelHolder.add( subPanel );
 
         entityListPanel = new TranslationEntityListPanel( "entity-list-panel", getPageContext(), this );

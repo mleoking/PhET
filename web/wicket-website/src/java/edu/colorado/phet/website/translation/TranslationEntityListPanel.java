@@ -3,6 +3,7 @@ package edu.colorado.phet.website.translation;
 import java.io.Serializable;
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -27,6 +28,8 @@ import edu.colorado.phet.website.util.PageContext;
 public class TranslationEntityListPanel extends PhetPanel {
 
     private int translationId;
+
+    private static Logger logger = Logger.getLogger( TranslationEntityListPanel.class.getName() );
 
     public TranslationEntityListPanel( String id, PageContext context, final TranslationEditPage page ) {
         super( id, context );
@@ -126,6 +129,7 @@ public class TranslationEntityListPanel extends PhetPanel {
     }
 
     private void initializeEntities() {
+        logger.debug( "initializing entries for translation id " + translationId );
         final List<TranslationEntity> entities = TranslationEntity.getTranslationEntities();
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
@@ -167,6 +171,8 @@ public class TranslationEntityListPanel extends PhetPanel {
                     }
                     entity.getUntranslatedMap().put( translationId, untranslated );
                     entity.getOutOfDateMap().put( translationId, outOfDate );
+                    logger.debug( entity.getDisplayName() + " untranslated: " + untranslated );
+                    logger.debug( entity.getDisplayName() + " outOfDate: " + outOfDate );
                 }
                 return true;
             }
