@@ -21,6 +21,15 @@ public class Keyword implements Serializable {
         }
     }
 
+    public String getLocalizationKey() {
+        if ( key.startsWith( "keyword." ) ) {
+            return key;
+        }
+        else {
+            return "keyword." + key;
+        }
+    }
+
     public Keyword() {
     }
 
