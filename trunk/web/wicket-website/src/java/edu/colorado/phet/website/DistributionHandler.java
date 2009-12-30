@@ -1,5 +1,7 @@
 package edu.colorado.phet.website;
 
+import org.apache.log4j.Logger;
+
 import edu.colorado.phet.website.content.ContributePanel;
 import edu.colorado.phet.website.content.FullInstallPanel;
 import edu.colorado.phet.website.content.ResearchPanel;
@@ -12,7 +14,30 @@ import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPane
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
+/**
+ * Consolidated spot for determining behaviors that might change based on distribution / ripping method. Thus we display
+ * different information for the main website, the installers, website installers, etc.
+ * <p/>
+ * Most static methods take as input the PhetRequestCycle, easily obtainable with getPhetCycle() in subclasses of
+ * PhetPage and PhetPanel. The cycle contains user-agent information that is used.
+ */
 public class DistributionHandler {
+
+    private static Logger logger = Logger.getLogger( DistributionHandler.class.getName() );
+
+    private DistributionHandler() {
+        // don't instantiate
+        throw new AssertionError();
+    }
+
+    /**
+     * Whether or not to display links for non-English (or non-Arabic for KSU) JARs. Thus we don't have all of the
+     * translation JARs ripped in certain instances
+     *
+     * @param cycle Request cycle
+     * @param lsim  The translated simulation in question (with the specific Locale)
+     * @return Whether or not to display a link to the JAR
+     */
     public static boolean displayJARLink( PhetRequestCycle cycle, LocalizedSimulation lsim ) {
         String localeString = lsim.getLocaleString();
         if ( cycle.isKsuRipperRequest() ) {
@@ -23,14 +48,32 @@ public class DistributionHandler {
         }
     }
 
+    /**
+     * Whether or not to display links to other translations
+     *
+     * @param cycle Request cycle
+     * @return Whether or not to display links to other translations
+     */
     public static boolean displayTranslationLinksPanel( PhetRequestCycle cycle ) {
         return !cycle.isYoungAndFreedmanRipperRequest();
     }
 
+    /**
+     * Whether or not to display the link to edit translations.
+     *
+     * @param cycle Request cycle
+     * @return Whether or not to display the link to edit translations
+     */
     public static boolean displayTranslationEditLink( PhetRequestCycle cycle ) {
-        return !cycle.isYoungAndFreedmanRipperRequest();
+        return !cycle.isInstaller();
     }
 
+    /**
+     * Whether or not to redirect links to English pages to the main PhET website phet.colorado.edu
+     *
+     * @param cycle Request cycle
+     * @return Whether or not to redirect links to English pages to the main PhET website phet.colorado.edu
+     */
     public static boolean redirectEnglishLinkToPhetMain( PhetRequestCycle cycle ) {
         return cycle.isKsuRipperRequest();
     }
