@@ -14,5 +14,19 @@
             <key column="user_id"/>
             <many-to-many class="edu.colorado.phet.website.data.Translation" column="translation_id"/>
         </set>
+        <property name="name"/>
+        <property name="organization"/>
+        <property name="description"/>
+        <property name="jobTitle"/>
+        <property name="address1"/>
+        <property name="address2"/>
+        <property name="city"/>
+        <property name="state"/>
+        <property name="country"/>
+        <property name="zipcode"/>
+        <property name="phone1"/>
+        <property name="phone2"/>
+        <property name="fax"/>
+        <property name="receiveEmail"/>
     </class>
 </hibernate-mapping>
