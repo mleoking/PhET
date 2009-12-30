@@ -35,6 +35,10 @@ public class DistributionHandler {
         return cycle.isKsuRipperRequest();
     }
 
+    public static boolean displayLogin( PhetRequestCycle cycle ) {
+        return !cycle.isInstaller();
+    }
+
     /**
      * Pages which we want all links to them to point to phet.colorado.edu sub-sites (depend on the particular page)
      * Young & Freedman specific
