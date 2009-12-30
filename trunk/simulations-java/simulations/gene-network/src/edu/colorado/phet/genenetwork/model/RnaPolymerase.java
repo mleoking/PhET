@@ -192,7 +192,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	private void freeMessengerRna(boolean fullyFormed) {
 		mRna.setFullyFormed(fullyFormed);
 		mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
-				new Vector2D.Double(0, 2), 10));
+				new Vector2D.Double(0, 4), 10));
 		mRna = null;
 	}
 	
@@ -269,23 +269,6 @@ public class RnaPolymerase extends SimpleModelElement {
 		}
 		previousPromoterAttachmentPartner = promoterAttachmentPartner;
 		promoterAttachmentPartner = null;
-	}
-	
-	/**
-	 * Simulate a motion that is meant to look like this polymerase molecule
-	 * bumps against the LacI that is on the DNA strand and is thus blocked
-	 * from proceeding, and so returns to its original position.
-	 */
-	public void doLacIBump(){
-		
-		// This is set up to moved a fixed, hard-coded distance and then
-		// return.  At some point, it may be desirable to make this more
-		// "real", in the sense that it would detect when it comes in contact
-		// with the LacI and turn around at that point.  For now (Dec 17 2009),
-		// this is the quickest and easiest way to get the desired behavior.
-		double distanceToTravel = 1; // In nanometers.
-		Point2D turnAroundPoint = new Point2D.Double(getPositionRef().getX() + distanceToTravel, getPositionRef().getY());
-		setMotionStrategy(new ThereAndBackMotionStrategy(this, turnAroundPoint, LacOperonModel.getMotionBounds(), 5));
 	}
 	
 	private void detachFromDna(){
