@@ -21,4 +21,10 @@ public class AuthenticatedPage extends PhetPage {
         return PhetSession.get().getUser();
     }
 
+    public static void checkSignedIn() {
+        if ( !PhetSession.get().isSignedIn() ) {
+            throw new RestartResponseAtInterceptPageException( SignInPage.class );
+        }
+    }
+
 }
