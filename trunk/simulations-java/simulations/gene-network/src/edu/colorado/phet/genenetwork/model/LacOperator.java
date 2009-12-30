@@ -9,7 +9,6 @@ import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -110,16 +109,12 @@ public class LacOperator extends SimpleModelElement {
 	private void attemptToStartAttaching(){
 		assert lacIAttachmentPartner == null;
 		// Search for a partner to attach to.
-		ArrayList<LacI> potentialPartnerList = getModel().getLacIList();
-		
-		for (LacI lacI : potentialPartnerList){
-			if (getPositionRef().distance(lacI.getPositionRef()) < ATTACHMENT_INITIATION_RANGE){
-				if (lacI.considerProposalFrom(this)){
-					// Attachment formed.
-					lacIAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
-					lacIAttachmentPartner = lacI;
-					break;
-				}
+		LacI lacI = getModel().getNearestFreeLacI(getPositionRef());
+		if (lacI != null){
+			if (lacI.considerProposalFrom(this)){
+				// Attachment formed.
+				lacIAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+				lacIAttachmentPartner = lacI;
 			}
 		}
 	}

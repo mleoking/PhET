@@ -6,7 +6,6 @@ import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Random;
 
 import edu.umd.cs.piccolo.util.PDimension;
@@ -165,16 +164,12 @@ public abstract class Promoter extends SimpleModelElement {
 	private void attemptToStartAttaching(){
 		assert rnaPolymeraseAttachmentPartner == null;
 		// Search for a partner to attach to.
-		ArrayList<RnaPolymerase> potentialPartnerList = getModel().getRnaPolymeraseList();
-		
-		for (RnaPolymerase rnaPolymerase : potentialPartnerList){
-			if (getPositionRef().distance(rnaPolymerase.getPositionRef()) < ATTACHMENT_INITIATION_RANGE){
-				if (rnaPolymerase.considerProposalFrom(this)){
-					// Proposal accepted.
-					rnaPolymeraseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
-					rnaPolymeraseAttachmentPartner = rnaPolymerase;
-					break;
-				}
+		RnaPolymerase rnaPolymerase = getModel().getNearestFreeRnaPolymerase(getPositionRef());
+		if (rnaPolymerase != null){
+			if (rnaPolymerase.considerProposalFrom(this)){
+				// Attachment formed.
+				rnaPolymeraseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+				rnaPolymeraseAttachmentPartner = rnaPolymerase;
 			}
 		}
 	}
