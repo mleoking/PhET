@@ -10,19 +10,18 @@ import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.model.IModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.menu.NavMenu;
+import edu.colorado.phet.website.panels.LogInOutPanel;
 import edu.colorado.phet.website.panels.SearchPanel;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
@@ -126,19 +125,7 @@ public abstract class PhetPage extends WebPage {
                 add( new InvisibleComponent( "translation-preview-notification" ) );
             }
 
-            // TODO: change sign out link to a mini panel with options (one of which will be to sign out)
-            final PhetSession psession = PhetSession.get();
-            if ( psession != null && psession.isSignedIn() ) {
-                add( new StatelessLink( "sign-out" ) {
-                    public void onClick() {
-                        PhetSession.get().signOut();
-                        setResponsePage( IndexPage.class );
-                    }
-                } );
-            }
-            else {
-                add( new InvisibleComponent( "sign-out" ) );
-            }
+            add( new LogInOutPanel( "log-in-out-panel", getPageContext() ) );
         }
 
         logger.debug( "request cycle is a : " + getRequestCycle().getClass().getSimpleName() );

@@ -72,7 +72,7 @@ div.rtl #page-header-title {
 /*margin: 0 auto;*/
 }
 
-.sign-out {
+.log-in-out {
     position: absolute;
     text-align: right;
     top: 0;
@@ -81,7 +81,7 @@ div.rtl #page-header-title {
     padding: 1em;
 }
 
-.sign-out a {
+.log-in-out a {
     color: white;
 }
 
