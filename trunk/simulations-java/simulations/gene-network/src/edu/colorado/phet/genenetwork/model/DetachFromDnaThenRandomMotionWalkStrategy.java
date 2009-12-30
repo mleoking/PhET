@@ -20,11 +20,14 @@ public class DetachFromDnaThenRandomMotionWalkStrategy extends RandomWalkMotionS
 	private static double MOVE_UP_TIME = 3; // In seconds.
 	private static Random RAND = new Random();
 
+	private double delayCounter;
 	private double upwardMovementCounter = MOVE_UP_TIME;
 	private Vector2D initialVelocity = new Vector2D.Double();
 	
-	public DetachFromDnaThenRandomMotionWalkStrategy( IModelElement modelElement, Rectangle2D bounds ) {
+	public DetachFromDnaThenRandomMotionWalkStrategy( IModelElement modelElement, Rectangle2D bounds, double delay ) {
 		super(modelElement, bounds);
+		
+		delayCounter = delay;
 		
 		double initialTotalVelocity = RAND.nextDouble() * (MAX_VELOCITY - MIN_VELOCITY) + MIN_VELOCITY;
 		double initialAngle = Math.PI / 4.0 + (RAND.nextDouble() * (Math.PI / 2.0));
@@ -35,14 +38,19 @@ public class DetachFromDnaThenRandomMotionWalkStrategy extends RandomWalkMotionS
 	@Override
 	public void updatePositionAndMotion(double dt) {
 
-		if (upwardMovementCounter > 0){
+		if (delayCounter > 0){
+			// Do nothing.
+			delayCounter -= dt;
+		}
+		else if (upwardMovementCounter > 0){
+			// Move up.
 			upwardMovementCounter -= dt;
 			Point2D currentPos = getModelElement().getPositionRef();
 			getModelElement().setPosition( currentPos.getX() + initialVelocity.getX() * dt, 
 					currentPos.getY() + initialVelocity.getY() * dt);
 		}
 		else{
-			// Done moving up, so just do random walk.
+			// Done delaying and moving up, so just do random walk.
 			super.updatePositionAndMotion(dt);
 		}
 	}

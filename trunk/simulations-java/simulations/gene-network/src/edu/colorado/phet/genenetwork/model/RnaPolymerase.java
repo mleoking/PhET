@@ -283,7 +283,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	private void detachFromDna(){
 		transcribing = false;
 		traversing = false;
-		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsAboveDna(), 2));
 		recoveryCountdownTimer = RECOVERY_TIME;
 	}
 	
