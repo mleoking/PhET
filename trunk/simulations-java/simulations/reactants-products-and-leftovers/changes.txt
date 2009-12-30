@@ -1,3 +1,5 @@
+12/29/09 infrastructure for showing images corresponding to user's guess in Game
+12/29/09 show images that correspond to correct answer in Game
 12/29/09 switch values below Game boxes to show correct answer when requested
 12/29/09 control editability of values below Game boxes
 12/29/09 update layout of Game buttons when visibility of buttons changes
