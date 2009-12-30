@@ -210,7 +210,7 @@ public class LacI extends SimpleModelElement {
 			glucoseAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
 				
 			// Look for some lactose to attach to.
-			glucoseAttachmentPartner = getModel().findNearestFreeLactose(getPositionRef());
+			glucoseAttachmentPartner = getModel().getNearestFreeLactose(getPositionRef());
 			
 			if (glucoseAttachmentPartner != null){
 				// We found a lactose that is free, so start the process of
@@ -308,6 +308,10 @@ public class LacI extends SimpleModelElement {
 		return proposalAccepted;
 	}
 	
+	public boolean isAvailableForAttaching(){
+		return (lacOperatorAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE);
+	}
+	
 	public void attach(LacOperator lacOperator){
 		if (lacOperator != lacOperatorAttachmentPartner){
 			System.err.println(getClass().getName() + " - Error: Finalize request from non-partner.");
@@ -341,7 +345,19 @@ public class LacI extends SimpleModelElement {
 		lacOperatorAttachmentPartner = null;
 		lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		unavailableTimeCountdown = UNAVAILABLE_TIME;
-		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBounds()));
-		setOkayToFade(true);
+		
+		// It is now okay to fade out if we don't have a relationship with a
+		// lactose molecule.
+		if (glucoseAttachmentPartner == null){
+			setOkayToFade(true);
+			setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBounds()));
+		}
+		else{
+			Dimension2D offsetFromTarget = new PDimension(
+					Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
+					Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
+			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(this, glucoseAttachmentPartner, offsetFromTarget, 
+					LacOperonModel.getMotionBounds()));
+		}
 	}
 }
