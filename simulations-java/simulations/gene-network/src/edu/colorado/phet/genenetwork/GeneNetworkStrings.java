@@ -14,11 +14,8 @@ public class GeneNetworkStrings {
     private GeneNetworkStrings() {}
     
     public static final String TITLE_LACTOSE_REGULATION = GeneNetworkResources.getString( "ModuleTitle.LactoseRegulation" );
-    public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
 
     public static final String UNITS_TIME = GeneNetworkResources.getString( "units.time" );
-    
-    public static final String MESSAGE_NOT_A_CONFIG = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
     
     // Captions for items in the DNA segment tool box.
     public static final String LAC_PROMOTER_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.LacPromoter" );
@@ -34,7 +31,8 @@ public class GeneNetworkStrings {
     public static final String MESSENGER_RNA_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.MessengerRna" );
     public static final String TRANSFORMATION_ARROW_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.TransformationArrow" );
 
+    // Various other captions.
     public static final String CLOCK_SPEED_CONTROL_CAPTION = GeneNetworkResources.getString("ClockSpeedControlCaption");
-
     public static final String LEGEND_VISIBILITY_CONTROL_CAPTION = GeneNetworkResources.getString("LegendVisibilityControlCaption");
+    public static final String RESET = GeneNetworkResources.getString("Reset");
 }

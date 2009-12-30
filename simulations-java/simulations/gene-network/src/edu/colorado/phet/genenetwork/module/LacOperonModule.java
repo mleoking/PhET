@@ -14,6 +14,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
@@ -70,7 +71,7 @@ public class LacOperonModule extends PiccoloModule {
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.X_AXIS ) );
         spacePanel.add( Box.createHorizontalStrut( 30 ) );
         clockPanelWithResetButton.add(spacePanel);
-        JButton resetButton = new JButton("Reset All");
+        JButton resetButton = new JButton(GeneNetworkStrings.RESET);
         resetButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.reset();
