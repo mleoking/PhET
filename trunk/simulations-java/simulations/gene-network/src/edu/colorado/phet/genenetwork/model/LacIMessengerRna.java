@@ -4,6 +4,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 /**
  * Messenger RNA that leads to the creation of LacZ.
  * 
@@ -30,13 +32,16 @@ public class LacIMessengerRna extends MessengerRna {
 	
 	@Override
 	protected void spawn() {
-		// Create and position the process arrow, which will in turn
-		// create the macromolecule.
+		// Create and position the transformation arrow, which will in turn
+		// create the LacI.
 		Rectangle2D bounds = getShape().getBounds2D();
-		Point2D processArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX(),
-				bounds.getMaxY() + getPositionRef().getY() + 3);
-		getModel().addTransformationArrow(new LacITransformationArrow(getModel(), processArrowPos,
-				new LacI(getModel(), true), 0));
+		Point2D transformationArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX() + 4,
+				bounds.getMaxY() + getPositionRef().getY() + 1);
+		LacITransformationArrow transformationArrow = new LacITransformationArrow(getModel(), transformationArrowPos,
+				new LacI(getModel(), true), Math.PI/4);
+		transformationArrow.setMotionStrategy(new LinearMotionStrategy(transformationArrow,
+				LacOperonModel.getMotionBoundsAboveDna(), new Vector2D.Double(getVelocityRef()), 5.0));
+		getModel().addTransformationArrow(transformationArrow);
 	}
 	
 	private static int generateSpawnCount(){

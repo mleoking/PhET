@@ -19,7 +19,9 @@ public class LacITransformationArrow extends TransformationArrow {
 	@Override
 	protected void onTransitionToExistingState() {
 		// Time to add our LacI to the model.
-		lacIToAddToModel.setPosition(getPositionRef().getX(), getPositionRef().getY() + 5);
+		double xOffset = Math.cos(getPointingAngle()) * getHeadHeight() + 4;
+		double yOffset = Math.sin(getPointingAngle()) * getHeadHeight() + 4;
+		lacIToAddToModel.setPosition(getPositionRef().getX() + xOffset, getPositionRef().getY() + yOffset);
 		getModel().addLacI(lacIToAddToModel);
 	}
 }
