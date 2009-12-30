@@ -32,6 +32,10 @@ import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 import edu.colorado.phet.website.util.*;
 
+/**
+ * Main entry and configuration point for the Wicket-based PhET website. Initializes pages (and the mappings), along
+ * with many other things.
+ */
 public class PhetWicketApplication extends WebApplication {
 
     private PhetUrlMapper mapper;
@@ -49,13 +53,14 @@ public class PhetWicketApplication extends WebApplication {
     protected void init() {
         super.init();
 
+        // set up error pages
         getApplicationSettings().setPageExpiredErrorPage( ErrorPage.class );
         getApplicationSettings().setAccessDeniedPage( ErrorPage.class );
         getApplicationSettings().setInternalErrorPage( ErrorPage.class );
 
         // add static pages, that are accessed through reflection. this is used so that separate page AND panel classes
         // are not needed for each visual page.
-        // NOTE: do this before adding StaticPage into the mapper
+        // NOTE: do this before adding StaticPage into the mapper. Checked, and violation will result in a fatal error. 
         StaticPage.addPanel( TroubleshootingMainPanel.class );
         StaticPage.addPanel( AboutMainPanel.class );
         StaticPage.addPanel( WorkshopsPanel.class );
