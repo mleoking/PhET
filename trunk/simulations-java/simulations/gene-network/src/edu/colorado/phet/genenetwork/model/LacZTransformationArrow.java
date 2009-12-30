@@ -15,7 +15,9 @@ public class LacZTransformationArrow extends TransformationArrow {
 	@Override
 	protected void onTransitionToFadingOutState() {
 		// Time to add our LacZ to the model.
-		lacZToAddToModel.setPosition(getPositionRef().getX(), getPositionRef().getY() + 8);
+		double xOffset = Math.cos(getPointingAngle()) * getHeadHeight() + 6;
+		double yOffset = Math.sin(getPointingAngle()) * getHeadHeight() + 4;
+		lacZToAddToModel.setPosition(getPositionRef().getX() + xOffset, getPositionRef().getY() + yOffset);
 		getModel().addLacZ(lacZToAddToModel);
 	}
 }
