@@ -80,15 +80,6 @@ public class LacOperonModule extends PiccoloModule {
         clockPanelWithResetButton.add(resetButton);
         setClockControlPanel( clockPanelWithResetButton );
         
-        // Add the Reset All button.  This is a little bit of a departure from
-        // most PhET sims in that it is on the bottom panel rather than on the
-        // control panel.
-        /*
-        JPanel panel = new JPanel();
-        panel.add(new JButton("Reset All"));
-        setHelpPanel(panel);
-        */
-
         // Help
         if ( hasHelp() ) {
             //XXX add help items
