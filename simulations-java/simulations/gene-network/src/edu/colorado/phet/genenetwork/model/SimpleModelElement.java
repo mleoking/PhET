@@ -35,8 +35,9 @@ public abstract class SimpleModelElement implements IModelElement{
 	// illegal location.
 	protected static final double LOCK_TO_DNA_DISTANCE = 5; // In nanometers.
 	
-	// Rate at which elements fade in and out of existence.
-	protected static final double FADE_RATE = 0.05;
+	// Rate at which elements fade in and out of existence.  Higher values
+	// will make the fading go faster.
+	protected static final double FADE_RATE = 0.1;
 	
     //------------------------------------------------------------------------
     // Instance Data
