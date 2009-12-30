@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
 
@@ -14,6 +15,9 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 
 public class StaticPage extends PhetRegularPage {
+
+    private static Logger logger = Logger.getLogger( StaticPage.class.getName() );
+
     public StaticPage( PageParameters parameters ) {
         super( parameters );
 
@@ -52,7 +56,13 @@ public class StaticPage extends PhetRegularPage {
 
     public static Map<String, Class> panelMap = new HashMap<String, Class>();
 
+    private static boolean addedToMapper = false;
+
     public static void addPanel( Class panelClass ) {
+        if ( addedToMapper ) {
+            logger.error( "Attempt to add static page after mappings have been completed" );
+            throw new RuntimeException( "Attempt to add static page after mappings have been completed" );
+        }
         try {
             Method meth = panelClass.getMethod( "getUrl" );
             String url = (String) meth.invoke( null );
@@ -73,5 +83,6 @@ public class StaticPage extends PhetRegularPage {
         for ( String url : panelMap.keySet() ) {
             mapper.addMap( "^" + url + "$", StaticPage.class );
         }
+        addedToMapper = true;
     }
 }
