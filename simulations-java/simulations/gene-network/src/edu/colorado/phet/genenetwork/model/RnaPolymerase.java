@@ -192,7 +192,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	private void freeMessengerRna(boolean fullyFormed) {
 		mRna.setFullyFormed(fullyFormed);
 		mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
-				new Point2D.Double(mRna.getPositionRef().getX(), mRna.getPositionRef().getY() + 30), 4));
+				new Vector2D.Double(0, 2), 10));
 		mRna = null;
 	}
 	
