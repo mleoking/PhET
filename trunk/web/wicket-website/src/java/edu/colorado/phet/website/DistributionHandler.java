@@ -78,6 +78,13 @@ public class DistributionHandler {
         return cycle.isKsuRipperRequest();
     }
 
+    /**
+     * Whether or not to display a login link in the upper-right corner. Log-out links are irrelevant, since rippers
+     * shouldn't be able to rip those pages.
+     *
+     * @param cycle Request cycle
+     * @return Whether or not to display a login link in the upper-right corner
+     */
     public static boolean displayLogin( PhetRequestCycle cycle ) {
         return !cycle.isInstaller();
     }
@@ -103,6 +110,14 @@ public class DistributionHandler {
             WorkshopsPanel.class
     };
 
+    /**
+     * Whether or not to change links to pages to point to the phet.colorado.edu versions. Should only be applicable
+     * for installers
+     *
+     * @param cycle     Request cycle
+     * @param pageClass The page class in question
+     * @return Whether or not to change links to pages to point to the phet.colorado.edu versions
+     */
     public static boolean redirectPageClassToProduction( PhetRequestCycle cycle, Class pageClass ) {
         if ( cycle.isYoungAndFreedmanRipperRequest() ) {
             for ( Class c : yfPageRedirects ) {
@@ -117,10 +132,22 @@ public class DistributionHandler {
         }
     }
 
+    /**
+     * Whether or not to redirect the activities link to the main PhET site
+     *
+     * @param cycle Request cycle
+     * @return Whether or not to redirect the activities link to the main PhET site
+     */
     public static boolean redirectActivities( PhetRequestCycle cycle ) {
         return cycle.isYoungAndFreedmanRipperRequest();
     }
 
+    /**
+     * Whether or not to redirect the header (PhET logo on the top of the page) to the PhET production website
+     *
+     * @param cycle Request cycle
+     * @return Whether or not to redirect the header (PhET logo on the top of the page) to the PhET production website
+     */
     public static boolean redirectHeaderToProduction( PhetRequestCycle cycle ) {
         return cycle.isYoungAndFreedmanRipperRequest();
     }
