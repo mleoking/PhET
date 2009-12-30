@@ -39,6 +39,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	private static double MAX_TRAVERSAL_TIME = 10; // In seconds.
 	private static double TRAVERSAL_SPEED = 5; // In nanometers/second.
 	private static Random RAND = new Random();
+	private static final int MAX_REATTACH_ATTEMPTS = 6;
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -54,6 +55,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	private Point2D traversalStartPt = new Point2D.Double();
 	private MessengerRna mRna = null;
 	private boolean clearedToCrossLacOperator;
+	private int reattachCount;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -120,23 +122,30 @@ public class RnaPolymerase extends SimpleModelElement {
 							// where lac I could be attached.  Determine if it
 							// is attached, which would block our way.
 							if (getModel().isLacIAttachedToDna()){
-								// Our path is blocked.  Go back or float away?  
-								if (RAND.nextDouble() < 0.80){
+								// Our path is blocked.  Decide whether to try
+								// to reattach or to float away.
+								if (RAND.nextDouble() > (double)reattachCount / (double)MAX_REATTACH_ATTEMPTS){
 									lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 									if (!previousPromoterAttachmentPartner.requestReattach(this)){
 										// Can't reattach, so wander off.
 										detachFromDna();
+										reattachCount = 0;
+									}
+									else{
+										reattachCount++;
 									}
 								}
 								else{
 									// Don't even try to reattach - just wander off.
 									detachFromDna();
+									reattachCount = 0;
 								}
 							}
 							else{
 								// No lac I is attached, so we are clear to
 								// cross this part of the DNA strand.
 								clearedToCrossLacOperator = true;
+								reattachCount = 0;
 							}
 						}
 						else if (dnaStrand.isOnLacZGeneSpace(getPositionRef())){
