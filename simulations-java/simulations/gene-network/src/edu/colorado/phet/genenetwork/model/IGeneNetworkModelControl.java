@@ -180,7 +180,19 @@ public interface IGeneNetworkModelControl {
 	 * and therefore part of lactose.  Returns null if no available lactose
 	 * can be found.
 	 */
-	Glucose findNearestFreeLactose(Point2D pt);
+	Glucose getNearestFreeLactose(Point2D pt);
+	
+	/**
+	 * Search through all of the Lac I molecules and return the closest one
+	 * that is not bound to LacZ.
+	 */
+	LacI getNearestFreeLacI(Point2D pt);
+	
+	/**
+	 * Search through all of the RNA Polymerase molecules and return the
+	 * closest one that is not bound to LacZ.
+	 */
+	RnaPolymerase getNearestFreeRnaPolymerase(Point2D pt);
 	
 	/**
 	 * Returns true if it is okay to inject lactose, false if not.

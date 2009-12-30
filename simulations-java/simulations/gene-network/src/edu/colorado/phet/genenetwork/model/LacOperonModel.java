@@ -280,9 +280,9 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	}
 	
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#findNearestFreeLactose(Point2D pt)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getNearestFreeLactose(Point2D pt)
 	 */
-	public Glucose findNearestFreeLactose(Point2D pt){
+	public Glucose getNearestFreeLactose(Point2D pt){
 		double distance = Double.POSITIVE_INFINITY;
 		Glucose nearestFreeGlucose = null;
 		for (Glucose glucose : glucoseList){
@@ -297,6 +297,44 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		}
 		
 		return nearestFreeGlucose;
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getNearestFreeLacI
+	 */
+	public LacI getNearestFreeLacI(Point2D pt){
+		double distance = Double.POSITIVE_INFINITY;
+		LacI nearestFreeLacI = null;
+		for (LacI lacI : lacIList){
+			if (lacI.isAvailableForAttaching() && 
+				pt.distance(lacI.getPositionRef()) < distance){
+				
+				// This is the best candidate so far.
+				nearestFreeLacI = lacI;
+				distance = pt.distance(lacI.getPositionRef());
+			}
+		}
+		
+		return nearestFreeLacI;
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#findNearestFreeRnaPolymerase(Point2D pt)
+	 */
+	public RnaPolymerase getNearestFreeRnaPolymerase(Point2D pt){
+		double distance = Double.POSITIVE_INFINITY;
+		RnaPolymerase nearestFreeRnaPolymerase = null;
+		for (RnaPolymerase rnaPolymerase : rnaPolymeraseList){
+			if (rnaPolymerase.isAvailableForAttaching() && 
+				pt.distance(rnaPolymerase.getPositionRef()) < distance){
+				
+				// This is the best candidate so far.
+				nearestFreeRnaPolymerase = rnaPolymerase;
+				distance = pt.distance(rnaPolymerase.getPositionRef());
+			}
+		}
+		
+		return nearestFreeRnaPolymerase;
 	}
 	
 	public boolean isLactoseInjectionAllowed() {
