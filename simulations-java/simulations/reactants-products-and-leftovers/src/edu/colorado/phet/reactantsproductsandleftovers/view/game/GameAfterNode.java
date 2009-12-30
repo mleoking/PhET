@@ -123,7 +123,10 @@ public class GameAfterNode extends GameBoxNode {
         // sync with model
         this.model = model;
         gameListener = new GameAdapter() {
-            //XXX update images when the user's answer changes
+            @Override 
+            public void answerChanged() {
+                updateGuessImages();
+            }
         };
         model.addGameListener( gameListener );
         
@@ -226,5 +229,9 @@ public class GameAfterNode extends GameBoxNode {
                 previousNode = imageNode;
             }
         }
+    }
+    
+    private void updateGuessImages() {
+        //XXX
     }
 }

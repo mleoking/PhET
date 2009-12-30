@@ -27,6 +27,7 @@ public class GameModel extends RPALModel {
     
     private final ArrayList<GameListener> listeners;
     private final GameTimer timer;
+    private final ChangeListener answerChangeListener;
     
     private GameChallenge[] challenges; // the challenges that make up the current game
     private int challengeNumber; // the current challenge that the user is attempting to solve
@@ -47,6 +48,12 @@ public class GameModel extends RPALModel {
                 }
             }
         } );
+        
+        answerChangeListener = new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                fireAnswerChanged();
+            }
+        };
         
         startGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
     }
@@ -81,6 +88,7 @@ public class GameModel extends RPALModel {
         if ( challengeNumber < CHALLENGES_PER_GAME - 1 ) {
             challengeNumber++;
             setAttempts( 0 );
+            getChallenge().getAnswer().addChangeListener( answerChangeListener );
             fireChallengeChanged();
         }
         else {
@@ -107,6 +115,9 @@ public class GameModel extends RPALModel {
     }
     
     private void newChallenges() {
+        if ( challenges != null ) {
+            getChallenge().getAnswer().removeChangeListener( answerChangeListener );
+        }
         challengeNumber = 0;
         challenges = new GameChallenge[ CHALLENGES_PER_GAME ];
         //TODO: ensure that we don't have the same challenge twice in a row, or should they all be different?
@@ -232,6 +243,7 @@ public class GameModel extends RPALModel {
         public void gameCompleted(); // the current game was completed
         public void gameAborted(); // the current game was aborted before it was completed
         public void challengeChanged(); // the challenge changed
+        public void answerChanged(); // user's answer changed
         public void pointsChanged(); // the number of points changed
         public void levelChanged(); // the level of difficulty changed
         public void attemptsChanged(); // the number of attempts changed
@@ -248,6 +260,7 @@ public class GameModel extends RPALModel {
         public void gameCompleted() {}
         public void gameAborted() {}
         public void challengeChanged() {}
+        public void answerChanged() {}
         public void pointsChanged() {}
         public void levelChanged() {}
         public void attemptsChanged() {}
@@ -310,6 +323,16 @@ public class GameModel extends RPALModel {
         }
         for ( GameListener listener : listenersCopy ) {
             listener.challengeChanged();
+        }
+    }
+    
+    private void fireAnswerChanged() {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel.fireAnswerChanged, notifying " + listenersCopy.size() + " listeners" );
+        }
+        for ( GameListener listener : listenersCopy ) {
+            listener.answerChanged();
         }
     }
     
