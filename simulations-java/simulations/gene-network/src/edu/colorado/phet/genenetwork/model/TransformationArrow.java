@@ -32,7 +32,7 @@ public class TransformationArrow extends SimpleModelElement {
 	private static double HEAD_WIDTH = 2;       // In nanometers.
 	private static double HEAD_HEIGHT = 2;      // In nanometers.
 	private static double DEFAULT_LENGTH = 7;   // In nanometers.
-	private static double DEFAULT_POINTING_ANGLE = 0;   // In radians, 0 means straight up.
+	private static double DEFAULT_POINTING_ANGLE = Math.PI / 2;   // In radians, 0 is to the right, PI/2 is straight up.
 	
 	private static double EXISTENCE_TIME = 0.1; // In seconds.
 	
@@ -51,7 +51,6 @@ public class TransformationArrow extends SimpleModelElement {
 	public TransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition, double length, boolean fadeIn, double pointingAngle) {
 		super(model, createShape(length, pointingAngle), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
 		this.pointingAngle = pointingAngle;
-		setMotionStrategy(new StillnessMotionStrategy(this));
 	}
 	
 	public TransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition) {
@@ -86,12 +85,16 @@ public class TransformationArrow extends SimpleModelElement {
 		area.subtract(new Area(space2));
 		
 		// Rotate the arrow to the specified angle.
-		AffineTransform rotationTransform = AffineTransform.getRotateInstance(angle);
+		AffineTransform rotationTransform = AffineTransform.getRotateInstance(angle - Math.PI/2);
 		
 		return rotationTransform.createTransformedShape(area);
 	}
 	
-	public double getPointingAngle() {
+	protected double getPointingAngle() {
 		return pointingAngle;
+	}
+	
+	protected double getHeadHeight(){
+		return HEAD_HEIGHT;
 	}
 }
