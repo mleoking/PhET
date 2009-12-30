@@ -35,7 +35,7 @@ public class LacIMessengerRna extends MessengerRna {
 		// Create and position the transformation arrow, which will in turn
 		// create the LacI.
 		Rectangle2D bounds = getShape().getBounds2D();
-		Point2D transformationArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX() + 4,
+		Point2D transformationArrowPos = new Point2D.Double(bounds.getCenterX() + getPositionRef().getX() + 3,
 				bounds.getMaxY() + getPositionRef().getY() + 1);
 		LacITransformationArrow transformationArrow = new LacITransformationArrow(getModel(), transformationArrowPos,
 				new LacI(getModel(), true), Math.PI/4);
