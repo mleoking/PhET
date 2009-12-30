@@ -2,6 +2,8 @@ package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 public class LacZTransformationArrow extends TransformationArrow {
 
 	private static final double ARROW_LENGTH = 5;
@@ -18,6 +20,8 @@ public class LacZTransformationArrow extends TransformationArrow {
 		double xOffset = Math.cos(getPointingAngle()) * getHeadHeight() + 6;
 		double yOffset = Math.sin(getPointingAngle()) * getHeadHeight() + 4;
 		lacZToAddToModel.setPosition(getPositionRef().getX() + xOffset, getPositionRef().getY() + yOffset);
+		lacZToAddToModel.setMotionStrategy(new LinearMotionStrategy(lacZToAddToModel,
+				LacOperonModel.getMotionBoundsAboveDna(), new Vector2D.Double(getVelocityRef()), 5.0));
 		getModel().addLacZ(lacZToAddToModel);
 	}
 }
