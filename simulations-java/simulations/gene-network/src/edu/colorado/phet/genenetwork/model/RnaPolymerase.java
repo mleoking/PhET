@@ -47,7 +47,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	
 	private Promoter promoterAttachmentPartner = null;
 	private Promoter previousPromoterAttachmentPartner = null;
-	private AttachmentState lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	private AttachmentState promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private Point2D targetPositionForLacPromoterAttachment = new Point2D.Double();
 	private double recoveryCountdownTimer;
 	private boolean traversing = false;
@@ -82,7 +82,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	@Override
 	public void stepInTime(double dt) {
 		if (!isUserControlled()){
-			if (lacPromoterAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
+			if (promoterAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
 				if (traversing){
 					// This polymerase is currently traversing the DNA strand.
 					DnaStrand dnaStrand = getModel().getDnaStrand();
@@ -125,7 +125,7 @@ public class RnaPolymerase extends SimpleModelElement {
 								// Our path is blocked.  Decide whether to try
 								// to reattach or to float away.
 								if (RAND.nextDouble() > (double)reattachCount / (double)MAX_REATTACH_ATTEMPTS){
-									lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+									promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 									if (!previousPromoterAttachmentPartner.requestReattach(this)){
 										// Can't reattach, so wander off.
 										detachFromDna();
@@ -187,7 +187,7 @@ public class RnaPolymerase extends SimpleModelElement {
 					if (recoveryCountdownTimer <= 0){
 						// This has been unattached long enough and is ready to attach
 						// again.
-						lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+						promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 					}
 				}
 			}
@@ -214,7 +214,7 @@ public class RnaPolymerase extends SimpleModelElement {
 				// This polymerase was either attached to a promoter or moving
 				// towards attachment.  This relationship must be terminated.
 				promoterAttachmentPartner.detach(this);
-				lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 				promoterAttachmentPartner = null;
 				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 			}
@@ -230,7 +230,7 @@ public class RnaPolymerase extends SimpleModelElement {
 				}
 				traversing = false;
 				transcribing = false;
-				lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			}
 		}
 		super.setDragging(dragging);
@@ -249,7 +249,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		}
 		setMotionStrategy(new StillnessMotionStrategy(this));
 		setPosition(targetPositionForLacPromoterAttachment);
-		lacPromoterAttachmentState = AttachmentState.ATTACHED;
+		promoterAttachmentState = AttachmentState.ATTACHED;
 		clearedToCrossLacOperator = false;
 	}
 	
@@ -261,19 +261,19 @@ public class RnaPolymerase extends SimpleModelElement {
 			return;
 		}
 		
-		if (lacPromoterAttachmentState == AttachmentState.ATTACHED){
+		if (promoterAttachmentState == AttachmentState.ATTACHED){
 			// We were attached, so now start traversing.
 			traversing = true;
 			traversalStartPt.setLocation(getPositionRef());
 			setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
 					new Vector2D.Double(TRAVERSAL_SPEED, 0), MAX_TRAVERSAL_TIME));
-			lacPromoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+			promoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		}
-		else if (lacPromoterAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+		else if (promoterAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
 			// We are being asked to terminate the engagement, which can
 			// happen in cases such as when our potential partner gets removed
 			// from the model.
-			lacPromoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 		}
 		previousPromoterAttachmentPartner = promoterAttachmentPartner;
@@ -324,11 +324,11 @@ public class RnaPolymerase extends SimpleModelElement {
 	public boolean considerProposalFrom(Promoter promoter) {
 		boolean proposalAccepted = false;
 		
-		if (lacPromoterAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
+		if (promoterAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
 			assert promoterAttachmentPartner == null;  // For debug - Make sure consistent with attachment state.
 			promoterAttachmentPartner = promoter;
 			proposalAccepted = true;
-			lacPromoterAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+			promoterAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
 			
 			// Set ourself up to move toward the attaching location.
 			double xDest = promoterAttachmentPartner.getAttachmentPointLocation(this).getX() - 
@@ -350,5 +350,9 @@ public class RnaPolymerase extends SimpleModelElement {
 		}
 		
 		return proposalAccepted;
+	}
+
+	public boolean isAvailableForAttaching() {
+		return promoterAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE;
 	}	
 }
