@@ -1,9 +1,18 @@
 /* Copyright 2009, University of Colorado */
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
+import java.util.ArrayList;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Product.ProductChangeAdapter;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Product.ProductChangeListener;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 
 /**
@@ -24,12 +33,37 @@ public class GameAnswer {
     private final ChemicalReaction reaction;
     private final Reactant[] reactants;
     private final Product[] products;
+    private final ArrayList<ChangeListener> listeners;
     
-    GameAnswer( ChemicalReaction reaction, ChallengeType challengeType ) {
+    public GameAnswer( ChemicalReaction reaction, ChallengeType challengeType ) {
+        
         this.reaction = reaction;
-        reactants = createReactants( reaction, challengeType );
-        products = createProducts( reaction, challengeType );
+        listeners = new ArrayList<ChangeListener>();
+        
+        // create similar reactants
+        ReactantChangeListener reactantChangeListener = new ReactantChangeAdapter() {
+            
+            @Override
+            public void quantityChanged() {
+                fireStateChanged();
+            }
+            
+            @Override
+            public void leftoversChanged() {
+                fireStateChanged();
+            }
+        };
+        reactants = createReactants( reaction, challengeType, reactantChangeListener );
         assert( getNumberOfReactants() == reaction.getNumberOfReactants() );
+        
+        // create similar products
+        ProductChangeListener productChangeListener = new ProductChangeAdapter() {
+            @Override
+            public void quantityChanged() {
+                fireStateChanged();
+            }
+        };
+        products = createProducts( reaction, challengeType, productChangeListener );
         assert( getNumberOfProducts() == reaction.getNumberOfProducts() );
     }
     
@@ -77,7 +111,7 @@ public class GameAnswer {
      * Copies the reactants from the reaction, in the same order.
      * Depending on the challenge type, either quantities or leftovers are initialized to zero.
      */
-    private static Reactant[] createReactants( ChemicalReaction reaction, ChallengeType challengeType ) {
+    private static Reactant[] createReactants( ChemicalReaction reaction, ChallengeType challengeType, ReactantChangeListener listener ) {
         Reactant[] reactionReactants = reaction.getReactants();
         Reactant[] guessReactants = new Reactant[ reactionReactants.length ];
         for ( int i = 0; i < reactionReactants.length; i++ ) {
@@ -88,6 +122,7 @@ public class GameAnswer {
             else {
                 guessReactants[i].setQuantity( 0 );
             }
+            guessReactants[i].addReactantChangeListener( listener );
         }
         return guessReactants;
     }
@@ -96,7 +131,7 @@ public class GameAnswer {
      * Copies the products from the reaction, in the same order.
      * Quantities are initialized to zero.
      */
-    private static Product[] createProducts( ChemicalReaction reaction, ChallengeType challengeType ) {
+    private static Product[] createProducts( ChemicalReaction reaction, ChallengeType challengeType, ProductChangeListener listener ) {
         Product[] guessProducts = null;
         Product[] reactionProducts = reaction.getProducts();
         guessProducts = new Product[reactionProducts.length];
@@ -105,7 +140,24 @@ public class GameAnswer {
             if ( challengeType == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
                 guessProducts[i].setQuantity( 0 );
             }
+            guessProducts[i].addProductChangeListener( listener );
         }
         return guessProducts;
     }
+    
+    public void addChangeListener( ChangeListener listener ) {
+        listeners.add( listener );
+    }
+    
+    public void removeChangeListener( ChangeListener listener ) {
+        listeners.remove( listener );
+    }
+    
+    private void fireStateChanged() {
+        ChangeEvent event = new ChangeEvent( this );
+        ArrayList<ChangeListener> listenersCopy = new ArrayList<ChangeListener>( listeners ); // avoid ConcurrentModificationException
+        for ( ChangeListener listener : listenersCopy ) {
+            listener.stateChanged( event );
+        }
+    } 
 }

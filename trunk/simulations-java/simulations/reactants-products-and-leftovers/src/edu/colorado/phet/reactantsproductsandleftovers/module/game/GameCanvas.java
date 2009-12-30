@@ -156,7 +156,6 @@ public class GameCanvas extends RPALCanvas {
             public void challengeChanged() {
                 handleChallengeChanged();
             }
-
         } );
 
         // when any button's visibility changes, update the layout of the buttons
@@ -243,7 +242,6 @@ public class GameCanvas extends RPALCanvas {
         visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
-    // When the challenge changes, rebuild dynamic nodes.
     private void handleChallengeChanged() {
         showUserAnswer( true );
         visibilityManager.setVisibility( FIRST_ATTEMPT_STATE );
