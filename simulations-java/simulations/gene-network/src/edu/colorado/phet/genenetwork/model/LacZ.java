@@ -83,7 +83,7 @@ public class LacZ extends SimpleModelElement {
 			glucoseAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
 			
 			// Look for some lactose to attach to.
-			glucoseAttachmentPartner = getModel().findNearestFreeLactose(getPositionRef());
+			glucoseAttachmentPartner = getModel().getNearestFreeLactose(getPositionRef());
 			
 			if (glucoseAttachmentPartner != null){
 				// We found a lactose that is free, so start the process of
