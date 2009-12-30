@@ -21,6 +21,8 @@ public class HibernateUtils {
     private static Logger logger = Logger.getLogger( HibernateUtils.class.getName() );
 
     private HibernateUtils() {
+        // don't instantiate
+        throw new AssertionError();
     }
 
     static {
