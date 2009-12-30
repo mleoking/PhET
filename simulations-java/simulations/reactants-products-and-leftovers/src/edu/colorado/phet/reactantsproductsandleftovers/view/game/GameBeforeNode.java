@@ -36,7 +36,7 @@ public class GameBeforeNode extends GameBoxNode {
     
     private final GameModel model;
     private final GameListener gameListener;
-    private final ImageLayoutNode imageLayoutNode;
+    private final ImageLayoutNode answerImagesNode, guessImagesNode;
     private final ArrayList<QuantityValueNode> quantityValueNodes;
     
     public GameBeforeNode( GameModel model ) {
@@ -88,15 +88,16 @@ public class GameBeforeNode extends GameBoxNode {
         // sync with model
         this.model = model;
         gameListener = new GameAdapter() {
-            //XXX show the user's guess, if applicable
-            //XXX show the answer, when requested
+            //XXX update images when the user's answer changes
         };
         model.addGameListener( gameListener );
         
         // images
-        imageLayoutNode = new GridLayoutNode( getBoxSize() );
-        addChild( imageLayoutNode );
-        addReactantImages();
+        answerImagesNode = new GridLayoutNode( getBoxSize() );
+        createAnswerImages();
+        addChild( answerImagesNode );
+        guessImagesNode = new GridLayoutNode( getBoxSize() );
+        addChild( guessImagesNode );
         
         // default state
         if ( model.getChallengeType() == ChallengeType.HOW_MANY_REACTANTS ) {
@@ -122,7 +123,9 @@ public class GameBeforeNode extends GameBoxNode {
             valueNode.setEditable( false );
         }
         
-        //XXX show images for reaction
+        // show images for reaction
+        answerImagesNode.setVisible( true );
+        guessImagesNode.setVisible( false );
     }
     
     public void showUserAnswer( boolean editable ) {
@@ -136,14 +139,15 @@ public class GameBeforeNode extends GameBoxNode {
             valueNode.setEditable( editable );
         }
         
-        //XXX show images for user's answer
+        // show images for user's answer
+        answerImagesNode.setVisible( false );
+        guessImagesNode.setVisible( true );
     }
     
     /*
-     * Add images for the reactants.
+     * Sets images for the reactants.
      */
-    private void addReactantImages() {
-        
+    private void createAnswerImages() {
         Reactant[] reactants = model.getReaction().getReactants();
         PNode previousNode = null;
         for ( int i = 0; i < reactants.length; i++ ) {
@@ -151,7 +155,7 @@ public class GameBeforeNode extends GameBoxNode {
             for ( int j = 0; j < reactant.getQuantity(); j++ ) {
                 SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                imageLayoutNode.addNode( imageNode, previousNode, null );
+                answerImagesNode.addNode( imageNode, previousNode, null );
                 previousNode = imageNode;
             }
         }
