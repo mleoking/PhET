@@ -74,8 +74,6 @@ public class LacI extends SimpleModelElement {
 	
 	public LacI(IGeneNetworkModelControl model, Point2D initialPosition, boolean fadeIn) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna(),
-				INITIAL_DESTINATION_POINT));
 	}
 	
 	public LacI(IGeneNetworkModelControl model, boolean fadeIn) {
@@ -102,7 +100,13 @@ public class LacI extends SimpleModelElement {
 		}
 		super.setDragging(dragging);
 	}
-
+	
+	@Override
+	protected void onTransitionToExistingState() {
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna(),
+				INITIAL_DESTINATION_POINT));
+	}
+	
 	private static Shape createActiveConformationShape(){
 		
 		// Create the overall outline.
