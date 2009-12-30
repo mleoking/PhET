@@ -34,7 +34,7 @@ public class TransformationArrow extends SimpleModelElement {
 	private static double DEFAULT_LENGTH = 7;   // In nanometers.
 	private static double DEFAULT_POINTING_ANGLE = Math.PI / 2;   // In radians, 0 is to the right, PI/2 is straight up.
 	
-	private static double EXISTENCE_TIME = 0.1; // In seconds.
+	private static double EXISTENCE_TIME = 0.01; // In seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
