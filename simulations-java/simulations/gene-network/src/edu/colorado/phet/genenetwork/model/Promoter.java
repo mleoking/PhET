@@ -23,10 +23,9 @@ public abstract class Promoter extends SimpleModelElement {
 
 	private static float HEIGHT = 2.5f;  // In nanometers.
 	public static float WIDTH = 10;      // In nanometers.
-	public static final  Dimension2D RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT/2);
-	public static final  double ATTACH_TO_RNA_POLYMERASE_TIME = 0.5;   // In seconds.
-	public static final  double ATTACHMENT_RECOVERY_TIME = 3; // In seconds.
-	public static final Random RAND = new Random(); 
+	private static final  Dimension2D RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT/2);
+	private static final  double ATTACH_TO_RNA_POLYMERASE_TIME = 0.5;   // In seconds.
+	private static final  double DEFAULT_ATTACHMENT_RECOVERY_TIME = 3; // In seconds.
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -36,11 +35,11 @@ public abstract class Promoter extends SimpleModelElement {
 	protected AttachmentState rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	protected double rnaPolymeraseAttachmentCountdownTimer;
 	protected double recoveryCountdownTimer;
+	protected double attachmentRecoveryTime = DEFAULT_ATTACHMENT_RECOVERY_TIME;
 
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
-
 
 	public Promoter(IGeneNetworkModelControl model, Point2D initialPosition, Paint paint,
 			boolean fadeIn, double existenceTime) {
@@ -52,6 +51,10 @@ public abstract class Promoter extends SimpleModelElement {
     // Methods
     //------------------------------------------------------------------------
 	
+	protected void setAttachmentRecoveryTime(double attachmentRecoveryTime) {
+		this.attachmentRecoveryTime = attachmentRecoveryTime;
+	}
+
 	@Override
 	public void stepInTime(double dt) {
 		
@@ -153,7 +156,7 @@ public abstract class Promoter extends SimpleModelElement {
 		assert rnaPolymerase == rnaPolymeraseAttachmentPartner;
 		rnaPolymeraseAttachmentPartner = null;
 		rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-		recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
+		recoveryCountdownTimer = attachmentRecoveryTime;
 	}
 	
 	@Override
@@ -201,7 +204,7 @@ public abstract class Promoter extends SimpleModelElement {
 			// It's time to detach.
 			rnaPolymeraseAttachmentPartner.detach(this);
 			rnaPolymeraseAttachmentPartner = null;
-			recoveryCountdownTimer = ATTACHMENT_RECOVERY_TIME;
+			recoveryCountdownTimer = attachmentRecoveryTime;
 			rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		}
 	}

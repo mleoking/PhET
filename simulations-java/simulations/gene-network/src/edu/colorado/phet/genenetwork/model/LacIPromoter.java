@@ -13,6 +13,7 @@ public class LacIPromoter extends Promoter {
     //------------------------------------------------------------------------
 
 	private static final Paint ELEMENT_PAINT = new Color(0, 153, 175);
+	private static final double ATTACHMENT_RECOVERY_TIME = 15;
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -24,6 +25,7 @@ public class LacIPromoter extends Promoter {
 
 	public LacIPromoter(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
+		setAttachmentRecoveryTime(ATTACHMENT_RECOVERY_TIME);
 	}
 	
 	public LacIPromoter(IGeneNetworkModelControl model) {
