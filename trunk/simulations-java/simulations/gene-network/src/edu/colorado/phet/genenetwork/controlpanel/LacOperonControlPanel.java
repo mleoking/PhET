@@ -68,10 +68,6 @@ public class LacOperonControlPanel extends ControlPanel {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void closeAllDialogs() {
-        //XXX close any dialogs created via the control panel
-    }
-    
     //----------------------------------------------------------------------------
     // Access to subpanels
     //----------------------------------------------------------------------------

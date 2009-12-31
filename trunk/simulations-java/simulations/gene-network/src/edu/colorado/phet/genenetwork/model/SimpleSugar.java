@@ -26,7 +26,7 @@ public abstract class SimpleSugar extends SimpleModelElement {
 		super(model, createShape(), initialPosition, paint, false, Double.POSITIVE_INFINITY);
 	}
 	
-	private static Shape createShape(){
+	public static Shape createShape(){
 		// Create a hexagon shape.
 		DoubleGeneralPath path = new DoubleGeneralPath();
 		path.moveTo(-SIDE_LENGTH / 2, -HEIGHT / 2);
