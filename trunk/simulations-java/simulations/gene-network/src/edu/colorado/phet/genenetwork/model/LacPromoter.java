@@ -20,6 +20,7 @@ public class LacPromoter extends Promoter {
     //------------------------------------------------------------------------
 
 	private static final Paint ELEMENT_PAINT = new Color(0, 153, 255);
+	private static final double ATTACHMENT_RECOVERY_TIME = 8;
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -31,6 +32,7 @@ public class LacPromoter extends Promoter {
 
 	public LacPromoter(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
+		setAttachmentRecoveryTime(ATTACHMENT_RECOVERY_TIME);
 	}
 	
 	public LacPromoter(IGeneNetworkModelControl model) {

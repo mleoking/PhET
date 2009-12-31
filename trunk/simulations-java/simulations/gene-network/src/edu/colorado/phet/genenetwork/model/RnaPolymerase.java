@@ -96,7 +96,7 @@ public class RnaPolymerase extends SimpleModelElement {
 							// detach the mRNA from us and ourself from the
 							// DNA.
 							freeMessengerRna(true);
-							detachFromDna();
+							detachFromDna(2);
 						}
 						else if ((dnaStrand.isOnLacIGeneSpace(getPositionRef()) && !dnaStrand.isLacIGeneInPlace()) ||
 								 (dnaStrand.isOnLacZGeneSpace(getPositionRef()) && !dnaStrand.isLacZGeneInPlace())){
@@ -108,7 +108,7 @@ public class RnaPolymerase extends SimpleModelElement {
 							// incomplete, and then detach ourself from the
 							// DNA strand.
 							freeMessengerRna(false);
-							detachFromDna();
+							detachFromDna(0);
 						}
 					}
 					else{
@@ -128,7 +128,7 @@ public class RnaPolymerase extends SimpleModelElement {
 									promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 									if (!previousPromoterAttachmentPartner.requestReattach(this)){
 										// Can't reattach, so wander off.
-										detachFromDna();
+										detachFromDna(0);
 										reattachCount = 0;
 									}
 									else{
@@ -137,7 +137,7 @@ public class RnaPolymerase extends SimpleModelElement {
 								}
 								else{
 									// Don't even try to reattach - just wander off.
-									detachFromDna();
+									detachFromDna(0);
 									reattachCount = 0;
 								}
 							}
@@ -161,7 +161,7 @@ public class RnaPolymerase extends SimpleModelElement {
 							else{
 								// We are over the lac Z gene location, but
 								// the gene isn't there, so float away.
-								detachFromDna();
+								detachFromDna(0);
 							}
 						}
 						else if (dnaStrand.isOnLacIGeneSpace(getPositionRef())){
@@ -177,7 +177,7 @@ public class RnaPolymerase extends SimpleModelElement {
 							else{
 								// We are over the lac I gene location, but
 								// the gene isn't there, so float away.
-								detachFromDna();
+								detachFromDna(0);
 							}
 						}
 					}
@@ -280,10 +280,11 @@ public class RnaPolymerase extends SimpleModelElement {
 		promoterAttachmentPartner = null;
 	}
 	
-	private void detachFromDna(){
+	private void detachFromDna(double delay){
 		transcribing = false;
 		traversing = false;
-		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBoundsAboveDna(), 2));
+		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, 
+				LacOperonModel.getMotionBoundsAboveDna(), delay));
 		recoveryCountdownTimer = RECOVERY_TIME;
 	}
 	

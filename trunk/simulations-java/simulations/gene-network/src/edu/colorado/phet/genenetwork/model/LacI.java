@@ -45,7 +45,7 @@ public class LacI extends SimpleModelElement {
 	private static double UNAVAILABLE_TIME = 5; // In seconds.
 	
 	// Time of existence.
-	private static final double EXISTENCE_TIME = 40; // Seconds.
+	private static final double EXISTENCE_TIME = 30; // Seconds.
 	
 	// Amount of time that this element and the lactose it bonds with
 	// continues to exist after the bond has occurred.
