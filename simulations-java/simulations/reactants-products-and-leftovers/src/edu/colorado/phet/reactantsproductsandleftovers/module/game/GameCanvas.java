@@ -31,6 +31,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class GameCanvas extends RPALCanvas {
     
+    private static final Color BUTTONS_COLOR = new Color( 255, 255, 0, 150 ); // translucent yellow
+    
     // node collection names, for managing visibility
     private static final String GAME_SETTINGS_STATE = "gameSetting";
     private static final String GAME_SUMMARY_STATE = "gameSummary";
@@ -108,13 +110,13 @@ public class GameCanvas extends RPALCanvas {
         // buttons, all under the same parent, to facilitate moving between Before & After boxes
         buttonsParentNode = new PhetPNode();
         parentNode.addChild( buttonsParentNode );
-        checkButton = new GradientButtonNode( RPALStrings.BUTTON_CHECK, 20, Color.YELLOW );
+        checkButton = new GradientButtonNode( RPALStrings.BUTTON_CHECK, 20, BUTTONS_COLOR );
         buttonsParentNode.addChild( checkButton );
-        nextButton = new GradientButtonNode( RPALStrings.BUTTON_NEXT, 20, Color.YELLOW );
+        nextButton = new GradientButtonNode( RPALStrings.BUTTON_NEXT, 20, BUTTONS_COLOR );
         buttonsParentNode.addChild( nextButton );
-        tryAgainButton = new GradientButtonNode( RPALStrings.BUTTON_TRY_AGAIN, 20, Color.YELLOW );
+        tryAgainButton = new GradientButtonNode( RPALStrings.BUTTON_TRY_AGAIN, 20, BUTTONS_COLOR );
         buttonsParentNode.addChild( tryAgainButton );
-        showAnswerButton = new GradientButtonNode( RPALStrings.BUTTON_SHOW_ANSWER, 20, Color.YELLOW );
+        showAnswerButton = new GradientButtonNode( RPALStrings.BUTTON_SHOW_ANSWER, 20, BUTTONS_COLOR );
         buttonsParentNode.addChild( showAnswerButton );
 
         // instructions
