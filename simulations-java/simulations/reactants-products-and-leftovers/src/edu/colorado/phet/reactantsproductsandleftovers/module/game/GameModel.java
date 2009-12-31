@@ -55,7 +55,14 @@ public class GameModel extends RPALModel {
             }
         };
         
-        startGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
+        initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
+    }
+    
+    private void initGame( int level, boolean timerVisible ) {
+        setLevel( level );
+        setTimerVisible( timerVisible );
+        setPoints( 0 );
+        newChallenges();
     }
     
     public void newGame() {
@@ -66,10 +73,7 @@ public class GameModel extends RPALModel {
     }
     
     public void startGame( int level, boolean timerVisible ) {
-        setLevel( level );
-        setTimerVisible( timerVisible );
-        setPoints( 0 );
-        newChallenges();
+        initGame( level, timerVisible );
         timer.start();
         fireGameStarted();
     }
