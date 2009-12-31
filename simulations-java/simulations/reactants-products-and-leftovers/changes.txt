@@ -1,3 +1,4 @@
+12/31/09 randomly pick a challenge type in level 3 of Game
 12/31/09 make game instructions clearer
 12/31/09 show point delta next to smiley face when answer is correct
 12/31/09 hide game instructions when user starts to make an answer by changing some spinner
