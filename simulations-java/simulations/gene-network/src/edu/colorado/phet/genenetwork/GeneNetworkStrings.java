@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.genenetwork;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
  * A collection of localized strings used by this simulations.

@@ -77,8 +77,4 @@ public class InjectionMotionStrategy extends AbstractMotionStrategy {
 			randomWalkMotionStrategy.doUpdatePositionAndMotion(dt);
 		}
 	}
-	
-	public boolean isDestinationReached(){
-		return (getModelElement().getPositionRef().distance(getDestination()) == 0);
-	}
 }

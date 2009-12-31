@@ -25,10 +25,6 @@ public class Glucose extends SimpleSugar {
 		super(model, initialPosition, Color.BLUE);
 	}
 	
-    public Glucose(IGeneNetworkModelControl model, double x, double y) {
-        this(model, new Point2D.Double(x,y));
-    }
-
 	public Glucose(IGeneNetworkModelControl model){
 		this(model, new Point2D.Double());
 	}

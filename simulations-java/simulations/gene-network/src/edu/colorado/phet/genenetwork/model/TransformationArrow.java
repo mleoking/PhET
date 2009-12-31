@@ -31,8 +31,6 @@ public class TransformationArrow extends SimpleModelElement {
 	private static double WIDTH = 0.5;          // In nanometers.
 	private static double HEAD_WIDTH = 2;       // In nanometers.
 	private static double HEAD_HEIGHT = 2;      // In nanometers.
-	private static double DEFAULT_LENGTH = 7;   // In nanometers.
-	private static double DEFAULT_POINTING_ANGLE = Math.PI / 2;   // In radians, 0 is to the right, PI/2 is straight up.
 	
 	private static double EXISTENCE_TIME = 0.01; // In seconds.
 	
@@ -51,10 +49,6 @@ public class TransformationArrow extends SimpleModelElement {
 	public TransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition, double length, boolean fadeIn, double pointingAngle) {
 		super(model, createShape(length, pointingAngle), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
 		this.pointingAngle = pointingAngle;
-	}
-	
-	public TransformationArrow(IGeneNetworkModelControl model, Point2D initialPosition) {
-		this(model, initialPosition, DEFAULT_LENGTH, true, DEFAULT_POINTING_ANGLE);
 	}
 	
     //------------------------------------------------------------------------

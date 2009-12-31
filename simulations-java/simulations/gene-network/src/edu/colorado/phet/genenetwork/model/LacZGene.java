@@ -16,10 +16,6 @@ public class LacZGene extends SimpleModelElement {
 				initialPosition, new Color(204, 171, 202), false, Double.POSITIVE_INFINITY);
 	}
 	
-    public LacZGene(IGeneNetworkModelControl model, double x, double y) {
-        this(model, new Point2D.Double(x,y));
-    }
-
 	public LacZGene(IGeneNetworkModelControl model){
 		this(model, new Point2D.Double());
 	}

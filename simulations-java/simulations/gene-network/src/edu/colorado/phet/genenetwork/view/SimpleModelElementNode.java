@@ -160,16 +160,6 @@ public class SimpleModelElementNode extends PPath {
     //----------------------------------------------------------------------------
 	
 	/**
-	 * This method forces the node to become visible regardless of the state
-	 * of the model element, i.e. whether or not the model element is
-	 * indicating that it should be transparent.  Note that this does NOT
-	 * forestall subsequent updates to the visibility state from the model.
-	 */
-	public void forceVisible(){
-		updatePaintAndStroke(true);
-	}
-	
-	/**
 	 * Set "ghost mode", which is a mode in which the node is presented as a
 	 * non-filled shape with a dotted outline.  This is generally intended to
 	 * convey the idea that the corresponding shape can or should go at a
