@@ -146,14 +146,17 @@ public class GameAnswer {
     }
     
     public void addChangeListener( ChangeListener listener ) {
+        System.out.println( "GameAnswer.addChangeListener" );//XXX
         listeners.add( listener );
     }
     
     public void removeChangeListener( ChangeListener listener ) {
+        System.out.println( "GameAnswer.removeChangeListener" );//XXX
         listeners.remove( listener );
     }
     
     private void fireStateChanged() {
+        System.out.println( "GameAnswer.fireStateChanged" );//XXX
         ChangeEvent event = new ChangeEvent( this );
         ArrayList<ChangeListener> listenersCopy = new ArrayList<ChangeListener>( listeners ); // avoid ConcurrentModificationException
         for ( ChangeListener listener : listenersCopy ) {
