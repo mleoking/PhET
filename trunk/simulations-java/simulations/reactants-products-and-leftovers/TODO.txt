@@ -13,6 +13,7 @@ MEDIUM PRIORITY
 - explicitly handle tab traversal in play area
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes
 - i18n of GameSummaryNode
+- game timer continues to count when Game module is not active because the computation is based on wall time
 
 LOW PRIORITY
 - javadoc
