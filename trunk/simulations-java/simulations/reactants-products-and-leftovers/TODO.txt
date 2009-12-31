@@ -3,6 +3,7 @@
 HIGH PRIORITY
 
 MEDIUM PRIORITY
+- make game buttons translucent so that any overlapped images can be seen
 - "answer" and "guess" used interchangably, "answer" could also mean "correct answer" (change to "guess" throughout?)
 - should Game summary node be draggable?
 - Game: animated curtains
