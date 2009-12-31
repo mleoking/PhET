@@ -2,6 +2,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -16,6 +17,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
@@ -35,8 +37,10 @@ public class GameSummaryNode extends PhetPNode {
     public GameSummaryNode( final GameModel model ) {
         super();
         
+        // message
         summaryLabel = new JLabel();
         
+        // buttons
         JButton newGameButton = new JButton( RPALStrings.BUTTON_NEW_GAME );
         newGameButton.setOpaque( false );
         JPanel buttonPanel = new JPanel();
@@ -48,15 +52,20 @@ public class GameSummaryNode extends PhetPNode {
             }
         });
         
+        // main panel
         JPanel panel = new JPanel( new BorderLayout() );
         panel.setBorder( BORDER );
         panel.setBackground( BACKGROUND );
-        panel.add( summaryLabel, BorderLayout.CENTER );
-        panel.add( buttonPanel, BorderLayout.SOUTH );
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        panel.setLayout( layout );
+        layout.addComponent( summaryLabel, 0, 0 );
+        layout.addAnchoredComponent( buttonPanel, 1, 0, GridBagConstraints.CENTER );
         
+        // PSwing
         PSwing pswing = new PSwing( panel );
         addChild( pswing );
         
+        // sync with model
         this.model = model;
         model.addGameListener( new GameAdapter() {
             @Override
@@ -65,6 +74,7 @@ public class GameSummaryNode extends PhetPNode {
             }
         });
         
+        // default state, to give this a general size for layout purposes
         update();
     }
     
@@ -73,6 +83,12 @@ public class GameSummaryNode extends PhetPNode {
         String challengesString = String.valueOf( GameModel.getChallengesPerGame() );
         Object[] args = { pointsString, challengesString };
         String scoreString = MessageFormat.format( "{0}/{1}", args );
-        summaryLabel.setText( "<html>Game Over!<br>Your final score is " + scoreString + "</html>"); //XXX i18n
+        //XXX i18n of text
+        String text = "<html>Game Over!<br><br>Your final score is " + scoreString;
+        if ( model.getPoints() == model.getPerfectScore() ) {
+            text += "<br><br>You have a perfect score! Woo hoo!";
+        }
+        text += "</html>";
+        summaryLabel.setText( text ); 
     }
 }

@@ -1,16 +1,18 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
+- Game: animated curtains
+- what should be displayed in Game Summary?
+- images will overlap in Game After box, grid has 20 cells, max images=40 (10x10x10x10 for 2 products, 2 leftovers)
 
 MEDIUM PRIORITY
-- images will overlap in Game After box, grid has 20 cells, max images=40 (10x10x10x10 for 2 products, 2 leftovers)
 - "answer" and "guess" used interchangably, "answer" could also mean "correct answer" (change to "guess" throughout?)
 - should Game summary node be draggable?
-- Game: animated curtains
 - PSwing memory leak affects tab traversal, #1874
 - associate ImageLayoutStrategy with the chemical reaction type?
 - explicitly handle tab traversal in play area
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes
+- i18n of GameSummaryNode
 
 LOW PRIORITY
 - javadoc
