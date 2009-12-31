@@ -4,11 +4,8 @@ package edu.colorado.phet.genenetwork.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;

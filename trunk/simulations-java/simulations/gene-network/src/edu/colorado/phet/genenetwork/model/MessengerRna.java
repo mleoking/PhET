@@ -137,10 +137,6 @@ public abstract class MessengerRna extends SimpleModelElement {
 		length += growthAmount;
 	}
 	
-	public int getSpawnCounter() {
-		return spawnCounter;
-	}
-
 	/**
 	 * Set whether this mRNA strand is "fully formed", meaning that it is
 	 * capable of producing its target macromolecule.

@@ -28,10 +28,6 @@ public class LacIGene extends SimpleModelElement {
 				new Point2D.Double(), new Color(167, 167, 167), false, Double.POSITIVE_INFINITY);
 	}
 	
-    public LacIGene(IGeneNetworkModelControl model, double x, double y) {
-        this(model, new Point2D.Double(x,y));
-    }
-
 	public LacIGene(IGeneNetworkModelControl model){
 		this(model, new Point2D.Double());
 	}

@@ -34,10 +34,6 @@ public abstract class ToolBoxItemNode extends PComposite {
 	protected static final ModelViewTransform2D SCALING_MVT = 
 		new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(0, 0), 6, true);
 	
-	// Distance at which items added into the model can be pulled in to the
-	// DNA chain.
-	protected static final double LOCK_TO_DNA_DISTANCE = 5;
-	
 	private static final double CAPTION_OFFSET_FROM_SELECTION_NODE = 4;
 	
     //----------------------------------------------------------------------------

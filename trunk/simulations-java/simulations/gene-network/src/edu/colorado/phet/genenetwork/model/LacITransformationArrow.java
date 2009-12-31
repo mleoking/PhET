@@ -14,10 +14,6 @@ public class LacITransformationArrow extends TransformationArrow {
 		lacIToAddToModel = lacI;
 	}
 
-	public LacITransformationArrow(IGeneNetworkModelControl model, LacI lacI) {
-		this(model, new Point2D.Double(0,0), lacI, 0);
-	}
-
 	@Override
 	protected void onTransitionToExistingState() {
 		// Time to add our LacI to the model.

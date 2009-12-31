@@ -1,16 +1,17 @@
 package edu.colorado.phet.genenetwork.test;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.util.Random;
+
+import javax.swing.JFrame;
+
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.util.Random;
 
 public class TestRNA {
     private JFrame frame;
@@ -78,11 +79,9 @@ public class TestRNA {
     }
 
     private static class RNANode extends PNode {
-        private RNA rna;
         private PhetPPath pPath;
 
         public RNANode(RNA rna) {
-            this.rna=rna;
 
             pPath = new PhetPPath(new BasicStroke(4),Color.black );
             addChild(pPath);

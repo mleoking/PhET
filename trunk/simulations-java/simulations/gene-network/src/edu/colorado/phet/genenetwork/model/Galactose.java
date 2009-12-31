@@ -19,10 +19,6 @@ public class Galactose extends SimpleSugar {
 		super(model, initialPosition, Color.ORANGE);
 	}
 
-    public Galactose(IGeneNetworkModelControl model, double x, double y) {
-        this(model, new Point2D.Double(x,y));
-    }
-
 	public Galactose(IGeneNetworkModelControl model){
 		this(model, new Point2D.Double());
 	}
