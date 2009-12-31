@@ -45,6 +45,6 @@ public class LacIMessengerRna extends MessengerRna {
 	}
 	
 	private static int generateSpawnCount(){
-		return 1 + RAND.nextInt(4);
+		return 2 + RAND.nextInt(2);
 	}
 }
