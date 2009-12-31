@@ -1,3 +1,4 @@
+12/31/09 tell user if they completed the game with a perfect score
 12/31/09 randomly pick a challenge type in level 3 of Game
 12/31/09 make game instructions clearer
 12/31/09 show point delta next to smiley face when answer is correct
