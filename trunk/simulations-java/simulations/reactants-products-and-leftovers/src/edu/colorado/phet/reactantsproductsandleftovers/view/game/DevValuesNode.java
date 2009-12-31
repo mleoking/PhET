@@ -55,9 +55,9 @@ public abstract class DevValuesNode extends PText {
             super( model );
         }
 
-        // Example: DEV: reactants=3, 4
+        // Example: ANSWER: reactants=3, 4
         protected void update() {
-            String s = "DEV: reactants=";
+            String s = "ANSWER: reactants=";
             Reactant[] reactants = getModel().getReaction().getReactants();
             for ( int i = 0; i < reactants.length; i++ ) {
                 if ( i != 0 ) {
@@ -78,9 +78,9 @@ public abstract class DevValuesNode extends PText {
             super( model );
         }
         
-        // Example: DEV: products=1, leftovers=2,3
+        // Example: ANSWER: products=1, leftovers=2,3
         protected void update() {
-            String s = "DEV: products=";
+            String s = "ANSWER: products=";
             Product[] products = getModel().getReaction().getProducts();
             for ( int i = 0; i < products.length; i++ ) {
                 if ( i != 0 ) {
