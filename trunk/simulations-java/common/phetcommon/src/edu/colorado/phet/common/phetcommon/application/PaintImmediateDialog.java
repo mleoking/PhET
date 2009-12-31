@@ -121,8 +121,8 @@ public class PaintImmediateDialog extends JDialog {
      */
     @Override
     public void show() {
-        timer.start();
         super.show();
+        timer.start();
     }
     
     /**
@@ -131,8 +131,8 @@ public class PaintImmediateDialog extends JDialog {
      */
     @Override
     public void hide() {
-        timer.stop();
         super.hide();
+        timer.stop();
     }
     
     /**
@@ -140,8 +140,8 @@ public class PaintImmediateDialog extends JDialog {
      */
     @Override
     public void dispose() {
-        timer.stop();
         super.dispose();
+        timer.stop();
     }
     
     /*
