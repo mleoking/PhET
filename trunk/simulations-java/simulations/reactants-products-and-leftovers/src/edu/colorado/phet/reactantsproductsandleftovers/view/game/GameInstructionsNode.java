@@ -9,6 +9,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 public class GameInstructionsNode extends PComposite {
     
+    private static final boolean SHOW_ARROW = false;
+    
     private static final PhetFont FONT = new PhetFont( 32 );
     private static final Color COLOR = Color.YELLOW;
     
@@ -22,7 +24,9 @@ public class GameInstructionsNode extends PComposite {
         addChild( htmlNode );
         
         arrowNode = new DownArrowNode( 80 );
-        addChild( arrowNode );
+        if ( SHOW_ARROW ) {
+            addChild( arrowNode );
+        }
         
         updateLayout();
     }
