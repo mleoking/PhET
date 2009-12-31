@@ -121,7 +121,7 @@ public class LacI extends SimpleModelElement {
 		
 		// Get the shape of a lactose molecule and shift it to the appropriate
 		// position.
-		Shape lactoseShape = new Lactose().getShape();
+		Shape lactoseShape = Lactose.getShape();
 		AffineTransform transform = new AffineTransform();
 		transform.setToTranslation(	0, HEIGHT/2 );
 		lactoseShape = transform.createTransformedShape(lactoseShape);
@@ -155,7 +155,7 @@ public class LacI extends SimpleModelElement {
 		
 		// Get the shape of a lactose molecule and shift it to the appropriate
 		// position.
-		Shape lactoseShape = new Lactose().getShape();
+		Shape lactoseShape = Lactose.getShape();
 		AffineTransform transform = new AffineTransform();
 		transform.setToTranslation(	0, HEIGHT/2 );
 		lactoseShape = transform.createTransformedShape(lactoseShape);

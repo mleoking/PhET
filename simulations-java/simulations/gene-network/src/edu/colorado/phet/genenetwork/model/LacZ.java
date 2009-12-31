@@ -146,7 +146,7 @@ public class LacZ extends SimpleModelElement {
 		
 		// Get the shape of a lactose molecule and shift it to the appropriate
 		// position.
-		Shape lactoseShape = new Lactose().getShape();
+		Shape lactoseShape = Lactose.getShape();
 		AffineTransform transform = new AffineTransform();
 		transform.setToTranslation(	0, -SIZE/2 );
 		lactoseShape = transform.createTransformedShape(lactoseShape);
