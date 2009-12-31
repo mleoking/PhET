@@ -18,6 +18,7 @@ LOW PRIORITY
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
 - move equation below Before/After boxes?
 - set font size of spinners instead of scaling (up/down arrows don't resize on Mac)
+- remove arrow code from GameInstructionsNode if arrow is not used
 
 MIGRATE TO COMMON
 - BracketedLabelNode
