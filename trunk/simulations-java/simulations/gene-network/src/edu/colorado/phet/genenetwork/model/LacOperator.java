@@ -31,7 +31,7 @@ public class LacOperator extends SimpleModelElement {
 	private static final double HEIGHT = 3;  // In nanometers.
 	private static final Dimension2D LAC_I_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT/2); 
 	private static final Dimension2D ATTACHMENT_REGION_SIZE = new PDimension(WIDTH * 0.5, HEIGHT / 2);
-	private static double LAC_I_ATTACHMENT_TIME = 12; // In seconds.
+	private static double LAC_I_ATTACHMENT_TIME = 18; // In seconds.
 	
 	//----------------------------------------------------------------------------
 	// Instance Data
