@@ -9,11 +9,12 @@ MEDIUM PRIORITY
 - should Game summary node be draggable?
 - Game: animated curtains
 - PSwing memory leak affects tab traversal, #1874
-- make ImageLayoutStrategy be associated with the chemical reaction type?
+- associate ImageLayoutStrategy with the chemical reaction type?
 - explicitly handle tab traversal in play area
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes
 
 LOW PRIORITY
+- javadoc
 - GameBoxNode is a lousy name for base class
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
 - move equation below Before/After boxes?
