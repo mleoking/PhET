@@ -17,7 +17,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  */
 public class GameModel extends RPALModel {
     
-    private static final boolean DEBUG_OUTPUT_ENABLED = true;
+    private static final boolean DEBUG_OUTPUT_ENABLED = false;
     
     private static final int CHALLENGES_PER_GAME = 10;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
