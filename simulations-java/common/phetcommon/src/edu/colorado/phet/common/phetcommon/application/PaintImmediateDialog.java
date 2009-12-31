@@ -34,6 +34,7 @@ public class PaintImmediateDialog extends JDialog {
     private PaintImmediateTimer timer;
     
     public PaintImmediateDialog() {
+        super();
         initPaintImmediateDialog();
     }
 
