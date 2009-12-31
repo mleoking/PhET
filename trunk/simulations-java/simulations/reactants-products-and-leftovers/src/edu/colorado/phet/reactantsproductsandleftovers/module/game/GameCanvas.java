@@ -63,6 +63,7 @@ public class GameCanvas extends RPALCanvas {
     private final GradientButtonNode checkButton, nextButton, tryAgainButton, showAnswerButton;
     private final GameInstructionsNode instructionsNode;
     private final GameSummaryNode gameSummaryNode;
+    private final PointsDeltaNode pointsDeltaNode;
     
     // developer nodes, allocated once, always visible
     private final DevBeforeValuesNode devBeforeValuesNode;
@@ -107,6 +108,10 @@ public class GameCanvas extends RPALCanvas {
         // face, for indicating correct/incorrect answers
         faceNode = new FaceNode();
         parentNode.addChild( faceNode );
+        
+        // points awarded
+        pointsDeltaNode = new PointsDeltaNode( model );
+        parentNode.addChild( pointsDeltaNode );
 
         // buttons, all under the same parent, to facilitate moving between Before & After boxes
         buttonsParentNode = new PhetPNode();
@@ -208,7 +213,7 @@ public class GameCanvas extends RPALCanvas {
         showAnswerButton.addPropertyChangeListener( buttonVisibilityListener );
         
         // visibility management
-        PNode[] allNodes = { gameSettingsNode, gameSummaryNode, parentNode, checkButton, nextButton, tryAgainButton, showAnswerButton, faceNode, instructionsNode };
+        PNode[] allNodes = { gameSettingsNode, gameSummaryNode, parentNode, checkButton, nextButton, tryAgainButton, showAnswerButton, faceNode, instructionsNode, pointsDeltaNode };
         visibilityManager = new NodeVisibilityManager( allNodes );
         initVisibilityManager();
         
@@ -221,10 +226,10 @@ public class GameCanvas extends RPALCanvas {
     private void initVisibilityManager() {
         visibilityManager.add( GAME_SETTINGS_STATE, gameSettingsNode );
         visibilityManager.add( FIRST_ATTEMPT_STATE, parentNode, checkButton, instructionsNode );
-        visibilityManager.add( FIRST_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode );
+        visibilityManager.add( FIRST_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode, pointsDeltaNode );
         visibilityManager.add( FIRST_ATTEMPT_WRONG_STATE, parentNode, tryAgainButton, faceNode );
         visibilityManager.add( SECOND_ATTEMPT_STATE, parentNode, checkButton );
-        visibilityManager.add( SECOND_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode );
+        visibilityManager.add( SECOND_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode, pointsDeltaNode );
         visibilityManager.add( SECOND_ATTEMPT_WRONG_STATE, parentNode, nextButton, showAnswerButton, faceNode );
         visibilityManager.add( ANSWER_SHOWN_STATE, parentNode, nextButton );
         visibilityManager.add( GAME_SUMMARY_STATE, gameSummaryNode, parentNode );
@@ -324,6 +329,7 @@ public class GameCanvas extends RPALCanvas {
         devAfterValuesNode.moveToFront();
         buttonsParentNode.moveToFront();
         faceNode.moveToFront();
+        pointsDeltaNode.moveToFront();
         instructionsNode.moveToFront();
         
         // visibility of dev nodes
@@ -380,6 +386,11 @@ public class GameCanvas extends RPALCanvas {
             y = boxNode.getYOffset() + ( ( boxNode.getBoxHeight() - faceNode.getFullBoundsReference().getHeight() ) / 2 ) - 20;
             faceNode.setOffset( x, y );
         }
+        
+        // points awarded, to right of face
+        x = faceNode.getFullBoundsReference().getMaxX() + 15;
+        y = faceNode.getFullBoundsReference().getCenterY() - ( pointsDeltaNode.getFullBoundsReference().getHeight() / 2 );
+        pointsDeltaNode.setOffset( x, y );
        
         // instructions centered in proper box
         {
