@@ -19,7 +19,7 @@ public class GameModel extends RPALModel {
     
     private static final boolean DEBUG_OUTPUT_ENABLED = true;
     
-    private static final int CHALLENGES_PER_GAME = 1;
+    private static final int CHALLENGES_PER_GAME = 10;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
     private static final boolean DEFAULT_TIMER_ENABLED = true;
     private static final double POINTS_FIRST_ATTEMPT = 1;  // points to award for correct answer on 1st attempt
