@@ -33,6 +33,7 @@ public class SummaryButton extends JButton {
             }
         } );
         StringBuffer summary = new StringBuffer();
+        long totalMS = 0;
         for ( int i = 0; i < categories.length; i++ ) {
             TimesheetData tasks = d.getEntriesForCategory( categories[i] );
             summary.append( "" + categories[i] + ": " + TimesheetApp.toString( tasks.getTotalTimeMillis() ) + "\n" );
@@ -44,8 +45,12 @@ public class SummaryButton extends JButton {
             for ( int k = 0; k < sorted.getNumEntries(); k++ ) {
                 TimesheetDataEntry e = sorted.getEntry( k );
                 summary.append( "\t" + TimesheetApp.toString( e.getElapsedTimeMillis() ) + ": " + e.getNotes() + "\n" );
+                totalMS += e.getElapsedTimeMillis();
             }
         }
+
+        summary = new StringBuffer("Total time: "+TimesheetApp.toString(totalMS)+"\n\n"+summary.toString());
+
         System.out.println( "summary = " + summary );
 
         String title = "Summary of " + d.getMinTime() + " - " + d.getMaxTime();
