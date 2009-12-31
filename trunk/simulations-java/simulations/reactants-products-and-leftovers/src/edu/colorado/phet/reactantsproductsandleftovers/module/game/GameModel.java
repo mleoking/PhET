@@ -114,6 +114,7 @@ public class GameModel extends RPALModel {
         return correct;
     }
     
+    //TODO: this needs to be rewritten, with many reactions to choose from, and more complicated selection criteria
     private void newChallenges() {
         if ( challenges != null ) {
             getChallenge().getAnswer().removeChangeListener( answerChangeListener );
@@ -134,7 +135,7 @@ public class GameModel extends RPALModel {
             }
             else {
                 reaction = new MethaneReaction();
-                challengeType = ChallengeType.HOW_MANY_REACTANTS;
+                challengeType = Math.random() > 0.5 ? ChallengeType.HOW_MANY_REACTANTS : ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS;
             }
             for ( Reactant reactant : reaction.getReactants() ) {
                 reactant.setQuantity( getRandomQuantity() );
