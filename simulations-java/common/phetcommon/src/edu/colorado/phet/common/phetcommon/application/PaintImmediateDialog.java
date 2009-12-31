@@ -105,13 +105,13 @@ public class PaintImmediateDialog extends JDialog {
             
             // Start the timer when the dialog is opened.
             @Override
-            public void windowOpened(WindowEvent e) {
+            public void windowOpened( WindowEvent e ) {
                 timer.start();
             }
 
             // Stop the timer when the dialog is closed.
             @Override
-            public void windowClosed(WindowEvent e) {
+            public void windowClosed( WindowEvent e ) {
                 timer.stop();
             }
             
