@@ -1,3 +1,4 @@
+12/31/09 create smile/frown face programmatically so that it's easy to change colors and strokes
 12/31/09 make game buttons translucent so that images behind buttons can be seen
 12/31/09 show images for user's guess in Game
 12/29/09 infrastructure for showing images corresponding to user's guess in Game

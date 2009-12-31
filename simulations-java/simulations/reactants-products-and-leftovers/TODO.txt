@@ -1,6 +1,7 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
+- programmatically create FaceNode, so it's easy to change colors and strokes
 
 MEDIUM PRIORITY
 - images will overlap in Game After box, grid has 20 cells, max images=40 (10x10x10x10 for 2 products, 2 leftovers)
