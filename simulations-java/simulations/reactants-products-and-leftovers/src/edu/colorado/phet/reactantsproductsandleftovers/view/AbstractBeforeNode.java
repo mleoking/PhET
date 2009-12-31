@@ -153,35 +153,34 @@ public abstract class AbstractBeforeNode extends PhetPNode {
      * For each reactant, update quantity control and number of images to match the quantity.
      */
     private void update() {
-        
+     
+        // remove all images first, so that there's room in the layout...
         Reactant[] reactants = reaction.getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
-            
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = imageNodeLists.get( i );
-            
-            if ( reactant.getQuantity() < imageNodes.size() ) {
-                // remove images
-                while ( reactant.getQuantity() < imageNodes.size() ) {
-                    SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
-                    imageNode.cleanup();
-                    imageLayoutNode.removeNode( imageNode );
-                    imageNodes.remove( imageNode );
-                }
+            while ( reactant.getQuantity() < imageNodes.size() ) {
+                SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
+                imageNode.cleanup();
+                imageLayoutNode.removeNode( imageNode );
+                imageNodes.remove( imageNode );
             }
-            else {
+        }
+        
+        // ...then add all images
+        for ( int i = 0; i < reactants.length; i++ ) {
+            Reactant reactant = reactants[i];
+            ArrayList<SubstanceImageNode> imageNodes = imageNodeLists.get( i );
+            while ( reactant.getQuantity() > imageNodes.size() ) {
                 PNode previousNode = null;
                 if ( imageNodes.size() > 0 ) {
                     previousNode = imageNodes.get( imageNodes.size() - 1 );
                 }
-                
-                while( reactant.getQuantity() > imageNodes.size() ) {
-                    SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
-                    imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                    imageNodes.add( imageNode );
-                    imageLayoutNode.addNode( imageNode, previousNode, quantityValueNodes.get( i ) );
-                    previousNode = imageNode;
-                }
+                SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
+                imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
+                imageNodes.add( imageNode );
+                imageLayoutNode.addNode( imageNode, previousNode, quantityValueNodes.get( i ) );
+                previousNode = imageNode;
             }
         }
     }
