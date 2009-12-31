@@ -158,6 +158,7 @@ public class PaintImmediateDialog extends JDialog {
             setRepeats( true ); // yes, this intentionally repeats, see #2072
         }
         
+        @Override
         public void start() {
             if ( WORKAROUND_ENABLED ) {
                 super.start();
