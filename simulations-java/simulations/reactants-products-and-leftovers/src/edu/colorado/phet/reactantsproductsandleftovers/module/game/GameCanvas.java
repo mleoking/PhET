@@ -32,6 +32,7 @@ import edu.umd.cs.piccolo.PNode;
 public class GameCanvas extends RPALCanvas {
     
     private static final Color BUTTONS_COLOR = new Color( 255, 255, 0, 150 ); // translucent yellow
+    private static final int BUTTONS_FONT_SIZE = 30;
     
     // node collection names, for managing visibility
     private static final String GAME_SETTINGS_STATE = "gameSetting";
@@ -110,13 +111,13 @@ public class GameCanvas extends RPALCanvas {
         // buttons, all under the same parent, to facilitate moving between Before & After boxes
         buttonsParentNode = new PhetPNode();
         parentNode.addChild( buttonsParentNode );
-        checkButton = new GradientButtonNode( RPALStrings.BUTTON_CHECK, 20, BUTTONS_COLOR );
+        checkButton = new GradientButtonNode( RPALStrings.BUTTON_CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
         buttonsParentNode.addChild( checkButton );
-        nextButton = new GradientButtonNode( RPALStrings.BUTTON_NEXT, 20, BUTTONS_COLOR );
+        nextButton = new GradientButtonNode( RPALStrings.BUTTON_NEXT, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
         buttonsParentNode.addChild( nextButton );
-        tryAgainButton = new GradientButtonNode( RPALStrings.BUTTON_TRY_AGAIN, 20, BUTTONS_COLOR );
+        tryAgainButton = new GradientButtonNode( RPALStrings.BUTTON_TRY_AGAIN, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
         buttonsParentNode.addChild( tryAgainButton );
-        showAnswerButton = new GradientButtonNode( RPALStrings.BUTTON_SHOW_ANSWER, 20, BUTTONS_COLOR );
+        showAnswerButton = new GradientButtonNode( RPALStrings.BUTTON_SHOW_ANSWER, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
         buttonsParentNode.addChild( showAnswerButton );
 
         // instructions
@@ -217,7 +218,7 @@ public class GameCanvas extends RPALCanvas {
         visibilityManager.add( FIRST_ATTEMPT_STATE, parentNode, checkButton, instructionsNode );
         visibilityManager.add( FIRST_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode );
         visibilityManager.add( FIRST_ATTEMPT_WRONG_STATE, parentNode, tryAgainButton, faceNode );
-        visibilityManager.add( SECOND_ATTEMPT_STATE, parentNode, checkButton, instructionsNode );
+        visibilityManager.add( SECOND_ATTEMPT_STATE, parentNode, checkButton );
         visibilityManager.add( SECOND_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode );
         visibilityManager.add( SECOND_ATTEMPT_WRONG_STATE, parentNode, nextButton, showAnswerButton, faceNode );
         visibilityManager.add( ANSWER_SHOWN_STATE, parentNode, nextButton );
@@ -315,6 +316,10 @@ public class GameCanvas extends RPALCanvas {
         buttonsParentNode.moveToFront();
         faceNode.moveToFront();
         instructionsNode.moveToFront();
+        
+        // visibility of dev nodes
+        devBeforeValuesNode.setVisible( model.getChallengeType() == ChallengeType.HOW_MANY_REACTANTS );
+        devAfterValuesNode.setVisible( !devBeforeValuesNode.getVisible() );
 
         updateNodesLayout();
     }
@@ -353,7 +358,7 @@ public class GameCanvas extends RPALCanvas {
         y = Math.max( beforeNode.getFullBoundsReference().getMaxY(), afterNode.getFullBoundsReference().getMaxY() ) + 10;
         scoreboardNode.setOffset( x, y );
 
-        // face centered in proper box
+        // face a little above center in proper box
         {
             GameBoxNode boxNode = null;
             if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
@@ -363,7 +368,7 @@ public class GameCanvas extends RPALCanvas {
                 boxNode = beforeNode;
             }
             x = boxNode.getXOffset() + ( ( boxNode.getBoxWidth() - faceNode.getFullBoundsReference().getWidth() ) / 2 );
-            y = boxNode.getYOffset() + ( ( boxNode.getBoxHeight() - faceNode.getFullBoundsReference().getHeight() ) / 2 );
+            y = boxNode.getYOffset() + ( ( boxNode.getBoxHeight() - faceNode.getFullBoundsReference().getHeight() ) / 2 ) - 20;
             faceNode.setOffset( x, y );
         }
        
