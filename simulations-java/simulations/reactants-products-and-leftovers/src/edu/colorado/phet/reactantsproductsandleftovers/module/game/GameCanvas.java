@@ -159,6 +159,11 @@ public class GameCanvas extends RPALCanvas {
             public void challengeChanged() {
                 handleChallengeChanged();
             }
+            
+            @Override 
+            public void answerChanged() {
+                handleAnswerChanged();
+            }
         } );
 
         // when any button's visibility changes, update the layout of the buttons
@@ -249,6 +254,10 @@ public class GameCanvas extends RPALCanvas {
         showUserAnswer( true );
         visibilityManager.setVisibility( FIRST_ATTEMPT_STATE );
         updateNodes();
+    }
+    
+    private void handleAnswerChanged() {
+        instructionsNode.setVisible( false );
     }
     
     private void checkButtonPressed() {
