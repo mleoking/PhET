@@ -25,6 +25,4 @@ public class RPALImages {
     public static final BufferedImage O2 = RPALResources.getImage( "O2.png" );
     
     public static final BufferedImage STOPWATCH = RPALResources.getImage( "blue-stopwatch.png" );
-    public static final BufferedImage SMILEY_FACE = RPALResources.getImage( "smiley-face.png" );
-    public static final BufferedImage FROWNY_FACE = RPALResources.getImage( "frowny-face.png" );
 }

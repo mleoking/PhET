@@ -1,3 +1,4 @@
+blue-stopwatch.png source=www.freeclipartnow.com notes=Public Domain license, see http://www.freeclipartnow.com/termsofuse.php
 bread.png author=PhET
 CH4.png author=PhET
 cheese.png author=PhET
@@ -8,4 +9,3 @@ meat.png author=PhET
 N2.png author=PhET
 NH3.png author=PhET
 O2.png author=PhET
-blue-stopwatch.png source=www.freeclipartnow.com notes=Public Domain license, see http://www.freeclipartnow.com/termsofuse.php
