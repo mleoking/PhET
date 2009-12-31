@@ -22,13 +22,6 @@ import javax.swing.Timer;
  */
 public class PaintImmediateDialog extends JDialog {
     
-    /*
-     * This flag is for testing purposes, to confirm that the workaround is effective.
-     * true -> workaround enabled, timer paints contentPane while visible
-     * false -> workaround disabled, behaves exactly like a JDialog.
-     */
-    private static final boolean WORKAROUND_ENABLED = true;
-    
     private static final int TIMER_DELAY = 250; // ms, initial delay and between-event delay
     
     private PaintImmediateTimer timer;
@@ -78,6 +71,27 @@ public class PaintImmediateDialog extends JDialog {
         initPaintImmediateDialog();
     }
     
+    /**
+     * Enables/disables the workaround, for testing purposes.
+     * true -> workaround enabled, timer paints contentPane while visible,
+     * false -> workaround disabled, behaves exactly like a JDialog.
+     * @param enabled
+     */
+    public void setWorkaroundEnabled( boolean enabled ) {
+        timer.setWorkaroundEnabled( enabled );
+        if ( isVisible() && enabled ) {
+            timer.start();
+        }
+    }
+    
+    /**
+     * Enables/disables debug output on System.out, for testing purposes.
+     * @param enabled
+     */
+    public void setDebugOutputEnabled( boolean enabled ) {
+        timer.setDebugOutputEnabled( enabled );
+    }
+    
     /*
      * Initialization specific to this class.
      */
@@ -89,65 +103,39 @@ public class PaintImmediateDialog extends JDialog {
         //TODO will window events be received in a timely manner?
         addWindowListener( new WindowAdapter() {
             
+            // Start the timer when the dialog is opened.
+            @Override
+            public void windowOpened(WindowEvent e) {
+                timer.start();
+            }
+
+            // Stop the timer when the dialog is closed.
+            @Override
+            public void windowClosed(WindowEvent e) {
+                timer.stop();
+            }
+            
             // Stop the timer when the dialog is iconified.
+            @Override
             public void windowIconified( WindowEvent e ) {
                 timer.stop();
             }
 
             // Start the timer when the dialog is deiconfied.
+            @Override
             public void windowDeiconified( WindowEvent e ) {
                 timer.start();
             }
         });
     }
     
-    /**
-     * Run the timer only while the dialog is visible. 
-     */
-    @Override
-    public void setVisible( boolean visible ) {
-        super.setVisible( visible );
-        if ( visible ) {
-            timer.start();
-        }
-        else {
-            timer.stop();
-        }
-    }
-    
-    /**
-     * Some PhET sims used the deprecated show method, so support it.
-     * @deprecated
-     */
-    @Override
-    public void show() {
-        super.show();
-        timer.start();
-    }
-    
-    /**
-     * Some PhET sims used the deprecated hide method, so support it.
-     * @deprecated
-     */
-    @Override
-    public void hide() {
-        super.hide();
-        timer.stop();
-    }
-    
-    /**
-     * Stop the timer when the dialog is disposed.
-     */
-    @Override
-    public void dispose() {
-        super.dispose();
-        timer.stop();
-    }
-    
     /*
      * A timer that periodically repaints some component.
      */
     private static class PaintImmediateTimer extends Timer {
+        
+        private boolean workaroundEnabled = true;
+        private boolean debugOutputEnabled = false;
         
         public PaintImmediateTimer( final JComponent component ) {
             super( TIMER_DELAY, new ActionListener() {
@@ -158,10 +146,31 @@ public class PaintImmediateDialog extends JDialog {
             setRepeats( true ); // yes, this intentionally repeats, see #2072
         }
         
+        public void setWorkaroundEnabled( boolean enabled ) {
+            workaroundEnabled = enabled;
+        }
+        
+        public void setDebugOutputEnabled( boolean enabled ) {
+            debugOutputEnabled = enabled;
+        }
+        
         @Override
         public void start() {
-            if ( WORKAROUND_ENABLED ) {
+            if ( debugOutputEnabled ) {
+                System.out.println( "PaintImmediateTimer.start" );
+            }
+            if ( workaroundEnabled ) {
                 super.start();
+            }
+        }
+        
+        @Override
+        public void stop() {
+            if ( debugOutputEnabled ) {
+                System.out.println( "PaintImmediateTimer.stop" );
+            }
+            if ( workaroundEnabled ) {
+                super.stop();
             }
         }
     }
