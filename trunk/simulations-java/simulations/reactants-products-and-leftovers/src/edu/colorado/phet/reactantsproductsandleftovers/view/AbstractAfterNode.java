@@ -218,7 +218,7 @@ public abstract class AbstractAfterNode extends PhetPNode {
         }
 
         /*
-         * Do all removal first, so that we free up space in the box.
+         * Do all removal first, so that we free up space in the layout.
          */
         
         // remove products
@@ -226,13 +226,11 @@ public abstract class AbstractAfterNode extends PhetPNode {
         for ( int i = 0; i < products.length; i++ ) {
             Product product = products[i];
             ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
-            if ( product.getQuantity() < imageNodes.size() ) {
-                while ( product.getQuantity() < imageNodes.size() ) {
-                    SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
-                    imageNode.cleanup();
-                    imageLayoutNode.removeNode( imageNode );
-                    imageNodes.remove( imageNode );
-                }
+            while ( product.getQuantity() < imageNodes.size() ) {
+                SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
+                imageNode.cleanup();
+                imageLayoutNode.removeNode( imageNode );
+                imageNodes.remove( imageNode );
             }
         }
         
@@ -241,18 +239,16 @@ public abstract class AbstractAfterNode extends PhetPNode {
         for ( int i = 0; i < reactants.length; i++ ) {
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = leftoverImageNodeLists.get( i );
-            if ( reactant.getLeftovers() < imageNodes.size() ) {
-                while ( reactant.getLeftovers() < imageNodes.size() ) {
-                    SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
-                    imageNode.cleanup();
-                    imageLayoutNode.removeNode( imageNode );
-                    imageNodes.remove( imageNode );
-                }
+            while ( reactant.getLeftovers() < imageNodes.size() ) {
+                SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
+                imageNode.cleanup();
+                imageLayoutNode.removeNode( imageNode );
+                imageNodes.remove( imageNode );
             }
         }
 
         /*
-         * Do all additions after removals, so that we free up space in the box.
+         * Do all additions after removals, so that we free up space in the layout.
          */
         
         // add products
@@ -260,19 +256,14 @@ public abstract class AbstractAfterNode extends PhetPNode {
             ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
             Product product = products[i];
             while ( product.getQuantity() > imageNodes.size() ) {
-
-                PNode previousNode = null;
+                PNode lastNodeAdded = null;
                 if ( imageNodes.size() > 0 ) {
-                    previousNode = imageNodes.get( imageNodes.size() - 1 );
+                    lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
                 }
-
-                while ( product.getQuantity() > imageNodes.size() ) {
-                    SubstanceImageNode imageNode = new SubstanceImageNode( product );
-                    imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                    imageNodes.add( imageNode );
-                    imageLayoutNode.addNode( imageNode, previousNode, quantityValueNodes.get( i ) );
-                    previousNode = imageNode;
-                }
+                SubstanceImageNode imageNode = new SubstanceImageNode( product );
+                imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
+                imageNodes.add( imageNode );
+                imageLayoutNode.addNode( imageNode, lastNodeAdded, quantityValueNodes.get( i ) );
             }
         }
 
@@ -281,19 +272,14 @@ public abstract class AbstractAfterNode extends PhetPNode {
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = leftoverImageNodeLists.get( i );
             while ( reactant.getLeftovers() > imageNodes.size() ) {
-
-                PNode previousNode = null;
+                PNode lastNodeAdded = null;
                 if ( imageNodes.size() > 0 ) {
-                    previousNode = imageNodes.get( imageNodes.size() - 1 );
+                    lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
                 }
-
-                while ( reactant.getLeftovers() > imageNodes.size() ) {
-                    SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
-                    imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                    imageNodes.add( imageNode );
-                    imageLayoutNode.addNode( imageNode, previousNode, leftoverValueNodes.get( i ) );
-                    previousNode = imageNode;
-                }
+                SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
+                imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
+                imageNodes.add( imageNode );
+                imageLayoutNode.addNode( imageNode, lastNodeAdded, leftoverValueNodes.get( i ) );
             }
         }
     }

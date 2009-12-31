@@ -205,11 +205,11 @@ public class GameBeforeNode extends GameBoxNode {
         for ( int i = 0; i < reactants.length; i++ ) {
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = reactantImageNodeLists.get( i );
-            PNode lastNodeAdded = null;
-            if ( imageNodes.size() > 0 ) {
-                lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
-            }
             while ( reactant.getQuantity() > imageNodes.size() ) {
+                PNode lastNodeAdded = null;
+                if ( imageNodes.size() > 0 ) {
+                    lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
+                }
                 SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                 imageNodes.add( imageNode );

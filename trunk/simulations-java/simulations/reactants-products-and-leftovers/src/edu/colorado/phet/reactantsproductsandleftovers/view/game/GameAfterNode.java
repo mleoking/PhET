@@ -295,16 +295,15 @@ public class GameAfterNode extends GameBoxNode {
         for ( int i = 0; i < products.length; i++ ) {
             ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
             Product product = products[i];
-            PNode lastNodeAdded = null;
-            if ( imageNodes.size() > 0 ) {
-                lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
-            }
             while ( product.getQuantity() > imageNodes.size() ) {
+                PNode lastNodeAdded = null;
+                if ( imageNodes.size() > 0 ) {
+                    lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
+                }
                 SubstanceImageNode imageNode = new SubstanceImageNode( product );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                 imageNodes.add( imageNode );
                 guessImagesNode.addNode( imageNode, lastNodeAdded, quantityValueNodes.get( i ) );
-                lastNodeAdded = imageNode;
             }
         }
 
@@ -312,16 +311,15 @@ public class GameAfterNode extends GameBoxNode {
         for ( int i = 0; i < reactants.length; i++ ) {
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = leftoverImageNodeLists.get( i );
-            PNode lastNodeAdded = null;
-            if ( imageNodes.size() > 0 ) {
-                lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
-            }
             while ( reactant.getLeftovers() > imageNodes.size() ) {
+                PNode lastNodeAdded = null;
+                if ( imageNodes.size() > 0 ) {
+                    lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
+                }
                 SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                 imageNodes.add( imageNode );
                 guessImagesNode.addNode( imageNode, lastNodeAdded, leftoverValueNodes.get( i ) );
-                lastNodeAdded = imageNode;
             }
         }
     }
