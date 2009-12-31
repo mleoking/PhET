@@ -3,7 +3,7 @@
 HIGH PRIORITY
 
 MEDIUM PRIORITY
-- make game buttons translucent so that any overlapped images can be seen
+- images will overlap in Game After box, grid has 20 cells, max images=40 (10x10x10x10 for 2 products, 2 leftovers)
 - "answer" and "guess" used interchangably, "answer" could also mean "correct answer" (change to "guess" throughout?)
 - should Game summary node be draggable?
 - Game: animated curtains
