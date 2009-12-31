@@ -43,23 +43,38 @@ public class GameAfterNode extends GameBoxNode {
     private final ImageLayoutNode answerImagesNode, guessImagesNode;
     private final ArrayList<QuantityValueNode> quantityValueNodes;
     private final ArrayList<LeftoversValueNode> leftoverValueNodes;
+    private final ArrayList<ArrayList<SubstanceImageNode>> productImageNodeLists, leftoverImageNodeLists; // one list of images per product and leftover
     
     public GameAfterNode( GameModel model ) {
         super( TITLE );
         
-        // one quantity display for each product
+        // image node lists
+        productImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
+        leftoverImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
+        
+        // product images and value displays
         quantityValueNodes = new ArrayList<QuantityValueNode>();
         Product[] products = model.getReaction().getProducts();
         for ( Product product : products ) {
+            
+            // one list of image nodes for each product 
+            productImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
+            
+            // one value display for each product
             QuantityValueNode quantityNode = new QuantityValueNode( product, model.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showNames */ );
             addChild( quantityNode );
             quantityValueNodes.add( quantityNode );
         }
         
-        // one quantity display for each leftover
+        // leftovers images and value displays
         leftoverValueNodes = new ArrayList<LeftoversValueNode>();
         Reactant[] reactants = model.getReaction().getReactants();
         for ( Reactant reactant : reactants ) {
+            
+            // one list of image nodes for each leftover 
+            leftoverImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
+            
+            // one quantity display for each leftover
             LeftoversValueNode leftoverNode = new LeftoversValueNode( reactant, model.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showNames */ );
             addChild( leftoverNode );
             leftoverValueNodes.add( leftoverNode );
@@ -135,6 +150,7 @@ public class GameAfterNode extends GameBoxNode {
         createAnswerImages();
         addChild( answerImagesNode );
         guessImagesNode = new GridLayoutNode( getBoxSize() );
+        updateGuessImages();
         addChild( guessImagesNode );
         
         // default state
@@ -201,7 +217,7 @@ public class GameAfterNode extends GameBoxNode {
     }
     
     /*
-     * Sets images for the products and leftovers.
+     * Sets images for the products and leftovers of the correct answer.
      */
     private void createAnswerImages() {
         
@@ -231,7 +247,82 @@ public class GameAfterNode extends GameBoxNode {
         }
     }
     
+    /*
+     * Updates images for products and leftovers to match the user's guess.
+     * The last image added is the first to be removed. 
+     */
     private void updateGuessImages() {
-        //XXX
+        
+        /*
+         * Do all removal first, so that we free up space in the box.
+         */
+        
+        // remove products
+        Product[] products = model.getAnswer().getProducts();
+        for ( int i = 0; i < products.length; i++ ) {
+            Product product = products[i];
+            ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
+            if ( product.getQuantity() < imageNodes.size() ) {
+                while ( product.getQuantity() < imageNodes.size() ) {
+                    SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
+                    imageNode.cleanup();
+                    guessImagesNode.removeNode( imageNode );
+                    imageNodes.remove( imageNode );
+                }
+            }
+        }
+        
+        // remove leftovers
+        Reactant[] reactants = model.getAnswer().getReactants();
+        for ( int i = 0; i < reactants.length; i++ ) {
+            Reactant reactant = reactants[i];
+            ArrayList<SubstanceImageNode> imageNodes = leftoverImageNodeLists.get( i );
+            if ( reactant.getLeftovers() < imageNodes.size() ) {
+                while ( reactant.getLeftovers() < imageNodes.size() ) {
+                    SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
+                    imageNode.cleanup();
+                    guessImagesNode.removeNode( imageNode );
+                    imageNodes.remove( imageNode );
+                }
+            }
+        }
+
+        /*
+         * Do all additions after removals, so that we have free space in the box.
+         */
+        
+        // add products
+        for ( int i = 0; i < products.length; i++ ) {
+            ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
+            Product product = products[i];
+            PNode lastNodeAdded = null;
+            if ( imageNodes.size() > 0 ) {
+                lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
+            }
+            while ( product.getQuantity() > imageNodes.size() ) {
+                SubstanceImageNode imageNode = new SubstanceImageNode( product );
+                imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
+                imageNodes.add( imageNode );
+                guessImagesNode.addNode( imageNode, lastNodeAdded, quantityValueNodes.get( i ) );
+                lastNodeAdded = imageNode;
+            }
+        }
+
+        // add leftovers
+        for ( int i = 0; i < reactants.length; i++ ) {
+            Reactant reactant = reactants[i];
+            ArrayList<SubstanceImageNode> imageNodes = leftoverImageNodeLists.get( i );
+            PNode lastNodeAdded = null;
+            if ( imageNodes.size() > 0 ) {
+                lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
+            }
+            while ( reactant.getLeftovers() > imageNodes.size() ) {
+                SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
+                imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
+                imageNodes.add( imageNode );
+                guessImagesNode.addNode( imageNode, lastNodeAdded, leftoverValueNodes.get( i ) );
+                lastNodeAdded = imageNode;
+            }
+        }
     }
 }

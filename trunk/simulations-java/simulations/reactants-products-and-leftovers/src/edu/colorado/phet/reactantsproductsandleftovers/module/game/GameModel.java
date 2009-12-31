@@ -141,6 +141,7 @@ public class GameModel extends RPALModel {
             }
             challenges[i] = new GameChallenge( challengeType, reaction );
         }
+        getChallenge().getAnswer().addChangeListener( answerChangeListener );
         fireChallengeChanged();
     }
     

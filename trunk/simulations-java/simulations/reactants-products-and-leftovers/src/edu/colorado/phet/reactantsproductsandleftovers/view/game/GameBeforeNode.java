@@ -37,19 +37,28 @@ public class GameBeforeNode extends GameBoxNode {
     private final GameModel model;
     private final GameListener gameListener;
     private final ImageLayoutNode answerImagesNode, guessImagesNode;
-    private final ArrayList<QuantityValueNode> quantityValueNodes;
+    private final ArrayList<QuantityValueNode> reactantValueNodes;
+    private final ArrayList<ArrayList<SubstanceImageNode>> reactantImageNodeLists; // one list of images per reactant
     
     public GameBeforeNode( GameModel model ) {
         super( TITLE );
         
-        // one quantity control for each reactant
-        quantityValueNodes = new ArrayList<QuantityValueNode>();
+        // image node lists
+        reactantImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
+        
+        // reactant images and value displays
+        reactantValueNodes = new ArrayList<QuantityValueNode>();
         Reactant[] reactants = model.getReaction().getReactants();
         for ( Reactant reactant : reactants ) {
+            
+            // one list of image nodes for each reactant 
+            reactantImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
+            
+            // one value display for each reactant
             QuantityValueNode quantityNode = new QuantityValueNode( reactant, model.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showName */ );
             quantityNode.setEditable( false );
             addChild( quantityNode );
-            quantityValueNodes.add( quantityNode );
+            reactantValueNodes.add( quantityNode );
         }
         
         // layout, origin at upper-left corner of box
@@ -68,19 +77,19 @@ public class GameBeforeNode extends GameBoxNode {
         x = boxNode.getFullBoundsReference().getMinX() + margin + ( deltaX / 2 );
         y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
         for ( int i = 0; i < reactants.length; i++ ) {
-            quantityValueNodes.get( i ).setOffset( x, y );
+            reactantValueNodes.get( i ).setOffset( x, y );
             x += deltaX;
         }
         
         // reactants bracket, after doing layout of leftover quantity displays
-        double startX = quantityValueNodes.get( 0 ).getFullBoundsReference().getMinX();
-        double endX = quantityValueNodes.get( quantityValueNodes.size() - 1 ).getFullBoundsReference().getMaxX();
+        double startX = reactantValueNodes.get( 0 ).getFullBoundsReference().getMinX();
+        double endX = reactantValueNodes.get( reactantValueNodes.size() - 1 ).getFullBoundsReference().getMaxX();
         double width = endX - startX;
         PNode reactantsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_REACTANTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
         addChild( reactantsLabelNode );
         x = startX;
         y = 0;
-        for ( QuantityValueNode node : quantityValueNodes ) {
+        for ( QuantityValueNode node : reactantValueNodes ) {
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
         }
         reactantsLabelNode.setOffset( x, y );
@@ -100,6 +109,7 @@ public class GameBeforeNode extends GameBoxNode {
         createAnswerImages();
         addChild( answerImagesNode );
         guessImagesNode = new GridLayoutNode( getBoxSize() );
+        updateGuessImages();
         addChild( guessImagesNode );
         
         // default state
@@ -118,8 +128,8 @@ public class GameBeforeNode extends GameBoxNode {
     public void showCorrectAnswer() {
         
         // reactants
-        for ( int i = 0; i < quantityValueNodes.size(); i++ ) {
-            QuantityValueNode valueNode = quantityValueNodes.get( i );
+        for ( int i = 0; i < reactantValueNodes.size(); i++ ) {
+            QuantityValueNode valueNode = reactantValueNodes.get( i );
             // attach to reactant of reaction
             valueNode.setSubstance( model.getReaction().getReactant( i ) );
             // set to read-only
@@ -134,8 +144,8 @@ public class GameBeforeNode extends GameBoxNode {
     public void showUserAnswer( boolean editable ) {
         
         // reactants
-        for ( int i = 0; i < quantityValueNodes.size(); i++ ) {
-            QuantityValueNode valueNode = quantityValueNodes.get( i );
+        for ( int i = 0; i < reactantValueNodes.size(); i++ ) {
+            QuantityValueNode valueNode = reactantValueNodes.get( i );
             // attach to reactant of user's answer
             valueNode.setSubstance( model.getAnswer().getReactant( i ) );
             // set editability
@@ -148,7 +158,7 @@ public class GameBeforeNode extends GameBoxNode {
     }
     
     /*
-     * Sets images for the reactants.
+     * Sets images for the reactants of the correct answer.
      */
     private void createAnswerImages() {
         Reactant[] reactants = model.getReaction().getReactants();
@@ -163,8 +173,50 @@ public class GameBeforeNode extends GameBoxNode {
             }
         }
     }
-    
+
+    /*
+     * Updates images for reactants to match the user's guess.
+     * The last image added is the first to be removed. 
+     */
     private void updateGuessImages() {
-        //XXX
+
+        /*
+         * Do all removal first, so that we free up space in the box.
+         */
+
+        // remove reactants
+        Reactant[] reactants = model.getAnswer().getReactants();
+        for ( int i = 0; i < reactants.length; i++ ) {
+            Reactant reactant = reactants[i];
+            ArrayList<SubstanceImageNode> imageNodes = reactantImageNodeLists.get( i );
+            while ( reactant.getQuantity() < imageNodes.size() ) {
+                SubstanceImageNode imageNode = imageNodes.get( imageNodes.size() - 1 );
+                imageNode.cleanup();
+                guessImagesNode.removeNode( imageNode );
+                imageNodes.remove( imageNode );
+            }
+        }
+
+        /*
+         * Do all additions after removals, so that we have free space in the box.
+         */
+
+        // add reactants
+        for ( int i = 0; i < reactants.length; i++ ) {
+            Reactant reactant = reactants[i];
+            ArrayList<SubstanceImageNode> imageNodes = reactantImageNodeLists.get( i );
+            PNode lastNodeAdded = null;
+            if ( imageNodes.size() > 0 ) {
+                lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
+            }
+            while ( reactant.getQuantity() > imageNodes.size() ) {
+                SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
+                imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
+                imageNodes.add( imageNode );
+                guessImagesNode.addNode( imageNode, lastNodeAdded, reactantValueNodes.get( i ) );
+                lastNodeAdded = imageNode;
+            }
+        }
     }
+    
 }

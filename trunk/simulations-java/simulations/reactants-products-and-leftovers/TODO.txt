@@ -1,7 +1,6 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- Game: "guess" images in before/after boxes
 
 MEDIUM PRIORITY
 - "answer" and "guess" used interchangably, "answer" could also mean "correct answer" (change to "guess" throughout?)
