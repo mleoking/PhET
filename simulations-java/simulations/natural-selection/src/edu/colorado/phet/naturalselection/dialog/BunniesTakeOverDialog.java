@@ -57,7 +57,10 @@ public class BunniesTakeOverDialog extends PaintImmediateDialog {
         panel.setInsets( new Insets( 10, 10, 10, 10 ) );
 
         JButton playAgainButton = new JButton( NaturalSelectionStrings.GAME_OVER_PLAY_AGAIN );
-        panel.add( playAgainButton );
+        JPanel container = new JPanel();
+        container.setBackground( NaturalSelectionApplication.accessibleColor( Color.BLACK ) );
+        container.add( playAgainButton );
+        panel.add( container );
 
         playAgainButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
