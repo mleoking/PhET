@@ -142,8 +142,8 @@ public class BuildScript {
 
     public void deploy( Task preDeployTask, PhetServer server,
                         AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement, Task postDeployTask ) {
-        if (!BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified()) {
-            throw new RuntimeException("Jarsigner credentials must be specified for a deploy.");
+        if ( !BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified() ) {
+            throw new RuntimeException( "Jarsigner credentials must be specified for a deploy." );
         }
         clean();
 
@@ -218,7 +218,11 @@ public class BuildScript {
 
         if ( !debugDryRun ) {
             System.out.println( "Sending SSH." );
-            sendSSH( server, authenticationInfo );
+            ok = sendSSH( server, authenticationInfo );
+            if ( !ok ) {
+                notifyError( project, "SCP Failure" );
+                return;
+            }
         }
 
         postDeployTask.invoke();
