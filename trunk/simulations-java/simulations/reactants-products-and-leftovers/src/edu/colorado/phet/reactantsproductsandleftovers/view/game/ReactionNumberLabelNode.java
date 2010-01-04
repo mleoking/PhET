@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class ReactionNumberLabelNode extends PText {
     
     private static final String PATTERN = RPALStrings.LABEL_REACTION_NUMBER;
-    private static final PhetFont FONT = new PhetFont( 36 );
+    private static final PhetFont FONT = new PhetFont( 28 );
     private static final Color COLOR = RPALConstants.BEFORE_AFTER_BOX_COLOR;
     
     public ReactionNumberLabelNode( final GameModel model ) {
