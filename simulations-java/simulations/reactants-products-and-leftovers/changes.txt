@@ -1,3 +1,4 @@
+1/4/10 tweak some colors and sizes in Game, based on feedback from Kelly
 # 0.00.15 (37863) Dec 31, 2009
 12/31/09 first dev version with Game
 12/31/09 tell user if they completed the game with a perfect score
