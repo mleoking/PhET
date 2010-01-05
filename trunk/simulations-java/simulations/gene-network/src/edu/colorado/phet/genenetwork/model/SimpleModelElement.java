@@ -146,7 +146,7 @@ public abstract class SimpleModelElement implements IModelElement{
 		return paint;
 	}
 	
-	public String getLabel(){
+	public String getHtmlLabel(){
 		return null;
 	}
 	

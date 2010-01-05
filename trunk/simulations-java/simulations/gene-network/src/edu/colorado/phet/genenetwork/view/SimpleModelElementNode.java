@@ -18,6 +18,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.model.Cap;
 import edu.colorado.phet.genenetwork.model.CapBindingRegion;
@@ -91,8 +92,8 @@ public class SimpleModelElementNode extends PPath {
 		updatePaintAndStroke(false);
 		
 		// If there is a label text value, and showing it is enabled, show it.
-		if (showLabel == true && modelElement.getLabel() != null){
-			PText labelNode = new PText(modelElement.getLabel());
+		if (showLabel == true && modelElement.getHtmlLabel() != null){
+			HTMLNode labelNode = new HTMLNode(modelElement.getHtmlLabel());
 			labelNode.setFont(LABEL_FONT);
 			labelNode.setOffset(getFullBoundsReference().getCenterX() - labelNode.getFullBoundsReference().width / 2, 
 					getFullBoundsReference().getCenterY() - labelNode.getFullBoundsReference().height / 2);

@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.genenetwork.GeneNetworkStrings;
+
 public class LacIGene extends SimpleModelElement {
 
     //------------------------------------------------------------------------
@@ -61,9 +63,8 @@ public class LacIGene extends SimpleModelElement {
 	 */
 
 	@Override
-	public String getLabel() {
-		// TODO: i18n
-		return "LacI Gene";
+	public String getHtmlLabel() {
+		return GeneNetworkStrings.LAC_I_GENE_LABEL;
 	}
 	
 	@Override

@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.genenetwork.GeneNetworkStrings;
+
 public class LacZGene extends SimpleModelElement {
 
 	private static final double WIDTH = 20;  // Nanometers.
@@ -21,9 +23,8 @@ public class LacZGene extends SimpleModelElement {
 	}
 	
 	@Override
-	public String getLabel() {
-		// TODO: i18n
-		return "LacZ Gene";
+	public String getHtmlLabel() {
+		return GeneNetworkStrings.LAC_Z_GENE_LABEL;
 	}
 
 	@Override
