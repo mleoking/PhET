@@ -2,8 +2,11 @@ package edu.colorado.phet.genenetwork.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
@@ -11,8 +14,11 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -32,6 +38,7 @@ import edu.colorado.phet.genenetwork.model.TransformationArrow;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class represents the legend that allows the user to see the names of
@@ -68,6 +75,15 @@ public class MacroMoleculeLegend extends PNode {
 	private PPath background;
 	private PText title;
 	private ArrayList<LegendEntry> legendEntries = new ArrayList<LegendEntry>();
+	
+	// Button for "closing" the legend (though it actually just causes it to
+	// be hidden).
+    // Variables for implementing a button that can be used to hide the diagram.
+    // Add the button that will allow the user to close (actually hide) the diagram.
+    private JButton closeButton;
+    private PSwing closePSwing;
+    
+
 	
     //------------------------------------------------------------------------
     // Constructors
@@ -119,11 +135,24 @@ public class MacroMoleculeLegend extends PNode {
 		icon = new SimpleModelElementNode(new TransformationArrow(null, new Point2D.Double(0, 0), 5, false, 0), MVT, false);
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.TRANSFORMATION_ARROW_LEGEND_CAPTION));
 		
-		// Add all items to the node.
+		// Add all legend items to the node.
 		for (LegendEntry le : legendEntries){
 			background.addChild(le.getIcon());
 			background.addChild(le.getCaption());
 		}
+		
+        // Add the button that will allow the user to close (actually hide) the diagram.
+		ImageIcon imageIcon = new ImageIcon( PhetCommonResources.getInstance().getImage(PhetCommonResources.IMAGE_CLOSE_BUTTON) );
+        closeButton = new JButton( imageIcon );
+        closeButton.setPreferredSize(new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight()));
+        closeButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+            	model.setLegendVisible(false);
+            }
+        } );
+        
+        closePSwing = new PSwing( closeButton );
+        addChild(closePSwing);
 		
 		// Do initial layout.
 		updateLayout(canvas);
@@ -160,6 +189,9 @@ public class MacroMoleculeLegend extends PNode {
 		title.setOffset(legendWidth / 2 - title.getFullBoundsReference().width / 2, yPos);
 		legendWidth = Math.max(title.getFullBoundsReference().width, legendWidth);
 		yPos = title.getFullBoundsReference().getMaxY() + TOP_AND_BOTTOM_PADDING;
+		
+		// Position the close button.
+		closePSwing.setOffset(legendWidth - closePSwing.getFullBoundsReference().width - 4, 2);
 		
 		// Position each legend item.
 		for (LegendEntry legendEntry : legendEntries ){
