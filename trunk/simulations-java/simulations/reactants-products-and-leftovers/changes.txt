@@ -1,3 +1,4 @@
+# 0.00.17 (37887) Jan 4, 2010
 1/4/10 bug fix: set attempts=0 when starting a new game
 # 0.00.16 (37883) Jan 4, 2010
 1/4/10 many aesthetic improvements
