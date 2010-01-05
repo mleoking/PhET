@@ -99,7 +99,6 @@ public class GameCanvas extends RPALCanvas {
 
         // scoreboard
         scoreboardNode = new ScoreboardNode( model );
-//        scoreboardNode.scale( 1.5 ); //XXX scale
         parentNode.addChild( scoreboardNode );
 
         // face, for indicating correct/incorrect answers
@@ -331,15 +330,14 @@ public class GameCanvas extends RPALCanvas {
 
     private void updateNodesLayout() {
 
-        double x = 0;
-        double y = 0;
-
         // reaction number label in upper right
+        double x = 0;
+        double y = 7;  // eyeballed this to align it with baseline of equationNode, which is HTML
         reactionNumberLabelNode.setOffset( x, y );
 
         // equation to right of label, vertically centered
         x = reactionNumberLabelNode.getFullBoundsReference().getWidth() + 35;
-        y = reactionNumberLabelNode.getYOffset();
+        y = 0;
         equationNode.setOffset( x, y );
 
         // Before box below reaction number label, left justified

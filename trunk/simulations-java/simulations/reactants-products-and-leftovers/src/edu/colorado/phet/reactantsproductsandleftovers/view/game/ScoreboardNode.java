@@ -1,43 +1,44 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.GridBagConstraints;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
-import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 
 
 public class ScoreboardNode extends PhetPNode {
     
-    private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 2, 14, 2, 14 ) );
-    private static final Color BACKGROUND = new Color( 180, 205, 255 );
-    private static final PhetFont FONT = new PhetFont( 24 );
-    private static final int X_SPACING = 40;
+    private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
+    private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
+    private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
+    private static final Color BUTTON_COLOR = Color.WHITE;
+    private static final int FONT_SIZE = 24;
+    private static final PhetFont FONT = new PhetFont( FONT_SIZE );
+    private static final int X_MARGIN = 20;
+    private static final int Y_MARGIN = 5;
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
     private static final NumberFormat ONE_DIGIT_TIME_FORMAT = new DecimalFormat( "0" );
     private static final NumberFormat TWO_DIGIT_TIME_FORMAT = new DecimalFormat( "00" );
     
     private final GameModel model;
-    private final JLabel scoreValue, levelValue, timerValue;
-    private final JLabel timerIcon;
-    private final JButton newGameButton;
+    private final PText scoreValue, levelValue, timerValue;
+    private final PImage timerIcon;
  
     public ScoreboardNode( final GameModel model ) {
         super();
@@ -45,61 +46,72 @@ public class ScoreboardNode extends PhetPNode {
         this.model = model;
         
         // Score
-        JLabel scoreLabel = new JLabel( RPALStrings.LABEL_SCORE );
+        PText scoreLabel = new PText( RPALStrings.LABEL_SCORE );
         scoreLabel.setFont( FONT );
         String maxScore = GameModel.getPerfectScore() + "/" + GameModel.getChallengesPerGame();
-        scoreValue = new JLabel( maxScore ); // start with this, so we have max length for layout
+        scoreValue = new PText( maxScore ); // start with this, so we have max length for layout
         scoreValue.setFont( FONT );
         
         // Level
-        JLabel levelLabel = new JLabel( RPALStrings.LABEL_LEVEL );
+        PText levelLabel = new PText( RPALStrings.LABEL_LEVEL );
         levelLabel.setFont( FONT );
-        levelValue = new JLabel( String.valueOf( GameModel.getLevelRange().getMax() ) );
+        levelValue = new PText( String.valueOf( GameModel.getLevelRange().getMax() ) );
         levelValue.setFont( FONT );
         
         // timer
-        timerIcon = new JLabel( new ImageIcon( RPALImages.STOPWATCH ) );
-        timerValue = new JLabel( "00:00:00" ); // use this so we have max length for layout
+        timerIcon = new PImage( RPALImages.STOPWATCH );
+        timerValue = new PText( "00:00:00" ); // use this so we have max length for layout
         timerValue.setFont( FONT );
         
         // New Game!
-        newGameButton = new JButton( RPALStrings.BUTTON_NEW_GAME );
-        newGameButton.setFont( FONT );
+        GradientButtonNode newGameButton = new GradientButtonNode( RPALStrings.BUTTON_NEW_GAME, FONT_SIZE, BUTTON_COLOR );
         newGameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleNewGame();
             }
         } );
+       
+        // rendering order
+        addChild( scoreLabel );
+        addChild( scoreValue );
+        addChild( levelLabel );
+        addChild( levelValue );
+        addChild( timerIcon );
+        addChild( timerValue );
+        addChild( newGameButton );
         
-        // panel, layout in a single row
-        JPanel panel = new JPanel();
-        panel.setBorder( BORDER );
-        panel.setBackground( BACKGROUND );
-        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-        panel.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( scoreLabel, row, column++ );
-        layout.setMinimumWidth( column, scoreValue.getPreferredSize().width );
-        layout.addComponent( scoreValue, row, column++ );
-        layout.addComponent( Box.createHorizontalStrut( X_SPACING ), row, column++ );
-        layout.addComponent( levelLabel, row, column++ );
-        layout.setMinimumWidth( column, levelValue.getPreferredSize().width );
-        layout.addComponent( levelValue, row, column++ );
-        layout.addComponent( Box.createHorizontalStrut( X_SPACING ), row, column++ );
-        layout.setMinimumWidth( column, timerIcon.getPreferredSize().width );
-        layout.addComponent( timerIcon, row, column );
-        layout.setMinimumWidth( column, timerIcon.getPreferredSize().width ); // permanent space for timer icon
-        layout.setMinimumHeight( row, timerIcon.getPreferredSize().height );   // permanent space for timer icon
-        column++;
-        layout.addComponent( timerValue, row, column++ );
-        layout.addComponent( Box.createHorizontalStrut( X_SPACING ), row, column++ );
-        layout.addComponent( newGameButton, row, column++ );
+        // layout, everything in a row, vertically centered, offsets were set by eyeballing them
+        final double maxChildHeight = getMaxChildHeight();
+        double x = X_MARGIN;
+        double y = Y_MARGIN + ( ( maxChildHeight - scoreLabel.getFullBoundsReference().getHeight() ) / 2 );
+        scoreLabel.setOffset( x, y );
+        x = scoreLabel.getFullBoundsReference().getMaxX() + 3;
+        y = Y_MARGIN + ( ( maxChildHeight - scoreValue.getFullBoundsReference().getHeight() ) / 2 );
+        scoreValue.setOffset( x, y );
+        x = scoreValue.getFullBoundsReference().getMaxX() + 10;
+        y = Y_MARGIN + ( ( maxChildHeight - levelLabel.getFullBoundsReference().getHeight() ) / 2 );
+        levelLabel.setOffset( x, y );
+        x = levelLabel.getFullBoundsReference().getMaxX() + 2;
+        y = Y_MARGIN + ( ( maxChildHeight - levelValue.getFullBoundsReference().getHeight() ) / 2 );
+        levelValue.setOffset( x, y );
+        x = levelValue.getFullBoundsReference().getMaxX() + 80;
+        y = Y_MARGIN + ( ( maxChildHeight - timerIcon.getFullBoundsReference().getHeight() ) / 2 );
+        timerIcon.setOffset( x, y );
+        x = timerIcon.getFullBoundsReference().getMaxX() + 4;
+        y = Y_MARGIN + ( ( maxChildHeight - timerValue.getFullBoundsReference().getHeight() ) / 2 );
+        timerValue.setOffset( x, y );
+        x = timerValue.getFullBoundsReference().getMaxX() + 20;
+        y = Y_MARGIN + ( ( maxChildHeight - newGameButton.getFullBoundsReference().getHeight() ) / 2 );
+        newGameButton.setOffset( x, y );
         
-        // PSwing wrapper
-        PSwing pswing = new PSwing( panel );
-        addChild( pswing );
+        // background
+        PBounds b = getFullBoundsReference();
+        PPath background = new PPath( new PBounds( 0, 0, b.getMaxX() + X_MARGIN, b.getMaxY() + Y_MARGIN ) );
+        background.setPaint( BACKGROUND_FILL_COLOR );
+        background.setStroke( BACKGROUND_STROKE );
+        background.setStrokePaint( BACKGROUND_STROKE_COLOR );
+        addChild( background );
+        background.moveToBack();
         
         // listen to model
         model.addGameListener( new GameAdapter() {
@@ -176,8 +188,15 @@ public class ScoreboardNode extends PhetPNode {
     }
     
     private void handleNewGame() {
-        //XXX what else?...
         model.newGame();
+    }
+    
+    private double getMaxChildHeight() {
+        double maxHeight = 0;
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            maxHeight = Math.max( maxHeight, getChild( i ).getFullBoundsReference().getHeight() );
+        }
+        return maxHeight;
     }
 
 }
