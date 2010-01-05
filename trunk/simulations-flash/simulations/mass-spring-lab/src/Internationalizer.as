@@ -95,6 +95,10 @@ class Internationalizer{
 			this.stackString(_level0.eChart_mc.stackedText6_txt, "total");
 		}
 		
+		_root.body1_mc.grams_txt.html = true;
+		_root.body2_mc.grams_txt.html = true;
+		_root.body3_mc.grams_txt.html = true;
+		_root.body7_mc.grams_txt.html = true;
 		this.setString(_root.body1_mc.grams_txt, "mass1Label", "center");
 		this.setString(_root.body2_mc.grams_txt, "mass2Label", "center");
 		this.setString(_root.body3_mc.grams_txt, "mass3Label", "center");
