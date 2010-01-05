@@ -19,8 +19,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.Gam
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.game.*;
-import edu.colorado.phet.reactantsproductsandleftovers.view.game.DevValuesNode.DevAfterValuesNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.game.DevValuesNode.DevBeforeValuesNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionEquationNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -66,8 +64,7 @@ public class GameCanvas extends RPALCanvas {
     private final PointsDeltaNode pointsDeltaNode;
     
     // developer nodes, allocated once, always visible
-    private final DevBeforeValuesNode devBeforeValuesNode;
-    private final DevAfterValuesNode devAfterValuesNode;
+    private final DevAnswerNode devAnswerNode;
 
     // these nodes are mutable, allocated when reaction changes, always visible
     private RealReactionEquationNode equationNode;
@@ -130,11 +127,9 @@ public class GameCanvas extends RPALCanvas {
         parentNode.addChild( instructionsNode );
 
         // dev nodes
-        devBeforeValuesNode = new DevBeforeValuesNode( model );
-        devAfterValuesNode = new DevAfterValuesNode( model );
+        devAnswerNode = new DevAnswerNode( model );
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            parentNode.addChild( devBeforeValuesNode );
-            parentNode.addChild( devAfterValuesNode );
+            parentNode.addChild( devAnswerNode );
         }
 
         this.model = model;
@@ -325,17 +320,12 @@ public class GameCanvas extends RPALCanvas {
         parentNode.addChild( afterNode );
 
         // move a bunch of static nodes to the front
-        devBeforeValuesNode.moveToFront();
-        devAfterValuesNode.moveToFront();
+        devAnswerNode.moveToFront();
         buttonsParentNode.moveToFront();
         faceNode.moveToFront();
         pointsDeltaNode.moveToFront();
         instructionsNode.moveToFront();
         
-        // visibility of dev nodes
-        devBeforeValuesNode.setVisible( model.getChallengeType() == ChallengeType.HOW_MANY_REACTANTS );
-        devAfterValuesNode.setVisible( !devBeforeValuesNode.getVisible() );
-
         updateNodesLayout();
     }
 
@@ -370,7 +360,7 @@ public class GameCanvas extends RPALCanvas {
 
         // scoreboard, at bottom center of play area
         x = arrowNode.getFullBoundsReference().getCenterX() - ( scoreboardNode.getFullBoundsReference().getWidth() / 2 );
-        y = Math.max( beforeNode.getFullBoundsReference().getMaxY(), afterNode.getFullBoundsReference().getMaxY() ) + 10;
+        y = Math.max( beforeNode.getFullBoundsReference().getMaxY(), afterNode.getFullBoundsReference().getMaxY() ) + 20;
         scoreboardNode.setOffset( x, y );
 
         // face a little above center in proper box
@@ -404,19 +394,14 @@ public class GameCanvas extends RPALCanvas {
                 boxNode = beforeNode;
             }
             x = boxNode.getXOffset() + ( ( boxNode.getBoxWidth() - instructionsNode.getFullBoundsReference().getWidth() ) / 2 );
-            y = boxNode.getYOffset() + ( ( boxNode.getBoxHeight() - instructionsNode.getFullBoundsReference().getHeight() ) / 2 );
+            y = boxNode.getYOffset() + ( ( boxNode.getBoxHeight() - instructionsNode.getFullBoundsReference().getHeight() ) / 2 ) - 20;
             instructionsNode.setOffset( x, y );
         }
 
-        // dev values in upper-left of Before box
-        x = beforeNode.getXOffset() + 10;
-        y = beforeNode.getYOffset() + 10;
-        devBeforeValuesNode.setOffset( x, y );
-
-        // dev values in upper-left of After box
-        x = afterNode.getXOffset() + 10;
-        y = afterNode.getYOffset() + 10;
-        devAfterValuesNode.setOffset( x, y );
+        // dev answer to the right of the scoreboard
+        x = scoreboardNode.getFullBoundsReference().getMaxX() + 20;
+        y = scoreboardNode.getFullBoundsReference().getCenterY() - ( devAnswerNode.getFullBoundsReference().getHeight() / 2 );
+        devAnswerNode.setOffset( x, y );
 
         // game summmary, horizontally and vertically centered on everything else
         x = parentNode.getFullBoundsReference().getCenterX() - ( gameSummaryNode.getFullBoundsReference().getWidth() / 2 );

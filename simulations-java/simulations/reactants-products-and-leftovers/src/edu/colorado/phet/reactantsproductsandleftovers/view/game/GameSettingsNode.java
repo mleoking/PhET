@@ -25,8 +25,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class GameSettingsNode extends PhetPNode {
     
-    private static final Color BORDER_COLOR = new Color( 46, 107, 178 );
-    private static final Border BORDER = new CompoundBorder( new LineBorder( BORDER_COLOR, 4 ),  new EmptyBorder( 5, 14, 5, 14 ) );
+    private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 5, 14, 5, 14 ) );
     private static final Color BACKGROUND = new Color( 180, 205, 255 );
 
     private final JRadioButton[] levelRadioButtons;

@@ -1,3 +1,5 @@
+1/4/10 make game instructions bigger and bold
+1/4/10 move dev answer out of Before/After box, distracting
 1/4/10 tweak some colors and sizes in Game, based on feedback from Kelly
 # 0.00.15 (37863) Dec 31, 2009
 12/31/09 first dev version with Game
