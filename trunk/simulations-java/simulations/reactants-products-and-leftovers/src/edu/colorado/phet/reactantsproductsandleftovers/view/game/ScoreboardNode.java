@@ -39,6 +39,8 @@ public class ScoreboardNode extends PhetPNode {
     private final GameModel model;
     private final PText scoreValue, levelValue, timerValue;
     private final PImage timerIcon;
+    private final PPath backgroundNode;
+    private final GradientButtonNode newGameButton;
  
     public ScoreboardNode( final GameModel model ) {
         super();
@@ -64,7 +66,7 @@ public class ScoreboardNode extends PhetPNode {
         timerValue.setFont( FONT );
         
         // New Game!
-        GradientButtonNode newGameButton = new GradientButtonNode( RPALStrings.BUTTON_NEW_GAME, FONT_SIZE, BUTTON_COLOR );
+        newGameButton = new GradientButtonNode( RPALStrings.BUTTON_NEW_GAME, FONT_SIZE, BUTTON_COLOR );
         newGameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleNewGame();
@@ -106,12 +108,12 @@ public class ScoreboardNode extends PhetPNode {
         
         // background
         PBounds b = getFullBoundsReference();
-        PPath background = new PPath( new PBounds( 0, 0, b.getMaxX() + X_MARGIN, b.getMaxY() + Y_MARGIN ) );
-        background.setPaint( BACKGROUND_FILL_COLOR );
-        background.setStroke( BACKGROUND_STROKE );
-        background.setStrokePaint( BACKGROUND_STROKE_COLOR );
-        addChild( background );
-        background.moveToBack();
+        backgroundNode = new PPath( new PBounds( 0, 0, b.getMaxX() + X_MARGIN, b.getMaxY() + Y_MARGIN ) );
+        backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
+        backgroundNode.setStroke( BACKGROUND_STROKE );
+        backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
+        addChild( backgroundNode );
+        backgroundNode.moveToBack();
         
         // listen to model
         model.addGameListener( new GameAdapter() {
@@ -197,6 +199,18 @@ public class ScoreboardNode extends PhetPNode {
             maxHeight = Math.max( maxHeight, getChild( i ).getFullBoundsReference().getHeight() );
         }
         return maxHeight;
+    }
+    
+    /**
+     * Changes the width of the scoreboard, while keeping the "New Game" button
+     * at the right edge.  Used to adjust the scoreboard width to the play area.
+     * @param width
+     */
+    public void setPanelWidth( double width ) {
+        PBounds b = backgroundNode.getFullBoundsReference();
+        backgroundNode.setPathTo( new PBounds( 0, 0, width, b.getHeight() ) );
+        double x = backgroundNode.getFullBoundsReference().getMaxX() - newGameButton.getFullBoundsReference().getWidth() - X_MARGIN;
+        newGameButton.setOffset( x, newGameButton.getYOffset() );
     }
 
 }

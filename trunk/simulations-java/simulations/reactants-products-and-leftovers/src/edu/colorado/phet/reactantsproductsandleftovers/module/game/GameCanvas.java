@@ -357,6 +357,7 @@ public class GameCanvas extends RPALCanvas {
         afterNode.setOffset( x, y );
 
         // scoreboard, at bottom left of play area
+        scoreboardNode.setPanelWidth( afterNode.getFullBoundsReference().getMaxX() - beforeNode.getFullBoundsReference().getMinX() );
         x = beforeNode.getXOffset();
         y = Math.max( beforeNode.getFullBoundsReference().getMaxY(), afterNode.getFullBoundsReference().getMaxY() ) + 20;
         scoreboardNode.setOffset( x, y );
