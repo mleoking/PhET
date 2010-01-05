@@ -49,7 +49,7 @@ public class LacI extends SimpleModelElement {
 	
 	// Amount of time that this element and the lactose it bonds with
 	// continues to exist after the bond has occurred.
-	private static final double POST_LACTOSE_BOND_EXISTENCE_TIME = 11;
+	private static final double LACTOSE_BOND_TIME = 11;
 	
 	// Point where the lacI heads towards when it is first created.  This was
 	// needed due to a tendency for it to hang around the general area where
@@ -64,6 +64,7 @@ public class LacI extends SimpleModelElement {
 	private LacOperator lacOperatorAttachmentPartner = null;
 	private AttachmentState lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private Glucose glucoseAttachmentPartner = null;
+	private double glucoseAttachmentTimeCountdown = 0;
 	private AttachmentState glucoseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	private Point2D targetPositionForLacOperatorAttachment = new Point2D.Double();
 	private double unavailableTimeCountdown = 0;
@@ -171,11 +172,20 @@ public class LacI extends SimpleModelElement {
 		super.stepInTime(dt);
 		
 		if (!isUserControlled()){
+			
+			// Update all internal state that is related to attachments with
+			// other model elements.
 			updateAttachements(dt);
+			
+			// When LacI is first created, it drifts to a location that is
+			// close to the lac operator on the DNA strand so that it doesn't
+			// have to go too far in order to attach to it.  See if we are in
+			// that phase of our existence and, if so, make any updates that
+			// are needed.
 			Point2D currentDestination = getMotionStrategyRef().getDestination();
 			if ( currentDestination != null && 
-					currentDestination.getX() == INITIAL_DESTINATION_POINT.getX() && 
-					currentDestination.getY() == INITIAL_DESTINATION_POINT.getY()){
+				 currentDestination.getX() == INITIAL_DESTINATION_POINT.getX() && 
+				 currentDestination.getY() == INITIAL_DESTINATION_POINT.getY() ) {
 				
 				if (currentDestination.distance(getPositionRef()) < 4){
 					// We were moving toward the initial destination and are in
@@ -258,11 +268,26 @@ public class LacI extends SimpleModelElement {
 					setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBounds(), 0));
 				}
 				
-				// Set ourself and the lactose up so that we will fade out of
-				// existence.
+				// Prevent ourself from fading while bonded.
 				setOkayToFade(true);
-				setExistenceTime(POST_LACTOSE_BOND_EXISTENCE_TIME);
-				glucoseAttachmentPartner.setLactoseExistenceTime(POST_LACTOSE_BOND_EXISTENCE_TIME);
+				
+				// Set the bond time.
+				glucoseAttachmentTimeCountdown = LACTOSE_BOND_TIME;
+			}
+		}
+		else if (glucoseAttachmentState == AttachmentState.ATTACHED){
+			glucoseAttachmentTimeCountdown -= dt;
+			if (glucoseAttachmentTimeCountdown <= 0){
+				// Time to release the lactose.
+				glucoseAttachmentPartner.detach(this);
+				glucoseAttachmentPartner = null;
+				glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+				
+				// When the lactose is gone, LacI reverts to its active shape.
+				setShape(createActiveConformationShape());
+				
+				// It is now okay for the LacI to fade out of existence.
+				setOkayToFade(true);
 			}
 		}
 	}
