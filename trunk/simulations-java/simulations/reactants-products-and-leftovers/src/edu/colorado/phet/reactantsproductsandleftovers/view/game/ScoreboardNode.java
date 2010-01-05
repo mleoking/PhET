@@ -46,7 +46,8 @@ public class ScoreboardNode extends PhetPNode {
         // Score
         JLabel scoreLabel = new JLabel( RPALStrings.LABEL_SCORE );
         scoreLabel.setFont( FONT );
-        scoreValue = new JLabel( "10/10" ); //XXX compute this so we have max length for layout
+        String maxScore = GameModel.getPerfectScore() + "/" + GameModel.getChallengesPerGame();
+        scoreValue = new JLabel( maxScore ); // start with this, so we have max length for layout
         scoreValue.setFont( FONT );
         
         // Level
@@ -57,7 +58,7 @@ public class ScoreboardNode extends PhetPNode {
         
         // timer
         timerIcon = new JLabel( new ImageIcon( RPALImages.STOPWATCH ) );
-        timerValue = new JLabel( "00:00:00" ); //XXX compute this so we have max length for layout
+        timerValue = new JLabel( "00:00:00" ); // use this so we have max length for layout
         timerValue.setFont( FONT );
         
         // New Game!
