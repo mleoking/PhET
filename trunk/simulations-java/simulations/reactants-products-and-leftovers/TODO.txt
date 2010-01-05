@@ -1,7 +1,9 @@
 # TODO list for reactants-products-and-leftovers
 
 HIGH PRIORITY
-- Game: animated curtains
+- add more reactions to Game
+- implement GameModel.newChallenges
+- Game: animated curtains?
 - what should be displayed in Game Summary?
 - images will overlap in Game After box, grid has 20 cells, max images=40 (10x10x10x10 for 2 products, 2 leftovers)
 
