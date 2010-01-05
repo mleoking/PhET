@@ -26,8 +26,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class ScoreboardNode extends PhetPNode {
     
-    private static final Color BORDER_COLOR = new Color( 46, 107, 178 );
-    private static final Border BORDER = new CompoundBorder( new LineBorder( BORDER_COLOR, 4 ),  new EmptyBorder( 2, 14, 2, 14 ) );
+    private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 2, 14, 2, 14 ) );
     private static final Color BACKGROUND = new Color( 180, 205, 255 );
     private static final PhetFont FONT = new PhetFont( 16 );
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
