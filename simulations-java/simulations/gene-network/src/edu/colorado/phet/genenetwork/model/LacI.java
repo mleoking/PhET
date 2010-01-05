@@ -148,7 +148,7 @@ public class LacI extends SimpleModelElement {
 		
 		outline.moveTo(0, (float)HEIGHT/2);
 		outline.quadTo((float)WIDTH / 2, (float)HEIGHT / 2, (float)WIDTH/2, -(float)HEIGHT/3);
-		outline.quadTo(0, (float)-HEIGHT * 0.8, (float)-WIDTH/2, (float)-HEIGHT/3);
+		outline.quadTo(0, (float)(-HEIGHT * 0.8), (float)-WIDTH/2, (float)-HEIGHT/3);
 		outline.lineTo((float)-WIDTH/2, (float)(HEIGHT * 0.25));
 		outline.closePath();
 		Area area = new Area(outline);
