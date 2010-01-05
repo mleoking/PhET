@@ -1,3 +1,5 @@
+# 0.00.16 (37883) Jan 4, 2010
+1/4/10 many aesthetic improvements
 1/4/10 dynamically set scoreboard width to match play area
 1/4/10 rewrite scoreboard in Piccolo (formerly a Swing panel)
 1/4/10 make game instructions bigger and bold
