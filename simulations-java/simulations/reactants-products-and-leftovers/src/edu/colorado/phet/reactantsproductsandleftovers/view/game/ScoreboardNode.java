@@ -28,7 +28,8 @@ public class ScoreboardNode extends PhetPNode {
     
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 2, 14, 2, 14 ) );
     private static final Color BACKGROUND = new Color( 180, 205, 255 );
-    private static final PhetFont FONT = new PhetFont( 16 );
+    private static final PhetFont FONT = new PhetFont( 24 );
+    private static final int X_SPACING = 40;
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
     private static final NumberFormat ONE_DIGIT_TIME_FORMAT = new DecimalFormat( "0" );
     private static final NumberFormat TWO_DIGIT_TIME_FORMAT = new DecimalFormat( "00" );
@@ -63,6 +64,7 @@ public class ScoreboardNode extends PhetPNode {
         
         // New Game!
         newGameButton = new JButton( RPALStrings.BUTTON_NEW_GAME );
+        newGameButton.setFont( FONT );
         newGameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleNewGame();
@@ -81,18 +83,18 @@ public class ScoreboardNode extends PhetPNode {
         layout.addComponent( scoreLabel, row, column++ );
         layout.setMinimumWidth( column, scoreValue.getPreferredSize().width );
         layout.addComponent( scoreValue, row, column++ );
-        layout.addComponent( Box.createHorizontalStrut( 20 ), row, column++ );
+        layout.addComponent( Box.createHorizontalStrut( X_SPACING ), row, column++ );
         layout.addComponent( levelLabel, row, column++ );
         layout.setMinimumWidth( column, levelValue.getPreferredSize().width );
         layout.addComponent( levelValue, row, column++ );
-        layout.addComponent( Box.createHorizontalStrut( 20 ), row, column++ );
+        layout.addComponent( Box.createHorizontalStrut( X_SPACING ), row, column++ );
         layout.setMinimumWidth( column, timerIcon.getPreferredSize().width );
         layout.addComponent( timerIcon, row, column );
         layout.setMinimumWidth( column, timerIcon.getPreferredSize().width ); // permanent space for timer icon
         layout.setMinimumHeight( row, timerIcon.getPreferredSize().height );   // permanent space for timer icon
         column++;
         layout.addComponent( timerValue, row, column++ );
-        layout.addComponent( Box.createHorizontalStrut( 20 ), row, column++ );
+        layout.addComponent( Box.createHorizontalStrut( X_SPACING ), row, column++ );
         layout.addComponent( newGameButton, row, column++ );
         
         // PSwing wrapper
