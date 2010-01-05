@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
+import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -122,6 +123,14 @@ public class DnaSegmentToolBoxNode extends PNode {
 		});
 		legendControlCheckBoxPSwing = new PSwing(legendControlCheckBox);
 		addChild(legendControlCheckBoxPSwing);
+		
+		// Listen to the model for changes to the setting for the legend
+		// visibility.
+		model.addListener(new GeneNetworkModelAdapter(){
+			public void legendVisibilityStateChange() { 
+				legendControlCheckBox.setSelected(model.isLegendVisible());
+			}
+		});
 		
 		// Do the initial layout.
 		updateLayout(canvas);
