@@ -62,6 +62,7 @@ public class GameModel extends RPALModel {
         setLevel( level );
         setTimerVisible( timerVisible );
         setPoints( 0 );
+        setAttempts( 0 );
         newChallenges();
     }
     
