@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class DevAnswerNode extends PText {
 
-    private static final PhetFont FONT = new PhetFont( 12 );
+    private static final PhetFont FONT = new PhetFont( 10 );
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final Color BACKGROUND_COLOR = null;
 

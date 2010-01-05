@@ -99,7 +99,7 @@ public class GameCanvas extends RPALCanvas {
 
         // scoreboard
         scoreboardNode = new ScoreboardNode( model );
-        scoreboardNode.scale( 1.5 ); //XXX scale
+//        scoreboardNode.scale( 1.5 ); //XXX scale
         parentNode.addChild( scoreboardNode );
 
         // face, for indicating correct/incorrect answers
@@ -358,8 +358,8 @@ public class GameCanvas extends RPALCanvas {
         y = beforeNode.getYOffset();
         afterNode.setOffset( x, y );
 
-        // scoreboard, at bottom center of play area
-        x = arrowNode.getFullBoundsReference().getCenterX() - ( scoreboardNode.getFullBoundsReference().getWidth() / 2 );
+        // scoreboard, at bottom left of play area
+        x = beforeNode.getXOffset();
         y = Math.max( beforeNode.getFullBoundsReference().getMaxY(), afterNode.getFullBoundsReference().getMaxY() ) + 20;
         scoreboardNode.setOffset( x, y );
 
@@ -398,9 +398,9 @@ public class GameCanvas extends RPALCanvas {
             instructionsNode.setOffset( x, y );
         }
 
-        // dev answer to the right of the scoreboard
-        x = scoreboardNode.getFullBoundsReference().getMaxX() + 20;
-        y = scoreboardNode.getFullBoundsReference().getCenterY() - ( devAnswerNode.getFullBoundsReference().getHeight() / 2 );
+        // dev answer centered below scoreboard
+        x = scoreboardNode.getFullBoundsReference().getCenterX() - ( devAnswerNode.getFullBoundsReference().getWidth() / 2 );
+        y = scoreboardNode.getFullBoundsReference().getMaxY() + 2;
         devAnswerNode.setOffset( x, y );
 
         // game summmary, horizontally and vertically centered on everything else
