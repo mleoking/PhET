@@ -6,14 +6,14 @@
 <string key="dontBother" value="لاتنزعج"/>
 <string key="16thTime" value="1/16 الزمن"/>
 <string key="nothinOK" value="لاشئ! موافق؟"/>
-<string key="mass1Label" value="50 غرام"/>
-<string key="mass3Label" value="250 غرام"/>
+<string key="mass1Label" value="50&lt;br&gt;غرام"/>
+<string key="mass3Label" value="250&lt;br&gt;غرام"/>
 <string key="planetX" value="كوكب س"/>
 <string key="showEnergyOf" value="اظهر طاقة"/>
 <string key="hangMe" value="علقني"/>
 <string key="resetTimer" value="اعد الضبط مرة أخرى"/>
 <string key="hard" value="قوي"/>
-<string key="mass7Label" value="100 غرام"/>
+<string key="mass7Label" value="100&lt;br&gt;غرام"/>
 <string key="stopWatch" value="مؤقت زمني"/>
 <string key="none" value="لاشئ"/>
 <string key="realTime" value="الزمن الحقيقي"/>
@@ -32,7 +32,7 @@
 <string key="total" value="المجموع"/>
 <string key="sound" value="الصوت"/>
 <string key="PEgrav" value="الطاقة الكامنة من الجاذبية"/>
-<string key="mass2Label" value="100 غرام"/>
+<string key="mass2Label" value="100&lt;br&gt;غرام"/>
 <string key="thermal" value="حراري"/>
 <string key="quarterTime" value="1/4 الزمن"/>
 <string key="KE" value="الطاقة الحركية طح"/>
