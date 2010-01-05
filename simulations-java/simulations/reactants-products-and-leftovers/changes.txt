@@ -1,3 +1,4 @@
+1/4/10 rewrite scoreboard in Piccolo (formerly a Swing panel)
 1/4/10 make game instructions bigger and bold
 1/4/10 move dev answer out of Before/After box, distracting
 1/4/10 tweak some colors and sizes in Game, based on feedback from Kelly
