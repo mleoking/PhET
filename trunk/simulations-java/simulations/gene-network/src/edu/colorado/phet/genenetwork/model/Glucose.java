@@ -148,6 +148,19 @@ public class Glucose extends SimpleSugar {
 		// Once broken down from being a part of lactose, this fades away.
 		setExistenceTime(0.5);
 	}
+
+	/**
+	 * Detach from LacI.
+	 * 
+	 * @param lacI
+	 */
+	public void detach(LacI lacI){
+		assert lacI == lacIAttachmentPartner;
+		lacIAttachmentPartner = null;
+		lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+		setMotionStrategy(new LinearThenRandomMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna(), 
+				new Vector2D.Double(0, 8), 0.5));
+	}
 	
 	/**
 	 * Set the time for lactose to exist, after which it will fade out.  This
@@ -158,7 +171,12 @@ public class Glucose extends SimpleSugar {
 	 * bonded to LacI.  We don't know if this is the desired behavior, since
 	 * it isn't specified, so the behavior may eventually be changed such that
 	 * lactose can only be removed after being broken down by LacZ.  If that
-	 * becomes the case, this method should go away.
+	 * becomes the case, this method should go away.  UPDATE Jan 1, 2010 - 
+	 * After a review with the folks from UBC, it was decided that lactose and
+	 * LacI should NOT fade out after bonding.  Instead, the lactose should be
+	 * released after a while.  The only way for lactose to leave the sim will
+	 * be for it to be digested by LacZ.  So, this should be removed once it
+	 * is determined that not fading is the desired behavior.
 	 * 
 	 * @param existenceTime
 	 */
