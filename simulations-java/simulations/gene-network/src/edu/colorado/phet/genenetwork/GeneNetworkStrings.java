@@ -16,6 +16,11 @@ public class GeneNetworkStrings {
 
     public static final String UNITS_TIME = GeneNetworkResources.getString( "units.time" );
     
+    // Labels for the model elements that have them.
+    public static final String LAC_Z_GENE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.LacZGene" );
+    public static final String LAC_I_GENE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.LacIGene" );
+    public static final String LAC_Y_GENE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.LacYGene" );
+    
     // Captions for items in the DNA segment tool box.
     public static final String LAC_PROMOTER_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.LacPromoter" );
     public static final String LAC_I_PROMOTER_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.LacIPromoter" );
