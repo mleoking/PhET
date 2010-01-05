@@ -98,7 +98,7 @@ public class PaintImmediateDialog extends JDialog {
     private void initPaintImmediateDialog() {
         
         // Timer that periodically calls paintImmediately on the dialog's content pane
-        timer = new PaintImmediateTimer( (JComponent) getContentPane() );
+        timer = new PaintImmediateTimer( this );
         
         //TODO will window events be received in a timely manner?
         addWindowListener( new WindowAdapter() {
@@ -137,10 +137,11 @@ public class PaintImmediateDialog extends JDialog {
         private boolean workaroundEnabled = true;
         private boolean debugOutputEnabled = false;
         
-        public PaintImmediateTimer( final JComponent component ) {
+        public PaintImmediateTimer( final JDialog dialog ) {
             super( TIMER_DELAY, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
+                	JComponent component = (JComponent)dialog.getContentPane();
+                	component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
                 }
             } );
             setRepeats( true ); // yes, this intentionally repeats, see #2072
