@@ -4,11 +4,11 @@ package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Shows the number of reactants, products and leftovers (the Game answer).
@@ -16,7 +16,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.Gam
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DevAnswerNode extends HTMLNode {
+public class DevAnswerNode extends PText {
 
     private static final PhetFont FONT = new PhetFont( 12 );
     private static final Color TEXT_COLOR = Color.BLACK;
@@ -27,7 +27,7 @@ public class DevAnswerNode extends HTMLNode {
     public DevAnswerNode( GameModel model ) {
         super();
         setFont( FONT );
-        setHTMLColor( TEXT_COLOR );
+        setTextPaint( TEXT_COLOR );
         setPaint( BACKGROUND_COLOR );
         this.model = model;
         model.addGameListener( new GameAdapter() {
@@ -38,34 +38,34 @@ public class DevAnswerNode extends HTMLNode {
         update();
     }
 
+    // eg, ANSWER: 3,3 -> 1,0,1
     protected void update() {
 
         Reactant[] reactants = model.getReaction().getReactants();
         Product[] products = model.getReaction().getProducts();
 
-        String s = "<html>ANSWER:";
-        s += "<br>reactants=";
+        String s = "ANSWER: ";
+        // reactants
         for ( int i = 0; i < reactants.length; i++ ) {
             if ( i != 0 ) {
                 s += ",";
             }
             s += String.valueOf( reactants[i].getQuantity() );
         }
-        s += "<br>products=";
+        // arrow
+        s += " -> ";
+        // products
         for ( int i = 0; i < products.length; i++ ) {
             if ( i != 0 ) {
                 s += ",";
             }
             s += String.valueOf( products[i].getQuantity() );
         }
-        s += "<br>leftovers=";
+        // leftovers
         for ( int i = 0; i < reactants.length; i++ ) {
-            if ( i != 0 ) {
-                s += ",";
-            }
+            s += ",";
             s += String.valueOf( reactants[i].getLeftovers() );
         }
-        s += "</html>";
-        setHTML( s );
+        setText( s );
     }
 }
