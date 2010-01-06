@@ -1,3 +1,4 @@
+1/6/10 use ShadowPText for showing number of points awarded on correct answer
 1/6/10 OK that game summary is not draggable
 1/6/10 OK that game timer continues to count when you go to another module
 1/6/10 internally standardize on "guess" for user's answer, to distinguish it from correct answer

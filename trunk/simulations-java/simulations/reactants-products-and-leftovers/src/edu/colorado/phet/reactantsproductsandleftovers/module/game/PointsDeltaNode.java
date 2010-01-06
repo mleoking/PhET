@@ -6,20 +6,24 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
-import edu.umd.cs.piccolo.nodes.PText;
 
 
-public class PointsDeltaNode extends PText {
+public class PointsDeltaNode extends ShadowPText {
     
     private static final NumberFormat POINTS_FORMAT = new DefaultDecimalFormat( "0.#" );
     private static final Font FONT = new PhetFont( 40 );
     private static final Color COLOR = Color.YELLOW;
+    private static final Color SHADOW_COLOR = Color.BLACK;
+    private static final double SHADOW_OFFSET = 2;
     
     private double points;
     
     public PointsDeltaNode( final GameModel model ) {
         super();
+        setShadowColor( SHADOW_COLOR );
+        setShadowOffset( SHADOW_OFFSET, SHADOW_OFFSET );
         setFont( FONT );
         setTextPaint( COLOR );
         setText( "?" );
