@@ -73,7 +73,11 @@ public class LacOperator extends SimpleModelElement {
 				checkTimeToDetach(dt);
 				break;
 			case UNATTACHED_BUT_UNAVALABLE:
-				// TODO
+				// As of this writing (Jan 5 2010), the only time that this
+				// state occurs is when the user is dragging around a LacI
+				// which could be set on this lac operator.  There is nothing
+				// to be done until it is released, which is handled
+				// elsewhere.
 				break;
 			default:
 				// Should never get here, should be debugged if it does.
@@ -174,6 +178,10 @@ public class LacOperator extends SimpleModelElement {
 				getPositionRef().getY() + LAC_I_ATTACHMENT_POINT_OFFSET.getHeight());
 	}
 	
+	public AttachmentState getLacIAttachmentState(){
+		return lacIAttachmentState;
+	}
+	
 	public void detach(LacI lacI){
 		if (lacI != lacIAttachmentPartner){
 			System.err.println(getClass().getName() + " - Warning: Request to disconnect received from non-partner.");
@@ -181,6 +189,51 @@ public class LacOperator extends SimpleModelElement {
 		}
 		
 		lacIAttachmentPartner = null;
+		lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	}
+	
+	/**
+	 * Suspend any pending attachments and prevent any new ones from forming.
+	 * This method was created to support the case where the user has grabbed
+	 * a LacI and is likely to try to put it on this lac operator, so the lac
+	 * operator must get itself into a state where that is possible.
+	 */
+	public void suspendAttaching(){
+		switch (lacIAttachmentState){
+		case ATTACHED:
+			// The intent of this routine is to stop attachments that are
+			// about to form, but not already formed.
+			System.err.println(getClass().getName() + "Error: Attempt to suspend attaching when already attached.");
+			assert false;
+			break;
+			
+		case MOVING_TOWARDS_ATTACHMENT:
+			// Break off the engagement.
+			lacIAttachmentPartner.detach(this);
+			lacIAttachmentPartner = null;
+			lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+			break;
+			
+		case UNATTACHED_AND_AVAILABLE:
+			// Make ourself unavailable for now.
+			lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+			break;
+			
+		case UNATTACHED_BUT_UNAVALABLE:
+			// We are already unattached and unavailable, so it's a little
+			// weird that this is being called.  Spit out a warning.
+			System.err.println(getClass().getName() + "Warning: Attempt to suspend attaching when already unattached and unavailable.");
+			break;
+		}
+	}
+	
+	/**
+	 * Allow the lac operator to resume seeking attachments with LacI
+	 * molecules.  This should only be called after first having called
+	 * suspendAttaching.
+	 */
+	public void resumeAttaching(){
+		assert lacIAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 	}
 	

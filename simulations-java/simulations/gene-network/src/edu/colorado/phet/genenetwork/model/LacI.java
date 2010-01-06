@@ -91,13 +91,35 @@ public class LacI extends SimpleModelElement {
 	
 	@Override
 	public void setDragging(boolean dragging) {
-		if (dragging == true && lacOperatorAttachmentPartner != null){
-			// The user has grabbed this node and is moving it, so release
-			// any relationship that exists with the lac operator.
-			lacOperatorAttachmentPartner.detach(this);
-			lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-			lacOperatorAttachmentPartner = null;
-			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+		if (dragging == true){
+			// The user has grabbed this node and is moving it.  Is it
+			// attached to the lac operator?
+			if (lacOperatorAttachmentPartner != null){
+				// Yes it is, so it needs to detach.
+				assert lacOperatorAttachmentState == AttachmentState.ATTACHED || lacOperatorAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT;  // State consistency test.
+				lacOperatorAttachmentPartner.detach(this);
+				lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				lacOperatorAttachmentPartner = null;
+				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+			}
+			
+			if (getModel().getLacOperator().getLacIAttachmentState() == AttachmentState.MOVING_TOWARDS_ATTACHMENT ||
+				getModel().getLacOperator().getLacIAttachmentState() == AttachmentState.UNATTACHED_AND_AVAILABLE){
+				// Force the lac operator to break off any pending attachments
+				// and wait until this LacI is released by the user.  This
+				// makes it possible for the user to put a lac I on top of
+				// the lac operator and have it attach.
+				getModel().getLacOperator().suspendAttaching();
+				
+			}
+		}
+		else{
+			// This node is being released by the user.  If the lac operator
+			// had been suspended from attaching due to the user having
+			// grabbed this LacI, allow it to resume now.
+			if (getModel().getLacOperator().getLacIAttachmentState() == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
+				getModel().getLacOperator().resumeAttaching();
+			}
 		}
 		super.setDragging(dragging);
 	}
