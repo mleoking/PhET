@@ -57,6 +57,10 @@ public class LacI extends SimpleModelElement {
 	// This point is empirically determined, tweak as needed.
 	private static final Point2D INITIAL_DESTINATION_POINT = new Point2D.Double(20, 0);
 	
+	// Distance within which this should try to attach immediately to the lac
+	// operator.
+	private static final double LAC_OPERATOR_IMMEDIATE_ATTACH_DISTANCE = 8;
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -102,24 +106,22 @@ public class LacI extends SimpleModelElement {
 				lacOperatorAttachmentPartner = null;
 				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 			}
-			
-			if (getModel().getLacOperator().getLacIAttachmentState() == AttachmentState.MOVING_TOWARDS_ATTACHMENT ||
-				getModel().getLacOperator().getLacIAttachmentState() == AttachmentState.UNATTACHED_AND_AVAILABLE){
-				// Force the lac operator to break off any pending attachments
-				// and wait until this LacI is released by the user.  This
-				// makes it possible for the user to put a lac I on top of
-				// the lac operator and have it attach.
-				getModel().getLacOperator().suspendAttaching();
-				
-			}
 		}
 		else{
-			// This node is being released by the user.  If the lac operator
-			// had been suspended from attaching due to the user having
-			// grabbed this LacI, allow it to resume now.
-			if (getModel().getLacOperator().getLacIAttachmentState() == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
-				getModel().getLacOperator().resumeAttaching();
+			// This element has just been released by the user.  It should be
+			// considered available.
+			lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			
+			// If this was dropped within range of the lac operator, it should
+			// try to attach to it.
+			LacOperator lacOperator = getModel().getLacOperator();
+			if ( lacOperator != null && 
+				 getPositionRef().distance(lacOperator.getPositionRef()) < LAC_OPERATOR_IMMEDIATE_ATTACH_DISTANCE){
+				
+				// We are in range, so try to attach.
+				lacOperator.requestImmediateAttach(this);
 			}
+
 		}
 		super.setDragging(dragging);
 	}
@@ -356,7 +358,7 @@ public class LacI extends SimpleModelElement {
 	}
 	
 	public boolean isAvailableForAttaching(){
-		return (lacOperatorAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE);
+		return (lacOperatorAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE && !isUserControlled());
 	}
 	
 	public void attach(LacOperator lacOperator){
