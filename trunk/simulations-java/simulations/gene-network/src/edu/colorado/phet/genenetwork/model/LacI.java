@@ -293,7 +293,7 @@ public class LacI extends SimpleModelElement {
 				}
 				
 				// Prevent ourself from fading while bonded.
-				setOkayToFade(true);
+				setOkayToFade(false);
 				
 				// Set the bond time.
 				glucoseAttachmentTimeCountdown = LACTOSE_BOND_TIME;
