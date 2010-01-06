@@ -16,6 +16,7 @@ MEDIUM PRIORITY
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes
 - i18n of GameSummaryNode
 - game timer continues to count when Game module is not active because the computation is based on wall time
+- factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode
 
 LOW PRIORITY
 - javadoc
