@@ -12,9 +12,6 @@ import edu.colorado.phet.website.test.LuceneTest;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.StringUtils;
 
-// TODO: move the simulation list panel to a separate page, so if something goes bad, this page is still accessible
-
-// TODO: add strings checks to make sure all translatable strings are contained in entities
 public class AdminMainPage extends AdminPage {
 
     private TextField keyText;
