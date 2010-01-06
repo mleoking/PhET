@@ -193,48 +193,47 @@ public class LacOperator extends SimpleModelElement {
 	}
 	
 	/**
-	 * Suspend any pending attachments and prevent any new ones from forming.
-	 * This method was created to support the case where the user has grabbed
-	 * a LacI and is likely to try to put it on this lac operator, so the lac
-	 * operator must get itself into a state where that is possible.
+	 * This method is used when a LacI protein wants to attach right away
+	 * to the lac operator.  The intended use case is when the user tries to
+	 * manually place a LacI on the promoter.
+	 * 
+	 * @param lacI
+	 * @return
 	 */
-	public void suspendAttaching(){
-		switch (lacIAttachmentState){
-		case ATTACHED:
-			// The intent of this routine is to stop attachments that are
-			// about to form, but not already formed.
-			System.err.println(getClass().getName() + "Error: Attempt to suspend attaching when already attached.");
-			assert false;
-			break;
-			
-		case MOVING_TOWARDS_ATTACHMENT:
-			// Break off the engagement.
-			lacIAttachmentPartner.detach(this);
-			lacIAttachmentPartner = null;
-			lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-			break;
-			
-		case UNATTACHED_AND_AVAILABLE:
-			// Make ourself unavailable for now.
-			lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-			break;
-			
-		case UNATTACHED_BUT_UNAVALABLE:
-			// We are already unattached and unavailable, so it's a little
-			// weird that this is being called.  Spit out a warning.
-			System.err.println(getClass().getName() + "Warning: Attempt to suspend attaching when already unattached and unavailable.");
-			break;
+	public boolean requestImmediateAttach(LacI lacI){
+
+		boolean attachRequestAccepted = false;
+		
+		if ( lacIAttachmentState != AttachmentState.ATTACHED ) {
+			// We are not attached to any LacI, so we are in the correct state
+			// to accept this request.
+			if (lacIAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+				if (lacIAttachmentPartner != lacI){
+					// We had something going with a different lacI, so we
+					// need to terminate that relationship before going any
+					// further.
+					lacIAttachmentPartner.detach(this);
+					lacIAttachmentPartner = null;
+					lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				}
+			}
+			// Initiate the attachment process to the LacI.
+			if (!lacI.considerProposalFrom(this)){
+				// This should never happen, because the lacI requested the
+				// attachment.
+				System.err.println(getClass().getName() + "- Error: Proposal refused by element that requested attachment.");
+				assert false;
+			}
+			// Everything should now be clear for finalizing the actual attachment.
+			lacIAttachmentPartner = lacI;
+			lacIAttachmentPartner.attach(this);
+			lacIAttachmentState = AttachmentState.ATTACHED;
+			lacIAttachmentCountdownTimer = LAC_I_ATTACHMENT_TIME;
+
+			attachRequestAccepted = true;
 		}
-	}
-	
-	/**
-	 * Allow the lac operator to resume seeking attachments with LacI
-	 * molecules.  This should only be called after first having called
-	 * suspendAttaching.
-	 */
-	public void resumeAttaching(){
-		assert lacIAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-		lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+		
+		return attachRequestAccepted;
 	}
 	
 	@Override

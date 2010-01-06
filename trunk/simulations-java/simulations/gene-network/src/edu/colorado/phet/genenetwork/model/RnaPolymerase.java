@@ -378,6 +378,6 @@ public class RnaPolymerase extends SimpleModelElement {
 	}
 
 	public boolean isAvailableForAttaching() {
-		return promoterAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE;
+		return (promoterAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE && !isUserControlled());
 	}	
 }
