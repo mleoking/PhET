@@ -14,6 +14,7 @@ MEDIUM PRIORITY
 - explicitly handle tab traversal in play area
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
+- investigate PSwing workaround that I had to add to GameSummaryNode
 
 LOW PRIORITY
 - javadoc
