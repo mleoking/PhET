@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2010, University of Colorado */
 
 package edu.colorado.phet.reactantsproductsandleftovers;
 
@@ -43,6 +43,9 @@ public class RPALStrings {
     
     // messages 
     public static final String MESSAGE_VALUE_OUT_OF_RANGE = RPALResources.getString( "message.valueOutOfRange" );
+    public static final String MESSAGE_GAME_OVER = RPALResources.getString( "message.gameOver" );
+    public static final String MESSAGE_FINAL_SCORE = RPALResources.getString( "message.finalScore" );
+    public static final String MESSAGE_PERFECT_SCORE = RPALResources.getString( "message.perfectScore" );
     
     // questions
     public static final String QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS = RPALResources.getString( "question.howManyProductsAndLeftovers" );

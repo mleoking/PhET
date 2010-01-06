@@ -28,17 +28,17 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class GameSummaryNode extends PhetPNode {
     
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
-    private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLUE, 4 ), new CompoundBorder( new LineBorder( Color.BLACK, 2 ), new EmptyBorder( 14, 14, 14, 14 ) ) );
+    private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 5, 14, 5, 14 ) );
     private static final Color BACKGROUND = Color.YELLOW;
     
     private final GameModel model;
-    private final JLabel summaryLabel;
+    private final JLabel messageLabel;
     
     public GameSummaryNode( final GameModel model ) {
         super();
         
-        // message
-        summaryLabel = new JLabel();
+        // text
+        messageLabel = new JLabel( "?" ); // computed dynamically
         
         // buttons
         JButton newGameButton = new JButton( RPALStrings.BUTTON_NEW_GAME );
@@ -58,8 +58,10 @@ public class GameSummaryNode extends PhetPNode {
         panel.setBackground( BACKGROUND );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
         panel.setLayout( layout );
-        layout.addComponent( summaryLabel, 0, 0 );
-        layout.addAnchoredComponent( buttonPanel, 1, 0, GridBagConstraints.CENTER );
+        int row = 0;
+        int column = 0;
+        layout.addComponent( messageLabel, row++, column );
+        layout.addAnchoredComponent( buttonPanel, row++, column, GridBagConstraints.CENTER );
         
         // PSwing
         PSwing pswing = new PSwing( panel );
@@ -79,16 +81,25 @@ public class GameSummaryNode extends PhetPNode {
     }
     
     private void update() {
+        
+        String s = "<html>";
+        s += RPALStrings.MESSAGE_GAME_OVER;
+        
+        // score message
         String pointsString = POINTS_FORMAT.format( model.getPoints() );
         String challengesString = String.valueOf( GameModel.getChallengesPerGame() );
-        Object[] args = { pointsString, challengesString };
-        String scoreString = MessageFormat.format( "{0}/{1}", args );
-        //XXX i18n of text
-        String text = "<html>Game Over!<br><br>Your final score is " + scoreString;
-        if ( model.getPoints() == model.getPerfectScore() ) {
-            text += "<br><br>You have a perfect score! Woo hoo!";
+        String scoreString = MessageFormat.format( "{0}/{1}", pointsString, challengesString );
+        s += "<br><br>";
+        s += MessageFormat.format( RPALStrings.MESSAGE_FINAL_SCORE, scoreString );
+        
+        // visibility of "perfect score" message
+        if ( model.getPoints() == GameModel.getPerfectScore() ) {
+            s += "<br><br>";
+            s += RPALStrings.MESSAGE_PERFECT_SCORE;
+            s += "&nbsp;"; //XXX workaround, PSwing cuts off last char
         }
-        text += "</html>";
-        summaryLabel.setText( text ); 
+        s+= "</html>";
+        
+        messageLabel.setText( s );
     }
 }
