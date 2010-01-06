@@ -8,14 +8,13 @@ HIGH PRIORITY
 - images will overlap in Game After box, grid has 20 cells, max images=40 (10x10x10x10 for 2 products, 2 leftovers)
 
 MEDIUM PRIORITY
-- should Game summary node be draggable?
+- should Check button be visible with Game instructions, or appear when user enters a value?
 - PSwing memory leak affects tab traversal, #1874
 - associate ImageLayoutStrategy with the chemical reaction type?
 - explicitly handle tab traversal in play area
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes
 - i18n of GameSummaryNode
-- game timer continues to count when Game module is not active because the computation is based on wall time
-- factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode
+- factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 
 LOW PRIORITY
 - javadoc
