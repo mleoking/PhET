@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2010, University of Colorado */
 
 package edu.colorado.phet.translationutility.userinterface;
 
@@ -70,12 +70,19 @@ public class TranslationPanel extends JPanel implements FindListener {
         _previousFindTextAreaIndex = -1;
         _previousFindSelectionIndex = -1;
         
+        // get locale-specific fonts
+        Font sourceFont = PhetFont.getPreferredFont( sourceLocale );
+        Font targetFont = PhetFont.getPreferredFont( targetLocale );
+        TULogger.log( "TranslationPanel, sourceFont=" + sourceFont + " (" + sourceFont.getFontName() + ")" );
+        TULogger.log( "TranslationPanel, targetFont=" + targetFont + " (" + targetFont.getFontName() + ")");
+        
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setInsets( new Insets( 2, 5, 2, 5 ) ); // top, left, bottom, right
         int row = 0;
         
+        // column headings
         PhetLocales lc = PhetLocales.getInstance();
         JLabel projectNameLabel = new JLabel( projectName );
         projectNameLabel.setFont( TITLE_FONT );
@@ -93,6 +100,15 @@ public class TranslationPanel extends JPanel implements FindListener {
         targetLanguageLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( targetLanguageLabel, row, TARGET_COLUMN, GridBagConstraints.WEST );
         row++;
+        
+        // font names
+        JLabel sourceFontLabel = new JLabel( "font: " + sourceFont.getFontName() );
+        layout.addAnchoredComponent( sourceFontLabel, row, SOURCE_COLUMN, GridBagConstraints.WEST );
+        JLabel targetFontName = new JLabel( "font: " + targetFont.getFontName() );
+        layout.addAnchoredComponent( targetFontName, row, TARGET_COLUMN, GridBagConstraints.WEST );
+        row++;
+        
+        // separator
         layout.addComponent( new JSeparator(), row, 0, 3, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL );
         row++;
 
@@ -103,12 +119,6 @@ public class TranslationPanel extends JPanel implements FindListener {
             String key = (String) keys.nextElement();
             sortedSet.add( key );
         }
-        
-        // get locale-specific fonts
-        Font sourceFont = PhetFont.getPreferredFont( sourceLocale );
-        Font targetFont = PhetFont.getPreferredFont( targetLocale );
-        TULogger.log( "TranslationPanel, sourceFont=" + sourceFont );
-        TULogger.log( "TranslationPanel, targetFont=" + targetFont );
         
         // create the table
         Iterator<String> i = sortedSet.iterator();
