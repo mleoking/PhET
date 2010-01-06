@@ -101,7 +101,7 @@ public class GameCanvas extends RPALCanvas {
         scoreboardNode = new ScoreboardNode( model );
         parentNode.addChild( scoreboardNode );
 
-        // face, for indicating correct/incorrect answers
+        // face, for indicating correct/incorrect guess
         faceNode = new FaceNode();
         parentNode.addChild( faceNode );
         
@@ -160,8 +160,8 @@ public class GameCanvas extends RPALCanvas {
             }
             
             @Override 
-            public void answerChanged() {
-                handleAnswerChanged();
+            public void guessChanged() {
+                handleGuessChanged();
             }
         } );
 
@@ -198,7 +198,7 @@ public class GameCanvas extends RPALCanvas {
         } );
         tryAgainButton.addPropertyChangeListener( buttonVisibilityListener );
 
-        // Show Answer button shows the answer
+        // Show Answer button shows the correct answer
         showAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showAnswerButtonPressed();
@@ -230,38 +230,38 @@ public class GameCanvas extends RPALCanvas {
     }
     
     private void handleNewGame() {
-        showUserAnswer( false );
+        showGuess( false );
         visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
     private void handleGameStarted() {
-        showUserAnswer( true );
+        showGuess( true );
         visibilityManager.setVisibility( FIRST_ATTEMPT_STATE );
     }
     
     private void handleGameCompleted() {
-        showUserAnswer( false );
+        showGuess( false );
         visibilityManager.setVisibility( GAME_SUMMARY_STATE );
     }
 
     private void handleGameAborted() {
-        showUserAnswer( false );
+        showGuess( false );
         visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
     private void handleChallengeChanged() {
-        showUserAnswer( true );
+        showGuess( true );
         visibilityManager.setVisibility( FIRST_ATTEMPT_STATE );
         updateNodes();
     }
     
-    private void handleAnswerChanged() {
+    private void handleGuessChanged() {
         instructionsNode.setVisible( false );
     }
     
     private void checkButtonPressed() {
-        showUserAnswer( false );
-        boolean correct = model.checkAnswer();
+        showGuess( false );
+        boolean correct = model.checkGuess();
         if ( correct ) {
             faceNode.smile();
             if ( model.getAttempts() == 1 ) {
@@ -287,12 +287,12 @@ public class GameCanvas extends RPALCanvas {
     }
     
     private void tryAgainButtonPressed() {
-        showUserAnswer( true );
+        showGuess( true );
         visibilityManager.setVisibility( SECOND_ATTEMPT_STATE );
     }
     
     private void showAnswerButtonPressed() {
-        showCorrectAnswer();
+        showAnswer();
         visibilityManager.setVisibility( ANSWER_SHOWN_STATE );
     }
     
@@ -443,21 +443,21 @@ public class GameCanvas extends RPALCanvas {
         buttonsParentNode.setOffset( x, y );
     }
     
-    private void showUserAnswer( boolean editable ) {
+    private void showGuess( boolean editable ) {
         if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
-            afterNode.showUserAnswer( editable );
+            afterNode.showGuess( editable );
         }
         else {
-            beforeNode.showUserAnswer( editable );
+            beforeNode.showGuess( editable );
         }
     }
     
-    private void showCorrectAnswer() {
+    private void showAnswer() {
         if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
-            afterNode.showCorrectAnswer();
+            afterNode.showAnswer();
         }
         else {
-            beforeNode.showCorrectAnswer();
+            beforeNode.showAnswer();
         }
     }
 

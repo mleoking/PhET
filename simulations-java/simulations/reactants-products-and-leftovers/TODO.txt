@@ -8,7 +8,6 @@ HIGH PRIORITY
 - images will overlap in Game After box, grid has 20 cells, max images=40 (10x10x10x10 for 2 products, 2 leftovers)
 
 MEDIUM PRIORITY
-- "answer" and "guess" used interchangably, "answer" could also mean "correct answer" (change to "guess" throughout?)
 - should Game summary node be draggable?
 - PSwing memory leak affects tab traversal, #1874
 - associate ImageLayoutStrategy with the chemical reaction type?

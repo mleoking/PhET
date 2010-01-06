@@ -22,12 +22,12 @@ public class GameModel extends RPALModel {
     private static final int CHALLENGES_PER_GAME = 10;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
     private static final boolean DEFAULT_TIMER_ENABLED = true;
-    private static final double POINTS_FIRST_ATTEMPT = 1;  // points to award for correct answer on 1st attempt
-    private static final double POINTS_SECOND_ATTEMPT = 0.5; // points to award for correct answer on 2nd attempt
+    private static final double POINTS_FIRST_ATTEMPT = 1;  // points to award for correct guess on 1st attempt
+    private static final double POINTS_SECOND_ATTEMPT = 0.5; // points to award for correct guess on 2nd attempt
     
     private final ArrayList<GameListener> listeners;
     private final GameTimer timer;
-    private final ChangeListener answerChangeListener;
+    private final ChangeListener guessChangeListener;
     
     private GameChallenge[] challenges; // the challenges that make up the current game
     private int challengeNumber; // the current challenge that the user is attempting to solve
@@ -49,9 +49,9 @@ public class GameModel extends RPALModel {
             }
         } );
         
-        answerChangeListener = new ChangeListener() {
+        guessChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                fireAnswerChanged();
+                fireGuessChanged();
             }
         };
         
@@ -93,7 +93,7 @@ public class GameModel extends RPALModel {
         if ( challengeNumber < CHALLENGES_PER_GAME - 1 ) {
             challengeNumber++;
             setAttempts( 0 );
-            getChallenge().getAnswer().addChangeListener( answerChangeListener );
+            getChallenge().getGuess().addChangeListener( guessChangeListener );
             fireChallengeChanged();
         }
         else {
@@ -101,10 +101,10 @@ public class GameModel extends RPALModel {
         }
     }
     
-    public boolean checkAnswer() {
+    public boolean checkGuess() {
         boolean correct = false;
         setAttempts( getAttempts() + 1 );
-        if ( getAnswer().isCorrect() ) {
+        if ( getGuess().isCorrect() ) {
             correct = true;
             if ( getAttempts() == 1 ) {
                 setPoints( getPoints() + POINTS_FIRST_ATTEMPT );
@@ -122,7 +122,7 @@ public class GameModel extends RPALModel {
     //TODO: this needs to be rewritten, with many reactions to choose from, and more complicated selection criteria
     private void newChallenges() {
         if ( challenges != null ) {
-            getChallenge().getAnswer().removeChangeListener( answerChangeListener );
+            getChallenge().getGuess().removeChangeListener( guessChangeListener );
         }
         challengeNumber = 0;
         challenges = new GameChallenge[ CHALLENGES_PER_GAME ];
@@ -147,7 +147,7 @@ public class GameModel extends RPALModel {
             }
             challenges[i] = new GameChallenge( challengeType, reaction );
         }
-        getChallenge().getAnswer().addChangeListener( answerChangeListener );
+        getChallenge().getGuess().addChangeListener( guessChangeListener );
         fireChallengeChanged();
     }
     
@@ -174,8 +174,8 @@ public class GameModel extends RPALModel {
         return getChallenge().getReaction();
     }
     
-    public GameAnswer getAnswer() {
-        return getChallenge().getAnswer();
+    public GameGuess getGuess() {
+        return getChallenge().getGuess();
     }
     
     public static int getChallengesPerGame() {
@@ -254,7 +254,7 @@ public class GameModel extends RPALModel {
         public void gameCompleted(); // the current game was completed
         public void gameAborted(); // the current game was aborted before it was completed
         public void challengeChanged(); // the challenge changed
-        public void answerChanged(); // user's answer changed
+        public void guessChanged(); // user's guess changed
         public void pointsChanged(); // the number of points changed
         public void levelChanged(); // the level of difficulty changed
         public void attemptsChanged(); // the number of attempts changed
@@ -271,7 +271,7 @@ public class GameModel extends RPALModel {
         public void gameCompleted() {}
         public void gameAborted() {}
         public void challengeChanged() {}
-        public void answerChanged() {}
+        public void guessChanged() {}
         public void pointsChanged() {}
         public void levelChanged() {}
         public void attemptsChanged() {}
@@ -337,13 +337,13 @@ public class GameModel extends RPALModel {
         }
     }
     
-    private void fireAnswerChanged() {
+    private void fireGuessChanged() {
         ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
         if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireAnswerChanged, notifying " + listenersCopy.size() + " listeners" );
+            System.out.println( "GameModel.fireGuessChanged, notifying " + listenersCopy.size() + " listeners" );
         }
         for ( GameListener listener : listenersCopy ) {
-            listener.answerChanged();
+            listener.guessChanged();
         }
     }
     
