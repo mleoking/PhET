@@ -41,6 +41,10 @@ public class RnaPolymerase extends SimpleModelElement {
 	private static Random RAND = new Random();
 	private static final int MAX_REATTACH_ATTEMPTS = 6;
 	
+	// Distance from the promoter that, if dropped within, this will attempt
+	// to attach.
+	private static final double PROMOTER_IMMEDIATE_ATTACH_DISTANCE = 8;
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -214,7 +218,6 @@ public class RnaPolymerase extends SimpleModelElement {
 				// This polymerase was either attached to a promoter or moving
 				// towards attachment.  This relationship must be terminated.
 				promoterAttachmentPartner.detach(this);
-				promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 				promoterAttachmentPartner = null;
 				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
 			}
@@ -230,7 +233,28 @@ public class RnaPolymerase extends SimpleModelElement {
 				}
 				traversing = false;
 				transcribing = false;
-				promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
+		}
+		else{
+			// This element has just been released by the user.  It should be
+			// considered available.
+			promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			
+			// If this was dropped within range of a promoter, it should try
+			// to attach to it.
+			LacIPromoter lacIPromoter = getModel().getLacIPromoter();
+			LacPromoter lacPromoter = getModel().getLacPromoter();
+			if ( lacIPromoter != null && 
+				 getPositionRef().distance(lacIPromoter.getPositionRef()) < PROMOTER_IMMEDIATE_ATTACH_DISTANCE){
+				
+				// We are in range, so try to attach.
+				lacIPromoter.requestImmediateAttach(this);
+			}
+			else if ( lacPromoter != null &&
+					  getPositionRef().distance(lacPromoter.getPositionRef()) < PROMOTER_IMMEDIATE_ATTACH_DISTANCE){
+				
+				// We are in range, so try to attach.
+				lacPromoter.requestImmediateAttach(this);
 			}
 		}
 		super.setDragging(dragging);

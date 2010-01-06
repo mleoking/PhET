@@ -50,10 +50,6 @@ public abstract class Promoter extends SimpleModelElement {
     // Methods
     //------------------------------------------------------------------------
 	
-	protected void setAttachmentRecoveryTime(double attachmentRecoveryTime) {
-		this.attachmentRecoveryTime = attachmentRecoveryTime;
-	}
-
 	@Override
 	public void stepInTime(double dt) {
 		
@@ -85,10 +81,11 @@ public abstract class Promoter extends SimpleModelElement {
 	 * attached, then detached, and wants to attach again after a short
 	 * period.  This was created for the case where the RNA polymerase
 	 * is blocked from traversing the DNA strand and so does some sort of
-	 * "bumping" against the blocking agent.
+	 * "bumping" against the blocking element.
 	 * 
 	 * This should NOT be used by a polymerase molecule that wants to attach
-	 * but was not recently attached - use the "attach" method for that.
+	 * but was not recently attached - use the requestImmediateAttach method
+	 * for that.
 	 * 
 	 * @param rnaPolymerase
 	 * @return
@@ -117,6 +114,51 @@ public abstract class Promoter extends SimpleModelElement {
 		return reattachRequestAccepted;
 	}
 
+	/**
+	 * This method is used when a molecule of RNA polymerase wants to attach
+	 * right away to this promoter.  The intended use case is when the user
+	 * is trying to manually place the RNA polymerase on the promoter.
+	 * 
+	 * This should NOT be used by a polymerase molecule that was recently
+	 * attached and now wants to reattach because its traversal of the DNA
+	 * is blocked - use requestReattach for that.
+	 * 
+	 * @param rnaPolymerase
+	 * @return
+	 */
+	public boolean requestImmediateAttach(RnaPolymerase rnaPolymerase){
+
+		boolean attachRequestAccepted = false;
+		
+		if ( rnaPolymeraseAttachmentState != AttachmentState.ATTACHED ) {
+			// We are not attached to any polymerase, so we are in the correct
+			// state to accept this request.
+			if (rnaPolymeraseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+				if (rnaPolymeraseAttachmentPartner != rnaPolymerase){
+					// We had something going with a different polymerase,
+					// so we need to terminate that relationship before going
+					// any further.  Nothing worse than polymerase polygamy.
+					rnaPolymeraseAttachmentPartner.detach(this);
+					rnaPolymeraseAttachmentPartner = null;
+					rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				}
+			}
+			// Initiate the attachment process to the RNA polymerase.
+			if (!rnaPolymerase.considerProposalFrom(this)){
+				// This should never happen, because the RNA polymerase
+				// requested attachment.
+				System.err.println(getClass().getName() + "- Error: Proposal refused by element that requested attachment.");
+				assert false;
+			}
+			// Everything should now be clear for finalizing the actual attachment.
+			rnaPolymeraseAttachmentPartner = rnaPolymerase;
+			completeAttachmentOfRnaPolymerase();
+			attachRequestAccepted = true;
+		}
+		
+		return attachRequestAccepted;
+	}
+	
 	public void setDragging(boolean dragging) {
 		if (dragging == true){
 			if (rnaPolymeraseAttachmentPartner != null){
@@ -162,7 +204,17 @@ public abstract class Promoter extends SimpleModelElement {
 	public boolean isPartOfDnaStrand() {
 		return true;
 	}
-	
+
+	/**
+	 * Set the amount of time that should elapse after an RNA polymerase is
+	 * released before looking for the next possible attachment partner.
+	 * 
+	 * @param attachmentRecoveryTime
+	 */
+	protected void setAttachmentRecoveryTime(double attachmentRecoveryTime) {
+		this.attachmentRecoveryTime = attachmentRecoveryTime;
+	}
+
 	private void attemptToStartAttaching(){
 		assert rnaPolymeraseAttachmentPartner == null;
 		// Search for a partner to attach to.
@@ -188,10 +240,14 @@ public abstract class Promoter extends SimpleModelElement {
 		if (rnaPolymeraseAttachmentPtLocation.distance(
 				rnaPolymeraseAttachmentPartner.getLacPromoterAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
 			// Close enough to attach.
-			rnaPolymeraseAttachmentPartner.attach(this);
-			rnaPolymeraseAttachmentState = AttachmentState.ATTACHED;
-			rnaPolymeraseAttachmentCountdownTimer = ATTACH_TO_RNA_POLYMERASE_TIME;
+			completeAttachmentOfRnaPolymerase();
 		}
+	}
+
+	private void completeAttachmentOfRnaPolymerase() {
+		rnaPolymeraseAttachmentPartner.attach(this);
+		rnaPolymeraseAttachmentState = AttachmentState.ATTACHED;
+		rnaPolymeraseAttachmentCountdownTimer = ATTACH_TO_RNA_POLYMERASE_TIME;
 	}
 	
 	protected void checkReadyToDetach(double dt){
