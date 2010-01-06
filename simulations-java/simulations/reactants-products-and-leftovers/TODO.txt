@@ -13,7 +13,6 @@ MEDIUM PRIORITY
 - associate ImageLayoutStrategy with the chemical reaction type?
 - explicitly handle tab traversal in play area
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes
-- i18n of GameSummaryNode
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 
 LOW PRIORITY

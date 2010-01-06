@@ -83,6 +83,13 @@ public class GameCanvas extends RPALCanvas {
         gameSummaryNode = new GameSummaryNode( model );
         gameSummaryNode.scale( 1.5 ); //XXX scale
         addChild( gameSummaryNode );
+        gameSummaryNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                if ( evt.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
+                    centerGameSummary();
+                }
+            }
+        } );
 
         // all other nodes are children of this node
         parentNode = new PhetPNode();
@@ -402,15 +409,12 @@ public class GameCanvas extends RPALCanvas {
         y = scoreboardNode.getFullBoundsReference().getMaxY() + 2;
         devAnswerNode.setOffset( x, y );
 
-        // game summmary, horizontally and vertically centered on everything else
-        x = parentNode.getFullBoundsReference().getCenterX() - ( gameSummaryNode.getFullBoundsReference().getWidth() / 2 );
-        y = parentNode.getFullBoundsReference().getCenterY() - ( gameSummaryNode.getFullBoundsReference().getHeight() / 2 );
-        gameSummaryNode.setOffset( x, y );
-
         // game settings, horizontally and vertically centered on everything else
         x = parentNode.getFullBoundsReference().getCenterX() - ( gameSettingsNode.getFullBoundsReference().getWidth() / 2 );
         y = parentNode.getFullBoundsReference().getCenterY() - ( gameSettingsNode.getFullBoundsReference().getHeight() / 2 );
         gameSettingsNode.setOffset( x, y );
+        
+        centerGameSummary();
     }
     
     private void updateButtonsLayout() {
@@ -441,6 +445,13 @@ public class GameCanvas extends RPALCanvas {
         x = boxNode.getXOffset() + ( ( boxNode.getBoxWidth() - buttonMaxX ) / 2 );
         y = boxNode.getYOffset() + boxNode.getBoxHeight() - buttonMaxY - 10;
         buttonsParentNode.setOffset( x, y );
+    }
+    
+    private void centerGameSummary() {
+        // game summmary, horizontally and vertically centered on everything else
+        double x = parentNode.getFullBoundsReference().getCenterX() - ( gameSummaryNode.getFullBoundsReference().getWidth() / 2 );
+        double y = parentNode.getFullBoundsReference().getCenterY() - ( gameSummaryNode.getFullBoundsReference().getHeight() / 2 );
+        gameSummaryNode.setOffset( x, y );
     }
     
     private void showGuess( boolean editable ) {
