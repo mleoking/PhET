@@ -1,3 +1,4 @@
+1/5/09 #2083, display font face names below the language names at the top of each column
 # 2.05.00 (37895) Jan 5, 2010
 1/5/10 #2075, change custom locale for Friulian from "fu_IT" to "fu"
 # 2.04.00 (37830) Dec 30, 2009
