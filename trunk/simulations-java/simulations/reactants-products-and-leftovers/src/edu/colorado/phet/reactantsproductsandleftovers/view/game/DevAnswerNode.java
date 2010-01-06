@@ -11,7 +11,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.Gam
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Shows the number of reactants, products and leftovers (the Game answer).
+ * Shows the number of reactants, products and leftovers (the Game's correct answer).
  * This node is a developer control and not internationalized.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)

@@ -10,12 +10,12 @@ public class GameChallenge {
 
     private final ChallengeType challengeType;
     private final ChemicalReaction reaction;
-    private final GameAnswer answer;
+    private final GameGuess guess;
 
     public GameChallenge( ChallengeType challengeType, ChemicalReaction reaction ) {
         this.challengeType = challengeType;
         this.reaction = reaction;
-        this.answer = new GameAnswer( reaction, challengeType );
+        this.guess = new GameGuess( reaction, challengeType );
     }
 
     public ChallengeType getChallengeType() {
@@ -26,7 +26,7 @@ public class GameChallenge {
         return reaction;
     }
 
-    public GameAnswer getAnswer() {
-        return answer;
+    public GameGuess getGuess() {
+        return guess;
     }
 }

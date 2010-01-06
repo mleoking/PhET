@@ -98,7 +98,7 @@ public class GameBeforeNode extends GameBoxNode {
         this.model = model;
         gameListener = new GameAdapter() {
             @Override 
-            public void answerChanged() {
+            public void guessChanged() {
               updateGuessImages();
             }
         };
@@ -114,10 +114,10 @@ public class GameBeforeNode extends GameBoxNode {
         
         // default state
         if ( model.getChallengeType() == ChallengeType.HOW_MANY_REACTANTS ) {
-            showUserAnswer( true /* editable */ );
+            showGuess( true /* editable */ );
         }
         else {
-            showCorrectAnswer();
+            showAnswer();
         }
     }
     
@@ -125,7 +125,7 @@ public class GameBeforeNode extends GameBoxNode {
         model.removeGameListener( gameListener );
     }
     
-    public void showCorrectAnswer() {
+    public void showAnswer() {
         
         // reactants
         for ( int i = 0; i < reactantValueNodes.size(); i++ ) {
@@ -141,13 +141,13 @@ public class GameBeforeNode extends GameBoxNode {
         guessImagesNode.setVisible( false );
     }
     
-    public void showUserAnswer( boolean editable ) {
+    public void showGuess( boolean editable ) {
         
         // reactants
         for ( int i = 0; i < reactantValueNodes.size(); i++ ) {
             QuantityValueNode valueNode = reactantValueNodes.get( i );
             // attach to reactant of user's answer
-            valueNode.setSubstance( model.getAnswer().getReactant( i ) );
+            valueNode.setSubstance( model.getGuess().getReactant( i ) );
             // set editability
             valueNode.setEditable( editable );
         }
@@ -185,7 +185,7 @@ public class GameBeforeNode extends GameBoxNode {
          */
 
         // remove reactants
-        Reactant[] reactants = model.getAnswer().getReactants();
+        Reactant[] reactants = model.getGuess().getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = reactantImageNodeLists.get( i );

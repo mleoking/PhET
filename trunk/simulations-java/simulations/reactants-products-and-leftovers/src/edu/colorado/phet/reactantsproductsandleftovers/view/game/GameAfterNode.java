@@ -139,7 +139,7 @@ public class GameAfterNode extends GameBoxNode {
         this.model = model;
         gameListener = new GameAdapter() {
             @Override 
-            public void answerChanged() {
+            public void guessChanged() {
                 updateGuessImages();
             }
         };
@@ -155,10 +155,10 @@ public class GameAfterNode extends GameBoxNode {
         
         // default state
         if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
-            showUserAnswer( true /* editable */ );
+            showGuess( true /* editable */ );
         }
         else {
-            showCorrectAnswer();
+            showAnswer();
         }
     }
     
@@ -166,7 +166,7 @@ public class GameAfterNode extends GameBoxNode {
         model.removeGameListener( gameListener );
     }
     
-    public void showCorrectAnswer() {
+    public void showAnswer() {
         
         // products
         for ( int i = 0; i < quantityValueNodes.size(); i++ ) {
@@ -191,13 +191,13 @@ public class GameAfterNode extends GameBoxNode {
         guessImagesNode.setVisible( false );
     }
     
-    public void showUserAnswer( boolean editable ) {
+    public void showGuess( boolean editable ) {
         
         // products
         for ( int i = 0; i < quantityValueNodes.size(); i++ ) {
             QuantityValueNode valueNode = quantityValueNodes.get( i );
-            // attach to product of user's answer
-            valueNode.setSubstance( model.getAnswer().getProduct( i ) );
+            // attach to product of guess
+            valueNode.setSubstance( model.getGuess().getProduct( i ) );
             // set editability
             valueNode.setEditable( editable );
         }
@@ -205,8 +205,8 @@ public class GameAfterNode extends GameBoxNode {
         // leftovers
         for ( int i = 0; i < leftoverValueNodes.size(); i++ ) {
             LeftoversValueNode valueNode = leftoverValueNodes.get( i );
-            // attach to reactant of user's answer
-            valueNode.setReactant( model.getAnswer().getReactant( i ) );
+            // attach to reactant of guess
+            valueNode.setReactant( model.getGuess().getReactant( i ) );
             // set to read-only
             valueNode.setEditable( editable );
         }
@@ -258,7 +258,7 @@ public class GameAfterNode extends GameBoxNode {
          */
         
         // remove products
-        Product[] products = model.getAnswer().getProducts();
+        Product[] products = model.getGuess().getProducts();
         for ( int i = 0; i < products.length; i++ ) {
             Product product = products[i];
             ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
@@ -273,7 +273,7 @@ public class GameAfterNode extends GameBoxNode {
         }
         
         // remove leftovers
-        Reactant[] reactants = model.getAnswer().getReactants();
+        Reactant[] reactants = model.getGuess().getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = leftoverImageNodeLists.get( i );

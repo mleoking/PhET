@@ -16,26 +16,28 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantCh
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 
 /**
- * This is the user's answer to a game challenge, and it may or may not be correct.
+ * A "guess" is the user's answer to a game challenge, and it may or may not be correct.
+ * We call it a "guess" to distinguish the user's answer from the correct answer.
+ * (And yes, "guess" is semantically incorrect, since a guess is uninformed. Live with it.)
  * <p>
- * An answer is correct if all of the reactants and products in the answer 
- * are equal to the reactants and products in the reaction, as defined by method equals.
+ * A guess is correct if all of the reactants and products in the guess are equal to
+ * the reactants and products in the reaction (the correct answer), as defined by method equals.
  * <p>
- * An answer is constructed based on a reaction and challenge type.
- * The answer will have the same number of reactants and products as the reaction,
+ * A guess is constructed based on a reaction and challenge type.
+ * The guess will have the same number of reactants and products as the reaction,
  * and they are guaranteed to be in the same order.
- * Depending on the challenge type, values in the answer will be initialized to zero.
+ * Depending on the challenge type, values in the guess will be initialized to zero.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GameAnswer {
+public class GameGuess {
     
     private final ChemicalReaction reaction;
     private final Reactant[] reactants;
     private final Product[] products;
     private final ArrayList<ChangeListener> listeners;
     
-    public GameAnswer( ChemicalReaction reaction, ChallengeType challengeType ) {
+    public GameGuess( ChemicalReaction reaction, ChallengeType challengeType ) {
         
         this.reaction = reaction;
         listeners = new ArrayList<ChangeListener>();
