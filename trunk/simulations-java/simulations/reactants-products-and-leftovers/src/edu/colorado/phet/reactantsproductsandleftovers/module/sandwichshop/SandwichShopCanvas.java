@@ -4,14 +4,11 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.view.AbstractAfterNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.AbstractBeforeNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.StackedLayoutNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichEquationNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichShopAfterNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichShopBeforeNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -68,19 +65,5 @@ public class SandwichShopCanvas extends RPALCanvas {
         x = arrowNode.getFullBoundsReference().getMaxX() - resetAllButtonWrapper.getFullBoundsReference().getWidth();
         y = afterNode.getFullBoundsReference().getMaxY();
         resetAllButtonWrapper.setOffset( x, y );
-    }
-
-    private static class SandwichShopBeforeNode extends AbstractBeforeNode {
-
-        public SandwichShopBeforeNode( SandwichShopModel model ) {
-            super( RPALStrings.LABEL_BEFORE_SANDWICH, model.getReaction(), model.getQuantityRange(), false /* showSubstanceNames */, new StackedLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
-        }
-    }
-    
-    private static class SandwichShopAfterNode extends AbstractAfterNode {
-
-        public SandwichShopAfterNode( SandwichShopModel model ) {
-            super( RPALStrings.LABEL_AFTER_SANDWICH, model.getReaction(), model.getQuantityRange(), false /* showSubstanceName */, new StackedLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
-        }
     }
 }
