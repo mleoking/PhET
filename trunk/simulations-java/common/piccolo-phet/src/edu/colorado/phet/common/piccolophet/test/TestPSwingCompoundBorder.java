@@ -30,7 +30,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class TestPSwingCompoundBorder extends JFrame {
 
     public TestPSwingCompoundBorder() {
-        super( "TestCompoundBorderMacOS" );
+        super( "TestPSwingCompoundBorder" );
         setPreferredSize( new Dimension( 600, 400 )  );
 
         // canvas
