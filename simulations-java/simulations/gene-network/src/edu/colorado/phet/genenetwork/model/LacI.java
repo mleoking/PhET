@@ -116,6 +116,7 @@ public class LacI extends SimpleModelElement {
 			// try to attach to it.
 			LacOperator lacOperator = getModel().getLacOperator();
 			if ( lacOperator != null && 
+				 glucoseAttachmentState != AttachmentState.ATTACHED &&
 				 getPositionRef().distance(lacOperator.getPositionRef()) < LAC_OPERATOR_IMMEDIATE_ATTACH_DISTANCE){
 				
 				// We are in range, so try to attach.
