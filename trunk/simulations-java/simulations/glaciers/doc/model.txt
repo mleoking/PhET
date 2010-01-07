@@ -4,7 +4,9 @@ This document outlines the mathematical model behind the glacier
 sim.  The calculations described are for a "Hollywood" model,
 which was derived from the results of a finite-element glacier
 model.  For that reason, the physical reasoning behind these
-calculations is not apparent.
+calculations is not apparent.  This document is used to inform
+the Java implementation, and should be kept in sync with the 
+Java implementation.
 
 author: Archie Paulson
 
