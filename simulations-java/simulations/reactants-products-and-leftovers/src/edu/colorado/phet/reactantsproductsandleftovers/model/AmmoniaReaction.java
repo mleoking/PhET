@@ -1,9 +1,10 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALSymbols;
-
 
 /**
  * Reaction to make ammonia: N2 + 3H2 -> 2NH3
