@@ -13,7 +13,13 @@
 
 <wicket:panel>
     <a wicket:id="sign-in">Login / Register</a>
-    <a wicket:id="sign-out">Logout</a>
+    <wicket:enclosure child="sign-out">
+        <ul class="loginout-list">
+            <li><a wicket:id="edit-profile">Edit Profile</a></li>
+            <li class="loginout-spacer">|</li>
+            <li><a wicket:id="sign-out">Logout</a></li>
+        </ul>
+    </wicket:enclosure>
 </wicket:panel>
 
 </body>
