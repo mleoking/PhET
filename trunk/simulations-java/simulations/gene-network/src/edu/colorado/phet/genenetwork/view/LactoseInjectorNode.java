@@ -2,18 +2,27 @@
 
 package edu.colorado.phet.genenetwork.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import javax.swing.JRadioButton;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkResources;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
@@ -22,6 +31,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Node that represents the thing that the user interacts with in order to
@@ -38,7 +48,7 @@ public class LactoseInjectorNode extends PNode {
 	// Height of the injector prior to rotation.  This is in world size, which
 	// is close to pixels (but not quite exactly due to all that transform
 	// craziness).
-	private static final double INJECTOR_HEIGHT = 200;
+	private static final double INJECTOR_HEIGHT = 175;
 	
 	// Angle of rotation of this node.
 	private static final double ROTATION_ANGLE = Math.PI/3;
@@ -64,13 +74,15 @@ public class LactoseInjectorNode extends PNode {
     // Instance Data
     //------------------------------------------------------------------------
 
-	private PNode bodyImage;
-	private PNode unpressedButtonImage;
-	private PNode pressedButtonImage;
+	private PNode injectorBodyImageNode;
+	private PNode unpressedButtonImageNode;
+	private PNode pressedButtonImageNode;
+	private PNode autoInjectionControl;
 	private IGeneNetworkModelControl model;
 	private ModelViewTransform2D mvt;
 	private Dimension2D injectionPointOffset = new PDimension();
 	private float transparency;  // For fading.  0 is transparent, 1 is opaque.
+	private Point2D injectionPointInModelCoords = new Point2D.Double();
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -80,54 +92,71 @@ public class LactoseInjectorNode extends PNode {
 		
 		this.model = model;
 		this.mvt = mvt;
+
+		PNode injectorNode = new PNode();
 		
-        // Load the graphic images for this device.  IMPORTANT: This code
-		// assumes that the place where the lactose comes out is at the
-		// bottom center of this image.
-        BufferedImage bufferedImage = GeneNetworkResources.getImage( "squeezer_background.png" );
-        bodyImage = new PImage( bufferedImage );
-        addChild(bodyImage);
-        bufferedImage = GeneNetworkResources.getImage( "button_pressed.png" );
-        pressedButtonImage = new PImage (bufferedImage);
-        pressedButtonImage.setOffset(BUTTON_OFFSET);
-        addChild(pressedButtonImage);
-        bufferedImage = GeneNetworkResources.getImage( "button_unpressed.png" );
-        unpressedButtonImage = new PImage (bufferedImage);
-        unpressedButtonImage.setOffset(BUTTON_OFFSET);
-        addChild(unpressedButtonImage);
+		// Load the graphic images for this device.
+		BufferedImage injectorBodyImage = GeneNetworkResources.getImage( "squeezer_background.png" );
+        injectorBodyImageNode = new PImage( injectorBodyImage );
+        injectorNode.addChild(injectorBodyImageNode);
+        BufferedImage pressedButtonImage = GeneNetworkResources.getImage( "button_pressed.png" );
+        pressedButtonImageNode = new PImage(pressedButtonImage);
+        pressedButtonImageNode.setOffset(BUTTON_OFFSET);
+        injectorNode.addChild(pressedButtonImageNode);
+        BufferedImage unpressedButtonImage = GeneNetworkResources.getImage( "button_unpressed.png" );
+        unpressedButtonImageNode = new PImage(unpressedButtonImage);
+        unpressedButtonImageNode.setOffset(BUTTON_OFFSET);
+        injectorNode.addChild(unpressedButtonImageNode);
         
-        // Rotate and scale the node as a whole.
-        double scale = INJECTOR_HEIGHT / bodyImage.getFullBoundsReference().height;
-        rotateAboutPoint( ROTATION_ANGLE, new Point2D.Double( bodyImage.getFullBoundsReference().width / 2, bodyImage.getFullBoundsReference().height / 2));
-        scale(scale);
+        // Rotate and scale the image node as a whole.
+        double scale = INJECTOR_HEIGHT / injectorBodyImageNode.getFullBoundsReference().height;
+        injectorNode.rotateAboutPoint( ROTATION_ANGLE, new Point2D.Double( injectorBodyImageNode.getFullBoundsReference().width / 2, injectorBodyImageNode.getFullBoundsReference().height / 2));
+        injectorNode.scale(scale);
+        
+        // Add the injector node.
+        addChild(injectorNode);
         
         // Set up the injection point offset.  This is currently fixed, which
         // assumes that the node is rotated so that it is pointing down and to
         // the left.  This may need to be generalized some day.
-        injectionPointOffset.setSize(-getFullBoundsReference().width * 0.35, getFullBoundsReference().height * 0.25);
+        injectionPointOffset.setSize(-getFullBoundsReference().width * 0.58, getFullBoundsReference().height * 0.23);
+        
+        // Set the point for automatic injection to be at the tip of the
+        // injector.
+        updateInjectionPoint();
+        model.setAutomaticLactoseInjectionParams( injectionPointInModelCoords, NOMINAL_LACTOSE_INJECTION_VELOCITY );
+        
+        // Add the node that allows control of automatic injection.
+        autoInjectionControl = new AutomaticInjectionSelector(model, injectorNode.getFullBoundsReference().height * 0.4);
+        autoInjectionControl.setOffset(injectorNode.getFullBoundsReference().width,
+        	injectorNode.getFullBoundsReference().getCenterY());
+        addChild(autoInjectionControl);
         
         // Set up the button handling.
-        unpressedButtonImage.setPickable(true);
-        pressedButtonImage.setPickable(false);
-        bodyImage.setPickable(false);
-        unpressedButtonImage.addInputEventListener(new CursorHandler());
-        unpressedButtonImage.addInputEventListener(new PBasicInputEventHandler(){
+        unpressedButtonImageNode.setPickable(true);
+        pressedButtonImageNode.setPickable(false);
+        injectorBodyImageNode.setPickable(false);
+        unpressedButtonImageNode.addInputEventListener(new CursorHandler());
+        unpressedButtonImageNode.addInputEventListener(new PBasicInputEventHandler(){
         	@Override
             public void mousePressed( PInputEvent event ) {
-                unpressedButtonImage.setVisible(false);
+                unpressedButtonImageNode.setVisible(false);
                 injectLactose();
             }
         	
         	@Override
             public void mouseReleased( PInputEvent event ) {
-                unpressedButtonImage.setVisible(true);
+                unpressedButtonImageNode.setVisible(true);
             }
         });
         
         // Listen for changes that affect this node's visibility.
         model.addListener(new GeneNetworkModelAdapter(){
         	public void lactoseInjectionAllowedStateChange(){
-        		updateVisibility();
+        		updateInjectorNodeVisibility();
+        	}
+        	public void automaticLactoseInjectionEnabledStateChange() { 
+        		updateInjectButtonVisibility();
         	}
         });
         
@@ -153,28 +182,147 @@ public class LactoseInjectorNode extends PNode {
             }
         } );
         
-        updateVisibility();
+        updateInjectorNodeVisibility();
+        updateInjectButtonVisibility();
 	}
-	
+
+	/**
+	 * If we get moved, we need to update the model location where lactose is
+	 * injected.
+	 */
+	@Override
+	public void setOffset(double x, double y) {
+		super.setOffset(x, y);
+		updateInjectionPoint();
+		model.setAutomaticLactoseInjectionParams(injectionPointInModelCoords, NOMINAL_LACTOSE_INJECTION_VELOCITY);
+	}
+
 	private void injectLactose(){
-        // Calculate the injection point.
-		double injectionPointX = mvt.viewToModelX(getFullBoundsReference().getCenter2D().getX() + injectionPointOffset.getWidth());
-		double injectionPointY = mvt.viewToModelY(getFullBoundsReference().getCenter2D().getY() + injectionPointOffset.getHeight());
 		Vector2D initialVelocity = new Vector2D.Double(NOMINAL_LACTOSE_INJECTION_VELOCITY);
 		initialVelocity.rotate((RAND.nextDouble() - 0.5) * Math.PI * 0.15);
-        model.createAndAddLactose(new Point2D.Double(injectionPointX, injectionPointY), initialVelocity); 
+        model.createAndAddLactose(injectionPointInModelCoords, initialVelocity); 
 	}
 	
-	private void updateVisibility(){
+	private void updateInjectorNodeVisibility(){
 		if (model.isLactoseInjectionAllowed()){
 			FADE_OUT_TIMER.stop();
 			FADE_IN_TIMER.start();
-			unpressedButtonImage.setPickable(true);
+			unpressedButtonImageNode.setPickable(true);
 		}
 		else{
 			transparency = 0;
 			setTransparency(transparency);
-			unpressedButtonImage.setPickable(false);
+			unpressedButtonImageNode.setPickable(false);
+		}
+	}
+	
+	private void updateInjectButtonVisibility(){
+		// Buttons that allow manual injection should only be visible when
+		// in the manual injection mode.
+		boolean autoInjectionEnabled = model.isAutomaticLactoseInjectionEnabled();
+		unpressedButtonImageNode.setVisible(!autoInjectionEnabled);
+		unpressedButtonImageNode.setPickable(!autoInjectionEnabled);
+		pressedButtonImageNode.setVisible(!autoInjectionEnabled);
+	}
+	
+	private void updateInjectionPoint(){
+		double injectionPointX = mvt.viewToModelX(getFullBoundsReference().getCenter2D().getX() + injectionPointOffset.getWidth());
+		double injectionPointY = mvt.viewToModelY(getFullBoundsReference().getCenter2D().getY() + injectionPointOffset.getHeight());
+		injectionPointInModelCoords.setLocation(injectionPointX, injectionPointY);
+	}
+	
+	private static class AutomaticInjectionSelector extends PNode {
+		
+		private static final Font LABEL_FONT = new PhetFont(14);
+		private static final Color BACKGROUND_COLOR = new Color(248, 236, 84);
+		private static final Stroke BORDER_STROKE = new BasicStroke(2f);
+		private static final Stroke CONNECTOR_STROKE = new BasicStroke(8f);
+		private static final double CONNECTOR_LENGTH = 10;  // In screen coords, which is roughly pixels.
+		
+		private IGeneNetworkModelControl model;
+		private JRadioButton manualButton;
+		private JRadioButton autoButton;
+		
+		/**
+		 * Constructor.  The height is specified, and the width is then
+		 * determined as a function of the height and the string lengths.
+		 * 
+		 * @param model
+		 * @param height
+		 */
+		public AutomaticInjectionSelector(final IGeneNetworkModelControl model, double height){
+		
+			this.model = model;
+			
+			// Create the radio buttons that will allow the user to enable
+			// or disable automatic lactose injections.
+			manualButton = new JRadioButton("Manual");
+			manualButton.setFont(LABEL_FONT);
+			manualButton.setBackground(BACKGROUND_COLOR);
+			manualButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					model.setAutomaticLactoseInjectionEnabled(false);
+				}
+			});
+			autoButton = new JRadioButton("Auto");
+			autoButton.setFont(LABEL_FONT);
+			autoButton.setBackground(BACKGROUND_COLOR);
+			autoButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					model.setAutomaticLactoseInjectionEnabled(true);
+				}
+			});
+			
+			// Set the initial state of the radio buttons.
+			updateButtonState();
+			
+			// Listen to the model for notifications of change to the
+			// auto/manual setting.
+			model.addListener(new GeneNetworkModelAdapter(){
+				@Override
+				public void automaticLactoseInjectionEnabledStateChange() { 
+					updateButtonState();
+				}
+			});
+			
+			// Wrap the buttons in PSwings so that they can be added to this
+			// pnode.
+			PSwing autoButtonPSwing = new PSwing(autoButton);
+			PSwing manualButtonPSwing = new PSwing(manualButton);
+			
+			// Create the body of the node based on the button size.
+			double bodyWidth = Math.max(autoButtonPSwing.getFullBoundsReference().width,
+					manualButtonPSwing.getFullBoundsReference().width);
+			bodyWidth *= 1.1;
+			double bodyHeight = autoButtonPSwing.getHeight() * 2.5;
+			PhetPPath body = new PhetPPath(new RoundRectangle2D.Double(0, 0, bodyWidth, bodyHeight, 7, 7), 
+					BACKGROUND_COLOR, BORDER_STROKE, Color.black);
+			
+			// Add the buttons to the body.
+			body.addChild(manualButtonPSwing);
+			manualButtonPSwing.setOffset(3, 3);
+			body.addChild(autoButtonPSwing);
+			autoButtonPSwing.setOffset(3, manualButtonPSwing.getFullBoundsReference().getMaxY());
+			
+			// Scale the body to match the specified height.
+			body.scale(height / body.getFullBoundsReference().height);
+			
+			// Create the line that will visually connect this node to the
+			// main injector node.
+			PhetPPath connector = new PhetPPath(new Line2D.Double(0, 0, CONNECTOR_LENGTH, 0), CONNECTOR_STROKE, 
+					Color.BLACK);
+			
+			// Add the connector line and the main body.  This sets the shape
+			// up so that the 0, 0 point is the center of the connector on the
+			// left side.
+			addChild(connector);
+			body.setOffset(connector.getFullBoundsReference().width - 3, -body.getFullBoundsReference().height / 2);
+			addChild(body);
+		}
+
+		private void updateButtonState() {
+			manualButton.setSelected(!model.isAutomaticLactoseInjectionEnabled());
+			autoButton.setSelected(model.isAutomaticLactoseInjectionEnabled());
 		}
 	}
 }

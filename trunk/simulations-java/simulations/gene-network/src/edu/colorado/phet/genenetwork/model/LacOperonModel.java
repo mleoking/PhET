@@ -53,15 +53,19 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 			DNA_STRAND_POSITION.getY() + DNA_STRAND_HEIGHT + 10, MODEL_BOUNDS.getWidth(),
 			MODEL_BOUNDS.getHeight() - DNA_STRAND_POSITION.getY() + MODEL_BOUNDS.getMinY());
 	
-	// Constants that control delayed enabling of lactose injection.
+	// Constant that controls delayed enabling of lactose injection.
 	private static final int LACTOSE_INJECTION_ENABLE_DELAY = 3000;  // In milliseconds.
+	
+	// Constant that controls the amount of time between automatic injections
+	// of a molecule of lactose.
+	private static final double INTER_LACTOSE_INJECTION_TIME = 1.5; // In seconds.
 	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
     
     private final GeneNetworkClock clock;
-    protected ArrayList<GeneNetworkModelListener> listeners = new ArrayList<GeneNetworkModelListener>();
+    protected ArrayList<IGeneNetworkModelListener> listeners = new ArrayList<IGeneNetworkModelListener>();
     
     // The DNA strand.
     private final DnaStrand dnaStrand = new DnaStrand( this, DNA_STRAND_SIZE, DNA_STRAND_POSITION );
@@ -92,7 +96,13 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     private Rectangle2D toolBoxRect = new Rectangle2D.Double(0, 0, 0, 0);
     
     // State variable that tracks whether lactose may be injected.
-    private boolean isLactoseInjectionAllowed = false;
+    private boolean lactoseInjectionAllowed = false;
+    
+    // Variables that control the automatic injection of lactose.
+    private boolean automaticLactoseInjectionEnabled = false;
+    private double automaticLactoseInjectionCountdown = 0;
+    private Point2D automaticLactoseInjectionPoint = new Point2D.Double();
+    private Vector2D automaticLactoseInjectionVelocity = new Vector2D.Double();
     
     // State variable that tracks whether the legend should be shown.
     private boolean isLegendVisible = false;
@@ -338,7 +348,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	}
 	
 	public boolean isLactoseInjectionAllowed() {
-		return isLactoseInjectionAllowed;
+		return lactoseInjectionAllowed;
 	}
 
 	public void setLactoseInjectionAllowed(boolean isLactoseInjectionAllowed) {
@@ -346,10 +356,30 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		delayedLactoseInjectionEnableTimer.stop();
 		
 		// Do the actual set and notification.
-		if (isLactoseInjectionAllowed != this.isLactoseInjectionAllowed){
-			this.isLactoseInjectionAllowed = isLactoseInjectionAllowed;
+		if (isLactoseInjectionAllowed != this.lactoseInjectionAllowed){
+			this.lactoseInjectionAllowed = isLactoseInjectionAllowed;
 			notifyLactoseInjectionAllowedStateChange();
 		}
+	}
+	
+	public void setAutomaticLactoseInjectionEnabled(boolean automaticLactoseInjectionEnabled){
+		if (this.automaticLactoseInjectionEnabled != automaticLactoseInjectionEnabled){
+			this.automaticLactoseInjectionEnabled = automaticLactoseInjectionEnabled;
+			notifyAutomaticLactoseInjectionEnabledStateChange();
+			if (automaticLactoseInjectionEnabled == true){
+				// Set the countdown to zero initially so that it will start right away.
+				automaticLactoseInjectionCountdown = 0;
+			}
+		}
+	}
+	
+	public boolean isAutomaticLactoseInjectionEnabled(){
+		return this.automaticLactoseInjectionEnabled;
+	}
+	
+	public void setAutomaticLactoseInjectionParams(Point2D location, Vector2D velocity){
+		automaticLactoseInjectionPoint.setLocation(location);
+		automaticLactoseInjectionVelocity.setComponents(velocity.getX(), velocity.getY());
 	}
 	
 	/**
@@ -361,7 +391,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	 * turning on lactose injection in a delayed fashion.
 	 */
 	public void startLactoseInjectionAllowedTimer(){
-		if (!isLactoseInjectionAllowed && !delayedLactoseInjectionEnableTimer.isRunning()){
+		if (!lactoseInjectionAllowed && !delayedLactoseInjectionEnableTimer.isRunning()){
 			delayedLactoseInjectionEnableTimer.restart();
 		}
 	}
@@ -667,6 +697,18 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     			lacPromoter.stepInTime(dt);
     		}
     	}
+    	
+    	// Is automatic injection of lactose enabled?
+    	if (automaticLactoseInjectionEnabled && lactoseInjectionAllowed){
+    		// Yes it is, so see if it is time to inject.
+    		automaticLactoseInjectionCountdown -= dt;
+    		if (automaticLactoseInjectionCountdown <= 0){
+    			// Inject a molecule of lactose.
+    			createAndAddLactose(automaticLactoseInjectionPoint, automaticLactoseInjectionVelocity);
+    			// Reset the countdown.
+    			automaticLactoseInjectionCountdown = INTER_LACTOSE_INJECTION_TIME;
+    		}
+    	}
     }
     
     private void stepElementsInTime(ArrayList<? extends IModelElement>elements, double dt){
@@ -699,7 +741,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	
     protected void notifyModelElementAdded(SimpleModelElement modelElement){
         // Notify all listeners of the addition of this model element.
-        for (GeneNetworkModelListener listener : listeners)
+        for (IGeneNetworkModelListener listener : listeners)
         {
             listener.modelElementAdded(modelElement); 
         }        
@@ -707,21 +749,29 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 
     protected void notifyLactoseInjectionAllowedStateChange(){
         // Notify all listeners of the change to the injection allowed state.
-        for (GeneNetworkModelListener listener : listeners)
+        for (IGeneNetworkModelListener listener : listeners)
         {
             listener.lactoseInjectionAllowedStateChange(); 
         }        
     }
 
+    protected void notifyAutomaticLactoseInjectionEnabledStateChange(){
+        // Notify all listeners of the change to the automatic injection state.
+        for (IGeneNetworkModelListener listener : listeners)
+        {
+            listener.automaticLactoseInjectionEnabledStateChange(); 
+        }        
+    }
+
     protected void notifyLegendVisibilityStateChange(){
         // Notify all listeners of the change to the legend visibility state.
-        for (GeneNetworkModelListener listener : listeners)
+        for (IGeneNetworkModelListener listener : listeners)
         {
             listener.legendVisibilityStateChange(); 
         }        
     }
 
-    public void addListener(GeneNetworkModelListener listener) {
+    public void addListener(IGeneNetworkModelListener listener) {
         if (listeners.contains( listener ))
         {
             // Don't bother re-adding.
@@ -733,7 +783,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
         listeners.add( listener );
     }
     
-    public void removeListener(GeneNetworkModelListener listener){
+    public void removeListener(IGeneNetworkModelListener listener){
     	listeners.remove(listener);
     }
 }
