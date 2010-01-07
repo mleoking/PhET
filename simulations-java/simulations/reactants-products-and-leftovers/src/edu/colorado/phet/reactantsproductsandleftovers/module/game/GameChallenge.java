@@ -14,7 +14,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
  */
 public class GameChallenge {
     
-    public static enum ChallengeType { HOW_MANY_REACTANTS, HOW_MANY_PRODUCTS_AND_LEFTOVERS };
+    public static enum ChallengeType { BEFORE, AFTER };  // whether the user must guess the Before or After quantities
 
     private final ChallengeType challengeType;
     private final ChemicalReaction reaction; // the actual reaction, which won't be modified
@@ -36,5 +36,21 @@ public class GameChallenge {
 
     public GameGuess getGuess() {
         return guess;
+    }
+    
+    public boolean isCorrect() {
+        // all reactants must be equal
+        for ( int i = 0; i < reaction.getNumberOfReactants(); i++ ) {
+            if ( !guess.getReactant( i ).equals( reaction.getReactant( i ) ) ) { 
+                return false;
+            }
+        }
+        // all products must be equal
+        for ( int i = 0; i < reaction.getNumberOfProducts(); i++ ) {
+            if ( !guess.getProduct( i ).equals( reaction.getProduct( i ) ) ) { 
+                return false;
+            }
+        }
+        return true;
     }
 }

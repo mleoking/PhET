@@ -154,7 +154,7 @@ public class GameAfterNode extends GameBoxNode {
         addChild( guessImagesNode );
         
         // default state
-        if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+        if ( model.getChallengeType() == ChallengeType.AFTER ) {
             showGuess( true /* editable */ );
         }
         else {

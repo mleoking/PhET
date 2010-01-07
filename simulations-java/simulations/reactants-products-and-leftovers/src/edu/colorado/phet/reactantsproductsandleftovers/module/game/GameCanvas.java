@@ -32,6 +32,7 @@ public class GameCanvas extends RPALCanvas {
     
     private static final Color BUTTONS_COLOR = new Color( 255, 255, 0, 150 ); // translucent yellow
     private static final int BUTTONS_FONT_SIZE = 30;
+    private static final double BUTTON_X_SPACING = 20;
     
     // node collection names, for managing visibility
     private static final String GAME_SETTINGS_STATE = "gameSetting";
@@ -43,8 +44,6 @@ public class GameCanvas extends RPALCanvas {
     private static final String SECOND_ATTEMPT_CORRECT_STATE = "secondAttemptCorrect";
     private static final String SECOND_ATTEMPT_WRONG_STATE = "secondAttemptWrong";
     private static final String ANSWER_SHOWN_STATE = "answerShown";
-    
-    private static final double BUTTON_X_SPACING = 20;
     
     private final GameModel model;
     private final NodeVisibilityManager visibilityManager;
@@ -220,11 +219,14 @@ public class GameCanvas extends RPALCanvas {
         initVisibilityManager();
         
         // initial state
-        updateNodes();
+        updateDynamicNodes();
         updateButtonsLayout();
         visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
+    /*
+     * Define which nodes should be visible at each state of the game.
+     */
     private void initVisibilityManager() {
         visibilityManager.add( GAME_SETTINGS_STATE, gameSettingsNode );
         visibilityManager.add( FIRST_ATTEMPT_STATE, parentNode, checkButton, instructionsNode );
@@ -260,13 +262,19 @@ public class GameCanvas extends RPALCanvas {
     private void handleChallengeChanged() {
         showGuess( true );
         visibilityManager.setVisibility( FIRST_ATTEMPT_STATE );
-        updateNodes();
+        updateDynamicNodes();
     }
     
     private void handleGuessChanged() {
         instructionsNode.setVisible( false );
     }
     
+    /*
+     * When the "Check" button is pressed, ask the model to evaluate the user's answer.
+     * The model handles the awarding of points.
+     * All we need to do here is more to the proper state based on whether the 
+     * answer was correct, and how many attempts the user had made.
+     */
     private void checkButtonPressed() {
         showGuess( false );
         boolean correct = model.checkGuess();
@@ -304,7 +312,11 @@ public class GameCanvas extends RPALCanvas {
         visibilityManager.setVisibility( ANSWER_SHOWN_STATE );
     }
     
-    private void updateNodes() {
+    /*
+     * Updates nodes that are "dynamic".
+     * Dynamic nodes are replaced when the challenge changes.
+     */
+    private void updateDynamicNodes() {
 
         //XXX call cleanup on these dynamic nodes so we don't have memory leaks
 
@@ -336,6 +348,9 @@ public class GameCanvas extends RPALCanvas {
         updateNodesLayout();
     }
 
+    /*
+     * Updates the layout of all nodes.
+     */
     private void updateNodesLayout() {
 
         // reaction number label in upper right
@@ -373,7 +388,7 @@ public class GameCanvas extends RPALCanvas {
         // face a little above center in proper box
         {
             GameBoxNode boxNode = null;
-            if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+            if ( model.getChallengeType() == ChallengeType.AFTER ) {
                 boxNode = afterNode;
             }
             else {
@@ -392,7 +407,7 @@ public class GameCanvas extends RPALCanvas {
         // instructions centered in proper box
         {
             GameBoxNode boxNode = null;
-            if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+            if ( model.getChallengeType() == ChallengeType.AFTER ) {
                 instructionsNode.setText( RPALStrings.QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS );
                 boxNode = afterNode;
             }
@@ -418,6 +433,11 @@ public class GameCanvas extends RPALCanvas {
         centerGameSummary();
     }
     
+    /*
+     * Updates the layout of the buttons that appear in the Before/After box.
+     * These buttons are organized in the scenegraph below a common parent node.
+     * So we can layout the buttons, then position the parent.
+     */
     private void updateButtonsLayout() {
         
         // arrange all visible buttons in a row
@@ -437,7 +457,7 @@ public class GameCanvas extends RPALCanvas {
         
         // put visible buttons at bottom center of the proper box
         GameBoxNode boxNode = null;
-        if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+        if ( model.getChallengeType() == ChallengeType.AFTER ) {
             boxNode = afterNode;
         }
         else {
@@ -448,15 +468,20 @@ public class GameCanvas extends RPALCanvas {
         buttonsParentNode.setOffset( x, y );
     }
     
+    /*
+     * Centers the "Game Summary" in the play area.
+     */
     private void centerGameSummary() {
-        // game summmary, horizontally and vertically centered on everything else
         double x = parentNode.getFullBoundsReference().getCenterX() - ( gameSummaryNode.getFullBoundsReference().getWidth() / 2 );
         double y = parentNode.getFullBoundsReference().getCenterY() - ( gameSummaryNode.getFullBoundsReference().getHeight() / 2 );
         gameSummaryNode.setOffset( x, y );
     }
     
+    /*
+     * Shows the user's guess in the appropriate box, with optionally editable spinners.
+     */
     private void showGuess( boolean editable ) {
-        if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+        if ( model.getChallengeType() == ChallengeType.AFTER ) {
             afterNode.showGuess( editable );
         }
         else {
@@ -464,8 +489,11 @@ public class GameCanvas extends RPALCanvas {
         }
     }
     
+    /*
+     * Shows the correct answer in the appropriate box.
+     */
     private void showAnswer() {
-        if ( model.getChallengeType() == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+        if ( model.getChallengeType() == ChallengeType.AFTER ) {
             afterNode.showAnswer();
         }
         else {

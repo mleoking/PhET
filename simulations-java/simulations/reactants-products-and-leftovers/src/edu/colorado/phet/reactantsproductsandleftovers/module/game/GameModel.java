@@ -106,7 +106,7 @@ public class GameModel extends RPALModel {
     public boolean checkGuess() {
         boolean correct = false;
         setAttempts( getAttempts() + 1 );
-        if ( getGuess().isCorrect() ) {
+        if ( getChallenge().isCorrect() ) {
             correct = true;
             if ( getAttempts() == 1 ) {
                 setPoints( getPoints() + POINTS_FIRST_ATTEMPT );
@@ -134,15 +134,15 @@ public class GameModel extends RPALModel {
             ChallengeType challengeType;
             if ( level == 1 ) {
                 reaction = new WaterReaction();
-                challengeType = ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS;
+                challengeType = ChallengeType.AFTER;
             }
             else if ( level == 2 ) {
                 reaction = new AmmoniaReaction();
-                challengeType = ChallengeType.HOW_MANY_REACTANTS;
+                challengeType = ChallengeType.BEFORE;
             }
             else {
                 reaction = new MethaneReaction();
-                challengeType = Math.random() > 0.5 ? ChallengeType.HOW_MANY_REACTANTS : ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS;
+                challengeType = Math.random() > 0.5 ? ChallengeType.BEFORE : ChallengeType.AFTER;
             }
             for ( Reactant reactant : reaction.getReactants() ) {
                 reactant.setQuantity( getRandomQuantity() );

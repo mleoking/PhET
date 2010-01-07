@@ -33,14 +33,12 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  */
 public class GameGuess {
     
-    private final ChemicalReaction reaction;
     private final Reactant[] reactants;
     private final Product[] products;
     private final ArrayList<ChangeListener> listeners;
     
     public GameGuess( ChemicalReaction reaction, ChallengeType challengeType ) {
         
-        this.reaction = reaction;
         listeners = new ArrayList<ChangeListener>();
         
         // create similar reactants
@@ -93,23 +91,7 @@ public class GameGuess {
     public int getNumberOfProducts() {
         return products.length;
     }
-    
-    public boolean isCorrect() {
-        // all reactants must be equal
-        for ( int i = 0; i < getNumberOfReactants(); i++ ) {
-            if ( !getReactant( i ).equals( reaction.getReactant( i ) ) ) { 
-                return false;
-            }
-        }
-        // all products must be equal
-        for ( int i = 0; i < getNumberOfProducts(); i++ ) {
-            if ( !getProduct( i ).equals( reaction.getProduct( i ) ) ) { 
-                return false;
-            }
-        }
-        return true;
-    }
-    
+
     /*
      * Copies the reactants from the reaction, in the same order.
      * Depending on the challenge type, either quantities or leftovers are initialized to zero.
@@ -119,7 +101,7 @@ public class GameGuess {
         Reactant[] guessReactants = new Reactant[ reactionReactants.length ];
         for ( int i = 0; i < reactionReactants.length; i++ ) {
             guessReactants[i] = Reactant.newInstance( reactionReactants[i] );
-            if ( challengeType == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) { 
+            if ( challengeType == ChallengeType.AFTER ) { 
                 guessReactants[i].setLeftovers( 0 );
             }
             else {
@@ -140,7 +122,7 @@ public class GameGuess {
         guessProducts = new Product[reactionProducts.length];
         for ( int i = 0; i < reactionProducts.length; i++ ) {
             guessProducts[i] = Product.newInstance( reactionProducts[i] );
-            if ( challengeType == ChallengeType.HOW_MANY_PRODUCTS_AND_LEFTOVERS ) {
+            if ( challengeType == ChallengeType.AFTER ) {
                 guessProducts[i].setQuantity( 0 );
             }
             guessProducts[i].addProductChangeListener( listener );
