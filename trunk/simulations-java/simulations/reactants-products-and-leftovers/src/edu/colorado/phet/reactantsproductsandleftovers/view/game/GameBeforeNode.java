@@ -113,7 +113,7 @@ public class GameBeforeNode extends GameBoxNode {
         addChild( guessImagesNode );
         
         // default state
-        if ( model.getChallengeType() == ChallengeType.HOW_MANY_REACTANTS ) {
+        if ( model.getChallengeType() == ChallengeType.BEFORE ) {
             showGuess( true /* editable */ );
         }
         else {
