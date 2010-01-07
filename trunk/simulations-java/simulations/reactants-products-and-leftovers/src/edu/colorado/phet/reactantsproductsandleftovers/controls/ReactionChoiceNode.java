@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.reactantsproductsandleftovers.controls;
 
 import java.awt.event.ActionEvent;
@@ -17,7 +19,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.realreaction.RealR
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Controls for selecting a real reaction.
+ * Controls for choosing a real reaction.
  * Gets the collection of real reactions from the model, creates a radio button for each reaction,
  * sets the corresponding reaction when a radio button is selected.
  *
