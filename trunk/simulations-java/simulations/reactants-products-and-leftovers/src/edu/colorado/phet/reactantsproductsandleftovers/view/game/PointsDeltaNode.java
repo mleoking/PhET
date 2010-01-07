@@ -1,4 +1,6 @@
-package edu.colorado.phet.reactantsproductsandleftovers.module.game;
+/* Copyright 2010, University of Colorado */
+
+package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,9 +9,14 @@ import java.text.NumberFormat;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 
-
+/**
+ * Displays the change in points whenever the points value changes.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PointsDeltaNode extends ShadowPText {
     
     private static final NumberFormat POINTS_FORMAT = new DefaultDecimalFormat( "0.#" );

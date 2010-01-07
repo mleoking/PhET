@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
 import java.util.ArrayList;
