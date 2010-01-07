@@ -45,6 +45,7 @@ public class GameModel extends RPALModel {
         timer = new GameTimer( clock );
         timer.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
+                // notify when the timer changes
                 if ( timerVisible ) {
                     fireTimeChanged();
                 }
@@ -53,6 +54,7 @@ public class GameModel extends RPALModel {
         
         guessChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
+                // notify when the user's guess changes
                 fireGuessChanged();
             }
         };
@@ -60,6 +62,9 @@ public class GameModel extends RPALModel {
         initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
     }
     
+    /*
+     * Initializes a new game.
+     */
     private void initGame( int level, boolean timerVisible ) {
         setLevel( level );
         setTimerVisible( timerVisible );
@@ -68,22 +73,33 @@ public class GameModel extends RPALModel {
         newChallenges();
     }
     
+    /**
+     * Initiates a new game, depending on whether the current game was fully played.
+     */
     public void newGame() {
-        if ( challengeNumber < CHALLENGES_PER_GAME -1 ) {
+        if ( !isGameCompleted() ) {
             fireGameAborted();
         }
         fireNewGame();
     }
     
+    /**
+     * Starts a new game.
+     * @param level
+     * @param timerVisible
+     */
     public void startGame( int level, boolean timerVisible ) {
         initGame( level, timerVisible );
         timer.start();
         fireGameStarted();
     }
     
+    /**
+     * Ends the current game.
+     */
     public void endGame() {
         timer.stop();
-        if ( challengeNumber == CHALLENGES_PER_GAME - 1 ) {
+        if ( isGameCompleted() ) {
             fireGameCompleted();
         }
         else {
@@ -91,8 +107,12 @@ public class GameModel extends RPALModel {
         }
     }
     
+    /**
+     * Advances to the next challenge.
+     * If we've completed all challenges, then end the game.
+     */
     public void nextChallenge() {
-        if ( challengeNumber < CHALLENGES_PER_GAME - 1 ) {
+        if ( !isGameCompleted() ) {
             challengeNumber++;
             setAttempts( 0 );
             getChallenge().getGuess().addChangeListener( guessChangeListener );
@@ -103,6 +123,10 @@ public class GameModel extends RPALModel {
         }
     }
     
+    /**
+     * Checks the user's guess and award points accordingly.
+     * @return true if the guess is correct, false if incorrect
+     */
     public boolean checkGuess() {
         boolean correct = false;
         setAttempts( getAttempts() + 1 );
@@ -154,44 +178,84 @@ public class GameModel extends RPALModel {
     }
     
     /*
+     * A game is completed if all challenges have been presented to the user.
+     */
+    private boolean isGameCompleted() {
+        return ( challengeNumber == CHALLENGES_PER_GAME - 1 );
+    }
+    
+    /*
      * Generates a random non-zero quantity.
      */
     private int getRandomQuantity() {
         return 1 + (int)( Math.random() * getQuantityRange().getMax() );
     }
     
+    /**
+     * Gets the index of the current challenge.
+     */
     public int getChallengeNumber() {
         return challengeNumber;
     }
     
+    /**
+     * Gets the current challenge.
+     */
     public GameChallenge getChallenge() {
         return challenges[ getChallengeNumber() ];
     }
     
+    /**
+     * Convenience method.
+     * Gets the type of the current challenge.
+     */
     public ChallengeType getChallengeType() {
         return getChallenge().getChallengeType();
     }
     
+    /**
+     * Convenience method.
+     * Gets the reaction associated with the current challenge.
+     */
     public ChemicalReaction getReaction() {
         return getChallenge().getReaction();
     }
     
+    /**
+     * Convenience method.
+     * Gets the user's guess associated with the current challenge.
+     */
     public GameGuess getGuess() {
         return getChallenge().getGuess();
     }
     
+    /**
+     * Gets the number of challenges per game.
+     * @return
+     */
     public static int getChallengesPerGame() {
         return CHALLENGES_PER_GAME;
     }
     
+    /**
+     * Gets the number of points that constitutes a perfect score in a completed game.
+     * @return
+     */
     public static double getPerfectScore() {
         return getChallengesPerGame() * POINTS_FIRST_ATTEMPT;
     }
     
+    /**
+     * Gets the range of difficulty levels.
+     * @return
+     */
     public static IntegerRange getLevelRange() {
         return LEVEL_RANGE;
     }
     
+    /*
+     * Sets the difficulty level of the current game.
+     */
     private void setLevel( int level ) {
         if ( level != this.level ) {
             this.level = level;
@@ -199,10 +263,19 @@ public class GameModel extends RPALModel {
         }
     }
     
+    /**
+     * Gets the difficulty level of the current game.
+     * @return
+     */
     public int getLevel() {
         return level;
     }
     
+    /**
+     * Determines whether the game timer is visible.
+     * @param visible
+     */
+    //XXX This doesn't belong in the model
     private void setTimerVisible( boolean visible ) {
         if ( visible != this.timerVisible ) {
             this.timerVisible = visible;
@@ -210,6 +283,11 @@ public class GameModel extends RPALModel {
         }
     }
     
+    /**
+     * Is the game timer visible?
+     * @return
+     */
+    //XXX This doesn't belong in the model
     public boolean isTimerVisible() {
         return timerVisible;
     }
@@ -222,6 +300,9 @@ public class GameModel extends RPALModel {
         return timer.getTime();
     }
     
+    /*
+     * Sets the number of attempts that the user has made at solving the current challenge.
+     */
     private void setAttempts( int attempts ) {
         if ( attempts != this.attempts ) {
             this.attempts = attempts;
@@ -229,10 +310,18 @@ public class GameModel extends RPALModel {
         }
     }
     
+    /**
+     * Gets the number of attempts that the user has made at solving the current challenge.
+     * @return
+     */
     public int getAttempts() {
         return attempts;
     }
     
+    /**
+     * Sets the number of points scored so far for the current game.
+     * @return
+     */
     private void setPoints( double score ) {
         if ( score != this.points ) {
             this.points = score;
@@ -240,6 +329,10 @@ public class GameModel extends RPALModel {
         }
     }
     
+    /**
+     * Gets the number of points scored so far for the current game.
+     * @return
+     */
     public double getPoints() {
         return points;
     }

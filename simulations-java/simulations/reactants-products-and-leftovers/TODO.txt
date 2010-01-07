@@ -8,6 +8,7 @@ HIGH PRIORITY
 - images will overlap in Game After box, grid has 20 cells, max images=40 (10x10x10x10 for 2 products, 2 leftovers)
 
 MEDIUM PRIORITY
+- move timerVisible out of GameModel, doesn't belong there
 - should Check button be visible with Game instructions, or appear when user enters a value?
 - PSwing memory leak affects tab traversal, #1874
 - associate ImageLayoutStrategy with the chemical reaction type?
