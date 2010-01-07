@@ -10,6 +10,14 @@
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
+            .edit-profile-holder {
+                width: 500px;
+                margin: 0 auto;
+            }
+
+            .edit-profile-errors {
+                color: red;
+            }
         </style>
     </wicket:head>
 </head>
@@ -17,7 +25,103 @@
 
 <wicket:extend>
     <div class="edit-profile-holder">
-        Placeholder
+        <h1>Edit your profile</h1>
+
+        <form wicket:id="edit-profile-form">
+            <table>
+                <tr>
+                    <td align="right">Name:</td>
+                    <td>
+                        <input wicket:id="name" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Organization:</td>
+                    <td>
+                        <input wicket:id="organization" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Description:</td>
+                    <td>
+                        <select wicket:id="description"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Job Title:</td>
+                    <td>
+                        <input wicket:id="jobTitle" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Address Line 1:</td>
+                    <td>
+                        <input wicket:id="address1" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Address Line 2:</td>
+                    <td>
+                        <input wicket:id="address2" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">City:</td>
+                    <td>
+                        <input wicket:id="city" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">State / Province:</td>
+                    <td>
+                        <input wicket:id="state" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Country:</td>
+                    <td>
+                        <input wicket:id="country" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Zip / Postal Code:</td>
+                    <td>
+                        <input wicket:id="zipcode" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Primary Phone Number:</td>
+                    <td>
+                        <input wicket:id="phone1" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Secondary Phone Number:</td>
+                    <td>
+                        <input wicket:id="phone2" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Fax:</td>
+                    <td>
+                        <input wicket:id="fax" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Receive PhET Email:</td>
+                    <td>
+                        <input wicket:id="receiveEmail" type="checkbox" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" name="submit" value="Submit"/>
+                        <input type="reset" value="Reset"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
 </wicket:extend>
 
