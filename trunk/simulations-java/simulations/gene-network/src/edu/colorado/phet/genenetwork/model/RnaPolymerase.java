@@ -95,15 +95,15 @@ public class RnaPolymerase extends SimpleModelElement {
 						// of the DNA strand. Continue growing the messenger
 						// RNA until we run off the end of the gene.
 						mRna.grow(getVelocityRef().getMagnitude() * dt);
-						if (!dnaStrand.isOnLacIGeneSpace(getPositionRef()) && !dnaStrand.isOnLacZGeneSpace(getPositionRef())){
+						if (!dnaStrand.isOnLacIGeneSpace(getLeftEdgePoint()) && !dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint())){
 							// We have fully traversed the gene.  Time to
 							// detach the mRNA from us and ourself from the
 							// DNA.
 							freeMessengerRna(true);
 							detachFromDna(2);
 						}
-						else if ((dnaStrand.isOnLacIGeneSpace(getPositionRef()) && !dnaStrand.isLacIGeneInPlace()) ||
-								 (dnaStrand.isOnLacZGeneSpace(getPositionRef()) && !dnaStrand.isLacZGeneInPlace())){
+						else if ((dnaStrand.isOnLacIGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacIGeneInPlace()) ||
+								 (dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacZGeneInPlace())){
 							// This polymerase was traversing a gene but the
 							// gene is no longer there, most likely because it
 							// was removed by the user.  This is a rare
@@ -152,13 +152,12 @@ public class RnaPolymerase extends SimpleModelElement {
 								reattachCount = 0;
 							}
 						}
-						else if (dnaStrand.isOnLacZGeneSpace(getPositionRef())){
+						else if (dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint())){
 							if (dnaStrand.isLacZGeneInPlace()){
 								// We have moved into contact with the LacZ gene, so
 								// it is time to start transcribing.
 								mRna = new LacZMessengerRna(getModel(), 0);
-								mRna.setPosition(getPositionRef().getX() + MESSENGER_RNA_OUTPUT_OFFSET.getWidth(), 
-										getPositionRef().getY() + MESSENGER_RNA_OUTPUT_OFFSET.getHeight());
+								mRna.setPosition(getLeftEdgePoint().getX(), getLeftEdgePoint().getY());
 								getModel().addMessengerRna(mRna);					
 								transcribing = true;
 							}
@@ -168,13 +167,12 @@ public class RnaPolymerase extends SimpleModelElement {
 								detachFromDna(0);
 							}
 						}
-						else if (dnaStrand.isOnLacIGeneSpace(getPositionRef())){
+						else if (dnaStrand.isOnLacIGeneSpace(getLeftEdgePoint())){
 							if (dnaStrand.isLacIGeneInPlace()){
 								// We have moved into contact with the LacI gene, so
 								// it is time to start transcribing.
 								mRna = new LacIMessengerRna(getModel(), 0);
-								mRna.setPosition(getPositionRef().getX() + MESSENGER_RNA_OUTPUT_OFFSET.getWidth(), 
-										getPositionRef().getY() + MESSENGER_RNA_OUTPUT_OFFSET.getHeight());
+								mRna.setPosition(getLeftEdgePoint().getX(), getLeftEdgePoint().getY());
 								getModel().addMessengerRna(mRna);					
 								transcribing = true;
 							}
@@ -207,6 +205,19 @@ public class RnaPolymerase extends SimpleModelElement {
 		mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
 				new Vector2D.Double(0, 4), 20));
 		mRna = null;
+	}
+	
+	/**
+	 * Get a point that is the same in the Y dimension as our position but
+	 * that is on the left edge of the shape rather than roughly in the
+	 * middle.  This is useful for testing whether the left edge is over some
+	 * portion of the DNA strand.
+	 * 
+	 * @return
+	 */
+	private Point2D getLeftEdgePoint(){
+		return new Point2D.Double(getPositionRef().getX() + getShape().getBounds2D().getMinX(),
+				getPositionRef().getY());
 	}
 	
 	@Override
