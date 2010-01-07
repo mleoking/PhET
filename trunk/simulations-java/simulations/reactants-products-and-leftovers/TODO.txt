@@ -21,7 +21,6 @@ LOW PRIORITY
 - GameBoxNode is a lousy name for base class
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
 - set font size of spinners instead of scaling (up/down arrows don't resize on Mac)
-- remove arrow code from GameInstructionsNode if arrow is not used
 
 MIGRATE TO COMMON
 - BracketedLabelNode
