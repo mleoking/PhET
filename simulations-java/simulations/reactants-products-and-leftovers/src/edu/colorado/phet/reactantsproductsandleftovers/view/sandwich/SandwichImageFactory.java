@@ -1,3 +1,4 @@
+/* Copyright 2010, University of Colorado */
 
 package edu.colorado.phet.reactantsproductsandleftovers.view.sandwich;
 
