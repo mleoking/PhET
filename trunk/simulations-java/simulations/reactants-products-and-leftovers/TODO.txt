@@ -3,24 +3,23 @@
 HIGH PRIORITY
 - add more reactions to Game
 - implement GameModel.newChallenges
-- Game: animated curtains?
-- what should be displayed in Game Summary?
-
-MEDIUM PRIORITY
+- add an animated "prize" to Game Summary for perfect score
 - move timerVisible out of GameModel, doesn't belong there
-- should Check button be visible with Game instructions, or appear when user enters a value?
-- PSwing memory leak affects tab traversal, #1874
-- associate ImageLayoutStrategy with the chemical reaction type?
 - explicitly handle tab traversal in play area
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
+
+MEDIUM PRIORITY
+- PSwing memory leak affects tab traversal, #1874
+- associate ImageLayoutStrategy with the chemical reaction type?
 - investigate PSwing workaround that I had to add to GameSummaryNode
 
 LOW PRIORITY
+- should Check button be visible with Game instructions, or appear when user enters a value?
+- wait for interview results to decide if animated curtains are needed in Game
 - javadoc
 - GameBoxNode is a lousy name for base class
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
-- move equation below Before/After boxes?
 - set font size of spinners instead of scaling (up/down arrows don't resize on Mac)
 - remove arrow code from GameInstructionsNode if arrow is not used
 
