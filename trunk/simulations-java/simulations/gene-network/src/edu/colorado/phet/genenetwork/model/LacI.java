@@ -122,7 +122,6 @@ public class LacI extends SimpleModelElement {
 				// We are in range, so try to attach.
 				lacOperator.requestImmediateAttach(this);
 			}
-
 		}
 		super.setDragging(dragging);
 	}
