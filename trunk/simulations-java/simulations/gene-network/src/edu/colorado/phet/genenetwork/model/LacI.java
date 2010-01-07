@@ -237,7 +237,7 @@ public class LacI extends SimpleModelElement {
 		}
 		
 		// Now update any attachment state related to lactose.  Note that the
-		// variable names are actually "glucose" since that is the molecule
+		// variable names are actually "glucoseXxx" since that is the molecule
 		// to which we try to attach once we verify that it is attached to
 		// galactose, thus forming lactose.
 		if (getExistenceState() == ExistenceState.EXISTING &&
