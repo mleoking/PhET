@@ -10,6 +10,7 @@ HIGH PRIORITY
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 
 MEDIUM PRIORITY
+- "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
 - PSwing memory leak affects tab traversal, #1874
 - associate ImageLayoutStrategy with the chemical reaction type?
 - investigate PSwing workaround that I had to add to GameSummaryNode
