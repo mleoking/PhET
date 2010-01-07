@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -7,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RPALModel {
+public abstract class RPALModel {
     
     public static final IntegerRange COEFFICIENT_RANGE = new IntegerRange( 0, 3, 0 );
     public static final IntegerRange QUANTITY_RANGE = new IntegerRange( 0, 10, 0 );
