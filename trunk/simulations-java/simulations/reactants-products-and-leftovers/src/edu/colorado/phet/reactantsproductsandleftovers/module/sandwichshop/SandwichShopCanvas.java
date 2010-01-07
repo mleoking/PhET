@@ -1,14 +1,15 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 
-import java.awt.geom.Dimension2D;
-
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.view.*;
+import edu.colorado.phet.reactantsproductsandleftovers.view.AbstractAfterNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.AbstractBeforeNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
+import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.StackedLayoutNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichEquationNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -69,17 +70,6 @@ public class SandwichShopCanvas extends RPALCanvas {
         resetAllButtonWrapper.setOffset( x, y );
     }
 
-    /*
-     * Centers the root node on the canvas when the canvas size changes.
-     */
-    @Override
-    protected void updateLayout() {
-        Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
-            centerRootNode();
-        }
-    }
-    
     private static class SandwichShopBeforeNode extends AbstractBeforeNode {
 
         public SandwichShopBeforeNode( SandwichShopModel model ) {

@@ -1,7 +1,6 @@
+/* Copyright 2010, University of Colorado */
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.realreaction;
-
-import java.awt.geom.Dimension2D;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -9,11 +8,11 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactionChoiceNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.*;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.GridLayoutNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
+import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionAfterNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionBeforeNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionEquationNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -55,15 +54,18 @@ public class RealReactionCanvas extends RPALCanvas {
         
         model.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateNodes();
+                updateDynamicNodes();
             }
         } );
 
-        updateNodes();
+        updateDynamicNodes();
     }
 
-
-    private void updateNodes() {
+    /*
+     * Updates nodes that are "dynamic".
+     * Dynamic nodes are replaced when the reaction changes.
+     */
+    private void updateDynamicNodes() {
 
         removeChild( equationNode );
         equationNode = new RealReactionEquationNode( model.getReaction() );
@@ -80,6 +82,9 @@ public class RealReactionCanvas extends RPALCanvas {
         updateNodesLayout();
     }
 
+    /*
+     * Updates the layout of all nodes.
+     */
     private void updateNodesLayout() {
 
         // radio buttons at upper left
@@ -112,30 +117,5 @@ public class RealReactionCanvas extends RPALCanvas {
         x = arrowNode.getFullBoundsReference().getMaxX() - resetAllButtonWrapper.getFullBoundsReference().getWidth();
         y = afterNode.getFullBoundsReference().getMaxY();
         resetAllButtonWrapper.setOffset( x, y );
-    }
-
-    /*
-     * Centers the root node on the canvas when the canvas size changes.
-     */
-    @Override
-    protected void updateLayout() {
-        Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
-            centerRootNode();
-        }
-    }
-    
-    private static class RealReactionBeforeNode extends AbstractBeforeNode {
-
-        public RealReactionBeforeNode( RealReactionModel model ) {
-            super( RPALStrings.LABEL_BEFORE_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
-        }
-    }
-    
-    private static class RealReactionAfterNode extends AbstractAfterNode {
-
-        public RealReactionAfterNode( RealReactionModel model ) {
-            super( RPALStrings.LABEL_AFTER_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
-        }
     }
 }

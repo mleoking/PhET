@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2010, University of Colorado */
 
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
@@ -58,6 +58,17 @@ public class RPALCanvas extends PhetPCanvas {
         double xOffset = ( worldSize.getWidth() - b.getWidth() - PNodeLayoutUtils.getOriginXOffset( rootNode ) ) / 2;
         double yOffset = ( worldSize.getHeight() - b.getHeight() - PNodeLayoutUtils.getOriginYOffset( rootNode ) ) / 2;
         rootNode.setOffset( xOffset, yOffset );
+    }
+    
+    /*
+     * Centers the root node on the canvas when the canvas size changes.
+     */
+    @Override
+    protected void updateLayout() {
+        Dimension2D worldSize = getWorldSize();
+        if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
+            centerRootNode();
+        }
     }
 
 }

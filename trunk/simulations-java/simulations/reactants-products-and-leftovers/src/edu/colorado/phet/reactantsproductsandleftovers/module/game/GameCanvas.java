@@ -5,7 +5,6 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Dimension2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -498,17 +497,6 @@ public class GameCanvas extends RPALCanvas {
         }
         else {
             beforeNode.showAnswer();
-        }
-    }
-
-    /*
-     * Centers the root node on the canvas when the canvas size changes.
-     */
-    @Override
-    protected void updateLayout() {
-        Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
-            centerRootNode();
         }
     }
 }
