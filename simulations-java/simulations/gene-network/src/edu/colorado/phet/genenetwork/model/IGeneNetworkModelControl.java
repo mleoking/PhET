@@ -149,12 +149,12 @@ public interface IGeneNetworkModelControl {
 	/**
 	 * Add a listener.
 	 */
-	void addListener(GeneNetworkModelListener listener);
+	void addListener(IGeneNetworkModelListener listener);
 	
 	/**
 	 * Remove a listener.
 	 */
-	void removeListener(GeneNetworkModelListener listener);
+	void removeListener(IGeneNetworkModelListener listener);
 	
 	/**
 	 * Set the location in model space of the tool box that may be present in
@@ -210,6 +210,26 @@ public interface IGeneNetworkModelControl {
 	 */
 	public boolean isLegendVisible();
 
+	/**
+	 * Enable or disable the automatic injection of lactose into the model.
+	 * 
+	 * @param automaticLactoseInjectionEnabled
+	 */
+	public void setAutomaticLactoseInjectionEnabled(boolean automaticLactoseInjectionEnabled);
+
+	/**
+	 * Get the state of automatic lactose injection.
+	 * 
+	 * @return
+	 */
+	public boolean isAutomaticLactoseInjectionEnabled();
+	
+	/**
+	 * Set location and initial velocity for automatic periodic injection of lactose.
+	 * 
+	 * @param automaticLactoseInjectionEnabled
+	 */
+	public void setAutomaticLactoseInjectionParams(Point2D location, Vector2D velocity);
 	
 	
 }
