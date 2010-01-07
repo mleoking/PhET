@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.reactantsproductsandleftovers.test;
+package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,14 +21,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * See Unfuddle #2018.
- * On Mac OS 10.6.2 with Java 1.6.0_17, the PSwing compound border doesn't look the same as the pure Swing border.
- * See screenshot attached to the ticket.
+ * On Windows and Mac OS, the PSwing compound border doesn't look the same as the pure Swing border.
+ * Problem occurs with both Java 5 and 6.
+ * See screenshots attached to the ticket.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestCompoundBorderMacOS extends JFrame {
+public class TestPSwingCompoundBorder extends JFrame {
 
-    public TestCompoundBorderMacOS() {
+    public TestPSwingCompoundBorder() {
         super( "TestCompoundBorderMacOS" );
         setPreferredSize( new Dimension( 600, 400 )  );
 
@@ -63,7 +64,7 @@ public class TestCompoundBorderMacOS extends JFrame {
     }
 
     public static void main( String[] args ) {
-        JFrame frame = new TestCompoundBorderMacOS();
+        JFrame frame = new TestPSwingCompoundBorder();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
