@@ -75,7 +75,7 @@ public class Glucose extends SimpleSugar {
 			Dimension2D offsetFromTarget = new PDimension(
 					LacZ.getGlucoseAttachmentPointOffset().getWidth() - getLacZAttachmentPointOffset().getWidth(),
 					LacZ.getGlucoseAttachmentPointOffset().getHeight() - getLacZAttachmentPointOffset().getHeight());
-			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(this, lacZ, offsetFromTarget,
+			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(lacZ, offsetFromTarget,
 					LacOperonModel.getMotionBounds()));
 		}
 		
@@ -97,7 +97,7 @@ public class Glucose extends SimpleSugar {
 			Dimension2D offsetFromTarget = new PDimension(
 					LacI.getGlucoseAttachmentPointOffset().getWidth() - getLacIAttachmentPointOffset().getWidth(),
 					LacI.getGlucoseAttachmentPointOffset().getHeight() - getLacIAttachmentPointOffset().getHeight());
-			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(this, lacI, offsetFromTarget,
+			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(lacI, offsetFromTarget,
 					LacOperonModel.getMotionBounds()));
 		}
 		
@@ -142,8 +142,8 @@ public class Glucose extends SimpleSugar {
 		assert lacZ == lacZAttachmentPartner;
 		lacZAttachmentPartner = null;
 		lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-		setMotionStrategy(new LinearThenRandomMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna(), 
-				new Vector2D.Double(-3, -8), 1));
+		setMotionStrategy(new LinearThenRandomMotionStrategy(LacOperonModel.getMotionBoundsAboveDna(),
+				getPositionRef(), new Vector2D.Double(-3, -8), 1));
 		
 		// Once broken down from being a part of lactose, this fades away.
 		setExistenceTime(0.5);
@@ -158,8 +158,8 @@ public class Glucose extends SimpleSugar {
 		assert lacI == lacIAttachmentPartner;
 		lacIAttachmentPartner = null;
 		lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-		setMotionStrategy(new LinearThenRandomMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna(), 
-				new Vector2D.Double(0, 8), 0.5));
+		setMotionStrategy(new LinearThenRandomMotionStrategy(LacOperonModel.getMotionBoundsAboveDna(), 
+				getPositionRef(), new Vector2D.Double(0, 8), 0.5));
 	}
 	
 	/**

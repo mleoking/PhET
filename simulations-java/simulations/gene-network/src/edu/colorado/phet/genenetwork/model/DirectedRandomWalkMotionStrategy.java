@@ -27,8 +27,8 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	private int myUpdateValue;  // Used to stagger updates, for a better look and more even computational load.
 	private int updateCount = 0;
 	
-	public DirectedRandomWalkMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Point2D destination) {
-		super(modelElement, bounds);
+	public DirectedRandomWalkMotionStrategy(Rectangle2D bounds, Point2D destination) {
+		super(bounds);
 		if (destination != null){
 			setDestination(destination.getX(),	destination.getY());
 		}
@@ -37,13 +37,12 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 		myUpdateValue = RAND.nextInt(MOTION_UPDATE_PERIOD);
 	}
 
-	public DirectedRandomWalkMotionStrategy(IModelElement modelElement, Rectangle2D bounds) {
-		this(modelElement, bounds, null);
+	public DirectedRandomWalkMotionStrategy(Rectangle2D bounds) {
+		this(bounds, null);
 	}
 
 	@Override
-	public void updatePositionAndMotion(double dt) {
-		IModelElement modelElement = getModelElement();
+	public void updatePositionAndMotion(double dt, SimpleModelElement modelElement) {
 		
 		Point2D position = modelElement.getPositionRef();
 		Vector2D velocity = modelElement.getVelocityRef();

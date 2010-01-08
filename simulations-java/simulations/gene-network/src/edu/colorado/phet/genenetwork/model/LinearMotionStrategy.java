@@ -17,32 +17,41 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class LinearMotionStrategy extends AbstractMotionStrategy {
 	
-	public LinearMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Point2D destination, double velocityScaler) {
-		super(modelElement, bounds);
+	private boolean initialVelocitySet = false;
+	private Vector2D initialVelocity = new Vector2D.Double();
+	private boolean isDestinationReached = false;
+	
+	public LinearMotionStrategy(Rectangle2D bounds, Point2D initialLocation, Point2D destination, double velocityScaler) {
+		super(bounds);
 		setDestination(destination.getX(),	destination.getY());
-		double angleOfTravel = Math.atan2(getDestination().getY() - getModelElement().getPositionRef().getY(), 
-    			getDestination().getX() - getModelElement().getPositionRef().getX());
-		getModelElement().setVelocity(velocityScaler * Math.cos(angleOfTravel), velocityScaler * Math.sin(angleOfTravel));
+		double angleOfTravel = Math.atan2(getDestination().getY() - initialLocation.getY(), 
+    			getDestination().getX() - initialLocation.getX());
+		initialVelocity.setComponents(velocityScaler * Math.cos(angleOfTravel), velocityScaler * Math.sin(angleOfTravel));
 	}
 	
-	public LinearMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Vector2D velocityVector, double time){
-		this(modelElement, bounds, velocityAndTimeToPoint(modelElement, velocityVector, time), velocityVector.getMagnitude());
+	public LinearMotionStrategy(Rectangle2D bounds, Point2D initialLocation, Vector2D velocityVector, double time){
+		this(bounds, initialLocation, velocityAndTimeToPoint(initialLocation, velocityVector, time), velocityVector.getMagnitude());
 	}
 
 	@Override
-	public void updatePositionAndMotion(double dt) {
-		IModelElement modelElement = getModelElement();
+	public void updatePositionAndMotion(double dt, SimpleModelElement modelElement) {
+
+		if (!initialVelocitySet){
+			modelElement.setVelocity(initialVelocity);
+			initialVelocitySet = true;
+		}
 		
 		Point2D position = modelElement.getPositionRef();
 		Vector2D velocity = modelElement.getVelocityRef();
-		double distanceToDestination = getDestination().distance(getModelElement().getPositionRef());
+		double distanceToDestination = getDestination().distance(modelElement.getPositionRef());
 		double distanceToTravelThisTimeStep = velocity.getMagnitude() * dt;
 		
 		if (distanceToDestination > 0 && distanceToTravelThisTimeStep > distanceToDestination){
 			// We have pretty much arrived at the destination, so set the
 			// position to be exactly at the destination.
-			getModelElement().setPosition(getDestination());
-			getModelElement().setVelocity(0, 0);
+			modelElement.setPosition(getDestination());
+			modelElement.setVelocity(0, 0);
+			isDestinationReached = true;
 		}
 		else if ((position.getX() > getBounds().getMaxX() && velocity.getX() > 0) ||
 			     (position.getX() < getBounds().getMinX() && velocity.getX() < 0) ||
@@ -60,11 +69,11 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 	}
 	
 	public boolean isDestinationReached(){
-		return (getModelElement().getPositionRef().distance(getDestination()) == 0);
+		return isDestinationReached;
 	}
 	
-	static private Point2D velocityAndTimeToPoint(IModelElement modelElement, Vector2D velocity, double time){
-		return ( new Point2D.Double( modelElement.getPositionRef().getX() + velocity.getX() * time,
-				modelElement.getPositionRef().getY() + velocity.getY() * time ) );
+	static private Point2D velocityAndTimeToPoint(Point2D startingLocation, Vector2D velocity, double time){
+		return ( new Point2D.Double( startingLocation.getX() + velocity.getX() * time,
+				startingLocation.getY() + velocity.getY() * time ) );
 	}
 }

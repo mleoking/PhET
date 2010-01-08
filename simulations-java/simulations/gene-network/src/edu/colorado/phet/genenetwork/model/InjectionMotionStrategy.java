@@ -23,16 +23,22 @@ public class InjectionMotionStrategy extends AbstractMotionStrategy {
 	
 	private double preRandomWalkCountdown = PRE_RANDOM_WALK_TIME;
 	private RandomWalkMotionStrategy randomWalkMotionStrategy;
+	private final Vector2D initialVelocity = new Vector2D.Double();
+	private boolean initialVelocitySet = false;
 	
-	public InjectionMotionStrategy(IModelElement modelElement, Rectangle2D bounds, Vector2D initialVelocity) {
-		super(modelElement, bounds);
-		getModelElement().setVelocity(initialVelocity);
-		randomWalkMotionStrategy = new RandomWalkMotionStrategy(modelElement, bounds);
+	public InjectionMotionStrategy(Rectangle2D bounds, Vector2D initialVelocity) {
+		super(bounds);
+		this.initialVelocity.setComponents(initialVelocity.getX(), initialVelocity.getY());
+		randomWalkMotionStrategy = new RandomWalkMotionStrategy(bounds);
 	}
 
 	@Override
-	public void updatePositionAndMotion(double dt) {
-		IModelElement modelElement = getModelElement();
+	public void updatePositionAndMotion(double dt, SimpleModelElement modelElement) {
+		
+		if (!initialVelocitySet){
+			modelElement.setVelocity(initialVelocity);
+			initialVelocitySet = true;
+		}
 		
 		Point2D position = modelElement.getPositionRef();
 		Vector2D velocity = modelElement.getVelocityRef();
@@ -74,7 +80,7 @@ public class InjectionMotionStrategy extends AbstractMotionStrategy {
 			preRandomWalkCountdown -= dt;
 		}
 		else{
-			randomWalkMotionStrategy.doUpdatePositionAndMotion(dt);
+			randomWalkMotionStrategy.doUpdatePositionAndMotion(dt, modelElement);
 		}
 	}
 }

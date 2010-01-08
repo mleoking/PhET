@@ -31,7 +31,7 @@ public class LacOperator extends SimpleModelElement {
 	private static final double HEIGHT = 3;  // In nanometers.
 	private static final Dimension2D LAC_I_ATTACHMENT_POINT_OFFSET = new PDimension(0, HEIGHT/2); 
 	private static final Dimension2D ATTACHMENT_REGION_SIZE = new PDimension(WIDTH * 0.5, HEIGHT / 2);
-	private static double LAC_I_ATTACHMENT_TIME = 18; // In seconds.
+	private static double LAC_I_ATTACHMENT_TIME = 15; // In seconds.
 	
 	//----------------------------------------------------------------------------
 	// Instance Data
@@ -73,11 +73,8 @@ public class LacOperator extends SimpleModelElement {
 				checkTimeToDetach(dt);
 				break;
 			case UNATTACHED_BUT_UNAVALABLE:
-				// As of this writing (Jan 5 2010), the only time that this
-				// state occurs is when the user is dragging around a LacI
-				// which could be set on this lac operator.  There is nothing
-				// to be done until it is released, which is handled
-				// elsewhere.
+				// This state is not used for the lac operator.
+				System.err.println(getClass().getName() + " - Error: Shouldn't be in this state.");
 				break;
 			default:
 				// Should never get here, should be debugged if it does.

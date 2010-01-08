@@ -13,7 +13,7 @@ public class LacIPromoter extends Promoter {
     //------------------------------------------------------------------------
 
 	private static final Paint ELEMENT_PAINT = new Color(0, 153, 175);
-	private static final double ATTACHMENT_RECOVERY_TIME = 15;
+	private static final double ATTACHMENT_RECOVERY_TIME = 12;
 	
     //------------------------------------------------------------------------
     // Instance Data

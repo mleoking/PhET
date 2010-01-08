@@ -13,20 +13,18 @@ import java.awt.geom.Rectangle2D;
  */
 public abstract class AbstractMotionStrategy {
 	
-	private IModelElement modelElement;
 	private Point2D destination = null;
 	private Rectangle2D bounds = new Rectangle2D.Double(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY,
 			Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 	
-	public AbstractMotionStrategy(IModelElement modelElement, Rectangle2D bounds){
-		this.modelElement = modelElement;
+	public AbstractMotionStrategy(Rectangle2D bounds){
 		if (bounds != null){
 			this.bounds.setFrame(bounds);
 		}
 	}
 
-	public AbstractMotionStrategy(IModelElement modelElement){
-		this(modelElement, null);
+	public AbstractMotionStrategy(){
+		this(null);
 	}
 
 	public Rectangle2D getBounds() {
@@ -43,17 +41,13 @@ public abstract class AbstractMotionStrategy {
 	
     // Clients should generally call this method to cause motion, since it
 	// checks to see whether the element is user controlled.
-	public void doUpdatePositionAndMotion(double dt){
+	public void doUpdatePositionAndMotion(double dt, SimpleModelElement modelElement){
         if (!modelElement.isUserControlled()){
-            updatePositionAndMotion(dt);
+            updatePositionAndMotion(dt, modelElement);
         }
     }
 
-	public abstract void updatePositionAndMotion(double dt);
-
-	protected IModelElement getModelElement(){
-		return modelElement;
-	}
+	public abstract void updatePositionAndMotion(double dt, SimpleModelElement modelElement);
 
 	public void setDestination(double x, double y) {
 		if (destination == null){
