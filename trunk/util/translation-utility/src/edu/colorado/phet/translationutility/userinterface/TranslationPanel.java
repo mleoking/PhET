@@ -71,8 +71,8 @@ public class TranslationPanel extends JPanel implements FindListener {
         _previousFindSelectionIndex = -1;
         
         // get locale-specific fonts
-        Font sourceFont = PhetFont.getPreferredFont( sourceLocale );
-        Font targetFont = PhetFont.getPreferredFont( targetLocale );
+        final Font sourceFont = PhetFont.getPreferredFont( sourceLocale );
+        final Font targetFont = PhetFont.getPreferredFont( targetLocale );
         TULogger.log( "TranslationPanel, sourceFont=" + sourceFont + " (" + sourceFont.getFontName() + ")" );
         TULogger.log( "TranslationPanel, targetFont=" + targetFont + " (" + targetFont.getFontName() + ")");
         

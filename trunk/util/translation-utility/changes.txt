@@ -1,3 +1,4 @@
+1/8/10 fix: use preferred font for target text areas, broken in eariler changes
 # 2.05.01 (37909) Jan 5, 2010
 1/5/10 #1891, add preferred fonts for Georgian (ka)
 1/5/09 #2083, display font face names below the language names at the top of each column
