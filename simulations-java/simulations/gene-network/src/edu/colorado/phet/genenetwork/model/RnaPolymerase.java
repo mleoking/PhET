@@ -100,7 +100,7 @@ public class RnaPolymerase extends SimpleModelElement {
 							// detach the mRNA from us and ourself from the
 							// DNA.
 							freeMessengerRna(true);
-							detachFromDna(0.25);
+							detachFromDna(0.25, new Vector2D.Double(2, 2));
 						}
 						else if ((dnaStrand.isOnLacIGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacIGeneInPlace()) ||
 								 (dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacZGeneInPlace())){
@@ -132,7 +132,7 @@ public class RnaPolymerase extends SimpleModelElement {
 									promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 									if (!previousPromoterAttachmentPartner.requestReattach(this)){
 										// Can't reattach, so wander off.
-										detachFromDna(0);
+										detachFromDna(0, new Vector2D.Double(-2, 2));
 										reattachCount = 0;
 									}
 									else{
@@ -141,7 +141,7 @@ public class RnaPolymerase extends SimpleModelElement {
 								}
 								else{
 									// Don't even try to reattach - just wander off.
-									detachFromDna(0);
+									detachFromDna(0, new Vector2D.Double(-2, 2));
 									reattachCount = 0;
 								}
 							}
@@ -315,7 +315,15 @@ public class RnaPolymerase extends SimpleModelElement {
 		promoterAttachmentPartner = null;
 	}
 	
-	private void detachFromDna(double delay){
+	/**
+	 * Detach from the DNA with an initial specified velocity.
+	 * 
+	 * @param delay
+	 * @param initialVelocity - Initial velocity.  If null, the motion
+	 * strategy will make up a random one that is generally in the up
+	 * direction.
+	 */
+	private void detachFromDna(double delay, Vector2D initialVelocity){
 		
 		// No longer are we transcribing and traversing.
 		transcribing = false;
@@ -325,10 +333,20 @@ public class RnaPolymerase extends SimpleModelElement {
 		// to the right.  This minimizes visual interference with the mRNA
 		// that was just released.
 		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, 
-				LacOperonModel.getMotionBoundsAboveDna(), delay, new Vector2D.Double(2, 2), 2));
+				LacOperonModel.getMotionBoundsAboveDna(), delay, initialVelocity, 2));
 		
 		// Set the time until we are available to transcribe again.
 		recoveryCountdownTimer = RECOVERY_TIME;
+	}
+
+	/**
+	 * Detach from the DNA strand using the default initial velocity, which is
+	 * defined somewhat randomly by the motion strategy.
+	 * 
+	 * @param delay
+	 */
+	private void detachFromDna(double delay){
+		detachFromDna(delay, null);
 	}
 	
 	private static Shape createActiveConformationShape(){
