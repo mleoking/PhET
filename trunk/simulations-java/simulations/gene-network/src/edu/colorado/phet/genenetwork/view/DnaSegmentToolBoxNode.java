@@ -159,7 +159,8 @@ public class DnaSegmentToolBoxNode extends PNode {
     	lacIBindingRegion.setOffset(boxBounds.width * 0.91, boxBounds.height * 0.25);
     	
     	// Position the check box button for turning the legend on and off.
-    	legendControlCheckBoxPSwing.setOffset(boxBounds.width * 0.05,
+    	legendControlCheckBoxPSwing.setOffset(
+    			boxBounds.width - legendControlCheckBoxPSwing.getFullBoundsReference().width *  1.1,
     			boxBounds.height - legendControlCheckBoxPSwing.getFullBoundsReference().height - 5);
     	
     	// Let the model know our size, so that the model elements can figure
