@@ -45,6 +45,7 @@ public class TargetTextPanel extends JPanel {
         
         // target text area
         textArea = new TargetTextArea( key, targetValue );
+        textArea.setFont( targetFont );
         textArea.setBackground( OK_COLOR );
         textArea.addFocusListener( new FocusAdapter() {
 
