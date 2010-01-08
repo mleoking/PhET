@@ -1,3 +1,5 @@
+# 2.06.00 (37959) Jan 8, 2010
+1/8/10 fixes for languages that use preferred font + preferred font for Georgian
 # 2.05.02 (37958) Jan 8, 2010
 1/8/10 fix: use preferred font for target text areas, broken in eariler changes
 # 2.05.01 (37909) Jan 5, 2010
