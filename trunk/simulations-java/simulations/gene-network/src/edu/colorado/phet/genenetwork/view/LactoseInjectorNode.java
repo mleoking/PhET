@@ -321,8 +321,8 @@ public class LactoseInjectorNode extends PNode {
 					Color.BLACK);
 			
 			// Add the body and the line that will connect it to the injector node.
-			addChild(body);
 			addChild(connector);
+			addChild(body);
 			connector.setOffset(body.getFullBoundsReference().width, body.getFullBoundsReference().height / 2);
 		}
 
