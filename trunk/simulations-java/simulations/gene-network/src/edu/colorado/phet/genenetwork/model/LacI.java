@@ -289,7 +289,7 @@ public class LacI extends SimpleModelElement {
 					lacOperatorAttachmentPartner.detach(this);
 					lacOperatorAttachmentPartner = null;
 					lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-					setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBounds(), 0));
+					setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBounds(), 0, null, -1));
 				}
 				
 				// Prevent ourself from fading while bonded.
@@ -399,7 +399,7 @@ public class LacI extends SimpleModelElement {
 		// lactose molecule.
 		if (glucoseAttachmentPartner == null){
 			setOkayToFade(true);
-			setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBounds(), 0));
+			setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, LacOperonModel.getMotionBounds(), 0, null, -1));
 		}
 		else{
 			Dimension2D offsetFromTarget = new PDimension(

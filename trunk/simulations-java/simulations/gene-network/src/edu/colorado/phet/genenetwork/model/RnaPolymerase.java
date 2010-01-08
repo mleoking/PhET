@@ -100,7 +100,7 @@ public class RnaPolymerase extends SimpleModelElement {
 							// detach the mRNA from us and ourself from the
 							// DNA.
 							freeMessengerRna(true);
-							detachFromDna(2);
+							detachFromDna(0.25);
 						}
 						else if ((dnaStrand.isOnLacIGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacIGeneInPlace()) ||
 								 (dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacZGeneInPlace())){
@@ -316,10 +316,18 @@ public class RnaPolymerase extends SimpleModelElement {
 	}
 	
 	private void detachFromDna(double delay){
+		
+		// No longer are we transcribing and traversing.
 		transcribing = false;
 		traversing = false;
+		
+		// Create and set a motion strategy that initially moves up and
+		// to the right.  This minimizes visual interference with the mRNA
+		// that was just released.
 		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, 
-				LacOperonModel.getMotionBoundsAboveDna(), delay));
+				LacOperonModel.getMotionBoundsAboveDna(), delay, new Vector2D.Double(2, 2), 2));
+		
+		// Set the time until we are available to transcribe again.
 		recoveryCountdownTimer = RECOVERY_TIME;
 	}
 	

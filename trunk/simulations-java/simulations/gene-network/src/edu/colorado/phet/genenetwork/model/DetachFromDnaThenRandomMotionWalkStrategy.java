@@ -21,18 +21,29 @@ public class DetachFromDnaThenRandomMotionWalkStrategy extends RandomWalkMotionS
 	private static Random RAND = new Random();
 
 	private double delayCounter;
-	private double upwardMovementCounter = MOVE_UP_TIME;
+	private double linearMotionCountdown = MOVE_UP_TIME;
 	private Vector2D initialVelocity = new Vector2D.Double();
 	
-	public DetachFromDnaThenRandomMotionWalkStrategy( IModelElement modelElement, Rectangle2D bounds, double delay ) {
+	public DetachFromDnaThenRandomMotionWalkStrategy( IModelElement modelElement, Rectangle2D bounds, 
+			double preMovementDelay, Vector2D initialVelocity, double linearMotionTime ) {
+		
 		super(modelElement, bounds);
 		
-		delayCounter = delay;
-		
-		double initialTotalVelocity = RAND.nextDouble() * (MAX_VELOCITY - MIN_VELOCITY) + MIN_VELOCITY;
-		double initialAngle = Math.PI / 4.0 + (RAND.nextDouble() * (Math.PI / 2.0));
-		initialVelocity.setX(initialTotalVelocity * Math.cos(initialAngle));
-		initialVelocity.setY(initialTotalVelocity * Math.sin(initialAngle));
+		delayCounter = preMovementDelay;
+
+		if (linearMotionTime >= 0){
+			linearMotionCountdown = linearMotionTime;
+		}
+		if (initialVelocity != null){
+			this.initialVelocity.setComponents(initialVelocity.getX(), initialVelocity.getY());
+		}
+		else{
+			// Create an initial somewhat random velocity that is generally up.
+			double initialTotalVelocity = RAND.nextDouble() * (MAX_VELOCITY - MIN_VELOCITY) + MIN_VELOCITY;
+			double initialAngle = Math.PI / 4.0 + (RAND.nextDouble() * (Math.PI / 2.0));
+			this.initialVelocity.setX(initialTotalVelocity * Math.cos(initialAngle));
+			this.initialVelocity.setY(initialTotalVelocity * Math.sin(initialAngle));
+		}
 	}
 
 	@Override
@@ -42,9 +53,9 @@ public class DetachFromDnaThenRandomMotionWalkStrategy extends RandomWalkMotionS
 			// Do nothing.
 			delayCounter -= dt;
 		}
-		else if (upwardMovementCounter > 0){
+		else if (linearMotionCountdown > 0){
 			// Move up.
-			upwardMovementCounter -= dt;
+			linearMotionCountdown -= dt;
 			Point2D currentPos = getModelElement().getPositionRef();
 			getModelElement().setPosition( currentPos.getX() + initialVelocity.getX() * dt, 
 					currentPos.getY() + initialVelocity.getY() * dt);
