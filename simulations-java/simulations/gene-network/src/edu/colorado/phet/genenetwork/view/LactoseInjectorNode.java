@@ -51,7 +51,7 @@ public class LactoseInjectorNode extends PNode {
 	private static final double INJECTOR_HEIGHT = 175;
 	
 	// Angle of rotation of this node.
-	private static final double ROTATION_ANGLE = Math.PI/3;
+	private static final double ROTATION_ANGLE = -Math.PI/3;
 	
 	// Offset of button within this node.  This was determined by trial and
 	// error and will need to be tweaked if the images change.
@@ -112,25 +112,33 @@ public class LactoseInjectorNode extends PNode {
         double scale = INJECTOR_HEIGHT / injectorBodyImageNode.getFullBoundsReference().height;
         injectorNode.rotateAboutPoint( ROTATION_ANGLE, new Point2D.Double( injectorBodyImageNode.getFullBoundsReference().width / 2, injectorBodyImageNode.getFullBoundsReference().height / 2));
         injectorNode.scale(scale);
+        System.out.println("1. Full bounds = " + getFullBoundsReference());
         
-        // Add the injector node.
+        // Add the node that allows control of automatic injection.
+        autoInjectionControl = new AutomaticInjectionSelector(model, injectorNode.getFullBoundsReference().height * 0.4);
+        autoInjectionControl.setOffset(0,
+        	injectorNode.getFullBoundsReference().getCenterY() - autoInjectionControl.getFullBoundsReference().width / 2);
+        addChild(autoInjectionControl);
+        System.out.println("2. Full bounds = " + getFullBoundsReference());
+        
+        // Add the injector node.  Note that the position has to be tweaked
+        // in order to account for the rotation of the node image, since the
+        // rotation of the square image enlarges the bounds.
         addChild(injectorNode);
+        System.out.println("3. Full bounds = " + getFullBoundsReference());
+        injectorNode.setOffset(autoInjectionControl.getFullBoundsReference().getMaxX() - 26,
+        		getFullBoundsReference().getCenterY());
         
         // Set up the injection point offset.  This is currently fixed, which
         // assumes that the node is rotated so that it is pointing down and to
-        // the left.  This may need to be generalized some day.
-        injectionPointOffset.setSize(-getFullBoundsReference().width * 0.58, getFullBoundsReference().height * 0.23);
+        // the right.  This may need to be generalized some day.
+        injectionPointOffset.setSize(getFullBoundsReference().width * 0.46, getFullBoundsReference().height * 0.23);
         
         // Set the point for automatic injection to be at the tip of the
         // injector.
         updateInjectionPoint();
         model.setAutomaticLactoseInjectionParams( injectionPointInModelCoords, NOMINAL_LACTOSE_INJECTION_VELOCITY );
         
-        // Add the node that allows control of automatic injection.
-        autoInjectionControl = new AutomaticInjectionSelector(model, injectorNode.getFullBoundsReference().height * 0.4);
-        autoInjectionControl.setOffset(injectorNode.getFullBoundsReference().width,
-        	injectorNode.getFullBoundsReference().getCenterY());
-        addChild(autoInjectionControl);
         
         // Set up the button handling.
         unpressedButtonImageNode.setPickable(true);
@@ -312,12 +320,10 @@ public class LactoseInjectorNode extends PNode {
 			PhetPPath connector = new PhetPPath(new Line2D.Double(0, 0, CONNECTOR_LENGTH, 0), CONNECTOR_STROKE, 
 					Color.BLACK);
 			
-			// Add the connector line and the main body.  This sets the shape
-			// up so that the 0, 0 point is the center of the connector on the
-			// left side.
-			addChild(connector);
-			body.setOffset(connector.getFullBoundsReference().width - 3, -body.getFullBoundsReference().height / 2);
+			// Add the body and the line that will connect it to the injector node.
 			addChild(body);
+			addChild(connector);
+			connector.setOffset(body.getFullBoundsReference().width, body.getFullBoundsReference().height / 2);
 		}
 
 		private void updateButtonState() {

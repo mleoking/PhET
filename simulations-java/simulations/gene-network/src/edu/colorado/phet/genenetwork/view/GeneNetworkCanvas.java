@@ -110,7 +110,8 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         // Add the lactose injector.
         LactoseInjectorNode lactoseInjector = new LactoseInjectorNode(model, mvt); 
         lactoseInjectorLayer.addChild(lactoseInjector);
-        lactoseInjector.setOffset(640, 10);
+        lactoseInjector.setOffset(-120, -40);
+//        lactoseInjector.setOffset(10, 40);
         
         // Add the legend.
         MacroMoleculeLegend legend = new MacroMoleculeLegend(model, this);
