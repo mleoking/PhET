@@ -17,16 +17,18 @@ public class FollowTheLeaderMotionStrategy extends AbstractMotionStrategy {
 
 	private IModelElement leader;
 	private Dimension2D leaderToFollowerOffset;
+	private IModelElement follower;
 	private ModelElementListenerAdapter leaderMotionListener = new ModelElementListenerAdapter() {
 		@Override
 		public void positionChanged() {
-			updateFollowerPosition();
+			updateFollowerPosition(follower);
 		}
 	};
 	
 	public FollowTheLeaderMotionStrategy(IModelElement follower, IModelElement leader, Dimension2D offset) {
-		super(follower);
+		super();
 		this.leader = leader;
+		this.follower = follower;
 		this.leaderToFollowerOffset = new PDimension(offset);
 		
 		
@@ -35,7 +37,7 @@ public class FollowTheLeaderMotionStrategy extends AbstractMotionStrategy {
 	}
 
 	@Override
-	public void updatePositionAndMotion(double dt) {
+	public void updatePositionAndMotion(double dt, SimpleModelElement modelElement) {
 		// Does nothing, because it is assumed that the model element is
 		// monitoring the motion of the leader and following that.
 	}
@@ -43,9 +45,10 @@ public class FollowTheLeaderMotionStrategy extends AbstractMotionStrategy {
 	/**
 	 * Update the position of the model element for which this motion strategy
 	 * is responsible. 
+	 * @param modelElement
 	 */
-	private void updateFollowerPosition(){
-		getModelElement().setPosition(leader.getPositionRef().getX() + leaderToFollowerOffset.getWidth(),
+	private void updateFollowerPosition(IModelElement modelElement){
+		modelElement.setPosition(leader.getPositionRef().getX() + leaderToFollowerOffset.getWidth(),
 				leader.getPositionRef().getY() + leaderToFollowerOffset.getHeight());
 	}
 

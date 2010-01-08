@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class RandomWalkMotionStrategy extends DirectedRandomWalkMotionStrategy {
 	
-	public RandomWalkMotionStrategy(IModelElement modelElement, Rectangle2D bounds) {
-		super(modelElement, bounds);
+	public RandomWalkMotionStrategy(Rectangle2D bounds) {
+		super(bounds);
 	}
 }

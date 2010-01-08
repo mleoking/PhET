@@ -34,7 +34,6 @@ public class RnaPolymerase extends SimpleModelElement {
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-WIDTH, 0), 
 			new Color(0, 153, 210), new Point2D.Double(WIDTH * 5, 0), Color.WHITE);
 	private static Dimension2D LAC_PROMOTER_ATTACHMENT_POINT_OFFSET = new PDimension(WIDTH * 0.15, -HEIGHT * 0.3);
-	private static Dimension2D MESSENGER_RNA_OUTPUT_OFFSET = new PDimension(-WIDTH * 0.2, -HEIGHT * 0.05);
 	private static double RECOVERY_TIME = 7;                  // Seconds.
 	private static double MAX_TRAVERSAL_TIME = 10; // In seconds.
 	private static double TRAVERSAL_SPEED = 5; // In nanometers/second.
@@ -68,7 +67,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	public RnaPolymerase(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
 	}
 	
 	public RnaPolymerase(IGeneNetworkModelControl model) {
@@ -202,7 +201,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	 */
 	private void freeMessengerRna(boolean fullyFormed) {
 		mRna.setFullyFormed(fullyFormed);
-		mRna.setMotionStrategy(new LinearMotionStrategy(mRna, LacOperonModel.getMotionBounds(),
+		mRna.setMotionStrategy(new LinearMotionStrategy(LacOperonModel.getMotionBounds(), mRna.getPositionRef(),
 				new Vector2D.Double(0, 4), 20));
 		mRna = null;
 	}
@@ -230,12 +229,12 @@ public class RnaPolymerase extends SimpleModelElement {
 				// towards attachment.  This relationship must be terminated.
 				promoterAttachmentPartner.detach(this);
 				promoterAttachmentPartner = null;
-				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+				setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
 			}
 			if (traversing){
 				// This polymerase was traversing the DNA strand, so the
 				// motion strategy must be changed.
-				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+				setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
 				if (transcribing){
 					// This polymerase was transcribing the DNA into mRNA, so
 					// the mRNA needs to be detached and should be marked as
@@ -282,7 +281,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			assert false;
 			return;
 		}
-		setMotionStrategy(new StillnessMotionStrategy(this));
+		setMotionStrategy(new StillnessMotionStrategy());
 		setPosition(targetPositionForLacPromoterAttachment);
 		promoterAttachmentState = AttachmentState.ATTACHED;
 		clearedToCrossLacOperator = false;
@@ -300,7 +299,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			// We were attached, so now start traversing.
 			traversing = true;
 			traversalStartPt.setLocation(getPositionRef());
-			setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(), 
+			setMotionStrategy(new LinearMotionStrategy(LacOperonModel.getMotionBounds(), getPositionRef(), 
 					new Vector2D.Double(TRAVERSAL_SPEED, 0), MAX_TRAVERSAL_TIME));
 			promoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		}
@@ -309,7 +308,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			// happen in cases such as when our potential partner gets removed
 			// from the model.
 			promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-			setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+			setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
 		}
 		previousPromoterAttachmentPartner = promoterAttachmentPartner;
 		promoterAttachmentPartner = null;
@@ -332,8 +331,8 @@ public class RnaPolymerase extends SimpleModelElement {
 		// Create and set a motion strategy that initially moves up and
 		// to the right.  This minimizes visual interference with the mRNA
 		// that was just released.
-		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(this, 
-				LacOperonModel.getMotionBoundsAboveDna(), delay, initialVelocity, 2));
+		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy( LacOperonModel.getMotionBoundsAboveDna(),
+				delay, initialVelocity, 2));
 		
 		// Set the time until we are available to transcribe again.
 		recoveryCountdownTimer = RECOVERY_TIME;
@@ -401,12 +400,12 @@ public class RnaPolymerase extends SimpleModelElement {
 			if (getPositionRef().distance(targetPositionForLacPromoterAttachment) > 10){
 				// We are a ways away, so move toward the destination in a
 				// somewhat random fashion.
-				setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+				setMotionStrategy(new DirectedRandomWalkMotionStrategy(LacOperonModel.getMotionBounds()));
 				getMotionStrategyRef().setDestination(xDest, yDest);
 			}
 			else{
 				// Head straight to the destination.
-				setMotionStrategy(new LinearMotionStrategy(this, LacOperonModel.getMotionBounds(),
+				setMotionStrategy(new LinearMotionStrategy(LacOperonModel.getMotionBounds(), getPositionRef(),
 						targetPositionForLacPromoterAttachment, 3));
 			}
 		}

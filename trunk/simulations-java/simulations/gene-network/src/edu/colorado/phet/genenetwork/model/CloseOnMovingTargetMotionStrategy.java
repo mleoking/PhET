@@ -21,9 +21,9 @@ public class CloseOnMovingTargetMotionStrategy extends DirectedRandomWalkMotionS
 		};
 	};
 
-	public CloseOnMovingTargetMotionStrategy(IModelElement modelElement, IModelElement targetElement, 
-			Dimension2D offsetFromTarget, Rectangle2D bounds) {
-		super(modelElement, bounds);
+	public CloseOnMovingTargetMotionStrategy(IModelElement targetElement, Dimension2D offsetFromTarget,
+			Rectangle2D bounds) {
+		super(bounds);
 		this.targetElement = targetElement;
 		this.offsetFromTarget = offsetFromTarget;
 		targetElement.addListener(targetListener);

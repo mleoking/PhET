@@ -39,8 +39,8 @@ public class LacIMessengerRna extends MessengerRna {
 				bounds.getMaxY() + getPositionRef().getY() + 1);
 		LacITransformationArrow transformationArrow = new LacITransformationArrow(getModel(), transformationArrowPos,
 				new LacI(getModel(), true), Math.PI/4);
-		transformationArrow.setMotionStrategy(new LinearMotionStrategy(transformationArrow,
-				LacOperonModel.getMotionBoundsAboveDna(), new Vector2D.Double(getVelocityRef()), 5.0));
+		transformationArrow.setMotionStrategy(new LinearMotionStrategy( LacOperonModel.getMotionBoundsAboveDna(),
+				transformationArrowPos, new Vector2D.Double(getVelocityRef()), 5.0));
 		getModel().addTransformationArrow(transformationArrow);
 	}
 	

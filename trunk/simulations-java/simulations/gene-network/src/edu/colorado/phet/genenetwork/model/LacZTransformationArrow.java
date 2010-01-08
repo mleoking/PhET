@@ -20,8 +20,8 @@ public class LacZTransformationArrow extends TransformationArrow {
 		double xOffset = Math.cos(getPointingAngle()) * getHeadHeight() + 6;
 		double yOffset = Math.sin(getPointingAngle()) * getHeadHeight() + 4;
 		lacZToAddToModel.setPosition(getPositionRef().getX() + xOffset, getPositionRef().getY() + yOffset);
-		lacZToAddToModel.setMotionStrategy(new LinearMotionStrategy(lacZToAddToModel,
-				LacOperonModel.getMotionBoundsAboveDna(), new Vector2D.Double(getVelocityRef()), 5.0));
+		lacZToAddToModel.setMotionStrategy(new LinearMotionStrategy( LacOperonModel.getMotionBoundsAboveDna(),
+				lacZToAddToModel.getPositionRef(), new Vector2D.Double(getVelocityRef()), 5.0));
 		getModel().addLacZ(lacZToAddToModel);
 	}
 }

@@ -24,10 +24,10 @@ public class DetachFromDnaThenRandomMotionWalkStrategy extends RandomWalkMotionS
 	private double linearMotionCountdown = MOVE_UP_TIME;
 	private Vector2D initialVelocity = new Vector2D.Double();
 	
-	public DetachFromDnaThenRandomMotionWalkStrategy( IModelElement modelElement, Rectangle2D bounds, 
-			double preMovementDelay, Vector2D initialVelocity, double linearMotionTime ) {
+	public DetachFromDnaThenRandomMotionWalkStrategy( Rectangle2D bounds, double preMovementDelay,
+			Vector2D initialVelocity, double linearMotionTime ) {
 		
-		super(modelElement, bounds);
+		super(bounds);
 		
 		delayCounter = preMovementDelay;
 
@@ -47,7 +47,7 @@ public class DetachFromDnaThenRandomMotionWalkStrategy extends RandomWalkMotionS
 	}
 
 	@Override
-	public void updatePositionAndMotion(double dt) {
+	public void updatePositionAndMotion(double dt, SimpleModelElement modelElement) {
 
 		if (delayCounter > 0){
 			// Do nothing.
@@ -56,13 +56,13 @@ public class DetachFromDnaThenRandomMotionWalkStrategy extends RandomWalkMotionS
 		else if (linearMotionCountdown > 0){
 			// Move up.
 			linearMotionCountdown -= dt;
-			Point2D currentPos = getModelElement().getPositionRef();
-			getModelElement().setPosition( currentPos.getX() + initialVelocity.getX() * dt, 
+			Point2D currentPos = modelElement.getPositionRef();
+			modelElement.setPosition( currentPos.getX() + initialVelocity.getX() * dt, 
 					currentPos.getY() + initialVelocity.getY() * dt);
 		}
 		else{
 			// Done delaying and moving up, so just do random walk.
-			super.updatePositionAndMotion(dt);
+			super.updatePositionAndMotion(dt, modelElement);
 		}
 	}
 }

@@ -61,7 +61,7 @@ public class LacZ extends SimpleModelElement {
 
 	public LacZ(IGeneNetworkModelControl model, Point2D initialPosition, boolean fadeIn) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
-		setMotionStrategy(new StillnessMotionStrategy(this));
+		setMotionStrategy(new StillnessMotionStrategy());
 	}
 	
 	public LacZ(IGeneNetworkModelControl model, boolean fadeIn) {
@@ -104,7 +104,7 @@ public class LacZ extends SimpleModelElement {
 					Dimension2D offsetFromTarget = new PDimension(
 							Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
 							Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
-					setMotionStrategy(new CloseOnMovingTargetMotionStrategy(this, glucoseAttachmentPartner, offsetFromTarget,
+					setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget,
 							LacOperonModel.getMotionBounds()));
 				}
 			}
@@ -115,7 +115,7 @@ public class LacZ extends SimpleModelElement {
 				// Finalize the attachment.
 				glucoseAttachmentPartner.attach(this);
 				glucoseAttachmentState = AttachmentState.ATTACHED;
-				setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+				setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBounds()));
 			}
 		}
 		else if (glucoseAttachmentState == AttachmentState.ATTACHED){
@@ -158,7 +158,7 @@ public class LacZ extends SimpleModelElement {
 
 	@Override
 	protected void onTransitionToExistingState() {
-		setMotionStrategy(new RandomWalkMotionStrategy(this, LacOperonModel.getMotionBoundsAboveDna()));
+		setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
 	}
 	
 	/**

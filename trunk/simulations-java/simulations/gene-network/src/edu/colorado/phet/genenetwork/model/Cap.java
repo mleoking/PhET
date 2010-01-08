@@ -33,7 +33,7 @@ public class Cap extends SimpleModelElement {
 	
 	public Cap(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(LacOperonModel.getMotionBounds()));
 	}
 	
 	public Cap(IGeneNetworkModelControl model) {
@@ -124,7 +124,7 @@ public class Cap extends SimpleModelElement {
 				CAP_BINDING_REGION_ATTACHMENT_OFFSET.getWidth();
 			double yDest = capBindingRegionPartner.getAttachmentPointLocation(this).getY() - 
 				CAP_BINDING_REGION_ATTACHMENT_OFFSET.getHeight();
-			setMotionStrategy(new DirectedRandomWalkMotionStrategy(this, LacOperonModel.getMotionBounds()));
+			setMotionStrategy(new DirectedRandomWalkMotionStrategy(LacOperonModel.getMotionBounds()));
 			getMotionStrategyRef().setDestination(xDest, yDest);
 			targetPositionForAttachingToBindingRegion.setLocation(xDest, yDest);
 		}
@@ -138,7 +138,7 @@ public class Cap extends SimpleModelElement {
 			assert false;
 			return;
 		}
-		setMotionStrategy(new StillnessMotionStrategy(this));
+		setMotionStrategy(new StillnessMotionStrategy());
 		setPosition(targetPositionForAttachingToBindingRegion);
 		capBindingRegionAttachmentState = AttachmentState.ATTACHED;
 	}
