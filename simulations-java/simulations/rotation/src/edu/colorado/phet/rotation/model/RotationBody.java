@@ -55,7 +55,7 @@ public class RotationBody {
 
     //angle of the bug relative to the platform, used when updating position on the platform 
     private double relAngleOnPlatform = 0.0;
-    private static final double FLY_OFF_SPEED_THRESHOLD = 21.0 * 3 ;//in mm/sec
+    private static final double COEFFICIENT_OF_STATIC_FRICTION_MU = 0.4;
 
     /**
      * @noinspection HardCodedStringLiteral
@@ -446,7 +446,7 @@ public class RotationBody {
 
     private void updateOnPlatform( double time ) {
         double omega = rotationPlatform.getVelocity();
-        double r = getPosition().distance( rotationPlatform.getCenter() );//converts mm to meters, see #2077
+        double r = getPosition().distance( rotationPlatform.getCenter() );//in mm, see #2077
         boolean centered = rotationPlatform.getCenter().equals( getPosition() ) || r < 1E-6;
         Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
                                 : Vector2D.Double.parseAngleAndMagnitude( r,//convert back to mm 
@@ -483,7 +483,8 @@ public class RotationBody {
             lastNonZeroRadiusAngle = getAngleOverPlatform();
         }
 //        System.out.println( "newV.getMagnitude() = " + newV.getMagnitude() );
-        if ( newV.getMagnitude() > FLY_OFF_SPEED_THRESHOLD ) {
+        //System.out.println("newV.getMagnitude() * newV.getMagnitude() / r / ( 9.8 * 1000)=  "+newV.getMagnitude() * newV.getMagnitude() / r / ( 9.8 * 1000));
+        if ( newV.getMagnitude() * newV.getMagnitude() / r / ( 9.8 * 1000) > COEFFICIENT_OF_STATIC_FRICTION_MU ) {//v*v/r >= mu g (in mm)
 //            System.out.println( "flying off" );
             setUpdateStrategy( new FlyingOff( newV ) );
 //            RotationResources.getInstance().getAudioClip( "bug-flyoff.wav" );
