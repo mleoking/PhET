@@ -84,9 +84,9 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
     protected RotationMinimizableControlGraph createTorqueGraph() {
         PhetPCanvas pSwingCanvas = super.getCanvas();
         RotationMinimizableControlGraph torqueGraph = new RotationMinimizableControlGraph( UnicodeUtil.TAU, new RotationGraph(
-                pSwingCanvas, new ControlGraphSeries( APPLIED_TORQUE, Color.blue, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 4 ), APPLIED, tm.getAppliedTorqueTimeSeries() ),
+                pSwingCanvas, new ControlGraphSeries( APPLIED_TORQUE, Color.blue, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 4 ), APPLIED, tm.getAppliedTorqueTimeSeries(),true ),
                 UnicodeUtil.TAU, TORQUE, TORQUE_UNITS, -10, 10,
-                true, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
+                true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
 
         torqueGraph.getControlGraph().addListener( new ControlGraph.Adapter() {
             public void valueChanged( double torque ) { //t = r f

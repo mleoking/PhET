@@ -1,3 +1,5 @@
+> Added a label and editable text box for applying torque in the moment of inertia tab
+see #2089
 # 1.08.01 (37984) Jan 8, 2010
 > Determine when the object slips off the platform as a function of the radius and velocity.
 See #2090
