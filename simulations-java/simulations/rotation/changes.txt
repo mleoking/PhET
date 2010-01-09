@@ -1,3 +1,9 @@
+> Determine when the object slips off the platform as a function of the radius, not as an absolute velocity.
+See #2090
+> rotation: Fixed the units on the acceleration and velocity charts to be in terms of mm instead of m.
+See #2077
+> torque: Added a vertical slider for setting the torque in the moment-of-inertia tab.
+See #2089
 # 1.08.00 (37968) Jan 8, 2010
 1/8/10 public version for milestone "full redeploy, 2010 Q1"
 # 1.07.01 (37376) Dec 11, 2009
