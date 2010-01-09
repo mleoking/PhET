@@ -87,7 +87,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
 
     protected RotationMinimizableControlGraph createVGraph() {
         final RotationMinimizableControlGraph vGraph = new RotationMinimizableControlGraph( RotationStrings.V, new RotationGraph(
-                pSwingCanvas, null, RotationStrings.V + "" + RotationStrings.X, RotationStrings.VELOCITY, VELOCITY_UNITS, -15, +15,
+                pSwingCanvas, null, RotationStrings.V + "" + RotationStrings.X, RotationStrings.VELOCITY, VELOCITY_UNITS, -0.015, +0.015,
                 false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
         vGraph.addSeriesPair( RotationStrings.SPEED,
                               new ControlGraphSeries( RotationStrings.SPEED, RotationColorScheme.VM_COLOR, RotationStrings.abs( RotationStrings.V ), VELOCITY_UNITS, body0Stroke, CHARACTER_LADY, b0.getSpeed() ),
