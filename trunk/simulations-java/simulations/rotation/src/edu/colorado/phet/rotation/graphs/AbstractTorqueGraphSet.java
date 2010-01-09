@@ -86,7 +86,14 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         RotationMinimizableControlGraph torqueGraph = new RotationMinimizableControlGraph( UnicodeUtil.TAU, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( APPLIED_TORQUE, Color.blue, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 4 ), APPLIED, tm.getAppliedTorqueTimeSeries() ),
                 UnicodeUtil.TAU, TORQUE, TORQUE_UNITS, -10, 10,
-                false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
+                true, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
+
+        torqueGraph.getControlGraph().addListener( new ControlGraph.Adapter() {
+            public void valueChanged( double torque ) { //t = r f
+                double force = tm.getAppliedForceRadius() != 0 ? torque / tm.getAppliedForceRadius(): 0.0;
+                tm.setAppliedForce( tm.getAppliedForceRadius(), force );
+            }
+        } );
 
         ControlGraphSeries brakeTorqueSeries = new ControlGraphSeries( BRAKE_TORQUE, Color.red, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 2 ), BRAKE, tm.getBrakeTorque(), false );
         torqueGraph.addSeries( brakeTorqueSeries );
