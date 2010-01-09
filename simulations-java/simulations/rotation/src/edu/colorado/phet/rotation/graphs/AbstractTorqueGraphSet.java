@@ -99,13 +99,13 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         torqueGraph.addSeries( brakeTorqueSeries );
         ControlGraphSeries netTorqueSeries = new ControlGraphSeries( NET_TORQUE, Color.black, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 2 ), NET, tm.getNetTorque(), false );
         torqueGraph.addSeries( netTorqueSeries );
-        torqueGraph.addControl( new SeriesSelectionPanel( new ControlGraphSeries[]{brakeTorqueSeries, netTorqueSeries} ) );
+        torqueGraph.addControl( new SeriesSelectionPanel( "series.selection.title.torques",new ControlGraphSeries[]{brakeTorqueSeries, netTorqueSeries} ) );
         return torqueGraph;
     }
 
     public static class SeriesSelectionPanel extends VerticalLayoutPanel {
-        public SeriesSelectionPanel( ControlGraphSeries[] series ) {
-            setBorder( BorderFactory.createTitledBorder( RotationStrings.getString( "series.selection.title" ) ) );
+        public SeriesSelectionPanel( String key, ControlGraphSeries[] series ) {
+            setBorder( BorderFactory.createTitledBorder( RotationStrings.getString( key ) ) );
             for ( int i = 0; i < series.length; i++ ) {
                 add( new SeriesJCheckBox( series[i] ) );
             }
@@ -157,7 +157,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         ControlGraphSeries netForceSeries = new ControlGraphSeries( NET_FORCE, Color.black, F, N, new BasicStroke( 2 ), NET, tm.getNetForce(), false );
         forceGraph.getControlGraph().addSeries( netForceSeries );
 
-        forceGraph.getControlGraph().addControl( new SeriesSelectionPanel( new ControlGraphSeries[]{brakeForceSeries, netForceSeries} ) );
+        forceGraph.getControlGraph().addControl( new SeriesSelectionPanel("series.selection.title.forces", new ControlGraphSeries[]{brakeForceSeries, netForceSeries} ) );
 //        forceGraph.getControlGraph().addControl( new SeriesJCheckBox( brakeForceSeries ) );
 //        forceGraph.getControlGraph().addControl( new SeriesJCheckBox( netForceSeries ) );
         return forceGraph;

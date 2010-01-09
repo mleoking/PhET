@@ -1,3 +1,5 @@
+> Changed the label of chart series from "Series" to "Forces" and "Torques", respectively,
+see #2089
 > Added a label and editable text box for applying torque in the moment of inertia tab
 see #2089
 # 1.08.01 (37984) Jan 8, 2010
