@@ -1,5 +1,5 @@
 # 1.08.01 (37984) Jan 8, 2010
-> Determine when the object slips off the platform as a function of the radius, not as an absolute velocity.
+> Determine when the object slips off the platform as a function of the radius and velocity.
 See #2090
 > rotation: Fixed the units on the acceleration and velocity charts to be in terms of mm instead of m.
 See #2077
