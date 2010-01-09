@@ -46,7 +46,7 @@ public class RotationPlatform extends MotionBody {
     private transient ArrayList listeners = new ArrayList();
     private boolean displayGraph = DEFAULT_DISPLAY_GRAPH;
 
-    public static final double MAX_RADIUS = 4.0;
+    public static final double MAX_RADIUS = 4;//in mm, see #2077
     public static final double DEFAULT_OUTER_RADIUS = MAX_RADIUS;
     public static final double DEFAULT_INNER_RADIUS = 0.0;
     public static final boolean DEFAULT_DISPLAY_GRAPH = true;
