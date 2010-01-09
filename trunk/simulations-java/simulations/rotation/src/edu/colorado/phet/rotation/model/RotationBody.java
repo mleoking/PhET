@@ -55,7 +55,7 @@ public class RotationBody {
 
     //angle of the bug relative to the platform, used when updating position on the platform 
     private double relAngleOnPlatform = 0.0;
-    private static final double FLY_OFF_SPEED_THRESHOLD = 21.0 * 3 / 1000.0;//in meters/sec
+    private static final double FLY_OFF_SPEED_THRESHOLD = 21.0 * 3 ;//in mm/sec
 
     /**
      * @noinspection HardCodedStringLiteral
@@ -446,10 +446,10 @@ public class RotationBody {
 
     private void updateOnPlatform( double time ) {
         double omega = rotationPlatform.getVelocity();
-        double r = getPosition().distance( rotationPlatform.getCenter() )/1000.0;//converts mm to meters, see #2077
+        double r = getPosition().distance( rotationPlatform.getCenter() );//converts mm to meters, see #2077
         boolean centered = rotationPlatform.getCenter().equals( getPosition() ) || r < 1E-6;
         Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
-                                : Vector2D.Double.parseAngleAndMagnitude( r*1000.0,//convert back to mm 
+                                : Vector2D.Double.parseAngleAndMagnitude( r,//convert back to mm 
                 getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
