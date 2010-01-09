@@ -1,3 +1,5 @@
+# 3.18.00 (37975) Jan 8, 2010
+1/8/10 public version for milestone "full redeploy, 2010 Q1"
 # 3.17.24 (37754) Dec 29, 2009
 > Fixed a bug that made the circuit run very quickly while dragging voltage or resistance sliders, see #2040
 # 3.17.23 (37750) Dec 29, 2009
