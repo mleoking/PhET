@@ -1,3 +1,5 @@
+# 3.11.00 (38005) Jan 10, 2010
+1/10/10 public version for milestone "full redeploy, 2010 Q1"
 # 3.10.01 (37359) Dec 11, 2009
 12/11/09 test version for milestone "full redeploy, 2010 Q1"
 # 3.10.00 (30667) Apr 21, 2009
