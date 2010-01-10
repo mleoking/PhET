@@ -1,3 +1,5 @@
+# 2.07.00 (38003) Jan 9, 2010
+1/9/10 public version for milestone "full redeploy, 2010 Q1"
 # 2.06.03 (37715) Dec 23, 2009
 12/23/09 Fixed an issue with the interaction between Reset All and the clock control slider.
 # 2.06.02 (37713) Dec 23, 2009
