@@ -1,3 +1,4 @@
+1-11-2010: All Java sims were updated to incorporate new features from the PhET common framework.
 12-28-2009: Natural Selection (1.00) - Added Natural Selection simulation
 12-11-2009: All Flash sims were updated to incorporate new features from the PhET common framework.
 12-8-2009: Nuclear Physics (3.20) - Fixed an issue in Radioactive Dating Game where the graph on the 2nd tab would run when no nuclei are present.
