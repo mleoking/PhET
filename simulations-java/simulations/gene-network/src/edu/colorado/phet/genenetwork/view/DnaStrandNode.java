@@ -132,10 +132,17 @@ public class DnaStrandNode extends PNode {
 				public void eyeCatchingStateChange() {
 					updateEyeCatching();
 				}
+
+				public void occupiedStateChange() {
+					updateOccupied();
+				}
 			});
 			
 			// Set initial fill.
 			updateEyeCatching();
+			
+			// Set initial visibility.
+			updateOccupied();
 		}
 		
 		private void updateEyeCatching(){
@@ -145,6 +152,11 @@ public class DnaStrandNode extends PNode {
 			else{
 				setPaint(nonEyeCatchingColor);
 			}
+		}
+		
+		private void updateOccupied(){
+			// If this space is occupied, the space itself should be invisible.
+			setVisible(!dnaSegmentSpace.isOccupied());
 		}
     }
 }

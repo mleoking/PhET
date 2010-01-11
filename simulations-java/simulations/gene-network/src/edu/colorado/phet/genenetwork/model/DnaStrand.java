@@ -72,11 +72,11 @@ public class DnaStrand {
 		updateStrandShapes();
 		
 		// Set the offsets for the various DNA segments.
-		lacIPromoterSpace = new DnaSegmentSpace(new LacIPromoter(null).getShape(), new Point2D.Double(-52, 0));
-		lacIGeneSpace = new DnaSegmentSpace(new LacIGene(null).getShape(), new Point2D.Double(-35, 0));
-		lacPromoterSpace = new DnaSegmentSpace(new LacPromoter(null).getShape(), new Point2D.Double(5, 0));
-		lacOperatorSpace = new DnaSegmentSpace(new LacOperator(null).getShape(), new Point2D.Double(15, 0));
-		lacZGeneSpace = new DnaSegmentSpace(new LacZGene(null).getShape(), new Point2D.Double(30, 0));
+		lacIPromoterSpace = new DnaSegmentSpace(this, new LacIPromoter(null).getShape(), new Point2D.Double(-52, 0));
+		lacIGeneSpace = new DnaSegmentSpace(this, new LacIGene(null).getShape(), new Point2D.Double(-35, 0));
+		lacPromoterSpace = new DnaSegmentSpace(this, new LacPromoter(null).getShape(), new Point2D.Double(5, 0));
+		lacOperatorSpace = new DnaSegmentSpace(this, new LacOperator(null).getShape(), new Point2D.Double(15, 0));
+		lacZGeneSpace = new DnaSegmentSpace(this, new LacZGene(null).getShape(), new Point2D.Double(30, 0));
 		
 		// Register for model events that concern us.
 		model.addListener(new GeneNetworkModelAdapter(){
@@ -289,48 +289,23 @@ public class DnaStrand {
 		// and register to clear it if the element is removed.
 		if (modelElement instanceof LacIPromoter){
 			lacIPromoterSpace.setEyeCatching(true);
-			modelElement.addListener(new ModelElementListenerAdapter(){
-				public void removedFromModel() {
-					// Become non-eyecatching when element is removed.
-					lacIPromoterSpace.setEyeCatching(false);
-				};
-			});
+			lacIPromoterSpace.setModelElement(modelElement);
 		}
 		else if (modelElement instanceof LacIGene){
 			lacIGeneSpace.setEyeCatching(true);
-			modelElement.addListener(new ModelElementListenerAdapter(){
-				public void removedFromModel() {
-					// Become non-eyecatching when element is removed.
-					lacIGeneSpace.setEyeCatching(false);
-				};
-			});
+			lacIGeneSpace.setModelElement(modelElement);
 		}
 		else if (modelElement instanceof LacZGene){
 			lacZGeneSpace.setEyeCatching(true);
-			modelElement.addListener(new ModelElementListenerAdapter(){
-				public void removedFromModel() {
-					// Become non-eyecatching when element is removed.
-					lacZGeneSpace.setEyeCatching(false);
-				};
-			});
+			lacZGeneSpace.setModelElement(modelElement);
 		}
 		else if (modelElement instanceof LacPromoter){
 			lacPromoterSpace.setEyeCatching(true);
-			modelElement.addListener(new ModelElementListenerAdapter(){
-				public void removedFromModel() {
-					// Become non-eyecatching when element is removed.
-					lacPromoterSpace.setEyeCatching(false);
-				};
-			});
+			lacPromoterSpace.setModelElement(modelElement);
 		}
 		else if (modelElement instanceof LacOperator){
 			lacOperatorSpace.setEyeCatching(true);
-			modelElement.addListener(new ModelElementListenerAdapter(){
-				public void removedFromModel() {
-					// Become non-eyecatching when element is removed.
-					lacOperatorSpace.setEyeCatching(false);
-				};
-			});
+			lacOperatorSpace.setModelElement(modelElement);
 		}
 	}
 	
@@ -358,19 +333,52 @@ public class DnaStrand {
 	 * promoter or whatever can reside.
 	 */
 	public static class DnaSegmentSpace extends Area {
+		
+		// Distance from the model element at which this space is considered
+		// occupied.
+		private static final double OCCUPIED_DISTANCE = 1; // In nanometers.
+		
+		// DNA strand on which this space exists.
+		private final DnaStrand dnaStrand;
 
 		// Offset in space from the DNA strand where this space exists.
 		private final Point2D offsetFromDnaStrandPos = new Point2D.Double();
 		
+		// Model element that is associated with this space and that could
+		// end up occupying the space.
+		private SimpleModelElement modelElement = null;
+		
 		// State variable to says whether this space should be presented to
 		// the user in a normal or "eye catching" manner.
 		private boolean eyeCatching = false;
+		
+		// State variable that tracks whether or not this space is occupied,
+		// meaining that it has a model element in it.
+		private boolean occupied = false;
+		
+		// Listener for relevant events.
+		private ModelElementListenerAdapter modelElementListener = new ModelElementListenerAdapter(){
+			public void positionChanged(){
+				updateOccupancyState();
+			};
+			public void removedFromModel() {
+				setEyeCatching(false);
+				modelElement = null;
+			};
+		};
 
 	    protected ArrayList<DnaSegmentSpace.Listener> listeners = new ArrayList<DnaSegmentSpace.Listener>();
 		
-		public DnaSegmentSpace(Shape s, Point2D offsetFromDnaStrandPos) {
+		public DnaSegmentSpace(DnaStrand dnaStrand, Shape s, Point2D offsetFromDnaStrandPos) {
 			super(s);
+			this.dnaStrand = dnaStrand;
 			this.offsetFromDnaStrandPos.setLocation(offsetFromDnaStrandPos);
+		}
+		
+		public void setModelElement(SimpleModelElement modelElement){
+			this.modelElement = modelElement;
+			modelElement.addListener(modelElementListener);
+			updateOccupancyState();
 		}
 		
 		public void addListener(DnaSegmentSpace.Listener listener) {
@@ -404,6 +412,35 @@ public class DnaStrand {
 			}
 		}
 		
+		/**
+		 * Get the position in absolute model space.
+		 * 
+		 * @return
+		 */
+		private Point2D getAbsolutePosition(){
+			return new Point2D.Double(dnaStrand.getPositionRef().getX() + offsetFromDnaStrandPos.getX(),
+					dnaStrand.getPositionRef().getY() + offsetFromDnaStrandPos.getY());
+		}
+		
+		public boolean isOccupied(){
+			return occupied;
+		}
+		
+		private void updateOccupancyState(){
+			if (occupied == false){
+				if (modelElement.getPositionRef().distance(getAbsolutePosition()) < OCCUPIED_DISTANCE){
+					occupied = true;
+					notifyOccupiedStateChanged();
+				}
+			}
+			else if (occupied == true){
+				if (modelElement.getPositionRef().distance(getAbsolutePosition()) > OCCUPIED_DISTANCE){
+					occupied = false;
+					notifyOccupiedStateChanged();
+				}
+			}
+		}
+		
 		private void notifyEyeCatchingStateChanged(){
 			// Notify all listeners of the change to the eye catching state.
 			for (Listener listener : listeners)
@@ -412,8 +449,17 @@ public class DnaStrand {
 			}
 		}
 		
+		private void notifyOccupiedStateChanged(){
+			// Notify all listeners of the change to the occupied state.
+			for (Listener listener : listeners)
+			{
+				listener.occupiedStateChange();
+			}
+		}
+		
 		public interface Listener {
 			void eyeCatchingStateChange();
+			void occupiedStateChange();
 		}
 	}
 }
