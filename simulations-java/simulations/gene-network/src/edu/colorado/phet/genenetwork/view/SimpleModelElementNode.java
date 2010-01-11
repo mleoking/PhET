@@ -29,7 +29,7 @@ import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -91,10 +91,12 @@ public class SimpleModelElementNode extends PPath {
 		updateShape();
 		updatePaintAndStroke(false);
 		
-		// If there is a label text value, and showing it is enabled, show it.
+		// If there is a label defined and enabled?
 		if (showLabel == true && modelElement.getHtmlLabel() != null){
+			// Yes, so show it.
 			HTMLNode labelNode = new HTMLNode(modelElement.getHtmlLabel());
 			labelNode.setFont(LABEL_FONT);
+			scaleLabel(labelNode, getFullBoundsReference());
 			labelNode.setOffset(getFullBoundsReference().getCenterX() - labelNode.getFullBoundsReference().width / 2, 
 					getFullBoundsReference().getCenterY() - labelNode.getFullBoundsReference().height / 2);
 			addChild(labelNode);
@@ -155,8 +157,25 @@ public class SimpleModelElementNode extends PPath {
             }
         });
 	}
-	
-    //----------------------------------------------------------------------------
+
+	/**
+	 * Scale the label to fit optimally within the bounds.
+	 * 
+	 * @param labelNode
+	 * @param fullBoundsReference
+	 */
+    private void scaleLabel(HTMLNode labelNode, PBounds bounds) {
+    	labelNode.setScale(1);
+    	double maxBoundsConsumption = 0.90;
+    	double widthScale = bounds.getWidth() * maxBoundsConsumption / labelNode.getWidth();
+    	double heightScale = bounds.getHeight() * maxBoundsConsumption / labelNode.getHeight();
+    	
+    	// Scale by the smaller of the two possible scaling values so that the
+    	// label fits within the bounds.
+    	labelNode.setScale(Math.min(widthScale, heightScale));
+	}
+
+	//----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
 	
