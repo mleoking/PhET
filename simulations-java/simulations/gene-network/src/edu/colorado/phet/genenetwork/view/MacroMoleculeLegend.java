@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
@@ -46,7 +47,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * 
  * @author John Blanco
  */
-public class MacroMoleculeLegend extends PNode {
+public class MacroMoleculeLegend extends PhetPNode {
 	
     //------------------------------------------------------------------------
     // Class Data
@@ -82,8 +83,6 @@ public class MacroMoleculeLegend extends PNode {
     // Add the button that will allow the user to close (actually hide) the diagram.
     private JButton closeButton;
     private PSwing closePSwing;
-    
-
 	
     //------------------------------------------------------------------------
     // Constructors
