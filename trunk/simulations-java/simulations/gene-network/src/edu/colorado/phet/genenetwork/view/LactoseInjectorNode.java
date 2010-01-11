@@ -112,20 +112,17 @@ public class LactoseInjectorNode extends PNode {
         double scale = INJECTOR_HEIGHT / injectorBodyImageNode.getFullBoundsReference().height;
         injectorNode.rotateAboutPoint( ROTATION_ANGLE, new Point2D.Double( injectorBodyImageNode.getFullBoundsReference().width / 2, injectorBodyImageNode.getFullBoundsReference().height / 2));
         injectorNode.scale(scale);
-        System.out.println("1. Full bounds = " + getFullBoundsReference());
         
         // Add the node that allows control of automatic injection.
         autoInjectionControl = new AutomaticInjectionSelector(model, injectorNode.getFullBoundsReference().height * 0.4);
         autoInjectionControl.setOffset(0,
         	injectorNode.getFullBoundsReference().getCenterY() - autoInjectionControl.getFullBoundsReference().width / 2);
         addChild(autoInjectionControl);
-        System.out.println("2. Full bounds = " + getFullBoundsReference());
         
         // Add the injector node.  Note that the position has to be tweaked
         // in order to account for the rotation of the node image, since the
         // rotation of the square image enlarges the bounds.
         addChild(injectorNode);
-        System.out.println("3. Full bounds = " + getFullBoundsReference());
         injectorNode.setOffset(autoInjectionControl.getFullBoundsReference().getMaxX() - 26,
         		getFullBoundsReference().getCenterY());
         
