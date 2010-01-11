@@ -14,12 +14,16 @@ public class Glucose extends SimpleSugar {
 	private static final Dimension2D GALACTOSE_ATTACHMENT_POINT_OFFSET = new PDimension(getWidth()/2, 0);
 	private static final Dimension2D LAC_Z_ATTACHMENT_POINT_OFFSET = new PDimension(getWidth()/2, 0);
 	private static final Dimension2D LAC_I_ATTACHMENT_POINT_OFFSET = new PDimension(getWidth()/2, 0);
+	private static final double HOLDOFF_TIME_UNTIL_FIRST_ATTACHMENT = 2; // In seconds.
+	private static final double POST_ATTACHMENT_RECOVERY_TIME = 1; // In seconds.
 	
 	private Galactose galactoseAttachmentPartner;
 	private LacZ lacZAttachmentPartner;
-	private AttachmentState lacZAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	private AttachmentState lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 	private LacI lacIAttachmentPartner;
-	private AttachmentState lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+	private AttachmentState lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+	private double holdoffPriorToFirstAttachmentCountdown = HOLDOFF_TIME_UNTIL_FIRST_ATTACHMENT;
+	private double postAttachmentRecoveryCountdown = POST_ATTACHMENT_RECOVERY_TIME;
 
 	public Glucose(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, initialPosition, Color.BLUE);
@@ -53,7 +57,8 @@ public class Glucose extends SimpleSugar {
 	}
 	
 	public boolean isAvailableForAttaching(){
-		return (lacZAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE && lacIAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE);
+		return ( lacZAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE &&
+				 lacIAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE );
 	}
 	
 	public boolean isBoundToGalactose(){
@@ -157,7 +162,8 @@ public class Glucose extends SimpleSugar {
 	public void detach(LacI lacI){
 		assert lacI == lacIAttachmentPartner;
 		lacIAttachmentPartner = null;
-		lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+		lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+		postAttachmentRecoveryCountdown = POST_ATTACHMENT_RECOVERY_TIME;
 		setMotionStrategy(new LinearThenRandomMotionStrategy(LacOperonModel.getMotionBoundsAboveDna(), 
 				getPositionRef(), new Vector2D.Double(0, 8), 0.5));
 	}
@@ -211,5 +217,24 @@ public class Glucose extends SimpleSugar {
 	public Point2D getLacZAttachmentPointLocation(){
 		return (new Point2D.Double(getPositionRef().getX() + LAC_Z_ATTACHMENT_POINT_OFFSET.getWidth(),
 				getPositionRef().getY() + LAC_Z_ATTACHMENT_POINT_OFFSET.getHeight()));
+	}
+
+	@Override
+	public void stepInTime(double dt) {
+		if (holdoffPriorToFirstAttachmentCountdown >= 0){
+			holdoffPriorToFirstAttachmentCountdown -= dt;
+			if (holdoffPriorToFirstAttachmentCountdown <= 0){
+				lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				lacZAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
+		}
+		else if (lacIAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
+			postAttachmentRecoveryCountdown -= dt;
+			if (postAttachmentRecoveryCountdown <= 0){
+				// Recovery complete - we are ready to attach again.
+				lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
+		}
+		super.stepInTime(dt);
 	}
 }
