@@ -63,7 +63,7 @@
         // Obtain some additional files from the web server that are needed in
         // order to modify the CSS files as needed for the local vs. the web
         // mirror installers.
-        define("CSS_DIR", RIPPED_WEBSITE_ROOT.PHET_HOSTNAME."/css/");
+        define("CSS_DIR", RIPPED_WEBSITE_ROOT.PHET_HOSTNAME_NO_COLONS."/css/");
         define("CSS_APPEND_FILES_DIR", CSS_DIR."installer-append/");
         if (!file_exists(CSS_APPEND_FILES_DIR)){
             mkdir(CSS_APPEND_FILES_DIR);
