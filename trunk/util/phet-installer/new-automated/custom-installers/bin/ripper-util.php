@@ -29,7 +29,7 @@
     define( "SINGLE_SIM_RIP_DIR", file_cleanup_local_filename( TEMP_DIR."single-sim-rip/" ) );
 
     // Directory where sim rip will end up.
-    define( "SINGLE_SIM_RIP_TOP", file_cleanup_local_filename( SINGLE_SIM_RIP_DIR."phet-server.colorado.edu_8080/" ) );
+    define( "SINGLE_SIM_RIP_TOP", file_cleanup_local_filename( SINGLE_SIM_RIP_DIR.PHET_HOSTNAME_NO_COLONS.'/' ) );
 
     //--------------------------------------------------------------------------
     // Function for ripping the main site, meaning that it traverses each link
@@ -349,11 +349,6 @@
 
         // Get the resources for the Java sims.
         ripper_download_java_rsrcs( RIPPED_WEBSITE_SIMS_PARENT_DIR );
-
-        // Get the resources for the Flash sims.
-        // TODO: Commenting this out because, based on a conversation with JO
-        // on 9/22/2009, it may not be needed.
-        //ripper_download_flash_rsrcs( RIPPED_WEBSITE_SIMS_PARENT_DIR );
 
         // Add the marker file, needed for sim usage tracking.
         installer_create_marker_file();
