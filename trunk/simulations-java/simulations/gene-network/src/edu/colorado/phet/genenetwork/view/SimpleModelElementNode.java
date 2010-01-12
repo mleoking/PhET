@@ -45,7 +45,7 @@ public class SimpleModelElementNode extends PPath {
 
 	private static final boolean SHOW_CENTER_DOT = false;
 	private static final boolean SHOW_ATTACHMENT_POINTS = false;
-	private static final Font LABEL_FONT = new PhetFont(16, true );
+	private static final Font LABEL_FONT = GeneNetworkFontFactory.getFont(14, Font.BOLD);
 	private static final Stroke NORMAL_STROKE = new BasicStroke(1);
 	private static final Stroke GHOST_MODE_STROKE = new BasicStroke(1.0f, BasicStroke.CAP_BUTT,
 			BasicStroke.JOIN_BEVEL, 0, new float[] {4, 2}, 0);
@@ -60,7 +60,7 @@ public class SimpleModelElementNode extends PPath {
 	private PhetPPath centerDot = new PhetPPath(Color.RED, new BasicStroke(2), Color.RED);
 	
 	private boolean ghostModeEnabled = false;
-	
+		
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------

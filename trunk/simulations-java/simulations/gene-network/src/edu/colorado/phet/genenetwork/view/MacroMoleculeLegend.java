@@ -20,7 +20,6 @@ import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -55,7 +54,7 @@ public class MacroMoleculeLegend extends PhetPNode {
 
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(2f);
 	private static final Color BACKGROUND_COLOR = new Color(255, 255, 220);
-	private static final Font TITLE_FONT = new PhetFont(20, true);
+	private static final Font TITLE_FONT = GeneNetworkFontFactory.getFont(20, Font.BOLD);
 	private static final double ICON_TO_CAPTION_HORIZONTAL_SPACING = 10;
 	private static final double INTER_LEGEND_ITEM_VERTICAL_SPACING = 14;
 	private static final double SIDE_PADDING = 8;
@@ -251,7 +250,7 @@ public class MacroMoleculeLegend extends PhetPNode {
 	 */
 	private static class LegendEntry {
 
-		private static final Font LABEL_FONT = new PhetFont(16, false);
+		private static final Font LABEL_FONT = GeneNetworkFontFactory.getFont(16, Font.PLAIN);
 		private static final Color LABEL_COLOR = Color.BLACK;
 
 		private final PNode icon;
