@@ -85,6 +85,9 @@ public class UnfuddleCurl {
     	else{
     		// The tag does not exist - output a warning.
         	System.out.println(getClass().getName() + " - Warning: Response does not contain xml tag." + s.substring(0, 255));
+        	if (s.contains("Authorization")){
+        		System.out.println(getClass().getName() + " - Response contained \"Authorization\" string - check that password is correct");
+        	}
     	}
     	
     	return retVal;
