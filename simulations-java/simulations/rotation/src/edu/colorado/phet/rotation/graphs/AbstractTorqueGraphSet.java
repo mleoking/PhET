@@ -48,10 +48,10 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
     private final String FORCE_RADIUS = RotationStrings.getString( "variable.radius.of.force" );
     private final String F = RotationStrings.getString( "variable.f" );
     private final String N = RotationStrings.getString( "units.n" );
-    private final String MOM_INERTIA_UNITS = RotationStrings.getString( "units.kg.mm.2" );
-    private final String TORQUE_UNITS = RotationStrings.getString( "units.n.mm" );
+    private final String MOM_INERTIA_UNITS = RotationStrings.getString( "units.kg.m.2" );
+    private final String TORQUE_UNITS = RotationStrings.getString( "units.n.m" );
     private final String RADIUS_VARNAME = RotationStrings.getString( "variable.r" );
-    private final String RADIUS_UNITS = RotationStrings.getString( "units.mm" );
+    private final String RADIUS_UNITS = RotationStrings.getString( "units.m" );
     private final String FORCE = RotationStrings.getString( "variable.force" );
 
     public AbstractTorqueGraphSet( PhetPCanvas pSwingCanvas, final TorqueModel tm, AngleUnitModel angleUnitModel ) {

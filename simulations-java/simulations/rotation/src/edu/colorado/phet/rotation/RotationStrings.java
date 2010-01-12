@@ -16,19 +16,19 @@ public class RotationStrings {
     public static final String ACCELERATION_ABBR = RotationStrings.getString( "variable.a" );
     public static final String SEC_ABBR = RotationStrings.getString( "units.s" );
     public static final String METERS_ABBR = RotationStrings.getString( "units.m" );
-    public static final String MM_ABBR = RotationStrings.getString( "units.mm" );
 
     public static final String X = RotationStrings.getString( "variable.x" );
     public static final String Y = RotationStrings.getString( "variable.y" );
     public static final String V = RotationStrings.getString( "variable.v" );
     public static final String A = RotationStrings.getString( "variable.a" );
 
+    //TODO: none of this will internationalize properly
     public static final String ANG_VEL_ABBR = RADIANS_ABBR + "/" + SEC_ABBR;
     public static final String ANG_VEL_DEG_ABBR = DEGREES_ABBR + "/" + SEC_ABBR;
     public static final String ANG_ACC_ABBR = RADIANS_ABBR + "/" + SEC_ABBR + "^2";//"rad/s^2";
     public static final String ANG_ACC_DEG_ABBR = DEGREES_ABBR + "/" + SEC_ABBR + "^2";//"degrees/s^2";
-    public static final String VELOCITY_ABBR = MM_ABBR + "/" + SEC_ABBR;//"mm/s"
-    public static final String ACCEL_ABBR = MM_ABBR + "/" + SEC_ABBR + "^2";//"mm/s^2";
+    public static final String VELOCITY_ABBR = METERS_ABBR + "/" + SEC_ABBR;//"m/s"
+    public static final String ACCEL_ABBR = METERS_ABBR + "/" + SEC_ABBR + "^2";//"m/s^2";
 
     public static final String VELOCITY = RotationStrings.getString( "variable.velocity" );
     public static final String POSITION = RotationStrings.getString( "variable.position" );

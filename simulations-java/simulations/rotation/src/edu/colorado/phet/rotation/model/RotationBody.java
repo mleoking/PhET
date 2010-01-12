@@ -55,7 +55,7 @@ public class RotationBody {
 
     //angle of the bug relative to the platform, used when updating position on the platform 
     private double relAngleOnPlatform = 0.0;
-    private static final double COEFFICIENT_OF_STATIC_FRICTION_MU = 0.4;
+    private static final double COEFFICIENT_OF_STATIC_FRICTION_MU = 400;
 
     /**
      * @noinspection HardCodedStringLiteral
@@ -446,11 +446,10 @@ public class RotationBody {
 
     private void updateOnPlatform( double time ) {
         double omega = rotationPlatform.getVelocity();
-        double r = getPosition().distance( rotationPlatform.getCenter() );//in mm, see #2077
+        double r = getPosition().distance( rotationPlatform.getCenter() );//in meters, see #2077
         boolean centered = rotationPlatform.getCenter().equals( getPosition() ) || r < 1E-6;
         Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
-                                : Vector2D.Double.parseAngleAndMagnitude( r,//convert back to mm 
-                getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
+                                : Vector2D.Double.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         AbstractVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
@@ -484,7 +483,7 @@ public class RotationBody {
         }
 //        System.out.println( "newV.getMagnitude() = " + newV.getMagnitude() );
         //System.out.println("newV.getMagnitude() * newV.getMagnitude() / r / ( 9.8 * 1000)=  "+newV.getMagnitude() * newV.getMagnitude() / r / ( 9.8 * 1000));
-        if ( newV.getMagnitude() * newV.getMagnitude() / r / ( 9.8 * 1000) > COEFFICIENT_OF_STATIC_FRICTION_MU ) {//v*v/r >= mu g (in mm)
+        if ( newV.getMagnitude() * newV.getMagnitude() / r / 9.8 > COEFFICIENT_OF_STATIC_FRICTION_MU ) {//v*v/r >= mu g
 //            System.out.println( "flying off" );
             setUpdateStrategy( new FlyingOff( newV ) );
 //            RotationResources.getInstance().getAudioClip( "bug-flyoff.wav" );
@@ -786,8 +785,8 @@ public class RotationBody {
                 yBody.setPosition( a.getY() );
             }
 
-            xBody.addPositionData( xBody.getPosition() + velocity.getX() * dt*1000.0, time );//the 1000.0 term is to convert m to mm
-            yBody.addPositionData( yBody.getPosition() + velocity.getY() * dt*1000.0, time );
+            xBody.addPositionData( xBody.getPosition() + velocity.getX() * dt, time );
+            yBody.addPositionData( yBody.getPosition() + velocity.getY() * dt, time );
 
             xBody.addVelocityData( velocity.getX(), time );
             yBody.addVelocityData( velocity.getY(), time );
