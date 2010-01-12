@@ -66,16 +66,28 @@ public class UnfuddleCurl {
     }
 
     protected String execCommand( String cmd ) throws IOException, InterruptedException {
-    	System.out.println(getClass().getName() + "- DBG: Entering execCommand method, about to execute command.");
+    	System.out.println(getClass().getName() + " - DBG: Entering execCommand method, about to execute command:");
+    	System.out.println("    " + cmd);
+    	String retVal = null;
         String s = myProcess.invoke( cmd );
-    	System.out.println(getClass().getName() + "- Length of returned string is " + s.length());
+    	System.out.println(getClass().getName() + " - Length of returned string is " + s.length());
     	if (s.length() <= 256){
-        	System.out.println(getClass().getName() + "Return string = " + s);
+        	System.out.println(getClass().getName() + " - Return string = " + s);
     	}
     	else{
-        	System.out.println(getClass().getName() + "First portion of returned string = " + s.substring(0, 255));
+        	System.out.println(getClass().getName() + " - First portion of returned string = " + s.substring(0, 255));
     	}
-        return s.substring( s.indexOf( "<?xml" ) );
+    	int indexOfXmlTag = s.indexOf( "<?xml" );
+    	if (indexOfXmlTag >= 0){
+    		// The response contains the desired string.
+    		retVal = s.substring( s.indexOf( "<?xml" ) );
+    	}
+    	else{
+    		// The tag does not exist - output a warning.
+        	System.out.println(getClass().getName() + " - Warning: Response does not contain xml tag." + s.substring(0, 255));
+    	}
+    	
+    	return retVal;
     }
 
     public static void main( String[] args ) throws IOException, ParserConfigurationException, SAXException, InterruptedException {
