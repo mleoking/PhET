@@ -129,7 +129,7 @@ public class FullTorqueControlPanel extends VerticalLayoutPanel {
     }
 
     protected TorqueSlider createInnerRadiusSlider( final RotationPlatform rp ) {
-        final TorqueSlider innerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getInnerRadius(), RotationStrings.getString( "variable.r.inner.radius" ), "0.00", RotationStrings.getString( "units.mm" ) );
+        final TorqueSlider innerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getInnerRadius(), RotationStrings.getString( "variable.r.inner.radius" ), "0.00", RotationStrings.getString( "units.m" ) );
         innerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setInnerRadius( innerRadiusSlider.getValue() );
@@ -147,7 +147,7 @@ public class FullTorqueControlPanel extends VerticalLayoutPanel {
     }
 
     protected TorqueSlider createOuterRadiusSlider( final RotationPlatform rp ) {
-        final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getRadius(), RotationStrings.getString( "variable.r.outer.radius" ), "0.00", RotationStrings.getString( "units.mm" ) );
+        final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getRadius(), RotationStrings.getString( "variable.r.outer.radius" ), "0.00", RotationStrings.getString( "units.m" ) );
         outerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setRadius( outerRadiusSlider.getValue() );

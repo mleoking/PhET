@@ -32,7 +32,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     private static final String ANG_VEL_UNITS_DEG = RotationStrings.ANG_VEL_DEG_ABBR;
     private static final String ANG_ACC_UNITS_RAD = RotationStrings.ANG_ACC_ABBR;
     private static final String ANG_ACC_UNITS_DEG = RotationStrings.ANG_ACC_DEG_ABBR;
-    private static final String POSITION_UNITS = RotationStrings.MM_ABBR;
+    private static final String POSITION_UNITS = RotationStrings.METERS_ABBR;
     private static final String VELOCITY_UNITS = RotationStrings.VELOCITY_ABBR;
     private static final String ACCEL_UNITS = RotationStrings.ACCEL_ABBR;
 
