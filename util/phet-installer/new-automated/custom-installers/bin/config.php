@@ -159,9 +159,11 @@
     // *****************************************************************************
     // Website Ripper Configuration
 
+    define("PHET_HOSTNAME_NO_COLONS", preg_replace('/:/', '_', PHET_HOSTNAME)); // Needed for cases where URL contains
+                                                                                // something like ":8080".
     define("RIPPED_WEBSITE_ROOT", file_cleanup_local_filename(TEMP_DIR."website/"));
-    define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME.'/'));
-    define("RIPPED_WEBSITE_INSTALLER_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME.'/installer/'));
+    define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME_NO_COLONS.'/'));
+    define("RIPPED_WEBSITE_INSTALLER_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME_NO_COLONS.'/installer/'));
 
     // The ripper executable itself:
 
