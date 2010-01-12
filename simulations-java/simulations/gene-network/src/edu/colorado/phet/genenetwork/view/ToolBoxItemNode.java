@@ -2,10 +2,10 @@
 
 package edu.colorado.phet.genenetwork.view;
 
+import java.awt.Font;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -35,6 +35,9 @@ public abstract class ToolBoxItemNode extends PComposite {
 		new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(0, 0), 6, true);
 	
 	private static final double CAPTION_OFFSET_FROM_SELECTION_NODE = 4;
+	
+	// Font to use for labels.
+	private static final Font LABEL_FONT = GeneNetworkFontFactory.getFont(16, Font.BOLD);
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -151,7 +154,7 @@ public abstract class ToolBoxItemNode extends PComposite {
 	
 	protected void setCaption(String captionString){
 		caption = new HTMLNode(captionString);
-		caption.setFont(new PhetFont(16, true));
+		caption.setFont(LABEL_FONT);
 		addChild(caption);
 	}
 	

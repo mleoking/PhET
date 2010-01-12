@@ -2,6 +2,7 @@ package edu.colorado.phet.genenetwork.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -14,7 +15,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
@@ -49,6 +49,12 @@ public class DnaSegmentToolBoxNode extends PNode {
 	
 	// Background color used to fill the box.
 	static final Color BACKGROUND_COLOR = Color.WHITE; 
+	
+	// Font for the check box.  For consistency with the nodes that are placed
+	// in the tool box, we load a serif font if no preferred font is
+	// specified.  For more information about why this is done, please look at
+	// the code for the nodes that are added to the tool box.
+	static final Font CHECK_BOX_FONT = GeneNetworkFontFactory.getFont(16, Font.PLAIN);
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -112,7 +118,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 		
 		// Add a check box for enabling/disabling the legend.
 		final JCheckBox legendControlCheckBox = new JCheckBox(GeneNetworkStrings.LEGEND_VISIBILITY_CONTROL_CAPTION);
-		legendControlCheckBox.setFont(new PhetFont(14, true));
+		legendControlCheckBox.setFont(CHECK_BOX_FONT);
 		legendControlCheckBox.setBackground(BACKGROUND_COLOR);
 		legendControlCheckBox.setSelected(model.isLegendVisible());
 		legendControlCheckBox.setFocusable(false);
