@@ -1,3 +1,4 @@
+# 1.08.03 (38067) Jan 12, 2010
 > Changed the length scale of all objects from millimeters to meters, increasing the size of several objects (including the platform and ladybugs)
 see #2077
 # 1.08.02 (37998) Jan 9, 2010
