@@ -72,14 +72,14 @@ public class PhetFont extends Font {
     }
     
     /**
-     * If this font is a preferred font, then it will have a different name than the fallback font.
+     * If this font is a preferred font, then it will have a different family name than the fallback font.
      * This assumes that the fallback font is not specified as a preferred font.
      * See #2104; other ways of solving this problem require more radical changes to PhetFont.
      * 
      * @return
      */
     public boolean isPreferred() {
-        return ( !getFontName().equals( FALLBACK_FONT.getFontName() ) );
+        return ( !getFamily().equals( FALLBACK_FONT.getFamily() ) );
     }
 
     /**
