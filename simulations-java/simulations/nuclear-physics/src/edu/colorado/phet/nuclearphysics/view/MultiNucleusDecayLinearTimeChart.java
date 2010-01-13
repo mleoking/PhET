@@ -502,7 +502,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
                 + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
         double maxYAxisLabelXPos;
         double yAxisLabelXAxisSpacing = 4; // Arbitrary, just made to look decent.
-        if (_yAxisUpperTickMarkLabel.getFullBoundsReference().isEmpty() ){
+        if (_yAxisUpperTickMarkLabel.getFullBoundsReference().isEmpty() || _yAxisLowerTickMarkLabel.getFullBoundsReference().isEmpty()){
         	// One or both of these labels is empty and thus will return a
         	// position value of (0,0), which will mess up the layout.  See
         	// Unfuddle #2105 for a description of how this issue was
