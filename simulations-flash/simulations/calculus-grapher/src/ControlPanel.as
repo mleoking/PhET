@@ -124,35 +124,48 @@ public class ControlPanel extends Sprite {
         this.showRuler_cb.addEventListener(MouseEvent.CLICK, showRuler);
 
         var integralCheck : CheckBox = this.integral_cb;
-        integralCheck.label = SimStrings.get("integral", "Integral");
-        TextFieldUtils.resizeText(integralCheck.textField, "left");
-        //integralCheck.setStyle( "fontSize", 2 );
-        //integralCheck.setStyle( "backgroundColor", 0xFF0000 );
+//        integralCheck.label = SimStrings.get("integral", "Integral");
+//        TextFieldUtils.resizeText(integralCheck.textField, "left");
 
         var derivativeCheck : CheckBox = this.derivative_cb;
-        derivativeCheck.label = SimStrings.get("derivative", "Derivative");
-        TextFieldUtils.resizeText(derivativeCheck.textField, "left");
+//        derivativeCheck.label = SimStrings.get("derivative", "Derivative");
+//        TextFieldUtils.resizeText(derivativeCheck.textField, "left");
 
         var gridCheck : CheckBox = this.showGrid_cb;
-        gridCheck.label = SimStrings.get("grid", "Grid");
-        TextFieldUtils.resizeText(gridCheck.textField, "left");
+//        gridCheck.label = SimStrings.get("grid", "Grid");
+//        TextFieldUtils.resizeText(gridCheck.textField, "left");
 
         var cursorCheck : CheckBox = this.showRuler_cb;
-        cursorCheck.label = SimStrings.get("cursor", "Cursor");
-        TextFieldUtils.resizeText(cursorCheck.textField, "left");
+//        cursorCheck.label = SimStrings.get("cursor", "Cursor");
+//        TextFieldUtils.resizeText(cursorCheck.textField, "left");
 
-        trace( integralCheck.textField.textWidth );
-        trace( derivativeCheck.textField.textWidth );
-        trace( gridCheck.textField.textWidth );
-        trace( cursorCheck.textField.textWidth );
+//        trace( integralCheck.textField.textWidth );
+//        trace( derivativeCheck.textField.textWidth );
+//        trace( gridCheck.textField.textWidth );
+//        trace( cursorCheck.textField.textWidth );
+//
+//        integralCheck.textField.autoSize = "left";
+//        derivativeCheck.textField.autoSize = "left";
+//        trace( integralCheck.textField.width );
+//        trace( integralCheck.textField.x );
+//        var tfx : TextFormat = integralCheck.textField.getTextFormat();
+//        tfx.size = 2 * (Number)(tfx.size);
+//        integralCheck.textField.setTextFormat( tfx );
 
-        integralCheck.textField.autoSize = "left";
-        derivativeCheck.textField.autoSize = "left";
-        trace( integralCheck.textField.width );
-        trace( integralCheck.textField.x );
-        var tfx : TextFormat = integralCheck.textField.getTextFormat();
-        tfx.size = 2 * (Number)(tfx.size);
-        integralCheck.textField.setTextFormat( tfx );
+        var integralLabel : TextField = this.integral_label;
+        var derivativeLabel : TextField = this.derivative_label;
+        var gridLabel : TextField = this.grid_label;
+        var cursorLabel : TextField = this.cursor_label;
+
+        integralLabel.text = SimStrings.get( "integral", "Integral" );
+        derivativeLabel.text = SimStrings.get( "derivative", "Derivative" );
+        gridLabel.text = SimStrings.get( "grid", "Grid" );
+        cursorLabel.text = SimStrings.get( "cursor", "Cursor" );
+
+        TextFieldUtils.resizeText( integralLabel, "left" );
+        TextFieldUtils.resizeText( derivativeLabel, "left" );
+        TextFieldUtils.resizeText( gridLabel, "left" );
+        TextFieldUtils.resizeText( cursorLabel, "left" );
 
         this.derivative_cb.setStyle("textFormat", tFormat);
         this.integral_cb.setStyle("textFormat", tFormat);
