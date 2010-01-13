@@ -1,3 +1,5 @@
+# 3.20.02 (38086) Jan 13, 2010
+1/13/10 > Alpha Decay: Fixed an issue where the pie could disappear from the decay chart.
 # 3.21.00 (38017) Jan 10, 2010
 1/10/10 public version for milestone "full redeploy, 2010 Q1"
 # 3.20.01 (37367) Dec 11, 2009
