@@ -19,6 +19,9 @@ public class PushButton {
 
     private var buttonFunction:Function;
 
+    public static var TOOLTIP_LEFT : String = "left";
+    public static var TOOLTIP_RIGHT : String = "right";
+
     public function PushButton( buttonBody:Object, bIcon:Sprite, key:String, rightOrLeft:String, bFunction:Function ) {
         this.buttonBody = buttonBody;
         this.myHighlight = this.buttonBody.highlight;
@@ -42,15 +45,17 @@ public class PushButton {
         this.myHighlight.visible = false;
         this.myLabel.background = true;
         //this.myLabel.autoSize =
-        if ( this.rightOrLeft == "right" ) {
+        if ( this.rightOrLeft == TOOLTIP_RIGHT ) {
             this.myLabel.autoSize = TextFieldAutoSize.LEFT;
             //this.labelFormat.align = TextFormatAlign.LEFT;  //not necessary when autosize is set
             this.myLabel.x = this.buttonBody.body_sp.width;
         }
-        else if ( this.rightOrLeft == "left" ) {
+        else if ( this.rightOrLeft == TOOLTIP_LEFT ) {
             this.myLabel.autoSize = TextFieldAutoSize.RIGHT;
             //this.labelFormat.align = TextFormatAlign.RIGHT;  //not necessary when autosize is set
             this.myLabel.x = -this.myLabel.width - 2;
+        } else {
+            throw new Error( "Unknown tooltip position. Should be TOOLTIP_LEFT or TOOLTIP_RIGHT" );
         }
 
         this.buttonBody.addEventListener(MouseEvent.MOUSE_DOWN, buttonBehave);
