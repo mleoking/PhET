@@ -123,6 +123,11 @@ public class ControlPanel extends Sprite {
         this.showGrid_cb.addEventListener(MouseEvent.CLICK, showGrid);
         this.showRuler_cb.addEventListener(MouseEvent.CLICK, showRuler);
 
+        var integralCheck : CheckBox = this.integral_cb;
+        var derivativeCheck : CheckBox = this.derivative_cb;
+        var gridCheck : CheckBox = this.showGrid_cb;
+        var cursorCheck : CheckBox = this.showRuler_cb;
+
         var integralLabel : TextField = this.integral_label;
         var derivativeLabel : TextField = this.derivative_label;
         var gridLabel : TextField = this.grid_label;
@@ -137,6 +142,12 @@ public class ControlPanel extends Sprite {
         TextFieldUtils.resizeText( derivativeLabel, "left" );
         TextFieldUtils.resizeText( gridLabel, "left" );
         TextFieldUtils.resizeText( cursorLabel, "left" );
+
+        integralLabel.addEventListener( MouseEvent.ROLL_OVER, function( evt: Event):void { integralCheck.setMouseState( "over" ); } );
+        integralLabel.addEventListener( MouseEvent.ROLL_OUT, function( evt: Event):void { integralCheck.setMouseState( "up" ); } );
+        integralLabel.addEventListener( MouseEvent.MOUSE_DOWN, function( evt: Event):void { integralCheck.setMouseState( "down" ); } );
+        integralLabel.addEventListener( MouseEvent.MOUSE_UP, function( evt: Event):void { integralCheck.setMouseState( "up" ); } );
+        integralLabel.addEventListener( MouseEvent.CLICK, function( evt: Event):void { integralCheck.dispatchEvent( evt ); } );
 
         this.derivative_cb.setStyle("textFormat", tFormat);
         this.integral_cb.setStyle("textFormat", tFormat);
