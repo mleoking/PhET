@@ -2,6 +2,8 @@
 import flash.display.Sprite;
 import flash.display.Graphics;
 
+import flash.events.*;
+
 import edu.colorado.phet.flashcommon.*;
 
 public class MainView extends Sprite{
@@ -32,8 +34,8 @@ public class MainView extends Sprite{
         controlPanel = new ControlPanel(myModel, this);
         phetLogo = new PhETLogo()
         dragMeSign = new DragMe();
-        dragMeSign["dragMeClip"].dragMeText.text = SimStrings.get("dragMe", "Drag Me!");
-        TextFieldUtils.resizeText( dragMeSign["dragMeClip"].dragMeText, "left" );
+        dragMeSign["dragMeText"].text = SimStrings.get("dragMe", "Drag Me!");
+        TextFieldUtils.resizeText(dragMeSign["dragMeText"], "left");
         ruler = new Ruler();
     }//end of constructor
 
