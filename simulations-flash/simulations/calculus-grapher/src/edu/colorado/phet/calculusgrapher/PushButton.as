@@ -28,6 +28,7 @@ public class PushButton {
         this.bIcon = bIcon;
         //trace("this.bIcon.name: " + this.bIcon.name);
         this.myLabel = this.buttonBody.label_txt;
+        myLabel.backgroundColor = 0xEEEEFF;
         this.bFunction = bFunction;
         this.key = key;
         this.rightOrLeft = rightOrLeft;
