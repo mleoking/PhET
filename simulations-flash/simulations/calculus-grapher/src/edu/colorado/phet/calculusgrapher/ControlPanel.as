@@ -59,14 +59,14 @@ public class ControlPanel extends Sprite {
         this.tiltIcon = new TiltIcon();
 
         this.pButton_arr = new Array(8);
-        this.pButton_arr[0] = new PushButton(this.hill_sp, hillIcon, Model.MODE_HILL, "left", setAlterMode);
-        this.pButton_arr[1] = new PushButton(this.linear_sp, linearIcon, Model.MODE_LINE, "right", setAlterMode);
-        this.pButton_arr[2] = new PushButton(this.pedestal_sp, pedestalIcon, Model.MODE_PEDESTAL, "right", setAlterMode);
-        this.pButton_arr[3] = new PushButton(this.parabola_sp, parabolaIcon, Model.MODE_PARABOLA, "left", setAlterMode);
-        this.pButton_arr[4] = new PushButton(this.sine_sp, sineIcon, Model.MODE_SINE, "left", setAlterMode);
-        this.pButton_arr[5] = new PushButton(this.freeform_sp, freeformIcon, Model.MODE_FREEFORM, "right", setAlterMode);
-        this.pButton_arr[6] = new PushButton(this.tilt_sp, tiltIcon, Model.MODE_TILT, "left", setAlterMode);
-        this.pButton_arr[7] = new PushButton(this.offset_sp, offsetIcon, Model.MODE_OFFSET, "right", setAlterMode);
+        this.pButton_arr[0] = new PushButton(this.hill_sp, hillIcon, Model.MODE_HILL, PushButton.TOOLTIP_LEFT, setAlterMode);
+        this.pButton_arr[1] = new PushButton(this.linear_sp, linearIcon, Model.MODE_LINE, PushButton.TOOLTIP_LEFT, setAlterMode);
+        this.pButton_arr[2] = new PushButton(this.pedestal_sp, pedestalIcon, Model.MODE_PEDESTAL, PushButton.TOOLTIP_LEFT, setAlterMode);
+        this.pButton_arr[3] = new PushButton(this.parabola_sp, parabolaIcon, Model.MODE_PARABOLA, PushButton.TOOLTIP_LEFT, setAlterMode);
+        this.pButton_arr[4] = new PushButton(this.sine_sp, sineIcon, Model.MODE_SINE, PushButton.TOOLTIP_LEFT, setAlterMode);
+        this.pButton_arr[5] = new PushButton(this.freeform_sp, freeformIcon, Model.MODE_FREEFORM, PushButton.TOOLTIP_LEFT, setAlterMode);
+        this.pButton_arr[6] = new PushButton(this.tilt_sp, tiltIcon, Model.MODE_TILT, PushButton.TOOLTIP_LEFT, setAlterMode);
+        this.pButton_arr[7] = new PushButton(this.offset_sp, offsetIcon, Model.MODE_OFFSET, PushButton.TOOLTIP_LEFT, setAlterMode);
 
         this.majorTick_arr = new Array(3);
         this.majorTick_arr[0] = new SliderMajorTick();
