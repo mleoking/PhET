@@ -1,9 +1,11 @@
 ﻿//All internationalizable string collected here
 //All strings must default to english
 //Updated from AS2 to AS3:
+package edu.colorado.phet.calculusgrapher {
 //newline is deprecated, replaced with "\n", I think
-package{
+
 import flash.text.*;
+import edu.colorado.phet.calculusgrapher.*;
 
 class Internationalizer{
     private var simStrings:SimStrings;

@@ -1,5 +1,7 @@
-﻿package{
+﻿package edu.colorado.phet.calculusgrapher {
+
 import flash.events.*;
+import edu.colorado.phet.calculusgrapher.*;
 
 public class Model{
 

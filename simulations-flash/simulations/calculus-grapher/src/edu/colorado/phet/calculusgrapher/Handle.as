@@ -1,7 +1,8 @@
-﻿package{
-import flash.display.*;
+﻿package edu.colorado.phet.calculusgrapher {
 
+import flash.display.*;
 import fl.motion.Color;
+import edu.colorado.phet.calculusgrapher.*;
 
 //import flash.geom.ColorTransform;
 //A handle is a draggable point on a curve

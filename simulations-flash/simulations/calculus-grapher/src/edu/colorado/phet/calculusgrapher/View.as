@@ -1,12 +1,13 @@
-﻿//View of a curve
-package{
+﻿package edu.colorado.phet.calculusgrapher {
+//View of a curve
+
 import flash.events.*;
 import flash.display.Sprite;
 import flash.display.Graphics;
 import flash.geom.*;
 import flash.text.*;
-
 import fl.motion.Color;
+import edu.colorado.phet.calculusgrapher.*;
 
 public class View extends Sprite{
 

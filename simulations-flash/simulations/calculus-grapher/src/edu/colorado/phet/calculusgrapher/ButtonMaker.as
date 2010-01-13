@@ -1,6 +1,8 @@
-﻿package{
+﻿package edu.colorado.phet.calculusgrapher {
+
 import flash.display.*;
 import flash.events.*;
+import edu.colorado.phet.calculusgrapher.*;
 
 public class ButtonMaker extends Sprite{
     private var buttonBody:Sprite;

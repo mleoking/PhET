@@ -1,8 +1,9 @@
-﻿package{
+﻿package edu.colorado.phet.calculusgrapher {
+
 import flash.display.*;
 import flash.events.*;
 import flash.text.*;
-
+import edu.colorado.phet.calculusgrapher.*;
 import edu.colorado.phet.flashcommon.*;
 
 public class PushButton {
