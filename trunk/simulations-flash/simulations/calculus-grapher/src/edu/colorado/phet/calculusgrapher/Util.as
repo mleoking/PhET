@@ -1,9 +1,10 @@
-﻿//General utilities.  Useful for all sims
+﻿package edu.colorado.phet.calculusgrapher {
+//General utilities.  Useful for all sims
 
-package{
 import flash.events.*;
 import flash.display.Sprite;
 import flash.geom.*;
+import edu.colorado.phet.calculusgrapher.*;
 
 public class Util extends Sprite{
 

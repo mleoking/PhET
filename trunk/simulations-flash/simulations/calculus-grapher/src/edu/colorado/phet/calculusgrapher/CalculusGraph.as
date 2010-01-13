@@ -1,9 +1,9 @@
-﻿package{
+﻿package edu.colorado.phet.calculusgrapher {
 
-import flash.display.Sprite;
 import flash.display.Graphics;
+import flash.display.Sprite;
 import flash.display.*;
-
+import edu.colorado.phet.calculusgrapher.*;
 import edu.colorado.phet.flashcommon.*;
 
 public class CalculusGraph extends Sprite{

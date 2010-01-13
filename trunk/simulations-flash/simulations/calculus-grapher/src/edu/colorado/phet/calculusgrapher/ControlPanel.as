@@ -1,14 +1,13 @@
-package {
+package edu.colorado.phet.calculusgrapher {
+
 import flash.display.*;
 import flash.events.*;
-
 import fl.controls.CheckBox;
 import fl.events.*;
-
 import flash.geom.*;
 import flash.text.*;
 import flash.ui.*;
-
+import edu.colorado.phet.calculusgrapher.*;
 import edu.colorado.phet.flashcommon.*;
 
 public class ControlPanel extends Sprite {
