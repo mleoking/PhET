@@ -123,31 +123,35 @@ public class ControlPanel extends Sprite {
         this.showGrid_cb.addEventListener(MouseEvent.CLICK, showGrid);
         this.showRuler_cb.addEventListener(MouseEvent.CLICK, showRuler);
 
+        // the actual check boxes (without labels)
         var integralCheck : CheckBox = this.integral_cb;
         var derivativeCheck : CheckBox = this.derivative_cb;
         var gridCheck : CheckBox = this.showGrid_cb;
         var cursorCheck : CheckBox = this.showRuler_cb;
 
+        // the corresponding labels for the check boxes
         var integralLabel : TextField = this.integral_label;
         var derivativeLabel : TextField = this.derivative_label;
         var gridLabel : TextField = this.grid_label;
         var cursorLabel : TextField = this.cursor_label;
 
+        // set check box label strings
         integralLabel.text = SimStrings.get( "integral", "Integral" );
         derivativeLabel.text = SimStrings.get( "derivative", "Derivative" );
         gridLabel.text = SimStrings.get( "grid", "Grid" );
         cursorLabel.text = SimStrings.get( "cursor", "Cursor" );
 
+        // resize check box label text
         TextFieldUtils.resizeText( integralLabel, "left" );
         TextFieldUtils.resizeText( derivativeLabel, "left" );
         TextFieldUtils.resizeText( gridLabel, "left" );
         TextFieldUtils.resizeText( cursorLabel, "left" );
 
-        integralLabel.addEventListener( MouseEvent.ROLL_OVER, function( evt: Event):void { integralCheck.setMouseState( "over" ); } );
-        integralLabel.addEventListener( MouseEvent.ROLL_OUT, function( evt: Event):void { integralCheck.setMouseState( "up" ); } );
-        integralLabel.addEventListener( MouseEvent.MOUSE_DOWN, function( evt: Event):void { integralCheck.setMouseState( "down" ); } );
-        integralLabel.addEventListener( MouseEvent.MOUSE_UP, function( evt: Event):void { integralCheck.setMouseState( "up" ); } );
-        integralLabel.addEventListener( MouseEvent.CLICK, function( evt: Event):void { integralCheck.dispatchEvent( evt ); } );
+        // hook up the check box labels so that they also control the check boxes
+        emulateCheckBoxLabel( integralLabel, integralCheck );
+        emulateCheckBoxLabel( derivativeLabel, derivativeCheck );
+        emulateCheckBoxLabel( gridLabel, gridCheck );
+        emulateCheckBoxLabel( cursorLabel, cursorCheck );
 
         this.derivative_cb.setStyle("textFormat", tFormat);
         this.integral_cb.setStyle("textFormat", tFormat);
@@ -201,6 +205,16 @@ public class ControlPanel extends Sprite {
          //trace("slider sliding, value is " + localRef.currentSliderValue);
          }*/
     }//end of initializeCheckBoxes()
+
+    // hook up the events on a TextField so that it appears like it is the label of the CheckBox.
+    // handles mouse over, out, and clicks
+    private function emulateCheckBoxLabel( textField : TextField, checkBox : CheckBox ):void {
+        textField.addEventListener( MouseEvent.ROLL_OVER, function( evt: Event):void { checkBox.setMouseState( "over" ); } );
+        textField.addEventListener( MouseEvent.ROLL_OUT, function( evt: Event):void { checkBox.setMouseState( "up" ); } );
+        textField.addEventListener( MouseEvent.MOUSE_DOWN, function( evt: Event):void { checkBox.setMouseState( "down" ); } );
+        textField.addEventListener( MouseEvent.MOUSE_UP, function( evt: Event):void { checkBox.setMouseState( "up" ); } );
+        textField.addEventListener( MouseEvent.CLICK, function( evt: Event):void { checkBox.dispatchEvent( evt ); } );
+    }
 
     function setAlterMode( modeName ):void {
         //trace("controlPanel.setAlterMode called");
