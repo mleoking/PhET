@@ -3,12 +3,14 @@ import flash.display.*;
 import flash.events.*;
 import flash.text.*;
 
+import edu.colorado.phet.flashcommon.*;
+
 public class PushButton {
     private var buttonBody:Object;
     private var bIcon:Sprite;
     public var myHighlight:Sprite;
     private var myButtonWidth:Number;
-    public var bName:String;
+    public var key:String;
     private var rightOrLeft:String; //placement of label
     private var myLabel:TextField;
     private var labelFormat:TextFormat; // = new TextFormat();
@@ -16,14 +18,14 @@ public class PushButton {
 
     private var buttonFunction:Function;
 
-    public function PushButton( buttonBody:Object, bIcon:Sprite, labelText:String, rightOrLeft:String, bFunction:Function ) {
+    public function PushButton( buttonBody:Object, bIcon:Sprite, key:String, rightOrLeft:String, bFunction:Function ) {
         this.buttonBody = buttonBody;
         this.myHighlight = this.buttonBody.highlight;
         this.bIcon = bIcon;
         //trace("this.bIcon.name: " + this.bIcon.name);
         this.myLabel = this.buttonBody.label_txt;
         this.bFunction = bFunction;
-        this.bName = labelText;
+        this.key = key;
         this.rightOrLeft = rightOrLeft;
         this.labelFormat = new TextFormat();
         this.makePushButton();
@@ -34,7 +36,7 @@ public class PushButton {
         this.buttonBody.addChild(this.bIcon);
         this.bIcon.mouseEnabled = false;
         this.myLabel.mouseEnabled = false;
-        this.myLabel.text = " " + this.bName + " ";
+        this.myLabel.text = " " + getLabelText() + " ";
         this.myLabel.visible = false;
         this.myHighlight.visible = false;
         this.myLabel.background = true;
@@ -56,11 +58,26 @@ public class PushButton {
         this.buttonBody.addEventListener(MouseEvent.MOUSE_UP, buttonBehave);
     }
 
+    public function getLabelText() : String {
+        return SimStrings.get( key, capitalizeWord( key ) );
+    }
+
+    private function capitalizeWord( str : String ) : String {
+        // TODO: move to flash-common?
+        if( str == null ) {
+            return null;
+        }
+        if( str.length == 0 ) {
+            return new String( str );
+        }
+        return str.charAt( 0 ).toUpperCase() + str.substring( 1 );
+    }
+
     private function buttonBehave( evt:MouseEvent ):void {
         if ( evt.type == "mouseDown" ) {
             this.buttonBody.x += 1;
             this.buttonBody.y += 1;
-            this.bFunction(this.bName);
+            this.bFunction(this.key);
             //this.myHighlight.visible = true;
             //trace("evt.name:"+evt.type);
         }
