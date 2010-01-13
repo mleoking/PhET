@@ -68,15 +68,11 @@ public class RadioactiveDatingGameModel implements ModelContainingDatableItems {
     	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK3, "rock_3.png", new Point2D.Double(-20, -14.5), 2.25, 0, HalfLifeInfo.convertYearsToMs(448.5E6), false));
     	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK4, "rock_4.png", new Point2D.Double(-5, -14.5), 1.5, 0, HalfLifeInfo.convertYearsToMs(723E6), false));
     	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK5, "rock_6.png", new Point2D.Double(16, -14.5), 2, 0, HalfLifeInfo.convertYearsToMs(1.25E9), false));
-    	//_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK6, "rock_6.png", new Point2D.Double(20, -7.5), 1.5, 0, HalfLifeInfo.convertYearsToMs(52E6), false));
-    	//_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK7, "rock_7.png", new Point2D.Double(14, -15), 2.5, 0, HalfLifeInfo.convertYearsToMs(3E9), false));
-    	//_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK8, "rock_8.png", new Point2D.Double(-22, -14.5), 2, 0, HalfLifeInfo.convertYearsToMs(3.45E9), false));
     	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_DINOSAUR_SKULL, "dinosaur_skull.png", new Point2D.Double(14, -7.5), 4.0, 0, HalfLifeInfo.convertYearsToMs(155E6), true));
     	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_HUMAN_SKULL, "skull_human.png", new Point2D.Double(20, -1.5), 2.4, 0, HalfLifeInfo.convertYearsToMs(2200), true));
     	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_WOODEN_CUP, "cup.png", new Point2D.Double(3, -1.85), 1.7,  -Math.PI / 3, HalfLifeInfo.convertYearsToMs(1035), true));
     	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_BONE, "bone.png", new Point2D.Double(-18, -1.5), 3.5, 0, HalfLifeInfo.convertYearsToMs(1450), true));
     	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_HUMAN_SKULL, "skull_human.png", new Point2D.Double(-10, -4.5), 2, 1.0, HalfLifeInfo.convertYearsToMs(40E3), true));
-	// _datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_POTTERY, "pottery.png", new Point2D.Double(-18, -1.5), 2.8, Math.PI/2, HalfLifeInfo.convertYearsToMs(5025), true));
 
     	// Add the meter and register for user-initiated movements.
     	_meter = new RadiometricDatingMeter( this );
