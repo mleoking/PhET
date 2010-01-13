@@ -219,7 +219,7 @@ public class View extends Sprite{
             localRef.myModel.copyCurrentY();
             evt.target.alpha = alphaOnValue;
             localRef.myMainView.dragMeSign.visible = false;
-            if ( localRef.myModel.getAlterMode() == ControlPanel.MODE_FREEFORM ) {
+            if ( localRef.myModel.getAlterMode() == Model.MODE_FREEFORM ) {
                 var xP:Number = localRef.mouseX - localRef.originX;
                 var yP:Number = localRef.mouseY - localRef.originY;
                 var xC:Number = xP / localRef.pixelsPerPoint;
@@ -270,7 +270,7 @@ public class View extends Sprite{
         var yP:Number = mouseY - this.originY;
         var xC:Number;
         var currentMode:String = this.myModel.getAlterMode();
-        if ( this.someHandleSelected && currentMode != ControlPanel.MODE_FREEFORM ) {
+        if ( this.someHandleSelected && currentMode != Model.MODE_FREEFORM ) {
             //trace("x: "+evt.localX + "   y: " + evt.localY);
             //trace("xP: " + xP + "  this.nbrPoints*this.pixelsPerPoint: " + this.nbrPoints*this.pixelsPerPoint);
             if ( xP >= 0 && xP < this.nbrPoints * this.pixelsPerPoint ) {
@@ -286,7 +286,7 @@ public class View extends Sprite{
                 evt.updateAfterEvent();
             }//end of if
         }
-        else if ( this.someHandleSelected && currentMode == ControlPanel.MODE_FREEFORM ) {
+        else if ( this.someHandleSelected && currentMode == Model.MODE_FREEFORM ) {
             xC = xP / this.pixelsPerPoint;
             this.myModel.drawFreeform(xC, -yP / this.yScale);
             //trace("xP: "+xP);
