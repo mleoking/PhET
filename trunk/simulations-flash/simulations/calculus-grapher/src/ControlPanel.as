@@ -141,6 +141,19 @@ public class ControlPanel extends Sprite {
         cursorCheck.label = SimStrings.get("cursor", "Cursor");
         TextFieldUtils.resizeText(cursorCheck.textField, "left");
 
+        trace( integralCheck.textField.textWidth );
+        trace( derivativeCheck.textField.textWidth );
+        trace( gridCheck.textField.textWidth );
+        trace( cursorCheck.textField.textWidth );
+
+        integralCheck.textField.autoSize = "left";
+        derivativeCheck.textField.autoSize = "left";
+        trace( integralCheck.textField.width );
+        trace( integralCheck.textField.x );
+        var tfx : TextFormat = integralCheck.textField.getTextFormat();
+        tfx.size = 2 * (Number)(tfx.size);
+        integralCheck.textField.setTextFormat( tfx );
+
         this.derivative_cb.setStyle("textFormat", tFormat);
         this.integral_cb.setStyle("textFormat", tFormat);
         this.showGrid_cb.setStyle("textFormat", tFormat);
