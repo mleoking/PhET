@@ -392,8 +392,6 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _halfLifeLabel.setFont( HALF_LIFE_FONT );
         _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
         _nonPickableChartNode.addChild( _halfLifeLabel );
-
-        updateNucleusGraphLabels();
     }
 
 	//------------------------------------------------------------------------
@@ -465,6 +463,9 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         // Position the tick marks and their labels on the X axis.
         updateXAxisTickMarksAndLabels();
         
+        // Update the values of the labels that depend on the nucleus type.
+        updateNucleusDependentLabels();
+        
         // Position the tick marks and their labels on the Y axis.
         double preDecayPosY = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION );
         double postDecayPosY = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION );
@@ -499,9 +500,25 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _yAxisLabel.setScale(yAxisLabelScale);
         double yAxisLabelCenter = yAxisUpperTickMark.getY() 
                 + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
-        double minYTickLabelXPos = Math.min(_yAxisUpperTickMarkLabel.getFullBoundsReference().getMinX(),
-        		_yAxisLowerTickMarkLabel.getFullBoundsReference().getMinX());
-        _yAxisLabel.setOffset( minYTickLabelXPos - (_yAxisLabel.getFullBoundsReference().width * 1.1),
+        double maxYAxisLabelXPos;
+        double yAxisLabelXAxisSpacing = 4; // Arbitrary, just made to look decent.
+        if (_yAxisUpperTickMarkLabel.getFullBoundsReference().isEmpty() ){
+        	// One or both of these labels is empty and thus will return a
+        	// position value of (0,0), which will mess up the layout.  See
+        	// Unfuddle #2105 for a description of how this issue was
+        	// found.  In this case, base the position of the y axis label off
+        	// of the tick marks instead of the tick mark label.  This may
+        	// need to be improved if we ever need to handle a case where
+        	// only one of the labels is empty.
+        	maxYAxisLabelXPos = Math.min(yAxisUpperTickMark.getFullBoundsReference().getMinX(),
+            		yAxisLowerTickMark.getFullBoundsReference().getMinX()) - yAxisLabelXAxisSpacing;
+        }
+        else{
+        	// The labels are fine, so use them for positioning.
+        	maxYAxisLabelXPos = Math.min(_yAxisUpperTickMarkLabel.getFullBoundsReference().getMinX(),
+        			_yAxisLowerTickMarkLabel.getFullBoundsReference().getMinX()) - yAxisLabelXAxisSpacing;
+        }
+        _yAxisLabel.setOffset( maxYAxisLabelXPos - (_yAxisLabel.getFullBoundsReference().width * 1.1),
         		yAxisLabelCenter + (_yAxisLabel.getFullBounds().height / 2) );
         
         // Position the pie chart.
@@ -520,8 +537,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _dummyNumberText.setOffset(pieChartBounds.getX() - numberTextWidth * 1.2, 
         		preDecayPosY - (numberTextHeight / 2));
 
-        // Update and position the labels for the quantities of the various nuclei.
-        updateNucleusGraphLabels();
+        // Position the labels for the quantities of the various nuclei.
         _numUndecayedNucleiLabel.setOffset( 
         		_dummyNumberText.getFullBoundsReference().x - _numUndecayedNucleiLabel.getFullBoundsReference().width * 1.1,
         		preDecayPosY - (numberTextHeight / 2));
@@ -584,7 +600,11 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         }
     }
     
-    private void updateNucleusGraphLabels(){
+    /**
+     * Update the values of the labels that depend upon the nucleus type.
+     * Note that this does not position these labels.
+     */
+    private void updateNucleusDependentLabels(){
     	
     	// Get the display information for the current nuclei.
     	NucleusDisplayInfo preDecayDisplayInfo = 
