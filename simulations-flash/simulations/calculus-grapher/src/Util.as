@@ -7,6 +7,9 @@ import flash.geom.*;
 
 public class Util extends Sprite{
 
+    // TODO: move to flash-common
+    // TODO: This shouldn't subclass sprite. It should throw an exception upon instantiation
+
     //public static var ORIGINX:Number = 0.10*stage.stageWidth;
     public static var PINGRABBED:Boolean = false;
     public static var BACKGROUNDCOLOR:uint = 0xFFFF99;

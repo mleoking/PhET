@@ -35,6 +35,17 @@ public class ControlPanel extends Sprite {
     private var tFormat:TextFormat;
     public var previewCurve:Sprite;	//for showing preview of curve dent
 
+    // enum-like mode constants, that double as the translation string keys (no built-in enums, and string comparison
+    // shouldn't significantly impact performance here)
+    public static var MODE_HILL : String = "hill";
+    public static var MODE_LINE : String = "line";
+    public static var MODE_PEDESTAL : String = "pedestal";
+    public static var MODE_PARABOLA : String = "parabola";
+    public static var MODE_SINE : String = "sine";
+    public static var MODE_FREEFORM : String = "freeform";
+    public static var MODE_TILT : String = "tilt";
+    public static var MODE_OFFSET : String = "offset";
+
     public function ControlPanel( myModel:Model, myMainView:MainView ) {
         this.myModel = myModel;
         this.myMainView = myMainView;
@@ -60,14 +71,14 @@ public class ControlPanel extends Sprite {
         this.tiltIcon = new TiltIcon();
 
         this.pButton_arr = new Array(8);
-        this.pButton_arr[0] = new PushButton(this.hill_sp, hillIcon, SimStrings.get("hill", "Hill"), "left", setAlterMode);
-        this.pButton_arr[1] = new PushButton(this.linear_sp, linearIcon, SimStrings.get("undo", "Undo"), "right", setAlterMode);
-        this.pButton_arr[2] = new PushButton(this.pedestal_sp, pedestalIcon, SimStrings.get("pedestal", "Pedestal"), "right", setAlterMode);
-        this.pButton_arr[3] = new PushButton(this.parabola_sp, parabolaIcon, SimStrings.get("parabola", "Parabola"), "left", setAlterMode);
-        this.pButton_arr[4] = new PushButton(this.sine_sp, sineIcon, SimStrings.get("sine", "Sine"), "left", setAlterMode);
-        this.pButton_arr[5] = new PushButton(this.freeform_sp, freeformIcon, SimStrings.get("freeform", "Freeform"), "right", setAlterMode);
-        this.pButton_arr[6] = new PushButton(this.tilt_sp, tiltIcon, SimStrings.get("tilt", "Tilt"), "left", setAlterMode);
-        this.pButton_arr[7] = new PushButton(this.offset_sp, offsetIcon, SimStrings.get("offset", "Offset"), "right", setAlterMode);
+        this.pButton_arr[0] = new PushButton(this.hill_sp, hillIcon, MODE_HILL, "left", setAlterMode);
+        this.pButton_arr[1] = new PushButton(this.linear_sp, linearIcon, MODE_LINE, "right", setAlterMode);
+        this.pButton_arr[2] = new PushButton(this.pedestal_sp, pedestalIcon, MODE_PEDESTAL, "right", setAlterMode);
+        this.pButton_arr[3] = new PushButton(this.parabola_sp, parabolaIcon, MODE_PARABOLA, "left", setAlterMode);
+        this.pButton_arr[4] = new PushButton(this.sine_sp, sineIcon, MODE_SINE, "left", setAlterMode);
+        this.pButton_arr[5] = new PushButton(this.freeform_sp, freeformIcon, MODE_FREEFORM, "right", setAlterMode);
+        this.pButton_arr[6] = new PushButton(this.tilt_sp, tiltIcon, MODE_TILT, "left", setAlterMode);
+        this.pButton_arr[7] = new PushButton(this.offset_sp, offsetIcon, MODE_OFFSET, "right", setAlterMode);
 
         this.majorTick_arr = new Array(3);
         this.majorTick_arr[0] = new SliderMajorTick();
@@ -83,7 +94,7 @@ public class ControlPanel extends Sprite {
 
         this.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPressed);
         this.initializeComponents();
-        this.myModel.setAlterMode("Hill");
+        this.myModel.setAlterMode(ControlPanel.MODE_HILL);
         this.pButton_arr[0].highlightOn();
         this.myModel.setWidthOfDent(this.currentSliderValue);
 
@@ -216,12 +227,11 @@ public class ControlPanel extends Sprite {
         textField.addEventListener( MouseEvent.CLICK, function( evt: Event):void { checkBox.dispatchEvent( evt ); } );
     }
 
-    function setAlterMode( modeName ):void {
+    function setAlterMode( key : String ):void {
         //trace("controlPanel.setAlterMode called");
-        var modeName = modeName;
-        this.myModel.setAlterMode(modeName);
+        this.myModel.setAlterMode(key);
         this.myModel.setWidthOfDent(this.currentSliderValue);
-        if ( modeName == "Tilt" || modeName == "Offset" || modeName == "Freeform" ) {
+        if ( key == MODE_TILT || key == MODE_OFFSET || key == MODE_FREEFORM ) {
             this.widthSlider.visible = false;
         }
         else {

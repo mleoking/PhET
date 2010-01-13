@@ -23,7 +23,7 @@ public class Model{
     var slope:Number;		//slope of dent in curve
     var waveNbr:Number;	//k of sine wave curve
     var pedestalWidth:Number;
-    private var alterMode:String;	//"Hill", "Linear", "Parabola", etc
+    private var alterMode:String;	//"hill", "line", "parabola", etc SEE ControlPanel.MODE_*
 
     var handleLocation:int;	//x-position of currently grabbed handle
     //following scratch arrays needed for doubleSmoothing algorithm
@@ -145,31 +145,31 @@ public class Model{
     public function alterCurve():void {
 
         switch( this.alterMode ) {
-            case "Offset":
+            case ControlPanel.MODE_OFFSET:
                 makeOffset();
                 break;
-            case "Pedestal":
+            case ControlPanel.MODE_PEDESTAL:
                 makeDent();
                 break;
-            case "Hill":
+            case ControlPanel.MODE_HILL:
                 //makeDent();
                 smoothCurve();
                 break;
-            case "Linear":
+            case ControlPanel.MODE_LINE:
                 makeDent();
                 break;
-            case "Parabola":
+            case ControlPanel.MODE_PARABOLA:
                 makeDent();
                 break;
-            case "Sine":
+            case ControlPanel.MODE_SINE:
                 makeDent();
                 //makeSine();
                 break;
-            case "Tilt":
+            case ControlPanel.MODE_TILT:
                 makeTilt();
                 //makeSine();
                 break;
-            case "Freeform":
+            case ControlPanel.MODE_FREEFORM:
                 //drawFreeform();
                 //makeSine();
                 break;
@@ -179,7 +179,8 @@ public class Model{
     }//end of alterCurve()
 
     public function setWidthOfDent( sliderValue:Number ):void {
-        if ( this.alterMode == "Hill" ) {
+        // TODO: refactor into a switch?
+        if ( this.alterMode == ControlPanel.MODE_HILL ) {
             var max:Number = 50;
             var min:Number = 1;
             var fG:Number = Math.pow(max / min, 1 / 10);
@@ -187,24 +188,24 @@ public class Model{
             //trace("range: "+this.range);
             //this.range = 0.2*Math.pow(1.7, sliderValue);
         }
-        else if ( this.alterMode == "Linear" ) {
+        else if ( this.alterMode == ControlPanel.MODE_LINE ) {
             var slopeMin:Number = 1 / 5;
             var slopeMax:Number = 15;
             var fS:Number = Math.pow(slopeMax / slopeMin, 1 / 10);
             this.slope = slopeMin * Math.pow(fS, 10 - sliderValue);//this.slope = Math.tan(0.155*(10-sliderValue));
             //trace("linear alterMode has slope = "+this.slope);
         }
-        else if ( this.alterMode == "Parabola" ) {
+        else if ( this.alterMode == ControlPanel.MODE_PARABOLA ) {
                 this.slope = 0.001 * Math.pow(2.2, 10 - sliderValue);
                 //trace("slope of parabola = "+slope);
             }
-            else if ( this.alterMode == "Pedestal" ) {
+            else if ( this.alterMode == ControlPanel.MODE_PEDESTAL ) {
                     var widthMin:Number = 5;
                     var widthMax:Number = 350
                     var fP:Number = Math.pow(widthMax / widthMin, 1 / 10);
                     this.pedestalWidth = 2.5 * Math.pow(fP, sliderValue);
                 }
-                else if ( this.alterMode == "Sine" ) {
+                else if ( this.alterMode == ControlPanel.MODE_SINE ) {
                         var lambdaMin:Number = 10;
                         var lambdaMax:Number = 300;
                         var fSi:Number = Math.pow(lambdaMax / lambdaMin, 1 / 10);
@@ -335,8 +336,8 @@ public class Model{
         while ( i < this.nbrPoints ) {
             newY = this.getNewY(cntrPt, sign, j);
             i = cntrPt + j;
-            clearAboveOrBelow = (this.alterMode != "Sine") && (sign == 1 && newY > this.oldY[i]) || (sign == -1 && newY < this.oldY[i]);
-            clearForSine = (this.alterMode == "Sine") && (Math.abs(newY) > Math.abs(this.oldY[i]));
+            clearAboveOrBelow = (this.alterMode != ControlPanel.MODE_SINE) && (sign == 1 && newY > this.oldY[i]) || (sign == -1 && newY < this.oldY[i]);
+            clearForSine = (this.alterMode == ControlPanel.MODE_SINE) && (Math.abs(newY) > Math.abs(this.oldY[i]));
             if ( clearOnRight && (clearAboveOrBelow || clearForSine) ) {
                 //if(clearOnRight && Math.abs(newY) > Math.abs(this.oldY[i])){
                 this.y_arr[i] = newY;
@@ -352,8 +353,8 @@ public class Model{
         while ( i > 0 ) {
             newY = this.getNewY(cntrPt, sign, j);
             i = cntrPt - j;
-            clearAboveOrBelow = (this.alterMode != "Sine") && (sign == 1 && newY > this.oldY[i]) || (sign == -1 && newY < this.oldY[i]);
-            clearForSine = (this.alterMode == "Sine") && (Math.abs(newY) > Math.abs(this.oldY[i]));
+            clearAboveOrBelow = (this.alterMode != ControlPanel.MODE_SINE) && (sign == 1 && newY > this.oldY[i]) || (sign == -1 && newY < this.oldY[i]);
+            clearForSine = (this.alterMode == ControlPanel.MODE_SINE) && (Math.abs(newY) > Math.abs(this.oldY[i]));
             if ( clearOnLeft && (clearAboveOrBelow || clearForSine) ) {
                 //if(clearOnLeft && Math.abs(newY) > Math.abs(this.oldY[i])){
                 this.y_arr[i] = newY;
@@ -371,26 +372,27 @@ public class Model{
 
     public function getNewY( cntrPt:int, sign:int, j:int ):Number {
         var newY:Number;
-        if ( this.alterMode == "Linear" ) {
+        // TODO: turn into switch?
+        if ( this.alterMode == ControlPanel.MODE_LINE ) {
             newY = this.y_arr[cntrPt] - sign * j * this.slope;
         }
-        else if ( this.alterMode == "Parabola" ) {
+        else if ( this.alterMode == ControlPanel.MODE_PARABOLA ) {
             newY = this.y_arr[cntrPt] - sign * j * j * this.slope;//this.y_arr[cntrPt] - sign*j*j*this.slope;
             //trace(this.oldY[cntrPt]);
         }
-        else if ( this.alterMode == "Pedestal" ) {
+        else if ( this.alterMode == ControlPanel.MODE_PEDESTAL ) {
                 if ( j < this.pedestalWidth ) {
                     newY = this.y_arr[cntrPt];
                 }
             }
-            else if ( this.alterMode == "Hill" ) {
+            else if ( this.alterMode == ControlPanel.MODE_HILL ) {
                     var delY:Number = this.y_arr[cntrPt] - this.oldY[cntrPt];
                     //newY = this.y_arr[cntrPt]*Math.exp(-(j*j)/(this.range*this.range));
                     var P:Number = Math.exp(-j / (this.range * Math.log(delY + 1)));
                     newY = P * y_arr[cntrPt] + (1 - P) * oldY[cntrPt + j];
                     newY = P * y_arr[cntrPt] + (1 - P) * newY;
                 }
-                else if ( this.alterMode == "Sine" ) {
+                else if ( this.alterMode == ControlPanel.MODE_SINE ) {
                         newY = this.y_arr[cntrPt] * Math.cos(j * this.waveNbr);
                     }
         return newY;
@@ -442,19 +444,20 @@ public class Model{
         //trace("cntrPt:"+cntrPt);
         // i = cntrPt + j so j = i - cntrPt
         for ( var i:int = 0; i < this.nbrPtsPreview; i++ ) {
-            if ( this.alterMode == "Linear" ) {
+            // TODO: turn into a switch!
+            if ( this.alterMode == ControlPanel.MODE_LINE ) {
                 //newY = this.y_arr[cntrPt] - sign*j*this.slope
                 j = xFactor * Math.abs(cntrPt - i);
                 this.pre_arr[i] = cntrY - j * this.slope;
                 if ( this.pre_arr[i] < 0 ) {this.pre_arr[i] = 0;}
                 //pre_arr[i] = this.getNewY(cntrPt, 1.0, i - cntrPt);
             }
-            else if ( this.alterMode == "Parabola" ) {
+            else if ( this.alterMode == ControlPanel.MODE_PARABOLA ) {
                 j = xFactor * Math.abs(cntrPt - i);
                 this.pre_arr[i] = cntrY - j * j * this.slope;
                 if ( this.pre_arr[i] < 0 ) {this.pre_arr[i] = 0;}
             }
-            else if ( this.alterMode == "Hill" ) {
+            else if ( this.alterMode == ControlPanel.MODE_HILL ) {
                     j = xFactor * Math.abs(cntrPt - i);
                     this.pre_arr[i] = cntrY * Math.exp(-(j * j) / (this.range * this.range));
                     //j = xFactor*Math.abs(cntrPt - i);
@@ -462,27 +465,27 @@ public class Model{
                     //this.pre_arr[i] = P*cntrY;// + (1-P)*oldY[i];
                     //this.pre_arr[i] = P*cntrY + (1-P)*pre_arr[i];
                 }
-                else if ( this.alterMode == "Pedestal" ) {
+                else if ( this.alterMode == ControlPanel.MODE_PEDESTAL ) {
                         j = xFactor * Math.abs(cntrPt - i);
                         this.pre_arr[i] = cntrY;
                         if ( j > this.pedestalWidth / 2 ) {
                             this.pre_arr[i] = 0;
                         }
                     }
-                    else if ( this.alterMode == "Offset" ) {
+                    else if ( this.alterMode == ControlPanel.MODE_OFFSET ) {
                             //j = xFactor*Math.abs(cntrPt - i);
                             this.pre_arr[i] = cntrY;
                         }
-                        else if ( this.alterMode == "Tilt" ) {
+                        else if ( this.alterMode == ControlPanel.MODE_TILT ) {
                                 //j = xFactor*Math.abs(cntrPt - i);
                                 this.pre_arr[i] = i * cntrY / this.pre_arr.length;
                             }
-                            else if ( this.alterMode == "Sine" ) {
+                            else if ( this.alterMode == ControlPanel.MODE_SINE ) {
                                     //j = xFactor*Math.abs(cntrPt - i);
                                     this.pre_arr[i] = 0.45 * cntrY + 0.5 * cntrY * Math.sin(i * this.waveNbr);
                                     //if(this.pre_arr[i] < 0){this.pre_arr[i] = 0;}
                                 }
-                                else if ( this.alterMode == "Freeform" ) {
+                                else if ( this.alterMode == ControlPanel.MODE_FREEFORM ) {
                                         this.pre_arr[i] = 0;
                                         //do nothing
                                     }

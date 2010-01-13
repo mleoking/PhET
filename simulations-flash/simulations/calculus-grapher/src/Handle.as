@@ -6,7 +6,7 @@ import fl.motion.Color;
 //import flash.geom.ColorTransform;
 //A handle is a draggable point on a curve
 
-public class Handle extends Sprite{
+public class Handle extends Sprite {
     var myWidth:Number = 6;
     var myHeight:Number = 40
     var handleColor:Color;
