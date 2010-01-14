@@ -1,3 +1,6 @@
+> Fixed a bug that caused errors after clearing the data, then playing back a recording
+See #2110
+See #2109
 > Fixed a bug that prevented the rotation platform from being dragged after setting an angular velocity.
 See #2113
 > Changed range of angular momentum chart from (-20,20) to (-10,10) to match angular velocity ranges.

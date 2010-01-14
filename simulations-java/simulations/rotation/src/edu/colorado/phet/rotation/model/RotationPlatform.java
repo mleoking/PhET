@@ -140,6 +140,7 @@ public class RotationPlatform extends MotionBody {
     }
 
     public void clear() {
+        super.clear();
         radius.clear();
         innerRadius.clear();
         mass.clear();
