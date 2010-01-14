@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.torque;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -32,7 +33,7 @@ public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
 //    }
 
     protected JComponent createControlPanel( RulerNode rulerNode, JFrame parentFrame ) {
-        return new TorqueControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), (AbstractTorqueModule) getAbstractRotationModule(), getVectorViewModel() );//todo: better typing
+        return new TorqueControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), (AbstractTorqueModule) getAbstractRotationModule(), getVectorViewModel(), null );//todo: better typing
     }
 
     protected GraphSuiteSet createRotationGraphSet() {

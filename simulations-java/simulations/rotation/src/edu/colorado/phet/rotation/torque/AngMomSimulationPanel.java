@@ -15,7 +15,7 @@ public class AngMomSimulationPanel extends TorqueSimulationPanel {
     }
 
     protected JComponent createControlPanel( RulerNode rulerNode, JFrame parentFrame ) {
-        return new AngMomControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), (AbstractTorqueModule) getAbstractRotationModule(), getVectorViewModel() );//todo: better typing
+        return new AngMomControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), (AbstractTorqueModule) getAbstractRotationModule(), getVectorViewModel(), getAngleUnitModel() );//todo: better typing
     }
 
     protected GraphSuiteSet createRotationGraphSet() {

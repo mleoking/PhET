@@ -4,6 +4,7 @@ import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
+import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 
 /**
@@ -11,8 +12,18 @@ import edu.colorado.phet.rotation.model.RotationPlatform;
  * Oct 24, 2007 at 10:46:26 AM
  */
 public class TorqueControlPanel extends FullTorqueControlPanel {
-    public TorqueControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final AbstractTorqueModule torqueModule, VectorViewModel vectorViewModel ) {
-        super( rulerNode, torqueModule, vectorViewModel );
+	/**
+	 * Constructor.
+	 * 
+	 * @param rulerNode
+	 * @param rotationGraphSet
+	 * @param graphSetModel
+	 * @param torqueModule
+	 * @param vectorViewModel
+	 * @param angleUnitModel - if null, no angle unit selector is created on the panel.
+	 */
+    public TorqueControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final AbstractTorqueModule torqueModule, VectorViewModel vectorViewModel, AngleUnitModel angleUnitModel ) {
+        super( rulerNode, torqueModule, vectorViewModel, angleUnitModel );
     }
 
     protected FullTorqueControlPanel.TorqueSlider[] getSliders( AbstractTorqueModule torqueModule, RotationPlatform rp ) {
