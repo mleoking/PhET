@@ -31,6 +31,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
     private TorqueModel tm;
     private final String ANG_MOM = RotationStrings.getString( "variable.angular.momentum" );
     private final String ANG_MOM_VARNAME = RotationStrings.getString( "variable.l" );
+    private final String ANG_MOM_UNITS = RotationStrings.getString( "units.angular.momentum" );
     private final String MOMENT_OF_INERTIA = RotationStrings.getString( "variable.moment.of.inertia" );
     private final String MOMENT_OF_INERTIA_VARNAME = RotationStrings.getString( "variable.i" );
     private final String APPLIED_TORQUE = RotationStrings.getString( "variable.applied.torque" );
@@ -40,7 +41,6 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
     private final String APPLIED_FORCE = RotationStrings.getString( "variable.applied.force" );
     private final String BRAKE_FORCE = RotationStrings.getString( "variable.brake.force" );
     private final String NET_FORCE = RotationStrings.getString( "variable.net.force" );
-    private final String UNITS_GENERIC = RotationStrings.getString( "units.units" );
     private final String TORQUE = RotationStrings.getString( "variable.torque" );
     private final String APPLIED = RotationStrings.getString( "variable.applied" );
     private final String BRAKE = RotationStrings.getString( "object.brake" );
@@ -68,8 +68,8 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
     protected RotationMinimizableControlGraph createAngMomGraph() {
         PhetPCanvas pSwingCanvas = super.getCanvas();
         return new RotationMinimizableControlGraph( ANG_MOM_VARNAME, new RotationGraph(
-                pSwingCanvas, new ControlGraphSeries( ANG_MOM, Color.red, ANG_MOM_VARNAME, UNITS_GENERIC, new BasicStroke( 2 ), null, tm.getAngularMomentumTimeSeries() ),
-                ANG_MOM_VARNAME, ANG_MOM, UNITS_GENERIC, -0.1, 0.1,
+                pSwingCanvas, new ControlGraphSeries( ANG_MOM, Color.red, ANG_MOM_VARNAME, ANG_MOM_UNITS, new BasicStroke( 2 ), null, tm.getAngularMomentumTimeSeries() ),
+                ANG_MOM_VARNAME, ANG_MOM, ANG_MOM_UNITS, -0.1, 0.1,
                 false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
     }
 
