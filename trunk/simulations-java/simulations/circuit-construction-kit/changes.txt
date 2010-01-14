@@ -1,3 +1,5 @@
+# 3.18.02 (38103) Jan 14, 2010
+1/14/10 Added virtual lab vesrions and updated names.
 # 3.18.01 (38101) Jan 14, 2010
 # 3.18.00 (37980) Jan 8, 2010
 1/8/10 public version for milestone "full redeploy, 2010 Q1"
