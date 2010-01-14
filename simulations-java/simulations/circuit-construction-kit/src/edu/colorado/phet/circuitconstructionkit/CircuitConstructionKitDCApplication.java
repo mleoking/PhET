@@ -71,12 +71,14 @@ public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication 
     }
 
     public static void main( final String[] args ) {
+        //TODO: Flavors need to be untangled from one another, and not encoded and decoded from strings
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new CircuitConstructionKitDCApplication( config );
             }
         };
         String flavor = isDynamic( args ) ? "circuit-construction-kit-ac" : "circuit-construction-kit-dc";
+        if (Arrays.asList(args).contains(CCKParameters.VIRTUAL_LAB)) flavor += "-virtual-lab";
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "circuit-construction-kit", flavor );
         appConfig.setLookAndFeel( new CCKPhetLookAndFeel() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
