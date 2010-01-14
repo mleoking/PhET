@@ -11,6 +11,8 @@ import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Author: Sam Reid
@@ -54,6 +56,14 @@ public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
             }
         } );
         updateArrows();
+
+        //make the motion driven by the ForceDriven strategy, not by whatever strategy may have
+        //been previously set, so that the drag events will actually cause an applied torque
+        super.getRotationPlatformNode().addInputEventListener(new PBasicInputEventHandler() {
+            public void mousePressed(PInputEvent event) {
+                torqueModel.getRotationPlatform().setUpdateStrategy(torqueModel.getForceDriven());
+            }
+        });
     }
 
     protected PNode createRotationPlatformNode( RotationPlatform rotationPlatform ) {

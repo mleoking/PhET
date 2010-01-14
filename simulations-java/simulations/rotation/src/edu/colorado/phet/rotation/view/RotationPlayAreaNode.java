@@ -95,6 +95,7 @@ public class RotationPlayAreaNode extends PNode {
 //        addChild( pauseNode );
 
         rotationPlatformNode.addInputEventListener( startSimWhenInteracting );
+        //see TorqueSimPlayAreaNode for listening for motion strategy change events
     }
 
 //    private void updatePauseNode() {
@@ -178,5 +179,9 @@ public class RotationPlayAreaNode extends PNode {
 
     public void resetAll() {
         rulerNode.setVisible( false );
+    }
+
+    protected PNode getRotationPlatformNode() {
+        return rotationPlatformNode;
     }
 }
