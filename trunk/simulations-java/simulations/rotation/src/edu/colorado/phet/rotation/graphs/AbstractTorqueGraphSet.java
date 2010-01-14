@@ -69,7 +69,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         PhetPCanvas pSwingCanvas = super.getCanvas();
         return new RotationMinimizableControlGraph( ANG_MOM_VARNAME, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( ANG_MOM, Color.red, ANG_MOM_VARNAME, ANG_MOM_UNITS, new BasicStroke( 2 ), null, tm.getAngularMomentumTimeSeries() ),
-                ANG_MOM_VARNAME, ANG_MOM, ANG_MOM_UNITS, -20,20,
+                ANG_MOM_VARNAME, ANG_MOM, ANG_MOM_UNITS, -10,10,
                 false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
     }
 

@@ -1,3 +1,5 @@
+> Changed range of angular momentum chart from (-20,20) to (-10,10) to match angular velocity ranges.
+See #2111
 # 1.08.04 (38099) Jan 13, 2010
 > Increased range of angular momentum chart to make default motion visible within the chart bounds.
 See #2111
