@@ -1,10 +1,13 @@
 package edu.colorado.phet.rotation.torque;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -17,10 +20,12 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSli
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.RotationStrings;
+import edu.colorado.phet.rotation.controls.AngleUnitsSelectionControl;
 import edu.colorado.phet.rotation.controls.ResetButton;
 import edu.colorado.phet.rotation.controls.RulerButton;
 import edu.colorado.phet.rotation.controls.ShowVectorsControl;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
+import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 
 /**
@@ -33,7 +38,15 @@ public class FullTorqueControlPanel extends VerticalLayoutPanel {
     public static final int MAX_BRAKE = 10;
     private JPanel leftPanel;
 
-    public FullTorqueControlPanel( RulerNode rulerNode, final AbstractTorqueModule torqueModule, VectorViewModel vectorViewModel ) {
+    /**
+     * Constructor
+     * 
+     * @param rulerNode
+     * @param torqueModule
+     * @param vectorViewModel
+     * @param angleUnitModel - If null, no angle unit control selector is created.
+     */
+    public FullTorqueControlPanel( RulerNode rulerNode, final AbstractTorqueModule torqueModule, VectorViewModel vectorViewModel, AngleUnitModel angleUnitModel ) {
         this.torqueModule = torqueModule;
 
         setBorder( BorderFactory.createTitledBorder( RotationStrings.getString( "controls" ) ) );
@@ -51,7 +64,7 @@ public class FullTorqueControlPanel extends VerticalLayoutPanel {
         add( Box.createRigidArea( new Dimension( 10, 10 ) ) );
         HorizontalLayoutPanel controls = new HorizontalLayoutPanel();
 
-//        JPanel rightPanel = new VerticalLayoutPanel();
+        JPanel rightPanel = new VerticalLayoutPanel();
         leftPanel = new VerticalLayoutPanel();
         final JCheckBox showNonTangentialForces = new JCheckBox( RotationStrings.getString( "controls.allow.non.tangential.forces" ), torqueModule.getTorqueModel().isAllowNonTangentialForces() );
         showNonTangentialForces.addActionListener( new ActionListener() {
@@ -60,6 +73,10 @@ public class FullTorqueControlPanel extends VerticalLayoutPanel {
             }
         } );
 //        rightPanel.add( showNonTangentialForces );
+        if (angleUnitModel != null){
+        	final AngleUnitsSelectionControl unitsSelectionControl = new AngleUnitsSelectionControl( angleUnitModel );
+        	rightPanel.add( unitsSelectionControl );
+        }
 
         final JCheckBox showComponents = new JCheckBox( RotationStrings.getString( "controls.show.components" ), torqueModule.getTorqueModel().isShowComponents() );
         showComponents.addActionListener( new ActionListener() {
@@ -78,7 +95,11 @@ public class FullTorqueControlPanel extends VerticalLayoutPanel {
 
         controls.add( leftPanel );
         add( Box.createRigidArea( new Dimension( 30, 30 ) ) );
-//        controls.add( rightPanel );
+        
+        if (rightPanel.getComponentCount() > 0){
+        	// Only add the right panel if there is something in it.
+        	controls.add( rightPanel );
+        }
 
         add( controls );
 //        addGraphSelectionControl( rotationGraphSet, graphSetModel );
