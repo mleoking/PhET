@@ -1203,4 +1203,17 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     		}
     	}
     }
+    
+    public static void main(String[] args) {
+		HTMLNode testNode = new HTMLNode(" ");
+		testNode.setOffset(100, 100);
+		System.out.println("Bounds for space are: " + testNode.getFullBoundsReference());
+		System.out.println("Offset for space string: " + testNode.getOffset());
+		HTMLNode testNode2 = new HTMLNode("<html>Hi</html>");
+		System.out.println("Bounds for real string are: " + testNode2.getFullBoundsReference());
+		
+		PNode testNode3 = new PNode();
+		testNode3.setBounds(10, 10, 10, 0);
+		System.out.println("Bounds for plain PNode = " + testNode3.getFullBoundsReference());
+	}
 }
