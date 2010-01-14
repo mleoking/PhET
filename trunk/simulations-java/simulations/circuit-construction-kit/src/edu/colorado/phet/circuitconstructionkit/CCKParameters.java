@@ -21,13 +21,14 @@ public class CCKParameters {
     private boolean grabBagMode = false;
     private boolean useVisualControlPanel = true;
     private boolean dynamics = false;
+    public static final String VIRTUAL_LAB = "-virtuallab";
 
     public CCKParameters( CCKModule module, String[] args ) {
         this.args = args;
         if ( containsArg( "-dynamics" ) ) {
             dynamics = true;
         }
-        if ( containsArg( "-virtuallab" ) ) {
+        if ( containsArg(VIRTUAL_LAB) ) {
             virtualLab = true;
         }
         if ( containsArg( "-grabbag" ) ) {
