@@ -1,3 +1,4 @@
+# 1.08.05 (38112) Jan 14, 2010
 > Added control for angle units (i.e. degrees or radians) to tabs 3 and 4.
 See #2112
 > Fixed a bug that caused errors after clearing the data, then playing back a recording
