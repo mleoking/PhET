@@ -47,9 +47,12 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 	private NeuronCanvas neuronCanvas;
 	private LeakChannelSlider sodiumLeakChannelControl;
 	private LeakChannelSlider potassiumLeakChannelControl;
-	private ConcentrationSlider sodiumConcentrationControl;
-	private ConcentrationSlider potassiumConcentrationControl;
-	private ZoomSlider zoomSlider;
+	
+	// TODO: Removed the following 3 sliders based on design mods that were
+	// made in December 2009.  Delete permanently if and when finalized.
+//	private ConcentrationSlider sodiumConcentrationControl;
+//	private ConcentrationSlider potassiumConcentrationControl;
+//	private ZoomSlider zoomSlider;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,7 +84,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 
 			@Override
     		public void concentrationRatioChanged(ParticleType atomType) {
-    			updateConcentrationControlSliders();
+//    			updateConcentrationControlSliders();
     		}
         });
         
@@ -103,6 +106,9 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         		ParticleType.POTASSIUM_ION); 
         addControlFullWidth(potassiumLeakChannelControl);
         
+        /*
+         * See TODO at top of this file for information about why the
+         * the following is commented out.
         // Add the control for sodium concentration.
         sodiumConcentrationControl = new ConcentrationSlider(NeuronStrings.SODIUM_CONCENTRATION, axonModel,
         		ParticleType.SODIUM_ION);
@@ -112,6 +118,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         potassiumConcentrationControl = new ConcentrationSlider(NeuronStrings.POTASSIUM_CONCENTRATION, axonModel, 
         		ParticleType.POTASSIUM_ION);
         addControlFullWidth(potassiumConcentrationControl);
+         */
         
         // Add the check box for hiding/showing the voltmeter.
         addControlFullWidth(createVerticalSpacingPanel(30));
@@ -126,8 +133,10 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         addControlFullWidth(chartControlCheckbox);
         
         // Add the zoom slider.
-        zoomSlider = new ZoomSlider("Zoom Control", neuronCanvas);
-        addControlFullWidth(zoomSlider);
+        // See TODO at top of this file for information about why the
+        // the following is commented out.
+//        zoomSlider = new ZoomSlider("Zoom Control", neuronCanvas);
+//        addControlFullWidth(zoomSlider);
         
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(30));
@@ -135,7 +144,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         
         // Update the states of the controls.
         updateChannelControlSliders();
-        updateConcentrationControlSliders();
+//        updateConcentrationControlSliders();
         updateZoomSlider();
     }
     
@@ -159,6 +168,9 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     	}
     }
     
+    /*
+    // See TODO at top of this file for information about why the
+    // the following is commented out.
     private void updateConcentrationControlSliders(){
     	
     	if (sodiumConcentrationControl.getValue() != axonModel.getProportionOfParticlesInside(ParticleType.SODIUM_ION)){
@@ -168,12 +180,13 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     		potassiumConcentrationControl.setValue( axonModel.getProportionOfParticlesInside(ParticleType.POTASSIUM_ION));
     	}
     }
+    */
     
     private void updateZoomSlider(){
     	
-    	if ( zoomSlider.getValue() != neuronCanvas.getCameraScale()){
-    		zoomSlider.setValue(neuronCanvas.getCameraScale());
-    	}
+//    	if ( zoomSlider.getValue() != neuronCanvas.getCameraScale()){
+//    		zoomSlider.setValue(neuronCanvas.getCameraScale());
+//    	}
     }
     
     private JPanel createVerticalSpacingPanel(int space){
