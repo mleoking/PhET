@@ -53,15 +53,11 @@ public class NeuronApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        membraneDiffusionModule = getFirstModule(parentFrame);
+        membraneDiffusionModule = new MembraneDiffusionModule( parentFrame );
         addModule( membraneDiffusionModule );
 
         restingPotentialModule = new RestingPotentialModule(parentFrame);
         addModule( restingPotentialModule );
-    }
-
-    protected MembraneDiffusionModule getFirstModule(Frame parentFrame) {
-        return new MembraneDiffusionModule( parentFrame );
     }
 
     /**
