@@ -94,7 +94,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	    public void clockTicked( ClockEvent clockEvent ) {
     			if ((_proportionsChartUpdateCounter++ % PROPORTIONS_CHART_UPDATE_COUNT == 0) &&
     				(_model.getNumActiveNuclei() > 0))	{
-    				updateChartData();
+    				addNewDataPointToChart();
     			}
     	    }
     	});
@@ -176,7 +176,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
         		_model.getClock().resetSimulationTime();
         		_model.resetActiveAndDecayedNuclei();
         		_proportionsChart.clear();
-        		updateChartData();
             }
         });
         
@@ -203,7 +202,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
                 double halfLife = HalfLifeInfo.getHalfLifeForNucleusType(_model.getNucleusType());
                 _proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
                 _proportionsChart.setDisplayInfoForNucleusType(_model.getNucleusType());
-                updateChartData();
+//                updateChartData();
                 _bucketNode.resetSliderPosition();
             }
         });
@@ -412,7 +411,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	}
 	}
 
-	private void updateChartData() {
+	private void addNewDataPointToChart() {
 		_proportionsChart.addDataPoint(_model.convertSimTimeToAdjustedTime(_model.getClock().getSimulationTime()),
 				_model.getNumActiveNuclei(), _model.getNumDecayedNuclei());
 	}
