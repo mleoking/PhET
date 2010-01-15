@@ -42,12 +42,6 @@ public class MembraneDiffusionModule extends PiccoloModule {
         NeuronClock clock = (NeuronClock) getClock();
         model = new AxonModel( clock );
         
-        // Initialize the model as needed for this module.
-        model.addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 80);
-        model.addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 120);
-        model.addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 80);
-        model.addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 120);
-
         // Canvas
         canvas = new NeuronCanvas( model );
         setSimulationPanel( canvas );
