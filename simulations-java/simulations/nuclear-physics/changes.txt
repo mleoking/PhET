@@ -1,3 +1,5 @@
+# 3.20.04 (38117) Jan 15, 2010
+1/15/10 > Radioactive Dating Game: Fixed an issue where odd lines could appear on the Decay Rates graph.
 # 3.20.03 (38089) Jan 13, 2010
 1/13/10 >Reduced the size of the jar file by about 10% by removing unused images.
 # 3.20.02 (38086) Jan 13, 2010
