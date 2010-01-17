@@ -4,6 +4,7 @@ DEADLINES
 - 3/21/09, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
+- fix ArrayIndexOutOfBoundsException, see #2115
 - add more reactions to Game
 - implement GameModel.newChallenges
 - add an animated "prize" to Game Summary for perfect score
