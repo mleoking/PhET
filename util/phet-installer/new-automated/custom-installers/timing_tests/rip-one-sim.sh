@@ -44,7 +44,7 @@ $HTTRACK --help | grep "HTTrack version"
 # Perform a rip operation and output the time information.
 echo Command being timed: $HTTRACK_CMD
 START_TIME="$(date +%s)"
-time $HTTRACK $HTTRACK_OPTIONS
+time $HTTRACK_CMD
 FINISH_TIME="$(date +%s)"
 
 ELAPSED_SECONDS="$(expr $FINISH_TIME - $START_TIME)"
