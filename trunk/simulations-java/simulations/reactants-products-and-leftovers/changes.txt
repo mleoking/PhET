@@ -1,7 +1,8 @@
-1/7/09 remove arrow code from GameInstructionsNode, no longer needed
-1/7/09 we're not going to worry about overlapping images in Game, it mostly happens when guess is grossly wrong
-1/7/09 move responsibility of checking correctness into GameChallenge
-1/7/09 copyright notice on all source files
+1/19/10 fix ArrayIndexOutOfBoundsException, see #2115
+1/7/10 remove arrow code from GameInstructionsNode, no longer needed
+1/7/10 we're not going to worry about overlapping images in Game, it mostly happens when guess is grossly wrong
+1/7/10 move responsibility of checking correctness into GameChallenge
+1/7/10 copyright notice on all source files
 1/6/10 i18n of Game Summary
 1/6/10 center Game Summary in play area when it changes size
 1/6/10 use ShadowPText for showing number of points awarded on correct answer
