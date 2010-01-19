@@ -14,11 +14,11 @@ public abstract class RPALModel {
     public static final IntegerRange COEFFICIENT_RANGE = new IntegerRange( 0, 3, 0 );
     public static final IntegerRange QUANTITY_RANGE = new IntegerRange( 0, 10, 0 );
     
-    public IntegerRange getCoefficientRange() {
+    public static IntegerRange getCoefficientRange() {
         return COEFFICIENT_RANGE;
     }
     
-    public IntegerRange getQuantityRange() {
+    public static IntegerRange getQuantityRange() {
         return QUANTITY_RANGE;
     }
 
