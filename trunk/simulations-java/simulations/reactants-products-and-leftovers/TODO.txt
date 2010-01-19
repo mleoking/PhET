@@ -4,7 +4,9 @@ DEADLINES
 - 3/21/09, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
+- developer controls for setting up specific Game challenges
 - fix ArrayIndexOutOfBoundsException, see #2115
+- Alex bug report: in Game level 3, correct "Before" answer was 9+9, but only 8 O2 images were shown
 - add more reactions to Game
 - implement GameModel.newChallenges
 - add an animated "prize" to Game Summary for perfect score
