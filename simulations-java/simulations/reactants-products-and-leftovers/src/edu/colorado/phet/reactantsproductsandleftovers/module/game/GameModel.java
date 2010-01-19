@@ -169,7 +169,7 @@ public class GameModel extends RPALModel {
                 challengeType = Math.random() > 0.5 ? ChallengeType.BEFORE : ChallengeType.AFTER;
             }
             for ( Reactant reactant : reaction.getReactants() ) {
-                reactant.setQuantity( getRandomQuantity() );
+                reactant.setQuantity( 9 );//getRandomQuantity() );
             }
             challenges[i] = new GameChallenge( challengeType, reaction );
         }
