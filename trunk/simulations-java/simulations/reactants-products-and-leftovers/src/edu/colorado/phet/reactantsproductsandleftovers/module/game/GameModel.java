@@ -145,14 +145,20 @@ public class GameModel extends RPALModel {
         return correct;
     }
     
-    //TODO: this needs to be rewritten, with many reactions to choose from, and more complicated selection criteria
     private void newChallenges() {
         if ( challenges != null ) {
             getChallenge().getGuess().removeChangeListener( guessChangeListener );
         }
         challengeNumber = 0;
-        challenges = new GameChallenge[ CHALLENGES_PER_GAME ];
-        //TODO: ensure that we don't have the same challenge twice in a row, or should they all be different?
+        challenges = createChallenges( level );
+        getChallenge().getGuess().addChangeListener( guessChangeListener );
+        fireChallengeChanged();
+    }
+    
+    //TODO: this needs to be rewritten, with many reactions to choose from, and more complicated selection criteria
+    //TODO: ensure that we don't have the same challenge twice in a row, or should they all be different?
+    public static GameChallenge[] createChallenges( int level ) {
+        GameChallenge[] challenges = new GameChallenge[ CHALLENGES_PER_GAME ];
         for ( int i = 0; i < challenges.length; i++ ) {
             ChemicalReaction reaction;
             ChallengeType challengeType;
@@ -169,12 +175,11 @@ public class GameModel extends RPALModel {
                 challengeType = Math.random() > 0.5 ? ChallengeType.BEFORE : ChallengeType.AFTER;
             }
             for ( Reactant reactant : reaction.getReactants() ) {
-                reactant.setQuantity( 9 );//getRandomQuantity() );
+                reactant.setQuantity( getRandomQuantity() );
             }
             challenges[i] = new GameChallenge( challengeType, reaction );
         }
-        getChallenge().getGuess().addChangeListener( guessChangeListener );
-        fireChallengeChanged();
+        return challenges;
     }
     
     /*
@@ -187,7 +192,7 @@ public class GameModel extends RPALModel {
     /*
      * Generates a random non-zero quantity.
      */
-    private int getRandomQuantity() {
+    private static int getRandomQuantity() {
         return 1 + (int)( Math.random() * getQuantityRange().getMax() );
     }
     
