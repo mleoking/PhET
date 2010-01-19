@@ -1,3 +1,4 @@
+# 0.00.18 (38136) Jan 19, 2010
 1/19/10 fix ArrayIndexOutOfBoundsException, see #2115
 1/7/10 remove arrow code from GameInstructionsNode, no longer needed
 1/7/10 we're not going to worry about overlapping images in Game, it mostly happens when guess is grossly wrong
