@@ -68,6 +68,7 @@ public class AxonModel {
     private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
     private int membranePotentialUpdateCounter = 0;
     private int membranePotentialSnapshot;
+    private HodgkinsHuxleyModel hodgkinsHuxleyModel = new HodgkinsHuxleyModel();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -302,6 +303,10 @@ public class AxonModel {
     }
     
     private void handleClockTicked(ClockEvent clockEvent){
+    	
+    	// Update the value of the membrane potential by stepping the
+    	// Hodgkins-Huxley model.
+    	hodgkinsHuxleyModel.stepInTime(clockEvent.getSimulationTimeChange());
     	
     	// If it is time, update the value of the membrane potential that is
     	// used for internal calculations.
