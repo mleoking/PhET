@@ -44,8 +44,9 @@ public class NeuronCanvas extends PhetPCanvas {
     private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH * 0.7,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.35);
     
-    // For debug: Controls showing of particle motion bounds.
+    // For debug: Enable and disable nodes that can help with debug of layout.
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
+    private static final boolean SHOW_CENTER_CROSS_HAIR = false;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -137,10 +138,12 @@ public class NeuronCanvas extends PhetPCanvas {
         	atomLayer.addChild(particleMotionBounds);
         }
         
-        // Add the crosshair, used for debugging zoom.
-        crossHairNode = new CrossHairNode();
-        crossHairNode.setOffset(mvt.modelToViewDouble(new Point2D.Double(0, 0)));
-        chartLayer.addChild(crossHairNode);
+        if (SHOW_CENTER_CROSS_HAIR){
+        	// Add the crosshair, used for debugging zoom.
+        	crossHairNode = new CrossHairNode();
+        	crossHairNode.setOffset(mvt.modelToViewDouble(new Point2D.Double(0, 0)));
+        	chartLayer.addChild(crossHairNode);
+        }
         
         // Update the layout.
         updateLayout();

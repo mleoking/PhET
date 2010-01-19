@@ -36,4 +36,5 @@ public class NeuronStrings {
     public static final String LOTS = getString( "Lots" );
     
     public static final String SHOW_VOLTMETER = getString( "ShowVoltmeter" );
+    public static final String SHOW_POTENTIAL_CHART = getString( "ShowPotentialChart" );
 }

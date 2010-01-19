@@ -122,11 +122,22 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         
         // Add the check box for hiding/showing the voltmeter.
         addControlFullWidth(createVerticalSpacingPanel(30));
-        final JCheckBox chartControlCheckbox = new JCheckBox(NeuronStrings.SHOW_VOLTMETER);
+        final JCheckBox voltmeterControlCheckbox = new JCheckBox(NeuronStrings.SHOW_VOLTMETER);
+        voltmeterControlCheckbox.addChangeListener(new ChangeListener() {
+			
+			public void stateChanged(ChangeEvent e) {
+				neuronCanvas.setVoltmeterVisible(voltmeterControlCheckbox.isSelected());
+			}
+		});
+        voltmeterControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
+        addControlFullWidth(voltmeterControlCheckbox);
+        
+        // Add the check box for hiding/showing the potential chart.
+        final JCheckBox chartControlCheckbox = new JCheckBox(NeuronStrings.SHOW_POTENTIAL_CHART);
         chartControlCheckbox.addChangeListener(new ChangeListener() {
 			
 			public void stateChanged(ChangeEvent e) {
-				neuronCanvas.setVoltmeterVisible(chartControlCheckbox.isSelected());
+				neuronCanvas.setMembranePotentialChartVisible(chartControlCheckbox.isSelected());
 			}
 		});
         chartControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
