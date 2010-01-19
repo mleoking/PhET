@@ -259,9 +259,9 @@ public class GameCanvas extends RPALCanvas {
     }
     
     private void handleChallengeChanged() {
-        showGuess( true );
         visibilityManager.setVisibility( FIRST_ATTEMPT_STATE );
         updateDynamicNodes();
+        showGuess( true ); // do this after updating dynamic nodes!
     }
     
     private void handleGuessChanged() {
