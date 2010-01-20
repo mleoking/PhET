@@ -19,13 +19,16 @@ RIP_BASE_URL="http://phet.colorado.edu"
 
 # Specify the simulation that will be captured.  This name must match the name
 # within the sims directory structure.
-SIM_NAME=states-of-matter
+SIM_NAME=balloons
+
+# Specify the filters for preventing undesired files from being ripped.
+HTTRACK_FILTERS=" \"-*\" \"+*/sims/balloons/*\" "
 
 # Specify the options for the rip command.
 HTTRACK_OPTIONS="-j0 -D -c1 -v -f"
 
 # Put the various pieces together into the overall command.
-HTTRACK_CMD="$HTTRACK $RIP_BASE_URL/sims/$SIM_NAME -O $RIP_DIR $HTTRACK_OPTIONS"
+HTTRACK_CMD="$HTTRACK $RIP_BASE_URL/sims/$SIM_NAME -O $RIP_DIR $HTTRACK_FILTERS $HTTRACK_OPTIONS"
 
 # If a previous rip exists, delete it.
 if [ -d "$RIP_DIR" ]; then
