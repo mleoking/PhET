@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.neuron.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -10,17 +11,17 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 
+import javax.swing.JFrame;
+
+import org.apache.tools.ant.taskdefs.Sleep;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.urls.StandardXYURLGenerator;
-import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -28,9 +29,11 @@ import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Chart for depicting the membrane potential in the play area.
@@ -42,30 +45,30 @@ public class MembranePotentialChart extends PNode {
 	
 	private static final Color STROKE_COLOR = Color.red;
 	
-    private JFreeChart jFreeChart;
+    private JFreeChart chart;
     private JFreeChartNode jFreeChartNode;
     private PPath path;
     private int crossSectionY;
     private AxonModel axonModel;
+	private XYSeries dataSeries = new XYSeries("0");
 
     public MembranePotentialChart( Dimension2D size, String title, AxonModel axonModel, String distanceUnits, double minX, double maxX ) {
     	
         this.axonModel = axonModel;
-        XYSeries series = new XYSeries( "0" );
         // TODO: Temp - create some bogus data in order to see something initially.
-        series.add(0, 0);
-        series.add(10, 0);
-        series.add(20, 0);
-        series.add(30, 0.5);
-        series.add(40, 1);
-        series.add(50, 0.5);
-        series.add(60, 0);
-        XYDataset dataset = new XYSeriesCollection( series );
+        dataSeries.add(0, 0);
+        dataSeries.add(10, 0);
+        dataSeries.add(20, 0);
+        dataSeries.add(30, 0.5);
+        dataSeries.add(40, 1);
+        dataSeries.add(50, 0.5);
+        dataSeries.add(60, 0);
+        XYDataset dataset = new XYSeriesCollection( dataSeries );
         // TODO: Internationalize.
-        jFreeChart = createXYLineChart( title, null, "Membrane Potential (mv)", dataset, PlotOrientation.VERTICAL);
-        jFreeChart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
-        jFreeChart.getXYPlot().getRangeAxis().setRange( -1.0, 1.0 );
-        jFreeChartNode = new JFreeChartNode( jFreeChart, true );
+        chart = createXYLineChart( title, null, "Membrane Potential (mv)", dataset, PlotOrientation.VERTICAL);
+        chart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
+        chart.getXYPlot().getRangeAxis().setRange( -1.0, 1.0 );
+        jFreeChartNode = new JFreeChartNode( chart, true );
         jFreeChartNode.setBounds( 0, 0, size.getWidth(), size.getHeight() );
 
         setHorizontalLabel( MessageFormat.format( "Time (ms)", new Object[]{distanceUnits} ) );
@@ -83,11 +86,11 @@ public class MembranePotentialChart extends PNode {
     }
 
     public void setHorizontalLabel( String horizontalUnits ) {
-        jFreeChart.getXYPlot().getDomainAxis().setLabel( horizontalUnits );
+        chart.getXYPlot().getDomainAxis().setLabel( horizontalUnits );
     }
 
     public void setHorizontalRange( double min, double max ) {
-        jFreeChart.getXYPlot().getDomainAxis().setRange( min, max );
+        chart.getXYPlot().getDomainAxis().setRange( min, max );
     }
 
     public Rectangle2D getChartBounds() {
@@ -255,4 +258,20 @@ public class MembranePotentialChart extends PNode {
         this.crossSectionY = crossSectionY;
         updateChart();
     }
+    
+    public static void main(String[] args) {
+    	
+    	Dimension2D size = new PDimension(800, 600);
+		JFrame frame = new JFrame();
+        frame.setSize( (int)size.getWidth(), (int)size.getHeight() );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        
+        PhetPCanvas phetPCanvas = new PhetPCanvas();
+        MembranePotentialChart membranePotentialChart = 
+        	new MembranePotentialChart(size, "Test Chart", null, "mV", 0, 1000); 
+        phetPCanvas.addScreenChild( membranePotentialChart );
+        
+        frame.setContentPane(phetPCanvas);
+        frame.setVisible(true);
+	}
 }
