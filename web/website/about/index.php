@@ -27,17 +27,17 @@ incorporating findings from prior research and our own testing – to create
 simulations that support student engagement with and understanding of
 scientific concepts. </p>
 
-<p>In order to help students visually comprehend thse concepts,
+<p>In order to help students visually comprehend these concepts,
 PhET simulations animate what is invisible to the eye through the use of
 graphics and intuitive controls such as click-and-drag manipulation, sliders
 and radio buttons.  In order to further encourage quantitative exploration, the
-simulations also offer measurement instruments including rulers, stop-watchs,
+simulations also offer measurement instruments including rulers, stop-watches,
 voltmeters and thermometers.  As the user manipulates these interactive tools,
 responses are immediately animated thus effectively illustrating
 cause-and-effects relationships as well as multiple linked representations
 (motion of the objects, graphs, number readouts, etc…).</p>
 
-<p>To ensure eduational effectiveness and usability, all of the
+<p>To ensure educational effectiveness and usability, all of the
 simulations are extensively tested and evaluated.  These tests include student
 interviews in addition to actual utilization of the simulations in a variety of
 settings, including lectures, group work, homework and lab work.   Our <a
@@ -46,7 +46,9 @@ what level of testing has been completed on each simulation. </p>
 
 <p>All PhET simulations are freely available from the <a
 href="{$this->prefix}index.php">PhET website</a> and are easy to use
-and incorpate into the classroom. They are written in <a
+and incorporate into the classroom. They are written in <a
+
+
 href="{$this->prefix}tech_support/support-java.php">Java</a> and <a
 href="{$this->prefix}tech_support/support-flash.php">Flash</a>, and
 can be run using a standard web browser as long as <a
