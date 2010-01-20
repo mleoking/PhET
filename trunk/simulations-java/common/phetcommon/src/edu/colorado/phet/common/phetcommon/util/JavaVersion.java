@@ -63,21 +63,6 @@ public abstract class JavaVersion {
         }
     }
 
-    /**
-     * JVMVersion is the version information for the JVM (Java Virtual Machine).
-     * The JVM is included as part of the JRE, and may have a different version
-     * name than the JRE.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     */
-    public static class JVMVersion extends JavaVersion {
-
-        public JVMVersion() {
-            // java.vm.version is the full version name for the JVM.
-            super( System.getProperty( "java.vm.version" ) );
-        }
-    }
-
     /*
      * Base class constructor, does the parsing of the version name string.
      */
@@ -99,7 +84,9 @@ public abstract class JavaVersion {
 
             iPrev = i + 1;
             i = s.indexOf( '.', iPrev );
-            minorString = s.substring( iPrev, i );
+            if ( i != -1 ) {
+                minorString = s.substring( iPrev, i );
+            }
 
             iPrev = i + 1;
             i = s.indexOf( '_', iPrev );
@@ -138,8 +125,18 @@ public abstract class JavaVersion {
 
 
             majorNumber = Integer.valueOf( majorString ).intValue();
-            minorNumber = Integer.valueOf( minorString ).intValue();
-            maintenanceNumber = Integer.valueOf( maintenanceString ).intValue();
+            if ( minorString != null ) {
+                minorNumber = Integer.valueOf( minorString ).intValue();
+            }
+            else {
+                minorNumber = 0;
+            }
+            if ( maintenanceString != null ) {
+                maintenanceNumber = Integer.valueOf( maintenanceString ).intValue();
+            }
+            else {
+                maintenanceNumber = 0;
+            }
             if ( updateString != null ) {
                 updateNumber = Integer.valueOf( updateString ).intValue();
             }
@@ -306,9 +303,6 @@ public abstract class JavaVersion {
 
         JREVersion jre = new JREVersion();
         System.out.println( "JREVersion " + jre.getVersion() + " -> " + jre.toString() );
-
-        JVMVersion jvm = new JVMVersion();
-        System.out.println( "JVMVersion " + jvm.getVersion() + " -> " + jvm.toString() );
 
         // base class parser, positive tests
         String[] tests = { "1.3.0", "1.3.0_01", "1.3.0-b24", "1.3.1-beta-b09", "1.3.1_05-ea-b01", "1.4.0_03-ea-b01" };

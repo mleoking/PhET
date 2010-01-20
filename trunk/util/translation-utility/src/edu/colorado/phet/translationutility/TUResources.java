@@ -69,10 +69,6 @@ public class TUResources {
         return "JRE " + new JavaVersion.JREVersion().toString();
     }
     
-    public static String getJVMVersion() {
-        return "JVM " + new JavaVersion.JVMVersion().toString();
-    }
-    
     /**
      * Gets the program's title, to be displayed in the title bar of dialogs and windows.
      * @return String
