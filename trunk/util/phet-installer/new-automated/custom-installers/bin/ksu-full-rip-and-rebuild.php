@@ -45,6 +45,10 @@
         //ripper_rip_website_subset();
         ripper_download_sims();
 
+        // Log the time at which the rip completed.
+        $rip_finish_time = exec("date");
+        flushing_echo("Rip completed at time $start_time");
+
         // Make sure permissions of the ripped website are correct.
         file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0775, 0775 );
 
