@@ -2,10 +2,10 @@
 
 package edu.colorado.phet.neuron.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
@@ -22,6 +22,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -32,7 +33,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -48,10 +48,12 @@ public class MembranePotentialChart extends PNode {
 	
     private JFreeChart chart;
     private JFreeChartNode jFreeChartNode;
-    private PPath path;
     private int crossSectionY;
     private AxonModel axonModel;
 	private XYSeries dataSeries = new XYSeries("0");
+
+	private static NumberAxis xAxis;
+	private static NumberAxis yAxis;
 
     public MembranePotentialChart( Dimension2D size, String title, AxonModel axonModel, String distanceUnits, double minX, double maxX ) {
     	
@@ -69,25 +71,30 @@ public class MembranePotentialChart extends PNode {
         chart = createXYLineChart2( title, "Time (ms)", "Membrane Potential (mv)", dataset, PlotOrientation.VERTICAL);
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
         chart.getXYPlot().getRangeAxis().setRange( -50.0, 100.0 );
-        jFreeChartNode = new JFreeChartNode( chart, true );
+        jFreeChartNode = new JFreeChartNode( chart, false );
         jFreeChartNode.setBounds( 0, 0, size.getWidth(), size.getHeight() );
 
         setHorizontalLabel( MessageFormat.format( "Time (ms)", new Object[]{distanceUnits} ) );
         setHorizontalRange( minX, maxX );
 
+
         jFreeChartNode.updateChartRenderingInfo();
-        path = new PPath();
-        path.setStroke( new BasicStroke( 3 ) );
-        path.setStrokePaint( Color.blue );
 
         addChild( jFreeChartNode );
-        addChild( path );
+        dataSeries.add(100, 50);
+
 //        updateLocation();
 
     }
     
     public void addDataPoint(double time, double voltage){
     	dataSeries.add(time, voltage);
+        double tMin = dataSeries.getDataItem( 0 ).getX().doubleValue();
+        xAxis.setRange( new Range( tMin, tMin + 1000 ) );
+    }
+    
+    public void clearChart(){
+    	dataSeries.clear();
     }
 
     public void setHorizontalLabel( String horizontalUnits ) {
@@ -133,9 +140,9 @@ public class MembranePotentialChart extends PNode {
     	if (orientation == null) {
     		throw new IllegalArgumentException("Null 'orientation' argument.");
     	}
-    	NumberAxis xAxis = new NumberAxis(xAxisLabel);
+    	xAxis = new NumberAxis(xAxisLabel);
     	xAxis.setLabelFont(new PhetFont(18));
-    	NumberAxis yAxis = new NumberAxis(yAxisLabel);
+    	yAxis = new NumberAxis(yAxisLabel);
     	yAxis.setLabelFont(new PhetFont(18));
     	XYItemRenderer renderer = new XYLineAndShapeRenderer(true, false);
     	XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);
@@ -152,7 +159,12 @@ public class MembranePotentialChart extends PNode {
     	if (orientation == null) {
     		throw new IllegalArgumentException("Null 'orientation' argument.");
     	}
-    	
+
+    	xAxis = new NumberAxis(xAxisLabel);
+    	xAxis.setLabelFont(new PhetFont(18));
+    	yAxis = new NumberAxis(yAxisLabel);
+    	yAxis.setLabelFont(new PhetFont(18));
+
         JFreeChart chart = ChartFactory.createXYLineChart(
             title,
             xAxisLabel,
@@ -240,19 +252,6 @@ public class MembranePotentialChart extends PNode {
     }
     */
 
-    public void updateChart() {
-        GeneralPath generalPath = new GeneralPath();
-        Point2D[] pts = readValues();//todo this just assumes the chart transform matches perfectly
-        if ( pts.length > 0 ) {
-            generalPath.moveTo( (float) pts[0].getX(), (float) pts[0].getY() );//todo crop to fit inside data area.
-        }
-        for ( int i = 1; i < pts.length; i++ ) {
-            generalPath.lineTo( (float) pts[i].getX(), (float) pts[i].getY() );
-        }
-        path.setPathTo( generalPath );
-        path.setOffset( getPathLocation() );
-    }
-
     protected Point2D getPathLocation() {
         Point2D nodeLoc = jFreeChartNode.plotToNode( new Point2D.Double( 0, 0 ) );
         jFreeChartNode.localToParent( nodeLoc );
@@ -272,19 +271,6 @@ public class MembranePotentialChart extends PNode {
         return jFreeChartNode.getFullBounds().getHeight();
     }
 
-    public void setCurveVisible( boolean visible ) {
-        path.setVisible( visible );
-    }
-
-    public boolean isCurveVisible() {
-        return path.getVisible();
-    }
-
-    public void setCrossSectionYValue( int crossSectionY ) {
-        this.crossSectionY = crossSectionY;
-        updateChart();
-    }
-    
     public static void main(String[] args) {
     	
     	// Set up the main frame for the application.
@@ -294,7 +280,7 @@ public class MembranePotentialChart extends PNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         // Create the chart.
-        MembranePotentialChart membranePotentialChart = 
+        final MembranePotentialChart membranePotentialChart = 
         	new MembranePotentialChart(size, "Test Chart", null, "mV", 0, 1000);
         
         // Create the canvas and add the chart to it.
@@ -302,10 +288,29 @@ public class MembranePotentialChart extends PNode {
         phetPCanvas.addScreenChild( membranePotentialChart );
         
         // Create and add a button that will add a new data point each time
-        // it is pressed.
+        // when it is pressed.
         JButton button = new JButton("Add Data Point");
+        button.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				membranePotentialChart.addDataPoint(200, 70);
+				membranePotentialChart.addDataPoint(300, -20);
+			}
+		});
         PSwing buttonPSwing = new PSwing(button);
         phetPCanvas.addScreenChild(buttonPSwing);
+        
+        // Create and add a button that will clear the chart.
+        JButton clearButton = new JButton("Clear Chart");
+        clearButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				membranePotentialChart.clearChart();
+			}
+		});
+        PSwing clearButtonPSwing = new PSwing(clearButton);
+        clearButtonPSwing.setOffset(100, 0);
+        phetPCanvas.addScreenChild(clearButtonPSwing);
         
         // Associate the canvas and the frame and display it.
         frame.setContentPane(phetPCanvas);
