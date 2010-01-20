@@ -11,9 +11,9 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import org.apache.tools.ant.taskdefs.Sleep;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
@@ -34,6 +34,7 @@ import edu.colorado.phet.neuron.model.AxonModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Chart for depicting the membrane potential in the play area.
@@ -65,9 +66,9 @@ public class MembranePotentialChart extends PNode {
         dataSeries.add(60, 0);
         XYDataset dataset = new XYSeriesCollection( dataSeries );
         // TODO: Internationalize.
-        chart = createXYLineChart( title, null, "Membrane Potential (mv)", dataset, PlotOrientation.VERTICAL);
-        chart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
-        chart.getXYPlot().getRangeAxis().setRange( -1.0, 1.0 );
+        chart = createXYLineChart2( title, "Time (ms)", "Membrane Potential (mv)", dataset, PlotOrientation.VERTICAL);
+        chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
+        chart.getXYPlot().getRangeAxis().setRange( -50.0, 100.0 );
         jFreeChartNode = new JFreeChartNode( chart, true );
         jFreeChartNode.setBounds( 0, 0, size.getWidth(), size.getHeight() );
 
@@ -83,6 +84,10 @@ public class MembranePotentialChart extends PNode {
         addChild( path );
 //        updateLocation();
 
+    }
+    
+    public void addDataPoint(double time, double voltage){
+    	dataSeries.add(time, voltage);
     }
 
     public void setHorizontalLabel( String horizontalUnits ) {
@@ -141,6 +146,27 @@ public class MembranePotentialChart extends PNode {
     	return chart;
     }
     
+    private static JFreeChart createXYLineChart2(String title, String xAxisLabel, String yAxisLabel,
+    		XYDataset dataset, PlotOrientation orientation) {
+
+    	if (orientation == null) {
+    		throw new IllegalArgumentException("Null 'orientation' argument.");
+    	}
+    	
+        JFreeChart chart = ChartFactory.createXYLineChart(
+            title,
+            xAxisLabel,
+            yAxisLabel,
+            dataset,
+            PlotOrientation.VERTICAL,
+            false, // legend
+            false, // tooltips
+            false  // urls
+        );
+        
+
+    	return chart;
+    }
     /**
      * Creates a chart.
      * 
@@ -261,16 +287,27 @@ public class MembranePotentialChart extends PNode {
     
     public static void main(String[] args) {
     	
+    	// Set up the main frame for the application.
     	Dimension2D size = new PDimension(800, 600);
 		JFrame frame = new JFrame();
         frame.setSize( (int)size.getWidth(), (int)size.getHeight() );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        
-        PhetPCanvas phetPCanvas = new PhetPCanvas();
+
+        // Create the chart.
         MembranePotentialChart membranePotentialChart = 
-        	new MembranePotentialChart(size, "Test Chart", null, "mV", 0, 1000); 
+        	new MembranePotentialChart(size, "Test Chart", null, "mV", 0, 1000);
+        
+        // Create the canvas and add the chart to it.
+        PhetPCanvas phetPCanvas = new PhetPCanvas();
         phetPCanvas.addScreenChild( membranePotentialChart );
         
+        // Create and add a button that will add a new data point each time
+        // it is pressed.
+        JButton button = new JButton("Add Data Point");
+        PSwing buttonPSwing = new PSwing(button);
+        phetPCanvas.addScreenChild(buttonPSwing);
+        
+        // Associate the canvas and the frame and display it.
         frame.setContentPane(phetPCanvas);
         frame.setVisible(true);
 	}
