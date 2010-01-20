@@ -67,7 +67,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public MembraneDiffusionControlPanel( PiccoloModule module, Frame parentFrame, AxonModel model, NeuronCanvas canvas ) {
+    public MembraneDiffusionControlPanel( PiccoloModule module, Frame parentFrame, final AxonModel model, NeuronCanvas canvas ) {
         super();
         
         this.axonModel = model;
@@ -151,7 +151,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         final JButton stimulusButton = new JButton(NeuronStrings.STIMULUS_PULSE);
         stimulusButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("TODO: Send stimulus to the model.");
+				model.initiateStimulusPulse();
 			}
 		});
         addControl(stimulusButton);
