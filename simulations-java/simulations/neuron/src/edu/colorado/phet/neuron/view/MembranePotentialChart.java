@@ -29,6 +29,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.neuron.model.AxonModel;
@@ -45,6 +47,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class MembranePotentialChart extends PNode {
 	
 	private static final Color STROKE_COLOR = Color.red;
+	private static final double TIME_SPAN = 1000; // In milliseconds.
 	
     private JFreeChart chart;
     private JFreeChartNode jFreeChartNode;
@@ -55,9 +58,26 @@ public class MembranePotentialChart extends PNode {
 	private static NumberAxis xAxis;
 	private static NumberAxis yAxis;
 
-    public MembranePotentialChart( Dimension2D size, String title, AxonModel axonModel, String distanceUnits, double minX, double maxX ) {
+    public MembranePotentialChart( Dimension2D size, String title, AxonModel axonModel, String distanceUnits ) {
     	
         this.axonModel = axonModel;
+        
+        if (axonModel != null){
+        	// Register for notifications from the model.
+        	axonModel.addListener(new AxonModel.Adapter(){
+        		public void stimulusPulseInitiated() {
+        			clearChart();
+        		}
+        	});
+        	
+        	// Register for clock ticks so that we can update.
+        	axonModel.getClock().addClockListener(new ClockAdapter(){
+        	    public void clockTicked( ClockEvent clockEvent ) {
+        	    	updateChart(clockEvent);
+        	    }
+        	});
+        }
+        
         // TODO: Temp - create some bogus data in order to see something initially.
         dataSeries.add(0, 0);
         dataSeries.add(10, 0);
@@ -75,8 +95,7 @@ public class MembranePotentialChart extends PNode {
         jFreeChartNode.setBounds( 0, 0, size.getWidth(), size.getHeight() );
 
         setHorizontalLabel( MessageFormat.format( "Time (ms)", new Object[]{distanceUnits} ) );
-        setHorizontalRange( minX, maxX );
-
+        setHorizontalRange( 0, TIME_SPAN );
 
         jFreeChartNode.updateChartRenderingInfo();
 
@@ -90,7 +109,6 @@ public class MembranePotentialChart extends PNode {
     public void addDataPoint(double time, double voltage){
     	dataSeries.add(time, voltage);
         double tMin = dataSeries.getDataItem( 0 ).getX().doubleValue();
-        xAxis.setRange( new Range( tMin, tMin + 1000 ) );
     }
     
     public void clearChart(){
@@ -221,7 +239,12 @@ public class MembranePotentialChart extends PNode {
         return chart;
 
     }
-
+    
+    private void updateChart(ClockEvent clockEvent){
+    	if (clockEvent.getSimulationTime() < TIME_SPAN){
+    		addDataPoint(clockEvent.getSimulationTime(), axonModel.getMembranePotential());
+    	}
+    }
 
     /*
     private void synchronizeWidth() {
@@ -281,7 +304,7 @@ public class MembranePotentialChart extends PNode {
 
         // Create the chart.
         final MembranePotentialChart membranePotentialChart = 
-        	new MembranePotentialChart(size, "Test Chart", null, "mV", 0, 1000);
+        	new MembranePotentialChart(size, "Test Chart", null, "mV");
         
         // Create the canvas and add the chart to it.
         PhetPCanvas phetPCanvas = new PhetPCanvas();
