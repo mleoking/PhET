@@ -121,8 +121,7 @@ public class NeuronCanvas extends PhetPCanvas {
         }
         
         // Add the membrane potential chart.
-        membranePotentialChart = new MembranePotentialChart(POTENTIAL_CHART_SIZE, "Membrane Potential", model, "ms",
-        		0, 100);
+        membranePotentialChart = new MembranePotentialChart(POTENTIAL_CHART_SIZE, "Membrane Potential", model, "ms");
         membranePotentialChart.setVisible(false);
         chartLayer.addChild(membranePotentialChart);
         
