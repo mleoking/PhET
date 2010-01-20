@@ -12,6 +12,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.neuron.NeuronConstants;
 
 /**
@@ -57,7 +58,7 @@ public class AxonModel {
     // Instance Data
     //----------------------------------------------------------------------------
     
-    private final NeuronClock clock;
+    private final ConstantDtClock clock;
     private final AxonMembrane axonMembrane = new AxonMembrane();
     private ArrayList<Particle> particles = new ArrayList<Particle>();
     private ArrayList<AbstractMembraneChannel> channels = new ArrayList<AbstractMembraneChannel>();
@@ -93,7 +94,7 @@ public class AxonModel {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public NeuronClock getClock() {
+    public ConstantDtClock getClock() {
         return clock;
     }    
     
@@ -124,6 +125,10 @@ public class AxonModel {
     	}
     	
     	return numChannels;
+    }
+    
+    public double getMembranePotential(){
+    	return hodgkinsHuxleyModel.getMembraneVoltagePotential();
     }
 
     public void setNumMembraneChannels(MembraneChannelTypes channelType, int desiredNumChannesl){
@@ -302,6 +307,11 @@ public class AxonModel {
     	}
     }
     
+    public void initiateStimulusPulse(){
+    	// TODO: Implement.
+    	notifyStimulusPulseInitiated();
+    }
+    
     private void handleClockTicked(ClockEvent clockEvent){
     	
     	// Update the value of the membrane potential by stepping the
@@ -382,6 +392,12 @@ public class AxonModel {
 	private void notifyConcentrationGradientChanged(ParticleType particleType){
 		for (Listener listener : listeners){
 			listener.concentrationRatioChanged(particleType);
+		}
+	}
+	
+	private void notifyStimulusPulseInitiated(){
+		for (Listener listener : listeners){
+			listener.stimulusPulseInitiated();
 		}
 	}
 	
@@ -726,11 +742,17 @@ public class AxonModel {
     	 * changed.
     	 */
     	public void concentrationRatioChanged(ParticleType particleType);
+    	
+    	/**
+    	 * Notification that a stimulus pulse has been initiated.
+    	 */
+    	public void stimulusPulseInitiated();
     }
     
     public static class Adapter implements Listener{
 		public void channelAdded(AbstractMembraneChannel channel) {}
 		public void channelRemoved(AbstractMembraneChannel channel) {}
 		public void concentrationRatioChanged(ParticleType particleType) {}
+		public void stimulusPulseInitiated() {}
     }
 }
