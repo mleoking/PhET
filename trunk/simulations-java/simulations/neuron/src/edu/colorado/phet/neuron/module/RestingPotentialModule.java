@@ -78,8 +78,7 @@ public class RestingPotentialModule extends PiccoloModule {
     public void reset() {
 
         // Reset the clock
-        NeuronClock clock = model.getClock();
-        clock.resetSimulationTime();
+        model.getClock().resetSimulationTime();
         
         // Reset the model.
         model.reset();
