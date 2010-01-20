@@ -54,6 +54,7 @@ public class MembranePotentialChart extends PNode {
     private int crossSectionY;
     private AxonModel axonModel;
 	private XYSeries dataSeries = new XYSeries("0");
+	private double timeOffset = 0;
 
 	private static NumberAxis xAxis;
 	private static NumberAxis yAxis;
@@ -67,6 +68,7 @@ public class MembranePotentialChart extends PNode {
         	axonModel.addListener(new AxonModel.Adapter(){
         		public void stimulusPulseInitiated() {
         			clearChart();
+        			timeOffset = MembranePotentialChart.this.axonModel.getClock().getSimulationTime();
         		}
         	});
         	
@@ -74,6 +76,9 @@ public class MembranePotentialChart extends PNode {
         	axonModel.getClock().addClockListener(new ClockAdapter(){
         	    public void clockTicked( ClockEvent clockEvent ) {
         	    	updateChart(clockEvent);
+        	    }
+        	    public void simulationTimeReset( ClockEvent clockEvent ) {
+        	    	timeOffset = 0;
         	    }
         	});
         }
@@ -106,9 +111,14 @@ public class MembranePotentialChart extends PNode {
 
     }
     
+    /**
+     * Add a data point to the graph.
+     * 
+     * @param time - Time in milliseconds.
+     * @param voltage - Voltage in millivolts.
+     */
     public void addDataPoint(double time, double voltage){
     	dataSeries.add(time, voltage);
-        double tMin = dataSeries.getDataItem( 0 ).getX().doubleValue();
     }
     
     public void clearChart(){
@@ -241,8 +251,9 @@ public class MembranePotentialChart extends PNode {
     }
     
     private void updateChart(ClockEvent clockEvent){
-    	if (clockEvent.getSimulationTime() < TIME_SPAN){
-    		addDataPoint(clockEvent.getSimulationTime(), axonModel.getMembranePotential());
+    	double timeInMilliseconds = (clockEvent.getSimulationTime() - timeOffset) * 1000; 
+    	if (timeInMilliseconds < TIME_SPAN){
+    		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential() / 1000);
     	}
     }
 
