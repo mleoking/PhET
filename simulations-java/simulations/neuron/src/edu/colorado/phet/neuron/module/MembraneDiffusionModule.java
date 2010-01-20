@@ -8,10 +8,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.controlpanel.MembraneDiffusionControlPanel;
-import edu.colorado.phet.neuron.model.NeuronClock;
 import edu.colorado.phet.neuron.model.AxonModel;
-import edu.colorado.phet.neuron.model.ParticlePosition;
-import edu.colorado.phet.neuron.model.ParticleType;
+import edu.colorado.phet.neuron.model.NeuronClock;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
 
 /**
@@ -73,8 +71,7 @@ public class MembraneDiffusionModule extends PiccoloModule {
     public void reset() {
 
         // Reset the clock
-        NeuronClock clock = model.getClock();
-        clock.resetSimulationTime();
+        model.getClock().resetSimulationTime();
         
         // Reset the model.
         model.reset();
