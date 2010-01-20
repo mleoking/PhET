@@ -4,6 +4,8 @@ package edu.colorado.phet.neuron.controlpanel;
 
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -11,6 +13,7 @@ import java.util.Hashtable;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -143,6 +146,16 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         chartControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
         addControlFullWidth(chartControlCheckbox);
         
+        // Add a button for sending a stimulus to the neuron.
+        addControlFullWidth(createVerticalSpacingPanel(30));
+        final JButton stimulusButton = new JButton(NeuronStrings.STIMULUS_PULSE);
+        stimulusButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("TODO: Send stimulus to the model.");
+			}
+		});
+        addControl(stimulusButton);
+        
         // Add the zoom slider.
         // See TODO at top of this file for information about why the
         // the following is commented out.
@@ -150,7 +163,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 //        addControlFullWidth(zoomSlider);
         
         // Add the reset all button.
-        addControlFullWidth(createVerticalSpacingPanel(30));
+        addControlFullWidth(createVerticalSpacingPanel(60));
         addResetAllButton( module );
         
         // Update the states of the controls.
