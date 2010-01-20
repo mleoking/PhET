@@ -54,11 +54,16 @@ public class ImageGraphic implements Graphic, ImageObserver {
         imageTx = new AffineTransform();
         // Translate the transform to the model origin
         imageTx.translate( orgTx.getTranslateX() / orgTx.getScaleX(), orgTx.getTranslateY() / orgTx.getScaleY() );
+        if ( g2.getTransform().getDeterminant() == 0 ) {
+            // the matrix is not invertible, bail.
+            return;
+        }
         // Concatenate the inverse of the model-to-Swing coords transform
         try {
             imageTx.concatenate( g2.getTransform().createInverse() );
         }
         catch( NoninvertibleTransformException e ) {
+            // This should never happen because we checked the determinant above.
             throw new RuntimeException( e );
         }
         // Translate the transform so the bottom of the image is now at the model origin

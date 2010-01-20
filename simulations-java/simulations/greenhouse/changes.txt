@@ -1,3 +1,4 @@
+1/20/10 fix #2096, NoninvertibleTransformException on Mac startup (this also fixes #2095)
 # 2.07.00 (38003) Jan 9, 2010
 1/9/10 public version for milestone "full redeploy, 2010 Q1"
 # 2.06.03 (37715) Dec 23, 2009

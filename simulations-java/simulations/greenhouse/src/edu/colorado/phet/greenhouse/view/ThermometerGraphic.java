@@ -84,11 +84,16 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         AffineTransform thermometerTx = new AffineTransform();
         // Translate the transform to the model origin
         thermometerTx.translate( orgTx.getTranslateX() / orgTx.getScaleX(), orgTx.getTranslateY() / orgTx.getScaleY() );
+        if ( g2.getTransform().getDeterminant() == 0 ) {
+            // the matrix is not invertible, bail.
+            return;
+        }
         // Concatenate the inverse of the model-to-Swing coords transform
         try {
             thermometerTx.concatenate( g2.getTransform().createInverse() );
         }
         catch( NoninvertibleTransformException e ) {
+            // This should never happen because we checked the determinant above.
             throw new RuntimeException( e );
         }
 
