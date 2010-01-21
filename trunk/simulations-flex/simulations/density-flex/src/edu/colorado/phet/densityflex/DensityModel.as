@@ -47,11 +47,11 @@ public class DensityModel {
         groundShapeDef.SetAsOrientedBox(poolWidth / 2, 50, new b2Vec2(0, -50 - poolHeight), 0);
         groundBody.CreateShape(groundShapeDef);
 
-        //        groundShapeDef.SetAsOrientedBox(3, 3, new b2Vec2(-7, 13), 0);
-        //        groundBody.CreateShape(groundShapeDef);
-        //
-        //        groundShapeDef.SetAsOrientedBox(3, 3, new b2Vec2(7, 13), 0);
-        //        groundBody.CreateShape(groundShapeDef);
+        groundShapeDef.SetAsOrientedBox(BOUNDS / 2, poolHeight, new b2Vec2(-(poolWidth / 2 + BOUNDS / 2), -poolHeight), 0);
+        groundBody.CreateShape(groundShapeDef);
+
+        groundShapeDef.SetAsOrientedBox(BOUNDS / 2, poolHeight, new b2Vec2((poolWidth / 2 + BOUNDS / 2), -poolHeight), 0);
+        groundBody.CreateShape(groundShapeDef);
     }
 
     private function initWorld():void {
