@@ -1,3 +1,4 @@
+> Fixed a bug that caused inconsistent behavior when pressing "go" after the charts are filled up
 # 1.27.00 (38012) Jan 10, 2010
 1/10/10 public version for milestone "full redeploy, 2010 Q1"
 # 1.26.01 (37365) Dec 11, 2009
