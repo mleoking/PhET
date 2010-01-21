@@ -78,7 +78,7 @@ public class HodgkinsHuxleyModel {
 		// usual level of -70mv).  So should I just set the potential
 		// immediately to -55mV?  What if it isn't at -70mV?  Or should the
 		// change somehow be more gradual?
-		
+		membraneVoltagePotential = INITIAL_MEMBRANE_VOLTAGE_POTENTIAL;
 	}
 	
 	public double getMembraneVoltagePotential(){
