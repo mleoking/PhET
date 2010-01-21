@@ -1,3 +1,5 @@
+# 3.21.00 (38187) Jan 21, 2010
+1/21/10 > Alpha Decay & Radioactive Dating Game: Resolved issues where graphs could get into odd states.
 # 3.20.04 (38117) Jan 15, 2010
 1/15/10 > Radioactive Dating Game: Fixed an issue where odd lines could appear on the Decay Rates graph.
 # 3.20.03 (38089) Jan 13, 2010
