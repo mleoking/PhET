@@ -22,7 +22,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -83,14 +82,6 @@ public class MembranePotentialChart extends PNode {
         	});
         }
         
-        // TODO: Temp - create some bogus data in order to see something initially.
-        dataSeries.add(0, 0);
-        dataSeries.add(10, 0);
-        dataSeries.add(20, 0);
-        dataSeries.add(30, 0.5);
-        dataSeries.add(40, 1);
-        dataSeries.add(50, 0.5);
-        dataSeries.add(60, 0);
         XYDataset dataset = new XYSeriesCollection( dataSeries );
         // TODO: Internationalize.
         chart = createXYLineChart2( title, "Time (ms)", "Membrane Potential (mv)", dataset, PlotOrientation.VERTICAL);
@@ -105,7 +96,6 @@ public class MembranePotentialChart extends PNode {
         jFreeChartNode.updateChartRenderingInfo();
 
         addChild( jFreeChartNode );
-        dataSeries.add(100, 50);
 
 //        updateLocation();
 
