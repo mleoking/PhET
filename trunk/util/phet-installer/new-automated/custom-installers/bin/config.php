@@ -183,7 +183,7 @@
     define("RIPPER_USER_AGENT_KSU",  '"httrack-web-mirror-ar"');
 
     // Command-line args of the ripper:
-    define("RIPPER_OPTIONS", " -j %q0 -%e0 -r10 -s0");
+    define("RIPPER_OPTIONS", " -j %q0 -%e0 -r10 -s0 -A100000000 --disable-security-limits ");
     define("RIPPER_ARGS_YF", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_YF." -F ".RIPPER_USER_AGENT_YF.RIPPER_OPTIONS);
     define("RIPPER_ARGS_KSU", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_KSU." -F ".RIPPER_USER_AGENT_KSU.RIPPER_OPTIONS);
     define("RIPPER_VERSION_ARGS", " --version");
