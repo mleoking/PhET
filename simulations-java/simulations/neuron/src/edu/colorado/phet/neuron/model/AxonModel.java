@@ -308,7 +308,7 @@ public class AxonModel {
     }
     
     public void initiateStimulusPulse(){
-    	// TODO: Implement.
+    	hodgkinsHuxleyModel.stimulate();
     	notifyStimulusPulseInitiated();
     }
     
