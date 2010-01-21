@@ -30,6 +30,7 @@ public class GameModel extends RPALModel {
     private final ArrayList<GameListener> listeners;
     private final GameTimer timer;
     private final ChangeListener guessChangeListener;
+    private final IGameStrategy gameStrategy;
     
     private GameChallenge[] challenges; // the challenges that make up the current game
     private int challengeNumber; // the current challenge that the user is attempting to solve
@@ -58,6 +59,8 @@ public class GameModel extends RPALModel {
                 fireGuessChanged();
             }
         };
+        
+        gameStrategy = new DevGameStrategy();
         
         initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
     }
@@ -150,36 +153,9 @@ public class GameModel extends RPALModel {
             getChallenge().getGuess().removeChangeListener( guessChangeListener );
         }
         challengeNumber = 0;
-        challenges = createChallenges( level );
+        challenges = gameStrategy.createChallenges( getChallengesPerGame(), getLevel(), getQuantityRange() );
         getChallenge().getGuess().addChangeListener( guessChangeListener );
         fireChallengeChanged();
-    }
-    
-    //TODO: this needs to be rewritten, with many reactions to choose from, and more complicated selection criteria
-    //TODO: ensure that we don't have the same challenge twice in a row, or should they all be different?
-    public static GameChallenge[] createChallenges( int level ) {
-        GameChallenge[] challenges = new GameChallenge[ CHALLENGES_PER_GAME ];
-        for ( int i = 0; i < challenges.length; i++ ) {
-            ChemicalReaction reaction;
-            ChallengeType challengeType;
-            if ( level == 1 ) {
-                reaction = new WaterReaction();
-                challengeType = ChallengeType.AFTER;
-            }
-            else if ( level == 2 ) {
-                reaction = new AmmoniaReaction();
-                challengeType = ChallengeType.BEFORE;
-            }
-            else {
-                reaction = new MethaneReaction();
-                challengeType = Math.random() > 0.5 ? ChallengeType.BEFORE : ChallengeType.AFTER;
-            }
-            for ( Reactant reactant : reaction.getReactants() ) {
-                reactant.setQuantity( getRandomQuantity() );
-            }
-            challenges[i] = new GameChallenge( challengeType, reaction );
-        }
-        return challenges;
     }
     
     /*
@@ -187,13 +163,6 @@ public class GameModel extends RPALModel {
      */
     private boolean isGameCompleted() {
         return ( challengeNumber == CHALLENGES_PER_GAME - 1 );
-    }
-    
-    /*
-     * Generates a random non-zero quantity.
-     */
-    private static int getRandomQuantity() {
-        return 1 + (int)( Math.random() * getQuantityRange().getMax() );
     }
     
     /**
