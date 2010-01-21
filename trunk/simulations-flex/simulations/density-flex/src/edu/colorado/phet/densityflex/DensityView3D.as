@@ -1,5 +1,7 @@
 package edu.colorado.phet.densityflex{
 
+import Box2D.Common.Math.b2Vec2;
+
 import away3d.cameras.*;
 import away3d.containers.*;
 import away3d.core.base.*;
@@ -33,6 +35,7 @@ public class DensityView3D extends UIComponent {
 
     //navigation variables
     private var moving:Boolean = false;
+    private var cachedY:Number;
     private var startMouseX:Number;
     private var startMouseY:Number;
     private var startMiddle : Number3D;
@@ -208,6 +211,12 @@ public class DensityView3D extends UIComponent {
 
     public function onEnterFrame( event:Event ):void {
         model.step();
+        if ( moving && selectedObject is BlockNode ) {
+            var block : Block = (selectedObject as BlockNode).getBlock();
+            block.getBody().SetXForm(new b2Vec2(block.getBody().GetPosition().x, cachedY), 0);
+            block.getBody().SetLinearVelocity(new b2Vec2(0, 0));
+            block.update();
+        }
         poolFront.y = (-model.getPoolHeight() + model.getWaterHeight() / 2) * DensityModel.DISPLAY_SCALE;
         poolFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
         poolTop.y = (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
@@ -227,6 +236,9 @@ public class DensityView3D extends UIComponent {
             moving = true;
             startMiddle = medianFrontScreenPoint(view.mouseObject as AbstractPrimitive);
             selectedObject = view.mouseObject as AbstractPrimitive;
+            if ( selectedObject is BlockNode ) {
+                cachedY = (selectedObject as BlockNode).getBlock().getBody().GetPosition().y;
+            }
         }
         stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
     }
@@ -249,6 +261,9 @@ public class DensityView3D extends UIComponent {
             if ( selectedObject is IPositioned ) {
                 var settableObject : IPositioned = selectedObject as IPositioned;
                 settableObject.setPosition(intersection.x, intersection.y);
+                if ( selectedObject is BlockNode ) {
+                    cachedY = (selectedObject as BlockNode).getBlock().getBody().GetPosition().y;
+                }
             }
             else {
                 selectedObject.x = intersection.x;

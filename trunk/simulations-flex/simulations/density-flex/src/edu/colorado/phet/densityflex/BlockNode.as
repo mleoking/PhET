@@ -93,5 +93,9 @@ public class BlockNode extends Cube implements IPositioned, Listener{
         this.x = block.getX() * DensityModel.DISPLAY_SCALE;
         this.y = block.getY() * DensityModel.DISPLAY_SCALE;
     }
+
+    public function getBlock():Block {
+        return block;
+    }
 }
 }
