@@ -1,3 +1,5 @@
+1-14-2010: Torque (1.09) - Many user interface improvements and bug fixes.
+1-14-2010: Ladybug Revolution (1.09) - Many user interface improvements and bug fixes.
 1-11-2010: All Java sims were updated to incorporate new features from the PhET common framework.
 12-28-2009: Natural Selection (1.00) - Added Natural Selection simulation
 12-11-2009: All Flash sims were updated to incorporate new features from the PhET common framework.
