@@ -1,5 +1,7 @@
 package edu.colorado.phet.densityflex {
 
+import Box2D.Dynamics.b2Body;
+
 import away3d.materials.*;
 import away3d.primitives.*;
 
@@ -15,7 +17,7 @@ import flash.text.TextFormat;
 
 import mx.core.BitmapAsset;
 
-public class BlockNode extends Cube implements IPositioned, Listener{
+public class BlockNode extends Cube implements Pickable, Listener{
 
     private var frontSprite : Sprite;
     private var block:Block;
@@ -96,6 +98,10 @@ public class BlockNode extends Cube implements IPositioned, Listener{
 
     public function getBlock():Block {
         return block;
+    }
+
+    public function getBody():b2Body {
+        return block.getBody();
     }
 }
 }

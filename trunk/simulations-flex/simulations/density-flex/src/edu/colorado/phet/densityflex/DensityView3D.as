@@ -211,22 +211,18 @@ public class DensityView3D extends UIComponent {
 
     public function onEnterFrame( event:Event ):void {
         model.step();
-        if ( moving && selectedObject is BlockNode ) {
-            var block : Block = (selectedObject as BlockNode).getBlock();
-            block.getBody().SetXForm(new b2Vec2(block.getBody().GetPosition().x, cachedY), 0);
-            block.getBody().SetLinearVelocity(new b2Vec2(0, 0));
-            block.update();
+        if ( moving && selectedObject is Pickable ) {
+            var pickable : Pickable = (selectedObject as Pickable);
+            pickable.getBody().SetXForm(new b2Vec2(pickable.getBody().GetPosition().x, cachedY), 0);
+            pickable.getBody().SetLinearVelocity(new b2Vec2(0, 0));
+            pickable.update();
         }
         poolFront.y = (-model.getPoolHeight() + model.getWaterHeight() / 2) * DensityModel.DISPLAY_SCALE;
         poolFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
         poolTop.y = (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
-        view.render();
 
-        // TODO: remove invalid
-        //if ( invalid ) {
-        //    invalid = false;
-        //    view.render();
-        //}
+        // TODO: remove or update invalid
+        view.render();
     }
 
     public function onMouseDown( event:MouseEvent ) : void {
@@ -236,8 +232,8 @@ public class DensityView3D extends UIComponent {
             moving = true;
             startMiddle = medianFrontScreenPoint(view.mouseObject as AbstractPrimitive);
             selectedObject = view.mouseObject as AbstractPrimitive;
-            if ( selectedObject is BlockNode ) {
-                cachedY = (selectedObject as BlockNode).getBlock().getBody().GetPosition().y;
+            if ( selectedObject is Pickable ) {
+                cachedY = (selectedObject as Pickable).getBody().GetPosition().y;
             }
         }
         stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
@@ -258,22 +254,15 @@ public class DensityView3D extends UIComponent {
             var cubePlane : Plane3D = new Plane3D();
             cubePlane.fromNormalAndPoint(new Number3D(0, 0, -1), new Number3D(0, 0, -100));
             var intersection : Vertex = cubePlane.getIntersectionLine(cameraVertex, rayVertex);
-            if ( selectedObject is IPositioned ) {
-                var settableObject : IPositioned = selectedObject as IPositioned;
-                settableObject.setPosition(intersection.x, intersection.y);
-                if ( selectedObject is BlockNode ) {
-                    cachedY = (selectedObject as BlockNode).getBlock().getBody().GetPosition().y;
-                }
-            }
-            else {
-                selectedObject.x = intersection.x;
-                selectedObject.y = intersection.y;
+            if ( selectedObject is Pickable ) {
+                var pickable : Pickable = selectedObject as Pickable;
+                pickable.setPosition(intersection.x, intersection.y);
+                cachedY = pickable.getBody().GetPosition().y;
             }
 
             marker.x = intersection.x;
             marker.y = intersection.y;
             marker.z = intersection.z;
-
 
             invalid = true;
         }
