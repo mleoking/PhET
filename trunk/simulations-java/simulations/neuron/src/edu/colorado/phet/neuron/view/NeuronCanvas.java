@@ -41,8 +41,8 @@ public class NeuronCanvas extends PhetPCanvas {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
     // Size of the potential chart.
-    private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH * 0.7,
-    		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.35);
+    private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH * 1,
+    		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.4);
     
     // For debug: Enable and disable nodes that can help with debug of layout.
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
@@ -168,8 +168,10 @@ public class NeuronCanvas extends PhetPCanvas {
         }
         else {
             double rightEdgeX = (INITIAL_INTERMEDIATE_COORD_WIDTH + worldSize.getWidth()) / 2;
+            double centerX = getSize().getWidth() / 2;
+            System.out.println(centerX);
             membranePotentialChart.setOffset(
-            		rightEdgeX - membranePotentialChart.getFullBoundsReference().width - 5,
+            		centerX - membranePotentialChart.getFullBoundsReference().width / 2,
             		worldSize.getHeight() - membranePotentialChart.getFullBoundsReference().height - 5);
             voltmeter.setOffset(rightEdgeX - voltmeter.getFullBoundsReference().width - 5,
             		worldSize.getHeight() - voltmeter.getFullBounds().height - 5);
