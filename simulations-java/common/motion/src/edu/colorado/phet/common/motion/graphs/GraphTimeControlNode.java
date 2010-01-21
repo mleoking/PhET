@@ -117,7 +117,13 @@ public class GraphTimeControlNode extends PNode {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if ( isGoButton() ) {
-                        timeSeriesModel.startRecording();
+                        //if the charts are filled up, then we must go to live mode, since switching to record mode entails restoring the last recorded state first
+                        //see #2088
+                        if (timeSeriesModel.getRecordTime() >= timeSeriesModel.getMaxRecordTime()) {
+                            timeSeriesModel.startLiveMode();
+                        } else {
+                            timeSeriesModel.startRecording();
+                        }
                     }
                     else {
                         timeSeriesModel.setPaused( true );
