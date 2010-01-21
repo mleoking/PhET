@@ -109,10 +109,10 @@ public class DensityView3D extends UIComponent {
     }
 
     public function initObjects():void {
-        var poolHeight:Number = model.getPoolHeight();
-        var waterHeight:Number = model.getWaterHeight();
-        var poolWidth:Number = model.getPoolWidth();
-        var poolDepth:Number = model.getPoolDepth();
+        var poolHeight:Number = model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
+        var waterHeight:Number = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
+        var poolWidth:Number = model.getPoolWidth() * DensityModel.DISPLAY_SCALE;
+        var poolDepth:Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
 
         poolFront = new Plane({ y: -poolHeight + waterHeight / 2, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial(0x0088FF, {alpha: 0.4}) });
         scene.addChild(poolFront);
@@ -146,10 +146,10 @@ public class DensityView3D extends UIComponent {
         scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
 
         //scene.addChild(new Sphere({ x: -450, y: 300, z: 201, radius: 100, segmentsH: 10, segmentsW: 10, material: new PhongBitmapMaterial((new spheretex() as BitmapAsset).bitmapData) }));
-        scene.addChild(new Cylinder({ x: 450, y: 300, z: 151, rotationZ: 90, radius: 50, height: 750, segmentsH: 1, segmentsW: 25, material: new ShadingColorMaterial(0xAA7755) }));
+        //scene.addChild(new Cylinder({ x: 450, y: 300, z: 151, rotationZ: 90, radius: 50, height: 750, segmentsH: 1, segmentsW: 25, material: new ShadingColorMaterial(0xAA7755) }));
 
         // the cube
-        var block:Block = new Block(50, 200, 450, 0, new ColorTransform(1, 0, 0))
+        //var block:Block = new Block(50, 2, 4.5, 0, new ColorTransform(1, 0, 0));
 
         for each ( var b:Block in this.model.getBlocks() ) {
             scene.addChild(new BlockNode(b));
@@ -207,10 +207,17 @@ public class DensityView3D extends UIComponent {
     private var time : int = 0;
 
     public function onEnterFrame( event:Event ):void {
-        if ( invalid ) {
-            invalid = false;
-            view.render();
-        }
+        model.step();
+        poolFront.y = (-model.getPoolHeight() + model.getWaterHeight() / 2) * DensityModel.DISPLAY_SCALE;
+        poolFront.height = model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
+        poolTop.y = (-model.getPoolHeight() + model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
+        view.render();
+
+        // TODO: remove invalid
+        //if ( invalid ) {
+        //    invalid = false;
+        //    view.render();
+        //}
     }
 
     public function onMouseDown( event:MouseEvent ) : void {
@@ -252,10 +259,7 @@ public class DensityView3D extends UIComponent {
             marker.y = intersection.y;
             marker.z = intersection.z;
 
-            model.updateWater();
-            poolFront.y = -model.getPoolHeight() + model.getWaterHeight() / 2;
-            poolFront.height = model.getWaterHeight();
-            poolTop.y = -model.getPoolHeight() + model.getWaterHeight();
+
             invalid = true;
         }
         invalid = true;
