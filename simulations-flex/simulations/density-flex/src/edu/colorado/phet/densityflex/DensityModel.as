@@ -33,8 +33,9 @@ public class DensityModel {
 
         blocks.push(new Block(5, 2, 4.5, 0, new ColorTransform(1, 0, 0), this));
         blocks.push(new Block(0.1, 1, 1.5, 0, new ColorTransform(0, 1, 0), this));
-        blocks.push(new Block(1, 3, -1.5, 0, new ColorTransform(0, 0, 1), this));
+        blocks.push(new Block(0.3, 3, -1.5, 0, new ColorTransform(0, 0, 1), this));
         blocks.push(new Block(0.5, 2, -4.5, 0, new ColorTransform(1, 1, 1), this));
+        blocks.push(new Block(0.8, 2, 4.5, 3.0, new ColorTransform(0.5, 0.5, 0), this));
     }
 
     private function createGround():void {
@@ -58,7 +59,7 @@ public class DensityModel {
         var worldBox : b2AABB = new b2AABB();
         worldBox.lowerBound.Set(-BOUNDS, -BOUNDS);
         worldBox.upperBound.Set(BOUNDS, BOUNDS);
-        var gravity : b2Vec2 = new b2Vec2(0, -9.8);
+        var gravity : b2Vec2 = new b2Vec2(0, 0);
         var doSleep : Boolean = false;
         world = new b2World(worldBox, gravity, doSleep);
     }
@@ -77,6 +78,9 @@ public class DensityModel {
             updateWater();
             var waterY : Number = -poolHeight + waterHeight;
             for each( block in blocks ) {
+                var body : b2Body = block.getBody();
+                body.ApplyForce(new b2Vec2(0, -9.8 * block.getVolume() * block.getDensity()), body.GetPosition());
+
                 if ( waterY < block.getBottomY() ) {
                     continue;
                 }
@@ -88,7 +92,7 @@ public class DensityModel {
                     submergedVolume = (waterY - block.getBottomY() ) * block.getWidth() * block.getDepth();
                 }
                 // TODO: add in liquid density
-                var body : b2Body = block.getBody();
+
                 body.ApplyForce(new b2Vec2(0, 9.8 * submergedVolume), body.GetPosition());
 
                 var dragForce:b2Vec2 = body.GetLinearVelocity().Copy();
