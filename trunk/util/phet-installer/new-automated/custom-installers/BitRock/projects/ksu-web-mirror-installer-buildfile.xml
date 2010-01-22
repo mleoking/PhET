@@ -149,12 +149,12 @@
     <postInstallationActionList>
 
         <!-- Note that for a web mirror installation, the time stamp
-             information is not created and placed into the Java or Flash
-             sims.  This is because that information is used by the sims to
-             decide if they are being run from a local installation, and in
-             this case, they are not (they are being run from another web
-             site).  See Unfuddle #2116 for more information about the Flash
-             side of this story. -->
+             information is not placed into the Java or Flash sims during the
+             post-installation step, as they are for local installs.  This is
+             because that information is used by the sims to decide if they
+             are being run from a local installation, and in this case, they
+             are not - they are being run from another web site.  See Unfuddle
+             #2116 for more information about the Flash side of this story. -->
 
         <createTimeStamp>
             <variable>installation_time_stamp</variable>
@@ -166,8 +166,22 @@
         </logMessage>
         
         <logMessage>
-            <text>Note: This is a web mirror installation, so no intallation time stamps are being inserted into the sims.</text>
+            <text>Note: This is a web mirror installation, so intallation time stamps are NOT being inserted into the sims.</text>
         </logMessage>
+
+        <!-- Place a value into the HTML files that launch the flash sims that
+             will indicate that the sim is being launched from another web
+             site.  See Unfuddle #2116 for more information. -->
+        <substitute>
+            <files>${installdir}/sims/*/*.html</files>
+            <substitutionList>
+                <substitution>
+                    <pattern>simDeployment=[^&amp;]*</pattern>
+                    <value>simDeployment=other-website</value>
+                </substitution>
+            </substitutionList>
+        </substitute>
+
 
     </postInstallationActionList>
 
