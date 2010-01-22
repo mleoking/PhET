@@ -363,25 +363,27 @@ public abstract class SimpleModelElement implements IModelElement{
 	 * model element.
 	 */
     public void setDragging(boolean dragging) {
-        this.dragging=dragging;
-        if ( dragging == false ){
-        	if (model.isPointInToolBox(getPositionRef()) || !isInAllowableLocation()){
-	        	// This model element is being released by the user in a location
-	        	// that is either inside the tool box or is in a disallowed
-	        	// location, so remove it from the model.
-	        	removeSelfFromModel();
-        	}
-        	else{
-        		// The element is being released by the user outside the
-        		// toolbox.  See if it needs to be moved to any particular
-        		// location.
-        		if (isPartOfDnaStrand()){
-        			// This element is part of the DNA strand, so move it to
-        			// the correct location with the strand.
-        			setPosition(getDefaultLocation());
-        		}
-        	}
-        }
+    	if (this.dragging != dragging){
+    		this.dragging=dragging;
+    		if ( dragging == false ){
+    			if (model.isPointInToolBox(getPositionRef()) || !isInAllowableLocation()){
+    				// This model element is being released by the user in a location
+    				// that is either inside the tool box or is in a disallowed
+    				// location, so remove it from the model.
+    				removeSelfFromModel();
+    			}
+    			else{
+    				// The element is being released by the user outside the
+    				// toolbox.  See if it needs to be moved to any particular
+    				// location.
+    				if (isPartOfDnaStrand()){
+    					// This element is part of the DNA strand, so move it to
+    					// the correct location with the strand.
+    					setPosition(getDefaultLocation());
+    				}
+    			}
+    		}
+    	}
     }
     
     /**
