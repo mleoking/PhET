@@ -5,9 +5,9 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- developer controls for setting up specific Game challenges
 - add more reactions to Game
-- implement GameModel.newChallenges
+- developer controls for setting up specific Game challenges
+- implement a more refined IGameStrategy 
 - add an animated "prize" to Game Summary for perfect score
 - move timerVisible out of GameModel, doesn't belong there
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes

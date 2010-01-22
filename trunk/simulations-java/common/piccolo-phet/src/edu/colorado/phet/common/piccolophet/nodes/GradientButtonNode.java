@@ -1,11 +1,8 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2010, University of Colorado */
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Paint;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
@@ -13,8 +10,8 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
@@ -22,7 +19,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * This class represents a button that is a PNode and thus can be placed 
@@ -54,13 +50,13 @@ public class GradientButtonNode extends PhetPNode {
     // Constants that control various visual aspects of the button.
     private static final double COLOR_SCALING_FACTOR = 0.5;
     private static final double BUTTON_CORNER_ROUNDEDNESS = 8;
-    private static final float SHADOW_TRANSPARENCY = 0.2f;
+    private static final Color SHADOW_COLOR = new Color( 0f, 0f, 0f, 0.2f );
 
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
     
-    private ArrayList _actionListeners;
+    private ArrayList<ActionListener> _actionListeners;
     private Color _buttonColor;
     private PNode _icon;
     private PPath _button;
@@ -89,9 +85,7 @@ public class GradientButtonNode extends PhetPNode {
         this._buttonColor=buttonColor;
 
         // Initialize local data.
-        _actionListeners = new ArrayList();
-
-
+        _actionListeners = new ArrayList<ActionListener>();
 
         // Gradient for when the mouse is not over the button.
         final Paint mouseNotOverGradient = getMouseNotOverGradient();
@@ -111,11 +105,11 @@ public class GradientButtonNode extends PhetPNode {
         _button.addInputEventListener( new CursorHandler() ); // Does the finger pointer cursor thing.
 
         // Create the shadow node.
-        PNode buttonShadow = new PPath(buttonShape);
-        buttonShadow.setPaint( Color.BLACK );
+        PPath buttonShadow = new PPath(buttonShape);
+        buttonShadow.setPaint( SHADOW_COLOR );
         buttonShadow.setPickable( false );
-        buttonShadow.setTransparency( SHADOW_TRANSPARENCY );
         buttonShadow.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
+        buttonShadow.setStroke( null );
 
         // Add the children to the node in the appropriate order so that they
         // appear as desired.
@@ -246,7 +240,8 @@ public class GradientButtonNode extends PhetPNode {
         int red = origColor.getRed() + (int)Math.round( (double)(255 - origColor.getRed()) * COLOR_SCALING_FACTOR); 
         int green = origColor.getGreen() + (int)Math.round( (double)(255 - origColor.getGreen()) * COLOR_SCALING_FACTOR); 
         int blue = origColor.getBlue() + (int)Math.round( (double)(255 - origColor.getBlue()) * COLOR_SCALING_FACTOR); 
-        return new Color ( red, green, blue );
+        int alpha = origColor.getAlpha(); // preserve transparency of original color, see #2123
+        return new Color ( red, green, blue, alpha );
     }
     
     
@@ -278,11 +273,16 @@ public class GradientButtonNode extends PhetPNode {
         testButton04.setOffset( 200, 200 );
         testButton04.addActionListener( listener );
         
+        GradientButtonNode testButton05 = new GradientButtonNode("Transparent", new Color( 255, 0, 0, 100 ) );
+        testButton05.setOffset( 200, 100 );
+        testButton05.addActionListener( listener );
+        
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.addScreenChild( testButton01 );
         canvas.addScreenChild( testButton02 );
         canvas.addScreenChild( testButton03 );
         canvas.addScreenChild( testButton04 );
+        canvas.addScreenChild( testButton05 );
         
         JFrame frame = new JFrame();
         frame.setContentPane( canvas );
