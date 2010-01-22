@@ -14,6 +14,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
@@ -70,22 +71,15 @@ public class LacOperonModule extends PiccoloModule {
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.X_AXIS ) );
         spacePanel.add( Box.createHorizontalStrut( 30 ) );
         clockPanelWithResetButton.add(spacePanel);
-        JButton resetButton = new JButton(GeneNetworkStrings.RESET);
-        resetButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.reset();
-			}
-		});
-        clockPanelWithResetButton.add(resetButton);
+
+        clockPanelWithResetButton.add(new ResetAllButton(this, clockPanelWithResetButton));
+        
         setClockControlPanel( clockPanelWithResetButton );
         
         // Help
         if ( hasHelp() ) {
             //XXX add help items
         }
-
-        // Set initial state
-        reset();
     }
 
     //----------------------------------------------------------------------------
@@ -97,8 +91,11 @@ public class LacOperonModule extends PiccoloModule {
      */
     public void reset() {
 
-        // reset the clock
+        // Reset the clock.
         GeneNetworkClock clock = model.getClock();
         clock.resetSimulationTime();
+        
+        // Reset the model.
+        model.reset();
     }    
 }
