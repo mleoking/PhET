@@ -62,6 +62,28 @@ public abstract class ToolBoxItemNode extends PComposite {
         addInputEventListener(new CursorHandler());
         addInputEventListener(new PBasicInputEventHandler(){
         	@Override
+            public void mousePressed(PInputEvent event) {
+        		// Figure out the correspondence between this press event and model space.
+    			Point2D mouseCanvasPos = event.getCanvasPosition();
+    			Point2D mouseWorldPos = new Point2D.Double(mouseCanvasPos.getX(), mouseCanvasPos.getY()); 
+    			canvas.getPhetRootNode().screenToWorld(mouseWorldPos);
+    			Point2D mouseModelPos = mvt.viewToModel(mouseWorldPos);
+        		
+        		if (modelElement == null){
+        			// Add the new model element to the model.
+        			handleAddRequest(mouseCanvasPos);
+        			modelElement.setDragging(true);
+        			modelElement.setPosition(mouseModelPos);
+        		}
+        		else{
+        			// This isn't expected to happen.  If it does, we need to
+        			// figure out why.
+        			System.out.println(getClass().getName() + " - Warning: Mouse press event received but element already exists.");
+        			assert false;
+        		}
+            }
+
+        	@Override
             public void mouseDragged(PInputEvent event) {
         		// Figure out the correspondence between this drag event and model space.
     			Point2D mouseCanvasPos = event.getCanvasPosition();
@@ -71,12 +93,14 @@ public abstract class ToolBoxItemNode extends PComposite {
         		
         		if (modelElement == null){
         			// Add the new model element to the model.
+        			System.out.println(getClass().getName() + " - Warning: Drag event received but no model element yet, adding it.");
         			handleAddRequest(mouseCanvasPos);
-        			if (modelElement != null){
-        				// If a model element was added, it is now being dragged.
-        				modelElement.setDragging(true);
-        			}
+        			modelElement.setDragging(true);
         		}
+        		else{
+    				// If a model element was added, it is now being dragged.
+        		}
+        		
        			// Move the model element (if it exists).
         		if (modelElement != null){
         			modelElement.setPosition(mouseModelPos);
