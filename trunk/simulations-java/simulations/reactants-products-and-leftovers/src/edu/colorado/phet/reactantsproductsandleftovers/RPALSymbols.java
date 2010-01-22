@@ -5,8 +5,7 @@ package edu.colorado.phet.reactantsproductsandleftovers;
 /**
  * Collection of symbols used in this sim.
  * These do not require localization, their use is universal.
- * <p>
- * HTML is used to handle superscripts and subscripts.
+ * HTML is used to subscripts.
  * Symbols that are HTML fragments can be combined into more complex HTML documents.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
