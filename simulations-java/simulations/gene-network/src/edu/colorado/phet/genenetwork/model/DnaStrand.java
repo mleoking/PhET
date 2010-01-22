@@ -364,6 +364,7 @@ public class DnaStrand {
 			public void removedFromModel() {
 				setEyeCatching(false);
 				modelElement = null;
+				updateOccupancyState();
 			};
 		};
 
@@ -428,13 +429,16 @@ public class DnaStrand {
 		
 		private void updateOccupancyState(){
 			if (occupied == false){
-				if (modelElement.getPositionRef().distance(getAbsolutePosition()) < OCCUPIED_DISTANCE){
+				if (modelElement != null && modelElement.getPositionRef().distance(getAbsolutePosition()) < OCCUPIED_DISTANCE){
 					occupied = true;
 					notifyOccupiedStateChanged();
 				}
 			}
 			else if (occupied == true){
-				if (modelElement.getPositionRef().distance(getAbsolutePosition()) > OCCUPIED_DISTANCE){
+				if (modelElement == null || modelElement.getPositionRef().distance(getAbsolutePosition()) > OCCUPIED_DISTANCE){
+					// The model element has been removed from the model or
+					// moved far away from the strand, so this space should be
+					// considered unoccupied.
 					occupied = false;
 					notifyOccupiedStateChanged();
 				}
