@@ -1,3 +1,4 @@
+1/22/10 add images for all molecules, uniform height = 38 pixels
 1/21/10 use strategy pattern for generating challenges, since this is likely to change
 1/19/10 add static method to generate game challenges, for use in dev controls
 # 0.00.18 (38136) Jan 19, 2010
