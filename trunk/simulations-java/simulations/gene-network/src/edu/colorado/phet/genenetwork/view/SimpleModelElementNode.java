@@ -142,6 +142,17 @@ public class SimpleModelElementNode extends PPath {
 
         addInputEventListener(new CursorHandler());
         addInputEventListener(new PBasicInputEventHandler(){
+        	@Override
+            public void mousePressed(PInputEvent event) {
+                Point2D out =mvt.viewToModelDifferential(new Point2D.Double(event.getDeltaRelativeTo(getParent()).width,event.getDeltaRelativeTo(getParent()).height));
+                modelElement.setPosition(modelElement.getPositionRef().getX()+out.getX(),modelElement.getPositionRef().getY()+out.getY());
+                if (!modelElement.isUserControlled()){
+                	// Let the model element know that it is now being dragged.
+                	modelElement.setDragging(true);
+                }
+            }
+
+        	@Override
             public void mouseDragged(PInputEvent event) {
                 Point2D out =mvt.viewToModelDifferential(new Point2D.Double(event.getDeltaRelativeTo(getParent()).width,event.getDeltaRelativeTo(getParent()).height));
                 modelElement.setPosition(modelElement.getPositionRef().getX()+out.getX(),modelElement.getPositionRef().getY()+out.getY());
