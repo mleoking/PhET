@@ -221,50 +221,53 @@ public class RnaPolymerase extends SimpleModelElement {
 	
 	@Override
 	public void setDragging(boolean dragging) {
-		if (dragging == true){
-			// The user has grabbed this node.  See if we need to do anything
-			// special in response.
-			if (promoterAttachmentPartner != null){
-				// This polymerase was either attached to a promoter or moving
-				// towards attachment.  This relationship must be terminated.
-				promoterAttachmentPartner.detach(this);
-				promoterAttachmentPartner = null;
-				setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
-			}
-			if (traversing){
-				// This polymerase was traversing the DNA strand, so the
-				// motion strategy must be changed.
-				setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
-				if (transcribing){
-					// This polymerase was transcribing the DNA into mRNA, so
-					// the mRNA needs to be detached and should be marked as
-					// not being fully formed.
-					freeMessengerRna(false);
-				}
-				traversing = false;
-				transcribing = false;
-			}
-		}
-		else{
-			// This element has just been released by the user.  It should be
-			// considered available.
-			promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+		if (isUserControlled() != dragging){
 			
-			// If this was dropped within range of a promoter, it should try
-			// to attach to it.
-			LacIPromoter lacIPromoter = getModel().getLacIPromoter();
-			LacPromoter lacPromoter = getModel().getLacPromoter();
-			if ( lacIPromoter != null && 
-				 getPositionRef().distance(lacIPromoter.getPositionRef()) < PROMOTER_IMMEDIATE_ATTACH_DISTANCE){
-				
-				// We are in range, so try to attach.
-				lacIPromoter.requestImmediateAttach(this);
+			if (dragging == true){
+				// The user has grabbed this node.  See if we need to do anything
+				// special in response.
+				if (promoterAttachmentPartner != null){
+					// This polymerase was either attached to a promoter or moving
+					// towards attachment.  This relationship must be terminated.
+					promoterAttachmentPartner.detach(this);
+					promoterAttachmentPartner = null;
+					setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
+				}
+				if (traversing){
+					// This polymerase was traversing the DNA strand, so the
+					// motion strategy must be changed.
+					setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
+					if (transcribing){
+						// This polymerase was transcribing the DNA into mRNA, so
+						// the mRNA needs to be detached and should be marked as
+						// not being fully formed.
+						freeMessengerRna(false);
+					}
+					traversing = false;
+					transcribing = false;
+				}
 			}
-			else if ( lacPromoter != null &&
-					  getPositionRef().distance(lacPromoter.getPositionRef()) < PROMOTER_IMMEDIATE_ATTACH_DISTANCE){
+			else{
+				// This element has just been released by the user.  It should be
+				// considered available.
+				promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 				
-				// We are in range, so try to attach.
-				lacPromoter.requestImmediateAttach(this);
+				// If this was dropped within range of a promoter, it should try
+				// to attach to it.
+				LacIPromoter lacIPromoter = getModel().getLacIPromoter();
+				LacPromoter lacPromoter = getModel().getLacPromoter();
+				if ( lacIPromoter != null && 
+						getPositionRef().distance(lacIPromoter.getPositionRef()) < PROMOTER_IMMEDIATE_ATTACH_DISTANCE){
+					
+					// We are in range, so try to attach.
+					lacIPromoter.requestImmediateAttach(this);
+				}
+				else if ( lacPromoter != null &&
+						getPositionRef().distance(lacPromoter.getPositionRef()) < PROMOTER_IMMEDIATE_ATTACH_DISTANCE){
+					
+					// We are in range, so try to attach.
+					lacPromoter.requestImmediateAttach(this);
+				}
 			}
 		}
 		super.setDragging(dragging);
