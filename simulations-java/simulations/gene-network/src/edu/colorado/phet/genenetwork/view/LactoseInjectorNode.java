@@ -67,7 +67,6 @@ public class LactoseInjectorNode extends PNode {
     // Timer used for fading in and out.
 	private static final int BUTTON_DELAY_TIME = 40; // In milliseconds.
     private static final Timer FADE_IN_TIMER = new Timer( BUTTON_DELAY_TIME, null );
-    private static final Timer FADE_OUT_TIMER = new Timer( BUTTON_DELAY_TIME, null );
     private static final float FADE_INCREMENT = 0.05f;
     
     //------------------------------------------------------------------------
@@ -159,6 +158,7 @@ public class LactoseInjectorNode extends PNode {
         model.addListener(new GeneNetworkModelAdapter(){
         	public void lactoseInjectionAllowedStateChange(){
         		updateInjectorNodeVisibility();
+        		updateInjectButtonVisibility();
         	}
         	public void automaticLactoseInjectionEnabledStateChange() { 
         		updateInjectButtonVisibility();
@@ -172,17 +172,6 @@ public class LactoseInjectorNode extends PNode {
         		setTransparency(transparency);
         		if (transparency >= 1){
         			FADE_IN_TIMER.stop();
-        		}
-            }
-        } );
-        
-        // Set up listener to the timer used for fading out.
-		FADE_OUT_TIMER.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-        		transparency = Math.max(0, transparency - FADE_INCREMENT);
-        		setTransparency(transparency);
-        		if (transparency <= 0){
-        			FADE_OUT_TIMER.stop();
         		}
             }
         } );
@@ -210,24 +199,22 @@ public class LactoseInjectorNode extends PNode {
 	
 	private void updateInjectorNodeVisibility(){
 		if (model.isLactoseInjectionAllowed()){
-			FADE_OUT_TIMER.stop();
 			FADE_IN_TIMER.start();
-			unpressedButtonImageNode.setPickable(true);
 		}
 		else{
 			transparency = 0;
 			setTransparency(transparency);
-			unpressedButtonImageNode.setPickable(false);
 		}
 	}
 	
 	private void updateInjectButtonVisibility(){
 		// Buttons that allow manual injection should only be visible when
 		// in the manual injection mode.
+		boolean injectionEnabled = model.isLactoseInjectionAllowed();
 		boolean autoInjectionEnabled = model.isAutomaticLactoseInjectionEnabled();
-		unpressedButtonImageNode.setVisible(!autoInjectionEnabled);
-		unpressedButtonImageNode.setPickable(!autoInjectionEnabled);
-		pressedButtonImageNode.setVisible(!autoInjectionEnabled);
+		unpressedButtonImageNode.setVisible(injectionEnabled && !autoInjectionEnabled);
+		unpressedButtonImageNode.setPickable(injectionEnabled && !autoInjectionEnabled);
+		pressedButtonImageNode.setVisible(injectionEnabled && !autoInjectionEnabled);
 	}
 	
 	private void updateInjectionPoint(){
