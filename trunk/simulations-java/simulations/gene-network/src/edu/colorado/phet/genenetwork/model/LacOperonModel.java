@@ -187,6 +187,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	    }
 	    
 	    setLactoseInjectionAllowed(false);
+	    setAutomaticLactoseInjectionEnabled(false);
 	    
 	    addInitialModelElements();
 	}
