@@ -27,7 +27,7 @@ public class SignInPage extends PhetPage {
     private TextField username;
     private PasswordTextField password;
 
-    private String destination;
+    private String destination = null;
 
     private static Logger logger = Logger.getLogger( SignInPage.class.getName() );
 
@@ -42,9 +42,6 @@ public class SignInPage extends PhetPage {
 
         if ( parameters != null && parameters.containsKey( "dest" ) ) {
             destination = parameters.getString( "dest" );
-        }
-        else {
-            destination = "/";
         }
 
         add( new SignInForm( "sign-in-form" ) );
@@ -73,7 +70,14 @@ public class SignInPage extends PhetPage {
 
         public final void onSubmit() {
             if ( PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObjectAsString(), password.getInput() ) ) {
-                getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
+                if ( destination != null ) {
+                    getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
+                }
+                else {
+                    if ( !SignInPage.this.continueToOriginalDestination() ) {
+                        getRequestCycle().setRequestTarget( new RedirectRequestTarget( "/" ) );
+                    }
+                }
             }
             else {
                 error( "Signing in failed" );
