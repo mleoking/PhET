@@ -35,6 +35,8 @@ public class RPALSymbols {
     public static final String N2 = toSubscript( "N2" );
     public static final String N2O = toSubscript( "N2O" );
     public static final String NH3 = toSubscript( "NH3" );
+    public static final String NO = toSubscript( "NO" );
+    public static final String NO2 = toSubscript( "NO2" );
     public static final String O2 = toSubscript( "O2" );
     public static final String OF2 = toSubscript( "OF2" );
     public static final String P4 = toSubscript( "P4" );
