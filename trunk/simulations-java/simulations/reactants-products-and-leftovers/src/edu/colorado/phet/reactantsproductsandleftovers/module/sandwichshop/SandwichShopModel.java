@@ -5,9 +5,15 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.model.*;
+import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
+import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Molecule.Bread;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Molecule.Cheese;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Molecule.Meat;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Molecule.Sandwich;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichImageFactory;
 
 /**
@@ -28,13 +34,13 @@ public class SandwichShopModel extends RPALModel {
         final int quantity = getQuantityRange().getDefault();
         
         // reactants
-        bread = new Reactant( null /* name */, RPALImages.BREAD, coefficient, quantity );
-        meat = new Reactant( null /* name */, RPALImages.MEAT, coefficient, quantity );
-        cheese = new Reactant( null /* name */, RPALImages.CHEESE, coefficient, quantity );
+        bread = new Reactant( coefficient, new Bread(), quantity );
+        meat = new Reactant(  coefficient, new Meat(), quantity );
+        cheese = new Reactant( coefficient, new Cheese(), quantity );
         Reactant[] reactants = { bread, meat, cheese };
         
         // product, with dynamic image
-        sandwich = new Product( null /* name */, null /* image */, 1 /* coefficient */, quantity );
+        sandwich = new Product( 1, new Sandwich(), quantity );
         Product[] products = { sandwich };
         
         // reaction

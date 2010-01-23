@@ -7,7 +7,12 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.reactantsproductsandleftovers.model.*;
+import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.AmmoniaReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.WaterReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.MethaneReaction;
 
 /**
  * Model for the "Real Reaction" module.

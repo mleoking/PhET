@@ -12,15 +12,13 @@ import java.util.ArrayList;
  */
 public abstract class Substance {
     
-    private final String name;
-    private Image image;
+    private final Molecule molecule;
     private int coefficient;
     private int quantity;
     private final ArrayList<SubstanceChangeListener> listeners;
 
-    public Substance( String name, Image image, int coefficient, int quantity ) {
-        this.name = name;
-        this.image = image;
+    public Substance( int coefficient, Molecule molecule, int quantity ) {
+        this.molecule = molecule;
         this.coefficient = coefficient;
         this.quantity = quantity;
         listeners = new ArrayList<SubstanceChangeListener>();
@@ -41,17 +39,21 @@ public abstract class Substance {
         return true;
     }
     
+    public Molecule getMolecule() {
+        return molecule;
+    }
+    
     public String getName() {
-        return name;
+        return molecule.getSymbol();
     }
     
     public Image getImage() {
-        return image;
+        return molecule.getImage();
     }
     
     public void setImage( Image image ) {
-        if ( image != this.image ) {
-            this.image = image;
+        if ( image != getImage() ) {
+            molecule.setImage( image );
             fireImageChanged();
         }
     }

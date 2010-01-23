@@ -12,6 +12,7 @@ package edu.colorado.phet.reactantsproductsandleftovers;
  */
 public class RPALSymbols {
     
+    // molecules
     public static final String C = toSubscript( "C" );
     public static final String C2H2 = toSubscript( "C2H2" );
     public static final String C2H4 = toSubscript( "C2H4" );

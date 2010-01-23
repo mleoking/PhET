@@ -24,6 +24,10 @@ public class ChemicalReaction {
     private final Product[] products;
     private final ArrayList<ChangeListener> listeners;
     
+    public ChemicalReaction( Reactant[] reactants, Product[] products ) {
+        this( createName( reactants, products ), reactants, products );
+    }
+
     public ChemicalReaction( String name, Reactant[] reactants, Product[] products ) {
         
         if ( reactants.length < 2 ) {
@@ -179,5 +183,23 @@ public class ChemicalReaction {
         for ( ChangeListener listener : listenersCopy ) {
             listener.stateChanged( event );
         }
+    }
+    
+    private static String createName( Reactant[] reactants, Product[] products ) {
+        String s = "";
+        for ( int i = 0; i < reactants.length; i++ ) {
+            if ( i != 0 ) {
+                s += "+";
+            }
+            s += reactants[i].getName();
+        }
+        s += "->";
+        for ( int i = 0; i < products.length; i++ ) {
+            if ( i != 0 ) {
+                s += "+";
+            }
+            s += products[i].getName();
+        }
+        return s;
     }
 }

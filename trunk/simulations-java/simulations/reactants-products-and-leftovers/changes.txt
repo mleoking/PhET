@@ -1,3 +1,5 @@
+1/22/10 add some additional reactions
+1/22/10 add Molecule to model, restructure Reactant and Product classes
 1/22/10 add symbols for all molecules, make the creation of HTML subscripts bullet proof
 1/22/10 add images for all molecules, uniform height = 38 pixels
 1/21/10 use strategy pattern for generating challenges, since this is likely to change
