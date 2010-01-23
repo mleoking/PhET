@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.authentication;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.CheckBox;
@@ -7,17 +8,28 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.util.value.ValueMap;
 
 import edu.colorado.phet.website.templates.PhetPage;
+import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
+import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.links.AbstractLinker;
+import edu.colorado.phet.website.util.links.Linkable;
 
 public class SignInPage extends PhetPage {
 
     // TODO: gracefully handle when user enters the wrong password
 
+    // TODO: add translation links at the bottom?
+
     private TextField username;
     private PasswordTextField password;
+
+    private String destination;
+
+    private static Logger logger = Logger.getLogger( SignInPage.class.getName() );
 
     /**
      * Whether to remember the user or not.
@@ -27,6 +39,13 @@ public class SignInPage extends PhetPage {
 
     public SignInPage( PageParameters parameters ) {
         super( parameters, true );
+
+        if ( parameters != null && parameters.containsKey( "dest" ) ) {
+            destination = parameters.getString( "dest" );
+        }
+        else {
+            destination = "/";
+        }
 
         add( new SignInForm( "sign-in-form" ) );
 
@@ -54,10 +73,7 @@ public class SignInPage extends PhetPage {
 
         public final void onSubmit() {
             if ( PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObjectAsString(), password.getInput() ) ) {
-                if ( !SignInPage.this.continueToOriginalDestination() ) {
-                    SignInPage.this.setResponsePage( SignInPage.this.getApplication().getSessionSettings().getPageFactory().newPage(
-                            SignInPage.this.getApplication().getHomePage(), (PageParameters) null ) );
-                }
+                getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
             }
             else {
                 error( "Signing in failed" );
@@ -67,6 +83,19 @@ public class SignInPage extends PhetPage {
 
     public final void forgetMe() {
         getPage().removePersistedFormData( SignInPage.SignInForm.class, true );
+    }
+
+    public static Linkable getLinker( final String destination ) {
+        return new AbstractLinker() {
+            @Override
+            public String getSubUrl( PageContext context ) {
+                return "sign-in?dest=" + destination;
+            }
+        };
+    }
+
+    public static void addToMapper( PhetUrlMapper mapper ) {
+        mapper.addMap( "^sign-in$", SignInPage.class );
     }
 
 
