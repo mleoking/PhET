@@ -1,3 +1,5 @@
+# 0.00.19 (38214) Jan 22, 2010
+1/22/10 first dev version with all reactions from the design doc
 1/22/10 various debug code to identify range violations inherent in some reaction equations
 1/22/10 simple game strategy that uses all reactions
 1/22/10 add all reactions shown in the design doc
