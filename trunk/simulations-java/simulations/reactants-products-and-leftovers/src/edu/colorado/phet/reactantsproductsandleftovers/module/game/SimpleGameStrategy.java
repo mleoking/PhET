@@ -22,7 +22,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SimpleGameStrategy implements IGameStrategy {
-
+    
     // level 1 is all the one-product reactions
     private static final Class[] LEVEL1_REACTIONS = { 
         WaterReaction.class, 
@@ -75,6 +75,11 @@ public class SimpleGameStrategy implements IGameStrategy {
         };
 
     private static final Class[][] REACTIONS = { LEVEL1_REACTIONS, LEVEL2_REACTIONS, LEVEL3_REACTIONS };
+    
+    // static validation of reactions for possible range violations
+    static {
+        printRangeViolations();
+    }
     
     /**
      * Default constructor.
@@ -155,7 +160,6 @@ public class SimpleGameStrategy implements IGameStrategy {
      * quantity values.
      */
     private static void printRangeViolations() {
-        int violations = 0;
         final int maxQuantity = GameModel.getQuantityRange().getMax();
         for ( int i = 0; i < REACTIONS.length; i++ ) {
             for ( int j = 0; j < REACTIONS[i].length; j++ ) {
@@ -165,18 +169,11 @@ public class SimpleGameStrategy implements IGameStrategy {
                 }
                 for ( Product product : reaction.getProducts() ) {
                     if ( product.getQuantity() > maxQuantity ) {
-                        violations++;
-                        System.out.println( reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
+                        System.err.println( "SimpleGameStrategy, range violation: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
                         break;
                     }
                 }
             }
         }
-        System.out.println( violations + " violations" );
     }
-    
-    public static void main( String[] args ) {
-        printRangeViolations();
-    }
-
 }
