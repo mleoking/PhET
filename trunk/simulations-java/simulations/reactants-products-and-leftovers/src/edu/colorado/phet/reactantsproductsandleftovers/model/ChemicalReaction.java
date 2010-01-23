@@ -110,6 +110,10 @@ public class ChemicalReaction {
         return ( greaterThanZero > 1 || greaterThanOne > 0 );
     }
     
+    public String toString() {
+        return createName( reactants, products );
+    }
+    
     /*
      * Updates the quantities of products and leftovers.
      */

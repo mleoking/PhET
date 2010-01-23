@@ -1,3 +1,4 @@
+1/22/10 implement ChemicalReaction.toString
 1/22/10 add some additional reactions
 1/22/10 add Molecule to model, restructure Reactant and Product classes
 1/22/10 add symbols for all molecules, make the creation of HTML subscripts bullet proof
