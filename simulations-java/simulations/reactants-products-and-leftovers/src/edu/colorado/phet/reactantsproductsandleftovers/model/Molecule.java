@@ -196,6 +196,18 @@ public abstract class Molecule {
         }
     }
     
+    public static class NO extends Molecule {
+        public NO() {
+            super( RPALSymbols.NO, RPALImages.NO );
+        }
+    }
+    
+    public static class NO2 extends Molecule {
+        public NO2() {
+            super( RPALSymbols.NO2, RPALImages.NO2 );
+        }
+    }
+    
     public static class O2 extends Molecule {
         public O2() {
             super( RPALSymbols.O2, RPALImages.O2 );
