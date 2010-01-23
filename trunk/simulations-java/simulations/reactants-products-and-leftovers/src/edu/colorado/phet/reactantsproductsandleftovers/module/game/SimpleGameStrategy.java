@@ -4,6 +4,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.*;
 import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.*;
@@ -106,6 +107,7 @@ public class SimpleGameStrategy implements IGameStrategy {
             }
 
             challenges[i] = new GameChallenge( challengeType, reaction );
+            System.out.println( "SimpleGameStrategy.createChallenges " + i + ": " + challenges[i].toString() ); //XXX
         }
         return challenges;
     }
@@ -144,6 +146,38 @@ public class SimpleGameStrategy implements IGameStrategy {
             e.printStackTrace();
         }
         return reaction;
+    }
+    
+    /*
+     * Looks for equations that will experience a violation of the quantity range.
+     * Suppose the quantity range is 0-N.  For some reactions, setting the reactant quantities 
+     * to N will result in a product quantity > N.  This will result in range violations 
+     * elsewhere in the application, for example in the controls used to set and display
+     * quantity values.
+     */
+    private static void printRangeViolations() {
+        int violations = 0;
+        final int maxQuantity = GameModel.getQuantityRange().getMax();
+        for ( int i = 0; i < REACTIONS.length; i++ ) {
+            for ( int j = 0; j < REACTIONS[i].length; j++ ) {
+                ChemicalReaction reaction = instantiateReaction( REACTIONS[i][j] );
+                for ( Reactant reactant : reaction.getReactants() ) {
+                    reactant.setQuantity( maxQuantity );
+                }
+                for ( Product product : reaction.getProducts() ) {
+                    if ( product.getQuantity() > maxQuantity ) {
+                        violations++;
+                        System.out.println( reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
+                        break;
+                    }
+                }
+            }
+        }
+        System.out.println( violations + " violations" );
+    }
+    
+    public static void main( String[] args ) {
+        printRangeViolations();
     }
 
 }

@@ -25,7 +25,7 @@ public class ChemicalReaction {
     private final ArrayList<ChangeListener> listeners;
     
     public ChemicalReaction( Reactant[] reactants, Product[] products ) {
-        this( createName( reactants, products ), reactants, products );
+        this( getEquationHTML( reactants, products ), reactants, products );
     }
 
     public ChemicalReaction( String name, Reactant[] reactants, Product[] products ) {
@@ -110,8 +110,38 @@ public class ChemicalReaction {
         return ( greaterThanZero > 1 || greaterThanOne > 0 );
     }
     
-    public String toString() {
-        return createName( reactants, products );
+    public String getEquationHTML() {
+        return getEquationHTML( reactants, products );
+    }
+    
+    /**
+     * Example: 4,1 -> 1,2,2,0
+     * @return
+     */
+    public String getQuantitiesString() {
+        String s = "";
+        // reactants
+        for ( int i = 0; i < reactants.length; i++ ) {
+            if ( i != 0 ) {
+                s += ",";
+            }
+            s += String.valueOf( reactants[i].getQuantity() );
+        }
+        // arrow
+        s += " -> ";
+        // products
+        for ( int i = 0; i < products.length; i++ ) {
+            if ( i != 0 ) {
+                s += ",";
+            }
+            s += String.valueOf( products[i].getQuantity() );
+        }
+        // leftovers
+        for ( int i = 0; i < reactants.length; i++ ) {
+            s += ",";
+            s += String.valueOf( reactants[i].getLeftovers() );
+        }
+        return s;
     }
     
     /*
@@ -189,12 +219,17 @@ public class ChemicalReaction {
         }
     }
     
-    private static String createName( Reactant[] reactants, Product[] products ) {
+    /*
+     * Creates an HTML fragment representation of the reaction's equation.
+     * Example: 2F<sub>2</sub>+1H<sub>2</sub>O->1OF<sub>2</sub>+2HF
+     */
+    private static String getEquationHTML( Reactant[] reactants, Product[] products ) {
         String s = "";
         for ( int i = 0; i < reactants.length; i++ ) {
             if ( i != 0 ) {
                 s += "+";
             }
+            s += reactants[i].getCoefficient();
             s += reactants[i].getName();
         }
         s += "->";
@@ -202,6 +237,7 @@ public class ChemicalReaction {
             if ( i != 0 ) {
                 s += "+";
             }
+            s += products[i].getCoefficient();
             s += products[i].getName();
         }
         return s;

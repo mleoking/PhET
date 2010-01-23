@@ -3,6 +3,8 @@
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 
 /**
  * A challenge consists of a reaction (with specific before and after quantities)
@@ -52,5 +54,21 @@ public class GameChallenge {
             }
         }
         return true;
+    }
+    
+    private String getChallengeTypeString() {
+        if ( challengeType == ChallengeType.BEFORE ) {
+            return "Before";
+        }
+        else {
+            return "After";
+        }
+    }
+    
+    /**
+     * Example: 2F<sub>2</sub>+1H<sub>2</sub>O->1OF<sub>2</sub>+2HF : 4,1 -> 1,2,2,0 : After
+     */
+    public String toString() {
+        return reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() + " : " + getChallengeTypeString();
     }
 }
