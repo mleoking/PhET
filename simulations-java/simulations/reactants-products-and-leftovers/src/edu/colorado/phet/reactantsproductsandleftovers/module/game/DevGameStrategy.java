@@ -3,7 +3,11 @@
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.reactantsproductsandleftovers.model.*;
+import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.AmmoniaReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.WaterReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.MethaneReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 
 /**

@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
-import java.awt.Image;
 
 /**
  * Chemical reactions yield one or more products, which have properties different from the reactants.
@@ -13,8 +12,12 @@ import java.awt.Image;
  */
 public final /* yes, final, see javadoc! */ class Product extends Substance {
 
-    public Product( String name, Image image, int coefficient, int quantity ) {
-        super( name, image, coefficient, quantity );
+    public Product( int coefficient, Molecule molecule ) {
+        this( coefficient, molecule, 0 /* quantity */ );
+    }
+    
+    public Product( int coefficient, Molecule molecule, int quantity ) {
+        super( coefficient, molecule, quantity );
     }
     
     /**
@@ -22,7 +25,7 @@ public final /* yes, final, see javadoc! */ class Product extends Substance {
      * @param product
      */
     public Product( Product product ) {
-        this( product.getName(), product.getImage(), product.getCoefficient(), product.getQuantity() );
+        this( product.getCoefficient(), product.getMolecule(), product.getQuantity() );
         // listeners are not copied.
     }
     

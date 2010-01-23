@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
-import java.awt.Image;
 import java.util.ArrayList;
 
 /**
@@ -17,8 +16,12 @@ public final /* yes, final, see javadoc! */ class Reactant extends Substance {
     private int leftovers;
     private final ArrayList<ReactantChangeListener> listeners;
     
-    public Reactant( String name, Image image, int coefficient, int quantity ) {
-        super( name, image, coefficient, quantity );
+    public Reactant( int coefficient, Molecule molecule ) {
+        this( coefficient, molecule, 0 /* quantity */ );
+    }
+
+    public Reactant( int coefficient, Molecule molecule, int quantity ) {
+        super( coefficient, molecule, quantity );
         this.leftovers = 0;
         listeners = new ArrayList<ReactantChangeListener>();
     }
@@ -28,7 +31,7 @@ public final /* yes, final, see javadoc! */ class Reactant extends Substance {
      * @param reactant
      */
     public Reactant( Reactant reactant ) {
-        this( reactant.getName(), reactant.getImage(), reactant.getCoefficient(), reactant.getQuantity() );
+        this( reactant.getCoefficient(), reactant.getMolecule(), reactant.getQuantity() );
         setLeftovers( reactant.getLeftovers() );
         // listeners are not copied.
     }
