@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
 
@@ -22,24 +23,6 @@ import edu.colorado.phet.website.util.links.Linkable;
 public class EditProfilePage extends PhetPage {
 
     // TODO: i18nize
-
-    private TextField name;
-    private TextField organization;
-    private DropDownChoice description;
-    private TextField jobTitle;
-
-    private TextField address1;
-    private TextField address2;
-    private TextField city;
-    private TextField state;
-    private TextField country;
-    private TextField zipcode;
-
-    private TextField phone1;
-    private TextField phone2;
-    private TextField fax;
-
-    private CheckBox receiveEmail;
 
     private static Logger logger = Logger.getLogger( EditProfilePage.class.getName() );
 
@@ -79,6 +62,24 @@ public class EditProfilePage extends PhetPage {
 
     private final class EditProfileForm extends Form {
 
+        private TextField name;
+        private TextField organization;
+        private DropDownChoice description;
+        private TextField jobTitle;
+
+        private TextField address1;
+        private TextField address2;
+        private TextField city;
+        private TextField state;
+        private TextField country;
+        private TextField zipcode;
+
+        private TextField phone1;
+        private TextField phone2;
+        private TextField fax;
+
+        private CheckBox receiveEmail;
+
         private final ValueMap properties = new ValueMap();
 
         public EditProfileForm( String id ) {
@@ -99,7 +100,6 @@ public class EditProfilePage extends PhetPage {
             properties.add( "phone1", user.getPhone1() );
             properties.add( "phone2", user.getPhone2() );
             properties.add( "fax", user.getFax() );
-            properties.add( "receiveEmail", Boolean.toString( user.isReceiveEmail() ) );
 
             add( name = new TextField( "name", new PropertyModel( properties, "name" ) ) );
             add( organization = new TextField( "organization", new PropertyModel( properties, "organization" ) ) );
@@ -114,7 +114,7 @@ public class EditProfilePage extends PhetPage {
             add( phone1 = new TextField( "phone1", new PropertyModel( properties, "phone1" ) ) );
             add( phone2 = new TextField( "phone2", new PropertyModel( properties, "phone2" ) ) );
             add( fax = new TextField( "fax", new PropertyModel( properties, "fax" ) ) );
-            add( receiveEmail = new CheckBox( "receiveEmail", new PropertyModel( properties, "receiveEmail" ) ) );
+            add( receiveEmail = new CheckBox( "receiveEmail", new Model( new Boolean( user.isReceiveEmail() ) ) ) );
 
 
         }
@@ -125,6 +125,7 @@ public class EditProfilePage extends PhetPage {
             for ( Object o : properties.keySet() ) {
                 logger.debug( o.toString() + ": " + properties.get( o ) );
             }
+            logger.debug( "receiveEmail: " + receiveEmail.getModelObject() );
         }
     }
 }
