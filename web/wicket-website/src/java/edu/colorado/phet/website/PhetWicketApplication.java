@@ -19,6 +19,8 @@ import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.admin.AdminMainPage;
 import edu.colorado.phet.website.authentication.EditProfilePage;
 import edu.colorado.phet.website.authentication.PhetSession;
+import edu.colorado.phet.website.authentication.SignInPage;
+import edu.colorado.phet.website.authentication.SignOutPage;
 import edu.colorado.phet.website.content.*;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
@@ -89,6 +91,8 @@ public class PhetWicketApplication extends WebApplication {
         SimsByKeywordPage.addToMapper( mapper );
         SearchResultsPage.addToMapper( mapper );
         EditProfilePage.addToMapper( mapper );
+        SignInPage.addToMapper( mapper );
+        SignOutPage.addToMapper( mapper );
 
         // set up the custom localizer
         getResourceSettings().setLocalizer( new PhetLocalizer() );
