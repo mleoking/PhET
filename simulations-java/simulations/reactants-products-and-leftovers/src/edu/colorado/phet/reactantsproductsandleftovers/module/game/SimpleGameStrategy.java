@@ -107,7 +107,6 @@ public class SimpleGameStrategy implements IGameStrategy {
             }
 
             challenges[i] = new GameChallenge( challengeType, reaction );
-            System.out.println( "SimpleGameStrategy.createChallenges " + i + ": " + challenges[i].toString() ); //XXX
         }
         return challenges;
     }
