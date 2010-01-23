@@ -51,7 +51,9 @@ public class ValueNode extends PhetPNode {
     public ValueNode( IntegerRange range, int value, Image image, double imageScale, String name, boolean editable ) {
         super();
         
-        assert( range.contains( value ) );
+        if ( !range.contains( value ) ) {
+            throw new IllegalArgumentException( "value is out of range: " + value );
+        }
         
         listeners = new ArrayList<ChangeListener>();
         

@@ -63,7 +63,7 @@ public class GameAfterNode extends GameBoxNode {
             productImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
             
             // one value display for each product
-            QuantityValueNode quantityNode = new QuantityValueNode( product, model.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showNames */ );
+            QuantityValueNode quantityNode = new QuantityValueNode( product, GameModel.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showNames */ );
             addChild( quantityNode );
             quantityValueNodes.add( quantityNode );
         }
@@ -77,7 +77,7 @@ public class GameAfterNode extends GameBoxNode {
             leftoverImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
             
             // one quantity display for each leftover
-            LeftoversValueNode leftoverNode = new LeftoversValueNode( reactant, model.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showNames */ );
+            LeftoversValueNode leftoverNode = new LeftoversValueNode( reactant, GameModel.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showNames */ );
             addChild( leftoverNode );
             leftoverValueNodes.add( leftoverNode );
         }
