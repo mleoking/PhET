@@ -19,6 +19,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
@@ -120,12 +121,18 @@ public class SimulationMainPanel extends PhetPanel {
             protected void populateItem( ListItem item ) {
                 LocalizedSimulation simulation = (LocalizedSimulation) ( ( (IModel) ( item.getModel().getObject() ) ).getObject() );
                 Locale simLocale = simulation.getLocale();
-                PhetLink link = new PhetLink( "simulation-main-translation-link", simulation.getRunUrl() );
-                //link.add( new Label( "simulation-main-translation-locale-name", simLocale.getDisplayName( context.getLocale() ) ) );
+                PhetLink runLink = new PhetLink( "simulation-main-translation-link", simulation.getRunUrl() );
+                PhetLink downloadLink = new PhetLink( "simulation-main-translation-download", simulation.getDownloadUrl() );
                 String defaultLanguageName = simLocale.getDisplayName( context.getLocale() );
                 String languageName = ( (PhetLocalizer) getLocalizer() ).getString( "language.names." + LocaleUtils.localeToString( simLocale ), this, null, defaultLanguageName, false );
-                link.add( new Label( "simulation-main-translation-locale-name", languageName ) );
-                item.add( link );
+                runLink.add( new Label( "simulation-main-translation-locale-name", languageName ) );
+                item.add( runLink );
+                if ( DistributionHandler.displayJARLink( getPhetCycle(), simulation ) ) {
+                    item.add( downloadLink );
+                }
+                else {
+                    item.add( new InvisibleComponent( "simulation-main-translation-download" ) );
+                }
                 item.add( new Label( "simulation-main-translation-locale-translated-name", simLocale.getDisplayName( simLocale ) ) );
                 item.add( new Label( "simulation-main-translation-title", simulation.getTitle() ) );
             }
