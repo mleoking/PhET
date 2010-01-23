@@ -60,7 +60,7 @@ public class GameModel extends RPALModel {
             }
         };
         
-        gameStrategy = new DevGameStrategy();
+        gameStrategy = new SimpleGameStrategy();
         
         initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
     }
