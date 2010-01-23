@@ -1,0 +1,7 @@
+Made click on moving objects stop their motion rather than requiring drag.
+Made click on things in tool box add them, rather than requiring drag.
+Made Reset button into Reset All to match PhET conventions.
+Fixed issue where button on injector would work when invisible.
+Fixed issue where dotted lines would disappear from DNA strand on reset.
+# 0.0.07 (38091) Jan 13, 2010
+1/13/10 Numerous revisions based on input from multiple internal review sessions
