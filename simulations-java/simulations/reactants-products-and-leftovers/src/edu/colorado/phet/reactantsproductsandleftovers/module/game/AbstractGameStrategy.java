@@ -92,7 +92,8 @@ public abstract class AbstractGameStrategy implements IGameStrategy {
         if ( hasQuantityRangeViolation( reaction ) ) {
 
             if ( DEBUG_OUTPUT_ENABLED ) {
-                System.out.print( "AbstractGameStrategy.fixQuantityRangeViolation" );
+                System.out.print( "DEBUG:" );
+                System.out.print( " AbstractGameStrategy.fixQuantityRangeViolation" );
                 System.out.print( " reaction: " + reaction.getEquationPlainText() );
                 System.out.print( " violation: " + reaction.getQuantitiesString() );
             }
