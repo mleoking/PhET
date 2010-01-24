@@ -20,11 +20,14 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.templates.PhetPage;
+import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
+import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class RegisterPage extends PhetPage {
 
-    // TODO: gracefully handle when user enters the wrong password
+    // TODO: i18n
 
     private TextField name;
     private TextField organization;
@@ -34,12 +37,16 @@ public class RegisterPage extends PhetPage {
     private DropDownChoice description;
     private Model errorModel;
 
-    private static Logger logger = Logger.getLogger( RegisterPage.class.getName() );
+    private String destination = null;
 
-    // TODO: spruce up error messages (and add them so they are visible to the user)
+    private static Logger logger = Logger.getLogger( RegisterPage.class.getName() );
 
     public RegisterPage( PageParameters parameters ) {
         super( parameters, true );
+
+        if ( parameters != null && parameters.containsKey( "dest" ) ) {
+            destination = parameters.getString( "dest" );
+        }
 
         add( new RegisterForm( "register-form" ) );
 
@@ -116,7 +123,7 @@ public class RegisterPage extends PhetPage {
                     if ( !users.isEmpty() ) {
                         error = true;
                         errorString += " | That email address is already in use";
-                        // TODO: add option to reset password
+                        // TODO: add option to reset password for an existing account?
                     }
                     else {
                         PhetUser user = new PhetUser();
@@ -153,11 +160,30 @@ public class RegisterPage extends PhetPage {
                 errorModel.setObject( errorString );
             }
             else {
-                // TODO: pass in destination to register page?
                 PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObjectAsString(), password.getInput() );
-                getRequestCycle().setRequestTarget( new RedirectRequestTarget( "/" ) );
+                if ( destination != null ) {
+                    getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
+                }
+                else {
+                    if ( !RegisterPage.this.continueToOriginalDestination() ) {
+                        getRequestCycle().setRequestTarget( new RedirectRequestTarget( "/" ) );
+                    }
+                }
             }
         }
+    }
+
+    public static AbstractLinker getLinker( final String destination ) {
+        return new AbstractLinker() {
+            @Override
+            public String getSubUrl( PageContext context ) {
+                return "register?dest=" + destination;
+            }
+        };
+    }
+
+    public static void addToMapper( PhetUrlMapper mapper ) {
+        mapper.addMap( "^register$", RegisterPage.class );
     }
 
 }

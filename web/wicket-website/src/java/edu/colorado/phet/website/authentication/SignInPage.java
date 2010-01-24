@@ -11,6 +11,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.util.value.ValueMap;
 
+import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -49,6 +50,8 @@ public class SignInPage extends PhetPage {
         add( new SignInForm( "sign-in-form" ) );
 
         addTitle( "Sign in" );
+
+        add( new LocalizedText( "to-register", "signIn.toRegister", new Object[]{RegisterPage.getLinker( destination == null ? "/" : destination ).getHref( getPageContext(), getPhetCycle() )} ) );
     }
 
     public final class SignInForm extends Form {
@@ -103,6 +106,5 @@ public class SignInPage extends PhetPage {
     public static void addToMapper( PhetUrlMapper mapper ) {
         mapper.addMap( "^sign-in$", SignInPage.class );
     }
-
 
 }
