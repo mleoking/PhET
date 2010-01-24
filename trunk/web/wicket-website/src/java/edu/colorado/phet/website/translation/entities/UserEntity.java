@@ -34,6 +34,8 @@ public class UserEntity extends TranslationEntity {
         addString( "profile.register.submit" );
         addString( "profile.register.reset" );
 
+        addString( "signOut.beingSignedOut" );
+
         // TODO: convert sign in / register / edit profile to panel? then should be previewable here
     }
 

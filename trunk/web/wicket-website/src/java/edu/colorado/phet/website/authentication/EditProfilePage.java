@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.Session;
 
@@ -38,7 +39,7 @@ public class EditProfilePage extends PhetPage {
 
         AuthenticatedPage.checkSignedIn();
 
-        addTitle( "Edit Profile" );
+        addTitle( new ResourceModel( "editProfile.title" ) );
 
         errorModel = new Model( "" );
         Label errorLabel = new Label( "profile-errors", errorModel );

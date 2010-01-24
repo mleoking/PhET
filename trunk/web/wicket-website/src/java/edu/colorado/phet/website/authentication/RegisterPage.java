@@ -12,6 +12,7 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.HibernateException;
@@ -58,7 +59,7 @@ public class RegisterPage extends PhetPage {
         add( errorLabel );
         errorLabel.setEscapeModelStrings( false );
 
-        addTitle( "Register" );
+        addTitle( new ResourceModel( "register.title" ) );
     }
 
     public final class RegisterForm extends Form {

@@ -14,6 +14,9 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public abstract class TranslationEntity implements Serializable {
+
+    // TODO: add descriptions to many other entities and strings
+
     private List<TranslationEntityString> strings = new LinkedList<TranslationEntityString>();
     private List<PhetPanelPreview> previews = new LinkedList<PhetPanelPreview>();
 
