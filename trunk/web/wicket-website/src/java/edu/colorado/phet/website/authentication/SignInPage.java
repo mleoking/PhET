@@ -44,6 +44,8 @@ public class SignInPage extends PhetPage {
             destination = parameters.getString( "dest" );
         }
 
+        // TODO: add register link to i18n
+
         add( new SignInForm( "sign-in-form" ) );
 
         addTitle( "Sign in" );
