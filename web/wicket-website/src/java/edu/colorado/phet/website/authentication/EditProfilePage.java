@@ -1,10 +1,8 @@
 package edu.colorado.phet.website.authentication;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -12,9 +10,12 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
+import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.templates.PhetPage;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -24,6 +25,12 @@ public class EditProfilePage extends PhetPage {
 
     // TODO: i18nize
 
+    // TODO: consolidate validation
+
+    private Model errorModel;
+
+    private static final String ERROR_SEPARATOR = "<br/>";
+
     private static Logger logger = Logger.getLogger( EditProfilePage.class.getName() );
 
     public EditProfilePage( PageParameters parameters ) {
@@ -32,6 +39,11 @@ public class EditProfilePage extends PhetPage {
         AuthenticatedPage.checkSignedIn();
 
         addTitle( "Edit Profile" );
+
+        errorModel = new Model( "" );
+        Label errorLabel = new Label( "profile-errors", errorModel );
+        add( errorLabel );
+        errorLabel.setEscapeModelStrings( false );
 
         add( new EditProfileForm( "edit-profile-form" ) );
     }
@@ -110,12 +122,54 @@ public class EditProfilePage extends PhetPage {
 
         @Override
         protected void onSubmit() {
-            for ( Object o : properties.keySet() ) {
-                logger.debug( o.toString() + ": " + properties.get( o ) );
-            }
-            logger.debug( "receiveEmail: " + receiveEmail.getModelObject() );
+            boolean error = false;
+            String errorString = "";
+            String err = null;
 
-            // TODO: add validation (maybe in some common place?)
+            String nom = name.getModelObjectAsString();
+            String org = organization.getModelObjectAsString();
+            String desc = description.getModelObjectAsString();
+
+            if ( nom == null || nom.length() == 0 ) {
+                error = true;
+                errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.user", this, "Please fill in the name field" );
+            }
+
+            if ( desc == null || desc.length() == 0 ) {
+                error = true;
+                errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.description", this, "Please pick a description" );
+            }
+
+            if ( !error ) {
+                boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        PhetUser user = (PhetUser) session.load( PhetUser.class, PhetSession.get().getUser().getId() );
+                        user.setName( name.getModelObjectAsString() );
+                        user.setOrganization( organization.getModelObjectAsString() );
+                        user.setDescription( description.getModelObjectAsString() );
+                        user.setJobTitle( jobTitle.getModelObjectAsString() );
+                        user.setAddress1( address1.getModelObjectAsString() );
+                        user.setAddress2( address2.getModelObjectAsString() );
+                        user.setCity( city.getModelObjectAsString() );
+                        user.setState( state.getModelObjectAsString() );
+                        user.setCountry( country.getModelObjectAsString() );
+                        user.setZipcode( zipcode.getModelObjectAsString() );
+                        user.setPhone1( phone1.getModelObjectAsString() );
+                        user.setPhone2( phone2.getModelObjectAsString() );
+                        user.setFax( fax.getModelObjectAsString() );
+                        user.setReceiveEmail( (Boolean) receiveEmail.getModelObject() );
+                        session.update( user );
+                        return true;
+                    }
+                } );
+                error = !success;
+            }
+            if ( error ) {
+                logger.error( "Error editing profile" );
+                logger.error( "Reason: " + errorString );
+                errorString = getPhetLocalizer().getString( "validation.user.problems", this, "Please fix the following problems with the form:" ) + "<br/>" + errorString;
+                errorModel.setObject( errorString );
+            }
         }
     }
 }
