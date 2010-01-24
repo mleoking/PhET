@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.authentication.panels;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
@@ -8,7 +9,6 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.util.value.ValueMap;
-import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.authentication.RegisterPage;
