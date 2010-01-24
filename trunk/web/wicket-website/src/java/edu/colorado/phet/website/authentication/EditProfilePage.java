@@ -127,7 +127,6 @@ public class EditProfilePage extends PhetPage {
             String err = null;
 
             String nom = name.getModelObjectAsString();
-            String org = organization.getModelObjectAsString();
             String desc = description.getModelObjectAsString();
 
             if ( nom == null || nom.length() == 0 ) {
@@ -162,6 +161,24 @@ public class EditProfilePage extends PhetPage {
                         return true;
                     }
                 } );
+                if ( success ) {
+                    // synchronize the user data for the session instance
+                    PhetUser user = PhetSession.get().getUser();
+                    user.setName( name.getModelObjectAsString() );
+                    user.setOrganization( organization.getModelObjectAsString() );
+                    user.setDescription( description.getModelObjectAsString() );
+                    user.setJobTitle( jobTitle.getModelObjectAsString() );
+                    user.setAddress1( address1.getModelObjectAsString() );
+                    user.setAddress2( address2.getModelObjectAsString() );
+                    user.setCity( city.getModelObjectAsString() );
+                    user.setState( state.getModelObjectAsString() );
+                    user.setCountry( country.getModelObjectAsString() );
+                    user.setZipcode( zipcode.getModelObjectAsString() );
+                    user.setPhone1( phone1.getModelObjectAsString() );
+                    user.setPhone2( phone2.getModelObjectAsString() );
+                    user.setFax( fax.getModelObjectAsString() );
+                    user.setReceiveEmail( (Boolean) receiveEmail.getModelObject() );
+                }
                 error = !success;
             }
             if ( error ) {
