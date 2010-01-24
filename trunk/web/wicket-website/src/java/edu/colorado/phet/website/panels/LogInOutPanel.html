@@ -12,12 +12,12 @@
 <body>
 
 <wicket:panel>
-    <a wicket:id="sign-in">Login / Register</a>
+    <a wicket:id="sign-in"><wicket:message key="session.loginRegister">Sign in / Register</wicket:message></a>
     <wicket:enclosure child="sign-out">
         <ul class="loginout-list">
-            <li><a wicket:id="edit-profile">Edit Profile</a></li>
+            <li><a wicket:id="edit-profile"><wicket:message key="session.editProfile">Edit profile</wicket:message></a></li>
             <li class="loginout-spacer">|</li>
-            <li><a wicket:id="sign-out">Logout</a></li>
+            <li><a wicket:id="sign-out"><wicket:message key="session.logout">Sign out</wicket:message></a></li>
         </ul>
     </wicket:enclosure>
 </wicket:panel>
