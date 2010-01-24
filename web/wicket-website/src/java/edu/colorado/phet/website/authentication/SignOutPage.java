@@ -14,8 +14,6 @@ import edu.colorado.phet.website.util.links.Linkable;
 
 public class SignOutPage extends PhetPage {
 
-    // TODO: i18nize
-
     private static Logger logger = Logger.getLogger( SignOutPage.class.getName() );
 
     public SignOutPage( PageParameters parameters ) {
