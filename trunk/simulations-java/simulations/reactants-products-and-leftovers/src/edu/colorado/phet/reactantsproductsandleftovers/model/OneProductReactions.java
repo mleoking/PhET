@@ -251,7 +251,7 @@ public class OneProductReactions {
         
         private static Reactant[] createReactants() {
             Reactant r1 = new Reactant( 1, new N2() );
-            Reactant r2 = new Reactant( 1, new H2() );
+            Reactant r2 = new Reactant( 3, new H2() );
             return new Reactant[] { r1, r2 };
         }
         
