@@ -81,6 +81,12 @@ div.rtl #page-header-title {
     padding: 1em;
 }
 
+body.rtl .log-in-out {
+    text-align: left;
+    right: auto;
+    left: 0;
+}
+
 .log-in-out a {
     color: white;
 }
