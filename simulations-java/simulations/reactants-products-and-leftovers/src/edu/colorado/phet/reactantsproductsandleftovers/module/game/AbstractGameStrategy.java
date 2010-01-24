@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 
