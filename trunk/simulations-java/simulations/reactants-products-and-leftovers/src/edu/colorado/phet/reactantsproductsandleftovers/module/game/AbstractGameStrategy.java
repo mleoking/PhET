@@ -92,7 +92,9 @@ public abstract class AbstractGameStrategy implements IGameStrategy {
         if ( hasQuantityRangeViolation( reaction ) ) {
 
             if ( DEBUG_OUTPUT_ENABLED ) {
-                System.out.println( "DEBUG: SimpleGameStrategy, range violation: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
+                System.out.print( "AbstractGameStrategy.fixQuantityRangeViolation" );
+                System.out.print( " reaction: " + reaction.getEquationPlainText() );
+                System.out.print( " violation: " + reaction.getQuantitiesString() );
             }
 
             // First, make sure all reactant quantities are in range.
@@ -128,7 +130,7 @@ public abstract class AbstractGameStrategy implements IGameStrategy {
             }
 
             if ( DEBUG_OUTPUT_ENABLED ) {
-                System.out.println( "DEBUG: SimpleGameStrategy, violation fixed: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
+                System.out.println( " fixed: " + reaction.getQuantitiesString() );
             }
         }
     }
