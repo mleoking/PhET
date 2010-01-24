@@ -15,6 +15,7 @@ import org.apache.wicket.model.IModel;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
@@ -200,5 +201,9 @@ public abstract class PhetPage extends WebPage {
 
     public PhetRequestCycle getPhetCycle() {
         return (PhetRequestCycle) getRequestCycle();
+    }
+
+    public PhetLocalizer getPhetLocalizer() {
+        return (PhetLocalizer) getLocalizer();
     }
 }

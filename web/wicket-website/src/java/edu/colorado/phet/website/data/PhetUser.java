@@ -1,10 +1,11 @@
 package edu.colorado.phet.website.data;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 public class PhetUser implements Serializable {
 
@@ -26,7 +27,7 @@ public class PhetUser implements Serializable {
     private String state;
     private String country;
     private String zipcode;
-    
+
     private String phone1;
     private String phone2;
     private String fax;
@@ -52,6 +53,13 @@ public class PhetUser implements Serializable {
     @Override
     public int hashCode() {
         return ( id * 475165 ) % 2567;
+    }
+
+    public static String validateEmail( String email ) {
+        if ( !Pattern.matches( "^.+@.+\\.[a-z]+$", email ) ) {
+            return "validation.email";
+        }
+        return null;
     }
 
     // TODO: don't allow users with the same email address!

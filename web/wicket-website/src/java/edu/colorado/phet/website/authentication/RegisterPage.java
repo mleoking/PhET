@@ -39,6 +39,8 @@ public class RegisterPage extends PhetPage {
 
     private String destination = null;
 
+    private static final String ERROR_SEPARATOR = "<br/>";
+
     private static Logger logger = Logger.getLogger( RegisterPage.class.getName() );
 
     public RegisterPage( PageParameters parameters ) {
@@ -52,7 +54,9 @@ public class RegisterPage extends PhetPage {
 
         errorModel = new Model( "" );
 
-        add( new Label( "register-errors", errorModel ) );
+        Label errorLabel = new Label( "register-errors", errorModel );
+        add( errorLabel );
+        errorLabel.setEscapeModelStrings( false );
 
         addTitle( "Register" );
     }
@@ -78,6 +82,7 @@ public class RegisterPage extends PhetPage {
 
             boolean error = false;
             String errorString = "";
+            String err = null;
 
             String nom = name.getModelObjectAsString();
             String org = organization.getModelObjectAsString();
@@ -91,27 +96,34 @@ public class RegisterPage extends PhetPage {
 
             if ( nom == null || nom.length() == 0 ) {
                 error = true;
-                errorString += " | Name is required";
+                errorString += ERROR_SEPARATOR + "Name is required";
             }
 
             if ( !pass.equals( passwordCopy.getInput() ) ) {
                 error = true;
-                errorString += " | Passwords are different";
+                errorString += ERROR_SEPARATOR + "Passwords are different";
             }
 
             if ( pass.length() == 0 ) {
                 error = true;
-                errorString += " | Please pick a password";
+                errorString += ERROR_SEPARATOR + "Please pick a password";
+            }
+
+            err = PhetUser.validateEmail( email );
+            if ( err != null ) {
+                // TODO! (add in validation from PhetUser, use string, add string)
+                error = true;
+                errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.email", this, "Please enter a valid email address" );
             }
 
             if ( !Pattern.matches( "^.+@.+\\.[a-z]+$", email ) ) {
                 error = true;
-                errorString += " | Email does not validate";
+                errorString += ERROR_SEPARATOR + "Email does not validate";
             }
 
             if ( desc == null || desc.length() == 0 ) {
                 error = true;
-                errorString += " | Please pick a description";
+                errorString += ERROR_SEPARATOR + "Please pick a description";
             }
 
             if ( !error ) {
@@ -122,7 +134,7 @@ public class RegisterPage extends PhetPage {
                     List users = session.createQuery( "select u from PhetUser as u where u.email = :email" ).setString( "email", email ).list();
                     if ( !users.isEmpty() ) {
                         error = true;
-                        errorString += " | That email address is already in use";
+                        errorString += ERROR_SEPARATOR + "That email address is already in use";
                         // TODO: add option to reset password for an existing account?
                     }
                     else {
@@ -150,13 +162,14 @@ public class RegisterPage extends PhetPage {
                         throw e;
                     }
                     error = true;
-                    errorString += " | Internal error occurred";
+                    errorString += ERROR_SEPARATOR + "Internal error occurred";
                 }
             }
 
             if ( error ) {
                 logger.error( "Error registering" );
                 logger.error( "Reason: " + errorString );
+                errorString = "Please fix the following problems with the form:<br/>" + errorString;
                 errorModel.setObject( errorString );
             }
             else {
