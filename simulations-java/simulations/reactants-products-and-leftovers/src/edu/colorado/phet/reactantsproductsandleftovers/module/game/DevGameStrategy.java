@@ -14,22 +14,21 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  * <p>
  * A single reaction is used for each level, as follows:
  * <ul>
- * <li>Level 1: water, after
- * <li>Level 2: ammonia, before
- * <li>Level 3: methane, random choice of after or before
+ * <li>Level 1: water, After
+ * <li>Level 2: ammonia, Before
+ * <li>Level 3: methane, random choice of Before or After
  * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DevGameStrategy implements IGameStrategy {
+public class DevGameStrategy extends AbstractGameStrategy {
     
-    private static final int CHALLENGES_PER_GAME = GameModel.getChallengesPerGame();
-    private static final int MAX_QUANTITY = GameModel.getQuantityRange().getMax();
-
-    public GameChallenge[] createChallenges( int level ) {
+    protected GameChallenge[] createChallengesAux( int level ) {
        
-        GameChallenge[] challenges = new GameChallenge[ CHALLENGES_PER_GAME ];
+        GameChallenge[] challenges = new GameChallenge[ getChallengesPerGame() ];
         for ( int i = 0; i < challenges.length; i++ ) {
+            
+            // reaction and challenge type
             ChemicalReaction reaction;
             ChallengeType challengeType;
             if ( level == 1 ) {
@@ -44,19 +43,14 @@ public class DevGameStrategy implements IGameStrategy {
                 reaction = new MethaneReaction();
                 challengeType = Math.random() > 0.5 ? ChallengeType.BEFORE : ChallengeType.AFTER;
             }
+            
+            // quantities
             for ( Reactant reactant : reaction.getReactants() ) {
                 reactant.setQuantity( getRandomQuantity() );
             }
+            
             challenges[i] = new GameChallenge( challengeType, reaction );
         }
         return challenges;
     }
-    
-    /*
-     * Generates a random non-zero quantity.
-     */
-    private static int getRandomQuantity() {
-        return 1 + (int)( Math.random() * MAX_QUANTITY );
-    }
-
 }
