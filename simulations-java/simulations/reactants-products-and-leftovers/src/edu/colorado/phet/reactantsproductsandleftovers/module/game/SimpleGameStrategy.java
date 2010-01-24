@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.*;
@@ -161,15 +163,27 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
      * quantity values.
      */
     private static void analyzeRangeViolations() {
-        final int maxQuantity = GameModel.getQuantityRange().getMax();
+        
+        // put all reaction in a container, removing duplicates.
+        ArrayList<Class> reactionClasses = new ArrayList<Class>();
         for ( int i = 0; i < REACTIONS.length; i++ ) {
             for ( int j = 0; j < REACTIONS[i].length; j++ ) {
-                ChemicalReaction reaction = instantiateReaction( REACTIONS[i][j] );
-                for ( Reactant reactant : reaction.getReactants() ) {
-                    reactant.setQuantity( maxQuantity );
+                Class reactionClass = REACTIONS[i][j];
+                if ( !reactionClasses.contains( reactionClass ) ) {
+                    reactionClasses.add( reactionClass );
                 }
-                fixQuantityRangeViolation( reaction );
             }
+        }
+        
+        // check every reaction class
+        for ( Class reactionClass : reactionClasses ) {
+            ChemicalReaction reaction = instantiateReaction( reactionClass );
+            // set all reactant quantities to their max values.
+            for ( Reactant reactant : reaction.getReactants() ) {
+                reactant.setQuantity( getMaxQuantity() );
+            }
+            // look for violations and try to fix them.
+            fixQuantityRangeViolation( reaction );
         }
     }
     

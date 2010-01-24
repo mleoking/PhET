@@ -115,6 +115,15 @@ public class ChemicalReaction {
     }
     
     /**
+     * Removes the <sub> tags from the HTML form of the equation.
+     * This is intended for use in debug output, where HTML is difficult to read.
+     * @return
+     */
+    public String getEquationPlainText() {
+        return getEquationHTML().replaceAll( "<sub>", "" ).replaceAll( "</sub>", "" );
+    }
+    
+    /**
      * Example: 4,1 -> 1,2,2,0
      * @return
      */
