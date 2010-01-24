@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.apache.wicket.markup.html.panel.Panel;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -40,5 +41,9 @@ public class PhetPanel extends Panel {
 
     public PhetRequestCycle getPhetCycle() {
         return (PhetRequestCycle) getRequestCycle();
+    }
+
+    public PhetLocalizer getPhetLocalizer() {
+        return (PhetLocalizer) getLocalizer();
     }
 }
