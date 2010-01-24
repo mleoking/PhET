@@ -75,6 +75,10 @@ public class RegisterPage extends PhetPage {
             add( username = new TextField( "username", new PropertyModel( properties, "username" ) ) );
             add( password = new PasswordTextField( "password", new PropertyModel( properties, "password" ) ) );
             add( passwordCopy = new PasswordTextField( "passwordCopy", new PropertyModel( properties, "passwordCopy" ) ) );
+
+            // so we can respond to the error messages
+            password.setRequired( false );
+            passwordCopy.setRequired( false );
         }
 
         public final void onSubmit() {
@@ -96,34 +100,28 @@ public class RegisterPage extends PhetPage {
 
             if ( nom == null || nom.length() == 0 ) {
                 error = true;
-                errorString += ERROR_SEPARATOR + "Name is required";
+                errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.user", this, "Please fill in the name field" );
             }
 
             if ( !pass.equals( passwordCopy.getInput() ) ) {
                 error = true;
-                errorString += ERROR_SEPARATOR + "Passwords are different";
+                errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.passwordMatch", this, "The entered passwords do not match" );
             }
 
             if ( pass.length() == 0 ) {
                 error = true;
-                errorString += ERROR_SEPARATOR + "Please pick a password";
+                errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.password", this, "Please enter a password" );
             }
 
             err = PhetUser.validateEmail( email );
             if ( err != null ) {
-                // TODO! (add in validation from PhetUser, use string, add string)
                 error = true;
-                errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.email", this, "Please enter a valid email address" );
-            }
-
-            if ( !Pattern.matches( "^.+@.+\\.[a-z]+$", email ) ) {
-                error = true;
-                errorString += ERROR_SEPARATOR + "Email does not validate";
+                errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.email", this, "Please enter a valid email address" );
             }
 
             if ( desc == null || desc.length() == 0 ) {
                 error = true;
-                errorString += ERROR_SEPARATOR + "Please pick a description";
+                errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.description", this, "Please pick a description" );
             }
 
             if ( !error ) {
@@ -134,7 +132,7 @@ public class RegisterPage extends PhetPage {
                     List users = session.createQuery( "select u from PhetUser as u where u.email = :email" ).setString( "email", email ).list();
                     if ( !users.isEmpty() ) {
                         error = true;
-                        errorString += ERROR_SEPARATOR + "That email address is already in use";
+                        errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.emailUsed", this, "That email address is already in use" );
                         // TODO: add option to reset password for an existing account?
                     }
                     else {
@@ -162,14 +160,14 @@ public class RegisterPage extends PhetPage {
                         throw e;
                     }
                     error = true;
-                    errorString += ERROR_SEPARATOR + "Internal error occurred";
+                    errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "error.internalError", this, "Internal error occurred" );
                 }
             }
 
             if ( error ) {
                 logger.error( "Error registering" );
                 logger.error( "Reason: " + errorString );
-                errorString = "Please fix the following problems with the form:<br/>" + errorString;
+                errorString = getPhetLocalizer().getString( "validation.user.problems", this, "Please fix the following problems with the form:" ) + "<br/>" + errorString;
                 errorModel.setObject( errorString );
             }
             else {
