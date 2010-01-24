@@ -1,3 +1,4 @@
+1/23/10 fix range violations when they occur in generated challenges
 1/23/10 fix equation for ammonia, should be: 1N2 + 3H2 -> 2NH3
 1/22/10 statically check reactions for range violations
 # 0.00.19 (38214) Jan 22, 2010

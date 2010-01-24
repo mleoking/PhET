@@ -242,7 +242,7 @@ public class OneProductReactions {
         }
     }
     
-    // N2 + H2 -> 2NH3
+    // N2 + 3H2 -> 2NH3
     public static class AmmoniaReaction extends ChemicalReaction {
         
         public AmmoniaReaction() {

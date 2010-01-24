@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.AmmoniaReaction;
@@ -23,10 +22,13 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DevGameStrategy implements IGameStrategy {
+    
+    private static final int CHALLENGES_PER_GAME = GameModel.getChallengesPerGame();
+    private static final int MAX_QUANTITY = GameModel.getQuantityRange().getMax();
 
-    public GameChallenge[] createChallenges( int numberOfChallenges, int level, IntegerRange quantityRange ) {
+    public GameChallenge[] createChallenges( int level ) {
        
-        GameChallenge[] challenges = new GameChallenge[ numberOfChallenges ];
+        GameChallenge[] challenges = new GameChallenge[ CHALLENGES_PER_GAME ];
         for ( int i = 0; i < challenges.length; i++ ) {
             ChemicalReaction reaction;
             ChallengeType challengeType;
@@ -43,7 +45,7 @@ public class DevGameStrategy implements IGameStrategy {
                 challengeType = Math.random() > 0.5 ? ChallengeType.BEFORE : ChallengeType.AFTER;
             }
             for ( Reactant reactant : reaction.getReactants() ) {
-                reactant.setQuantity( getRandomQuantity( quantityRange ) );
+                reactant.setQuantity( getRandomQuantity() );
             }
             challenges[i] = new GameChallenge( challengeType, reaction );
         }
@@ -53,8 +55,8 @@ public class DevGameStrategy implements IGameStrategy {
     /*
      * Generates a random non-zero quantity.
      */
-    private static int getRandomQuantity( IntegerRange quantityRange ) {
-        return 1 + (int)( Math.random() * quantityRange.getMax() );
+    private static int getRandomQuantity() {
+        return 1 + (int)( Math.random() * MAX_QUANTITY );
     }
 
 }

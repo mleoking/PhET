@@ -153,7 +153,7 @@ public class GameModel extends RPALModel {
             getChallenge().getGuess().removeChangeListener( guessChangeListener );
         }
         challengeNumber = 0;
-        challenges = gameStrategy.createChallenges( getChallengesPerGame(), getLevel(), getQuantityRange() );
+        challenges = gameStrategy.createChallenges( getLevel() );
         getChallenge().getGuess().addChangeListener( guessChangeListener );
         fireChallengeChanged();
     }

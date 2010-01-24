@@ -5,7 +5,6 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- generating random reactant quantities in the range 1-10 yields products outside the range 1-10 in some cases
 - layout problem with scoreboard
 - address Java 5 warnings in SimpleGameStrategy
 - developer controls for setting up specific Game challenges
