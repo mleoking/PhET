@@ -19,12 +19,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimpleGameStrategy implements IGameStrategy {
-    
-    private static final boolean DEBUG_OUTPUT_ENABLED = true;
-    
-    private static final int CHALLENGES_PER_GAME = GameModel.getChallengesPerGame();
-    private static final int MAX_QUANTITY = GameModel.getQuantityRange().getMax();
+public class SimpleGameStrategy extends AbstractGameStrategy {
     
     // level 1 is all the one-product reactions
     private static final Class[] LEVEL1_REACTIONS = { 
@@ -79,19 +74,14 @@ public class SimpleGameStrategy implements IGameStrategy {
 
     private static final Class[][] REACTIONS = { LEVEL1_REACTIONS, LEVEL2_REACTIONS, LEVEL3_REACTIONS };
     
-    // static validation of reactions for possible range violations
-    static {
-        printRangeViolations();
-    }
-    
     /**
      * Default constructor.
      */
     public SimpleGameStrategy() {}
 
-    public GameChallenge[] createChallenges( int level ) {
+    protected GameChallenge[] createChallengesAux( int level ) {
 
-        GameChallenge[] challenges = new GameChallenge[CHALLENGES_PER_GAME];
+        GameChallenge[] challenges = new GameChallenge[ getChallengesPerGame() ];
         ChemicalReaction previousReaction = null;
         for ( int i = 0; i < challenges.length; i++ ) {
 
@@ -115,23 +105,10 @@ public class SimpleGameStrategy implements IGameStrategy {
                 reactant.setQuantity( getRandomQuantity() );
             }
 
-            // ensure that all quantity values are in the range supported by the model and user interface.
-            if ( hasQuantityRangeViolation( reaction ) ) {
-                fixQuantityRangeViolation( reaction );
-            }
-            
             challenges[i] = new GameChallenge( challengeType, reaction );
             previousReaction = reaction;
         }
         return challenges;
-    }
-
-    /*
-     * Generates a random non-zero quantity.
-     * We need at least one of each reactant to have a valid reaction.
-     */
-    private static int getRandomQuantity() {
-        return 1 + (int) ( Math.random() * MAX_QUANTITY );
     }
 
     /*
@@ -183,7 +160,7 @@ public class SimpleGameStrategy implements IGameStrategy {
      * elsewhere in the application, for example in the controls used to set and display
      * quantity values.
      */
-    private static void printRangeViolations() {
+    private static void analyzeRangeViolations() {
         final int maxQuantity = GameModel.getQuantityRange().getMax();
         for ( int i = 0; i < REACTIONS.length; i++ ) {
             for ( int j = 0; j < REACTIONS[i].length; j++ ) {
@@ -191,72 +168,13 @@ public class SimpleGameStrategy implements IGameStrategy {
                 for ( Reactant reactant : reaction.getReactants() ) {
                     reactant.setQuantity( maxQuantity );
                 }
-                if ( hasQuantityRangeViolation( reaction ) ) {
-                    System.err.println( "SimpleGameStrategy, range violation: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
-                }
+                fixQuantityRangeViolation( reaction );
             }
         }
     }
     
-    /*
-     * Check a reaction for quantity range violations.
-     */
-    private static boolean hasQuantityRangeViolation( ChemicalReaction reaction ) {
-        final int maxQuantity = GameModel.getQuantityRange().getMax();
-        boolean violation = false;
-        for ( int i = 0; !violation && i < reaction.getNumberOfReactants(); i++ ) {
-            if ( reaction.getReactant( i ).getQuantity() > maxQuantity || reaction.getReactant( i ).getLeftovers() > maxQuantity ) {
-                violation = true;
-            }
-        }
-        for ( int i = 0; !violation && i < reaction.getNumberOfProducts(); i++ ) {
-            if ( reaction.getProduct( i ).getQuantity() > maxQuantity ) {
-                violation = true;
-            }
-        }
-        return violation;
-    }
-    
-    private static void fixQuantityRangeViolation( ChemicalReaction reaction ) {
-        
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "SimpleGameStrategy, fixing range violation: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
-        }
-        
-        // First, make sure all reactant quantities are in range.
-        for ( Reactant reactant : reaction.getReactants() ) {
-            if ( reactant.getQuantity() > MAX_QUANTITY ) {
-                reactant.setQuantity( MAX_QUANTITY );
-            }
-        }
-        
-        // Then incrementally reduce reactant quantities, alternating reactants.
-        int reactantIndex = 0;
-        boolean changed = false;
-        while ( hasQuantityRangeViolation( reaction ) ) {
-            Reactant reactant = reaction.getReactant( reactantIndex );
-            int quantity = reactant.getQuantity();
-            if ( quantity > 1 ) {
-                reactant.setQuantity( quantity - 1 );
-                changed = true;
-            }
-            reactantIndex++;
-            if ( reactantIndex > reaction.getNumberOfReactants() - 1 ) {
-                reactantIndex = 0;
-                if ( !changed ) {
-                    // we haven't been able to reduce any reactant
-                    break;
-                }
-            }
-        }
-        
-        // If all reactants have been reduced to 1 and we are still out of range, bail.
-        if ( hasQuantityRangeViolation( reaction ) ) {
-            throw new IllegalStateException( "reaction is out of range and can't be fixed: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
-        }
-        
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "SimpleGameStrategy, fixed range violation: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
-        }
+    // test for range violations inherent in reactions, and verified that they are fixable.
+    public static void main( String[] args ) {
+        analyzeRangeViolations();
     }
 }
