@@ -28,6 +28,10 @@ public class TitlesEntity extends TranslationEntity {
         addString( "troubleshooting.java.title", "Title of the 'Java Troubleshooting' page" );
         addString( "troubleshooting.flash.title", "Title of the 'Flash Troubleshooting' page" );
         addString( "troubleshooting.javascript.title", "Title of the 'JavaScript Troubleshooting' page" );
+        addString( "register.title" );
+        addString( "editProfile.title" );
+        addString( "signIn.title" );
+        addString( "signOut.title" );
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new TitlePreviewPanel( id, context );

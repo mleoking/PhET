@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.util.value.ValueMap;
 
@@ -49,7 +50,7 @@ public class SignInPage extends PhetPage {
 
         add( new SignInForm( "sign-in-form" ) );
 
-        addTitle( "Sign in" );
+        addTitle( new ResourceModel( "signIn.title" ) );
 
         add( new LocalizedText( "to-register", "signIn.toRegister", new Object[]{RegisterPage.getLinker( destination == null ? "/" : destination ).getHref( getPageContext(), getPhetCycle() )} ) );
     }
