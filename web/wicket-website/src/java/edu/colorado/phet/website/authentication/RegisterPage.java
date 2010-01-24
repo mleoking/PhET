@@ -27,7 +27,7 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class RegisterPage extends PhetPage {
 
-    // TODO: i18n
+    // TODO: i18n (and align the fields correctly within the table!)
 
     private TextField name;
     private TextField organization;

@@ -23,6 +23,17 @@ public class UserEntity extends TranslationEntity {
         addString( "validation.user.emailUsed" );
         addString( "validation.user.problems" );
 
+        addString( "profile.register" );
+        addString( "profile.name" );
+        addString( "profile.organization" );
+        addString( "profile.description" );
+        addString( "profile.email" );
+        addString( "profile.password" );
+        addString( "profile.passwordCopy" );
+        addString( "profile.register.info" );
+        addString( "profile.register.submit" );
+        addString( "profile.register.reset" );
+
         // TODO: convert sign in / register / edit profile to panel? then should be previewable here
     }
 
