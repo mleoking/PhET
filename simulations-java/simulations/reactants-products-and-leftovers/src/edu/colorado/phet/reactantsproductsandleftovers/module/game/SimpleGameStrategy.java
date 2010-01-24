@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.*;
 import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.*;
@@ -22,6 +20,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SimpleGameStrategy implements IGameStrategy {
+    
+    private static final boolean DEBUG_OUTPUT_ENABLED = true;
+    
+    private static final int CHALLENGES_PER_GAME = GameModel.getChallengesPerGame();
+    private static final int MAX_QUANTITY = GameModel.getQuantityRange().getMax();
     
     // level 1 is all the one-product reactions
     private static final Class[] LEVEL1_REACTIONS = { 
@@ -86,13 +89,14 @@ public class SimpleGameStrategy implements IGameStrategy {
      */
     public SimpleGameStrategy() {}
 
-    public GameChallenge[] createChallenges( int numberOfChallenges, int level, IntegerRange quantityRange ) {
+    public GameChallenge[] createChallenges( int level ) {
 
-        GameChallenge[] challenges = new GameChallenge[numberOfChallenges];
+        GameChallenge[] challenges = new GameChallenge[CHALLENGES_PER_GAME];
+        ChemicalReaction previousReaction = null;
         for ( int i = 0; i < challenges.length; i++ ) {
 
             // reaction
-            ChemicalReaction reaction = getRandomReaction( level );
+            ChemicalReaction reaction = getRandomReaction( level, previousReaction );
 
             // challenge type
             ChallengeType challengeType;
@@ -108,30 +112,50 @@ public class SimpleGameStrategy implements IGameStrategy {
 
             // quantities
             for ( Reactant reactant : reaction.getReactants() ) {
-                reactant.setQuantity( getRandomQuantity( quantityRange ) );
+                reactant.setQuantity( getRandomQuantity() );
             }
 
+            // ensure that all quantity values are in the range supported by the model and user interface.
+            if ( hasQuantityRangeViolation( reaction ) ) {
+                fixQuantityRangeViolation( reaction );
+            }
+            
             challenges[i] = new GameChallenge( challengeType, reaction );
+            previousReaction = reaction;
         }
         return challenges;
     }
 
     /*
      * Generates a random non-zero quantity.
+     * We need at least one of each reactant to have a valid reaction.
      */
-    private static int getRandomQuantity( IntegerRange quantityRange ) {
-        return 1 + (int) ( Math.random() * quantityRange.getMax() );
+    private static int getRandomQuantity() {
+        return 1 + (int) ( Math.random() * MAX_QUANTITY );
     }
 
     /*
      * Creates a random reaction for a specified level.
      */
-    private static ChemicalReaction getRandomReaction( int level ) {
+    private static ChemicalReaction getRandomReaction( int level, ChemicalReaction previousReaction ) {
+        
+        // Select a random reaction from the array for the specified level.
         int levelIndex = level - 1;
         if ( levelIndex < 0 || levelIndex > REACTIONS.length - 1 ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
         int reactionIndex = (int) ( Math.random() * REACTIONS[levelIndex].length );
+        Class reactionClass = REACTIONS[levelIndex][reactionIndex];
+        
+        // If same as the previous reaction, simply get the next reaction in the array.
+        if ( previousReaction != null && reactionClass.equals( previousReaction.getClass() ) ) {
+            reactionIndex++;
+            if ( reactionIndex > REACTIONS[levelIndex].length - 1 ) {
+                reactionIndex = 0;
+            }
+            reactionClass = REACTIONS[levelIndex][reactionIndex];
+        }
+        
         return instantiateReaction( REACTIONS[levelIndex][reactionIndex] );
     }
 
@@ -167,13 +191,72 @@ public class SimpleGameStrategy implements IGameStrategy {
                 for ( Reactant reactant : reaction.getReactants() ) {
                     reactant.setQuantity( maxQuantity );
                 }
-                for ( Product product : reaction.getProducts() ) {
-                    if ( product.getQuantity() > maxQuantity ) {
-                        System.err.println( "SimpleGameStrategy, range violation: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
-                        break;
-                    }
+                if ( hasQuantityRangeViolation( reaction ) ) {
+                    System.err.println( "SimpleGameStrategy, range violation: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
                 }
             }
+        }
+    }
+    
+    /*
+     * Check a reaction for quantity range violations.
+     */
+    private static boolean hasQuantityRangeViolation( ChemicalReaction reaction ) {
+        final int maxQuantity = GameModel.getQuantityRange().getMax();
+        boolean violation = false;
+        for ( int i = 0; !violation && i < reaction.getNumberOfReactants(); i++ ) {
+            if ( reaction.getReactant( i ).getQuantity() > maxQuantity || reaction.getReactant( i ).getLeftovers() > maxQuantity ) {
+                violation = true;
+            }
+        }
+        for ( int i = 0; !violation && i < reaction.getNumberOfProducts(); i++ ) {
+            if ( reaction.getProduct( i ).getQuantity() > maxQuantity ) {
+                violation = true;
+            }
+        }
+        return violation;
+    }
+    
+    private static void fixQuantityRangeViolation( ChemicalReaction reaction ) {
+        
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "SimpleGameStrategy, fixing range violation: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
+        }
+        
+        // First, make sure all reactant quantities are in range.
+        for ( Reactant reactant : reaction.getReactants() ) {
+            if ( reactant.getQuantity() > MAX_QUANTITY ) {
+                reactant.setQuantity( MAX_QUANTITY );
+            }
+        }
+        
+        // Then incrementally reduce reactant quantities, alternating reactants.
+        int reactantIndex = 0;
+        boolean changed = false;
+        while ( hasQuantityRangeViolation( reaction ) ) {
+            Reactant reactant = reaction.getReactant( reactantIndex );
+            int quantity = reactant.getQuantity();
+            if ( quantity > 1 ) {
+                reactant.setQuantity( quantity - 1 );
+                changed = true;
+            }
+            reactantIndex++;
+            if ( reactantIndex > reaction.getNumberOfReactants() - 1 ) {
+                reactantIndex = 0;
+                if ( !changed ) {
+                    // we haven't been able to reduce any reactant
+                    break;
+                }
+            }
+        }
+        
+        // If all reactants have been reduced to 1 and we are still out of range, bail.
+        if ( hasQuantityRangeViolation( reaction ) ) {
+            throw new IllegalStateException( "reaction is out of range and can't be fixed: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
+        }
+        
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "SimpleGameStrategy, fixed range violation: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
         }
     }
 }
