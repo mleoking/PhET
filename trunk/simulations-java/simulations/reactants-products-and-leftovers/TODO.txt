@@ -1,7 +1,6 @@
 # TODO list for reactants-products-and-leftovers
 
 DEADLINES
-- 1/28/10, Game fleshed out with more reactions for interviews
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY

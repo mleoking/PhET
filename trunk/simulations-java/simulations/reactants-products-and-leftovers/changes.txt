@@ -1,3 +1,4 @@
+1/23/10 met deadline (1/28/10) for having Game fleshed out with more reactions for interviews
 # 0.00.20 (38231) Jan 23, 2010
 1/23/10 analyze all reactions for potential range violations, verify that they are all fixable (see SimpleGameStrategy.main)
 1/23/10 fix range violations when they occur in generated challenges
