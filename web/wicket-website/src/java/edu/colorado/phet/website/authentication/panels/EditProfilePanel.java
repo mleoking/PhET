@@ -162,6 +162,8 @@ public class EditProfilePanel extends PhetPanel {
                 logger.error( "Reason: " + errorString );
                 errorString = getPhetLocalizer().getString( "validation.user.problems", this, "Please fix the following problems with the form:" ) + "<br/>" + errorString;
                 errorModel.setObject( errorString );
+            } else {
+                errorModel.setObject( "" );
             }
         }
     }
