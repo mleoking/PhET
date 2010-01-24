@@ -2,6 +2,7 @@ package edu.colorado.phet.website.translation.entities;
 
 import edu.colorado.phet.website.authentication.panels.RegisterPanel;
 import edu.colorado.phet.website.authentication.panels.SignInPanel;
+import edu.colorado.phet.website.authentication.panels.EditProfilePanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetPanelFactory;
 import edu.colorado.phet.website.util.PageContext;
@@ -70,7 +71,12 @@ public class UserEntity extends TranslationEntity {
             }
         }, "Register Page" );
 
-        // TODO: convert sign in / register / edit profile to panel? then should be previewable here
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new EditProfilePanel( id, context );
+            }
+        }, "Edit Profile Page" );
+
     }
 
     public String getDisplayName() {
