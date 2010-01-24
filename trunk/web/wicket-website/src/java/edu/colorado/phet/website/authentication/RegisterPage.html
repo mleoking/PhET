@@ -25,44 +25,58 @@
 
 <wicket:extend>
     <div class="register-holder">
-        <h2>Register:</h2>
+        <h2>
+            <wicket:message key="profile.register">Register:</wicket:message>
+        </h2>
 
         <p wicket:id="register-errors" class="register-errors"> | Errors go here</p>
 
         <form wicket:id="register-form">
             <table>
                 <tr>
-                    <td align="right">Name:</td>
+                    <td align="right">
+                        <wicket:message key="profile.name">Name:</wicket:message>
+                    </td>
                     <td>
                         <input wicket:id="name" type="text" value="" size="40"/>
                     </td>
                 </tr>
                 <tr>
-                    <td align="right">Organization:</td>
+                    <td align="right">
+                        <wicket:message key="profile.organization">Organization:</wicket:message>
+                    </td>
                     <td>
                         <input wicket:id="organization" type="text" value="" size="40"/>
                     </td>
                 </tr>
                 <tr>
-                    <td align="right">Description:</td>
+                    <td align="right">
+                        <wicket:message key="profile.description">Description:</wicket:message>
+                    </td>
                     <td>
                         <select wicket:id="description"></select>
                     </td>
                 </tr>
                 <tr>
-                    <td align="right">Email address:</td>
+                    <td align="right">
+                        <wicket:message key="profile.email">Email address:</wicket:message>
+                    </td>
                     <td>
                         <input wicket:id="username" type="text" value="" size="40"/>
                     </td>
                 </tr>
                 <tr>
-                    <td align="right">New password:</td>
+                    <td align="right">
+                        <wicket:message key="profile.password">New password:</wicket:message>
+                    </td>
                     <td>
                         <input wicket:id="password" type="password" value="" size="40"/>
                     </td>
                 </tr>
                 <tr>
-                    <td align="right">Re-type password:</td>
+                    <td align="right">
+                        <wicket:message key="profile.passwordCopy">Re-type password:</wicket:message>
+                    </td>
                     <td>
                         <input wicket:id="passwordCopy" type="password" value="" size="40"/>
                     </td>
@@ -70,14 +84,16 @@
                 <tr>
                     <td></td>
                     <td>
-                        <input type="submit" name="submit" value="Register"/>
-                        <input type="reset" value="Reset"/>
+                        <input type="submit" name="submit" wicket:message="value:profile.register.submit"/>
+                        <input type="reset" wicket:message="value:profile.register.reset"/>
                     </td>
                 </tr>
             </table>
             <p>
-                Your email address will not be given to anyone, and is used strictly for login purposes (and
-                optionally, for receiving the quarterly PhET newsletter).
+                <wicket:message key="profile.register.info">
+                    Your email address will not be given to anyone, and is used strictly for login purposes (and
+                    optionally, for receiving the quarterly PhET newsletter).
+                </wicket:message>
             </p>
         </form>
     </div>
