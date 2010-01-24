@@ -1,11 +1,11 @@
 package edu.colorado.phet.website.translation.entities;
 
-import edu.colorado.phet.website.translation.PhetPanelFactory;
+import edu.colorado.phet.website.authentication.panels.RegisterPanel;
+import edu.colorado.phet.website.authentication.panels.SignInPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.translation.PhetPanelFactory;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
-import edu.colorado.phet.website.content.FullInstallPanel;
-import edu.colorado.phet.website.authentication.panels.SignInPanel;
 
 public class UserEntity extends TranslationEntity {
     public UserEntity() {
@@ -48,6 +48,12 @@ public class UserEntity extends TranslationEntity {
                 return new SignInPanel( id, context, "/" );
             }
         }, "Sign In Page" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new RegisterPanel( id, context, "/" );
+            }
+        }, "Register Page" );
 
         // TODO: convert sign in / register / edit profile to panel? then should be previewable here
     }
