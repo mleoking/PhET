@@ -164,6 +164,7 @@ public class RegisterPanel extends PhetPanel {
                 errorModel.setObject( errorString );
             }
             else {
+                errorModel.setObject( "" );
                 PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObjectAsString(), password.getInput() );
                 if ( destination != null ) {
                     getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
