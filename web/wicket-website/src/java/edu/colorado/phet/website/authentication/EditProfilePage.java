@@ -49,17 +49,6 @@ public class EditProfilePage extends PhetPage {
         };
     }
 
-    private List<String> getDescriptionOptions() {
-        return Arrays.asList(
-                "I am a teacher who uses PhET in my classes",
-                "I am a teacher interested in using PhET in the future",
-                "I am a student who uses PhET",
-                "I am a student interested in using PhET in the future",
-                "I am just interested in physics",
-                "Other"
-        );
-    }
-
     private final class EditProfileForm extends Form {
 
         private TextField name;
@@ -103,7 +92,7 @@ public class EditProfilePage extends PhetPage {
 
             add( name = new TextField( "name", new PropertyModel( properties, "name" ) ) );
             add( organization = new TextField( "organization", new PropertyModel( properties, "organization" ) ) );
-            add( description = new DropDownChoice( "description", new PropertyModel( properties, "description" ), getDescriptionOptions() ) );
+            add( description = new DropDownChoice( "description", new PropertyModel( properties, "description" ), PhetUser.getDescriptionOptions() ) );
             add( jobTitle = new TextField( "jobTitle", new PropertyModel( properties, "jobTitle" ) ) );
             add( address1 = new TextField( "address1", new PropertyModel( properties, "address1" ) ) );
             add( address2 = new TextField( "address2", new PropertyModel( properties, "address2" ) ) );
@@ -121,11 +110,12 @@ public class EditProfilePage extends PhetPage {
 
         @Override
         protected void onSubmit() {
-            // for some reason: very broken!
             for ( Object o : properties.keySet() ) {
                 logger.debug( o.toString() + ": " + properties.get( o ) );
             }
             logger.debug( "receiveEmail: " + receiveEmail.getModelObject() );
+
+            // TODO: add validation (maybe in some common place?)
         }
     }
 }

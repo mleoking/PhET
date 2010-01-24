@@ -3,6 +3,8 @@ package edu.colorado.phet.website.data;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.Arrays;
 
 public class PhetUser implements Serializable {
 
@@ -30,6 +32,17 @@ public class PhetUser implements Serializable {
     private String fax;
 
     private boolean receiveEmail = true;
+
+    public static List<String> getDescriptionOptions() {
+        return Arrays.asList(
+                "I am a teacher who uses PhET in my classes",
+                "I am a teacher interested in using PhET in the future",
+                "I am a student who uses PhET",
+                "I am a student interested in using PhET in the future",
+                "I am just interested in physics",
+                "Other"
+        );
+    }
 
     @Override
     public boolean equals( Object o ) {
