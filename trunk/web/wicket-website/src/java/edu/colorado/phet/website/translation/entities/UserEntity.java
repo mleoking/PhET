@@ -40,6 +40,21 @@ public class UserEntity extends TranslationEntity {
         addString( "profile.register.info" );
         addString( "profile.register.submit" );
         addString( "profile.register.reset" );
+        addString( "profile.jobTitle" );
+        addString( "profile.address1" );
+        addString( "profile.address2" );
+        addString( "profile.city" );
+        addString( "profile.state" );
+        addString( "profile.country" );
+        addString( "profile.zip" );
+        addString( "profile.phone1" );
+        addString( "profile.phone2" );
+        addString( "profile.fax" );
+        addString( "profile.receiveEmail" );
+
+        addString( "profile.edit" );
+        addString( "profile.edit.submit" );
+        addString( "profile.edit.reset" ); 
 
         addString( "signOut.beingSignedOut" );
 
