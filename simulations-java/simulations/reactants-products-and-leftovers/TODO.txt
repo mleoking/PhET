@@ -4,7 +4,7 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- address Java 5 warnings in SimpleGameStrategy
+- eliminate cast and use strong typing in SimpleGameStrategy
 - developer controls for setting up specific Game challenges
 - layout problem with scoreboard
 - add an animated "prize" to Game Summary for perfect score
