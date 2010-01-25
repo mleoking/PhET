@@ -4,23 +4,23 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- layout problem with scoreboard
 - address Java 5 warnings in SimpleGameStrategy
 - developer controls for setting up specific Game challenges
+- layout problem with scoreboard
 - add an animated "prize" to Game Summary for perfect score
-- move timerVisible out of GameModel, doesn't belong there
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 
 MEDIUM PRIORITY
-- on mouseover, Game buttons become opaque and may hide molecule images
-- "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
+- lighter weight methods (text?) of telling the user that the Game images will be hidden for a challenge
+- move timerVisible out of GameModel, doesn't belong there
 - explicitly handle tab traversal in play area
 - PSwing memory leak affects tab traversal, #1874
 - associate ImageLayoutStrategy with the chemical reaction type?
 - investigate PSwing workaround that I had to add to GameSummaryNode
 
 LOW PRIORITY
+- "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
 - should Check button be visible with Game instructions, or appear when user enters a value?
 - wait for interview results to decide if animated curtains are needed in Game
 - javadoc
