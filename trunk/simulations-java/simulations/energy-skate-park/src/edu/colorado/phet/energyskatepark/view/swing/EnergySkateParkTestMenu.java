@@ -50,9 +50,13 @@ public class EnergySkateParkTestMenu extends EnergySkateParkTrackMenu {
         private String location;
         private String title;
 
-        public TestItem( String location, String key ) {
+        public TestItem( String location, String title ) {
             this.location = location;
-            this.title = EnergySkateParkStrings.getString(key);
+            this.title = title;
+        }
+        
+        public static TestItem getTestItemForKey(String location, String key){
+        	return new TestItem(location, EnergySkateParkStrings.getString(key));
         }
 
         public String getLocation() {

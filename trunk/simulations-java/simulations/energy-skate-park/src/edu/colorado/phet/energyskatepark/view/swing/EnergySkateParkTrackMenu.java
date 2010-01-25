@@ -36,12 +36,12 @@ public class EnergySkateParkTrackMenu extends JMenu {
 
     private static EnergySkateParkTestMenu.TestItem[] getTests() {
         return new EnergySkateParkTestMenu.TestItem[]{
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/loop.esp", "tracks-menu.item.loop" ),
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/double-well.esp", "tracks-menu.item.double-well" ),
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/double-well-rc.esp", "tracks-menu.item.double-well-roller-coaster" ),
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/fallthrough_test.esp", "tracks-menu.item.friction-parabola" ),
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/jump.esp", "tracks-menu.item.jump" ),
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/strack4.esp", "tracks-menu.item.s-curve" ),
+                EnergySkateParkTestMenu.TestItem.getTestItemForKey( "energy-skate-park/tests/loop.esp", "tracks-menu.item.loop" ),
+                EnergySkateParkTestMenu.TestItem.getTestItemForKey( "energy-skate-park/tests/double-well.esp", "tracks-menu.item.double-well" ),
+                EnergySkateParkTestMenu.TestItem.getTestItemForKey( "energy-skate-park/tests/double-well-rc.esp", "tracks-menu.item.double-well-roller-coaster" ),
+                EnergySkateParkTestMenu.TestItem.getTestItemForKey( "energy-skate-park/tests/fallthrough_test.esp", "tracks-menu.item.friction-parabola" ),
+                EnergySkateParkTestMenu.TestItem.getTestItemForKey( "energy-skate-park/tests/jump.esp", "tracks-menu.item.jump" ),
+                EnergySkateParkTestMenu.TestItem.getTestItemForKey( "energy-skate-park/tests/strack4.esp", "tracks-menu.item.s-curve" ),
         };
     }
 }
