@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.view.swing;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
 
 import javax.swing.*;
@@ -49,9 +50,9 @@ public class EnergySkateParkTestMenu extends EnergySkateParkTrackMenu {
         private String location;
         private String title;
 
-        public TestItem( String location, String title ) {
+        public TestItem( String location, String key ) {
             this.location = location;
-            this.title = title;
+            this.title = EnergySkateParkStrings.getString(key);
         }
 
         public String getLocation() {

@@ -31,7 +31,7 @@ public class EnergySkateParkApplication extends PhetApplication {
         if ( config.isDev() ) {
             getPhetFrame().addMenu( new EnergySkateParkTestMenu( this ) );
         }
-//        getPhetFrame().addMenu( new EnergySkateParkTrackMenu( this ) );
+        getPhetFrame().addMenu( new EnergySkateParkTrackMenu( this ) );
 
         JMenuItem saveItem = new JMenuItem( EnergySkateParkStrings.getString( "file-menu.save" ) + "..." );
         saveItem.addActionListener( new ActionListener() {
