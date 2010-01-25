@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.view.swing;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class EnergySkateParkTrackMenu extends JMenu {
     private EnergySkateParkApplication parentApp;
 
     public EnergySkateParkTrackMenu( EnergySkateParkApplication app ) {
-        this( "Tracks", app, getTests() );
+        this( EnergySkateParkStrings.getString("tracks-menu.title"), app, getTests() );
     }
 
     public EnergySkateParkTrackMenu( String label, final EnergySkateParkApplication parentApp, EnergySkateParkTestMenu.TestItem[] testItems ) {
@@ -35,13 +36,12 @@ public class EnergySkateParkTrackMenu extends JMenu {
 
     private static EnergySkateParkTestMenu.TestItem[] getTests() {
         return new EnergySkateParkTestMenu.TestItem[]{
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/loop.esp", "Loop" ),
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/double-well.esp", "Double Well" ),
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/double-well-rc.esp", "Double Well (Roller Coaster)" ),
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/fallthrough_test.esp", "Friction Parabola" ),
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/jump.esp", "Jump" ),
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/strack4.esp", "S-Curve" ),
-                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/fly-off.esp", "Fly Off (bug)" ),
+                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/loop.esp", "tracks-menu.item.loop" ),
+                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/double-well.esp", "tracks-menu.item.double-well" ),
+                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/double-well-rc.esp", "tracks-menu.item.double-well-roller-coaster" ),
+                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/fallthrough_test.esp", "tracks-menu.item.friction-parabola" ),
+                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/jump.esp", "tracks-menu.item.jump" ),
+                new EnergySkateParkTestMenu.TestItem( "energy-skate-park/tests/strack4.esp", "tracks-menu.item.s-curve" ),
         };
     }
 }
