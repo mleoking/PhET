@@ -24,7 +24,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
 public class SimpleGameStrategy extends AbstractGameStrategy {
     
     // level 1 is all the one-product reactions
-    private static final Class[] LEVEL1_REACTIONS = { 
+    private static final Class<?>[] LEVEL1_REACTIONS = { 
         WaterReaction.class, 
         Reaction_H2_F2__2HF.class,
         Reaction_H2_Cl2__2HCl.class,
@@ -50,10 +50,10 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
         };
 
     // level 2 uses the same reactions as level 1
-    private static final Class[] LEVEL2_REACTIONS = LEVEL1_REACTIONS;
+    private static final Class<?>[] LEVEL2_REACTIONS = LEVEL1_REACTIONS;
 
     // level 3 is all the two-product reactions
-    private static final Class[] LEVEL3_REACTIONS = { 
+    private static final Class<?>[] LEVEL3_REACTIONS = { 
         Reaction_2C_2H2O__CH4_CO2.class, 
         Reaction_CH4_H2O__3H2_CO.class, 
         MethaneReaction.class, 
@@ -74,7 +74,7 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
         Reaction_OF2_H2O__O2_2HF.class 
         };
 
-    private static final Class[][] REACTIONS = { LEVEL1_REACTIONS, LEVEL2_REACTIONS, LEVEL3_REACTIONS };
+    private static final Class<?>[][] REACTIONS = { LEVEL1_REACTIONS, LEVEL2_REACTIONS, LEVEL3_REACTIONS };
     
     /**
      * Default constructor.
@@ -124,7 +124,7 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
         int reactionIndex = (int) ( Math.random() * REACTIONS[levelIndex].length );
-        Class reactionClass = REACTIONS[levelIndex][reactionIndex];
+        Class<?> reactionClass = REACTIONS[levelIndex][reactionIndex];
         
         // If same as the previous reaction, simply get the next reaction in the array.
         if ( previousReaction != null && reactionClass.equals( previousReaction.getClass() ) ) {
@@ -144,7 +144,7 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
     private static ChemicalReaction instantiateReaction( Class<?> c ) {
         ChemicalReaction reaction = null;
         try {
-            reaction = (ChemicalReaction) c.newInstance();
+            reaction = (ChemicalReaction) c.newInstance(); //XXX eliminate cast
         }
         catch ( InstantiationException e ) {
             e.printStackTrace();
@@ -165,10 +165,10 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
     private static void analyzeRangeViolations() {
         
         // put all reaction in a container, removing duplicates.
-        ArrayList<Class> reactionClasses = new ArrayList<Class>();
+        ArrayList<Class<?>> reactionClasses = new ArrayList<Class<?>>();
         for ( int i = 0; i < REACTIONS.length; i++ ) {
             for ( int j = 0; j < REACTIONS[i].length; j++ ) {
-                Class reactionClass = REACTIONS[i][j];
+                Class<?> reactionClass = REACTIONS[i][j];
                 if ( !reactionClasses.contains( reactionClass ) ) {
                     reactionClasses.add( reactionClass );
                 }
@@ -176,7 +176,7 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
         }
         
         // check every reaction class
-        for ( Class reactionClass : reactionClasses ) {
+        for ( Class<?> reactionClass : reactionClasses ) {
             ChemicalReaction reaction = instantiateReaction( reactionClass );
             // set all reactant quantities to their max values.
             for ( Reactant reactant : reaction.getReactants() ) {
