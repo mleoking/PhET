@@ -71,7 +71,6 @@ public class LacOperonModule extends PiccoloModule {
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.X_AXIS ) );
         spacePanel.add( Box.createHorizontalStrut( 30 ) );
         clockPanelWithResetButton.add(spacePanel);
-
         clockPanelWithResetButton.add(new ResetAllButton(this, clockPanelWithResetButton));
         
         setClockControlPanel( clockPanelWithResetButton );
