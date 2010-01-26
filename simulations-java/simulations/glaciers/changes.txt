@@ -1,3 +1,5 @@
+1/26/10 #2131, fix color of ice surface below ELA
+1/26/10 #2130, fix color of ripples on ice surface
 # 2.03.00 (38002) Jan 9, 2010
 1/9/10 public version for milestone "full redeploy, 2010 Q1"
 # 2.02.02 (37898) Jan 5, 2010
