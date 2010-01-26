@@ -1,3 +1,5 @@
+# 2.06.03 (38266) Jan 26, 2010
+1/26/10 > Removed the "Bounciness" and "Stickiness" controls for the skater, see 2129.
 # 2.06.02 (38254) Jan 25, 2010
 1/25/10 Got rid of some warnings that were being printed to the console.
 # 2.06.01 (38252) Jan 25, 2010
