@@ -69,9 +69,10 @@ public class EditSkaterPanel extends AdvancedPanel {
     private boolean isKeepEnergyOnLanding() {
         EnergySkateParkModel model = module.getEnergySkateParkModel();
 
-        for( int i = 0; i < model.getNumBodies(); i++ ) {
-            Body b = model.getBody( i );
-            return b.isKeepEnergyOnLanding();
+        if (model.getNumBodies() > 0){
+        	// We assume that all bodies are set alike, so returning the value
+        	// of the first one on the list is a valid thing to do.
+        	return model.getBody(0).isKeepEnergyOnLanding();
         }
         return false;
     }
