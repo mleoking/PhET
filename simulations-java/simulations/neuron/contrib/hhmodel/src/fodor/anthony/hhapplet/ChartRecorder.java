@@ -1,8 +1,12 @@
-package fodor.anthony.hhapplet;
+package hhmodel.src.fodor.anthony.hhapplet;
 
-import java.applet.*;
-import java.awt.*;
-import java.awt.image.*;
+import java.applet.Applet;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Image;
 
 /**This class simulates a chart recorder in an electrophysiology lab.  
  * Calling plot(float inDatum) causes inDatum to be plotted and the 

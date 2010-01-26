@@ -1,7 +1,18 @@
-package fodor.anthony.hhapplet;
+package hhmodel.src.fodor.anthony.hhapplet;
 
-import java.awt.*;
 import java.applet.Applet;
+import java.awt.Button;
+import java.awt.Checkbox;
+import java.awt.CheckboxGroup;
+import java.awt.Color;
+import java.awt.Event;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Label;
+import java.awt.TextField;
 
 class LineDivider extends Applet
 {	
