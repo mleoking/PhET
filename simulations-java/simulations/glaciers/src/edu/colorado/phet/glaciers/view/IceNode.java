@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.glaciers.view;
 
-import java.awt.Color;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
@@ -25,9 +24,6 @@ public class IceNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private static final double DX = 80; // x distance between sample points (meters)
-    private static final Color CROSS_SECTION_COLOR = new Color( 207, 255, 255 ); // ice blue
-    public static final Color SURFACE_COLOR = Color.WHITE;
-    private static final Color SURFACE_BELOW_ELA_COLOR = new Color( 230, 230, 230 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -65,19 +61,19 @@ public class IceNode extends PComposite {
         
         _crossSectionPath = new GeneralPath();
         _crossSectionNode = new PPath( _crossSectionPath );
-        _crossSectionNode.setPaint( CROSS_SECTION_COLOR );
+        _crossSectionNode.setPaint( GlaciersConstants.ICE_CROSS_SECTION_COLOR );
         _crossSectionNode.setStroke( null );
         addChild( _crossSectionNode );
         
         _surfacePath = new GeneralPath();
         _surfaceNode = new PPath( _surfacePath );
-        _surfaceNode.setPaint( SURFACE_COLOR );
+        _surfaceNode.setPaint( GlaciersConstants.ICE_SURFACE_ABOVE_ELA_COLOR );
         _surfaceNode.setStroke( null );
         addChild( _surfaceNode );
         
         _surfaceBelowELAPath = new GeneralPath();
         _surfaceBelowELANode = new PPath( _surfacePath );
-        _surfaceBelowELANode.setPaint( SURFACE_BELOW_ELA_COLOR );
+        _surfaceBelowELANode.setPaint( GlaciersConstants.ICE_SURFACE_BELOW_ELA_COLOR );
         _surfaceBelowELANode.setStroke( null );
         addChild( _surfaceBelowELANode );
         
