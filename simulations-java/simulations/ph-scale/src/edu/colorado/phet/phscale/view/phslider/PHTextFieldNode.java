@@ -76,6 +76,7 @@ public class PHTextFieldNode extends PNode {
         _textField.addKeyListener( textFieldEventHandler );
         
         JPanel valuePanel = new JPanel();
+        valuePanel.setOpaque( false );
         EasyGridBagLayout valuePanelLayout = new EasyGridBagLayout( valuePanel );
         valuePanel.setLayout( valuePanelLayout );
         valuePanelLayout.addComponent( phLabel, 0, 0 );

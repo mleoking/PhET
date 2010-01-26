@@ -30,7 +30,7 @@ public class LiquidDescriptor {
     private static final LiquidDescriptor BLOOD = new LiquidDescriptor( PHScaleStrings.CHOICE_BLOOD, 7.4, new Color( 185, 12, 0, 150 ) );
     private static final LiquidDescriptor SPIT = new LiquidDescriptor( PHScaleStrings.CHOICE_SPIT, 7.4, new Color( 204, 204, 198, 73 ) );
     private static final LiquidDescriptor WATER = new LiquidDescriptor( PHScaleStrings.CHOICE_WATER, 7, ColorUtils.createColor( PHScaleConstants.H2O_COLOR, 127 ) );
-    private static final LiquidDescriptor MILK = new LiquidDescriptor( PHScaleStrings.CHOICE_MILK, 6.5, new Color( 255, 255, 255, 180 ) );
+    private static final LiquidDescriptor MILK = new LiquidDescriptor( PHScaleStrings.CHOICE_MILK, 6.5, new Color( 255, 255, 255, 156 ) );
     private static final LiquidDescriptor COFFEE = new LiquidDescriptor( PHScaleStrings.CHOICE_COFFEE, 5.0, new Color( 164, 99, 7, 127 ) );
     private static final LiquidDescriptor BEER = new LiquidDescriptor( PHScaleStrings.CHOICE_BEER, 4.5, new Color( 255, 200, 0, 127 ) );
     private static final LiquidDescriptor LIME_SODA = new LiquidDescriptor( PHScaleStrings.SODA, 2.5, new Color( 204, 255, 102, 162 ) );

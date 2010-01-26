@@ -83,7 +83,7 @@ public class PHScaleConstants {
     //----------------------------------------------------------------------------
     
     // Color of the "play area"
-    public static final Color CANVAS_BACKGROUND = new Color( 230, 230, 230 );
+    public static final Color CANVAS_BACKGROUND = new Color( 212, 212, 212 );
     
     // H3O, OH, H2O colors (used for pH slider track & bars)
     public static final Color H3O_COLOR = new Color( 242, 102, 101 );
