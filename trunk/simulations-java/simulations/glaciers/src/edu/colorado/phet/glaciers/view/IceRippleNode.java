@@ -24,8 +24,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class IceRippleNode extends PComposite {
     
     private static final Stroke STROKE = new BasicStroke( 1f );
-    private static final Color COLOR_ABOVE_ELA = new Color( 222, 222, 222 );
-    private static final Color COLOR_BELOW_ELA = new Color( 200, 200, 200 );
     
     private final Glacier _glacier;
     private final IceRipple _ripple;
@@ -100,14 +98,12 @@ public class IceRippleNode extends PComposite {
         
         // use different colors above and below ELA
         final Point2D surfaceAtELA = _glacier.getSurfaceAtELAReference();
+        Color color = GlaciersConstants.RIPPLE_ABOVE_ELA_COLOR;
         if ( surfaceAtELA != null && _ripple.getX() >= surfaceAtELA.getX() ) {
-            _topArcNode.setStrokePaint( COLOR_BELOW_ELA );
-            _bottomArcNode.setStrokePaint( COLOR_BELOW_ELA );
+            color = GlaciersConstants.RIPPLE_BELOW_ELA_COLOR;
         }
-        else {
-            _topArcNode.setStrokePaint( COLOR_ABOVE_ELA );
-            _bottomArcNode.setStrokePaint( COLOR_ABOVE_ELA );
-        }
+        _topArcNode.setStrokePaint( color );
+        _bottomArcNode.setStrokePaint( color );
         
         // position
         _mvt.modelToView( _ripple.getPositionReference(), _pView );

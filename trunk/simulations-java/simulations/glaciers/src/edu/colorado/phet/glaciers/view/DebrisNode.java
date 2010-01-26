@@ -35,7 +35,6 @@ public class DebrisNode extends PComposite {
     private static final boolean DEBUG_CLICK_FOR_INFO = false; // mouse click on this node to get info about the debris
     
     private static final double BOULDER_RADIUS = 1; // pixels
-    private static final Color BOULDER_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -139,7 +138,7 @@ public class DebrisNode extends PComposite {
             Shape shape = new Ellipse2D.Double( -radius, -radius, 2 * radius, 2 * radius );
             setPathTo( shape );
             setStroke( null );
-            setPaint( BOULDER_COLOR );
+            setPaint( GlaciersConstants.DEBRIS_COLOR );
         }
     }
     

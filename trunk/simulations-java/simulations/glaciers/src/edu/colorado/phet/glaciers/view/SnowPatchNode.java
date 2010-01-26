@@ -1,6 +1,5 @@
 package edu.colorado.phet.glaciers.view;
 
-import java.awt.Color;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
@@ -33,8 +32,6 @@ public class SnowPatchNode extends PComposite {
     private static final double THICKNESS_AT_TERMINUS = UnitsConverter.feetToMeters( 50 ); // meters
     private static final double THICKNESS_AT_ELA = 0; // meters
     private static final double DX = 80; // x distance between sample points (meters)
-    private static final Color CROSS_SECTION_COLOR = Color.LIGHT_GRAY;
-    private static final Color SURFACE_COLOR = IceNode.SURFACE_COLOR;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -69,13 +66,13 @@ public class SnowPatchNode extends PComposite {
         
         _crossSectionPath = new GeneralPath();
         _crossSectionNode = new PPath( _crossSectionPath );
-        _crossSectionNode.setPaint( CROSS_SECTION_COLOR );
+        _crossSectionNode.setPaint( GlaciersConstants.SNOW_PATCH_CROSS_SECTION_COLOR );
         _crossSectionNode.setStroke( null );
         addChild( _crossSectionNode );
         
         _surfacePath = new GeneralPath();
         _surfaceNode = new PPath( _surfacePath );
-        _surfaceNode.setPaint( SURFACE_COLOR );
+        _surfaceNode.setPaint( GlaciersConstants.SNOW_PATCH_SURFACE_COLOR );
         _surfaceNode.setStroke( null );
         addChild( _surfaceNode );
         

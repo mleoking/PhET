@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.glaciers.view.IceNode;
 
 
 /**
@@ -128,8 +129,20 @@ public class GlaciersConstants {
     public static final Color ZOOMED_CANVAS_COLOR = BIRDS_EYE_CANVAS_COLOR;
     
     // color of ice
-    public static final Color ICE_CROSS_SECTION_COLOR = new Color( 232, 242, 252 ); // bluish white
-    public static final Color ICE_SURFACE_COLOR = Color.WHITE;
+    public static final Color ICE_SURFACE_ABOVE_ELA_COLOR = Color.WHITE;
+    public static final Color ICE_SURFACE_BELOW_ELA_COLOR = new Color( 217, 217, 217 );
+    public static final Color ICE_CROSS_SECTION_COLOR = new Color( 207, 255, 255 ); // ice blue
+    
+    // snow patch below ELA
+    public static final Color SNOW_PATCH_SURFACE_COLOR = ICE_SURFACE_ABOVE_ELA_COLOR;
+    public static final Color SNOW_PATCH_CROSS_SECTION_COLOR = Color.LIGHT_GRAY;
+    
+    // ripples in ice surface
+    public static final Color RIPPLE_ABOVE_ELA_COLOR = ICE_SURFACE_ABOVE_ELA_COLOR.darker();
+    public static final Color RIPPLE_BELOW_ELA_COLOR = ICE_SURFACE_BELOW_ELA_COLOR.darker();
+    
+    // debris in and on ice
+    public static final Color DEBRIS_COLOR = Color.BLACK;
     
     // color of ground below valley floor
     public static final Color UNDERGROUND_COLOR = new Color( 180, 158, 134 ); // tan
