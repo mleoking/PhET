@@ -1,16 +1,21 @@
-package fodor.anthony.hhapplet.reid;
+package hhmodel.src.fodor.anthony.hhapplet.reid;
 
-import fodor.anthony.hhapplet.Model;
+import hhmodel.src.fodor.anthony.hhapplet.Model;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class TestFodor {
     public static void main(String[] args) {
@@ -56,7 +61,8 @@ public class TestFodor {
         JFrame controlFrame = new JFrame();
         controlFrame.setContentPane(controlPanel);
         controlFrame.pack();
-        controlFrame.setLocation(chartFrame.getX(), chartFrame.getY() + chartFrame.getHeight());
+//        controlFrame.setLocation(chartFrame.getX(), chartFrame.getY() + chartFrame.getHeight());
+        controlFrame.setLocation(0, 0);
 
         controlFrame.setVisible(true);
     }

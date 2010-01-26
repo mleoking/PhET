@@ -1,8 +1,13 @@
 // <APPLET code=fodor.anthony.hhapplet.ModelApplet.class height=300 width=750 ></APPLET>
-package fodor.anthony.hhapplet;
+package hhmodel.src.fodor.anthony.hhapplet;
 
-import java.awt.*;
-import java.applet.*;
+import java.applet.Applet;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Event;
+import java.awt.GridLayout;
+import java.awt.Panel;
 
 /**
  *   This class contians the init function that is called when the 

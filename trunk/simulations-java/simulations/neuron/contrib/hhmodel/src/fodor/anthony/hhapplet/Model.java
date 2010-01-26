@@ -1,7 +1,5 @@
-package fodor.anthony.hhapplet;
+package hhmodel.src.fodor.anthony.hhapplet;
 
-import java.lang.Math;
-import java.io.*;
 
 public class Model
 {

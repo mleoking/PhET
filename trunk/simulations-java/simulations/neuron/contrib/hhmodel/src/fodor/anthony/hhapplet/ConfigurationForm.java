@@ -1,9 +1,15 @@
 /**  This class is used to configure the model according to the user's specification.
  */
-package fodor.anthony.hhapplet;
+package hhmodel.src.fodor.anthony.hhapplet;
 
-import java.awt.*;
-import java.applet.*;
+import java.applet.Applet;
+import java.awt.BorderLayout;
+import java.awt.Checkbox;
+import java.awt.Choice;
+import java.awt.Event;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.Panel;
 
 
 public class ConfigurationForm extends Applet
