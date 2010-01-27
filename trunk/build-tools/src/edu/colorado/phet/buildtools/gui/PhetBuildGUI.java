@@ -65,9 +65,7 @@ public class PhetBuildGUI {
 
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        frame.setSize( 1200, 700 );
-
-
+        frame.setSize( 1024, 550 );
     }
 
     public void start() {
