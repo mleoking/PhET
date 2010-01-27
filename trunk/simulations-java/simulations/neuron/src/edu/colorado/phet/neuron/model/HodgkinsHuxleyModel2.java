@@ -144,39 +144,52 @@ public class HodgkinsHuxleyModel2
 
     /**  
      * Advances the model by dt (delta time).
+     * 
+     * @param dt - Delta time in seconds.
      */
     public void stepInTime(double dt)
     {
-		dh = (ah * (1-h) - bh * h) * dt;
-		dm = (am * (1-m) - bm* m) * dt;
-		dn = (an * (1-n) - bn * n) * dt;
-		
-		bh = 1 / (Math.exp((v + 30)/10) + 1) ;
-     	ah = 0.07 * Math.exp( v / 20);
-       	dh = (ah * (1-h) - bh * h) * dt;
-        bm = 4 * Math.exp( v / 18);
-        am = 0.1 * (v + 25) / (Math.exp( (v+25)/10  ) -1);
-        bn = 0.125 * Math.exp(v/80);
-        an = 0.01 * (v + 10) / (Math.exp( (v+10)/10 ) -1);
-        dm = (am * (1-m) - bm* m) * dt;
-        dn = (an * (1-n) - bn * n) * dt;
-		
-		n4 = n*n*n*n;
-		m3h = m*m*m*h;
-	
-		na_current = gna * m3h * (v-vna);
-		k_current = gk * n4 * (v-vk);
-		
-        dv =  -1* dt * ( k_current + na_current + gl*(v-vl) ) / cm;
+    	// TODO: Model runs slowly, not sure why.  This is a temporary tweak
+    	// to try to see if I can get desired behavior.
+    	dt *= 20;
+    	
+    	// TODO: The code seems to get unstable at high values for DT, so I
+    	// have a workaround in place.  This needs to be fixed.
+    	double internalDt = 0.005;
+    	
+    	for (int i = 0; i < Math.round(dt/internalDt); i++){
+    		dh = (ah * (1-h) - bh * h) * internalDt;
+    		dm = (am * (1-m) - bm* m) * internalDt;
+    		dn = (an * (1-n) - bn * n) * internalDt;
+    		
+    		bh = 1 / (Math.exp((v + 30)/10) + 1) ;
+         	ah = 0.07 * Math.exp( v / 20);
+           	dh = (ah * (1-h) - bh * h) * internalDt;
+            bm = 4 * Math.exp( v / 18);
+            am = 0.1 * (v + 25) / (Math.exp( (v+25)/10  ) -1);
+            bn = 0.125 * Math.exp(v/80);
+            an = 0.01 * (v + 10) / (Math.exp( (v+10)/10 ) -1);
+            dm = (am * (1-m) - bm* m) * internalDt;
+            dn = (an * (1-n) - bn * n) * internalDt;
+    		
+    		n4 = n*n*n*n;
+    		m3h = m*m*m*h;
+    	
+    		na_current = gna * m3h * (v-vna);
+    		k_current = gk * n4 * (v-vk);
+    		
+            dv =  -1* internalDt * ( k_current + na_current + gl*(v-vl) ) / cm;
 
-        v += dv;
-        h += dh;
-        m += dm;
-        n += dn;
-        
-        elapsedTime+= dt;
-		
-		if ( vClampOn ) v = vClampValue;
+            v += dv;
+            h += dh;
+            m += dm;
+            n += dn;
+            
+            elapsedTime+= internalDt;
+    		
+    		if ( vClampOn ) v = vClampValue;
+    		
+    	}
     }
     
     public double getMembraneVoltage(){
@@ -185,6 +198,7 @@ public class HodgkinsHuxleyModel2
     }
     
     public void stimulate(){
-    	setV(50);
+    	// Add a fixed amount to the voltage across the membrane.
+    	setV(getV() + 15);
     }
 }
