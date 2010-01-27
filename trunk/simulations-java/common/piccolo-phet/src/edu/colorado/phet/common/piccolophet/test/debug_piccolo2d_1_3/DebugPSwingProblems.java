@@ -1,4 +1,4 @@
-package edu.colorado.phet.reactantsproductsandleftovers.test;
+package edu.colorado.phet.common.piccolophet.test.debug_piccolo2d_1_3;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
