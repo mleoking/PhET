@@ -45,15 +45,15 @@ public class PhetBuildGUI {
         JMenuBar menuBar = new JMenuBar();
         JMenu translationMenu = new TranslationsMenu( trunk );
 
-        JMenu c = new JMenu( "File" );
-        JMenuItem menuItem = new JMenuItem( "Exit" );
-        menuItem.addActionListener( new ActionListener() {
+        JMenu fileMenu = new JMenu( "File" );
+        JMenuItem exitMenuItem = new JMenuItem( "Exit" );
+        exitMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.exit( 0 );
             }
         } );
-        c.add( menuItem );
-        menuBar.add( c );
+        fileMenu.add( exitMenuItem );
+        menuBar.add( fileMenu );
         menuBar.add( translationMenu );
         final MiscMenu miscMenu = new MiscMenu( trunk );
         menuBar.add( miscMenu );
@@ -67,9 +67,11 @@ public class PhetBuildGUI {
 
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
+        // recall previous size and location
         frame.setSize( PhetBuildGUIProperties.getInstance().getFrameSize() );
         frame.setLocation( PhetBuildGUIProperties.getInstance().getFrameLocation() );
         
+        // save changes to size and location
         frame.addComponentListener( new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 PhetBuildGUIProperties.getInstance().setFrameSize( frame.getSize() );
