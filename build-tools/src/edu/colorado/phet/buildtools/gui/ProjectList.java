@@ -1,19 +1,20 @@
 package edu.colorado.phet.buildtools.gui;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
+import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.*;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 
@@ -104,49 +105,22 @@ public class ProjectList extends JList {
     }
 
     private void saveNewProjectSelection() {
-        Properties properties = new Properties();
-        properties.setProperty( "project", getSelectedProject().getName() );
-        try {
-            properties.store( new FileOutputStream( getPhetBuildGUIPropertyFile() ), null );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        PhetBuildGUIProperties.getInstance().setSelectedProject( getSelectedProject().getName() );
     }
 
     private ProjectListElement getDefaultProject() {
-        File file = getPhetBuildGUIPropertyFile();
-        if ( file.exists() ) {
-            Properties p = new Properties();
-            try {
-                p.load( new FileInputStream( file ) );
-                if ( p.containsKey( "project" ) ) {
-                    String proj = p.getProperty( "project" );
-                    Enumeration elements = model.elements();
-                    while ( elements.hasMoreElements() ) {
-                        ProjectListElement element = (ProjectListElement) elements.nextElement();
-                        if ( element.getProject().getName().equals( proj ) ) {
-                            return element;
-                        }
-                    }
-                    return null;
-                }
-                else {
-                    return null;
+        ProjectListElement element = null;
+        String name = PhetBuildGUIProperties.getInstance().getSelectedProject();
+        if ( name != null ) {
+            Enumeration elements = model.elements();
+            while ( elements.hasMoreElements() && element == null ) {
+                ProjectListElement e = (ProjectListElement) elements.nextElement();
+                if ( e.getProject().getName().equals( name ) ) {
+                   element = e;
                 }
             }
-            catch( IOException e ) {
-                return null;
-            }
         }
-        else {
-            return null;
-        }
-    }
-
-    private File getPhetBuildGUIPropertyFile() {
-        File file = new File( trunk, ".phet-build-gui.properties" );
-        return file;
+        return element;
     }
 
     public static class ProjectListElement {
