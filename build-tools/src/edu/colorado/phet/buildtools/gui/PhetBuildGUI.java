@@ -2,6 +2,8 @@ package edu.colorado.phet.buildtools.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 
 import javax.swing.*;
@@ -65,7 +67,17 @@ public class PhetBuildGUI {
 
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        frame.setSize( 1024, 550 );
+        frame.setSize( PhetBuildGUIProperties.getInstance().getFrameSize() );
+        frame.setLocation( PhetBuildGUIProperties.getInstance().getFrameLocation() );
+        
+        frame.addComponentListener( new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                PhetBuildGUIProperties.getInstance().setFrameSize( frame.getSize() );
+            }
+            public void componentMoved(ComponentEvent e) {
+                PhetBuildGUIProperties.getInstance().setFrameLocation( frame.getLocation() );
+            }
+        });
     }
 
     public void start() {
