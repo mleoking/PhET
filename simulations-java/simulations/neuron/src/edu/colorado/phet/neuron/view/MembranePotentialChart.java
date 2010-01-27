@@ -86,7 +86,7 @@ public class MembranePotentialChart extends PNode {
         // TODO: Internationalize.
         chart = createXYLineChart2( title, "Time (ms)", "Membrane Potential (mv)", dataset, PlotOrientation.VERTICAL);
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
-        chart.getXYPlot().getRangeAxis().setRange( -50.0, 100.0 );
+        chart.getXYPlot().getRangeAxis().setRange( -0.1, 0.1 );
         jFreeChartNode = new JFreeChartNode( chart, false );
         jFreeChartNode.setBounds( 0, 0, size.getWidth(), size.getHeight() );
 
@@ -105,7 +105,7 @@ public class MembranePotentialChart extends PNode {
      * Add a data point to the graph.
      * 
      * @param time - Time in milliseconds.
-     * @param voltage - Voltage in millivolts.
+     * @param voltage - Voltage in volts.
      */
     public void addDataPoint(double time, double voltage){
     	dataSeries.add(time, voltage);
@@ -243,7 +243,7 @@ public class MembranePotentialChart extends PNode {
     private void updateChart(ClockEvent clockEvent){
     	double timeInMilliseconds = (clockEvent.getSimulationTime() - timeOffset) * 1000; 
     	if (timeInMilliseconds < TIME_SPAN){
-    		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential() / 1000);
+    		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential());
     	}
     }
 
