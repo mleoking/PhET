@@ -69,7 +69,7 @@ public class AxonModel {
     private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
     private int membranePotentialUpdateCounter = 0;
     private int membranePotentialSnapshot;
-    private HodgkinsHuxleyModel hodgkinsHuxleyModel = new HodgkinsHuxleyModel();
+    private HodgkinsHuxleyModel2 hodgkinsHuxleyModel = new HodgkinsHuxleyModel2();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -127,8 +127,13 @@ public class AxonModel {
     	return numChannels;
     }
     
+    /**
+     * Get the membrane potential in volts.
+     * 
+     * @return
+     */
     public double getMembranePotential(){
-    	return hodgkinsHuxleyModel.getMembraneVoltagePotential();
+    	return hodgkinsHuxleyModel.getMembraneVoltage() / 1000;
     }
 
     public void setNumMembraneChannels(MembraneChannelTypes channelType, int desiredNumChannesl){
