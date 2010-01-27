@@ -19,6 +19,9 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * See #2133.
  * Investigate problem with PSwing visibility in Piccolo2D 1.3 rc1.
  * Architecturally similar to reactants-products-and-leftovers.
+ * 
+ * Problems noted in this example:
+ * o spinner is only usable the first time it becomes visible. After that, it doesn't work.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
