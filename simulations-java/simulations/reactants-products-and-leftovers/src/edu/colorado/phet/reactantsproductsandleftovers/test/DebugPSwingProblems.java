@@ -25,14 +25,14 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DebugPSwingVisibility extends JFrame {
+public class DebugPSwingProblems extends JFrame {
     
-    public DebugPSwingVisibility() {
+    public DebugPSwingProblems() {
         setResizable( false );
-        setSize( new Dimension( 400, 200 ) );
+        setSize( new Dimension( 400, 400 ) );
         
         // canvas
-        PCanvas canvas = new PSwingCanvas();
+        final PCanvas canvas = new PSwingCanvas();
         canvas.setBorder( new LineBorder( Color.BLACK ) );
         canvas.removeInputEventListener( canvas.getZoomEventHandler() );
         canvas.removeInputEventListener( canvas.getPanEventHandler() );
@@ -42,6 +42,9 @@ public class DebugPSwingVisibility extends JFrame {
         canvas.getLayer().addChild( valueNode );
         valueNode.setOffset( 50, 50 );
         
+        final PSwing pswing = new PSwing( new JTextField( "edit me" ) );
+        pswing.setOffset( 50, 100 );
+        
         // Check box for setting whether the value is editable.
         final JCheckBox editableCheckBox = new JCheckBox( "editable", valueNode.isEditable() );
         editableCheckBox.addActionListener( new ActionListener() {
@@ -50,10 +53,24 @@ public class DebugPSwingVisibility extends JFrame {
             }
         } );
         
+        // Check box for setting whether the control is visible
+        final JCheckBox visibleCheckBox = new JCheckBox( "visible" );
+        visibleCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( visibleCheckBox.isSelected() ) {
+                    canvas.getLayer().addChild( pswing );
+                }
+                else {
+                    canvas.getLayer().removeChild( pswing );
+                }
+            }
+        } );
+        
         // control panel
         JPanel controlPanel = new JPanel();
         controlPanel.setBorder( new LineBorder( Color.BLACK ) );
         controlPanel.add( editableCheckBox );
+        controlPanel.add( visibleCheckBox );
         
         // layout, control panel on right
         JPanel panel = new JPanel( new BorderLayout() );
@@ -113,7 +130,7 @@ public class DebugPSwingVisibility extends JFrame {
     }
     
     public static void main( String[] args ) {
-        JFrame frame = new DebugPSwingVisibility();
+        JFrame frame = new DebugPSwingProblems();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         // center on the screen
         Toolkit tk = Toolkit.getDefaultToolkit();
