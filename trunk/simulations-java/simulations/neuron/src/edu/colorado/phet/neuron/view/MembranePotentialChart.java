@@ -53,7 +53,6 @@ public class MembranePotentialChart extends PNode {
     private int crossSectionY;
     private AxonModel axonModel;
 	private XYSeries dataSeries = new XYSeries("0");
-	private double timeOffset = 0;
 
 	private static NumberAxis xAxis;
 	private static NumberAxis yAxis;
@@ -63,13 +62,6 @@ public class MembranePotentialChart extends PNode {
         this.axonModel = axonModel;
         
         if (axonModel != null){
-        	// Register for notifications from the model.
-        	axonModel.addListener(new AxonModel.Adapter(){
-        		public void stimulusPulseInitiated() {
-        			clearChart();
-        			timeOffset = MembranePotentialChart.this.axonModel.getClock().getSimulationTime();
-        		}
-        	});
         	
         	// Register for clock ticks so that we can update.
         	axonModel.getClock().addClockListener(new ClockAdapter(){
@@ -77,7 +69,7 @@ public class MembranePotentialChart extends PNode {
         	    	updateChart(clockEvent);
         	    }
         	    public void simulationTimeReset( ClockEvent clockEvent ) {
-        	    	timeOffset = 0;
+        	    	clearChart();
         	    }
         	});
         }
@@ -91,7 +83,7 @@ public class MembranePotentialChart extends PNode {
         jFreeChartNode.setBounds( 0, 0, size.getWidth(), size.getHeight() );
 
         setHorizontalLabel( MessageFormat.format( "Time (ms)", new Object[]{distanceUnits} ) );
-        setHorizontalRange( 0, TIME_SPAN );
+        chart.getXYPlot().getDomainAxis().setRange( 0, TIME_SPAN );
 
         jFreeChartNode.updateChartRenderingInfo();
 
@@ -109,18 +101,20 @@ public class MembranePotentialChart extends PNode {
      */
     public void addDataPoint(double time, double voltage){
     	dataSeries.add(time, voltage);
+    	if (time > TIME_SPAN){
+    		// Slide the chart to the left to keep the data on it.  This in
+    		// effect creates a strip chart.
+            chart.getXYPlot().getDomainAxis().setRange( time - TIME_SPAN, time );
+    	}
     }
     
     public void clearChart(){
     	dataSeries.clear();
+    	chart.getXYPlot().getDomainAxis().setRange( 0, TIME_SPAN );
     }
 
     public void setHorizontalLabel( String horizontalUnits ) {
         chart.getXYPlot().getDomainAxis().setLabel( horizontalUnits );
-    }
-
-    public void setHorizontalRange( double min, double max ) {
-        chart.getXYPlot().getDomainAxis().setRange( min, max );
     }
 
     public Rectangle2D getChartBounds() {
@@ -241,10 +235,8 @@ public class MembranePotentialChart extends PNode {
     }
     
     private void updateChart(ClockEvent clockEvent){
-    	double timeInMilliseconds = (clockEvent.getSimulationTime() - timeOffset) * 1000; 
-    	if (timeInMilliseconds < TIME_SPAN){
-    		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential());
-    	}
+    	double timeInMilliseconds = clockEvent.getSimulationTime() * 1000; 
+   		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential());
     }
 
     /*
