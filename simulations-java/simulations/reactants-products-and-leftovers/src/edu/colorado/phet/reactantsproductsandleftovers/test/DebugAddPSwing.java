@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * In this example, a JTextField is added, and it receives mouse and key events.
  * If it's removed and added again, the JTextField does not receive key events.
  * <p>
- * (See PhET Unfuddle issue see #2133. )
+ * (See PhET Unfuddle issue see #2137.)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
