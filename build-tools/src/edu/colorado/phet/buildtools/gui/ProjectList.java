@@ -105,12 +105,12 @@ public class ProjectList extends JList {
     }
 
     private void saveNewProjectSelection() {
-        PhetBuildGUIProperties.getInstance().setSelectedProject( getSelectedProject().getName() );
+        PhetBuildGUIProperties.getInstance().setProjectSelected( getSelectedProject().getName() );
     }
 
     private ProjectListElement getDefaultProject() {
         ProjectListElement element = null;
-        String name = PhetBuildGUIProperties.getInstance().getSelectedProject();
+        String name = PhetBuildGUIProperties.getInstance().getProjectSelected();
         if ( name != null ) {
             Enumeration elements = model.elements();
             while ( elements.hasMoreElements() && element == null ) {
