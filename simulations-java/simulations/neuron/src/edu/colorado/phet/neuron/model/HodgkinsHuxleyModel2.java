@@ -8,14 +8,13 @@ package edu.colorado.phet.neuron.model;
  * the example code in our implementation (see Unfuddle #2121).
  * 
  * @author Anthony Fodor, John Blanco
- *
  */
 public class HodgkinsHuxleyModel2
 {
 	// Amount of time used for each iteration of the model.  This is needed
 	// because beyond a certain value the model doesn't seem to work - it
 	// becomes unstable.
-	private static final double INTERNAL_TIME_STEP = 0.005; // In milliseconds.
+	private static final double INTERNAL_TIME_STEP = 0.050; // In milliseconds.
 	
 	private double elapsedTime  = 0;
 	private double v;  // membrane voltage
@@ -184,7 +183,6 @@ public class HodgkinsHuxleyModel2
     		
     		n4 = n*n*n*n;
     		m3h = m*m*m*h;
-    		System.out.println("m3h = " + m3h);
     		
     		na_current = gna * m3h * (v-vna);
     		k_current = gk * n4 * (v-vk);
