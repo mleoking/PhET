@@ -18,15 +18,16 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel.Units;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Scale that the human is standing on, used to show his/her weight.
- * The scale has a pseudo-3D look, the weight is displayed on the front face.
+ * The scale has a pseudo-3D look, and weight and BMI are displayed on the front face.
  * Radio buttons are provides for switching between English and Metric units.
- * While these radio buttons are part of the scale, they don't affect just the
+ * WARNING: While these radio buttons are part of the scale, they don't affect just the
  * scale, they change units for the entire sim.
  * 
  * Created by: Sam
@@ -47,7 +48,7 @@ public class ScaleNode extends PNode {
     
     private final EatingAndExerciseModel model;
     private final Human human;
-    private final PText weightReadout;
+    private final PText weightBMIReadout;
 
     public ScaleNode( final EatingAndExerciseModel model, Human human ) {
         
@@ -73,7 +74,7 @@ public class ScaleNode extends PNode {
         PNode faceNode = new PhetPPath( facePath.getGeneralPath(), SCALE_COLOR, new BasicStroke( STROKE_WIDTH ), Color.black );
         addChild( faceNode );
         
-        // monitor changes in the human's weight
+        // monitor changes in the human's weight and BMI
         human.addListener( new Human.Adapter() {
             public void weightChanged() {
                 updateReadout();
@@ -84,37 +85,43 @@ public class ScaleNode extends PNode {
             }
         } );
         
-        // weight read-out appears on the front of the scale
-        weightReadout = new EatingAndExercisePText( "??" );
-        weightReadout.scale( TEXT_SCALE );
-        addChild( weightReadout );
+        // read-out appears on the front of the scale
+        weightBMIReadout = new EatingAndExercisePText( "??" );
+        weightBMIReadout.scale( TEXT_SCALE );
+        addChild( weightBMIReadout );
         updateReadout();
 
         // radio buttons for switching between English and Metric units
-        JPanel units = new VerticalLayoutPanel();
-        units.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
+        JPanel unitsPanel = new VerticalLayoutPanel();
+        unitsPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
         ButtonGroup buttonGroup = new ButtonGroup();
         for ( int i = 0; i < EatingAndExerciseModel.availableUnits.length; i++ ) {
+            
             final JRadioButton jRadioButton = new JRadioButton( EatingAndExerciseModel.availableUnits[i].getShortName(), EatingAndExerciseModel.availableUnits[i] == model.getUnits() );
             buttonGroup.add( jRadioButton );
-            final int i1 = i;
+            unitsPanel.add( jRadioButton );
+            
+            // connect button and model
+            final Units units = EatingAndExerciseModel.availableUnits[i];
             jRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    model.setUnits( EatingAndExerciseModel.availableUnits[i1] );
+                    model.setUnits( units );
                 }
             } );
             model.addListener( new EatingAndExerciseModel.Adapter() {
                 public void unitsChanged() {
-                    jRadioButton.setSelected( model.getUnits() == EatingAndExerciseModel.availableUnits[i1] );
+                    jRadioButton.setSelected( model.getUnits() == units );
                 }
             } );
-            units.add( jRadioButton );
         }
 
-        PSwing unitsPSwing = new PSwing( units );
+        // PSwing wrapper for the units panel
+        PSwing unitsPSwing = new PSwing( unitsPanel );
         unitsPSwing.setOffset( FACE_WIDTH / 2 + STROKE_WIDTH / 2, 0 );
         unitsPSwing.scale( TEXT_SCALE * 0.75 );
         addChild( unitsPSwing );
+        
+        // update the readout when the units change
         model.addListener( new EatingAndExerciseModel.Adapter() {
             public void unitsChanged() {
                 updateReadout();
@@ -123,11 +130,11 @@ public class ScaleNode extends PNode {
     }
 
     private void updateReadout() {
-        weightReadout.setText( "" + EatingAndExerciseStrings.WEIGHT_FORMAT.format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() + ", " + BMI_LABEL + ": " + EatingAndExerciseStrings.BMI_FORMAT.format( human.getBMI() ) + " " + BMI_UNITS );
+        weightBMIReadout.setText( "" + EatingAndExerciseStrings.WEIGHT_FORMAT.format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() + ", " + BMI_LABEL + ": " + EatingAndExerciseStrings.BMI_FORMAT.format( human.getBMI() ) + " " + BMI_UNITS );
         updateTextLayout();
     }
 
     private void updateTextLayout() {
-        weightReadout.setOffset( 0 - weightReadout.getFullBounds().getWidth() / 2, FACE_Y + FACE_HEIGHT - weightReadout.getFullBounds().getHeight() - 0.01 );
+        weightBMIReadout.setOffset( 0 - weightBMIReadout.getFullBounds().getWidth() / 2, FACE_Y + FACE_HEIGHT - weightBMIReadout.getFullBounds().getHeight() - 0.01 );
     }
 }
