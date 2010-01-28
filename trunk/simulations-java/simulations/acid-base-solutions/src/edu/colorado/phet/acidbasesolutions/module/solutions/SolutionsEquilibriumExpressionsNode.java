@@ -56,6 +56,7 @@ public class SolutionsEquilibriumExpressionsNode extends PhetPNode {
             }
         });
         scalingControlWrapper = new PSwing( scalingControl );
+        scalingControlWrapper.updateBounds();//XXX
         addChild( scalingControlWrapper );
         
         // solute equilibrium expression, will be set based on solution
@@ -121,7 +122,7 @@ public class SolutionsEquilibriumExpressionsNode extends PhetPNode {
         final boolean scalingWasEnabled = waterNode.isScalingEnabled();
         setScalingEnabled( false /* enabled */, false /* animated */ );
 
-        scalingControlWrapper.setOffset( 0, Y_SPACING );
+        scalingControlWrapper.setOffset( 0, 0 );
 
         double xOffset = scalingControlWrapper.getXOffset();
         double yOffset = scalingControlWrapper.getFullBoundsReference().getMaxY();

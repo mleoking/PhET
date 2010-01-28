@@ -1,3 +1,4 @@
+1/27/10 #2139, fix offset of "Animate" control panel
 10/9/09 migrate PNodeLayoutUtils to piccolo-phet
 # 0.01.33 (34339) Aug 20, 2009
 8/20/09 rename "Matching Game" to "Matching Challenge"
