@@ -124,7 +124,7 @@ public class SolutionsReactionEquationsNode extends PhetPNode {
         final boolean scalingWasEnabled = waterNode.isScalingEnabled();
         setScalingEnabled( false /* enabled */, false /* animated */ );
         
-        scalingControlWrapper.setOffset( 0, Y_SPACING );
+        scalingControlWrapper.setOffset( 0, 0 );
         
         double xOffset = scalingControlWrapper.getXOffset();
         double yOffset = scalingControlWrapper.getFullBoundsReference().getMaxY();
