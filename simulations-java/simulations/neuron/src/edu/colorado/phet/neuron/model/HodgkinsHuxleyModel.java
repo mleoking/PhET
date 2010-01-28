@@ -106,7 +106,7 @@ public class HodgkinsHuxleyModel {
 		gatedSodiumChannelResistence = 500E3;
 	}
 	
-	public double getMembraneVoltagePotential(){
+	public double getMembraneVoltage(){
 		return membraneVoltagePotential;
 	}
 	
@@ -127,7 +127,7 @@ public class HodgkinsHuxleyModel {
 		HodgkinsHuxleyModel model = new HodgkinsHuxleyModel();
 		for (int i = 0; i < 100; i++){
 			model.stepInTime(0.030);
-			System.out.println("Membrane voltage = " + model.getMembraneVoltagePotential());
+			System.out.println("Membrane voltage = " + model.getMembraneVoltage());
 		}
 	}
 }
