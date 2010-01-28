@@ -133,7 +133,7 @@ public class AxonModel {
      * @return
      */
     public double getMembranePotential(){
-    	return hodgkinsHuxleyModel.getMembraneVoltage() / 1000;
+    	return hodgkinsHuxleyModel.getMembraneVoltage();
     }
 
     public void setNumMembraneChannels(MembraneChannelTypes channelType, int desiredNumChannesl){
