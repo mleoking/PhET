@@ -585,6 +585,7 @@ public class BuildScript {
             generateOfflineJars( project, PhetServer.DEVELOPMENT, devAuth );
         }
         openBrowser( PhetServer.DEVELOPMENT.getCodebase( project ) );
+        //TODO #2143, delete <project>_en.production.jnlp files, since they shouldn't go to tigercat
     }
 
     public static void generateOfflineJars( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
