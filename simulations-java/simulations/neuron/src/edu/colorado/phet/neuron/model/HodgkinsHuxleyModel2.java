@@ -12,8 +12,13 @@ package edu.colorado.phet.neuron.model;
  */
 public class HodgkinsHuxleyModel2
 {
+	// Amount of time used for each iteration of the model.  This is needed
+	// because beyond a certain value the model doesn't seem to work - it
+	// becomes unstable.
+	private static final double INTERNAL_TIME_STEP = 0.005; // In milliseconds.
+	
 	private double elapsedTime  = 0;
-	private double v;  // the voltage
+	private double v;  // membrane voltage
 	private double dv;
 	private double cm;  // membrane Capacitance
 	private double gk, gna, gl;  //constant leak permeabilties
@@ -23,6 +28,8 @@ public class HodgkinsHuxleyModel2
 	private double vk, vna, vl;  // Ek-Er, Ena - Er, Eleak - Er
 	
 	private double n4, m3h, na_current, k_current;
+	
+	private double timeRemainder;
 	
 	public double get_n4() { return n4; }
 	public double get_m3h() { return m3h; }
@@ -120,7 +127,7 @@ public class HodgkinsHuxleyModel2
 	
 	public HodgkinsHuxleyModel2()
 	{
-		cm = 1.0;
+		cm = 1;  // Changed by JPB from 1.0.
 		v = 0;
 		vna = -115;
 		vk = 12;
@@ -149,52 +156,61 @@ public class HodgkinsHuxleyModel2
      */
     public void stepInTime(double dt)
     {
-    	// TODO: Model runs slowly, not sure why.  This is a temporary tweak
-    	// to try to see if I can get desired behavior.
-    	dt *= 20;
+    	int modelIterationsToRun = (int)Math.floor((dt * 1000)/ INTERNAL_TIME_STEP);
+    	timeRemainder += (dt * 1000) % INTERNAL_TIME_STEP;
+    	if (timeRemainder >= INTERNAL_TIME_STEP){
+    		// Add an additional iteration and reset the time remainder
+    		// accumulation.  This is kind of like a leap year.
+    		modelIterationsToRun += 1;
+    		timeRemainder -= INTERNAL_TIME_STEP;
+    	}
     	
-    	// TODO: The code seems to get unstable at high values for DT, so I
-    	// have a workaround in place.  This needs to be fixed.
-    	double internalDt = 0.005;
-    	
-    	for (int i = 0; i < Math.round(dt/internalDt); i++){
-    		dh = (ah * (1-h) - bh * h) * internalDt;
-    		dm = (am * (1-m) - bm* m) * internalDt;
-    		dn = (an * (1-n) - bn * n) * internalDt;
+    	// Step the model the appropriate number of times.
+    	for (int i = 0; i < modelIterationsToRun; i++){
+    		
+    		dh = (ah * (1-h) - bh * h) * INTERNAL_TIME_STEP;
+    		dm = (am * (1-m) - bm* m) * INTERNAL_TIME_STEP;
+    		dn = (an * (1-n) - bn * n) * INTERNAL_TIME_STEP;
     		
     		bh = 1 / (Math.exp((v + 30)/10) + 1) ;
-         	ah = 0.07 * Math.exp( v / 20);
-           	dh = (ah * (1-h) - bh * h) * internalDt;
-            bm = 4 * Math.exp( v / 18);
-            am = 0.1 * (v + 25) / (Math.exp( (v+25)/10  ) -1);
-            bn = 0.125 * Math.exp(v/80);
-            an = 0.01 * (v + 10) / (Math.exp( (v+10)/10 ) -1);
-            dm = (am * (1-m) - bm* m) * internalDt;
-            dn = (an * (1-n) - bn * n) * internalDt;
+    		ah = 0.07 * Math.exp( v / 20);
+    		dh = (ah * (1-h) - bh * h) * INTERNAL_TIME_STEP;
+    		bm = 4 * Math.exp( v / 18);
+    		am = 0.1 * (v + 25) / (Math.exp( (v+25)/10  ) -1);
+    		bn = 0.125 * Math.exp(v/80);
+    		an = 0.01 * (v + 10) / (Math.exp( (v+10)/10 ) -1);
+    		dm = (am * (1-m) - bm* m) * INTERNAL_TIME_STEP;
+    		dn = (an * (1-n) - bn * n) * INTERNAL_TIME_STEP;
     		
     		n4 = n*n*n*n;
     		m3h = m*m*m*h;
-    	
+    		System.out.println("m3h = " + m3h);
+    		
     		na_current = gna * m3h * (v-vna);
     		k_current = gk * n4 * (v-vk);
     		
-            dv =  -1* internalDt * ( k_current + na_current + gl*(v-vl) ) / cm;
-
-            v += dv;
-            h += dh;
-            m += dm;
-            n += dn;
-            
-            elapsedTime+= internalDt;
+    		dv = -1 * INTERNAL_TIME_STEP * ( k_current + na_current + gl*(v-vl) ) / cm;
     		
-    		if ( vClampOn ) v = vClampValue;
+    		v += dv;
+    		h += dh;
+    		m += dm;
+    		n += dn;
     		
+    		elapsedTime+= INTERNAL_TIME_STEP;
     	}
+		
+		if ( vClampOn ) v = vClampValue;
     }
     
+    /**
+     * Get the membrane potential in volts (Note: not millivolts, which are
+     * used inside the model).
+     * 
+     * @return
+     */
     public double getMembraneVoltage(){
         // getV() converts the model's v to present day convention
-        return getV();
+        return getV() / 1000;
     }
     
     public void stimulate(){
