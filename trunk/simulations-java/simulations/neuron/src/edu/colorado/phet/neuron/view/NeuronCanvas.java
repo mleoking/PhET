@@ -41,8 +41,8 @@ public class NeuronCanvas extends PhetPCanvas {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
     // Size of the potential chart.
-    private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH * 1,
-    		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.4);
+    private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH * 1.3,
+    		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.5);
     
     // For debug: Enable and disable nodes that can help with debug of layout.
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
