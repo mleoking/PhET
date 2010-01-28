@@ -151,7 +151,7 @@ public class MacroMoleculeLegend extends PhetPNode {
         
         closePSwing = new PSwing( closeButton );
         addChild(closePSwing);
-		
+        
 		// Do initial layout.
 		updateLayout(canvas);
 		
@@ -240,6 +240,8 @@ public class MacroMoleculeLegend extends PhetPNode {
     	PNode galactoseNode = new SimpleModelElementNode(new Galactose(), MVT, false);
     	galactoseNode.setOffset(galactoseNode.getFullBoundsReference().width / 2, 0);
     	lactoseNode.addChild(galactoseNode);
+    	lactoseNode.setPickable(false);
+    	lactoseNode.setChildrenPickable(false);
     	return lactoseNode;
     }
 
@@ -259,7 +261,8 @@ public class MacroMoleculeLegend extends PhetPNode {
 		public LegendEntry(PNode icon, String captionText) {
 			this.icon = icon;
 			icon.setPickable(false);
-			this.caption = new HTMLNode(captionText, LABEL_FONT, LABEL_COLOR);
+			caption = new HTMLNode(captionText, LABEL_FONT, LABEL_COLOR);
+			caption.setPickable(false);
 		}
 
 		public PNode getIcon() {
