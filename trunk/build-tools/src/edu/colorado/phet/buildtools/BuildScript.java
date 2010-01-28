@@ -167,7 +167,7 @@ public class BuildScript {
         setSVNVersion( newRevision );
         setVersionTimestamp();
         System.out.println( "Adding message to change file" );
-        addMessagesToChangeFile( svnNumber + 1 );
+        addMessagesToChangeFile();
 
         if ( !debugDryRun && !debugSkipCommit ) {
             System.out.println( "Committing changes to version and change file." );
@@ -196,7 +196,7 @@ public class BuildScript {
         }
 
         System.out.println( "Creating header." );
-        createHeader( svnNumber );
+        createHeader( server.isDevelopmentServer() );
 
         try {
             project.copyChangesFileToDeployDir();
@@ -262,7 +262,7 @@ public class BuildScript {
         this.batchMessage = batchMessage;
     }
 
-    private void addMessagesToChangeFile( int svn ) {
+    private void addMessagesToChangeFile() {
         String message = batchMessage;
         if ( message == null ) {
             message = JOptionPane.showInputDialog( "Enter a message to add to the change log\n(or Cancel or Enter a blank line if change log is up to date)" );
@@ -271,7 +271,7 @@ public class BuildScript {
             prependChange( getChangeLogEntryDateStamp() + " " + message );
         }
 
-        prependChange( "# " + getFullVersionStr( svn ) );
+        prependChange( "# " + getFullVersionStr() );
     }
 
     private String getChangeLogEntryDateStamp() {
@@ -279,7 +279,7 @@ public class BuildScript {
         return format.format( new Date() );
     }
 
-    private String getFullVersionStr( int svn ) {
+    private String getFullVersionStr() {
         return project.getFullVersionString();
     }
 
@@ -446,41 +446,60 @@ public class BuildScript {
         }
     }
 
-    public void createHeader( int svn ) {
+    public void createHeader( boolean dev ) {
         try {
-            FileUtils.filter( new File( trunk, "build-tools/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( svn ), "UTF-8" );
+            FileUtils.filter( new File( trunk, "build-tools/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( dev ), "UTF-8" );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
     }
 
-    private HashMap createHeaderFilterMap( int svn ) {
+    private HashMap createHeaderFilterMap( boolean dev ) {
         HashMap map = new HashMap();
         map.put( "project-name", project.getName() );
-        map.put( "version", getFullVersionStr( svn ) );
-        map.put( "sim-list", getSimListHTML( project ) );
+        map.put( "version", getFullVersionStr() );
+        map.put( "sim-list", getSimListHTML( project, dev ) );
         map.put( "new-summary", getNewSummary() );
         return map;
     }
 
-    private String getSimListHTML( PhetProject project ) {
-        //<li><a href="@jnlp-filename@">launch: @sim-name@</a></li>
+    private String getSimListHTML( PhetProject project, boolean dev ) {
+       
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
+            String title = project.getSimulations()[i].getTitle();
             String launchFile = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
-            if ( project instanceof FlexSimulationProject ) {//TODO: factor into PhetProject hierarchy
+            String prodLaunchFile = project.getSimulationNames()[i] + "_en-production." + project.getLaunchFileSuffix();
+            if ( project instanceof FlexSimulationProject ) { //TODO: factor into PhetProject hierarchy
                 launchFile = project.getSimulationNames()[i] + "." + project.getLaunchFileSuffix();
+                prodLaunchFile = launchFile; //TODO: why is this different for Flex, and is this addition for #2142 correct?
             }
-            String simname = project.getSimulations()[i].getTitle();
-            s += "<li><a href=\"" + launchFile + "\">launch: " + simname + "</a></li>";
+            
+            /* 
+             * See #2142, dev servers can launch with and without developer features, so create links for both.
+             * On developer servers, the -dev flag is added to the standard JNLP files, and an additional
+             * "production" JNLP file is created without the -dev flag.
+             */
+            if ( dev ) {
+                // <li>@title@ : <a href="@prodLaunchFile@">production</a> : <a href="@devLaunchFile@">dev</a></li>
+                s += "<li>";
+                s += title;
+                s += " : <a href=\"" + prodLaunchFile + "\">production</a>";
+                s += " : <a href=\"" + launchFile + "\">dev</a>";
+                s += "</li>";
+            }
+            else {
+                // <li><a href="@prodLaunchFile@">@title</a></li>
+                s += "<li><a href=\"" + launchFile + "\">" + title + "</a></li>";
+            }
             if ( i < project.getSimulationNames().length - 1 ) {
                 s += "\n";
             }
         }
         return s;
     }
-
+    
     private String getNewSummary() {
         String output = "<ul>\n";
         String changes = project.getChangesText();
@@ -517,7 +536,7 @@ public class BuildScript {
                 //send a copy to dev
                 new Task() {
                     public boolean invoke() {
-                        //generate JNLP files for dev
+                        //generate files for dev
                         sendCopyToDev( devAuth );
                         boolean success = prepareStagingArea( PhetServer.PRODUCTION, prodAuth );
                         return success;
@@ -559,6 +578,7 @@ public class BuildScript {
     }
 
     private void sendCopyToDev( AuthenticationInfo devAuth ) {
+        createHeader( true );
         project.buildLaunchFiles( PhetServer.DEVELOPMENT.getCodebase( project ), PhetServer.DEVELOPMENT.isDevelopmentServer() );
         if ( !debugDryRun ) {
             sendSSH( PhetServer.DEVELOPMENT, devAuth );
