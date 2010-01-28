@@ -39,6 +39,7 @@ public class View extends Sprite{
     var viewHeight:int;		//height in pixels of this view
     var xOffset:Number;		//offset to shift derivative curve by half-step
     var yScale:Number;		//used to scale y Axis
+	var gridScale:Number;	//used to adjust grid spacing during zoom
     var originX:Number;		//x-position of origin in pixels
     var originY:Number;		//y-position of origin in pixels
 
@@ -95,6 +96,7 @@ public class View extends Sprite{
         this.originY = this.viewHeight / 2;
         this.curve.y = originY;
         this.yScale = 1;
+		this.gridScale = 1;
         this.initializeZoomControls();
         this.grid.visible = false;
 
@@ -184,14 +186,16 @@ public class View extends Sprite{
 
     public function magnifyCurve( evt:MouseEvent ):void {
         this.yScale *= 2;
-        //this.drawGrid();
+		this.gridScale *= 2;
+		this.drawGrid();
         //this.currentYScale = this.yScale;
         this.update();
     }
 
     public function demagnifyCurve( evt:MouseEvent ):void {
         this.yScale /= 2;
-        //this.drawGrid();
+		this.gridScale /= 2;
+        this.drawGrid();
         //this.currentYScale = this.yScale;
         this.update();
     }
@@ -318,22 +322,29 @@ public class View extends Sprite{
     }//positionAxisLabels()
 
     public function drawGrid():void {
-        var viewWidth:Number = this.nbrPoints * this.pixelsPerPoint;
-        var delX:Number;// = viewWidth/40;
-        var delY:Number;// = delX;//*this.yScale;//this.viewHeight/10;
-        var nY:Number;// = Math.floor(viewHeight/(2*delY));
-        var nX:Number;// = Math.floor(viewWidth/(2*delX));
+        var viewWidth:Number = this.nbrPoints * this.pixelsPerPoint; //grid width in pixels
+        var delX:Number;// horiz grid spacing in pixels  //= viewWidth/40;
+        var delY:Number;// vertical grid spacing in pixels  //= delX;//*this.yScale;//this.viewHeight/10;
+        var nY:Number;//number of grid lines from origin to top // = Math.floor(viewHeight/(2*delY));
+        var nX:Number;//number of grid lines from origin to right //= Math.floor(viewWidth/(2*delX));
         var localRef:Object = this;
         this.grid.graphics.clear();
-        setupScale(40, 1);
+		var lineWidth:int = 0;  //lineWidth in pixels
+        setupScale(40);
         drawNow();
         //setupScale(20,2);
         //drawNow();
-        function setupScale( nbrOfDelX:Number, lineWidth:Number ):void {
+        function setupScale( nbrOfDelX:Number):void {
             localRef.grid.graphics.lineStyle(lineWidth, 0xffcc00);
             delX = viewWidth / nbrOfDelX;
-            delY = delX;//*this.yScale;//this.viewHeight/10;
+            delY = delX * localRef.gridScale;//*this.yScale;//this.viewHeight/10;
+			if(delY > localRef.viewHeight/2){
+				delY = localRef.viewHeight/2;
+			}if(delY < 1){
+				delY = 1;
+			}
             nY = Math.floor(viewHeight / (2 * delY));
+			//trace("delY: "+delY+"  viewHeight / (2 * delY): "+viewHeight / (2 * delY)+"    nY: "+nY);
             nX = Math.floor(viewWidth / (2 * delX));
         }//end of setupScale
 
@@ -344,10 +355,18 @@ public class View extends Sprite{
 
                 //draw horizontal grid lines
                 for ( var i:int = -nY; i <= nY; i++ ) {
+					if(i%5 == 0){
+						//trace("lineWidth: "+2*lineWidth)
+						lineStyle(2, 0xffcc00);
+					}else{
+						//trace("lineWidth: "+lineWidth)
+						lineStyle(1, 0xffee00);
+					}
                     moveTo(localRef.originX, localRef.originY + i * delY);
                     lineTo(localRef.originX + 2 * nX * delX, localRef.originY + i * delY);
                 }
                 //draw vertical grid lines
+				lineStyle(1, 0xffcc00);
                 for ( var j:int = 0; j <= 2 * nX; j++ ) {
                     moveTo(localRef.originX + j * delX, localRef.originY - nY * delY);
                     lineTo(localRef.originX + j * delX, localRef.originY + nY * delY);
