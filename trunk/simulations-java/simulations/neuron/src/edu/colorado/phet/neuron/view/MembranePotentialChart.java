@@ -101,10 +101,10 @@ public class MembranePotentialChart extends PNode {
      */
     public void addDataPoint(double time, double voltage){
     	dataSeries.add(time, voltage);
-    	if (time > TIME_SPAN){
-    		// Slide the chart to the left to keep the data on it.  This in
-    		// effect creates a strip chart.
-            chart.getXYPlot().getDomainAxis().setRange( time - TIME_SPAN, time );
+    	if (time > TIME_SPAN / 2){
+    		// Slide the chart to the left to keep the data to keep the data
+    		// in the middle.  This essentially creates a strip chart.
+            chart.getXYPlot().getDomainAxis().setRange( time - TIME_SPAN / 2, time + TIME_SPAN / 2);
     	}
     }
     
