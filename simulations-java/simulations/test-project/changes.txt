@@ -1,3 +1,5 @@
+# 2.06.02 (38295) Jan 28, 2010
+1/28/10 #2142, test new HEADER deployed to dev
 # 2.06.01 (37333) Dec 11, 2009
 12/11/09 testing jarsigner failure in dev deploy
 # 2.06.00 (37237) Dec 9, 2009
