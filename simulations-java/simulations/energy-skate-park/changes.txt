@@ -1,3 +1,5 @@
+# 2.07.00 (38314) Jan 28, 2010
+1/28/10 redeployed to production server.
 # 2.06.03 (38266) Jan 26, 2010
 1/26/10 > Removed the "Bounciness" and "Stickiness" controls for the skater, see 2129.
 # 2.06.02 (38254) Jan 25, 2010
