@@ -2,14 +2,14 @@ package edu.colorado.phet.neuron.model;
 
 
 /**
- * This class is an implementation of the Hodgkins-Huxley model of neuron
+ * This class is an implementation of the Hodgkin-Huxley model of neuron
  * membrane voltage.  This was originally taken from an example that was on
  * the web that was written by Anthony Fodor.  We obtained permission to use
  * the example code in our implementation (see Unfuddle #2121).
  * 
  * @author Anthony Fodor, John Blanco
  */
-public class HodgkinsHuxleyModel2
+public class HodgkinHuxleyModel
 {
 	// Amount of time used for each iteration of the model.  This is needed
 	// because beyond a certain value the model doesn't seem to work - it
@@ -124,9 +124,9 @@ public class HodgkinsHuxleyModel2
 	float get_vClampValue() { return(float) (-1 * (vClampValue + resting_v)); }
 	void set_vClampValue( float vClampValue ) { this.vClampValue = convertV( vClampValue ); }
 	
-	public HodgkinsHuxleyModel2()
+	public HodgkinHuxleyModel()
 	{
-		cm = 1;  // Changed by JPB from 1.0.
+		cm = 1;
 		v = 0;
 		vna = -115;
 		vk = 12;

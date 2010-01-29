@@ -69,7 +69,7 @@ public class AxonModel {
     private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
     private int membranePotentialUpdateCounter = 0;
     private int membranePotentialSnapshot;
-    private HodgkinsHuxleyModel2 hodgkinsHuxleyModel = new HodgkinsHuxleyModel2();
+    private HodgkinHuxleyModel hodgkinsHuxleyModel = new HodgkinHuxleyModel();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -140,7 +140,7 @@ public class AxonModel {
      * Get a reference to the first Hodgkins-Huxley model.  This is used
      * primarily for debugging purposes.
      */
-    public HodgkinsHuxleyModel2 getHodgkinHuxleyModel(){
+    public HodgkinHuxleyModel getHodgkinHuxleyModel(){
     	return hodgkinsHuxleyModel;
     }
 
