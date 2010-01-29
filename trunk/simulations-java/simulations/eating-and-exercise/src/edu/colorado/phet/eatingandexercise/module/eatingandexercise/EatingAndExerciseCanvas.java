@@ -46,9 +46,6 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
     // View
     private PNode _rootNode;
 
-    public static final double CANVAS_WIDTH = 4.6;
-    public static final double CANVAS_HEIGHT = CANVAS_WIDTH * ( 3.0d / 4.0d );
-
     // Translation factors, used to set origin of canvas area.
     private RulerNode rulerNode;
     private PSwing humanControlPanelPSwing;
