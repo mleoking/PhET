@@ -16,6 +16,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * Demonstrates a Component that becomes unusable when it's PSwing is subjected to extreme scaling,
  * and a PhetPCanvas size is used that requires even more scaling.
+ * Radio buttons in a JPanel will not work at all.
+ * Radio buttons directly on the canvas might work once.
  * 
  * See #2141.
  *
@@ -27,10 +29,9 @@ public class DebugPSwingScaling extends JFrame {
     private static final PDimension CANVAS_SIZE = new PDimension( 15, 15 );
     
     // An extreme scale, similiar to what's used in ScaleNode in eating-and-exercise.
-    private static final double PSWING_SCALE = 0.016;  // ScaleNode uses 0.004285714285714282
+    private static final double PSWING_SCALE = 0.02;  // ScaleNode uses 0.004285714285714282
     
     public DebugPSwingScaling() {
-        setResizable( false );
         setSize( new Dimension( 1024, 768 ) );
         
         // canvas
@@ -40,34 +41,79 @@ public class DebugPSwingScaling extends JFrame {
         canvas.removeInputEventListener( canvas.getPanEventHandler() );
         setContentPane( canvas );
         
-        // choice panel, with two radio buttons
-        final JRadioButton radioButton1 = new JRadioButton( "English " );
-        radioButton1.addActionListener( new ActionListener() {
+        // PSwing panel
+        PSwing panelNode = new PSwing( new UnitsPanel() );
+        canvas.addWorldChild( panelNode );
+        panelNode.setScale( PSWING_SCALE );
+        
+        // PSwing ON button
+        final JRadioButton onButton = new JRadioButton( "ON" );
+        onButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                System.out.println( "actionPerformed " + radioButton1.getText() );
+                System.out.println( "actionPerformed " + onButton.getText() );
             }
         });
-        final JRadioButton radioButton2 = new JRadioButton( "Metric " );
-        radioButton2.addActionListener( new ActionListener() {
+        PSwing onButtonNode = new PSwing( onButton );
+        canvas.addWorldChild( onButtonNode );
+        onButtonNode.setScale( PSWING_SCALE );
+        
+        // PSwing OFF button
+        final JRadioButton offButton = new JRadioButton( "OFF" );
+        offButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                System.out.println( "actionPerformed " + radioButton2.getText() );
+                System.out.println( "actionPerformed " + offButton.getText() );
             }
         });
-        ButtonGroup group = new ButtonGroup();
-        group.add( radioButton1 );
-        group.add( radioButton2 );
-        JPanel choicePanel = new JPanel();
-        choicePanel.add( radioButton1 );
-        choicePanel.add( radioButton2 );
+        PSwing offButtonNode = new PSwing( offButton );
+        canvas.addWorldChild( offButtonNode );
+        offButtonNode.setScale( PSWING_SCALE );
         
-        // PSwing wrapper for choice panel
-        PSwing choicePanelNode = new PSwing( choicePanel );
-        canvas.addWorldChild( choicePanelNode );
-        choicePanelNode.setOffset( 1, 1 );
-        choicePanelNode.setScale( PSWING_SCALE );
+        ButtonGroup onOffGroup = new ButtonGroup();
+        onOffGroup.add( onButton );
+        onOffGroup.add( offButton );
+        onButton.setSelected( true );
         
-        // initial state
-        radioButton1.setSelected( true );
+        // layout
+        final double ySpacing = 0.05 * onButtonNode.getFullBoundsReference().getHeight();
+        final double x = 1;
+        double y = 1;
+        panelNode.setOffset( x, y );
+        y += panelNode.getFullBoundsReference().getHeight() + ySpacing;
+        onButtonNode.setOffset( x, y );
+        y += onButtonNode.getFullBoundsReference().getHeight() + ySpacing;
+        offButtonNode.setOffset( x, y );
+    }
+    
+    /*
+     * A panel with English/Metric radio buttons.
+     */
+    private static class UnitsPanel extends JPanel {
+        
+        public UnitsPanel() {
+            
+            final JRadioButton englishButton = new JRadioButton( "English" );
+            englishButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    System.out.println( "actionPerformed " + englishButton.getText() );
+                }
+            });
+            
+            final JRadioButton metricButton = new JRadioButton( "Metric" );
+            metricButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    System.out.println( "actionPerformed " + metricButton.getText() );
+                }
+            });
+            
+            ButtonGroup group = new ButtonGroup();
+            group.add( englishButton );
+            group.add( metricButton );
+            englishButton.setSelected( true );
+            
+            setBorder( new LineBorder( Color.BLACK ) );
+            add( englishButton );
+            add( metricButton );
+        }
     }
     
     public static void main( String[] args ) {
