@@ -136,7 +136,7 @@ public class NucleusDisplayInfo {
 			"Polonium Nucleus Small.png" );
 
 	public static final NucleusDisplayInfo DECAYED_HEAVY_CUSTOM_NUCLEUS_DISPLAY_INFO = new NucleusDisplayInfo(
-			NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL,
+			NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_LEGEND_LABEL,
 			NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
 			"",  // No isotope number for the custom nucleus.
 			NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR,
