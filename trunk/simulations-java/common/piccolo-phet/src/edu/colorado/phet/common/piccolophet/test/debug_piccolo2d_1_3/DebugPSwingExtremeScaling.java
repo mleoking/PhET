@@ -18,12 +18,13 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * and a PhetPCanvas size is used that requires even more scaling.
  * Radio buttons in a JPanel will not work at all.
  * Radio buttons directly on the canvas might work once.
- * 
+ * <p>
+ * This works fine with our SVN snapshot, does not work with Piccolo2D 1.3-rc1.
  * See #2141.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DebugPSwingScaling extends JFrame {
+public class DebugPSwingExtremeScaling extends JFrame {
     
     // This is the same whacky size used in EatingAndExerciseCanvas.
     private static final PDimension CANVAS_SIZE = new PDimension( 15, 15 );
@@ -31,7 +32,7 @@ public class DebugPSwingScaling extends JFrame {
     // An extreme scale, similiar to what's used in ScaleNode in eating-and-exercise.
     private static final double PSWING_SCALE = 0.02;  // ScaleNode uses 0.004285714285714282
     
-    public DebugPSwingScaling() {
+    public DebugPSwingExtremeScaling() {
         setSize( new Dimension( 1024, 768 ) );
         
         // canvas
@@ -117,7 +118,7 @@ public class DebugPSwingScaling extends JFrame {
     }
     
     public static void main( String[] args ) {
-        JFrame frame = new DebugPSwingScaling();
+        JFrame frame = new DebugPSwingExtremeScaling();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         // center on the screen
         Toolkit tk = Toolkit.getDefaultToolkit();
