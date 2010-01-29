@@ -14,7 +14,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Demonstrates a Component that becomes unusable when it's PSwing is subjected to extreme scaling.
+ * Demonstrates a Component that becomes unusable when it's PSwing is subjected to extreme scaling,
+ * and a PhetPCanvas size is used that requires even more scaling.
+ * 
  * See #2141.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
