@@ -3,12 +3,21 @@
 package edu.colorado.phet.neuron;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalDynamicsDlg;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 import edu.colorado.phet.neuron.module.RestingPotentialModule;
 
@@ -25,6 +34,10 @@ public class NeuronApplication extends PiccoloPhetApplication {
 
     private MembraneDiffusionModule membraneDiffusionModule;
     private RestingPotentialModule restingPotentialModule;
+    
+    // Developer window(s) and things for controlling them.
+    private HodgkinHuxleyInternalDynamicsDlg hhInternalDynamicsDlg = null;
+	private JCheckBoxMenuItem hhModelDynamicsControl;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,6 +86,44 @@ public class NeuronApplication extends PiccoloPhetApplication {
         if ( optionsMenu.getMenuComponentCount() > 0 ) {
             frame.addMenu( optionsMenu );
         }
+        
+        // Developer menu
+        JMenu developerMenu = frame.getDeveloperMenu();
+        hhModelDynamicsControl = new JCheckBoxMenuItem( "Show Internal HH Model Dynamics" );
+        developerMenu.add( hhModelDynamicsControl );
+        hhModelDynamicsControl.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setHHModelDynamicsWindowVisible(hhModelDynamicsControl.isSelected());
+            }
+        } );
+    }
+    
+    private void setHHModelDynamicsWindowVisible(boolean isVisible){
+    	
+    	if (isVisible && hhInternalDynamicsDlg == null){
+    		// The dialog window has not been created yet, so create it now.
+    		hhInternalDynamicsDlg = new HodgkinHuxleyInternalDynamicsDlg(membraneDiffusionModule.getClock(),
+    				membraneDiffusionModule.getHodgkinHuxleyModel());
+    		
+    		// Just hide when closed so we don't have to keep recreating it.
+    		hhInternalDynamicsDlg.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+    		
+    		// Center the window on the screen (initially - it will retain its
+    		// position if moved after that.
+    		hhInternalDynamicsDlg.setLocationRelativeTo(null);
+    		
+    		// Clear the check box if the user closes this by closing the
+    		// dialog itself.
+    		hhInternalDynamicsDlg.addWindowListener(new WindowAdapter() {
+    			public void windowClosing(WindowEvent e){
+    				hhModelDynamicsControl.setSelected(false);
+    			}
+			});
+    	}
+    	
+    	if (hhInternalDynamicsDlg != null){
+    		hhInternalDynamicsDlg.setVisible(isVisible);
+    	}
     }
 
     //----------------------------------------------------------------------------
