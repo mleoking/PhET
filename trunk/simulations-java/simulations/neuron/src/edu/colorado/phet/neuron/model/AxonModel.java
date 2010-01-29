@@ -135,6 +135,14 @@ public class AxonModel {
     public double getMembranePotential(){
     	return hodgkinsHuxleyModel.getMembraneVoltage();
     }
+    
+    /**
+     * Get a reference to the first Hodgkins-Huxley model.  This is used
+     * primarily for debugging purposes.
+     */
+    public HodgkinsHuxleyModel2 getHodgkinHuxleyModel(){
+    	return hodgkinsHuxleyModel;
+    }
 
     public void setNumMembraneChannels(MembraneChannelTypes channelType, int desiredNumChannesl){
     	if (desiredNumChannesl > NeuronConstants.MAX_CHANNELS_PER_TYPE){
