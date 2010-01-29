@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockContr
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.controlpanel.MembraneDiffusionControlPanel;
 import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.model.HodgkinsHuxleyModel2;
 import edu.colorado.phet.neuron.model.NeuronClock;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
 
@@ -61,6 +62,14 @@ public class MembraneDiffusionModule extends PiccoloModule {
         reset();
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public HodgkinsHuxleyModel2 getHodgkinHuxleyModel(){
+    	return model.getHodgkinHuxleyModel();
+    }
+    
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
