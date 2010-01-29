@@ -26,7 +26,7 @@ public class HodgkinHuxleyModel
 	private double an, bn, am, bm, ah, bh; // rate constants
 	private double vk, vna, vl;  // Ek-Er, Ena - Er, Eleak - Er
 	
-	private double n4, m3h, na_current, k_current;
+	private double n4, m3h, na_current, k_current, l_current;
 	
 	private double timeRemainder;
 	
@@ -54,6 +54,7 @@ public class HodgkinHuxleyModel
 	//The -1 is to correct for the fact that in the H & H paper, the currents are reversed.	
 	public double get_na_current() { return -1 * na_current; }
 	public double get_k_current() { return -1 * k_current; }
+	public double get_l_current() { return -1 * l_current; }
 
 	public float perNaChannels = 100f;
 	public float perKChannels = 100f;
@@ -186,8 +187,9 @@ public class HodgkinHuxleyModel
     		
     		na_current = gna * m3h * (v-vna);
     		k_current = gk * n4 * (v-vk);
+    		l_current = gl * (v-vl);
     		
-    		dv = -1 * INTERNAL_TIME_STEP * ( k_current + na_current + gl*(v-vl) ) / cm;
+    		dv = -1 * INTERNAL_TIME_STEP * ( k_current + na_current + l_current ) / cm;
     		
     		v += dv;
     		h += dh;
