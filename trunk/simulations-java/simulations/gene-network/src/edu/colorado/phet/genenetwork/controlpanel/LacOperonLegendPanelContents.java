@@ -27,9 +27,9 @@ import edu.umd.cs.piccolo.PNode;
 
 
 /**
- * This class displays a legend, a.k.a. a key, for a set of ions.  It simply 
- * displays information and doesn't control anything, so it does not include
- * much in the way of interactive behavior.
+ * This class displays a legend, a.k.a. a key, for a set of macromolecules.
+ * It simply * displays information and doesn't control anything, so it does
+ * not include much in the way of interactive behavior.
  *
  * @author John Blanco
  */
