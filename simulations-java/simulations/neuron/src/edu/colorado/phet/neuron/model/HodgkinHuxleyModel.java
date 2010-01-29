@@ -11,11 +11,20 @@ package edu.colorado.phet.neuron.model;
  */
 public class HodgkinHuxleyModel
 {
-	// Amount of time used for each iteration of the model.  This is needed
-	// because beyond a certain value the model doesn't seem to work - it
-	// becomes unstable.
-	private static final double INTERNAL_TIME_STEP = 0.050; // In milliseconds.
+	//----------------------------------------------------------------------------
+	// Class Data
+	//----------------------------------------------------------------------------
+
+	// Amount of time used for each iteration of the model.  This is fixed,
+	// and when the model is stepped it breaks whether time step is presented
+	// into units of this duration.  This is needed because below a certain
+	// time value the model doesn't work - it becomes unstable.
+	private static final double INTERNAL_TIME_STEP = 0.050; // In milliseconds, not seconds.
 	
+    //----------------------------------------------------------------------------
+    // Instance Data
+    //----------------------------------------------------------------------------
+    
 	private double elapsedTime  = 0;
 	private double v;  // membrane voltage
 	private double dv;
@@ -30,6 +39,41 @@ public class HodgkinHuxleyModel
 	
 	private double timeRemainder;
 	
+	public float perNaChannels = 100f;
+	public float perKChannels = 100f;
+	
+    //----------------------------------------------------------------------------
+    // Constructor(s)
+    //----------------------------------------------------------------------------
+
+	public HodgkinHuxleyModel()
+	{
+		cm = 1;
+		v = 0;
+		vna = -115;
+		vk = 12;
+		vl = -10.613;
+		gna = perNaChannels * 120 / 100;
+		gk = perKChannels * 36 / 100;
+		gl = 0.3;
+		
+		bh = 1 / (Math.exp((v + 30)/10) + 1) ;
+		ah = 0.07 * Math.exp( v / 20);
+		bm = 4 * Math.exp( v / 18);
+		am = 0.1 * (v + 25) / (Math.exp( (v+25)/10  ) -1);
+		bn = 0.125 * Math.exp(v/80);
+		an = 0.01 * (v + 10) / (Math.exp( (v+10)/10 ) -1);
+
+		// start these parameters in steady state
+		n = an / (an + bn);
+		m = am / (am + bm);
+		h = ah / (ah + bh);
+    }
+	
+    //----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
+
 	public double get_n4() { return n4; }
 	public double get_m3h() { return m3h; }
 	
@@ -37,10 +81,12 @@ public class HodgkinHuxleyModel
 	{
 		return (float) (-1 * (vna + resting_v));
 	}
+	
 	public float getEk()
 	{
 		return (float) (-1 * (vk + resting_v));
 	}
+	
 	public void setEna( float Ena)
 	{
 		vna = -1*Ena - resting_v;
@@ -56,9 +102,6 @@ public class HodgkinHuxleyModel
 	public double get_k_current() { return -1 * k_current; }
 	public double get_l_current() { return -1 * l_current; }
 
-	public float perNaChannels = 100f;
-	public float perKChannels = 100f;
-	
 	// negative values set to zero	
 	public void setPerNaChannels( float perNaChannels )
 	{
@@ -69,6 +112,7 @@ public class HodgkinHuxleyModel
 		this.perNaChannels = perNaChannels;
 		gna = 120 * perNaChannels / 100;
 	}
+	
 	public float getPerNaChannels() 
 	{
 		return perNaChannels;
@@ -109,8 +153,9 @@ public class HodgkinHuxleyModel
 	public double getM() {return m; }
 	public double getH() {return h; } 
 
-	/**  Converts a voltage from the modern convention to the convention used by the program
-	*/
+	/**
+	 * Converts a voltage from the modern convention to the convention used by the program
+	 */
 	public float convertV(float voltage)
 	{
 		return (float) (-1 * voltage - resting_v);
@@ -125,30 +170,6 @@ public class HodgkinHuxleyModel
 	float get_vClampValue() { return(float) (-1 * (vClampValue + resting_v)); }
 	void set_vClampValue( float vClampValue ) { this.vClampValue = convertV( vClampValue ); }
 	
-	public HodgkinHuxleyModel()
-	{
-		cm = 1;
-		v = 0;
-		vna = -115;
-		vk = 12;
-		vl = -10.613;
-		gna = perNaChannels * 120 / 100;
-		gk = perKChannels * 36 / 100;
-		gl = 0.3;
-		
-		bh = 1 / (Math.exp((v + 30)/10) + 1) ;
-		ah = 0.07 * Math.exp( v / 20);
-		bm = 4 * Math.exp( v / 18);
-		am = 0.1 * (v + 25) / (Math.exp( (v+25)/10  ) -1);
-		bn = 0.125 * Math.exp(v/80);
-		an = 0.01 * (v + 10) / (Math.exp( (v+10)/10 ) -1);
-
-		// start these parameters in steady state
-		n = an / (an + bn);
-		m = am / (am + bm);
-		h = ah / (ah + bh);
-    }
-
     /**  
      * Advances the model by dt (delta time).
      * 
@@ -213,6 +234,11 @@ public class HodgkinHuxleyModel
         return getV() / 1000;
     }
     
+    /**
+     * Stimulate the neuron in a way that simulates a depolarization signal
+     * coming to this neuron.  If the neuron is in the correct state, this
+     * will trigger an action potential.
+     */
     public void stimulate(){
     	// Add a fixed amount to the voltage across the membrane.
     	setV(getV() + 15);
