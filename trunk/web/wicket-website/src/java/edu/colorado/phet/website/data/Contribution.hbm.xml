@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+    <class name="edu.colorado.phet.website.data.Contribution" table="contribution">
+        <cache usage="read-write"/>
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+
+        <!-- consider making lazy? -->
+        <many-to-one name="phetUser" class="edu.colorado.phet.website.data.PhetUser" not-null="true" lazy="false"/>
+        <property name="title"/>
+        <property name="authors"/>
+        <property name="keywords"/>
+        <property name="approved"/>
+        <property name="description" length="4048"/>
+        <property name="duration"/>
+        <property name="answersIncluded"/>
+        <property name="contactEmail"/>
+        <property name="authorOrganization"/>
+        <property name="dateCreated" type="timestamp"/>
+        <property name="dateUpdated" type="timestamp"/>
+        <property name="standardsCompliance"/>
+        <property name="fromPhet"/>
+        <property name="goldStar"/>
+
+        <set name="files" inverse="true">
+            <key column="contribution"/>
+            <one-to-many class="edu.colorado.phet.website.data.ContributionFile"/>
+        </set>
+
+        <set name="comments" inverse="true">
+            <key column="contribution"/>
+            <one-to-many class="edu.colorado.phet.website.data.ContributionComment"/>
+        </set>
+
+        <set name="levels" inverse="true">
+            <key column="contribution"/>
+            <one-to-many class="edu.colorado.phet.website.data.ContributionLevel"/>
+        </set>
+
+    </class>
+</hibernate-mapping>

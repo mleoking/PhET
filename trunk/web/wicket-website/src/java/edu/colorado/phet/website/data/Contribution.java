@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 public class Contribution implements Serializable {
 
     private int id;
-    private Set contributors;
+    private PhetUser phetUser;
     private String title;
     private String authors;
     private String keywords;
@@ -41,12 +41,12 @@ public class Contribution implements Serializable {
         this.id = id;
     }
 
-    public Set getContributors() {
-        return contributors;
+    public PhetUser getPhetUser() {
+        return phetUser;
     }
 
-    public void setContributors( Set contributors ) {
-        this.contributors = contributors;
+    public void setPhetUser( PhetUser user ) {
+        this.phetUser = user;
     }
 
     public String getTitle() {

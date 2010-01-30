@@ -48,6 +48,11 @@
 
         <mapping resource="edu/colorado/phet/website/data/PhetUser.hbm.xml"/>
 
+        <mapping resource="edu/colorado/phet/website/data/Contribution.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/ContributionFile.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/ContributionComment.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/ContributionLevel.hbm.xml"/>
+
     </session-factory>
 
 </hibernate-configuration>
