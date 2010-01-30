@@ -14,6 +14,7 @@ public class ContributionLevel implements Serializable {
 
     private static Logger logger = Logger.getLogger( ContributionLevel.class.getName() );
 
+    
     public ContributionLevel() {
 
     }
