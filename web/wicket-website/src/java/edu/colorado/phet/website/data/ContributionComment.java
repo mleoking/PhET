@@ -12,7 +12,7 @@ public class ContributionComment implements Serializable {
     private Date dateCreated;
     private Date dateUpdated;
     private Contribution contribution;
-    private PhetUser user;
+    private PhetUser phetUser;
 
     private static Logger logger = Logger.getLogger( ContributionComment.class.getName() );
 
@@ -59,11 +59,11 @@ public class ContributionComment implements Serializable {
         this.contribution = contribution;
     }
 
-    public PhetUser getUser() {
-        return user;
+    public PhetUser getPhetUser() {
+        return phetUser;
     }
 
-    public void setUser( PhetUser user ) {
-        this.user = user;
+    public void setPhetUser( PhetUser user ) {
+        this.phetUser = user;
     }
 }
