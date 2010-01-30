@@ -9,13 +9,13 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * Demonstrates a Component that becomes unusable when it's PSwing is subjected to extreme scaling,
- * and a PhetPCanvas size is used that requires even more scaling.
+ * Demonstrates a Component that becomes unusable when it's PSwing is subjected to extreme scaling.
  * Radio buttons in a JPanel will not work at all.
  * Radio buttons directly on the canvas might work once.
  * <p>
@@ -26,17 +26,17 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class DebugPSwingExtremeScaling extends JFrame {
     
-    // This is the same whacky size used in EatingAndExerciseCanvas.
-    private static final PDimension CANVAS_SIZE = new PDimension( 15, 15 );
-    
-    // An extreme scale, similiar to what's used in ScaleNode in eating-and-exercise.
-    private static final double PSWING_SCALE = 0.02;  // ScaleNode uses 0.004285714285714282
+    // An extreme scale, similar to what's used in ScaleNode in eating-and-exercise.
+    private static final double PSWING_SCALE = 0.02;
     
     public DebugPSwingExtremeScaling() {
         setSize( new Dimension( 1024, 768 ) );
         
         // canvas
-        final PhetPCanvas canvas = new PhetPCanvas( CANVAS_SIZE );
+        final PCanvas canvas = new PSwingCanvas( );
+        PNode rootNode = new PNode();
+        rootNode.setScale(1.0/PSWING_SCALE);
+        canvas.getLayer().addChild(rootNode);
         canvas.setBorder( new LineBorder( Color.BLACK ) );
         canvas.removeInputEventListener( canvas.getZoomEventHandler() );
         canvas.removeInputEventListener( canvas.getPanEventHandler() );
@@ -44,7 +44,7 @@ public class DebugPSwingExtremeScaling extends JFrame {
         
         // PSwing panel
         PSwing panelNode = new PSwing( new UnitsPanel() );
-        canvas.addWorldChild( panelNode );
+        rootNode.addChild( panelNode );
         panelNode.setScale( PSWING_SCALE );
         
         // PSwing ON button
@@ -55,7 +55,7 @@ public class DebugPSwingExtremeScaling extends JFrame {
             }
         });
         PSwing onButtonNode = new PSwing( onButton );
-        canvas.addWorldChild( onButtonNode );
+        rootNode.addChild( onButtonNode );
         onButtonNode.setScale( PSWING_SCALE );
         
         // PSwing OFF button
@@ -66,7 +66,7 @@ public class DebugPSwingExtremeScaling extends JFrame {
             }
         });
         PSwing offButtonNode = new PSwing( offButton );
-        canvas.addWorldChild( offButtonNode );
+        rootNode.addChild( offButtonNode );
         offButtonNode.setScale( PSWING_SCALE );
         
         ButtonGroup onOffGroup = new ButtonGroup();
