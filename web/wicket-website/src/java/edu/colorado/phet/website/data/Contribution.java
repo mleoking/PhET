@@ -24,6 +24,9 @@ public class Contribution implements Serializable {
     private String standardsCompliance;
     private boolean fromPhet;
     private boolean goldStar;
+    private Set files;
+    private Set comments;
+    private Set levels;
 
     private static Logger logger = Logger.getLogger( Contribution.class.getName() );
 
@@ -156,5 +159,29 @@ public class Contribution implements Serializable {
 
     public void setGoldStar( boolean goldStar ) {
         this.goldStar = goldStar;
+    }
+
+    public Set getFiles() {
+        return files;
+    }
+
+    public void setFiles( Set files ) {
+        this.files = files;
+    }
+
+    public Set getComments() {
+        return comments;
+    }
+
+    public void setComments( Set comments ) {
+        this.comments = comments;
+    }
+
+    public Set getLevels() {
+        return levels;
+    }
+
+    public void setLevels( Set levels ) {
+        this.levels = levels;
     }
 }
