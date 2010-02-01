@@ -1,4 +1,4 @@
-package edu.colorado.phet.website.data;
+package edu.colorado.phet.website.data.contribution;
 
 public enum Level {
     K_5( "k5" ),
