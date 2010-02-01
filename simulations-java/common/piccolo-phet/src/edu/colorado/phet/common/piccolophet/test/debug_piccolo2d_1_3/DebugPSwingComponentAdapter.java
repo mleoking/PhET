@@ -193,6 +193,7 @@ public class DebugPSwingComponentAdapter extends JFrame {
                     updateModel();
                 }
             } );
+            PSwing lightTypeControlWrapper = new PSwing( lightTypePanel );
             
             /*
              * A monochromatic feature that does nothing in this example.
@@ -208,14 +209,13 @@ public class DebugPSwingComponentAdapter extends JFrame {
                     super.setVisible( b );
                 }
             };
-            PSwing lightTypeControlWrapper = new PSwing( lightTypePanel ) {
+            monochromaticFeatureCheckBoxNode = new PSwing( monochromaticFeatureCheckBox ) {
                 @Override
                 public void setVisible( boolean b ) {
                     System.out.println( "PSwing.setVisible " + b );
                     super.setVisible( b );
                 }
             };
-            monochromaticFeatureCheckBoxNode = new PSwing( monochromaticFeatureCheckBox );
 
             // layout
             addChild( lightTypeControlWrapper );
