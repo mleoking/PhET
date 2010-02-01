@@ -19,7 +19,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * I suspect transform precision errors are resulting in events not being delivered to the Component.
  * <p>
  * This works fine with PhET's Piccolo snapshot (r390), does not work with Piccolo2D 1.3-rc1.
- * See also PhET Unfuddle #2141.
+ * See also PhET Unfuddle #2141, Piccolo Issue 159.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
