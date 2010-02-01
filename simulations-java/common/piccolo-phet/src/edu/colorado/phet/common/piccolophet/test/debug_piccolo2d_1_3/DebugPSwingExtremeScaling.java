@@ -16,11 +16,10 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Demonstrates a Component that becomes unusable when it's PSwing is subjected to extreme scaling.
- * Radio buttons in a JPanel will not work at all.
- * Radio buttons directly on the canvas might work once.
+ * I suspect transform precision errors are resulting in events not being delivered to the Component.
  * <p>
- * This works fine with our SVN snapshot, does not work with Piccolo2D 1.3-rc1.
- * See #2141.
+ * This works fine with PhET's Piccolo snapshot (r390), does not work with Piccolo2D 1.3-rc1.
+ * See also PhET Unfuddle #2141.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -33,64 +32,31 @@ public class DebugPSwingExtremeScaling extends JFrame {
         setSize( new Dimension( 1024, 768 ) );
         
         // canvas
-        final PCanvas canvas = new PSwingCanvas( );
-        PNode rootNode = new PNode();
-        rootNode.setScale(1.0/PSWING_SCALE);
-        canvas.getLayer().addChild(rootNode);
+        final PCanvas canvas = new PSwingCanvas();
         canvas.setBorder( new LineBorder( Color.BLACK ) );
         canvas.removeInputEventListener( canvas.getZoomEventHandler() );
         canvas.removeInputEventListener( canvas.getPanEventHandler() );
         setContentPane( canvas );
         
-        // PSwing panel
+        // root node, uses the inverse of our extreme scale (PSWING_SCALE)
+        PNode rootNode = new PNode();
+        rootNode.setScale( 1.0 / PSWING_SCALE );
+        canvas.getLayer().addChild( rootNode );
+        
+        // PSwing panel with some radio buttons
         PSwing panelNode = new PSwing( new UnitsPanel() );
         rootNode.addChild( panelNode );
         panelNode.setScale( PSWING_SCALE );
-        
-        // PSwing ON button
-        final JRadioButton onButton = new JRadioButton( "ON" );
-        onButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                System.out.println( "actionPerformed " + onButton.getText() );
-            }
-        });
-        PSwing onButtonNode = new PSwing( onButton );
-        rootNode.addChild( onButtonNode );
-        onButtonNode.setScale( PSWING_SCALE );
-        
-        // PSwing OFF button
-        final JRadioButton offButton = new JRadioButton( "OFF" );
-        offButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                System.out.println( "actionPerformed " + offButton.getText() );
-            }
-        });
-        PSwing offButtonNode = new PSwing( offButton );
-        rootNode.addChild( offButtonNode );
-        offButtonNode.setScale( PSWING_SCALE );
-        
-        ButtonGroup onOffGroup = new ButtonGroup();
-        onOffGroup.add( onButton );
-        onOffGroup.add( offButton );
-        onButton.setSelected( true );
-        
-        // layout
-        final double ySpacing = 0.05 * onButtonNode.getFullBoundsReference().getHeight();
-        final double x = 1;
-        double y = 1;
-        panelNode.setOffset( x, y );
-        y += panelNode.getFullBoundsReference().getHeight() + ySpacing;
-        onButtonNode.setOffset( x, y );
-        y += onButtonNode.getFullBoundsReference().getHeight() + ySpacing;
-        offButtonNode.setOffset( x, y );
+        panelNode.setOffset( 1, 1 );
     }
     
     /*
-     * A panel with English/Metric radio buttons.
+     * A JPanel with English/Metric radio buttons.
      */
     private static class UnitsPanel extends JPanel {
         
         public UnitsPanel() {
+            setBorder( new LineBorder( Color.BLACK ) );
             
             final JRadioButton englishButton = new JRadioButton( "English" );
             englishButton.addActionListener( new ActionListener() {
@@ -109,11 +75,12 @@ public class DebugPSwingExtremeScaling extends JFrame {
             ButtonGroup group = new ButtonGroup();
             group.add( englishButton );
             group.add( metricButton );
-            englishButton.setSelected( true );
             
-            setBorder( new LineBorder( Color.BLACK ) );
             add( englishButton );
             add( metricButton );
+            
+            // default state
+            englishButton.setSelected( true );
         }
     }
     
