@@ -1,4 +1,4 @@
-package edu.colorado.phet.website.data;
+package edu.colorado.phet.website.data.contribution;
 
 import java.io.Serializable;
 

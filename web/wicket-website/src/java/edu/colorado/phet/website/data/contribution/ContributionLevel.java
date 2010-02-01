@@ -1,10 +1,12 @@
-package edu.colorado.phet.website.data;
+package edu.colorado.phet.website.data.contribution;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+
+import edu.colorado.phet.website.data.Level;
 
 public class ContributionLevel implements Serializable {
 

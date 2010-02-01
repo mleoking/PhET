@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-    <class name="edu.colorado.phet.website.data.Contribution" table="contribution">
+    <class name="edu.colorado.phet.website.data.contribution.Contribution" table="contribution">
         <cache usage="read-write"/>
         <id name="id" column="id">
             <generator class="increment"/>
@@ -27,17 +27,17 @@
 
         <set name="files" inverse="true">
             <key column="contribution"/>
-            <one-to-many class="edu.colorado.phet.website.data.ContributionFile"/>
+            <one-to-many class="edu.colorado.phet.website.data.contribution.ContributionFile"/>
         </set>
 
         <set name="comments" inverse="true">
             <key column="contribution"/>
-            <one-to-many class="edu.colorado.phet.website.data.ContributionComment"/>
+            <one-to-many class="edu.colorado.phet.website.data.contribution.ContributionComment"/>
         </set>
 
         <set name="levels" inverse="true">
             <key column="contribution"/>
-            <one-to-many class="edu.colorado.phet.website.data.ContributionLevel"/>
+            <one-to-many class="edu.colorado.phet.website.data.contribution.ContributionLevel"/>
         </set>
 
     </class>

@@ -1,9 +1,11 @@
-package edu.colorado.phet.website.data;
+package edu.colorado.phet.website.data.contribution;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
+
+import edu.colorado.phet.website.data.PhetUser;
 
 public class ContributionComment implements Serializable {
 
