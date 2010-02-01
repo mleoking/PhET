@@ -41,7 +41,7 @@ public class DebugPSwingComponentAdapter extends JFrame {
         controlPanelNode.setOffset( 100, 100 );
         
         // ...called at startup, as in hydrogen-atom sim
-        controlPanelNode.setTransitionWavelengths( null );
+        controlPanelNode.setMonochromaticFeatureParameters();
     }
     
     private enum LightType { WHITE, MONOCHROMATIC };
@@ -168,11 +168,14 @@ public class DebugPSwingComponentAdapter extends JFrame {
         private final LightTypePanel lightTypePanel;
         private final JCheckBox checkBox;
         private final PSwing checkBoxNode;
+        
+        // actual application has a means of totally disabling the check box via a setter, regardless of light type
         private boolean checkBoxFeatureEnabled;
         
         public LightControlPanelNode( final Light model ) {
             super();
             
+            // connect to model
             this.model = model;
             model.addObserver( new Observer() {
                 public void update( Observable o, Object arg ) {
@@ -180,26 +183,30 @@ public class DebugPSwingComponentAdapter extends JFrame {
                 }
             } );
             
-            checkBoxFeatureEnabled = false;
-            
+            // light type control
             lightTypePanel = new LightTypePanel();
+            
+            // feature check box
+            checkBoxFeatureEnabled = false;
             checkBox = new JCheckBox( "some monochromatic feature" ) {
                 @Override
                 public void setVisible( boolean b ) {
-                    System.out.println( "transitionMarksControl.setVisible " + b );
+                    System.out.println( "JCheckBox.setVisible " + b );
                     super.setVisible( b );
                 }
             };
-
-            // Wrappers for Swing components
-            PSwing lightTypeControlWrapper = new PSwing( lightTypePanel );
+            PSwing lightTypeControlWrapper = new PSwing( lightTypePanel ) {
+                @Override
+                public void setVisible( boolean b ) {
+                    System.out.println( "PSwing.setVisible " + b );
+                    super.setVisible( b );
+                }
+            };
             checkBoxNode = new PSwing( checkBox );
 
-            // Layering, back to front
+            // layout
             addChild( lightTypeControlWrapper );
             addChild( checkBoxNode );
-
-            // Positioning
             lightTypeControlWrapper.setOffset( 0, 0 );
             checkBoxNode.setOffset( 0, lightTypeControlWrapper.getFullBoundsReference().getMaxY() + 5 );
 
@@ -210,22 +217,16 @@ public class DebugPSwingComponentAdapter extends JFrame {
                 }
             } );
 
-            // Sync with model
+            // sync with model
             updateView();
         }
         
-        public void setTransitionWavelengths( double[] transitionWavelengths ) {
-            System.out.println( "GunControlPanel.setTransitionWavelengths" );
-            if ( lightTypePanel.isMonochromaticSelected() ) {
-                checkBoxNode.setVisible( true );
-            }
-            else {
-                checkBoxNode.setVisible( false );
-            }
+        public void setMonochromaticFeatureParameters( /* actual application has some args here */) {
+            // actual application did something with the args, then set check box visibility.
+            checkBoxNode.setVisible( lightTypePanel.isMonochromaticSelected() );
         }
         
         private void updateModel() {
-            System.out.println( "GunControlPanel.handleLightTypeChanged" );
             if ( lightTypePanel.isMonochromaticSelected() ) {
                 model.setLightType( LightType.MONOCHROMATIC );
             }
@@ -235,7 +236,6 @@ public class DebugPSwingComponentAdapter extends JFrame {
         }
 
         private void updateView() {
-            System.out.println( "GunControlPanel.updateView" );
             if ( model.getLightType() == LightType.MONOCHROMATIC ) {
                 lightTypePanel.setMonochromaticSelected( true );
                 checkBoxNode.setVisible( checkBoxFeatureEnabled );
