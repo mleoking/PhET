@@ -53,6 +53,7 @@
         <mapping resource="edu/colorado/phet/website/data/contribution/ContributionComment.hbm.xml"/>
         <mapping resource="edu/colorado/phet/website/data/contribution/ContributionLevel.hbm.xml"/>
         <mapping resource="edu/colorado/phet/website/data/contribution/ContributionSubject.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/contribution/ContributionType.hbm.xml"/>
         <mapping resource="edu/colorado/phet/website/data/contribution/ContributionFlag.hbm.xml"/>
         <mapping resource="edu/colorado/phet/website/data/contribution/ContributionNomination.hbm.xml"/>
 

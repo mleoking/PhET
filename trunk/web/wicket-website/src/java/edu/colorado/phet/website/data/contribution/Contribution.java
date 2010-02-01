@@ -32,6 +32,7 @@ public class Contribution implements Serializable {
     private Set subjects;
     private Set flags;
     private Set nominations;
+    private Set types;
 
     private static Logger logger = Logger.getLogger( Contribution.class.getName() );
 
@@ -212,5 +213,13 @@ public class Contribution implements Serializable {
 
     public void setNominations( Set nominations ) {
         this.nominations = nominations;
+    }
+
+    public Set getTypes() {
+        return types;
+    }
+
+    public void setTypes( Set types ) {
+        this.types = types;
     }
 }
