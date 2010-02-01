@@ -11,8 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
-import edu.colorado.phet.genenetwork.GeneNetworkStrings;
-import edu.colorado.phet.genenetwork.module.LacOperonDefaults;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.controlpanel.MembraneDiffusionControlPanel;
 import edu.colorado.phet.neuron.model.AxonModel;
