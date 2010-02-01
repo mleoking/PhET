@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-    <class name="edu.colorado.phet.website.data.contribution.ContributionLevel" table="contribution_level">
+    <class name="edu.colorado.phet.website.data.contribution.ContributionSubject" table="contribution_subject">
         <cache usage="read-write"/>
         <id name="id" column="id">
             <generator class="increment"/>
@@ -11,7 +11,7 @@
         <many-to-one name="contribution" class="edu.colorado.phet.website.data.contribution.Contribution" not-null="true"
                      lazy="false"/>
 
-        <property name="level">
+        <property name="subject">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">edu.colorado.phet.website.data.contribution.Level</param>
 

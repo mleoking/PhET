@@ -29,6 +29,9 @@ public class Contribution implements Serializable {
     private Set files;
     private Set comments;
     private Set levels;
+    private Set subjects;
+    private Set flags;
+    private Set nominations;
 
     private static Logger logger = Logger.getLogger( Contribution.class.getName() );
 
@@ -185,5 +188,29 @@ public class Contribution implements Serializable {
 
     public void setLevels( Set levels ) {
         this.levels = levels;
+    }
+
+    public Set getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects( Set subjects ) {
+        this.subjects = subjects;
+    }
+
+    public Set getFlags() {
+        return flags;
+    }
+
+    public void setFlags( Set flags ) {
+        this.flags = flags;
+    }
+
+    public Set getNominations() {
+        return nominations;
+    }
+
+    public void setNominations( Set nominations ) {
+        this.nominations = nominations;
     }
 }
