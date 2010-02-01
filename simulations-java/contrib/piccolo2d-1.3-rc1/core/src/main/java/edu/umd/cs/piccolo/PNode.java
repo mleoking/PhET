@@ -1079,10 +1079,20 @@ public class PNode implements Cloneable, Serializable, Printable {
      * @return point in this node's local coordinate system.
      */
     public Point2D globalToLocal(final Point2D globalPoint) {
-        if (parent != null) {
-            parent.globalToLocal(globalPoint);
+        final PAffineTransform globalTransform = computeGlobalTransform(this);
+        return globalTransform.inverseTransform(globalPoint, globalPoint);
+    }
+
+    private PAffineTransform computeGlobalTransform(final PNode node) {
+        if (node == null) {
+            return new PAffineTransform();
         }
-        return parentToLocal(globalPoint);
+        
+        final PAffineTransform parentGlobalTransform = computeGlobalTransform(node.parent);
+        if (node.transform != null) {
+            parentGlobalTransform.concatenate(node.transform);
+        }
+        return parentGlobalTransform;
     }
 
     /**
