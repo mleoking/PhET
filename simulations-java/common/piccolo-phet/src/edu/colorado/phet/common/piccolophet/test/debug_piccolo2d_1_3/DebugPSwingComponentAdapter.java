@@ -11,10 +11,10 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * See PhET Unfuddle #2140
@@ -30,22 +30,18 @@ public class DebugPSwingComponentAdapter extends JFrame {
         Light model = new Light();
         
         // canvas
-        final PhetPCanvas canvas = new PhetPCanvas( new Dimension( 750, 750 ) );
+        final PCanvas canvas = new PSwingCanvas();
         canvas.removeInputEventListener( canvas.getZoomEventHandler() );
         canvas.removeInputEventListener( canvas.getPanEventHandler() );
         setContentPane( canvas );
         
-        // root node
-        PNode rootNode = new PNode();
-        canvas.addWorldChild( rootNode );
-        rootNode.setOffset( 100, 100 );
-        
         // control panel node
-        LightControlPanel gunControlPanel = new LightControlPanel( model );
-        rootNode.addChild( gunControlPanel );
+        LightControlPanelNode controlPanelNode = new LightControlPanelNode( model );
+        canvas.getLayer().addChild( controlPanelNode );
+        controlPanelNode.setOffset( 100, 100 );
         
         // ...called at startup, as in hydrogen-atom sim
-        gunControlPanel.setTransitionWavelengths( null );
+        controlPanelNode.setTransitionWavelengths( null );
     }
     
     private enum LightType { WHITE, MONOCHROMATIC };
@@ -72,14 +68,6 @@ public class DebugPSwingComponentAdapter extends JFrame {
                 this.lightType = lightType;
                 notifyObservers( PROPERTY_LIGHT_TYPE );
             }
-        }
-        
-        public boolean isWhiteLightType() {
-            return ( lightType == LightType.WHITE );
-        }
-        
-        public boolean isMonochromaticLightType() {
-            return ( lightType == LightType.MONOCHROMATIC );   
         }
         
         @Override
@@ -174,7 +162,7 @@ public class DebugPSwingComponentAdapter extends JFrame {
      * Node that provides controls for the model.
      * Select the light type and whether a monochromatic feature is enabled.
      */
-    public class LightControlPanel extends PhetPNode implements Observer {
+    public class LightControlPanelNode extends PhetPNode {
 
         private final Light model;
         private final LightTypePanel lightTypePanel;
@@ -182,10 +170,16 @@ public class DebugPSwingComponentAdapter extends JFrame {
         private final PSwing checkBoxNode;
         private boolean checkBoxFeatureEnabled;
         
-        public LightControlPanel( Light model ) {
+        public LightControlPanelNode( final Light model ) {
             super();
             
             this.model = model;
+            model.addObserver( new Observer() {
+                public void update( Observable o, Object arg ) {
+                    updateView();
+                }
+            } );
+            
             checkBoxFeatureEnabled = false;
             
             lightTypePanel = new LightTypePanel();
@@ -212,12 +206,12 @@ public class DebugPSwingComponentAdapter extends JFrame {
             // Event handling
             lightTypePanel.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
-                    handleLightTypeChange();
+                    updateModel();
                 }
             } );
 
             // Sync with model
-            updateAll();
+            updateView();
         }
         
         public void setTransitionWavelengths( double[] transitionWavelengths ) {
@@ -230,34 +224,25 @@ public class DebugPSwingComponentAdapter extends JFrame {
             }
         }
         
-        private void handleLightTypeChange() {
+        private void updateModel() {
             System.out.println( "GunControlPanel.handleLightTypeChanged" );
             if ( lightTypePanel.isMonochromaticSelected() ) {
-                checkBoxNode.setVisible( checkBoxFeatureEnabled );
                 model.setLightType( LightType.MONOCHROMATIC );
             }
             else {
-                checkBoxNode.setVisible( false );
                 model.setLightType( LightType.WHITE );
             }
         }
-        
-        public void update( Observable o, Object arg ) {
-            System.out.println( "GunControlPanel.update" );
-            if ( o == model ) {
-                if ( arg == Light.PROPERTY_LIGHT_TYPE ) {
-                    lightTypePanel.setMonochromaticSelected( model.isMonochromaticLightType() );
-                }
-            }
-        }
-        
-        private void updateAll() {
-            System.out.println( "GunControlPanel.updateAll" );
-            if ( model.isMonochromaticLightType() ) {
+
+        private void updateView() {
+            System.out.println( "GunControlPanel.updateView" );
+            if ( model.getLightType() == LightType.MONOCHROMATIC ) {
                 lightTypePanel.setMonochromaticSelected( true );
+                checkBoxNode.setVisible( checkBoxFeatureEnabled );
             }
             else {
                 lightTypePanel.setWhiteSelected( true );
+                checkBoxNode.setVisible( false );
             }
         }
     }
