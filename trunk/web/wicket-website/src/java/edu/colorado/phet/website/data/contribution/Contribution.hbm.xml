@@ -40,5 +40,20 @@
             <one-to-many class="edu.colorado.phet.website.data.contribution.ContributionLevel"/>
         </set>
 
+        <set name="subjects" inverse="true">
+            <key column="contribution"/>
+            <one-to-many class="edu.colorado.phet.website.data.contribution.ContributionSubject"/>
+        </set>
+
+        <set name="flags" inverse="true">
+            <key column="contribution"/>
+            <one-to-many class="edu.colorado.phet.website.data.contribution.ContributionFlag"/>
+        </set>
+
+        <set name="nominations" inverse="true">
+            <key column="contribution"/>
+            <one-to-many class="edu.colorado.phet.website.data.contribution.ContributionNomination"/>
+        </set>
+
     </class>
 </hibernate-mapping>
