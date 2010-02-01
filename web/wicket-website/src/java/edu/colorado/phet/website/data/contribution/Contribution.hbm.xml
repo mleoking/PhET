@@ -55,5 +55,10 @@
             <one-to-many class="edu.colorado.phet.website.data.contribution.ContributionNomination"/>
         </set>
 
+        <set name="types" inverse="true">
+            <key column="contribution"/>
+            <one-to-many class="edu.colorado.phet.website.data.contribution.ContributionType"/>
+        </set>
+
     </class>
 </hibernate-mapping>
