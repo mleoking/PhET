@@ -52,6 +52,8 @@
         <mapping resource="edu/colorado/phet/website/data/contribution/ContributionFile.hbm.xml"/>
         <mapping resource="edu/colorado/phet/website/data/contribution/ContributionComment.hbm.xml"/>
         <mapping resource="edu/colorado/phet/website/data/contribution/ContributionLevel.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/contribution/ContributionFlag.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/contribution/ContributionNomination.hbm.xml"/>
 
     </session-factory>
 
