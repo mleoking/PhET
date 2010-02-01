@@ -15,14 +15,29 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * See PhET Unfuddle #2140
+ * Demonstrates a strange situation when PSwing's ComponentListener is repeatedly
+ * called, alternating between calls to componentShown and componentHidden forever.
+ * 
+ * See PhET Unfuddle #2140, Piccolo Issue 160.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DebugPSwingComponentAdapter extends JFrame {
     
+    /*
+     * =====================  WORKAROUNDS ========================
+     * Two application workarounds have been identified.
+     * See either (or both) of these flags to true.
+     * And see the comments in the code where the flags are used.
+     * 
+     * Note that a third workaround is to remove the ComponentListener that is 
+     * added in PSwing, and/or remove the override of PSwing.setVisible.
+     */
+    private static final boolean ENABLE_WORKAROUND_1 = false;
+    private static final boolean ENABLE_WORKAROUND_2 = false;
+    
     public DebugPSwingComponentAdapter() {
-        setSize( new Dimension( 1024, 768 ) );
+        setSize( new Dimension( 400, 200 ) );
         
         // model
         Light model = new Light();
@@ -36,16 +51,17 @@ public class DebugPSwingComponentAdapter extends JFrame {
         // control panel node
         LightControlPanelNode controlPanelNode = new LightControlPanelNode( model );
         canvas.getLayer().addChild( controlPanelNode );
-        controlPanelNode.setOffset( 100, 100 );
+        controlPanelNode.setOffset( 20, 20 );
         
-        // ...called at startup, as in hydrogen-atom sim
-        controlPanelNode.setMonochromaticFeatureParameters();
+        // configure control panel at startup, as in PhET hydrogen-atom sim
+        controlPanelNode.setUp( /* some args */ );
     }
     
     private enum LightType { WHITE, MONOCHROMATIC };
     
     /*
-     * Model, notifies observers when light type changes.
+     * Simple model of a light.
+     * Listeners are notified when the light type changes.
      */
     private static class Light {
         
@@ -81,26 +97,20 @@ public class DebugPSwingComponentAdapter extends JFrame {
     }
     
     /*
-     * Panel for selecting the light type via radio buttons.
+     * Panel for selecting the light type via 2 radio buttons.
+     * Listeners are notified when the selection changes.
      */
     private static class LightTypePanel extends JPanel {
         
-        private final JRadioButton whiteButton, monochromaticButton;
         private final ArrayList<ChangeListener> listeners;
+        private final JRadioButton whiteButton, monochromaticButton;
         
         public LightTypePanel() {
             
+            listeners = new ArrayList<ChangeListener>();
+            
             // buttons
             whiteButton = new JRadioButton( "white" );
-            monochromaticButton = new JRadioButton( "monochromatic" );
-            ButtonGroup buttonGroup = new ButtonGroup();
-            buttonGroup.add( whiteButton );
-            buttonGroup.add( monochromaticButton );
-            add( whiteButton );
-            add( monochromaticButton );
-            
-            // event handling
-            listeners = new ArrayList<ChangeListener>();
             whiteButton.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     if ( whiteButton.isSelected() ) {
@@ -108,6 +118,8 @@ public class DebugPSwingComponentAdapter extends JFrame {
                     }
                 }      
             });
+            
+            monochromaticButton = new JRadioButton( "monochromatic" );
             monochromaticButton.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     if ( monochromaticButton.isSelected() ) {
@@ -116,8 +128,15 @@ public class DebugPSwingComponentAdapter extends JFrame {
                 }
             } );
             
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( whiteButton );
+            buttonGroup.add( monochromaticButton );
+            
+            add( whiteButton );
+            add( monochromaticButton );
+            
             // Default state
-            setMonochromaticSelected( false );
+            whiteButton.setSelected( true );
         }
         
         public void setMonochromaticSelected( boolean selected ) {
@@ -142,18 +161,19 @@ public class DebugPSwingComponentAdapter extends JFrame {
     }
     
     /*
-     * Node that provides controls for the model.
-     * Select the light type and whether a monochromatic feature is enabled.
+     * Node that provides controls for the light model.
+     * Keeps the model and view synchronized.
+     * Shows/hides controls that are specific to a light type.
      */
     public class LightControlPanelNode extends PhetPNode {
 
         private final Light model;
         private final LightTypePanel lightTypePanel;
-        private final JCheckBox checkBox;
-        private final PSwing checkBoxNode;
+        private final JCheckBox monochromaticFeatureCheckBox; // this control is specific to monochromatic lights
+        private final PSwing monochromaticFeatureCheckBoxNode;
         
-        // actual application has a means of totally disabling the check box via a setter, regardless of light type
-        private boolean checkBoxFeatureEnabled;
+        // The actual application has a setter for disabling monochromatic-specific features via this flag.
+        private boolean monochromaticFeatureEnabled;
         
         public LightControlPanelNode( final Light model ) {
             super();
@@ -168,10 +188,20 @@ public class DebugPSwingComponentAdapter extends JFrame {
             
             // light type control
             lightTypePanel = new LightTypePanel();
+            lightTypePanel.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                    updateModel();
+                }
+            } );
             
-            // feature check box
-            checkBoxFeatureEnabled = false;
-            checkBox = new JCheckBox( "some monochromatic feature" ) {
+            /*
+             * A monochromatic feature that does nothing in this example.
+             * This is the check box that has the setVisible problem, so I've
+             * added debug output on System.out to demonstrate the calls to
+             * setVisible, for both the JCheckBox and its PSwing.
+             */
+            monochromaticFeatureEnabled = false;
+            monochromaticFeatureCheckBox = new JCheckBox( "some monochromatic feature" ) {
                 @Override
                 public void setVisible( boolean b ) {
                     System.out.println( "JCheckBox.setVisible " + b );
@@ -185,28 +215,32 @@ public class DebugPSwingComponentAdapter extends JFrame {
                     super.setVisible( b );
                 }
             };
-            checkBoxNode = new PSwing( checkBox );
+            monochromaticFeatureCheckBoxNode = new PSwing( monochromaticFeatureCheckBox );
 
             // layout
             addChild( lightTypeControlWrapper );
-            addChild( checkBoxNode );
+            addChild( monochromaticFeatureCheckBoxNode );
             lightTypeControlWrapper.setOffset( 0, 0 );
-            checkBoxNode.setOffset( 0, lightTypeControlWrapper.getFullBoundsReference().getMaxY() + 5 );
-
-            // Event handling
-            lightTypePanel.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    updateModel();
-                }
-            } );
+            monochromaticFeatureCheckBoxNode.setOffset( 0, lightTypeControlWrapper.getFullBoundsReference().getMaxY() + 5 );
 
             // sync with model
             updateView();
         }
         
-        public void setMonochromaticFeatureParameters( /* actual application has some args here */) {
-            // actual application did something with the args, then set check box visibility.
-            checkBoxNode.setVisible( lightTypePanel.isMonochromaticSelected() );
+        public void setUp( /* the actual application has some args here */) {
+            // the actual application did something with the args, then set check box visibility.
+            if ( ENABLE_WORKAROUND_2 ) {
+                /*
+                 * WORKAROUND 2:
+                 * Visibility should be set based on the light type and whether the feature is enabled.
+                 * This is a programming error and should be corrected in the actual application.
+                 * I've left it in here because I don't understand why this is creating a problem.
+                 */
+                monochromaticFeatureCheckBoxNode.setVisible( lightTypePanel.isMonochromaticSelected() && monochromaticFeatureEnabled );
+            }
+            else {
+                monochromaticFeatureCheckBoxNode.setVisible( lightTypePanel.isMonochromaticSelected() );
+            }
         }
         
         private void updateModel() {
@@ -221,7 +255,7 @@ public class DebugPSwingComponentAdapter extends JFrame {
         private void updateView() {
             boolean isMonochromatic = ( model.getLightType() == LightType.MONOCHROMATIC );
             lightTypePanel.setMonochromaticSelected( isMonochromatic );
-            checkBoxNode.setVisible( isMonochromatic && checkBoxFeatureEnabled );
+            monochromaticFeatureCheckBoxNode.setVisible( isMonochromatic && monochromaticFeatureEnabled );
         }
     }
     
@@ -244,18 +278,30 @@ public class DebugPSwingComponentAdapter extends JFrame {
      * @param args
      */
     public static void main( String[] args ) {
-        try {
-            SwingUtilities.invokeAndWait( new Runnable() {
-                public void run() {
-                    startApplication();
-                }
-            } );
+        if ( ENABLE_WORKAROUND_1 ) {
+            /*
+             * WORKAROUND 1:
+             * Don't start the application in the AWT event dispatch thread.
+             * Unfortunately all PhET application work this way, so this is
+             * not a practical workaround.
+             */
+            startApplication();
         }
-        catch ( InterruptedException e ) {
-            e.printStackTrace();
-        }
-        catch ( InvocationTargetException e ) {
-            e.printStackTrace();
+        else {
+            try {
+                SwingUtilities.invokeAndWait( new Runnable() {
+
+                    public void run() {
+                        startApplication();
+                    }
+                } );
+            }
+            catch ( InterruptedException e ) {
+                e.printStackTrace();
+            }
+            catch ( InvocationTargetException e ) {
+                e.printStackTrace();
+            }
         }
     }
 }
