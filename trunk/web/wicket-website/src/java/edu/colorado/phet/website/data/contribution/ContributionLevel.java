@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import edu.colorado.phet.website.data.Level;
+import edu.colorado.phet.website.data.contribution.Level;
 
 public class ContributionLevel implements Serializable {
 
