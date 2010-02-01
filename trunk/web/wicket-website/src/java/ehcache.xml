@@ -710,5 +710,78 @@ not perform any function when used with JMX monitors.
            timeToLiveSeconds="3600"
             />
 
+    <!-- contribution related caches -->
+
+    <cache name="edu.colorado.phet.website.data.contribution.Contribution"
+           maxElementsInMemory="500"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+            />
+
+    <cache name="edu.colorado.phet.website.data.contribution.ContributionComment"
+           maxElementsInMemory="50"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+            />
+
+    <cache name="edu.colorado.phet.website.data.contribution.ContributionSubject"
+           maxElementsInMemory="500"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+            />
+
+    <cache name="edu.colorado.phet.website.data.contribution.ContributionFlag"
+           maxElementsInMemory="500"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+            />
+
+    <cache name="edu.colorado.phet.website.data.contribution.ContributionLevel"
+           maxElementsInMemory="500"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+            />
+
+    <cache name="edu.colorado.phet.website.data.contribution.ContributionFile"
+           maxElementsInMemory="500"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+            />
+
+    <cache name="edu.colorado.phet.website.data.contribution.ContributionNomination"
+           maxElementsInMemory="500"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+            />
+
+    <cache name="edu.colorado.phet.website.data.contribution.ContributionType"
+           maxElementsInMemory="500"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+            />
 
 </ehcache>
