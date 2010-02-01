@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -49,13 +47,13 @@ public class DebugPSwingComponentAdapter extends JFrame {
     /*
      * Model, notifies observers when light type changes.
      */
-    private static class Light extends Observable {
+    private static class Light {
         
-        public static final String PROPERTY_LIGHT_TYPE = "lightType";
-        
+        private final ArrayList<ChangeListener> listeners;
         private LightType lightType;
         
         public Light() {
+            listeners = new ArrayList<ChangeListener>();
             this.lightType = LightType.MONOCHROMATIC;
         }
         
@@ -66,22 +64,19 @@ public class DebugPSwingComponentAdapter extends JFrame {
         public void setLightType( LightType lightType ) {
             if ( lightType != this.lightType ) {
                 this.lightType = lightType;
-                notifyObservers( PROPERTY_LIGHT_TYPE );
+                fireStateChanged();
             }
         }
         
-        @Override
-        public void notifyObservers() {
-            setChanged();
-            super.notifyObservers();
-            clearChanged();
+        public void addChangeListener( ChangeListener listener ) {
+            listeners.add( listener );
         }
 
-        @Override
-        public void notifyObservers( Object arg ) {
-            setChanged();
-            super.notifyObservers( arg );
-            clearChanged();
+        private void fireStateChanged() {
+            ChangeEvent event = new ChangeEvent( this ); 
+            for ( ChangeListener listener : listeners ) {
+                listener.stateChanged( event );
+            }
         }
     }
     
@@ -122,32 +117,20 @@ public class DebugPSwingComponentAdapter extends JFrame {
             } );
             
             // Default state
-            setWhiteSelected( true );
-        }
-        
-        public void setWhiteSelected( boolean selected ) {
-            whiteButton.setSelected( selected );
-            monochromaticButton.setSelected( !selected );
-        }
-        
-        public boolean isWhiteSelected() {
-            return whiteButton.isSelected();
+            setMonochromaticSelected( false );
         }
         
         public void setMonochromaticSelected( boolean selected ) {
-            setWhiteSelected( !selected );
+            whiteButton.setSelected( !selected );
+            monochromaticButton.setSelected( selected );
         }
         
         public boolean isMonochromaticSelected() {
-            return !isWhiteSelected();
+            return monochromaticButton.isSelected();
         }
         
         public void addChangeListener( ChangeListener listener ) {
             listeners.add( listener );
-        }
-
-        public void removeChangeListener( ChangeListener listener ) {
-            listeners.remove( listener );
         }
 
         private void fireStateChanged() {
@@ -177,8 +160,8 @@ public class DebugPSwingComponentAdapter extends JFrame {
             
             // connect to model
             this.model = model;
-            model.addObserver( new Observer() {
-                public void update( Observable o, Object arg ) {
+            model.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
                     updateView();
                 }
             } );
@@ -236,14 +219,9 @@ public class DebugPSwingComponentAdapter extends JFrame {
         }
 
         private void updateView() {
-            if ( model.getLightType() == LightType.MONOCHROMATIC ) {
-                lightTypePanel.setMonochromaticSelected( true );
-                checkBoxNode.setVisible( checkBoxFeatureEnabled );
-            }
-            else {
-                lightTypePanel.setWhiteSelected( true );
-                checkBoxNode.setVisible( false );
-            }
+            boolean isMonochromatic = ( model.getLightType() == LightType.MONOCHROMATIC );
+            lightTypePanel.setMonochromaticSelected( isMonochromatic );
+            checkBoxNode.setVisible( isMonochromatic && checkBoxFeatureEnabled );
         }
     }
     
