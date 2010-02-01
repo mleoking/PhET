@@ -35,5 +35,9 @@
             <list-index column="idx"/>
             <many-to-many class="edu.colorado.phet.website.data.Keyword" column="keyword_id"/>
         </list>
+        <set name="contributions" inverse="true" table="contribution_mapping">
+            <key column="simulation_id"/>
+            <many-to-many class="edu.colorado.phet.website.data.contribution.Contribution" column="contribution_id"/>
+        </set>
     </class>
 </hibernate-mapping>

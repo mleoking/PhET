@@ -3,6 +3,7 @@ package edu.colorado.phet.website.data.contribution;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import java.util.HashSet;
 
 import org.apache.log4j.Logger;
 
@@ -26,13 +27,14 @@ public class Contribution implements Serializable {
     private String standardsCompliance;
     private boolean fromPhet;
     private boolean goldStar;
-    private Set files;
-    private Set comments;
-    private Set levels;
-    private Set subjects;
-    private Set flags;
-    private Set nominations;
-    private Set types;
+    private Set files = new HashSet();
+    private Set comments = new HashSet();
+    private Set levels = new HashSet();
+    private Set subjects = new HashSet();
+    private Set flags = new HashSet();
+    private Set nominations = new HashSet();
+    private Set types = new HashSet();
+    private Set simulations = new HashSet();
 
     private static Logger logger = Logger.getLogger( Contribution.class.getName() );
 
@@ -221,5 +223,13 @@ public class Contribution implements Serializable {
 
     public void setTypes( Set types ) {
         this.types = types;
+    }
+
+    public Set getSimulations() {
+        return simulations;
+    }
+
+    public void setSimulations( Set simulations ) {
+        this.simulations = simulations;
     }
 }

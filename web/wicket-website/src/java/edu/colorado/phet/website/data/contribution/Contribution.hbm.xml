@@ -60,5 +60,10 @@
             <one-to-many class="edu.colorado.phet.website.data.contribution.ContributionType"/>
         </set>
 
+        <set name="simulations" table="contribution_mapping">
+            <key column="contribution_id"/>
+            <many-to-many class="edu.colorado.phet.website.data.Simulation" column="simulation_id"/>
+        </set>
+
     </class>
 </hibernate-mapping>

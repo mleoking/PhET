@@ -14,6 +14,7 @@ public class Simulation implements Serializable {
     private int kilobytes;
     private Set localizedSimulations = new HashSet();
     private Set categories = new HashSet();
+    private Set contributions = new HashSet();
 
     private List topics = new LinkedList();
     private List keywords = new LinkedList();
@@ -221,5 +222,13 @@ public class Simulation implements Serializable {
 
     public boolean isVisible() {
         return isSimulationVisible() && project.isVisible();
+    }
+
+    public Set getContributions() {
+        return contributions;
+    }
+
+    public void setContributions( Set contributions ) {
+        this.contributions = contributions;
     }
 }
