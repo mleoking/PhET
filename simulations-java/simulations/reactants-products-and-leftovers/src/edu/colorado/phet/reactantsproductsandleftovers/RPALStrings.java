@@ -42,6 +42,8 @@ public class RPALStrings {
     public static final String RADIO_BUTTON_METHANE = RPALResources.getString( "radioButton.methane" );
     public static final String RADIO_BUTTON_ON = RPALResources.getString( "radioButton.on" );
     public static final String RADIO_BUTTON_OFF = RPALResources.getString( "radioButton.off" );
+    public static final String RADIO_BUTTON_SHOW = RPALResources.getString( "radioButton.show" );
+    public static final String RADIO_BUTTON_HIDE = RPALResources.getString( "radioButton.hide" );
     
     // messages 
     public static final String MESSAGE_VALUE_OUT_OF_RANGE = RPALResources.getString( "message.valueOutOfRange" );
