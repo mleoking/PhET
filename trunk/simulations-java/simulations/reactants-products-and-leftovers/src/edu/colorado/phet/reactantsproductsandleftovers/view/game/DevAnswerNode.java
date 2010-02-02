@@ -31,6 +31,7 @@ public class DevAnswerNode extends HTMLNode {
         setPaint( BACKGROUND_COLOR );
         this.model = model;
         model.addGameListener( new GameAdapter() {
+            @Override
             public void challengeChanged() {
                 update();
             }

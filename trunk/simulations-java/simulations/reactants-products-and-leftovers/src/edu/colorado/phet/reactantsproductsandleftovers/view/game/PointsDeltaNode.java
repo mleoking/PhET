@@ -35,6 +35,7 @@ public class PointsDeltaNode extends ShadowPText {
         setTextPaint( COLOR );
         setText( "?" );
         model.addGameListener( new GameAdapter() {
+            @Override
             public void pointsChanged() {
                 double delta = model.getPoints() - points;
                 setValue( delta );
