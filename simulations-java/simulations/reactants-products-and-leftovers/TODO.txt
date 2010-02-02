@@ -4,10 +4,10 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- eliminate cast and use strong typing in SimpleGameStrategy
+- eliminate cast and use strong typing in SimpleGameStrategy and AbstractGameStrategy
 - developer controls for setting up specific Game challenges
-- layout problem with scoreboard
-- add an animated "prize" to Game Summary for perfect score
+- layout problem with scoreboard?
+- add an animated "prize" to Game Summary for perfect score (smiling molecules doing random walk; win sandwich parts; other ideas?)
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 
