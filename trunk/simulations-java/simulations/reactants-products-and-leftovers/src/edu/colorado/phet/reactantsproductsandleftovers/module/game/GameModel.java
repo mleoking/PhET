@@ -9,8 +9,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.reactantsproductsandleftovers.model.*;
-import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
+import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
 
 /**
  * Model for the "Game" module.
@@ -182,30 +181,6 @@ public class GameModel extends RPALModel {
      */
     public GameChallenge getChallenge() {
         return challenges[ getChallengeNumber() ];
-    }
-    
-    /**
-     * Convenience method.
-     * Gets the type of the current challenge.
-     */
-    public ChallengeType getChallengeType() {
-        return getChallenge().getChallengeType();
-    }
-    
-    /**
-     * Convenience method.
-     * Gets the reaction associated with the current challenge.
-     */
-    public ChemicalReaction getReaction() {
-        return getChallenge().getReaction();
-    }
-    
-    /**
-     * Convenience method.
-     * Gets the user's guess associated with the current challenge.
-     */
-    public GameGuess getGuess() {
-        return getChallenge().getGuess();
     }
     
     /**

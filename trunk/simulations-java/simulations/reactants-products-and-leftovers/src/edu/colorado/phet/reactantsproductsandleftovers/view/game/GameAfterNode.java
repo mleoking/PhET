@@ -12,8 +12,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.LeftoversValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNode;
+import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameGuess;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
@@ -26,7 +29,6 @@ import edu.umd.cs.piccolo.PNode;
 
 
 public class GameAfterNode extends GameBoxNode {
-    
     
     private static final String TITLE = RPALStrings.LABEL_AFTER_REACTION;
     private static final double TITLE_Y_SPACING = 10;
@@ -46,9 +48,13 @@ public class GameAfterNode extends GameBoxNode {
     private final ArrayList<QuantityValueNode> quantityValueNodes;
     private final ArrayList<LeftoversValueNode> leftoverValueNodes;
     private final ArrayList<ArrayList<SubstanceImageNode>> productImageNodeLists, leftoverImageNodeLists; // one list of images per product and leftover
+    private final MoleculesHiddenNode moleculesHiddenNode;
     
     public GameAfterNode( GameModel model ) {
         super( TITLE );
+        
+        GameChallenge challenge = model.getChallenge();
+        ChemicalReaction reaction = challenge.getReaction();
         
         // image node lists
         productImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
@@ -56,7 +62,7 @@ public class GameAfterNode extends GameBoxNode {
         
         // product images and value displays
         quantityValueNodes = new ArrayList<QuantityValueNode>();
-        Product[] products = model.getReaction().getProducts();
+        Product[] products = reaction.getProducts();
         for ( Product product : products ) {
             
             // one list of image nodes for each product 
@@ -70,7 +76,7 @@ public class GameAfterNode extends GameBoxNode {
         
         // leftovers images and value displays
         leftoverValueNodes = new ArrayList<LeftoversValueNode>();
-        Reactant[] reactants = model.getReaction().getReactants();
+        Reactant[] reactants = reaction.getReactants();
         for ( Reactant reactant : reactants ) {
             
             // one list of image nodes for each leftover 
@@ -155,12 +161,19 @@ public class GameAfterNode extends GameBoxNode {
         updateGuessImages();
         addChild( guessImagesNode );
         
+        // "images hidden" message node
+        moleculesHiddenNode = new MoleculesHiddenNode();
+        addChild( moleculesHiddenNode );
+        x = ( getBoxWidth() - moleculesHiddenNode.getFullBoundsReference().getWidth() ) / 2;
+        y = ( getBoxHeight() - moleculesHiddenNode.getFullBoundsReference().getHeight() ) / 2;
+        moleculesHiddenNode.setOffset( x, y );
+        
         // default state
-        if ( model.getChallengeType() == ChallengeType.AFTER ) {
-            showGuess( true /* editable */ );
+        if ( challenge.getChallengeType() == ChallengeType.AFTER ) {
+            showGuess( true /* editable */, challenge.isImagesVisible() );
         }
         else {
-            showAnswer();
+            showAnswer( challenge.isImagesVisible() );
         }
     }
     
@@ -168,13 +181,15 @@ public class GameAfterNode extends GameBoxNode {
         model.removeGameListener( gameListener );
     }
     
-    public void showAnswer() {
+    public void showAnswer( boolean showImages ) {
+        
+        ChemicalReaction reaction = model.getChallenge().getReaction();
         
         // products
         for ( int i = 0; i < quantityValueNodes.size(); i++ ) {
             QuantityValueNode valueNode = quantityValueNodes.get( i );
             // attach to product of reaction
-            valueNode.setSubstance( model.getReaction().getProduct( i ) );
+            valueNode.setSubstance( reaction.getProduct( i ) );
             // set to read-only
             valueNode.setEditable( false );
         }
@@ -183,23 +198,26 @@ public class GameAfterNode extends GameBoxNode {
         for ( int i = 0; i < leftoverValueNodes.size(); i++ ) {
             LeftoversValueNode valueNode = leftoverValueNodes.get( i );
             // attach to reactant of reaction
-            valueNode.setReactant( model.getReaction().getReactant( i ) );
+            valueNode.setReactant( reaction.getReactant( i ) );
             // set to read-only
             valueNode.setEditable( false );
         }
         
         // show images for reaction
-        answerImagesNode.setVisible( true );
-        guessImagesNode.setVisible( false );
+        showGuessImages( false );
+        showAnswerImages( showImages );
+        showImagesHiddenMessage( !showImages );
     }
     
-    public void showGuess( boolean editable ) {
+    public void showGuess( boolean editable, boolean showImages ) {
+        
+        GameGuess guess = model.getChallenge().getGuess();
         
         // products
         for ( int i = 0; i < quantityValueNodes.size(); i++ ) {
             QuantityValueNode valueNode = quantityValueNodes.get( i );
             // attach to product of guess
-            valueNode.setSubstance( model.getGuess().getProduct( i ) );
+            valueNode.setSubstance( guess.getProduct( i ) );
             // set editability
             valueNode.setEditable( editable );
         }
@@ -208,14 +226,27 @@ public class GameAfterNode extends GameBoxNode {
         for ( int i = 0; i < leftoverValueNodes.size(); i++ ) {
             LeftoversValueNode valueNode = leftoverValueNodes.get( i );
             // attach to reactant of guess
-            valueNode.setReactant( model.getGuess().getReactant( i ) );
+            valueNode.setReactant( guess.getReactant( i ) );
             // set to read-only
             valueNode.setEditable( editable );
         }
         
         // show images for user's answer
-        answerImagesNode.setVisible( false );
-        guessImagesNode.setVisible( true );
+        showAnswerImages( false );
+        showGuessImages( showImages );
+        showImagesHiddenMessage( false );
+    }
+    
+    public void showAnswerImages( boolean b ) {
+        answerImagesNode.setVisible( b );
+    }
+    
+    public void showGuessImages( boolean b ) {
+        guessImagesNode.setVisible( b );
+    }
+    
+    public void showImagesHiddenMessage( boolean b ) {
+        moleculesHiddenNode.setVisible( b );
     }
     
     /*
@@ -223,8 +254,10 @@ public class GameAfterNode extends GameBoxNode {
      */
     private void createAnswerImages() {
         
+        ChemicalReaction reaction = model.getChallenge().getReaction();
+        
         // products
-        Product[] products = model.getReaction().getProducts();
+        Product[] products = reaction.getProducts();
         PNode previousNode = null;
         for ( int i = 0; i < products.length; i++ ) {
             Product reactant = products[i];
@@ -237,7 +270,7 @@ public class GameAfterNode extends GameBoxNode {
         }
         
         // leftovers
-        Reactant[] reactants = model.getReaction().getReactants();
+        Reactant[] reactants = reaction.getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
             Reactant reactant = reactants[i];
             for ( int j = 0; j < reactant.getLeftovers(); j++ ) {
@@ -255,12 +288,14 @@ public class GameAfterNode extends GameBoxNode {
      */
     private void updateGuessImages() {
         
+        GameGuess guess = model.getChallenge().getGuess();
+        
         /*
          * Do all removal first, so that we free up space in the box.
          */
         
         // remove products
-        Product[] products = model.getGuess().getProducts();
+        Product[] products = guess.getProducts();
         for ( int i = 0; i < products.length; i++ ) {
             Product product = products[i];
             ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
@@ -275,7 +310,7 @@ public class GameAfterNode extends GameBoxNode {
         }
         
         // remove leftovers
-        Reactant[] reactants = model.getGuess().getReactants();
+        Reactant[] reactants = guess.getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = leftoverImageNodeLists.get( i );
