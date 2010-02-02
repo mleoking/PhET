@@ -12,6 +12,7 @@ HIGH PRIORITY
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 
 MEDIUM PRIORITY
+- expose SimpleGameStrategy.main as a Developer menu item
 - lighter weight methods (text?) of telling the user that the Game images will be hidden for a challenge
 - move timerVisible out of GameModel, doesn't belong there
 - explicitly handle tab traversal in play area
