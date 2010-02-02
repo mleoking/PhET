@@ -72,10 +72,10 @@ public class GameModel extends RPALModel {
     /*
      * Initializes a new game.
      */
-    private void initGame( int level, boolean timerVisible, boolean moleculeImagesVisible ) {
+    private void initGame( int level, boolean timerVisible, boolean imagesVisible ) {
         setLevel( level );
         setTimerVisible( timerVisible );
-        setImagesVisible( moleculeImagesVisible );
+        setImagesVisible( imagesVisible );
         setPoints( 0 );
         setAttempts( 0 );
         newChallenges();
@@ -158,7 +158,7 @@ public class GameModel extends RPALModel {
             getChallenge().getGuess().removeChangeListener( guessChangeListener );
         }
         challengeNumber = 0;
-        challenges = gameStrategy.createChallenges( getLevel() );
+        challenges = gameStrategy.createChallenges( getLevel(), isImagesVisible() );
         getChallenge().getGuess().addChangeListener( guessChangeListener );
         fireChallengeChanged();
     }

@@ -13,7 +13,8 @@ public interface IGameStrategy {
      * Creates a set of challenges.
      * 
      * @param level
+     * @param imagesVisible
      * @return
      */
-    public GameChallenge[] createChallenges( int level );
+    public GameChallenge[] createChallenges( int level, boolean imagesVisible );
 }

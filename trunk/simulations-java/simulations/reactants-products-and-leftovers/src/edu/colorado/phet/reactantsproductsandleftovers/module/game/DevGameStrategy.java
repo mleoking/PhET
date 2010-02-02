@@ -23,7 +23,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  */
 public class DevGameStrategy extends AbstractGameStrategy {
     
-    protected GameChallenge[] createChallengesAux( int level ) {
+    protected GameChallenge[] createChallengesAux( int level, boolean imagesVisible ) {
        
         GameChallenge[] challenges = new GameChallenge[ getChallengesPerGame() ];
         for ( int i = 0; i < challenges.length; i++ ) {
@@ -49,7 +49,7 @@ public class DevGameStrategy extends AbstractGameStrategy {
                 reactant.setQuantity( getRandomQuantity() );
             }
             
-            challenges[i] = new GameChallenge( challengeType, reaction );
+            challenges[i] = new GameChallenge( reaction, challengeType, imagesVisible );
         }
         return challenges;
     }

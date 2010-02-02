@@ -81,7 +81,7 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
      */
     public SimpleGameStrategy() {}
 
-    protected GameChallenge[] createChallengesAux( int level ) {
+    protected GameChallenge[] createChallengesAux( int level, boolean imagesVisible ) {
 
         GameChallenge[] challenges = new GameChallenge[ getChallengesPerGame() ];
         ChemicalReaction previousReaction = null;
@@ -107,7 +107,7 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
                 reactant.setQuantity( getRandomQuantity() );
             }
 
-            challenges[i] = new GameChallenge( challengeType, reaction );
+            challenges[i] = new GameChallenge( reaction, challengeType, imagesVisible );
             previousReaction = reaction;
         }
         return challenges;
