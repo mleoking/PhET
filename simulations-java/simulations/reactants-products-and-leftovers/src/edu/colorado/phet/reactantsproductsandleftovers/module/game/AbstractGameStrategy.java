@@ -40,8 +40,8 @@ public abstract class AbstractGameStrategy implements IGameStrategy {
      * Relies on the subclass to create the challenges.
      * Then fixes any problems related to quantity range violations.
      */
-    public GameChallenge[] createChallenges( int level ) {
-        GameChallenge[] challenges = createChallengesAux( level );
+    public GameChallenge[] createChallenges( int level, boolean imagesVisible ) {
+        GameChallenge[] challenges = createChallengesAux( level, imagesVisible );
         fixQuantityRangeViolations( challenges );
         return challenges;
     }
@@ -51,7 +51,7 @@ public abstract class AbstractGameStrategy implements IGameStrategy {
      * 
      * @param level
      */
-    protected abstract GameChallenge[] createChallengesAux( int level );
+    protected abstract GameChallenge[] createChallengesAux( int level, boolean imagesVisible );
     
     /*
      * Uses reflection to instantiate a chemical reaction by class.
