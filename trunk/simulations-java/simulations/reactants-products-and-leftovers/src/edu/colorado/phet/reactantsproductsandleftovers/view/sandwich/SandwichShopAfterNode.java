@@ -16,6 +16,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.Stac
 public class SandwichShopAfterNode extends AbstractAfterNode {
 
     public SandwichShopAfterNode( SandwichShopModel model ) {
-        super( RPALStrings.LABEL_AFTER_SANDWICH, model.getReaction(), model.getQuantityRange(), false /* showSubstanceName */, new StackedLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
+        super( RPALStrings.LABEL_AFTER_SANDWICH, model.getReaction(), SandwichShopModel.getQuantityRange(), false /* showSubstanceName */, new StackedLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
     }
 }

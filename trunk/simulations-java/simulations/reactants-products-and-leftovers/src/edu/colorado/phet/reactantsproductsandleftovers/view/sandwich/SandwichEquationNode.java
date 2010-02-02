@@ -76,7 +76,7 @@ public class SandwichEquationNode extends PhetPNode {
             final Reactant reactant = reactants[i];
             
             // coefficient spinner
-            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( model.getCoefficientRange() );
+            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( SandwichShopModel.getCoefficientRange() );
             spinnerNode.scale( 2 ); // setting font size would be preferable, but doesn't change size of up/down arrows on Mac
             spinnerNode.setValue( reactant.getCoefficient() );
             spinnerNode.addChangeListener( new ChangeListener() {
