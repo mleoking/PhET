@@ -25,6 +25,7 @@ public class ReactionNumberLabelNode extends PText {
         setTextPaint( COLOR );
         setNumber( model.getChallengeNumber() );
         model.addGameListener( new GameAdapter() {
+            @Override
             public void challengeChanged() {
                 setNumber( model.getChallengeNumber() + 1 ); // model numbers challenges starting at 0, so +1
             }
