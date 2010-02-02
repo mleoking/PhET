@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 
@@ -52,32 +54,30 @@ public abstract class AbstractGameStrategy implements IGameStrategy {
     protected abstract GameChallenge[] createChallengesAux( int level );
     
     /*
-     * Ensure that all quantity values are in the range supported by the model and user interface.
+     * Uses reflection to instantiate a chemical reaction by class.
+     */
+    protected static ChemicalReaction instantiateReaction( Class<?> c ) {
+        ChemicalReaction reaction = null;
+        try {
+            reaction = (ChemicalReaction) c.newInstance(); //XXX eliminate cast
+        }
+        catch ( InstantiationException e ) {
+            e.printStackTrace();
+        }
+        catch ( IllegalAccessException e ) {
+            e.printStackTrace();
+        }
+        return reaction;
+    }
+    
+    /*
+     * Ensures that all quantity values are in the range supported by the model and user interface.
      */
     private void fixQuantityRangeViolations( GameChallenge[] challenges ) {
         for ( GameChallenge challenge : challenges ) {
             ChemicalReaction reaction = challenge.getReaction();
             fixQuantityRangeViolation( reaction );
         }
-    }
-    
-    /*
-     * Check a reaction for quantity range violations.
-     */
-    protected static boolean hasQuantityRangeViolation( ChemicalReaction reaction ) {
-        final int maxQuantity = GameModel.getQuantityRange().getMax();
-        boolean violation = false;
-        for ( int i = 0; !violation && i < reaction.getNumberOfReactants(); i++ ) {
-            if ( reaction.getReactant( i ).getQuantity() > maxQuantity || reaction.getReactant( i ).getLeftovers() > maxQuantity ) {
-                violation = true;
-            }
-        }
-        for ( int i = 0; !violation && i < reaction.getNumberOfProducts(); i++ ) {
-            if ( reaction.getProduct( i ).getQuantity() > maxQuantity ) {
-                violation = true;
-            }
-        }
-        return violation;
     }
     
     /*
@@ -133,6 +133,44 @@ public abstract class AbstractGameStrategy implements IGameStrategy {
             if ( DEBUG_OUTPUT_ENABLED ) {
                 System.out.println( " fixed: " + reaction.getQuantitiesString() );
             }
+        }
+    }
+    
+    /*
+     * Checks a reaction for quantity range violations.
+     */
+    protected static boolean hasQuantityRangeViolation( ChemicalReaction reaction ) {
+        final int maxQuantity = GameModel.getQuantityRange().getMax();
+        boolean violation = false;
+        for ( int i = 0; !violation && i < reaction.getNumberOfReactants(); i++ ) {
+            if ( reaction.getReactant( i ).getQuantity() > maxQuantity || reaction.getReactant( i ).getLeftovers() > maxQuantity ) {
+                violation = true;
+            }
+        }
+        for ( int i = 0; !violation && i < reaction.getNumberOfProducts(); i++ ) {
+            if ( reaction.getProduct( i ).getQuantity() > maxQuantity ) {
+                violation = true;
+            }
+        }
+        return violation;
+    }
+    
+    /*
+     * Looks for equations that will experience a violation of the quantity range.
+     * Suppose the quantity range is 0-N.  For some reactions, setting the reactant quantities 
+     * to N will result in a product quantity > N.  This will result in range violations 
+     * elsewhere in the application, for example in the controls used to set and display
+     * quantity values.
+     */
+    protected static void analyzeRangeViolations( ArrayList<Class<?>> reactionClasses ) {
+        for ( Class<?> reactionClass : reactionClasses ) {
+            ChemicalReaction reaction = instantiateReaction( reactionClass );
+            // set all reactant quantities to their max values.
+            for ( Reactant reactant : reaction.getReactants() ) {
+                reactant.setQuantity( getMaxQuantity() );
+            }
+            // look for violations and try to fix them.
+            fixQuantityRangeViolation( reaction );
         }
     }
 }
