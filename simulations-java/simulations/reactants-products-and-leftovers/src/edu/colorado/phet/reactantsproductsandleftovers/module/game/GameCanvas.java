@@ -285,6 +285,7 @@ public class GameCanvas extends RPALCanvas {
             else {
                 visibilityManager.setVisibility( SECOND_ATTEMPT_CORRECT_STATE );
             }
+            showImagesForCorrectGuess();
         }
         else {
             faceNode.frown();
@@ -320,7 +321,7 @@ public class GameCanvas extends RPALCanvas {
         //XXX call cleanup on these dynamic nodes so we don't have memory leaks
 
         parentNode.removeChild( equationNode );
-        equationNode = new RealReactionEquationNode( model.getReaction() );
+        equationNode = new RealReactionEquationNode( model.getChallenge().getReaction() );
         parentNode.addChild( equationNode );
 
         if ( beforeNode != null ) {
@@ -351,7 +352,7 @@ public class GameCanvas extends RPALCanvas {
      * Updates the layout of all nodes.
      */
     private void updateNodesLayout() {
-
+        
         // reaction number label in upper right
         double x = 0;
         double y = 7;  // eyeballed this to align it with baseline of equationNode, which is HTML
@@ -387,7 +388,7 @@ public class GameCanvas extends RPALCanvas {
         // face a little above center in proper box
         {
             GameBoxNode boxNode = null;
-            if ( model.getChallengeType() == ChallengeType.AFTER ) {
+            if ( model.getChallenge().getChallengeType() == ChallengeType.AFTER ) {
                 boxNode = afterNode;
             }
             else {
@@ -406,7 +407,7 @@ public class GameCanvas extends RPALCanvas {
         // instructions centered in proper box
         {
             GameBoxNode boxNode = null;
-            if ( model.getChallengeType() == ChallengeType.AFTER ) {
+            if ( model.getChallenge().getChallengeType() == ChallengeType.AFTER ) {
                 instructionsNode.setText( RPALStrings.QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS );
                 boxNode = afterNode;
             }
@@ -456,7 +457,7 @@ public class GameCanvas extends RPALCanvas {
         
         // put visible buttons at bottom center of the proper box
         GameBoxNode boxNode = null;
-        if ( model.getChallengeType() == ChallengeType.AFTER ) {
+        if ( model.getChallenge().getChallengeType() == ChallengeType.AFTER ) {
             boxNode = afterNode;
         }
         else {
@@ -480,23 +481,36 @@ public class GameCanvas extends RPALCanvas {
      * Shows the user's guess in the appropriate box, with optionally editable spinners.
      */
     private void showGuess( boolean editable ) {
-        if ( model.getChallengeType() == ChallengeType.AFTER ) {
-            afterNode.showGuess( editable );
+        GameChallenge challenge = model.getChallenge();
+        if ( challenge.getChallengeType() == ChallengeType.AFTER ) {
+            afterNode.showGuess( editable, challenge.isImagesVisible() );
         }
         else {
-            beforeNode.showGuess( editable );
+            beforeNode.showGuess( editable, challenge.isImagesVisible() );
         }
+    }
+
+    /*
+     * Shows the correct answer, with images.
+     */
+    private void showAnswer() {
+        afterNode.showAnswer( true );
+        beforeNode.showAnswer( true );
     }
     
     /*
-     * Shows the correct answer in the appropriate box.
+     * Shows molecule images for a correct guess.
      */
-    private void showAnswer() {
-        if ( model.getChallengeType() == ChallengeType.AFTER ) {
-            afterNode.showAnswer();
-        }
-        else {
-            beforeNode.showAnswer();
-        }
+    private void showImagesForCorrectGuess() {
+        
+        boolean after = ( model.getChallenge().getChallengeType() == ChallengeType.AFTER );
+        
+        afterNode.showGuessImages( after );
+        afterNode.showAnswerImages( !after );
+        afterNode.showImagesHiddenMessage( false );
+        
+        beforeNode.showGuessImages( !after );
+        beforeNode.showAnswerImages( after );
+        beforeNode.showImagesHiddenMessage( false );
     }
 }
