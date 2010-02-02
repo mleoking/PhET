@@ -23,9 +23,11 @@ public class GameModel extends RPALModel {
     
     private static final int CHALLENGES_PER_GAME = 10;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
-    private static final boolean DEFAULT_TIMER_ENABLED = true;
     private static final double POINTS_FIRST_ATTEMPT = 1;  // points to award for correct guess on 1st attempt
     private static final double POINTS_SECOND_ATTEMPT = 0.5; // points to award for correct guess on 2nd attempt
+    
+    private static final boolean DEFAULT_TIMER_VISIBLE = true;
+    private static final boolean DEFAULT_MOLECULE_IMAGES_VISIBLE = true;
     
     private final ArrayList<GameListener> listeners;
     private final GameTimer timer;
@@ -38,6 +40,7 @@ public class GameModel extends RPALModel {
     private boolean timerVisible; // is the timer visible?
     private int attempts; // how many attempts the user has made at solving the current challenge
     private double points; // how many points the user has earned for the current game
+    private boolean imagesVisible; // whether to molecule images are visible while the user is solving a challenge
     
     public GameModel( IClock clock ) {
         
@@ -61,16 +64,18 @@ public class GameModel extends RPALModel {
         };
         
         gameStrategy = new SimpleGameStrategy();
+        imagesVisible = true;
         
-        initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_ENABLED );
+        initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_VISIBLE, DEFAULT_MOLECULE_IMAGES_VISIBLE );
     }
     
     /*
      * Initializes a new game.
      */
-    private void initGame( int level, boolean timerVisible ) {
+    private void initGame( int level, boolean timerVisible, boolean moleculeImagesVisible ) {
         setLevel( level );
         setTimerVisible( timerVisible );
+        setImagesVisible( moleculeImagesVisible );
         setPoints( 0 );
         setAttempts( 0 );
         newChallenges();
@@ -91,8 +96,8 @@ public class GameModel extends RPALModel {
      * @param level
      * @param timerVisible
      */
-    public void startGame( int level, boolean timerVisible ) {
-        initGame( level, timerVisible );
+    public void startGame( int level, boolean timerVisible, boolean moleculeImagesVisible ) {
+        initGame( level, timerVisible, moleculeImagesVisible );
         timer.start();
         fireGameStarted();
     }
@@ -249,7 +254,6 @@ public class GameModel extends RPALModel {
      * Determines whether the game timer is visible.
      * @param visible
      */
-    //XXX This doesn't belong in the model
     private void setTimerVisible( boolean visible ) {
         if ( visible != this.timerVisible ) {
             this.timerVisible = visible;
@@ -261,9 +265,27 @@ public class GameModel extends RPALModel {
      * Is the game timer visible?
      * @return
      */
-    //XXX This doesn't belong in the model
     public boolean isTimerVisible() {
         return timerVisible;
+    }
+    
+    /**
+     * Determines whether molecule images are visible while the user is solving a challenge.
+     * @param moleculeImagesVisible
+     */
+    private void setImagesVisible( boolean moleculeImagesVisible ) {
+        if ( moleculeImagesVisible != this.imagesVisible ) {
+            this.imagesVisible = moleculeImagesVisible;
+            fireImagesVisibleChanged();
+        }
+    }
+    
+    /**
+     * Are molecule images visible while the user is solving a challenge?
+     * @return
+     */
+    public boolean isImagesVisible() {
+        return imagesVisible;
     }
     
     /**
@@ -328,6 +350,7 @@ public class GameModel extends RPALModel {
         public void levelChanged(); // the level of difficulty changed
         public void attemptsChanged(); // the number of attempts changed
         public void timerVisibleChanged(); // the timer visibility was changed
+        public void imagesVisibleChanged(); // the visibility of molecule images changed
         public void timeChanged(); // the time shown on the timer changed
     }
     
@@ -345,6 +368,7 @@ public class GameModel extends RPALModel {
         public void levelChanged() {}
         public void attemptsChanged() {}
         public void timerVisibleChanged() {}
+        public void imagesVisibleChanged() {}
         public void timeChanged() {}
     }
     
@@ -453,6 +477,16 @@ public class GameModel extends RPALModel {
         }
         for ( GameListener listener : listenersCopy ) {
             listener.timerVisibleChanged();
+        }
+    }
+    
+    private void fireImagesVisibleChanged() {
+        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel.fireMoleculeImagesVisibleChanged, notifying " + listenersCopy.size() + " listeners" );
+        }
+        for ( GameListener listener : listenersCopy ) {
+            listener.imagesVisibleChanged();
         }
     }
     

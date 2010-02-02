@@ -32,6 +32,7 @@ public class GameSettingsNode extends PhetPNode {
 
     private final JRadioButton[] levelRadioButtons;
     private final JRadioButton timerOnRadioButton, timerOffRadioButton;
+    private final JRadioButton imagesOnRadioButton, imagesOffRadioButton;
     
     public GameSettingsNode( final GameModel model ) {
         super();
@@ -55,10 +56,10 @@ public class GameSettingsNode extends PhetPNode {
         }
         
         // Timer control
-        JLabel timerLabel = new JLabel( new ImageIcon( RPALImages.STOPWATCH, RPALStrings.LABEL_TIMER ) );
-        timerOnRadioButton = new JRadioButton( "on" );
+        JLabel timerLabel = new JLabel( new ImageIcon( RPALImages.STOPWATCH ) );
+        timerOnRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_ON );
         timerOnRadioButton.setOpaque( false );
-        timerOffRadioButton = new JRadioButton( "off" );
+        timerOffRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_OFF );
         timerOffRadioButton.setOpaque( false );
         ButtonGroup timerButtonGroup = new ButtonGroup();
         timerButtonGroup.add( timerOnRadioButton );
@@ -69,6 +70,21 @@ public class GameSettingsNode extends PhetPNode {
         timerPanel.add( timerOnRadioButton );
         timerPanel.add( timerOffRadioButton );
         
+        // Molecule images control
+        JLabel imagesLabel = new JLabel( new ImageIcon( RPALImages.H2O ) );
+        imagesOnRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_ON );
+        imagesOnRadioButton.setOpaque( false );
+        imagesOffRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_OFF );
+        imagesOffRadioButton.setOpaque( false );
+        ButtonGroup imageButtonGroup = new ButtonGroup();
+        imageButtonGroup.add( imagesOnRadioButton );
+        imageButtonGroup.add( imagesOffRadioButton );
+        timerOffRadioButton.setSelected( true );
+        JPanel imagesPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+        imagesPanel.setOpaque( false );
+        imagesPanel.add( imagesOnRadioButton );
+        imagesPanel.add( imagesOffRadioButton );
+        
         JSeparator separator = new JSeparator();
         separator.setForeground( Color.BLACK );
         
@@ -76,7 +92,7 @@ public class GameSettingsNode extends PhetPNode {
         JButton startButton = new JButton( "Start!" );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.startGame( getLevel(), isTimerOnSelected() );
+                model.startGame( getLevel(), isTimerOnSelected(), isImagesOnSelected() );
             }
         });
         
@@ -95,6 +111,9 @@ public class GameSettingsNode extends PhetPNode {
         column = 0;
         layout.addAnchoredComponent( timerLabel, row, column++, GridBagConstraints.EAST );
         layout.addComponent( timerPanel, row++, column );
+        column = 0;
+        layout.addAnchoredComponent( imagesLabel, row, column++, GridBagConstraints.EAST );
+        layout.addComponent( imagesPanel, row++, column );
         column = 0;
         layout.addFilledComponent( separator, row++, column, 2, 1, GridBagConstraints.HORIZONTAL );
         layout.addComponent( startButton, row++, column, 2, 1, GridBagConstraints.CENTER );
@@ -115,11 +134,17 @@ public class GameSettingsNode extends PhetPNode {
             public void timerVisibleChanged() {
                 setTimerOnSelected( model.isTimerVisible() );
             }
+            
+            @Override
+            public void imagesVisibleChanged() {
+                setImagesOnSelected( model.isImagesVisible() );
+            }
         });
         
         // initial state
         setLevel( model.getLevel() );
         setTimerOnSelected( model.isTimerVisible() );
+        setImagesOnSelected( model.isImagesVisible() );
     }
     
     private void setLevel( int level ) {
@@ -146,5 +171,14 @@ public class GameSettingsNode extends PhetPNode {
     
     private boolean isTimerOnSelected() {
         return timerOnRadioButton.isSelected();
+    }
+    
+    private void setImagesOnSelected( boolean selected ) {
+        imagesOnRadioButton.setSelected( selected );
+        imagesOffRadioButton.setSelected( !selected );
+    }
+    
+    private boolean isImagesOnSelected() {
+        return imagesOnRadioButton.isSelected();
     }
 }
