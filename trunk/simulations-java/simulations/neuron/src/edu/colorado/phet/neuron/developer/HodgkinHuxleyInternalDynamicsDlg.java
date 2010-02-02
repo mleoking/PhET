@@ -34,6 +34,8 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 	private static final Font DISPLAY_FONT = new PhetFont(14);
 	
 	private HodgkinHuxleyModel hodgkinHuxleyModel;
+	private JLabel timeLabel = new JLabel("Time: ");
+	private JTextField timeText = new JTextField("000.0000 ms");
 	private JLabel voltageLabel = new JLabel("Membrane Voltage: ");
 	private JTextField voltageText = new JTextField("00.0 mV");
 	private JLabel soduimChannelCurrentLabel = new JLabel("Sodium Channel Current: ");
@@ -49,13 +51,16 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 	private JButton captureButton = new JButton();
 	private boolean capturing = false;
 	
+	// TODO: For debug, remove.  Now.
+	private double previousElapsedTime = 1000000;
+	
 	private ArrayList<HhDataCaptureEntry> captureData = new ArrayList<HhDataCaptureEntry>();
 	
 	public HodgkinHuxleyInternalDynamicsDlg(IClock clock, HodgkinHuxleyModel hhModel) {
 		hodgkinHuxleyModel = hhModel;
 		
 		setTitle("Hodgkin-Huxley Model Internal Dynamics");
-		setLayout(new GridLayout(7,2));
+		setLayout(new GridLayout(8,2));
 		
 		// Update ourself on every clock tick that we are visible.
 		clock.addClockListener(new ClockAdapter(){
@@ -65,6 +70,12 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 		    	}
 		    }
 		});
+		
+		timeLabel.setFont(DISPLAY_FONT);
+		add(timeLabel);
+		timeText.setFont(DISPLAY_FONT);
+		timeText.setEditable(false);
+		add(timeText);
 		
 		voltageLabel.setFont(DISPLAY_FONT);
 		add(voltageLabel);
@@ -121,22 +132,27 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 	}
 	
 	private void update(){
-		double membraneVoltage = hodgkinHuxleyModel.getMembraneVoltage() * 1000;
-		double currentNa = hodgkinHuxleyModel.get_na_current();
-		double currentK = hodgkinHuxleyModel.get_k_current();
-		double currentLeak = hodgkinHuxleyModel.get_l_current();
-		double n4 = hodgkinHuxleyModel.get_n4();
-		double m3h = hodgkinHuxleyModel.get_m3h();
-		voltageText.setText(String.format("%.2f mV", membraneVoltage));
-		sodiumChannelCurrentValue.setText(String.format("%.2f mA", currentNa));
-		potassiumChannelCurrentValue.setText(String.format("%.2f mA", currentK));
-		leakChannelCurrentValue.setText(String.format("%.2f mA", currentLeak));
-		n4Value.setText(String.format("%.5f", n4));
-		m3hValue.setText(String.format("%.5f", m3h));
-		
-		if (capturing){
-			captureData.add(new HhDataCaptureEntry(membraneVoltage, currentNa, currentK, currentLeak, n4, m3h));
+		double elapsedTime = hodgkinHuxleyModel.getElapsedTime();
+		if (elapsedTime != previousElapsedTime){
+			double membraneVoltage = hodgkinHuxleyModel.getMembraneVoltage() * 1000;
+			double currentNa = hodgkinHuxleyModel.get_na_current();
+			double currentK = hodgkinHuxleyModel.get_k_current();
+			double currentLeak = hodgkinHuxleyModel.get_l_current();
+			double n4 = hodgkinHuxleyModel.get_n4();
+			double m3h = hodgkinHuxleyModel.get_m3h();
+			timeText.setText(String.format("%.4f ms", elapsedTime));
+			voltageText.setText(String.format("%.2f mV", membraneVoltage));
+			sodiumChannelCurrentValue.setText(String.format("%.2f mA", currentNa));
+			potassiumChannelCurrentValue.setText(String.format("%.2f mA", currentK));
+			leakChannelCurrentValue.setText(String.format("%.2f mA", currentLeak));
+			n4Value.setText(String.format("%.5f", n4));
+			m3hValue.setText(String.format("%.5f", m3h));
+			
+			if (capturing){
+				captureData.add(new HhDataCaptureEntry(elapsedTime, membraneVoltage, currentNa, currentK, currentLeak, n4, m3h));
+			}
 		}
+		previousElapsedTime = elapsedTime;
 	}
 	
 	private void updateCaptureButtonState(){
@@ -168,6 +184,7 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 	
 	private static class HhDataCaptureEntry {
 		
+		private final double elapsedTime;
 		private final double membraneVoltage;
 		private final double currentNa;
 		private final double currentK;
@@ -175,9 +192,9 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 		private final double n4;
 		private final double m3h;
 		
-		public HhDataCaptureEntry(double membraneVoltage, double currentNa,
+		public HhDataCaptureEntry(double elapsedTime, double membraneVoltage, double currentNa,
 				double currentK, double currentLeak, double n4, double m3h) {
-			super();
+			this.elapsedTime = elapsedTime;
 			this.membraneVoltage = membraneVoltage;
 			this.currentNa = currentNa;
 			this.currentK = currentK;
@@ -187,12 +204,13 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 		}
 		
 		protected static String getHeader(){
-			return "membraneVoltage, currentNa, currentK, currentLeak, n4, m3h\n";
+			return "elapsedTime, membraneVoltage, currentNa, currentK, currentLeak, n4, m3h\n";
 		}
 		
 		@Override
 		public String toString(){
 			String retVal = new String();
+			retVal += String.format("%.4f, ", elapsedTime);
 			retVal += String.format("%.2f, ", membraneVoltage);
 			retVal += String.format("%.2f, ", currentNa);
 			retVal += String.format("%.2f, ", currentK);
