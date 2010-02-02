@@ -138,32 +138,8 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
         return instantiateReaction( REACTIONS[levelIndex][reactionIndex] );
     }
 
-    /*
-     * Uses reflection to instantiate a chemical reaction by class.
-     */
-    private static ChemicalReaction instantiateReaction( Class<?> c ) {
-        ChemicalReaction reaction = null;
-        try {
-            reaction = (ChemicalReaction) c.newInstance(); //XXX eliminate cast
-        }
-        catch ( InstantiationException e ) {
-            e.printStackTrace();
-        }
-        catch ( IllegalAccessException e ) {
-            e.printStackTrace();
-        }
-        return reaction;
-    }
-    
-    /*
-     * Looks for equations that will experience a violation of the quantity range.
-     * Suppose the quantity range is 0-N.  For some reactions, setting the reactant quantities 
-     * to N will result in a product quantity > N.  This will result in range violations 
-     * elsewhere in the application, for example in the controls used to set and display
-     * quantity values.
-     */
-    private static void analyzeRangeViolations() {
-        
+    // test for range violations inherent in reactions, and verify that they are fixable.
+    public static void main( String[] args ) {
         // put all reaction in a container, removing duplicates.
         ArrayList<Class<?>> reactionClasses = new ArrayList<Class<?>>();
         for ( int i = 0; i < REACTIONS.length; i++ ) {
@@ -174,21 +150,6 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
                 }
             }
         }
-        
-        // check every reaction class
-        for ( Class<?> reactionClass : reactionClasses ) {
-            ChemicalReaction reaction = instantiateReaction( reactionClass );
-            // set all reactant quantities to their max values.
-            for ( Reactant reactant : reaction.getReactants() ) {
-                reactant.setQuantity( getMaxQuantity() );
-            }
-            // look for violations and try to fix them.
-            fixQuantityRangeViolation( reaction );
-        }
-    }
-    
-    // test for range violations inherent in reactions, and verified that they are fixable.
-    public static void main( String[] args ) {
-        analyzeRangeViolations();
+        analyzeRangeViolations( reactionClasses );
     }
 }
