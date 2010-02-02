@@ -1,3 +1,4 @@
+# 0.00.21 (38377) Feb 2, 2010
 2/2/10 added Game Setting to hide molecules, will be used in interviews
 1/23/10 met deadline (1/28/10) for having Game fleshed out with more reactions for interviews
 # 0.00.20 (38231) Jan 23, 2010
