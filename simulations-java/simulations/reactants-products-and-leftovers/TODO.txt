@@ -12,6 +12,10 @@ HIGH PRIORITY
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 
 MEDIUM PRIORITY
+- incentive to play higher levels? (better rewards, more points,...)
+- automatically increase the level setting when user gets a perfect score?
+- award more points for higher levels?
+- don't show Score: X/max in scoreboard, just show Score: X, then show X/max in Game Summary?
 - expose SimpleGameStrategy.main as a Developer menu item
 - lighter weight methods (text?) of telling the user that the Game images will be hidden for a challenge
 - move timerVisible out of GameModel, doesn't belong there
