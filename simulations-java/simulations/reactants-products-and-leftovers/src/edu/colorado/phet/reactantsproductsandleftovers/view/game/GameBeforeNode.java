@@ -101,7 +101,7 @@ public class GameBeforeNode extends GameBoxNode {
         gameListener = new GameAdapter() {
             @Override 
             public void guessChanged() {
-              updateGuessImages();
+                updateGuessImages();
             }
         };
         model.addGameListener( gameListener );
