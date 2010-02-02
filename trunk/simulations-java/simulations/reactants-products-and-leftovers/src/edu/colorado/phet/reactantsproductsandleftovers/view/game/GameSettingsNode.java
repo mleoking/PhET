@@ -32,7 +32,7 @@ public class GameSettingsNode extends PhetPNode {
 
     private final JRadioButton[] levelRadioButtons;
     private final JRadioButton timerOnRadioButton, timerOffRadioButton;
-    private final JRadioButton imagesOnRadioButton, imagesOffRadioButton;
+    private final JRadioButton imagesShowRadioButton, imagesHideRadioButton;
     
     public GameSettingsNode( final GameModel model ) {
         super();
@@ -64,26 +64,24 @@ public class GameSettingsNode extends PhetPNode {
         ButtonGroup timerButtonGroup = new ButtonGroup();
         timerButtonGroup.add( timerOnRadioButton );
         timerButtonGroup.add( timerOffRadioButton );
-        timerOffRadioButton.setSelected( true );
         JPanel timerPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         timerPanel.setOpaque( false );
         timerPanel.add( timerOnRadioButton );
         timerPanel.add( timerOffRadioButton );
         
         // Molecule images control
-        JLabel imagesLabel = new JLabel( new ImageIcon( RPALImages.H2O ) );
-        imagesOnRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_ON );
-        imagesOnRadioButton.setOpaque( false );
-        imagesOffRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_OFF );
-        imagesOffRadioButton.setOpaque( false );
+        JLabel imagesLabel = new JLabel( new ImageIcon( RPALImages.CH2O ) );
+        imagesShowRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_SHOW );
+        imagesShowRadioButton.setOpaque( false );
+        imagesHideRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_HIDE );
+        imagesHideRadioButton.setOpaque( false );
         ButtonGroup imageButtonGroup = new ButtonGroup();
-        imageButtonGroup.add( imagesOnRadioButton );
-        imageButtonGroup.add( imagesOffRadioButton );
-        timerOffRadioButton.setSelected( true );
+        imageButtonGroup.add( imagesShowRadioButton );
+        imageButtonGroup.add( imagesHideRadioButton );
         JPanel imagesPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         imagesPanel.setOpaque( false );
-        imagesPanel.add( imagesOnRadioButton );
-        imagesPanel.add( imagesOffRadioButton );
+        imagesPanel.add( imagesShowRadioButton );
+        imagesPanel.add( imagesHideRadioButton );
         
         JSeparator separator = new JSeparator();
         separator.setForeground( Color.BLACK );
@@ -174,11 +172,11 @@ public class GameSettingsNode extends PhetPNode {
     }
     
     private void setImagesOnSelected( boolean selected ) {
-        imagesOnRadioButton.setSelected( selected );
-        imagesOffRadioButton.setSelected( !selected );
+        imagesShowRadioButton.setSelected( selected );
+        imagesHideRadioButton.setSelected( !selected );
     }
     
     private boolean isImagesOnSelected() {
-        return imagesOnRadioButton.isSelected();
+        return imagesShowRadioButton.isSelected();
     }
 }
