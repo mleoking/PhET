@@ -87,7 +87,7 @@ public class AxonModel {
 			public void clockTicked(ClockEvent clockEvent) {
 				handleClockTicked(clockEvent);
 			}
-        });
+        });        
     }
     
     //----------------------------------------------------------------------------
@@ -125,6 +125,10 @@ public class AxonModel {
     	}
     	
     	return numChannels;
+    }
+    
+    public int getNumMembraneChannels(){
+    	return channels.size();
     }
     
     /**
@@ -178,6 +182,15 @@ public class AxonModel {
     	for ( AbstractMembraneChannel channel : tempChannelList){
     		removeChannel(channel.getChannelType());
     	}
+    	
+    	// Add the initial channels.
+        for (int i = 0; i < 8; i++){
+        	addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
+        }
+        for (int i = 0; i < 12; i++){
+        	addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
+        }
+
     	
     	// Move the particles to the appropriate initial locations by setting
     	// the target proportions.
@@ -511,29 +524,25 @@ public class AxonModel {
     	}
     	
     	// Find a position for the new channel.
+    	
+    	/*
+    	 * TODO: The following code distributes the channels fairly evenly around the
+    	 * membrane based on channel type.  This was commented out on Feb 2 2010
+    	 * because the specification changed to having the channels be grouped.
+    	 * Remove this or reinstate it once the desired behavior is worked out.
+
     	double angleOffset = channelType == MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL ? 0 : 
     		Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE;
-    	/*
-    	double angle = 0;
-    	double radius = axonMembrane.getCrossSectionDiameter() / 2;
-    	Point2D newLocation = new Point2D.Double();
-    	boolean foundOpenSpot = false;
-    	for (int i = 0; i < NeuronConstants.MAX_CHANNELS_PER_TYPE && !foundOpenSpot; i++){
-    		angle = i * 2 * Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE + angleOffset + (i % 2) * Math.PI;
-    		newLocation = new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle));
-    		// Make sure this position isn't already taken.
-    		foundOpenSpot = true;
-    		for (AbstractMembraneChannel channel : channels){
-    			if (channel.getCenterLocation().distance(newLocation) < 1){
-    				foundOpenSpot = false;
-    				break;
-    			}
-    		}
-    	}
-    	*/
+    	
     	int numChannelsOfThisType = getNumMembraneChannels(channelType);
     	double angle = (double)(numChannelsOfThisType % 2) * Math.PI + 
     		(double)(numChannelsOfThisType / 2) * 2 * Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE + angleOffset;
+    	double radius = axonMembrane.getCrossSectionDiameter() / 2;
+		Point2D newLocation = new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle));
+		
+		*/
+    	
+    	double angle = Math.PI * 0.3 + getNumMembraneChannels() * Math.PI / 2 + (getNumMembraneChannels() / 4) * Math.PI * 0.075;
     	double radius = axonMembrane.getCrossSectionDiameter() / 2;
 		Point2D newLocation = new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle));
     	

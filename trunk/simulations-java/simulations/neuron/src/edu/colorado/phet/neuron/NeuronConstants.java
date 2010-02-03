@@ -86,5 +86,5 @@ public class NeuronConstants {
     //----------------------------------------------------------------------------
     
     // Max gates of a given type.
-    public static final int MAX_CHANNELS_PER_TYPE = 10;
+    public static final int MAX_CHANNELS_PER_TYPE = 12;
 }
