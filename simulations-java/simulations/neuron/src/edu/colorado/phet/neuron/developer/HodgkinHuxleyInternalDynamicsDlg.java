@@ -24,8 +24,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.neuron.model.HodgkinHuxleyModel;
 
 /**
- * Dialog the displays the internal dynamics of a Hodgkin-Huxley model, such
- * as the current flow in various channels, the membrane voltage, etc.
+ * Dialog that displays the internal dynamics of a Hodgkin-Huxley model, such
+ * as the current flow in various channels, the membrane voltage, etc.  This
+ * is intended as a developer control.
  * 
  * @author John Blanco
  */
@@ -51,7 +52,7 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 	private JButton captureButton = new JButton();
 	private boolean capturing = false;
 	
-	// TODO: For debug, remove.  Now.
+	// Used to verify that time has changed since last update.
 	private double previousElapsedTime = 1000000;
 	
 	private ArrayList<HhDataCaptureEntry> captureData = new ArrayList<HhDataCaptureEntry>();
