@@ -2,6 +2,8 @@ package edu.colorado.phet.website.templates;
 
 import java.util.Locale;
 
+import javax.servlet.ServletContext;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
@@ -15,7 +17,6 @@ import org.apache.wicket.model.IModel;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
@@ -24,6 +25,7 @@ import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.panels.LogInOutPanel;
 import edu.colorado.phet.website.panels.SearchPanel;
+import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
@@ -205,5 +207,9 @@ public abstract class PhetPage extends WebPage {
 
     public PhetLocalizer getPhetLocalizer() {
         return (PhetLocalizer) getLocalizer();
+    }
+
+    public ServletContext getServletContext() {
+        return ( (PhetWicketApplication) getApplication() ).getServletContext();
     }
 }

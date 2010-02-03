@@ -2,6 +2,8 @@ package edu.colorado.phet.website.panels;
 
 import java.util.Locale;
 
+import javax.servlet.ServletContext;
+
 import org.apache.wicket.markup.html.panel.Panel;
 
 import edu.colorado.phet.website.PhetWicketApplication;
@@ -45,5 +47,9 @@ public class PhetPanel extends Panel {
 
     public PhetLocalizer getPhetLocalizer() {
         return (PhetLocalizer) getLocalizer();
+    }
+
+    public ServletContext getServletContext() {
+        return ( (PhetWicketApplication) getApplication() ).getServletContext();
     }
 }
