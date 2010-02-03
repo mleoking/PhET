@@ -133,6 +133,30 @@ public class HodgkinHuxleyModel
 		return perKChannels;
 	}
 	
+	public double get_gk() {
+		return gk;
+	}
+
+	public void set_gk(double gk) {
+		this.gk = gk;
+	}
+
+	public double get_gna() {
+		return gna;
+	}
+
+	public void set_gna(double gna) {
+		this.gna = gna;
+	}
+
+	public double get_gl() {
+		return gl;
+	}
+
+	public void set_gl(double gl) {
+		this.gl = gl;
+	}
+
 	final private double resting_v = 65;  
 	// remember that H&H voltages are -1 * present convention
 	// TODO: should eventually calculate this instead of setting it
