@@ -26,7 +26,7 @@ public class HodgkinHuxleyInternalParamsDlg extends PaintImmediateDialog{
 
 	private HodgkinHuxleyModel hodgkinHuxleyModel;
 	
-	private ParameterEntry membraneCapacitanceParmEntry = new ParameterEntry("Membrane Capacitance:", "F");
+	private ParameterEntry membraneCapacitanceParmEntry = new ParameterEntry("Membrane Capacitance:", "mF");
 	private ParameterEntry gNaParmEntry = new ParameterEntry("Sodium Chan Conductance:", "S");
 	private ParameterEntry gKParmEntry = new ParameterEntry("Potassium Chan Conductance:", "S");
 	private ParameterEntry gLParmEntry = new ParameterEntry("Leak Chan Conductance:", "S");
@@ -87,6 +87,9 @@ public class HodgkinHuxleyInternalParamsDlg extends PaintImmediateDialog{
 	
 	private void writeValuesToModel(){
 		hodgkinHuxleyModel.setCm(membraneCapacitanceParmEntry.getValue());
+		hodgkinHuxleyModel.set_gna(gNaParmEntry.getValue());
+		hodgkinHuxleyModel.set_gk(gKParmEntry.getValue());
+		hodgkinHuxleyModel.set_gl(gLParmEntry.getValue());
 	}
 	
 	/**
