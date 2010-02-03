@@ -87,7 +87,13 @@ public class AxonModel {
 			public void clockTicked(ClockEvent clockEvent) {
 				handleClockTicked(clockEvent);
 			}
-        });        
+        });
+        
+    	// Add the initial particles.
+        addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 8);
+        addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 8);
+        addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 8);
+        addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 8);
     }
     
     //----------------------------------------------------------------------------
@@ -190,12 +196,6 @@ public class AxonModel {
         for (int i = 0; i < 12; i++){
         	addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
         }
-
-    	
-    	// Move the particles to the appropriate initial locations by setting
-    	// the target proportions.
-    	setConcentration(ParticleType.SODIUM_ION, 0.5);
-    	setConcentration(ParticleType.POTASSIUM_ION, 0.5);
     }
     
     /**
@@ -598,11 +598,9 @@ public class AxonModel {
     	// Choose any angle.
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	
-    	// Choose a distance.  This is calculated so that there is a higher
-    	// tendency to be towards the outside, otherwise things look too
-    	// concentrated in the middle.
-    	double skewedRand = -Math.pow(RAND.nextDouble() - 1, 2) + 1;
-    	double distance = skewedRand * crossSectionInnerRadius - particle.getDiameter();
+    	// Choose a distance which is close to but inside the membrane.
+    	double distance = crossSectionInnerRadius - particle.getDiameter() - 
+    		RAND.nextDouble() * particle.getDiameter() * 2;
     	
     	/*
     	 * TODO: The code below was used prior to 10/9/2009, which is when it
@@ -625,20 +623,14 @@ public class AxonModel {
      * Place a particle at a random location outside the axon membrane.
      */
     private void positionParticleOutsideMembrane(Particle particle){
-    	double maxDistance = CENTER_POS.distance(new Point2D.Double(getParticleMotionBounds().getMinX(), 
-    			getParticleMotionBounds().getMinY()));
-		double angle = RAND.nextDouble() * Math.PI * 2;
-		Point2D location = new Point2D.Double();
-    	while (true){
-    		double distance = RAND.nextDouble() * (maxDistance - crossSectionOuterRadius) + crossSectionOuterRadius +
-    			particle.getDiameter();
-    		location.setLocation(distance * Math.cos(angle), distance * Math.sin(angle));
-    		if (getParticleMotionBounds().contains(location)){
-    			// This works.
-    			break;
-    		}
-    	}
-    	particle.setPosition(location);
+    	// Choose any angle.
+    	double angle = RAND.nextDouble() * Math.PI * 2;
+    	
+    	// Choose a distance which is close to but outside the membrane.
+    	double distance = crossSectionOuterRadius + particle.getDiameter() + 
+    		RAND.nextDouble() * particle.getDiameter() * 2;
+    	
+    	particle.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
     
     /**
