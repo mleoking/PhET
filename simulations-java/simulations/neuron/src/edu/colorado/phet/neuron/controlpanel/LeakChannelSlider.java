@@ -103,6 +103,12 @@ public class LeakChannelSlider extends LinearValueControl{
         _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
 
         // Register a listener to handle changes.
+        /*
+         * TODO: Decoupled sliders from the model on Feb 3 2009 because it
+         * has been decided that they should be opened/closed, not added and
+         * removed.  This code should be removed or revised based on what
+         * the design ends up as.
+
         addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				int value = (int)Math.round(getValue());
@@ -111,5 +117,6 @@ public class LeakChannelSlider extends LinearValueControl{
 				}
 			}
 		});
+		*/
 	}
 }

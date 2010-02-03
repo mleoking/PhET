@@ -74,6 +74,11 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         this.neuronCanvas = canvas;
         
         // Listen to the model for changes that affect this control panel.
+        /*
+         * TODO: Decoupled sliders from the model on Feb 3 2009 because it
+         * has been decided that they should be opened/closed, not added and
+         * removed.  This code should be removed or revised based on what
+         * the design ends up as.
         model.addListener(new AxonModel.Adapter(){
         	@Override
     		public void channelAdded(AbstractMembraneChannel channel) {
@@ -90,6 +95,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 //    			updateConcentrationControlSliders();
     		}
         });
+         */
         
         // Set the control panel's minimum width.
         int minimumWidth = NeuronResources.getInt( "int.minControlPanelWidth", 215 );
