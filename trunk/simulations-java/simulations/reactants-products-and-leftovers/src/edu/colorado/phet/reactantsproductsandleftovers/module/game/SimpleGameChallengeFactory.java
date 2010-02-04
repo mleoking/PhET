@@ -103,7 +103,7 @@ public class SimpleGameChallengeFactory extends AbstractGameChallengeFactory {
                 challengeType = ChallengeType.BEFORE;
             }
             else {
-                challengeType = Math.random() > 0.5 ? ChallengeType.BEFORE : ChallengeType.AFTER;
+                challengeType = ( Math.random() > 0.5 ) ? ChallengeType.BEFORE : ChallengeType.AFTER;
             }
 
             // quantities
