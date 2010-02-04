@@ -97,12 +97,14 @@ public class NeuronCanvas extends PhetPCanvas {
 			}
 			public void potentialChartVisibilityChanged(){
 				membranePotentialChart.setVisible(model.isPotentialChartVisible());
-//				if (!model.isPotentialChartVisible()){
+				if (!model.isPotentialChartVisible()){
 //					setZoomFactor(1);
-//				}
-//				else{
+					getPhetRootNode().scaleWorldAboutPoint(1.5, new Point2D.Double(0,0));
+				}
+				else{
 //					setZoomFactor(0.5);
-//				}
+					getPhetRootNode().scaleWorldAboutPoint(0.75, new Point2D.Double(INITIAL_INTERMEDIATE_COORD_WIDTH / 2,0));
+				}
 			}
 		});
         
