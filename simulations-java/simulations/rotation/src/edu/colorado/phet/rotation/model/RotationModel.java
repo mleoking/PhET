@@ -36,10 +36,6 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         resetAll();
     }
 
-    protected TimeSeriesModel createTimeSeriesModel( RecordableModel recordableModel, ConstantDtClock clock ) {
-        return new MotionTimeSeriesModel( recordableModel, clock );
-    }
-
     private void resetBody2( RotationBody body ) {
         body.clearVelocityAndAcceleration();
         body.setPosition( rotationPlatform.getCenter().getX() - rotationPlatform.getRadius() * Math.sqrt( 2 ) / 2.0,
