@@ -16,36 +16,26 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
     
     private static final boolean DEBUG_OUTPUT_ENABLED = true;
     
-    private static final int CHALLENGES_PER_GAME = GameModel.getChallengesPerGame();
-    
-    private static final int MAX_QUANTITY = GameModel.getQuantityRange().getMax();
-    
-    protected static int getChallengesPerGame() {
-        return CHALLENGES_PER_GAME;
-    }
-    
-    protected static int getMaxQuantity() {
-        return MAX_QUANTITY;
-    }
-    
     /*
      * Generates a random non-zero quantity.
      * We need at least one of each reactant to have a valid reaction.
      */
-    protected static int getRandomQuantity() {
-        return 1 + (int) ( Math.random() * getMaxQuantity() );
+    protected static int getRandomQuantity( int maxQuantity ) {
+        return 1 + (int) ( Math.random() * maxQuantity );
     }
 
     /**
      * Relies on the subclass to create the challenges.
      * Then fixes any problems related to quantity range violations.
      * 
+     * @param numberOfChallenges
      * @param level 1-N
+     * @param maxQuantity
      * @param imagesVisible
      */
-    public GameChallenge[] createChallenges( int level, boolean imagesVisible ) {
-        GameChallenge[] challenges = createChallengesAux( level, imagesVisible );
-        fixQuantityRangeViolations( challenges );
+    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible ) {
+        GameChallenge[] challenges = createChallengesAux( numberOfChallenges, level, maxQuantity, imagesVisible );
+        fixQuantityRangeViolations( challenges, maxQuantity );
         return challenges;
     }
     
@@ -53,10 +43,12 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
      * Abstract "hook" in the base class.
      * This handles creation of the challenges, which the base class then verifies.
      *
+     * @param numberOfChallenges
      * @param level 1-N
+     * @param maxQuantity
      * @param imagesVisible
      */
-    protected abstract GameChallenge[] createChallengesAux( int level, boolean imagesVisible );
+    protected abstract GameChallenge[] createChallengesAux( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible );
     
     /*
      * Uses reflection to instantiate a chemical reaction by class.
@@ -78,10 +70,10 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
     /*
      * Ensures that all quantity values are in the range supported by the model and user interface.
      */
-    private void fixQuantityRangeViolations( GameChallenge[] challenges ) {
+    private void fixQuantityRangeViolations( GameChallenge[] challenges, int maxQuantity ) {
         for ( GameChallenge challenge : challenges ) {
             ChemicalReaction reaction = challenge.getReaction();
-            fixQuantityRangeViolation( reaction );
+            fixQuantityRangeViolation( reaction, maxQuantity );
         }
     }
     
@@ -92,7 +84,7 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
      * 
      * @throw IllegalStateException if reducing all reactant quantities to 1 does not fix a range violation
      */
-    protected static void fixQuantityRangeViolation( ChemicalReaction reaction ) {
+    protected static void fixQuantityRangeViolation( ChemicalReaction reaction, int maxQuantity ) {
         
         if ( hasQuantityRangeViolation( reaction ) ) {
 
@@ -105,8 +97,8 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
 
             // First, make sure all reactant quantities are in range.
             for ( Reactant reactant : reaction.getReactants() ) {
-                if ( reactant.getQuantity() > MAX_QUANTITY ) {
-                    reactant.setQuantity( MAX_QUANTITY );
+                if ( reactant.getQuantity() > maxQuantity ) {
+                    reactant.setQuantity( maxQuantity );
                 }
             }
 
@@ -167,15 +159,15 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
      * elsewhere in the application, for example in the controls used to set and display
      * quantity values.
      */
-    protected static void analyzeRangeViolations( ArrayList<Class<? extends ChemicalReaction>> reactionClasses ) {
+    protected static void analyzeRangeViolations( ArrayList<Class<? extends ChemicalReaction>> reactionClasses, int maxQuantity ) {
         for ( Class<? extends ChemicalReaction> reactionClass : reactionClasses ) {
             ChemicalReaction reaction = instantiateReaction( reactionClass );
             // set all reactant quantities to their max values.
             for ( Reactant reactant : reaction.getReactants() ) {
-                reactant.setQuantity( getMaxQuantity() );
+                reactant.setQuantity( maxQuantity );
             }
             // look for violations and try to fix them.
-            fixQuantityRangeViolation( reaction );
+            fixQuantityRangeViolation( reaction, maxQuantity );
         }
     }
 }

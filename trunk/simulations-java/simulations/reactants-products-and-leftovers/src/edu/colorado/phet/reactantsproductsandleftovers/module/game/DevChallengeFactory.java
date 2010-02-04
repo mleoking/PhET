@@ -24,13 +24,18 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  */
 public class DevChallengeFactory extends AbstractChallengeFactory {
     
-    /*
+    /**
      * Abstract "hook" in the base class.
      * This handles creation of the challenges, which the base class then verifies.
+     *
+     * @param numberOfChallenges
+     * @param level 1-N
+     * @param maxQuantity
+     * @param imagesVisible
      */
-    protected GameChallenge[] createChallengesAux( int level, boolean imagesVisible ) {
+    protected GameChallenge[] createChallengesAux( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible ) {
        
-        GameChallenge[] challenges = new GameChallenge[ getChallengesPerGame() ];
+        GameChallenge[] challenges = new GameChallenge[ numberOfChallenges ];
         for ( int i = 0; i < challenges.length; i++ ) {
             
             // reaction and challenge type
@@ -51,7 +56,7 @@ public class DevChallengeFactory extends AbstractChallengeFactory {
             
             // quantities
             for ( Reactant reactant : reaction.getReactants() ) {
-                reactant.setQuantity( getRandomQuantity() );
+                reactant.setQuantity( getRandomQuantity( maxQuantity ) );
             }
             
             challenges[i] = new GameChallenge( reaction, challengeType, imagesVisible );
