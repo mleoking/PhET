@@ -4,7 +4,6 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- expose SimpleGameStrategy.main as a Developer menu item
 - add sounds to Game (correct, try again, game over, perfect score), see RadioactiveDatingGameCanvas._soundState
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 - rename GameBoxNode, it's a lousy name for base class
@@ -24,11 +23,17 @@ MEDIUM PRIORITY
 - investigate PSwing workaround that I had to add to GameSummaryNode
 
 LOW PRIORITY
+- expose SimpleGameStrategy.main as a Developer menu item
 - "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
-- wait for interview results to decide if animated curtains are needed in Game
 - javadoc
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
 - set font size of spinners instead of scaling (up/down arrows don't resize on Mac)
+
+INTERVIEW ISSUES:
+- how many challenges per game is appropriate?
+- what things make a challenge more difficult?
+- does seeing the molecule images help you solve the challenge?
+- what do you expect at higher game levels? more points? bigger rewards?
 
 MIGRATE TO COMMON
 - BracketedLabelNode
