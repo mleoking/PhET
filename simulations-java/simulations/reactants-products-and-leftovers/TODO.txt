@@ -12,6 +12,7 @@ HIGH PRIORITY
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 
 MEDIUM PRIORITY
+- is there an issue with Game timer, it showed 46:03 during status meeting, which was not possible
 - incentive to play higher levels? (better rewards, more points,...)
 - automatically increase the level setting when user gets a perfect score?
 - award more points for higher levels?
