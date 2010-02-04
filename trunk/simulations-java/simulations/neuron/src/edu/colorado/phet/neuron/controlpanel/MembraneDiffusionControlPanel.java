@@ -255,9 +255,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
             addChangeListener(new ChangeListener() {
             	public void stateChanged(ChangeEvent e) {
             		double value = getValue();
-            		if ( value != neuronCanvas.getCameraScale() ){
-            			neuronCanvas.setZoomFactor(value);
-            		}
+           			neuronCanvas.setZoomFactor(value);
             	}
             });
 		}

@@ -20,7 +20,6 @@ import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.Particle;
-import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -104,14 +103,16 @@ public class NeuronCanvas extends PhetPCanvas {
 					setZoomFactor(1);
 				}
 				else{
-					setZoomFactor(0.5);
+					setZoomFactor(0.65);
 				}
 			}
 		});
         
         setBackground( NeuronConstants.CANVAS_BACKGROUND );
 
-        // Create the layers in the desired order.
+        // Create the node that will be the root for all the world children on
+        // this canvas.  This is done to make it easier to zoom in and out on
+        // the world without affecting screen children.
         myWorldNode = new PNode();
         addWorldChild(myWorldNode);
 
@@ -119,11 +120,8 @@ public class NeuronCanvas extends PhetPCanvas {
         axonCrossSectionLayer = new PNode();
         atomLayer = new PNode();
 
-        PLayer layer = new PLayer();
-        myWorldNode.addChild(layer);
-
-        layer.addChild(axonCrossSectionLayer);
-        layer.addChild(atomLayer);
+        myWorldNode.addChild(axonCrossSectionLayer);
+        myWorldNode.addChild(atomLayer);
 
         chartLayer = new PNode();
         addScreenChild(chartLayer);
@@ -211,16 +209,9 @@ public class NeuronCanvas extends PhetPCanvas {
     	voltmeter.setVisible(isVisible);
     }
     
-    public void setZoomFactor(double cameraScale){
+    public void setZoomFactor(double zoomFactor){
     	myWorldNode.setTransform(new AffineTransform());
-        myWorldNode.scaleAboutPoint(cameraScale, INITIAL_INTERMEDIATE_COORD_WIDTH/2,0);
-
-    	// Update the layout to adjust to new sizing.
-    	updateLayout();
-    }
-    
-    public double getCameraScale(){
-    	return getCamera().getViewScale();
+        myWorldNode.scaleAboutPoint(zoomFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 0);
     }
     
     private void addAtom(Particle atomToBeAdded){
