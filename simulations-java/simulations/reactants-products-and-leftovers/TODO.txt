@@ -10,16 +10,14 @@ HIGH PRIORITY
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
 
 MEDIUM PRIORITY
+- explicitly handle tab traversal in play area
 - is there an issue with Game timer, it showed 46:03 during status meeting, which was not possible
-- incentive to play higher levels? (better rewards, more points,...)
 - automatically increase the level setting when user gets a perfect score?
 - award more points for higher levels?
 - instead of points, show stars & half stars? works for 5 challenges, allows student to remember which ones they didn't get
 - don't show Score: X/max in scoreboard, just show Score: X, then show X/max in Game Summary?
 - expose SimpleGameStrategy.main as a Developer menu item
 - lighter weight methods (text?) of telling the user that the Game images will be hidden for a challenge
-- move timerVisible out of GameModel, doesn't belong there
-- explicitly handle tab traversal in play area
 - PSwing memory leak affects tab traversal, #1874
 - associate ImageLayoutStrategy with the chemical reaction type?
 - investigate PSwing workaround that I had to add to GameSummaryNode
