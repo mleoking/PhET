@@ -160,7 +160,7 @@ public class GameModel extends RPALModel {
             getChallenge().getGuess().removeChangeListener( guessChangeListener );
         }
         challengeNumber = 0;
-        challenges = challengeFactory.createChallenges( getLevel(), isImagesVisible() );
+        challenges = challengeFactory.createChallenges( CHALLENGES_PER_GAME, getLevel(), getQuantityRange().getMax(), isImagesVisible() );
         getChallenge().getGuess().addChangeListener( guessChangeListener );
         fireChallengeChanged();
     }

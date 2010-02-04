@@ -16,5 +16,5 @@ public interface IChallengeFactory {
      * @param imagesVisible
      * @return
      */
-    public GameChallenge[] createChallenges( int level, boolean imagesVisible );
+    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible );
 }

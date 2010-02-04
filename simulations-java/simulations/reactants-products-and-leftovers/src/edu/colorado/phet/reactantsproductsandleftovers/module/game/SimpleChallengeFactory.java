@@ -89,20 +89,22 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
      */
     public SimpleChallengeFactory() {}
 
-    /*
+    /**
      * Abstract "hook" in the base class.
      * This handles creation of the challenges, which the base class then verifies.
-     * 
+     *
+     * @param numberOfChallenges
      * @param level 1-N
+     * @param maxQuantity
      * @param imagesVisible
      */
-    protected GameChallenge[] createChallengesAux( int level, boolean imagesVisible ) {
+    protected GameChallenge[] createChallengesAux( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible ) {
 
         if ( level < 1 || level > REACTIONS.size() ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
         
-        GameChallenge[] challenges = new GameChallenge[ getChallengesPerGame() ];
+        GameChallenge[] challenges = new GameChallenge[ numberOfChallenges ];
         ChemicalReaction previousReaction = null;
         for ( int i = 0; i < challenges.length; i++ ) {
 
@@ -123,7 +125,7 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
 
             // quantities
             for ( Reactant reactant : reaction.getReactants() ) {
-                reactant.setQuantity( getRandomQuantity() );
+                reactant.setQuantity( getRandomQuantity( maxQuantity ) );
             }
 
             challenges[i] = new GameChallenge( reaction, challengeType, imagesVisible );
@@ -203,6 +205,6 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
                 }
             }
         }
-        analyzeRangeViolations( reactionClasses );
+        analyzeRangeViolations( reactionClasses, GameModel.getQuantityRange().getMax() );
     }
 }

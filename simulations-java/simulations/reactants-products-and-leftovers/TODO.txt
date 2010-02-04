@@ -4,6 +4,7 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
+- expose SimpleGameStrategy.main as a Developer menu item
 - add sounds to Game (correct, try again, game over, perfect score), see RadioactiveDatingGameCanvas._soundState
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 - rename GameBoxNode, it's a lousy name for base class
@@ -17,7 +18,6 @@ MEDIUM PRIORITY
 - award more points for higher levels?
 - instead of points, show stars & half stars? works for 5 challenges, allows student to remember which ones they didn't get
 - don't show Score: X/max in scoreboard, just show Score: X, then show X/max in Game Summary?
-- expose SimpleGameStrategy.main as a Developer menu item
 - lighter weight methods (text?) of telling the user that the Game images will be hidden for a challenge
 - PSwing memory leak affects tab traversal, #1874
 - associate ImageLayoutStrategy with the chemical reaction type?
