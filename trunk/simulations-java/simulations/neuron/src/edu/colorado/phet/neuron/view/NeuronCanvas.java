@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -19,6 +20,7 @@ import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.Particle;
+import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -70,6 +72,7 @@ public class NeuronCanvas extends PhetPCanvas {
     
     // For debug: Shows center of zoom.
     private CrossHairNode crossHairNode;
+    private PNode myWorldNode=new PNode();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -98,12 +101,10 @@ public class NeuronCanvas extends PhetPCanvas {
 			public void potentialChartVisibilityChanged(){
 				membranePotentialChart.setVisible(model.isPotentialChartVisible());
 				if (!model.isPotentialChartVisible()){
-//					setZoomFactor(1);
-					getPhetRootNode().scaleWorldAboutPoint(1.5, new Point2D.Double(0,0));
+					setZoomFactor(1);
 				}
 				else{
-//					setZoomFactor(0.5);
-					getPhetRootNode().scaleWorldAboutPoint(0.75, new Point2D.Double(INITIAL_INTERMEDIATE_COORD_WIDTH / 2,0));
+					setZoomFactor(0.5);
 				}
 			}
 		});
@@ -111,10 +112,19 @@ public class NeuronCanvas extends PhetPCanvas {
         setBackground( NeuronConstants.CANVAS_BACKGROUND );
 
         // Create the layers in the desired order.
+        myWorldNode = new PNode();
+        addWorldChild(myWorldNode);
+
+        // Create the layers in the desired order.
         axonCrossSectionLayer = new PNode();
-        addWorldChild(axonCrossSectionLayer);
         atomLayer = new PNode();
-        addWorldChild(atomLayer);
+
+        PLayer layer = new PLayer();
+        myWorldNode.addChild(layer);
+
+        layer.addChild(axonCrossSectionLayer);
+        layer.addChild(atomLayer);
+
         chartLayer = new PNode();
         addScreenChild(chartLayer);
         
@@ -202,22 +212,9 @@ public class NeuronCanvas extends PhetPCanvas {
     }
     
     public void setZoomFactor(double cameraScale){
-    	
-    	double currentScale = getCameraScale();
-    	double scaleFactor = cameraScale / currentScale;
-    	
-    	// Zoom in on the upper membrane, but when zooming out past the
-    	// point where the entire cross section is visible, make sure that the
-    	// picture stays centered.
-    	if (currentScale <= 1){
-    		getCamera().scaleViewAboutPoint(scaleFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2,
-    				INITIAL_INTERMEDIATE_COORD_HEIGHT / 2);
-    	}
-    	else{
-    		getCamera().scaleViewAboutPoint(scaleFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2,
-    				INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.1);
-    	}
-    	
+    	myWorldNode.setTransform(new AffineTransform());
+        myWorldNode.scaleAboutPoint(cameraScale, INITIAL_INTERMEDIATE_COORD_WIDTH/2,0);
+
     	// Update the layout to adjust to new sizing.
     	updateLayout();
     }
