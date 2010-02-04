@@ -23,6 +23,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Product.ProductChan
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
+import edu.colorado.phet.reactantsproductsandleftovers.view.IDynamicNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.PlusNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
@@ -35,7 +36,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SandwichEquationNode extends PhetPNode {
+public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
     
     private static final PhetFont TITLE_FONT = new PhetFont( 24 );
     private static final PhetFont COEFFICIENT_FONT = new PhetFont( 24 );

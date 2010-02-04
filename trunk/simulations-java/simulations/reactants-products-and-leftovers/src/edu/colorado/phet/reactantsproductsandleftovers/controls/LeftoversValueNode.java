@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
+import edu.colorado.phet.reactantsproductsandleftovers.view.IDynamicNode;
 
 /**
  * Displays the leftovers value for a Reactant.
@@ -16,7 +17,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantCh
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LeftoversValueNode extends ValueNode {
+public class LeftoversValueNode extends ValueNode implements IDynamicNode {
     
     private Reactant reactant;
     private final ReactantChangeListener reactantChangeListener;

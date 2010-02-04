@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
+import edu.colorado.phet.reactantsproductsandleftovers.view.IDynamicNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.PlusNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.umd.cs.piccolo.PNode;
@@ -26,7 +27,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RealReactionEquationNode extends PComposite {
+public class RealReactionEquationNode extends PComposite implements IDynamicNode {
     
     private static final boolean SHOW_COEFFICIENT_BORDERS = false; // puts a border around coefficients
     private static final boolean SHOW_ONE_COEFFICIENTS = true; // shows coefficient values that are 1
@@ -56,6 +57,10 @@ public class RealReactionEquationNode extends PComposite {
         addChild( htmlNode );
         
         update();
+    }
+    
+    public void cleanup() {
+        // nothing to do here
     }
     
     /*

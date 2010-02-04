@@ -318,23 +318,24 @@ public class GameCanvas extends RPALCanvas {
      */
     private void updateDynamicNodes() {
 
-        //XXX call cleanup on these dynamic nodes so we don't have memory leaks
-
-        parentNode.removeChild( equationNode );
+        if ( equationNode != null ) {
+            equationNode.cleanup();
+            parentNode.removeChild( equationNode );
+        }
         equationNode = new RealReactionEquationNode( model.getChallenge().getReaction() );
         parentNode.addChild( equationNode );
 
         if ( beforeNode != null ) {
             beforeNode.cleanup();
+            parentNode.removeChild( beforeNode );
         }
-        parentNode.removeChild( beforeNode );
         beforeNode = new GameBeforeNode( model );
         parentNode.addChild( beforeNode );
 
         if ( afterNode != null ) {
             afterNode.cleanup();
+            parentNode.removeChild( afterNode );
         }
-        parentNode.removeChild( afterNode );
         afterNode = new GameAfterNode( model );
         parentNode.addChild( afterNode );
 

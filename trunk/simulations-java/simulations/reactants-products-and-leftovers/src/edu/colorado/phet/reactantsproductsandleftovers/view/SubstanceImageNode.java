@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SubstanceImageNode extends PImage {
+public class SubstanceImageNode extends PImage implements IDynamicNode {
 
     private final Substance substance;
     private final SubstanceChangeListener listener;
