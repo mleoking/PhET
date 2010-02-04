@@ -31,7 +31,7 @@ public class GameModel extends RPALModel {
     private final ArrayList<GameListener> listeners;
     private final GameTimer timer;
     private final ChangeListener guessChangeListener;
-    private final IGameChallengeFactory challengeFactory;
+    private final IChallengeFactory challengeFactory;
     
     private GameChallenge[] challenges; // the challenges that make up the current game
     private int challengeNumber; // the current challenge that the user is attempting to solve
@@ -62,7 +62,7 @@ public class GameModel extends RPALModel {
             }
         };
         
-        challengeFactory = new SimpleGameChallengeFactory();
+        challengeFactory = new SimpleChallengeFactory();
         imagesVisible = true;
         
         initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_VISIBLE, DEFAULT_MOLECULE_IMAGES_VISIBLE );

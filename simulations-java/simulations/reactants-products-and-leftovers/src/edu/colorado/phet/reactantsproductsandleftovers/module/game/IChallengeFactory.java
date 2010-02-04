@@ -7,7 +7,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public interface IGameChallengeFactory {
+public interface IChallengeFactory {
     
     /**
      * Creates a set of challenges.

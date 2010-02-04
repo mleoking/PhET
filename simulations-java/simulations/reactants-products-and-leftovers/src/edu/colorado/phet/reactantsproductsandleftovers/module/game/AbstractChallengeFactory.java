@@ -12,7 +12,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractGameChallengeFactory implements IGameChallengeFactory {
+public abstract class AbstractChallengeFactory implements IChallengeFactory {
     
     private static final boolean DEBUG_OUTPUT_ENABLED = true;
     

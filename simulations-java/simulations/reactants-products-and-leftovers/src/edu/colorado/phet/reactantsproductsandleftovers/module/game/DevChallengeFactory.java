@@ -22,7 +22,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DevGameChallengeFactory extends AbstractGameChallengeFactory {
+public class DevChallengeFactory extends AbstractChallengeFactory {
     
     /*
      * Abstract "hook" in the base class.
