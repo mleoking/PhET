@@ -7,7 +7,7 @@ HIGH PRIORITY
 - eliminate cast and use strong typing in SimpleGameStrategy and AbstractGameStrategy
 - developer controls for setting up specific Game challenges
 - layout problem with scoreboard?
-- add an animated "prize" to Game Summary for perfect score (smiling molecules doing random walk; win sandwich parts; other ideas?)
+- add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
 - handle cleanup of dynamic nodes in GameCanvas.updateNodes
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 
@@ -16,6 +16,7 @@ MEDIUM PRIORITY
 - incentive to play higher levels? (better rewards, more points,...)
 - automatically increase the level setting when user gets a perfect score?
 - award more points for higher levels?
+- instead of points, show stars & half stars? works for 5 challenges, allows student to remember which ones they didn't get
 - don't show Score: X/max in scoreboard, just show Score: X, then show X/max in Game Summary?
 - expose SimpleGameStrategy.main as a Developer menu item
 - lighter weight methods (text?) of telling the user that the Game images will be hidden for a challenge
