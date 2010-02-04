@@ -70,6 +70,7 @@ public class AxonModel {
     private int membranePotentialUpdateCounter = 0;
     private int membranePotentialSnapshot;
     private HodgkinHuxleyModel hodgkinsHuxleyModel = new HodgkinHuxleyModel();
+    private boolean potentialChartVisible;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -175,6 +176,17 @@ public class AxonModel {
     	}
     	else{
     		// Don't need to do nuthin'.
+    	}
+    }
+    
+    public boolean isPotentialChartVisible(){
+    	return potentialChartVisible;
+    }
+    
+    public void setPotentialChartVisible(boolean isVisible){
+    	if (potentialChartVisible != isVisible){
+    		potentialChartVisible = isVisible;
+    		notifyPotentialChartVisibilityChanged();
     	}
     }
     
@@ -424,6 +436,12 @@ public class AxonModel {
 	private void notifyStimulusPulseInitiated(){
 		for (Listener listener : listeners){
 			listener.stimulusPulseInitiated();
+		}
+	}
+	
+	private void notifyPotentialChartVisibilityChanged(){
+		for (Listener listener : listeners){
+			listener.potentialChartVisibilityChanged();
 		}
 	}
 	
@@ -761,6 +779,13 @@ public class AxonModel {
     	 * Notification that a stimulus pulse has been initiated.
     	 */
     	public void stimulusPulseInitiated();
+    	
+    	/**
+    	 * Notification that the setting for the visibility of the membrane
+    	 * potential chart has changed.
+    	 */
+    	public void potentialChartVisibilityChanged();
+    	
     }
     
     public static class Adapter implements Listener{
@@ -768,5 +793,6 @@ public class AxonModel {
 		public void channelRemoved(AbstractMembraneChannel channel) {}
 		public void concentrationRatioChanged(ParticleType particleType) {}
 		public void stimulusPulseInitiated() {}
+		public void potentialChartVisibilityChanged() {}
     }
 }
