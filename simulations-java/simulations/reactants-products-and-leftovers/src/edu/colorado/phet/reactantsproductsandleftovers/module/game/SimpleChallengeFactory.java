@@ -84,9 +84,16 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
     /*
      * Abstract "hook" in the base class.
      * This handles creation of the challenges, which the base class then verifies.
+     * 
+     * @param level 1-N
+     * @param imagesVisible
      */
     protected GameChallenge[] createChallengesAux( int level, boolean imagesVisible ) {
 
+        if ( level < 1 || level > REACTIONS.length ) {
+            throw new IllegalArgumentException( "unsupported level: " + level );
+        }
+        
         GameChallenge[] challenges = new GameChallenge[ getChallengesPerGame() ];
         ChemicalReaction previousReaction = null;
         for ( int i = 0; i < challenges.length; i++ ) {
@@ -124,9 +131,6 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
         
         // Select a random reaction from the array for the specified level.
         int levelIndex = level - 1;
-        if ( levelIndex < 0 || levelIndex > REACTIONS.length - 1 ) {
-            throw new IllegalArgumentException( "unsupported level: " + level );
-        }
         int reactionIndex = (int) ( Math.random() * REACTIONS[levelIndex].length );
         Class<?> reactionClass = REACTIONS[levelIndex][reactionIndex];
         
