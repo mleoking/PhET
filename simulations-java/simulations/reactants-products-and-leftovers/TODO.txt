@@ -28,7 +28,6 @@ MEDIUM PRIORITY
 
 LOW PRIORITY
 - "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
-- should Check button be visible with Game instructions, or appear when user enters a value?
 - wait for interview results to decide if animated curtains are needed in Game
 - javadoc
 - GameBoxNode is a lousy name for base class
