@@ -114,8 +114,8 @@ public class NeuronApplication extends PiccoloPhetApplication {
     	
     	if (isVisible && hhInternalDynamicsDlg == null){
     		// The internal dynamics window has not been created yet, so create it now.
-    		hhInternalDynamicsDlg = new HodgkinHuxleyInternalDynamicsDlg(membraneDiffusionModule.getClock(),
-    				membraneDiffusionModule.getHodgkinHuxleyModel());
+    		hhInternalDynamicsDlg = new HodgkinHuxleyInternalDynamicsDlg(getPhetFrame(),
+    				membraneDiffusionModule.getClock(), membraneDiffusionModule.getHodgkinHuxleyModel());
     		
     		// Just hide when closed so we don't have to keep recreating it.
     		hhInternalDynamicsDlg.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -142,7 +142,7 @@ public class NeuronApplication extends PiccoloPhetApplication {
     	
     	if (isVisible && hhInternalParamsDlg == null){
     		// The internal parameters window has not been created yet, so create it now.
-    		hhInternalParamsDlg = new HodgkinHuxleyInternalParamsDlg( membraneDiffusionModule.getHodgkinHuxleyModel() );
+    		hhInternalParamsDlg = new HodgkinHuxleyInternalParamsDlg( getPhetFrame(), membraneDiffusionModule.getHodgkinHuxleyModel() );
     		
     		// Just hide when closed so we don't have to keep recreating it.
     		hhInternalParamsDlg.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
