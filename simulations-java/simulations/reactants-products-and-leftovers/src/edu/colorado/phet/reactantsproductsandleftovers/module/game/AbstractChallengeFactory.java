@@ -58,10 +58,10 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
     /*
      * Uses reflection to instantiate a chemical reaction by class.
      */
-    protected static ChemicalReaction instantiateReaction( Class<?> c ) {
+    protected static ChemicalReaction instantiateReaction( Class<? extends ChemicalReaction> c ) {
         ChemicalReaction reaction = null;
         try {
-            reaction = (ChemicalReaction) c.newInstance(); //XXX eliminate cast
+            reaction = c.newInstance();
         }
         catch ( InstantiationException e ) {
             e.printStackTrace();
@@ -164,8 +164,8 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
      * elsewhere in the application, for example in the controls used to set and display
      * quantity values.
      */
-    protected static void analyzeRangeViolations( ArrayList<Class<?>> reactionClasses ) {
-        for ( Class<?> reactionClass : reactionClasses ) {
+    protected static void analyzeRangeViolations( ArrayList<Class<? extends ChemicalReaction>> reactionClasses ) {
+        for ( Class<? extends ChemicalReaction> reactionClass : reactionClasses ) {
             ChemicalReaction reaction = instantiateReaction( reactionClass );
             // set all reactant quantities to their max values.
             for ( Reactant reactant : reaction.getReactants() ) {

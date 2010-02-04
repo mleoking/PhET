@@ -132,7 +132,7 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
         // Select a random reaction from the array for the specified level.
         int levelIndex = level - 1;
         int reactionIndex = (int) ( Math.random() * REACTIONS[levelIndex].length );
-        Class<?> reactionClass = REACTIONS[levelIndex][reactionIndex];
+        Class<? extends ChemicalReaction> reactionClass = getReaction( levelIndex, reactionIndex );
         
         // If same as the previous reaction, simply get the next reaction in the array.
         if ( previousReaction != null && reactionClass.equals( previousReaction.getClass() ) ) {
@@ -140,19 +140,22 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
             if ( reactionIndex > REACTIONS[levelIndex].length - 1 ) {
                 reactionIndex = 0;
             }
-            reactionClass = REACTIONS[levelIndex][reactionIndex];
+            reactionClass = getReaction( levelIndex, reactionIndex );
         }
-        
-        return instantiateReaction( REACTIONS[levelIndex][reactionIndex] );
+        return instantiateReaction( reactionClass );
+    }
+    
+    private static Class<? extends ChemicalReaction> getReaction( int levelIndex, int reactionIndex ) {
+        return (Class<? extends ChemicalReaction>) REACTIONS[levelIndex][reactionIndex];
     }
 
     // test for range violations inherent in reactions, and verify that they are fixable.
     public static void main( String[] args ) {
         // put all reaction in a container, removing duplicates.
-        ArrayList<Class<?>> reactionClasses = new ArrayList<Class<?>>();
+        ArrayList<Class<? extends ChemicalReaction>> reactionClasses = new ArrayList<Class<? extends ChemicalReaction>>();
         for ( int i = 0; i < REACTIONS.length; i++ ) {
             for ( int j = 0; j < REACTIONS[i].length; j++ ) {
-                Class<?> reactionClass = REACTIONS[i][j];
+                Class<? extends ChemicalReaction> reactionClass = getReaction( i, j );
                 if ( !reactionClasses.contains( reactionClass ) ) {
                     reactionClasses.add( reactionClass );
                 }
