@@ -4,11 +4,12 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
+- factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
+- rename GameBoxNode, it's a lousy name for base class
 - eliminate cast and use strong typing in SimpleGameStrategy and AbstractGameStrategy
 - developer controls for setting up specific Game challenges
 - layout problem with scoreboard?
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
-- factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 
 MEDIUM PRIORITY
 - is there an issue with Game timer, it showed 46:03 during status meeting, which was not possible
@@ -29,7 +30,6 @@ LOW PRIORITY
 - "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
 - wait for interview results to decide if animated curtains are needed in Game
 - javadoc
-- GameBoxNode is a lousy name for base class
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
 - set font size of spinners instead of scaling (up/down arrows don't resize on Mac)
 
