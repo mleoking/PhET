@@ -330,11 +330,9 @@ public class EnergyHistogramDialog extends PaintImmediateDialog {
                     if( EnergyHistogramDialog.this.isVisible() ) {
                         // If we are at the first iteration of an averaging cycle, clear the data from the energyHistogram
                         // and compute the new clipping level
-                        if( ( cnt % averagingRatio ) == 1 ) {
-                            for( int i = 0; i < clients.size(); i++ ) {
-                                UpdaterClient client = (UpdaterClient)clients.get( i );
-                                client.clear();
-                            }
+                        for ( int i = 0; i < clients.size(); i++ ) {
+                            UpdaterClient client = (UpdaterClient) clients.get( i );
+                            client.clear();
                         }
                         List bodies = model.getBodies();
                         for( int i = 0; i < bodies.size(); i++ ) {
