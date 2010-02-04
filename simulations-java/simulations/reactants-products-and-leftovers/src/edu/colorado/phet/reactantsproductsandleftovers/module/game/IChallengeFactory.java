@@ -12,7 +12,7 @@ public interface IChallengeFactory {
     /**
      * Creates a set of challenges.
      * 
-     * @param level
+     * @param level 1-N, as in the model
      * @param imagesVisible
      * @return
      */

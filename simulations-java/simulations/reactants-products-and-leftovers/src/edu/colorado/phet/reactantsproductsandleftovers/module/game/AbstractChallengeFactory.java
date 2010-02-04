@@ -39,6 +39,9 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
     /**
      * Relies on the subclass to create the challenges.
      * Then fixes any problems related to quantity range violations.
+     * 
+     * @param level 1-N
+     * @param imagesVisible
      */
     public GameChallenge[] createChallenges( int level, boolean imagesVisible ) {
         GameChallenge[] challenges = createChallengesAux( level, imagesVisible );
@@ -50,7 +53,7 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
      * Abstract "hook" in the base class.
      * This handles creation of the challenges, which the base class then verifies.
      *
-     * @param level
+     * @param level 1-N
      * @param imagesVisible
      */
     protected abstract GameChallenge[] createChallengesAux( int level, boolean imagesVisible );
