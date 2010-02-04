@@ -1,3 +1,5 @@
+> Fixed: Sim should automatically switch to "acceleration-driven" mode so that all initial conditions are preserved
+See #2150
 # 1.27.01 (38185) Jan 21, 2010
 > Fixed a bug that caused inconsistent behavior when pressing "go" after the charts are filled up
 # 1.27.00 (38012) Jan 10, 2010

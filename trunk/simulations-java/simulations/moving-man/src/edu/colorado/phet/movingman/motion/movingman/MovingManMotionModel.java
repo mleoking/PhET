@@ -10,6 +10,7 @@ import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.movingman.MovingManDefaults;
 import edu.colorado.phet.movingman.MovingManResources;
 
@@ -52,6 +53,14 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         xSeries = new ControlGraphSeries( MovingManResources.getString( "variables.position" ), Color.blue, MovingManResources.getString( "variables.position.abbreviation" ), MovingManResources.getString( "units.meters.abbreviation" ), new BasicStroke( 2 ), null, x, true );
         vSeries = new ControlGraphSeries( MovingManResources.getString( "variables.velocity" ), Color.red, MovingManResources.getString( "variables.velocity.abbreviation" ), MovingManResources.getString( "units.velocity.abbreviation" ), new BasicStroke( 2 ), null, v, true );
         aSeries = new ControlGraphSeries( MovingManResources.getString( "variables.acceleration" ), Color.green, MovingManResources.getString( "variables.acceleration.abbreviation" ), MovingManResources.getString( "units.acceleration.abbreviation" ), new BasicStroke( 2 ), null, a, true );
+
+        getTimeSeriesModel().addListener(new TimeSeriesModel.Adapter(){
+            public void pauseChanged() {
+                if (!getTimeSeriesModel().isPaused()){
+                    setUpdateStrategy(accelDriven);
+                }
+            }
+        });
     }
 
     public void stepInTime( double dt ) {
