@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractBeforeNode extends PhetPNode {
+public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNode {
     
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     

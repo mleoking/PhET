@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.SubstanceChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.SubstanceChangeListener;
+import edu.colorado.phet.reactantsproductsandleftovers.view.IDynamicNode;
 
 /**
  * Displays the quantity value for a Substance.
@@ -16,7 +17,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.Substance
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class QuantityValueNode extends ValueNode {
+public class QuantityValueNode extends ValueNode implements IDynamicNode {
     
     private Substance substance;
     private final SubstanceChangeListener substanceChangeListener;

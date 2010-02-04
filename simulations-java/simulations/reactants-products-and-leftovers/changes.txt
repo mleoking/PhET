@@ -1,3 +1,5 @@
+2/4/10 handle cleanup of dynamic nodes in GameCanvas.updateNodes
+2/4/10 add IDynamicNode interface for nodes that should require cleanup call before deallocating
 2/4/10 use a more standard modulo algorithm for computing game timer display
 # 0.00.21 (38377) Feb 2, 2010
 2/2/10 added Game Setting to hide molecules, will be used in interviews

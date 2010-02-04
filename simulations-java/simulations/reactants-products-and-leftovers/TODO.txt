@@ -8,7 +8,6 @@ HIGH PRIORITY
 - developer controls for setting up specific Game challenges
 - layout problem with scoreboard?
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
-- handle cleanup of dynamic nodes in GameCanvas.updateNodes
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 
 MEDIUM PRIORITY
