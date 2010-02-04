@@ -4,6 +4,7 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
+- add sounds to Game (correct, try again, game over, perfect score), see RadioactiveDatingGameCanvas._soundState
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 - rename GameBoxNode, it's a lousy name for base class
 - developer controls for setting up specific Game challenges
