@@ -32,8 +32,8 @@ LOW PRIORITY
 INTERVIEW ISSUES:
 - how many challenges per game is appropriate?
 - what things make a challenge more difficult?
-- does seeing the molecule images help you solve the challenge?
-- what do you expect at higher game levels? more points? bigger rewards?
+- does seeing the molecule images help you solve a challenge?
+- what do you expect at higher game levels? more points? bigger rewards? other?
 
 MIGRATE TO COMMON
 - BracketedLabelNode
