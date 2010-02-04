@@ -8,11 +8,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 
 /**
- * Base class for generating game challenges.
+ * Base class for creating game challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractGameStrategy implements IGameStrategy {
+public abstract class AbstractGameChallengeFactory implements IGameChallengeFactory {
     
     private static final boolean DEBUG_OUTPUT_ENABLED = true;
     
@@ -47,9 +47,11 @@ public abstract class AbstractGameStrategy implements IGameStrategy {
     }
     
     /**
-     * Subclasses must implement this to create challenges.
-     * 
+     * Abstract "hook" in the base class.
+     * This handles creation of the challenges, which the base class then verifies.
+     *
      * @param level
+     * @param imagesVisible
      */
     protected abstract GameChallenge[] createChallengesAux( int level, boolean imagesVisible );
     

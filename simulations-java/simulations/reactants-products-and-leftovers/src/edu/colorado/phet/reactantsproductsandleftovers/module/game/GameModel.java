@@ -31,7 +31,7 @@ public class GameModel extends RPALModel {
     private final ArrayList<GameListener> listeners;
     private final GameTimer timer;
     private final ChangeListener guessChangeListener;
-    private final IGameStrategy gameStrategy;
+    private final IGameChallengeFactory challengeFactory;
     
     private GameChallenge[] challenges; // the challenges that make up the current game
     private int challengeNumber; // the current challenge that the user is attempting to solve
@@ -62,7 +62,7 @@ public class GameModel extends RPALModel {
             }
         };
         
-        gameStrategy = new SimpleGameStrategy();
+        challengeFactory = new SimpleGameChallengeFactory();
         imagesVisible = true;
         
         initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_VISIBLE, DEFAULT_MOLECULE_IMAGES_VISIBLE );
@@ -152,12 +152,15 @@ public class GameModel extends RPALModel {
         return correct;
     }
     
+    /*
+     * Creates a new set of challenges.
+     */
     private void newChallenges() {
         if ( challenges != null ) {
             getChallenge().getGuess().removeChangeListener( guessChangeListener );
         }
         challengeNumber = 0;
-        challenges = gameStrategy.createChallenges( getLevel(), isImagesVisible() );
+        challenges = challengeFactory.createChallenges( getLevel(), isImagesVisible() );
         getChallenge().getGuess().addChangeListener( guessChangeListener );
         fireChallengeChanged();
     }

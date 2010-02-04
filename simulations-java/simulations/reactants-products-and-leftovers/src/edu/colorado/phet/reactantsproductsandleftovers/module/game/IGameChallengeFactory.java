@@ -3,11 +3,11 @@
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
 /**
- * Interface for generating game challenges.
+ * Interface for creating game challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public interface IGameStrategy {
+public interface IGameChallengeFactory {
     
     /**
      * Creates a set of challenges.
