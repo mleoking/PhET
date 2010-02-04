@@ -4,6 +4,7 @@ package edu.colorado.phet.neuron.developer;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,7 +58,8 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 	
 	private ArrayList<HhDataCaptureEntry> captureData = new ArrayList<HhDataCaptureEntry>();
 	
-	public HodgkinHuxleyInternalDynamicsDlg(IClock clock, HodgkinHuxleyModel hhModel) {
+	public HodgkinHuxleyInternalDynamicsDlg(Frame frame, IClock clock, HodgkinHuxleyModel hhModel) {
+		super(frame);
 		hodgkinHuxleyModel = hhModel;
 		
 		setTitle("Hodgkin-Huxley Model Internal Dynamics");

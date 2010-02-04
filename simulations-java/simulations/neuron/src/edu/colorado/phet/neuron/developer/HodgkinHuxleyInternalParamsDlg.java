@@ -3,6 +3,7 @@
 package edu.colorado.phet.neuron.developer;
 
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +34,8 @@ public class HodgkinHuxleyInternalParamsDlg extends PaintImmediateDialog{
 	private JButton readValuesButton = new JButton("Read Values");
 	private JButton writeValuesButton = new JButton("Write Values");
 	
-	public HodgkinHuxleyInternalParamsDlg(HodgkinHuxleyModel hhModel) {
+	public HodgkinHuxleyInternalParamsDlg(Frame frame, HodgkinHuxleyModel hhModel) {
+		super(frame);
 		hodgkinHuxleyModel = hhModel;
 		
 		setTitle("Hodgkin-Huxley Model Parameters");
