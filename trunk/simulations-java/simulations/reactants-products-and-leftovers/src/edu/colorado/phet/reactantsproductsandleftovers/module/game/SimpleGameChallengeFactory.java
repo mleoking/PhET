@@ -11,8 +11,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 
 /**
- * A simple game strategy. 
- * <p> 
+ * A simple game factory, used for the first round of interviews on this sim.
+ * Behavior is: 
  * <ul>
  * <li>Level 1: one product random, After
  * <li>Level 2: one product random, Before 
@@ -21,7 +21,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimpleGameStrategy extends AbstractGameStrategy {
+public class SimpleGameChallengeFactory extends AbstractGameChallengeFactory {
     
     // level 1 is all the one-product reactions
     private static final Class<?>[] LEVEL1_REACTIONS = { 
@@ -79,8 +79,12 @@ public class SimpleGameStrategy extends AbstractGameStrategy {
     /**
      * Default constructor.
      */
-    public SimpleGameStrategy() {}
+    public SimpleGameChallengeFactory() {}
 
+    /*
+     * Abstract "hook" in the base class.
+     * This handles creation of the challenges, which the base class then verifies.
+     */
     protected GameChallenge[] createChallengesAux( int level, boolean imagesVisible ) {
 
         GameChallenge[] challenges = new GameChallenge[ getChallengesPerGame() ];

@@ -10,7 +10,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 
 /**
- * Game strategy used for development.
+ * A very simple, predictable factory for generating game challenges,
+ * used during development to get the game working.
  * <p>
  * A single reaction is used for each level, as follows:
  * <ul>
@@ -21,8 +22,12 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DevGameStrategy extends AbstractGameStrategy {
+public class DevGameChallengeFactory extends AbstractGameChallengeFactory {
     
+    /*
+     * Abstract "hook" in the base class.
+     * This handles creation of the challenges, which the base class then verifies.
+     */
     protected GameChallenge[] createChallengesAux( int level, boolean imagesVisible ) {
        
         GameChallenge[] challenges = new GameChallenge[ getChallengesPerGame() ];
