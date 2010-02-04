@@ -6,7 +6,6 @@ DEADLINES
 HIGH PRIORITY
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 - rename GameBoxNode, it's a lousy name for base class
-- eliminate cast and use strong typing in SimpleGameStrategy and AbstractGameStrategy
 - developer controls for setting up specific Game challenges
 - layout problem with scoreboard?
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3

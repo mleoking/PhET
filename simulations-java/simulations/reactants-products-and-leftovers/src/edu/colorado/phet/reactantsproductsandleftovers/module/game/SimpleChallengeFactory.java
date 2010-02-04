@@ -24,57 +24,65 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
 public class SimpleChallengeFactory extends AbstractChallengeFactory {
     
     // level 1 is all the one-product reactions
-    private static final Class<?>[] LEVEL1_REACTIONS = { 
-        WaterReaction.class, 
-        Reaction_H2_F2__2HF.class,
-        Reaction_H2_Cl2__2HCl.class,
-        Reaction_CO_2H2__CH3OH.class,
-        Reaction_CH2O_H2__CH3OH.class,
-        Reaction_C2H4_H2__C2H6.class,
-        Reaction_C2H2_2H2__C2H6.class,
-        Reaction_C_O2__CO2.class,
-        Reaction_2C_O2__2CO.class,
-        Reaction_2CO_O2__2CO2.class,
-        Reaction_C_CO2__2CO.class,
-        Reaction_C_2S__CS2.class,
-        AmmoniaReaction.class,
-        Reaction_N2_O2__2NO.class,
-        Reaction_2NO_O2__2NO2.class,
-        Reaction_2N2_O2__2NO2.class,
-        Reaction_P4_6H2__4PH3.class,
-        Reaction_P4_6F2__4PF3.class,
-        Reaction_P4_6Cl2__4PCl3.class,
-        Reaction_P4_10Cl2__4PCl5.class,
-        Reaction_PCl3_Cl2__PCl5.class,
-        Reaction_2SO2_O2__2SO3.class 
-        };
-
+    private static final ArrayList<Class <? extends ChemicalReaction>> LEVEL1_LIST = new ArrayList<Class<? extends ChemicalReaction>>();
+    static {
+        LEVEL1_LIST.add( WaterReaction.class );
+        LEVEL1_LIST.add( Reaction_H2_F2__2HF.class );
+        LEVEL1_LIST.add( Reaction_H2_Cl2__2HCl.class );
+        LEVEL1_LIST.add( Reaction_CO_2H2__CH3OH.class );
+        LEVEL1_LIST.add( Reaction_CH2O_H2__CH3OH.class );
+        LEVEL1_LIST.add( Reaction_C2H4_H2__C2H6.class );
+        LEVEL1_LIST.add( Reaction_C2H2_2H2__C2H6.class );
+        LEVEL1_LIST.add( Reaction_C_O2__CO2.class );
+        LEVEL1_LIST.add( Reaction_2C_O2__2CO.class );
+        LEVEL1_LIST.add( Reaction_2CO_O2__2CO2.class );
+        LEVEL1_LIST.add( Reaction_C_CO2__2CO.class );
+        LEVEL1_LIST.add( Reaction_C_2S__CS2.class );
+        LEVEL1_LIST.add( AmmoniaReaction.class );
+        LEVEL1_LIST.add( Reaction_N2_O2__2NO.class );
+        LEVEL1_LIST.add( Reaction_2NO_O2__2NO2.class );
+        LEVEL1_LIST.add( Reaction_2N2_O2__2NO2.class );
+        LEVEL1_LIST.add( Reaction_P4_6H2__4PH3.class );
+        LEVEL1_LIST.add( Reaction_P4_6F2__4PF3.class );
+        LEVEL1_LIST.add( Reaction_P4_6Cl2__4PCl3.class );
+        LEVEL1_LIST.add( Reaction_P4_10Cl2__4PCl5.class );
+        LEVEL1_LIST.add( Reaction_PCl3_Cl2__PCl5.class );
+        LEVEL1_LIST.add( Reaction_2SO2_O2__2SO3.class );
+    };
+    
     // level 2 uses the same reactions as level 1
-    private static final Class<?>[] LEVEL2_REACTIONS = LEVEL1_REACTIONS;
+    private static final ArrayList<Class <? extends ChemicalReaction>> LEVEL2_LIST = LEVEL1_LIST;
 
     // level 3 is all the two-product reactions
-    private static final Class<?>[] LEVEL3_REACTIONS = { 
-        Reaction_2C_2H2O__CH4_CO2.class, 
-        Reaction_CH4_H2O__3H2_CO.class, 
-        MethaneReaction.class, 
-        Reaction_2C2H6_7O2__4CO2_6H2O.class, 
-        Reaction_C2H4_3O2__2CO2_2H2O.class, 
-        Reaction_2C2H2_5O2__4CO2_2H2O.class, 
-        Reaction_C2H5OH_3O2__2CO2_3H2O.class, 
-        Reaction_C2H6_Cl2__C2H5Cl_HCl.class, 
-        Reaction_CH4_4S__CS2_2H2S.class, 
-        Reaction_CS2_3O2__CO2_2SO2.class, 
-        Reaction_4NH3_3O2__2N2_6H2O.class, 
-        Reaction_4NH3_5O2__4NO_6H2O.class, 
-        Reaction_4NH3_7O2__4NO2_6H2O.class, 
-        Reaction_4NH3_6NO__5N2_6H2O.class, 
-        Reaction_SO2_2H2__S_2H2O.class, 
-        Reaction_SO2_3H2__H2S_2H2O.class, 
-        Reaction_2F2_H2O__OF2_2HF.class, 
-        Reaction_OF2_H2O__O2_2HF.class 
-        };
+    private static final ArrayList<Class <? extends ChemicalReaction>>LEVEL3_LIST = new ArrayList<Class<? extends ChemicalReaction>>();
+    static {
+        LEVEL3_LIST.add( Reaction_2C_2H2O__CH4_CO2.class ); 
+        LEVEL3_LIST.add( Reaction_CH4_H2O__3H2_CO.class );
+        LEVEL3_LIST.add( MethaneReaction.class );
+        LEVEL3_LIST.add( Reaction_2C2H6_7O2__4CO2_6H2O.class );
+        LEVEL3_LIST.add( Reaction_C2H4_3O2__2CO2_2H2O.class );
+        LEVEL3_LIST.add( Reaction_2C2H2_5O2__4CO2_2H2O.class );
+        LEVEL3_LIST.add( Reaction_C2H5OH_3O2__2CO2_3H2O.class );
+        LEVEL3_LIST.add( Reaction_C2H6_Cl2__C2H5Cl_HCl.class );
+        LEVEL3_LIST.add( Reaction_CH4_4S__CS2_2H2S.class );
+        LEVEL3_LIST.add( Reaction_CS2_3O2__CO2_2SO2.class );
+        LEVEL3_LIST.add( Reaction_4NH3_3O2__2N2_6H2O.class );
+        LEVEL3_LIST.add( Reaction_4NH3_5O2__4NO_6H2O.class );
+        LEVEL3_LIST.add( Reaction_4NH3_7O2__4NO2_6H2O.class );
+        LEVEL3_LIST.add( Reaction_4NH3_6NO__5N2_6H2O.class );
+        LEVEL3_LIST.add( Reaction_SO2_2H2__S_2H2O.class );
+        LEVEL3_LIST.add( Reaction_SO2_3H2__H2S_2H2O.class );
+        LEVEL3_LIST.add( Reaction_2F2_H2O__OF2_2HF.class );
+        LEVEL3_LIST.add( Reaction_OF2_H2O__O2_2HF.class );
+    };
 
-    private static final Class<?>[][] REACTIONS = { LEVEL1_REACTIONS, LEVEL2_REACTIONS, LEVEL3_REACTIONS };
+    // list of lists, so we can use level to index the proper list
+    private static ArrayList< ArrayList<Class <? extends ChemicalReaction>>> REACTIONS = new ArrayList<ArrayList<Class<? extends ChemicalReaction>>>();
+    static {
+        REACTIONS.add( LEVEL1_LIST );
+        REACTIONS.add( LEVEL2_LIST );
+        REACTIONS.add( LEVEL3_LIST );
+    };
     
     /**
      * Default constructor.
@@ -90,7 +98,7 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
      */
     protected GameChallenge[] createChallengesAux( int level, boolean imagesVisible ) {
 
-        if ( level < 1 || level > REACTIONS.length ) {
+        if ( level < 1 || level > REACTIONS.size() ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
         
@@ -123,39 +131,50 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
         }
         return challenges;
     }
-
+    
     /*
      * Creates a random reaction for a specified level.
      */
     private static ChemicalReaction getRandomReaction( int level, ChemicalReaction previousReaction ) {
         
         // Select a random reaction from the array for the specified level.
-        int levelIndex = level - 1;
-        int reactionIndex = (int) ( Math.random() * REACTIONS[levelIndex].length );
-        Class<? extends ChemicalReaction> reactionClass = getReaction( levelIndex, reactionIndex );
+        int reactionIndex = (int) ( Math.random() * getNumberOfReactions( level ) );
+        Class<? extends ChemicalReaction> reactionClass = getReactionClass( level, reactionIndex );
         
         // If same as the previous reaction, simply get the next reaction in the array.
         if ( previousReaction != null && reactionClass.equals( previousReaction.getClass() ) ) {
             reactionIndex++;
-            if ( reactionIndex > REACTIONS[levelIndex].length - 1 ) {
+            if ( reactionIndex > getNumberOfReactions( level ) - 1 ) {
                 reactionIndex = 0;
             }
-            reactionClass = getReaction( levelIndex, reactionIndex );
+            reactionClass = getReactionClass( level, reactionIndex );
         }
         return instantiateReaction( reactionClass );
     }
     
-    private static Class<? extends ChemicalReaction> getReaction( int levelIndex, int reactionIndex ) {
-        return (Class<? extends ChemicalReaction>) REACTIONS[levelIndex][reactionIndex];
+    private static Class<? extends ChemicalReaction> getReactionClass( int level, int reactionIndex ) {
+        return getReactionList( level ).get( reactionIndex );
+    }
+    
+    private static int getNumberOfReactions( int level ) {
+        return getReactionList( level ).size();
+    }
+    
+    /*
+     * Gets the list of reactions for a level.
+     * Levels are numbered from 1-N, as in the model.
+     */
+    private static ArrayList<Class <? extends ChemicalReaction>> getReactionList( int level ) {
+        return REACTIONS.get( level - 1 );
     }
 
     // test for range violations inherent in reactions, and verify that they are fixable.
     public static void main( String[] args ) {
         // put all reaction in a container, removing duplicates.
         ArrayList<Class<? extends ChemicalReaction>> reactionClasses = new ArrayList<Class<? extends ChemicalReaction>>();
-        for ( int i = 0; i < REACTIONS.length; i++ ) {
-            for ( int j = 0; j < REACTIONS[i].length; j++ ) {
-                Class<? extends ChemicalReaction> reactionClass = getReaction( i, j );
+        for ( int level = 1; level <= REACTIONS.size(); level++ ) {
+            for ( int reactionIndex = 0; reactionIndex < getNumberOfReactions( level ); reactionIndex++ ) {
+                Class<? extends ChemicalReaction> reactionClass = getReactionClass( level, reactionIndex );
                 if ( !reactionClasses.contains( reactionClass ) ) {
                     reactionClasses.add( reactionClass );
                 }
