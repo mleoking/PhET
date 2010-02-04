@@ -21,7 +21,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimpleGameChallengeFactory extends AbstractGameChallengeFactory {
+public class SimpleChallengeFactory extends AbstractChallengeFactory {
     
     // level 1 is all the one-product reactions
     private static final Class<?>[] LEVEL1_REACTIONS = { 
@@ -79,7 +79,7 @@ public class SimpleGameChallengeFactory extends AbstractGameChallengeFactory {
     /**
      * Default constructor.
      */
-    public SimpleGameChallengeFactory() {}
+    public SimpleChallengeFactory() {}
 
     /*
      * Abstract "hook" in the base class.
