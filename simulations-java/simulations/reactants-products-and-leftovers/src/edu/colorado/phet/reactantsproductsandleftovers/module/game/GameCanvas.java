@@ -75,12 +75,12 @@ public class GameCanvas extends RPALCanvas {
         
         // game settings
         gameSettingsNode = new GameSettingsNode( model );
-        gameSettingsNode.scale( 1.5 ); //XXX scale
+        gameSettingsNode.scale( 1.5 );
         addChild( gameSettingsNode );
 
         // game summary
         gameSummaryNode = new GameSummaryNode( model );
-        gameSummaryNode.scale( 1.5 ); //XXX scale
+        gameSummaryNode.scale( 1.5 );
         addChild( gameSummaryNode );
         gameSummaryNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
