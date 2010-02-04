@@ -35,8 +35,11 @@ import edu.colorado.phet.idealgas.model.LightSpecies;
 /**
  * A non-modal dialog that shows histograms of energy and average speed of the particles in
  * an IdealGasModel.
+ * 
+ * This dialog extends JDialog instead of PaintImmediateDialog because the histogram
+ * implementation is multi-threaded. Do NOT extend PaintImmediateDialog, see #2147.
  */
-public class EnergyHistogramDialog extends PaintImmediateDialog {
+public class EnergyHistogramDialog extends JDialog /* Do NOT extend PaintImmediateDialog, see #2147 */ {
 
     //----------------------------------------------------------------
     // Instance fields
@@ -330,9 +333,11 @@ public class EnergyHistogramDialog extends PaintImmediateDialog {
                     if( EnergyHistogramDialog.this.isVisible() ) {
                         // If we are at the first iteration of an averaging cycle, clear the data from the energyHistogram
                         // and compute the new clipping level
-                        for ( int i = 0; i < clients.size(); i++ ) {
-                            UpdaterClient client = (UpdaterClient) clients.get( i );
-                            client.clear();
+                        if( ( cnt % averagingRatio ) == 1 ) {
+                            for( int i = 0; i < clients.size(); i++ ) {
+                                UpdaterClient client = (UpdaterClient)clients.get( i );
+                                client.clear();
+                            }
                         }
                         List bodies = model.getBodies();
                         for( int i = 0; i < bodies.size(); i++ ) {
