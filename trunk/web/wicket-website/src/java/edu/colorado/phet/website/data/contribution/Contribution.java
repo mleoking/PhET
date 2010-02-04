@@ -2,8 +2,8 @@ package edu.colorado.phet.website.data.contribution;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -24,7 +24,6 @@ public class Contribution implements Serializable {
     private String authorOrganization;
     private Date dateCreated;
     private Date dateUpdated;
-    private String standardsCompliance;
     private boolean fromPhet;
     private boolean goldStar;
     private Set files = new HashSet();
@@ -35,6 +34,43 @@ public class Contribution implements Serializable {
     private Set nominations = new HashSet();
     private Set types = new HashSet();
     private Set simulations = new HashSet();
+
+    // standards stored as booleans for efficient storage and HQL queries
+
+    // Science as Inquiry
+    private boolean standardK4A;
+    private boolean standard58A;
+    private boolean standard912A;
+
+    // Physical Science
+    private boolean standardK4B;
+    private boolean standard58B;
+    private boolean standard912B;
+
+    // Life Science
+    private boolean standardK4C;
+    private boolean standard58C;
+    private boolean standard912C;
+
+    // Earth and Space Science
+    private boolean standardK4D;
+    private boolean standard58D;
+    private boolean standard912D;
+
+    // Science and Technology
+    private boolean standardK4E;
+    private boolean standard58E;
+    private boolean standard912E;
+
+    // Science in Personal and Social Perspective
+    private boolean standardK4F;
+    private boolean standard58F;
+    private boolean standard912F;
+
+    // History and Nature of Science
+    private boolean standardK4G;
+    private boolean standard58G;
+    private boolean standard912G;
 
     private static Logger logger = Logger.getLogger( Contribution.class.getName() );
 
@@ -145,14 +181,6 @@ public class Contribution implements Serializable {
         this.dateUpdated = dateUpdated;
     }
 
-    public String getStandardsCompliance() {
-        return standardsCompliance;
-    }
-
-    public void setStandardsCompliance( String standardsCompliance ) {
-        this.standardsCompliance = standardsCompliance;
-    }
-
     public boolean isFromPhet() {
         return fromPhet;
     }
@@ -231,5 +259,173 @@ public class Contribution implements Serializable {
 
     public void setSimulations( Set simulations ) {
         this.simulations = simulations;
+    }
+
+    public boolean isStandardK4A() {
+        return standardK4A;
+    }
+
+    public void setStandardK4A( boolean standardK4A ) {
+        this.standardK4A = standardK4A;
+    }
+
+    public boolean isStandard58A() {
+        return standard58A;
+    }
+
+    public void setStandard58A( boolean standard58A ) {
+        this.standard58A = standard58A;
+    }
+
+    public boolean isStandard912A() {
+        return standard912A;
+    }
+
+    public void setStandard912A( boolean standard912A ) {
+        this.standard912A = standard912A;
+    }
+
+    public boolean isStandardK4B() {
+        return standardK4B;
+    }
+
+    public void setStandardK4B( boolean standardK4B ) {
+        this.standardK4B = standardK4B;
+    }
+
+    public boolean isStandard58B() {
+        return standard58B;
+    }
+
+    public void setStandard58B( boolean standard58B ) {
+        this.standard58B = standard58B;
+    }
+
+    public boolean isStandard912B() {
+        return standard912B;
+    }
+
+    public void setStandard912B( boolean standard912B ) {
+        this.standard912B = standard912B;
+    }
+
+    public boolean isStandardK4C() {
+        return standardK4C;
+    }
+
+    public void setStandardK4C( boolean standardK4C ) {
+        this.standardK4C = standardK4C;
+    }
+
+    public boolean isStandard58C() {
+        return standard58C;
+    }
+
+    public void setStandard58C( boolean standard58C ) {
+        this.standard58C = standard58C;
+    }
+
+    public boolean isStandard912C() {
+        return standard912C;
+    }
+
+    public void setStandard912C( boolean standard912C ) {
+        this.standard912C = standard912C;
+    }
+
+    public boolean isStandardK4D() {
+        return standardK4D;
+    }
+
+    public void setStandardK4D( boolean standardK4D ) {
+        this.standardK4D = standardK4D;
+    }
+
+    public boolean isStandard58D() {
+        return standard58D;
+    }
+
+    public void setStandard58D( boolean standard58D ) {
+        this.standard58D = standard58D;
+    }
+
+    public boolean isStandard912D() {
+        return standard912D;
+    }
+
+    public void setStandard912D( boolean standard912D ) {
+        this.standard912D = standard912D;
+    }
+
+    public boolean isStandardK4E() {
+        return standardK4E;
+    }
+
+    public void setStandardK4E( boolean standardK4E ) {
+        this.standardK4E = standardK4E;
+    }
+
+    public boolean isStandard58E() {
+        return standard58E;
+    }
+
+    public void setStandard58E( boolean standard58E ) {
+        this.standard58E = standard58E;
+    }
+
+    public boolean isStandard912E() {
+        return standard912E;
+    }
+
+    public void setStandard912E( boolean standard912E ) {
+        this.standard912E = standard912E;
+    }
+
+    public boolean isStandardK4F() {
+        return standardK4F;
+    }
+
+    public void setStandardK4F( boolean standardK4F ) {
+        this.standardK4F = standardK4F;
+    }
+
+    public boolean isStandard58F() {
+        return standard58F;
+    }
+
+    public void setStandard58F( boolean standard58F ) {
+        this.standard58F = standard58F;
+    }
+
+    public boolean isStandard912F() {
+        return standard912F;
+    }
+
+    public void setStandard912F( boolean standard912F ) {
+        this.standard912F = standard912F;
+    }
+
+    public boolean isStandardK4G() {
+        return standardK4G;
+    }
+
+    public void setStandardK4G( boolean standardK4G ) {
+        this.standardK4G = standardK4G;
+    }
+
+    public boolean isStandard58G() {
+        return standard58G;
+    }
+
+    public void setStandard58G( boolean standard58G ) {
+        this.standard58G = standard58G;
+    }
+
+    public boolean isStandard912G() {
+        return standard912G;
+    }
+
+    public void setStandard912G( boolean standard912G ) {
+        this.standard912G = standard912G;
     }
 }
