@@ -170,13 +170,9 @@ public class ScoreboardNode extends PhetPNode {
     }
     
     private void setTime( long elapsedMillis ) {
-        long elapsedSec = ( elapsedMillis / 1000 );
-        int secondsPerMinute = 60;
-        int minutesPerHour = 60;
-        int secondsPerHour = minutesPerHour * secondsPerMinute;
-        int hours = (int) ( elapsedSec / secondsPerHour );
-        int minutes = (int) ( elapsedSec - ( hours * secondsPerHour ) ) / secondsPerMinute;
-        int seconds = (int) ( elapsedSec - ( hours * secondsPerHour ) - ( minutes * secondsPerMinute ) );
+        int hours = (int) ( elapsedMillis / ( 1000 * 60 * 60 ) );
+        int minutes = (int) ( ( elapsedMillis % ( 1000 * 60 * 60 ) ) / ( 1000 * 60 ) );
+        int seconds = (int) ( ( ( elapsedMillis % ( 1000 * 60 * 60 ) ) % ( 1000 * 60 ) ) / 1000 );
         String valueString = "";
         if ( hours > 0 ) {
             // hours:minutes:seconds
