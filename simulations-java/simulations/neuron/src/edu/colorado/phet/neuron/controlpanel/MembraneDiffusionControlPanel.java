@@ -146,7 +146,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         chartControlCheckbox.addChangeListener(new ChangeListener() {
 			
 			public void stateChanged(ChangeEvent e) {
-				neuronCanvas.setMembranePotentialChartVisible(chartControlCheckbox.isSelected());
+				axonModel.setPotentialChartVisible(chartControlCheckbox.isSelected());
 			}
 		});
         chartControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);

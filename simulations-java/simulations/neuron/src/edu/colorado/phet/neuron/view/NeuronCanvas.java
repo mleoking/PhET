@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
@@ -41,8 +42,8 @@ public class NeuronCanvas extends PhetPCanvas {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
     // Size of the potential chart.
-    private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH * 1.3,
-    		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.5);
+    private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH,
+    		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.3);
     
     // For debug: Enable and disable nodes that can help with debug of layout.
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
@@ -74,12 +75,12 @@ public class NeuronCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public NeuronCanvas( AxonModel model ) {
+    public NeuronCanvas( final AxonModel model ) {
 
     	this.model = model;
 
     	// Set up the canvas-screen transform.
-    	setWorldTransformStrategy(new PhetPCanvas.CenterWidthScaleHeight(this, INITIAL_INTERMEDIATE_DIMENSION));
+    	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, INITIAL_INTERMEDIATE_DIMENSION));
     	
     	// Set up the model-canvas transform.
         mvt = new ModelViewTransform2D(
@@ -94,6 +95,15 @@ public class NeuronCanvas extends PhetPCanvas {
 			public void channelAdded(AbstractMembraneChannel channel) {
 				addChannelNode(channel);
 			}
+			public void potentialChartVisibilityChanged(){
+				membranePotentialChart.setVisible(model.isPotentialChartVisible());
+//				if (!model.isPotentialChartVisible()){
+//					setZoomFactor(1);
+//				}
+//				else{
+//					setZoomFactor(0.5);
+//				}
+			}
 		});
         
         setBackground( NeuronConstants.CANVAS_BACKGROUND );
@@ -104,7 +114,7 @@ public class NeuronCanvas extends PhetPCanvas {
         atomLayer = new PNode();
         addWorldChild(atomLayer);
         chartLayer = new PNode();
-        addWorldChild(chartLayer);
+        addScreenChild(chartLayer);
         
         // Add the axon cross section.
         AxonMembraneNode axonMembraneNode = new AxonMembraneNode(model.getAxonMembrane(), mvt);
@@ -156,30 +166,33 @@ public class NeuronCanvas extends PhetPCanvas {
     // Canvas layout
     //----------------------------------------------------------------------------
     
-    /*
+    /**
      * Updates the layout of stuff on the canvas.
      */
     protected void updateLayout() {
 
         Dimension2D worldSize = getWorldSize();
+        Dimension2D screenSize = getScreenSize();
+        Rectangle bounds = getBounds();
+        Dimension size = getSize();
+        System.out.println("bounds = " + bounds + ", size = " + size + " + world size = " + worldSize + ", screen size = " + screenSize);
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
         }
         else {
             double rightEdgeX = (INITIAL_INTERMEDIATE_COORD_WIDTH + worldSize.getWidth()) / 2;
-            double centerX = getSize().getWidth() / 2;
-            System.out.println(centerX);
+            double centerX = getScreenSize().getWidth() / 2;
+            
+            // Set the membrane potential chart such that it is centered in
+            // the play area and just a bit up from the bottom.
             membranePotentialChart.setOffset(
             		centerX - membranePotentialChart.getFullBoundsReference().width / 2,
-            		worldSize.getHeight() - membranePotentialChart.getFullBoundsReference().height - 5);
+            		screenSize.getHeight() - membranePotentialChart.getFullBoundsReference().height - 5);
+            
             voltmeter.setOffset(rightEdgeX - voltmeter.getFullBoundsReference().width - 5,
             		worldSize.getHeight() - voltmeter.getFullBounds().height - 5);
         }
-    }
-    
-    public void setMembranePotentialChartVisible(boolean isVisible){
-    	membranePotentialChart.setVisible(isVisible);
     }
     
     public void setVoltmeterVisible(boolean isVisible){
@@ -202,6 +215,9 @@ public class NeuronCanvas extends PhetPCanvas {
     		getCamera().scaleViewAboutPoint(scaleFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2,
     				INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.1);
     	}
+    	
+    	// Update the layout to adjust to new sizing.
+    	updateLayout();
     }
     
     public double getCameraScale(){
