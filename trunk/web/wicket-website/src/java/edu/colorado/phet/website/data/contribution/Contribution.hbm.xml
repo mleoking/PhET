@@ -11,10 +11,10 @@
         <!-- consider making lazy? -->
         <many-to-one name="phetUser" class="edu.colorado.phet.website.data.PhetUser" not-null="true" lazy="false"/>
         <property name="title"/>
-        <property name="authors"/>
-        <property name="keywords"/>
+        <property name="authors" length="1024"/>
+        <property name="keywords" length="2048"/>
         <property name="approved"/>
-        <property name="description" length="4048"/>
+        <property name="description" length="4096"/>
         <property name="duration"/>
         <property name="answersIncluded"/>
         <property name="contactEmail"/>
