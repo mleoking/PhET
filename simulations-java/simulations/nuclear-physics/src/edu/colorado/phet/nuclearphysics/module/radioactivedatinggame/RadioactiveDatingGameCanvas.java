@@ -324,7 +324,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     }
     
     private void drawDecayCurveOnChart(){
-    	double startTime = System.currentTimeMillis();
         double halfLife = _model.getMeter().getHalfLifeForDating();
     	_proportionsChart.clear();
     	double timeSpan = halfLife * 3.2;
@@ -416,11 +415,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	else {
     		// Make sure all previously hidden guess results are now visible,
     		// since one may have been hidden by the guess entry dialog node.
-    		Iterator guessResultNodes = _mapDatableItemsToGuessResults.values().iterator();
-    		for (int i = 0; i < _mapDatableItemsToGuessResults.size(); i++)
-    		{
-    		  AgeGuessResultNode guessResultNode = (AgeGuessResultNode) guessResultNodes.next();
-    		  guessResultNode.setVisible(true);
+    		for ( AgeGuessResultNode guessResultNode : _mapDatableItemsToGuessResults.values() ) {
+    		    guessResultNode.setVisible(true);
     		}
     	}
     }
