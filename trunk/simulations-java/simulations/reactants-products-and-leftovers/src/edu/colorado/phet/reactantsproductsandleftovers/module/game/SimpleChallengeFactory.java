@@ -135,46 +135,69 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
     /*
      * Creates a random reaction for a specified level.
      */
-    private static ChemicalReaction getRandomReaction( int level, ChemicalReaction previousReaction ) {
+    private ChemicalReaction getRandomReaction( int level, ChemicalReaction previousReaction ) {
         
         // Select a random reaction from the array for the specified level.
-        int reactionIndex = (int) ( Math.random() * getNumberOfReactions( level ) );
+        int reactionIndex = getRandomReactantIndex( level );
         Class<? extends ChemicalReaction> reactionClass = getReactionClass( level, reactionIndex );
         
         // If same as the previous reaction, simply get the next reaction in the array.
         if ( previousReaction != null && reactionClass.equals( previousReaction.getClass() ) ) {
-            reactionIndex++;
-            if ( reactionIndex > getNumberOfReactions( level ) - 1 ) {
-                reactionIndex = 0;
-            }
+            reactionIndex = getNextReactantIndex( level, reactionIndex );
             reactionClass = getReactionClass( level, reactionIndex );
         }
+        
         return instantiateReaction( reactionClass );
     }
     
-    private static Class<? extends ChemicalReaction> getReactionClass( int level, int reactionIndex ) {
+    /*
+     * Gets a reaction class for a specified level and index.
+     */
+    private Class<? extends ChemicalReaction> getReactionClass( int level, int reactionIndex ) {
         return getReactionList( level ).get( reactionIndex );
     }
     
-    private static int getNumberOfReactions( int level ) {
+    /*
+     * Gets the number of reactions for a specified level.
+     */
+    private int getNumberOfReactions( int level ) {
         return getReactionList( level ).size();
+    }
+    
+    /*
+     * Gets a random reaction index for a specified level.
+     */
+    private int getRandomReactantIndex( int level ) {
+        return (int) ( Math.random() * getNumberOfReactions( level ) );
+    }
+    
+    /*
+     * Gets the next reaction index for a specified level and current reaction index.
+     */
+    private int getNextReactantIndex( int level, int currentIndex ) {
+        int nextIndex = currentIndex + 1;
+        if ( nextIndex > getNumberOfReactions( level ) - 1 ) {
+            nextIndex = 0;
+        }
+        return nextIndex;
     }
     
     /*
      * Gets the list of reactions for a level.
      * Levels are numbered from 1-N, as in the model.
      */
-    private static ArrayList<Class <? extends ChemicalReaction>> getReactionList( int level ) {
+    private ArrayList<Class <? extends ChemicalReaction>> getReactionList( int level ) {
         return REACTIONS.get( level - 1 );
     }
 
     // test for range violations inherent in reactions, and verify that they are fixable.
     public static void main( String[] args ) {
+        SimpleChallengeFactory factory = new SimpleChallengeFactory();
         // put all reaction in a container, removing duplicates.
         ArrayList<Class<? extends ChemicalReaction>> reactionClasses = new ArrayList<Class<? extends ChemicalReaction>>();
         for ( int level = 1; level <= REACTIONS.size(); level++ ) {
-            for ( int reactionIndex = 0; reactionIndex < getNumberOfReactions( level ); reactionIndex++ ) {
-                Class<? extends ChemicalReaction> reactionClass = getReactionClass( level, reactionIndex );
+            for ( int reactionIndex = 0; reactionIndex < factory.getNumberOfReactions( level ); reactionIndex++ ) {
+                Class<? extends ChemicalReaction> reactionClass = factory.getReactionClass( level, reactionIndex );
                 if ( !reactionClasses.contains( reactionClass ) ) {
                     reactionClasses.add( reactionClass );
                 }
