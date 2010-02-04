@@ -21,9 +21,36 @@
         <property name="authorOrganization"/>
         <property name="dateCreated" type="timestamp"/>
         <property name="dateUpdated" type="timestamp"/>
-        <property name="standardsCompliance"/>
         <property name="fromPhet"/>
         <property name="goldStar"/>
+
+        <property name="standardK4A"/>
+        <property name="standard58A"/>
+        <property name="standard912A"/>
+
+        <property name="standardK4B"/>
+        <property name="standard58B"/>
+        <property name="standard912B"/>
+
+        <property name="standardK4C"/>
+        <property name="standard58C"/>
+        <property name="standard912C"/>
+
+        <property name="standardK4D"/>
+        <property name="standard58D"/>
+        <property name="standard912D"/>
+
+        <property name="standardK4E"/>
+        <property name="standard58E"/>
+        <property name="standard912E"/>
+
+        <property name="standardK4F"/>
+        <property name="standard58F"/>
+        <property name="standard912F"/>
+
+        <property name="standardK4G"/>
+        <property name="standard58G"/>
+        <property name="standard912G"/>
 
         <set name="files" inverse="true">
             <key column="contribution"/>
