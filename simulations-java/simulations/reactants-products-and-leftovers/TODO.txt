@@ -10,6 +10,8 @@ HIGH PRIORITY
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
 
 MEDIUM PRIORITY
+- remove silence from audio files
+- investigate smaller audio file formats
 - explicitly handle tab traversal in play area
 - is there an issue with Game timer, it showed 46:03 during status meeting, which was not possible
 - automatically increase the level setting when user gets a perfect score?
