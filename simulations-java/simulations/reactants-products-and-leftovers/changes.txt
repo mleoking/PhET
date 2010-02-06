@@ -1,3 +1,5 @@
+# 0.00.22 (38440) Feb 5, 2010
+2/5/10 demonstrate sound feature in Game
 2/5/10 reduced number of challenges per game to 5
 2/5/10 added sound player, some placeholder sounds, wired to sound controls
 2/5/10 added sound control to Game Settings panel, sound icon from wave-interference
