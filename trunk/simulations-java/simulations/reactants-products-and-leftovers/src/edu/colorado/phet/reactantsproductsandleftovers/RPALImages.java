@@ -16,6 +16,7 @@ public class RPALImages {
 
     // misc images
     public static final BufferedImage STOPWATCH = RPALResources.getImage( "blue-stopwatch.png" );
+    public static final BufferedImage SOUND_ICON = RPALResources.getImage( "sound-icon.png" );
     
     // sandwich images
     public static final BufferedImage BREAD = getSandwichImage( "bread.png" );

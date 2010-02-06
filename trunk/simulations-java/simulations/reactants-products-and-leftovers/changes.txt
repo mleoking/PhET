@@ -1,3 +1,4 @@
+2/5/10 added sound control to Game Settings panel, sound icon from wave-interference
 2/4/10 use stronger type-checking in challenge factories, switch to ArrayList
 2/4/10 rename "game strategy" classes to "challenge factory" to be more indicative of what these classes do
 2/4/10 handle cleanup of dynamic nodes in GameCanvas.updateNodes
