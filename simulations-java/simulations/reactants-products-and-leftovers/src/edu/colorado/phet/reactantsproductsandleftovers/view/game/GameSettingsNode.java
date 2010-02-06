@@ -32,6 +32,7 @@ public class GameSettingsNode extends PhetPNode {
 
     private final JRadioButton[] levelRadioButtons;
     private final JRadioButton timerOnRadioButton, timerOffRadioButton;
+    private final JRadioButton soundOnRadioButton, soundOffRadioButton;
     private final JRadioButton imagesShowRadioButton, imagesHideRadioButton;
     
     public GameSettingsNode( final GameModel model ) {
@@ -69,6 +70,20 @@ public class GameSettingsNode extends PhetPNode {
         timerPanel.add( timerOnRadioButton );
         timerPanel.add( timerOffRadioButton );
         
+        // Sound control
+        JLabel soundLabel = new JLabel( new ImageIcon( RPALImages.SOUND_ICON ) );
+        soundOnRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_ON );
+        soundOnRadioButton.setOpaque( false );
+        soundOffRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_OFF );
+        soundOffRadioButton.setOpaque( false );
+        ButtonGroup soundButtonGroup = new ButtonGroup();
+        soundButtonGroup.add( soundOnRadioButton );
+        soundButtonGroup.add( soundOffRadioButton );
+        JPanel soundPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+        soundPanel.setOpaque( false );
+        soundPanel.add( soundOnRadioButton );
+        soundPanel.add( soundOffRadioButton );
+        
         // Molecule images control
         JLabel imagesLabel = new JLabel( new ImageIcon( RPALImages.CH2O ) );
         imagesShowRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_SHOW );
@@ -90,7 +105,7 @@ public class GameSettingsNode extends PhetPNode {
         JButton startButton = new JButton( "Start!" );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.startGame( getLevel(), isTimerOnSelected(), isImagesOnSelected() );
+                model.startGame( getLevel(), isTimerOnSelected(), isSoundOnSelected(), isImagesOnSelected() );
             }
         });
         
@@ -109,6 +124,9 @@ public class GameSettingsNode extends PhetPNode {
         column = 0;
         layout.addAnchoredComponent( timerLabel, row, column++, GridBagConstraints.EAST );
         layout.addComponent( timerPanel, row++, column );
+        column = 0;
+        layout.addAnchoredComponent( soundLabel, row, column++, GridBagConstraints.EAST );
+        layout.addComponent( soundPanel, row++, column );
         column = 0;
         layout.addAnchoredComponent( imagesLabel, row, column++, GridBagConstraints.EAST );
         layout.addComponent( imagesPanel, row++, column );
@@ -134,6 +152,11 @@ public class GameSettingsNode extends PhetPNode {
             }
             
             @Override
+            public void soundEnabledChanged() {
+                setSoundOnSelected( model.isSoundEnabled() );
+            }
+            
+            @Override
             public void imagesVisibleChanged() {
                 setImagesOnSelected( model.isImagesVisible() );
             }
@@ -142,6 +165,7 @@ public class GameSettingsNode extends PhetPNode {
         // initial state
         setLevel( model.getLevel() );
         setTimerOnSelected( model.isTimerVisible() );
+        setSoundOnSelected( model.isSoundEnabled() );
         setImagesOnSelected( model.isImagesVisible() );
     }
     
@@ -169,6 +193,15 @@ public class GameSettingsNode extends PhetPNode {
     
     private boolean isTimerOnSelected() {
         return timerOnRadioButton.isSelected();
+    }
+    
+    private void setSoundOnSelected( boolean selected ) {
+        soundOnRadioButton.setSelected( selected );
+        soundOffRadioButton.setSelected( !selected );
+    }
+    
+    private boolean isSoundOnSelected() {
+        return soundOnRadioButton.isSelected();
     }
     
     private void setImagesOnSelected( boolean selected ) {

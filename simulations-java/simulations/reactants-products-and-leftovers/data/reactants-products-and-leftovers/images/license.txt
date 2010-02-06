@@ -40,3 +40,4 @@ sandwich/bread.png author=PhET
 sandwich/cheese.png author=PhET
 sandwich/meat.png author=PhET
 
+sound-icon.png author=PhET
