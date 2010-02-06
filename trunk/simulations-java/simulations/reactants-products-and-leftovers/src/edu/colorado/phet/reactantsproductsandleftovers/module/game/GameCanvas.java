@@ -13,9 +13,12 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALAudioPlayer;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALResources;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
+import edu.colorado.phet.reactantsproductsandleftovers.util.AudioResourcePlayer;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.game.*;
@@ -46,6 +49,7 @@ public class GameCanvas extends RPALCanvas {
     
     private final GameModel model;
     private final NodeVisibilityManager visibilityManager;
+    private final RPALAudioPlayer audioPlayer;
     
     // nodes allocated once, always visible
     private final PhetPNode parentNode;
@@ -72,6 +76,8 @@ public class GameCanvas extends RPALCanvas {
 
     public GameCanvas( final GameModel model, Resettable resettable ) {
         super();
+        
+        audioPlayer = new RPALAudioPlayer( model.isSoundEnabled() );
         
         // game settings
         gameSettingsNode = new GameSettingsNode( model );
@@ -169,6 +175,11 @@ public class GameCanvas extends RPALCanvas {
             public void guessChanged() {
                 handleGuessChanged();
             }
+            
+            @Override
+            public void soundEnabledChanged() {
+                handleSoundEnabledChanged();
+            }
         } );
 
         // when any button's visibility changes, update the layout of the buttons
@@ -251,6 +262,12 @@ public class GameCanvas extends RPALCanvas {
     private void handleGameCompleted() {
         showGuess( false );
         visibilityManager.setVisibility( GAME_SUMMARY_STATE );
+        if ( model.getPoints() == GameModel.getPerfectScore() ) {
+            audioPlayer.gameOverPerfectScore( model.getLevel() );
+        }
+        else {
+            audioPlayer.gameOverImperfectScore();
+        }
     }
 
     private void handleGameAborted() {
@@ -268,6 +285,10 @@ public class GameCanvas extends RPALCanvas {
         instructionsNode.setVisible( false );
     }
     
+    private void handleSoundEnabledChanged() {
+        audioPlayer.setEnabled( model.isSoundEnabled() );
+    }
+    
     /*
      * When the "Check" button is pressed, ask the model to evaluate the user's answer.
      * The model handles the awarding of points.
@@ -278,6 +299,7 @@ public class GameCanvas extends RPALCanvas {
         showGuess( false );
         boolean correct = model.checkGuess();
         if ( correct ) {
+            audioPlayer.correctAnswer();
             faceNode.smile();
             if ( model.getAttempts() == 1 ) {
                 visibilityManager.setVisibility( FIRST_ATTEMPT_CORRECT_STATE );
@@ -288,6 +310,7 @@ public class GameCanvas extends RPALCanvas {
             showImagesForCorrectGuess();
         }
         else {
+            audioPlayer.wrongAnswer();
             faceNode.frown();
             if ( model.getAttempts() == 1 ) {
                 visibilityManager.setVisibility( FIRST_ATTEMPT_WRONG_STATE );

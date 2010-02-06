@@ -8,6 +8,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 /**
  * Player for JAR audio resources.
  * Can play sim-specific or phetcommon sounds, can be enabled and disabled.
+ * The downside of this implementation is that the resources can't be loaded statically,
+ * so we can't verify at startup time that the resources exists.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
