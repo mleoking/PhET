@@ -12,7 +12,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.umd.cs.piccolo.nodes.PText;
 
-
+/**
+ * Displays the reaction number in the Game, for example "2 of 10".
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ReactionNumberLabelNode extends PText {
     
     private static final String PATTERN = RPALStrings.LABEL_REACTION_NUMBER;

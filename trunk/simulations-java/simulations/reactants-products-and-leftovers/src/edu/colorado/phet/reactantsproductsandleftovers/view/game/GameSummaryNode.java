@@ -26,7 +26,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * Upon completion of a Game, this node is used to display a summary of the user's game results.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class GameSummaryNode extends PhetPNode {
     
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
