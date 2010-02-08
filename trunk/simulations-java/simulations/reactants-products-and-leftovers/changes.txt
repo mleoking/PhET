@@ -1,3 +1,4 @@
+2/8/10 request confirmation when "New Game" button in scoreboard is pressed
 # 0.00.22 (38440) Feb 5, 2010
 2/5/10 demonstrate sound feature in Game
 2/5/10 reduced number of challenges per game to 5

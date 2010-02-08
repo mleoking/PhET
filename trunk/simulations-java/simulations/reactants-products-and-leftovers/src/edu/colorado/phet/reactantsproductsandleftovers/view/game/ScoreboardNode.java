@@ -4,6 +4,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +12,12 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
+import javax.swing.JOptionPane;
+
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
@@ -188,7 +194,14 @@ public class ScoreboardNode extends PhetPNode {
     }
     
     private void handleNewGame() {
-        model.newGame();
+        // request confirmation
+        Component parent = PhetApplication.getInstance().getPhetFrame();
+        String message = RPALStrings.MESSAGE_CONFIRM_NEW_GAME;
+        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
+        int option = PhetOptionPane.showYesNoDialog( parent, message, title );
+        if ( option == JOptionPane.YES_OPTION ) {
+            model.newGame();
+        }
     }
     
     private double getMaxChildHeight() {
