@@ -2,7 +2,11 @@ package edu.colorado.phet.reactantsproductsandleftovers;
 
 import edu.colorado.phet.reactantsproductsandleftovers.util.AudioResourcePlayer;
 
-
+/**
+ * Audio player for sound resources.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class RPALAudioPlayer extends AudioResourcePlayer {
 
     public RPALAudioPlayer( boolean enabled ) {
@@ -21,6 +25,10 @@ public class RPALAudioPlayer extends AudioResourcePlayer {
         playSimAudio( "gameOver-imperfectScore.wav" );
     }
     
+    /**
+     * The sound used for "perfect game score" varies by game level.
+     * @param level
+     */
     public void gameOverPerfectScore( int level ) {
         switch ( level ) {
         case 1:
