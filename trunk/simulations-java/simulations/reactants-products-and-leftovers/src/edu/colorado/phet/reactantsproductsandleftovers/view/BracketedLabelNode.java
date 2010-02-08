@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * A label centered below a horizontal bracket.
+ * A text label centered below a horizontal bracket.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

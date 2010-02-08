@@ -38,6 +38,12 @@ public class BoxNode extends PPath {
         return size;
     }
     
+    /**
+     * Gets a random point within the box, subject to some margin inside the box.
+     * @param xMargin
+     * @param yMargin
+     * @return
+     */
     public Point2D getRandomPoint( double xMargin, double yMargin ) {
         double xRange = getFullBoundsReference().getWidth() - ( 2 * xMargin );
         double yRange = getFullBoundsReference().getHeight() - ( 2 * yMargin );
