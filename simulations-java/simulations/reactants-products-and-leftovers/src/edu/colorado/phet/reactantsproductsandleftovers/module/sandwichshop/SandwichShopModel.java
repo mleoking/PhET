@@ -55,6 +55,9 @@ public class SandwichShopModel extends RPALModel {
         updateSandwichImage();
     }
     
+    /**
+     * Sets all coefficients and quantities back to their defaults.
+     */
     public void reset() {
         for ( Reactant reactant : reaction.getReactants() ) {
             reactant.setCoefficient( getCoefficientRange().getDefault() );
