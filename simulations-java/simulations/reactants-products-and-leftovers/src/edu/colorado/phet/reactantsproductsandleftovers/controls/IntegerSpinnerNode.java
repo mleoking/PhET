@@ -9,7 +9,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.MessageFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
@@ -18,6 +17,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.JSpinner.NumberEditor;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -34,7 +34,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class IntegerSpinnerNode extends PNode {
     
     private final IntegerRange range;
-    private final ArrayList<ChangeListener> listeners;
+    private final EventListenerList listeners;
     private final JSpinner spinner;
     private final JFormattedTextField textField;
     
@@ -43,7 +43,7 @@ public class IntegerSpinnerNode extends PNode {
         addInputEventListener( new CursorHandler() );
         
         this.range = range;
-        listeners = new ArrayList<ChangeListener>();
+        listeners = new EventListenerList();
 
         spinner = new JSpinner();
         
@@ -103,16 +103,16 @@ public class IntegerSpinnerNode extends PNode {
     }
     
     public void addChangeListener( ChangeListener listener ) {
-        listeners.add( listener );
+        listeners.add( ChangeListener.class, listener );
     }
     
     public void removeChangeListener( ChangeListener listener ) {
-        listeners.remove( listener );
+        listeners.remove( ChangeListener.class, listener );
     }
     
     private void fireStateChange() {
         ChangeEvent e = new ChangeEvent( this );
-        for ( ChangeListener listener : listeners ) {
+        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class) ) {
             listener.stateChanged( e );
         }
     }

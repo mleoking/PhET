@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
@@ -35,11 +36,11 @@ public class GameGuess {
     
     private final Reactant[] reactants;
     private final Product[] products;
-    private final ArrayList<ChangeListener> listeners;
+    private final EventListenerList listeners;
     
     public GameGuess( ChemicalReaction reaction, ChallengeType challengeType ) {
         
-        listeners = new ArrayList<ChangeListener>();
+        listeners = new EventListenerList();
         
         // create similar reactants
         ReactantChangeListener reactantChangeListener = new ReactantChangeAdapter() {
@@ -131,17 +132,16 @@ public class GameGuess {
     }
     
     public void addChangeListener( ChangeListener listener ) {
-        listeners.add( listener );
+        listeners.add( ChangeListener.class, listener );
     }
     
     public void removeChangeListener( ChangeListener listener ) {
-        listeners.remove( listener );
+        listeners.remove( ChangeListener.class, listener );
     }
     
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        ArrayList<ChangeListener> listenersCopy = new ArrayList<ChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( ChangeListener listener : listenersCopy ) {
+        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
             listener.stateChanged( event );
         }
     } 

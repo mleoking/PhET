@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
-import java.util.ArrayList;
+import java.util.EventListener;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -29,7 +30,7 @@ public class GameModel extends RPALModel {
     private static final boolean DEFAULT_SOUND_ENABLED = true;
     private static final boolean DEFAULT_IMAGES_VISIBLE = true;
     
-    private final ArrayList<GameListener> listeners;
+    private final EventListenerList listeners;
     private final GameTimer timer;
     private final ChangeListener guessChangeListener;
     private final IChallengeFactory challengeFactory;
@@ -45,7 +46,7 @@ public class GameModel extends RPALModel {
     
     public GameModel( IClock clock ) {
         
-        listeners = new ArrayList<GameListener>();
+        listeners = new EventListenerList();
         
         timer = new GameTimer( clock );
         timer.addChangeListener( new ChangeListener() {
@@ -339,7 +340,7 @@ public class GameModel extends RPALModel {
     //
     //---------------------------------------------------------------------------------
     
-    public interface GameListener {
+    public interface GameListener extends EventListener {
         public void newGame(); // user requested to start a new game
         public void gameStarted(); // a new game was started
         public void gameCompleted(); // the current game was completed
@@ -375,137 +376,107 @@ public class GameModel extends RPALModel {
     }
     
     public void addGameListener( GameListener listener ) {
-        listeners.add( listener );
+        listeners.add( GameListener.class, listener );
     }
     
     public void removeGameListener( GameListener listener ) {
-        listeners.remove( listener );
+        listeners.remove( GameListener.class, listener );
     }
     
     private void fireNewGame() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.newGame, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "fireNewGame" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.newGame();
         }
     }
     
     private void fireGameStarted() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireGameStarted, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "fireGameStarted" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.gameStarted();
         }
     }
     
     private void fireGameCompleted() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireGameCompleted, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "fireGameCompleted" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.gameCompleted();
         }
     }
     
     private void fireGameAborted() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireGameAborted, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "fireGameAborted" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.gameAborted();
         }
     }
     
     private void fireChallengeChanged() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireChallengeChanged, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "fireChallengeChanged" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.challengeChanged();
         }
     }
     
     private void fireGuessChanged() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireGuessChanged, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "fireGuessChanged" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.guessChanged();
         }
     }
     
     private void firePointsChanged() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.firePointsChanged, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "firePointsChanged" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.pointsChanged();
         }
     }
     
     private void fireLevelChanged() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireLevelChanged, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "fireLevelChanged" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.levelChanged();
         }
     }
     
     private void fireAttemptsChanged() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireAttemptsChanged, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "fireAttemptsChanged" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.attemptsChanged();
         }
     }
     
     private void fireTimerVisibleChanged() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireTimerVisibleChanged, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "fireTimerVisibleChanged" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.timerVisibleChanged();
         }
     }
     
     private void fireSoundEnabledChanged() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireSoundEnabledChanged, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "fireSoundEnabledChanged" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.soundEnabledChanged();
         }
     }
     
     private void fireImagesVisibleChanged() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "GameModel.fireMoleculeImagesVisibleChanged, notifying " + listenersCopy.size() + " listeners" );
-        }
-        for ( GameListener listener : listenersCopy ) {
+        firePrintDebug( "fireImagesVisibleChanged" );
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.imagesVisibleChanged();
         }
     }
     
     private void fireTimeChanged() {
-        ArrayList<GameListener> listenersCopy = new ArrayList<GameListener>( listeners ); // avoid ConcurrentModificationException
-        for ( GameListener listener : listenersCopy ) {
+        // no print debug for this, it happens too frequently
+        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.timeChanged();
+        }
+    }
+    
+    private void firePrintDebug( String methodName ) {
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "GameModel." + methodName + ", notifying " + listeners.getListeners( GameListener.class ).length + " listeners" );
         }
     }
 }

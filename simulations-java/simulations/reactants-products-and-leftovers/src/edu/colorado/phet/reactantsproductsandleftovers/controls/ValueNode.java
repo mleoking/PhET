@@ -6,10 +6,10 @@ import java.awt.Font;
 import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -39,7 +39,7 @@ public class ValueNode extends PhetPNode {
     private static final Font VALUE_FONT = new PhetFont( 22 );
     private static final Font NAME_FONT = new PhetFont( 18 );
     
-    private final ArrayList<ChangeListener> listeners;
+    private final EventListenerList listeners;
     private final IntegerHistogramBarNode barNode;
     private final PImage imageNode;
     private final HTMLNode nameNode;
@@ -55,7 +55,7 @@ public class ValueNode extends PhetPNode {
             throw new IllegalArgumentException( "value is out of range: " + value );
         }
         
-        listeners = new ArrayList<ChangeListener>();
+        listeners = new EventListenerList();
         
         // bar
         barNode = new IntegerHistogramBarNode( range, HISTOGRAM_BAR_SIZE );
@@ -172,17 +172,16 @@ public class ValueNode extends PhetPNode {
     }
 
     public void addChangeListener( ChangeListener listener ) {
-        listeners.add( listener );
+        listeners.add( ChangeListener.class, listener );
     }
     
     public void removeChangeListener( ChangeListener listener ) {
-        listeners.remove( listener );
+        listeners.remove( ChangeListener.class, listener );
     }
     
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        ArrayList<ChangeListener> listenersCopy = new ArrayList<ChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( ChangeListener listener : listenersCopy ) {
+        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
             listener.stateChanged( event );
         }
     }

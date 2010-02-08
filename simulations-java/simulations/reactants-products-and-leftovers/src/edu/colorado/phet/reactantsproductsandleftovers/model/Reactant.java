@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
-import java.util.ArrayList;
+import javax.swing.event.EventListenerList;
 
 /**
  * A reactant is a substance that is initially involved in a chemical reaction.
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public final /* yes, final, see javadoc! */ class Reactant extends Substance {
     
     private int leftovers;
-    private final ArrayList<ReactantChangeListener> listeners;
+    private final EventListenerList listeners;
     
     public Reactant( int coefficient, Molecule molecule ) {
         this( coefficient, molecule, 0 /* quantity */ );
@@ -25,7 +25,7 @@ public final /* yes, final, see javadoc! */ class Reactant extends Substance {
     public Reactant( int coefficient, Molecule molecule, int quantity ) {
         super( coefficient, molecule, quantity );
         this.leftovers = 0;
-        listeners = new ArrayList<ReactantChangeListener>();
+        listeners = new EventListenerList();
     }
     
     /**
@@ -84,17 +84,16 @@ public final /* yes, final, see javadoc! */ class Reactant extends Substance {
     
     public void addReactantChangeListener( ReactantChangeListener listener ) {
         super.addSubstanceChangeListener( listener );
-        listeners.add( listener );
+        listeners.add( ReactantChangeListener.class, listener );
     }
     
     public void removeReactantChangeListener( ReactantChangeListener listener ) {
         super.removeSubstanceChangeListener( listener );
-        listeners.remove( listener );
+        listeners.remove( ReactantChangeListener.class, listener );
     }
     
     private void fireLeftoverChanged() {
-        ArrayList<ReactantChangeListener> listenersCopy = new ArrayList<ReactantChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( ReactantChangeListener listener : listenersCopy ) {
+        for ( ReactantChangeListener listener : listeners.getListeners( ReactantChangeListener.class ) ) {
             listener.leftoversChanged();
         }
     }
