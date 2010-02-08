@@ -29,9 +29,15 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
-
+/**
+ * Scoreboard, displays the current state of the Game.
+ * Also has a "New Game" button that allows the user to start over at any time.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ScoreboardNode extends PhetPNode {
     
+    // constants
     private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
@@ -44,28 +50,21 @@ public class ScoreboardNode extends PhetPNode {
     private static final NumberFormat ONE_DIGIT_TIME_FORMAT = new DecimalFormat( "0" );
     private static final NumberFormat TWO_DIGIT_TIME_FORMAT = new DecimalFormat( "00" );
     
+    // immutable members
     private final GameModel model;
     private final PText scoreValue, levelValue, timerValue;
     private final PImage timerIcon;
     private final PPath backgroundNode;
     private final GradientButtonNode newGameButton;
-    private boolean confirmNewGame;
+    
+    // mutable members
+    private boolean confirmNewGame; // request confirmation when "New Game" button is pressed?
  
     public ScoreboardNode( final GameModel model ) {
         super();
         
         confirmNewGame = false;
         this.model = model;
-        model.addGameListener( new GameAdapter() {
-            @Override
-            public void gameStarted() {
-                confirmNewGame = true;
-            }
-            @Override 
-            public void gameCompleted() {
-                confirmNewGame = false;
-            }
-        });
         
         // Score
         PText scoreLabel = new PText( RPALStrings.LABEL_SCORE );
@@ -85,7 +84,7 @@ public class ScoreboardNode extends PhetPNode {
         timerValue = new PText( "00:00:00" ); // use this so we have max length for layout
         timerValue.setFont( FONT );
         
-        // New Game!
+        // New Game button
         newGameButton = new GradientButtonNode( RPALStrings.BUTTON_NEW_GAME, FONT_SIZE, BUTTON_COLOR );
         newGameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -126,7 +125,7 @@ public class ScoreboardNode extends PhetPNode {
         y = Y_MARGIN + ( ( maxChildHeight - newGameButton.getFullBoundsReference().getHeight() ) / 2 );
         newGameButton.setOffset( x, y );
         
-        // background
+        // background, added last since it's sized to fit the child nodes above
         PBounds b = getFullBoundsReference();
         backgroundNode = new PPath( new PBounds( 0, 0, b.getMaxX() + X_MARGIN, b.getMaxY() + Y_MARGIN ) );
         backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
@@ -160,6 +159,16 @@ public class ScoreboardNode extends PhetPNode {
             @Override
             public void timeChanged() {
                 setTime( model.getTime() );
+            }
+            
+            @Override
+            public void gameStarted() {
+                confirmNewGame = true;
+            }
+            
+            @Override 
+            public void gameCompleted() {
+                confirmNewGame = false;
             }
         });
         
@@ -207,6 +216,7 @@ public class ScoreboardNode extends PhetPNode {
     
     private void handleNewGame() {
         if ( confirmNewGame ) {
+            // request confirmation via a Yes/No dialog
             Component parent = PhetApplication.getInstance().getPhetFrame();
             String message = RPALStrings.MESSAGE_CONFIRM_NEW_GAME;
             String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
@@ -220,6 +230,7 @@ public class ScoreboardNode extends PhetPNode {
         }
     }
     
+    // max height of this nodes children, used for layout alignment
     private double getMaxChildHeight() {
         double maxHeight = 0;
         for ( int i = 0; i < getChildrenCount(); i++ ) {
