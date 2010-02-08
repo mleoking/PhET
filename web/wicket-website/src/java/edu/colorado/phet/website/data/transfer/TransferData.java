@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.data.contribution.ContributionComment;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
@@ -122,6 +123,27 @@ public class TransferData {
                         contribution.setStandardK4G( hasStandard( standards, 19 ) );
                         contribution.setStandard58G( hasStandard( standards, 20 ) );
                         contribution.setStandard912G( hasStandard( standards, 21 ) );
+
+                        return true;
+                    }
+                } );
+
+                if ( !sqlSuccess ) {
+                    return sqlSuccess;
+                }
+
+                sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM contribution_comment", new SqlResultTask() {
+                    public boolean process( ResultSet result ) throws SQLException {
+                        ContributionComment comment = new ContributionComment();
+
+                        newObs.add( comment );
+                        PhetUser user = userIdMap.get( result.getInt( "contributor_id" ) );
+                        Contribution contribution = contributionIdMap.get( result.getInt( "contribution_id" ) );
+                        contribution.addComment( comment );
+                        comment.setPhetUser( user );
+                        comment.setText( result.getString( "contribution_comment_text" ) );
+                        comment.setDateCreated( result.getDate( "contribution_comment_created" ) );
+                        comment.setDateUpdated( result.getDate( "contribution_comment_updated" ) );
 
                         return true;
                     }
