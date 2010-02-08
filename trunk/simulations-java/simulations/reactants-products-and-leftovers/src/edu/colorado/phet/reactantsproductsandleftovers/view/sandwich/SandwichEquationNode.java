@@ -194,6 +194,11 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
         }
     }
     
+    /*
+     * Controls visibility of parts of the right-hand side of the equation,
+     * depending on whether we have a valid reaction.
+     * If the reaction is invalid, the right-hand side should simply say "no reaction".
+     */
     private void updateVisibility() {
         boolean isReaction = reaction.isReaction();
         noReactionNode.setVisible( !isReaction );
