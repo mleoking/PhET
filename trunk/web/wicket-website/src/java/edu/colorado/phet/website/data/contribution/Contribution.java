@@ -77,6 +77,11 @@ public class Contribution implements Serializable {
     public Contribution() {
     }
 
+    public void addComment( ContributionComment comment ) {
+        comment.setContribution( this );
+        comments.add( comment );
+    }
+
     public int getId() {
         return id;
     }
