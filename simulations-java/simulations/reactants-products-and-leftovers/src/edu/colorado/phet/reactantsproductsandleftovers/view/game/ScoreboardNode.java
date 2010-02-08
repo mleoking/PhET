@@ -49,11 +49,23 @@ public class ScoreboardNode extends PhetPNode {
     private final PImage timerIcon;
     private final PPath backgroundNode;
     private final GradientButtonNode newGameButton;
+    private boolean confirmNewGame;
  
     public ScoreboardNode( final GameModel model ) {
         super();
         
+        confirmNewGame = false;
         this.model = model;
+        model.addGameListener( new GameAdapter() {
+            @Override
+            public void gameStarted() {
+                confirmNewGame = true;
+            }
+            @Override 
+            public void gameCompleted() {
+                confirmNewGame = false;
+            }
+        });
         
         // Score
         PText scoreLabel = new PText( RPALStrings.LABEL_SCORE );
@@ -194,12 +206,16 @@ public class ScoreboardNode extends PhetPNode {
     }
     
     private void handleNewGame() {
-        // request confirmation
-        Component parent = PhetApplication.getInstance().getPhetFrame();
-        String message = RPALStrings.MESSAGE_CONFIRM_NEW_GAME;
-        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-        int option = PhetOptionPane.showYesNoDialog( parent, message, title );
-        if ( option == JOptionPane.YES_OPTION ) {
+        if ( confirmNewGame ) {
+            Component parent = PhetApplication.getInstance().getPhetFrame();
+            String message = RPALStrings.MESSAGE_CONFIRM_NEW_GAME;
+            String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
+            int option = PhetOptionPane.showYesNoDialog( parent, message, title );
+            if ( option == JOptionPane.YES_OPTION ) {
+                model.newGame();
+            }
+        }
+        else {
             model.newGame();
         }
     }
