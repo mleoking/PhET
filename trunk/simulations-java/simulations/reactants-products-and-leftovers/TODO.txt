@@ -11,6 +11,7 @@ HIGH PRIORITY
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
 
 MEDIUM PRIORITY
+- don't use ArrayList for listeners, not thread-safe, use EventListenerList
 - remove silence from audio files
 - investigate smaller audio file formats
 - explicitly handle tab traversal in play area
