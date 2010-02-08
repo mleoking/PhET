@@ -91,6 +91,10 @@ location of various files:
 <Parameter name="phet-document-root" value="/var/www/wicket" override="true"/>
 <Parameter name="build-local-properties" value="/usr/share/tomcat6/conf/build-local.properties" override="true"/>
 
+Additionally, a document root should be configured for contribution-based files:
+<Parameter name="phet-download-root" value="/var/www/phetfiles" override="true" />
+<Parameter name="phet-download-location" value="http://phetfiles.colorado.edu" override="true" />
+
 Additionally, the temp dir (usually $CATALINA_HOME$/temp) should definitely be writable by the Tomcat daemon, since
 this is the location of EHCache's temporary files.
 
