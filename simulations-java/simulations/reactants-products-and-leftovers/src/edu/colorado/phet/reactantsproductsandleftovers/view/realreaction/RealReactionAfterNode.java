@@ -16,6 +16,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.Grid
 public class RealReactionAfterNode extends AbstractAfterNode {
 
     public RealReactionAfterNode( RealReactionModel model ) {
-        super( RPALStrings.LABEL_AFTER_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
+        super( RPALStrings.LABEL_AFTER_REACTION, model.getReaction(), RealReactionModel.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
     }
 }
