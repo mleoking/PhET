@@ -5,7 +5,9 @@ package edu.colorado.phet.reactantsproductsandleftovers.model;
 
 /**
  * Chemical reactions yield one or more products, which have properties different from the reactants.
- * This class is final and cannot be extended in order to support newInstance.
+ * <p>
+ * This class is final and cannot be extended in order to support newInstance, which is needed 
+ * for creating a Game "guess" for a specific reaction.
  * This approach is an alternative to the evils of implementing clone.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

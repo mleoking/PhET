@@ -5,11 +5,19 @@ import java.awt.Image;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALSymbols;
 
-
+/**
+ * Base class for molecules.
+ * Inner classes for each specific molecule.
+ * <p>
+ * For purposes of the Sandwich Shop analogy, sandwiches and their ingredients are 
+ * considered to be molecules.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public abstract class Molecule {
     
     private final String symbol;
-    private Image image;
+    private Image image;  // mutable only for the Sandwich case
     
     public Molecule( String symbol, Image image ) {
         this.symbol = symbol;
