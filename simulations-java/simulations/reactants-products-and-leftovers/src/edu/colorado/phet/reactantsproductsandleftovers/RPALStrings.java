@@ -51,6 +51,7 @@ public class RPALStrings {
     public static final String MESSAGE_FINAL_SCORE = RPALResources.getString( "message.finalScore" );
     public static final String MESSAGE_PERFECT_SCORE = RPALResources.getString( "message.perfectScore" );
     public static final String MESSAGE_MOLECULES_HIDDEN = RPALResources.getString( "message.moleculesHidden" );
+    public static final String MESSAGE_CONFIRM_NEW_GAME = RPALResources.getString( "message.confirmNewGame" );
     
     // questions
     public static final String QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS = RPALResources.getString( "question.howManyProductsAndLeftovers" );
