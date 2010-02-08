@@ -93,6 +93,36 @@ public class TransferData {
                         contribution.setFromPhet( result.getBoolean( "contribution_from_phet" ) );
                         contribution.setGoldStar( result.getBoolean( "contribution_is_gold_star" ) );
 
+                        String standards = result.getString( "contribution_standards_compliance" );
+
+                        contribution.setStandardK4A( hasStandard( standards, 1 ) );
+                        contribution.setStandard58A( hasStandard( standards, 2 ) );
+                        contribution.setStandard912A( hasStandard( standards, 3 ) );
+
+                        contribution.setStandardK4B( hasStandard( standards, 4 ) );
+                        contribution.setStandard58B( hasStandard( standards, 5 ) );
+                        contribution.setStandard912B( hasStandard( standards, 6 ) );
+
+                        contribution.setStandardK4C( hasStandard( standards, 7 ) );
+                        contribution.setStandard58C( hasStandard( standards, 8 ) );
+                        contribution.setStandard912C( hasStandard( standards, 9 ) );
+
+                        contribution.setStandardK4D( hasStandard( standards, 10 ) );
+                        contribution.setStandard58D( hasStandard( standards, 11 ) );
+                        contribution.setStandard912D( hasStandard( standards, 12 ) );
+
+                        contribution.setStandardK4E( hasStandard( standards, 13 ) );
+                        contribution.setStandard58E( hasStandard( standards, 14 ) );
+                        contribution.setStandard912E( hasStandard( standards, 15 ) );
+
+                        contribution.setStandardK4F( hasStandard( standards, 16 ) );
+                        contribution.setStandard58F( hasStandard( standards, 17 ) );
+                        contribution.setStandard912F( hasStandard( standards, 18 ) );
+
+                        contribution.setStandardK4G( hasStandard( standards, 19 ) );
+                        contribution.setStandard58G( hasStandard( standards, 20 ) );
+                        contribution.setStandard912G( hasStandard( standards, 21 ) );
+
                         return true;
                     }
                 } );
@@ -127,5 +157,9 @@ public class TransferData {
             }
         } );
 
+    }
+
+    private static boolean hasStandard( String str, int standard ) {
+        return str.indexOf( "checkbox_standards_" + standard ) >= 0;
     }
 }
