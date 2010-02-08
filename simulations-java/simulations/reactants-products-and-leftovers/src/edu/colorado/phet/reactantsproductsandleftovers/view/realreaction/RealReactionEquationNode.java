@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Displays an non-editable equation for a chemical reaction.
+ * Displays a non-editable equation for a chemical reaction.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -43,19 +43,12 @@ public class RealReactionEquationNode extends PComposite implements IDynamicNode
     private static final double COEFFICIENT_BORDER_MARGIN = 5;
     private static final Stroke COEFFICIENT_BORDER_STROKE = new BasicStroke( 0.5f );
     private static final Color COEFFICIENT_BORDER_COLOR = Color.BLACK;
- 
     
     private final ChemicalReaction reaction;
-    private final HTMLNode htmlNode;
     
     public RealReactionEquationNode( ChemicalReaction reaction ) {
         super();
-        
         this.reaction = reaction;
-        
-        htmlNode = new HTMLNode();
-        addChild( htmlNode );
-        
         update();
     }
     
@@ -219,6 +212,7 @@ public class RealReactionEquationNode extends PComposite implements IDynamicNode
         }
     }
     
+    // Molecule name
     private static class NameNode extends HTMLNode {
         
         public NameNode( String html ) {
