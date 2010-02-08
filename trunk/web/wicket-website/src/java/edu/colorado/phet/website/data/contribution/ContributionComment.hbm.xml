@@ -10,7 +10,7 @@
 
         <many-to-one name="contribution" class="edu.colorado.phet.website.data.contribution.Contribution" not-null="true"
                      lazy="false"/>
-        <property name="text"/>
+        <property name="text" length="4096"/>
         <property name="dateCreated" type="timestamp"/>
         <property name="dateUpdated" type="timestamp"/>
         <many-to-one name="phetUser" class="edu.colorado.phet.website.data.PhetUser" not-null="true" lazy="false"/>
