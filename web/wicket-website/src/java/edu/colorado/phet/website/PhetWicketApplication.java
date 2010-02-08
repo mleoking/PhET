@@ -134,7 +134,14 @@ public class PhetWicketApplication extends WebApplication {
     }
 
     public File getPhetDocumentRoot() {
-        String location = getServletContext().getInitParameter( "phet-document-root" );
+        return getFileFromLocation( getServletContext().getInitParameter( "phet-document-root" ) );
+    }
+
+    public File getPhetDownloadRoot() {
+        return getFileFromLocation( getServletContext().getInitParameter( "phet-download-root" ) );
+    }
+
+    private File getFileFromLocation( String location ) {
         if ( location == null ) {
             return null;
         }
