@@ -8,6 +8,7 @@ HIGH PRIORITY
 - rename GameBoxNode, it's a lousy name for base class
 - developer controls for setting up specific Game challenges
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
+- GameModel has some confusing stuff in it, revisit
 
 MEDIUM PRIORITY
 - remove silence from audio files
