@@ -16,6 +16,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.Grid
 public class RealReactionBeforeNode extends AbstractBeforeNode {
 
     public RealReactionBeforeNode( RealReactionModel model ) {
-        super( RPALStrings.LABEL_BEFORE_REACTION, model.getReaction(), model.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
+        super( RPALStrings.LABEL_BEFORE_REACTION, model.getReaction(), RealReactionModel.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
     }
 }
