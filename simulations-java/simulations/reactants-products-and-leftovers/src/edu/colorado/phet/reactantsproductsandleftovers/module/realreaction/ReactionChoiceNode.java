@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.reactantsproductsandleftovers.controls;
+package edu.colorado.phet.reactantsproductsandleftovers.module.realreaction;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +15,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
-import edu.colorado.phet.reactantsproductsandleftovers.module.realreaction.RealReactionModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
