@@ -24,7 +24,12 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * Control panel that provides settings for the Game.
+ * At the start of each game, the user is asked to select their preferences via this panel.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class GameSettingsNode extends PhetPNode {
     
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 5, 14, 5, 14 ) );
