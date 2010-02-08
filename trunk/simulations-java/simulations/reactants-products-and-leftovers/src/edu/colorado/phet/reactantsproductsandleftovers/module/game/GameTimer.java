@@ -2,10 +2,9 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
-import java.util.ArrayList;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -19,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 /* package private */ class GameTimer {
     
     private final IClock clock;
-    private final ArrayList<ChangeListener> listeners;
+    private final EventListenerList listeners;
     private long startTime; // System time in ms when the game started
     private long time; // ms
     
@@ -31,7 +30,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
                 setTime( clockEvent.getWallTime() - startTime );
             }
         } );
-        listeners = new ArrayList<ChangeListener>();
+        listeners = new EventListenerList();
     }
 
     /**
@@ -69,11 +68,11 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
     }
     
     public void addChangeListener( ChangeListener listener ) {
-        listeners.add( listener );
+        listeners.add( ChangeListener.class, listener );
     }
     
     public void removeChangeListener( ChangeListener listener ) {
-        listeners.remove( listener );
+        listeners.remove( ChangeListener.class, listener );
     }
     
     /*
@@ -81,8 +80,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
      */
     private void fireTimeChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        ArrayList<ChangeListener> listenersCopy = new ArrayList<ChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( ChangeListener listener : listenersCopy ) {
+        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
             listener.stateChanged( event );
         }
     }

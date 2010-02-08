@@ -3,7 +3,9 @@
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
 import java.awt.Image;
-import java.util.ArrayList;
+import java.util.EventListener;
+
+import javax.swing.event.EventListenerList;
 
 /**
  * A substance is a participant in a chemical reaction.
@@ -15,13 +17,13 @@ public abstract class Substance {
     private final Molecule molecule;
     private int coefficient;
     private int quantity;
-    private final ArrayList<SubstanceChangeListener> listeners;
+    private final EventListenerList listeners;
 
     public Substance( int coefficient, Molecule molecule, int quantity ) {
         this.molecule = molecule;
         this.coefficient = coefficient;
         this.quantity = quantity;
-        listeners = new ArrayList<SubstanceChangeListener>();
+        listeners = new EventListenerList();
     }
     
     /**
@@ -86,7 +88,7 @@ public abstract class Substance {
         return quantity;
     }
     
-    public interface SubstanceChangeListener {
+    public interface SubstanceChangeListener extends EventListener {
         public void coefficientChanged();
         public void quantityChanged();
         public void imageChanged();
@@ -99,30 +101,27 @@ public abstract class Substance {
     }
     
     public void addSubstanceChangeListener( SubstanceChangeListener listener ) {
-        listeners.add( listener );
+        listeners.add( SubstanceChangeListener.class, listener );
     }
     
     public void removeSubstanceChangeListener( SubstanceChangeListener listener ) {
-        listeners.remove( listener );
+        listeners.remove( SubstanceChangeListener.class, listener );
     }
     
     private void fireCoefficientChanged() {
-        ArrayList<SubstanceChangeListener> listenersCopy = new ArrayList<SubstanceChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( SubstanceChangeListener listener : listenersCopy ) {
+        for ( SubstanceChangeListener listener : listeners.getListeners( SubstanceChangeListener.class ) ) {
             listener.coefficientChanged();
         }
     }
     
     private void fireQuantityChanged() {
-        ArrayList<SubstanceChangeListener> listenersCopy = new ArrayList<SubstanceChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( SubstanceChangeListener listener : listenersCopy ) {
+        for ( SubstanceChangeListener listener : listeners.getListeners( SubstanceChangeListener.class ) ) {
             listener.quantityChanged();
         }
     }
     
     private void fireImageChanged() {
-        ArrayList<SubstanceChangeListener> listenersCopy = new ArrayList<SubstanceChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( SubstanceChangeListener listener : listenersCopy ) {
+        for ( SubstanceChangeListener listener : listeners.getListeners( SubstanceChangeListener.class ) ) {
             listener.imageChanged();
         }
     }

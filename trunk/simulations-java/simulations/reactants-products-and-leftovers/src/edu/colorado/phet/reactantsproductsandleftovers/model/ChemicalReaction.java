@@ -7,6 +7,7 @@ import java.util.Collections;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 
@@ -22,7 +23,7 @@ public class ChemicalReaction {
     private final String name;
     private final Reactant[] reactants;
     private final Product[] products;
-    private final ArrayList<ChangeListener> listeners;
+    private final EventListenerList listeners;
     
     public ChemicalReaction( Reactant[] reactants, Product[] products ) {
         this( getEquationHTML( reactants, products ), reactants, products );
@@ -40,7 +41,7 @@ public class ChemicalReaction {
         this.name = name;
         this.reactants = reactants;
         this.products = products;
-        this.listeners = new ArrayList<ChangeListener>();
+        this.listeners = new EventListenerList();
         
         ReactantChangeAdapter reactantChangeListener = new ReactantChangeAdapter() {
 
@@ -213,17 +214,16 @@ public class ChemicalReaction {
     }
     
     public void addChangeListener( ChangeListener listener ) {
-        listeners.add( listener );
+        listeners.add( ChangeListener.class, listener );
     }
     
     public void removeChangeListener( ChangeListener listener ) {
-        listeners.remove( listener );
+        listeners.remove( ChangeListener.class, listener );
     }
     
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        ArrayList<ChangeListener> listenersCopy = new ArrayList<ChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( ChangeListener listener : listenersCopy ) {
+        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
             listener.stateChanged( event );
         }
     }

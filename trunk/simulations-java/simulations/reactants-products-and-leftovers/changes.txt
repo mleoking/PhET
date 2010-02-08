@@ -1,3 +1,4 @@
+2/8/10 switch from ArrayList to EventListenerList for listeners throughout
 2/8/10 request confirmation when "New Game" button in scoreboard is pressed if game isn't completed
 # 0.00.22 (38440) Feb 5, 2010
 2/5/10 demonstrate sound feature in Game

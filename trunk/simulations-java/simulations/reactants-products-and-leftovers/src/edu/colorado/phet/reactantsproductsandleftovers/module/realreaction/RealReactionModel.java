@@ -2,10 +2,9 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.realreaction;
 
-import java.util.ArrayList;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
@@ -21,14 +20,14 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions
  */
 public class RealReactionModel extends RPALModel {
     
-    private final ArrayList<ChangeListener> listeners;
+    private final EventListenerList listeners;
     private final ChemicalReaction[] reactions;
     private ChemicalReaction reaction;
     
     public RealReactionModel() {
         reactions = new ChemicalReaction[] { new WaterReaction(), new AmmoniaReaction(), new MethaneReaction() };
         this.reaction = reactions[0];
-        listeners = new ArrayList<ChangeListener>();
+        listeners = new EventListenerList();
     }
     
     public void reset() {
@@ -54,17 +53,16 @@ public class RealReactionModel extends RPALModel {
     }
     
     public void addChangeListener( ChangeListener listener ) {
-        listeners.add( listener );
+        listeners.add( ChangeListener.class, listener );
     }
     
     public void removeChangeListener( ChangeListener listener ) {
-        listeners.remove( listener );
+        listeners.remove( ChangeListener.class, listener );
     }
     
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        ArrayList<ChangeListener> listenersCopy = new ArrayList<ChangeListener>( listeners ); // avoid ConcurrentModificationException
-        for ( ChangeListener listener : listenersCopy ) {
+        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
             listener.stateChanged( event );
         }
     }
