@@ -93,6 +93,9 @@ public class SandwichImageFactory {
         return image;
     }
 
+    /*
+     * Adjusts the offset of node so that it's slightly above previousNode.
+     */
     private static void stackNode( PNode node, PNode previousNode ) {
         double x = 0;
         double y = 0;
