@@ -138,6 +138,8 @@ public class TransferData {
                         contribution.setStandard58G( hasStandard( standards, 20 ) );
                         contribution.setStandard912G( hasStandard( standards, 21 ) );
 
+                        contribution.setLocale( PhetWicketApplication.getDefaultLocale() );
+
                         return true;
                     }
                 } );

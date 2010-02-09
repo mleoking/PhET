@@ -93,6 +93,17 @@ public class DistributionHandler {
     }
 
     /**
+     * Whether or not to display things under Teacher Ideas & Activities. Shouldn't be displayed on sites which don't
+     * display activities
+     *
+     * @param cycle Request cycle
+     * @return Whether or not to display pages under Teacher Ideas & Activities
+     */
+    public static boolean displayContributions( PhetRequestCycle cycle ) {
+        return !cycle.isInstaller();
+    }
+
+    /**
      * Pages which we want all links to them to point to phet.colorado.edu sub-sites (depend on the particular page)
      * Young & Freedman specific
      */

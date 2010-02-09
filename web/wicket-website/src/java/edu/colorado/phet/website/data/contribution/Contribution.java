@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 
@@ -27,6 +28,7 @@ public class Contribution implements Serializable {
     private boolean fromPhet;
     private boolean goldStar;
     private int oldId;
+    private Locale locale;
     private Set files = new HashSet();
     private Set comments = new HashSet();
     private Set levels = new HashSet();
@@ -471,5 +473,13 @@ public class Contribution implements Serializable {
 
     public void setOldId( int oldId ) {
         this.oldId = oldId;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale( Locale locale ) {
+        this.locale = locale;
     }
 }

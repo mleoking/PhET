@@ -41,6 +41,7 @@ public class NavMenuList extends Panel {
                     }
                 }
 
+                // adds class so we can remove these for things like the installer and whatnot in CSS
                 if ( location.isUnderLocationKey( "get-phet" ) ) {
                     label.add( new AttributeAppender( "class", new Model( "get-phet-item" ), " " ) );
                 }
