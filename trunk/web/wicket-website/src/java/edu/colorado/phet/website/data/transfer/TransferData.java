@@ -1,6 +1,5 @@
 package edu.colorado.phet.website.data.transfer;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,6 +11,7 @@ import java.util.*;
 import javax.servlet.ServletContext;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.util.crypt.Base64;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
@@ -263,20 +263,14 @@ public class TransferData {
     private static final int MAXBUFSIZE = 4096;
 
     private static void writeBlobToFile( Blob blob, File file ) throws SQLException, IOException {
-        BufferedInputStream byteIn = new BufferedInputStream( blob.getBinaryStream() );
-        FileOutputStream fileOut = new FileOutputStream( file );
-        byte[] buf = new byte[MAXBUFSIZE];
-        int n;
+        byte[] blobData = blob.getBytes( 1, (int) blob.length() );
+        byte[] fileData = Base64.decodeBase64( blobData );
 
-        while ( ( n = byteIn.read( buf, 0, MAXBUFSIZE ) ) != -1 ) {
-            fileOut.write( buf, 0, n );
-        }
+        FileOutputStream fileOut = new FileOutputStream( file );
+        fileOut.write( fileData, 0, fileData.length );
 
         fileOut.flush();
         fileOut.close();
-        byteIn.close();
-
-        buf = null;
     }
 
     private static boolean hasStandard( String str, int standard ) {
