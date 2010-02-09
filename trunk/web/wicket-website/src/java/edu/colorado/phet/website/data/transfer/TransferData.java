@@ -226,6 +226,9 @@ public class TransferData {
                     session.delete( user );
                 }
 
+                deleteAllInQuery( session, "select comment from ContributionComment as comment" );
+                deleteAllInQuery( session, "select file from ContributionFile as file" );
+
                 for ( Object ob : newObs ) {
                     session.save( ob );
                 }
@@ -261,6 +264,13 @@ public class TransferData {
 
         }
 
+    }
+
+    private static final void deleteAllInQuery( Session session, String query ) {
+        List obs = session.createQuery( query ).list();
+        for ( Object o : obs ) {
+            session.delete( o );
+        }
     }
 
     private static final int MAXBUFSIZE = 4096;
