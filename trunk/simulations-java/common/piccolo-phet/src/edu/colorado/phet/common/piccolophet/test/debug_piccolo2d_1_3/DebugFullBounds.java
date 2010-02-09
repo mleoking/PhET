@@ -10,11 +10,13 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Full bounds calculations appear to have changed between
  * PhET's SVN snapshot of Piccolo 1.2 (r390) and Piccolo2D 1.3-rc1.
+ * I believe that this change was introduced when PBounds r923 for Issue 155.
  * <p>
  * With Piccolo 1.2, this example shows PBounds[x=49.5,y=49.5,width=101.0,height=101.0]
  * With Piccolo 1.3-rc1, this example shows PBounds[x=0.0,y=0.0,width=150.5,height=150.5]
@@ -31,7 +33,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class DebugFullBounds extends JFrame {
     
     public DebugFullBounds() {
-        setSize( new Dimension( 400, 300 ) );
+        setSize( new Dimension( 400, 400 ) );
         
         // canvas
         PCanvas canvas = new PCanvas();
@@ -45,9 +47,14 @@ public class DebugFullBounds extends JFrame {
         canvas.getLayer().addChild( compositeNode );
         
         // display the bounds of the composite node
-        PText parentBoundsNode = new PText( compositeNode.getFullBoundsReference().toString() );
+        PText parentBoundsNode = new PText( "bounds=" + compositeNode.getBoundsReference().toString() );
         parentBoundsNode.setOffset( 20, compositeNode.getFullBoundsReference().getMaxY() + 20 );
         canvas.getLayer().addChild( parentBoundsNode );
+        
+        // display the full bounds of the composite node
+        PText parentFullBoundsNode = new PText( "fullBounds=" + compositeNode.getFullBoundsReference().toString() );
+        parentFullBoundsNode.setOffset( 20, parentBoundsNode.getFullBoundsReference().getMaxY() + 20 );
+        canvas.getLayer().addChild( parentFullBoundsNode );
     }
     
     /*
