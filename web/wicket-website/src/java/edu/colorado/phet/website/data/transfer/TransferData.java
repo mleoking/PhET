@@ -21,6 +21,11 @@ import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
+/**
+ * Code to transfer the current MySQL data into the new PostgreSQL data
+ * <p/>
+ * Once the Wicket site is the main site, this code never be called
+ */
 public class TransferData {
 
     private static Logger logger = Logger.getLogger( TransferData.class.getName() );
@@ -229,6 +234,50 @@ public class TransferData {
                     return sqlSuccess;
                 }
 
+                sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM contribution_subject", new SqlResultTask() {
+                    public boolean process( ResultSet result ) throws SQLException {
+                        ContributionSubject subject = new ContributionSubject();
+
+                        Contribution contribution = contributionIdMap.get( result.getInt( "contribution_id" ) );
+                        if ( contribution == null ) {
+                            // skip files where we don't know of the contribution
+                            return true;
+                        }
+
+                        newObs.add( subject );
+                        contribution.addSubject( subject );
+                        subject.setSubject( Subject.getSubjectFromOldAbbrev( result.getString( "contribution_subject_desc_abbrev" ) ) );
+
+                        return true;
+                    }
+                } );
+
+                if ( !sqlSuccess ) {
+                    return sqlSuccess;
+                }
+
+                sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM contribution_type", new SqlResultTask() {
+                    public boolean process( ResultSet result ) throws SQLException {
+                        ContributionType type = new ContributionType();
+
+                        Contribution contribution = contributionIdMap.get( result.getInt( "contribution_id" ) );
+                        if ( contribution == null ) {
+                            // skip files where we don't know of the contribution
+                            return true;
+                        }
+
+                        newObs.add( type );
+                        contribution.addType( type );
+                        type.setType( Type.getTypeFromOldAbbrev( result.getString( "contribution_type_desc_abbrev" ) ) );
+
+                        return true;
+                    }
+                } );
+
+                if ( !sqlSuccess ) {
+                    return sqlSuccess;
+                }
+
                 List currentContributions = session.createQuery( "select c from Contribution as c" ).list();
                 for ( Object o : currentContributions ) {
                     session.delete( o );
@@ -246,9 +295,11 @@ public class TransferData {
                     session.delete( user );
                 }
 
-                deleteAllInQuery( session, "select comment from ContributionComment as comment" );
-                deleteAllInQuery( session, "select file from ContributionFile as file" );
-                deleteAllInQuery( session, "select level from ContributionLevel as level" );
+                deleteAllInQuery( session, "select x from ContributionComment as x" );
+                deleteAllInQuery( session, "select x from ContributionFile as x" );
+                deleteAllInQuery( session, "select x from ContributionLevel as x" );
+                deleteAllInQuery( session, "select x from ContributionSubject as x" );
+                deleteAllInQuery( session, "select x from ContributionType as x" );
 
                 for ( Object ob : newObs ) {
                     session.save( ob );

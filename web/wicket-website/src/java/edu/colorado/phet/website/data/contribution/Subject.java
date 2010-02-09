@@ -22,4 +22,31 @@ public enum Subject {
     public String getAbbreviatedTranslationKey() {
         return getTranslationKey() + ".abbrev";
     }
+
+    public static Subject getSubjectFromOldAbbrev( String abbrev ) {
+        if ( abbrev.equals( "ES" ) ) {
+            return EARTH_SCIENCE;
+        }
+        else if ( abbrev.equals( "Bio" ) ) {
+            return BIOLOGY;
+        }
+        else if ( abbrev.equals( "Chem" ) ) {
+            return CHEMISTRY;
+        }
+        else if ( abbrev.equals( "Physics" ) ) {
+            return PHYSICS;
+        }
+        else if ( abbrev.equals( "Astro" ) ) {
+            return ASTRONOMY;
+        }
+        else if ( abbrev.equals( "Math" ) ) {
+            return MATHEMATICS;
+        }
+        else if ( abbrev.equals( "Other" ) ) {
+            return OTHER;
+        }
+        else {
+            throw new RuntimeException( "Unknown abbreviation: " + abbrev );
+        }
+    }
 }
