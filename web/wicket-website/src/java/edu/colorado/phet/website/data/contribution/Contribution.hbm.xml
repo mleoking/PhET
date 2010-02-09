@@ -23,6 +23,7 @@
         <property name="dateUpdated" type="timestamp"/>
         <property name="fromPhet"/>
         <property name="goldStar"/>
+        <property name="oldId"/>
 
         <property name="standardK4A"/>
         <property name="standard58A"/>
