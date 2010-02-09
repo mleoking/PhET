@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Spinner node, encapsulates the use of JSpinner in case we can to switch to some custom control.
+ * Spinner node, encapsulates the use of JSpinner in case we switch to a custom control.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
