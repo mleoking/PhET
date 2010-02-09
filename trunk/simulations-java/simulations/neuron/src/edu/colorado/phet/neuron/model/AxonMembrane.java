@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -47,6 +48,9 @@ public class AxonMembrane {
 	
 	// Shape of the body of the axon.
 	private Shape bodyShape;
+	
+	// Traveling action potential that moves down the membrane.
+	private TravelingActionPotential travelingActionPotential;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -144,7 +148,16 @@ public class AxonMembrane {
      * membrane toward the transverse cross section.
      */
     public void initiateTravelingActionPotential(){
+    	travelingActionPotential = new TravelingActionPotential();
     	notifyTravelingActionPotentialStarted();
+    }
+    
+    /**
+     * Get the object that defines the current traveling action potential.
+     * Returns null if no action potential is happening.
+     */
+    public TravelingActionPotential getTravelingActionPotential(){
+    	return travelingActionPotential;
     }
     
     /**
@@ -183,5 +196,76 @@ public class AxonMembrane {
     public interface Listener {
     	void travelingActionPotentialStarted();
     	void travelingActionPotentialEnded();
+    }
+    
+    /**
+     * Class the defines the behavior of the action potential that travels
+     * along the membrane before reaching the location of the transverse cross
+     * section.  This is essentially just a shape that is intended to look
+     * like something moving along the outer membrane.
+     */
+    public static class TravelingActionPotential {
+    	
+    	private static double LIFETIME = 1.0; // In seconds of sim time (not wall time).
+    	
+        private ArrayList<Listener> listeners = new ArrayList<Listener>();
+    	private double lifetimeCountdownTimer = LIFETIME;
+    	private Shape shape = new Rectangle2D.Double(0, 0, 100, 100);
+    	
+    	/**
+    	 * Step this model component forward by the specified time.  This will
+    	 * update the shape such that it will appear to move down the axon
+    	 * membrane.
+    	 * 
+    	 * @param dt
+    	 */
+    	public void stepInTime(double dt){
+    		if (lifetimeCountdownTimer > 0){
+    			lifetimeCountdownTimer -= dt;
+    			if (lifetimeCountdownTimer <= 0){
+    				shape = null;
+    				notifyShapeChanged();
+    			}
+    		}
+    	}
+    	
+    	public Shape getShape(){
+    		return shape;
+    	}
+    	
+    	public void addListener(Listener listener){
+    		listeners.add(listener);
+    	}
+    	
+    	public void removeListener(Listener listener){
+    		listeners.remove(listener);
+    	}
+    	
+    	private void notifyTravelingCompleted(){
+    		for (Listener listener : listeners){
+    			listener.travelingCompleted();
+    		}
+    	}
+        
+    	private void notifyShapeChanged(){
+    		for (Listener listener : listeners){
+    			listener.shapeChanged();
+    		}
+    	}
+        
+    	public interface Listener {
+    		
+    		/**
+    		 * Notify the listener that the shape of this model element has
+    		 * changed.
+    		 */
+    		void shapeChanged();
+    		
+    		/**
+    		 * Notify the listener that this has finished traveling down the
+    		 * membrane and has arrived at the destination.
+    		 */
+    		void travelingCompleted();
+    	}
     }
 }
