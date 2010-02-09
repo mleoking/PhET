@@ -6,7 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
+import java.util.ArrayList;
 
 /**
  * Model representation for the axon membrane.  Represents it as a cross
@@ -31,9 +31,15 @@ public class AxonMembrane {
 	private static final double BODY_LENGTH = DEFAULT_DIAMETER * 1.5;
 	private static final double BODY_TILT_ANGLE = Math.PI/4;
 	
+	// Time required for the action potential to travel down the axon to the
+	// transverse cross section.  This is in simulation time, not wall time.
+	private static final double ACTION_POTENTIAL_TRAVEL_TIME = 0.2;  // In seconds.
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
+
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
 
 	// Shape of the cross section of the membrane.
 	private Ellipse2D crossSectionEllipseShape = new Ellipse2D.Double(-DEFAULT_DIAMETER / 2, -DEFAULT_DIAMETER / 2,
@@ -131,5 +137,51 @@ public class AxonMembrane {
     	axonBodyShape.lineTo((float)intersectionPointA.getX(), (float)intersectionPointA.getY());
     	
     	return axonBodyShape;
+    }
+    
+    /**
+     * Start an action potential that will travel down the length of the
+     * membrane toward the transverse cross section.
+     */
+    public void initiateTravelingActionPotential(){
+    	notifyTravelingActionPotentialStarted();
+    }
+    
+    /**
+     * Step this model element forward in time by the specified delta.
+     * 
+     * @param dt - delta time, in seconds.
+     */
+    public void stepInTime(double dt){
+    	
+    }
+    
+	public void addListener(Listener listener){
+		listeners.add(listener);
+	}
+	
+	public void removeListener(Listener listener){
+		listeners.remove(listener);
+	}
+	
+	private void notifyTravelingActionPotentialStarted(){
+		for (Listener listener : listeners){
+			listener.travelingActionPotentialStarted();
+		}
+	}
+    
+	private void notifyTravelingActionPotentialEnded(){
+		for (Listener listener : listeners){
+			listener.travelingActionPotentialEnded();
+		}
+	}
+    
+    /**
+     * Interface for listening to notifications from the axon membrane.
+     *
+     */
+    public interface Listener {
+    	void travelingActionPotentialStarted();
+    	void travelingActionPotentialEnded();
     }
 }
