@@ -5,6 +5,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -14,6 +15,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALAudioPlayer;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
@@ -22,6 +24,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.game.*;
 import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionEquationNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Canvas for the "Game" module.
@@ -33,6 +36,8 @@ public class GameCanvas extends RPALCanvas {
     private static final Color BUTTONS_COLOR = new Color( 255, 255, 0, 150 ); // translucent yellow
     private static final int BUTTONS_FONT_SIZE = 30;
     private static final double BUTTON_X_SPACING = 20;
+    
+    private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     
     // node collection names, for managing visibility
     private static final String GAME_SETTINGS_STATE = "gameSetting";
@@ -350,14 +355,14 @@ public class GameCanvas extends RPALCanvas {
             beforeNode.cleanup();
             parentNode.removeChild( beforeNode );
         }
-        beforeNode = new GameBeforeNode( model );
+        beforeNode = new GameBeforeNode( model, BOX_SIZE );
         parentNode.addChild( beforeNode );
 
         if ( afterNode != null ) {
             afterNode.cleanup();
             parentNode.removeChild( afterNode );
         }
-        afterNode = new GameAfterNode( model );
+        afterNode = new GameAfterNode( model, BOX_SIZE );
         parentNode.addChild( afterNode );
 
         // move a bunch of static nodes to the front
@@ -393,7 +398,7 @@ public class GameCanvas extends RPALCanvas {
         // arrow to the right of Before box, vertically centered with box
         final double arrowXSpacing = 20;
         x = beforeNode.getFullBoundsReference().getMaxX() + arrowXSpacing;
-        y = beforeNode.getYOffset() + ( beforeNode.getBoxHeight() / 2 );
+        y = beforeNode.getYOffset() + ( BOX_SIZE.getHeight() / 2 );
         arrowNode.setOffset( x, y );
 
         // After box to the right of arrow, top aligned with Before box
@@ -409,15 +414,15 @@ public class GameCanvas extends RPALCanvas {
 
         // face a little above center in proper box
         {
-            GameBoxNode boxNode = null;
+            Point2D offset = null;
             if ( model.getChallenge().getChallengeType() == ChallengeType.AFTER ) {
-                boxNode = afterNode;
+                offset = afterNode.getOffset();
             }
             else {
-                boxNode = beforeNode;
+                offset = beforeNode.getOffset();
             }
-            x = boxNode.getXOffset() + ( ( boxNode.getBoxWidth() - faceNode.getFullBoundsReference().getWidth() ) / 2 );
-            y = boxNode.getYOffset() + ( ( boxNode.getBoxHeight() - faceNode.getFullBoundsReference().getHeight() ) / 2 ) - 20;
+            x = offset.getX() + ( ( BOX_SIZE.getWidth() - faceNode.getFullBoundsReference().getWidth() ) / 2 );
+            y = offset.getY() + ( ( BOX_SIZE.getHeight() - faceNode.getFullBoundsReference().getHeight() ) / 2 ) - 20;
             faceNode.setOffset( x, y );
         }
         
@@ -428,17 +433,17 @@ public class GameCanvas extends RPALCanvas {
        
         // instructions centered in proper box
         {
-            GameBoxNode boxNode = null;
+            Point2D offset = null;
             if ( model.getChallenge().getChallengeType() == ChallengeType.AFTER ) {
                 instructionsNode.setText( RPALStrings.QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS );
-                boxNode = afterNode;
+                offset = afterNode.getOffset();
             }
             else {
                 instructionsNode.setText( RPALStrings.QUESTION_HOW_MANY_REACTANTS );
-                boxNode = beforeNode;
+                offset = beforeNode.getOffset();
             }
-            x = boxNode.getXOffset() + ( ( boxNode.getBoxWidth() - instructionsNode.getFullBoundsReference().getWidth() ) / 2 );
-            y = boxNode.getYOffset() + ( ( boxNode.getBoxHeight() - instructionsNode.getFullBoundsReference().getHeight() ) / 2 ) - 20;
+            x = offset.getX() + ( ( BOX_SIZE.getWidth() - instructionsNode.getFullBoundsReference().getWidth() ) / 2 );
+            y = offset.getY() + ( ( BOX_SIZE.getHeight() - instructionsNode.getFullBoundsReference().getHeight() ) / 2 ) - 20;
             instructionsNode.setOffset( x, y );
         }
 
@@ -478,15 +483,15 @@ public class GameCanvas extends RPALCanvas {
         }
         
         // put visible buttons at bottom center of the proper box
-        GameBoxNode boxNode = null;
+        Point2D offset = null;
         if ( model.getChallenge().getChallengeType() == ChallengeType.AFTER ) {
-            boxNode = afterNode;
+            offset = afterNode.getOffset();
         }
         else {
-            boxNode = beforeNode;
+            offset = beforeNode.getOffset();
         }
-        x = boxNode.getXOffset() + ( ( boxNode.getBoxWidth() - buttonMaxX ) / 2 );
-        y = boxNode.getYOffset() + boxNode.getBoxHeight() - buttonMaxY - 10;
+        x = offset.getX() + ( ( BOX_SIZE.getWidth() - buttonMaxX ) / 2 );
+        y = offset.getY() + BOX_SIZE.getHeight() - buttonMaxY - 10;
         buttonsParentNode.setOffset( x, y );
     }
     

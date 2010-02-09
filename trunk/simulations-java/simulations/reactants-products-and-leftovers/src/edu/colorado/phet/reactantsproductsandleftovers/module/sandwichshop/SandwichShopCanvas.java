@@ -5,11 +5,13 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichEquationNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichShopAfterNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichShopBeforeNode;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -19,19 +21,21 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class SandwichShopCanvas extends RPALCanvas {
     
+    private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
+    
     public SandwichShopCanvas( SandwichShopModel model, Resettable resettable ) {
         super();
         
         SandwichEquationNode equationNode = new SandwichEquationNode( model );
         addChild( equationNode );
         
-        SandwichShopBeforeNode beforeNode = new SandwichShopBeforeNode( model );
+        SandwichShopBeforeNode beforeNode = new SandwichShopBeforeNode( model, BOX_SIZE );
         addChild( beforeNode );
         
         RightArrowNode arrowNode = new RightArrowNode();
         addChild( arrowNode );
         
-        SandwichShopAfterNode afterNode = new SandwichShopAfterNode( model );
+        SandwichShopAfterNode afterNode = new SandwichShopAfterNode( model, BOX_SIZE );
         addChild( afterNode );
         
         ResetAllButton resetAllButton = new ResetAllButton( resettable, this );
@@ -54,7 +58,7 @@ public class SandwichShopCanvas extends RPALCanvas {
         // arrow to the right of Before box, vertically centered with box
         final double arrowXSpacing = 20;
         x = beforeNode.getFullBoundsReference().getMaxX() + arrowXSpacing;
-        y = beforeNode.getYOffset() + ( beforeNode.getBoxHeight() / 2 );
+        y = beforeNode.getYOffset() + ( BOX_SIZE.getHeight() / 2 );
         arrowNode.setOffset( x, y );
         
         // After box to the right of arrow, top aligned with Before box
