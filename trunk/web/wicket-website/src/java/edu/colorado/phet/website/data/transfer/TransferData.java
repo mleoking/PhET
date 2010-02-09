@@ -17,9 +17,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Translation;
-import edu.colorado.phet.website.data.contribution.Contribution;
-import edu.colorado.phet.website.data.contribution.ContributionComment;
-import edu.colorado.phet.website.data.contribution.ContributionFile;
+import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
@@ -209,6 +207,28 @@ public class TransferData {
                     return sqlSuccess;
                 }
 
+                sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM contribution_level", new SqlResultTask() {
+                    public boolean process( ResultSet result ) throws SQLException {
+                        ContributionLevel level = new ContributionLevel();
+
+                        Contribution contribution = contributionIdMap.get( result.getInt( "contribution_id" ) );
+                        if ( contribution == null ) {
+                            // skip files where we don't know of the contribution
+                            return true;
+                        }
+
+                        newObs.add( level );
+                        contribution.addLevel( level );
+                        level.setLevel( Level.getLevelFromOldAbbrev( result.getString( "contribution_level_desc_abbrev" ) ) );
+
+                        return true;
+                    }
+                } );
+
+                if ( !sqlSuccess ) {
+                    return sqlSuccess;
+                }
+
                 List currentContributions = session.createQuery( "select c from Contribution as c" ).list();
                 for ( Object o : currentContributions ) {
                     session.delete( o );
@@ -228,6 +248,7 @@ public class TransferData {
 
                 deleteAllInQuery( session, "select comment from ContributionComment as comment" );
                 deleteAllInQuery( session, "select file from ContributionFile as file" );
+                deleteAllInQuery( session, "select level from ContributionLevel as level" );
 
                 for ( Object ob : newObs ) {
                     session.save( ob );

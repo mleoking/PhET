@@ -11,7 +11,7 @@ import edu.colorado.phet.website.data.contribution.Level;
 public class ContributionLevel implements Serializable {
 
     private int id;
-    private String level;
+    private Level level;
     private Contribution contribution;
 
     private static Logger logger = Logger.getLogger( ContributionLevel.class.getName() );
@@ -33,11 +33,11 @@ public class ContributionLevel implements Serializable {
         this.id = id;
     }
 
-    public String getLevel() {
+    public Level getLevel() {
         return level;
     }
 
-    public void setLevel( String level ) {
+    public void setLevel( Level level ) {
         this.level = level;
     }
 

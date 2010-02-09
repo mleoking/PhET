@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 public class ContributionType implements Serializable {
 
     private int id;
-    private String type;
+    private Type type;
     private Contribution contribution;
 
     private static Logger logger = Logger.getLogger( ContributionType.class.getName() );
@@ -31,11 +31,11 @@ public class ContributionType implements Serializable {
         this.id = id;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType( String type ) {
+    public void setType( Type type ) {
         this.type = type;
     }
 

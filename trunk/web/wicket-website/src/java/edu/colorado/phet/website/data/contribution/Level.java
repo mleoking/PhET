@@ -22,4 +22,31 @@ public enum Level {
     public String getAbbreviatedTranslationKey() {
         return getTranslationKey() + ".abbrev";
     }
+
+    public static Level getLevelFromOldAbbrev( String abbrev ) {
+        if ( abbrev.equals( "Grad" ) ) {
+            return GRADUATE;
+        }
+        else if ( abbrev.equals( "Other" ) ) {
+            return OTHER;
+        }
+        else if ( abbrev.equals( "MS" ) ) {
+            return MIDDLE_SCHOOL;
+        }
+        else if ( abbrev.equals( "HS" ) ) {
+            return HIGH_SCHOOL;
+        }
+        else if ( abbrev.equals( "UG-Intro" ) ) {
+            return UNDERGRADUATE_INTRO;
+        }
+        else if ( abbrev.equals( "UG-Adv" ) ) {
+            return UNDERGRADUATE_ADVANCED;
+        }
+        else if ( abbrev.equals( "K-5" ) ) {
+            return K_5;
+        }
+        else {
+            throw new RuntimeException( "Unknown abbreviation: " + abbrev );
+        }
+    }
 }
