@@ -36,8 +36,7 @@ public class NavMenu {
         NavLocation simulations = new NavLocation( null, "simulations", SimulationDisplay.getLinker() );
         addMajorLocation( simulations );
 
-        // TODO: fix link
-        NavLocation teacherIdeas = new NavLocation( null, "teacherIdeas", IndexPage.getLinker() );
+        NavLocation teacherIdeas = new NavLocation( null, "teacherIdeas", TeacherIdeasPanel.getLinker() );
         addMajorLocation( teacherIdeas );
 
         // TODO: fix link
