@@ -24,21 +24,29 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /** 
  * Full bounds calculations appear to have changed between PhET's SVN snapshot
  * of Piccolo 1.2 (r390) and Piccolo2D 1.3-rc1. I believe that this change was
- * introduced when PBounds r923 for Issue 155, and I'm not convinced that it 
- * was intentional.  It's definitely a significant difference that has implications
- * for layout code that relies on full bounds.
+ * introduced in PBounds r923 for Issue 155, and I'm not convinced that the
+ * change was intentional or desirable.  It's definitely a significant difference 
+ * that has implications for layout code that relies on full bounds, and affected
+ * at least one PhET application.
+ * <p>
+ * This example demonstrates the bounds and full bounds calculations 
+ * for compositeNode, a node that draws nothing itself but has a child.
+ * <p>
+ * The behavior differs between Piccolo 1.2 and 1.3 when compositeNode's
+ * bounds are empty (ie, have width *or* height of 0).
  * <p> 
- * With Piccolo 1.2, this example shows fullbounds of PBounds[x=49.5,y=49.5,width=101.0,height=101.0],
- * and the parent node was ignored in full bounds computation while its bounds
- * were empty (width and height == 0).
+ * With Piccolo 1.2, if compositeNode has empty bounds of [0,0,0,0],
+ * then its full bounds are [49.5,49.5,101.0,101.0], the bounds of its child.
+ * compositeNode is ignored in full bounds computation while its bounds are empty.
  * <p>
- * With Piccolo 1.3-rc1, this example shows fullbounds of PBounds[x=0.0,y=0.0,width=150.5,height=150.5],
- * and the parent node always plays a role in the full bounds calculation.  Regardless
- * of whether its bounds are empty, the parent node's (x,y) value is factored into
- * the full bounds calculation.
+ * With Piccolo 1.3-rc1, if compositeNode has empty bounds of [0,0,0,0], 
+ * then its full bounds are [0.0,0.0,150.5,150.5].
+ * compositeNode always plays a role in the full bounds calculation; regardless
+ * of whether its bounds are empty, the (x,y) component of compositeNode's bounds
+ * is used in its full bounds calculation.
  * <p>
- * This example also includes JSpinners that can be used to set the composite node's 
- * bounds.  Note the behavior when transitioning between empty and non-empty bounds
+ * This example also includes JSpinners that can be used to set compositeNode's bounds.
+ * Note the behavior when transitioning between empty and non-empty bounds
  * (for example, between bounds=[0,0,1,0] and [0,0,1,1] )
  * <p>
  * See PhET Unfuddle #2157.
@@ -54,8 +62,7 @@ public class DebugFullBounds extends JFrame {
     private final PText boundsText, fullBoundsText;
     private final PPath boundsPath, fullBoundsPath;
     private final Rectangle2D boundsRect, fullBoundsRect;
-    private final IntegerSpinner xSpinner, ySpinner, widthSpinner,
-            heightSpinner;
+    private final IntegerSpinner xSpinner, ySpinner, widthSpinner, heightSpinner;
 
     public DebugFullBounds() {
         setSize( new Dimension( 500, 400 ) );
@@ -72,7 +79,7 @@ public class DebugFullBounds extends JFrame {
         // display the composite node's bounds as text
         boundsText = new PText( "?" );
         boundsText.setTextPaint( BOUNDS_COLOR );
-        boundsText.setOffset( 20, compositeNode.getFullBoundsReference().getMaxY() + 20 );
+        boundsText.setOffset( 20, 250 );
         canvas.getLayer().addChild( boundsText );
 
         // display the composite node's full bounds as text
@@ -147,6 +154,8 @@ public class DebugFullBounds extends JFrame {
 
     /*
      * A composite node whose child is offset from the container's origin.
+     * This node draws nothing itself, all drawing is done by the child,
+     * in this case a rectangle.
      */
     private static class MyComposite extends PComposite {
 
