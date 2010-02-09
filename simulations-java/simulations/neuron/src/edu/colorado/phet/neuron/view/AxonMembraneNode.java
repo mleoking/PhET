@@ -4,17 +4,14 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.model.AxonMembrane;
+import edu.colorado.phet.neuron.model.AxonMembrane.TravelingActionPotential;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Representation of the axon membrane in the view.
@@ -23,27 +20,27 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class AxonMembraneNode extends PNode {
 	
-	AxonMembrane axonMembraneModel;
+	private AxonMembrane axonMembraneModel;
     private ModelViewTransform2D mvt;
     private PhetPPath outerMembrane;
     private PhetPPath innerMembrane;
     private PhetPPath axonBody;
+    private TravelingActionPotentialNode travelingActionPotentialNode;
 
     public AxonMembraneNode( AxonMembrane axonMembraneModel, ModelViewTransform2D transform ) {
 		this.axonMembraneModel = axonMembraneModel;
         this.mvt = transform;
         
-        // Listen to the axom membrane for events that matter to the visual
+        // Listen to the axon membrane for events that matter to the visual
         // representation.
         axonMembraneModel.addListener(new AxonMembrane.Listener() {
 			
 			public void travelingActionPotentialStarted() {
-				// TODO Auto-generated method stub
+				addTravelingActionPotentialNode(AxonMembraneNode.this.axonMembraneModel.getTravelingActionPotential());
 			}
 			
 			public void travelingActionPotentialEnded() {
-				// TODO Auto-generated method stub
-				
+				removeTravelingActionPotentialNode();
 			}
 		});
         
@@ -93,4 +90,61 @@ public class AxonMembraneNode extends PNode {
         innerMembrane = new PhetPPath( innerDiameterCircle, new Color(73, 210, 242),  new BasicStroke(4), Color.BLACK);
 		addChild( innerMembrane );		
 	}
+    
+    /**
+     * Add the node that will represent the traveling action potential.
+     * 
+     * @param travelingActionPotential
+     */
+    private void addTravelingActionPotentialNode(TravelingActionPotential travelingActionPotential){
+    	this.travelingActionPotentialNode = new TravelingActionPotentialNode(travelingActionPotential);
+    	addChild(travelingActionPotentialNode);
+    }
+    
+    /**
+     * Remove the node that was representing the traveling action potential.
+     */
+    private void removeTravelingActionPotentialNode(){
+    	removeChild(travelingActionPotentialNode);
+    	travelingActionPotentialNode = null;
+    }
+    
+    /**
+     * Class that visually represents the action potential that travels down
+     * the membrane prior to reaching the cross section.
+     */
+    private static class TravelingActionPotentialNode extends PhetPPath {
+    	
+    	private static Color COLOR = Color.YELLOW;
+    	
+    	private AxonMembrane.TravelingActionPotential travelingActionPotential;
+    	
+    	public TravelingActionPotentialNode(AxonMembrane.TravelingActionPotential travelingActionPotential) {
+    		
+    		super(COLOR);
+    		
+    		this.travelingActionPotential = travelingActionPotential;
+
+    		// Listen to the action potential
+    		travelingActionPotential.addListener(new AxonMembrane.TravelingActionPotential.Listener(){
+
+				public void shapeChanged() {
+					updateShape();
+				}
+
+				public void travelingCompleted() {
+					// TODO Auto-generated method stub
+					
+				}
+    			
+    		});
+    		
+    		// Set the initial shape.
+    		updateShape();
+		}
+    	
+    	private void updateShape(){
+    		setPathTo(travelingActionPotential.getShape());
+    	}
+    }
 }
