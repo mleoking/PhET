@@ -5,7 +5,6 @@ DEADLINES
 
 HIGH PRIORITY
 - #2156, correct answer treated as wrong
-- Molecule.image should be immutable, use a mutable subclass for Sandwich
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
 - rename GameBoxNode, it's a lousy name for base class
 - developer controls for setting up specific Game challenges
@@ -33,6 +32,9 @@ LOW PRIORITY
 - javadoc
 - with 3+3+3=1 Sandwich, hard to maintain correct histogram height and see individual sandwiches
 - set font size of spinners instead of scaling (up/down arrows don't resize on Mac)
+
+WARTS:
+- Molecule.image is mutable solely for Sandwich, difficult to change this
 
 INTERVIEW ISSUES:
 - how many challenges per game is appropriate?
