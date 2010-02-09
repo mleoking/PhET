@@ -186,8 +186,8 @@ public class TransferData {
                         String filename = result.getString( "contribution_file_name" );
                         cfile.setFilename( filename );
                         Blob blob = result.getBlob( "contribution_file_contents" );
+                        File file = cfile.getTmpFileLocation( String.valueOf( result.getInt( "contribution_id" ) ) );
                         try {
-                            File file = cfile.getTmpFileLocation( String.valueOf( result.getInt( "contribution_id" ) ) );
                             file.getParentFile().mkdirs();
                             writeBlobToFile( blob, file );
                         }
@@ -197,6 +197,7 @@ public class TransferData {
                             return false;
                         }
                         cfile.setLocation( String.valueOf( result.getInt( "contribution_id" ) ) );
+                        cfile.setSize( (int) file.length() );
 
                         return true;
                     }
