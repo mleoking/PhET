@@ -45,6 +45,9 @@ public class NavMenuList extends Panel {
                 if ( location.isUnderLocationKey( "get-phet" ) ) {
                     label.add( new AttributeAppender( "class", new Model( "get-phet-item" ), " " ) );
                 }
+                if ( location.isUnderLocationKey( "teacherIdeas" ) ) {
+                    label.add( new AttributeAppender( "class", new Model( "teacher-ideas-item" ), " " ) );
+                }
 
                 link.add( label );
 
