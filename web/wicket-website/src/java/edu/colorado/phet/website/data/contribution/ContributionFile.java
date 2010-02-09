@@ -1,8 +1,11 @@
 package edu.colorado.phet.website.data.contribution;
 
+import java.io.File;
 import java.io.Serializable;
 
 import org.apache.log4j.Logger;
+
+import edu.colorado.phet.website.PhetWicketApplication;
 
 public class ContributionFile implements Serializable {
 
@@ -15,6 +18,14 @@ public class ContributionFile implements Serializable {
     // TODO: decide on implementation options, particularly how to avoid XSS vulnerabilities!
 
     private static Logger logger = Logger.getLogger( ContributionFile.class.getName() );
+
+    public File getFileLocation() {
+        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getPhetDownloadRoot(), contribution.getId() + "/" + filename.replace( '/', '_' ) );
+    }
+
+    public File getTmpFileLocation( String id ) {
+        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getPhetDownloadRoot(), "tmp" + id + "/" + filename.replace( '/', '_' ) );
+    }
 
     public ContributionFile() {
     }

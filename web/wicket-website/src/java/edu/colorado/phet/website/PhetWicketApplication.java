@@ -44,6 +44,9 @@ public class PhetWicketApplication extends WebApplication {
 
     private static Logger logger = Logger.getLogger( PhetWicketApplication.class.getName() );
 
+    public static final String PHET_DOCUMENT_ROOT = "phet-document-root";
+    public static final String PHET_DOWNLOAD_ROOT = "phet-download-root";
+
     public Class getHomePage() {
         return IndexPage.class;
     }
@@ -122,7 +125,7 @@ public class PhetWicketApplication extends WebApplication {
         mount( new HybridUrlCodingStrategy( "/activities", BlankPage.class ) );
 
         logger.info( "Running as: " + getConfigurationType() );
-        logger.info( "Detected phet-document-root: " + getServletContext().getInitParameter( "phet-document-root" ) );
+        logger.info( "Detected phet-document-root: " + getServletContext().getInitParameter( PHET_DOCUMENT_ROOT ) );
 
         if ( getConfigurationType().equals( Application.DEPLOYMENT ) ) {
             Level loggerLevel = Level.WARN;
@@ -134,14 +137,14 @@ public class PhetWicketApplication extends WebApplication {
     }
 
     public File getPhetDocumentRoot() {
-        return getFileFromLocation( getServletContext().getInitParameter( "phet-document-root" ) );
+        return getFileFromLocation( getServletContext().getInitParameter( PHET_DOCUMENT_ROOT ) );
     }
 
     public File getPhetDownloadRoot() {
-        return getFileFromLocation( getServletContext().getInitParameter( "phet-download-root" ) );
+        return getFileFromLocation( getServletContext().getInitParameter( PHET_DOWNLOAD_ROOT ) );
     }
 
-    private File getFileFromLocation( String location ) {
+    public static File getFileFromLocation( String location ) {
         if ( location == null ) {
             return null;
         }

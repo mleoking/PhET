@@ -82,6 +82,11 @@ public class Contribution implements Serializable {
         comments.add( comment );
     }
 
+    public void addFile( ContributionFile file ) {
+        file.setContribution( this );
+        files.add( file );
+    }
+
     public int getId() {
         return id;
     }

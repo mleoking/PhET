@@ -1,5 +1,10 @@
 package edu.colorado.phet.website.data.transfer;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -9,10 +14,12 @@ import javax.servlet.ServletContext;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionComment;
+import edu.colorado.phet.website.data.contribution.ContributionFile;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
@@ -22,7 +29,9 @@ public class TransferData {
 
     public static void transfer( Session session, final ServletContext servletContext ) {
 
-        HibernateUtils.wrapTransaction( session, new HibernateTask() {
+        final List<ContributionFile> files = new LinkedList<ContributionFile>();
+
+        boolean oversuccess = HibernateUtils.wrapTransaction( session, new HibernateTask() {
             public boolean run( Session session ) {
 
                 final List<Object> newObs = new LinkedList<Object>();
@@ -138,12 +147,56 @@ public class TransferData {
 
                         newObs.add( comment );
                         PhetUser user = userIdMap.get( result.getInt( "contributor_id" ) );
+                        if ( user == null ) {
+                            user = anonymous;
+                        }
                         Contribution contribution = contributionIdMap.get( result.getInt( "contribution_id" ) );
                         contribution.addComment( comment );
                         comment.setPhetUser( user );
                         comment.setText( result.getString( "contribution_comment_text" ) );
                         comment.setDateCreated( result.getDate( "contribution_comment_created" ) );
                         comment.setDateUpdated( result.getDate( "contribution_comment_updated" ) );
+
+                        return true;
+                    }
+                } );
+
+                if ( !sqlSuccess ) {
+                    return sqlSuccess;
+                }
+
+                File downloadMainDir = PhetWicketApplication.getFileFromLocation( servletContext.getInitParameter( PhetWicketApplication.PHET_DOWNLOAD_ROOT ) );
+
+                if ( downloadMainDir == null ) {
+                    return false;
+                }
+
+                sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM contribution_file", new SqlResultTask() {
+                    public boolean process( ResultSet result ) throws SQLException {
+                        ContributionFile cfile = new ContributionFile();
+
+                        Contribution contribution = contributionIdMap.get( result.getInt( "contribution_id" ) );
+                        if ( contribution == null ) {
+                            // skip files where we don't know of the contribution
+                            return true;
+                        }
+                        newObs.add( cfile );
+                        files.add( cfile );
+                        contribution.addFile( cfile );
+                        String filename = result.getString( "contribution_file_name" );
+                        cfile.setFilename( filename );
+                        Blob blob = result.getBlob( "contribution_file_contents" );
+                        try {
+                            File file = cfile.getTmpFileLocation( String.valueOf( result.getInt( "contribution_id" ) ) );
+                            file.getParentFile().mkdirs();
+                            writeBlobToFile( blob, file );
+                        }
+                        catch( IOException e ) {
+                            e.printStackTrace();
+                            logger.error( e );
+                            return false;
+                        }
+                        cfile.setLocation( String.valueOf( result.getInt( "contribution_id" ) ) );
 
                         return true;
                     }
@@ -179,6 +232,51 @@ public class TransferData {
             }
         } );
 
+        if ( oversuccess ) {
+
+            oversuccess = HibernateUtils.wrapTransaction( session, new HibernateTask() {
+                public boolean run( Session session ) {
+                    List cfiles = session.createQuery( "select f from ContributionFile as f" ).list();
+
+                    for ( Object o : cfiles ) {
+                        ContributionFile cfile = (ContributionFile) o;
+                        File oldFile = cfile.getTmpFileLocation( cfile.getLocation() );
+                        File newFile = cfile.getFileLocation();
+                        newFile.getParentFile().mkdirs();
+                        oldFile.renameTo( newFile );
+                        oldFile.getParentFile().delete();
+                        cfile.setLocation( cfile.getFileLocation().getAbsolutePath() );
+                        session.update( cfile );
+                    }
+
+                    return true;
+                }
+            } );
+        }
+
+        if ( oversuccess ) {
+
+        }
+
+    }
+
+    private static final int MAXBUFSIZE = 4096;
+
+    private static void writeBlobToFile( Blob blob, File file ) throws SQLException, IOException {
+        BufferedInputStream byteIn = new BufferedInputStream( blob.getBinaryStream() );
+        FileOutputStream fileOut = new FileOutputStream( file );
+        byte[] buf = new byte[MAXBUFSIZE];
+        int n;
+
+        while ( ( n = byteIn.read( buf, 0, MAXBUFSIZE ) ) != -1 ) {
+            fileOut.write( buf, 0, n );
+        }
+
+        fileOut.flush();
+        fileOut.close();
+        byteIn.close();
+
+        buf = null;
     }
 
     private static boolean hasStandard( String str, int standard ) {
