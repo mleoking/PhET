@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 public class ContributionSubject implements Serializable {
 
     private int id;
-    private String subject;
+    private Subject subject;
     private Contribution contribution;
 
     private static Logger logger = Logger.getLogger( ContributionSubject.class.getName() );
@@ -31,11 +31,11 @@ public class ContributionSubject implements Serializable {
         this.id = id;
     }
 
-    public String getSubject() {
+    public Subject getSubject() {
         return subject;
     }
 
-    public void setSubject( String subject ) {
+    public void setSubject( Subject subject ) {
         this.subject = subject;
     }
 

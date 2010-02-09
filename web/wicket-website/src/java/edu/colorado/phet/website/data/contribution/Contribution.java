@@ -88,6 +88,31 @@ public class Contribution implements Serializable {
         files.add( file );
     }
 
+    public void addFlag( ContributionFlag flag ) {
+        flag.setContribution( this );
+        flags.add( flag );
+    }
+
+    public void addLevel( ContributionLevel level ) {
+        level.setContribution( this );
+        levels.add( level );
+    }
+
+    public void addNomination( ContributionNomination nomination ) {
+        nomination.setContribution( this );
+        nominations.add( nomination );
+    }
+
+    public void addSubject( ContributionSubject subject ) {
+        subject.setContribution( this );
+        subjects.add( subject );
+    }
+
+    public void addType( ContributionType type ) {
+        type.setContribution( this );
+        types.add( type );
+    }
+
     public int getId() {
         return id;
     }
