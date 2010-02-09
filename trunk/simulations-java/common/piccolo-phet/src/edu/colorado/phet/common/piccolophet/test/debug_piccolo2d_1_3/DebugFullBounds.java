@@ -49,7 +49,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Note the behavior when transitioning between empty and non-empty bounds
  * (for example, between bounds=[0,0,1,0] and [0,0,1,1] )
  * <p>
- * See PhET Unfuddle #2157.
+ * See PhET Unfuddle #2157, Piccolo issue 161.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
