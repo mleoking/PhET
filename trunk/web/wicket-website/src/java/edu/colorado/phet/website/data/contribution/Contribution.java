@@ -26,6 +26,7 @@ public class Contribution implements Serializable {
     private Date dateUpdated;
     private boolean fromPhet;
     private boolean goldStar;
+    private int oldId;
     private Set files = new HashSet();
     private Set comments = new HashSet();
     private Set levels = new HashSet();
@@ -437,5 +438,13 @@ public class Contribution implements Serializable {
 
     public void setStandard912G( boolean standard912G ) {
         this.standard912G = standard912G;
+    }
+
+    public int getOldId() {
+        return oldId;
+    }
+
+    public void setOldId( int oldId ) {
+        this.oldId = oldId;
     }
 }

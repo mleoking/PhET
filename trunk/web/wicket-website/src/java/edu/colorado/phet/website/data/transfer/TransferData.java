@@ -81,7 +81,8 @@ public class TransferData {
                     public boolean process( ResultSet result ) throws SQLException {
                         Contribution contribution = new Contribution();
 
-                        contributionIdMap.put( result.getInt( "contribution_id" ), contribution );
+                        int oldId = result.getInt( "contribution_id" );
+                        contributionIdMap.put( oldId, contribution );
                         newObs.add( contribution );
                         PhetUser user = userIdMap.get( result.getInt( "contributor_id" ) );
                         if ( user == null ) {
@@ -102,6 +103,7 @@ public class TransferData {
                         contribution.setDateUpdated( result.getDate( "contribution_date_updated" ) );
                         contribution.setFromPhet( result.getBoolean( "contribution_from_phet" ) );
                         contribution.setGoldStar( result.getBoolean( "contribution_is_gold_star" ) );
+                        contribution.setOldId( oldId );
 
                         String standards = result.getString( "contribution_standards_compliance" );
 
