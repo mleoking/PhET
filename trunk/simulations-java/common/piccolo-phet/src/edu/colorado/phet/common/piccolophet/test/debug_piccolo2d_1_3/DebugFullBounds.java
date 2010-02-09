@@ -166,7 +166,7 @@ public class DebugFullBounds extends JFrame {
         }
     }
 
-    /* A spinner for integer values. */
+    /* A spinner for integer values. This implementation is not robust! */
     private static class IntegerSpinner extends JSpinner {
 
         public IntegerSpinner( int value, int min, int max ) {
