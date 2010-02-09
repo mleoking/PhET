@@ -33,6 +33,20 @@ public class AxonMembraneNode extends PNode {
 		this.axonMembraneModel = axonMembraneModel;
         this.mvt = transform;
         
+        // Listen to the axom membrane for events that matter to the visual
+        // representation.
+        axonMembraneModel.addListener(new AxonMembrane.Listener() {
+			
+			public void travelingActionPotentialStarted() {
+				// TODO Auto-generated method stub
+			}
+			
+			public void travelingActionPotentialEnded() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
         // Add the axon body.
         Shape axonBodyShape = mvt.createTransformedShape(axonMembraneModel.getAxonBodyShape());
         axonBody = new PhetPPath( axonBodyShape, new Color(221, 216, 44), new BasicStroke(4), Color.BLACK );
