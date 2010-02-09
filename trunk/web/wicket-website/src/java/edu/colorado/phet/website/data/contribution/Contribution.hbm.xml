@@ -24,6 +24,7 @@
         <property name="fromPhet"/>
         <property name="goldStar"/>
         <property name="oldId"/>
+        <property name="locale" type="locale"/>
 
         <property name="standardK4A"/>
         <property name="standard58A"/>

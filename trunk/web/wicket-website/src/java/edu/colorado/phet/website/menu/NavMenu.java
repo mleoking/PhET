@@ -36,6 +36,15 @@ public class NavMenu {
         NavLocation simulations = new NavLocation( null, "simulations", SimulationDisplay.getLinker() );
         addMajorLocation( simulations );
 
+        // TODO: fix link
+        NavLocation teacherIdeas = new NavLocation( null, "teacherIdeas", IndexPage.getLinker() );
+        addMajorLocation( teacherIdeas );
+
+        // TODO: fix link
+        NavLocation teacherIdeasBrowse = new NavLocation( teacherIdeas, "teacherIdeas.browse", IndexPage.getLinker() );
+        addLocation( teacherIdeasBrowse );
+        teacherIdeas.addChild( teacherIdeasBrowse );
+
         NavLocation workshops = new NavLocation( null, "workshops", WorkshopsPanel.getLinker() );
         addMajorLocation( workshops );
 
