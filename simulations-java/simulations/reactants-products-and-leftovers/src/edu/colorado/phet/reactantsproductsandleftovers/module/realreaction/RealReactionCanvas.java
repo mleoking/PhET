@@ -8,11 +8,13 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionAfterNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionBeforeNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionEquationNode;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -21,6 +23,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class RealReactionCanvas extends RPALCanvas {
+    
+    private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
 
     private final RealReactionModel model;
     
@@ -66,16 +70,25 @@ public class RealReactionCanvas extends RPALCanvas {
      */
     private void updateDynamicNodes() {
 
-        removeChild( equationNode );
+        if ( equationNode != null ) {
+            removeChild( equationNode );
+            equationNode.cleanup();
+        }
         equationNode = new RealReactionEquationNode( model.getReaction() );
         addChild( equationNode );
 
-        removeChild( beforeNode );
-        beforeNode = new RealReactionBeforeNode( model );
+        if ( beforeNode != null ) {
+            removeChild( beforeNode );
+            beforeNode.cleanup();
+        }
+        beforeNode = new RealReactionBeforeNode( model, BOX_SIZE );
         addChild( beforeNode );
 
-        removeChild( afterNode );
-        afterNode = new RealReactionAfterNode( model );
+        if ( afterNode != null ) {
+            removeChild( afterNode );
+            afterNode.cleanup();
+        }
+        afterNode = new RealReactionAfterNode( model, BOX_SIZE );
         addChild( afterNode );
 
         updateNodesLayout();
@@ -104,7 +117,7 @@ public class RealReactionCanvas extends RPALCanvas {
         // arrow to the right of Before box, vertically centered with box
         final double arrowXSpacing = 20;
         x = beforeNode.getFullBoundsReference().getMaxX() + arrowXSpacing;
-        y = beforeNode.getYOffset() + ( beforeNode.getBoxHeight() / 2 );
+        y = beforeNode.getYOffset() + ( BOX_SIZE.getHeight() / 2 );
         arrowNode.setOffset( x, y );
 
         // After box to the right of arrow, top aligned with Before box

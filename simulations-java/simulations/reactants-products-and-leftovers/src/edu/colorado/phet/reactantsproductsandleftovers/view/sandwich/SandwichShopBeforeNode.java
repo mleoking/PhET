@@ -2,11 +2,11 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.view.sandwich;
 
-import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.colorado.phet.reactantsproductsandleftovers.view.AbstractBeforeNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.StackedLayoutNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * The "Before" box in the "Sandwich Shop" module.
@@ -15,7 +15,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.Stac
  */
 public class SandwichShopBeforeNode extends AbstractBeforeNode {
 
-    public SandwichShopBeforeNode( SandwichShopModel model ) {
-        super( RPALStrings.LABEL_BEFORE_SANDWICH, model.getReaction(), SandwichShopModel.getQuantityRange(), false /* showSubstanceNames */, new StackedLayoutNode( RPALConstants.BEFORE_AFTER_BOX_SIZE ) );
+    public SandwichShopBeforeNode( SandwichShopModel model, PDimension boxSize ) {
+        super( RPALStrings.LABEL_BEFORE_SANDWICH, boxSize, model.getReaction(), SandwichShopModel.getQuantityRange(), false /* showSubstanceNames */, new StackedLayoutNode( boxSize ) );
     }
 }

@@ -8,6 +8,7 @@ import java.awt.Stroke;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNode;
@@ -19,19 +20,16 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameListener;
-import edu.colorado.phet.reactantsproductsandleftovers.view.BracketedLabelNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.IDynamicNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.*;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.GridLayoutNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
-public class GameBeforeNode extends GameBoxNode implements IDynamicNode {
+public class GameBeforeNode extends PhetPNode implements IDynamicNode {
     
     private static final String TITLE = RPALStrings.LABEL_BEFORE_REACTION;
-    private static final double TITLE_Y_SPACING = 10;
-    
+
     private static final double CONTROLS_Y_SPACING = 15;
     
     private static final double BRACKET_Y_SPACING = 3;
@@ -47,11 +45,14 @@ public class GameBeforeNode extends GameBoxNode implements IDynamicNode {
     private final ArrayList<ArrayList<SubstanceImageNode>> reactantImageNodeLists; // one list of images per reactant
     private final MoleculesHiddenNode moleculesHiddenNode;
     
-    public GameBeforeNode( GameModel model ) {
-        super( TITLE );
+    public GameBeforeNode( GameModel model, PDimension boxSize ) {
         
         GameChallenge challenge = model.getChallenge();
         ChemicalReaction reaction = challenge.getReaction();
+        
+        // titled box
+        TitledBoxNode titledBoxNode = new TitledBoxNode( TITLE, boxSize );
+        addChild( titledBoxNode );
         
         // image node lists
         reactantImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
@@ -74,18 +75,12 @@ public class GameBeforeNode extends GameBoxNode implements IDynamicNode {
         // layout, origin at upper-left corner of box
         double x = 0;
         double y = 0;
-        PNode boxNode = getBoxNode();
-        boxNode.setOffset( x, y );
-        // title centered above box
-        PNode titleNode = getTitleNode();
-        x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
-        y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
-        titleNode.setOffset( x, y );
+        titledBoxNode.setOffset( x, y );
         // reactant quantity controls, horizontally centered in "cells"
-        double margin = ( reactants.length > 2 ) ? 0 : ( 0.15 * getBoxWidth() ); // make 2 reactants case look nice
-        final double deltaX = ( boxNode.getFullBoundsReference().getWidth() - ( 2 * margin ) ) / ( reactants.length );
-        x = boxNode.getFullBoundsReference().getMinX() + margin + ( deltaX / 2 );
-        y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
+        double margin = ( reactants.length > 2 ) ? 0 : ( 0.15 * boxSize.getWidth() ); // make 2 reactants case look nice
+        final double deltaX = ( boxSize.getWidth() - ( 2 * margin ) ) / ( reactants.length );
+        x = titledBoxNode.getBoxNode().getFullBoundsReference().getMinX() + margin + ( deltaX / 2 );
+        y = titledBoxNode.getBoxNode().getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
         for ( int i = 0; i < reactants.length; i++ ) {
             reactantValueNodes.get( i ).setOffset( x, y );
             x += deltaX;
@@ -115,18 +110,18 @@ public class GameBeforeNode extends GameBoxNode implements IDynamicNode {
         model.addGameListener( gameListener );
         
         // images
-        answerImagesNode = new GridLayoutNode( getBoxSize() );
+        answerImagesNode = new GridLayoutNode( boxSize );
         createAnswerImages();
         addChild( answerImagesNode );
-        guessImagesNode = new GridLayoutNode( getBoxSize() );
+        guessImagesNode = new GridLayoutNode( boxSize );
         updateGuessImages();
         addChild( guessImagesNode );
         
         // "images hidden" message node
         moleculesHiddenNode = new MoleculesHiddenNode();
         addChild( moleculesHiddenNode );
-        x = ( getBoxWidth() - moleculesHiddenNode.getFullBoundsReference().getWidth() ) / 2;
-        y = ( getBoxHeight() - moleculesHiddenNode.getFullBoundsReference().getHeight() ) / 2;
+        x = ( boxSize.getWidth() - moleculesHiddenNode.getFullBoundsReference().getWidth() ) / 2;
+        y = ( boxSize.getHeight() - moleculesHiddenNode.getFullBoundsReference().getHeight() ) / 2;
         moleculesHiddenNode.setOffset( x, y );
         
         // default state

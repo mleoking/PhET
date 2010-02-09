@@ -4,7 +4,6 @@ package edu.colorado.phet.reactantsproductsandleftovers.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Stroke;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -24,7 +23,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -33,11 +31,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNode {
-    
-    private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
-    
-    private static final Font TITLE_FONT = new PhetFont( 24 );
-    private static final double TITLE_Y_SPACING = 10;
     
     private static final double CONTROLS_Y_SPACING = 15;
 
@@ -51,14 +44,14 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
     private final ChemicalReaction reaction;
     private final ChangeListener reactionChangeListener;
 
-    private final BoxNode boxNode;
+    private final TitledBoxNode titledBoxNode;
     private final ArrayList<ArrayList<SubstanceImageNode>> productImageNodeLists, leftoverImageNodeLists; // one list of images per product and leftover
     private final ArrayList<QuantityValueNode> quantityValueNodes; // quantity displays for products
     private final ArrayList<LeftoversValueNode> leftoverValueNodes; // leftover displays for reactants
     private final ImageLayoutNode imageLayoutNode;
     private final PNode productsLabelNode, leftoversLabelNode;
     
-    public AbstractAfterNode( String title, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames,  ImageLayoutNode imageLayoutNode ) {
+    public AbstractAfterNode( String title, PDimension boxSize, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames,  ImageLayoutNode imageLayoutNode ) {
         super();
         
         this.reaction = reaction;
@@ -76,16 +69,10 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
         quantityValueNodes = new ArrayList<QuantityValueNode>();
         leftoverValueNodes = new ArrayList<LeftoversValueNode>();
         
-        // box
-        boxNode = new BoxNode( BOX_SIZE );
-        addChild( boxNode );
+        // titled box
+        titledBoxNode = new TitledBoxNode( title, boxSize );
+        addChild( titledBoxNode );
         addChild( imageLayoutNode );
-        
-        // title for the box
-        PText titleNode = new PText( title );
-        titleNode.setFont( TITLE_FONT );
-        titleNode.setTextPaint( Color.BLACK );
-        addChild( titleNode );
         
         // product images and quantity displays
         Product[] products = reaction.getProducts();
@@ -116,15 +103,11 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
         // layout, origin at upper-left corner of box
         double x = 0;
         double y = 0;
-        boxNode.setOffset( x, y );
-        // title centered above box
-        x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
-        y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - TITLE_Y_SPACING;
-        titleNode.setOffset( x, y );
+        titledBoxNode.setOffset( x, y );
         // product quantity displays, horizontally centered in "cells"
-        final double deltaX = boxNode.getFullBoundsReference().getWidth() / ( products.length + reactants.length );
-        x = boxNode.getFullBoundsReference().getMinX() + ( deltaX / 2 );
-        y = boxNode.getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
+        final double deltaX = titledBoxNode.getBoxNode().getFullBoundsReference().getWidth() / ( products.length + reactants.length );
+        x = titledBoxNode.getBoxNode().getFullBoundsReference().getMinX() + ( deltaX / 2 );
+        y = titledBoxNode.getBoxNode().getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
         for ( int i = 0; i < products.length; i++ ) {
             quantityValueNodes.get( i ).setOffset( x, y );
             x += deltaX;
