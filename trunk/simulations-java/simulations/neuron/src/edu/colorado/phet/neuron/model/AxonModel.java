@@ -346,8 +346,12 @@ public class AxonModel {
     }
     
     public void initiateStimulusPulse(){
-    	hodgkinsHuxleyModel.stimulate();
+    	axonMembrane.initiateTravelingActionPotential();
     	notifyStimulusPulseInitiated();
+    }
+    
+    public Shape getTravelingActionPotentialShape(){
+    	return new Rectangle2D.Double(0, 0, 10, 10);
     }
     
     private void handleClockTicked(ClockEvent clockEvent){
