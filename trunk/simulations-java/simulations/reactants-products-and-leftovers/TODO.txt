@@ -5,8 +5,7 @@ DEADLINES
 
 HIGH PRIORITY
 - #2156, correct answer treated as wrong
-- factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode, GameBoxNode
-- rename GameBoxNode, it's a lousy name for base class
+- factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode
 - developer controls for setting up specific Game challenges
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
@@ -14,19 +13,19 @@ HIGH PRIORITY
 
 MEDIUM PRIORITY
 - disable debug output in AbstractGameStrategy
-- remove silence from audio files, convert to WAV PCM mono
 - explicitly handle tab traversal in play area
 - is there an issue with Game timer, it showed 46:03 during status meeting, which was not possible
 - automatically increase the level setting when user gets a perfect score?
 - award more points for higher levels?
 - instead of points, show stars & half stars? works for 5 challenges, allows student to remember which ones they didn't get
 - don't show Score: X/max in scoreboard, just show Score: X, then show X/max in Game Summary?
-- lighter weight methods (text?) of telling the user that the Game images will be hidden for a challenge
+- lighter-weight methods (text?) of telling the user that the Game images will be hidden for a challenge
 - PSwing memory leak affects tab traversal, #1874
 - associate ImageLayoutStrategy with the chemical reaction type?
 - investigate PSwing workaround that I had to add to GameSummaryNode
 
 LOW PRIORITY
+- remove silence from audio files, convert to WAV PCM mono
 - expose SimpleGameStrategy.main as a Developer menu item
 - "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
 - javadoc
