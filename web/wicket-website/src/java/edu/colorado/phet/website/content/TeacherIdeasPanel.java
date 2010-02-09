@@ -12,6 +12,8 @@ public class TeacherIdeasPanel extends PhetPanel {
     public TeacherIdeasPanel( String id, PageContext context ) {
         super( id, context );
 
+        // TODO: localize, fix links
+
 //        add( SimulationDisplay.createLink( "online-link", context ) );
 //        add( FullInstallPanel.getLinker().getLink( "install-link", context, getPhetCycle() ) );
 //        add( OneAtATimePanel.getLinker().getLink( "offline-link", context, getPhetCycle() ) );
