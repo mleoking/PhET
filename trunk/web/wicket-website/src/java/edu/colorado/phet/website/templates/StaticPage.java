@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
 
+import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
@@ -33,7 +34,11 @@ public class StaticPage extends PhetRegularPage {
             PhetPanel panel = (PhetPanel) ctor.newInstance( "panel", getPageContext() );
 
             addTitle( new ResourceModel( key + ".title" ) );
-            initializeLocation( getNavMenu().getLocationByKey( key ) );
+            NavLocation navLocation = getNavMenu().getLocationByKey( key );
+            if ( navLocation == null ) {
+                logger.warn( "nav location == null for " + panelClass.getCanonicalName() );
+            }
+            initializeLocation( navLocation );
             add( panel );
         }
         catch( RuntimeException e ) {

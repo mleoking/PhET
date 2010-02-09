@@ -9,17 +9,18 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
+import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
-public class NavMenuList extends Panel {
+public class NavMenuList extends PhetPanel {
 
     public NavMenuList( String id, final PageContext context, List<NavLocation> locations, final Set<NavLocation> currentLocations, final int level ) {
-        super( id );
+        super( id, context );
 
         ListView listView = new ListView( "items", locations ) {
             protected void populateItem( ListItem item ) {
@@ -47,6 +48,9 @@ public class NavMenuList extends Panel {
                 }
                 if ( location.isUnderLocationKey( "teacherIdeas" ) ) {
                     label.add( new AttributeAppender( "class", new Model( "teacher-ideas-item" ), " " ) );
+                    if ( !DistributionHandler.displayContributions( getPhetCycle() ) ) {
+                        item.setVisible( false );
+                    }
                 }
 
                 link.add( label );
