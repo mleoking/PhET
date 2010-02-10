@@ -96,6 +96,7 @@ public class PhetWicketApplication extends WebApplication {
         SignOutPage.addToMapper( mapper );
         RegisterPage.addToMapper( mapper );
         ContributionPage.addToMapper( mapper );
+        ContributionBrowsePage.addToMapper( mapper );
 
         // set up the custom localizer
         getResourceSettings().setLocalizer( new PhetLocalizer() );
