@@ -1,13 +1,17 @@
 package edu.colorado.phet.website.content;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
+import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.panels.ContributionBrowsePanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -30,7 +34,20 @@ public class ContributionBrowsePage extends PhetRegularPage {
         // TODO: localize
         addTitle( "" );
 
-        add( new ContributionBrowsePanel( "contribution-browse-panel", getPageContext(), new LinkedList<Contribution>() ) );
+        // TODO: for now, only showing all contributions
+        final List<Contribution> contributions = new LinkedList<Contribution>();
+
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                List list = session.createQuery( "select c from Contribution as c" ).list();
+                for ( Object o : list ) {
+                    contributions.add( (Contribution) o );
+                }
+                return true;
+            }
+        } );
+
+        add( new ContributionBrowsePanel( "contribution-browse-panel", getPageContext(), contributions ) );
 
     }
 
