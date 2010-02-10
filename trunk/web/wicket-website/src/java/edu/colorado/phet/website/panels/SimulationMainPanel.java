@@ -29,7 +29,9 @@ import edu.colorado.phet.website.content.about.AboutLegendPanel;
 import edu.colorado.phet.website.data.Keyword;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.translation.PhetLocalizer;
+import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import static edu.colorado.phet.website.util.HtmlUtils.encode;
 import edu.colorado.phet.website.util.PageContext;
@@ -40,7 +42,7 @@ public class SimulationMainPanel extends PhetPanel {
 
     private static Logger logger = Logger.getLogger( SimulationMainPanel.class.getName() );
 
-    public SimulationMainPanel( String id, LocalizedSimulation simulation, final PageContext context ) {
+    public SimulationMainPanel( String id, final LocalizedSimulation simulation, final PageContext context ) {
         super( id, context );
 
         String simulationVersionString = simulation.getSimulation().getProject().getVersionString();
@@ -89,6 +91,24 @@ public class SimulationMainPanel extends PhetPanel {
         }
         else {
             add( new InvisibleComponent( "rating-classroom-tested-link" ) );
+        }
+
+        if ( DistributionHandler.displayContributions( getPhetCycle() ) ) {
+            final List<Contribution> contributions = new LinkedList<Contribution>();
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    List list = session.createQuery( "select c from Contribution as c where :simulation member of c.simulations" )
+                            .setEntity( "simulation", simulation.getSimulation() ).list();
+                    for ( Object o : list ) {
+                        contributions.add( (Contribution) o );
+                    }
+                    return true;
+                }
+            } );
+            add( new ContributionBrowsePanel( "contributions-panel", context, contributions ) );
+        }
+        else {
+            add( new InvisibleComponent( "contributions-panel" ) );
         }
 
 
