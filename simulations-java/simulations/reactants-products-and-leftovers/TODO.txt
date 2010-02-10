@@ -5,13 +5,14 @@ DEADLINES
 
 HIGH PRIORITY
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode
-- developer controls for setting up specific Game challenges
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
-- dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
 - layout of Game Summary dialog is messed up on Windows
 
 MEDIUM PRIORITY
+- dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
+- when sandwich is defined as 2-meat, the image on RHS of equation is low
+- developer controls for setting up specific Game challenges
 - piece of "s" in "leftovers" in "How many..." message doesn't disappear on Windows
 - disable debug output in AbstractGameStrategy
 - explicitly handle tab traversal in play area
