@@ -5,6 +5,7 @@ package edu.colorado.phet.neuron.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -116,13 +117,14 @@ public class AxonMembraneNode extends PNode {
     private static class TravelingActionPotentialNode extends PhetPPath {
     	
     	private static Color COLOR = Color.YELLOW;
+    	private static Stroke stroke = new BasicStroke(6);
     	
     	private AxonMembrane.TravelingActionPotential travelingActionPotential;
     	private ModelViewTransform2D mvt;
     	
     	public TravelingActionPotentialNode(AxonMembrane.TravelingActionPotential travelingActionPotential, ModelViewTransform2D mvt) {
     		
-    		super(COLOR);
+    		super(stroke, COLOR);
     		
     		this.travelingActionPotential = travelingActionPotential;
     		this.mvt = mvt;
