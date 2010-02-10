@@ -154,6 +154,13 @@ public class GameModel extends RPALModel {
                 // subsequent attempts score zero points
             }
         }
+        else {
+            //XXX debug #2156
+            String reactionString = getChallenge().getReaction().getEquationPlainText();
+            String challengeString = getChallenge().getReaction().getQuantitiesString();
+            String guessString = getChallenge().getGuess().toString();
+            System.out.println( "GameModel.checkGuess correct=" + correct + " reaction=" + reactionString + " challenge=[" + challengeString + "] guess=[" + guessString + "]" );
+        }
         return correct;
     }
     

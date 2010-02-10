@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
-import java.util.ArrayList;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -144,5 +142,35 @@ public class GameGuess {
         for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
             listener.stateChanged( event );
         }
-    } 
+    }
+
+    /**
+     * Example: 4,1 -> 1,2,2,0
+     * @return
+     */
+    public String toString() {
+        String s = "";
+        // reactants
+        for ( int i = 0; i < reactants.length; i++ ) {
+            if ( i != 0 ) {
+                s += ",";
+            }
+            s += String.valueOf( reactants[i].getQuantity() );
+        }
+        // arrow
+        s += " -> ";
+        // products
+        for ( int i = 0; i < products.length; i++ ) {
+            if ( i != 0 ) {
+                s += ",";
+            }
+            s += String.valueOf( products[i].getQuantity() );
+        }
+        // leftovers
+        for ( int i = 0; i < reactants.length; i++ ) {
+            s += ",";
+            s += String.valueOf( reactants[i].getLeftovers() );
+        }
+        return s;
+    }
 }
