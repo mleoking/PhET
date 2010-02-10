@@ -4,7 +4,6 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- #2156, correct answer treated as wrong
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode
 - developer controls for setting up specific Game challenges
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
@@ -13,6 +12,7 @@ HIGH PRIORITY
 - layout of Game Summary dialog is messed up on Windows
 
 MEDIUM PRIORITY
+- piece of "s" in "leftovers" in "How many..." message doesn't disappear on Windows
 - disable debug output in AbstractGameStrategy
 - explicitly handle tab traversal in play area
 - is there an issue with Game timer, it showed 46:03 during status meeting, which was not possible
