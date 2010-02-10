@@ -97,7 +97,7 @@ public class AxonMembraneNode extends PNode {
      * @param travelingActionPotential
      */
     private void addTravelingActionPotentialNode(TravelingActionPotential travelingActionPotential){
-    	this.travelingActionPotentialNode = new TravelingActionPotentialNode(travelingActionPotential);
+    	this.travelingActionPotentialNode = new TravelingActionPotentialNode(travelingActionPotential, mvt);
     	addChild(travelingActionPotentialNode);
     }
     
@@ -118,12 +118,14 @@ public class AxonMembraneNode extends PNode {
     	private static Color COLOR = Color.YELLOW;
     	
     	private AxonMembrane.TravelingActionPotential travelingActionPotential;
+    	private ModelViewTransform2D mvt;
     	
-    	public TravelingActionPotentialNode(AxonMembrane.TravelingActionPotential travelingActionPotential) {
+    	public TravelingActionPotentialNode(AxonMembrane.TravelingActionPotential travelingActionPotential, ModelViewTransform2D mvt) {
     		
     		super(COLOR);
     		
     		this.travelingActionPotential = travelingActionPotential;
+    		this.mvt = mvt;
 
     		// Listen to the action potential
     		travelingActionPotential.addListener(new AxonMembrane.TravelingActionPotential.Adapter(){
@@ -137,7 +139,7 @@ public class AxonMembraneNode extends PNode {
 		}
     	
     	private void updateShape(){
-    		setPathTo(travelingActionPotential.getShape());
+    		setPathTo(mvt.createTransformedShape(travelingActionPotential.getShape()));
     	}
     }
 }
