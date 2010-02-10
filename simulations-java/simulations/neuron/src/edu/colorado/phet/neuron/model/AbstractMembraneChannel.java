@@ -158,7 +158,10 @@ public abstract class AbstractMembraneChannel {
 	}
 
 	protected void setOpenness(double openness) {
-		this.openness = openness;
+		if (this.openness != openness){
+			this.openness = openness;
+			notifyOpennessChanged();
+		}
 	}
 
 	public Color getChannelColor(){
@@ -195,7 +198,19 @@ public abstract class AbstractMembraneChannel {
 		}
 	}
 	
+	private void notifyOpennessChanged(){
+		for (Listener listener : listeners){
+			listener.opennessChanged();
+		}
+	}
+	
 	public static interface Listener{
 		void removed();
+		void opennessChanged();
+	}
+	
+	public static class Adapter implements Listener {
+		public void opennessChanged() {}
+		public void removed() {}
 	}
 }
