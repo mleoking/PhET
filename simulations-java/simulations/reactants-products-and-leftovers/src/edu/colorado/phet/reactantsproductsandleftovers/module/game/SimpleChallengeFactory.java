@@ -26,28 +26,28 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
     // level 1 is all the one-product reactions
     private static final ArrayList<Class <? extends ChemicalReaction>> LEVEL1_LIST = new ArrayList<Class<? extends ChemicalReaction>>();
     static {
-//        LEVEL1_LIST.add( WaterReaction.class );
-//        LEVEL1_LIST.add( Reaction_H2_F2__2HF.class );
-//        LEVEL1_LIST.add( Reaction_H2_Cl2__2HCl.class );
-//        LEVEL1_LIST.add( Reaction_CO_2H2__CH3OH.class );
-//        LEVEL1_LIST.add( Reaction_CH2O_H2__CH3OH.class );
-//        LEVEL1_LIST.add( Reaction_C2H4_H2__C2H6.class );
-//        LEVEL1_LIST.add( Reaction_C2H2_2H2__C2H6.class );
-//        LEVEL1_LIST.add( Reaction_C_O2__CO2.class );
-//        LEVEL1_LIST.add( Reaction_2C_O2__2CO.class );
-//        LEVEL1_LIST.add( Reaction_2CO_O2__2CO2.class );
-//        LEVEL1_LIST.add( Reaction_C_CO2__2CO.class );
-//        LEVEL1_LIST.add( Reaction_C_2S__CS2.class );
-//        LEVEL1_LIST.add( AmmoniaReaction.class );
+        LEVEL1_LIST.add( WaterReaction.class );
+        LEVEL1_LIST.add( Reaction_H2_F2__2HF.class );
+        LEVEL1_LIST.add( Reaction_H2_Cl2__2HCl.class );
+        LEVEL1_LIST.add( Reaction_CO_2H2__CH3OH.class );
+        LEVEL1_LIST.add( Reaction_CH2O_H2__CH3OH.class );
+        LEVEL1_LIST.add( Reaction_C2H4_H2__C2H6.class );
+        LEVEL1_LIST.add( Reaction_C2H2_2H2__C2H6.class );
+        LEVEL1_LIST.add( Reaction_C_O2__CO2.class );
+        LEVEL1_LIST.add( Reaction_2C_O2__2CO.class );
+        LEVEL1_LIST.add( Reaction_2CO_O2__2CO2.class );
+        LEVEL1_LIST.add( Reaction_C_CO2__2CO.class );
+        LEVEL1_LIST.add( Reaction_C_2S__CS2.class );
+        LEVEL1_LIST.add( AmmoniaReaction.class );
         LEVEL1_LIST.add( Reaction_N2_O2__2NO.class );
-//        LEVEL1_LIST.add( Reaction_2NO_O2__2NO2.class );
-//        LEVEL1_LIST.add( Reaction_2N2_O2__2NO2.class );
-//        LEVEL1_LIST.add( Reaction_P4_6H2__4PH3.class );
-//        LEVEL1_LIST.add( Reaction_P4_6F2__4PF3.class );
-//        LEVEL1_LIST.add( Reaction_P4_6Cl2__4PCl3.class );
-//        LEVEL1_LIST.add( Reaction_P4_10Cl2__4PCl5.class );
-//        LEVEL1_LIST.add( Reaction_PCl3_Cl2__PCl5.class );
-//        LEVEL1_LIST.add( Reaction_2SO2_O2__2SO3.class );
+        LEVEL1_LIST.add( Reaction_2NO_O2__2NO2.class );
+        LEVEL1_LIST.add( Reaction_2N2_O2__2NO2.class );
+        LEVEL1_LIST.add( Reaction_P4_6H2__4PH3.class );
+        LEVEL1_LIST.add( Reaction_P4_6F2__4PF3.class );
+        LEVEL1_LIST.add( Reaction_P4_6Cl2__4PCl3.class );
+        LEVEL1_LIST.add( Reaction_P4_10Cl2__4PCl5.class );
+        LEVEL1_LIST.add( Reaction_PCl3_Cl2__PCl5.class );
+        LEVEL1_LIST.add( Reaction_2SO2_O2__2SO3.class );
     };
     
     // level 2 uses the same reactions as level 1
