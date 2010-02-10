@@ -10,6 +10,7 @@ HIGH PRIORITY
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
+- layout of Game Summary dialog is messed up on Windows
 
 MEDIUM PRIORITY
 - disable debug output in AbstractGameStrategy
