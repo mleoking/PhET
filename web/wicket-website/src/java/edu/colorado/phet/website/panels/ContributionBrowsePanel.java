@@ -1,30 +1,31 @@
 package edu.colorado.phet.website.panels;
 
-import java.text.MessageFormat;
-import java.util.Iterator;
 import java.util.List;
 
-import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.GridView;
-import org.apache.wicket.markup.repeater.data.IDataProvider;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 
-import edu.colorado.phet.website.components.PhetLink;
-import edu.colorado.phet.website.components.StaticImage;
-import edu.colorado.phet.website.content.SimulationPage;
-import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.contribution.Contribution;
-import static edu.colorado.phet.website.util.HtmlUtils.encode;
 import edu.colorado.phet.website.util.PageContext;
 
 public class ContributionBrowsePanel extends PhetPanel {
 
-    public ContributionBrowsePanel( String id, final PageContext context, List<Contribution> simulations ) {
+    private final List<Contribution> contributions;
+
+    public ContributionBrowsePanel( String id, final PageContext context, List<Contribution> contributions ) {
         super( id, context );
+
+        this.contributions = contributions;
+
+        // TODO: is localization necessary?
+
+        add( new ListView( "contributions", contributions ) {
+            protected void populateItem( ListItem item ) {
+                Contribution contribution = (Contribution) item.getModel().getObject();
+                item.add( new Label( "contribution-title", contribution.getTitle() ) );
+            }
+        } );
 
 //        IDataProvider simData = new SimulationDataProvider( simulations );
 //        GridView gridView = new GridView( "rows", simData ) {
