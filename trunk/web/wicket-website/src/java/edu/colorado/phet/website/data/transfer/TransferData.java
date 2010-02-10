@@ -16,6 +16,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.PhetUser;
+import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -35,7 +36,7 @@ public class TransferData {
         final List<ContributionFile> files = new LinkedList<ContributionFile>();
 
         boolean oversuccess = HibernateUtils.wrapTransaction( session, new HibernateTask() {
-            public boolean run( Session session ) {
+            public boolean run( final Session session ) {
 
                 final List<Object> newObs = new LinkedList<Object>();
 
@@ -272,6 +273,61 @@ public class TransferData {
                         contribution.addType( type );
                         type.setType( Type.getTypeFromOldAbbrev( result.getString( "contribution_type_desc_abbrev" ) ) );
 
+                        return true;
+                    }
+                } );
+
+                if ( !sqlSuccess ) {
+                    return sqlSuccess;
+                }
+
+                // maps old sim IDs to new sims
+                final Map<Integer, Integer> simulationIdMap = new HashMap<Integer, Integer>();
+
+                // pull out simulation ID mappings
+                sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT sim_id, sim_dirname, sim_flavorname FROM simulation", new SqlResultTask() {
+                    public boolean process( ResultSet result ) throws SQLException {
+                        int oldId = result.getInt( "sim_id" );
+                        String project = result.getString( "sim_dirname" );
+                        String simulation = result.getString( "sim_flavorname" );
+                        List list = session.createQuery( "select s from Simulation as s where s.project.name = :project and s.name = :simulation and s.simulationVisible = true and s.project.visible = true" )
+                                .setString( "simulation", simulation ).setString( "project", project ).list();
+                        if ( list.isEmpty() || list.size() > 1 ) {
+                            logger.error( "Could not find exactly 1 match for sim oldId " + oldId + ", project " + project + ", simulation " + simulation );
+                            logger.error( "Continuing by ignoring " + list.size() + " matches!" );
+
+                            // continue
+                            return true;
+                        }
+                        int newId = ( (Simulation) list.get( 0 ) ).getId();
+                        simulationIdMap.put( oldId, newId );
+                        return true;
+                    }
+                } );
+
+                if ( !sqlSuccess ) {
+                    return sqlSuccess;
+                }
+
+                // add simulation-contribution mappings
+                sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM simulation_contribution", new SqlResultTask() {
+                    public boolean process( ResultSet result ) throws SQLException {
+                        int oldSimId = result.getInt( "sim_id" );
+                        int oldContributionId = result.getInt( "contribution_id" );
+                        if ( !simulationIdMap.containsKey( oldSimId ) ) {
+                            logger.error( "Could not detect simulation of oldId " + oldSimId );
+
+                            // continue
+                            return true;
+                        }
+                        if ( !contributionIdMap.containsKey( oldContributionId ) ) {
+                            logger.error( "Could not detect contribution of oldId " + oldContributionId );
+
+                            // continue
+                            return true;
+                        }
+                        Simulation simulation = (Simulation) session.load( Simulation.class, simulationIdMap.get( oldSimId ) );
+                        contributionIdMap.get( oldContributionId ).addSimulation( simulation );
                         return true;
                     }
                 } );
