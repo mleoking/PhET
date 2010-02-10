@@ -7,8 +7,11 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Random;
+
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -65,7 +68,7 @@ public class AxonModel {
     private final double crossSectionInnerRadius;
     private final double crossSectionOuterRadius;
     private int particleUpdateOffset = 0;
-    private ArrayList<Listener> listeners = new ArrayList<Listener>();
+    private EventListenerList listeners = new EventListenerList();
     private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
     private int membranePotentialUpdateCounter = 0;
     private int membranePotentialSnapshot;
@@ -427,39 +430,39 @@ public class AxonModel {
     }
     
 	public void addListener(Listener listener){
-		listeners.add(listener);
+		listeners.add(Listener.class, listener);
 	}
 	
 	public void removeListener(Listener listener){
-		listeners.remove(listener);
+		listeners.remove(Listener.class, listener);
 	}
 	
 	private void notifyChannelAdded(AbstractMembraneChannel channel){
-		for (Listener listener : listeners){
+		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.channelAdded(channel);
 		}
 	}
 	
 	private void notifyChannelRemoved(AbstractMembraneChannel channel){
-		for (Listener listener : listeners){
+		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.channelRemoved(channel);
 		}
 	}
 	
 	private void notifyConcentrationGradientChanged(ParticleType particleType){
-		for (Listener listener : listeners){
+		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.concentrationRatioChanged(particleType);
 		}
 	}
 	
 	private void notifyStimulusPulseInitiated(){
-		for (Listener listener : listeners){
+		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.stimulusPulseInitiated();
 		}
 	}
 	
 	private void notifyPotentialChartVisibilityChanged(){
-		for (Listener listener : listeners){
+		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.potentialChartVisibilityChanged();
 		}
 	}
@@ -770,7 +773,7 @@ public class AxonModel {
     	}
     }
     
-    public interface Listener{
+    public interface Listener extends EventListener {
     	/**
     	 * Notification that a channel was added.
     	 * 
