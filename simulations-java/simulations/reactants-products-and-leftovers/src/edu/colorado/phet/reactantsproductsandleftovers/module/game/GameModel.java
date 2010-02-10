@@ -19,7 +19,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
  */
 public class GameModel extends RPALModel {
     
-    private static final boolean DEBUG_OUTPUT_ENABLED = false;
+    private static final boolean DEBUG_NOTIFICATION = false;
+    private static final boolean DEBUG_WRONG_GUESS = false;
     
     private static final int CHALLENGES_PER_GAME = 5;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
@@ -154,8 +155,7 @@ public class GameModel extends RPALModel {
                 // subsequent attempts score zero points
             }
         }
-        else {
-            //XXX debug #2156
+        else if ( DEBUG_WRONG_GUESS ) { /* see #2156 */
             String reactionString = getChallenge().getReaction().getEquationPlainText();
             String challengeString = getChallenge().getReaction().getQuantitiesString();
             String guessString = getChallenge().getGuess().toString();
@@ -482,7 +482,7 @@ public class GameModel extends RPALModel {
     }
     
     private void firePrintDebug( String methodName ) {
-        if ( DEBUG_OUTPUT_ENABLED ) {
+        if ( DEBUG_NOTIFICATION ) {
             System.out.println( "GameModel." + methodName + ", notifying " + listeners.getListeners( GameListener.class ).length + " listeners" );
         }
     }
