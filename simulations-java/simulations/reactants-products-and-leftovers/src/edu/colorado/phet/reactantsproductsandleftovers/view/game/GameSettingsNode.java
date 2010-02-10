@@ -56,6 +56,7 @@ public class GameSettingsNode extends PhetPNode {
         for ( int i = 0; i < levelRadioButtons.length; i++ ) {
             int level = GameModel.getLevelRange().getMin() + i;
             JRadioButton button = new JRadioButton( String.valueOf( level ) );
+            button.setOpaque( false );
             levelRadioButtons[i] = button;
             levelPanel.add( button );
             levelButtonGroup.add( button );
@@ -108,6 +109,7 @@ public class GameSettingsNode extends PhetPNode {
         
         // Start! button
         JButton startButton = new JButton( "Start!" );
+        startButton.setOpaque( false );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.startGame( getLevel(), isTimerOnSelected(), isSoundOnSelected(), isImagesOnSelected() );
