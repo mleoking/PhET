@@ -217,12 +217,21 @@ public class AxonModel {
     	}
     	
     	// Add the initial channels.
-        for (int i = 0; i < 8; i++){
-        	addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
-        }
-        for (int i = 0; i < 12; i++){
-        	addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
-        }
+    	for (int i = 0; i < 4; i++){
+    		addChannel(MembraneChannelTypes.SODIUM_GATED_CHANNEL);
+    	}
+    	for (int i = 0; i < 4; i++){
+    		addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
+    	}
+    	for (int i = 0; i < 4; i++){
+    		addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
+    	}
+    	for (int i = 0; i < 4; i++){
+    		addChannel(MembraneChannelTypes.POTASSIUM_GATED_CHANNEL);
+    	}
+    	for (int i = 0; i < 4; i++){
+    		addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
+    	}
     }
     
     /**
@@ -558,9 +567,17 @@ public class AxonModel {
     		membraneChannel = new SodiumLeakageChannel();
     		break;
     		
+    	case SODIUM_GATED_CHANNEL:
+    		membraneChannel = new SodiumGatedChannel();
+    		break;
+    		
     	case POTASSIUM_LEAKAGE_CHANNEL:
     		membraneChannel = new PotassiumLeakageChannel();
     		break;
+    		
+		case POTASSIUM_GATED_CHANNEL:
+			membraneChannel = new PotassiumGatedChannel();
+			break;
     	}
     	
     	// Find a position for the new channel.
