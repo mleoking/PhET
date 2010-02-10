@@ -31,6 +31,7 @@ public class MembraneChannelNode extends PNode{
 		PNode representation = new PNode();
 		
 		Dimension2D channelSize = membraneChannelModel.getChannelSize();
+		channelSize.setSize(0, channelSize.getHeight());
 		Dimension2D transformedChannelSize = new PDimension(
 				Math.abs(mvt.modelToViewDifferentialXDouble(channelSize.getWidth())),
 				Math.abs(mvt.modelToViewDifferentialYDouble(channelSize.getHeight())));
