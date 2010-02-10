@@ -3,12 +3,14 @@
 package edu.colorado.phet.neuron.model;
 
 import java.awt.Shape;
-import java.awt.geom.AffineTransform;
+import java.awt.geom.Arc2D;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.ReversePathIterator;
@@ -279,7 +281,7 @@ public class AxonMembrane {
      */
     public static class TravelingActionPotential {
     	
-    	private static double LIFETIME = 0.01; // In seconds of sim time (not wall time).
+    	private static double LIFETIME = 0.015; // In seconds of sim time (not wall time).
     	
         private ArrayList<Listener> listeners = new ArrayList<Listener>();
     	private double lifetimeCountdownTimer = LIFETIME;
@@ -317,8 +319,38 @@ public class AxonMembrane {
     	 * counter.
     	 */
     	private void updateShape(){
-			Point2D origin = AxonMembrane.evaluateCurve(axonMembrane.getCurveA(), 1 - lifetimeCountdownTimer / LIFETIME);
-			shape = new Rectangle2D.Double(origin.getX(), origin.getY(), 10, 10);
+			Point2D startPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveA(), 1 - lifetimeCountdownTimer / LIFETIME);
+			Point2D endPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveB(), 1 - lifetimeCountdownTimer / LIFETIME);
+			Point2D midPoint = new Point2D.Double((startPoint.getX() + endPoint.getX()) / 2, (startPoint.getY() + endPoint.getY()) / 2);
+			double ctrlPointDistance = endPoint.distance(startPoint) * 0.7 * (1 - lifetimeCountdownTimer / LIFETIME);
+			double ctrlPoint1Distance = endPoint.distance(startPoint) * 0.7 * Math.pow((1 - lifetimeCountdownTimer / LIFETIME), 1.8);
+			double ctrlPoint2Distance = endPoint.distance(startPoint) * 0.7 * Math.pow((1 - lifetimeCountdownTimer / LIFETIME), 0.8);
+			Point2D ctrlPoint = new Point2D.Double(endPoint.getX(), startPoint.getY());
+			double perpendicularAngle = Math.atan2(endPoint.getY() - startPoint.getY(), endPoint.getX() - startPoint.getX()) + Math.PI / 2;
+			ctrlPoint = new Point2D.Double(midPoint.getX() + ctrlPointDistance * Math.cos(perpendicularAngle), midPoint.getY() + ctrlPointDistance * Math.sin(perpendicularAngle));
+			Point2D ctrlPoint1 = new Point2D.Double(
+					midPoint.getX() + ctrlPoint1Distance * Math.cos(perpendicularAngle + Math.PI / 6), 
+					midPoint.getY() + ctrlPoint1Distance * Math.sin(perpendicularAngle + Math.PI / 6));
+			Point2D ctrlPoint2 = new Point2D.Double(
+					midPoint.getX() + ctrlPoint2Distance * Math.cos(perpendicularAngle - Math.PI / 6), 
+					midPoint.getY() + ctrlPoint2Distance * Math.sin(perpendicularAngle - Math.PI / 6));
+//			Point2D ctrlPoint1 = new Point2D.Double(
+//					midPoint.getX() + ctrlPointDistance * Math.cos(perpendicularAngle), 
+//					midPoint.getY() + ctrlPointDistance * Math.sin(perpendicularAngle));
+//			Point2D ctrlPoint2 = new Point2D.Double(
+//					midPoint.getX() + ctrlPointDistance * Math.cos(perpendicularAngle - Math.PI / 4), 
+//					midPoint.getY() + ctrlPointDistance * Math.sin(perpendicularAngle - Math.PI / 4));
+			Rectangle2D rect = new Rectangle2D.Double(Math.min(startPoint.getX(), endPoint.getX()), Math.min(startPoint.getY(), endPoint.getY()), 
+					Math.abs(endPoint.getX() - startPoint.getX()), Math.abs(endPoint.getY() - startPoint.getY()));
+			// Thought the following might work, but it doesn't, and it makes
+			// me think that it won't based on how it looks when it first
+			// starts coming down the axon.
+			shape = new Arc2D.Double(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), Math.toDegrees(perpendicularAngle), 180, Arc2D.OPEN);
+//			shape = new QuadCurve2D.Double(rect.getMinX(), rect.getMaxY(), rect.getMaxX(), rect.getMaxY(),
+//					rect.getMaxX(), rect.getMinY());
+//			shape = rect;
+			shape = new CubicCurve2D.Double(startPoint.getX(), startPoint.getY(), ctrlPoint1.getX(), ctrlPoint1.getY(), ctrlPoint2.getX(), ctrlPoint2.getY(), endPoint.getX(), endPoint.getY());
+			
     	}
     	
 		public Shape getShape(){
