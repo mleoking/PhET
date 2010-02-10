@@ -42,6 +42,9 @@ public abstract class AbstractMembraneChannel {
 	private Dimension2D channelSize = new PDimension(); // Size of channel only, i.e. where the atoms pass through.
 	private Dimension2D overallSize = new PDimension(); // Size including edges.
 	
+	// Variable that defines how open the channel is.
+	private double openness = 0;  // Valid range is 0 to 1, 0 means fully closed, 1 is fully open.
+	
 	// Array of listeners.
 	private ArrayList<Listener> listeners = new ArrayList<Listener>();
 	
@@ -150,6 +153,14 @@ public abstract class AbstractMembraneChannel {
 		this.channelSize.setSize(channelSize);
 	}
 	
+	public double getOpenness() {
+		return openness;
+	}
+
+	protected void setOpenness(double openness) {
+		this.openness = openness;
+	}
+
 	public Color getChannelColor(){
 		return Color.MAGENTA;
 	}

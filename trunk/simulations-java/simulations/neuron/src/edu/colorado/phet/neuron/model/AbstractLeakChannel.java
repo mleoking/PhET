@@ -38,6 +38,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	public AbstractLeakChannel(double channelWidth, double channelHeight, ParticleType allowedAtom) {
 		super(channelWidth, channelHeight);
 		this.allowedAtom = allowedAtom;
+		setOpenness(1);  // Leak channels are always fully open.
 	}
 	
 	//----------------------------------------------------------------------------
