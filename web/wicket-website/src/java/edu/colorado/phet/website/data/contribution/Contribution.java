@@ -9,6 +9,7 @@ import java.util.Locale;
 import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.data.PhetUser;
+import edu.colorado.phet.website.data.Simulation;
 
 public class Contribution implements Serializable {
 
@@ -113,6 +114,10 @@ public class Contribution implements Serializable {
     public void addType( ContributionType type ) {
         type.setContribution( this );
         types.add( type );
+    }
+
+    public void addSimulation( Simulation simulation ) {
+        simulations.add( simulation );
     }
 
     public int getId() {
