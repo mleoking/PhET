@@ -1,3 +1,4 @@
+2/10/10 fix #2156, correct game answer treated as wrong, needed to adjust range violations before creating guess
 2/10/10 setOpaque(false) on controls in Game Settings panel
 2/9/10 reduce size of gameOver-imperfectScore.wav, trim silence, convert to mono
 2/9/10 refactor before/after nodes, make them all use TitledBoxNode, use consistent box size handling, refactor layouts

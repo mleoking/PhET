@@ -26,28 +26,28 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
     // level 1 is all the one-product reactions
     private static final ArrayList<Class <? extends ChemicalReaction>> LEVEL1_LIST = new ArrayList<Class<? extends ChemicalReaction>>();
     static {
-        LEVEL1_LIST.add( WaterReaction.class );
-        LEVEL1_LIST.add( Reaction_H2_F2__2HF.class );
-        LEVEL1_LIST.add( Reaction_H2_Cl2__2HCl.class );
-        LEVEL1_LIST.add( Reaction_CO_2H2__CH3OH.class );
-        LEVEL1_LIST.add( Reaction_CH2O_H2__CH3OH.class );
-        LEVEL1_LIST.add( Reaction_C2H4_H2__C2H6.class );
-        LEVEL1_LIST.add( Reaction_C2H2_2H2__C2H6.class );
-        LEVEL1_LIST.add( Reaction_C_O2__CO2.class );
-        LEVEL1_LIST.add( Reaction_2C_O2__2CO.class );
-        LEVEL1_LIST.add( Reaction_2CO_O2__2CO2.class );
-        LEVEL1_LIST.add( Reaction_C_CO2__2CO.class );
-        LEVEL1_LIST.add( Reaction_C_2S__CS2.class );
-        LEVEL1_LIST.add( AmmoniaReaction.class );
+//        LEVEL1_LIST.add( WaterReaction.class );
+//        LEVEL1_LIST.add( Reaction_H2_F2__2HF.class );
+//        LEVEL1_LIST.add( Reaction_H2_Cl2__2HCl.class );
+//        LEVEL1_LIST.add( Reaction_CO_2H2__CH3OH.class );
+//        LEVEL1_LIST.add( Reaction_CH2O_H2__CH3OH.class );
+//        LEVEL1_LIST.add( Reaction_C2H4_H2__C2H6.class );
+//        LEVEL1_LIST.add( Reaction_C2H2_2H2__C2H6.class );
+//        LEVEL1_LIST.add( Reaction_C_O2__CO2.class );
+//        LEVEL1_LIST.add( Reaction_2C_O2__2CO.class );
+//        LEVEL1_LIST.add( Reaction_2CO_O2__2CO2.class );
+//        LEVEL1_LIST.add( Reaction_C_CO2__2CO.class );
+//        LEVEL1_LIST.add( Reaction_C_2S__CS2.class );
+//        LEVEL1_LIST.add( AmmoniaReaction.class );
         LEVEL1_LIST.add( Reaction_N2_O2__2NO.class );
-        LEVEL1_LIST.add( Reaction_2NO_O2__2NO2.class );
-        LEVEL1_LIST.add( Reaction_2N2_O2__2NO2.class );
-        LEVEL1_LIST.add( Reaction_P4_6H2__4PH3.class );
-        LEVEL1_LIST.add( Reaction_P4_6F2__4PF3.class );
-        LEVEL1_LIST.add( Reaction_P4_6Cl2__4PCl3.class );
-        LEVEL1_LIST.add( Reaction_P4_10Cl2__4PCl5.class );
-        LEVEL1_LIST.add( Reaction_PCl3_Cl2__PCl5.class );
-        LEVEL1_LIST.add( Reaction_2SO2_O2__2SO3.class );
+//        LEVEL1_LIST.add( Reaction_2NO_O2__2NO2.class );
+//        LEVEL1_LIST.add( Reaction_2N2_O2__2NO2.class );
+//        LEVEL1_LIST.add( Reaction_P4_6H2__4PH3.class );
+//        LEVEL1_LIST.add( Reaction_P4_6F2__4PF3.class );
+//        LEVEL1_LIST.add( Reaction_P4_6Cl2__4PCl3.class );
+//        LEVEL1_LIST.add( Reaction_P4_10Cl2__4PCl5.class );
+//        LEVEL1_LIST.add( Reaction_PCl3_Cl2__PCl5.class );
+//        LEVEL1_LIST.add( Reaction_2SO2_O2__2SO3.class );
     };
     
     // level 2 uses the same reactions as level 1
@@ -90,15 +90,14 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
     public SimpleChallengeFactory() {}
 
     /**
-     * Abstract "hook" in the base class.
-     * This handles creation of the challenges, which the base class then verifies.
+     * Creates challenges.
      *
      * @param numberOfChallenges
      * @param level 1-N
      * @param maxQuantity
      * @param imagesVisible
      */
-    protected GameChallenge[] createChallengesAux( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible ) {
+    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible ) {
 
         if ( level < 1 || level > REACTIONS.size() ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
@@ -127,7 +126,8 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
             for ( Reactant reactant : reaction.getReactants() ) {
                 reactant.setQuantity( getRandomQuantity( maxQuantity ) );
             }
-
+            fixQuantityRangeViolation( reaction, maxQuantity ); // do this *before* creating the challenge, see #2156
+            
             challenges[i] = new GameChallenge( reaction, challengeType, imagesVisible );
             previousReaction = reaction;
         }
@@ -194,8 +194,9 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
 
     // test for range violations inherent in reactions, and verify that they are fixable.
     public static void main( String[] args ) {
+        
+        // put all reactions in a container, removing duplicates.
         SimpleChallengeFactory factory = new SimpleChallengeFactory();
-        // put all reaction in a container, removing duplicates.
         ArrayList<Class<? extends ChemicalReaction>> reactionClasses = new ArrayList<Class<? extends ChemicalReaction>>();
         for ( int level = 1; level <= REACTIONS.size(); level++ ) {
             for ( int reactionIndex = 0; reactionIndex < factory.getNumberOfReactions( level ); reactionIndex++ ) {
@@ -205,6 +206,17 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
                 }
             }
         }
-        analyzeRangeViolations( reactionClasses, GameModel.getQuantityRange().getMax() );
+        
+        // look for range violations in all reactions
+        int maxQuantity = GameModel.getQuantityRange().getMax();
+        for ( Class<? extends ChemicalReaction> reactionClass : reactionClasses ) {
+            ChemicalReaction reaction = instantiateReaction( reactionClass );
+            // set all reactant quantities to their max values.
+            for ( Reactant reactant : reaction.getReactants() ) {
+                reactant.setQuantity( maxQuantity );
+            }
+            // look for violations and try to fix them.
+            fixQuantityRangeViolation( reaction, maxQuantity );
+        }
     }
 }

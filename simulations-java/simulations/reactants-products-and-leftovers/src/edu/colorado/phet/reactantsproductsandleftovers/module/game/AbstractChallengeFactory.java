@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
-import java.util.ArrayList;
-
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 
@@ -25,30 +23,14 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
     }
 
     /**
-     * Relies on the subclass to create the challenges.
-     * Then fixes any problems related to quantity range violations.
+     * Creates challenges.
      * 
      * @param numberOfChallenges
      * @param level 1-N
      * @param maxQuantity
      * @param imagesVisible
      */
-    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible ) {
-        GameChallenge[] challenges = createChallengesAux( numberOfChallenges, level, maxQuantity, imagesVisible );
-        fixQuantityRangeViolations( challenges, maxQuantity );
-        return challenges;
-    }
-    
-    /**
-     * Abstract "hook" in the base class.
-     * This handles creation of the challenges, which the base class then verifies.
-     *
-     * @param numberOfChallenges
-     * @param level 1-N
-     * @param maxQuantity
-     * @param imagesVisible
-     */
-    protected abstract GameChallenge[] createChallengesAux( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible );
+    public abstract GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible ) ;
     
     /*
      * Uses reflection to instantiate a chemical reaction by class.
@@ -65,16 +47,6 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
             e.printStackTrace();
         }
         return reaction;
-    }
-    
-    /*
-     * Ensures that all quantity values are in the range supported by the model and user interface.
-     */
-    private void fixQuantityRangeViolations( GameChallenge[] challenges, int maxQuantity ) {
-        for ( GameChallenge challenge : challenges ) {
-            ChemicalReaction reaction = challenge.getReaction();
-            fixQuantityRangeViolation( reaction, maxQuantity );
-        }
     }
     
     /*
@@ -150,24 +122,5 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
             }
         }
         return violation;
-    }
-    
-    /*
-     * Looks for equations that will experience a violation of the quantity range.
-     * Suppose the quantity range is 0-N.  For some reactions, setting the reactant quantities 
-     * to N will result in a product quantity > N.  This will result in range violations 
-     * elsewhere in the application, for example in the controls used to set and display
-     * quantity values.
-     */
-    protected static void analyzeRangeViolations( ArrayList<Class<? extends ChemicalReaction>> reactionClasses, int maxQuantity ) {
-        for ( Class<? extends ChemicalReaction> reactionClass : reactionClasses ) {
-            ChemicalReaction reaction = instantiateReaction( reactionClass );
-            // set all reactant quantities to their max values.
-            for ( Reactant reactant : reaction.getReactants() ) {
-                reactant.setQuantity( maxQuantity );
-            }
-            // look for violations and try to fix them.
-            fixQuantityRangeViolation( reaction, maxQuantity );
-        }
     }
 }
