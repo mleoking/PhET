@@ -14,21 +14,33 @@
 <wicket:panel>
     <div wicket:message="dir:language.dir">
         <table>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                
+            </tr>
             <tr wicket:id="contributions">
-                <td wicket:id="contribution-title"></td>
+
+                <td>
+                    <a href="#" wicket:id="contribution-link">
+                        <span wicket:id="contribution-title"></span>
+                    </a>
+                </td>
+                <td wicket:id="contribution-authors"></td>
+
             </tr>
         </table>
         <!--<table>-->
-            <!--<tr wicket:id="rows">-->
-                <!--<td wicket:id="cols" class="simulation-list-item">-->
-                    <!--<a href="SimulationDisplayPanel.html#" wicket:id="simulation-link" class="simulation-link">-->
-                        <!--<img wicket:id="thumbnail" class="simulation-list-thumbnail"-->
-                             <!--src="../../../../../../../template-files/images/arithmetic-thumbnail.jpg"/><br/>-->
-                        <!--<strong><span wicket:id="title"-->
-                                      <!--class="simulation-list-title">Simulation Title (or a longer title)</span></strong><br/>-->
-                    <!--</a>-->
-                <!--</td>-->
-            <!--</tr>-->
+        <!--<tr wicket:id="rows">-->
+        <!--<td wicket:id="cols" class="simulation-list-item">-->
+        <!--<a href="SimulationDisplayPanel.html#" wicket:id="simulation-link" class="simulation-link">-->
+        <!--<img wicket:id="thumbnail" class="simulation-list-thumbnail"-->
+        <!--src="../../../../../../../template-files/images/arithmetic-thumbnail.jpg"/><br/>-->
+        <!--<strong><span wicket:id="title"-->
+        <!--class="simulation-list-title">Simulation Title (or a longer title)</span></strong><br/>-->
+        <!--</a>-->
+        <!--</td>-->
+        <!--</tr>-->
         <!--</table>-->
         <!--<br/>-->
     </div>
