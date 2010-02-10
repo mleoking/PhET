@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--my-solar-system-strings_cz.xml created Wed Jan 06 21:56:57 CET 2010 using: my-solar-system 2.00.00 (30671), translation-utility 1.09.00 (26682)-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system_cz.properties created Wed Jan 06 21:56:57 CET 2010 using: my-solar-system 2.00.00 (30671), translation-utility 1.09.00 (26682)-->
 <SimStrings>
 <string key="slingshot" value="Gravitační prak"/>
 <string key="binaryStarPlanet" value="Dvojhvězda, planeta"/>
