@@ -3,6 +3,7 @@
 package edu.colorado.phet.neuron.model;
 
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
@@ -103,6 +104,14 @@ public class AxonMembrane {
 		return bodyShape;
 	}
 	
+	public CubicCurve2D getCurveA(){
+		return curveA;
+	}
+	
+	public CubicCurve2D getCurveB(){
+		return curveB;
+	}
+	
     /**
      * Create the shape of the axon body based on the size and position of the
      * cross section and some other fixed parameters.  This is a 2D shape that
@@ -174,7 +183,7 @@ public class AxonMembrane {
      * @param t - proportional distance along the curve from the first control point, must be from 0 to 1.
      * @return point corresponding to the location of the curve at the specified distance.
      */
-    private Point2D evaluateCurve(CubicCurve2D curve, double t){
+    private static Point2D evaluateCurve(CubicCurve2D curve, double t){
         if ( t < 0 || t > 1 ) {
             throw new IllegalArgumentException( "t is out of range: " + t );
         }
@@ -185,13 +194,12 @@ public class AxonMembrane {
         Point2D bccd = linearInterpolation(bc, cd, t);
         
         return linearInterpolation(abbc, bccd, t);
-
     }
     
     /**
      * Simple linear interpolation between two points.
      */
-    private Point2D linearInterpolation(Point2D a, Point2D b, double t){
+    private static Point2D linearInterpolation(Point2D a, Point2D b, double t){
     	return ( new Point2D.Double( a.getX() + (b.getX() - a.getX()) * t,  a.getY() + (b.getY() - a.getY()) * t));
     }
     
@@ -275,11 +283,12 @@ public class AxonMembrane {
     	
         private ArrayList<Listener> listeners = new ArrayList<Listener>();
     	private double lifetimeCountdownTimer = LIFETIME;
-    	private Shape shape = new Rectangle2D.Double(0, 0, 100, 100);
+    	private Shape shape;
     	private AxonMembrane axonMembrane;
     	
     	public TravelingActionPotential(AxonMembrane axonMembrane){
     		this.axonMembrane = axonMembrane;
+    		updateShape();
     	}
     	
     	/**
@@ -296,7 +305,20 @@ public class AxonMembrane {
     				shape = null;
     				notifyTravelingCompleted();
     			}
+    			else{
+    				updateShape();
+    				notifyShapeChanged();
+    			}
     		}
+    	}
+    	
+    	/**
+    	 * Update the shape as a function of the current value of the lifetime
+    	 * counter.
+    	 */
+    	private void updateShape(){
+			Point2D origin = AxonMembrane.evaluateCurve(axonMembrane.getCurveA(), 1 - lifetimeCountdownTimer / LIFETIME);
+			shape = new Rectangle2D.Double(origin.getX(), origin.getY(), 10, 10);
     	}
     	
 		public Shape getShape(){
