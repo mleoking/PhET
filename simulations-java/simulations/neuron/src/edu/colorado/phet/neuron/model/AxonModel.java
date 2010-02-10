@@ -90,6 +90,18 @@ public class AxonModel {
 			}
         });
         
+        // Listen to the membrane for events that indicate that a traveling
+        // action potential has arrived at the location of the transverse
+        // cross section.
+        axonMembrane.addListener(new AxonMembrane.Adapter() {
+			public void travelingActionPotentialEnded() {
+				// The action potential has arrived, so stimulate the model
+				// the simulates the action potential voltages and current
+				// flows.
+				hodgkinsHuxleyModel.stimulate();
+			}
+		});
+        
     	// Add the initial particles.
         addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 8);
         addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 8);
@@ -359,6 +371,9 @@ public class AxonModel {
     	// Update the value of the membrane potential by stepping the
     	// Hodgkins-Huxley model.
     	hodgkinsHuxleyModel.stepInTime(clockEvent.getSimulationTimeChange());
+    	
+    	// Step the membrane in time.
+    	axonMembrane.stepInTime(clockEvent.getSimulationTimeChange());
     	
     	// If it is time, update the value of the membrane potential that is
     	// used for internal calculations.

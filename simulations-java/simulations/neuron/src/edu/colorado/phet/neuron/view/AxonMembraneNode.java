@@ -126,17 +126,10 @@ public class AxonMembraneNode extends PNode {
     		this.travelingActionPotential = travelingActionPotential;
 
     		// Listen to the action potential
-    		travelingActionPotential.addListener(new AxonMembrane.TravelingActionPotential.Listener(){
-
+    		travelingActionPotential.addListener(new AxonMembrane.TravelingActionPotential.Adapter(){
 				public void shapeChanged() {
 					updateShape();
 				}
-
-				public void travelingCompleted() {
-					// TODO Auto-generated method stub
-					
-				}
-    			
     		});
     		
     		// Set the initial shape.
