@@ -3,9 +3,11 @@ package edu.colorado.phet.website.panels;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
+import edu.colorado.phet.website.content.ContributionPage;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.util.PageContext;
 
@@ -23,7 +25,10 @@ public class ContributionBrowsePanel extends PhetPanel {
         add( new ListView( "contributions", contributions ) {
             protected void populateItem( ListItem item ) {
                 Contribution contribution = (Contribution) item.getModel().getObject();
-                item.add( new Label( "contribution-title", contribution.getTitle() ) );
+                Link link = ContributionPage.createLink( "contribution-link", context, contribution );
+                link.add( new Label( "contribution-title", contribution.getTitle() ) );
+                item.add( link );
+                item.add( new Label( "contribution-authors", contribution.getAuthors() ) );
             }
         } );
 
