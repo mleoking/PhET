@@ -67,17 +67,20 @@ public class ScoreboardNode extends PhetPNode {
         this.model = model;
         
         // Level
-        levelNode = new PText( RPALStrings.LABEL_LEVEL + " " + String.valueOf( GameModel.getLevelRange().getMax() ) );
+        levelNode = new PText();
         levelNode.setFont( FONT );
+        setLevel( GameModel.getLevelRange().getMax() ); // start with this, so we have a reasonable size for layout
         
         // Score
-        scoreNode = new PText( RPALStrings.LABEL_SCORE + " " + String.valueOf( GameModel.getPerfectScore() ) + ".0" ); // start with this, so we have a reasonable size for layout
+        scoreNode = new PText(); 
         scoreNode.setFont( FONT );
+        setPoints( GameModel.getPerfectScore() ); // start with this, so we have a reasonable size for layout
         
         // timer
         timerIcon = new PImage( RPALImages.STOPWATCH );
-        timerValue = new PText( "00:00:00" ); // use this so we have max length for layout
+        timerValue = new PText();
         timerValue.setFont( FONT );
+        setTime( 0 ); // start with this, so we have a reasonable size for layout
         
         // New Game button
         newGameButton = new GradientButtonNode( RPALStrings.BUTTON_NEW_GAME, FONT_SIZE, BUTTON_COLOR );
@@ -105,7 +108,7 @@ public class ScoreboardNode extends PhetPNode {
         y = Y_MARGIN + ( ( maxChildHeight - scoreNode.getFullBoundsReference().getHeight() ) / 2 );
         scoreNode.setOffset( x, y );
         // timer
-        x = scoreNode.getFullBoundsReference().getMaxX() + 40;
+        x = scoreNode.getFullBoundsReference().getMaxX() + 60;
         y = Y_MARGIN + ( ( maxChildHeight - timerIcon.getFullBoundsReference().getHeight() ) / 2 );
         timerIcon.setOffset( x, y );
         x = timerIcon.getFullBoundsReference().getMaxX() + 5;
