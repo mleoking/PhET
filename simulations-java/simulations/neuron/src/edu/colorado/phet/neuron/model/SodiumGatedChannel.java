@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.neuron.NeuronConstants;
+import edu.colorado.phet.neuron.utils.MathUtils;
 
 public class SodiumGatedChannel extends AbstractGatedChannel {
 
@@ -53,6 +54,16 @@ public class SodiumGatedChannel extends AbstractGatedChannel {
 		super.stepInTime(dt);
 		// Update the openness factor based on the state of the HH model.
 		// This is very specific to the model and the type of channel.
-		setOpenness(Math.min(Math.abs(hodgekinHodgkinHuxleyModel.get_na_current())/100, 1));
+		double openness = Math.min(Math.abs(hodgekinHodgkinHuxleyModel.get_na_current())/290, 1);
+		if (openness > 0 && openness < 1){
+			// Trim off some digits, otherwise we are continuously making
+			// tiny changes to this value due to internal gyrations of the
+			// HH model.
+			openness = MathUtils.round(openness, 2);
+		}
+		if (openness != getOpenness()){
+			System.out.println("Current = " + hodgekinHodgkinHuxleyModel.get_na_current() + ", openness = " + openness);
+			setOpenness(openness);
+		}
 	}
 }
