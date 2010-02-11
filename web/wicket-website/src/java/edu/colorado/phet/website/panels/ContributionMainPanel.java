@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -107,6 +108,16 @@ public class ContributionMainPanel extends PhetPanel {
 
         initSimulationList( contribution, context );
         initKeywordList( contribution, context );
+
+        add( new LocalizedText( "answers", contribution.isAnswersIncluded() ? "contribution.answers.yes" : "contribution.answers.no" ) );
+        add( new Label( "language", StringUtils.getLocaleTitle( getLocale(), contribution.getLocale(), getPhetLocalizer() ) ) );
+
+        if ( contribution.hasStandards() ) {
+            add( new WebComponent( "standards" ) );
+        }
+        else {
+            add( new InvisibleComponent( "standards" ) );
+        }
 
     }
 

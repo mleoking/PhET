@@ -104,7 +104,21 @@
                     <td wicket:id="duration"></td>
                 </tr>
             </wicket:enclosure>
+            <tr valign="top">
+                <td><strong>Answers Included</strong></td>
+                <td wicket:id="answers"></td>
+            </tr>
+            <tr valign="top">
+                <td><strong>Language</strong></td>
+                <td wicket:id="language"></td>
+            </tr>
         </table>
+
+        <wicket:enclosure child="standards">
+            <h3>Standards Compliance</h3>
+
+            <span wicket:id="standards"></span>
+        </wicket:enclosure>
 
     </div>
 </wicket:panel>

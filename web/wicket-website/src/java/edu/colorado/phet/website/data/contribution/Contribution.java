@@ -3,8 +3,8 @@ package edu.colorado.phet.website.data.contribution;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Locale;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -79,6 +79,12 @@ public class Contribution implements Serializable {
     private static Logger logger = Logger.getLogger( Contribution.class.getName() );
 
     public Contribution() {
+    }
+
+    public boolean hasStandards() {
+        return standard58A || standard58B || standard58C || standard58D || standard58E || standard58F || standard58G ||
+               standard912A || standard912B || standard912C || standard912D || standard912E || standard912F || standard912G ||
+               standardK4A || standardK4B || standardK4C || standardK4D || standardK4E || standardK4F || standardK4G;
     }
 
     public void addComment( ContributionComment comment ) {
@@ -184,6 +190,11 @@ public class Contribution implements Serializable {
         this.duration = duration;
     }
 
+    /**
+     * Yes I also cringe when I see this function name, but it makes things simpler!
+     *
+     * @return Whether answers are included!
+     */
     public boolean isAnswersIncluded() {
         return answersIncluded;
     }
