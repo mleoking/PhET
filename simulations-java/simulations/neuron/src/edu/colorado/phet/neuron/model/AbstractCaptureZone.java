@@ -13,8 +13,8 @@ import java.awt.geom.Point2D;
  */
 public abstract class AbstractCaptureZone {
 
-	abstract Shape getShape();
-	abstract boolean isPointInZone(Point2D pt);
-	abstract void setRotationalAngle(double angle);
-	abstract void setCenterPoint(Point2D centerPoint);
+	public abstract Shape getShape();
+	public abstract boolean isPointInZone(Point2D pt);
+	public abstract void setRotationalAngle(double angle);
+	public abstract void setCenterPoint(Point2D centerPoint);
 }
