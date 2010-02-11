@@ -1,3 +1,4 @@
+2/11/10 don't show Score: X/max in scoreboard, just show Score: X, then show "X out of max" in Game Summary
 2/11/10 new factory for creating challenges, NumberOfVariablesChallengeFactory
 2/11/10 rename SimpleChallengeFactory to NumberOfProductsChallengeFactory
 # 0.00.23 (38542) Feb 10, 2010
