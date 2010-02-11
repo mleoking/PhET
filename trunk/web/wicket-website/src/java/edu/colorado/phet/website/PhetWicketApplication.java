@@ -46,6 +46,7 @@ public class PhetWicketApplication extends WebApplication {
 
     public static final String PHET_DOCUMENT_ROOT = "phet-document-root";
     public static final String PHET_DOWNLOAD_ROOT = "phet-download-root";
+    public static final String PHET_DOWNLOAD_LOCATION = "phet-download-location";
 
     public Class getHomePage() {
         return IndexPage.class;
@@ -145,6 +146,10 @@ public class PhetWicketApplication extends WebApplication {
 
     public File getPhetDownloadRoot() {
         return getFileFromLocation( getServletContext().getInitParameter( PHET_DOWNLOAD_ROOT ) );
+    }
+
+    public String getPhetDownloadLocation() {
+        return getServletContext().getInitParameter( PHET_DOWNLOAD_LOCATION );
     }
 
     public static File getFileFromLocation( String location ) {
