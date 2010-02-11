@@ -9,6 +9,7 @@ DESIGN
 - game levels become irrelevant when user has figured out how to do these problems
 - do we need a "hide quantities" feature in Game, to force users to work with images?
 - sandwich image overlap in After box? with 3+3+3=1 Sandwich, can't have both maintain correct histogram height and no overlap
+- user interface and strategy for hiding molecule images in Game
 
 HIGH PRIORITY
 - level1=all reactions, Before challenge (2 spinners)
