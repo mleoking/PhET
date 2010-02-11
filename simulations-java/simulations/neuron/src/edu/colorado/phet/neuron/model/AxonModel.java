@@ -576,7 +576,7 @@ public class AxonModel {
     		break;
     		
 		case POTASSIUM_GATED_CHANNEL:
-			membraneChannel = new PotassiumGatedChannel();
+			membraneChannel = new PotassiumGatedChannel(hodgkinHuxleyModel);
 			break;
     	}
     	
