@@ -132,6 +132,10 @@ div.rtl .simulation-main-image-panel {
     padding: 0 5px 0 0;
 }
 
+.simulation-contributions-pane {
+    margin-left: 5px;
+}
+
 /* TODO: Clean up this table CSS */
 table.system-requirements-table {
     margin: 5px 0 5px;
