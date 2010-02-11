@@ -72,7 +72,7 @@ public class AxonModel {
     private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
     private int membranePotentialUpdateCounter = 0;
     private int membranePotentialSnapshot;
-    private HodgkinHuxleyModel hodgkinsHuxleyModel = new HodgkinHuxleyModel();
+    private HodgkinHuxleyModel hodgkinHuxleyModel = new HodgkinHuxleyModel();
     private boolean potentialChartVisible;
 
     //----------------------------------------------------------------------------
@@ -101,7 +101,7 @@ public class AxonModel {
 				// The action potential has arrived, so stimulate the model
 				// the simulates the action potential voltages and current
 				// flows.
-				hodgkinsHuxleyModel.stimulate();
+				hodgkinHuxleyModel.stimulate();
 			}
 		});
         
@@ -159,7 +159,7 @@ public class AxonModel {
      * @return
      */
     public double getMembranePotential(){
-    	return hodgkinsHuxleyModel.getMembraneVoltage();
+    	return hodgkinHuxleyModel.getMembraneVoltage();
     }
     
     /**
@@ -167,7 +167,7 @@ public class AxonModel {
      * primarily for debugging purposes.
      */
     public HodgkinHuxleyModel getHodgkinHuxleyModel(){
-    	return hodgkinsHuxleyModel;
+    	return hodgkinHuxleyModel;
     }
 
     public void setNumMembraneChannels(MembraneChannelTypes channelType, int desiredNumChannesl){
@@ -382,7 +382,7 @@ public class AxonModel {
     	
     	// Update the value of the membrane potential by stepping the
     	// Hodgkins-Huxley model.
-    	hodgkinsHuxleyModel.stepInTime(clockEvent.getSimulationTimeChange());
+    	hodgkinHuxleyModel.stepInTime(clockEvent.getSimulationTimeChange());
     	
     	// Step the membrane in time.
     	axonMembrane.stepInTime(clockEvent.getSimulationTimeChange());
@@ -406,7 +406,7 @@ public class AxonModel {
     		particle.stepInTime(clockEvent.getSimulationTimeChange());
     	}
 
-    	// Step the channels and see if they need to capture or release any particles.
+    	// Step the channels.
     	for (AbstractMembraneChannel channel : channels){
     		channel.stepInTime(clockEvent.getSimulationTimeChange());
     		ArrayList<Particle> particlesTakenByChannel = channel.checkTakeControlParticles(particles);
@@ -568,7 +568,7 @@ public class AxonModel {
     		break;
     		
     	case SODIUM_GATED_CHANNEL:
-    		membraneChannel = new SodiumGatedChannel();
+    		membraneChannel = new SodiumGatedChannel(hodgkinHuxleyModel);
     		break;
     		
     	case POTASSIUM_LEAKAGE_CHANNEL:
