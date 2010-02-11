@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_fi.xml created Thu Feb 11 21:05:36 EET 2010 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.06.00 (37959) tammi 8, 2010-->
+<SimStrings>
+<string key="manual" value="Manuaali"/>
+<string key="resetTimer" value="aloita alusta"/>
+<string key="damping" value="Vaimeneminen"/>
+<string key="simTitle" value="Aalto jousessa"/>
+<string key="showHelp" value="Näytä tuki"/>
+<string key="pulse" value="Pulssi"/>
+<string key="amplitude" value="Amplitudi"/>
+<string key="pausePlay" value="Pysäytä/Käynnistä"/>
+<string key="step" value="Askel"/>
+<string key="tension" value="Jousen kireys"/>
+<string key="startTimer" value="Käynnistä/pysäytä"/>
+<string key="pulseWidth" value="Pulssin leveys"/>
+<string key="rulerHelp" value="Mittanauha"/>
+<string key="high" value="Korkea"/>
+<string key="wiggleWrench" value="Kisko putkipihtiä!"/>
+<string key="timer" value="Kello"/>
+<string key="oscillate" value="Värähtely"/>
+<string key="rulers" value="Mittanauhat"/>
+<string key="frequency" value="Taajuus"/>
+<string key="wrenchHelp" value="Liikuta tätä !!"/>
+<string key="fixedEnd" value="Kiinnitetty pää"/>
+<string key="refLineHelp" value="Siirrettävä suora "/>
+<string key="hideHelp" value="Piilota tuki"/>
+<string key="timerHelp" value="Ajastin"/>
+<string key="looseEnd" value="Vapaa pää"/>
+<string key="noEnd" value="Ei loppua"/>
+<string key="paused" value="Keskeytetty"/>
+<string key="reset" value="Aloita alusta"/>
+<string key="pulse2" value="Pulssi"/>
+<string key="low" value="Matala"/>
+</SimStrings>
