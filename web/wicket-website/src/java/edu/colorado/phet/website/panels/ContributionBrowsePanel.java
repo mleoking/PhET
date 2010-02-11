@@ -2,6 +2,7 @@ package edu.colorado.phet.website.panels;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.text.DateFormat;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -55,6 +56,8 @@ public class ContributionBrowsePanel extends PhetPanel {
 
         // TODO: localize
 
+        final DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, getLocale() );
+
         add( new ListView( "contributions", contributions ) {
             protected void populateItem( ListItem item ) {
                 Contribution contribution = (Contribution) item.getModel().getObject();
@@ -88,8 +91,7 @@ public class ContributionBrowsePanel extends PhetPanel {
                     }
                 } );
 
-                // TODO: localize
-                item.add( new Label( "contribution-updated", contribution.getDateUpdated().toString() ) );
+                item.add( new Label( "contribution-updated", format.format( contribution.getDateUpdated() ) ) );
             }
         } );
 
