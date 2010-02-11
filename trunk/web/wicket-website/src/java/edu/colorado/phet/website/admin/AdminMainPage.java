@@ -15,6 +15,8 @@ import edu.colorado.phet.website.data.transfer.SqlResultTask;
 import edu.colorado.phet.website.data.transfer.SqlUtils;
 import edu.colorado.phet.website.data.transfer.TransferData;
 import edu.colorado.phet.website.util.StringUtils;
+import edu.colorado.phet.website.test.LuceneTest;
+import edu.colorado.phet.website.translation.PhetLocalizer;
 
 public class AdminMainPage extends AdminPage {
 
@@ -30,16 +32,14 @@ public class AdminMainPage extends AdminPage {
 
         add( new Link( "debug-action" ) {
             public void onClick() {
-                // DO NOT REMOVE for future everything
-                //LuceneTest.addSimulations( getHibernateSession(), (PhetLocalizer) getLocalizer(), getNavMenu() );
-
-//                SqlUtils.wrapTransaction( getServletContext(), "SELECT * FROM contribution WHERE contribution_approved = 1", new SqlResultTask() {
-//                    public boolean process( ResultSet result ) throws SQLException {
-//                        logger.info( "#" + result.getInt( "contribution_id" ) + " " + result.getString( "contribution_title" ) );
-//                        return true;
-//                    }
-//                } );
                 TransferData.transfer( getHibernateSession(), getServletContext() );
+            }
+        } );
+
+        add( new Link( "debug-index" ) {
+            public void onClick() {
+                // DO NOT REMOVE for future everything
+                LuceneTest.addSimulations( getHibernateSession(), (PhetLocalizer) getLocalizer(), getNavMenu() );
             }
         } );
     }
