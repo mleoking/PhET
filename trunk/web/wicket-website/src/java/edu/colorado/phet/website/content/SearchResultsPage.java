@@ -1,9 +1,12 @@
 package edu.colorado.phet.website.content;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
@@ -19,6 +22,9 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class SearchResultsPage extends PhetRegularPage {
+
+    private static Logger logger = Logger.getLogger( SearchResultsPage.class.getName() );
+
     public SearchResultsPage( PageParameters parameters ) {
         super( parameters );
 
@@ -58,7 +64,14 @@ public class SearchResultsPage extends PhetRegularPage {
         return new AbstractLinker() {
             public String getSubUrl( PageContext context ) {
                 if ( query != null ) {
-                    return "search?q=" + query;
+                    try {
+                        return "search?q=" + URLEncoder.encode( query, "UTF-8" );
+                    }
+                    catch( UnsupportedEncodingException e ) {
+                        e.printStackTrace();
+                        logger.error( e );
+                        return "";
+                    }
                 }
                 else {
                     return "search";
