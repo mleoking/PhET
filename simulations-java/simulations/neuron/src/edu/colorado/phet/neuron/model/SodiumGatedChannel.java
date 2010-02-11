@@ -19,12 +19,14 @@ public class SodiumGatedChannel extends AbstractGatedChannel {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
+	private HodgkinHuxleyModel hodgekinHodgkinHuxleyModel;
 	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-	public SodiumGatedChannel() {
+	public SodiumGatedChannel(HodgkinHuxleyModel hodgekinHuxleyModel) {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, ParticleType.SODIUM_ION);
+		this.hodgekinHodgkinHuxleyModel = hodgekinHuxleyModel;
 	}
 
     //----------------------------------------------------------------------------
@@ -44,5 +46,13 @@ public class SodiumGatedChannel extends AbstractGatedChannel {
 	@Override
 	public MembraneChannelTypes getChannelType() {
 		return MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
+	}
+
+	@Override
+	public void stepInTime(double dt) {
+		super.stepInTime(dt);
+		// Update the openness factor based on the state of the HH model.
+		// This is very specific to the model and the type of channel.
+		setOpenness(Math.min(Math.abs(hodgekinHodgkinHuxleyModel.get_na_current())/100, 1));
 	}
 }
