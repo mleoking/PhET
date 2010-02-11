@@ -38,7 +38,8 @@ public class LocalizedText extends WebComponent {
         String body = getLocalizer().getString( key, this );
         if ( args != null ) {
             try {
-                body = MessageFormat.format( body, args );
+                MessageFormat format = new MessageFormat( body, getLocale() );
+                body = format.format( args, new StringBuffer(), null ).toString();
             }
             catch( RuntimeException e ) {
                 logger.warn( "message-format error" );
