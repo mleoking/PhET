@@ -19,7 +19,7 @@ public class HodgkinHuxleyModel
 	// and when the model is stepped it breaks whether time step is presented
 	// into units of this duration.  This is needed because below a certain
 	// time value the model doesn't work - it becomes unstable.
-	private static final double INTERNAL_TIME_STEP = 0.050; // In milliseconds, not seconds.
+	private static final double INTERNAL_TIME_STEP = 0.005; // In milliseconds, not seconds.
 	
     //----------------------------------------------------------------------------
     // Instance Data
