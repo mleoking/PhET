@@ -10,12 +10,18 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.hibernate.Session;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.content.SimulationPage;
+import edu.colorado.phet.website.data.LocalizedSimulation;
+import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.translation.PhetLocalizer;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.StringUtils;
 
@@ -28,7 +34,7 @@ public class ContributionMainPanel extends PhetPanel {
 
     private static Logger logger = Logger.getLogger( ContributionMainPanel.class.getName() );
 
-    public ContributionMainPanel( String id, Contribution contribution, final PageContext context ) {
+    public ContributionMainPanel( String id, final Contribution contribution, final PageContext context ) {
         super( id, context );
 
         add( new Label( "contribution-title", contribution.getTitle() ) );
@@ -98,6 +104,28 @@ public class ContributionMainPanel extends PhetPanel {
         else {
             add( new InvisibleComponent( "duration" ) );
         }
+
+        // simulation list
+        final List<String> simStrings = new LinkedList<String>();
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                for ( Object o : contribution.getSimulations() ) {
+                    Simulation sim = (Simulation) o;
+                    Simulation simulation = (Simulation) session.load( Simulation.class, sim.getId() );
+                    LocalizedSimulation lsim = simulation.getBestLocalizedSimulation( getLocale() );
+                    String simTitle = lsim.getTitle();
+                    simStrings.add( "<a " + SimulationPage.getLinker( lsim ).getHref( context, getPhetCycle() ) + ">" + simTitle + "</a>" );
+                }
+
+                return true;
+            }
+        } );
+        String str = StringUtils.combineStringsIntoList( this, simStrings, StringUtils.getSeparator( this ) );
+        Label simLabel = new Label( "simulations", str );
+        simLabel.setEscapeModelStrings( false );
+        add( simLabel );
+
+
     }
 
     public String getTitle() {
@@ -106,38 +134,35 @@ public class ContributionMainPanel extends PhetPanel {
 
     public String getLevelString( Contribution contribution ) {
         PhetLocalizer localizer = getPhetLocalizer();
-        String separator = localizer.getString( StringUtils.LIST_SEPARATOR_KEY, this ) + " ";
         List<String> strings = new LinkedList<String>();
         for ( Object o : contribution.getLevels() ) {
             ContributionLevel level = (ContributionLevel) o;
             String key = level.getLevel().getTranslationKey();
             strings.add( localizer.getString( key, this ) );
         }
-        return StringUtils.combineStringsIntoList( this, strings, separator );
+        return StringUtils.combineStringsIntoList( this, strings, StringUtils.getSeparator( this ) );
     }
 
     public String getTypeString( Contribution contribution ) {
         PhetLocalizer localizer = getPhetLocalizer();
-        String separator = localizer.getString( StringUtils.LIST_SEPARATOR_KEY, this ) + " ";
         List<String> strings = new LinkedList<String>();
         for ( Object o : contribution.getTypes() ) {
             ContributionType type = (ContributionType) o;
             String key = type.getType().getTranslationKey();
             strings.add( localizer.getString( key, this ) );
         }
-        return StringUtils.combineStringsIntoList( this, strings, separator );
+        return StringUtils.combineStringsIntoList( this, strings, StringUtils.getSeparator( this ) );
     }
 
     public String getSubjectString( Contribution contribution ) {
         PhetLocalizer localizer = getPhetLocalizer();
-        String separator = localizer.getString( StringUtils.LIST_SEPARATOR_KEY, this ) + " ";
         List<String> strings = new LinkedList<String>();
         for ( Object o : contribution.getSubjects() ) {
             ContributionSubject subject = (ContributionSubject) o;
             String key = subject.getSubject().getTranslationKey();
             strings.add( localizer.getString( key, this ) );
         }
-        return StringUtils.combineStringsIntoList( this, strings, separator );
+        return StringUtils.combineStringsIntoList( this, strings, StringUtils.getSeparator( this ) );
     }
 
 }

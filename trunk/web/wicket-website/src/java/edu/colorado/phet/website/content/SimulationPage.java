@@ -13,12 +13,14 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
+import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.SimulationMainPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class SimulationPage extends PhetMenuPage {
 
@@ -75,16 +77,39 @@ public class SimulationPage extends PhetMenuPage {
         mapper.addMap( "^simulation/([^/]+)(/([^/]+))?$", SimulationPage.class, new String[]{"project", null, "flavor"} );
     }
 
+    // TODO: convert usage to getlinker
     public static PhetLink createLink( String id, PageContext context, LocalizedSimulation simulation ) {
         return createLink( id, context, simulation.getSimulation().getProject().getName(), simulation.getSimulation().getName() );
     }
 
+    // TODO: convert usage to getlinker
     public static PhetLink createLink( String id, PageContext context, String projectName, String simulationName ) {
         String str = context.getPrefix() + "simulation/" + projectName;
         if ( !projectName.equals( simulationName ) ) {
             str += "/" + simulationName;
         }
         return new PhetLink( id, str );
+    }
+
+    public static AbstractLinker getLinker( final String projectName, final String simulationName ) {
+        return new AbstractLinker() {
+            @Override
+            public String getSubUrl( PageContext context ) {
+                String str = "simulation/" + projectName;
+                if ( !projectName.equals( simulationName ) ) {
+                    str += "/" + simulationName;
+                }
+                return str;
+            }
+        };
+    }
+
+    public static AbstractLinker getLinker( final Simulation simulation ) {
+        return getLinker( simulation.getProject().getName(), simulation.getName() );
+    }
+
+    public static AbstractLinker getLinker( final LocalizedSimulation localizedSimulation ) {
+        return getLinker( localizedSimulation.getSimulation() );
     }
 
 }
