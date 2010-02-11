@@ -36,13 +36,13 @@ public class HalfCircleCaptureZone extends AbstractCaptureZone {
 	}
 	
 	@Override
-	void setRotationalAngle(double angle) {
+	public void setRotationalAngle(double angle) {
 		this.angle = angle;
 		updateShape();
 	}
 	
 	@Override
-	void setCenterPoint(Point2D center) {
+	public void setCenterPoint(Point2D center) {
 		this.center = center;
 		updateShape();
 	}

@@ -15,22 +15,22 @@ import java.awt.geom.Point2D;
 public class NullCaptureZone extends AbstractCaptureZone {
 
 	@Override
-	Shape getShape() {
+	public Shape getShape() {
 		return new Ellipse2D.Double(0, 0, 0, 0);
 	}
 
 	@Override
-	boolean isPointInZone(Point2D pt) {
+	public boolean isPointInZone(Point2D pt) {
 		return false;
 	}
 
 	@Override
-	void setCenterPoint(Point2D centerPoint) {
+	public void setCenterPoint(Point2D centerPoint) {
 		// Does nothing.
 	}
 
 	@Override
-	void setRotationalAngle(double angle) {
+	public void setRotationalAngle(double angle) {
 		// Does nothing.
 	}
 }
