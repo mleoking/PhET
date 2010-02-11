@@ -28,7 +28,6 @@ MEDIUM PRIORITY
 - automatically increase the level setting when user gets a perfect score?
 - award more points for higher levels?
 - instead of points, show stars & half stars? works for 5 challenges, allows student to remember which ones they didn't get
-- don't show Score: X/max in scoreboard, just show Score: X, then show X/max in Game Summary?
 - lighter-weight methods (text?) of telling the user that the Game images will be hidden for a challenge
 - PSwing memory leak affects tab traversal, #1874
 - associate ImageLayoutStrategy with the chemical reaction type?
