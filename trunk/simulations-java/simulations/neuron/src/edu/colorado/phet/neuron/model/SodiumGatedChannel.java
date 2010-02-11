@@ -20,14 +20,15 @@ public class SodiumGatedChannel extends AbstractGatedChannel {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-	private HodgkinHuxleyModel hodgekinHodgkinHuxleyModel;
+	private HodgkinHuxleyModel hodgkinHodgkinHuxleyModel;
 	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-	public SodiumGatedChannel(HodgkinHuxleyModel hodgekinHuxleyModel) {
+	public SodiumGatedChannel(HodgkinHuxleyModel hodgkinHuxleyModel) {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, ParticleType.SODIUM_ION);
-		this.hodgekinHodgkinHuxleyModel = hodgekinHuxleyModel;
+		this.hodgkinHodgkinHuxleyModel = hodgkinHuxleyModel;
+		setCaptureZone(new HalfCircleCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0));
 	}
 
     //----------------------------------------------------------------------------
@@ -54,7 +55,7 @@ public class SodiumGatedChannel extends AbstractGatedChannel {
 		super.stepInTime(dt);
 		// Update the openness factor based on the state of the HH model.
 		// This is very specific to the model and the type of channel.
-		double openness = Math.min(Math.abs(hodgekinHodgkinHuxleyModel.get_na_current())/290, 1);
+		double openness = Math.min(Math.abs(hodgkinHodgkinHuxleyModel.get_na_current())/290, 1);
 		if (openness > 0 && openness < 1){
 			// Trim off some digits, otherwise we are continuously making
 			// tiny changes to this value due to internal gyrations of the
@@ -62,7 +63,7 @@ public class SodiumGatedChannel extends AbstractGatedChannel {
 			openness = MathUtils.round(openness, 2);
 		}
 		if (openness != getOpenness()){
-			System.out.println("Current = " + hodgekinHodgkinHuxleyModel.get_na_current() + ", openness = " + openness);
+			System.out.println("Current = " + hodgkinHodgkinHuxleyModel.get_na_current() + ", openness = " + openness);
 			setOpenness(openness);
 		}
 	}
