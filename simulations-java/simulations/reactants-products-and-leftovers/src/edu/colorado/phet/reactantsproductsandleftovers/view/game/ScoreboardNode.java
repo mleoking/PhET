@@ -74,7 +74,7 @@ public class ScoreboardNode extends PhetPNode {
         // Score
         scoreNode = new PText(); 
         scoreNode.setFont( FONT );
-        setPoints( GameModel.getPerfectScore() ); // start with this, so we have a reasonable size for layout
+        setScore( GameModel.getPerfectScore() ); // start with this, so we have a reasonable size for layout
         
         // timer
         timerIcon = new PImage( RPALImages.STOPWATCH );
@@ -138,7 +138,7 @@ public class ScoreboardNode extends PhetPNode {
 
             @Override
             public void pointsChanged() {
-                setPoints( model.getPoints() );
+                setScore( model.getPoints() );
             }
 
             @Override
@@ -166,13 +166,13 @@ public class ScoreboardNode extends PhetPNode {
         });
         
         // initial state
-        setPoints( model.getPoints() );
+        setScore( model.getPoints() );
         setLevel( model.getLevel() );
         setTimerVisible( model.isTimerVisible() );
         setTime( model.getTime() );
     }
     
-    private void setPoints( double points ) {
+    private void setScore( double points ) {
         scoreNode.setText( RPALStrings.LABEL_SCORE + " " + POINTS_FORMAT.format( points ) );
     }
     
