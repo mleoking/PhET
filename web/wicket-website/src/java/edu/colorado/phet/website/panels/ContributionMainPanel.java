@@ -6,6 +6,8 @@ import org.apache.wicket.markup.html.basic.Label;
 
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.StaticImage;
 
 /**
  * Translatable panel for showing a single contribution
@@ -24,7 +26,16 @@ public class ContributionMainPanel extends PhetPanel {
         add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
 
         // TODO: localize
-        title = "Localize me: PhET contribution: " + contribution.getTitle();
+        title = "PhET contribution: " + contribution.getTitle();
+
+        if( contribution.isGoldStar()) {
+            // TODO: localize
+            // TODO: link to legend?
+            // TODO: add title
+            add( new StaticImage("gold-star-contribution", "/images/contributions/gold-star.jpg", "Gold Star Contribution"));
+        } else {
+            add( new InvisibleComponent( "gold-star-contribution"));
+        }
 
     }
 
