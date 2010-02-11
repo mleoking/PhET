@@ -2,7 +2,19 @@
 <module relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Scala" name="Scala">
-      <configuration />
+      <configuration>
+        <option name="takeFromSettings" value="true" />
+        <option name="myScalaCompilerJarPaths">
+          <array>
+            <option value="C:/install/scala-2.8.0.Beta1-prerelease/lib/scala-compiler.jar" />
+          </array>
+        </option>
+        <option name="myScalaSdkJarPaths">
+          <array>
+            <option value="C:/install/scala-2.8.0.Beta1-prerelease/lib/scala-library.jar" />
+          </array>
+        </option>
+      </configuration>
     </facet>
     <facet type="flex" name="Flex">
       <configuration flex_sdk="flex_sdk_3.4 (player 9)">
@@ -217,13 +229,18 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.3-rc1/core/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.3-rc1/examples/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.3-rc1/extras/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.3-rc2/core/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.3-rc2/extras/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/force-law-lab/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.manager" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.3-rc1" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/force-law-lab/scala-src" />
       <excludeFolder url="file://$MODULE_DIR$/web/wicket-test/src/java" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -1277,37 +1294,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/contrib/scala/scala-compiler.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/scala/scala-library.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/scala/scala-library-src.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/scala/scala-swing.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://C:/install/scala-2.7.3.final/src/scala-swing-src.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/density/data" />
         </CLASSES>
         <JAVADOC />
@@ -1601,15 +1587,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/simulations-java/contrib/xith3d/third-party/xml/jibx/jibx-run.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/scalatest/scalatest.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1993,6 +1970,33 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-flex/simulations/density-flex/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/install/scala-2.8.0.Beta1-prerelease/lib/scala-swing.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/install/scala-2.8.0.Beta1-prerelease/lib/scala-library.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/install/scala-2.8.0.Beta1-prerelease/lib/scala-compiler.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
