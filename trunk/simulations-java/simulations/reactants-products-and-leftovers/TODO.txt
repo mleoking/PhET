@@ -10,6 +10,15 @@ DESIGN
 - do we need a "hide quantities" feature in Game, to force users to work with images?
 - sandwich image overlap in After box? with 3+3+3=1 Sandwich, can't have both maintain correct histogram height and no overlap
 - user interface and strategy for hiding molecule images in Game
+- automatically increase the level setting when user gets a perfect score?
+- award more points for higher levels?
+- instead of points, show stars & half stars? works for 5 challenges, allows student to remember which ones they didn't get
+
+INTERVIEW ISSUES:
+- how many challenges per game is appropriate?
+- what things make a challenge more difficult?
+- does seeing the molecule images help you solve a challenge?
+- what do you expect at higher game levels? more points? bigger rewards? other?
 
 HIGH PRIORITY
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode
@@ -25,10 +34,6 @@ MEDIUM PRIORITY
 - disable debug output in AbstractGameStrategy
 - explicitly handle tab traversal in play area
 - is there an issue with Game timer, it showed 46:03 during status meeting, which was not possible
-- automatically increase the level setting when user gets a perfect score?
-- award more points for higher levels?
-- instead of points, show stars & half stars? works for 5 challenges, allows student to remember which ones they didn't get
-- lighter-weight methods (text?) of telling the user that the Game images will be hidden for a challenge
 - PSwing memory leak affects tab traversal, #1874
 - associate ImageLayoutStrategy with the chemical reaction type?
 - investigate PSwing workaround that I had to add to GameSummaryNode
@@ -42,12 +47,6 @@ LOW PRIORITY
 
 WARTS:
 - Molecule.image is mutable solely for Sandwich, difficult to change this
-
-INTERVIEW ISSUES:
-- how many challenges per game is appropriate?
-- what things make a challenge more difficult?
-- does seeing the molecule images help you solve a challenge?
-- what do you expect at higher game levels? more points? bigger rewards? other?
 
 MIGRATE TO COMMON
 - BracketedLabelNode
