@@ -306,4 +306,8 @@ public class StringUtils {
         }
         return ret;
     }
+
+    public static String getSeparator( Component component ) {
+        return ( (PhetLocalizer) component.getLocalizer() ).getString( StringUtils.LIST_SEPARATOR_KEY, component ) + " ";
+    }
 }
