@@ -23,21 +23,21 @@ HIGH PRIORITY
 - #2161, layout of Game Summary dialog is messed up on Windows (rewrite in Piccolo?)
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode
+- associate ImageLayoutStrategy with the chemical reaction type?
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
 
 MEDIUM PRIORITY
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
 - when sandwich is defined as 2-meat, the image on RHS of equation is low
-- developer controls for setting up specific Game challenges
+- developer controls for setting up specific Game challenges (expensive, do this if we need it for debugging)
 - piece of "s" in "leftovers" in "How many..." message doesn't disappear on Windows
-- disable debug output in AbstractGameStrategy
 - explicitly handle tab traversal in play area
 - is there an issue with Game timer, it showed 46:03 during status meeting, which was not possible
 - PSwing memory leak affects tab traversal, #1874
-- associate ImageLayoutStrategy with the chemical reaction type?
 - investigate PSwing workaround that I had to add to GameSummaryNode
 
 LOW PRIORITY
+- disable debug output in AbstractGameStrategy
 - remove silence from audio files, convert to WAV PCM mono
 - expose SimpleGameStrategy.main as a Developer menu item
 - "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
