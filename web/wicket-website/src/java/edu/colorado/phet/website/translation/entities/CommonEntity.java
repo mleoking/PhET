@@ -6,6 +6,7 @@ public class CommonEntity extends TranslationEntity {
         addString( "language.name", "This will be the language name displayed to the user (translated into the native language)." );
         addString( "footer.someRightsReserved" );
         addString( "error.pageNotFound" );
+        addString( "listSeparator" );
     }
 
     public String getDisplayName() {
