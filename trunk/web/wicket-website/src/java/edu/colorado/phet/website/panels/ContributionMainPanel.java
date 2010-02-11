@@ -114,11 +114,44 @@ public class ContributionMainPanel extends PhetPanel {
 
         if ( contribution.hasStandards() ) {
             add( new WebComponent( "standards" ) );
+
         }
         else {
             add( new InvisibleComponent( "standards" ) );
         }
 
+        handleCheck( "stdK4A", contribution.isStandardK4A() );
+        handleCheck( "std58A", contribution.isStandard58A() );
+        handleCheck( "std912A", contribution.isStandard912A() );
+        handleCheck( "stdK4B", contribution.isStandardK4B() );
+        handleCheck( "std58B", contribution.isStandard58B() );
+        handleCheck( "std912B", contribution.isStandard912B() );
+        handleCheck( "stdK4C", contribution.isStandardK4C() );
+        handleCheck( "std58C", contribution.isStandard58C() );
+        handleCheck( "std912C", contribution.isStandard912C() );
+        handleCheck( "stdK4D", contribution.isStandardK4D() );
+        handleCheck( "std58D", contribution.isStandard58D() );
+        handleCheck( "std912D", contribution.isStandard912D() );
+        handleCheck( "stdK4E", contribution.isStandardK4E() );
+        handleCheck( "std58E", contribution.isStandard58E() );
+        handleCheck( "std912E", contribution.isStandard912E() );
+        handleCheck( "stdK4F", contribution.isStandardK4F() );
+        handleCheck( "std58F", contribution.isStandard58F() );
+        handleCheck( "std912F", contribution.isStandard912F() );
+        handleCheck( "stdK4G", contribution.isStandardK4G() );
+        handleCheck( "std58G", contribution.isStandard58G() );
+        handleCheck( "std912G", contribution.isStandard912G() );
+
+    }
+
+    private void handleCheck( String id, boolean value ) {
+        if ( value ) {
+            // TODO: localize / add alt
+            add( new StaticImage( id, "/images/checkmark.gif", "Standard supported" ) );
+        }
+        else {
+            add( new InvisibleComponent( id ) );
+        }
     }
 
     private void initSimulationList( final Contribution contribution, final PageContext context ) {
