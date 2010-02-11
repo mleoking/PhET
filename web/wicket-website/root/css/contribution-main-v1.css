@@ -1,0 +1,24 @@
+
+.contribute-standards-table {
+    border-collapse: collapse;
+    /*border: 1px solid gray;*/
+}
+
+.contribute-standards-table td {
+    padding: 2px;
+    /*border: 1px solid gray;*/
+}
+
+.contribute-standard-label {
+    text-align: right;
+    border-right: 1px solid gray;
+}
+
+.contribute-level-label {
+    border: 1px solid gray;
+}
+
+.contribute-standard-checkmark {
+    border: 1px solid gray;
+    text-align: center;
+}
