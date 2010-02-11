@@ -3,6 +3,13 @@
 DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
+DESIGN
+- definition of each game level
+- game needs a replay motivator (persistence of previous scores?...?)
+- game levels become irrelevant when user has figured out how to do these problems
+- do we need a "hide quantities" feature in Game, to force users to work with images?
+- sandwich image overlap in After box? with 3+3+3=1 Sandwich, can't have both maintain correct histogram height and no overlap
+
 HIGH PRIORITY
 - level1=all reactions, Before challenge (2 spinners)
 - level2=one-product reactions, After challenge (3 spinners)
@@ -13,7 +20,6 @@ HIGH PRIORITY
 - #2161, layout of Game Summary dialog is messed up on Windows
 
 MEDIUM PRIORITY
-- with 3+3+3=1 Sandwich, hard to both maintain correct histogram height and see individual sandwiches
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
 - when sandwich is defined as 2-meat, the image on RHS of equation is low
 - developer controls for setting up specific Game challenges
