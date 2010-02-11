@@ -48,6 +48,9 @@ public abstract class AbstractMembraneChannel {
 	// Array of listeners.
 	private ArrayList<Listener> listeners = new ArrayList<Listener>();
 	
+	// Capture zone, which is where particles can be captured by this channel.
+	private AbstractCaptureZone captureZone = new NullCaptureZone();
+	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
@@ -96,6 +99,19 @@ public abstract class AbstractMembraneChannel {
 	abstract public MembraneChannelTypes getChannelType();
 	
 	/**
+	 * Get the "capture zone", which is a shape that represents the space
+	 * from which particles may be captured.  If null is returned, this
+	 * channel has no capture zone.
+	 */
+	public AbstractCaptureZone getCaptureZone(){
+		return captureZone;
+	}
+	
+	protected void setCaptureZone(AbstractCaptureZone captureZone){
+		this.captureZone = captureZone;
+	}
+	
+	/**
 	 * Return a list of the atoms "owned" (meaning that their motion is
 	 * controlled by) this channel.  Getting this list does NOT cause the
 	 * atoms to be released by the channel.
@@ -125,10 +141,12 @@ public abstract class AbstractMembraneChannel {
 	
 	public void setCenterLocation(Point2D newCenterLocation) {
 		centerLocation.setLocation(newCenterLocation);
+		captureZone.setCenterPoint(newCenterLocation);
 	}
 
 	public void setRotationalAngle(double rotationalAngle){
 		this.rotationalAngle = rotationalAngle;
+		captureZone.setRotationalAngle(rotationalAngle);
 	}
 	
 	public double getRotationalAngle(){
