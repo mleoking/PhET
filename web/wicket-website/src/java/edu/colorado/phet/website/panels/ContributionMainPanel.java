@@ -12,6 +12,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.translation.PhetLocalizer;
@@ -70,10 +71,33 @@ public class ContributionMainPanel extends PhetPanel {
         add( new Label( "created", format.format( contribution.getDateCreated() ) ) );
         add( new Label( "updated", format.format( contribution.getDateUpdated() ) ) );
 
-        add( new Label( "level", getLevelString( contribution ) ) );
-        add( new Label( "type", getTypeString( contribution ) ) );
-        add( new Label( "subject", getSubjectString( contribution ) ) );
+        if ( contribution.getSubjects().size() > 0 ) {
+            add( new Label( "level", getLevelString( contribution ) ) );
+        }
+        else {
+            add( new InvisibleComponent( "level" ) );
+        }
 
+        if ( contribution.getSubjects().size() > 0 ) {
+            add( new Label( "type", getTypeString( contribution ) ) );
+        }
+        else {
+            add( new InvisibleComponent( "type" ) );
+        }
+
+        if ( contribution.getSubjects().size() > 0 ) {
+            add( new Label( "subject", getSubjectString( contribution ) ) );
+        }
+        else {
+            add( new InvisibleComponent( "subject" ) );
+        }
+
+        if ( contribution.getDuration() != 0 ) {
+            add( new LocalizedText( "duration", "contribution.duration", new Object[]{contribution.getDuration()} ) );
+        }
+        else {
+            add( new InvisibleComponent( "duration" ) );
+        }
     }
 
     public String getTitle() {
@@ -82,11 +106,11 @@ public class ContributionMainPanel extends PhetPanel {
 
     public String getLevelString( Contribution contribution ) {
         PhetLocalizer localizer = getPhetLocalizer();
-        String separator = localizer.getString( StringUtils.LIST_SEPARATOR_KEY, this );
+        String separator = localizer.getString( StringUtils.LIST_SEPARATOR_KEY, this ) + " ";
         List<String> strings = new LinkedList<String>();
         for ( Object o : contribution.getLevels() ) {
             ContributionLevel level = (ContributionLevel) o;
-            String key = level.getLevel().getAbbreviatedTranslationKey();
+            String key = level.getLevel().getTranslationKey();
             strings.add( localizer.getString( key, this ) );
         }
         return StringUtils.combineStringsIntoList( this, strings, separator );
@@ -94,11 +118,11 @@ public class ContributionMainPanel extends PhetPanel {
 
     public String getTypeString( Contribution contribution ) {
         PhetLocalizer localizer = getPhetLocalizer();
-        String separator = localizer.getString( StringUtils.LIST_SEPARATOR_KEY, this );
+        String separator = localizer.getString( StringUtils.LIST_SEPARATOR_KEY, this ) + " ";
         List<String> strings = new LinkedList<String>();
         for ( Object o : contribution.getTypes() ) {
             ContributionType type = (ContributionType) o;
-            String key = type.getType().getAbbreviatedTranslationKey();
+            String key = type.getType().getTranslationKey();
             strings.add( localizer.getString( key, this ) );
         }
         return StringUtils.combineStringsIntoList( this, strings, separator );
@@ -106,11 +130,11 @@ public class ContributionMainPanel extends PhetPanel {
 
     public String getSubjectString( Contribution contribution ) {
         PhetLocalizer localizer = getPhetLocalizer();
-        String separator = localizer.getString( StringUtils.LIST_SEPARATOR_KEY, this );
+        String separator = localizer.getString( StringUtils.LIST_SEPARATOR_KEY, this ) + " ";
         List<String> strings = new LinkedList<String>();
         for ( Object o : contribution.getSubjects() ) {
             ContributionSubject subject = (ContributionSubject) o;
-            String key = subject.getSubject().getAbbreviatedTranslationKey();
+            String key = subject.getSubject().getTranslationKey();
             strings.add( localizer.getString( key, this ) );
         }
         return StringUtils.combineStringsIntoList( this, strings, separator );
