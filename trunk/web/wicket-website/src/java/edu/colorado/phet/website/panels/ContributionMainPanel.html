@@ -33,6 +33,81 @@
                     wicket:id="file-size"></span></li>
         </ul>
 
+        <table>
+            <tr>
+                <td colspan="2"><h3>Submission Information</h3></td>
+            </tr>
+            <tr valign="top">
+                <td><strong>Authors</strong></td>
+                <td wicket:id="authors"></td>
+            </tr>
+            <tr valign="top">
+                <td><strong>Contact Email</strong></td>
+                <td wicket:id="contact-email"></td>
+            </tr>
+            <tr valign="top">
+                <td><strong>School / Organization</strong></td>
+                <td wicket:id="organization"></td>
+            </tr>
+            <tr valign="top">
+                <td><strong>Submitted</strong></td>
+                <td wicket:id="created"></td>
+            </tr>
+            <tr valign="top">
+                <td><strong>Updated</strong></td>
+                <td wicket:id="updated"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><h3>Contribution Description</h3></td>
+            </tr>
+            <tr valign="top">
+                <td><strong>Title</strong></td>
+                <td wicket:id="title"></td>
+            </tr>
+            <tr valign="top">
+                <td><strong>Simulations</strong></td>
+                <td>
+
+                </td>
+            </tr>
+            <wicket:enclosure child="keywords">
+                <tr valign="top">
+                    <td><strong>Keywords</strong></td>
+                    <td wicket:id="keywords"></td>
+                </tr>
+            </wicket:enclosure>
+            <wicket:enclosure child="description">
+                <tr valign="top">
+                    <td><strong>Description</strong></td>
+                    <td wicket:id="description"></td>
+                </tr>
+            </wicket:enclosure>
+            <wicket:enclosure child="level">
+                <tr valign="top">
+                    <td><strong>Level</strong></td>
+                    <td wicket:id="level"></td>
+                </tr>
+            </wicket:enclosure>
+            <wicket:enclosure child="type">
+                <tr valign="top">
+                    <td><strong>Type</strong></td>
+                    <td wicket:id="type"></td>
+                </tr>
+            </wicket:enclosure>
+            <wicket:enclosure child="subject">
+                <tr valign="top">
+                    <td><strong>Subject</strong></td>
+                    <td wicket:id="subject"></td>
+                </tr>
+            </wicket:enclosure>
+            <!--<wicket:enclosure child="duration">-->
+                <!--<tr valign="top">-->
+                    <!--<td><strong>Duration</strong></td>-->
+                    <!--<td wicket:id="duration"></td>-->
+                <!--</tr>-->
+            <!--</wicket:enclosure>-->
+        </table>
+
     </div>
 </wicket:panel>
 
