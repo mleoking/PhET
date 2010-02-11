@@ -16,7 +16,11 @@
         <table>
             <tr>
                 <th>Title</th>
-                <th>Author</th>
+                <th>Authors</th>
+                <th>Level</th>
+                <th>Type</th>
+                <th>Simulations</th>
+                <th>Updated</th>
                 
             </tr>
             <tr wicket:id="contributions">
@@ -27,6 +31,12 @@
                     </a>
                 </td>
                 <td wicket:id="contribution-authors"></td>
+                <td wicket:id="contribution-level"></td>
+                <td wicket:id="contribution-type"></td>
+                <td><span wicket:id="contribution-simulations">
+                    <a href="#" wicket:id="simulation-link"><span wicket:id="simulation-title"></span><br/></a>
+                </span></td>
+                <td wicket:id="contribution-updated"></td>
 
             </tr>
         </table>
