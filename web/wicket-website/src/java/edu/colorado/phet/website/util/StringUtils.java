@@ -1,9 +1,11 @@
 package edu.colorado.phet.website.util;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.Component;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -20,6 +22,8 @@ import edu.colorado.phet.website.translation.PhetLocalizer;
  * Includes static functions (with their own transaction handling) that handle setting and getting of localization strings
  */
 public class StringUtils {
+
+    public static final String LIST_SEPARATOR_KEY = "listSeparator";
 
     private static Logger logger = Logger.getLogger( StringUtils.class.getName() );
 
@@ -288,5 +292,18 @@ public class StringUtils {
         String defaultLanguageName = locale.getDisplayName( targetLocale );
         String languageName = localizer.getString( "language.names." + LocaleUtils.localeToString( locale ), new LocalizedLabel( "toss", targetLocale, "toss" ), null, defaultLanguageName, false );
         return languageName;
+    }
+
+    public static String combineStringsIntoList( Component component, List<String> strings, String separator ) {
+        String ret = "";
+        boolean started = false;
+        for ( String str : strings ) {
+            if ( started ) {
+                ret += separator;
+            }
+            started = true;
+            ret += str;
+        }
+        return ret;
     }
 }
