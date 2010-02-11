@@ -52,7 +52,7 @@ public class ScoreboardNode extends PhetPNode {
     
     // immutable members
     private final GameModel model;
-    private final PText scoreValue, levelValue, timerValue;
+    private final PText scoreNode, levelNode, timerValue;
     private final PImage timerIcon;
     private final PPath backgroundNode;
     private final GradientButtonNode newGameButton;
@@ -66,17 +66,13 @@ public class ScoreboardNode extends PhetPNode {
         confirmNewGame = false;
         this.model = model;
         
-        // Score
-        PText scoreLabel = new PText( RPALStrings.LABEL_SCORE );
-        scoreLabel.setFont( FONT );
-        scoreValue = new PText( "XXX" ); // start with this, so we have a reasonable size for layout
-        scoreValue.setFont( FONT );
-        
         // Level
-        PText levelLabel = new PText( RPALStrings.LABEL_LEVEL );
-        levelLabel.setFont( FONT );
-        levelValue = new PText( String.valueOf( GameModel.getLevelRange().getMax() ) );
-        levelValue.setFont( FONT );
+        levelNode = new PText( RPALStrings.LABEL_LEVEL + " " + String.valueOf( GameModel.getLevelRange().getMax() ) );
+        levelNode.setFont( FONT );
+        
+        // Score
+        scoreNode = new PText( RPALStrings.LABEL_SCORE + " " + String.valueOf( GameModel.getPerfectScore() ) + ".0" ); // start with this, so we have a reasonable size for layout
+        scoreNode.setFont( FONT );
         
         // timer
         timerIcon = new PImage( RPALImages.STOPWATCH );
@@ -92,35 +88,27 @@ public class ScoreboardNode extends PhetPNode {
         } );
        
         // rendering order
-        addChild( scoreLabel );
-        addChild( scoreValue );
-        addChild( levelLabel );
-        addChild( levelValue );
+        addChild( levelNode );
+        addChild( scoreNode );
         addChild( timerIcon );
         addChild( timerValue );
         addChild( newGameButton );
         
         // layout, everything in a row, vertically centered, offsets were set by eyeballing them
         final double maxChildHeight = getMaxChildHeight();
-        // score
-        double x = X_MARGIN;
-        double y = Y_MARGIN + ( ( maxChildHeight - scoreLabel.getFullBoundsReference().getHeight() ) / 2 );
-        scoreLabel.setOffset( x, y );
-        x = scoreLabel.getFullBoundsReference().getMaxX() + 3;
-        y = Y_MARGIN + ( ( maxChildHeight - scoreValue.getFullBoundsReference().getHeight() ) / 2 );
-        scoreValue.setOffset( x, y );
         // level
-        x = scoreValue.getFullBoundsReference().getMaxX() + 10;
-        y = Y_MARGIN + ( ( maxChildHeight - levelLabel.getFullBoundsReference().getHeight() ) / 2 );
-        levelLabel.setOffset( x, y );
-        x = levelLabel.getFullBoundsReference().getMaxX() + 2;
-        y = Y_MARGIN + ( ( maxChildHeight - levelValue.getFullBoundsReference().getHeight() ) / 2 );
-        levelValue.setOffset( x, y );
+        double x = X_MARGIN;
+        double y = Y_MARGIN + ( ( maxChildHeight - levelNode.getFullBoundsReference().getHeight() ) / 2 );
+        levelNode.setOffset( x, y );
+        // score
+        x = levelNode.getFullBoundsReference().getMaxX() + 80;
+        y = Y_MARGIN + ( ( maxChildHeight - scoreNode.getFullBoundsReference().getHeight() ) / 2 );
+        scoreNode.setOffset( x, y );
         // timer
-        x = levelValue.getFullBoundsReference().getMaxX() + 80;
+        x = scoreNode.getFullBoundsReference().getMaxX() + 40;
         y = Y_MARGIN + ( ( maxChildHeight - timerIcon.getFullBoundsReference().getHeight() ) / 2 );
         timerIcon.setOffset( x, y );
-        x = timerIcon.getFullBoundsReference().getMaxX() + 4;
+        x = timerIcon.getFullBoundsReference().getMaxX() + 5;
         y = Y_MARGIN + ( ( maxChildHeight - timerValue.getFullBoundsReference().getHeight() ) / 2 );
         timerValue.setOffset( x, y );
         // New Game button
@@ -182,11 +170,11 @@ public class ScoreboardNode extends PhetPNode {
     }
     
     private void setPoints( double points ) {
-        scoreValue.setText( POINTS_FORMAT.format( points ) );
+        scoreNode.setText( RPALStrings.LABEL_SCORE + " " + POINTS_FORMAT.format( points ) );
     }
     
     private void setLevel( int level ) {
-        levelValue.setText( String.valueOf( level ) );
+        levelNode.setText( RPALStrings.LABEL_LEVEL + " " + String.valueOf( level ) );
     }
     
     private void setTimerVisible( boolean visible ) {
