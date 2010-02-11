@@ -66,7 +66,7 @@ public class GameModel extends RPALModel {
             }
         };
         
-        challengeFactory = new SimpleChallengeFactory();
+        challengeFactory = new NumberOfVariablesChallengeFactory();
         
         initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_VISIBLE, DEFAULT_SOUND_ENABLED, DEFAULT_IMAGES_VISIBLE );
     }

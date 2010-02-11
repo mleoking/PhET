@@ -11,47 +11,45 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 
 /**
- * A simple game factory, used for the first round of interviews on this sim.
+ * Level-of-difficulty is based on the number values that the user must solve for.
+ * This was used for the first round of interviews on this sim.
  * Behavior is: 
  * <ul>
- * <li>Level 1: one product random, After
- * <li>Level 2: one product random, Before 
- * <li>Level 3: two products random, After or Before random
+ * <li>Level 1: one or two products random, Before (2 variables)
+ * <li>Level 2: one product random, After 
+ * <li>Level 3: two products random, Before (4 variables)
  * </ul>
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimpleChallengeFactory extends AbstractChallengeFactory {
+public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory {
     
-    // level 1 is all the one-product reactions
-    private static final ArrayList<Class <? extends ChemicalReaction>> LEVEL1_LIST = new ArrayList<Class<? extends ChemicalReaction>>();
+    // level 2 is all the one-product reactions
+    private static final ArrayList<Class <? extends ChemicalReaction>> LEVEL2_LIST = new ArrayList<Class<? extends ChemicalReaction>>();
     static {
-        LEVEL1_LIST.add( WaterReaction.class );
-        LEVEL1_LIST.add( Reaction_H2_F2__2HF.class );
-        LEVEL1_LIST.add( Reaction_H2_Cl2__2HCl.class );
-        LEVEL1_LIST.add( Reaction_CO_2H2__CH3OH.class );
-        LEVEL1_LIST.add( Reaction_CH2O_H2__CH3OH.class );
-        LEVEL1_LIST.add( Reaction_C2H4_H2__C2H6.class );
-        LEVEL1_LIST.add( Reaction_C2H2_2H2__C2H6.class );
-        LEVEL1_LIST.add( Reaction_C_O2__CO2.class );
-        LEVEL1_LIST.add( Reaction_2C_O2__2CO.class );
-        LEVEL1_LIST.add( Reaction_2CO_O2__2CO2.class );
-        LEVEL1_LIST.add( Reaction_C_CO2__2CO.class );
-        LEVEL1_LIST.add( Reaction_C_2S__CS2.class );
-        LEVEL1_LIST.add( AmmoniaReaction.class );
-        LEVEL1_LIST.add( Reaction_N2_O2__2NO.class );
-        LEVEL1_LIST.add( Reaction_2NO_O2__2NO2.class );
-        LEVEL1_LIST.add( Reaction_2N2_O2__2NO2.class );
-        LEVEL1_LIST.add( Reaction_P4_6H2__4PH3.class );
-        LEVEL1_LIST.add( Reaction_P4_6F2__4PF3.class );
-        LEVEL1_LIST.add( Reaction_P4_6Cl2__4PCl3.class );
-        LEVEL1_LIST.add( Reaction_P4_10Cl2__4PCl5.class );
-        LEVEL1_LIST.add( Reaction_PCl3_Cl2__PCl5.class );
-        LEVEL1_LIST.add( Reaction_2SO2_O2__2SO3.class );
+        LEVEL2_LIST.add( WaterReaction.class );
+        LEVEL2_LIST.add( Reaction_H2_F2__2HF.class );
+        LEVEL2_LIST.add( Reaction_H2_Cl2__2HCl.class );
+        LEVEL2_LIST.add( Reaction_CO_2H2__CH3OH.class );
+        LEVEL2_LIST.add( Reaction_CH2O_H2__CH3OH.class );
+        LEVEL2_LIST.add( Reaction_C2H4_H2__C2H6.class );
+        LEVEL2_LIST.add( Reaction_C2H2_2H2__C2H6.class );
+        LEVEL2_LIST.add( Reaction_C_O2__CO2.class );
+        LEVEL2_LIST.add( Reaction_2C_O2__2CO.class );
+        LEVEL2_LIST.add( Reaction_2CO_O2__2CO2.class );
+        LEVEL2_LIST.add( Reaction_C_CO2__2CO.class );
+        LEVEL2_LIST.add( Reaction_C_2S__CS2.class );
+        LEVEL2_LIST.add( AmmoniaReaction.class );
+        LEVEL2_LIST.add( Reaction_N2_O2__2NO.class );
+        LEVEL2_LIST.add( Reaction_2NO_O2__2NO2.class );
+        LEVEL2_LIST.add( Reaction_2N2_O2__2NO2.class );
+        LEVEL2_LIST.add( Reaction_P4_6H2__4PH3.class );
+        LEVEL2_LIST.add( Reaction_P4_6F2__4PF3.class );
+        LEVEL2_LIST.add( Reaction_P4_6Cl2__4PCl3.class );
+        LEVEL2_LIST.add( Reaction_P4_10Cl2__4PCl5.class );
+        LEVEL2_LIST.add( Reaction_PCl3_Cl2__PCl5.class );
+        LEVEL2_LIST.add( Reaction_2SO2_O2__2SO3.class );
     };
-    
-    // level 2 uses the same reactions as level 1
-    private static final ArrayList<Class <? extends ChemicalReaction>> LEVEL2_LIST = LEVEL1_LIST;
 
     // level 3 is all the two-product reactions
     private static final ArrayList<Class <? extends ChemicalReaction>>LEVEL3_LIST = new ArrayList<Class<? extends ChemicalReaction>>();
@@ -75,6 +73,13 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
         LEVEL3_LIST.add( Reaction_2F2_H2O__OF2_2HF.class );
         LEVEL3_LIST.add( Reaction_OF2_H2O__O2_2HF.class );
     };
+    
+    // level 1 is all the reactions
+    private static final ArrayList<Class <? extends ChemicalReaction>>LEVEL1_LIST = new ArrayList<Class<? extends ChemicalReaction>>();
+    static {
+        LEVEL1_LIST.addAll( LEVEL2_LIST );
+        LEVEL1_LIST.addAll( LEVEL3_LIST );
+    };
 
     // list of lists, so we can use level to index the proper list
     private static ArrayList< ArrayList<Class <? extends ChemicalReaction>>> REACTIONS = new ArrayList<ArrayList<Class<? extends ChemicalReaction>>>();
@@ -87,7 +92,7 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
     /**
      * Default constructor.
      */
-    public SimpleChallengeFactory() {}
+    public NumberOfVariablesChallengeFactory() {}
 
     /**
      * Creates challenges.
@@ -113,13 +118,13 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
             // challenge type
             ChallengeType challengeType;
             if ( level == 1 ) {
-                challengeType = ChallengeType.AFTER;
-            }
-            else if ( level == 2 ) {
                 challengeType = ChallengeType.BEFORE;
             }
-            else {
-                challengeType = ( Math.random() > 0.5 ) ? ChallengeType.BEFORE : ChallengeType.AFTER;
+            else if ( level == 2 ) {
+                challengeType = ChallengeType.AFTER;
+            }
+            else /* level 3 */ {
+                challengeType = ChallengeType.AFTER;
             }
 
             // quantities
@@ -196,7 +201,7 @@ public class SimpleChallengeFactory extends AbstractChallengeFactory {
     public static void main( String[] args ) {
         
         // put all reactions in a container, removing duplicates.
-        SimpleChallengeFactory factory = new SimpleChallengeFactory();
+        NumberOfVariablesChallengeFactory factory = new NumberOfVariablesChallengeFactory();
         ArrayList<Class<? extends ChemicalReaction>> reactionClasses = new ArrayList<Class<? extends ChemicalReaction>>();
         for ( int level = 1; level <= REACTIONS.size(); level++ ) {
             for ( int reactionIndex = 0; reactionIndex < factory.getNumberOfReactions( level ); reactionIndex++ ) {
