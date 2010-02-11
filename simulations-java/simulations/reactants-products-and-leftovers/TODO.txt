@@ -12,9 +12,6 @@ DESIGN
 - user interface and strategy for hiding molecule images in Game
 
 HIGH PRIORITY
-- level1=all reactions, Before challenge (2 spinners)
-- level2=one-product reactions, After challenge (3 spinners)
-- level3=two-product reactions, After challenge (4 spinners)
 - factor out duplicate/similar code in AbstractBeforeNode, AbstractAfterNode, GameBeforeNode, GameAfterNode
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?

@@ -1,3 +1,5 @@
+2/11/10 new factory for creating challenges, NumberOfVariablesChallengeFactory
+2/11/10 rename SimpleChallengeFactory to NumberOfProductsChallengeFactory
 # 0.00.23 (38542) Feb 10, 2010
 2/10/10 fix #2156, correct game answer treated as wrong, needed to adjust range violations before creating guess
 2/10/10 setOpaque(false) on controls in Game Settings panel
