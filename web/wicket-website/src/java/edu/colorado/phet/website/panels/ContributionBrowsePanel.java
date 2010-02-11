@@ -1,8 +1,8 @@
 package edu.colorado.phet.website.panels;
 
+import java.text.DateFormat;
 import java.util.LinkedList;
 import java.util.List;
-import java.text.DateFormat;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -10,6 +10,8 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.ContributionPage;
 import edu.colorado.phet.website.content.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -80,6 +82,24 @@ public class ContributionBrowsePanel extends PhetPanel {
                     lsims.add( ( (Simulation) o ).getBestLocalizedSimulation( getLocale() ) );
                 }
                 HibernateUtils.orderSimulations( lsims, getLocale() );
+
+                if ( contribution.isFromPhet() ) {
+                    // TODO: localize alt
+                    // TODO: add title?
+                    item.add( new StaticImage( "phet-contribution", "/images/contributions/phet-logo-icon-small.jpg", "Contribution by the PhET team" ) );
+                }
+                else {
+                    item.add( new InvisibleComponent( "phet-contribution" ) );
+                }
+
+                if ( contribution.isGoldStar() ) {
+                    // TODO: localize alt
+                    // TODO: add title?
+                    item.add( new StaticImage( "gold-star-contribution", "/images/contributions/gold-star-small.jpg", "Gold Star Contribution" ) );
+                }
+                else {
+                    item.add( new InvisibleComponent( "gold-star-contribution" ) );
+                }
 
                 // add the list in
                 item.add( new ListView( "contribution-simulations", lsims ) {
