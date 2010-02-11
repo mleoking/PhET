@@ -27,6 +27,7 @@ public class SimulationMainEntity extends TranslationEntity {
         addString( "simulationMainPanel.topics" );
         addString( "simulationMainPanel.mainTopics" );
         addString( "simulationMainPanel.keywords" );
+        addString( "simulationMainPanel.teachingIdeas" );
         addString( "simulationMainPanel.softwareRequirements" );
         addString( "simulationMainPanel.sampleLearningGoals" );
         addString( "simulationMainPanel.credits" );
