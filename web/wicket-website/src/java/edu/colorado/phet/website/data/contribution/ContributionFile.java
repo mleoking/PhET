@@ -6,6 +6,9 @@ import java.io.Serializable;
 import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetRequestCycle;
+import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class ContributionFile implements Serializable {
 
@@ -20,7 +23,26 @@ public class ContributionFile implements Serializable {
     private static Logger logger = Logger.getLogger( ContributionFile.class.getName() );
 
     public File getFileLocation() {
-        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getPhetDownloadRoot(), contribution.getId() + "/" + filename.replace( '/', '_' ) );
+        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getPhetDownloadRoot(), getRelativeLocation() );
+    }
+
+    public String getRelativeLocation() {
+        return contribution.getId() + "/" + filename.replace( '/', '_' );
+    }
+
+    public AbstractLinker getLinker() {
+        return new AbstractLinker() {
+            @Override
+            public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
+                PhetWicketApplication app = (PhetWicketApplication) PhetWicketApplication.get();
+                return app.getPhetDownloadLocation() + "/" + getRelativeLocation();
+            }
+
+            @Override
+            public String getSubUrl( PageContext context ) {
+                return null;
+            }
+        };
     }
 
     public File getTmpFileLocation( String id ) {

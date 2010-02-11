@@ -22,10 +22,16 @@
     <div class="contribution-main-container standard-content" wicket:message="dir:language.dir">
 
         <h2 class="contribution-title" style="vertical-align: middle;"><span wicket:id="contribution-title">Contribution Title</span>
-            <img wicket:id="gold-star-contribution" src="../../../../../../../root/images/contributions/gold-star.jpg" alt="Gold Star Contribution"/>
+            <img wicket:id="gold-star-contribution" src="../../../../../../../root/images/contributions/gold-star.jpg"
+                 alt="Gold Star Contribution"/>
         </h2>
 
         <h3>Downloadable files</h3>
+
+        <ul>
+            <li wicket:id="file"><a wicket:id="file-link" href="#"><span wicket:id="file-name"></span></a> - <span
+                    wicket:id="file-size"></span></li>
+        </ul>
 
     </div>
 </wicket:panel>
