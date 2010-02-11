@@ -92,11 +92,10 @@ public class GameSummaryNode extends PhetPNode {
         s += RPALStrings.MESSAGE_GAME_OVER;
         
         // score message
-        String pointsString = POINTS_FORMAT.format( model.getPoints() );
-        String challengesString = String.valueOf( GameModel.getChallengesPerGame() );
-        String scoreString = MessageFormat.format( "{0}/{1}", pointsString, challengesString );
+        String score = POINTS_FORMAT.format( model.getPoints() );
+        String perfectScore = POINTS_FORMAT.format( GameModel.getPerfectScore() );
         s += "<br><br>";
-        s += MessageFormat.format( RPALStrings.MESSAGE_FINAL_SCORE, scoreString );
+        s += MessageFormat.format( RPALStrings.MESSAGE_FINAL_SCORE, score, perfectScore );
         
         // visibility of "perfect score" message
         if ( model.getPoints() == GameModel.getPerfectScore() ) {

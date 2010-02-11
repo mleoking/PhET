@@ -69,8 +69,7 @@ public class ScoreboardNode extends PhetPNode {
         // Score
         PText scoreLabel = new PText( RPALStrings.LABEL_SCORE );
         scoreLabel.setFont( FONT );
-        String maxScore = GameModel.getPerfectScore() + "/" + GameModel.getChallengesPerGame();
-        scoreValue = new PText( maxScore ); // start with this, so we have max length for layout
+        scoreValue = new PText( "XXX" ); // start with this, so we have a reasonable size for layout
         scoreValue.setFont( FONT );
         
         // Level
@@ -103,24 +102,28 @@ public class ScoreboardNode extends PhetPNode {
         
         // layout, everything in a row, vertically centered, offsets were set by eyeballing them
         final double maxChildHeight = getMaxChildHeight();
+        // score
         double x = X_MARGIN;
         double y = Y_MARGIN + ( ( maxChildHeight - scoreLabel.getFullBoundsReference().getHeight() ) / 2 );
         scoreLabel.setOffset( x, y );
         x = scoreLabel.getFullBoundsReference().getMaxX() + 3;
         y = Y_MARGIN + ( ( maxChildHeight - scoreValue.getFullBoundsReference().getHeight() ) / 2 );
         scoreValue.setOffset( x, y );
+        // level
         x = scoreValue.getFullBoundsReference().getMaxX() + 10;
         y = Y_MARGIN + ( ( maxChildHeight - levelLabel.getFullBoundsReference().getHeight() ) / 2 );
         levelLabel.setOffset( x, y );
         x = levelLabel.getFullBoundsReference().getMaxX() + 2;
         y = Y_MARGIN + ( ( maxChildHeight - levelValue.getFullBoundsReference().getHeight() ) / 2 );
         levelValue.setOffset( x, y );
+        // timer
         x = levelValue.getFullBoundsReference().getMaxX() + 80;
         y = Y_MARGIN + ( ( maxChildHeight - timerIcon.getFullBoundsReference().getHeight() ) / 2 );
         timerIcon.setOffset( x, y );
         x = timerIcon.getFullBoundsReference().getMaxX() + 4;
         y = Y_MARGIN + ( ( maxChildHeight - timerValue.getFullBoundsReference().getHeight() ) / 2 );
         timerValue.setOffset( x, y );
+        // New Game button
         x = timerValue.getFullBoundsReference().getMaxX() + 20;
         y = Y_MARGIN + ( ( maxChildHeight - newGameButton.getFullBoundsReference().getHeight() ) / 2 );
         newGameButton.setOffset( x, y );
@@ -145,7 +148,6 @@ public class ScoreboardNode extends PhetPNode {
             @Override
             public void pointsChanged() {
                 setPoints( model.getPoints() );
-                
             }
 
             @Override
@@ -180,11 +182,7 @@ public class ScoreboardNode extends PhetPNode {
     }
     
     private void setPoints( double points ) {
-        String pointsString = POINTS_FORMAT.format( points );
-        String challengesString = String.valueOf( GameModel.getChallengesPerGame() );
-        Object[] args = { pointsString, challengesString };
-        String scoreString = MessageFormat.format( "{0}/{1}", args );
-        scoreValue.setText( scoreString );
+        scoreValue.setText( POINTS_FORMAT.format( points ) );
     }
     
     private void setLevel( int level ) {
