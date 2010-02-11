@@ -15,6 +15,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.content.SearchResultsPage;
 import edu.colorado.phet.website.content.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
@@ -69,7 +70,6 @@ public class ContributionMainPanel extends PhetPanel {
         add( new Label( "contact-email", contribution.getContactEmail() ) );
         add( new Label( "organization", contribution.getAuthorOrganization() ) );
         add( new Label( "title", contribution.getTitle() ) );
-        add( new Label( "keywords", contribution.getKeywords() ) );
         add( new Label( "description", contribution.getDescription() ) );
 
         DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, getLocale() );
@@ -105,7 +105,12 @@ public class ContributionMainPanel extends PhetPanel {
             add( new InvisibleComponent( "duration" ) );
         }
 
-        // simulation list
+        initSimulationList( contribution, context );
+        initKeywordList( contribution, context );
+
+    }
+
+    private void initSimulationList( final Contribution contribution, final PageContext context ) {
         final List<String> simStrings = new LinkedList<String>();
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
@@ -124,8 +129,19 @@ public class ContributionMainPanel extends PhetPanel {
         Label simLabel = new Label( "simulations", str );
         simLabel.setEscapeModelStrings( false );
         add( simLabel );
+    }
 
-
+    private void initKeywordList( Contribution contribution, PageContext context ) {
+        //add( new Label( "keywords", contribution.getKeywords() ) );
+        final List<String> keyStrings = new LinkedList<String>();
+        for ( String keyword : contribution.getKeywords().split( "," ) ) {
+            keyword = keyword.trim();
+            keyStrings.add( "<a " + SearchResultsPage.getLinker( keyword ).getHref( context, getPhetCycle() ) + ">" + keyword + "</a>" );
+        }
+        String str = StringUtils.combineStringsIntoList( this, keyStrings, StringUtils.getSeparator( this ) );
+        Label keyLabel = new Label( "keywords", str );
+        keyLabel.setEscapeModelStrings( false );
+        add( keyLabel );
     }
 
     public String getTitle() {
