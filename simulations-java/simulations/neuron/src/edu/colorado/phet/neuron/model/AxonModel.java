@@ -786,6 +786,27 @@ public class AxonModel {
     		}
     	}
     }
+
+    /**
+     * A class for reporting the closest particle to the origin in a capture
+     * zone and the total number of particles in the zone.
+     */
+    public static class CaptureZoneScanResult {
+    	final Particle closestParticle;
+    	final int numParticlesInZone;
+		public CaptureZoneScanResult(Particle closestParticle,
+				int numParticlesInZone) {
+			super();
+			this.closestParticle = closestParticle;
+			this.numParticlesInZone = numParticlesInZone;
+		}
+		protected Particle getClosestParticle() {
+			return closestParticle;
+		}
+		protected int getNumParticlesInZone() {
+			return numParticlesInZone;
+		}
+    }
     
     public interface Listener extends EventListener {
     	/**
