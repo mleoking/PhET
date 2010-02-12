@@ -25,12 +25,18 @@ public class NullCaptureZone extends CaptureZone {
 	}
 
 	@Override
-	public void setCenterPoint(Point2D centerPoint) {
+	public void setOriginPoint(Point2D centerPoint) {
 		// Does nothing.
 	}
 
 	@Override
+	public Point2D getOriginPoint() {
+		return null;
+	}
+	
+	@Override
 	public void setRotationalAngle(double angle) {
 		// Does nothing.
 	}
+
 }
