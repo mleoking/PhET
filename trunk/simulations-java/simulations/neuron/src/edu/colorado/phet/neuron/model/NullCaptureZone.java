@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
  * 
  * @author John Blanco
  */
-public class NullCaptureZone extends AbstractCaptureZone {
+public class NullCaptureZone extends CaptureZone {
 
 	@Override
 	public Shape getShape() {
