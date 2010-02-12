@@ -19,4 +19,9 @@ public interface IMovable {
 	 * @param newPosition
 	 */
 	void setPosition(Point2D newPosition);
+	
+	/**
+	 * Set the motion strategy for the element.
+	 */
+	void setMotionStrategy(MotionStrategy motionStrategy);
 }
