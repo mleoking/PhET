@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 public class PieSliceShapedCaptureZone extends CaptureZone {
 
 	private Arc2D zoneShape;
-	private Point2D center;
+	private Point2D originPoint;
 	private double radius;
 	private double rotationAngle;
 	private final double angleOfExtent;
@@ -35,7 +35,7 @@ public class PieSliceShapedCaptureZone extends CaptureZone {
 	public PieSliceShapedCaptureZone(Point2D center, double radius, double fixedRotationalOffset, 
 			double initialRotationAngle, double angleOfExtent){
 		
-		this.center = center;
+		this.originPoint = center;
 		this.radius = radius;
 		this.fixedRotationalOffset = fixedRotationalOffset;
 		this.rotationAngle = initialRotationAngle;
@@ -61,13 +61,18 @@ public class PieSliceShapedCaptureZone extends CaptureZone {
 	}
 	
 	@Override
-	public void setCenterPoint(Point2D center) {
-		this.center = center;
+	public void setOriginPoint(Point2D center) {
+		this.originPoint = center;
 		updateShape();
 	}
 	
+	@Override
+	public Point2D getOriginPoint() {
+		return originPoint;
+	}
+	
 	private void updateShape(){
-		zoneShape.setArcByCenter(center.getX(), center.getY(), radius, 
+		zoneShape.setArcByCenter(originPoint.getX(), originPoint.getY(), radius, 
 				-Math.toDegrees(fixedRotationalOffset + rotationAngle + angleOfExtent/2),
 				Math.toDegrees(angleOfExtent), Arc2D.PIE);
 	}
