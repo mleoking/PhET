@@ -379,13 +379,15 @@ public class AxonModel {
     }
     
     private void handleClockTicked(ClockEvent clockEvent){
+    
+    	double dt = clockEvent.getSimulationTimeChange();
     	
     	// Update the value of the membrane potential by stepping the
     	// Hodgkins-Huxley model.
-    	hodgkinHuxleyModel.stepInTime(clockEvent.getSimulationTimeChange());
+    	hodgkinHuxleyModel.stepInTime( dt );
     	
     	// Step the membrane in time.
-    	axonMembrane.stepInTime(clockEvent.getSimulationTimeChange());
+    	axonMembrane.stepInTime( dt );
     	
     	// If it is time, update the value of the membrane potential that is
     	// used for internal calculations.
@@ -418,6 +420,11 @@ public class AxonModel {
     	// Step the channels.
     	for (MembraneChannel channel : channels){
     		channel.stepInTime(clockEvent.getSimulationTimeChange());
+    	}
+    	
+    	// Step the particles.
+    	for (Particle particle : particles){
+    		particle.stepInTime( dt );
     	}
     }
     
