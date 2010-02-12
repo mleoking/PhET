@@ -8,6 +8,11 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.utils.MathUtils;
 
+/**
+ * A gated channel through which potassium passes when the channel is open.
+ * 
+ * @author John Blanco
+ */
 public class PotassiumGatedChannel extends AbstractGatedChannel {
 
     //----------------------------------------------------------------------------
@@ -20,15 +25,22 @@ public class PotassiumGatedChannel extends AbstractGatedChannel {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
+	
 	private HodgkinHuxleyModel hodgekinHodgkinHuxleyModel;
 	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
+	
 	public PotassiumGatedChannel(HodgkinHuxleyModel hodgekinHuxleyModel) {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, ParticleType.SODIUM_ION);
 		this.hodgekinHodgkinHuxleyModel = hodgekinHuxleyModel;
+		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, 0, Math.PI * 0.7));
 	}
+
+    //----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
 
 	@Override
 	public Color getChannelColor() {

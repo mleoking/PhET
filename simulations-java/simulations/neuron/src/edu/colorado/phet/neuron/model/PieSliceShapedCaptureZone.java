@@ -18,23 +18,27 @@ public class PieSliceShapedCaptureZone extends AbstractCaptureZone {
 	private Point2D center;
 	private double radius;
 	private double rotationAngle;
-	private double angleOfExtent;
+	private final double angleOfExtent;
+	private final double fixedRotationalOffset;
 	
 	/**
 	 * Constructor - defines the size and orientation of a capture zone which
 	 * is shaped like a pie slice.  For more information on what exactly a
 	 * capture zone is, see the parent class javadoc.
-	 * 
 	 * @param radius - in nanometers
-	 * @param rotationAngle - in radians, 0 signifies the point on the left
+	 * @param fixedRotationalOffset TODO
+	 * @param initialRotationAngle - in radians, 0 signifies the point on the left
 	 * and the rounded part on the right.
 	 * @param angleOfExtent - in radians, extent of the arc.  A value of PI
 	 * would be a half circle, PI/2 is a quarter circle.
 	 */
-	public PieSliceShapedCaptureZone(Point2D center, double radius, double rotationAngle, double angleOfExtent){
+	public PieSliceShapedCaptureZone(Point2D center, double radius, double fixedRotationalOffset, 
+			double initialRotationAngle, double angleOfExtent){
+		
 		this.center = center;
 		this.radius = radius;
-		this.rotationAngle = rotationAngle;
+		this.fixedRotationalOffset = fixedRotationalOffset;
+		this.rotationAngle = initialRotationAngle;
 		this.angleOfExtent = angleOfExtent;
 		zoneShape = new Arc2D.Double();
 		updateShape();
@@ -64,6 +68,7 @@ public class PieSliceShapedCaptureZone extends AbstractCaptureZone {
 	
 	private void updateShape(){
 		zoneShape.setArcByCenter(center.getX(), center.getY(), radius, 
-				-Math.toDegrees(rotationAngle + angleOfExtent/2), Math.toDegrees(angleOfExtent), Arc2D.PIE);
+				-Math.toDegrees(fixedRotationalOffset + rotationAngle + angleOfExtent/2),
+				Math.toDegrees(angleOfExtent), Arc2D.PIE);
 	}
 }
