@@ -21,6 +21,21 @@ public interface IMovable {
 	void setPosition(Point2D newPosition);
 	
 	/**
+	 * Set the position of the model element.
+	 *  
+	 * @param xPos
+	 * @param yPos
+	 */
+	void setPosition(double xPos, double yPos);
+	
+	/**
+	 * Get the current position of the model element.
+	 *  
+	 * @param newPosition
+	 */
+	Point2D getPosition();
+	
+	/**
 	 * Set the motion strategy for the element.
 	 */
 	void setMotionStrategy(MotionStrategy motionStrategy);
