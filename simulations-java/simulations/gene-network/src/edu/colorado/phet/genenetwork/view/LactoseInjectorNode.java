@@ -248,6 +248,7 @@ public class LactoseInjectorNode extends PNode {
 			
 			// Create the radio buttons that will allow the user to enable
 			// or disable automatic lactose injections.
+			// TODO: i18n.
 			manualButton = new JRadioButton("Manual");
 			manualButton.setFont(LABEL_FONT);
 			manualButton.setBackground(BACKGROUND_COLOR);
