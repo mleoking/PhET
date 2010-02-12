@@ -8,6 +8,11 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.utils.MathUtils;
 
+/**
+ * A gated channel through which sodium passes when the channel is open.
+ * 
+ * @author John Blanco
+ */
 public class SodiumGatedChannel extends AbstractGatedChannel {
 
     //----------------------------------------------------------------------------
@@ -28,7 +33,7 @@ public class SodiumGatedChannel extends AbstractGatedChannel {
 	public SodiumGatedChannel(HodgkinHuxleyModel hodgkinHuxleyModel) {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, ParticleType.SODIUM_ION);
 		this.hodgkinHodgkinHuxleyModel = hodgkinHuxleyModel;
-		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, Math.PI * 0.8));
+		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, 0, Math.PI * 0.8));
 	}
 
     //----------------------------------------------------------------------------
