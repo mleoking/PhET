@@ -77,9 +77,9 @@ public class NuclearPhysicsStrings {
     public static final String LEAD_207_ISOTOPE_NUMBER = getString( "Lead207Graphic.Number" );
     public static final String LEAD_207_LEGEND_LABEL = getString( "NuclearPhysicsControlPanel.Lead207Label" );
 
-    public static final String LEAD_206_CHEMICAL_SYMBOL = getString( "Lead207Graphic.Symbol" );
-    public static final String LEAD_206_ISOTOPE_NUMBER = getString( "Lead207Graphic.Number" );
-    public static final String LEAD_206_LEGEND_LABEL = getString( "NuclearPhysicsControlPanel.Lead207Label" );
+    public static final String LEAD_206_CHEMICAL_SYMBOL = getString( "Lead206Graphic.Symbol" );
+    public static final String LEAD_206_ISOTOPE_NUMBER = getString( "Lead206Graphic.Number" );
+    public static final String LEAD_206_LEGEND_LABEL = getString( "NuclearPhysicsControlPanel.Lead206Label" );
 
     public static final String CUSTOM_NUCLEUS_CHEMICAL_SYMBOL = getString( "AlphaDecayControlPanel.CustomNucleusSymbol" );
     public static final String CUSTOM_NUCLEUS_LEGEND_LABEL = getString( "AlphaDecayControlPanel.CustomNucleusLabel" );
