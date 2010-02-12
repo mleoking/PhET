@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * 
  * @author John Blanco
  */
-public abstract class AbstractCaptureZone {
+public abstract class CaptureZone {
 
 	public abstract Shape getShape();
 	public abstract boolean isPointInZone(Point2D pt);

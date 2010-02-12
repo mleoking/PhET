@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
  * 
  * @author John Blanco
  */
-public class PieSliceShapedCaptureZone extends AbstractCaptureZone {
+public class PieSliceShapedCaptureZone extends CaptureZone {
 
 	private Arc2D zoneShape;
 	private Point2D center;

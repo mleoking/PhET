@@ -49,7 +49,7 @@ public abstract class AbstractMembraneChannel {
 	private ArrayList<Listener> listeners = new ArrayList<Listener>();
 	
 	// Capture zone, which is where particles can be captured by this channel.
-	private AbstractCaptureZone captureZone = new NullCaptureZone();
+	private CaptureZone captureZone = new NullCaptureZone();
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -103,11 +103,11 @@ public abstract class AbstractMembraneChannel {
 	 * from which particles may be captured.  If null is returned, this
 	 * channel has no capture zone.
 	 */
-	public AbstractCaptureZone getCaptureZone(){
+	public CaptureZone getCaptureZone(){
 		return captureZone;
 	}
 	
-	protected void setCaptureZone(AbstractCaptureZone captureZone){
+	protected void setCaptureZone(CaptureZone captureZone){
 		this.captureZone = captureZone;
 	}
 	
