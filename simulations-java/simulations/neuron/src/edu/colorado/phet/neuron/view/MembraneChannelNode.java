@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.AbstractGatedChannel;
-import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
+import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -30,7 +30,7 @@ public class MembraneChannelNode extends PNode{
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-	private AbstractMembraneChannel membraneChannelModel;
+	private MembraneChannel membraneChannelModel;
 	private ModelViewTransform2D mvt;
 	private PPath channel;
 	private PPath leftEdgeNode;
@@ -41,13 +41,13 @@ public class MembraneChannelNode extends PNode{
     // Constructor
     //----------------------------------------------------------------------------
 
-	public MembraneChannelNode(AbstractMembraneChannel membraneChannelModel, ModelViewTransform2D mvt){
+	public MembraneChannelNode(MembraneChannel membraneChannelModel, ModelViewTransform2D mvt){
 
 		this.membraneChannelModel = membraneChannelModel;
 		this.mvt = mvt;
 		
 		// Listen to the channel for changes that may affect the representation.
-		membraneChannelModel.addListener(new AbstractMembraneChannel.Adapter(){
+		membraneChannelModel.addListener(new MembraneChannel.Adapter(){
 			public void opennessChanged() {
 				updateRepresentation();
 			}

@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
-import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
+import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannelTypes;
 import edu.colorado.phet.neuron.model.ParticleType;
@@ -61,12 +61,12 @@ public class RestingPotentialControlPanel extends ControlPanel {
         // Listen to the model for changes that affect this control panel.
         model.addListener(new AxonModel.Adapter(){
         	@Override
-    		public void channelAdded(AbstractMembraneChannel channel) {
+    		public void channelAdded(MembraneChannel channel) {
     			updateChannelControlSliders();
     		}
         	
         	@Override
-			public void channelRemoved(AbstractMembraneChannel channel) {
+			public void channelRemoved(MembraneChannel channel) {
         		updateChannelControlSliders();
 			}
 
