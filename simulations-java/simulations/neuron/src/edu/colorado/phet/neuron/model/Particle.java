@@ -82,7 +82,7 @@ public abstract class Particle implements IMovable {
     }
     
     public void setMotionStrategy(MotionStrategy motionStrategy){
-    	
+    	this.motionStrategy = motionStrategy; 
     }
     
     /**
