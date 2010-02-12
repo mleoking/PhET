@@ -428,6 +428,36 @@ public class AxonModel {
     	}
     }
     
+    /**
+     * Scan the supplied capture zone for particles of the specified type.
+     * 
+     * @param zone
+     * @param particleType
+     * @return
+     */
+    private CaptureZoneScanResult scanCaptureZoneForParticles(CaptureZone zone, ParticleType particleType){
+    	Particle closestParticle = null;
+    	double distanceOfClosestParticle = Double.POSITIVE_INFINITY;
+    	int totalNumberOfParticles = 0;
+    	Point2D captureZoneOrigin = zone.getOriginPoint();
+    	
+    	for (Particle particle : particles){
+    		if (particle.getType() == particleType){
+    			totalNumberOfParticles++;
+    			if (closestParticle == null){
+    				closestParticle = particle;
+    				distanceOfClosestParticle = captureZoneOrigin.distance(closestParticle.getPosition());
+    			}
+    			else if (captureZoneOrigin.distance(closestParticle.getPosition()) < distanceOfClosestParticle){
+    				closestParticle = particle;
+    				distanceOfClosestParticle = captureZoneOrigin.distance(closestParticle.getPosition());
+    			}
+    		}
+    	}
+    	
+    	return new CaptureZoneScanResult(closestParticle, totalNumberOfParticles);
+    }
+    
 	public void addListener(Listener listener){
 		listeners.add(Listener.class, listener);
 	}
