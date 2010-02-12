@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class LinearMotionStrategy extends MotionStrategy {
 
-	private Vector2D velocity;
+	private Vector2D velocity; // In nanometers per second of simulation time.
 	
 	public LinearMotionStrategy(Vector2D velocity) {
 		this.velocity = velocity;
