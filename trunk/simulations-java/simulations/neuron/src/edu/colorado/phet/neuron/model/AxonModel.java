@@ -64,7 +64,7 @@ public class AxonModel {
     private final ConstantDtClock clock;
     private final AxonMembrane axonMembrane = new AxonMembrane();
     private ArrayList<Particle> particles = new ArrayList<Particle>();
-    private ArrayList<AbstractMembraneChannel> channels = new ArrayList<AbstractMembraneChannel>();
+    private ArrayList<MembraneChannel> channels = new ArrayList<MembraneChannel>();
     private final double crossSectionInnerRadius;
     private final double crossSectionOuterRadius;
     private int particleUpdateOffset = 0;
@@ -132,15 +132,15 @@ public class AxonModel {
     	return new GeneralPath();
     }
     
-    public ArrayList<AbstractMembraneChannel> getMembraneChannels(){
-    	return new ArrayList<AbstractMembraneChannel>(channels);
+    public ArrayList<MembraneChannel> getMembraneChannels(){
+    	return new ArrayList<MembraneChannel>(channels);
     }
     
     public int getNumMembraneChannels(MembraneChannelTypes channelType){
     	
     	int numChannels = 0;
     	
-    	for (AbstractMembraneChannel channel : channels){
+    	for (MembraneChannel channel : channels){
     		if (channel.getChannelType() == channelType){
     			numChannels++;
     		}
@@ -211,8 +211,8 @@ public class AxonModel {
     
     public void reset(){
     	// Remove all channels.
-    	ArrayList<AbstractMembraneChannel> tempChannelList = new ArrayList<AbstractMembraneChannel>(channels);
-    	for ( AbstractMembraneChannel channel : tempChannelList){
+    	ArrayList<MembraneChannel> tempChannelList = new ArrayList<MembraneChannel>(channels);
+    	for ( MembraneChannel channel : tempChannelList){
     		removeChannel(channel.getChannelType());
     	}
     	
@@ -257,7 +257,7 @@ public class AxonModel {
     	// Add in the charges from any particles that are in channels.  Note
     	// that particles that are in channels are assumed to be inside the
     	// membrane.
-    	for (AbstractMembraneChannel channel : channels){
+    	for (MembraneChannel channel : channels){
     		ArrayList<Particle> particlesInChannel = channel.getOwnedAtomsRef();
         	for (Particle particle : particlesInChannel){
        			quantizedInsideCharge += particle.getCharge();
@@ -407,7 +407,7 @@ public class AxonModel {
     	}
 
     	// Step the channels.
-    	for (AbstractMembraneChannel channel : channels){
+    	for (MembraneChannel channel : channels){
     		channel.stepInTime(clockEvent.getSimulationTimeChange());
     		ArrayList<Particle> particlesTakenByChannel = channel.checkTakeControlParticles(particles);
     		if (particlesTakenByChannel != null){
@@ -446,13 +446,13 @@ public class AxonModel {
 		listeners.remove(Listener.class, listener);
 	}
 	
-	private void notifyChannelAdded(AbstractMembraneChannel channel){
+	private void notifyChannelAdded(MembraneChannel channel){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.channelAdded(channel);
 		}
 	}
 	
-	private void notifyChannelRemoved(AbstractMembraneChannel channel){
+	private void notifyChannelRemoved(MembraneChannel channel){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.channelRemoved(channel);
 		}
@@ -554,7 +554,7 @@ public class AxonModel {
     }
     
     private void addChannel(MembraneChannelTypes channelType){
-    	AbstractMembraneChannel membraneChannel = null;
+    	MembraneChannel membraneChannel = null;
     	
     	if (getNumMembraneChannels(channelType) > NeuronConstants.MAX_CHANNELS_PER_TYPE){
     		System.err.println(getClass().getName() + " - Warning: Ignoring attempt to add more than max allowed channels.");
@@ -619,7 +619,7 @@ public class AxonModel {
     		return;
     	}
     	
-    	AbstractMembraneChannel channelToRemove = null;
+    	MembraneChannel channelToRemove = null;
     	// Work backwards through the array so that the most recently added
     	// channel is removed first.  This just looks better visually and
     	// makes the positioning of channels work better.
@@ -702,7 +702,7 @@ public class AxonModel {
 
     	boolean inside = false;
     	
-		for (AbstractMembraneChannel channel : channels){
+		for (MembraneChannel channel : channels){
 			if (channel.getOwnedParticles().contains(particle)){
 				inside = true;
 				break;
@@ -796,14 +796,14 @@ public class AxonModel {
     	 * 
     	 * @param channel - Channel that was added.
     	 */
-    	public void channelAdded(AbstractMembraneChannel channel);
+    	public void channelAdded(MembraneChannel channel);
     	
     	/**
     	 * Notification that a channel was removed.
     	 * 
     	 * @param channel - Channel that was removed.
     	 */
-    	public void channelRemoved(AbstractMembraneChannel channel);
+    	public void channelRemoved(MembraneChannel channel);
     	
     	/**
     	 * Notification that the concentration gradient for the given particle
@@ -828,8 +828,8 @@ public class AxonModel {
     }
     
     public static class Adapter implements Listener{
-		public void channelAdded(AbstractMembraneChannel channel) {}
-		public void channelRemoved(AbstractMembraneChannel channel) {}
+		public void channelAdded(MembraneChannel channel) {}
+		public void channelRemoved(MembraneChannel channel) {}
 		public void concentrationRatioChanged(ParticleType particleType) {}
 		public void stimulusPulseInitiated() {}
 		public void potentialChartVisibilityChanged() {}

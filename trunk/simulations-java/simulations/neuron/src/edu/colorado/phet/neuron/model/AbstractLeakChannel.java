@@ -3,7 +3,7 @@ package edu.colorado.phet.neuron.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
+public abstract class AbstractLeakChannel extends MembraneChannel {
 	
     //----------------------------------------------------------------------------
     // Class Data

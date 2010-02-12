@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * 
  * @author John Blanco
  */
-public abstract class AbstractGatedChannel extends AbstractMembraneChannel {
+public abstract class AbstractGatedChannel extends MembraneChannel {
 	
     //----------------------------------------------------------------------------
     // Class Data

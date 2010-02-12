@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
-import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
+import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.umd.cs.piccolo.PNode;
@@ -94,7 +94,7 @@ public class NeuronCanvas extends PhetPCanvas {
 
         // Register for events from the model.
         this.model.addListener(new AxonModel.Adapter() {
-			public void channelAdded(AbstractMembraneChannel channel) {
+			public void channelAdded(MembraneChannel channel) {
 				addChannelNode(channel);
 			}
 			public void potentialChartVisibilityChanged(){
@@ -136,7 +136,7 @@ public class NeuronCanvas extends PhetPCanvas {
         }
         
         // Add the channels.
-        for (AbstractMembraneChannel channel : model.getMembraneChannels()){
+        for (MembraneChannel channel : model.getMembraneChannels()){
         	addChannelNode(channel);
         }
         
@@ -218,10 +218,10 @@ public class NeuronCanvas extends PhetPCanvas {
     	atomLayer.addChild(new ParticleNode(atomToBeAdded, mvt));
     }
     
-    private void addChannelNode(AbstractMembraneChannel channelToBeAdded){
+    private void addChannelNode(MembraneChannel channelToBeAdded){
     	final MembraneChannelNode channelNode = new MembraneChannelNode(channelToBeAdded, mvt);
     	axonCrossSectionLayer.addChild(channelNode);
-    	channelToBeAdded.addListener(new AbstractMembraneChannel.Adapter() {
+    	channelToBeAdded.addListener(new MembraneChannel.Adapter() {
 			public void removed() {
 				axonCrossSectionLayer.removeChild(channelNode);
 			}

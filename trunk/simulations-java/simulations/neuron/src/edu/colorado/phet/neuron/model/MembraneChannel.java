@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * 
  * @author John Blanco
  */
-public abstract class AbstractMembraneChannel {
+public abstract class MembraneChannel {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -55,7 +55,7 @@ public abstract class AbstractMembraneChannel {
     // Constructor
     //----------------------------------------------------------------------------
 	
-	public AbstractMembraneChannel(double channelWidth, double channelHeight){
+	public MembraneChannel(double channelWidth, double channelHeight){
 		channelSize.setSize(channelWidth, channelHeight);
 		overallSize.setSize(channelWidth * 2.4, channelHeight * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
 	}
