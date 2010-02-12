@@ -148,7 +148,7 @@ public abstract class MembraneChannel {
 	
 	public void setCenterLocation(Point2D newCenterLocation) {
 		centerLocation.setLocation(newCenterLocation);
-		captureZone.setCenterPoint(newCenterLocation);
+		captureZone.setOriginPoint(newCenterLocation);
 	}
 
 	public void setRotationalAngle(double rotationalAngle){
