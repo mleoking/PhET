@@ -1,3 +1,5 @@
+# 3.21.01 (38614) Feb 12, 2010
+2/12/10 > Fixed an issue where U-238 was shown decaying into Pb-207 instead of Pb-206.
 # 3.21.00 (38193) Jan 22, 2010
 1/22/10 Deployment to production server.
 # 3.20.05 (38191) Jan 22, 2010
