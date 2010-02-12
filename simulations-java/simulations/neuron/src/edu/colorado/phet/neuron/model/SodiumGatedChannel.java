@@ -28,7 +28,7 @@ public class SodiumGatedChannel extends AbstractGatedChannel {
 	public SodiumGatedChannel(HodgkinHuxleyModel hodgkinHuxleyModel) {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, ParticleType.SODIUM_ION);
 		this.hodgkinHodgkinHuxleyModel = hodgkinHuxleyModel;
-		setCaptureZone(new HalfCircleCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0));
+		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, Math.PI * 0.8));
 	}
 
     //----------------------------------------------------------------------------
