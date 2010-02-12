@@ -14,15 +14,14 @@ public class LinearMotionStrategy extends MotionStrategy {
 
 	private Vector2D velocity;
 	
-	public LinearMotionStrategy(IMovable movableModelElement, Vector2D velocity) {
-		super(movableModelElement);
+	public LinearMotionStrategy(Vector2D velocity) {
 		this.velocity = velocity;
 	}
 
 	@Override
-	public void move(double dt) {
-		Point2D currentPosition = getMovableModelElement().getPosition();
-		getMovableModelElement().setPosition(currentPosition.getX() + velocity.getX() * dt,
+	public void move(IMovable movableModelElement, double dt) {
+		Point2D currentPosition = movableModelElement.getPosition();
+		movableModelElement.setPosition(currentPosition.getX() + velocity.getX() * dt,
 				currentPosition.getY() + velocity.getY() * dt);
 	}
 }

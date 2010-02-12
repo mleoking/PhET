@@ -394,6 +394,13 @@ public class AxonModel {
     		membranePotentialUpdateCounter = 0;
     	}
     	
+    	/*
+    	 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having
+    	 * them controlled by the AxonModel and the channels to having a motion strategy set on
+    	 * them and have them move themselves.  This code is being removed as part of that
+    	 * effort, and should be deleted or reinstated at some point in time.
+
+    	
     	// Update the velocity of the particles.  For efficiency and because
     	// it looks better, not all particles are updated every time.
     	for (int i = particleUpdateOffset; i < particles.size(); i += PARTICLE_UPDATE_INCREMENT){
@@ -406,35 +413,11 @@ public class AxonModel {
     		particle.stepInTime(clockEvent.getSimulationTimeChange());
     	}
 
+    	 */
+    	
     	// Step the channels.
     	for (MembraneChannel channel : channels){
     		channel.stepInTime(clockEvent.getSimulationTimeChange());
-    		ArrayList<Particle> particlesTakenByChannel = channel.checkTakeControlParticles(particles);
-    		if (particlesTakenByChannel != null){
-    			for (Particle particle : particlesTakenByChannel){
-    				particles.remove(particle);
-    				if (particle.getPositionReference().distance(CENTER_POS) > crossSectionOuterRadius){
-    					// This particle was outside and, now that it has been
-    					// captured by a channel, is considered to be inside.
-    					concentrationTracker.updateParticleCount(particle.getType(), ParticlePosition.OUTSIDE_MEMBRANE, -1);
-    					concentrationTracker.updateParticleCount(particle.getType(), ParticlePosition.INSIDE_MEMBRANE, 1);
-    					notifyConcentrationGradientChanged(particle.getType());
-    				}
-    			}
-    		}
-    		ArrayList<Particle> particlesReleasedByChannel = channel.checkReleaseControlParticles(particles);
-    		if (particlesReleasedByChannel != null){
-    			for (Particle particle : particlesReleasedByChannel){
-    				particles.add(particle);
-    				if (particle.getPositionReference().distance(CENTER_POS) > crossSectionOuterRadius){
-    					// This particle was inside a channel and was released
-    					// outside the membrane.
-    					concentrationTracker.updateParticleCount(particle.getType(), ParticlePosition.OUTSIDE_MEMBRANE, 1);
-    					concentrationTracker.updateParticleCount(particle.getType(), ParticlePosition.INSIDE_MEMBRANE, -1);
-    					notifyConcentrationGradientChanged(particle.getType());
-    				}
-    			}
-    		}
     	}
     }
     
@@ -476,6 +459,12 @@ public class AxonModel {
 		}
 	}
 	
+	/*
+	 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having
+	 * them controlled by the AxonModel and the channels to having a motion strategy set on
+	 * them and have them move themselves.  This routine is being removed as part of that
+	 * effort, and should be deleted or reinstated at some point in time.
+
     private void updateParticleVelocity(Particle particle){
     	
     	// Convert the position to polar coordinates.
@@ -552,6 +541,7 @@ public class AxonModel {
 		// Set the particle's new velocity. 
     	particle.setVelocity(velocity * Math.cos(angle), velocity * Math.sin(angle));
     }
+    */
     
     private void addChannel(MembraneChannelTypes channelType){
     	MembraneChannel membraneChannel = null;

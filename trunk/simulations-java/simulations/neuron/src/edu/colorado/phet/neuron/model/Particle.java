@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.neuron.NeuronStrings;
 
 /**
@@ -15,7 +14,7 @@ import edu.colorado.phet.neuron.NeuronStrings;
  *
  * @author John Blanco
  */
-public abstract class Particle {
+public abstract class Particle implements IMovable {
     
     //------------------------------------------------------------------------
     // Class data
@@ -30,8 +29,8 @@ public abstract class Particle {
     // Location in space of this particle, units are nano-meters.
     private Point2D.Double position;
     
-    // Velocity of this particle in nm/sec.
-    private Vector2D velocity = new Vector2D.Double(0, 0);
+    // Motion strategy for moving this particle around.
+    private MotionStrategy motionStrategy = new StillnessMotionStrategy();
     
     //------------------------------------------------------------------------
     // Constructors
@@ -82,6 +81,10 @@ public abstract class Particle {
         }        
     }
     
+    public void setMotionStrategy(MotionStrategy motionStrategy){
+    	
+    }
+    
     /**
      * Get the diameter of this particle in nano meters.  This obviously
      * assumes a round particle.
@@ -90,18 +93,6 @@ public abstract class Particle {
     	return 2;  // Default value, override if needed to support other particles.
     }
     
-    public Vector2D getVelocity() {
-		return velocity;
-	}
-
-	public void setVelocity(Vector2D velocity) {
-		setVelocity(velocity.getX(), velocity.getY());
-	}
-	
-	public void setVelocity(double xVel, double yVel) {
-		velocity.setComponents(xVel, yVel);
-	}
-
 	/**
      * Text to use for labeling this particle.  Often this will be a chemical
      * symbol, but this is not always the case.
@@ -173,10 +164,7 @@ public abstract class Particle {
      * @param dt - delta time in milliseconds.
      */
     public void stepInTime(double dt){
-    	// Update position based on velocity.
-    	double newPosX = position.getX() + (velocity.getX() * dt / 1000);
-    	double newPosY = position.getY() + (velocity.getY() * dt / 1000);
-    	setPosition(newPosX, newPosY);
+    	motionStrategy.move(this, dt);
     }
     
     //------------------------------------------------------------------------

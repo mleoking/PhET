@@ -64,6 +64,12 @@ public abstract class AbstractLeakChannel extends MembraneChannel {
 		return releasedAtoms;
 	}
 
+	/*
+	 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having
+	 * them controlled by the AxonModel and the channels to having a motion strategy set on
+	 * them and have them move themselves.  This routine is being removed as part of that
+	 * effort, and should be deleted or reinstated at some point in time.
+
 	@Override
 	public ArrayList<Particle> checkTakeControlParticles(ArrayList<Particle> freeAtoms) {
 		
@@ -90,6 +96,7 @@ public abstract class AbstractLeakChannel extends MembraneChannel {
 		
 		return atomsToTake;
 	}
+	*/
 
 	@Override
 	public MembraneChannelTypes getChannelType() {
@@ -99,6 +106,13 @@ public abstract class AbstractLeakChannel extends MembraneChannel {
 
 	@Override
 	public void stepInTime(double dt) {
+		
+		/*
+		 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having
+		 * them controlled by the AxonModel and the channels to having a motion strategy set on
+		 * them and have them move themselves.  This code is being removed as part of that
+		 * effort, and should be deleted or reinstated at some point in time.
+
 		if (!getOwnedAtomsRef().isEmpty()){
 			// This channel has at least one atom in it, so update the atom motion.
 			atomMotionUpdateCounter = (atomMotionUpdateCounter + 1) % ATOM_MOTION_UPDATE_PERIOD;
@@ -125,10 +139,17 @@ public abstract class AbstractLeakChannel extends MembraneChannel {
 			}
 		}
 		recentlyReleaseAtoms.removeAll(atomsToRemoveFromList);
+		*/
 	}
 	
 	private void captureAtom(Particle atom, ArrayList<Particle> freeAtoms, ArrayList<Particle> ownedAtoms){
 		
+		/*
+		 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having
+		 * them controlled by the AxonModel and the channels to having a motion strategy set on
+		 * them and have them move themselves.  This routine is being removed as part of that
+		 * effort, and should be deleted or reinstated at some point in time.
+
 		// Transfer the atom to the list of atoms "owned" by this channel.
 		ownedAtoms.add(atom);
 		
@@ -165,6 +186,7 @@ public abstract class AbstractLeakChannel extends MembraneChannel {
 			// Set the direction of flow.
 			flowDirection = MembraneChannelFlowDirection.OUT;
 		}
+		*/
 	}
 	
 	private boolean recentlyCaptured(Particle atom){
@@ -178,6 +200,12 @@ public abstract class AbstractLeakChannel extends MembraneChannel {
 		return recentlyCaptured;
 	}
 	
+	/*
+	 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having
+	 * them controlled by the AxonModel and the channels to having a motion strategy set on
+	 * them and have them move themselves.  This routine is being removed as part of that
+	 * effort, and should be deleted or reinstated at some point in time.
+
 	private void updateMotionOfAtoms(){
 		
 		if (getOwnedParticles().size() == 0){
@@ -219,6 +247,7 @@ public abstract class AbstractLeakChannel extends MembraneChannel {
 			atom.setVelocity(velocity * Math.cos(getRotationalAngle()), velocity * Math.sin(getRotationalAngle()));
 		}
 	}
+	*/
 	
 	private static class AtomCountdownPair{
 		
