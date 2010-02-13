@@ -32,11 +32,14 @@ public abstract class Particle implements IMovable {
     // Motion strategy for moving this particle around.
     private MotionStrategy motionStrategy = new StillnessMotionStrategy();
     
+    // Availability for capture by a membrane channel.
+    private boolean availableForCapture;
+    
     //------------------------------------------------------------------------
     // Constructors
     //------------------------------------------------------------------------
 
-    /**
+	/**
      * Construct a particle.
      * 
      * @param xPos - Initial X position of this particle.
@@ -51,7 +54,7 @@ public abstract class Particle implements IMovable {
     }
     
     //------------------------------------------------------------------------
-    // Accessor methods
+    // Methods
     //------------------------------------------------------------------------
     
     public abstract ParticleType getType(); 
@@ -73,6 +76,14 @@ public abstract class Particle implements IMovable {
         notifyPositionChanged();
     }
     
+    protected boolean isAvailableForCapture() {
+		return availableForCapture;
+	}
+
+	protected void setAvailableForCapture(boolean availableForCapture) {
+		this.availableForCapture = availableForCapture;
+	}
+
     protected void notifyPositionChanged(){
         // Notify all listeners of the position change.
         for (Listener listener : listeners)
