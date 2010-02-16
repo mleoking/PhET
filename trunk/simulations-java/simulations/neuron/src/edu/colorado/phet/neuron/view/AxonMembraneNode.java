@@ -116,7 +116,7 @@ public class AxonMembraneNode extends PNode {
      */
     private static class TravelingActionPotentialNode extends PhetPPath {
     	
-    	private static Color COLOR = Color.YELLOW;
+    	private static Color COLOR = Color.ORANGE;
     	private static Stroke stroke = new BasicStroke(10, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     	
     	private AxonMembrane.TravelingActionPotential travelingActionPotential;
