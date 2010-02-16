@@ -17,7 +17,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  * <ul>
  * <li>Level 1: one or two products random, Before (2 variables)
  * <li>Level 2: one product random, After 
- * <li>Level 3: two products random, Before (4 variables)
+ * <li>Level 3: two products random, After (4 variables)
  * </ul>
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
