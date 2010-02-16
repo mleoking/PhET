@@ -24,7 +24,6 @@ HIGH PRIORITY
 - add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
 - associate ImageLayoutStrategy with the chemical reaction type?
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
-- bug: for last challenge, press "Show answer", then "Next", molecule images disappear when Game Summary is displayed
 
 MEDIUM PRIORITY
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
