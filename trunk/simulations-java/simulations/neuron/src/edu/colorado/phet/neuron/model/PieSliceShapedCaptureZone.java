@@ -5,7 +5,6 @@ package edu.colorado.phet.neuron.model;
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 
 /**
  * A "capture zone" (which is a 2D space that defines where particles may be
@@ -78,7 +77,6 @@ public class PieSliceShapedCaptureZone extends CaptureZone {
 				Math.toDegrees(angleOfExtent), Arc2D.PIE);
 	}
 
-	@Override
 	public Point2D getSuggestNewParticleLocation() {
 		// TODO fill this in.
 		return new Point2D.Double(originPoint.getX(), originPoint.getY());
