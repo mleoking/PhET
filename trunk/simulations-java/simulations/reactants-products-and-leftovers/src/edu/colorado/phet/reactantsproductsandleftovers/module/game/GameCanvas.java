@@ -247,7 +247,7 @@ public class GameCanvas extends RPALCanvas {
         visibilityManager.add( FIRST_ATTEMPT_WRONG_STATE, parentNode, tryAgainButton, faceNode );
         visibilityManager.add( SECOND_ATTEMPT_STATE, parentNode, checkButton );
         visibilityManager.add( SECOND_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode, pointsDeltaNode );
-        visibilityManager.add( SECOND_ATTEMPT_WRONG_STATE, parentNode, nextButton, showAnswerButton, faceNode );
+        visibilityManager.add( SECOND_ATTEMPT_WRONG_STATE, parentNode, showAnswerButton, faceNode );
         visibilityManager.add( ANSWER_SHOWN_STATE, parentNode, nextButton );
         visibilityManager.add( GAME_SUMMARY_STATE, gameSummaryNode, parentNode );
     }
