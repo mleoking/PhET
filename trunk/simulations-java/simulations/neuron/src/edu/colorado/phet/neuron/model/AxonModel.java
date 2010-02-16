@@ -13,6 +13,7 @@ import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -381,6 +382,34 @@ public class AxonModel {
     	newParticle.setPosition(location);
     	
 		return newParticle;
+    }
+    
+    /**
+     * Starts a particle of the specified type moving through the
+     * specified channel.  If one or more particles of the needed type exist
+     * within the capture zone for this channel, one will be chosen and set to
+     * move through, and another will be created to essentially take its place
+     * (though the newly created one will probably be in a slightly different
+     * place for better visual effect).  If none of the needed particles
+     * exist, two will be created, and one will move through the channel and
+     * the other will just hang out in the zone.
+     * 
+     * Note that it is not guaranteed that the particle will make it through
+     * the channel, since it is possible that the channel could close before
+     * the particle goes through it.
+     * 
+     * @param particleType
+     * @param channel
+     * @return
+     */
+    public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel){
+    	// Since we want the number of particles in the zone to remain
+    	// constant, we always need to create one to replace the one
+    	// that is leaving.
+    	createParticle(particleType, channel.getCaptureZone());
+    	CaptureZoneScanResult czsr = scanCaptureZoneForParticles(channel.getCaptureZone(), particleType);
+    	assert czsr.getClosestParticle() != null;
+    	czsr.getClosestParticle().setMotionStrategy(new LinearMotionStrategy(new Vector2D.Double(1, 1)));
     }
     
     private void handleClockTicked(ClockEvent clockEvent){
