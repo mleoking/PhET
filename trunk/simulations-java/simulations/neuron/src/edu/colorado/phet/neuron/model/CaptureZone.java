@@ -18,4 +18,14 @@ public abstract class CaptureZone {
 	public abstract void setRotationalAngle(double angle);
 	public abstract void setOriginPoint(Point2D centerPoint);
 	public abstract Point2D getOriginPoint();
+	
+	/**
+	 * Suggest a location for placing a new or relocated particle into this
+	 * capture zone.
+	 * 
+	 * @return
+	 */
+	public Point2D getSuggestNewParticleLocation(){
+		return new Point2D.Double();
+	}
 }
