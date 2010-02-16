@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.view.MaxCharsLabel;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -30,6 +31,10 @@ public abstract class MembraneChannel {
     // Instance Data
     //----------------------------------------------------------------------------
 	
+	// Reference to the model that contains that particles that will be moving
+	// through this channel.
+	private IParticleCapture modelContainingParticles;
+	
 	/**
 	 * List of the atoms "owned" (meaning that their motion is controlled by)
 	 * this channel.
@@ -51,13 +56,22 @@ public abstract class MembraneChannel {
 	// Capture zone, which is where particles can be captured by this channel.
 	private CaptureZone captureZone = new NullCaptureZone();
 	
+	// Time values that control how often this channel requests an ion to move
+	// through it.  These are initialized here to values that will cause the
+	// channel to never request any ions and must be set by the base classes
+	// in order to make capture events occur.
+	private double captureCountdownTimer = Double.POSITIVE_INFINITY;
+	private double minInterCaptureTime = Double.POSITIVE_INFINITY;
+	private double maxInterCaptureTime = Double.POSITIVE_INFINITY;
+	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-	
-	public MembraneChannel(double channelWidth, double channelHeight){
+
+	public MembraneChannel(double channelWidth, double channelHeight, IParticleCapture modelContainingParticles){
 		channelSize.setSize(channelWidth, channelHeight);
 		overallSize.setSize(channelWidth * 2.4, channelHeight * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
+		this.modelContainingParticles = modelContainingParticles; 
 	}
 	
     //----------------------------------------------------------------------------
@@ -93,12 +107,56 @@ public abstract class MembraneChannel {
 	 */
 	abstract public ArrayList<Particle> checkReleaseControlParticles(final ArrayList<Particle> freeAtoms);
 	
+	abstract protected ParticleType getParticleTypeToCapture();
+	
+	/**
+	 * Returns a boolean value that says whether or not the channel should be
+	 * considered open.
+	 * 
+	 * @return
+	 */
+	protected boolean isOpen(){
+		// The threshold value used here is arbitrary, and can be changed if
+		// necessary.
+		return (getOpenness() > 0.75);
+	}
 	/**
 	 * Implements the time-dependent behavior of the gate.
 	 * 
 	 * @param dt - Amount of time step, in milliseconds.
 	 */
-	abstract public void stepInTime(double dt);
+	public void stepInTime(double dt){
+		if (captureCountdownTimer != Double.POSITIVE_INFINITY){
+			if (isOpen()){
+				captureCountdownTimer -= dt;
+				if (captureCountdownTimer <= 0){
+					modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this);
+					restartCaptureCountdownTimer();
+				}
+			}
+			else{
+				// If the channel is closed the countdown timer shouldn't be
+				// running, so this code is generally hit when the membrane
+				// just became closed.  Turn off the countdown timer by
+				// setting it to infinity.
+				captureCountdownTimer = Double.POSITIVE_INFINITY;
+			}
+		}
+	}
+	
+	/**
+	 * Start or restart the countdown timer which is used to time the event
+	 * where a particle is captured for movement across the membrane.
+	 */
+	protected void restartCaptureCountdownTimer(){
+		if (minInterCaptureTime != Double.POSITIVE_INFINITY && maxInterCaptureTime != Double.POSITIVE_INFINITY){
+			assert maxInterCaptureTime > minInterCaptureTime;
+			captureCountdownTimer = minInterCaptureTime + RAND.nextDouble() * (maxInterCaptureTime - minInterCaptureTime);
+		}
+		else{
+			captureCountdownTimer = Double.POSITIVE_INFINITY;
+		}
+	}
 	
 	/**
 	 * Get the identifier for this channel type.
@@ -237,5 +295,21 @@ public abstract class MembraneChannel {
 	public static class Adapter implements Listener {
 		public void opennessChanged() {}
 		public void removed() {}
+	}
+	
+	protected double getMaxInterCaptureTime() {
+		return maxInterCaptureTime;
+	}
+
+	protected void setMaxInterCaptureTime(double maxInterCaptureTime) {
+		this.maxInterCaptureTime = maxInterCaptureTime;
+	}
+
+	protected double getMinInterCaptureTime() {
+		return minInterCaptureTime;
+	}
+
+	protected void setMinInterCaptureTime(double minInterCaptureTime) {
+		this.minInterCaptureTime = minInterCaptureTime;
 	}
 }

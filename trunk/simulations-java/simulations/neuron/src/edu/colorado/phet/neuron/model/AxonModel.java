@@ -26,7 +26,7 @@ import edu.colorado.phet.neuron.NeuronConstants;
  *
  * @author John Blanco
  */
-public class AxonModel {
+public class AxonModel implements IParticleCapture {
     
     //----------------------------------------------------------------------------
     // Class Data
@@ -625,19 +625,19 @@ public class AxonModel {
     	
     	switch (channelType){
     	case SODIUM_LEAKAGE_CHANNEL:
-    		membraneChannel = new SodiumLeakageChannel();
+    		membraneChannel = new SodiumLeakageChannel(this);
     		break;
     		
     	case SODIUM_GATED_CHANNEL:
-    		membraneChannel = new SodiumGatedChannel(hodgkinHuxleyModel);
+    		membraneChannel = new SodiumGatedChannel(hodgkinHuxleyModel, this);
     		break;
     		
     	case POTASSIUM_LEAKAGE_CHANNEL:
-    		membraneChannel = new PotassiumLeakageChannel();
+    		membraneChannel = new PotassiumLeakageChannel(this);
     		break;
     		
 		case POTASSIUM_GATED_CHANNEL:
-			membraneChannel = new PotassiumGatedChannel(hodgkinHuxleyModel);
+			membraneChannel = new PotassiumGatedChannel(hodgkinHuxleyModel, this);
 			break;
     	}
     	

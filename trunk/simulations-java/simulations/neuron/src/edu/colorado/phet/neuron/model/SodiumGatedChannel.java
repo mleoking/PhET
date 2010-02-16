@@ -30,8 +30,8 @@ public class SodiumGatedChannel extends GatedChannel {
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-	public SodiumGatedChannel(HodgkinHuxleyModel hodgkinHuxleyModel) {
-		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, ParticleType.SODIUM_ION);
+	public SodiumGatedChannel(HodgkinHuxleyModel hodgkinHuxleyModel, IParticleCapture modelContainingParticles) {
+		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 		this.hodgkinHodgkinHuxleyModel = hodgkinHuxleyModel;
 		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, 0, Math.PI * 0.8));
 	}
@@ -71,5 +71,10 @@ public class SodiumGatedChannel extends GatedChannel {
 			System.out.println("Current = " + hodgkinHodgkinHuxleyModel.get_na_current() + ", openness = " + openness);
 			setOpenness(openness);
 		}
+	}
+
+	@Override
+	protected ParticleType getParticleTypeToCapture() {
+		return ParticleType.SODIUM_ION;
 	}
 }

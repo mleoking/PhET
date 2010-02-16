@@ -23,8 +23,8 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-	public SodiumLeakageChannel() {
-		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, ParticleType.SODIUM_ION);
+	public SodiumLeakageChannel(IParticleCapture modelContainingParticles) {
+		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 	}
 
     //----------------------------------------------------------------------------
@@ -44,5 +44,10 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	@Override
 	public MembraneChannelTypes getChannelType() {
 		return MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
+	}
+	
+	@Override
+	protected ParticleType getParticleTypeToCapture() {
+		return ParticleType.SODIUM_ION;
 	}
 }
