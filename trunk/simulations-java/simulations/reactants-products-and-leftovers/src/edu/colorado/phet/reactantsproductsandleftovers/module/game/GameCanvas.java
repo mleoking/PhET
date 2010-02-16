@@ -263,7 +263,6 @@ public class GameCanvas extends RPALCanvas {
     }
     
     private void handleGameCompleted() {
-        showGuess( false );
         visibilityManager.setVisibility( GAME_SUMMARY_STATE );
         if ( model.getPoints() == GameModel.getPerfectScore() ) {
             audioPlayer.gameOverPerfectScore( model.getLevel() );
