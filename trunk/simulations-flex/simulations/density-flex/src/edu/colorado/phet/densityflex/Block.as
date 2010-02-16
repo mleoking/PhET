@@ -54,6 +54,7 @@ public class Block {
         shapeDef.restitution = 0;
         body.CreateShape(shapeDef);
         body.SetMassFromShapes();
+        body.SetUserData(this);
     }
 
     public function addListener( listener:Listener ):void {

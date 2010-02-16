@@ -25,6 +25,8 @@ public class DensityModel {
 
     private var world : b2World;
 
+    private var contactHandler : ContactHandler;
+
     public function DensityModel() {
         blocks = new Array();
 
@@ -35,7 +37,11 @@ public class DensityModel {
         blocks.push(new Block(0.1, 1, 1.5, 0, new ColorTransform(0, 1, 0), this));
         blocks.push(new Block(0.3, 3, -1.5, 0, new ColorTransform(0, 0, 1), this));
         blocks.push(new Block(0.5, 2, -4.5, 0, new ColorTransform(1, 1, 1), this));
-        blocks.push(new Block(0.8, 2, 4.5, 3.0, new ColorTransform(0.5, 0.5, 0), this));
+        var scaleBlock : Block = new Block(0.8, 2, 4.5, 3.0, new ColorTransform(0.5, 0.5, 0), this);
+        blocks.push(scaleBlock);
+
+        contactHandler.addScaleBody(scaleBlock.getBody());
+
     }
 
     private function createGround():void {
@@ -62,6 +68,9 @@ public class DensityModel {
         var gravity : b2Vec2 = new b2Vec2(0, 0);
         var doSleep : Boolean = false;
         world = new b2World(worldBox, gravity, doSleep);
+
+        contactHandler = new ContactHandler();
+        world.SetContactListener(contactHandler);
     }
 
     public function getBlocks() : Array {
@@ -69,6 +78,7 @@ public class DensityModel {
     }
 
     public function step() : void {
+        DebugText.clear();
         for ( var i : Number = 0; i < STEPS_PER_FRAME; i++ ) {
             world.Step(1 / (30 * STEPS_PER_FRAME), 10);
             var block : Block;
