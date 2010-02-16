@@ -32,8 +32,8 @@ public class PotassiumGatedChannel extends GatedChannel {
     // Constructor
     //----------------------------------------------------------------------------
 	
-	public PotassiumGatedChannel(HodgkinHuxleyModel hodgekinHuxleyModel) {
-		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, ParticleType.SODIUM_ION);
+	public PotassiumGatedChannel(HodgkinHuxleyModel hodgekinHuxleyModel, IParticleCapture modelContainingParticles) {
+		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 		this.hodgekinHodgkinHuxleyModel = hodgekinHuxleyModel;
 		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, 0, Math.PI * 0.7));
 	}
@@ -73,5 +73,10 @@ public class PotassiumGatedChannel extends GatedChannel {
 			System.out.println("Current = " + hodgekinHodgkinHuxleyModel.get_k_current() + ", openness = " + openness);
 			setOpenness(openness);
 		}
+	}
+	
+	@Override
+	protected ParticleType getParticleTypeToCapture() {
+		return ParticleType.POTASSIUM_ION;
 	}
 }

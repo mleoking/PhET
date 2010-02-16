@@ -23,8 +23,8 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-	public PotassiumLeakageChannel() {
-		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, ParticleType.POTASSIUM_ION);
+	public PotassiumLeakageChannel(IParticleCapture modelContainingParticles) {
+		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 	}
 
 	@Override
@@ -40,5 +40,10 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 	@Override
 	public MembraneChannelTypes getChannelType() {
 		return MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
+	}
+	
+	@Override
+	protected ParticleType getParticleTypeToCapture() {
+		return ParticleType.POTASSIUM_ION;
 	}
 }

@@ -34,16 +34,14 @@ public abstract class GatedChannel extends MembraneChannel {
 	
 	private MembraneChannelFlowDirection flowDirection = MembraneChannelFlowDirection.NONE;
 	private int atomMotionUpdateCounter = 0;
-	private final ParticleType allowedAtom; // Atom that can move through this channel.
 	private ArrayList<AtomCountdownPair> recentlyReleaseAtoms = new ArrayList<AtomCountdownPair>();
 	
 	//----------------------------------------------------------------------------
 	// Constructor
 	//----------------------------------------------------------------------------
 
-	public GatedChannel(double channelWidth, double channelHeight, ParticleType allowedAtom) {
-		super(channelWidth, channelHeight);
-		this.allowedAtom = allowedAtom;
+	public GatedChannel(double channelWidth, double channelHeight, IParticleCapture modelContainingParticles) {
+		super(channelWidth, channelHeight, modelContainingParticles);
 		setOpenness(0);  // Gated channels are assumed to be initially closed.
 	}
 	
