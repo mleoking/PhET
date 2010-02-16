@@ -23,6 +23,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Base class for all "Before Reaction" displays.
+ * Includes a box for displaying a reactant's reactant molecule images, 
+ * and a set of controls for the reaction's reactant quantities.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -41,7 +43,7 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
 
     private final TitledBoxNode titledBoxNode;
     private final ArrayList<ArrayList<SubstanceImageNode>> imageNodeLists; // one list of images per reactant
-    private final ArrayList<QuantityValueNode> quantityValueNodes; // quantity controls for reactants
+    private final ArrayList<QuantityValueNode> reactantValueNodes; // quantity controls for reactants
     private final ImageLayoutNode imageLayoutNode;
     
     public AbstractBeforeNode( String title, PDimension boxSize, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames, ImageLayoutNode imageLayoutNode ) {
@@ -50,7 +52,7 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
         this.reaction = reaction;
         reactionChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                update();
+                updateImages();
             }
         };
         reaction.addChangeListener( reactionChangeListener );
@@ -58,7 +60,7 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
         this.imageLayoutNode = imageLayoutNode;
         
         imageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
-        quantityValueNodes = new ArrayList<QuantityValueNode>();
+        reactantValueNodes = new ArrayList<QuantityValueNode>();
         
         // titled box
         titledBoxNode = new TitledBoxNode( title, boxSize );
@@ -76,7 +78,7 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
             QuantityValueNode quantityNode = new QuantityValueNode( reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             quantityNode.setEditable( true );
             addChild( quantityNode );
-            quantityValueNodes.add( quantityNode );
+            reactantValueNodes.add( quantityNode );
         }
         
         // layout, origin at upper-left corner of box
@@ -89,24 +91,24 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
         x = titledBoxNode.getBoxNode().getFullBoundsReference().getMinX() + margin + ( deltaX / 2 );
         y = titledBoxNode.getBoxNode().getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
         for ( int i = 0; i < reactants.length; i++ ) {
-            quantityValueNodes.get( i ).setOffset( x, y );
+            reactantValueNodes.get( i ).setOffset( x, y );
             x += deltaX;
         }
         
         // reactants bracket, after doing layout of leftover quantity displays
-        double startX = quantityValueNodes.get( 0 ).getFullBoundsReference().getMinX();
-        double endX = quantityValueNodes.get( quantityValueNodes.size() - 1 ).getFullBoundsReference().getMaxX();
+        double startX = reactantValueNodes.get( 0 ).getFullBoundsReference().getMinX();
+        double endX = reactantValueNodes.get( reactantValueNodes.size() - 1 ).getFullBoundsReference().getMaxX();
         double width = endX - startX;
         PNode reactantsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_REACTANTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
         addChild( reactantsLabelNode );
         x = startX;
         y = 0;
-        for ( QuantityValueNode node : quantityValueNodes ) {
+        for ( QuantityValueNode node : reactantValueNodes ) {
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
         }
         reactantsLabelNode.setOffset( x, y );
         
-        update();
+        updateImages();
     }
     
     /**
@@ -115,7 +117,7 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
     public void cleanup() {
         reaction.removeChangeListener( reactionChangeListener );
         // controls that are listening to reactants
-        for ( QuantityValueNode node : quantityValueNodes ) {
+        for ( QuantityValueNode node : reactantValueNodes ) {
             node.cleanup();
         }
         // images that are listening to reactants
@@ -127,9 +129,25 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
     }
     
     /*
-     * For each reactant, update quantity control and number of images to match the quantity.
+     * Sets the visibility of reaction molecule images.
+     * Intended for use by subclasses that may want to display other things in the box.
      */
-    private void update() {
+    protected void setImagesVisible( boolean visible ) {
+        imageLayoutNode.setVisible( visible );
+    }
+    
+    /*
+     * Gets a list of the reactant value nodes.
+     * Intended for use by subclasses that need to fiddle with these.
+     */
+    protected ArrayList<QuantityValueNode> getReactantValueNodes() {
+        return reactantValueNodes;
+    }
+    
+    /*
+     * For each reactant, update number of images to match the quantity.
+     */
+    private void updateImages() {
      
         // remove all images first, so that there's room in the layout...
         Reactant[] reactants = reaction.getReactants();
@@ -156,7 +174,7 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
                 SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                 imageNodes.add( imageNode );
-                imageLayoutNode.addNode( imageNode, previousNode, quantityValueNodes.get( i ) );
+                imageLayoutNode.addNode( imageNode, previousNode, reactantValueNodes.get( i ) );
                 previousNode = imageNode;
             }
         }

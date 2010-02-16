@@ -27,6 +27,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Base class for all "After Reaction" displays.
+ * Includes a box for displaying a reactant's product and leftover molecule images, 
+ * and a set of controls for the reaction's product and leftover quantities.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -46,7 +48,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
 
     private final TitledBoxNode titledBoxNode;
     private final ArrayList<ArrayList<SubstanceImageNode>> productImageNodeLists, leftoverImageNodeLists; // one list of images per product and leftover
-    private final ArrayList<QuantityValueNode> quantityValueNodes; // quantity displays for products
+    private final ArrayList<QuantityValueNode> productValueNodes; // quantity displays for products
     private final ArrayList<LeftoversValueNode> leftoverValueNodes; // leftover displays for reactants
     private final ImageLayoutNode imageLayoutNode;
     private final PNode productsLabelNode, leftoversLabelNode;
@@ -66,7 +68,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
         
         productImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
         leftoverImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
-        quantityValueNodes = new ArrayList<QuantityValueNode>();
+        productValueNodes = new ArrayList<QuantityValueNode>();
         leftoverValueNodes = new ArrayList<LeftoversValueNode>();
         
         // titled box
@@ -84,7 +86,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
             // one quantity display for each product
             QuantityValueNode quantityNode = new QuantityValueNode( product, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             addChild( quantityNode );
-            quantityValueNodes.add( quantityNode );
+            productValueNodes.add( quantityNode );
         }
         
         // leftovers images and quantity displays
@@ -109,7 +111,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
         x = titledBoxNode.getBoxNode().getFullBoundsReference().getMinX() + ( deltaX / 2 );
         y = titledBoxNode.getBoxNode().getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
         for ( int i = 0; i < products.length; i++ ) {
-            quantityValueNodes.get( i ).setOffset( x, y );
+            productValueNodes.get( i ).setOffset( x, y );
             x += deltaX;
         }
         // leftover quantity displays, horizontally centered in "cells"
@@ -119,14 +121,14 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
         }
         
         // products bracket, after doing layout of product quantity displays
-        double startX = quantityValueNodes.get( 0 ).getFullBoundsReference().getMinX();
-        double endX = quantityValueNodes.get( quantityValueNodes.size() - 1 ).getFullBoundsReference().getMaxX();
+        double startX = productValueNodes.get( 0 ).getFullBoundsReference().getMinX();
+        double endX = productValueNodes.get( productValueNodes.size() - 1 ).getFullBoundsReference().getMaxX();
         double width = Math.max( BRACKET_MIN_WIDTH, endX - startX );
         productsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_PRODUCTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
         addChild( productsLabelNode );
         x = startX + ( ( endX - startX - width ) / 2 ); 
         y = 0;
-        for ( QuantityValueNode node : quantityValueNodes ) {
+        for ( QuantityValueNode node : productValueNodes ) {
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
         }
         productsLabelNode.setOffset( x, y );
@@ -152,7 +154,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
         update();
         
         // do this after productLabelNode has been initialized
-        for ( QuantityValueNode displayNode : quantityValueNodes ) {
+        for ( QuantityValueNode displayNode : productValueNodes ) {
             displayNode.addPropertyChangeListener( new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     if ( evt.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
@@ -169,7 +171,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
     public void cleanup() {
         reaction.removeChangeListener( reactionChangeListener );
         // displays that are listening to products
-        for ( QuantityValueNode node : quantityValueNodes ) {
+        for ( QuantityValueNode node : productValueNodes ) {
             node.cleanup();
         }
         // displays that are listening to reactants
@@ -189,7 +191,31 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
             }
         }
     }
+    
+    /*
+     * Sets the visibility of reaction molecule images.
+     * Intended for use by subclasses that may want to display other things in the box.
+     */
+    protected void setImagesVisible( boolean visible ) {
+        imageLayoutNode.setVisible( visible );
+    }
 
+    /*
+     * Gets a list of the product value nodes.
+     * Intended for use by subclasses that need to fiddle with these.
+     */
+    protected ArrayList<QuantityValueNode> getProductValueNodes() {
+        return productValueNodes;
+    }
+    
+    /*
+     * Gets a list of the leftover value nodes.
+     * Intended for use by subclasses that need to fiddle with these.
+     */
+    protected ArrayList<LeftoversValueNode> getLeftoverValueNodes() {
+        return leftoverValueNodes;
+    }
+    
     /*
      * For each product, update quantity display and number of images to match the quantity.
      * For each reactant, update quantity display and number of images to match the leftovers.
@@ -198,7 +224,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
     private void update() {
 
         // products are invisible if we don't have a legitimate reaction
-        for ( QuantityValueNode node : quantityValueNodes ) {
+        for ( QuantityValueNode node : productValueNodes ) {
             node.setVisible( reaction.isReaction() );
         }
 
@@ -248,7 +274,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
                 SubstanceImageNode imageNode = new SubstanceImageNode( product );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                 imageNodes.add( imageNode );
-                imageLayoutNode.addNode( imageNode, lastNodeAdded, quantityValueNodes.get( i ) );
+                imageLayoutNode.addNode( imageNode, lastNodeAdded, productValueNodes.get( i ) );
             }
         }
 
@@ -277,7 +303,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
     private void updateProductsLabelOffset() {
         double x = productsLabelNode.getXOffset();
         double y = 0;
-        for ( QuantityValueNode node : quantityValueNodes ) {
+        for ( QuantityValueNode node : productValueNodes ) {
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
             y = Math.max( y, leftoversLabelNode.getYOffset() ); // never higher than the leftovers label
         }

@@ -2,13 +2,8 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Stroke;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNode;
@@ -20,86 +15,31 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameListener;
-import edu.colorado.phet.reactantsproductsandleftovers.view.*;
+import edu.colorado.phet.reactantsproductsandleftovers.view.AbstractBeforeNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.GridLayoutNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
-public class GameBeforeNode extends PhetPNode implements IDynamicNode {
-    
-    private static final String TITLE = RPALStrings.LABEL_BEFORE_REACTION;
-
-    private static final double CONTROLS_Y_SPACING = 15;
-    
-    private static final double BRACKET_Y_SPACING = 3;
-    private static final PhetFont BRACKET_FONT = new PhetFont( 16 );
-    private static final Color BRACKET_TEXT_COLOR = Color.BLACK;
-    private static final Color BRACKET_COLOR = RPALConstants.BEFORE_AFTER_BOX_COLOR;
-    private static final Stroke BRACKET_STROKE = new BasicStroke( 0.75f );
+/**
+ * "Before Reaction" box and controls for the Game, adds the ability to switch 
+ * between viewing the actual reaction and the user's guess.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class GameBeforeNode extends AbstractBeforeNode {
     
     private final GameModel model;
     private final GameListener gameListener;
-    private final ImageLayoutNode answerImagesNode, guessImagesNode;
-    private final ArrayList<QuantityValueNode> reactantValueNodes;
-    private final ArrayList<ArrayList<SubstanceImageNode>> reactantImageNodeLists; // one list of images per reactant
-    private final MoleculesHiddenNode moleculesHiddenNode;
+    private final ImageLayoutNode guessImagesNode; // parent node for "guess" images, handles layout of the images
+    private final ArrayList<ArrayList<SubstanceImageNode>> reactantImageNodeLists; // one list of "guess" images per reactant
+    private final MoleculesHiddenNode moleculesHiddenNode; // a message indicating that the molecule images are hidden
     
     public GameBeforeNode( GameModel model, PDimension boxSize ) {
+        super( RPALStrings.LABEL_BEFORE_REACTION, boxSize, model.getChallenge().getReaction(), GameModel.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutNode( boxSize ) );
         
-        GameChallenge challenge = model.getChallenge();
-        ChemicalReaction reaction = challenge.getReaction();
-        
-        // titled box
-        TitledBoxNode titledBoxNode = new TitledBoxNode( TITLE, boxSize );
-        addChild( titledBoxNode );
-        
-        // image node lists
-        reactantImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
-        
-        // reactant images and value displays
-        reactantValueNodes = new ArrayList<QuantityValueNode>();
-        Reactant[] reactants = reaction.getReactants();
-        for ( Reactant reactant : reactants ) {
-            
-            // one list of image nodes for each reactant 
-            reactantImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
-            
-            // one value display for each reactant
-            QuantityValueNode quantityNode = new QuantityValueNode( reactant, GameModel.getQuantityRange(), RPALConstants.HISTOGRAM_IMAGE_SCALE, true /* showName */ );
-            quantityNode.setEditable( false );
-            addChild( quantityNode );
-            reactantValueNodes.add( quantityNode );
-        }
-        
-        // layout, origin at upper-left corner of box
-        double x = 0;
-        double y = 0;
-        titledBoxNode.setOffset( x, y );
-        // reactant quantity controls, horizontally centered in "cells"
-        double margin = ( reactants.length > 2 ) ? 0 : ( 0.15 * boxSize.getWidth() ); // make 2 reactants case look nice
-        final double deltaX = ( boxSize.getWidth() - ( 2 * margin ) ) / ( reactants.length );
-        x = titledBoxNode.getBoxNode().getFullBoundsReference().getMinX() + margin + ( deltaX / 2 );
-        y = titledBoxNode.getBoxNode().getFullBoundsReference().getMaxY() + CONTROLS_Y_SPACING;
-        for ( int i = 0; i < reactants.length; i++ ) {
-            reactantValueNodes.get( i ).setOffset( x, y );
-            x += deltaX;
-        }
-        
-        // reactants bracket, after doing layout of leftover quantity displays
-        double startX = reactantValueNodes.get( 0 ).getFullBoundsReference().getMinX();
-        double endX = reactantValueNodes.get( reactantValueNodes.size() - 1 ).getFullBoundsReference().getMaxX();
-        double width = endX - startX;
-        PNode reactantsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_REACTANTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
-        addChild( reactantsLabelNode );
-        x = startX;
-        y = 0;
-        for ( QuantityValueNode node : reactantValueNodes ) {
-            y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
-        }
-        reactantsLabelNode.setOffset( x, y );
-        
-        // sync with model
+        // listen for changes to the user's guess
         this.model = model;
         gameListener = new GameAdapter() {
             @Override 
@@ -109,10 +49,15 @@ public class GameBeforeNode extends PhetPNode implements IDynamicNode {
         };
         model.addGameListener( gameListener );
         
+        ChemicalReaction reaction = model.getChallenge().getReaction();
+        
+        // one list of image nodes for each reactant
+        reactantImageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
+        for ( int i = 0; i < reaction.getNumberOfReactants(); i++ ) {
+            reactantImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
+        }
+        
         // images
-        answerImagesNode = new GridLayoutNode( boxSize );
-        createAnswerImages();
-        addChild( answerImagesNode );
         guessImagesNode = new GridLayoutNode( boxSize );
         updateGuessImages();
         addChild( guessImagesNode );
@@ -120,11 +65,12 @@ public class GameBeforeNode extends PhetPNode implements IDynamicNode {
         // "images hidden" message node
         moleculesHiddenNode = new MoleculesHiddenNode();
         addChild( moleculesHiddenNode );
-        x = ( boxSize.getWidth() - moleculesHiddenNode.getFullBoundsReference().getWidth() ) / 2;
-        y = ( boxSize.getHeight() - moleculesHiddenNode.getFullBoundsReference().getHeight() ) / 2;
+        double x = ( boxSize.getWidth() - moleculesHiddenNode.getFullBoundsReference().getWidth() ) / 2;
+        double y = ( boxSize.getHeight() - moleculesHiddenNode.getFullBoundsReference().getHeight() ) / 2;
         moleculesHiddenNode.setOffset( x, y );
         
         // default state
+        GameChallenge challenge = model.getChallenge();
         if ( challenge.getChallengeType() == ChallengeType.BEFORE ) {
             showGuess( true /* editable */, challenge.isImagesVisible() );
         }
@@ -133,17 +79,24 @@ public class GameBeforeNode extends PhetPNode implements IDynamicNode {
         }
     }
     
+    @Override
     public void cleanup() {
+        super.cleanup();
         model.removeGameListener( gameListener );
     }
     
+    /**
+     * Shows the images and quantities corresponding to the actual reaction.
+     * @param showImages
+     */
     public void showAnswer( boolean showImages ) {
         
         ChemicalReaction reaction = model.getChallenge().getReaction();
+        ArrayList<QuantityValueNode> valueNodes = getReactantValueNodes();
         
         // reactants
-        for ( int i = 0; i < reactantValueNodes.size(); i++ ) {
-            QuantityValueNode valueNode = reactantValueNodes.get( i );
+        for ( int i = 0; i < valueNodes.size(); i++ ) {
+            QuantityValueNode valueNode = valueNodes.get( i );
             // attach to reactant of reaction
             valueNode.setSubstance( reaction.getReactant( i ) );
             // set to read-only
@@ -156,13 +109,20 @@ public class GameBeforeNode extends PhetPNode implements IDynamicNode {
         showImagesHiddenMessage( !showImages );
     }
     
+    /**
+     * Shows the images and quantities corresponding to the user's guess.
+     * The quantities are optionally editable.
+     * @param editable
+     * @param showImages
+     */
     public void showGuess( boolean editable, boolean showImages ) {
         
         GameGuess guess = model.getChallenge().getGuess();
+        ArrayList<QuantityValueNode> valueNodes = getReactantValueNodes();
         
         // reactants
-        for ( int i = 0; i < reactantValueNodes.size(); i++ ) {
-            QuantityValueNode valueNode = reactantValueNodes.get( i );
+        for ( int i = 0; i < valueNodes.size(); i++ ) {
+            QuantityValueNode valueNode = valueNodes.get( i );
             // attach to reactant of user's answer
             valueNode.setSubstance( guess.getReactant( i ) );
             // set editability
@@ -176,8 +136,7 @@ public class GameBeforeNode extends PhetPNode implements IDynamicNode {
     }
     
     public void showAnswerImages( boolean b ) {
-        answerImagesNode.setVisible( b );
-        moleculesHiddenNode.setVisible( !b );
+        setImagesVisible( b );
     }
     
     public void showGuessImages( boolean b ) {
@@ -189,30 +148,13 @@ public class GameBeforeNode extends PhetPNode implements IDynamicNode {
     }
     
     /*
-     * Sets images for the reactants of the correct answer.
-     */
-    private void createAnswerImages() {
-        ChemicalReaction reaction = model.getChallenge().getReaction();
-        Reactant[] reactants = reaction.getReactants();
-        PNode previousNode = null;
-        for ( int i = 0; i < reactants.length; i++ ) {
-            Reactant reactant = reactants[i];
-            for ( int j = 0; j < reactant.getQuantity(); j++ ) {
-                SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
-                imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
-                answerImagesNode.addNode( imageNode, previousNode, null );
-                previousNode = imageNode;
-            }
-        }
-    }
-
-    /*
      * Updates images for reactants to match the user's guess.
      * The last image added is the first to be removed. 
      */
     private void updateGuessImages() {
         
         GameGuess guess = model.getChallenge().getGuess();
+        ArrayList<QuantityValueNode> valueNodes = getReactantValueNodes();
 
         /*
          * Do all removal first, so that we free up space in the box.
@@ -247,7 +189,7 @@ public class GameBeforeNode extends PhetPNode implements IDynamicNode {
                 SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                 imageNodes.add( imageNode );
-                guessImagesNode.addNode( imageNode, lastNodeAdded, reactantValueNodes.get( i ) );
+                guessImagesNode.addNode( imageNode, lastNodeAdded, valueNodes.get( i ) );
                 lastNodeAdded = imageNode;
             }
         }
