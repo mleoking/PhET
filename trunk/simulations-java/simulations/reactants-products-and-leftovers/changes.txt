@@ -1,3 +1,4 @@
+2/16/10 restructure Before/After node hierarchy to remove duplicate/similar code added for game
 # 0.00.24 (38647) Feb 16, 2010
 2/11/10 reduce number of nodes in scoreboard, switch positions of Score and Level
 2/11/10 don't show Score: X/max in scoreboard, just show Score: X, then show "X out of max" in Game Summary
