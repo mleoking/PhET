@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * 
  * @author John Blanco
  */
-public abstract class AbstractGatedChannel extends MembraneChannel {
+public abstract class GatedChannel extends MembraneChannel {
 	
     //----------------------------------------------------------------------------
     // Class Data
@@ -41,7 +41,7 @@ public abstract class AbstractGatedChannel extends MembraneChannel {
 	// Constructor
 	//----------------------------------------------------------------------------
 
-	public AbstractGatedChannel(double channelWidth, double channelHeight, ParticleType allowedAtom) {
+	public GatedChannel(double channelWidth, double channelHeight, ParticleType allowedAtom) {
 		super(channelWidth, channelHeight);
 		this.allowedAtom = allowedAtom;
 		setOpenness(0);  // Gated channels are assumed to be initially closed.
