@@ -1,3 +1,4 @@
+# 0.00.25 (38665) Feb 16, 2010
 2/16/10 #2163, on second incorrect answer, show "Show Answer" button, but hide "Next" button
 2/16/10 bug fix: for last challenge, press "Show answer", then "Next", molecule images disappear when Game Summary is displayed
 2/16/10 restructure Before/After node hierarchy to remove duplicate/similar code added for game
