@@ -276,20 +276,7 @@ public class AxonModel {
     public void addParticles(ParticleType particleType, ParticlePosition position, int numberToAdd){
     	Particle newParticle = null;
     	for (int i = 0; i < numberToAdd; i++){
-    		switch (particleType){
-    		case POTASSIUM_ION:
-            	newParticle = new PotassiumIon();
-            	break;
-    		case SODIUM_ION:
-            	newParticle = new SodiumIon();
-            	break;
-    		case PROTEIN_ION:
-            	newParticle = new ProteinIon();
-            	break;
-    		default:
-    			System.err.println("Error - Unrecognized particle type.");
-    			assert false;
-    		}
+    		newParticle = Particle.createParticle(particleType);
     		
     		if (position == ParticlePosition.INSIDE_MEMBRANE){
     			positionParticleInsideMembrane(newParticle);
@@ -376,6 +363,24 @@ public class AxonModel {
     
     public Shape getTravelingActionPotentialShape(){
     	return new Rectangle2D.Double(0, 0, 10, 10);
+    }
+    
+    /**
+     * Create a particle of the specified type in the specified capture zone.
+     * In general, this method will be used when a particle is or may soon be
+     * needed to travel through a membrane channel.
+     *  
+     * @param particleType
+     * @param captureZone
+     * @return
+     */
+    public Particle createParticle(ParticleType particleType, CaptureZone captureZone){
+    	
+    	Particle newParticle = Particle.createParticle(particleType);
+    	Point2D location = captureZone.getSuggestNewParticleLocation();
+    	newParticle.setPosition(location);
+    	
+		return newParticle;
     }
     
     private void handleClockTicked(ClockEvent clockEvent){
