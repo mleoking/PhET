@@ -33,7 +33,7 @@ public abstract class Particle implements IMovable {
     private MotionStrategy motionStrategy = new StillnessMotionStrategy();
     
     // Availability for capture by a membrane channel.
-    private boolean availableForCapture;
+    private boolean availableForCapture = true;
     
     //------------------------------------------------------------------------
     // Constructors
@@ -56,6 +56,31 @@ public abstract class Particle implements IMovable {
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
+    
+    /**
+     * Static factory method for creating a particle of the specified type.
+     */
+    public static Particle createParticle(ParticleType particleType){
+    	
+    	Particle newParticle = null;
+    	
+		switch (particleType){
+		case POTASSIUM_ION:
+        	newParticle = new PotassiumIon();
+        	break;
+		case SODIUM_ION:
+        	newParticle = new SodiumIon();
+        	break;
+		case PROTEIN_ION:
+        	newParticle = new ProteinIon();
+        	break;
+		default:
+			System.err.println("Error: Unrecognized particle type.");
+			assert false;
+		}
+ 
+		return newParticle;
+    }
     
     public abstract ParticleType getType(); 
     
