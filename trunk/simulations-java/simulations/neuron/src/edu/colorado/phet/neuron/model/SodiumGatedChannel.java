@@ -13,7 +13,7 @@ import edu.colorado.phet.neuron.utils.MathUtils;
  * 
  * @author John Blanco
  */
-public class SodiumGatedChannel extends AbstractGatedChannel {
+public class SodiumGatedChannel extends GatedChannel {
 
     //----------------------------------------------------------------------------
     // Class Data

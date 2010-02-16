@@ -9,7 +9,7 @@ import java.awt.geom.GeneralPath;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.neuron.model.AbstractGatedChannel;
+import edu.colorado.phet.neuron.model.GatedChannel;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -135,7 +135,7 @@ public class MembraneChannelNode extends PNode{
 		
 		// If enabled, show/update the capture zone for this channel.
 		if (SHOW_CAPTURE_ZONE){
-			if (membraneChannelModel instanceof AbstractGatedChannel && membraneChannelModel.getOpenness() > 0.1 && captureZoneNode == null){
+			if (membraneChannelModel instanceof GatedChannel && membraneChannelModel.getOpenness() > 0.1 && captureZoneNode == null){
 				// Show the capture node.
 				captureZoneNode = new CaptureZoneNode(membraneChannelModel.getCaptureZone(), mvt);
 				// Set the offset to the inverse of this node's offset, since
@@ -143,7 +143,7 @@ public class MembraneChannelNode extends PNode{
 				captureZoneNode.setOffset(-getOffset().getX(), -getOffset().getY());
 				addChild(captureZoneNode);
 			}
-			if (membraneChannelModel instanceof AbstractGatedChannel && membraneChannelModel.getOpenness() < 0.1 && captureZoneNode != null){
+			if (membraneChannelModel instanceof GatedChannel && membraneChannelModel.getOpenness() < 0.1 && captureZoneNode != null){
 				// Get rid of the capture zone node.
 				removeChild(captureZoneNode);
 				captureZoneNode = null;
