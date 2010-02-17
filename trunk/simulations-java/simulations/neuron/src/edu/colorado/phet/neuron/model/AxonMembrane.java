@@ -3,14 +3,10 @@
 package edu.colorado.phet.neuron.model;
 
 import java.awt.Shape;
-import java.awt.geom.Arc2D;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.QuadCurve2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.ReversePathIterator;
