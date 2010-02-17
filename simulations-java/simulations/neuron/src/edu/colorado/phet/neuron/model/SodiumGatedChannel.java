@@ -24,8 +24,8 @@ public class SodiumGatedChannel extends GatedChannel {
 	
 	// Constants that control the rate at which this channel will transport
 	// ions through it when open.
-	private double MIN_INTER_CAPTURE_TIME = 0; // In seconds of sim time.
-	private double MAX_INTER_CAPTURE_TIME = 0.00008; // In seconds of sim time.
+	private double MIN_INTER_CAPTURE_TIME = 0.00005; // In seconds of sim time.
+	private double MAX_INTER_CAPTURE_TIME = 0.00020; // In seconds of sim time.
 	
     //----------------------------------------------------------------------------
     // Instance Data
