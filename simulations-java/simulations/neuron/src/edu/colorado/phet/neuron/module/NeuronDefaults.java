@@ -19,7 +19,7 @@ public class NeuronDefaults {
     // Clock
     public static final boolean CLOCK_RUNNING = true;
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
-    public static final double CLOCK_DT = (1 / (double)CLOCK_FRAME_RATE) / 100; // Sim time runs at 1/100th of real time.
+    public static final double CLOCK_DT = (1 / (double)CLOCK_FRAME_RATE) / 500; // Sim time runs at 1/500th of real time.
     public static final int CLOCK_TIME_COLUMNS = 10;
 
     // Model-view transform
