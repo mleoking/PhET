@@ -145,10 +145,10 @@ public class DensityView3D extends UIComponent {
         scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
 
         for each ( var ob:Cuboid in this.model.getCuboids() ) {
-            if ( ob instanceof Block ) {
+            if ( ob is Block ) {
                 scene.addChild(new BlockNode(ob as Block));
             }
-            else if ( ob instanceof Scale ) {
+            else if ( ob is Scale ) {
                 scene.addChild(new ScaleNode(ob as Scale));
             }
         }
