@@ -23,6 +23,11 @@ public class RPALImages {
     public static final BufferedImage CHEESE = getSandwichImage( "cheese.png" );
     public static final BufferedImage MEAT = getSandwichImage( "meat.png" );
     
+    // all sandwich images, used by game
+    public static final BufferedImage[] ALL_SANDWICHES = {
+        BREAD, MEAT, CHEESE
+    };
+    
     // molecule images
     public static final BufferedImage C = getMoleculeImage( "C.png" );
     public static final BufferedImage C2H2 = getMoleculeImage( "C2H2.png" );
@@ -58,6 +63,12 @@ public class RPALImages {
     public static final BufferedImage S = getMoleculeImage( "S.png" );
     public static final BufferedImage SO2 = getMoleculeImage( "SO2.png" );
     public static final BufferedImage SO3 = getMoleculeImage( "SO3.png" );
+    
+    // all molcule images, used in game
+    public static final BufferedImage[] ALL_MOLECULES = {
+        C, C2H2, C2H4, C2H5Cl, C2H5Cl, C2H5OH, C2H6, CH2O, CH3OH, CH4, CO, CO2, CS2, Cl2,
+        F2, H2, H2O, H2S, HCl, HF, N2, N2O, NH3, NO, NO2, O2, OF2, P4, PCl3, PCl5, PF3, PH3, S, SO2, SO3
+    };
     
     private static final BufferedImage getSandwichImage( String name ) {
         return RPALResources.getImage( "sandwich/" + name );
