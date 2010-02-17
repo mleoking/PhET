@@ -46,6 +46,8 @@ public class DensityView3D extends UIComponent {
     private var poolTop : Plane;
     private var poolFront : Plane;
 
+    private var running : Boolean = true;
+
     private var invalid : Boolean = true;
 
     private var marker : ObjectContainer3D;
@@ -226,6 +228,9 @@ public class DensityView3D extends UIComponent {
     private var time : int = 0;
 
     public function onEnterFrame( event:Event ):void {
+        if ( !running ) {
+            return;
+        }
         model.step();
         if ( moving && selectedObject is Pickable ) {
             var pickable : Pickable = (selectedObject as Pickable);
@@ -302,6 +307,14 @@ public class DensityView3D extends UIComponent {
 
     public function removeObject( ob:CuboidNode ):void {
         scene.removeChild(ob);
+    }
+
+    public function pause() : void {
+        running = false;
+    }
+
+    public function start() : void {
+        running = true;
     }
 }
 }
