@@ -42,7 +42,7 @@ public class NeuronCanvas extends PhetPCanvas {
     private static final Dimension INITIAL_INTERMEDIATE_DIMENSION = new Dimension( INITIAL_INTERMEDIATE_COORD_WIDTH,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
-    // Size of the potential chart.
+    // Size of the chart the depicts the membrane potential.
     private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.3);
     
@@ -96,6 +96,9 @@ public class NeuronCanvas extends PhetPCanvas {
         this.model.addListener(new AxonModel.Adapter() {
 			public void channelAdded(MembraneChannel channel) {
 				addChannelNode(channel);
+			}
+			public void particleAdded(Particle particle) {
+				addAtom(particle);
 			}
 			public void potentialChartVisibilityChanged(){
 				membranePotentialChart.setVisible(model.isPotentialChartVisible());
