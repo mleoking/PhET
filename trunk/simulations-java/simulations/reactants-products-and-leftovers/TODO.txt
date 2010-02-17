@@ -34,6 +34,7 @@ MEDIUM PRIORITY
 - investigate PSwing workaround that I had to add to GameSummaryNode
 
 LOW PRIORITY
+- remove game-reward-prototype.name from strings file
 - #2163, add "Back" feature to game
 - is there an issue with Game timer, it showed 46:03 during status meeting, which was not possible
 - developer controls for setting up specific Game challenges (expensive, do this if we need it for debugging)
