@@ -13,7 +13,6 @@ import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -424,7 +423,8 @@ public class AxonModel implements IParticleCapture {
     	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getCaptureZone(), particleType);
     	assert czsr.getClosestFreeParticle() != null;
     	czsr.getClosestFreeParticle().setAvailableForCapture(false);
-    	czsr.getClosestFreeParticle().setMotionStrategy(new LinearMotionStrategy(new Vector2D.Double(1000 * (RAND.nextDouble() - 0.5), 1000 * (RAND.nextDouble() - 0.5))));
+    	czsr.getClosestFreeParticle().setMotionStrategy(
+    			new MembraneChannelTraversalMotionStrategy(channel, 10000, czsr.getClosestFreeParticle().getPosition()));
     }
     
     private void stepInTime(double dt){
