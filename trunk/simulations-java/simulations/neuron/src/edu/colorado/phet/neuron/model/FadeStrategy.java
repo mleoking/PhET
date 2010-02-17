@@ -17,4 +17,14 @@ public abstract class FadeStrategy {
 	 * @param dt
 	 */
 	public abstract void updateOpaqueness(IFadable moveableModelElement, double dt);
+	
+	/**
+	 * Get an indication of whether or not the model element that is
+	 * associated with this strategy should continue to exist.  This is
+	 * generally used to figure out when to remove a model element that has
+	 * faded away.
+	 */
+	public boolean shouldContinueExisting(){
+		return true;
+	}
 }
