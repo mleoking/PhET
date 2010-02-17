@@ -11,8 +11,6 @@ import java.util.Hashtable;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -78,18 +76,18 @@ public class LeakChannelSlider extends LinearValueControl{
         final MembraneChannelTypes channelType;
         switch (atomType){
         case SODIUM_ION:
-        	leakChannel = new SodiumLeakageChannel();
+        	leakChannel = new SodiumLeakageChannel(axonModel);
         	channelType = MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
         	break;
         case POTASSIUM_ION:
-        	leakChannel = new PotassiumLeakageChannel();
+        	leakChannel = new PotassiumLeakageChannel(axonModel);
         	channelType = MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
         	break;
         	
         default:
         	System.err.println(getClass().getName() + " - Error: Unknown leak channel type.");
         	assert false;
-        	leakChannel = new SodiumLeakageChannel();  // Just in case.
+        	leakChannel = new SodiumLeakageChannel(axonModel);  // Just in case.
         	channelType = MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL; // Just in case.
         }
         leakChannel.setDimensions(OVERALL_SIZE_OF_LEAK_CHANNEL_ICON, CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON);
