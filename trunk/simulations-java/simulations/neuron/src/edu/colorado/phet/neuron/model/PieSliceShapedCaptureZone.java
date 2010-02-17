@@ -5,6 +5,7 @@ package edu.colorado.phet.neuron.model;
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 /**
  * A "capture zone" (which is a 2D space that defines where particles may be
@@ -13,6 +14,8 @@ import java.awt.geom.Point2D;
  * @author John Blanco
  */
 public class PieSliceShapedCaptureZone extends CaptureZone {
+	
+	private static final Random RAND = new Random();
 
 	private Arc2D zoneShape;
 	private Point2D originPoint;
@@ -77,10 +80,13 @@ public class PieSliceShapedCaptureZone extends CaptureZone {
 				Math.toDegrees(angleOfExtent), Arc2D.PIE);
 	}
 
-	public Point2D getSuggestNewParticleLocation() {
-		// TODO fill this in.
-		return new Point2D.Double(originPoint.getX(), originPoint.getY());
+	@Override
+	public Point2D getSuggestedNewParticleLocation() {
+		// Suggest a random point that is somewhere along the outer curved
+		// edge of the pie slice.
+		double placementAngle = rotationAngle + (RAND.nextDouble() - 0.5) * angleOfExtent;
+		double xPos = originPoint.getX() + radius * Math.cos(placementAngle);
+		double yPos = originPoint.getY() + radius * Math.sin(placementAngle);
+		return new Point2D.Double(xPos, yPos);
 	}
-	
-	
 }
