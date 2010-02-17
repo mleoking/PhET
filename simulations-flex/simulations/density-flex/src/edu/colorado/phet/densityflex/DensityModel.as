@@ -17,7 +17,7 @@ public class DensityModel {
     private static var BOUNDS : Number = 50;
     private var volume : Number = poolWidth * poolDepth * waterHeight;
 
-    public static var STEPS_PER_FRAME : Number = 6;
+    public static var STEPS_PER_FRAME : Number = 12;
 
     public static var DT_FRAME : Number = 1 / 30.0;
     public static var DT_STEP : Number = DT_FRAME / STEPS_PER_FRAME;
