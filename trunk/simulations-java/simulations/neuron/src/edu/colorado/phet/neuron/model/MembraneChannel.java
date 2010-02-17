@@ -49,8 +49,9 @@ public abstract class MembraneChannel {
 	// Variable that defines how open the channel is.
 	private double openness = 0;  // Valid range is 0 to 1, 0 means fully closed, 1 is fully open.
 	
-	// List of points for traversing the channel.
-	private ArrayList<Point2D> traversalPoints = new ArrayList<Point2D>();
+	// Location of inner and outer openings of the channel.
+	private Point2D outerOpeningLocation = new Point2D.Double();
+	private Point2D innerOpeningLocation = new Point2D.Double();
 	
 	// Array of listeners.
 	private ArrayList<Listener> listeners = new ArrayList<Listener>();
@@ -75,7 +76,7 @@ public abstract class MembraneChannel {
 		overallSize.setSize(channelWidth * 2.4, channelHeight * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
 		this.modelContainingParticles = modelContainingParticles;
 
-		updateTraversalPoints();
+		updateTraversalReferencePoints();
 	}
 	
     //----------------------------------------------------------------------------
@@ -212,13 +213,13 @@ public abstract class MembraneChannel {
 	public void setCenterLocation(Point2D newCenterLocation) {
 		centerLocation.setLocation(newCenterLocation);
 		captureZone.setOriginPoint(newCenterLocation);
-		updateTraversalPoints();
+		updateTraversalReferencePoints();
 	}
 
 	public void setRotationalAngle(double rotationalAngle){
 		this.rotationalAngle = rotationalAngle;
 		captureZone.setRotationalAngle(rotationalAngle);
-		updateTraversalPoints();
+		updateTraversalReferencePoints();
 	}
 	
 	public double getRotationalAngle(){
@@ -241,7 +242,7 @@ public abstract class MembraneChannel {
 	public void setDimensions( Dimension2D overallSize, Dimension2D channelSize ){
 		this.overallSize.setSize(overallSize);
 		this.channelSize.setSize(channelSize);
-		updateTraversalPoints();
+		updateTraversalReferencePoints();
 	}
 	
 	public double getOpenness() {
@@ -266,16 +267,29 @@ public abstract class MembraneChannel {
 	 * @return
 	 */
 	public ArrayList<Point2D> getTraversalPoints(Point2D startingLocation){
-		return new ArrayList<Point2D>(traversalPoints);
+		
+		ArrayList<Point2D> traversalPoints = new ArrayList<Point2D>();
+		if (startingLocation.distance(innerOpeningLocation) < startingLocation.distance(outerOpeningLocation)){
+			traversalPoints.add(innerOpeningLocation);
+			traversalPoints.add(outerOpeningLocation);
+		}
+		else{
+			traversalPoints.add(outerOpeningLocation);
+			traversalPoints.add(innerOpeningLocation);
+		}
+		return traversalPoints;
 	}
 	
 	/**
 	 * Default implementation, should be overridden in most base classes.
 	 */
-	protected void updateTraversalPoints(){
-		traversalPoints.clear();
+	private void updateTraversalReferencePoints(){
 		Point2D ctr = getCenterLocation();
-		traversalPoints.add(new Point2D.Double(getCenterLocation().getX(), getCenterLocation().getY()));
+		double r = getChannelSize().getHeight() / 2;
+		outerOpeningLocation = new Point2D.Double(ctr.getX() + Math.cos(rotationalAngle) * r,
+				ctr.getY() + Math.sin(rotationalAngle) * r);
+		innerOpeningLocation = new Point2D.Double(ctr.getX() - Math.cos(rotationalAngle) * r,
+				ctr.getY() - Math.sin(rotationalAngle) * r);
 	}
 
 	public Color getChannelColor(){
