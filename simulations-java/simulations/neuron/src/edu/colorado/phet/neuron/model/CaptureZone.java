@@ -25,7 +25,7 @@ public abstract class CaptureZone {
 	 * 
 	 * @return
 	 */
-	public Point2D getSuggestNewParticleLocation(){
+	public Point2D getSuggestedNewParticleLocation(){
 		return new Point2D.Double();
 	}
 }
