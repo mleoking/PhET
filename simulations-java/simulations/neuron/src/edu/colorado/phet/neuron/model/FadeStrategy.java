@@ -16,7 +16,7 @@ public abstract class FadeStrategy {
 	 * 
 	 * @param dt
 	 */
-	public abstract void updateOpaqueness(IFadable moveableModelElement, double dt);
+	public abstract void updateOpaqueness(IFadable fadableModelElement, double dt);
 	
 	/**
 	 * Get an indication of whether or not the model element that is
@@ -24,7 +24,7 @@ public abstract class FadeStrategy {
 	 * generally used to figure out when to remove a model element that has
 	 * faded away.
 	 */
-	public boolean shouldContinueExisting(){
+	public boolean shouldContinueExisting(IFadable fadableModelElement){
 		return true;
 	}
 }
