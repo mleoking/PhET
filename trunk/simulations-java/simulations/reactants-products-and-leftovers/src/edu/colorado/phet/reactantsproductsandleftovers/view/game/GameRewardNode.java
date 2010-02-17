@@ -308,6 +308,7 @@ public class GameRewardNode extends PhetPNode {
 
         final JCheckBox smileyFacesCheckBox = new JCheckBox( "show smiley faces" );
         smileyFacesCheckBox.setSelected( rewardNode.isSmileyFacesVisible() );
+        smileyFacesCheckBox.setToolTipText( "determines whether smiley faces will be shown" );
         smileyFacesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rewardNode.setSmileyFacesVisible( smileyFacesCheckBox.isSelected() );
@@ -316,6 +317,7 @@ public class GameRewardNode extends PhetPNode {
 
         final JCheckBox sandwichesCheckBox = new JCheckBox( "show sandwiches" );
         sandwichesCheckBox.setSelected( rewardNode.isSandwichesVisible() );
+        sandwichesCheckBox.setToolTipText( "determines whether sandwiches will be shown" );
         sandwichesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rewardNode.setSandwichesVisible( sandwichesCheckBox.isSelected() );
