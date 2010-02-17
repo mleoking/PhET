@@ -32,16 +32,17 @@ public class DensityModel {
 
         initWorld();
         createGround();
+    }
 
+    public function initializeTab1():void {
         blocks.push(new Block(5, 2, 4.5, 0, new ColorTransform(1, 0, 0), this));
         blocks.push(new Block(0.1, 1, 1.5, 0, new ColorTransform(0, 1, 0), this));
         blocks.push(new Block(0.3, 3, -1.5, 0, new ColorTransform(0, 0, 1), this));
         blocks.push(new Block(0.5, 2, -4.5, 0, new ColorTransform(1, 1, 1), this));
-        var scaleBlock : Block = new Block(0.8, 2, 4.5, 3.0, new ColorTransform(0.5, 0.5, 0), this);
+
+        var scaleBlock : Block = new Block(0.8, 2, -9.0, 3.0, new ColorTransform(0.5, 0.5, 0), this);
         blocks.push(scaleBlock);
-
         contactHandler.addScaleBody(scaleBlock.getBody());
-
     }
 
     private function createGround():void {
