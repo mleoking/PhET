@@ -35,13 +35,30 @@ public class DensityModel {
         createGround();
     }
 
-    public function initializeTab1():void {
-        cuboids.push(new Block(5, 2, 4.5, 0, new ColorTransform(1, 0, 0), this));
-        cuboids.push(new Block(0.1, 1, 1.5, 0, new ColorTransform(0, 1, 0), this));
-        cuboids.push(new Block(0.3, 3, -1.5, 0, new ColorTransform(0, 0, 1), this));
-        cuboids.push(new Block(0.5, 2, -4.5, 0, new ColorTransform(1, 1, 1), this));
+    public function initializeTab1SameMass():void {
+        cuboids.push(Block.newBlockSizeMass(3, 4.0, -4.5, 0, new ColorTransform(0.5, 0.5, 0), this));
+        cuboids.push(Block.newBlockSizeMass(2, 4.0, -1.5, 0, new ColorTransform(0, 0, 1), this));
+        cuboids.push(Block.newBlockSizeMass(1.5, 4.0, 1.5, 0, new ColorTransform(0, 1, 0), this));
+        cuboids.push(Block.newBlockSizeMass(1, 4.0, 4.5, 0, new ColorTransform(1, 0, 0), this));
         cuboids.push(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, this));
         cuboids.push(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - poolHeight, this));
+    }
+
+    public function initializeTab1SameVolume():void {
+        cuboids.push(Block.newBlockDensitySize(0.5, 2, -4.5, 0, new ColorTransform(0.5, 0.5, 0), this));
+        cuboids.push(Block.newBlockDensitySize(1, 2, -1.5, 0, new ColorTransform(0, 0, 1), this));
+        cuboids.push(Block.newBlockDensitySize(2, 2, 1.5, 0, new ColorTransform(0, 1, 0), this));
+        cuboids.push(Block.newBlockDensitySize(4, 2, 4.5, 0, new ColorTransform(1, 0, 0), this));
+        cuboids.push(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, this));
+        cuboids.push(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - poolHeight, this));
+    }
+
+    public function clearCuboids() : void {
+        for each( var cuboid : Cuboid in cuboids ) {
+            world.DestroyBody(cuboid.getBody());
+            cuboid.remove();
+        }
+        cuboids = new Array();
     }
 
     private function createGround():void {
