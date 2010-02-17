@@ -20,7 +20,7 @@ public interface IFadable {
 	void setOpaqueness(double opaqueness);
 	
 	/**
-	 * Set the opaqueness value.
+	 * Get the opaqueness value.
 	 *  
 	 * @param newPosition
 	 */
