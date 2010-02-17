@@ -45,8 +45,8 @@ public class DensityModel {
     }
 
     public function initializeTab1SameVolume():void {
-        cuboids.push(Block.newBlockDensitySize(0.5, 2, -4.5, 0, new ColorTransform(0.5, 0.5, 0), this));
-        cuboids.push(Block.newBlockDensitySize(1, 2, -1.5, 0, new ColorTransform(0, 0, 1), this));
+        cuboids.push(Block.newBlockDensitySize(1.0 / 8.0, 2, -4.5, 0, new ColorTransform(0.5, 0.5, 0), this));
+        cuboids.push(Block.newBlockDensitySize(0.5, 2, -1.5, 0, new ColorTransform(0, 0, 1), this));
         cuboids.push(Block.newBlockDensitySize(2, 2, 1.5, 0, new ColorTransform(0, 1, 0), this));
         cuboids.push(Block.newBlockDensitySize(4, 2, 4.5, 0, new ColorTransform(1, 0, 0), this));
         cuboids.push(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, this));
