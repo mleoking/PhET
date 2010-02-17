@@ -22,6 +22,11 @@ public class PotassiumGatedChannel extends GatedChannel {
 	private static final double CHANNEL_HEIGHT = AxonMembrane.MEMBRANE_THICKNESS * 1.4; // In nanometers.
 	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.70; // In nanometers.
 	
+	// Constants that control the rate at which this channel will transport
+	// ions through it when open.
+	private double MIN_INTER_CAPTURE_TIME = 0; // In seconds of sim time.
+	private double MAX_INTER_CAPTURE_TIME = 0.00008; // In seconds of sim time.
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -36,6 +41,8 @@ public class PotassiumGatedChannel extends GatedChannel {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 		this.hodgekinHodgkinHuxleyModel = hodgekinHuxleyModel;
 		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, 0, Math.PI * 0.7));
+		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
+		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
 	}
 
     //----------------------------------------------------------------------------
@@ -71,6 +78,11 @@ public class PotassiumGatedChannel extends GatedChannel {
 		}
 		if (openness != getOpenness()){
 			setOpenness(openness);
+			if (isOpen() && getCaptureCountdownTimer() == Double.POSITIVE_INFINITY){
+				// We have just transitioned to the open state, so it is time
+				// to start capturing ions.
+				restartCaptureCountdownTimer();
+			}
 		}
 	}
 	
