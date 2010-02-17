@@ -38,5 +38,8 @@ public class CuboidNode extends Cube implements Pickable, Listener{
     public function getBody():b2Body {
         return cuboid.getBody();
     }
+
+    public function remove():void {
+    }
 }
 }

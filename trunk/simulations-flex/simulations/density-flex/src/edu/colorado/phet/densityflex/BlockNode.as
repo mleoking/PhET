@@ -18,14 +18,16 @@ public class BlockNode extends CuboidNode implements Pickable, Listener{
 
     private var frontSprite : Sprite;
     private var block : Block;
+    private var view : DensityView3D;
 
     [Embed(source="../../../../../data/density-flex/images/wall.jpg")]
     private var wallClass : Class;
 
-    public function BlockNode( block:Block ) : void {
+    public function BlockNode( block:Block, view : DensityView3D ) : void {
         super(block);
 
         this.block = block;
+        this.view = view;
 
         // TODO: determine reliance on the starting size of the block, so that the block can be scaled in size effectively
 
@@ -82,5 +84,8 @@ public class BlockNode extends CuboidNode implements Pickable, Listener{
         return block;
     }
 
+    override public function remove():void {
+        view.removeObject( this );
+    }
 }
 }

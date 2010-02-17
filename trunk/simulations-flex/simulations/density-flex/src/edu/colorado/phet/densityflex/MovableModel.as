@@ -42,6 +42,12 @@ public class MovableModel {
         setPosition(body.GetPosition().x, body.GetPosition().y);
     }
 
+    public function remove():void {
+        for each( var listener : Listener in listeners ) {
+            listener.remove();
+        }
+    }
+
     public function setPosition( x:Number, y:Number ): void {
         this.x = x;
         this.y = y;

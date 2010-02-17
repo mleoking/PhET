@@ -59,7 +59,24 @@ public class DensityView3D extends UIComponent {
         super();
         model = new DensityModel();
 
-        model.initializeTab1();
+        model.initializeTab1SameMass();
+        //model.initializeTab1SameVolume();
+    }
+
+    public function switchToSameMass() : void {
+        model.clearCuboids();
+        model.initializeTab1SameMass();
+
+        // TODO: improve so that listening handles add/remove of children!
+        addCuboids();
+    }
+
+    public function switchToSameVolume() : void {
+        model.clearCuboids();
+        model.initializeTab1SameVolume();
+
+        // TODO: improve so that listening handles add/remove of children!
+        addCuboids();
     }
 
     override protected function createChildren():void {
@@ -144,14 +161,7 @@ public class DensityView3D extends UIComponent {
         scene.addChild(new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
         scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
 
-        for each ( var ob:Cuboid in this.model.getCuboids() ) {
-            if ( ob is Block ) {
-                scene.addChild(new BlockNode(ob as Block));
-            }
-            else if ( ob is Scale ) {
-                scene.addChild(new ScaleNode(ob as Scale));
-            }
-        }
+        addCuboids();
 
         var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
         light.x = 10000;
@@ -165,6 +175,17 @@ public class DensityView3D extends UIComponent {
         marker.addChild(new Cube({ z: -50, width: 5, height: 5, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial(0xFFFFFF) }));
         //			scene.addChild( marker );
 
+    }
+
+    private function addCuboids() : void {
+        for each ( var ob:Cuboid in this.model.getCuboids() ) {
+            if ( ob is Block ) {
+                scene.addChild(new BlockNode(ob as Block, this));
+            }
+            else if ( ob is Scale ) {
+                scene.addChild(new ScaleNode(ob as Scale, this));
+            }
+        }
     }
 
     public function initListeners():void {
@@ -277,6 +298,10 @@ public class DensityView3D extends UIComponent {
     public function onResize( event:Event = null ) : void {
         view.x = stage.stageWidth / 2;
         view.y = stage.stageHeight / 2;
+    }
+
+    function removeObject( ob:CuboidNode ):void {
+        scene.removeChild(ob);
     }
 }
 }

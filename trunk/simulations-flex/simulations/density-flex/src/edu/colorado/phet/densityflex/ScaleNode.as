@@ -11,12 +11,14 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
     private var frontSprite : Sprite;
     private var scaler:Scale;
     private var textField : TextField;
+    private var view : DensityView3D;
 
     private static var WALL_RES : Number = 100;
 
-    public function ScaleNode( scale:Scale ) : void {
+    public function ScaleNode( scale:Scale, view : DensityView3D ) : void {
         super(scale);
         this.scaler = scale;
+        this.view = view;
 
         frontSprite = new Sprite();
 
@@ -54,6 +56,8 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
         updateText();
     }
 
-
+    override public function remove():void {
+        view.removeObject( this );
+    }
 }
 }
