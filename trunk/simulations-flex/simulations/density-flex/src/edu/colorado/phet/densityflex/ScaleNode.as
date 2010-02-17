@@ -10,8 +10,9 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
 
     private var frontSprite : Sprite;
     private var scaler:Scale;
+    private var textField : TextField;
 
-    private static var WALL_RES : Number = 256;
+    private static var WALL_RES : Number = 100;
 
     public function ScaleNode( scale:Scale ) : void {
         super(scale);
@@ -20,21 +21,12 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
         frontSprite = new Sprite();
 
         frontSprite.graphics.beginFill(0xFFFFFF);
-        frontSprite.graphics.drawRect(0, 0, WALL_RES, WALL_RES);
+        frontSprite.graphics.drawRect(0, 0, WALL_RES * scaler.getWidth(), WALL_RES * scaler.getHeight());
         frontSprite.graphics.endFill();
 
-        var tf : TextField = new TextField();
-        tf.text = String(scale.getMass()) + " kg";
-        tf.height = WALL_RES;
-        tf.width = WALL_RES;
-        var format : TextFormat = new TextFormat();
-        format.size = int(45 * (200 / this.width));
-        format.bold = true;
-        format.font = "Arial";
-        tf.multiline = true;
-        tf.setTextFormat(format);
-        frontSprite.addChild(tf);
-
+        textField = new TextField();
+        frontSprite.addChild(textField);
+        updateText();
 
         var frontMaterial : MovieMaterial = new MovieMaterial(frontSprite);
         frontMaterial.smooth = true; //makes the font smooth instead of jagged, see http://www.mail-archive.com/away3d-dev@googlegroups.com/msg06699.html
@@ -44,6 +36,24 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
 
         this.cubeMaterials.back = frontMaterial;
     }
+
+    public function updateText() : void {
+        textField.text = String(scaler.getScaleReadout());
+        textField.width = WALL_RES * scaler.getWidth();
+        textField.height = WALL_RES * scaler.getHeight();
+        var format : TextFormat = new TextFormat();
+        format.size = int(45 * (200 / this.width));
+        format.bold = true;
+        format.font = "Arial";
+        textField.multiline = true;
+        textField.setTextFormat(format);
+    }
+
+    override public function update():void {
+        super.update();
+        updateText();
+    }
+
 
 }
 }

@@ -80,7 +80,13 @@ public class DensityModel {
 
     public function step() : void {
         DebugText.clear();
+
+        for each( cuboid in cuboids ) {
+            cuboid.resetContacts();
+        }
+        
         for ( var i : Number = 0; i < STEPS_PER_FRAME; i++ ) {
+
             world.Step(DT_STEP, 10);
             var cuboid : Cuboid;
             for each( cuboid in cuboids ) {
