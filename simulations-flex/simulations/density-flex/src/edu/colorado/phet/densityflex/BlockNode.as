@@ -1,9 +1,6 @@
 package edu.colorado.phet.densityflex {
 
-import Box2D.Dynamics.b2Body;
-
 import away3d.materials.*;
-import away3d.primitives.*;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
@@ -17,26 +14,20 @@ import flash.text.TextFormat;
 
 import mx.core.BitmapAsset;
 
-public class BlockNode extends Cube implements Pickable, Listener{
+public class BlockNode extends CuboidNode implements Pickable, Listener{
 
     private var frontSprite : Sprite;
-    private var block:Block;
+    private var block : Block;
 
     [Embed(source="../../../../../data/density-flex/images/wall.jpg")]
     private var wallClass : Class;
 
     public function BlockNode( block:Block ) : void {
+        super(block);
+
         this.block = block;
-        this.width = block.getWidth() * DensityModel.DISPLAY_SCALE;
-        this.height = block.getHeight() * DensityModel.DISPLAY_SCALE;
-        this.depth = block.getDepth() * DensityModel.DISPLAY_SCALE;
-        this.segmentsH = 2;
-        this.segmentsW = 2;
-        this.x = block.getX() * DensityModel.DISPLAY_SCALE;
-        this.y = block.getY() * DensityModel.DISPLAY_SCALE;
-        this.z = block.getZ() * DensityModel.DISPLAY_SCALE;
-        this.useHandCursor = true;
-        block.addListener(this);
+
+        // TODO: determine reliance on the starting size of the block, so that the block can be scaled in size effectively
 
         frontSprite = new Sprite();
 
@@ -87,21 +78,9 @@ public class BlockNode extends Cube implements Pickable, Listener{
         this.cubeMaterials.back = frontMaterial;
     }
 
-    public function setPosition( x:Number, y:Number ): void {
-        block.setPosition(x / DensityModel.DISPLAY_SCALE, y / DensityModel.DISPLAY_SCALE);
-    }
-
-    public function update():void {
-        this.x = block.getX() * DensityModel.DISPLAY_SCALE;
-        this.y = block.getY() * DensityModel.DISPLAY_SCALE;
-    }
-
-    public function getBlock():Block {
+    public function getBlock() : Block {
         return block;
     }
 
-    public function getBody():b2Body {
-        return block.getBody();
-    }
 }
 }

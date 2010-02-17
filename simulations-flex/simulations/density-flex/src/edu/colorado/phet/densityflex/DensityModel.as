@@ -8,10 +8,8 @@ import Box2D.Dynamics.b2World;
 
 import flash.geom.ColorTransform;
 
-import mx.controls.Alert;
-
 public class DensityModel {
-    private var blocks : Array;
+    private var cuboids : Array;
     private var poolWidth : Number = 15;
     private var poolHeight : Number = 7.5;
     private var poolDepth : Number = 5;
@@ -19,7 +17,10 @@ public class DensityModel {
     private static var BOUNDS : Number = 50;
     private var volume : Number = poolWidth * poolDepth * waterHeight;
 
-    public static var STEPS_PER_FRAME : Number = 5;
+    public static var STEPS_PER_FRAME : Number = 6;
+
+    public static var DT_FRAME : Number = 1 / 30.0;
+    public static var DT_STEP : Number = DT_FRAME / STEPS_PER_FRAME;
 
     public static var DISPLAY_SCALE : Number = 100.0;
 
@@ -28,21 +29,20 @@ public class DensityModel {
     private var contactHandler : ContactHandler;
 
     public function DensityModel() {
-        blocks = new Array();
+        cuboids = new Array();
 
         initWorld();
         createGround();
     }
 
     public function initializeTab1():void {
-        blocks.push(new Block(5, 2, 4.5, 0, new ColorTransform(1, 0, 0), this));
-        blocks.push(new Block(0.1, 1, 1.5, 0, new ColorTransform(0, 1, 0), this));
-        blocks.push(new Block(0.3, 3, -1.5, 0, new ColorTransform(0, 0, 1), this));
-        blocks.push(new Block(0.5, 2, -4.5, 0, new ColorTransform(1, 1, 1), this));
+        cuboids.push(new Block(5, 2, 4.5, 0, new ColorTransform(1, 0, 0), this));
+        cuboids.push(new Block(0.1, 1, 1.5, 0, new ColorTransform(0, 1, 0), this));
+        cuboids.push(new Block(0.3, 3, -1.5, 0, new ColorTransform(0, 0, 1), this));
+        cuboids.push(new Block(0.5, 2, -4.5, 0, new ColorTransform(1, 1, 1), this));
 
-        var scaleBlock : Block = new Block(0.8, 2, -9.0, 3.0, new ColorTransform(0.5, 0.5, 0), this);
-        blocks.push(scaleBlock);
-        contactHandler.addScaleBody(scaleBlock.getBody());
+        var scale : Scale = new Scale(-9.0, 3.0, this);
+        cuboids.push(scale);
     }
 
     private function createGround():void {
@@ -74,33 +74,35 @@ public class DensityModel {
         world.SetContactListener(contactHandler);
     }
 
-    public function getBlocks() : Array {
-        return blocks;
+    public function getCuboids() : Array {
+        return cuboids;
     }
 
     public function step() : void {
         DebugText.clear();
         for ( var i : Number = 0; i < STEPS_PER_FRAME; i++ ) {
-            world.Step(1 / (30 * STEPS_PER_FRAME), 10);
-            var block : Block;
-            for each( block in blocks ) {
-                block.update();
+            world.Step(DT_STEP, 10);
+            var cuboid : Cuboid;
+            for each( cuboid in cuboids ) {
+                cuboid.update();
             }
             updateWater();
             var waterY : Number = -poolHeight + waterHeight;
-            for each( block in blocks ) {
-                var body : b2Body = block.getBody();
-                body.ApplyForce(new b2Vec2(0, -9.8 * block.getVolume() * block.getDensity()), body.GetPosition());
+            for each( cuboid in cuboids ) {
+                var body : b2Body = cuboid.getBody();
 
-                if ( waterY < block.getBottomY() ) {
+                // gravity?
+                body.ApplyForce(new b2Vec2(0, -9.8 * cuboid.getVolume() * cuboid.getDensity()), body.GetPosition());
+
+                if ( waterY < cuboid.getBottomY() ) {
                     continue;
                 }
                 var submergedVolume : Number;
-                if ( waterY > block.getTopY() ) {
-                    submergedVolume = block.getVolume();
+                if ( waterY > cuboid.getTopY() ) {
+                    submergedVolume = cuboid.getVolume();
                 }
                 else {
-                    submergedVolume = (waterY - block.getBottomY() ) * block.getWidth() * block.getDepth();
+                    submergedVolume = (waterY - cuboid.getBottomY() ) * cuboid.getWidth() * cuboid.getDepth();
                 }
                 // TODO: add in liquid density
 
@@ -114,18 +116,18 @@ public class DensityModel {
     }
 
     public function updateWater() : void {
-        var block : Block;
+        var cuboid : Cuboid;
         var sortedHeights : Array = new Array();
-        for ( var key : String in blocks ) {
-            block = blocks[key];
+        for ( var key : String in cuboids ) {
+            cuboid = cuboids[key];
             var top : Object = new Object();
-            top.y = block.getTopY();
+            top.y = cuboid.getTopY();
             top.pos = 1;
-            top.block = block;
+            top.block = cuboid;
             var bottom : Object = new Object();
-            bottom.y = block.getBottomY();
+            bottom.y = cuboid.getBottomY();
             bottom.pos = 0;
-            bottom.block = block;
+            bottom.block = cuboid;
             sortedHeights.push(top);
             sortedHeights.push(bottom);
         }
@@ -139,7 +141,7 @@ public class DensityModel {
             var ob : Object = sortedHeights[i];
             var pos : Number = ob.pos;
             var by : Number = ob.y + poolHeight;
-            block = ob.block;
+            cuboid = ob.block;
             var idealHeight : Number = volumeToGo / crossSection + curHeight;
             if ( idealHeight < by ) {
                 curHeight = idealHeight;
@@ -151,11 +153,11 @@ public class DensityModel {
             curHeight = by;
             if ( pos == 0 ) {
                 // bottom of block
-                crossSection -= block.getWidth() * block.getDepth();
+                crossSection -= cuboid.getWidth() * cuboid.getDepth();
             }
             else {
                 // top of block
-                crossSection += block.getWidth() * block.getDepth();
+                crossSection += cuboid.getWidth() * cuboid.getDepth();
             }
         }
 
