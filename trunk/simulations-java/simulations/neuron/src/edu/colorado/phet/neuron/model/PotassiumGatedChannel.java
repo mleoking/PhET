@@ -70,7 +70,6 @@ public class PotassiumGatedChannel extends GatedChannel {
 			openness = MathUtils.round(openness, 2);
 		}
 		if (openness != getOpenness()){
-			System.out.println("Current = " + hodgekinHodgkinHuxleyModel.get_k_current() + ", openness = " + openness);
 			setOpenness(openness);
 		}
 	}

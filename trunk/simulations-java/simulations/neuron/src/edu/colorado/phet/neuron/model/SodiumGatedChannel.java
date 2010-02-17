@@ -22,6 +22,11 @@ public class SodiumGatedChannel extends GatedChannel {
 	private static final double CHANNEL_HEIGHT = AxonMembrane.MEMBRANE_THICKNESS * 1.4; // In nanometers.
 	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.70; // In nanometers.
 	
+	// Constants that control the rate at which this channel will transport
+	// ions through it when open.
+	private double MIN_INTER_CAPTURE_TIME = 0; // In seconds of sim time.
+	private double MAX_INTER_CAPTURE_TIME = 0.00008; // In seconds of sim time.
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -34,6 +39,8 @@ public class SodiumGatedChannel extends GatedChannel {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 		this.hodgkinHodgkinHuxleyModel = hodgkinHuxleyModel;
 		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, 0, Math.PI * 0.8));
+		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
+		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
 	}
 
     //----------------------------------------------------------------------------
@@ -68,8 +75,12 @@ public class SodiumGatedChannel extends GatedChannel {
 			openness = MathUtils.round(openness, 2);
 		}
 		if (openness != getOpenness()){
-			System.out.println("Current = " + hodgkinHodgkinHuxleyModel.get_na_current() + ", openness = " + openness);
 			setOpenness(openness);
+			if (isOpen() && getCaptureCountdownTimer() == Double.POSITIVE_INFINITY){
+				// We have just transitioned to the open state, so it is time
+				// to start capturing ions.
+				restartCaptureCountdownTimer();
+			}
 		}
 	}
 
