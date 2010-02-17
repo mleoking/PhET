@@ -379,7 +379,7 @@ public class AxonModel implements IParticleCapture {
     	Particle newParticle = Particle.createParticle(particleType);
     	particles.add(newParticle);
     	if (captureZone != null){
-    		Point2D location = captureZone.getSuggestNewParticleLocation();
+    		Point2D location = captureZone.getSuggestedNewParticleLocation();
     		newParticle.setPosition(location);
     	}
     	notifyParticleAdded(newParticle);
