@@ -300,7 +300,7 @@ public class DensityView3D extends UIComponent {
         view.y = stage.stageHeight / 2;
     }
 
-    function removeObject( ob:CuboidNode ):void {
+    public function removeObject( ob:CuboidNode ):void {
         scene.removeChild(ob);
     }
 }
