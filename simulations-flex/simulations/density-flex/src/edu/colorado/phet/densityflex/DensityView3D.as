@@ -52,8 +52,6 @@ public class DensityView3D extends UIComponent {
 
     private var marker : ObjectContainer3D;
 
-    public var fpsText : TextField = new TextField();
-
     public var backgroundSprite : Sprite;
 
     [Embed(source="../../../../../data/density-flex/images/spheretex.png")]
@@ -61,7 +59,9 @@ public class DensityView3D extends UIComponent {
 
     public function DensityView3D() {
         super();
-        this.model = new DensityModel();
+        model = new DensityModel();
+
+        model.initializeTab1();
     }
 
     override protected function createChildren():void {
@@ -72,12 +72,6 @@ public class DensityView3D extends UIComponent {
         initEngine();
         initObjects();
         initListeners();
-
-
-        fpsText.text = "X fps";
-        fpsText.textColor = 0x000000;
-        fpsText.background = true;
-        fpsText.height = fpsText.textHeight + 4;
 
         backgroundSprite = new Sprite();
         backgroundSprite.graphics.beginFill(0x000000);
@@ -151,12 +145,6 @@ public class DensityView3D extends UIComponent {
         // front of earth to the sides
         scene.addChild(new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
         scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
-
-        //scene.addChild(new Sphere({ x: -450, y: 300, z: 201, radius: 100, segmentsH: 10, segmentsW: 10, material: new PhongBitmapMaterial((new spheretex() as BitmapAsset).bitmapData) }));
-        //scene.addChild(new Cylinder({ x: 450, y: 300, z: 151, rotationZ: 90, radius: 50, height: 750, segmentsH: 1, segmentsW: 25, material: new ShadingColorMaterial(0xAA7755) }));
-
-        // the cube
-        //var block:Block = new Block(50, 2, 4.5, 0, new ColorTransform(1, 0, 0));
 
         for each ( var b:Block in this.model.getBlocks() ) {
             scene.addChild(new BlockNode(b));
