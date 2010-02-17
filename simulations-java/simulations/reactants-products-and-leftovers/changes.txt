@@ -1,3 +1,4 @@
+# 0.00.26 (38715) Feb 17, 2010
 2/17/10 prototype for game reward, with developer controls
 # 0.00.25 (38665) Feb 16, 2010
 2/16/10 #2163, on second incorrect answer, show "Show Answer" button, but hide "Next" button
