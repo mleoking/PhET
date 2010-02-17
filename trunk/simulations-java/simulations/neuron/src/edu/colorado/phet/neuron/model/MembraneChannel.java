@@ -50,7 +50,7 @@ public abstract class MembraneChannel {
 	private double openness = 0;  // Valid range is 0 to 1, 0 means fully closed, 1 is fully open.
 	
 	// List of points for traversing the channel.
-	private ArrayList<Point2D> traversalPoints;
+	private ArrayList<Point2D> traversalPoints = new ArrayList<Point2D>();
 	
 	// Array of listeners.
 	private ArrayList<Listener> listeners = new ArrayList<Listener>();
@@ -255,7 +255,17 @@ public abstract class MembraneChannel {
 		}
 	}
 	
-	public ArrayList<Point2D> getTraversalPoints(){
+	/**
+	 * Get the set of points through which a particle at the specified
+	 * location should travel when traversing this channel.  In this base
+	 * class implementation, two points are provided, one at the entrance of
+	 * the channel and one at the exit.  Which point is which for the given
+	 * particle is based on which one it is closet to.
+	 * 
+	 * @param startingLocation
+	 * @return
+	 */
+	public ArrayList<Point2D> getTraversalPoints(Point2D startingLocation){
 		return new ArrayList<Point2D>(traversalPoints);
 	}
 	
@@ -264,6 +274,7 @@ public abstract class MembraneChannel {
 	 */
 	protected void updateTraversalPoints(){
 		traversalPoints.clear();
+		Point2D ctr = getCenterLocation();
 		traversalPoints.add(new Point2D.Double(getCenterLocation().getX(), getCenterLocation().getY()));
 	}
 
