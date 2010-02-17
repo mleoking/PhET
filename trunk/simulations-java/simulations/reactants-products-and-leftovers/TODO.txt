@@ -20,14 +20,16 @@ INTERVIEW ISSUES:
 - what do you expect at higher game levels? more points? bigger rewards? other?
 
 HIGH PRIORITY
+- integrate GameRewardNode into sim
 - #2161, layout of Game Summary dialog is messed up on Windows (rewrite in Piccolo?)
-- add an animated "prize" to Game Summary for perfect score, smiling molecules doing random walk, confetti in level 3
-- associate ImageLayoutStrategy with the chemical reaction type?
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
+- better sound for wrongAnswer.wav
+- better sounds for gameOver-perfectScore-level*.wav
 
 MEDIUM PRIORITY
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
 - when sandwich is defined as 2-meat, the image on RHS of equation is low
+- associate ImageLayoutStrategy with the chemical reaction type?
 - piece of "s" in "leftovers" in "How many..." message doesn't disappear on Windows
 - explicitly handle tab traversal in play area
 - PSwing memory leak affects tab traversal, #1874
