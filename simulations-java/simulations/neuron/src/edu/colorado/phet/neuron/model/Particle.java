@@ -14,7 +14,7 @@ import edu.colorado.phet.neuron.NeuronStrings;
  *
  * @author John Blanco
  */
-public abstract class Particle implements IMovable {
+public abstract class Particle implements IMovable, IFadable {
     
     //------------------------------------------------------------------------
     // Class data
@@ -34,6 +34,13 @@ public abstract class Particle implements IMovable {
     
     // Availability for capture by a membrane channel.
     private boolean availableForCapture = true;
+    
+    // Opaqueness value, ranges from 0 (completely transparent) to 1 
+    // (completely opaque).
+    private double opaqueness;
+    
+    // Fade strategy for fading in and out.
+    private FadeStrategy fadeStrategy = new NullFadeStrategy();
     
     //------------------------------------------------------------------------
     // Constructors
@@ -100,6 +107,21 @@ public abstract class Particle implements IMovable {
         position.setLocation( xPos, yPos );
         notifyPositionChanged();
     }
+    
+	public void setOpaqueness(double opaqueness){
+		this.opaqueness = opaqueness;
+	}
+	
+	public double getOpaqueness(){
+		return opaqueness;
+	}
+	
+	/**
+	 * Set the fade strategy for the element.
+	 */
+	public void setFadeStrategy(FadeStrategy fadeStrategy){
+		this.fadeStrategy = fadeStrategy;
+	}
     
     protected boolean isAvailableForCapture() {
 		return availableForCapture;
@@ -201,6 +223,11 @@ public abstract class Particle implements IMovable {
      */
     public void stepInTime(double dt){
     	motionStrategy.move(this, dt);
+    	fadeStrategy.updateOpaqueness(this, dt);
+    	if (!fadeStrategy.shouldContinueExisting(this)){
+    		// This particle has faded out of existence, so take the steps to
+    		// remove it from the model and the view.
+    	}
     }
     
     //------------------------------------------------------------------------
