@@ -37,7 +37,7 @@ LOW PRIORITY
 - #2163, add "Back" feature to game
 - is there an issue with Game timer, it showed 46:03 during status meeting, which was not possible
 - developer controls for setting up specific Game challenges (expensive, do this if we need it for debugging)
-- disable debug output in AbstractGameStrategy
+- disable debug output in AbstractChallengeFactory
 - remove silence from audio files, convert to WAV PCM mono
 - expose SimpleGameStrategy.main as a Developer menu item
 - "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
