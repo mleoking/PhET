@@ -17,7 +17,7 @@ public class DensityModel {
     private static var BOUNDS : Number = 50;
     private var volume : Number = poolWidth * poolDepth * waterHeight;
 
-    public static var STEPS_PER_FRAME : Number = 12;
+    public static var STEPS_PER_FRAME : Number = 10;
 
     public static var DT_FRAME : Number = 1 / 30.0;
     public static var DT_STEP : Number = DT_FRAME / STEPS_PER_FRAME;
@@ -40,9 +40,8 @@ public class DensityModel {
         cuboids.push(new Block(0.1, 1, 1.5, 0, new ColorTransform(0, 1, 0), this));
         cuboids.push(new Block(0.3, 3, -1.5, 0, new ColorTransform(0, 0, 1), this));
         cuboids.push(new Block(0.5, 2, -4.5, 0, new ColorTransform(1, 1, 1), this));
-
-        var scale : Scale = new Scale(-9.0, 3.0, this);
-        cuboids.push(scale);
+        cuboids.push(new Scale(-9.5, Scale.SCALE_HEIGHT / 2, this));
+        cuboids.push(new Scale(4.5, Scale.SCALE_HEIGHT / 2 - poolHeight, this));
     }
 
     private function createGround():void {
@@ -84,7 +83,7 @@ public class DensityModel {
         for each( cuboid in cuboids ) {
             cuboid.resetContacts();
         }
-        
+
         for ( var i : Number = 0; i < STEPS_PER_FRAME; i++ ) {
 
             world.Step(DT_STEP, 10);
