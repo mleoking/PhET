@@ -90,7 +90,7 @@ public class AxonModel implements IParticleCapture {
         clock.addClockListener(new ClockAdapter(){
 			@Override
 			public void clockTicked(ClockEvent clockEvent) {
-				handleClockTicked(clockEvent);
+				stepInTime( clockEvent.getSimulationTimeChange() );
 			}
         });
         
@@ -427,10 +427,8 @@ public class AxonModel implements IParticleCapture {
     	czsr.getClosestFreeParticle().setMotionStrategy(new LinearMotionStrategy(new Vector2D.Double(1000 * (RAND.nextDouble() - 0.5), 1000 * (RAND.nextDouble() - 0.5))));
     }
     
-    private void handleClockTicked(ClockEvent clockEvent){
+    private void stepInTime(double dt){
     
-    	double dt = clockEvent.getSimulationTimeChange();
-    	
     	// Update the value of the membrane potential by stepping the
     	// Hodgkins-Huxley model.
     	hodgkinHuxleyModel.stepInTime( dt );
@@ -468,7 +466,7 @@ public class AxonModel implements IParticleCapture {
     	
     	// Step the channels.
     	for (MembraneChannel channel : channels){
-    		channel.stepInTime(clockEvent.getSimulationTimeChange());
+    		channel.stepInTime( dt );
     	}
     	
     	// Step the particles.
