@@ -29,14 +29,17 @@ public class SandwichShopModel extends RPALModel {
     private final Product sandwich;
     
     public SandwichShopModel() {
+        this( getCoefficientRange().getDefault(), getCoefficientRange().getDefault(), getCoefficientRange().getDefault() );
+    }
+    
+    public SandwichShopModel( int breadCoefficient, int meatCoefficient, int cheeseCoefficient ) {
         
-        final int coefficient =  getCoefficientRange().getDefault();
         final int quantity = getQuantityRange().getDefault();
         
         // reactants
-        bread = new Reactant( coefficient, new Bread(), quantity );
-        meat = new Reactant(  coefficient, new Meat(), quantity );
-        cheese = new Reactant( coefficient, new Cheese(), quantity );
+        bread = new Reactant( breadCoefficient, new Bread(), quantity );
+        meat = new Reactant(  meatCoefficient, new Meat(), quantity );
+        cheese = new Reactant( cheeseCoefficient, new Cheese(), quantity );
         Reactant[] reactants = { bread, meat, cheese };
         
         // product, with dynamic image
