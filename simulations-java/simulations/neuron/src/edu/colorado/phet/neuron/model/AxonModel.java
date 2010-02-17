@@ -107,10 +107,10 @@ public class AxonModel implements IParticleCapture {
 		});
         
     	// Add the initial particles.
-        addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 8);
-        addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 8);
-        addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 8);
-        addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 8);
+//        addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 8);
+//        addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 8);
+//        addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 8);
+//        addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 8);
     }
     
     //----------------------------------------------------------------------------
@@ -277,7 +277,7 @@ public class AxonModel implements IParticleCapture {
     public void addParticles(ParticleType particleType, ParticlePosition position, int numberToAdd){
     	Particle newParticle = null;
     	for (int i = 0; i < numberToAdd; i++){
-    		newParticle = Particle.createParticle(particleType);
+    		newParticle = createParticle(particleType);
     		
     		if (position == ParticlePosition.INSIDE_MEMBRANE){
     			positionParticleInsideMembrane(newParticle);
@@ -285,7 +285,6 @@ public class AxonModel implements IParticleCapture {
     		else{
     			positionParticleOutsideMembrane(newParticle);
     		}
-        	particles.add(newParticle);
         	concentrationTracker.updateParticleCount(newParticle.getType(), position, 1);
     	}
     }
@@ -378,10 +377,25 @@ public class AxonModel implements IParticleCapture {
     public Particle createParticle(ParticleType particleType, CaptureZone captureZone){
     	
     	Particle newParticle = Particle.createParticle(particleType);
-    	Point2D location = captureZone.getSuggestNewParticleLocation();
-    	newParticle.setPosition(location);
+    	particles.add(newParticle);
+    	if (captureZone != null){
+    		Point2D location = captureZone.getSuggestNewParticleLocation();
+    		newParticle.setPosition(location);
+    	}
+    	notifyParticleAdded(newParticle);
     	
 		return newParticle;
+    }
+    
+    /**
+     * Create a particle of the specified type and add it to the model.
+     *  
+     * @param particleType
+     * @return
+     */
+    public Particle createParticle(ParticleType particleType){
+    	
+    	return createParticle(particleType, null);
     }
     
     /**
@@ -407,9 +421,10 @@ public class AxonModel implements IParticleCapture {
     	// constant, we always need to create one to replace the one
     	// that is leaving.
     	createParticle(particleType, channel.getCaptureZone());
-    	CaptureZoneScanResult czsr = scanCaptureZoneForParticles(channel.getCaptureZone(), particleType);
-    	assert czsr.getClosestParticle() != null;
-    	czsr.getClosestParticle().setMotionStrategy(new LinearMotionStrategy(new Vector2D.Double(1, 1)));
+    	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getCaptureZone(), particleType);
+    	assert czsr.getClosestFreeParticle() != null;
+    	czsr.getClosestFreeParticle().setAvailableForCapture(false);
+    	czsr.getClosestFreeParticle().setMotionStrategy(new LinearMotionStrategy(new Vector2D.Double(1000 * (RAND.nextDouble() - 0.5), 1000 * (RAND.nextDouble() - 0.5))));
     }
     
     private void handleClockTicked(ClockEvent clockEvent){
@@ -469,27 +484,27 @@ public class AxonModel implements IParticleCapture {
      * @param particleType
      * @return
      */
-    private CaptureZoneScanResult scanCaptureZoneForParticles(CaptureZone zone, ParticleType particleType){
-    	Particle closestParticle = null;
+    private CaptureZoneScanResult scanCaptureZoneForFreeParticles(CaptureZone zone, ParticleType particleType){
+    	Particle closestFreeParticle = null;
     	double distanceOfClosestParticle = Double.POSITIVE_INFINITY;
     	int totalNumberOfParticles = 0;
     	Point2D captureZoneOrigin = zone.getOriginPoint();
     	
     	for (Particle particle : particles){
-    		if (particle.getType() == particleType){
+    		if (particle.getType() == particleType && particle.isAvailableForCapture()){
     			totalNumberOfParticles++;
-    			if (closestParticle == null){
-    				closestParticle = particle;
-    				distanceOfClosestParticle = captureZoneOrigin.distance(closestParticle.getPosition());
+    			if (closestFreeParticle == null){
+    				closestFreeParticle = particle;
+    				distanceOfClosestParticle = captureZoneOrigin.distance(closestFreeParticle.getPosition());
     			}
-    			else if (captureZoneOrigin.distance(closestParticle.getPosition()) < distanceOfClosestParticle){
-    				closestParticle = particle;
-    				distanceOfClosestParticle = captureZoneOrigin.distance(closestParticle.getPosition());
+    			else if (captureZoneOrigin.distance(closestFreeParticle.getPosition()) < distanceOfClosestParticle){
+    				closestFreeParticle = particle;
+    				distanceOfClosestParticle = captureZoneOrigin.distance(closestFreeParticle.getPosition());
     			}
     		}
     	}
     	
-    	return new CaptureZoneScanResult(closestParticle, totalNumberOfParticles);
+    	return new CaptureZoneScanResult(closestFreeParticle, totalNumberOfParticles);
     }
     
 	public void addListener(Listener listener){
@@ -509,6 +524,12 @@ public class AxonModel implements IParticleCapture {
 	private void notifyChannelRemoved(MembraneChannel channel){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.channelRemoved(channel);
+		}
+	}
+	
+	private void notifyParticleAdded(Particle particle){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.particleAdded(particle);
 		}
 	}
 	
@@ -856,16 +877,16 @@ public class AxonModel implements IParticleCapture {
      * zone and the total number of particles in the zone.
      */
     public static class CaptureZoneScanResult {
-    	final Particle closestParticle;
+    	final Particle closestFreeParticle;
     	final int numParticlesInZone;
 		public CaptureZoneScanResult(Particle closestParticle,
 				int numParticlesInZone) {
 			super();
-			this.closestParticle = closestParticle;
+			this.closestFreeParticle = closestParticle;
 			this.numParticlesInZone = numParticlesInZone;
 		}
-		protected Particle getClosestParticle() {
-			return closestParticle;
+		protected Particle getClosestFreeParticle() {
+			return closestFreeParticle;
 		}
 		protected int getNumParticlesInZone() {
 			return numParticlesInZone;
@@ -886,6 +907,13 @@ public class AxonModel implements IParticleCapture {
     	 * @param channel - Channel that was removed.
     	 */
     	public void channelRemoved(MembraneChannel channel);
+    	
+    	/**
+    	 * Notification that a particle was added.
+    	 * 
+    	 * @param particle - Particle that was added.
+    	 */
+    	public void particleAdded(Particle particle);
     	
     	/**
     	 * Notification that the concentration gradient for the given particle
@@ -911,6 +939,7 @@ public class AxonModel implements IParticleCapture {
     
     public static class Adapter implements Listener{
 		public void channelAdded(MembraneChannel channel) {}
+		public void particleAdded(Particle particle) {}
 		public void channelRemoved(MembraneChannel channel) {}
 		public void concentrationRatioChanged(ParticleType particleType) {}
 		public void stimulusPulseInitiated() {}

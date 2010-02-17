@@ -110,6 +110,7 @@ public abstract class GatedChannel extends MembraneChannel {
 
 	@Override
 	public void stepInTime(double dt) {
+		super.stepInTime(dt);
 		
 		/*
 		 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having

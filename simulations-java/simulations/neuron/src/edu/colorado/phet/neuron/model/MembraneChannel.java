@@ -129,6 +129,7 @@ public abstract class MembraneChannel {
 		if (captureCountdownTimer != Double.POSITIVE_INFINITY){
 			if (isOpen()){
 				captureCountdownTimer -= dt;
+				System.out.println(captureCountdownTimer);
 				if (captureCountdownTimer <= 0){
 					modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this);
 					restartCaptureCountdownTimer();
@@ -311,5 +312,9 @@ public abstract class MembraneChannel {
 
 	protected void setMinInterCaptureTime(double minInterCaptureTime) {
 		this.minInterCaptureTime = minInterCaptureTime;
+	}
+	
+	protected double getCaptureCountdownTimer() {
+		return captureCountdownTimer;
 	}
 }
