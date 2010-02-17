@@ -14,6 +14,8 @@ import away3d.lights.*;
 import away3d.materials.*;
 import away3d.primitives.*;
 
+import edu.colorado.phet.flexcommon.FlexCommon;
+
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
@@ -83,6 +85,8 @@ public class DensityView3D extends UIComponent {
         backgroundSprite.graphics.endFill();
         addChild(backgroundSprite);
         addChild(view);
+
+        var common : FlexCommon = new FlexCommon();
     }
 
     override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void {
