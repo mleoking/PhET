@@ -6,7 +6,9 @@ import Box2D.Dynamics.b2Body;
  */
 public interface Pickable {
     function setPosition( x:Number, y:Number ): void;
+
     function getBody() : b2Body;
+
     function update() : void;
 }
 }

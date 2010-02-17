@@ -19,8 +19,6 @@ import edu.colorado.phet.flexcommon.FlexCommon;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
-import flash.geom.ColorTransform;
-import flash.text.TextField;
 
 import mx.core.UIComponent;
 
@@ -146,8 +144,13 @@ public class DensityView3D extends UIComponent {
         scene.addChild(new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
         scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
 
-        for each ( var b:Block in this.model.getBlocks() ) {
-            scene.addChild(new BlockNode(b));
+        for each ( var ob:Cuboid in this.model.getCuboids() ) {
+            if ( ob instanceof Block ) {
+                scene.addChild(new BlockNode(ob as Block));
+            }
+            else if ( ob instanceof Scale ) {
+                scene.addChild(new ScaleNode(ob as Scale));
+            }
         }
 
         var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
@@ -220,7 +223,7 @@ public class DensityView3D extends UIComponent {
     public function onMouseDown( event:MouseEvent ) : void {
         startMouseX = stage.mouseX - view.x;
         startMouseY = stage.mouseY - view.y;
-        if ( view.mouseObject is BlockNode || view.mouseObject is Sphere || view.mouseObject is Cylinder ) {
+        if ( view.mouseObject is CuboidNode || view.mouseObject is Sphere || view.mouseObject is Cylinder ) {
             moving = true;
             startMiddle = medianFrontScreenPoint(view.mouseObject as AbstractPrimitive);
             selectedObject = view.mouseObject as AbstractPrimitive;
