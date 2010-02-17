@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.view.MaxCharsLabel;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -50,6 +49,9 @@ public abstract class MembraneChannel {
 	// Variable that defines how open the channel is.
 	private double openness = 0;  // Valid range is 0 to 1, 0 means fully closed, 1 is fully open.
 	
+	// List of points for traversing the channel.
+	private ArrayList<Point2D> traversalPoints;
+	
 	// Array of listeners.
 	private ArrayList<Listener> listeners = new ArrayList<Listener>();
 	
@@ -71,7 +73,9 @@ public abstract class MembraneChannel {
 	public MembraneChannel(double channelWidth, double channelHeight, IParticleCapture modelContainingParticles){
 		channelSize.setSize(channelWidth, channelHeight);
 		overallSize.setSize(channelWidth * 2.4, channelHeight * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
-		this.modelContainingParticles = modelContainingParticles; 
+		this.modelContainingParticles = modelContainingParticles;
+
+		updateTraversalPoints();
 	}
 	
     //----------------------------------------------------------------------------
@@ -208,11 +212,13 @@ public abstract class MembraneChannel {
 	public void setCenterLocation(Point2D newCenterLocation) {
 		centerLocation.setLocation(newCenterLocation);
 		captureZone.setOriginPoint(newCenterLocation);
+		updateTraversalPoints();
 	}
 
 	public void setRotationalAngle(double rotationalAngle){
 		this.rotationalAngle = rotationalAngle;
 		captureZone.setRotationalAngle(rotationalAngle);
+		updateTraversalPoints();
 	}
 	
 	public double getRotationalAngle(){
@@ -235,6 +241,7 @@ public abstract class MembraneChannel {
 	public void setDimensions( Dimension2D overallSize, Dimension2D channelSize ){
 		this.overallSize.setSize(overallSize);
 		this.channelSize.setSize(channelSize);
+		updateTraversalPoints();
 	}
 	
 	public double getOpenness() {
@@ -246,6 +253,18 @@ public abstract class MembraneChannel {
 			this.openness = openness;
 			notifyOpennessChanged();
 		}
+	}
+	
+	public ArrayList<Point2D> getTraversalPoints(){
+		return new ArrayList<Point2D>(traversalPoints);
+	}
+	
+	/**
+	 * Default implementation, should be overridden in most base classes.
+	 */
+	protected void updateTraversalPoints(){
+		traversalPoints.clear();
+		traversalPoints.add(new Point2D.Double(getCenterLocation().getX(), getCenterLocation().getY()));
 	}
 
 	public Color getChannelColor(){
