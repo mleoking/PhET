@@ -233,8 +233,14 @@ public abstract class Particle implements IMovable, IFadable {
     	motionStrategy.move(this, dt);
     	fadeStrategy.updateOpaqueness(this, dt);
     	if (!fadeStrategy.shouldContinueExisting(this)){
-    		// This particle has faded out of existence, so take the steps to
-    		// remove it from the model and the view.
+    		// This particle has faded out of existence, so send out a
+    		// notification that indicates that it is being removed from the
+    		// model.  The thinking here is that everyone with a reference to
+    		// this particle should listen for this notification and do any
+    		// cleanup and removal of references needed.  If they don't, there
+    		// will be memory leaks.
+    		notifyRemoved();
+    		
     	}
     }
     
