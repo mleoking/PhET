@@ -114,17 +114,22 @@ public class AxonMembraneNode extends PNode {
      * Class that visually represents the action potential that travels down
      * the membrane prior to reaching the cross section.
      */
-    private static class TravelingActionPotentialNode extends PhetPPath {
+    private static class TravelingActionPotentialNode extends PNode {
     	
-    	private static Color COLOR = Color.ORANGE;
-    	private static Stroke stroke = new BasicStroke(10, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+    	private static Color BACKGROUND_COLOR = new Color(204, 102, 255);
+    	private static Stroke backgroundStroke = new BasicStroke(20, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+    	private static Color FOREGROUND_COLOR = new Color(255, 204, 0);
+    	private static Stroke foregroundStroke = new BasicStroke(10, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     	
     	private AxonMembrane.TravelingActionPotential travelingActionPotential;
     	private ModelViewTransform2D mvt;
+    	private PhetPPath background = new PhetPPath(backgroundStroke, BACKGROUND_COLOR);
+    	private PhetPPath foreground = new PhetPPath(foregroundStroke, FOREGROUND_COLOR);
     	
     	public TravelingActionPotentialNode(AxonMembrane.TravelingActionPotential travelingActionPotential, ModelViewTransform2D mvt) {
     		
-    		super(stroke, COLOR);
+    		addChild(background);
+    		addChild(foreground);
     		
     		this.travelingActionPotential = travelingActionPotential;
     		this.mvt = mvt;
@@ -141,7 +146,8 @@ public class AxonMembraneNode extends PNode {
 		}
     	
     	private void updateShape(){
-    		setPathTo(mvt.createTransformedShape(travelingActionPotential.getShape()));
+    		foreground.setPathTo(mvt.createTransformedShape(travelingActionPotential.getShape()));
+    		background.setPathTo(mvt.createTransformedShape(travelingActionPotential.getShape()));
     	}
     }
 }
