@@ -19,7 +19,7 @@ public class LinearMotionStrategy extends MotionStrategy {
 	}
 
 	@Override
-	public void move(IMovable movableModelElement, double dt) {
+	public void move(IMovable movableModelElement, IFadable fadableModelElement, double dt) {
 		Point2D currentPosition = movableModelElement.getPosition();
 		movableModelElement.setPosition(currentPosition.getX() + velocity.getX() * dt,
 				currentPosition.getY() + velocity.getY() * dt);

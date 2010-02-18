@@ -478,8 +478,11 @@ public class AxonModel implements IParticleCapture {
     		channel.stepInTime( dt );
     	}
     	
-    	// Step the particles.
-    	for (Particle particle : particles){
+    	// Step the particles.  Since particles may remove themselves as a
+    	// result of being stepped, we need to copy the list in order to avoid
+    	// concurrent modification exceptions.
+    	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
+    	for (Particle particle : particlesCopy){
     		particle.stepInTime( dt );
     	}
     }

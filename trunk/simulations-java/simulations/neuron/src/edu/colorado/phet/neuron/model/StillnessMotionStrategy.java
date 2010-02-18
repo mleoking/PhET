@@ -9,7 +9,7 @@ package edu.colorado.phet.neuron.model;
 public class StillnessMotionStrategy extends MotionStrategy {
 
 	@Override
-	public void move(IMovable movableModelElement, double dt) {
+	public void move(IMovable movableModelElement, IFadable fadableModelElement, double dt) {
 		// Does nothing, since the object is not moving.
 	}
 }
