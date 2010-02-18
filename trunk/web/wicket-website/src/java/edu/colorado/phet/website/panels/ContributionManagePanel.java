@@ -11,6 +11,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.content.ContributionEditPage;
 import edu.colorado.phet.website.content.ContributionPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.contribution.Contribution;
@@ -30,6 +31,8 @@ public class ContributionManagePanel extends PhetPanel {
         otherContributions = new LinkedList<Contribution>();
 
         final PhetUser user = PhetSession.get().getUser();
+
+        // TODO: add delete function
 
         // TODO: check success
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
@@ -59,6 +62,7 @@ public class ContributionManagePanel extends PhetPanel {
                 link.add( new Label( "contribution-title", contribution.getTitle() ) );
                 item.add( link );
                 item.add( new Label( "contribution-authors", contribution.getAuthors() ) );
+                item.add( ContributionEditPage.getLinker( contribution ).getLink( "edit-link", context, getPhetCycle() ) );
             }
         } );
 
@@ -70,6 +74,7 @@ public class ContributionManagePanel extends PhetPanel {
                     link.add( new Label( "contribution-title", contribution.getTitle() ) );
                     item.add( link );
                     item.add( new Label( "contribution-authors", contribution.getAuthors() ) );
+                    item.add( ContributionEditPage.getLinker( contribution ).getLink( "edit-link", context, getPhetCycle() ) );
                 }
             } );
         }
