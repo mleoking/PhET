@@ -49,7 +49,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 				// We have traverse through all points and are now
 				// presumably on the other side of the membrane, so we need to
 				// start fading out of existence.
-				fadableModelElement.setFadeStrategy(new FadeAwayStrategy(0.001));
+				fadableModelElement.setFadeStrategy(new TimedFadeAwayStrategy(0.001));
 			}
 		}
 	}
