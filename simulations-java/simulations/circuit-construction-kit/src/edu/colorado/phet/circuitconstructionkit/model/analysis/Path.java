@@ -108,6 +108,31 @@ public class Path {
         return false;
     }
 
+    public boolean containsCapacitor() {
+        for (int i = 0; i < entries.size(); i++) {
+            PathEntry pathEntry = (PathEntry) entries.get(i);
+            if (pathEntry.getBranch() instanceof Capacitor) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public double sumResistance() {
+        double sum = 0.0;
+        for (int i = 0; i < entries.size(); i++) {
+            PathEntry pathEntry = (PathEntry) entries.get(i);
+            if (pathEntry.getBranch() instanceof Resistor) {
+                Resistor resistor = (Resistor) pathEntry.getBranch();
+                sum = sum + resistor.getResistance();
+            } else if (pathEntry.getBranch() instanceof Battery) {
+                Battery battery = (Battery) pathEntry.getBranch();
+                sum = sum + battery.getInteralResistance();
+            }
+        }
+        return sum;
+    }
+
     static class PathEntry {
         Branch branch;
         Junction endJunction;

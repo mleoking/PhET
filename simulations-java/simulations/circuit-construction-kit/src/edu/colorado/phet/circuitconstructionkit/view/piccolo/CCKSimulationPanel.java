@@ -41,6 +41,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private PSwing grabBagPSwing;
     private RightClickHelpNode rightClickHelpNode;
     private final CCKBackground backgroundNode;
+    public WarningMessageNode warningMessageNode;
 
     public CCKSimulationPanel( CCKModel model, final CCKModule module, IClock clock ) {
         super( new Dimension( 10, 10 ) );
@@ -103,12 +104,6 @@ public class CCKSimulationPanel extends PhetPCanvas {
             public void keyTyped( KeyEvent e ) {
             }
         } );
-        addTimeScaleListener();
-
-        relayout();
-    }
-
-    private void addTimeScaleListener() {
         timeScaleNode = new TimeScaleNode( this, model );
         addScreenChild( timeScaleNode );
         timeScaleNode.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
@@ -116,6 +111,11 @@ public class CCKSimulationPanel extends PhetPCanvas {
                 relayout();
             }
         } );
+
+        warningMessageNode = new WarningMessageNode(model.getCircuit());
+        addScreenChild(warningMessageNode);
+
+        relayout();
     }
 
     private void relayout() {
@@ -125,6 +125,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
             }
             updateToolboxLayout();
             updateTimeScaleNodeLayout();
+            warningMessageNode.setOffset(getTimeScaleNodeX(), getTimeScaleNodeY()-warningMessageNode.getFullBounds().getHeight()-5);
         }
     }
 
@@ -146,6 +147,14 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     private void updateTimeScaleNodeLayout() {
+        timeScaleNode.setOffset(getTimeScaleNodeX(), getTimeScaleNodeY() );
+    }
+
+    private int getTimeScaleNodeX() {
+        return 10;
+    }
+
+    private double getTimeScaleNodeY() {
         timeScaleNode.setScale( 1.0 );
         double timeScaleGraphicRatio = timeScaleNode.getFullBounds().getWidth() / getWidth();
         if ( timeScaleGraphicRatio > 0.8 ) {
@@ -155,7 +164,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
             timeScaleNode.setScale( 1.0 );
         }
         double timeScaleNodeY = getHeight() - 10 - timeScaleNode.getFullBounds().getHeight();
-        timeScaleNode.setOffset( 10, timeScaleNodeY );
+        return timeScaleNodeY;
     }
 
     private void addTestElement() {

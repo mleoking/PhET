@@ -1,3 +1,4 @@
+> Added a warning error message for potentially problematic circuits.
 # 3.18.02 (38103) Jan 14, 2010
 1/14/10 Added virtual lab vesrions and updated names.
 # 3.18.01 (38101) Jan 14, 2010
