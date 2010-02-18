@@ -2,21 +2,23 @@ package edu.colorado.phet.neuron.model;
 
 public class FadeAwayStrategy extends FadeStrategy {
 
-	public final double fadeRate;
+	public final double fadeTime;
+	public double fadeCountdownTimer;
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param fadeRate - rate, in proportion per second of sim time, at which
-	 * fadeout should progress.
+	 * @param fadeTime - time, in seconds of sim time, for this to fade away.
 	 */
-	public FadeAwayStrategy(double fadeRate){
-		this.fadeRate = fadeRate;
+	public FadeAwayStrategy(double fadeTime){
+		this.fadeTime = fadeTime;
+		this.fadeCountdownTimer = fadeTime;
 	}
 	
 	@Override
 	public void updateOpaqueness(IFadable fadableModelElement, double dt) {
-		fadableModelElement.setOpaqueness( Math.max( fadableModelElement.getOpaqueness() - ( fadeRate * dt ), 0) );
+		fadableModelElement.setOpaqueness( Math.max( fadeCountdownTimer / fadeTime, 0) );
+		fadeCountdownTimer -= dt;
 	}
 	
 	@Override

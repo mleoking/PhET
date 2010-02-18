@@ -32,7 +32,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 	}
 
 	@Override
-	public void move(IMovable movableModelElement, double dt) {
+	public void move(IMovable movableModelElement, IFadable fadableModelElement, double dt) {
 		Point2D currentPosition = movableModelElement.getPosition();
 		if ( currentDestinationIndex >= traversalPoints.size() || velocity * dt < currentPosition.distance(traversalPoints.get(currentDestinationIndex))){
 			// Move according to the current velocity.
@@ -45,6 +45,12 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 			movableModelElement.setPosition(traversalPoints.get(currentDestinationIndex));
 			currentDestinationIndex++;
 			setCourseForCurrentTraversalPoint(movableModelElement.getPosition());
+			if (currentDestinationIndex == traversalPoints.size()){
+				// We have traverse through all points and are now
+				// presumably on the other side of the membrane, so we need to
+				// start fading out of existence.
+				fadableModelElement.setFadeStrategy(new FadeAwayStrategy(0.001));
+			}
 		}
 	}
 	

@@ -37,7 +37,7 @@ public abstract class Particle implements IMovable, IFadable {
     
     // Opaqueness value, ranges from 0 (completely transparent) to 1 
     // (completely opaque).
-    private double opaqueness;
+    private double opaqueness = 1;
     
     // Fade strategy for fading in and out.
     private FadeStrategy fadeStrategy = new NullFadeStrategy();
@@ -109,7 +109,10 @@ public abstract class Particle implements IMovable, IFadable {
     }
     
 	public void setOpaqueness(double opaqueness){
-		this.opaqueness = opaqueness;
+		if (this.opaqueness != opaqueness){
+			this.opaqueness = opaqueness;
+			notifyOpaquenessChanged();
+		}
 	}
 	
 	public double getOpaqueness(){
@@ -139,9 +142,19 @@ public abstract class Particle implements IMovable, IFadable {
         }        
     }
     
-    protected void notifyRemoved(){
-        // Notify all listeners that this particle was removed from the model.
+    protected void notifyOpaquenessChanged(){
+        // Notify all listeners of the opaqueness change.
         for (Listener listener : listeners)
+        {
+            listener.opaquenessChanged(); 
+        }        
+    }
+    
+    protected void notifyRemoved(){
+    	// Copy the list to avoid concurrent modification exceptions.
+    	ArrayList<Listener> listenersCopy = new ArrayList<Listener>(listeners); 
+    	// Notify all listeners that this particle was removed from the model.
+        for (Listener listener : listenersCopy)
         {
             listener.removedFromModel(); 
         }        
@@ -230,7 +243,7 @@ public abstract class Particle implements IMovable, IFadable {
      * @param dt - delta time in milliseconds.
      */
     public void stepInTime(double dt){
-    	motionStrategy.move(this, dt);
+    	motionStrategy.move(this, this, dt);
     	fadeStrategy.updateOpaqueness(this, dt);
     	if (!fadeStrategy.shouldContinueExisting(this)){
     		// This particle has faded out of existence, so send out a
@@ -240,7 +253,6 @@ public abstract class Particle implements IMovable, IFadable {
     		// cleanup and removal of references needed.  If they don't, there
     		// will be memory leaks.
     		notifyRemoved();
-    		
     	}
     }
     
@@ -274,11 +286,13 @@ public abstract class Particle implements IMovable, IFadable {
 
     public interface Listener {
         void positionChanged();
+        void opaquenessChanged();
         void removedFromModel();
     }
     
     public static class Adapter implements Listener {
 		public void positionChanged() {}
+		public void opaquenessChanged() {}
 		public void removedFromModel() {}
     }
 }
