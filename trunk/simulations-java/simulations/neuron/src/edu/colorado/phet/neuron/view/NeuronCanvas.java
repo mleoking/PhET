@@ -218,7 +218,16 @@ public class NeuronCanvas extends PhetPCanvas {
     }
     
     private void addAtom(Particle atomToBeAdded){
-    	atomLayer.addChild(new ParticleNode(atomToBeAdded, mvt));
+    	final ParticleNode particleNode = new ParticleNode(atomToBeAdded, mvt); 
+    	atomLayer.addChild(particleNode);
+    	
+    	// Set up a listener to remove the particle node when and if the
+    	// particle is removed from the model.
+    	atomToBeAdded.addListener(new Particle.Adapter(){
+    		public void removedFromModel() {
+    			atomLayer.removeChild(particleNode);
+    		}
+    	});
     }
     
     private void addChannelNode(MembraneChannel channelToBeAdded){

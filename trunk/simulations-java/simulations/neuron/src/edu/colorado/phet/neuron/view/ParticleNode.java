@@ -34,7 +34,7 @@ public class ParticleNode extends PNode {
 		this.particle = particle;
         this.modelViewTransform = modelViewTransform;
 
-        particle.addListener(new Particle.Listener() {
+        particle.addListener(new Particle.Adapter() {
 			public void positionChanged() {
 				updateOffset();
 			}
