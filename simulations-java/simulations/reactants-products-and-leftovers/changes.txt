@@ -1,3 +1,4 @@
+2/17/10 add motion strategies to GameRewardNode
 2/17/10 integrate GameRewardNode into sim
 # 0.00.26 (38715) Feb 17, 2010
 2/17/10 prototype for game reward, with developer controls
