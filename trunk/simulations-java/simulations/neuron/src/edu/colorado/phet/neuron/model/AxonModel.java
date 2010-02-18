@@ -375,12 +375,21 @@ public class AxonModel implements IParticleCapture {
      */
     public Particle createParticle(ParticleType particleType, CaptureZone captureZone){
     	
-    	Particle newParticle = Particle.createParticle(particleType);
+    	final Particle newParticle = Particle.createParticle(particleType);
     	particles.add(newParticle);
     	if (captureZone != null){
     		Point2D location = captureZone.getSuggestedNewParticleLocation();
     		newParticle.setPosition(location);
     	}
+    	
+    	// Listen to the particle for notification of its removal.
+    	newParticle.addListener(new Particle.Adapter(){
+    		public void removedFromModel() {
+    			particles.remove(newParticle);
+    		}
+    	});
+    	
+    	// Send notification that this particle has come into existence.
     	notifyParticleAdded(newParticle);
     	
 		return newParticle;
