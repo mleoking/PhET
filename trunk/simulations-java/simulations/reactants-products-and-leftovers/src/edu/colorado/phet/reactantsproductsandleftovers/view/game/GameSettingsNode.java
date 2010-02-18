@@ -91,7 +91,7 @@ public class GameSettingsNode extends PhetPNode {
         soundPanel.add( soundOffRadioButton );
         
         // Molecule images control
-        JLabel imagesLabel = new JLabel( new ImageIcon( RPALImages.H2O ) );
+        JLabel imagesLabel = new JLabel( new ImageIcon( RPALImages.CO ) );
         imagesShowRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_SHOW );
         imagesShowRadioButton.setOpaque( false );
         imagesHideRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_HIDE );
