@@ -2,18 +2,24 @@ package edu.colorado.phet.website.content;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
+import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
+import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.panels.ContributionEditPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
-import edu.colorado.phet.website.data.contribution.Contribution;
 
 public class ContributionEditPage extends PhetRegularPage {
 
     private static Logger logger = Logger.getLogger( ContributionEditPage.class.getName() );
+
+    private Contribution contribution;
 
     public ContributionEditPage( PageParameters parameters ) {
         super( parameters );
@@ -21,12 +27,21 @@ public class ContributionEditPage extends PhetRegularPage {
         AuthenticatedPage.checkSignedIn();
 
         String contributionIdString = parameters.getString( "contributionId" );
-        int contributionId = Integer.parseInt( contributionIdString );
+        final int contributionId = Integer.parseInt( contributionIdString );
 
         // TODO: localize
         addTitle( "Edit a Contribution" );
 
         initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.edit" ) );
+
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                contribution = (Contribution) session.load( Contribution.class, contributionId );
+                return true;
+            }
+        } );
+
+        add( new ContributionEditPanel( "contribution-edit-panel", getPageContext(), contribution ) );
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {

@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title>[PREVIEW] ContributionEditPanel</title>
+    <wicket:remove>
+        <!-- for preview purposes only -->
+        <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
+        <style type="text/css">
+            .contribution-main-container {
+                width: 525px;
+                margin: 0 auto;
+            }
+        </style>
+    </wicket:remove>
+</head>
+<body>
+
+<wicket:panel>
+    <div class="contribution-edit" wicket:message="dir:language.dir">
+        <form wicket:id="contribution-form">
+            <h2>Required Information</h2>
+
+            <table>
+                <tr>
+                    <td>Author(s)</td>
+                    <td><input wicket:id="authors" type="text" value="" size="40"/></td>
+                </tr>
+            </table>
+
+            <h2>Optional Information</h2>
+
+            <input type="submit" name="submit" value="Submit"/>
+        </form>
+    </div>
+</wicket:panel>
+
+</body>
+</html>
+
