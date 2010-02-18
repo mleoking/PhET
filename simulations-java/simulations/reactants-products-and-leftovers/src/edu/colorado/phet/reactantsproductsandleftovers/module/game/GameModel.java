@@ -35,6 +35,7 @@ public class GameModel extends RPALModel {
     private final GameTimer timer;
     private final ChangeListener guessChangeListener;
     private final IChallengeFactory challengeFactory;
+    private final long[] bestTimes; // best times for each level, in ms
     
     private GameChallenge[] challenges; // the challenges that make up the current game
     private int challengeNumber; // the current challenge that the user is attempting to solve
@@ -48,6 +49,8 @@ public class GameModel extends RPALModel {
     public GameModel( IClock clock ) {
         
         listeners = new EventListenerList();
+        
+        bestTimes = new long[ getLevelRange().getLength() ]; // all zero by default
         
         timer = new GameTimer( clock );
         timer.addChangeListener( new ChangeListener() {
@@ -113,10 +116,27 @@ public class GameModel extends RPALModel {
     public void endGame() {
         timer.stop();
         if ( isGameCompleted() ) {
+            if ( getPoints() == getPerfectScore() ) {
+                rememberBestTime();
+            }
             fireGameCompleted();
         }
         else {
             fireGameAborted();
+        }
+    }
+    
+    /*
+     * Remembers the best time for the current game level.
+     */
+    private void rememberBestTime() {
+        if ( bestTimes[level - 1] == 0 ) {
+            // this is our first game
+            bestTimes[level - 1] = getTime();
+        }
+        else {
+            // compare with previous best time
+            bestTimes[level - 1] = Math.min( bestTimes[level - 1], getTime() );
         }
     }
     
@@ -153,6 +173,11 @@ public class GameModel extends RPALModel {
             }
             else {
                 // subsequent attempts score zero points
+            }
+            
+            // stop the timer immediately when the last challenge is correctly guessed
+            if ( getChallengeNumber() == getChallengesPerGame() - 1 ) {
+                timer.stop();
             }
         }
         else if ( DEBUG_WRONG_GUESS ) { /* see #2156 */
@@ -297,11 +322,20 @@ public class GameModel extends RPALModel {
     }
     
     /**
-     * Gets the time (in ms) since the current game was started.
-     * @return
+     * Gets the time since the current game was started.
+     * @return time, in ms
      */
     public long getTime() {
         return timer.getTime();
+    }
+    
+    /**
+     * Gets the best time for a specific level.
+     * @param level
+     * @return time, in ms
+     */
+    public long getBestTime( int level ) {
+        return bestTimes[ level - 1 ];
     }
     
     /*
