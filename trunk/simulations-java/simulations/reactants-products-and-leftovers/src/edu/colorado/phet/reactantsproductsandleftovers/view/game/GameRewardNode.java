@@ -388,8 +388,8 @@ public class GameRewardNode extends PhetPNode {
         motionControlPanel.setLayout( motionControlPanelLayout );
         int row = 0;
         int column = 0;
-        motionControlPanelLayout.addComponent( jitteryMotionButton, row++, column );
-        motionControlPanelLayout.addComponent( fallingMotionButton, row++, column );
+        motionControlPanelLayout.addComponent( jitteryMotionButton, row, column++ );
+        motionControlPanelLayout.addComponent( fallingMotionButton, row, column++ );
         
         final LinearValueControl clockDelayControl = new LinearValueControl( clockDelayRange.getMin(), clockDelayRange.getMax(), "clock speed:", "##0", "ms" );
         clockDelayControl.setToolTipText( "how frequently the simulation clock ticks" );
