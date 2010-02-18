@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.behavior.HeaderContributor;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
@@ -30,6 +31,8 @@ public class ContributionBrowsePanel extends PhetPanel {
 
     public ContributionBrowsePanel( String id, final PageContext context, final List<Contribution> contributions ) {
         super( id, context );
+
+        add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
 
         newContributions = new LinkedList<Contribution>();
 

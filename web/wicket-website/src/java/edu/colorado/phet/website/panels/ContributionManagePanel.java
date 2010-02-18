@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.behavior.HeaderContributor;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.PhetSession;
@@ -26,6 +27,8 @@ public class ContributionManagePanel extends PhetPanel {
 
     public ContributionManagePanel( String id, final PageContext context ) {
         super( id, context );
+
+        add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
 
         myContributions = new LinkedList<Contribution>();
         otherContributions = new LinkedList<Contribution>();
