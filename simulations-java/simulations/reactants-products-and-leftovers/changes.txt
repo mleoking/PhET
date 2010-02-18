@@ -1,6 +1,13 @@
 2/17/10 rewards: level 1=molecules, 2=smileys 3=sandwiches
 2/17/10 add motion strategies to GameRewardNode
 2/17/10 integrate GameRewardNode into sim
+2/17/10 design decision: we do want challenges with no products (no change required)
+2/17/10 design decision: we will not change numeric score to stars, it has no added value (no change required)
+2/17/10 design decision: we should not award more points for higher levels (no change required)
+2/17/10 design decision: we should not automatically increment the game level when the user gets a perfect score (no change required)
+2/17/10 design decision: it's preferrable to have user control over whether molecule images are shown for a game, rather than making it random (no change required)
+2/17/10 design decision: decided that it's OK that difficulty of game levels becomes equal as user get more expert (no change required)
+2/17/10 design decision: decided that range of reactant quantities should not be a factor for game levels (no change required)
 # 0.00.26 (38715) Feb 17, 2010
 2/17/10 prototype for game reward, with developer controls
 # 0.00.25 (38665) Feb 16, 2010
