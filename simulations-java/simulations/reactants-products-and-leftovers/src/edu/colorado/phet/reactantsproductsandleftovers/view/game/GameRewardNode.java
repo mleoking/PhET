@@ -37,9 +37,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 
-/*
- * * The reward that is displayed when the game is completed with a perfect
- * score.
+/**
+ * The reward that is displayed when the game is completed with a perfect score.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -54,9 +53,15 @@ public class GameRewardNode extends PhetPNode {
 
     private int population;
     private int motionDelta;
+    
+    public GameRewardNode() {
+        this( new PBounds( 0, 0, 100, 100 ), 100, 5 );
+    }
 
     public GameRewardNode( PBounds bounds, int population, int motionDelta ) {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
 
         this.population = population;
         this.motionDelta = motionDelta;
@@ -97,6 +102,46 @@ public class GameRewardNode extends PhetPNode {
 
         // initial state
         setBounds( bounds );
+    }
+    
+    public void setLevel( int level, boolean perfectScore ) {
+        if ( perfectScore ) {
+            switch ( level ) {
+            case 1:
+                setClockDelay( 80 );
+                setPopulation( 250 );
+                setMotionDelta( 5 );
+                setSmileyFacesVisible( true );
+                setSandwichesVisible( false );
+                break;
+                
+            case 2:
+                setClockDelay( 60 );
+                setPopulation( 550 );
+                setMotionDelta( 6 );
+                setSmileyFacesVisible( true );
+                setSandwichesVisible( false );
+                break;
+                
+            case 3:
+                setClockDelay( 35 );
+                setPopulation( 800 );
+                setMotionDelta( 7 );
+                setSmileyFacesVisible( true );
+                setSandwichesVisible( true );
+                break;
+                
+            default:
+                throw new IllegalArgumentException( "unsupported level: " + level );
+            }
+        }
+        else {
+            setClockDelay( 200 );
+            setPopulation( 50 );
+            setMotionDelta( 1 );
+            setSmileyFacesVisible( false );
+            setSandwichesVisible( false );
+        }
     }
 
     public boolean setBounds( Rectangle2D bounds ) {
@@ -222,9 +267,21 @@ public class GameRewardNode extends PhetPNode {
         double y = bounds.getY() + ( Math.random() * bounds.getHeight() );
         return new Point2D.Double( x, y );
     }
+    
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        if ( visible ) {
+            play();
+        }
+        else {
+            stop();
+        }
+    }
 
     public void play() {
-        clock.start();
+        if ( getVisible() ) {
+            clock.start();
+        }
     }
 
     public void stop() {

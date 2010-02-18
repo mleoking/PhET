@@ -5,6 +5,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -24,6 +25,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.game.*;
 import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionEquationNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -68,6 +70,7 @@ public class GameCanvas extends RPALCanvas {
     private final GameInstructionsNode instructionsNode;
     private final GameSummaryNode gameSummaryNode;
     private final PointsDeltaNode pointsDeltaNode;
+    private final GameRewardNode rewardNode;
     
     // developer nodes, allocated once, always visible
     private final DevAnswerNode devAnswerNode;
@@ -81,6 +84,10 @@ public class GameCanvas extends RPALCanvas {
         super();
         
         audioPlayer = new RPALAudioPlayer( model.isSoundEnabled() );
+        
+        // reward node
+        rewardNode = new GameRewardNode();
+        addWorldChild( rewardNode ); // add this as a world child so it can fill the canvas without affecting centering of the canvas' root node
         
         // game settings
         gameSettingsNode = new GameSettingsNode( model );
@@ -103,7 +110,7 @@ public class GameCanvas extends RPALCanvas {
         parentNode = new PhetPNode();
         addChild( parentNode );
         parentNode.moveToBack();
-
+        
         // right-pointing arrow
         arrowNode = new RightArrowNode();
         parentNode.addChild( arrowNode );
@@ -145,7 +152,7 @@ public class GameCanvas extends RPALCanvas {
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
             parentNode.addChild( devAnswerNode );
         }
-
+        
         this.model = model;
         model.addGameListener( new GameAdapter() {
 
@@ -227,7 +234,7 @@ public class GameCanvas extends RPALCanvas {
         showAnswerButton.addPropertyChangeListener( buttonVisibilityListener );
         
         // visibility management
-        PNode[] allNodes = { gameSettingsNode, gameSummaryNode, parentNode, checkButton, nextButton, tryAgainButton, showAnswerButton, faceNode, instructionsNode, pointsDeltaNode };
+        PNode[] allNodes = { rewardNode, gameSettingsNode, gameSummaryNode, parentNode, checkButton, nextButton, tryAgainButton, showAnswerButton, faceNode, instructionsNode, pointsDeltaNode };
         visibilityManager = new NodeVisibilityManager( allNodes );
         initVisibilityManager();
         
@@ -249,7 +256,7 @@ public class GameCanvas extends RPALCanvas {
         visibilityManager.add( SECOND_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode, pointsDeltaNode );
         visibilityManager.add( SECOND_ATTEMPT_WRONG_STATE, parentNode, showAnswerButton, faceNode );
         visibilityManager.add( ANSWER_SHOWN_STATE, parentNode, nextButton );
-        visibilityManager.add( GAME_SUMMARY_STATE, gameSummaryNode, parentNode );
+        visibilityManager.add( GAME_SUMMARY_STATE, gameSummaryNode, rewardNode );
     }
     
     private void handleNewGame() {
@@ -263,6 +270,7 @@ public class GameCanvas extends RPALCanvas {
     }
     
     private void handleGameCompleted() {
+        rewardNode.setLevel( model.getLevel(), model.getPoints() == GameModel.getPerfectScore() );
         visibilityManager.setVisibility( GAME_SUMMARY_STATE );
         if ( model.getPoints() == GameModel.getPerfectScore() ) {
             audioPlayer.gameOverPerfectScore( model.getLevel() );
@@ -538,5 +546,15 @@ public class GameCanvas extends RPALCanvas {
         beforeNode.showGuessImages( !after );
         beforeNode.showAnswerImages( after );
         beforeNode.showImagesHiddenMessage( false );
+    }
+    
+    @Override
+    protected void updateLayout() {
+        super.updateLayout();
+        Dimension2D worldSize = getWorldSize();
+        if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
+            PBounds newBounds = new PBounds( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
+            rewardNode.setBounds( newBounds );
+        }
     }
 }
