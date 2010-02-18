@@ -186,21 +186,30 @@ public class ScoreboardNode extends PhetPNode {
     }
     
     private void setTime( long elapsedMillis ) {
+        String valueString = getTimeString( elapsedMillis );
+        long bestTime = model.getBestTime( model.getLevel() );
+        if ( bestTime > 0 ) {
+            valueString += " " + MessageFormat.format( RPALStrings.LABEL_BEST_TIME, getTimeString( bestTime ) );
+        }
+        timerValue.setText( valueString );
+    }
+    
+    private static String getTimeString( long elapsedMillis ) {
+        String s = "";
         int hours = (int) ( elapsedMillis / ( 1000 * 60 * 60 ) );
         int minutes = (int) ( ( elapsedMillis % ( 1000 * 60 * 60 ) ) / ( 1000 * 60 ) );
         int seconds = (int) ( ( ( elapsedMillis % ( 1000 * 60 * 60 ) ) % ( 1000 * 60 ) ) / 1000 );
-        String valueString = "";
         if ( hours > 0 ) {
             // hours:minutes:seconds
             Object[] args = { ONE_DIGIT_TIME_FORMAT.format( hours ), TWO_DIGIT_TIME_FORMAT.format( minutes ), TWO_DIGIT_TIME_FORMAT.format( seconds ) };
-            valueString = MessageFormat.format( "{0}:{1}:{2}", args );
+            s = MessageFormat.format( "{0}:{1}:{2}", args );
         }
         else {
             // minutes:seconds
             Object[] args = { ONE_DIGIT_TIME_FORMAT.format( minutes ), TWO_DIGIT_TIME_FORMAT.format( seconds ) };
-            valueString = MessageFormat.format( "{0}:{1}", args );
+            s = MessageFormat.format( "{0}:{1}", args );
         }
-        timerValue.setText( valueString );
+        return s;
     }
     
     private void handleNewGame() {
