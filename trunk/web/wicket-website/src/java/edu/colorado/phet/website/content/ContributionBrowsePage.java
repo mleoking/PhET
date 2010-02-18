@@ -32,7 +32,7 @@ public class ContributionBrowsePage extends PhetRegularPage {
         initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.browse" ) );
 
         // TODO: localize
-        addTitle( "" );
+        addTitle( "Browse PhET contributions" );
 
         // TODO: for now, only showing all contributions
         final List<Contribution> contributions = new LinkedList<Contribution>();

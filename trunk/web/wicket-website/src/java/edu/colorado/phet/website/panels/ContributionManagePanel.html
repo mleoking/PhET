@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title>[PREVIEW] ContributionManagePanel</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
+    </wicket:remove>
+</head>
+<body wicket:message="dir:language.dir">
+
+<wicket:panel>
+    <div wicket:message="dir:language.dir">
+        <table>
+            <tr>
+                <td colspan="3"><h3>My Contributions</h3></td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <th>Authors</th>
+                <th>Actions</th>
+            </tr>
+            <tr wicket:id="my-contributions">
+
+                <td>
+                    <a href="#" wicket:id="contribution-link">
+                        <span wicket:id="contribution-title"></span>
+                    </a>
+                </td>
+                <td wicket:id="contribution-authors"></td>
+                <td></td>
+
+            </tr>
+            <wicket:enclosure child="other-contributions">
+                <tr>
+                    <td colspan="3"><h3>Ohter Contributions</h3></td>
+                </tr>
+                <tr>
+                    <th>Title</th>
+                    <th>Authors</th>
+                    <th>Actions</th>
+                </tr>
+                <tr wicket:id="other-contributions">
+
+                    <td>
+                        <a href="#" wicket:id="contribution-link">
+                            <span wicket:id="contribution-title"></span>
+                        </a>
+                    </td>
+                    <td wicket:id="contribution-authors"></td>
+                    <td></td>
+
+                </tr>
+            </wicket:enclosure>
+        </table>
+    </div>
+</wicket:panel>
+
+</body>
+</html>
+
