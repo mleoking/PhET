@@ -87,17 +87,14 @@ public class GameCanvas extends RPALCanvas {
         
         // reward node
         rewardNode = new GameRewardNode();
-        addWorldChild( rewardNode ); // add this as a world child so it can fill the canvas without affecting centering of the canvas' root node
         
         // game settings
         gameSettingsNode = new GameSettingsNode( model );
         gameSettingsNode.scale( 1.5 );
-        addChild( gameSettingsNode );
 
         // game summary
         gameSummaryNode = new GameSummaryNode( model );
         gameSummaryNode.scale( 1.5 );
-        addChild( gameSummaryNode );
         gameSummaryNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 if ( evt.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
@@ -108,8 +105,14 @@ public class GameCanvas extends RPALCanvas {
 
         // all other nodes are children of this node
         parentNode = new PhetPNode();
-        addChild( parentNode );
+        addWorldChild( parentNode );
         parentNode.moveToBack();
+        
+        // rendering order of top-level nodes
+        addWorldChild( rewardNode );
+        addWorldChild( parentNode );
+        addWorldChild( gameSettingsNode );
+        addWorldChild( gameSummaryNode );
         
         // right-pointing arrow
         arrowNode = new RightArrowNode();
@@ -553,8 +556,15 @@ public class GameCanvas extends RPALCanvas {
         super.updateLayout();
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
+            
+            // make the reward fill the play area
             PBounds newBounds = new PBounds( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
             rewardNode.setBounds( newBounds );
+            
+            // center nodes in the play area
+            centerNode( gameSettingsNode );
+            centerNode( gameSummaryNode );
+            centerNode( parentNode );
         }
     }
 }
