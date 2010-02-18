@@ -139,6 +139,14 @@ public abstract class Particle implements IMovable, IFadable {
         }        
     }
     
+    protected void notifyRemoved(){
+        // Notify all listeners that this particle was removed from the model.
+        for (Listener listener : listeners)
+        {
+            listener.removedFromModel(); 
+        }        
+    }
+    
     public void setMotionStrategy(MotionStrategy motionStrategy){
     	this.motionStrategy = motionStrategy; 
     }
@@ -260,5 +268,11 @@ public abstract class Particle implements IMovable, IFadable {
 
     public interface Listener {
         void positionChanged();
+        void removedFromModel();
+    }
+    
+    public static class Adapter implements Listener {
+		public void positionChanged() {}
+		public void removedFromModel() {}
     }
 }
