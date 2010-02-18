@@ -80,13 +80,15 @@ public class GameRewardNode extends PhetPNode {
 
             // smiley face image
             FaceNode faceNode = new FaceNode();
-            faceNode.scale( 0.25 );
+            faceNode.scale( 0.4 );
             faceImage = faceNode.toImage();
             images.add( faceImage );
 
             // sandwiches
             sandwichImage = SandwichImageFactory.createImage( new SandwichShopModel( 2, 1, 1 /* bread, meat, cheese */ ) );
-            images.add( sandwichImage );
+            PImage sandwichNode = new PImage( sandwichImage );
+            sandwichNode.scale( 1.25 );
+            images.add( sandwichNode.toImage() );
             for ( Image image : RPALImages.ALL_SANDWICHES ) {
                 images.add( image );
             }
