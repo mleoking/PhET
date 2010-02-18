@@ -11,10 +11,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -53,6 +50,7 @@ public class GameRewardNode extends PhetPNode {
 
     private int population;
     private int motionDelta;
+    private IMotionStrategy motionStrategy;
     
     public GameRewardNode() {
         this( new PBounds( 0, 0, 100, 100 ), 100, 5 );
@@ -65,6 +63,7 @@ public class GameRewardNode extends PhetPNode {
 
         this.population = population;
         this.motionDelta = motionDelta;
+        this.motionStrategy = new FallingMotionStrategy();
 
         this.clock = new ConstantDtClock( DEFAULT_CLOCK_DELAY, 1 );
         this.clock.pause();
@@ -230,6 +229,10 @@ public class GameRewardNode extends PhetPNode {
     public boolean isSandwichesVisible() {
         return images.contains( sandwichImage );
     }
+    
+    public void setMotionStrategy( IMotionStrategy motionStrategy ) {
+        this.motionStrategy = motionStrategy;
+    }
 
     private void updateImages( boolean removeImages ) {
         if ( removeImages ) {
@@ -291,24 +294,42 @@ public class GameRewardNode extends PhetPNode {
     }
 
     private void step() {
+        PBounds bounds = getBoundsReference();
         for ( int i = 0; i < getChildrenCount(); i++ ) {
-            step( getChild( i ) );
+            motionStrategy.step( getChild( i ), bounds, motionDelta );
         }
     }
 
-    private void step( PNode node ) {
-        PBounds bounds = getBoundsReference();
-        // walk a distance in a random direction
-        double x = node.getXOffset() + ( getRandomDirection() * motionDelta );
-        double y = node.getYOffset() + ( getRandomDirection() * motionDelta );
-        // constrain to the bounds
-        x = Math.max( bounds.getMinX(), Math.min( x, bounds.getMaxX() ) );
-        y = Math.max( bounds.getMinY(), Math.min( y, bounds.getMaxY() ) );
-        node.setOffset( x, y );
+    public interface IMotionStrategy {
+        public void step( PNode node, PBounds bounds, int motionDelta );
     }
-
-    private int getRandomDirection() {
-        return ( Math.random() > 0.5 ) ? 1 : -1;
+    
+    public static class JitteryMotionStrategy implements IMotionStrategy {
+        
+        public void step( PNode node, PBounds bounds, int motionDelta ) {
+            // walk a distance in a random direction
+            double x = node.getXOffset() + ( getRandomDirection() * motionDelta );
+            double y = node.getYOffset() + ( getRandomDirection() * motionDelta );
+            // constrain to the bounds
+            x = Math.max( bounds.getMinX(), Math.min( x, bounds.getMaxX() ) );
+            y = Math.max( bounds.getMinY(), Math.min( y, bounds.getMaxY() ) );
+            node.setOffset( x, y );
+        }
+        
+        private int getRandomDirection() {
+            return ( Math.random() > 0.5 ) ? 1 : -1;
+        }
+    }
+    
+    public static class FallingMotionStrategy implements IMotionStrategy {
+        public void step( PNode node, PBounds bounds, int motionDelta ) {
+            double deltaY = Math.random() * motionDelta * 2;
+            double y = node.getYOffset() + deltaY;
+            if ( y > bounds.getMaxY() ) {
+                y = bounds.getMinY() - node.getFullBoundsReference().getHeight();
+            }
+            node.setOffset( node.getXOffset(), y );
+        }
     }
 
     // test harness
@@ -336,7 +357,40 @@ public class GameRewardNode extends PhetPNode {
         };
         canvas.setBackground( RPALConstants.CANVAS_BACKGROUND );
         canvas.addWorldChild( rewardNode );
-
+        
+        final IMotionStrategy jitteryMotionStrategy = new JitteryMotionStrategy();
+        final IMotionStrategy fallingMotionStrategy = new FallingMotionStrategy();
+        
+        final JRadioButton jitteryMotionButton = new JRadioButton( "jittery" );
+        jitteryMotionButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                rewardNode.setMotionStrategy( jitteryMotionStrategy );
+            }
+        });
+        
+        final JRadioButton fallingMotionButton = new JRadioButton( "falling" );
+        fallingMotionButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                rewardNode.setMotionStrategy( fallingMotionStrategy );
+            }
+        });
+        
+        ButtonGroup motionGroup = new ButtonGroup();
+        motionGroup.add( jitteryMotionButton );
+        motionGroup.add( fallingMotionButton );
+        
+        rewardNode.setMotionStrategy( jitteryMotionStrategy );
+        jitteryMotionButton.setSelected( true );
+        
+        JPanel motionControlPanel = new JPanel();
+        motionControlPanel.setBorder( new TitledBorder( "Motion Strategy" ) );
+        EasyGridBagLayout motionControlPanelLayout = new EasyGridBagLayout( motionControlPanel );
+        motionControlPanel.setLayout( motionControlPanelLayout );
+        int row = 0;
+        int column = 0;
+        motionControlPanelLayout.addComponent( jitteryMotionButton, row++, column );
+        motionControlPanelLayout.addComponent( fallingMotionButton, row++, column );
+        
         final LinearValueControl clockDelayControl = new LinearValueControl( clockDelayRange.getMin(), clockDelayRange.getMax(), "clock speed:", "##0", "ms" );
         clockDelayControl.setToolTipText( "how frequently the simulation clock ticks" );
         clockDelayControl.setValue( rewardNode.getClockDelay() );
@@ -382,13 +436,14 @@ public class GameRewardNode extends PhetPNode {
                 rewardNode.setSandwichesVisible( sandwichesCheckBox.isSelected() );
             }
         } );
-
+        
         JPanel devControlPanel = new JPanel();
         devControlPanel.setBorder( new TitledBorder( "Developer Controls" ) );
         EasyGridBagLayout devControlPanelLayout = new EasyGridBagLayout( devControlPanel );
         devControlPanel.setLayout( devControlPanelLayout );
-        int row = 0;
-        int column = 0;
+        row = 0;
+        column = 0;
+        devControlPanelLayout.addComponent( motionControlPanel, row++, column );
         devControlPanelLayout.addComponent( clockDelayControl, row++, column );
         devControlPanelLayout.addComponent( populationControl, row++, column );
         devControlPanelLayout.addComponent( motionDeltaControl, row++, column );
