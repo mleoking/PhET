@@ -20,13 +20,16 @@
 
 <wicket:panel>
     <div class="contribution-edit" wicket:message="dir:language.dir">
-        <form wicket:id="contribution-form">
+        <div>
+            <span wicket:id="feedback"></span>
+        </div>
+        <form wicket:id="contributionform">
             <h2>Required Information</h2>
 
             <table>
                 <tr>
                     <td>Author(s)</td>
-                    <td><input wicket:id="authors" type="text" value="" size="40"/></td>
+                    <td><input wicket:id="contribution.edit.authors" type="text" value="" size="40"/></td>
                 </tr>
             </table>
 

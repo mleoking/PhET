@@ -2,7 +2,8 @@ package edu.colorado.phet.website.panels;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 
 import edu.colorado.phet.website.data.contribution.Contribution;
@@ -22,17 +23,19 @@ public class ContributionEditPanel extends PhetPanel {
 
         creating = contribution.getId() == 0;
 
-        add( new ContributionForm( "contribution-form" ) );
+        add( new ContributionForm( "contributionform" ) );
+
+        add( new FeedbackPanel( "feedback" ) );
     }
 
     public final class ContributionForm extends Form {
 
-        private TextField authorsText;
+        private RequiredTextField authorsText;
 
         public ContributionForm( String id ) {
             super( id );
 
-            authorsText = new TextField( "authors", new Model( creating ? "" : contribution.getAuthors() ) );
+            authorsText = new RequiredTextField( "contribution.edit.authors", new Model( creating ? "" : contribution.getAuthors() ) );
             add( authorsText );
         }
 
