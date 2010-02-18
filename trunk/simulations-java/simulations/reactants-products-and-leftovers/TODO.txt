@@ -4,20 +4,20 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 DESIGN
-- definition of each game level
-- game needs a replay motivator (persistence of previous scores?...?)
-- game levels become irrelevant when user has figured out how to do these problems
-- do we need a "hide quantities" feature in Game, to force users to work with images?
-- sandwich image overlap in After box? with 3+3+3=1 Sandwich, can't have both maintain correct histogram height and no overlap
-- user interface and strategy for hiding molecule images in Game
-- automatically increase the level setting when user gets a perfect score?
-- award more points for higher levels?
-- instead of points, show stars & half stars? works for 5 challenges, allows student to remember which ones they didn't get
-- do we want challenges with no products?
-- should challenges involving larger quantities be reserved for higher levels?
+- should challenges involving larger quantities be reserved for higher levels? (KL: no)
+- game levels become irrelevant when user has figured out how to do these problems (KL: ok)
+- game needs a replay motivator (persistence of previous scores?...?) (KL: wait for more interviews) (CM: show previous perfect-score times)
+- sandwich image overlap in After box? with 3+3+3=1 Sandwich, can't have both maintain correct histogram height and no overlap (leave as is, make read-only numbers bigger)
+- user interface and strategy for hiding molecule images in Game (leave as is, user choice, more interviews, use CO image)
+- do we need a "hide quantities" feature in Game, to force users to work with images? (KL: interesting research feature? try adding simplest way)
+- should we ditch the histogram bars (yes, let's try it, make it easy to revert)
+- automatically increase the level setting when user gets a perfect score? (no)
+- award more points for higher levels? (no)
+- instead of points, show stars & half stars? works for 5 challenges, allows student to remember which ones they didn't get (no)
+- do we want challenges with no products? (yes)
 
 INTERVIEW ISSUES:
-- what things make a challenge more difficult?
+- are challenges for levels correct?
 - does seeing the molecule images help you solve a challenge?
 - what do you expect at higher game levels? more points? bigger rewards? other?
 
