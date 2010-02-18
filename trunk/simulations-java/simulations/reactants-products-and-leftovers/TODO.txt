@@ -13,6 +13,8 @@ DESIGN
 - automatically increase the level setting when user gets a perfect score?
 - award more points for higher levels?
 - instead of points, show stars & half stars? works for 5 challenges, allows student to remember which ones they didn't get
+- do we want challenges with no products?
+- should challenges involving larger quantities be reserved for higher levels?
 
 INTERVIEW ISSUES:
 - what things make a challenge more difficult?
