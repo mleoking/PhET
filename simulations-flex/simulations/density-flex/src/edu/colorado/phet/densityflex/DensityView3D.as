@@ -316,5 +316,15 @@ public class DensityView3D extends UIComponent {
     public function start() : void {
         running = true;
     }
+
+    public function reset() : void {
+        running = true;
+        if( moving ) {
+            moving = false;
+            stage.removeEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
+        }
+
+        switchToSameMass();
+    }
 }
 }
