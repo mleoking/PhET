@@ -29,6 +29,7 @@ HIGH PRIORITY
 - better sounds for gameOver-perfectScore-level*.wav
 
 MEDIUM PRIORITY
+- should "New Game" button in scoreboard be smaller, so users are less likely to go to it?
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
 - when sandwich is defined as 2-meat, the image on RHS of equation is low
 - associate ImageLayoutStrategy with the chemical reaction type?
