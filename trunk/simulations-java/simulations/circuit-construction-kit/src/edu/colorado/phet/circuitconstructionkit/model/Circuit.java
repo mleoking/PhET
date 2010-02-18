@@ -7,6 +7,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
+import edu.colorado.phet.circuitconstructionkit.model.analysis.Path;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.circuitconstructionkit.model.mna2.CompanionMNA;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -191,6 +193,20 @@ public class Circuit {
 
     public void setSolution( CompanionMNA.CompanionSolution solution ) {
         this.solution = solution;
+    }
+
+    public boolean hasProblematicConfiguration() {
+        KirkhoffSolver.MatrixTable table = new KirkhoffSolver.MatrixTable(this);
+        Path[]loops = table.getLoops();
+        for (Path loop : loops) {
+            if (isProblematicLoop(loop)) return true;
+        }
+        return false;
+    }
+
+    private boolean isProblematicLoop(Path loop) {
+        if (loop.containsCapacitor() && loop.sumResistance()<1) return true;
+        else return false;
     }
 
     class EditingObserver implements SimpleObserver {
