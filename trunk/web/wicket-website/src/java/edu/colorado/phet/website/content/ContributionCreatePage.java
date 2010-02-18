@@ -1,14 +1,16 @@
 package edu.colorado.phet.website.content;
 
-import org.apache.wicket.PageParameters;
 import org.apache.log4j.Logger;
+import org.apache.wicket.PageParameters;
 
-import edu.colorado.phet.website.templates.PhetRegularPage;
-import edu.colorado.phet.website.util.PhetUrlMapper;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.links.RawLinkable;
-import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
+import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.panels.ContributionEditPanel;
+import edu.colorado.phet.website.templates.PhetRegularPage;
+import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.links.AbstractLinker;
+import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class ContributionCreatePage extends PhetRegularPage {
 
@@ -23,6 +25,8 @@ public class ContributionCreatePage extends PhetRegularPage {
         addTitle( "Create a Contribution" );
 
         initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.submit" ) );
+
+        add( new ContributionEditPanel( "contribution-edit-panel", getPageContext(), new Contribution() ) );
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
@@ -36,5 +40,5 @@ public class ContributionCreatePage extends PhetRegularPage {
             }
         };
     }
-    
+
 }
