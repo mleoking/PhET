@@ -11,6 +11,9 @@
                 <mx:RadioButton groupName="massVol" id="sameVolume" label="Objects of same volume"
                                 click="tab1.switchToSameVolume()"/>
             </mx:Panel>
+            <mx:Panel right="10" bottom="10" >
+                <mx:Button label="Reset All" click="resetTab1()"/>
+            </mx:Panel>
         </mx:Canvas>
         <mx:VBox label="Tab 2">
 
@@ -42,15 +45,20 @@
             if ( oldIndex == newIndex ) {
                 return;
             }
-            
+
             if ( oldIndex == 0 ) {
                 tab1.pause();
             }
             if ( newIndex == 0 ) {
                 tab1.start();
             }
-            
+
             oldIndex = newIndex;
+        }
+
+        private function resetTab1() : void {
+            sameMass.selected = true;
+            tab1.reset();
         }
 
 
