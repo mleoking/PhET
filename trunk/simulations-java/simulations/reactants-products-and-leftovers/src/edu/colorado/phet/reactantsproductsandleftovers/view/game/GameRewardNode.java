@@ -30,7 +30,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichImageFactory;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -51,6 +50,24 @@ public class GameRewardNode extends PhetPNode {
     private int population;
     private int motionDelta;
     private IMotionStrategy motionStrategy;
+    
+    private static class MovingImageNode extends PImage {
+
+        private int motionDelta;
+
+        public MovingImageNode( Image image, int motionDelta ) {
+            super( image );
+            this.motionDelta = motionDelta;
+        }
+
+        public int getMotionDelta() {
+            return motionDelta;
+        }
+        
+        public void setMotionDelta( int motionDelta ) {
+            this.motionDelta = motionDelta;
+        }
+    }
     
     public GameRewardNode() {
         this( new PBounds( 0, 0, 100, 100 ), 100, 5 );
@@ -79,13 +96,13 @@ public class GameRewardNode extends PhetPNode {
 
             // smiley face image
             FaceNode faceNode = new FaceNode();
-            faceNode.scale( 0.4 );
+            faceNode.scale( 0.25 );
             faceImage = faceNode.toImage();
             images.add( faceImage );
 
             // sandwiches
             PImage sandwichNode = new PImage( SandwichImageFactory.createImage( new SandwichShopModel( 2, 1, 1 /* bread, meat, cheese */ ) ) );
-            sandwichNode.scale( 1.25 );
+            sandwichNode.scale( 1 );
             sandwichImage = sandwichNode.toImage();
             images.add( sandwichImage );
             for ( Image image : RPALImages.ALL_SANDWICHES ) {
@@ -109,26 +126,29 @@ public class GameRewardNode extends PhetPNode {
         if ( perfectScore ) {
             switch ( level ) {
             case 1:
-                setClockDelay( 80 );
-                setPopulation( 250 );
-                setMotionDelta( 5 );
-                setSmileyFacesVisible( true );
+                setClockDelay( 40 );
+                setPopulation( 200 );
+                setMotionDelta( 10 );
+                setMoleculesVisible( true );
+                setSmileyFacesVisible( false );
                 setSandwichesVisible( false );
                 break;
                 
             case 2:
-                setClockDelay( 60 );
-                setPopulation( 550 );
-                setMotionDelta( 6 );
+                setClockDelay( 40 );
+                setPopulation( 200 );
+                setMotionDelta( 10 );
+                setMoleculesVisible( false );
                 setSmileyFacesVisible( true );
                 setSandwichesVisible( false );
                 break;
                 
             case 3:
-                setClockDelay( 35 );
-                setPopulation( 800 );
-                setMotionDelta( 7 );
-                setSmileyFacesVisible( true );
+                setClockDelay( 40 );
+                setPopulation( 200 );
+                setMotionDelta( 10 );
+                setMoleculesVisible( false );
+                setSmileyFacesVisible( false );
                 setSandwichesVisible( true );
                 break;
                 
@@ -137,9 +157,10 @@ public class GameRewardNode extends PhetPNode {
             }
         }
         else {
-            setClockDelay( 200 );
+            setClockDelay( 40 );
             setPopulation( 50 );
-            setMotionDelta( 1 );
+            setMotionDelta( 2 );
+            setMoleculesVisible( false );
             setSmileyFacesVisible( false );
             setSandwichesVisible( false );
         }
@@ -185,6 +206,12 @@ public class GameRewardNode extends PhetPNode {
         }
         if ( motionDelta != this.motionDelta ) {
             this.motionDelta = motionDelta;
+            for ( int i = 0; i < getChildrenCount(); i++ ) {
+                if ( getChild( i ) instanceof MovingImageNode ) {
+                    int delta = (int) Math.max( 1, Math.random() * motionDelta );
+                    ( (MovingImageNode) getChild( i ) ).setMotionDelta( delta );
+                }
+            }
         }
     }
 
@@ -230,33 +257,58 @@ public class GameRewardNode extends PhetPNode {
         return images.contains( sandwichImage );
     }
     
+    public void setMoleculesVisible( boolean visible ) {
+        if ( visible != isMoleculesVisible() ) {
+            if ( visible ) {
+                for ( Image image : RPALImages.ALL_MOLECULES ) {
+                    images.add( image );
+                }
+            }
+            else {
+                for ( Image image : RPALImages.ALL_MOLECULES ) {
+                    images.remove( image );
+                }
+            }
+            updateImages( true /* removeImages */);
+        }
+    }
+
+    public boolean isMoleculesVisible() {
+        return images.contains( RPALImages.ALL_MOLECULES[0] );
+    }
+    
     public void setMotionStrategy( IMotionStrategy motionStrategy ) {
         this.motionStrategy = motionStrategy;
     }
 
     private void updateImages( boolean removeImages ) {
         if ( removeImages ) {
-            removeAllChildren(); // assume that this node has only images as children
+            removeAllChildren(); // assume that this node has only MovingImages as children
         }
-        if ( getChildrenCount() > population ) {
-            // remove some nodes
-            while ( getChildrenCount() > population ) {
-                removeChild( getChildrenCount() - 1 );
+        if ( images.size() > 0 ) {
+            if ( getChildrenCount() > population ) {
+                // remove some nodes
+                while ( getChildrenCount() > population ) {
+                    removeChild( getChildrenCount() - 1 );
+                }
             }
-        }
-        else {
-            // add some nodes
-            while ( getChildrenCount() < population ) {
-                addRandomNode();
+            else {
+                // add some nodes
+                while ( getChildrenCount() < population ) {
+                    addRandomNode();
+                }
             }
         }
     }
 
     private void addRandomNode() {
+        
+        // choose a random motion delta
+        int delta = (int) Math.max( 1, Math.random() * motionDelta );
 
         // choose a random image
         int index = (int) ( Math.random() * images.size() );
-        PImage imageNode = new PImage( images.get( index ) );
+        MovingImageNode imageNode = new MovingImageNode( images.get( index ), delta );
         addChild( imageNode );
 
         // set a random location within the bounds
@@ -296,20 +348,22 @@ public class GameRewardNode extends PhetPNode {
     private void step() {
         PBounds bounds = getBoundsReference();
         for ( int i = 0; i < getChildrenCount(); i++ ) {
-            motionStrategy.step( getChild( i ), bounds, motionDelta );
+            if ( getChild( i ) instanceof MovingImageNode ) {
+                motionStrategy.step( (MovingImageNode) getChild( i ), bounds );
+            }
         }
     }
 
     public interface IMotionStrategy {
-        public void step( PNode node, PBounds bounds, int motionDelta );
+        public void step( MovingImageNode node, PBounds bounds );
     }
     
     public static class JitteryMotionStrategy implements IMotionStrategy {
         
-        public void step( PNode node, PBounds bounds, int motionDelta ) {
+        public void step( MovingImageNode node, PBounds bounds ) {
             // walk a distance in a random direction
-            double x = node.getXOffset() + ( getRandomDirection() * motionDelta );
-            double y = node.getYOffset() + ( getRandomDirection() * motionDelta );
+            double x = node.getXOffset() + ( getRandomDirection() * node.getMotionDelta() );
+            double y = node.getYOffset() + ( getRandomDirection() * node.getMotionDelta() );
             // constrain to the bounds
             x = Math.max( bounds.getMinX(), Math.min( x, bounds.getMaxX() ) );
             y = Math.max( bounds.getMinY(), Math.min( y, bounds.getMaxY() ) );
@@ -322,9 +376,8 @@ public class GameRewardNode extends PhetPNode {
     }
     
     public static class FallingMotionStrategy implements IMotionStrategy {
-        public void step( PNode node, PBounds bounds, int motionDelta ) {
-            double deltaY = Math.random() * motionDelta * 2;
-            double y = node.getYOffset() + deltaY;
+        public void step( MovingImageNode node, PBounds bounds ) {
+            double y = node.getYOffset() + node.getMotionDelta();
             if ( y > bounds.getMaxY() ) {
                 y = bounds.getMinY() - node.getFullBoundsReference().getHeight();
             }
@@ -379,8 +432,8 @@ public class GameRewardNode extends PhetPNode {
         motionGroup.add( jitteryMotionButton );
         motionGroup.add( fallingMotionButton );
         
-        rewardNode.setMotionStrategy( jitteryMotionStrategy );
-        jitteryMotionButton.setSelected( true );
+        rewardNode.setMotionStrategy( fallingMotionStrategy );
+        fallingMotionButton.setSelected( true );
         
         JPanel motionControlPanel = new JPanel();
         motionControlPanel.setBorder( new TitledBorder( "Motion Strategy" ) );
@@ -395,7 +448,6 @@ public class GameRewardNode extends PhetPNode {
         clockDelayControl.setToolTipText( "how frequently the simulation clock ticks" );
         clockDelayControl.setValue( rewardNode.getClockDelay() );
         clockDelayControl.addChangeListener( new ChangeListener() {
-
             public void stateChanged( ChangeEvent e ) {
                 rewardNode.setClockDelay( (int) clockDelayControl.getValue() );
             }
@@ -419,6 +471,15 @@ public class GameRewardNode extends PhetPNode {
             }
         } );
 
+        final JCheckBox moleculesCheckBox = new JCheckBox( "show molecules" );
+        moleculesCheckBox.setSelected( rewardNode.isMoleculesVisible() );
+        moleculesCheckBox.setToolTipText( "determines whether molecules will be shown" );
+        moleculesCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                rewardNode.setMoleculesVisible( moleculesCheckBox.isSelected() );
+            }
+        } );
+        
         final JCheckBox smileyFacesCheckBox = new JCheckBox( "show smiley faces" );
         smileyFacesCheckBox.setSelected( rewardNode.isSmileyFacesVisible() );
         smileyFacesCheckBox.setToolTipText( "determines whether smiley faces will be shown" );
@@ -447,6 +508,7 @@ public class GameRewardNode extends PhetPNode {
         devControlPanelLayout.addComponent( clockDelayControl, row++, column );
         devControlPanelLayout.addComponent( populationControl, row++, column );
         devControlPanelLayout.addComponent( motionDeltaControl, row++, column );
+        devControlPanelLayout.addComponent( moleculesCheckBox, row++, column );
         devControlPanelLayout.addComponent( smileyFacesCheckBox, row++, column );
         devControlPanelLayout.addComponent( sandwichesCheckBox, row++, column );
 
