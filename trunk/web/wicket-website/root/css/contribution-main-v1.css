@@ -22,3 +22,11 @@
     border: 1px solid gray;
     text-align: center;
 }
+
+.contribution-form-tip {
+    font-size: 9px;
+}
+
+.contribution-feedback span {
+    color: red;
+}

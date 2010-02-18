@@ -20,7 +20,7 @@
 
 <wicket:panel>
     <div class="contribution-edit" wicket:message="dir:language.dir">
-        <div>
+        <div id="contribution-feedback">
             <span wicket:id="feedback"></span>
         </div>
         <form wicket:id="contributionform">
@@ -29,7 +29,37 @@
             <table>
                 <tr>
                     <td>Author(s)</td>
-                    <td><input wicket:id="contribution.edit.authors" type="text" value="" size="40"/></td>
+                    <td>
+                        <input wicket:id="contribution.edit.authors" type="text" value="" size="40"/>
+                        <br/>
+                        <span class="contribution-form-tip">e.g. John Smith, Mary Jane</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1st author's organization</td>
+                    <td>
+                        <input wicket:id="contribution.edit.organization" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Contact email</td>
+                    <td>
+                        <input wicket:id="contribution.edit.email" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td>
+                        <input wicket:id="contribution.edit.title" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Keywords</td>
+                    <td>
+                        <input wicket:id="contribution.edit.keywords" type="text" value="" size="40"/>
+                        <br/>
+                        <span class="contribution-form-tip">keywords should be seperated by commas</span>
+                    </td>
                 </tr>
             </table>
 
