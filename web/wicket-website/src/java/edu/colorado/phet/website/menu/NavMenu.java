@@ -43,6 +43,17 @@ public class NavMenu {
         addLocation( teacherIdeasBrowse );
         teacherIdeas.addChild( teacherIdeasBrowse );
 
+        NavLocation teacherIdeasSubmit = new NavLocation( teacherIdeas, "teacherIdeas.submit", ContributionCreatePage.getLinker() );
+        addLocation( teacherIdeasSubmit );
+        teacherIdeas.addChild( teacherIdeasSubmit );
+
+        NavLocation teacherIdeasManage = new NavLocation( teacherIdeas, "teacherIdeas.manage", ContributionManagePage.getLinker() );
+        addLocation( teacherIdeasManage );
+        teacherIdeas.addChild( teacherIdeasManage );
+
+        NavLocation teacherIdeasEdit = new NavLocation( teacherIdeas, "teacherIdeas.edit", ContributionBrowsePage.getLinker() );
+        addLocation( teacherIdeasEdit );
+
         NavLocation workshops = new NavLocation( null, "workshops", WorkshopsPanel.getLinker() );
         addMajorLocation( workshops );
 
