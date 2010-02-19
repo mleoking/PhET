@@ -25,6 +25,10 @@ public class RPALAudioPlayer extends AudioResourcePlayer {
         playSimAudio( "gameOver-imperfectScore.wav" );
     }
     
+    public void gameOverZeroScore() {
+        playSimAudio( "wrongAnswer.wav" );
+    }
+    
     /**
      * The sound used for "perfect game score" varies by game level.
      * @param level

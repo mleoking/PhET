@@ -50,9 +50,11 @@ public class RPALStrings {
     public static final String MESSAGE_VALUE_OUT_OF_RANGE = RPALResources.getString( "message.valueOutOfRange" );
     public static final String MESSAGE_GAME_OVER = RPALResources.getString( "message.gameOver" );
     public static final String MESSAGE_FINAL_SCORE = RPALResources.getString( "message.finalScore" );
-    public static final String MESSAGE_PERFECT_SCORE = RPALResources.getString( "message.perfectScore" );
+    public static final String MESSAGE_FINAL_SCORE_PERFECT = RPALResources.getString( "message.finalScorePerfect" );
     public static final String MESSAGE_MOLECULES_HIDDEN = RPALResources.getString( "message.moleculesHidden" );
     public static final String MESSAGE_CONFIRM_NEW_GAME = RPALResources.getString( "message.confirmNewGame" );
+    public static final String MESSAGE_NEW_BEST_TIME = RPALResources.getString( "message.newBestTime" );
+    public static final String MESSAGE_DID_NOT_BEAT_TIME = RPALResources.getString( "message.didNotBeatTime" );
     
     // questions
     public static final String QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS = RPALResources.getString( "question.howManyProductsAndLeftovers" );

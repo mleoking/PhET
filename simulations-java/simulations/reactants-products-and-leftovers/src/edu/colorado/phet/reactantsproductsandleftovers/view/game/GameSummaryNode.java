@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
+import edu.colorado.phet.reactantsproductsandleftovers.util.TimeUtils;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -35,7 +36,7 @@ public class GameSummaryNode extends PhetPNode {
     
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 5, 14, 5, 14 ) );
-    private static final Color BACKGROUND = Color.YELLOW;
+    private static final Color BACKGROUND = new Color( 180, 205, 255 );
     
     private final GameModel model;
     private final JLabel messageLabel;
@@ -90,19 +91,32 @@ public class GameSummaryNode extends PhetPNode {
         
         String s = "<html>";
         s += RPALStrings.MESSAGE_GAME_OVER;
+        s += "<br><br>";
         
-        // score message
         String score = POINTS_FORMAT.format( model.getPoints() );
         String perfectScore = POINTS_FORMAT.format( GameModel.getPerfectScore() );
-        s += "<br><br>";
-        s += MessageFormat.format( RPALStrings.MESSAGE_FINAL_SCORE, score, perfectScore );
-        
-        // visibility of "perfect score" message
-        if ( model.getPoints() == GameModel.getPerfectScore() ) {
-            s += "<br><br>";
-            s += RPALStrings.MESSAGE_PERFECT_SCORE;
-            s += "&nbsp;"; //XXX workaround, PSwing cuts off last char
+        if ( !model.isPerfectScore() ) {
+            // imperfect score
+            s += MessageFormat.format( RPALStrings.MESSAGE_FINAL_SCORE, score, perfectScore );
         }
+        else {
+            // perfect score
+            s += MessageFormat.format( RPALStrings.MESSAGE_FINAL_SCORE_PERFECT, score, perfectScore );
+            if ( model.isTimerVisible() ) {
+                long bestTime = model.getBestTime();
+                s += "<br><br>";
+                if ( model.isNewBestTime() ) {
+                    // new best time
+                    s += MessageFormat.format( RPALStrings.MESSAGE_NEW_BEST_TIME, TimeUtils.getTimeString( bestTime ) );
+                }
+                else {
+                    // did not beat time
+                    s += MessageFormat.format( RPALStrings.MESSAGE_DID_NOT_BEAT_TIME, TimeUtils.getTimeString( bestTime ) );
+                }
+            }
+        }
+        
+        s += "&nbsp;"; //XXX workaround, PSwing cuts off last char
         s+= "</html>";
         
         messageLabel.setText( s );
