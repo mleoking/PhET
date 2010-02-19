@@ -4,15 +4,9 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 DESIGN
-- game needs a replay motivator (persistence of previous scores?...?) (KL: wait for more interviews) (CM: show previous perfect-score times)
 - sandwich image overlap in After box? with 3+3+3=1 Sandwich, can't have both maintain correct histogram height and no overlap (leave as is, make read-only numbers bigger)
-- do we need a "hide quantities" feature in Game, to force users to work with images? (KL: interesting research feature? try adding simplest way)
-- should we ditch the histogram bars (yes, let's try it, make it easy to revert)
-
-INTERVIEW ISSUES:
-- are challenges for levels correct?
-- does seeing the molecule images help you solve a challenge?
-- what do you expect at higher game levels? more points? bigger rewards? other?
+- do we need a "hide quantities" feature in Game, to force users to work with images? (KL: interesting research feature, try adding simplest way)
+- should we ditch the histogram bars (let's try it, make it easy to revert)
 
 HIGH PRIORITY
 - stop/start game reward animation when switching modules
@@ -23,7 +17,6 @@ HIGH PRIORITY
 - better sounds for gameOver-perfectScore-level*.wav
 
 MEDIUM PRIORITY
-- should "New Game" button in scoreboard be smaller, so users are less likely to go to it?
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
 - when sandwich is defined as 2-meat, the image on RHS of equation is low
 - associate ImageLayoutStrategy with the chemical reaction type?
