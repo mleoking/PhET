@@ -48,6 +48,15 @@ public class HodgkinHuxleyModel
 
 	public HodgkinHuxleyModel()
 	{
+		reset();
+    }
+	
+    //----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
+	
+	public void reset()
+	{
 		cm = 1;
 		v = 0;
 		vna = -115;
@@ -68,11 +77,7 @@ public class HodgkinHuxleyModel
 		n = an / (an + bn);
 		m = am / (am + bm);
 		h = ah / (ah + bh);
-    }
-	
-    //----------------------------------------------------------------------------
-    // Methods
-    //----------------------------------------------------------------------------
+	}
 
 	public double get_n4() { return n4; }
 	public double get_m3h() { return m3h; }
