@@ -1,3 +1,4 @@
+2/17/10 use the same "perfect score" sound for all levels
 2/17/10 display best time info in Game Summary
 2/17/10 use "wrong answer" sound for a final score of zero
 2/17/10 stop the timer immediately when the last challenge is answered correctly

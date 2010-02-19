@@ -276,7 +276,7 @@ public class GameCanvas extends RPALCanvas {
         rewardNode.setLevel( model.getLevel(), model.isPerfectScore() );
         visibilityManager.setVisibility( GAME_SUMMARY_STATE );
         if ( model.getPoints() == GameModel.getPerfectScore() ) {
-            audioPlayer.gameOverPerfectScore( model.getLevel() );
+            audioPlayer.gameOverPerfectScore();
         }
         else if ( model.getPoints() == 0 ) {
             audioPlayer.gameOverZeroScore();
