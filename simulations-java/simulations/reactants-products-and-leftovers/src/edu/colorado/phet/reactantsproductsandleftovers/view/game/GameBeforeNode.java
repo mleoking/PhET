@@ -36,6 +36,7 @@ public class GameBeforeNode extends AbstractBeforeNode {
     private final ImageLayoutNode guessImagesNode; // parent node for "guess" images, handles layout of the images
     private final ArrayList<ArrayList<SubstanceImageNode>> reactantImageNodeLists; // one list of "guess" images per reactant
     private final GameMessageNode moleculesHiddenNode; // a message indicating that the molecule images are hidden
+    private final GameMessageNode numbersHiddenNode;  // a message indicating that numbers are hidden
     
     public GameBeforeNode( GameModel model, PDimension boxSize ) {
         super( RPALStrings.LABEL_BEFORE_REACTION, boxSize, model.getChallenge().getReaction(), GameModel.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutNode( boxSize ) );
@@ -70,13 +71,20 @@ public class GameBeforeNode extends AbstractBeforeNode {
         double y = ( boxSize.getHeight() - moleculesHiddenNode.getFullBoundsReference().getHeight() ) / 2;
         moleculesHiddenNode.setOffset( x, y );
         
+        // "numbers hidden" message node
+        numbersHiddenNode = new GameMessageNode( RPALStrings.MESSAGE_NUMBERS_HIDDEN, Color.BLACK, 28 );
+        addChild( numbersHiddenNode );
+        x = ( boxSize.getWidth() - numbersHiddenNode.getFullBoundsReference().getWidth() ) / 2;
+        y = boxSize.getHeight() + 40;
+        numbersHiddenNode.setOffset( x, y );
+        
         // default state
         GameChallenge challenge = model.getChallenge();
         if ( challenge.getChallengeType() == ChallengeType.BEFORE ) {
             showGuess( true /* editable */, challenge.isImagesVisible() );
         }
         else {
-            showAnswer( challenge.isImagesVisible() );
+            showAnswer( challenge.isImagesVisible(), challenge.isNumbersVisible() );
         }
     }
     
@@ -89,8 +97,10 @@ public class GameBeforeNode extends AbstractBeforeNode {
     /**
      * Shows the images and quantities corresponding to the actual reaction.
      * @param showImages
+     * @param showNumbers
      */
-    public void showAnswer( boolean showImages ) {
+    public void showAnswer( boolean showImages, boolean showNumbers ) {
+        assert( showImages || showNumbers ); // at least one of these must be true
         
         ChemicalReaction reaction = model.getChallenge().getReaction();
         ArrayList<QuantityValueNode> valueNodes = getReactantValueNodes();
@@ -105,9 +115,11 @@ public class GameBeforeNode extends AbstractBeforeNode {
         }
         
         // show images for reaction
-        showGuessImages( false );
-        showAnswerImages( showImages );
-        showImagesHiddenMessage( !showImages );
+        setImagesVisible( showImages );
+        guessImagesNode.setVisible( false );
+        moleculesHiddenNode.setVisible( !showImages );
+        setNumbersVisible( showNumbers );
+        numbersHiddenNode.setVisible( !showNumbers );
     }
     
     /**
@@ -131,21 +143,11 @@ public class GameBeforeNode extends AbstractBeforeNode {
         }
         
         // show images for user's answer
-        showAnswerImages( false );
-        showGuessImages( showImages );
-        showImagesHiddenMessage( false );
-    }
-    
-    public void showAnswerImages( boolean b ) {
-        setImagesVisible( b );
-    }
-    
-    public void showGuessImages( boolean b ) {
-        guessImagesNode.setVisible( b );
-    }
-    
-    public void showImagesHiddenMessage( boolean b ) {
-        moleculesHiddenNode.setVisible( b );
+        setImagesVisible( false );
+        guessImagesNode.setVisible( showImages );
+        moleculesHiddenNode.setVisible( false );
+        setNumbersVisible( true );
+        numbersHiddenNode.setVisible( false );
     }
     
     /*

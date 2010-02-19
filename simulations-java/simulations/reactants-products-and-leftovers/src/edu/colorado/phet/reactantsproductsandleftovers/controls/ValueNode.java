@@ -148,6 +148,14 @@ public class ValueNode extends PhetPNode {
         imageNode.setImage( image );
     }
     
+    public void setValueVisible( boolean visible ) {
+        valueNode.setVisible( visible );
+    }
+    
+    public void setHistogramBarVisible( boolean visible ) {
+        barNode.setVisible( visible );
+    }
+    
     private void updateLayout() {
         // origin at top center of bar
         double x = -( barNode.getFullBoundsReference().getWidth() / 2 );

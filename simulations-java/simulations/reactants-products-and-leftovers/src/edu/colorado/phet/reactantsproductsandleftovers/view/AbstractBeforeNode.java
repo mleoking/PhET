@@ -16,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.ValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.umd.cs.piccolo.PNode;
@@ -134,6 +135,17 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
      */
     protected void setImagesVisible( boolean visible ) {
         imageLayoutNode.setVisible( visible );
+    }
+    
+    /*
+     * Sets the visibility of the numeric values below the box.
+     * Intended for use by subclasses that may want to hide numbers.
+     */
+    protected void setNumbersVisible( boolean visible ) {
+        for ( ValueNode valueNode : reactantValueNodes ) {
+            valueNode.setValueVisible( visible );
+            valueNode.setHistogramBarVisible( visible );
+        }
     }
     
     /*

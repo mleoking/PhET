@@ -31,8 +31,9 @@ public class DevChallengeFactory extends AbstractChallengeFactory {
      * @param level 1-N
      * @param maxQuantity
      * @param imagesVisible
+     * @param numbersVisible
      */
-    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible ) {
+    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible, boolean numbersVisible ) {
        
         GameChallenge[] challenges = new GameChallenge[ numberOfChallenges ];
         for ( int i = 0; i < challenges.length; i++ ) {
@@ -59,7 +60,7 @@ public class DevChallengeFactory extends AbstractChallengeFactory {
             }
             fixQuantityRangeViolation( reaction, maxQuantity ); // do this before creating the challenge, see #2156
             
-            challenges[i] = new GameChallenge( reaction, challengeType, imagesVisible );
+            challenges[i] = new GameChallenge( reaction, challengeType, imagesVisible, numbersVisible );
         }
         return challenges;
     }

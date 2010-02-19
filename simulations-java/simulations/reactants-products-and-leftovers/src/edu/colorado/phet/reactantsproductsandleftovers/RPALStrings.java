@@ -54,6 +54,7 @@ public class RPALStrings {
     public static final String MESSAGE_VALUE_OUT_OF_RANGE = RPALResources.getString( "message.valueOutOfRange" );
     public static final String MESSAGE_GAME_OVER = RPALResources.getString( "message.gameOver" );
     public static final String MESSAGE_MOLECULES_HIDDEN = RPALResources.getString( "message.moleculesHidden" );
+    public static final String MESSAGE_NUMBERS_HIDDEN = RPALResources.getString( "message.numbersHidden" );
     public static final String MESSAGE_CONFIRM_NEW_GAME = RPALResources.getString( "message.confirmNewGame" );
     
     // questions

@@ -13,8 +13,10 @@ public interface IChallengeFactory {
      * Creates a set of challenges.
      * 
      * @param level 1-N, as in the model
+     * @param maxQuantity
      * @param imagesVisible
+     * @param numbersVisible
      * @return
      */
-    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible );
+    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible, boolean numbersVisible );
 }
