@@ -92,29 +92,30 @@ public class GameSummaryNode extends PhetPNode {
         String s = "<html>";
         s += RPALStrings.MESSAGE_GAME_OVER;
         s += "<br><br>";
-        
-        String score = POINTS_FORMAT.format( model.getPoints() );
-        String perfectScore = POINTS_FORMAT.format( GameModel.getPerfectScore() );
-        if ( !model.isPerfectScore() ) {
-            // imperfect score
-            s += MessageFormat.format( RPALStrings.MESSAGE_FINAL_SCORE, score, perfectScore );
+        // level
+        s += MessageFormat.format( RPALStrings.LABEL_LEVEL, String.valueOf( model.getLevel() ) );
+        s += "<br><br>";
+        // score
+        if ( model.isPerfectScore() ) {
+            s += MessageFormat.format( RPALStrings.LABEL_PERFECT_SCORE, POINTS_FORMAT.format( model.getPoints() ), POINTS_FORMAT.format( GameModel.getPerfectScore() ) );
         }
         else {
-            // perfect score
-            s += MessageFormat.format( RPALStrings.MESSAGE_FINAL_SCORE_PERFECT, score, perfectScore );
-            if ( model.isTimerVisible() ) {
-                long bestTime = model.getBestTime();
-                s += "<br><br>";
-                if ( model.isNewBestTime() ) {
-                    // new best time
-                    s += MessageFormat.format( RPALStrings.MESSAGE_NEW_BEST_TIME, TimeUtils.getTimeString( bestTime ) );
-                }
-                else {
-                    // did not beat time
-                    s += MessageFormat.format( RPALStrings.MESSAGE_DID_NOT_BEAT_TIME, TimeUtils.getTimeString( bestTime ) );
-                }
+            s += MessageFormat.format( RPALStrings.LABEL_FINAL_SCORE, POINTS_FORMAT.format( model.getPoints() ), POINTS_FORMAT.format( GameModel.getPerfectScore() ) );
+        }
+        s += "<br><br>";
+        // time
+        if ( model.isTimerVisible() ) {
+            if ( !model.isPerfectScore() ) {
+                s += MessageFormat.format( RPALStrings.LABEL_TIME, TimeUtils.getTimeString( model.getTime() ) );
+            }
+            else if ( model.isNewBestTime() ) {
+                s += MessageFormat.format( RPALStrings.LABEL_NEW_BEST_TIME, TimeUtils.getTimeString( model.getTime() ) );
+            }
+            else {
+                s += MessageFormat.format( RPALStrings.LABEL_NOT_BEST_TIME, TimeUtils.getTimeString( model.getTime() ), TimeUtils.getTimeString( model.getBestTime() ) );
             }
         }
+        s += "<br><br>";
         
         s += "&nbsp;"; //XXX workaround, PSwing cuts off last char
         s+= "</html>";

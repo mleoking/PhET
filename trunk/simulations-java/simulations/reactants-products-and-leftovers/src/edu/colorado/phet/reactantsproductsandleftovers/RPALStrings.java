@@ -25,10 +25,14 @@ public class RPALStrings {
     public static final String LABEL_PRODUCTS = RPALResources.getString( "label.products" );
     public static final String LABEL_LEFTOVERS = RPALResources.getString( "label.leftovers" );
     public static final String LABEL_LEVEL = RPALResources.getString( "label.level" );
-    public static final String LABEL_TIMER = RPALResources.getString( "label.timer" );
     public static final String LABEL_SCORE = RPALResources.getString( "label.score" );
+    public static final String LABEL_FINAL_SCORE = RPALResources.getString( "label.finalScore" );
+    public static final String LABEL_TIME = RPALResources.getString( "label.time" );
     public static final String LABEL_REACTION_NUMBER = RPALResources.getString( "label.reactionNumber" );
     public static final String LABEL_BEST_TIME = RPALResources.getString( "label.bestTime" );
+    public static final String LABEL_NOT_BEST_TIME = RPALResources.getString( "label.notBestTime" );
+    public static final String LABEL_PERFECT_SCORE = RPALResources.getString( "label.perfectScore" );
+    public static final String LABEL_NEW_BEST_TIME = RPALResources.getString( "label.newBestTime" );
     
     // buttons
     public static final String BUTTON_CHECK = RPALResources.getString( "button.check" );
@@ -49,12 +53,8 @@ public class RPALStrings {
     // messages 
     public static final String MESSAGE_VALUE_OUT_OF_RANGE = RPALResources.getString( "message.valueOutOfRange" );
     public static final String MESSAGE_GAME_OVER = RPALResources.getString( "message.gameOver" );
-    public static final String MESSAGE_FINAL_SCORE = RPALResources.getString( "message.finalScore" );
-    public static final String MESSAGE_FINAL_SCORE_PERFECT = RPALResources.getString( "message.finalScorePerfect" );
     public static final String MESSAGE_MOLECULES_HIDDEN = RPALResources.getString( "message.moleculesHidden" );
     public static final String MESSAGE_CONFIRM_NEW_GAME = RPALResources.getString( "message.confirmNewGame" );
-    public static final String MESSAGE_NEW_BEST_TIME = RPALResources.getString( "message.newBestTime" );
-    public static final String MESSAGE_DID_NOT_BEAT_TIME = RPALResources.getString( "message.didNotBeatTime" );
     
     // questions
     public static final String QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS = RPALResources.getString( "question.howManyProductsAndLeftovers" );
