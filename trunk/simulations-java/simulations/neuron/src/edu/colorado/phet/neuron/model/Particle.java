@@ -150,7 +150,10 @@ public abstract class Particle implements IMovable, IFadable {
         }        
     }
     
-    protected void notifyRemoved(){
+    /**
+     * Inform all listeners that this element has been removed from the model.
+     */
+    public void notifyRemoved(){
     	// Copy the list to avoid concurrent modification exceptions.
     	ArrayList<Listener> listenersCopy = new ArrayList<Listener>(listeners); 
     	// Notify all listeners that this particle was removed from the model.
