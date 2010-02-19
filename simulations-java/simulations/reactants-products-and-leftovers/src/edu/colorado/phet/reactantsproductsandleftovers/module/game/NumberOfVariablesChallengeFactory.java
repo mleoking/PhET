@@ -9,6 +9,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.*;
 import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.*;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
 
 /**
  * Level-of-difficulty is based on the number values that the user must solve for.
@@ -103,7 +104,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
      * @param imagesVisible
      * @param numbersVisible
      */
-    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible, boolean numbersVisible ) {
+    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, ChallengeVisibility challengeVisibility ) {
 
         if ( level < 1 || level > REACTIONS.size() ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
@@ -134,7 +135,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
             }
             fixQuantityRangeViolation( reaction, maxQuantity ); // do this *before* creating the challenge, see #2156
             
-            challenges[i] = new GameChallenge( reaction, challengeType, imagesVisible, numbersVisible );
+            challenges[i] = new GameChallenge( reaction, challengeType, challengeVisibility );
             previousReaction = reaction;
         }
         return challenges;

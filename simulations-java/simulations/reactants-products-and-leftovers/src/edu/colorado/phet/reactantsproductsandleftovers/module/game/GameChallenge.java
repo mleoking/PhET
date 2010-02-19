@@ -15,19 +15,18 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 public class GameChallenge {
     
     public static enum ChallengeType { BEFORE, AFTER };  // whether the user must guess the Before or After quantities
+    
+    public static enum ChallengeVisibility { IMAGES, NUMBERS, BOTH }; // what things are visible while the user is solving a challenge?
 
     private final ChemicalReaction reaction; // the actual reaction, which won't be modified
     private final ChallengeType challengeType;
-    private final boolean imagesVisible;  // are images visible while the user is solving the challenge?
-    private final boolean numbersVisible;  // are numbers visible while the user is solving the challenge?
+    private final ChallengeVisibility challengeVisibility; 
     private final GameGuess guess; // the user's guess
 
-    public GameChallenge( ChemicalReaction reaction, ChallengeType challengeType, boolean imagesVisible, boolean numbersVisible ) {
-        assert( imagesVisible || numbersVisible ); 
+    public GameChallenge( ChemicalReaction reaction, ChallengeType challengeType, ChallengeVisibility visibility ) {
         this.reaction = reaction;
         this.challengeType = challengeType;
-        this.imagesVisible = imagesVisible;
-        this.numbersVisible = numbersVisible;
+        this.challengeVisibility = visibility;
         this.guess = new GameGuess( reaction, challengeType );
     }
     
@@ -39,12 +38,16 @@ public class GameChallenge {
         return challengeType;
     }
     
+    public ChallengeVisibility getChallengeVisibility() {
+        return challengeVisibility;
+    }
+    
     public boolean isImagesVisible() {
-        return imagesVisible;
+        return ( challengeVisibility != ChallengeVisibility.NUMBERS );
     }
     
     public boolean isNumbersVisible() {
-        return numbersVisible;
+        return ( challengeVisibility != ChallengeVisibility.IMAGES );
     }
     
     public GameGuess getGuess() {
