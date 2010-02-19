@@ -1,3 +1,5 @@
+# 0.00.27 (38805) Feb 19, 2010
+2/19/10 many changes to the game, based on meetings with Kelly and Trish
 2/19/10 use 3 radio buttons for visibility control in Game Settings
 2/19/10 add missing i18n for Start! button in Game Settings
 2/19/10 add enum ChallengeVisibility for what is visible while user is solving a challenge
