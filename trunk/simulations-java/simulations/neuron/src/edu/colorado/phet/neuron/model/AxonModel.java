@@ -209,6 +209,21 @@ public class AxonModel implements IParticleCapture {
     //----------------------------------------------------------------------------
     
     public void reset(){
+    	
+    	// Reset the HH model.
+    	hodgkinHuxleyModel.reset();
+    	
+    	// Reset the stimulation lockout time.
+    	stimLockoutCountdownTime = 0;
+    	
+    	// Remove all particles.  This is done by telling the particle to send
+    	// out notifications of its removal from the model.  All listeners,
+    	// including this class, should remove their references in response.
+    	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
+    	for (Particle particle : particlesCopy){
+    		particle.notifyRemoved();
+    	}
+    	
     	// Remove all channels.
     	ArrayList<MembraneChannel> tempChannelList = new ArrayList<MembraneChannel>(channels);
     	for ( MembraneChannel channel : tempChannelList){
@@ -216,10 +231,10 @@ public class AxonModel implements IParticleCapture {
     	}
     	
     	// Add the initial particles.
-      addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 1);
-      addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 100);
-      addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 10);
-      addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 1);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 1);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 10);
+    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 10);
+    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 1);
 
     	// Add the initial channels.
     	for (int i = 0; i < 4; i++){
