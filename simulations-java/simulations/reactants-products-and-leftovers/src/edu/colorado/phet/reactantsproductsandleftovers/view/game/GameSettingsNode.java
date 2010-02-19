@@ -18,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
-import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -183,35 +182,6 @@ public class GameSettingsNode extends PhetPNode {
         // PSwing wrapper
         PSwing pswing = new PSwing( panel );
         addChild( pswing );
-        
-        // listen to model
-        model.addGameListener( new GameAdapter() {
-
-            @Override
-            public void levelChanged() {
-                setLevel( model.getLevel() );
-            }
-
-            @Override
-            public void timerVisibleChanged() {
-                setTimerOnSelected( model.isTimerVisible() );
-            }
-            
-            @Override
-            public void soundEnabledChanged() {
-                setSoundOnSelected( model.isSoundEnabled() );
-            }
-            
-            @Override
-            public void imagesVisibleChanged() {
-                setShowImagesSelected( model.isImagesVisible() );
-            }
-            
-            @Override
-            public void numbersVisibleChanged() {
-                setShowNumbersSelected( model.isNumbersVisible() );
-            }
-        });
         
         // initial state
         setLevel( model.getLevel() );
