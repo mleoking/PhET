@@ -11,7 +11,6 @@ DESIGN
 HIGH PRIORITY
 - stop/start game reward animation when switching modules
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
-- better sounds for gameOver-perfectScore-level*.wav
 
 MEDIUM PRIORITY
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
