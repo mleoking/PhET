@@ -72,8 +72,13 @@ public class NeuronApplication extends PiccoloPhetApplication {
         membraneDiffusionModule = new MembraneDiffusionModule( parentFrame );
         addModule( membraneDiffusionModule );
 
+        /*
+         * TODO: Removed this tab for now, since we are not doing the resting
+         * membrane potential any more.  Replace it with something else or
+         * remove entirely once the details are worked out.
         restingPotentialModule = new RestingPotentialModule(parentFrame);
         addModule( restingPotentialModule );
+         */
     }
 
     /**
