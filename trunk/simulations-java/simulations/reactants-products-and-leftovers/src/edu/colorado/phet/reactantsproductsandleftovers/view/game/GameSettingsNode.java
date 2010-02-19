@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,6 +29,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class GameSettingsNode extends PhetPNode {
     
+    private static final Font TITLE_FONT = new PhetFont( 24 );
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 5, 14, 5, 14 ) );
     private static final Color BACKGROUND = new Color( 180, 205, 255 );
 
@@ -45,7 +43,10 @@ public class GameSettingsNode extends PhetPNode {
         
         // Title
         JLabel titleLabel = new JLabel( "Game Settings" );
-        titleLabel.setFont( new PhetFont( 24 ) );
+        titleLabel.setFont( TITLE_FONT );
+        
+        JSeparator titleSeparator = new JSeparator();
+        titleSeparator.setForeground( Color.BLACK );
         
         // Level control
         levelRadioButtons = new JRadioButton[ GameModel.getLevelRange().getLength() + 1 ];
@@ -104,8 +105,8 @@ public class GameSettingsNode extends PhetPNode {
         imagesPanel.add( imagesShowRadioButton );
         imagesPanel.add( imagesHideRadioButton );
         
-        JSeparator separator = new JSeparator();
-        separator.setForeground( Color.BLACK );
+        JSeparator buttonSeparator = new JSeparator();
+        buttonSeparator.setForeground( Color.BLACK );
         
         // Start! button
         JButton startButton = new JButton( "Start!" );
@@ -126,6 +127,7 @@ public class GameSettingsNode extends PhetPNode {
         int row = 0;
         int column = 0;
         layout.addComponent( titleLabel, row++, column, 2, 1, GridBagConstraints.CENTER );
+        layout.addFilledComponent( titleSeparator, row++, column, 2, 1, GridBagConstraints.HORIZONTAL );
         layout.addAnchoredComponent( levelLabel, row, column++, GridBagConstraints.EAST );
         layout.addComponent( levelPanel, row++, column );
         column = 0;
@@ -138,7 +140,7 @@ public class GameSettingsNode extends PhetPNode {
         layout.addAnchoredComponent( imagesLabel, row, column++, GridBagConstraints.EAST );
         layout.addComponent( imagesPanel, row++, column );
         column = 0;
-        layout.addFilledComponent( separator, row++, column, 2, 1, GridBagConstraints.HORIZONTAL );
+        layout.addFilledComponent( buttonSeparator, row++, column, 2, 1, GridBagConstraints.HORIZONTAL );
         layout.addComponent( startButton, row++, column, 2, 1, GridBagConstraints.CENTER );
         
         // PSwing wrapper
