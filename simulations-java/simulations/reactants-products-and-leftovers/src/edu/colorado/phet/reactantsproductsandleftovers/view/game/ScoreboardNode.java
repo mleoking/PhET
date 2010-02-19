@@ -172,11 +172,13 @@ public class ScoreboardNode extends PhetPNode {
     }
     
     private void setScore( double points ) {
-        scoreNode.setText( RPALStrings.LABEL_SCORE + " " + POINTS_FORMAT.format( points ) );
+        String s = MessageFormat.format( RPALStrings.LABEL_SCORE, POINTS_FORMAT.format( points ) );
+        scoreNode.setText( s );
     }
     
     private void setLevel( int level ) {
-        levelNode.setText( RPALStrings.LABEL_LEVEL + " " + String.valueOf( level ) );
+        String s = MessageFormat.format( RPALStrings.LABEL_LEVEL, String.valueOf( level ) );
+        levelNode.setText( s );
     }
     
     private void setTimerVisible( boolean visible ) {
