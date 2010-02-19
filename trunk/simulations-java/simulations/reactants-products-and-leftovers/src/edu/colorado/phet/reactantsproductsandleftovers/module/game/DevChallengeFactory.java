@@ -8,6 +8,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions
 import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.WaterReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.MethaneReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
 
 /**
  * A very simple, predictable factory for generating game challenges,
@@ -33,7 +34,7 @@ public class DevChallengeFactory extends AbstractChallengeFactory {
      * @param imagesVisible
      * @param numbersVisible
      */
-    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible, boolean numbersVisible ) {
+    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, ChallengeVisibility challengeVisibility ) {
        
         GameChallenge[] challenges = new GameChallenge[ numberOfChallenges ];
         for ( int i = 0; i < challenges.length; i++ ) {
@@ -60,7 +61,7 @@ public class DevChallengeFactory extends AbstractChallengeFactory {
             }
             fixQuantityRangeViolation( reaction, maxQuantity ); // do this before creating the challenge, see #2156
             
-            challenges[i] = new GameChallenge( reaction, challengeType, imagesVisible, numbersVisible );
+            challenges[i] = new GameChallenge( reaction, challengeType, challengeVisibility );
         }
         return challenges;
     }

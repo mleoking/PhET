@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
+
 /**
  * Interface for creating game challenges.
  *
@@ -14,9 +16,8 @@ public interface IChallengeFactory {
      * 
      * @param level 1-N, as in the model
      * @param maxQuantity
-     * @param imagesVisible
-     * @param numbersVisible
+     * @param challengeVisibility
      * @return
      */
-    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible, boolean numbersVisible );
+    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, ChallengeVisibility challengeVisibility );
 }

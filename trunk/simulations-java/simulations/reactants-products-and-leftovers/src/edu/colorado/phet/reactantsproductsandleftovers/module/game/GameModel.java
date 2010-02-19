@@ -11,6 +11,7 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
 
 /**
  * Model for the "Game" module.
@@ -29,8 +30,7 @@ public class GameModel extends RPALModel {
     
     private static final boolean DEFAULT_TIMER_VISIBLE = true;
     private static final boolean DEFAULT_SOUND_ENABLED = true;
-    private static final boolean DEFAULT_IMAGES_VISIBLE = true;
-    private static final boolean DEFAULT_NUMBERS_VISIBLE = true;
+    private static final ChallengeVisibility DEFAULT_CHALLENGE_VISIBILITY = ChallengeVisibility.BOTH;
     
     private final EventListenerList listeners;
     private final GameTimer timer;
@@ -44,10 +44,9 @@ public class GameModel extends RPALModel {
     private boolean timerVisible; // is the timer visible?
     private int attempts; // how many attempts the user has made at solving the current challenge
     private double points; // how many points the user has earned for the current game
-    private boolean imagesVisible; // whether molecule images are visible while the user is solving a challenge
     private boolean soundEnabled; // is sound enabled?
     private boolean isNewBestTime;
-    private boolean numbersVisible; // whether numbers are visible while the user is solving a challenge
+    private ChallengeVisibility challengeVisibility;
     
     public GameModel( IClock clock ) {
         
@@ -75,19 +74,18 @@ public class GameModel extends RPALModel {
         
         challengeFactory = new NumberOfVariablesChallengeFactory();
         
-        initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_VISIBLE, DEFAULT_SOUND_ENABLED, DEFAULT_IMAGES_VISIBLE, DEFAULT_NUMBERS_VISIBLE );
+        initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_VISIBLE, DEFAULT_SOUND_ENABLED, DEFAULT_CHALLENGE_VISIBILITY );
     }
     
     /*
      * Initializes a new game.
      */
-    private void initGame( int level, boolean timerVisible, boolean soundEnabled, boolean imagesVisible, boolean numbersVisible ) {
+    private void initGame( int level, boolean timerVisible, boolean soundEnabled, ChallengeVisibility challengeVisibility ) {
         isNewBestTime = false;
         setLevel( level );
         setTimerVisible( timerVisible );
         setSoundEnabled( soundEnabled );
-        setImagesVisible( imagesVisible );
-        setNumbersVisible( numbersVisible );
+        setChallengeVisibility( challengeVisibility );
         setPoints( 0 );
         setAttempts( 0 );
         newChallenges();
@@ -108,11 +106,10 @@ public class GameModel extends RPALModel {
      * @param level
      * @param timerVisible
      * @param soundEnabled
-     * @param imagesVisible
-     * @param numbersVisible
+     * @param challengeVisibility
      */
-    public void startGame( int level, boolean timerVisible, boolean soundEnabled, boolean imagesVisible, boolean numbersVisible ) {
-        initGame( level, timerVisible, soundEnabled, imagesVisible, numbersVisible );
+    public void startGame( int level, boolean timerVisible, boolean soundEnabled, ChallengeVisibility challengeVisibility ) {
+        initGame( level, timerVisible, soundEnabled, challengeVisibility );
         timer.start();
         fireGameStarted();
     }
@@ -210,7 +207,7 @@ public class GameModel extends RPALModel {
             getChallenge().getGuess().removeChangeListener( guessChangeListener );
         }
         challengeNumber = 0;
-        challenges = challengeFactory.createChallenges( CHALLENGES_PER_GAME, getLevel(), getQuantityRange().getMax(), isImagesVisible(), isNumbersVisible() );
+        challenges = challengeFactory.createChallenges( CHALLENGES_PER_GAME, getLevel(), getQuantityRange().getMax(), challengeVisibility );
         getChallenge().getGuess().addChangeListener( guessChangeListener );
         fireChallengeChanged();
     }
@@ -316,41 +313,22 @@ public class GameModel extends RPALModel {
     }
     
     /*
-     * Determines whether molecule images are visible while the user is solving a challenge.
-     * @param imagesVisible
+     * Determines what's visible while the user is solving a challenge.
+     * @param challengeVisibility
      */
-    private void setImagesVisible( boolean imagesVisible ) {
-        if ( imagesVisible != this.imagesVisible ) {
-            this.imagesVisible = imagesVisible;
-            fireImagesVisibleChanged();
+    private void setChallengeVisibility( ChallengeVisibility challengeVisibility) {
+        if ( challengeVisibility != this.challengeVisibility ) {
+            this.challengeVisibility = challengeVisibility;
+            fireChallengeVisibilityChanged();
         }
     }
     
     /**
-     * Are molecule images visible while the user is solving a challenge?
+     * What is visible while the user is solving a challenge?
      * @return
      */
-    public boolean isImagesVisible() {
-        return imagesVisible;
-    }
-    
-    /*
-     * Determines whether numbers images are visible while the user is solving a challenge.
-     * @param moleculeImagesVisible
-     */
-    private void setNumbersVisible( boolean numbersVisible ) {
-        if ( numbersVisible != this.numbersVisible ) {
-            this.numbersVisible = numbersVisible;
-            fireNumbersVisibleChanged();
-        }
-    }
-    
-    /**
-     * Are numbers visible while the user is solving a challenge?
-     * @return
-     */
-    public boolean isNumbersVisible() {
-        return numbersVisible;
+    public ChallengeVisibility getChallengeVisibility() {
+        return challengeVisibility;
     }
     
     /**
@@ -439,8 +417,7 @@ public class GameModel extends RPALModel {
         public void attemptsChanged(); // the number of attempts changed
         public void timerVisibleChanged(); // the timer visibility was changed
         public void soundEnabledChanged(); // sound was toggled on or off
-        public void imagesVisibleChanged(); // the visibility of molecule images changed
-        public void numbersVisibleChanged(); // the visibility of numbers changed
+        public void challengeVisibilityChanged(); // what's visible while the user is solving a challenge has changed
         public void timeChanged(); // the time shown on the timer changed
     }
     
@@ -459,8 +436,7 @@ public class GameModel extends RPALModel {
         public void attemptsChanged() {}
         public void timerVisibleChanged() {}
         public void soundEnabledChanged() {}
-        public void imagesVisibleChanged() {}
-        public void numbersVisibleChanged() {}
+        public void challengeVisibilityChanged() {}
         public void timeChanged() {}
     }
     
@@ -549,17 +525,10 @@ public class GameModel extends RPALModel {
         }
     }
     
-    private void fireImagesVisibleChanged() {
-        firePrintDebug( "fireImagesVisibleChanged" );
+    private void fireChallengeVisibilityChanged() {
+        firePrintDebug( "fireChallengeVisibilityChanged" );
         for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
-            listener.imagesVisibleChanged();
-        }
-    }
-    
-    private void fireNumbersVisibleChanged() {
-        firePrintDebug( "fireNumbersVisibleChanged" );
-        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
-            listener.numbersVisibleChanged();
+            listener.challengeVisibilityChanged();
         }
     }
     

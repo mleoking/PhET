@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -104,7 +105,7 @@ public class GameSettingsNode extends PhetPNode {
         hideImagesRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( hideImagesRadioButton.isSelected() && hideNumbersRadioButton.isSelected() ) {
-                    setShowNumbersSelected( true );
+                    showNumbersRadioButton.setSelected( true );
                 }
             }
         });
@@ -125,7 +126,7 @@ public class GameSettingsNode extends PhetPNode {
         hideNumbersRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( hideNumbersRadioButton.isSelected() && hideImagesRadioButton.isSelected() ) {
-                    setShowImagesSelected( true );
+                    showImagesRadioButton.setSelected( true );
                 }
             }
         });
@@ -146,7 +147,7 @@ public class GameSettingsNode extends PhetPNode {
         startButton.setOpaque( false );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.startGame( getLevel(), isTimerOnSelected(), isSoundOnSelected(), isShowImagesSelected(), isShowNumbersSelected() );
+                model.startGame( getLevel(), isTimerOnSelected(), isSoundOnSelected(), getChallengeVisibility() );
             }
         });
         
@@ -187,8 +188,7 @@ public class GameSettingsNode extends PhetPNode {
         setLevel( model.getLevel() );
         setTimerOnSelected( model.isTimerVisible() );
         setSoundOnSelected( model.isSoundEnabled() );
-        setShowImagesSelected( model.isImagesVisible() );
-        setShowNumbersSelected( model.isNumbersVisible() );
+        setChallengeVisibility( model.getChallengeVisibility() );
     }
     
     private void setLevel( int level ) {
@@ -226,21 +226,20 @@ public class GameSettingsNode extends PhetPNode {
         return soundOnRadioButton.isSelected();
     }
     
-    private void setShowImagesSelected( boolean selected ) {
-        showImagesRadioButton.setSelected( selected );
-        hideImagesRadioButton.setSelected( !selected );
+    private void setChallengeVisibility( ChallengeVisibility challengeVisibility ) {
+        showImagesRadioButton.setSelected( challengeVisibility == ChallengeVisibility.IMAGES || challengeVisibility == ChallengeVisibility.BOTH );
+        showNumbersRadioButton.setSelected( challengeVisibility != ChallengeVisibility.NUMBERS || challengeVisibility == ChallengeVisibility.BOTH );
     }
     
-    private boolean isShowImagesSelected() {
-        return showImagesRadioButton.isSelected();
-    }
-    
-    private void setShowNumbersSelected( boolean selected ) {
-        showNumbersRadioButton.setSelected( selected );
-        hideNumbersRadioButton.setSelected( !selected );
-    }
-    
-    private boolean isShowNumbersSelected() {
-        return showNumbersRadioButton.isSelected();
+    private ChallengeVisibility getChallengeVisibility() {
+        assert( showImagesRadioButton.isSelected() || showNumbersRadioButton.isSelected() ); // one of these must be selected
+        ChallengeVisibility challengeVisibility = ChallengeVisibility.BOTH;
+        if ( showImagesRadioButton.isSelected() && !showNumbersRadioButton.isSelected() ) {
+            challengeVisibility = ChallengeVisibility.IMAGES;
+        }
+        else if ( !showImagesRadioButton.isSelected() && showNumbersRadioButton.isSelected() ) {
+            challengeVisibility = ChallengeVisibility.NUMBERS;
+        }
+        return challengeVisibility;
     }
 }
