@@ -19,7 +19,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -37,8 +36,7 @@ public class GameSettingsNode extends PhetPNode {
     private final JRadioButton[] levelRadioButtons;
     private final JRadioButton timerOnRadioButton, timerOffRadioButton;
     private final JRadioButton soundOnRadioButton, soundOffRadioButton;
-    private final JRadioButton showImagesRadioButton, hideImagesRadioButton;
-    private final JRadioButton showNumbersRadioButton, hideNumbersRadioButton;
+    private final JRadioButton hideNothingRadioButton, hideMoleculesRadioButton, hideNumbersRadioButton;
     
     public GameSettingsNode( final GameModel model ) {
         super();
@@ -94,56 +92,30 @@ public class GameSettingsNode extends PhetPNode {
         soundPanel.add( soundOnRadioButton );
         soundPanel.add( soundOffRadioButton );
         
-        // Molecule images control
-        PImage imageNode = new PImage( RPALImages.CO );
-        imageNode.scale( 0.65 );
-        JLabel imagesLabel = new JLabel( new ImageIcon( imageNode.toImage() ) );
-        showImagesRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_SHOW );
-        showImagesRadioButton.setOpaque( false );
-        hideImagesRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_HIDE );
-        hideImagesRadioButton.setOpaque( false );
-        hideImagesRadioButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if ( hideImagesRadioButton.isSelected() && hideNumbersRadioButton.isSelected() ) {
-                    showNumbersRadioButton.setSelected( true );
-                }
-            }
-        });
+        // Visibility control
+        JLabel hideLabel = new JLabel( RPALStrings.LABEL_HIDE );
+        hideNothingRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_NOTHING );
+        hideNothingRadioButton.setOpaque( false );
+        hideMoleculesRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_MOLECULES );
+        hideMoleculesRadioButton.setOpaque( false );
+        hideNumbersRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_NUMBERS );
+        hideNumbersRadioButton.setOpaque( false );
         ButtonGroup imageButtonGroup = new ButtonGroup();
-        imageButtonGroup.add( showImagesRadioButton );
-        imageButtonGroup.add( hideImagesRadioButton );
+        imageButtonGroup.add( hideNothingRadioButton );
+        imageButtonGroup.add( hideMoleculesRadioButton );
+        imageButtonGroup.add( hideNumbersRadioButton );
         JPanel imagesPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         imagesPanel.setOpaque( false );
-        imagesPanel.add( showImagesRadioButton );
-        imagesPanel.add( hideImagesRadioButton );
-        
-        // Numbers controls
-        JLabel numbersLabel = new JLabel( "1 2 3" );
-        showNumbersRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_SHOW );
-        showNumbersRadioButton.setOpaque( false );
-        hideNumbersRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_HIDE );
-        hideNumbersRadioButton.setOpaque( false );
-        hideNumbersRadioButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if ( hideNumbersRadioButton.isSelected() && hideImagesRadioButton.isSelected() ) {
-                    showImagesRadioButton.setSelected( true );
-                }
-            }
-        });
-        ButtonGroup numbersButtonGroup = new ButtonGroup();
-        numbersButtonGroup.add( showNumbersRadioButton );
-        numbersButtonGroup.add( hideNumbersRadioButton );
-        JPanel numbersPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-        numbersPanel.setOpaque( false );
-        numbersPanel.add( showNumbersRadioButton );
-        numbersPanel.add( hideNumbersRadioButton );
+        imagesPanel.add( hideNothingRadioButton );
+        imagesPanel.add( hideMoleculesRadioButton );
+        imagesPanel.add( hideNumbersRadioButton );
         
         // separator
         JSeparator buttonSeparator = new JSeparator();
         buttonSeparator.setForeground( Color.BLACK );
         
         // Start! button
-        JButton startButton = new JButton( "Start!" );
+        JButton startButton = new JButton( RPALStrings.BUTTON_START );
         startButton.setOpaque( false );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -171,11 +143,8 @@ public class GameSettingsNode extends PhetPNode {
         layout.addAnchoredComponent( soundLabel, row, column++, GridBagConstraints.EAST );
         layout.addComponent( soundPanel, row++, column );
         column = 0;
-        layout.addAnchoredComponent( imagesLabel, row, column++, GridBagConstraints.EAST );
+        layout.addAnchoredComponent( hideLabel, row, column++, GridBagConstraints.EAST );
         layout.addComponent( imagesPanel, row++, column );
-        column = 0;
-        layout.addAnchoredComponent( numbersLabel, row, column++, GridBagConstraints.EAST );
-        layout.addComponent( numbersPanel, row++, column );
         column = 0;
         layout.addFilledComponent( buttonSeparator, row++, column, 2, 1, GridBagConstraints.HORIZONTAL );
         layout.addComponent( startButton, row++, column, 2, 1, GridBagConstraints.CENTER );
@@ -227,18 +196,18 @@ public class GameSettingsNode extends PhetPNode {
     }
     
     private void setChallengeVisibility( ChallengeVisibility challengeVisibility ) {
-        showImagesRadioButton.setSelected( challengeVisibility == ChallengeVisibility.IMAGES || challengeVisibility == ChallengeVisibility.BOTH );
-        showNumbersRadioButton.setSelected( challengeVisibility != ChallengeVisibility.NUMBERS || challengeVisibility == ChallengeVisibility.BOTH );
+        hideNothingRadioButton.setSelected( challengeVisibility == ChallengeVisibility.BOTH );
+        hideMoleculesRadioButton.setSelected( challengeVisibility == ChallengeVisibility.NUMBERS );
+        hideNumbersRadioButton.setSelected( challengeVisibility == ChallengeVisibility.MOLECULES );
     }
     
     private ChallengeVisibility getChallengeVisibility() {
-        assert( showImagesRadioButton.isSelected() || showNumbersRadioButton.isSelected() ); // one of these must be selected
         ChallengeVisibility challengeVisibility = ChallengeVisibility.BOTH;
-        if ( showImagesRadioButton.isSelected() && !showNumbersRadioButton.isSelected() ) {
-            challengeVisibility = ChallengeVisibility.IMAGES;
-        }
-        else if ( !showImagesRadioButton.isSelected() && showNumbersRadioButton.isSelected() ) {
+        if ( hideMoleculesRadioButton.isSelected() ) {
             challengeVisibility = ChallengeVisibility.NUMBERS;
+        }
+        else if ( hideNumbersRadioButton.isSelected() ) {
+            challengeVisibility = ChallengeVisibility.MOLECULES;
         }
         return challengeVisibility;
     }

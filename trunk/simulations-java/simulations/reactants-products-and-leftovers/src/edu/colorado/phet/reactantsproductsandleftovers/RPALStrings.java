@@ -33,6 +33,7 @@ public class RPALStrings {
     public static final String LABEL_NOT_BEST_TIME = RPALResources.getString( "label.notBestTime" );
     public static final String LABEL_PERFECT_SCORE = RPALResources.getString( "label.perfectScore" );
     public static final String LABEL_NEW_BEST_TIME = RPALResources.getString( "label.newBestTime" );
+    public static final String LABEL_HIDE = RPALResources.getString( "label.hide" );
     
     // buttons
     public static final String BUTTON_CHECK = RPALResources.getString( "button.check" );
@@ -40,6 +41,7 @@ public class RPALStrings {
     public static final String BUTTON_SHOW_ANSWER = RPALResources.getString( "button.showAnswer" );
     public static final String BUTTON_TRY_AGAIN = RPALResources.getString( "button.tryAgain" );
     public static final String BUTTON_NEW_GAME = RPALResources.getString( "button.newGame" );
+    public static final String BUTTON_START = RPALResources.getString( "button.start" );
 
     // radio buttons
     public static final String RADIO_BUTTON_WATER = RPALResources.getString( "radioButton.water" );
@@ -49,6 +51,9 @@ public class RPALStrings {
     public static final String RADIO_BUTTON_OFF = RPALResources.getString( "radioButton.off" );
     public static final String RADIO_BUTTON_SHOW = RPALResources.getString( "radioButton.show" );
     public static final String RADIO_BUTTON_HIDE = RPALResources.getString( "radioButton.hide" );
+    public static final String RADIO_BUTTON_NOTHING = RPALResources.getString( "radioButton.nothing" );
+    public static final String RADIO_BUTTON_MOLECULES = RPALResources.getString( "radioButton.molecules" );
+    public static final String RADIO_BUTTON_NUMBERS = RPALResources.getString( "radioButton.numbers" );
     
     // messages 
     public static final String MESSAGE_VALUE_OUT_OF_RANGE = RPALResources.getString( "message.valueOutOfRange" );

@@ -1,3 +1,5 @@
+2/19/10 use 3 radio buttons for visibility control in Game Settings
+2/19/10 add missing i18n for Start! button in Game Settings
 2/19/10 add enum ChallengeVisibility for what is visible while user is solving a challenge
 2/19/10 wire up "show/hide numbers" feature to view, add missing model bits
 2/19/10 generalized class for game messages, use HTML so that translators can fit messages in boxes
