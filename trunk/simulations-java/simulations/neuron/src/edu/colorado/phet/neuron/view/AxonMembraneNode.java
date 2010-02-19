@@ -118,7 +118,7 @@ public class AxonMembraneNode extends PNode {
     	
     	private static Color BACKGROUND_COLOR = new Color(204, 102, 255);
     	private static Stroke backgroundStroke = new BasicStroke(20, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-    	private static Color FOREGROUND_COLOR = new Color(255, 204, 0);
+    	private static Color FOREGROUND_COLOR = Color.YELLOW;
     	private static Stroke foregroundStroke = new BasicStroke(10, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     	
     	private AxonMembrane.TravelingActionPotential travelingActionPotential;
