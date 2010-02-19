@@ -22,7 +22,7 @@ public class GameModel extends RPALModel {
     private static final boolean DEBUG_NOTIFICATION = false;
     private static final boolean DEBUG_WRONG_GUESS = false;
     
-    private static final int CHALLENGES_PER_GAME = 5;
+    private static final int CHALLENGES_PER_GAME = 2;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
     private static final double POINTS_FIRST_ATTEMPT = 1;  // points to award for correct guess on 1st attempt
     private static final double POINTS_SECOND_ATTEMPT = 0.5; // points to award for correct guess on 2nd attempt
@@ -45,12 +45,14 @@ public class GameModel extends RPALModel {
     private double points; // how many points the user has earned for the current game
     private boolean imagesVisible; // whether to molecule images are visible while the user is solving a challenge
     private boolean soundEnabled; // is sound enabled?
+    private boolean isNewBestTime;
     
     public GameModel( IClock clock ) {
         
         listeners = new EventListenerList();
         
-        bestTimes = new long[ getLevelRange().getLength() ]; // all zero by default
+        bestTimes = new long[ getLevelRange().getLength() + 1 ]; // all zero by default
+        isNewBestTime = false;
         
         timer = new GameTimer( clock );
         timer.addChangeListener( new ChangeListener() {
@@ -78,6 +80,7 @@ public class GameModel extends RPALModel {
      * Initializes a new game.
      */
     private void initGame( int level, boolean timerVisible, boolean soundEnabled, boolean imagesVisible ) {
+        isNewBestTime = false;
         setLevel( level );
         setTimerVisible( timerVisible );
         setSoundEnabled( soundEnabled );
@@ -116,9 +119,7 @@ public class GameModel extends RPALModel {
     public void endGame() {
         timer.stop();
         if ( isGameCompleted() ) {
-            if ( getPoints() == getPerfectScore() ) {
-                rememberBestTime();
-            }
+            rememberBestTime();
             fireGameCompleted();
         }
         else {
@@ -128,15 +129,23 @@ public class GameModel extends RPALModel {
     
     /*
      * Remembers the best time for the current game level.
+     * Times are only remembered if the timer was visible during the game, and the score was perfect.
      */
     private void rememberBestTime() {
-        if ( bestTimes[level - 1] == 0 ) {
-            // this is our first game
-            bestTimes[level - 1] = getTime();
-        }
-        else {
-            // compare with previous best time
-            bestTimes[level - 1] = Math.min( bestTimes[level - 1], getTime() );
+        if ( isTimerVisible() && isPerfectScore() ) {
+            if ( bestTimes[level - 1] == 0 ) {
+                // this is our first game
+                bestTimes[level - 1] = getTime();
+                isNewBestTime = true;
+            }
+            else {
+                // compare with previous best time
+                final long time = getTime();
+                if ( time < bestTimes[level - 1] ) {
+                    bestTimes[level - 1] = time;
+                    isNewBestTime = true;
+                }
+            }
         }
     }
     
@@ -331,11 +340,17 @@ public class GameModel extends RPALModel {
     
     /**
      * Gets the best time for a specific level.
-     * @param level
      * @return time, in ms
      */
-    public long getBestTime( int level ) {
+    public long getBestTime() {
         return bestTimes[ level - 1 ];
+    }
+    
+    /**
+     * Is the current best time a new best time?
+     */
+    public boolean isNewBestTime() {
+        return isNewBestTime;
     }
     
     /*
@@ -375,6 +390,14 @@ public class GameModel extends RPALModel {
         return points;
     }
     
+    /**
+     * Is the current score a perfect score?
+     * @return
+     */
+    public boolean isPerfectScore() {
+        return points == getPerfectScore();
+    }
+
     //---------------------------------------------------------------------------------
     //
     //  Listener interface and related methods

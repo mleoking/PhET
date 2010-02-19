@@ -15,6 +15,7 @@ INTERVIEW ISSUES:
 - what do you expect at higher game levels? more points? bigger rewards? other?
 
 HIGH PRIORITY
+- stop/start game reward animation when switching modules
 - GameRewardNode needs to be behind GameSettingsNode
 - #2161, layout of Game Summary dialog is messed up on Windows (rewrite in Piccolo?)
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?

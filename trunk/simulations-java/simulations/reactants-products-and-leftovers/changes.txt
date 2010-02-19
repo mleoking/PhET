@@ -1,3 +1,5 @@
+2/17/10 display best time info in Game Summary
+2/17/10 use "wrong answer" sound for a final score of zero
 2/17/10 stop the timer immediately when the last challenge is answered correctly
 2/17/10 keep track of best perfect-score time for each level, display in scoreboard
 2/17/10 rewards: level 1=molecules, 2=smileys 3=sandwiches
