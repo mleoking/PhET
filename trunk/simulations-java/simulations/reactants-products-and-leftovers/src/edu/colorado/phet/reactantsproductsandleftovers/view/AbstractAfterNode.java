@@ -19,6 +19,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.LeftoversValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.ValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
@@ -200,6 +201,21 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
         imageLayoutNode.setVisible( visible );
     }
 
+    /*
+     * Sets the visibility of the numeric values below the box.
+     * Intended for use by subclasses that may want to hide these controls.
+     */
+    protected void setNumbersVisible( boolean visible ) {
+        for ( ValueNode valueNode : productValueNodes ) {
+            valueNode.setValueVisible( visible );
+            valueNode.setHistogramBarVisible( visible );
+        }
+        for ( ValueNode valueNode : leftoverValueNodes ) {
+            valueNode.setValueVisible( visible );
+            valueNode.setHistogramBarVisible( visible );
+        }
+    }
+    
     /*
      * Gets a list of the product value nodes.
      * Intended for use by subclasses that need to fiddle with these.

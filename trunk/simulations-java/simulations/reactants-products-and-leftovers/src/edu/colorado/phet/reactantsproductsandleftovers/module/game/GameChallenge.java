@@ -19,12 +19,15 @@ public class GameChallenge {
     private final ChemicalReaction reaction; // the actual reaction, which won't be modified
     private final ChallengeType challengeType;
     private final boolean imagesVisible;  // are images visible while the user is solving the challenge?
+    private final boolean numbersVisible;  // are numbers visible while the user is solving the challenge?
     private final GameGuess guess; // the user's guess
 
-    public GameChallenge( ChemicalReaction reaction, ChallengeType challengeType, boolean imagesVisible ) {
+    public GameChallenge( ChemicalReaction reaction, ChallengeType challengeType, boolean imagesVisible, boolean numbersVisible ) {
+        assert( imagesVisible || numbersVisible ); 
         this.reaction = reaction;
         this.challengeType = challengeType;
         this.imagesVisible = imagesVisible;
+        this.numbersVisible = numbersVisible;
         this.guess = new GameGuess( reaction, challengeType );
     }
     
@@ -38,6 +41,10 @@ public class GameChallenge {
     
     public boolean isImagesVisible() {
         return imagesVisible;
+    }
+    
+    public boolean isNumbersVisible() {
+        return numbersVisible;
     }
     
     public GameGuess getGuess() {

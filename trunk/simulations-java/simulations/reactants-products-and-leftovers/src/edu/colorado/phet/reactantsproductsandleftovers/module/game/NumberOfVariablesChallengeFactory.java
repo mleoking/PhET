@@ -101,8 +101,9 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
      * @param level 1-N
      * @param maxQuantity
      * @param imagesVisible
+     * @param numbersVisible
      */
-    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible ) {
+    public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible, boolean numbersVisible ) {
 
         if ( level < 1 || level > REACTIONS.size() ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
@@ -133,7 +134,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
             }
             fixQuantityRangeViolation( reaction, maxQuantity ); // do this *before* creating the challenge, see #2156
             
-            challenges[i] = new GameChallenge( reaction, challengeType, imagesVisible );
+            challenges[i] = new GameChallenge( reaction, challengeType, imagesVisible, numbersVisible );
             previousReaction = reaction;
         }
         return challenges;

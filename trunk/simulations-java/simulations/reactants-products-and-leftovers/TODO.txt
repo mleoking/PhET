@@ -4,7 +4,6 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- add "show/hide numbers" feature to Game
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
 - make histograms optional in code, publish a version without
 

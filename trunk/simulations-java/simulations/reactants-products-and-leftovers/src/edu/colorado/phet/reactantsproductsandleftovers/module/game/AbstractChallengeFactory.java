@@ -22,16 +22,6 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
         return 1 + (int) ( Math.random() * maxQuantity );
     }
 
-    /**
-     * Creates challenges.
-     * 
-     * @param numberOfChallenges
-     * @param level 1-N
-     * @param maxQuantity
-     * @param imagesVisible
-     */
-    public abstract GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, boolean imagesVisible ) ;
-    
     /*
      * Uses reflection to instantiate a chemical reaction by class.
      */

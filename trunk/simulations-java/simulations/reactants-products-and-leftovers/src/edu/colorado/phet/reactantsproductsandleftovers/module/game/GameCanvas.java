@@ -533,27 +533,25 @@ public class GameCanvas extends RPALCanvas {
     }
 
     /*
-     * Shows the correct answer, with images.
+     * Shows the correct answer, with images and numbers.
      */
     private void showAnswer() {
-        afterNode.showAnswer( true );
-        beforeNode.showAnswer( true );
+        afterNode.showAnswer( true, true );
+        beforeNode.showAnswer( true, true );
     }
     
     /*
      * Shows molecule images for a correct guess.
      */
     private void showImagesForCorrectGuess() {
-        
-        boolean after = ( model.getChallenge().getChallengeType() == ChallengeType.AFTER );
-        
-        afterNode.showGuessImages( after );
-        afterNode.showAnswerImages( !after );
-        afterNode.showImagesHiddenMessage( false );
-        
-        beforeNode.showGuessImages( !after );
-        beforeNode.showAnswerImages( after );
-        beforeNode.showImagesHiddenMessage( false );
+        if ( model.getChallenge().getChallengeType() == ChallengeType.AFTER ) {
+            afterNode.showGuess( false, true );
+            beforeNode.showAnswer( true, true );
+        }
+        else {
+            afterNode.showAnswer( true, true );
+            beforeNode.showGuess( false, true );
+        }
     }
     
     @Override
