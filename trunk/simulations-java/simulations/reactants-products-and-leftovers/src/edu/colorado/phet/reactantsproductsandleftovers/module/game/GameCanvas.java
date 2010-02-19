@@ -570,4 +570,17 @@ public class GameCanvas extends RPALCanvas {
             centerNode( parentNode );
         }
     }
+    
+    private boolean rewardNodeWasRunning;
+    
+    public void activate() {
+        if ( rewardNodeWasRunning ) {
+            rewardNode.play();
+        }
+    }
+    
+    public void deactivate() {
+        rewardNodeWasRunning = rewardNode.isRunning();
+        rewardNode.pause();
+    }
 }

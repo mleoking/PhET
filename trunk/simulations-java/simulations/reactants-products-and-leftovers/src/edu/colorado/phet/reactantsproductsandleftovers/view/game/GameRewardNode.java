@@ -331,18 +331,22 @@ public class GameRewardNode extends PhetPNode {
             play();
         }
         else {
-            stop();
+            pause();
         }
     }
 
     public void play() {
-        if ( getVisible() ) {
-            clock.start();
-        }
+//        System.out.println( "GameRewardNode.play" );
+        clock.start();
     }
 
-    public void stop() {
+    public void pause() {
+//        System.out.println( "GameRewardNode.pause" );
         clock.pause();
+    }
+    
+    public boolean isRunning() {
+        return clock.isRunning();
     }
 
     private void step() {
