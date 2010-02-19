@@ -26,7 +26,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
-import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannelTypes;
 import edu.colorado.phet.neuron.model.ParticleType;
@@ -105,6 +104,12 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         addControlFullWidth(new IonLegendPanel(
         		new ArrayList<ParticleType>(Arrays.asList(ParticleType.SODIUM_ION, ParticleType.POTASSIUM_ION))));
         
+        /*
+         * TODO: Feb 19 2010 - There have been some radical changes made, and
+         * we are now thinking that the user should not be able to add and
+         * remove gates, so these sliders are being commented out.  They
+         * should be removed permanently when the design is a bit more solid.
+         *  
         // Add the control for the number of sodium leakage channels.
         sodiumLeakChannelControl = new LeakChannelSlider(NeuronStrings.SODIUM_LEAK_CHANNELS, axonModel,
         		ParticleType.SODIUM_ION); 
@@ -114,6 +119,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         potassiumLeakChannelControl = new LeakChannelSlider(NeuronStrings.POTASSIUM_LEAK_CHANNELS, axonModel, 
         		ParticleType.POTASSIUM_ION); 
         addControlFullWidth(potassiumLeakChannelControl);
+         */
         
         /*
          * See TODO at top of this file for information about why the
@@ -152,7 +158,12 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         chartControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
         addControlFullWidth(chartControlCheckbox);
         
+        /*
+         * TODO: Feb 19, 2010 - Got rid of this and put a button on the canvas
+         * instead.  This should be removed permanently if an when it is
+         * decided that the canvas button does the trick.
         // Add a button for sending a stimulus to the neuron.
+        
         addControlFullWidth(createVerticalSpacingPanel(30));
         final JButton stimulusButton = new JButton(NeuronStrings.STIMULUS_PULSE);
         stimulusButton.addActionListener(new ActionListener() {
@@ -161,6 +172,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 			}
 		});
         addControl(stimulusButton);
+         */
         
         // Add the zoom slider.
         // See TODO at top of this file for information about why the
@@ -173,7 +185,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         addResetAllButton( module );
         
         // Update the states of the controls.
-        updateChannelControlSliders();
+//        updateChannelControlSliders();
 //        updateConcentrationControlSliders();
         updateZoomSlider();
     }
