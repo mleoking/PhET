@@ -147,7 +147,7 @@ public class GameSettingsNode extends PhetPNode {
         startButton.setOpaque( false );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.startGame( getLevel(), isTimerOnSelected(), isSoundOnSelected(), isShowImagesSelected() );
+                model.startGame( getLevel(), isTimerOnSelected(), isSoundOnSelected(), isShowImagesSelected(), isShowNumbersSelected() );
             }
         });
         
@@ -206,6 +206,11 @@ public class GameSettingsNode extends PhetPNode {
             public void imagesVisibleChanged() {
                 setShowImagesSelected( model.isImagesVisible() );
             }
+            
+            @Override
+            public void numbersVisibleChanged() {
+                setShowNumbersSelected( model.isNumbersVisible() );
+            }
         });
         
         // initial state
@@ -213,7 +218,7 @@ public class GameSettingsNode extends PhetPNode {
         setTimerOnSelected( model.isTimerVisible() );
         setSoundOnSelected( model.isSoundEnabled() );
         setShowImagesSelected( model.isImagesVisible() );
-        setShowNumbersSelected( true ); //XXX model.isNumbersVisible() );
+        setShowNumbersSelected( model.isNumbersVisible() );
     }
     
     private void setLevel( int level ) {
