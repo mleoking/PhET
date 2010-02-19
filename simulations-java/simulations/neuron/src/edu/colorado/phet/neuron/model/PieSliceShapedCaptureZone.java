@@ -82,11 +82,11 @@ public class PieSliceShapedCaptureZone extends CaptureZone {
 
 	@Override
 	public Point2D getSuggestedNewParticleLocation() {
-		// Suggest a random point that is somewhere along the outer curved
-		// edge of the pie slice.
+		// Suggest a random point that is somewhere within the shape.
 		double placementAngle = rotationAngle + fixedRotationalOffset + (RAND.nextDouble() - 0.5) * angleOfExtent;
-		double xPos = originPoint.getX() + radius * Math.cos(placementAngle);
-		double yPos = originPoint.getY() + radius * Math.sin(placementAngle);
+		double distanceFromOrigin = radius * RAND.nextDouble();
+		double xPos = originPoint.getX() + distanceFromOrigin * Math.cos(placementAngle);
+		double yPos = originPoint.getY() + distanceFromOrigin * Math.sin(placementAngle);
 		return new Point2D.Double(xPos, yPos);
 	}
 }
