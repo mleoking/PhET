@@ -11,7 +11,6 @@ import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Random;
 
-import javax.swing.Timer;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -110,12 +109,6 @@ public class AxonModel implements IParticleCapture {
 				hodgkinHuxleyModel.stimulate();
 			}
 		});
-        
-    	// Add the initial particles.
-//        addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 8);
-//        addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 8);
-//        addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 8);
-//        addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 8);
     }
     
     //----------------------------------------------------------------------------
@@ -222,6 +215,12 @@ public class AxonModel implements IParticleCapture {
     		removeChannel(channel.getChannelType());
     	}
     	
+    	// Add the initial particles.
+      addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 1);
+      addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 100);
+      addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 10);
+      addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 1);
+
     	// Add the initial channels.
     	for (int i = 0; i < 4; i++){
     		addChannel(MembraneChannelTypes.SODIUM_GATED_CHANNEL);
@@ -230,10 +229,10 @@ public class AxonModel implements IParticleCapture {
     		addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
     	}
     	for (int i = 0; i < 4; i++){
-    		addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
+    		addChannel(MembraneChannelTypes.POTASSIUM_GATED_CHANNEL);
     	}
     	for (int i = 0; i < 4; i++){
-    		addChannel(MembraneChannelTypes.POTASSIUM_GATED_CHANNEL);
+    		addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
     	}
     	for (int i = 0; i < 4; i++){
     		addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
@@ -453,13 +452,14 @@ public class AxonModel implements IParticleCapture {
     	// Since we want the number of particles in the zone to remain
     	// constant, we always need to create one to replace the one
     	// that is leaving.
-    	createParticle(particleType, channel.getCaptureZone());
+    	Particle newParticle = createParticle(particleType, channel.getCaptureZone());
+    	newParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005));
     	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getCaptureZone(), particleType);
     	assert czsr.getClosestFreeParticle() != null;
-    	czsr.getClosestFreeParticle().setAvailableForCapture(false);
-    	czsr.getClosestFreeParticle().setMotionStrategy(
-    			new MembraneChannelTraversalMotionStrategy(channel, 10000, czsr.getClosestFreeParticle().getPosition()));
-    	czsr.getClosestFreeParticle().setFadeStrategy(new TimedFadeInStrategy(0.0005));
+    	Particle capturedParticle = czsr.getClosestFreeParticle();
+    	capturedParticle.setAvailableForCapture(false);
+    	capturedParticle.setMotionStrategy(
+    			new MembraneChannelTraversalMotionStrategy(channel, 10000, capturedParticle.getPosition()));
     }
     
     private void stepInTime(double dt){
@@ -532,7 +532,7 @@ public class AxonModel implements IParticleCapture {
     	Point2D captureZoneOrigin = zone.getOriginPoint();
     	
     	for (Particle particle : particles){
-    		if (particle.getType() == particleType && particle.isAvailableForCapture()){
+    		if ((particle.getType() == particleType) && (particle.isAvailableForCapture()) && (zone.isPointInZone(particle.getPosition()))) {
     			totalNumberOfParticles++;
     			if (closestFreeParticle == null){
     				closestFreeParticle = particle;
