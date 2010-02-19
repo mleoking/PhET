@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ValueNode extends PhetPNode {
     
     private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;
-    private static final Font VALUE_FONT = new PhetFont( 22 );
+    private static final Font VALUE_FONT = new PhetFont( 24 );
     private static final Font NAME_FONT = new PhetFont( 18 );
     
     private final EventListenerList listeners;

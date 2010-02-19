@@ -5,7 +5,6 @@ DEADLINES
 
 HIGH PRIORITY
 - add "show/hide numbers" feature to Game
-- make read-only numbers bigger next to histograms?
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
 - make histograms optional in code, publish a version without
 
