@@ -67,7 +67,7 @@ public class GameCanvas extends RPALCanvas {
     private final PhetPNode gameSettingsNode;
     private final FaceNode faceNode;
     private final GradientButtonNode checkButton, nextButton, tryAgainButton, showAnswerButton;
-    private final GameInstructionsNode instructionsNode;
+    private final GameMessageNode instructionsNode;
     private final GameSummaryNode gameSummaryNode;
     private final PointsDeltaNode pointsDeltaNode;
     private final GameRewardNode rewardNode;
@@ -149,7 +149,7 @@ public class GameCanvas extends RPALCanvas {
         buttonsParentNode.addChild( showAnswerButton );
 
         // instructions
-        instructionsNode = new GameInstructionsNode( "?" ); // text will be set based on challenge type
+        instructionsNode = new GameMessageNode( "?", Color.YELLOW, 36 ); // text will be set based on challenge type
         parentNode.addChild( instructionsNode );
 
         // dev nodes
