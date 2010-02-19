@@ -146,5 +146,8 @@ public class GameSummaryNode extends PhetPNode {
                 timeLabel.setText( MessageFormat.format( RPALStrings.LABEL_NOT_BEST_TIME, timeString, bestTimeString ) );
             }
         }
+        else {
+            timeLabel.setText( " " );
+        }
     }
 }
