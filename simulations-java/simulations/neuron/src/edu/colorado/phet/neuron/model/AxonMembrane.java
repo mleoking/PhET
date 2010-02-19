@@ -277,7 +277,7 @@ public class AxonMembrane {
      */
     public static class TravelingActionPotential {
     	
-    	private static double LIFETIME = 0.0015; // In seconds of sim time (not wall time).
+    	private static double LIFETIME = 0.0020; // In seconds of sim time (not wall time).
     	
         private ArrayList<Listener> listeners = new ArrayList<Listener>();
     	private double lifetimeCountdownTimer = LIFETIME;
