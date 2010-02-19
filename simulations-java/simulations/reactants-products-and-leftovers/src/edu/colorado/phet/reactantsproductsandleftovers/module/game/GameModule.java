@@ -15,7 +15,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
  */
 public class GameModule extends PiccoloModule {
     
-    private GameModel model;
+    private final GameModel model;
+    private final GameCanvas canvas;
 
     public GameModule( Frame parentFrame ) {
         super( RPALStrings.TITLE_GAME, new RPALClock(), true /* startsPaused */ );
@@ -24,7 +25,7 @@ public class GameModule extends PiccoloModule {
         model = new GameModel( getClock() );
         
         // Canvas
-        GameCanvas canvas = new GameCanvas( model, this );
+        canvas = new GameCanvas( model, this );
         setSimulationPanel( canvas );
 
         // no control panel
@@ -32,5 +33,17 @@ public class GameModule extends PiccoloModule {
         
         // no clock controls
         setClockControlPanel( null );
+    }
+    
+    @Override
+    public void activate() {
+        super.activate();
+        canvas.activate();
+    }
+    
+    @Override
+    public void deactivate() {
+        super.deactivate();
+        canvas.deactivate();
     }
 }

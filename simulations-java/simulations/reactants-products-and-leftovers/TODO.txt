@@ -9,7 +9,6 @@ DESIGN
 - should we ditch the histogram bars (let's try it, make it easy to revert)
 
 HIGH PRIORITY
-- stop/start game reward animation when switching modules
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
 
 MEDIUM PRIORITY
