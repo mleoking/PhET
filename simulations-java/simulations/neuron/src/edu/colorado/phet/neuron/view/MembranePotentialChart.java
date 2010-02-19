@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.neuron.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,8 +19,10 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
@@ -76,7 +79,7 @@ public class MembranePotentialChart extends PNode {
         
         XYDataset dataset = new XYSeriesCollection( dataSeries );
         // TODO: Internationalize.
-        chart = createXYLineChart2( title, "Time (ms)", "Membrane Potential (mv)", dataset, PlotOrientation.VERTICAL);
+        chart = createXYLineChart( title, "Time (ms)", "Membrane Potential (mv)", dataset, PlotOrientation.VERTICAL);
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
         chart.getXYPlot().getRangeAxis().setRange( -0.1, 0.1 );
         jFreeChartNode = new JFreeChartNode( chart, false );
@@ -146,26 +149,7 @@ public class MembranePotentialChart extends PNode {
         return 0;
     }
     
-    protected static JFreeChart createXYLineChart(String title, String xAxisLabel, String yAxisLabel,
-    		XYDataset dataset, PlotOrientation orientation) {
-
-    	if (orientation == null) {
-    		throw new IllegalArgumentException("Null 'orientation' argument.");
-    	}
-    	xAxis = new NumberAxis(xAxisLabel);
-    	xAxis.setLabelFont(new PhetFont(18));
-    	yAxis = new NumberAxis(yAxisLabel);
-    	yAxis.setLabelFont(new PhetFont(18));
-    	XYItemRenderer renderer = new XYLineAndShapeRenderer(true, false);
-    	XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);
-    	plot.setOrientation(orientation);
-
-    	JFreeChart chart = new JFreeChart(title, new PhetFont(30), plot, false);
-
-    	return chart;
-    }
-    
-    private static JFreeChart createXYLineChart2(String title, String xAxisLabel, String yAxisLabel,
+    private static JFreeChart createXYLineChart(String title, String xAxisLabel, String yAxisLabel,
     		XYDataset dataset, PlotOrientation orientation) {
 
     	if (orientation == null) {
@@ -187,7 +171,12 @@ public class MembranePotentialChart extends PNode {
             false, // tooltips
             false  // urls
         );
-        
+
+        // Set the stroke to be larger than the default.
+        XYPlot plot = chart.getXYPlot();
+        XYItemRenderer renderer = plot.getRenderer();
+        renderer.setStroke(new BasicStroke(3f, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_BEVEL));
+        System.out.println(chart.getAntiAlias());
 
     	return chart;
     }
