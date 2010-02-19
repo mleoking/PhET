@@ -79,6 +79,8 @@ public class GameCanvas extends RPALCanvas {
     private RealReactionEquationNode equationNode;
     private GameBeforeNode beforeNode;
     private GameAfterNode afterNode;
+    
+    private boolean rewardNodeWasRunning; // was the reward node animation running the last time we switched to some other module?
 
     public GameCanvas( final GameModel model, Resettable resettable ) {
         super();
@@ -570,8 +572,6 @@ public class GameCanvas extends RPALCanvas {
             centerNode( parentNode );
         }
     }
-    
-    private boolean rewardNodeWasRunning;
     
     public void activate() {
         if ( rewardNodeWasRunning ) {
