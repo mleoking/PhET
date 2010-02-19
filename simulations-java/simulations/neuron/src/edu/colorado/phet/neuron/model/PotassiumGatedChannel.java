@@ -27,11 +27,18 @@ public class PotassiumGatedChannel extends GatedChannel {
 	private double MIN_INTER_CAPTURE_TIME = 0; // In seconds of sim time.
 	private double MAX_INTER_CAPTURE_TIME = 0.00008; // In seconds of sim time.
 	
+	// Constant used when calculating how open this gate should be based on
+	// a value that exists within the Hodgkin-Huxley model.  This was
+	// empirically determined.
+	private static final double N4_WHEN_FULLY_OPEN = 0.35; 
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 	
-	private HodgkinHuxleyModel hodgekinHodgkinHuxleyModel;
+	private HodgkinHuxleyModel hodgkinHuxleyModel;
+	
+	private double peak = 0;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -39,7 +46,7 @@ public class PotassiumGatedChannel extends GatedChannel {
 	
 	public PotassiumGatedChannel(HodgkinHuxleyModel hodgekinHuxleyModel, IParticleCapture modelContainingParticles) {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
-		this.hodgekinHodgkinHuxleyModel = hodgekinHuxleyModel;
+		this.hodgkinHuxleyModel = hodgekinHuxleyModel;
 		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, 0, Math.PI * 0.7));
 		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
 		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
@@ -69,7 +76,7 @@ public class PotassiumGatedChannel extends GatedChannel {
 		super.stepInTime(dt);
 		// Update the openness factor based on the state of the HH model.
 		// This is very specific to the model and the type of channel.
-		double openness = Math.min(Math.abs(hodgekinHodgkinHuxleyModel.get_k_current())/290, 1);
+		double openness = Math.min(Math.abs(hodgkinHuxleyModel.get_n4())/N4_WHEN_FULLY_OPEN, 1);
 		if (openness > 0 && openness < 1){
 			// Trim off some digits, otherwise we are continuously making
 			// tiny changes to this value due to internal gyrations of the
