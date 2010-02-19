@@ -2,24 +2,21 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
@@ -34,18 +31,44 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class GameSummaryNode extends PhetPNode {
     
+    private static final Font TITLE_FONT = new PhetFont( 24 );
+    private static final Font LABEL_FONT = new PhetFont( 18 );
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 5, 14, 5, 14 ) );
     private static final Color BACKGROUND = new Color( 180, 205, 255 );
+    private static final int MIN_WIDTH = 200;
     
     private final GameModel model;
-    private final JLabel messageLabel;
+    private final JLabel levelLabel;
+    private final JLabel scoreLabel;
+    private final JLabel timeLabel;
     
     public GameSummaryNode( final GameModel model ) {
         super();
         
-        // text
-        messageLabel = new JLabel( "?" ); // computed dynamically
+        // title
+        JLabel titleLabel = new JLabel( RPALStrings.MESSAGE_GAME_OVER ); 
+        titleLabel.setFont( TITLE_FONT );
+        
+        // horizontal separator
+        JSeparator titleSeparator = new JSeparator();
+        titleSeparator.setForeground( Color.BLACK );
+        
+        // level
+        levelLabel = new JLabel( "?" ); // compute dynamically
+        levelLabel.setFont( LABEL_FONT );
+        
+        // score
+        scoreLabel = new JLabel( "?" ); // compute dynamically
+        scoreLabel.setFont( LABEL_FONT );
+        
+        // time
+        timeLabel = new JLabel( "?" ); // compute dynamically
+        timeLabel.setFont( LABEL_FONT );
+        
+        // horizontal separator
+        JSeparator buttonSeparator = new JSeparator();
+        buttonSeparator.setForeground( Color.BLACK );
         
         // buttons
         JButton newGameButton = new JButton( RPALStrings.BUTTON_NEW_GAME );
@@ -64,10 +87,17 @@ public class GameSummaryNode extends PhetPNode {
         panel.setBorder( BORDER );
         panel.setBackground( BACKGROUND );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        layout.setInsets( new Insets( 5, 5, 5, 5 ) );
+        layout.setMinimumWidth( 0, MIN_WIDTH );
         panel.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( messageLabel, row++, column );
+        layout.addComponent( titleLabel, row++, column, 1, 1, GridBagConstraints.CENTER );
+        layout.addFilledComponent( titleSeparator, row++, column, 1, 1, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( levelLabel, row++, column );
+        layout.addComponent( scoreLabel, row++, column );
+        layout.addComponent( timeLabel, row++, column );
+        layout.addFilledComponent( buttonSeparator, row++, column, 1, 1, GridBagConstraints.HORIZONTAL );
         layout.addAnchoredComponent( buttonPanel, row++, column, GridBagConstraints.CENTER );
         
         // PSwing
@@ -89,37 +119,32 @@ public class GameSummaryNode extends PhetPNode {
     
     private void update() {
         
-        String s = "<html>";
-        s += RPALStrings.MESSAGE_GAME_OVER;
-        s += "<br><br>";
         // level
-        s += MessageFormat.format( RPALStrings.LABEL_LEVEL, String.valueOf( model.getLevel() ) );
-        s += "<br><br>";
+        levelLabel.setText( MessageFormat.format( RPALStrings.LABEL_LEVEL, String.valueOf( model.getLevel() ) ) );
+        
         // score
+        String scoreString = POINTS_FORMAT.format( model.getPoints() );
+        String perfectScoreString = POINTS_FORMAT.format( GameModel.getPerfectScore() );
         if ( model.isPerfectScore() ) {
-            s += MessageFormat.format( RPALStrings.LABEL_PERFECT_SCORE, POINTS_FORMAT.format( model.getPoints() ), POINTS_FORMAT.format( GameModel.getPerfectScore() ) );
+            scoreLabel.setText( MessageFormat.format( RPALStrings.LABEL_PERFECT_SCORE, scoreString, perfectScoreString ) );
         }
         else {
-            s += MessageFormat.format( RPALStrings.LABEL_FINAL_SCORE, POINTS_FORMAT.format( model.getPoints() ), POINTS_FORMAT.format( GameModel.getPerfectScore() ) );
+            scoreLabel.setText( MessageFormat.format( RPALStrings.LABEL_FINAL_SCORE, scoreString, perfectScoreString ) );
         }
-        s += "<br><br>";
+
         // time
         if ( model.isTimerVisible() ) {
+            String timeString = TimeUtils.getTimeString( model.getTime() );
+            String bestTimeString = TimeUtils.getTimeString( model.getBestTime() );
             if ( !model.isPerfectScore() ) {
-                s += MessageFormat.format( RPALStrings.LABEL_TIME, TimeUtils.getTimeString( model.getTime() ) );
+                timeLabel.setText( MessageFormat.format( RPALStrings.LABEL_TIME, timeString ) );
             }
             else if ( model.isNewBestTime() ) {
-                s += MessageFormat.format( RPALStrings.LABEL_NEW_BEST_TIME, TimeUtils.getTimeString( model.getTime() ) );
+                timeLabel.setText( MessageFormat.format( RPALStrings.LABEL_NEW_BEST_TIME, bestTimeString ) );
             }
             else {
-                s += MessageFormat.format( RPALStrings.LABEL_NOT_BEST_TIME, TimeUtils.getTimeString( model.getTime() ), TimeUtils.getTimeString( model.getBestTime() ) );
+                timeLabel.setText( MessageFormat.format( RPALStrings.LABEL_NOT_BEST_TIME, timeString, bestTimeString ) );
             }
         }
-        s += "<br><br>";
-        
-        s += "&nbsp;"; //XXX workaround, PSwing cuts off last char
-        s+= "</html>";
-        
-        messageLabel.setText( s );
     }
 }
