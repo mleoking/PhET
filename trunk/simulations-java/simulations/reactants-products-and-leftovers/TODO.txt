@@ -3,13 +3,11 @@
 DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
-DESIGN
-- sandwich image overlap in After box? with 3+3+3=1 Sandwich, can't have both maintain correct histogram height and no overlap (leave as is, make read-only numbers bigger)
-- do we need a "hide quantities" feature in Game, to force users to work with images? (KL: interesting research feature, try adding simplest way)
-- should we ditch the histogram bars (let's try it, make it easy to revert)
-
 HIGH PRIORITY
+- add "show/hide numbers" feature to Game
+- make read-only numbers bigger next to histograms?
 - design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
+- make histograms optional in code, publish a version without
 
 MEDIUM PRIORITY
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
