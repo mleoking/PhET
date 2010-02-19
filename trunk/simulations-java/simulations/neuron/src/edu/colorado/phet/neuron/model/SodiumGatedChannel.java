@@ -22,22 +22,27 @@ public class SodiumGatedChannel extends GatedChannel {
 	private static final double CHANNEL_HEIGHT = AxonMembrane.MEMBRANE_THICKNESS * 1.4; // In nanometers.
 	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.70; // In nanometers.
 	
-	// Constants that control the rate at which this channel will transport
-	// ions through it when open.
-	private double MIN_INTER_CAPTURE_TIME = 0.00005; // In seconds of sim time.
-	private double MAX_INTER_CAPTURE_TIME = 0.00020; // In seconds of sim time.
+	// Constants that control the rate at which this channel will capture ions
+	// when it is open.
+	private static final double MIN_INTER_CAPTURE_TIME = 0.00005; // In seconds of sim time.
+	private static final double MAX_INTER_CAPTURE_TIME = 0.00020; // In seconds of sim time.
+	
+	// Constant used when calculating how open this gate should be based on
+	// a value that exists within the Hodgkin-Huxley model.  This was
+	// empirically determined.
+	private static final double M3H_WHEN_FULLY_OPEN = 0.25; 
 	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-	private HodgkinHuxleyModel hodgkinHodgkinHuxleyModel;
+	private HodgkinHuxleyModel hodgkinHuxleyModel;
 	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
 	public SodiumGatedChannel(HodgkinHuxleyModel hodgkinHuxleyModel, IParticleCapture modelContainingParticles) {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
-		this.hodgkinHodgkinHuxleyModel = hodgkinHuxleyModel;
+		this.hodgkinHuxleyModel = hodgkinHuxleyModel;
 		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, 0, Math.PI * 0.8));
 		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
 		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
@@ -67,7 +72,7 @@ public class SodiumGatedChannel extends GatedChannel {
 		super.stepInTime(dt);
 		// Update the openness factor based on the state of the HH model.
 		// This is very specific to the model and the type of channel.
-		double openness = Math.min(Math.abs(hodgkinHodgkinHuxleyModel.get_na_current())/290, 1);
+		double openness = Math.min(Math.abs(hodgkinHuxleyModel.get_m3h())/M3H_WHEN_FULLY_OPEN, 1);
 		if (openness > 0 && openness < 1){
 			// Trim off some digits, otherwise we are continuously making
 			// tiny changes to this value due to internal gyrations of the
