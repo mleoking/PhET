@@ -11,6 +11,7 @@ import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.swing.Timer;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -57,6 +58,10 @@ public class AxonModel implements IParticleCapture {
 	// for internal use, i.e. particle motion calculations.
 	private static final int MEMBRANE_POTENTIAL_UPDATE_COUNT = 10;
 	
+	// Countdown used for preventing the axon from receiving stimuli that
+	// are too close together.
+	private static final double STIM_LOCKOUT_TIME = 0.01;  // Milliseconds of sim time.
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -74,6 +79,7 @@ public class AxonModel implements IParticleCapture {
     private int membranePotentialSnapshot;
     private HodgkinHuxleyModel hodgkinHuxleyModel = new HodgkinHuxleyModel();
     private boolean potentialChartVisible;
+    private double stimLockoutCountdownTime;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -356,8 +362,27 @@ public class AxonModel implements IParticleCapture {
     }
     
     public void initiateStimulusPulse(){
-    	axonMembrane.initiateTravelingActionPotential();
-    	notifyStimulusPulseInitiated();
+    	if (!stimulusInitiationLockedOut()){
+    		axonMembrane.initiateTravelingActionPotential();
+    		notifyStimulusPulseInitiated();
+    		stimLockoutCountdownTime = STIM_LOCKOUT_TIME;
+    	}
+    }
+    
+    /**
+     * Get a boolean value that indicates whether the initiation of a new
+     * stimulus (i.e. action potential) is currently locked out.  This is done
+     * to prevent the situation where multiple action potentials are moving
+     * down the membrane at the same time.
+     * 
+     * @return
+     */
+    private boolean stimulusInitiationLockedOut(){
+    	// This works be requiring a certain minimum time and then by
+    	// looking at the constants that control the conductance values in the
+    	// HH model to tell when another action potential can happen.  The
+    	// values used for comparison were empirically determined.
+    	return (stimLockoutCountdownTime > 0 || hodgkinHuxleyModel.get_n4() > 0.02 || hodgkinHuxleyModel.get_m3h() > 0.01);
     }
     
     public Shape getTravelingActionPotentialShape(){
@@ -451,6 +476,11 @@ public class AxonModel implements IParticleCapture {
     	if (membranePotentialUpdateCounter++ >= MEMBRANE_POTENTIAL_UPDATE_COUNT){
     		membranePotentialSnapshot = getQuantizedMembranePotential();
     		membranePotentialUpdateCounter = 0;
+    	}
+    	
+    	// Update the stimulus lockout timer.
+    	if (stimLockoutCountdownTime >= 0){
+    		stimLockoutCountdownTime -= dt;
     	}
     	
     	/*
