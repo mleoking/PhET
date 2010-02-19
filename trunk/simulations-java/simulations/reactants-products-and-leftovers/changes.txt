@@ -1,24 +1,25 @@
-2/17/10 reduce size of molecule icon used in Game Settings
-2/17/10 make read-only numbers bigger next to histograms (increased font size from 22 to 24 pt)
-2/17/10 stop/start game reward animation when switching modules
-2/17/10 #2161, rewrite GameSummaryNode, layout is messed up on WinXP
-2/17/10 simplify game summary
-2/17/10 use the same "perfect score" sound for all levels
-2/17/10 display best time info in Game Summary
-2/17/10 use "wrong answer" sound for a final score of zero
-2/17/10 stop the timer immediately when the last challenge is answered correctly
-2/17/10 keep track of best perfect-score time for each level, display in scoreboard
-2/17/10 rewards: level 1=molecules, 2=smileys 3=sandwiches
-2/17/10 add motion strategies to GameRewardNode
-2/17/10 integrate GameRewardNode into sim
-2/17/10 design decision: "wrong answer" sound is fine
-2/17/10 design decision: we do want challenges with no products (no change required)
-2/17/10 design decision: we will not change numeric score to stars, it has no added value (no change required)
-2/17/10 design decision: we should not award more points for higher levels (no change required)
-2/17/10 design decision: we should not automatically increment the game level when the user gets a perfect score (no change required)
-2/17/10 design decision: it's preferrable to have user control over whether molecule images are shown for a game, rather than making it random (no change required)
-2/17/10 design decision: decided that it's OK that difficulty of game levels becomes equal as user get more expert (no change required)
-2/17/10 design decision: decided that range of reactant quantities should not be a factor for game levels (no change required)
+2/19/10 add Game Settings control to show/hide numbers
+2/18/10 reduce size of molecule icon used in Game Settings
+2/18/10 make read-only numbers bigger next to histograms (increased font size from 22 to 24 pt)
+2/18/10 stop/start game reward animation when switching modules
+2/18/10 #2161, rewrite GameSummaryNode, layout is messed up on WinXP
+2/18/10 simplify game summary
+2/18/10 use the same "perfect score" sound for all levels
+2/18/10 display best time info in Game Summary
+2/18/10 use "wrong answer" sound for a final score of zero
+2/18/10 stop the timer immediately when the last challenge is answered correctly
+2/18/10 keep track of best perfect-score time for each level, display in scoreboard
+2/18/10 rewards: level 1=molecules, 2=smileys 3=sandwiches
+2/18/10 add motion strategies to GameRewardNode
+2/18/10 integrate GameRewardNode into sim
+2/18/10 design decision: "wrong answer" sound is fine
+2/18/10 design decision: we do want challenges with no products (no change required)
+2/18/10 design decision: we will not change numeric score to stars, it has no added value (no change required)
+2/18/10 design decision: we should not award more points for higher levels (no change required)
+2/18/10 design decision: we should not automatically increment the game level when the user gets a perfect score (no change required)
+2/18/10 design decision: it's preferrable to have user control over whether molecule images are shown for a game, rather than making it random (no change required)
+2/18/10 design decision: decided that it's OK that difficulty of game levels becomes equal as user get more expert (no change required)
+2/18/10 design decision: decided that range of reactant quantities should not be a factor for game levels (no change required)
 # 0.00.26 (38715) Feb 17, 2010
 2/17/10 prototype for game reward, with developer controls
 # 0.00.25 (38665) Feb 16, 2010

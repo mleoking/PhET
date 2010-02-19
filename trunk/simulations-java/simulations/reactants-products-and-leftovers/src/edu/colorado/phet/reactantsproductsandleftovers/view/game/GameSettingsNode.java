@@ -37,7 +37,8 @@ public class GameSettingsNode extends PhetPNode {
     private final JRadioButton[] levelRadioButtons;
     private final JRadioButton timerOnRadioButton, timerOffRadioButton;
     private final JRadioButton soundOnRadioButton, soundOffRadioButton;
-    private final JRadioButton imagesShowRadioButton, imagesHideRadioButton;
+    private final JRadioButton showImagesRadioButton, hideImagesRadioButton;
+    private final JRadioButton showNumbersRadioButton, hideNumbersRadioButton;
     
     public GameSettingsNode( final GameModel model ) {
         super();
@@ -46,6 +47,7 @@ public class GameSettingsNode extends PhetPNode {
         JLabel titleLabel = new JLabel( "Game Settings" );
         titleLabel.setFont( TITLE_FONT );
         
+        // separator
         JSeparator titleSeparator = new JSeparator();
         titleSeparator.setForeground( Color.BLACK );
         
@@ -96,18 +98,47 @@ public class GameSettingsNode extends PhetPNode {
         PImage imageNode = new PImage( RPALImages.CO );
         imageNode.scale( 0.65 );
         JLabel imagesLabel = new JLabel( new ImageIcon( imageNode.toImage() ) );
-        imagesShowRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_SHOW );
-        imagesShowRadioButton.setOpaque( false );
-        imagesHideRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_HIDE );
-        imagesHideRadioButton.setOpaque( false );
+        showImagesRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_SHOW );
+        showImagesRadioButton.setOpaque( false );
+        hideImagesRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_HIDE );
+        hideImagesRadioButton.setOpaque( false );
+        hideImagesRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( hideImagesRadioButton.isSelected() && hideNumbersRadioButton.isSelected() ) {
+                    setShowNumbersSelected( true );
+                }
+            }
+        });
         ButtonGroup imageButtonGroup = new ButtonGroup();
-        imageButtonGroup.add( imagesShowRadioButton );
-        imageButtonGroup.add( imagesHideRadioButton );
+        imageButtonGroup.add( showImagesRadioButton );
+        imageButtonGroup.add( hideImagesRadioButton );
         JPanel imagesPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         imagesPanel.setOpaque( false );
-        imagesPanel.add( imagesShowRadioButton );
-        imagesPanel.add( imagesHideRadioButton );
+        imagesPanel.add( showImagesRadioButton );
+        imagesPanel.add( hideImagesRadioButton );
         
+        // Numbers controls
+        JLabel numbersLabel = new JLabel( "1 2 3" );
+        showNumbersRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_SHOW );
+        showNumbersRadioButton.setOpaque( false );
+        hideNumbersRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_HIDE );
+        hideNumbersRadioButton.setOpaque( false );
+        hideNumbersRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( hideNumbersRadioButton.isSelected() && hideImagesRadioButton.isSelected() ) {
+                    setShowImagesSelected( true );
+                }
+            }
+        });
+        ButtonGroup numbersButtonGroup = new ButtonGroup();
+        numbersButtonGroup.add( showNumbersRadioButton );
+        numbersButtonGroup.add( hideNumbersRadioButton );
+        JPanel numbersPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+        numbersPanel.setOpaque( false );
+        numbersPanel.add( showNumbersRadioButton );
+        numbersPanel.add( hideNumbersRadioButton );
+        
+        // separator
         JSeparator buttonSeparator = new JSeparator();
         buttonSeparator.setForeground( Color.BLACK );
         
@@ -116,7 +147,7 @@ public class GameSettingsNode extends PhetPNode {
         startButton.setOpaque( false );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.startGame( getLevel(), isTimerOnSelected(), isSoundOnSelected(), isImagesOnSelected() );
+                model.startGame( getLevel(), isTimerOnSelected(), isSoundOnSelected(), isShowImagesSelected() );
             }
         });
         
@@ -142,6 +173,9 @@ public class GameSettingsNode extends PhetPNode {
         column = 0;
         layout.addAnchoredComponent( imagesLabel, row, column++, GridBagConstraints.EAST );
         layout.addComponent( imagesPanel, row++, column );
+        column = 0;
+        layout.addAnchoredComponent( numbersLabel, row, column++, GridBagConstraints.EAST );
+        layout.addComponent( numbersPanel, row++, column );
         column = 0;
         layout.addFilledComponent( buttonSeparator, row++, column, 2, 1, GridBagConstraints.HORIZONTAL );
         layout.addComponent( startButton, row++, column, 2, 1, GridBagConstraints.CENTER );
@@ -170,7 +204,7 @@ public class GameSettingsNode extends PhetPNode {
             
             @Override
             public void imagesVisibleChanged() {
-                setImagesOnSelected( model.isImagesVisible() );
+                setShowImagesSelected( model.isImagesVisible() );
             }
         });
         
@@ -178,7 +212,8 @@ public class GameSettingsNode extends PhetPNode {
         setLevel( model.getLevel() );
         setTimerOnSelected( model.isTimerVisible() );
         setSoundOnSelected( model.isSoundEnabled() );
-        setImagesOnSelected( model.isImagesVisible() );
+        setShowImagesSelected( model.isImagesVisible() );
+        setShowNumbersSelected( true ); //XXX model.isNumbersVisible() );
     }
     
     private void setLevel( int level ) {
@@ -216,12 +251,21 @@ public class GameSettingsNode extends PhetPNode {
         return soundOnRadioButton.isSelected();
     }
     
-    private void setImagesOnSelected( boolean selected ) {
-        imagesShowRadioButton.setSelected( selected );
-        imagesHideRadioButton.setSelected( !selected );
+    private void setShowImagesSelected( boolean selected ) {
+        showImagesRadioButton.setSelected( selected );
+        hideImagesRadioButton.setSelected( !selected );
     }
     
-    private boolean isImagesOnSelected() {
-        return imagesShowRadioButton.isSelected();
+    private boolean isShowImagesSelected() {
+        return showImagesRadioButton.isSelected();
+    }
+    
+    private void setShowNumbersSelected( boolean selected ) {
+        showNumbersRadioButton.setSelected( selected );
+        hideNumbersRadioButton.setSelected( !selected );
+    }
+    
+    private boolean isShowNumbersSelected() {
+        return showNumbersRadioButton.isSelected();
     }
 }
