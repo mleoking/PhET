@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
@@ -36,7 +37,7 @@ public class GameAfterNode extends AbstractAfterNode {
     private final GameListener gameListener;
     private final ImageLayoutNode guessImagesNode; // parent node for "guess" images, handles layout of the images
     private final ArrayList<ArrayList<SubstanceImageNode>> productImageNodeLists, leftoverImageNodeLists; // one list of "guess" images per product and leftover
-    private final MoleculesHiddenNode moleculesHiddenNode;  // a message indicating that the molecule images are hidden
+    private final GameMessageNode moleculesHiddenNode;  // a message indicating that the molecule images are hidden
     
     public GameAfterNode( GameModel model, PDimension boxSize ) {
         super( RPALStrings.LABEL_AFTER_REACTION, boxSize, model.getChallenge().getReaction(), GameModel.getQuantityRange(), true /* showSubstanceNames */, new GridLayoutNode( boxSize ) );
@@ -71,7 +72,7 @@ public class GameAfterNode extends AbstractAfterNode {
         addChild( guessImagesNode );
         
         // "images hidden" message node
-        moleculesHiddenNode = new MoleculesHiddenNode();
+        moleculesHiddenNode = new GameMessageNode( RPALStrings.MESSAGE_MOLECULES_HIDDEN, Color.BLACK, 28 );
         addChild( moleculesHiddenNode );
         double x = ( boxSize.getWidth() - moleculesHiddenNode.getFullBoundsReference().getWidth() ) / 2;
         double y = ( boxSize.getHeight() - moleculesHiddenNode.getFullBoundsReference().getHeight() ) / 2;

@@ -1,3 +1,4 @@
+2/19/10 generalized class for game messages, use HTML so that translators can fit messages in boxes
 2/19/10 remove unnecessary model listener from GameSettingsNode
 2/19/10 add number visibility to Game model
 2/19/10 add Game Settings control to show/hide numbers
