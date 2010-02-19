@@ -46,10 +46,13 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 			currentDestinationIndex++;
 			setCourseForCurrentTraversalPoint(movableModelElement.getPosition());
 			if (currentDestinationIndex == traversalPoints.size()){
-				// We have traverse through all points and are now
+				// We have traversed through all points and are now
 				// presumably on the other side of the membrane, so we need to
 				// start fading out of existence.
-				fadableModelElement.setFadeStrategy(new TimedFadeAwayStrategy(0.001));
+				fadableModelElement.setFadeStrategy(new TimedFadeAwayStrategy(0.002));
+				
+				// Slow down a bit.
+				velocityVector.scale(0.7);
 			}
 		}
 	}
@@ -65,7 +68,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 			// All points have been traversed.  The behavior at this point is
 			// to make a random change to the direction of travel so that
 			// things look a little "Brownian".
-			velocityVector.rotate((RAND.nextDouble() - 0.5) * ( Math.PI / 2 ));
+			velocityVector.rotate((RAND.nextDouble() - 0.5) * ( Math.PI * 0.9 ));
 		}
 	}
 }
