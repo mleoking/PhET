@@ -19,6 +19,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -92,7 +93,9 @@ public class GameSettingsNode extends PhetPNode {
         soundPanel.add( soundOffRadioButton );
         
         // Molecule images control
-        JLabel imagesLabel = new JLabel( new ImageIcon( RPALImages.CO ) );
+        PImage imageNode = new PImage( RPALImages.CO );
+        imageNode.scale( 0.65 );
+        JLabel imagesLabel = new JLabel( new ImageIcon( imageNode.toImage() ) );
         imagesShowRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_SHOW );
         imagesShowRadioButton.setOpaque( false );
         imagesHideRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_HIDE );
