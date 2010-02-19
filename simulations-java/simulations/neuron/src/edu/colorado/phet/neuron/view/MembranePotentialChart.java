@@ -46,7 +46,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class MembranePotentialChart extends PNode {
 	
 	private static final Color STROKE_COLOR = Color.red;
-	private static final double TIME_SPAN = 250; // In milliseconds.
+	private static final double TIME_SPAN = 100; // In milliseconds.
 	
     private JFreeChart chart;
     private JFreeChartNode jFreeChartNode;
