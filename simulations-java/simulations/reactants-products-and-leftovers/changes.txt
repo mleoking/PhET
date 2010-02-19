@@ -8,6 +8,7 @@
 2/17/10 rewards: level 1=molecules, 2=smileys 3=sandwiches
 2/17/10 add motion strategies to GameRewardNode
 2/17/10 integrate GameRewardNode into sim
+2/17/10 design decision: "wrong answer" sound is fine
 2/17/10 design decision: we do want challenges with no products (no change required)
 2/17/10 design decision: we will not change numeric score to stars, it has no added value (no change required)
 2/17/10 design decision: we should not award more points for higher levels (no change required)
