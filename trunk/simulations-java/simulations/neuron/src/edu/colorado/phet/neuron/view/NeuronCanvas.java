@@ -8,18 +8,24 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import javax.print.attribute.SetOfIntegerSyntax;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.Particle;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -46,6 +52,9 @@ public class NeuronCanvas extends PhetPCanvas {
     private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.3);
     
+    // Color of button for stimulating the neuron.
+    private static final Color CANVAS_BUTTON_COLOR = Color.GREEN;
+    
     // For debug: Enable and disable nodes that can help with debug of layout.
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
     private static final boolean SHOW_CENTER_CROSS_HAIR = false;
@@ -68,6 +77,9 @@ public class NeuronCanvas extends PhetPCanvas {
     // Chart and voltmeter for showing membrane potential.
     private MembranePotentialChart membranePotentialChart;
     private MembraneVoltmeter voltmeter;
+    
+    // Button for stimulating the neuron.
+    GradientButtonNode stimulateNeuronButton;
     
     // For debug: Shows center of zoom.
     private CrossHairNode crossHairNode;
@@ -128,6 +140,19 @@ public class NeuronCanvas extends PhetPCanvas {
 
         chartLayer = new PNode();
         addScreenChild(chartLayer);
+        
+        // Add the button for stimulating the neuron.
+        stimulateNeuronButton = new GradientButtonNode("Stimulate", 12, CANVAS_BUTTON_COLOR);
+        stimulateNeuronButton.scale(2);
+        stimulateNeuronButton.setOffset(10, 10);
+        addScreenChild(stimulateNeuronButton);
+
+        // Register to receive button pushes.
+        stimulateNeuronButton.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+            	model.initiateStimulusPulse();
+            }
+        });
         
         // Add the axon cross section.
         AxonMembraneNode axonMembraneNode = new AxonMembraneNode(model.getAxonMembrane(), mvt);
