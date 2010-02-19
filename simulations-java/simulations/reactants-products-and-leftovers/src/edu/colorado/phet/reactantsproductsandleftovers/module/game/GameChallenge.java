@@ -16,7 +16,7 @@ public class GameChallenge {
     
     public static enum ChallengeType { BEFORE, AFTER };  // whether the user must guess the Before or After quantities
     
-    public static enum ChallengeVisibility { IMAGES, NUMBERS, BOTH }; // what things are visible while the user is solving a challenge?
+    public static enum ChallengeVisibility { MOLECULES, NUMBERS, BOTH }; // what things are visible while the user is solving a challenge?
 
     private final ChemicalReaction reaction; // the actual reaction, which won't be modified
     private final ChallengeType challengeType;
@@ -42,12 +42,12 @@ public class GameChallenge {
         return challengeVisibility;
     }
     
-    public boolean isImagesVisible() {
+    public boolean isMoleculesVisible() {
         return ( challengeVisibility != ChallengeVisibility.NUMBERS );
     }
     
     public boolean isNumbersVisible() {
-        return ( challengeVisibility != ChallengeVisibility.IMAGES );
+        return ( challengeVisibility != ChallengeVisibility.MOLECULES );
     }
     
     public GameGuess getGuess() {

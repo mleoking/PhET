@@ -81,10 +81,10 @@ public class GameBeforeNode extends AbstractBeforeNode {
         // default state
         GameChallenge challenge = model.getChallenge();
         if ( challenge.getChallengeType() == ChallengeType.BEFORE ) {
-            showGuess( true /* editable */, challenge.isImagesVisible() );
+            showGuess( true /* editable */, challenge.isMoleculesVisible() );
         }
         else {
-            showAnswer( challenge.isImagesVisible(), challenge.isNumbersVisible() );
+            showAnswer( challenge.isMoleculesVisible(), challenge.isNumbersVisible() );
         }
     }
     

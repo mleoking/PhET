@@ -525,10 +525,10 @@ public class GameCanvas extends RPALCanvas {
     private void showGuess( boolean editable ) {
         GameChallenge challenge = model.getChallenge();
         if ( challenge.getChallengeType() == ChallengeType.AFTER ) {
-            afterNode.showGuess( editable, challenge.isImagesVisible() );
+            afterNode.showGuess( editable, challenge.isMoleculesVisible() );
         }
         else {
-            beforeNode.showGuess( editable, challenge.isImagesVisible() );
+            beforeNode.showGuess( editable, challenge.isMoleculesVisible() );
         }
     }
 

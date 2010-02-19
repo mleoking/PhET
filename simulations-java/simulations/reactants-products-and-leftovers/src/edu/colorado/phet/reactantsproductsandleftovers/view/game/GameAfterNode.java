@@ -89,10 +89,10 @@ public class GameAfterNode extends AbstractAfterNode {
         // default state
         GameChallenge challenge = model.getChallenge();
         if ( challenge.getChallengeType() == ChallengeType.AFTER ) {
-            showGuess( true /* editable */, challenge.isImagesVisible() );
+            showGuess( true /* editable */, challenge.isMoleculesVisible() );
         }
         else {
-            showAnswer( challenge.isImagesVisible(), challenge.isNumbersVisible() );
+            showAnswer( challenge.isMoleculesVisible(), challenge.isNumbersVisible() );
         }
     }
     
