@@ -4,7 +4,8 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- design/relationship of GameCanvas and GameModel is confusing, revisit. Should model be state machine?
+- design/relationship of GameCanvas and GameModel is confusing, redesign
+- GameBeforeNode and GameAfterNode showGuess and showAnswer are confusing, redesign
 - make histograms optional in code, publish a version without
 
 MEDIUM PRIORITY
