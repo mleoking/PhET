@@ -22,7 +22,7 @@ public class GameModel extends RPALModel {
     private static final boolean DEBUG_NOTIFICATION = false;
     private static final boolean DEBUG_WRONG_GUESS = false;
     
-    private static final int CHALLENGES_PER_GAME = 2;
+    private static final int CHALLENGES_PER_GAME = 5;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
     private static final double POINTS_FIRST_ATTEMPT = 1;  // points to award for correct guess on 1st attempt
     private static final double POINTS_SECOND_ATTEMPT = 0.5; // points to award for correct guess on 2nd attempt
