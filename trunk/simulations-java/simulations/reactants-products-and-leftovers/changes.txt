@@ -1,3 +1,5 @@
+2/21/10 hide the "hide molecules or images" feature in Game Settings, useful for research, not generally desirable
+2/21/10 make game timer off by default
 # 0.00.27 (38805) Feb 19, 2010
 2/19/10 many changes to the game, based on meetings with Kelly and Trish
 2/19/10 use 3 radio buttons for visibility control in Game Settings

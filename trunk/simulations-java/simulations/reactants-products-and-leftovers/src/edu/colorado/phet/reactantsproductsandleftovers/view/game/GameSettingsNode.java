@@ -29,6 +29,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class GameSettingsNode extends PhetPNode {
     
+    private static final boolean HIDE_FEATURE_AVAILABLE = false;
+    
     private static final Font TITLE_FONT = new PhetFont( 24 );
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 5, 14, 5, 14 ) );
     private static final Color BACKGROUND = new Color( 180, 205, 255 );
@@ -143,9 +145,11 @@ public class GameSettingsNode extends PhetPNode {
         layout.addAnchoredComponent( soundLabel, row, column++, GridBagConstraints.EAST );
         layout.addComponent( soundPanel, row++, column );
         column = 0;
-        layout.addAnchoredComponent( hideLabel, row, column++, GridBagConstraints.EAST );
-        layout.addComponent( imagesPanel, row++, column );
-        column = 0;
+        if ( HIDE_FEATURE_AVAILABLE ) {
+            layout.addAnchoredComponent( hideLabel, row, column++, GridBagConstraints.EAST );
+            layout.addComponent( imagesPanel, row++, column );
+            column = 0;
+        }
         layout.addFilledComponent( buttonSeparator, row++, column, 2, 1, GridBagConstraints.HORIZONTAL );
         layout.addComponent( startButton, row++, column, 2, 1, GridBagConstraints.CENTER );
         

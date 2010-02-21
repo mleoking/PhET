@@ -28,7 +28,7 @@ public class GameModel extends RPALModel {
     private static final double POINTS_FIRST_ATTEMPT = 1;  // points to award for correct guess on 1st attempt
     private static final double POINTS_SECOND_ATTEMPT = 0.5; // points to award for correct guess on 2nd attempt
     
-    private static final boolean DEFAULT_TIMER_VISIBLE = true;
+    private static final boolean DEFAULT_TIMER_VISIBLE = false;
     private static final boolean DEFAULT_SOUND_ENABLED = true;
     private static final ChallengeVisibility DEFAULT_CHALLENGE_VISIBILITY = ChallengeVisibility.BOTH;
     
