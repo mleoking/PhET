@@ -1,3 +1,4 @@
+# 0.00.28 (38813) Feb 21, 2010
 2/21/10 hide the "hide molecules or images" feature in Game Settings, useful for research, not generally desirable
 2/21/10 make game timer off by default
 # 0.00.27 (38805) Feb 19, 2010
