@@ -1,4 +1,6 @@
-package edu.colorado.phet.densityflex {
+package edu.colorado.phet.densityflex.model {
+import edu.colorado.phet.densityflex.*;
+
 import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;

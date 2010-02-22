@@ -1,6 +1,11 @@
-package edu.colorado.phet.densityflex {
+package edu.colorado.phet.densityflex.view {
+import edu.colorado.phet.densityflex.*;
 
 import away3d.materials.*;
+
+import edu.colorado.phet.densityflex.model.Listener;
+
+import edu.colorado.phet.densityflex.model.Scale;
 
 import flash.display.Sprite;
 import flash.text.TextField;

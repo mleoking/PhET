@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityflex {
+package edu.colorado.phet.densityflex.model {
 import Box2D.Collision.b2ContactPoint;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;

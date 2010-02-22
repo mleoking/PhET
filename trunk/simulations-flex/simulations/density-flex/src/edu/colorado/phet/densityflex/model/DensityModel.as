@@ -1,10 +1,16 @@
-package edu.colorado.phet.densityflex {
+package edu.colorado.phet.densityflex.model {
+import edu.colorado.phet.densityflex.*;
+
 import Box2D.Collision.Shapes.b2PolygonDef;
 import Box2D.Collision.b2AABB;
 import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.b2Body;
 import Box2D.Dynamics.b2BodyDef;
 import Box2D.Dynamics.b2World;
+
+import edu.colorado.phet.densityflex.model.Block;
+
+import edu.colorado.phet.densityflex.view.DebugText;
 
 import flash.geom.ColorTransform;
 
