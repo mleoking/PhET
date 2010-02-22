@@ -794,7 +794,7 @@ public class AxonModel implements IParticleCapture {
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	
     	// Choose a distance which is close to but inside the membrane.
-    	double distance = crossSectionInnerRadius - particle.getDiameter() - 
+    	double distance = crossSectionInnerRadius - particle.getDiameter() * 2 - 
     		RAND.nextDouble() * particle.getDiameter() * 2;
     	
     	/*
@@ -822,7 +822,7 @@ public class AxonModel implements IParticleCapture {
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	
     	// Choose a distance which is close to but outside the membrane.
-    	double distance = crossSectionOuterRadius + particle.getDiameter() + 
+    	double distance = crossSectionOuterRadius + particle.getDiameter() * 2 + 
     		RAND.nextDouble() * particle.getDiameter() * 2;
     	
     	particle.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
