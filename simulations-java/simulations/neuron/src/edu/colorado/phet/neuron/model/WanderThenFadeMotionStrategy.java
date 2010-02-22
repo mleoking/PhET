@@ -31,12 +31,18 @@ public class WanderThenFadeMotionStrategy extends MotionStrategy {
 	
 	private double motionUpdateCountdownTimer;
 	private double velocityUpdateCountdownTimer;
+	private double preFadeCountdownTimer;
+	private double fadeOutDuration;
 	private Vector2D velocity = new Vector2D.Double();
 	
-	public WanderThenFadeMotionStrategy(double radius, Point2D center, Point2D currentLocation, InOrOut inOrOut) {
+	public WanderThenFadeMotionStrategy(double radius, Point2D center, Point2D currentLocation, InOrOut inOrOut,
+			double preFadeTime, double fadeOutDuration) {
+		
 		this.centerOfCircle = center;
 		this.radius = radius;
 		this.inOrOut = inOrOut;
+		this.preFadeCountdownTimer = preFadeTime;
+		this.fadeOutDuration = fadeOutDuration;
 		
 		// Set up random offsets so that all the particles using this motion
 		// strategy don't all get updated at the same time.
@@ -65,6 +71,14 @@ public class WanderThenFadeMotionStrategy extends MotionStrategy {
 			// Time to update the velocity.
 			updateVelocity(movableModelElement.getPosition());
 			velocityUpdateCountdownTimer = VELOCITY_UPDATE_PERIOD;
+		}
+		
+		if (preFadeCountdownTimer > 0){
+			preFadeCountdownTimer -= dt;
+			if (preFadeCountdownTimer <= 0){
+				// Time to start the fade out.
+				fadableModelElement.setFadeStrategy(new TimedFadeAwayStrategy(fadeOutDuration));
+			}
 		}
 	}
 	
