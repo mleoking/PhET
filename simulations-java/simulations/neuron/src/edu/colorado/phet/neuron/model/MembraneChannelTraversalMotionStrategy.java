@@ -63,14 +63,15 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 					fadableModelElement.setFadeStrategy(new TimedFadeAwayStrategy(0.002));
 					
 					// Slow down.
-					velocityVector.scale(0.4);
+					velocityVector.scale(0.2);
 				}
 			}
 		}
 		else{
 			// The channel has closed and this element has not yet entered it.
 			// Time to override this motion strategy with a different one.
-			movableModelElement.setMotionStrategy(new StillnessMotionStrategy());
+			movableModelElement.setMotionStrategy(new WanderAwayThenFadeMotionStrategy(channel.getCenterLocation(),
+					movableModelElement.getPosition(), 0.001, 0.001));
 		}
 	}
 	
