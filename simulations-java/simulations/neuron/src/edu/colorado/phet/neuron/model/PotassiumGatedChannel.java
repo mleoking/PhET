@@ -24,8 +24,8 @@ public class PotassiumGatedChannel extends GatedChannel {
 	
 	// Constants that control the rate at which this channel will transport
 	// ions through it when open.
-	private double MIN_INTER_CAPTURE_TIME = 0; // In seconds of sim time.
-	private double MAX_INTER_CAPTURE_TIME = 0.00008; // In seconds of sim time.
+	private static final double MIN_INTER_CAPTURE_TIME = 0.00001; // In seconds of sim time.
+	private static final double MAX_INTER_CAPTURE_TIME = 0.00004; // In seconds of sim time.
 	
 	// Constant used when calculating how open this gate should be based on
 	// a value that exists within the Hodgkin-Huxley model.  This was

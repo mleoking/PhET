@@ -126,7 +126,7 @@ public abstract class MembraneChannel {
 	protected boolean isOpen(){
 		// The threshold value used here is arbitrary, and can be changed if
 		// necessary.
-		return (getOpenness() > 0.75);
+		return (getOpenness() > 0.4);
 	}
 	
 	/**
@@ -146,12 +146,6 @@ public abstract class MembraneChannel {
 				channelSize.getWidth());
 		AffineTransform transform = AffineTransform.getRotateInstance(rotationalAngle, centerLocation.getX(), centerLocation.getY());
 		Shape rotatedChannelShape = transform.createTransformedShape(channelShape);
-		if (centerLocation.distance(pt) < 2){
-			System.out.println("This point is close.");
-		}
-		if (rotatedChannelShape.contains(pt)){
-			System.out.println("In the channel.");
-		}
 		return rotatedChannelShape.contains(pt);
 	}
 	
@@ -178,7 +172,6 @@ public abstract class MembraneChannel {
 		if (captureCountdownTimer != Double.POSITIVE_INFINITY){
 			if (isOpen()){
 				captureCountdownTimer -= dt;
-				System.out.println(captureCountdownTimer);
 				if (captureCountdownTimer <= 0){
 					modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this);
 					restartCaptureCountdownTimer();

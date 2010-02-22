@@ -72,9 +72,6 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 			// to the channel and started traversing it.
 			channelHasBeenEntered = channel.isPointInChannel(currentPosition);
 		}
-		else{
-			System.out.println("We're in there!");
-		}
 	}
 	
 	private void setCourseForCurrentTraversalPoint(Point2D currentLocation){
