@@ -4,11 +4,16 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.AxonMembrane;
 import edu.colorado.phet.neuron.model.AxonMembrane.TravelingActionPotential;
@@ -20,6 +25,9 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class AxonMembraneNode extends PNode {
+	
+	private static final Color AXON_BODY_COLOR = new Color(221, 216, 44);
+	private static final boolean SHOW_GRADIENT_LINE = false;
 	
 	private AxonMembrane axonMembraneModel;
     private ModelViewTransform2D mvt;
@@ -47,7 +55,16 @@ public class AxonMembraneNode extends PNode {
         
         // Add the axon body.
         Shape axonBodyShape = mvt.createTransformedShape(axonMembraneModel.getAxonBodyShape());
-        axonBody = new PhetPPath( axonBodyShape, new Color(221, 216, 44), new BasicStroke(4), Color.BLACK );
+        Rectangle2D axonBodyBounds = axonBodyShape.getBounds2D();
+        Rectangle2D crossSectionBounds = mvt.createTransformedShape(axonMembraneModel.getCrossSectionEllipseShape()).getBounds2D();
+        Point2D gradientOrigin = new Point2D.Double(axonBodyBounds.getMaxX(), axonBodyBounds.getMaxY());
+        Point2D gradientExtent = new Point2D.Double(crossSectionBounds.getCenterX(), crossSectionBounds.getY());
+        GradientPaint axonBodyGradient = new GradientPaint(
+        		gradientOrigin,
+        		ColorUtils.darkerColor(AXON_BODY_COLOR, 0.5),
+        		gradientExtent,
+        		ColorUtils.brighterColor(AXON_BODY_COLOR, 0.2));
+        axonBody = new PhetPPath( axonBodyShape, axonBodyGradient, new BasicStroke(4), Color.BLACK );
         addChild( axonBody );
         
         double outerDiameter = axonMembraneModel.getCrossSectionDiameter() + axonMembraneModel.getMembraneThickness();
@@ -90,6 +107,11 @@ public class AxonMembraneNode extends PNode {
 		addChild( outerMembrane );
         innerMembrane = new PhetPPath( innerDiameterCircle, new Color(73, 210, 242),  new BasicStroke(4), Color.BLACK);
 		addChild( innerMembrane );		
+
+		if (SHOW_GRADIENT_LINE){
+			// The following line is useful when trying to debug the gradient.
+			addChild(new PhetPPath(new Line2D.Double(gradientOrigin, gradientExtent)));
+		}
 	}
     
     /**
