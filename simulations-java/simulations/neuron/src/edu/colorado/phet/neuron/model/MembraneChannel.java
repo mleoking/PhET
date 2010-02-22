@@ -3,8 +3,11 @@
 package edu.colorado.phet.neuron.model;
 
 import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -125,6 +128,47 @@ public abstract class MembraneChannel {
 		// necessary.
 		return (getOpenness() > 0.75);
 	}
+	
+	/**
+	 * Determine whether the provided point is inside the channel.
+	 * 
+	 * @param pt
+	 * @return
+	 */
+	public boolean isPointInChannel(Point2D pt){
+		// Note: A rotational angle of zero is considered to be lying on the
+		// side.  Hence the somewhat odd-looking use of height and width in
+		// the determination of the channel shape.
+		Shape channelShape = new Rectangle2D.Double(
+				centerLocation.getX() - channelSize.getHeight() / 2,
+				centerLocation.getY() - channelSize.getWidth() / 2,
+				channelSize.getHeight(),
+				channelSize.getWidth());
+		AffineTransform transform = AffineTransform.getRotateInstance(rotationalAngle, centerLocation.getX(), centerLocation.getY());
+		Shape rotatedChannelShape = transform.createTransformedShape(channelShape);
+		if (centerLocation.distance(pt) < 2){
+			System.out.println("This point is close.");
+		}
+		if (rotatedChannelShape.contains(pt)){
+			System.out.println("In the channel.");
+		}
+		return rotatedChannelShape.contains(pt);
+	}
+	
+	/**
+	 * TODO: This is a temp routine for debug.
+	 */
+	public Shape getChannelTestShape(){
+		Shape channelShape = new Rectangle2D.Double(
+				centerLocation.getX() - channelSize.getHeight() / 2,
+				centerLocation.getY() - channelSize.getWidth() / 2,
+				channelSize.getHeight(),
+				channelSize.getWidth());
+		AffineTransform transform = AffineTransform.getRotateInstance(rotationalAngle, centerLocation.getX(), centerLocation.getY());
+		Shape rotatedChannelShape = transform.createTransformedShape(channelShape);
+		return rotatedChannelShape;
+	}
+	
 	/**
 	 * Implements the time-dependent behavior of the gate.
 	 * 
