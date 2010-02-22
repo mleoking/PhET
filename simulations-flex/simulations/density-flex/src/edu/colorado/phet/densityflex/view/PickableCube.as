@@ -9,7 +9,7 @@ public class PickableCube extends Cube implements Pickable {
 
     public function PickableCube( picker : Pickable ) {
         super();
-
+        this.useHandCursor = true;
         this.picker = picker;
     }
 
