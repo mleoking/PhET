@@ -1,8 +1,13 @@
-package edu.colorado.phet.densityflex {
+package edu.colorado.phet.densityflex.view {
+import edu.colorado.phet.densityflex.*;
 
 import Box2D.Dynamics.b2Body;
 
 import away3d.primitives.*;
+
+import edu.colorado.phet.densityflex.model.Cuboid;
+import edu.colorado.phet.densityflex.model.DensityModel;
+import edu.colorado.phet.densityflex.model.Listener;
 
 public class CuboidNode extends Cube implements Pickable, Listener{
 

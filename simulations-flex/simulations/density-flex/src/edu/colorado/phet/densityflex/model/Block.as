@@ -1,4 +1,5 @@
-package edu.colorado.phet.densityflex {
+package edu.colorado.phet.densityflex.model {
+import edu.colorado.phet.densityflex.*;
 
 import flash.geom.ColorTransform;
 

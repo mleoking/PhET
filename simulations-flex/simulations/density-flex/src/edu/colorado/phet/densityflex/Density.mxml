@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:cmp="edu.colorado.phet.densityflex.*"
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:cmp="edu.colorado.phet.densityflex.*" xmlns:view="edu.colorado.phet.densityflex.view.*"
                 layout="absolute" width="100%" height="100%" applicationComplete="tab1.init()"
                 preinitialize="init()">
     <mx:TabNavigator width="100%" height="100%" change="onSwitch(event)">
         <mx:Canvas label="Tab 1">
-            <cmp:DensityView3D width="100%" height="100%" id="tab1"/>
+            <view:DensityView3D width="100%" height="100%" id="tab1"/>
             <mx:Panel right="20" y="100">
                 <mx:RadioButton groupName="massVol" id="sameMass" label="Objects of same mass" selected="true"
                                 click="tab1.switchToSameMass()"/>
@@ -22,7 +22,7 @@
 
         </mx:VBox>
     </mx:TabNavigator>
-    <cmp:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
+    <view:DebugText id="debug" height="100" x="0" y="0" text="" color="#FFFFFF" click="DebugText.clear();"/>
     <mx:Script><![CDATA[
         import flash.ui.ContextMenu;
 

@@ -1,6 +1,11 @@
-package edu.colorado.phet.densityflex {
+package edu.colorado.phet.densityflex.view {
+import edu.colorado.phet.densityflex.*;
 
 import away3d.materials.*;
+
+import edu.colorado.phet.densityflex.model.Block;
+
+import edu.colorado.phet.densityflex.model.Listener;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
@@ -20,7 +25,7 @@ public class BlockNode extends CuboidNode implements Pickable, Listener{
     private var block : Block;
     private var view : DensityView3D;
 
-    [Embed(source="../../../../../data/density-flex/images/wall.jpg")]
+    [Embed(source="../../../../../../data/density-flex/images/wall.jpg")]
     private var wallClass : Class;
 
     public function BlockNode( block:Block, view : DensityView3D ) : void {

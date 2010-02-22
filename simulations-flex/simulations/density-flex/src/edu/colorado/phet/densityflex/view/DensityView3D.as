@@ -1,4 +1,5 @@
-package edu.colorado.phet.densityflex{
+package edu.colorado.phet.densityflex.view{
+import edu.colorado.phet.densityflex.*;
 
 import Box2D.Common.Math.b2Vec2;
 
@@ -14,6 +15,10 @@ import away3d.lights.*;
 import away3d.materials.*;
 import away3d.primitives.*;
 
+import edu.colorado.phet.densityflex.model.Block;
+import edu.colorado.phet.densityflex.model.Cuboid;
+import edu.colorado.phet.densityflex.model.DensityModel;
+import edu.colorado.phet.densityflex.model.Scale;
 import edu.colorado.phet.flexcommon.FlexCommon;
 
 import flash.display.Sprite;
@@ -54,7 +59,7 @@ public class DensityView3D extends UIComponent {
 
     public var backgroundSprite : Sprite;
 
-    [Embed(source="../../../../../data/density-flex/images/spheretex.png")]
+    [Embed(source="../../../../../../data/density-flex/images/spheretex.png")]
     private var spheretex : Class;
 
     public function DensityView3D() {

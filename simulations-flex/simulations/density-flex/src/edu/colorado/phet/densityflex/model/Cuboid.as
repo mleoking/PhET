@@ -1,4 +1,6 @@
-package edu.colorado.phet.densityflex {
+package edu.colorado.phet.densityflex.model {
+import edu.colorado.phet.densityflex.*;
+
 import Box2D.Collision.Shapes.b2PolygonDef;
 import Box2D.Dynamics.b2BodyDef;
 

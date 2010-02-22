@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityflex {
+package edu.colorado.phet.densityflex.view {
 import Box2D.Dynamics.b2Body;
 
 /**

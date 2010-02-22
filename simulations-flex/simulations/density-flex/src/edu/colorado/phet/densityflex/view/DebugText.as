@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityflex {
+package edu.colorado.phet.densityflex.view {
 import mx.controls.Text;
 
 public class DebugText extends Text{
