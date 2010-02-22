@@ -1,3 +1,4 @@
+# 0.00.29 (38831) Feb 22, 2010
 2/22/10 temporarily show "Hide" feature in Game Settings for interviews
 # 0.00.28 (38813) Feb 21, 2010
 2/21/10 hide the "hide molecules or numbers" feature in Game Settings, useful for research, not generally desirable
