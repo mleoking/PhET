@@ -36,6 +36,12 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 		
 		Point2D currentPosition = movableModelElement.getPosition();
 		
+		if (!channelHasBeenEntered){
+			// Update the flag the tracks whether this particle has made it
+			// to the channel and started traversing it.
+			channelHasBeenEntered = channel.isPointInChannel(currentPosition);
+		}
+		
 		if (channel.isOpen() || channelHasBeenEntered){
 			// The channel is open, or we are inside it or have gone all the
 			// way through, so keep executing this motion strategy.
@@ -65,12 +71,6 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 			// The channel has closed and this element has not yet entered it.
 			// Time to override this motion strategy with a different one.
 			movableModelElement.setMotionStrategy(new StillnessMotionStrategy());
-		}
-		
-		if (!channelHasBeenEntered){
-			// Update the flag the tracks whether this particle has made it
-			// to the channel and started traversing it.
-			channelHasBeenEntered = channel.isPointInChannel(currentPosition);
 		}
 	}
 	
