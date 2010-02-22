@@ -22,6 +22,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 	private Vector2D velocityVector = new Vector2D.Double();
 	private ArrayList<Point2D> traversalPoints;
 	private int currentDestinationIndex = 0;
+	private boolean channelHasBeenEntered = false; // Flag that is set when the channel is entered.
 	
 	public MembraneChannelTraversalMotionStrategy(MembraneChannel channel, double velocity, Point2D startingLocation) {
 		this.channel = channel;
@@ -33,27 +34,47 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 
 	@Override
 	public void move(IMovable movableModelElement, IFadable fadableModelElement, double dt) {
+		
 		Point2D currentPosition = movableModelElement.getPosition();
-		if ( currentDestinationIndex >= traversalPoints.size() || velocity * dt < currentPosition.distance(traversalPoints.get(currentDestinationIndex))){
-			// Move according to the current velocity.
-			movableModelElement.setPosition(currentPosition.getX() + velocityVector.getX() * dt,
-					currentPosition.getY() + velocityVector.getY() * dt);
+		
+		if (channel.isOpen() || channelHasBeenEntered){
+			// The channel is open, or we are inside it or have gone all the
+			// way through, so keep executing this motion strategy.
+			if ( currentDestinationIndex >= traversalPoints.size() || velocity * dt < currentPosition.distance(traversalPoints.get(currentDestinationIndex))){
+				// Move according to the current velocity.
+				movableModelElement.setPosition(currentPosition.getX() + velocityVector.getX() * dt,
+						currentPosition.getY() + velocityVector.getY() * dt);
+			}
+			else{
+				// We are close enough to the destination that we should just
+				// position ourself there and update to the next traversal point.
+				movableModelElement.setPosition(traversalPoints.get(currentDestinationIndex));
+				currentDestinationIndex++;
+				setCourseForCurrentTraversalPoint(movableModelElement.getPosition());
+				if (currentDestinationIndex == traversalPoints.size()){
+					// We have traversed through all points and are now
+					// presumably on the other side of the membrane, so we need to
+					// start fading out of existence.
+					fadableModelElement.setFadeStrategy(new TimedFadeAwayStrategy(0.002));
+					
+					// Slow down a bit.
+					velocityVector.scale(0.7);
+				}
+			}
 		}
 		else{
-			// We are close enough to the destination that we should just
-			// position ourself there and update to the next traversal point.
-			movableModelElement.setPosition(traversalPoints.get(currentDestinationIndex));
-			currentDestinationIndex++;
-			setCourseForCurrentTraversalPoint(movableModelElement.getPosition());
-			if (currentDestinationIndex == traversalPoints.size()){
-				// We have traversed through all points and are now
-				// presumably on the other side of the membrane, so we need to
-				// start fading out of existence.
-				fadableModelElement.setFadeStrategy(new TimedFadeAwayStrategy(0.002));
-				
-				// Slow down a bit.
-				velocityVector.scale(0.7);
-			}
+			// The channel has closed and this element has not yet entered it.
+			// Time to override this motion strategy with a different one.
+			movableModelElement.setMotionStrategy(new StillnessMotionStrategy());
+		}
+		
+		if (!channelHasBeenEntered){
+			// Update the flag the tracks whether this particle has made it
+			// to the channel and started traversing it.
+			channelHasBeenEntered = channel.isPointInChannel(currentPosition);
+		}
+		else{
+			System.out.println("We're in there!");
 		}
 	}
 	
