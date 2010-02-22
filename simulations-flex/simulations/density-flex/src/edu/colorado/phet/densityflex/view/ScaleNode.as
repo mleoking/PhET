@@ -3,6 +3,7 @@ import edu.colorado.phet.densityflex.*;
 
 import away3d.materials.*;
 
+import edu.colorado.phet.densityflex.model.DensityModel;
 import edu.colorado.phet.densityflex.model.Listener;
 
 import edu.colorado.phet.densityflex.model.Scale;
@@ -17,6 +18,8 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
     private var scaler:Scale;
     private var textField : TextField;
     private var view : DensityView3D;
+
+    private var base : PickableCube;
 
     private static var WALL_RES : Number = 100;
 
@@ -39,9 +42,22 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
         frontMaterial.smooth = true; //makes the font smooth instead of jagged, see http://www.mail-archive.com/away3d-dev@googlegroups.com/msg06699.html
         var redWallMaterial : ColorMaterial = new ColorMaterial(0xCCCCCC);
 
-        this.cubeMaterials.left = this.cubeMaterials.right = this.cubeMaterials.top = this.cubeMaterials.bottom = this.cubeMaterials.front = redWallMaterial;
+        base.cubeMaterials.left = base.cubeMaterials.right = base.cubeMaterials.top = base.cubeMaterials.bottom = base.cubeMaterials.front = redWallMaterial;
 
-        this.cubeMaterials.back = frontMaterial;
+        base.cubeMaterials.back = frontMaterial;
+    }
+
+
+    override public function addNodes():void {
+        trace( "scale addNodes()");
+        base = new PickableCube(this);
+        base.width = getCuboid().getWidth() * DensityModel.DISPLAY_SCALE;
+        base.height = getCuboid().getHeight() * DensityModel.DISPLAY_SCALE;
+        base.depth = getCuboid().getDepth() * DensityModel.DISPLAY_SCALE;
+        base.segmentsH = 2;
+        base.segmentsW = 2;
+        addChild(base);
+        base.useHandCursor = true;
     }
 
     public function updateText() : void {
@@ -49,7 +65,7 @@ public class ScaleNode extends CuboidNode implements Pickable, Listener{
         textField.width = WALL_RES * scaler.getWidth();
         textField.height = WALL_RES * scaler.getHeight();
         var format : TextFormat = new TextFormat();
-        format.size = int(45 * (200 / this.width));
+        format.size = int(45 * (200 / base.width));
         format.bold = true;
         format.font = "Arial";
         textField.multiline = true;
