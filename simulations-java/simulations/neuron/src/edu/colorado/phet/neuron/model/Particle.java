@@ -32,9 +32,6 @@ public abstract class Particle implements IMovable, IFadable {
     // Motion strategy for moving this particle around.
     private MotionStrategy motionStrategy = new StillnessMotionStrategy();
     
-    // Availability for capture by a membrane channel.
-    private boolean availableForCapture = true;
-    
     // Opaqueness value, ranges from 0 (completely transparent) to 1 
     // (completely opaque).
     private double opaqueness = 1;
@@ -127,11 +124,10 @@ public abstract class Particle implements IMovable, IFadable {
 	}
     
     protected boolean isAvailableForCapture() {
-		return availableForCapture;
-	}
-
-	protected void setAvailableForCapture(boolean availableForCapture) {
-		this.availableForCapture = availableForCapture;
+    	// If the particle is not in the process of trying to traverse a
+    	// membrane channel, then it should be considered to be available for
+    	// capture.
+		return !(motionStrategy instanceof MembraneChannelTraversalMotionStrategy);
 	}
 
     protected void notifyPositionChanged(){
