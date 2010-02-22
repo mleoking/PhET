@@ -23,9 +23,10 @@ public class SodiumGatedChannel extends GatedChannel {
 	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.70; // In nanometers.
 	
 	// Constants that control the rate at which this channel will capture ions
-	// when it is open.
-	private static final double MIN_INTER_CAPTURE_TIME = 0.00005; // In seconds of sim time.
-	private static final double MAX_INTER_CAPTURE_TIME = 0.00020; // In seconds of sim time.
+	// when it is open.  Smaller numbers here will increase the capture rate
+	// and thus make the flow appear to be faster.
+	private static final double MIN_INTER_CAPTURE_TIME = 0.00001; // In seconds of sim time.
+	private static final double MAX_INTER_CAPTURE_TIME = 0.00004; // In seconds of sim time.
 	
 	// Constant used when calculating how open this gate should be based on
 	// a value that exists within the Hodgkin-Huxley model.  This was
