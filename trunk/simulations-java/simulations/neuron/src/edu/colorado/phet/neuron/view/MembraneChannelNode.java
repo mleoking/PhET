@@ -25,13 +25,15 @@ public class MembraneChannelNode extends PNode{
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-	private static final boolean SHOW_CAPTURE_ZONE = false;
+	private static final boolean SHOW_CAPTURE_ZONE = true;
 	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 	private MembraneChannel membraneChannelModel;
 	private ModelViewTransform2D mvt;
+	private PNode channelLayer;
+	private PNode edgeLayer;
 	private PPath channel;
 	private PPath leftEdgeNode;
 	private PPath rightEdgeNode;
@@ -41,6 +43,10 @@ public class MembraneChannelNode extends PNode{
     // Constructor
     //----------------------------------------------------------------------------
 
+	/**
+	 * Constructor.  Note that the parent nodes are passed in so that the
+	 * layering appearance can be better controlled.
+	 */
 	public MembraneChannelNode(MembraneChannel membraneChannelModel, ModelViewTransform2D mvt){
 
 		this.membraneChannelModel = membraneChannelModel;
@@ -65,19 +71,41 @@ public class MembraneChannelNode extends PNode{
 				Math.abs(mvt.modelToViewDifferentialYDouble(edgeNodeHeight)));
 		leftEdgeNode = createEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
 		rightEdgeNode = createEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
-
-		// Create the overall composite representation and add the children.
-		PNode representation = new PNode();
-		representation.addChild(channel);
-		representation.addChild(leftEdgeNode);
-		representation.addChild(rightEdgeNode);
-
-		// Rotate based on the model element's orientation.
-		representation.rotate(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
-		addChild(representation);
 		
+		// Create the layers for the channel the edges.  This makes offsets
+		// and rotations easier.
+		channelLayer = new PNode();
+		addChild(channelLayer);
+		channelLayer.addChild(channel);
+		edgeLayer = new PNode();
+		addChild(edgeLayer);
+		edgeLayer.addChild(leftEdgeNode);
+		edgeLayer.addChild(rightEdgeNode);
+
 		// Update the representation.
 		updateRepresentation();
+	}
+	
+	/**
+	 * Add this node to the two specified parent nodes.  This is done in order
+	 * to achieve a better layering effect that allows the particles to look
+	 * more like they are moving through the channel.  It is not absolutely
+	 * necessary to use this method for this node - it can be added to the
+	 * canvas like any other PNode, it just won't have the layering.
+	 * 
+	 * @param channelLayer
+	 * @param edgeLayer
+	 */
+	public void addToCanvas(PNode channelLayer, PNode edgeLayer){
+		channelLayer.addChild(this.channelLayer);
+		edgeLayer.addChild(this.edgeLayer);
+		edgeLayer.addChild(this.edgeLayer);
+	}
+	
+	public void removeFromCanvas(PNode channelLayer, PNode edgeLayer){
+		channelLayer.removeChild(channel);
+		edgeLayer.removeChild(rightEdgeNode);
+		edgeLayer.removeChild(leftEdgeNode);
 	}
 	
 	private PPath createEdgeNode(Dimension2D size, Color color){
@@ -131,7 +159,12 @@ public class MembraneChannelNode extends PNode{
 		rightEdgeNode.setOffset(
 				transformedChannelSize.getWidth() / 2 + rightEdgeNode.getFullBoundsReference().width / 2, 0);
 
-		setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
+		channelLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
+		edgeLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
+		
+		// Rotate based on the model element's orientation.
+		channelLayer.setRotation(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
+		edgeLayer.setRotation(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
 		
 		// If enabled, show/update the capture zone for this channel.
 		if (SHOW_CAPTURE_ZONE){

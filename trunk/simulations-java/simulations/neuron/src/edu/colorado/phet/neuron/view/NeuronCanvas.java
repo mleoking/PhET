@@ -69,6 +69,8 @@ public class NeuronCanvas extends PhetPCanvas {
     // Layers for the canvas.
     private PNode particleLayer;
     private PNode axonCrossSectionLayer;
+    private PNode channelLayer;
+    private PNode channelEdgeLayer;
     private PNode chartLayer;
     
     // Chart and voltmeter for showing membrane potential.
@@ -131,9 +133,13 @@ public class NeuronCanvas extends PhetPCanvas {
         // Create the layers in the desired order.
         axonCrossSectionLayer = new PNode();
         particleLayer = new PNode();
+        channelLayer = new PNode();
+        channelEdgeLayer = new PNode();
 
         myWorldNode.addChild(axonCrossSectionLayer);
+        myWorldNode.addChild(channelLayer);
         myWorldNode.addChild(particleLayer);
+        myWorldNode.addChild(channelEdgeLayer);
 
         chartLayer = new PNode();
         addScreenChild(chartLayer);
@@ -255,10 +261,10 @@ public class NeuronCanvas extends PhetPCanvas {
     
     private void addChannelNode(MembraneChannel channelToBeAdded){
     	final MembraneChannelNode channelNode = new MembraneChannelNode(channelToBeAdded, mvt);
-    	axonCrossSectionLayer.addChild(channelNode);
+    	channelNode.addToCanvas(channelLayer, channelEdgeLayer);
     	channelToBeAdded.addListener(new MembraneChannel.Adapter() {
 			public void removed() {
-				axonCrossSectionLayer.removeChild(channelNode);
+				channelNode.removeFromCanvas(channelLayer, channelEdgeLayer);
 			}
 		});
     	
