@@ -474,7 +474,7 @@ public class AxonModel implements IParticleCapture {
     	Particle capturedParticle = czsr.getClosestFreeParticle();
     	capturedParticle.setAvailableForCapture(false);
     	capturedParticle.setMotionStrategy(
-    			new MembraneChannelTraversalMotionStrategy(channel, 10000, capturedParticle.getPosition()));
+    			new MembraneChannelTraversalMotionStrategy(channel, capturedParticle.getPosition()));
     }
     
     private void stepInTime(double dt){
