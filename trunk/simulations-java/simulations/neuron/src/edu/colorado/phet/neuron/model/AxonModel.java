@@ -61,9 +61,6 @@ public class AxonModel implements IParticleCapture {
 	// are too close together.
 	private static final double STIM_LOCKOUT_TIME = 0.01;  // Milliseconds of sim time.
 	
-	// The threshold above which particles are not replaced in a capture zone.
-	private static int PARTICLE_REPLACEMENT_THRESHOLD = 3;
-	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -240,20 +237,17 @@ public class AxonModel implements IParticleCapture {
 //    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 1);
 
     	// Add the initial channels.
-    	for (int i = 0; i < 1; i++){
+    	for (int i = 0; i < 4; i++){
     		addChannel(MembraneChannelTypes.SODIUM_GATED_CHANNEL);
     	}
-    	for (int i = 0; i < 0; i++){
-    		addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
-    	}
-    	for (int i = 0; i < 0; i++){
+    	for (int i = 0; i < 4; i++){
     		addChannel(MembraneChannelTypes.POTASSIUM_GATED_CHANNEL);
     	}
-    	for (int i = 0; i < 0; i++){
+    	for (int i = 0; i < 4; i++){
     		addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
     	}
-    	for (int i = 0; i < 0; i++){
-    		addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
+    	for (int i = 0; i < 1; i++){
+    		addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
     	}
     }
     
@@ -472,17 +466,11 @@ public class AxonModel implements IParticleCapture {
     	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getCaptureZone(), particleType);
     	Particle particleToCapture = czsr.getClosestFreeParticle();
     	
-    	if (czsr.getNumParticlesInZone() < PARTICLE_REPLACEMENT_THRESHOLD){
-    		// We need to create a particle to replace the one that we intend
-    		// to capture.
+    	if (czsr.getNumParticlesInZone() == 0){
+    		// No particles available in the zone, so create a new one.
     		Particle newParticle = createParticle(particleType, channel.getCaptureZone());
     		newParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005));
-    		if (particleToCapture == null || 
-    			newParticle.getPositionReference().distance(channel.getCenterLocation()) < 
-    				particleToCapture.getPosition().distance(channel.getCenterLocation())){
-    			// This newly created particle is the one we will capture.
-    			particleToCapture = newParticle;
-    		}
+   			particleToCapture = newParticle;
     	}
     	particleToCapture.setMotionStrategy(
     			new MembraneChannelTraversalMotionStrategy(channel, particleToCapture.getPosition()));
