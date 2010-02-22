@@ -5,7 +5,7 @@ import away3d.primitives.Cube;
 
 public class PickableCube extends Cube implements Pickable {
 
-    var picker : Pickable;
+    private var picker : Pickable;
 
     public function PickableCube( picker : Pickable ) {
         super();
