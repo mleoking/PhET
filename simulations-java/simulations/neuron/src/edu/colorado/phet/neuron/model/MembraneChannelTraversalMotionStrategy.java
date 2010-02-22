@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 
 	private static final Random RAND = new Random();
-	private static final double MAX_VELOCITY = 20000; // Velocity that particles move, in nm/sec (sim time).
+	private static final double MAX_VELOCITY = 40000; // Velocity that particles move, in nm/sec (sim time).
 	
 	private final MembraneChannel channel; // Channel through which to move. 
 	
