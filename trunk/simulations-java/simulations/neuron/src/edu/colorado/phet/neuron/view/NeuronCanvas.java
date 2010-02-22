@@ -15,17 +15,14 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import javax.print.attribute.SetOfIntegerSyntax;
-
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
-import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.Particle;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -70,7 +67,7 @@ public class NeuronCanvas extends PhetPCanvas {
     private ModelViewTransform2D mvt;
     
     // Layers for the canvas.
-    private PNode atomLayer;
+    private PNode particleLayer;
     private PNode axonCrossSectionLayer;
     private PNode chartLayer;
     
@@ -110,7 +107,7 @@ public class NeuronCanvas extends PhetPCanvas {
 				addChannelNode(channel);
 			}
 			public void particleAdded(Particle particle) {
-				addAtom(particle);
+				addParticle(particle);
 			}
 			public void potentialChartVisibilityChanged(){
 				membranePotentialChart.setVisible(model.isPotentialChartVisible());
@@ -133,10 +130,10 @@ public class NeuronCanvas extends PhetPCanvas {
 
         // Create the layers in the desired order.
         axonCrossSectionLayer = new PNode();
-        atomLayer = new PNode();
+        particleLayer = new PNode();
 
         myWorldNode.addChild(axonCrossSectionLayer);
-        myWorldNode.addChild(atomLayer);
+        myWorldNode.addChild(particleLayer);
 
         chartLayer = new PNode();
         addScreenChild(chartLayer);
@@ -158,9 +155,9 @@ public class NeuronCanvas extends PhetPCanvas {
         AxonMembraneNode axonMembraneNode = new AxonMembraneNode(model.getAxonMembrane(), mvt);
         axonCrossSectionLayer.addChild(axonMembraneNode);
         
-        // Add the atoms.
-        for (Particle atom : model.getParticles()){
-        	addAtom(atom);
+        // Add the particles.
+        for (Particle particle : model.getParticles()){
+        	addParticle(particle);
         }
         
         // Add the channels.
@@ -183,7 +180,7 @@ public class NeuronCanvas extends PhetPCanvas {
         if (SHOW_PARTICLE_BOUNDS){
         	PhetPPath particleMotionBounds = new PhetPPath(mvt.createTransformedShape(model.getParticleMotionBounds()),
         			new BasicStroke(3), Color.red);
-        	atomLayer.addChild(particleMotionBounds);
+        	particleLayer.addChild(particleMotionBounds);
         }
         
         if (SHOW_CENTER_CROSS_HAIR){
@@ -243,15 +240,15 @@ public class NeuronCanvas extends PhetPCanvas {
         myWorldNode.scaleAboutPoint(zoomFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 0);
     }
     
-    private void addAtom(Particle atomToBeAdded){
-    	final ParticleNode particleNode = new ParticleNode(atomToBeAdded, mvt); 
-    	atomLayer.addChild(particleNode);
+    private void addParticle(Particle particleToBeAdded){
+    	final ParticleNode particleNode = new ParticleNode(particleToBeAdded, mvt); 
+    	particleLayer.addChild(particleNode);
     	
     	// Set up a listener to remove the particle node when and if the
     	// particle is removed from the model.
-    	atomToBeAdded.addListener(new Particle.Adapter(){
+    	particleToBeAdded.addListener(new Particle.Adapter(){
     		public void removedFromModel() {
-    			atomLayer.removeChild(particleNode);
+    			particleLayer.removeChild(particleNode);
     		}
     	});
     }
@@ -264,6 +261,14 @@ public class NeuronCanvas extends PhetPCanvas {
 				axonCrossSectionLayer.removeChild(channelNode);
 			}
 		});
+    	
+    	/* TODO: The code below adds nodes that make it clear exactly where
+    	 * the channel is for the various membrane channels.  This is useful
+    	 * for debugging, but should be removed once channel traversal is
+    	 * fully worked out.
+    	 */
+    	PhetPPath channelTestShape = new PhetPPath(mvt.createTransformedShape(channelToBeAdded.getChannelTestShape()), Color.ORANGE);
+    	axonCrossSectionLayer.addChild(channelTestShape);
     }
     
     private static class CrossHairNode extends PNode {
