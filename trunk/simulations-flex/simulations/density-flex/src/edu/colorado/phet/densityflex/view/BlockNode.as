@@ -63,12 +63,14 @@ public class BlockNode extends CuboidNode implements Pickable, Listener{
 
         frontSprite.addChild(new Bitmap(coloredData));
 
+        var cube : PickableCube = getCube();
+
         var tf : TextField = new TextField();
         tf.text = String(block.getMass()) + " kg";
         tf.height = wallData.height;
         tf.width = wallData.width;
         var format : TextFormat = new TextFormat();
-        format.size = int(45 * (200 / this.width));
+        format.size = int(45 * (200 / cube.width));
         format.bold = true;
         format.font = "Arial";
         tf.multiline = true;
@@ -80,9 +82,9 @@ public class BlockNode extends CuboidNode implements Pickable, Listener{
         frontMaterial.smooth = true; //makes the font smooth instead of jagged, see http://www.mail-archive.com/away3d-dev@googlegroups.com/msg06699.html
         var redWallMaterial : BitmapMaterial = new BitmapMaterial(coloredData);
 
-        this.cubeMaterials.left = this.cubeMaterials.right = this.cubeMaterials.top = this.cubeMaterials.bottom = this.cubeMaterials.front = redWallMaterial;
+        cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = redWallMaterial;
 
-        this.cubeMaterials.back = frontMaterial;
+        cube.cubeMaterials.back = frontMaterial;
     }
 
     public function getBlock() : Block {
