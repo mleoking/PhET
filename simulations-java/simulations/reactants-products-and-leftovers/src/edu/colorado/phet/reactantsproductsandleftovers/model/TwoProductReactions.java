@@ -209,7 +209,7 @@ public class TwoProductReactions {
        }
        
        private static Product[] createProducts() {
-           Product p1 = new Product( 1, new O2() );
+           Product p1 = new Product( 1, new CO2() );
            Product p2 = new Product( 2, new SO2() );
            return new Product[] { p1, p2 };
        }
