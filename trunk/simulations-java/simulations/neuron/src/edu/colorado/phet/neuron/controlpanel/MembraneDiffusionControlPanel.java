@@ -6,8 +6,6 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
@@ -28,7 +26,6 @@ import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannelTypes;
-import edu.colorado.phet.neuron.model.ParticleType;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
 
 /**
@@ -101,8 +98,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Add the legend.
-        addControlFullWidth(new IonLegendPanel(
-        		new ArrayList<ParticleType>(Arrays.asList(ParticleType.SODIUM_ION, ParticleType.POTASSIUM_ION))));
+        addControlFullWidth(new NeuronLegendPanel());
         
         /*
          * TODO: Feb 19 2010 - There have been some radical changes made, and
