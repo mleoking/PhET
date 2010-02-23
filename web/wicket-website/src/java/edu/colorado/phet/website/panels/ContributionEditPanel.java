@@ -1,15 +1,13 @@
 package edu.colorado.phet.website.panels;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.*;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.Component;
 import org.apache.wicket.behavior.HeaderContributor;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
@@ -120,6 +118,8 @@ public class ContributionEditPanel extends PhetPanel {
 
         private TextArea descriptionText;
 
+        private DurationDropDownChoice durationChoice;
+
         public ContributionForm( String id ) {
             super( id );
 
@@ -146,6 +146,9 @@ public class ContributionEditPanel extends PhetPanel {
             add( levelManager.getComponent( "levels", context ) );
 
             add( subjectManager.getComponent( "subjects", context ) );
+
+            durationChoice = new DurationDropDownChoice( "duration", creating ? 0 : contribution.getDuration() );
+            add( durationChoice );
         }
 
         @Override
@@ -191,6 +194,65 @@ public class ContributionEditPanel extends PhetPanel {
                 submittingComponent.onSubmit();
             }
         }
+    }
+
+    public class DurationDropDownChoice extends DropDownChoice {
+        public DurationDropDownChoice( String id, int initialDuration ) {
+            super( id, new Model( new DurationItem( initialDuration ) ), DurationItem.getAllItems(), new IChoiceRenderer() {
+                public Object getDisplayValue( Object object ) {
+                    if ( object instanceof DurationItem ) {
+                        return ( (DurationItem) object ).getDisplayValue();
+                    }
+                    else {
+                        throw new RuntimeException( "Not an DurationItem" );
+                    }
+                }
+
+                public String getIdValue( Object object, int index ) {
+                    if ( object instanceof DurationItem ) {
+                        return String.valueOf( ( (DurationItem) object ).getId() );
+                    }
+                    else {
+                        throw new RuntimeException( "Not an DurationItem" );
+                    }
+                }
+            } );
+        }
+    }
+
+    private static class DurationItem implements Serializable {
+
+        private int duration;
+
+        private DurationItem( int duration ) {
+            this.duration = duration;
+        }
+
+        public int getDuration() {
+            return duration;
+        }
+
+        public static List getAllItems() {
+            // TODO: build into contribution code so we can keep values in one place
+            return Arrays.asList( new DurationItem( 0 ), new DurationItem( 30 ), new DurationItem( 60 ), new DurationItem( 90 ), new DurationItem( 120 ) );
+        }
+
+        public String getDisplayValue() {
+            // TODO: localize
+            if ( duration == 0 ) {
+                return "NA";
+            }
+            return String.valueOf( duration ) + " minutes";
+        }
+
+        public Component getDisplayComponent( String id ) {
+            return new Label( id, getDisplayValue() );
+        }
+
+        public int getId() {
+            return duration;
+        }
+
     }
 
 
