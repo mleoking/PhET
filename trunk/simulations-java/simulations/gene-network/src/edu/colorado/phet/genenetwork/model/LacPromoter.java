@@ -70,7 +70,7 @@ public class LacPromoter extends Promoter {
 	}
 
 	@Override
-	protected boolean okayToAttachToRnaPoly() {
+	protected boolean isOkayToAttachToRnaPoly() {
 		return ( getModel().getGlucoseList().size() > 0 ) || ( getModel().getLacIList().size() == 0 ) ||
 			   ( getModel().getLacOperator().isLacIAttached() );
 	}

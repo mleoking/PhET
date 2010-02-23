@@ -216,7 +216,7 @@ public abstract class Promoter extends SimpleModelElement {
 	}
 
 	protected void attemptToStartAttaching(){
-		if (!okayToAttachToRnaPoly()){
+		if (!isOkayToAttachToRnaPoly()){
 			// Something must have changed making it no longer okay to
 			// try to attach to the RNA poly, so change to the state where we
 			// are not available.
@@ -236,14 +236,14 @@ public abstract class Promoter extends SimpleModelElement {
 		}
 	}
 	
-	protected boolean okayToAttachToRnaPoly(){
+	protected boolean isOkayToAttachToRnaPoly(){
 		return true;
 	}
 	
 	protected void checkAttachmentCompleted(){
 		assert rnaPolymeraseAttachmentPartner != null;
 
-		if (okayToAttachToRnaPoly()){
+		if (isOkayToAttachToRnaPoly()){
 			// Calculate the current location of our RnaPolymerase attachment point.
 			Point2D rnaPolymeraseAttachmentPtLocation = 
 				new Point2D.Double(getPositionRef().getX() + RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET.getWidth(),
@@ -288,7 +288,7 @@ public abstract class Promoter extends SimpleModelElement {
 	private void checkIfReadyToAttach(double dt){
 		recoveryCountdownTimer -= dt;
 		if (recoveryCountdownTimer < 0){
-			if (okayToAttachToRnaPoly()){
+			if (isOkayToAttachToRnaPoly()){
 				rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			}
 			else{
