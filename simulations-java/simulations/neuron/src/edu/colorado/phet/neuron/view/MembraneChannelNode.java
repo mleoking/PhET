@@ -25,7 +25,7 @@ public class MembraneChannelNode extends PNode{
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-	private static final boolean SHOW_CAPTURE_ZONE = true;
+	private static final boolean SHOW_CAPTURE_ZONE = false;
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -37,7 +37,7 @@ public class MembraneChannelNode extends PNode{
 	private PPath channel;
 	private PPath leftEdgeNode;
 	private PPath rightEdgeNode;
-	private CaptureZoneNode captureZoneNode = null;
+	private CaptureZoneNode captureZoneNode;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -81,6 +81,13 @@ public class MembraneChannelNode extends PNode{
 		addChild(edgeLayer);
 		edgeLayer.addChild(leftEdgeNode);
 		edgeLayer.addChild(rightEdgeNode);
+		
+		// Add the capture zone, which is only used for debug.
+		if (SHOW_CAPTURE_ZONE){
+			captureZoneNode = new CaptureZoneNode(membraneChannelModel.getCaptureZone(), mvt);
+			captureZoneNode.setVisible(false);
+			channelLayer.addChild(captureZoneNode);
+		}
 
 		// Update the representation.
 		updateRepresentation();
@@ -168,18 +175,17 @@ public class MembraneChannelNode extends PNode{
 		
 		// If enabled, show/update the capture zone for this channel.
 		if (SHOW_CAPTURE_ZONE){
-			if (membraneChannelModel instanceof GatedChannel && membraneChannelModel.getOpenness() > 0.1 && captureZoneNode == null){
+			if (membraneChannelModel.getOpenness() > 0.1){
 				// Show the capture node.
-				captureZoneNode = new CaptureZoneNode(membraneChannelModel.getCaptureZone(), mvt);
+				captureZoneNode.setVisible(true);
 				// Set the offset to the inverse of this node's offset, since
 				// the capture zone maintains its own positioning info.
-				captureZoneNode.setOffset(-getOffset().getX(), -getOffset().getY());
-				addChild(captureZoneNode);
+				captureZoneNode.setOffset(-channelLayer.getOffset().getX(), -channelLayer.getOffset().getY());
+				captureZoneNode.setRotation(-channelLayer.getRotation());
 			}
-			if (membraneChannelModel instanceof GatedChannel && membraneChannelModel.getOpenness() < 0.1 && captureZoneNode != null){
-				// Get rid of the capture zone node.
-				removeChild(captureZoneNode);
-				captureZoneNode = null;
+			if (membraneChannelModel.getOpenness() < 0.1){
+				// Hide the capture zone node.
+				captureZoneNode.setVisible(false);
 			}
 		}
 	}
