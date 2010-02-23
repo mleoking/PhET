@@ -177,8 +177,8 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 //        addControlFullWidth(zoomSlider);
         
         // Add the reset all button.
-        addControlFullWidth(createVerticalSpacingPanel(60));
-        addResetAllButton( module );
+//        addControlFullWidth(createVerticalSpacingPanel(60));
+//        addResetAllButton( module );
         
         // Update the states of the controls.
 //        updateChannelControlSliders();
