@@ -24,6 +24,8 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 	private static final double MIN_INTER_CAPTURE_TIME = 0.0025; // In seconds of sim time.
 	private static final double MAX_INTER_CAPTURE_TIME = 0.0100; // In seconds of sim time.
 	
+	private static final double DEFAULT_PARTICLE_VELOCITY = 10000; // In nanometers per sec of sim time.
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -39,8 +41,11 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
 		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
 		
+		// Set the speed at which particles will move through the channel.
+		setParticleVelocity(DEFAULT_PARTICLE_VELOCITY);
+		
 		// Set up the capture zone for this channel.
-		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, 0, Math.PI * 0.6));
+		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, 0, Math.PI * 0.3));
 		
 		// Start the capture timer now, since leak channels are always
 		// capturing particles.

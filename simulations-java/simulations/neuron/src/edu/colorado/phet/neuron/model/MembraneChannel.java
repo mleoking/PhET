@@ -28,6 +28,8 @@ public abstract class MembraneChannel {
 	
 	private static final double SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO = 1.6;
 	protected static final Random RAND = new Random();
+	
+	private static final double DEFAULT_PARTICLE_VELOCITY = 40000; // In nanometers per sec of sim time.
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -69,6 +71,9 @@ public abstract class MembraneChannel {
 	private double captureCountdownTimer = Double.POSITIVE_INFINITY;
 	private double minInterCaptureTime = Double.POSITIVE_INFINITY;
 	private double maxInterCaptureTime = Double.POSITIVE_INFINITY;
+	
+	// Velocity for particles that move through this channel.
+	private double particleVelocity = DEFAULT_PARTICLE_VELOCITY;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -173,7 +178,7 @@ public abstract class MembraneChannel {
 			if (isOpen()){
 				captureCountdownTimer -= dt;
 				if (captureCountdownTimer <= 0){
-					modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this);
+					modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this, particleVelocity);
 					restartCaptureCountdownTimer();
 				}
 			}
@@ -187,6 +192,14 @@ public abstract class MembraneChannel {
 		}
 	}
 	
+	protected double getParticleVelocity() {
+		return particleVelocity;
+	}
+
+	protected void setParticleVelocity(double particleVelocity) {
+		this.particleVelocity = particleVelocity;
+	}
+
 	/**
 	 * Start or restart the countdown timer which is used to time the event
 	 * where a particle is captured for movement across the membrane.

@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 
 	private static final Random RAND = new Random();
-	private static final double MAX_VELOCITY = 40000; // Velocity that particles move, in nm/sec (sim time).
+	private static final double DEFAULT_MAX_VELOCITY = 40000; // Velocity that particles move, in nm/sec (sim time).
 	
 	private final MembraneChannel channel; // Channel through which to move. 
 	
@@ -23,12 +23,18 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 	private ArrayList<Point2D> traversalPoints;
 	private int currentDestinationIndex = 0;
 	private boolean channelHasBeenEntered = false; // Flag that is set when the channel is entered.
+	private double maxVelocity;
 	
-	public MembraneChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation) {
+	public MembraneChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation, double maxVelocity) {
 		this.channel = channel;
+		this.maxVelocity = maxVelocity;
 		traversalPoints = channel.getTraversalPoints(startingLocation);
 		currentDestinationIndex = 0;
 		setCourseForCurrentTraversalPoint(startingLocation);
+	}
+
+	public MembraneChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation) {
+		this(channel, startingLocation, DEFAULT_MAX_VELOCITY);
 	}
 
 	@Override
@@ -45,7 +51,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 		if (channel.isOpen() || channelHasBeenEntered){
 			// The channel is open, or we are inside it or have gone all the
 			// way through, so keep executing this motion strategy.
-			if ( currentDestinationIndex >= traversalPoints.size() || MAX_VELOCITY * dt < currentPosition.distance(traversalPoints.get(currentDestinationIndex))){
+			if ( currentDestinationIndex >= traversalPoints.size() || maxVelocity * dt < currentPosition.distance(traversalPoints.get(currentDestinationIndex))){
 				// Move according to the current velocity.
 				movableModelElement.setPosition(currentPosition.getX() + velocityVector.getX() * dt,
 						currentPosition.getY() + velocityVector.getY() * dt);
@@ -79,14 +85,15 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 		if (currentDestinationIndex < traversalPoints.size()){
 			Point2D dest = traversalPoints.get(currentDestinationIndex);
 			velocityVector.setComponents(dest.getX() - currentLocation.getX(), dest.getY() - currentLocation.getY());
-			double scaleFactor = MAX_VELOCITY / velocityVector.getMagnitude();
+			double scaleFactor = maxVelocity / velocityVector.getMagnitude();
 			velocityVector.scale(scaleFactor);
 		}
 		else{
 			// All points have been traversed.  The behavior at this point is
 			// to make a random change to the direction of travel so that
-			// things look a little "Brownian".
-			velocityVector.rotate((RAND.nextDouble() - 0.5) * ( Math.PI * 0.9 ));
+			// things look a little "Brownian".  The severity of the allowed
+			// angle depends on the velocity.
+			velocityVector.rotate((RAND.nextDouble() - 0.5) * ( Math.PI * 0.9 ) * maxVelocity / DEFAULT_MAX_VELOCITY);
 		}
 	}
 }
