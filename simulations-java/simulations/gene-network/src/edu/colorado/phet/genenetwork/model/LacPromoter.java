@@ -53,4 +53,25 @@ public class LacPromoter extends Promoter {
 	protected Point2D getDefaultLocation() {
 		return getModel().getDnaStrand().getLacPromoterLocation();
 	}
+
+	@Override
+	protected void attemptToStartAttaching() {
+		// Only attempt to attach if no lactose is present or there is a LacI
+		// on the lac operator.  This is a bit of "hollywooding" to prevent
+		// the race condition between RNA polymerase starting to traverse and
+		// the LacI attaching to the lac operator.  Note that we assume the
+		// presense of glucose indicates the presence of lactose.
+		if ( ( getModel().getGlucoseList().size() > 0 ) || 
+			 ( getModel().getLacIList().size() == 0 ) || 
+			 ( getModel().getLacOperator().isLacIAttached() ) )
+		{
+			super.attemptToStartAttaching();
+		}
+	}
+
+	@Override
+	protected boolean okayToAttachToRnaPoly() {
+		return ( getModel().getGlucoseList().size() > 0 ) || ( getModel().getLacIList().size() == 0 ) ||
+			   ( getModel().getLacOperator().isLacIAttached() );
+	}
 }

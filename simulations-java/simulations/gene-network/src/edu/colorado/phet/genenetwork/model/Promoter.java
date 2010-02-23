@@ -65,7 +65,7 @@ public abstract class Promoter extends SimpleModelElement {
 				checkReadyToDetach(dt);
 				break;
 			case UNATTACHED_BUT_UNAVALABLE:
-				checkWhetherRecovered(dt);
+				checkIfReadyToAttach(dt);
 				break;
 			default:
 				// Should never get here, should be debugged if it does.
@@ -215,32 +215,53 @@ public abstract class Promoter extends SimpleModelElement {
 		this.attachmentRecoveryTime = attachmentRecoveryTime;
 	}
 
-	private void attemptToStartAttaching(){
-		assert rnaPolymeraseAttachmentPartner == null;
-		// Search for a partner to attach to.
-		RnaPolymerase rnaPolymerase = getModel().getNearestFreeRnaPolymerase(getPositionRef());
-		if (rnaPolymerase != null){
-			if (rnaPolymerase.considerProposalFrom(this)){
-				// Attachment formed.
-				rnaPolymeraseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
-				rnaPolymeraseAttachmentPartner = rnaPolymerase;
+	protected void attemptToStartAttaching(){
+		if (!okayToAttachToRnaPoly()){
+			// Something must have changed making it no longer okay to
+			// try to attach to the RNA poly, so change to the state where we
+			// are not available.
+			rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+		}
+		else{
+			assert rnaPolymeraseAttachmentPartner == null;
+			// Search for a partner to attach to.
+			RnaPolymerase rnaPolymerase = getModel().getNearestFreeRnaPolymerase(getPositionRef());
+			if (rnaPolymerase != null){
+				if (rnaPolymerase.considerProposalFrom(this)){
+					// Attachment formed.
+					rnaPolymeraseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+					rnaPolymeraseAttachmentPartner = rnaPolymerase;
+				}
 			}
 		}
+	}
+	
+	protected boolean okayToAttachToRnaPoly(){
+		return true;
 	}
 	
 	protected void checkAttachmentCompleted(){
 		assert rnaPolymeraseAttachmentPartner != null;
 
-		// Calculate the current location of our RnaPolymerase attachment point.
-		Point2D rnaPolymeraseAttachmentPtLocation = 
-			new Point2D.Double(getPositionRef().getX() + RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET.getWidth(),
-				getPositionRef().getY() + RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET.getHeight());
-		
-		// Check the distance between the attachment points.
-		if (rnaPolymeraseAttachmentPtLocation.distance(
-				rnaPolymeraseAttachmentPartner.getLacPromoterAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
-			// Close enough to attach.
-			completeAttachmentOfRnaPolymerase();
+		if (okayToAttachToRnaPoly()){
+			// Calculate the current location of our RnaPolymerase attachment point.
+			Point2D rnaPolymeraseAttachmentPtLocation = 
+				new Point2D.Double(getPositionRef().getX() + RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET.getWidth(),
+						getPositionRef().getY() + RNA_POLYMERASE_ATTACHMENT_POINT_OFFSET.getHeight());
+			
+			// Check the distance between the attachment points.
+			if (rnaPolymeraseAttachmentPtLocation.distance(
+					rnaPolymeraseAttachmentPartner.getLacPromoterAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
+				// Close enough to attach.
+				completeAttachmentOfRnaPolymerase();
+			}
+		}
+		else{
+			// Conditions have changed and it is no longer okay to continue to
+			// try to attach.  Release the RNA Polymerase.
+			rnaPolymeraseAttachmentPartner.detach(this);
+			rnaPolymeraseAttachmentPartner = null;
+			rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		}
 	}
 
@@ -264,10 +285,16 @@ public abstract class Promoter extends SimpleModelElement {
 		}
 	}
 	
-	private void checkWhetherRecovered(double dt){
+	private void checkIfReadyToAttach(double dt){
 		recoveryCountdownTimer -= dt;
 		if (recoveryCountdownTimer < 0){
-			rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			if (okayToAttachToRnaPoly()){
+				rnaPolymeraseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
+			else{
+				// Keep the counter from decrementing far enough to roll over.
+				recoveryCountdownTimer = 0;
+			}
 		}
 	}
 	
