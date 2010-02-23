@@ -104,7 +104,6 @@ public abstract class AbstractLeakChannel extends MembraneChannel {
 
 	@Override
 	public void stepInTime(double dt) {
-		
 		/*
 		 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having
 		 * them controlled by the AxonModel and the channels to having a motion strategy set on
@@ -138,6 +137,7 @@ public abstract class AbstractLeakChannel extends MembraneChannel {
 		}
 		recentlyReleaseAtoms.removeAll(atomsToRemoveFromList);
 		*/
+		super.stepInTime(dt);
 	}
 	
 	private void captureAtom(Particle atom, ArrayList<Particle> freeAtoms, ArrayList<Particle> ownedAtoms){
