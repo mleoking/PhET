@@ -14,7 +14,10 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.data.contribution.ContributionType;
+import edu.colorado.phet.website.data.contribution.Type;
 import edu.colorado.phet.website.panels.lists.SimSetManager;
+import edu.colorado.phet.website.panels.lists.TypeSetManager;
 import edu.colorado.phet.website.util.PageContext;
 
 public class ContributionEditPanel extends PhetPanel {
@@ -27,6 +30,7 @@ public class ContributionEditPanel extends PhetPanel {
     private static Logger logger = Logger.getLogger( ContributionEditPanel.class.getName() );
 
     private SimSetManager simManager;
+    private TypeSetManager typeManager;
 
     public ContributionEditPanel( String id, PageContext context, Contribution preContribution ) {
         super( id, context );
@@ -49,6 +53,21 @@ public class ContributionEditPanel extends PhetPanel {
                 else {
                     return new HashSet();
                 }
+            }
+        };
+
+        typeManager = new TypeSetManager( getHibernateSession(), getLocale() ) {
+            @Override
+            public Set getInitialTypes( Session session ) {
+                HashSet set = new HashSet();
+                if ( contribution.getId() != 0 ) {
+                    Contribution activeContribution = (Contribution) session.load( Contribution.class, contribution.getId() );
+                    Set contributionTypes = activeContribution.getTypes();
+                    for ( Object o : contributionTypes ) {
+                        set.add( ( (ContributionType) o ).getType() );
+                    }
+                }
+                return set;
             }
         };
 
@@ -83,7 +102,8 @@ public class ContributionEditPanel extends PhetPanel {
             keywordsText = new RequiredTextField( "contribution.edit.keywords", new Model( creating ? "" : contribution.getKeywords() ) );
             add( keywordsText );
 
-            add( simManager.getComponent( context ) );
+            add( simManager.getComponent( "simulations", context ) );
+            add( typeManager.getComponent( "types", context ) );
         }
 
         @Override
@@ -96,6 +116,10 @@ public class ContributionEditPanel extends PhetPanel {
 
             for ( Simulation simulation : simManager.getSimulations() ) {
                 logger.debug( "simulation: " + simulation.getName() );
+            }
+
+            for ( Type type : typeManager.getTypes() ) {
+                logger.debug( "type: " + type );
             }
 
         }
