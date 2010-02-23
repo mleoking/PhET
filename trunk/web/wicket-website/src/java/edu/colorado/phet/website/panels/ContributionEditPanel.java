@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.panels;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,9 +14,8 @@ import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.Simulation;
-import edu.colorado.phet.website.data.contribution.Contribution;
-import edu.colorado.phet.website.data.contribution.ContributionType;
-import edu.colorado.phet.website.data.contribution.Type;
+import edu.colorado.phet.website.data.contribution.*;
+import edu.colorado.phet.website.panels.lists.LevelSetManager;
 import edu.colorado.phet.website.panels.lists.SimSetManager;
 import edu.colorado.phet.website.panels.lists.TypeSetManager;
 import edu.colorado.phet.website.util.PageContext;
@@ -31,6 +31,7 @@ public class ContributionEditPanel extends PhetPanel {
 
     private SimSetManager simManager;
     private TypeSetManager typeManager;
+    private LevelSetManager levelManager;
 
     public ContributionEditPanel( String id, PageContext context, Contribution preContribution ) {
         super( id, context );
@@ -58,13 +59,27 @@ public class ContributionEditPanel extends PhetPanel {
 
         typeManager = new TypeSetManager( getHibernateSession(), getLocale() ) {
             @Override
-            public Set getInitialTypes( Session session ) {
+            public Set getInitialValues( Session session ) {
                 HashSet set = new HashSet();
                 if ( contribution.getId() != 0 ) {
                     Contribution activeContribution = (Contribution) session.load( Contribution.class, contribution.getId() );
                     Set contributionTypes = activeContribution.getTypes();
                     for ( Object o : contributionTypes ) {
                         set.add( ( (ContributionType) o ).getType() );
+                    }
+                }
+                return set;
+            }
+        };
+
+        levelManager = new LevelSetManager( getHibernateSession(), getLocale() ) {
+            public Collection<Level> getInitialValues( Session session ) {
+                HashSet set = new HashSet();
+                if ( contribution.getId() != 0 ) {
+                    Contribution activeContribution = (Contribution) session.load( Contribution.class, contribution.getId() );
+                    Set contributionLevels = activeContribution.getLevels();
+                    for ( Object o : contributionLevels ) {
+                        set.add( ( (ContributionLevel) o ).getLevel() );
                     }
                 }
                 return set;
@@ -104,6 +119,7 @@ public class ContributionEditPanel extends PhetPanel {
 
             add( simManager.getComponent( "simulations", context ) );
             add( typeManager.getComponent( "types", context ) );
+            add( levelManager.getComponent( "levels", context ) );
         }
 
         @Override

@@ -50,12 +50,12 @@ public abstract class EnumSetManager<E extends Enum> implements Serializable {
      * @param session current session
      * @return collection of values currently in set
      */
-    public abstract Collection<E> getInitialTypes( Session session );
+    public abstract Collection<E> getInitialValues( Session session );
 
     /**
      * @return collection of all possible values
      */
-    public abstract Collection<E> getAllTypes();
+    public abstract Collection<E> getAllValues();
 
     /**
      * @param val value
@@ -73,14 +73,14 @@ public abstract class EnumSetManager<E extends Enum> implements Serializable {
 
         HibernateUtils.wrapTransaction( session, new HibernateTask() {
             public boolean run( Session session ) {
-                for ( Object o : getInitialTypes( session ) ) {
+                for ( Object o : getInitialValues( session ) ) {
                     values.add( (E) o );
                 }
                 return true;
             }
         } );
 
-        for ( E type : getAllTypes() ) {
+        for ( E type : getAllValues() ) {
             allValues.add( type );
         }
 
