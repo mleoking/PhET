@@ -123,10 +123,28 @@ public class LacOperator extends SimpleModelElement {
 	private void checkTimeToDetach(double dt){
 		lacIAttachmentCountdownTimer -= dt;
 		if (lacIAttachmentCountdownTimer <= 0){
-			// Time to release the lacI.
-			lacIAttachmentPartner.detach(this);
-			lacIAttachmentPartner = null;
-			lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			// The countdown has expired, but make sure that there isn't an
+			// an RNA polymerase right next to use, since this indicates that
+			// it may be trying to traverse, and we don't want to open a short
+			// Time to release the lacI, but only if there isn't an RNA
+			// polymerase about to traverse.
+			boolean noRnaPolyCloseBy = true;
+			for (RnaPolymerase rnaPoly : getModel().getRnaPolymeraseList()){
+				if (rnaPoly.getPositionRef().distance(getPositionRef()) < 15){
+					noRnaPolyCloseBy = false;
+				}
+			}
+			
+			if (noRnaPolyCloseBy){
+				// Go ahead and detach to lacI.
+				lacIAttachmentPartner.detach(this);
+				lacIAttachmentPartner = null;
+				lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
+			else{
+				// Prevent the counter from going too negative.
+				lacIAttachmentCountdownTimer = 0;
+			}
 		}
 	}
 	
