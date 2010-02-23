@@ -231,22 +231,22 @@ public class AxonModel implements IParticleCapture {
     	}
     	
     	// Add the initial particles.
-//    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 1);
-//    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 10);
-//    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 10);
-//    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 1);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 1);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 10);
+    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 10);
+    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 1);
 
     	// Add the initial channels.
-    	for (int i = 0; i < 4; i++){
+    	for (int i = 0; i < 6; i++){
     		addChannel(MembraneChannelTypes.SODIUM_GATED_CHANNEL);
     	}
-    	for (int i = 0; i < 4; i++){
+    	for (int i = 0; i < 6; i++){
     		addChannel(MembraneChannelTypes.POTASSIUM_GATED_CHANNEL);
     	}
-    	for (int i = 0; i < 4; i++){
+    	for (int i = 0; i < 6; i++){
     		addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
     	}
-    	for (int i = 0; i < 1; i++){
+    	for (int i = 0; i < 2; i++){
     		addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
     	}
     }
