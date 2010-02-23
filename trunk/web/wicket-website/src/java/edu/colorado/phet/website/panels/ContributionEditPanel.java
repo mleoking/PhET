@@ -17,6 +17,7 @@ import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.panels.lists.LevelSetManager;
 import edu.colorado.phet.website.panels.lists.SimSetManager;
+import edu.colorado.phet.website.panels.lists.SubjectSetManager;
 import edu.colorado.phet.website.panels.lists.TypeSetManager;
 import edu.colorado.phet.website.util.PageContext;
 
@@ -32,6 +33,7 @@ public class ContributionEditPanel extends PhetPanel {
     private SimSetManager simManager;
     private TypeSetManager typeManager;
     private LevelSetManager levelManager;
+    private SubjectSetManager subjectManager;
 
     public ContributionEditPanel( String id, PageContext context, Contribution preContribution ) {
         super( id, context );
@@ -43,6 +45,8 @@ public class ContributionEditPanel extends PhetPanel {
         contribution = preContribution;
 
         creating = contribution.getId() == 0;
+
+        // initialize selectors
 
         simManager = new SimSetManager( getHibernateSession(), getLocale() ) {
             @Override
@@ -86,6 +90,20 @@ public class ContributionEditPanel extends PhetPanel {
             }
         };
 
+        subjectManager = new SubjectSetManager( getHibernateSession(), getLocale() ) {
+            public Collection<Subject> getInitialValues( Session session ) {
+                HashSet set = new HashSet();
+                if ( contribution.getId() != 0 ) {
+                    Contribution activeContribution = (Contribution) session.load( Contribution.class, contribution.getId() );
+                    Set contributionSubjects = activeContribution.getSubjects();
+                    for ( Object o : contributionSubjects ) {
+                        set.add( ( (ContributionSubject) o ).getSubject() );
+                    }
+                }
+                return set;
+            }
+        };
+
         add( new ContributionForm( "contributionform" ) );
 
         add( new FeedbackPanel( "feedback" ) );
@@ -120,6 +138,8 @@ public class ContributionEditPanel extends PhetPanel {
             add( simManager.getComponent( "simulations", context ) );
             add( typeManager.getComponent( "types", context ) );
             add( levelManager.getComponent( "levels", context ) );
+
+            add( subjectManager.getComponent( "subjects", context ) );
         }
 
         @Override
@@ -136,6 +156,14 @@ public class ContributionEditPanel extends PhetPanel {
 
             for ( Type type : typeManager.getValues() ) {
                 logger.debug( "type: " + type );
+            }
+
+            for ( Level level : levelManager.getValues() ) {
+                logger.debug( "level: " + level );
+            }
+
+            for ( Subject subject : subjectManager.getValues() ) {
+                logger.debug( "subject: " + subject );
             }
 
         }
