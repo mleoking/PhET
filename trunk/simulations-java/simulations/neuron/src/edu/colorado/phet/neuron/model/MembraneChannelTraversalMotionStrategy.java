@@ -68,8 +68,11 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 					// start fading out of existence.
 					fadableModelElement.setFadeStrategy(new TimedFadeAwayStrategy(0.002));
 					
-					// Slow down.
-					velocityVector.scale(0.2);
+					// Slow down the speed.  Don't do this if it is already
+					// moving pretty slowly.
+					if (maxVelocity / DEFAULT_MAX_VELOCITY >= 0.5){
+						velocityVector.scale(0.2);
+					}
 				}
 			}
 		}
