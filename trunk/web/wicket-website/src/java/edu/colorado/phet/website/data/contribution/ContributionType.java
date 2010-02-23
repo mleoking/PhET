@@ -19,7 +19,7 @@ public class ContributionType implements Serializable {
 
     }
 
-    public static List<Type> getCurrentLevels() {
+    public static List<Type> getCurrentTypes() {
         return Arrays.asList( Type.LAB, Type.HOMEWORK, Type.CONCEPT_QUESTIONS, Type.DEMONSTRATION, Type.OTHER );
     }
 

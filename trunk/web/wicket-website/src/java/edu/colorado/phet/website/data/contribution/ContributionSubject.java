@@ -19,7 +19,7 @@ public class ContributionSubject implements Serializable {
 
     }
 
-    public static List<Subject> getCurrentLevels() {
+    public static List<Subject> getCurrentSubjects() {
         return Arrays.asList( Subject.ASTRONOMY, Subject.BIOLOGY, Subject.CHEMISTRY, Subject.EARTH_SCIENCE, Subject.MATHEMATICS, Subject.PHYSICS, Subject.OTHER );
     }
 
