@@ -17,7 +17,7 @@ public abstract class TypeSetManager extends EnumSetManager<Type> {
         super( session, locale );
     }
 
-    public Collection<Type> getAllTypes() {
+    public Collection<Type> getAllValues() {
         return ContributionType.getCurrentTypes();
     }
 
