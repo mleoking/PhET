@@ -22,8 +22,9 @@ public class PotassiumGatedChannel extends GatedChannel {
 	private static final double CHANNEL_HEIGHT = AxonMembrane.MEMBRANE_THICKNESS * 1.4; // In nanometers.
 	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.70; // In nanometers.
 	
-	// Constants that control the rate at which this channel will transport
-	// ions through it when open.
+	// Constants that control the rate at which this channel will capture ions
+	// when it is open.  Smaller numbers here will increase the capture rate
+	// and thus make the flow appear to be faster.
 	private static final double MIN_INTER_CAPTURE_TIME = 0.00005; // In seconds of sim time.
 	private static final double MAX_INTER_CAPTURE_TIME = 0.00020; // In seconds of sim time.
 	
