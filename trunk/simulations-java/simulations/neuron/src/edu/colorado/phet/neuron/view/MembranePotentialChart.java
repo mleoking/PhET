@@ -19,10 +19,8 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
@@ -36,6 +34,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -50,6 +49,7 @@ public class MembranePotentialChart extends PNode {
 	
 	private static final Color STROKE_COLOR = Color.red;
 	private static final double TIME_SPAN = 100; // In milliseconds.
+	private static final double UPDATE_PERIOD = 10 * NeuronDefaults.CLOCK_DT; // In seconds, used to reduce processor consumption.
 	
     private JFreeChart chart;
     private JFreeChartNode jFreeChartNode;
@@ -59,6 +59,8 @@ public class MembranePotentialChart extends PNode {
 
 	private static NumberAxis xAxis;
 	private static NumberAxis yAxis;
+	
+	private double updateCountdownTimer = 0;  // Init to zero to an update occurs right away.
 
     public MembranePotentialChart( Dimension2D size, String title, AxonModel axonModel, String distanceUnits ) {
     	
@@ -114,6 +116,7 @@ public class MembranePotentialChart extends PNode {
     public void clearChart(){
     	dataSeries.clear();
     	chart.getXYPlot().getDomainAxis().setRange( 0, TIME_SPAN );
+    	updateCountdownTimer = 0;
     }
 
     public void setHorizontalLabel( String horizontalUnits ) {
@@ -224,8 +227,14 @@ public class MembranePotentialChart extends PNode {
     }
     
     private void updateChart(ClockEvent clockEvent){
-    	double timeInMilliseconds = clockEvent.getSimulationTime() * 1000; 
-   		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential());
+    	updateCountdownTimer -= clockEvent.getSimulationTimeChange();
+    	
+    	if (updateCountdownTimer <= 0){
+    		// Time to do an update.
+    		double timeInMilliseconds = clockEvent.getSimulationTime() * 1000; 
+    		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential());
+    		updateCountdownTimer = UPDATE_PERIOD;
+    	}
     }
 
     /*
