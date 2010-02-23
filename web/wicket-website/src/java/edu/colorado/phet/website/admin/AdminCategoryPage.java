@@ -9,14 +9,14 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.panels.OrderList;
+import edu.colorado.phet.website.panels.lists.OrderList;
+import edu.colorado.phet.website.panels.lists.SimOrderItem;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.SimOrderItem;
 
 public class AdminCategoryPage extends AdminPage {
     private Category category;

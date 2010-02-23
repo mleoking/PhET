@@ -1,4 +1,4 @@
-package edu.colorado.phet.website.panels;
+package edu.colorado.phet.website.panels.lists;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,8 +15,8 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 
+import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.SortableListItem;
 
 /**
  * Like the OrderList, however items are automatically sorted (and thus cannot be rearranged). Applicable for use with sets

@@ -21,7 +21,8 @@ import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.SimOrderItem;
+import edu.colorado.phet.website.panels.lists.SimOrderItem;
+import edu.colorado.phet.website.panels.lists.SortedList;
 
 public class ContributionEditPanel extends PhetPanel {
 

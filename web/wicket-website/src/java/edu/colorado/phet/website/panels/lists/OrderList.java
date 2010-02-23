@@ -1,4 +1,4 @@
-package edu.colorado.phet.website.panels;
+package edu.colorado.phet.website.panels.lists;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
-import edu.colorado.phet.website.util.OrderListItem;
+import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 
 /**
