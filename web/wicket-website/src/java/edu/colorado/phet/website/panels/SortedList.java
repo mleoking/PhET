@@ -1,6 +1,7 @@
-package edu.colorado.phet.website.admin;
+package edu.colorado.phet.website.panels;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.wicket.Component;
@@ -12,30 +13,35 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 
-import edu.colorado.phet.website.components.InvisibleComponent;
-import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.SortableListItem;
 
-public abstract class OrderList<Item extends OrderListItem> extends PhetPanel {
+/**
+ * Like the OrderList, however items are automatically sorted (and thus cannot be rearranged). Applicable for use with sets
+ *
+ * @param <Item>
+ */
+public abstract class SortedList<Item extends SortableListItem> extends PhetPanel {
     public DropDownChoice dropDownChoice;
     private List<Item> items;
     private List<Item> allItems;
-    private OrderForm form;
+    private SortedForm form;
 
     public abstract boolean onAdd( Item item );
 
     public abstract boolean onRemove( Item item, int index );
 
-    public abstract boolean onSwap( Item a, Item b, int aIndex, int bIndex );
-
     public abstract Component getHeaderComponent( String id );
 
-    public OrderList( String id, PageContext context, final List<Item> items, List<Item> allItems ) {
+    public SortedList( String id, PageContext context, final List<Item> items, List<Item> allItems ) {
         super( id, context );
         this.items = items;
         this.allItems = allItems;
 
-        form = new OrderForm( "form" );
+        sortItems( items );
+        sortItems( allItems );
+
+        form = new SortedForm( "form" );
 
         form.add( getHeaderComponent( "header-component" ) );
 
@@ -51,26 +57,6 @@ public abstract class OrderList<Item extends OrderListItem> extends PhetPanel {
                         }
                     }
                 } );
-                if ( listItem.getIndex() != 0 ) {
-                    listItem.add( new Link( "move-up" ) {
-                        public void onClick() {
-                            swapItemOrder( listItem.getIndex() - 1, listItem.getIndex() );
-                        }
-                    } );
-                }
-                else {
-                    listItem.add( new InvisibleComponent( "move-up" ) );
-                }
-                if ( listItem.getIndex() < items.size() - 1 ) {
-                    listItem.add( new Link( "move-down" ) {
-                        public void onClick() {
-                            swapItemOrder( listItem.getIndex(), listItem.getIndex() + 1 );
-                        }
-                    } );
-                }
-                else {
-                    listItem.add( new InvisibleComponent( "move-down" ) );
-                }
             }
         } );
 
@@ -81,15 +67,16 @@ public abstract class OrderList<Item extends OrderListItem> extends PhetPanel {
         add( form );
     }
 
-    private void swapItemOrder( int a, int b ) {
-        boolean success = onSwap( items.get( a ), items.get( b ), a, b );
-        if ( success ) {
-            Collections.swap( items, a, b );
-        }
+    private void sortItems( List<Item> list ) {
+        Collections.sort( list, new Comparator<Item>() {
+            public int compare( Item a, Item b ) {
+                return a.compareTo( b, getLocale() );
+            }
+        } );
     }
 
-    private class OrderForm extends Form {
-        public OrderForm( String id ) {
+    private class SortedForm extends Form {
+        public SortedForm( String id ) {
             super( id );
         }
 
@@ -109,6 +96,7 @@ public abstract class OrderList<Item extends OrderListItem> extends PhetPanel {
             }
             if ( success ) {
                 items.add( item );
+                sortItems( items );
             }
         }
     }
@@ -117,23 +105,21 @@ public abstract class OrderList<Item extends OrderListItem> extends PhetPanel {
         public ItemDropDownChoice( String id, List<Item> allKeywords ) {
             super( id, new Model(), allKeywords, new IChoiceRenderer() {
                 public Object getDisplayValue( Object object ) {
-                    if ( object instanceof OrderListItem ) {
-                        return ( (OrderListItem) object ).getDisplayValue();
+                    if ( object instanceof SortableListItem ) {
+                        return ( (SortableListItem) object ).getDisplayValue();
                     }
                     else {
-                        throw new RuntimeException( "Not an OrderListItem" );
+                        throw new RuntimeException( "Not an SortableListItem" );
                     }
-                    //return PhetWicketApplication.get().getResourceSettings().getLocalizer().getString( ( (Keyword) object ).getKey(), AdminSimPage.this );
                 }
 
                 public String getIdValue( Object object, int index ) {
-                    if ( object instanceof OrderListItem ) {
-                        return String.valueOf( ( (OrderListItem) object ).getId() );
+                    if ( object instanceof SortableListItem ) {
+                        return String.valueOf( ( (SortableListItem) object ).getId() );
                     }
                     else {
-                        throw new RuntimeException( "Not an OrderListItem" );
+                        throw new RuntimeException( "Not an SortableListItem" );
                     }
-                    //return String.valueOf( ( (Keyword) object ).getId() );
                 }
             } );
         }
