@@ -24,7 +24,7 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	private static final double MIN_INTER_CAPTURE_TIME = 0.0025; // In seconds of sim time.
 	private static final double MAX_INTER_CAPTURE_TIME = 0.0100; // In seconds of sim time.
 	
-	private static final double DEFAULT_PARTICLE_VELOCITY = 10000; // In nanometers per sec of sim time.
+	private static final double DEFAULT_PARTICLE_VELOCITY = 5000; // In nanometers per sec of sim time.
 
     //----------------------------------------------------------------------------
     // Instance Data
