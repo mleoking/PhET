@@ -4,6 +4,7 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
+- hide icons below histogram bars for "Hide molecules" feature
 - #2161, Game Summary drawing problems on Windows, PSwing bug?
 - design/relationship of GameCanvas and GameModel is confusing, redesign
 - GameBeforeNode and GameAfterNode showGuess and showAnswer are confusing, redesign
