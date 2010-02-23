@@ -9,6 +9,7 @@ import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
@@ -117,6 +118,8 @@ public class ContributionEditPanel extends PhetPanel {
         private RequiredTextField titleText;
         private RequiredTextField keywordsText;
 
+        private TextArea descriptionText;
+
         public ContributionForm( String id ) {
             super( id );
 
@@ -134,6 +137,9 @@ public class ContributionEditPanel extends PhetPanel {
 
             keywordsText = new RequiredTextField( "contribution.edit.keywords", new Model( creating ? "" : contribution.getKeywords() ) );
             add( keywordsText );
+
+            descriptionText = new TextArea( "contribution.edit.description", new Model( creating ? "" : contribution.getDescription() ) );
+            add( descriptionText );
 
             add( simManager.getComponent( "simulations", context ) );
             add( typeManager.getComponent( "types", context ) );
