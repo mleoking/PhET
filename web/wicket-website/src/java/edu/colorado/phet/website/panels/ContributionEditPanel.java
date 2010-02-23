@@ -10,6 +10,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
@@ -27,6 +28,8 @@ public class ContributionEditPanel extends PhetPanel {
     private final Contribution contribution;
     private boolean creating;
 
+    private PageContext context;
+
     private static Logger logger = Logger.getLogger( ContributionEditPanel.class.getName() );
 
     // variables for the simulation list
@@ -39,15 +42,13 @@ public class ContributionEditPanel extends PhetPanel {
     public ContributionEditPanel( String id, PageContext context, Contribution preContribution ) {
         super( id, context );
 
+        this.context = context;
+
         add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
 
         contribution = preContribution;
 
         creating = contribution.getId() == 0;
-
-        add( new ContributionForm( "contributionform" ) );
-
-        add( new FeedbackPanel( "feedback" ) );
 
         //----------------------------------------------------------------------------
         // initialize the simulation list
@@ -97,19 +98,9 @@ public class ContributionEditPanel extends PhetPanel {
             allItems.add( new SimOrderItem( simulation, titleMap.get( simulation ) ) );
         }
 
-        add( new SortedList<SimOrderItem>( "simulations", context, items, allItems ) {
-            public boolean onAdd( final SimOrderItem item ) {
-                return true;
-            }
+        add( new ContributionForm( "contributionform" ) );
 
-            public boolean onRemove( final SimOrderItem item, int index ) {
-                return true;
-            }
-
-            public Component getHeaderComponent( String id ) {
-                return new Label( id, "Simulations" );
-            }
-        } );
+        add( new FeedbackPanel( "feedback" ) );
     }
 
     public final class ContributionForm extends Form {
@@ -137,13 +128,57 @@ public class ContributionEditPanel extends PhetPanel {
 
             keywordsText = new RequiredTextField( "contribution.edit.keywords", new Model( creating ? "" : contribution.getKeywords() ) );
             add( keywordsText );
+
+            add( new SortedList<SimOrderItem>( "simulations", context, items, allItems ) {
+                public boolean onAdd( final SimOrderItem item ) {
+                    for ( SimOrderItem oldItem : items ) {
+                        if ( oldItem.getId() == item.getId() ) {
+                            // already in list. don't want duplicates!
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+                public boolean onRemove( final SimOrderItem item, int index ) {
+                    return true;
+                }
+
+                public Component getHeaderComponent( String id ) {
+                    return new Label( id, "Simulations" );
+                }
+            } );
         }
 
         @Override
         protected void onSubmit() {
             super.onSubmit();
 
+            logger.debug( "Main submission" );
+
             logger.debug( "authors: " + authorsText.getModelObjectAsString() );
+
+            for ( SimOrderItem item : items ) {
+                logger.debug( "simulation: " + item.getSimulation().getName() );
+            }
+        }
+
+        @Override
+        protected void delegateSubmit( IFormSubmittingComponent submittingComponent ) {
+            // we must override the delegate submit because we will have child ajax buttons to handle adding / removing
+            // things like the simulations. they should NOT trigger a full form submission.
+
+            // yes this is ugly, maybe nested forms could be used?
+
+            logger.debug( "submit delegation from: " + submittingComponent );
+
+            if ( submittingComponent == null ) {
+                // submit like normal
+                super.delegateSubmit( submittingComponent );
+            }
+            else {
+                submittingComponent.onSubmit();
+            }
         }
     }
 
