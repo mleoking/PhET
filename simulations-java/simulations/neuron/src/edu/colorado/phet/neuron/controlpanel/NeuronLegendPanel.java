@@ -8,7 +8,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -19,11 +18,15 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.neuron.model.ParticleType;
+import edu.colorado.phet.neuron.model.PotassiumGatedChannel;
 import edu.colorado.phet.neuron.model.PotassiumIon;
-import edu.colorado.phet.neuron.model.ProteinIon;
+import edu.colorado.phet.neuron.model.PotassiumLeakageChannel;
+import edu.colorado.phet.neuron.model.SodiumGatedChannel;
 import edu.colorado.phet.neuron.model.SodiumIon;
+import edu.colorado.phet.neuron.model.SodiumLeakageChannel;
+import edu.colorado.phet.neuron.view.MembraneChannelNode;
 import edu.colorado.phet.neuron.view.ParticleNode;
+import edu.umd.cs.piccolo.PNode;
 
 
 /**
@@ -33,7 +36,7 @@ import edu.colorado.phet.neuron.view.ParticleNode;
  *
  * @author John Blanco
  */
-public class IonLegendPanel extends JPanel {
+public class NeuronLegendPanel extends JPanel {
         
     //------------------------------------------------------------------------
     // Class Data
@@ -41,24 +44,26 @@ public class IonLegendPanel extends JPanel {
 	
 	private static final Font LABEL_FONT = new PhetFont(14);
 	
-	// The model-view transform below is used to make nodes that usually
+	// The model-view transforms below are used to make nodes that usually
 	// reside on the canvas be of an appropriate size for inclusion on the
 	// control panel.
-	private static final ModelViewTransform2D MVT = new ModelViewTransform2D(
-			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-8, -8, 16, 16));
+	private static final ModelViewTransform2D PARTICLE_MVT = new ModelViewTransform2D(
+			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-6, -6, 12, 12));
 
+	private static final ModelViewTransform2D CHANNEL_MVT = new ModelViewTransform2D(
+			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-4, -4, 8, 8));
     
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
     
-    public IonLegendPanel(ArrayList<ParticleType> particleTypes) {
+    public NeuronLegendPanel() {
         
     	// TODO: i18n
         // Add the border around the legend.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                "Ions",
+                "Legend",
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),
@@ -69,31 +74,30 @@ public class IonLegendPanel extends JPanel {
         // Set the layout.
         setLayout( new GridBagLayout() );
 
-        // Add the images and labels for each specified particle.
+        // Add the images and labels for the ions.
+        // TODO: i18n.
         int row = 0;
-        for (ParticleType particleType : particleTypes){
-        	ParticleNode particleNode = null;
-        	String labelText = null;
-        	
-        	switch (particleType){
-        	case SODIUM_ION:
-        		particleNode = new ParticleNode(new SodiumIon(), MVT);
-        		labelText = "Sodium Ion (Na+)";
-        		break;
+   		PNode imageNode = new ParticleNode(new SodiumIon(), PARTICLE_MVT);
+   		addLegendItem( imageNode.toImage(), "Sodium Ion (Na+)", row++ );
         		
-        	case POTASSIUM_ION:
-        		particleNode = new ParticleNode(new PotassiumIon(), MVT);
-        		labelText = "Potassium Ion (K+)";
-        		break;
-        		
-        	case PROTEIN_ION:
-        		particleNode = new ParticleNode(new ProteinIon(), MVT);
-        		labelText = "Protein Ion (Pr-)";
-        		break;
-        	}
-        	addLegendItem( particleNode.toImage(), labelText, row );
-        	row++;
-        }
+   		imageNode = new ParticleNode(new PotassiumIon(), PARTICLE_MVT);
+   		addLegendItem( imageNode.toImage(), "Potassium Ion (K+)", row++ );
+
+   		imageNode = new MembraneChannelNode(new SodiumGatedChannel(null, null), CHANNEL_MVT);
+   		imageNode.rotate(Math.PI / 2);
+   		addLegendItem( imageNode.toImage(), "Sodium Gated Channel", row++ );
+
+   		imageNode = new MembraneChannelNode(new PotassiumGatedChannel(null, null), CHANNEL_MVT);
+   		imageNode.rotate(Math.PI / 2);
+   		addLegendItem( imageNode.toImage(), "Potassium Gated Channel", row++ );
+
+   		imageNode = new MembraneChannelNode(new SodiumLeakageChannel(null), CHANNEL_MVT);
+   		imageNode.rotate(Math.PI / 2);
+   		addLegendItem( imageNode.toImage(), "Sodium Leak Channel", row++ );
+
+   		imageNode = new MembraneChannelNode(new PotassiumLeakageChannel(null), CHANNEL_MVT);
+   		imageNode.rotate(Math.PI / 2);
+   		addLegendItem( imageNode.toImage(), "Potassium Leak Channel", row++ );
     }
     
     /**

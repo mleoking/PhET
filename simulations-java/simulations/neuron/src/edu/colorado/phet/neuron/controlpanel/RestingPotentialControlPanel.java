@@ -3,8 +3,6 @@
 package edu.colorado.phet.neuron.controlpanel;
 
 import java.awt.Frame;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -81,8 +79,7 @@ public class RestingPotentialControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Add the legend.
-        addControlFullWidth(new IonLegendPanel(
-        		new ArrayList<ParticleType>(Arrays.asList(ParticleType.POTASSIUM_ION, ParticleType.PROTEIN_ION))));
+        addControlFullWidth(new NeuronLegendPanel());
         
         // Add the control for the number of potassium leakage channels.
         potassiumLeakChannelControl = new LeakChannelSlider(NeuronStrings.POTASSIUM_LEAK_CHANNELS, axonModel, 
