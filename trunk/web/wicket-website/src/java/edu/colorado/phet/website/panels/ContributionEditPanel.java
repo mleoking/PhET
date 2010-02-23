@@ -1,14 +1,26 @@
 package edu.colorado.phet.website.panels;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
+import org.apache.wicket.Component;
 import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.hibernate.Session;
 
+import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.SimOrderItem;
 
 public class ContributionEditPanel extends PhetPanel {
 
@@ -16,6 +28,13 @@ public class ContributionEditPanel extends PhetPanel {
     private boolean creating;
 
     private static Logger logger = Logger.getLogger( ContributionEditPanel.class.getName() );
+
+    // variables for the simulation list
+    private List<Simulation> simulations;
+    private List<Simulation> allSimulations;
+    private Map<Simulation, String> titleMap;
+    private List<SimOrderItem> items;
+    private List<SimOrderItem> allItems;
 
     public ContributionEditPanel( String id, PageContext context, Contribution preContribution ) {
         super( id, context );
@@ -29,6 +48,68 @@ public class ContributionEditPanel extends PhetPanel {
         add( new ContributionForm( "contributionform" ) );
 
         add( new FeedbackPanel( "feedback" ) );
+
+        //----------------------------------------------------------------------------
+        // initialize the simulation list
+        //----------------------------------------------------------------------------
+
+        simulations = new LinkedList<Simulation>();
+        allSimulations = new LinkedList<Simulation>();
+
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                if ( !creating ) {
+                    Contribution activeContribution = (Contribution) session.load( Contribution.class, contribution.getId() );
+                    for ( Object o : activeContribution.getSimulations() ) {
+                        simulations.add( (Simulation) o );
+                    }
+                }
+                List sims = session.createQuery( "select s from Simulation as s" ).list();
+                for ( Object s : sims ) {
+                    Simulation simulation = (Simulation) s;
+                    if ( simulation.isVisible() ) {
+                        allSimulations.add( simulation );
+                    }
+                }
+                return true;
+            }
+        } );
+
+        titleMap = new HashMap<Simulation, String>();
+
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                for ( Simulation simulation : allSimulations ) {
+                    titleMap.put( simulation, simulation.getBestLocalizedSimulation( getLocale() ).getTitle() );
+                }
+                return true;
+            }
+        } );
+
+        items = new LinkedList<SimOrderItem>();
+        allItems = new LinkedList<SimOrderItem>();
+
+        for ( Simulation simulation : simulations ) {
+            items.add( new SimOrderItem( simulation, titleMap.get( simulation ) ) );
+        }
+
+        for ( Simulation simulation : allSimulations ) {
+            allItems.add( new SimOrderItem( simulation, titleMap.get( simulation ) ) );
+        }
+
+        add( new SortedList<SimOrderItem>( "simulations", context, items, allItems ) {
+            public boolean onAdd( final SimOrderItem item ) {
+                return true;
+            }
+
+            public boolean onRemove( final SimOrderItem item, int index ) {
+                return true;
+            }
+
+            public Component getHeaderComponent( String id ) {
+                return new Label( id, "Simulations" );
+            }
+        } );
     }
 
     public final class ContributionForm extends Form {
@@ -65,4 +146,6 @@ public class ContributionEditPanel extends PhetPanel {
             logger.debug( "authors: " + authorsText.getModelObjectAsString() );
         }
     }
+
+
 }

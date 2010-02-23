@@ -4,7 +4,7 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title>[PREVIEW] OrderList</title>
+    <title>[PREVIEW] SortedList</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
     </wicket:remove>
@@ -40,17 +40,13 @@
                 <tr>
                     <th wicket:id="header-component"></th>
                     <th/>
-                    <th>Move up</th>
-                    <th>Move down</th>
                 </tr>
                 <tr wicket:id="items">
                     <td wicket:id="item-component">Mechanics</td>
-                    <td style="text-align: center;"><a href="#" wicket:id="remove">remove</a></td>
-                    <td style="text-align: center;"><a href="#" wicket:id="move-up">up</a></td>
-                    <td style="text-align: center;"><a href="#" wicket:id="move-down">down</a></td>
+                    <td style="text-align: center;"><a href="OrderList.html#" wicket:id="remove">remove</a></td>
                 </tr>
                 <tr>
-                    <td colspan="4">
+                    <td colspan="2">
                         <select wicket:id="options">
                             <option>This is an option</option>
                             <option>Another option</option>

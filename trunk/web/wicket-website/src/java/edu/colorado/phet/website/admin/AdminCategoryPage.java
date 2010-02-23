@@ -1,6 +1,5 @@
 package edu.colorado.phet.website.admin;
 
-import java.io.Serializable;
 import java.util.*;
 
 import org.apache.log4j.Logger;
@@ -10,12 +9,14 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.panels.OrderList;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.SimOrderItem;
 
 public class AdminCategoryPage extends AdminPage {
     private Category category;
@@ -83,11 +84,11 @@ public class AdminCategoryPage extends AdminPage {
         allItems = new LinkedList<SimOrderItem>();
 
         for ( Simulation simulation : simulations ) {
-            items.add( new SimOrderItem( simulation ) );
+            items.add( new SimOrderItem( simulation, titleMap.get( simulation ) ) );
         }
 
         for ( Simulation simulation : allSimulations ) {
-            allItems.add( new SimOrderItem( simulation ) );
+            allItems.add( new SimOrderItem( simulation, titleMap.get( simulation ) ) );
         }
 
         add( new OrderList<SimOrderItem>( "simulations", getPageContext(), items, allItems ) {
@@ -145,25 +146,4 @@ public class AdminCategoryPage extends AdminPage {
         } );
     }
 
-    private class SimOrderItem implements OrderListItem, Serializable {
-        private Simulation simulation;
-        private String title;
-
-        public SimOrderItem( Simulation simulation ) {
-            this.simulation = simulation;
-            this.title = titleMap.get( simulation );
-        }
-
-        public String getDisplayValue() {
-            return title;
-        }
-
-        public Component getDisplayComponent( String id ) {
-            return new Label( id, title );
-        }
-
-        public int getId() {
-            return simulation.getId();
-        }
-    }
 }
