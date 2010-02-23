@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
@@ -25,7 +27,6 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
     public DropDownChoice dropDownChoice;
     private List<Item> items;
     private List<Item> allItems;
-    private SortedForm form;
 
     public abstract boolean onAdd( Item item );
 
@@ -33,19 +34,20 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
 
     public abstract Component getHeaderComponent( String id );
 
-    public SortedList( String id, PageContext context, final List<Item> items, List<Item> allItems ) {
+    public SortedList( String id, PageContext context, final List<Item> items, final List<Item> allItems ) {
         super( id, context );
         this.items = items;
         this.allItems = allItems;
 
+        // output a markup ID so this component can be updated within ajax
+        setOutputMarkupId( true );
+
         sortItems( items );
         sortItems( allItems );
 
-        form = new SortedForm( "form" );
+        add( getHeaderComponent( "header-component" ) );
 
-        form.add( getHeaderComponent( "header-component" ) );
-
-        form.add( new ListView( "items", items ) {
+        add( new ListView( "items", items ) {
             protected void populateItem( final ListItem listItem ) {
                 final Item item = (Item) listItem.getModel().getObject();
                 listItem.add( item.getDisplayComponent( "item-component" ) );
@@ -62,9 +64,31 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
 
         dropDownChoice = new ItemDropDownChoice( "options", allItems );
 
-        form.add( dropDownChoice );
+        add( dropDownChoice );
 
-        add( form );
+        add( new AjaxButton( "button" ) {
+            protected void onSubmit( AjaxRequestTarget target, Form form ) {
+                int itemId = Integer.valueOf( dropDownChoice.getModelValue() );
+                Item item = null;
+                for ( Item allItem : allItems ) {
+                    if ( allItem.getId() == itemId ) {
+                        item = allItem;
+                        break;
+                    }
+                }
+                boolean success = item != null;
+                if ( success ) {
+                    success = onAdd( item );
+                }
+                if ( success ) {
+                    items.add( item );
+                    sortItems( items );
+                }
+
+                // redraw the whole list, but nothing else
+                target.addComponent( SortedList.this );
+            }
+        } );
     }
 
     private void sortItems( List<Item> list ) {
@@ -73,32 +97,6 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
                 return a.compareTo( b, getLocale() );
             }
         } );
-    }
-
-    private class SortedForm extends Form {
-        public SortedForm( String id ) {
-            super( id );
-        }
-
-        @Override
-        protected void onSubmit() {
-            int itemId = Integer.valueOf( dropDownChoice.getModelValue() );
-            Item item = null;
-            for ( Item allItem : allItems ) {
-                if ( allItem.getId() == itemId ) {
-                    item = allItem;
-                    break;
-                }
-            }
-            boolean success = item != null;
-            if ( success ) {
-                success = onAdd( item );
-            }
-            if ( success ) {
-                items.add( item );
-                sortItems( items );
-            }
-        }
     }
 
     public class ItemDropDownChoice extends DropDownChoice {
