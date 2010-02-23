@@ -120,6 +120,8 @@ public class ContributionEditPanel extends PhetPanel {
 
         private DurationDropDownChoice durationChoice;
 
+        private CheckBox answersCheck;
+
         public ContributionForm( String id ) {
             super( id );
 
@@ -149,6 +151,9 @@ public class ContributionEditPanel extends PhetPanel {
 
             durationChoice = new DurationDropDownChoice( "duration", creating ? 0 : contribution.getDuration() );
             add( durationChoice );
+
+            answersCheck = new CheckBox( "answers", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isAnswersIncluded() ) ) );
+            add( answersCheck );
         }
 
         @Override
