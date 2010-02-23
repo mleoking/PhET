@@ -73,8 +73,8 @@ public abstract class SimSetManager implements Serializable {
         }
     }
 
-    public SortedList<SimOrderItem> getComponent( PageContext context ) {
-        return new SortedList<SimOrderItem>( "simulations", context, items, allItems ) {
+    public SortedList<SimOrderItem> getComponent( String id, PageContext context ) {
+        return new SortedList<SimOrderItem>( id, context, items, allItems ) {
             public boolean onAdd( final SimOrderItem item ) {
                 for ( SimOrderItem oldItem : items ) {
                     if ( oldItem.getId() == item.getId() ) {

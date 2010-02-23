@@ -378,7 +378,14 @@ public class HibernateUtils {
 
             ret = task.run( session );
 
-            tx.commit();
+            logger.debug( "tx isactive: " + tx.isActive() );
+            logger.debug( "tx wascommited: " + tx.wasCommitted() );
+            if ( tx.isActive() ) {
+                tx.commit();
+            }
+            else {
+                logger.warn( "tx not active", new RuntimeException( "exception made for stack trace" ) );
+            }
         }
         catch( RuntimeException e ) {
             ret = false;
