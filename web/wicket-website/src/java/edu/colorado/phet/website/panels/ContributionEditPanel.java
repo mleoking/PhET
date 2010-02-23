@@ -118,7 +118,7 @@ public class ContributionEditPanel extends PhetPanel {
                 logger.debug( "simulation: " + simulation.getName() );
             }
 
-            for ( Type type : typeManager.getTypes() ) {
+            for ( Type type : typeManager.getValues() ) {
                 logger.debug( "type: " + type );
             }
 
