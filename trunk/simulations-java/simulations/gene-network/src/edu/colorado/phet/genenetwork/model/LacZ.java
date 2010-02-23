@@ -39,7 +39,7 @@ public class LacZ extends SimpleModelElement {
 	
 	// Amount of time that lactose is attached before it is "digested",
 	// meaning that it is broken apart and released.
-	private static final double LACTOSE_ATTACHMENT_TIME = 1;  // In seconds.
+	private static final double LACTOSE_ATTACHMENT_TIME = 0.5;  // In seconds.
 	
 	// Amount of time after releasing one lactose molecule until it is okay
 	// to start trying to attach to another.  This is needed to prevent the
