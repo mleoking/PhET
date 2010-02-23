@@ -11,5 +11,5 @@ package edu.colorado.phet.neuron.model;
  */
 public interface IParticleCapture {
 
-	void requestParticleThroughChannel(ParticleType particleType, MembraneChannel membraneChannel);
+	void requestParticleThroughChannel(ParticleType particleType, MembraneChannel membraneChannel, double maxVelocity);
 }

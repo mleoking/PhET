@@ -460,7 +460,7 @@ public class AxonModel implements IParticleCapture {
      * @param channel
      * @return
      */
-    public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel){
+    public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity){
     	
     	// Scan the capture zone for particles of the desired type.
     	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getCaptureZone(), particleType);
@@ -473,7 +473,7 @@ public class AxonModel implements IParticleCapture {
    			particleToCapture = newParticle;
     	}
     	particleToCapture.setMotionStrategy(
-    			new MembraneChannelTraversalMotionStrategy(channel, particleToCapture.getPosition()));
+    			new MembraneChannelTraversalMotionStrategy(channel, particleToCapture.getPosition(), maxVelocity));
     }
     
     private void stepInTime(double dt){
