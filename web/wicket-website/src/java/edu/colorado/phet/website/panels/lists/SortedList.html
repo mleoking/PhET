@@ -10,24 +10,6 @@
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
-            table.admin {
-                border: 1px outset gray;
-                border-spacing: 2px;
-                border-collapse: collapse;
-                background-color: white;
-            }
-
-            table.admin th {
-                border: 1px dotted gray;
-                padding: 3px;
-                background-color: white;
-            }
-
-            table.admin td {
-                border: 1px dotted gray;
-                padding: 3px;
-                background-color: white;
-            }
         </style>
     </wicket:head>
 </head>
@@ -37,14 +19,6 @@
     <div wicket:message="dir:language.dir">
         <table class="admin">
             <tr>
-                <th wicket:id="header-component"></th>
-                <th/>
-            </tr>
-            <tr wicket:id="items">
-                <td wicket:id="item-component">Mechanics</td>
-                <td style="text-align: center;"><a href="OrderList.html#" wicket:id="remove">remove</a></td>
-            </tr>
-            <tr>
                 <td colspan="2">
                     <select wicket:id="options">
                         <option>This is an option</option>
@@ -52,6 +26,10 @@
                     </select>
                     <input type="submit" wicket:id="button" value="add"/>
                 </td>
+            </tr>
+            <tr wicket:id="items">
+                <td wicket:id="item-component">Mechanics</td>
+                <td style="text-align: center;"><a href="OrderList.html#" wicket:id="remove">remove</a></td>
             </tr>
         </table>
     </div>

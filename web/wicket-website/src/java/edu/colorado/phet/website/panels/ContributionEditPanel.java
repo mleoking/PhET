@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.panels;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -41,8 +42,13 @@ public class ContributionEditPanel extends PhetPanel {
         simManager = new SimSetManager( getHibernateSession(), getLocale() ) {
             @Override
             public Set getInitialSimulations( Session session ) {
-                Contribution activeContribution = (Contribution) session.load( Contribution.class, contribution.getId() );
-                return activeContribution.getSimulations();
+                if ( contribution.getId() != 0 ) {
+                    Contribution activeContribution = (Contribution) session.load( Contribution.class, contribution.getId() );
+                    return activeContribution.getSimulations();
+                }
+                else {
+                    return new HashSet();
+                }
             }
         };
 

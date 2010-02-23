@@ -89,9 +89,6 @@ public abstract class SimSetManager implements Serializable {
                 return true;
             }
 
-            public Component getHeaderComponent( String id ) {
-                return new Label( id, "Simulations" );
-            }
         };
     }
 

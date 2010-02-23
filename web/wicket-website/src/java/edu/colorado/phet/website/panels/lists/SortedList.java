@@ -32,8 +32,6 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
 
     public abstract boolean onRemove( Item item, int index );
 
-    public abstract Component getHeaderComponent( String id );
-
     public SortedList( String id, PageContext context, final List<Item> items, final List<Item> allItems ) {
         super( id, context );
         this.items = items;
@@ -44,8 +42,6 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
 
         sortItems( items );
         sortItems( allItems );
-
-        add( getHeaderComponent( "header-component" ) );
 
         add( new ListView( "items", items ) {
             protected void populateItem( final ListItem listItem ) {
