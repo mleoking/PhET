@@ -29,7 +29,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class GameSettingsNode extends PhetPNode {
     
-    private static final boolean HIDE_FEATURE_AVAILABLE = false;
+    private static final boolean HIDE_FEATURE_AVAILABLE = true;
     
     private static final Font TITLE_FONT = new PhetFont( 24 );
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 5, 14, 5, 14 ) );
