@@ -156,6 +156,10 @@ public class ValueNode extends PhetPNode {
         barNode.setVisible( visible );
     }
     
+    public void setImageVisible( boolean visible ) {
+        imageNode.setVisible( visible );
+    }
+    
     private void updateLayout() {
         // origin at top center of bar
         double x = -( barNode.getFullBoundsReference().getWidth() / 2 );

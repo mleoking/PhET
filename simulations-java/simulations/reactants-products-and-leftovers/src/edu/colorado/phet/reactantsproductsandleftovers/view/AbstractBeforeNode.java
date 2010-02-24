@@ -131,10 +131,17 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
     
     /*
      * Sets the visibility of reaction molecule images.
-     * Intended for use by subclasses that may want to display other things in the box.
+     * Intended for use by subclasses that may want to hide images.
      */
-    protected void setImagesVisible( boolean visible ) {
+    protected void setReactionImagesVisible( boolean visible ) {
         imageLayoutNode.setVisible( visible );
+        
+    }
+    
+    protected void setValueNodeImagesVisible( boolean visible ) {
+        for ( ValueNode valueNode : reactantValueNodes ) {
+            valueNode.setImageVisible( visible );
+        }
     }
     
     /*

@@ -81,7 +81,7 @@ public class GameBeforeNode extends AbstractBeforeNode {
         // default state
         GameChallenge challenge = model.getChallenge();
         if ( challenge.getChallengeType() == ChallengeType.BEFORE ) {
-            showGuess( true /* editable */, challenge.isMoleculesVisible() );
+            showGuess( true /* editable */ );
         }
         else {
             showAnswer( challenge.isMoleculesVisible(), challenge.isNumbersVisible() );
@@ -114,10 +114,15 @@ public class GameBeforeNode extends AbstractBeforeNode {
             valueNode.setEditable( false );
         }
         
-        // show images for reaction
-        setImagesVisible( showImages );
+        // hide guess images
         guessImagesNode.setVisible( false );
+        
+        // possibly hide reaction images
+        setReactionImagesVisible( showImages );
+        setValueNodeImagesVisible( showImages );
         moleculesHiddenNode.setVisible( !showImages );
+        
+        // possibily hide numbers
         setNumbersVisible( showNumbers );
         numbersHiddenNode.setVisible( !showNumbers );
     }
@@ -126,9 +131,8 @@ public class GameBeforeNode extends AbstractBeforeNode {
      * Shows the images and quantities corresponding to the user's guess.
      * The quantities are optionally editable.
      * @param editable
-     * @param showImages
      */
-    public void showGuess( boolean editable, boolean showImages ) {
+    public void showGuess( boolean editable ) {
         
         GameGuess guess = model.getChallenge().getGuess();
         ArrayList<QuantityValueNode> valueNodes = getReactantValueNodes();
@@ -142,10 +146,15 @@ public class GameBeforeNode extends AbstractBeforeNode {
             valueNode.setEditable( editable );
         }
         
-        // show images for user's answer
-        setImagesVisible( false );
-        guessImagesNode.setVisible( showImages );
+        // show guess images
+        guessImagesNode.setVisible( true );
         moleculesHiddenNode.setVisible( false );
+        setValueNodeImagesVisible( true );
+        
+        // hide reaction images
+        setReactionImagesVisible( false );
+        
+        // show numbers
         setNumbersVisible( true );
         numbersHiddenNode.setVisible( false );
     }
