@@ -1,4 +1,4 @@
-2/24/10 #2161, reallocate GameSummaryNode as needed, rather than update it, to workaround PSwing bug
+2/24/10 #2161, reallocate GameSummaryNode as needed, rather than update it, to workaround PSwing bug #2171
 2/24/10 make "Hide molecules" feature hide the images below histogram bars before the box that has the givens
 2/24/10 make "Hide" feature not affect the box where the user is entering quantity values
 2/24/10 add a new flavor "rpal-research" for research version
