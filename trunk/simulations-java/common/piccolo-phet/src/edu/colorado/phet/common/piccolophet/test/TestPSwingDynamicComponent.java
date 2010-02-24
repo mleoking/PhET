@@ -19,7 +19,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * Demonstrates a PSwing problem with dynamic Components.
+ * Demonstrates a PSwing problem with dynamic JComponents.
  * <p>
  * This example shows 2 identical JPanels, 1 pure Swing and 1 drawn using PSwing.
  * The JPanels contain 2 JLabels, which can be updated by typing into JTextFields 
