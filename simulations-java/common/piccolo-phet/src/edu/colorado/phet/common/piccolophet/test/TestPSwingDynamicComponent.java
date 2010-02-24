@@ -20,11 +20,11 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Demonstrates a PSwing problem with dynamic Components.
- * In this example, a JPanel contains 2 JLabels.
- * When the JLabels' text is updated, the JPanel is often rendered incorrectly.
  * <p>
- * To use this example, type text into the text fields, then press the update button.
- * The light blue panel on the left is PSwing, the one on the right is pure Swing for comparison.
+ * This example shows 2 identical JPanels, 1 pure Swing and 1 drawn using PSwing.
+ * The JPanels contain 2 JLabels, which can be updated by typing into JTextFields 
+ * and pressing the JButton labeled Update.
+ * The JPanel managed by PSwing is often rendered incorrectly.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
