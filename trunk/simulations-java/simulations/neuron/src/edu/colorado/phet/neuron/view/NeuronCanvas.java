@@ -55,6 +55,7 @@ public class NeuronCanvas extends PhetPCanvas {
     // For debug: Enable and disable nodes that can help with debug of layout.
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
     private static final boolean SHOW_CENTER_CROSS_HAIR = false;
+    private static final boolean SHOW_CHANNEL_LOCATIONS = false;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -273,8 +274,10 @@ public class NeuronCanvas extends PhetPCanvas {
     	 * for debugging, but should be removed once channel traversal is
     	 * fully worked out.
     	 */
-    	PhetPPath channelTestShape = new PhetPPath(mvt.createTransformedShape(channelToBeAdded.getChannelTestShape()), Color.ORANGE);
-    	axonCrossSectionLayer.addChild(channelTestShape);
+    	if (SHOW_CHANNEL_LOCATIONS){
+    		PhetPPath channelTestShape = new PhetPPath(mvt.createTransformedShape(channelToBeAdded.getChannelTestShape()), Color.ORANGE);
+    		channelEdgeLayer.addChild(channelTestShape);
+    	}
     }
     
     private static class CrossHairNode extends PNode {
