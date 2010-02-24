@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,7 +11,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -71,19 +67,26 @@ public class TestPSwingDynamicComponent extends JFrame {
         // control panel
         JPanel controlPanel = new JPanel();
         controlPanel.setBorder( new LineBorder( Color.BLACK ) );
-        EasyGridBagLayout controlPanelLayout = new EasyGridBagLayout( controlPanel );
-        controlPanel.setLayout( controlPanelLayout );
-        int row = 0;
-        int column = 0;
-        controlPanelLayout.addComponent( new JLabel( "top text:" ), row, column++, 1, 1, GridBagConstraints.EAST );
-        controlPanelLayout.addComponent( topTextField, row, column++ );
-        column = 0;
-        row++;
-        controlPanelLayout.addComponent( new JLabel( "bottom text:" ), row, column++, 1, 1, GridBagConstraints.EAST );
-        controlPanelLayout.addComponent( bottomTextField, row++, column );
-        column = 1;
-        row++;
-        controlPanelLayout.addComponent( updateButton, row, column );
+        controlPanel.setLayout( new GridBagLayout() );
+        GridBagConstraints c = new GridBagConstraints();
+        c.anchor = GridBagConstraints.EAST;
+        c.gridx = 0;
+        c.gridy = 0;
+        controlPanel.add( new JLabel( "top text:" ), c );
+        c.anchor = GridBagConstraints.WEST;
+        c.gridx++;
+        controlPanel.add( topTextField, c );
+        c.anchor = GridBagConstraints.EAST;
+        c.gridx = 0;
+        c.gridy++;
+        controlPanel.add( new JLabel( "bottom text:" ), c );
+        c.anchor = GridBagConstraints.WEST;
+        c.gridx++;
+        controlPanel.add( bottomTextField, c );
+        c.anchor = GridBagConstraints.WEST;
+        c.gridx = 1;
+        c.gridy++;
+        controlPanel.add( updateButton, c );
         
         // main panel
         JPanel mainPanel = new JPanel( new BorderLayout() );
@@ -108,12 +111,14 @@ public class TestPSwingDynamicComponent extends JFrame {
             topLabel = new JLabel( "top" );
             bottomLabel = new JLabel( "bottom" );
             
-            EasyGridBagLayout labelPanelLayout = new EasyGridBagLayout( this );
-            this.setLayout( labelPanelLayout );
-            int row = 0;
-            int column = 0;
-            labelPanelLayout.addComponent( topLabel, row++, column );
-            labelPanelLayout.addComponent( bottomLabel, row++, column );
+            setLayout( new GridBagLayout() );
+            GridBagConstraints c = new GridBagConstraints();
+            c.anchor = GridBagConstraints.WEST;
+            c.gridx = 0;
+            c.gridy = 0;
+            add( topLabel, c );
+            c.gridy++;
+            add( bottomLabel, c );
         }
         
         public void setTopText( String s ) {
