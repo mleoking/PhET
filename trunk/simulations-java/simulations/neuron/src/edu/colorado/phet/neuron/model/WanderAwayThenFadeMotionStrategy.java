@@ -31,6 +31,14 @@ public class WanderAwayThenFadeMotionStrategy extends MotionStrategy {
 	private double fadeOutDuration;
 	private Vector2D velocity = new Vector2D.Double();
 	
+	/**
+	 * Constructor.
+	 * 
+	 * @param awayPoint - Point that should be moved away from.
+	 * @param currentLocation - Starting location
+	 * @param preFadeTime - Time before fade out starts, in sim time
+	 * @param fadeOutDuration - Time of fade out
+	 */
 	public WanderAwayThenFadeMotionStrategy(Point2D awayPoint, Point2D currentLocation,double preFadeTime,
 			double fadeOutDuration) {
 		
@@ -67,7 +75,7 @@ public class WanderAwayThenFadeMotionStrategy extends MotionStrategy {
 			velocityUpdateCountdownTimer = VELOCITY_UPDATE_PERIOD;
 		}
 		
-		if (preFadeCountdownTimer > 0){
+		if (preFadeCountdownTimer >= 0){
 			preFadeCountdownTimer -= dt;
 			if (preFadeCountdownTimer <= 0){
 				// Time to start the fade out.
