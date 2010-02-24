@@ -14,6 +14,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.EventListener;
+
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -56,6 +59,12 @@ public class NeuronCanvas extends PhetPCanvas {
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
     private static final boolean SHOW_CENTER_CROSS_HAIR = false;
     private static final boolean SHOW_CHANNEL_LOCATIONS = false;
+
+    // List of registered listeners for canvas events.
+    private EventListenerList listeners = new EventListenerList();
+    
+    // Amount of zooming applied to the root world node.
+    private double zoomFactor = 1;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -238,13 +247,29 @@ public class NeuronCanvas extends PhetPCanvas {
         }
     }
     
+	public void addListener(NeuronCanvasZoomListener neuronCanvasZoomListener){
+		listeners.add(NeuronCanvasZoomListener.class, neuronCanvasZoomListener);
+	}
+	
+	public void removeListener(NeuronCanvasZoomListener neuronCanvasZoomListener){
+		listeners.remove(NeuronCanvasZoomListener.class, neuronCanvasZoomListener);
+	}
+    
     public void setVoltmeterVisible(boolean isVisible){
     	voltmeter.setVisible(isVisible);
     }
     
     public void setZoomFactor(double zoomFactor){
-    	myWorldNode.setTransform(new AffineTransform());
-        myWorldNode.scaleAboutPoint(zoomFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 0);
+    	if (this.zoomFactor != zoomFactor){
+    		myWorldNode.setTransform(new AffineTransform());
+    		myWorldNode.scaleAboutPoint(zoomFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 0);
+    		this.zoomFactor = zoomFactor;
+    		notifyZoomChanged();
+    	}
+    }
+    
+    public double getZoomFactor(){
+    	return zoomFactor;
     }
     
     private void addParticle(Particle particleToBeAdded){
@@ -294,5 +319,15 @@ public class NeuronCanvas extends PhetPCanvas {
 					CROSS_HAIR_STROKE, CROSS_HAIR_COLOR);
 			addChild(horizontalLine);
 		}
+    }
+    
+	private void notifyZoomChanged(){
+		for (NeuronCanvasZoomListener listener : listeners.getListeners(NeuronCanvasZoomListener.class)){
+			listener.zoomFactorChanged();
+		}
+	}
+    
+    public interface NeuronCanvasZoomListener extends EventListener {
+    	public void zoomFactorChanged();
     }
 }
