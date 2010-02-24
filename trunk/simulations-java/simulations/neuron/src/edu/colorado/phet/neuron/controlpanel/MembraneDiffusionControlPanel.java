@@ -47,11 +47,11 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 	private LeakChannelSlider sodiumLeakChannelControl;
 	private LeakChannelSlider potassiumLeakChannelControl;
 	
-	// TODO: Removed the following 3 sliders based on design mods that were
+	// TODO: Removed the following sliders based on design mods that were
 	// made in December 2009.  Delete permanently if and when finalized.
 //	private ConcentrationSlider sodiumConcentrationControl;
 //	private ConcentrationSlider potassiumConcentrationControl;
-//	private ZoomSlider zoomSlider;
+	private ZoomSlider zoomSlider;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,6 +68,13 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         
         this.axonModel = model;
         this.neuronCanvas = canvas;
+
+        // Listen to the canvas for changes that affect this control panel.
+        neuronCanvas.addListener(new NeuronCanvas.NeuronCanvasZoomListener() {
+			public void zoomFactorChanged() {
+				updateZoomSlider();
+			}
+		});
         
         // Listen to the model for changes that affect this control panel.
         /*
@@ -172,10 +179,8 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
          */
         
         // Add the zoom slider.
-        // See TODO at top of this file for information about why the
-        // the following is commented out.
-//        zoomSlider = new ZoomSlider("Zoom Control", neuronCanvas);
-//        addControlFullWidth(zoomSlider);
+        zoomSlider = new ZoomSlider("Zoom Control", neuronCanvas);
+        addControlFullWidth(zoomSlider);
         
         // Add the reset all button.
 //        addControlFullWidth(createVerticalSpacingPanel(60));
@@ -222,10 +227,9 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     */
     
     private void updateZoomSlider(){
-    	
-//    	if ( zoomSlider.getValue() != neuronCanvas.getCameraScale()){
-//    		zoomSlider.setValue(neuronCanvas.getCameraScale());
-//    	}
+    	if ( zoomSlider.getValue() != neuronCanvas.getZoomFactor()){
+    		zoomSlider.setValue(neuronCanvas.getZoomFactor());
+    	}
     }
     
     private JPanel createVerticalSpacingPanel(int space){
