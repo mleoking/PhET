@@ -5,7 +5,6 @@ DEADLINES
 
 HIGH PRIORITY
 - have exactly one zero-products challenge per level
-- revise hide feature, don't modify "solution box", hide images below histogram bars for "given" box
 - #2161, Game Summary drawing problems on Windows, PSwing bug?
 - design/relationship of GameCanvas and GameModel is confusing, redesign
 - GameBeforeNode and GameAfterNode showGuess and showAnswer are confusing, redesign
