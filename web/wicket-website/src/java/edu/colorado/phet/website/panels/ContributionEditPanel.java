@@ -122,6 +122,28 @@ public class ContributionEditPanel extends PhetPanel {
 
         private CheckBox answersCheck;
 
+        private CheckBox stdK4A;
+        private CheckBox stdK4B;
+        private CheckBox stdK4C;
+        private CheckBox stdK4D;
+        private CheckBox stdK4E;
+        private CheckBox stdK4F;
+        private CheckBox stdK4G;
+        private CheckBox std58A;
+        private CheckBox std58B;
+        private CheckBox std58C;
+        private CheckBox std58D;
+        private CheckBox std58E;
+        private CheckBox std58F;
+        private CheckBox std58G;
+        private CheckBox std912A;
+        private CheckBox std912B;
+        private CheckBox std912C;
+        private CheckBox std912D;
+        private CheckBox std912E;
+        private CheckBox std912F;
+        private CheckBox std912G;
+
         public ContributionForm( String id ) {
             super( id );
 
@@ -154,6 +176,51 @@ public class ContributionEditPanel extends PhetPanel {
 
             answersCheck = new CheckBox( "answers", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isAnswersIncluded() ) ) );
             add( answersCheck );
+
+            //stdK4A = new CheckBox( "stdK4A", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4A() ) ) ); add( stdK4A );
+
+            stdK4A = new CheckBox( "stdK4A", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4A() ) ) );
+            add( stdK4A );
+            stdK4B = new CheckBox( "stdK4B", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4B() ) ) );
+            add( stdK4B );
+            stdK4C = new CheckBox( "stdK4C", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4C() ) ) );
+            add( stdK4C );
+            stdK4D = new CheckBox( "stdK4D", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4D() ) ) );
+            add( stdK4D );
+            stdK4E = new CheckBox( "stdK4E", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4E() ) ) );
+            add( stdK4E );
+            stdK4F = new CheckBox( "stdK4F", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4F() ) ) );
+            add( stdK4F );
+            stdK4G = new CheckBox( "stdK4G", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4G() ) ) );
+            add( stdK4G );
+            std58A = new CheckBox( "std58A", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58A() ) ) );
+            add( std58A );
+            std58B = new CheckBox( "std58B", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58B() ) ) );
+            add( std58B );
+            std58C = new CheckBox( "std58C", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58C() ) ) );
+            add( std58C );
+            std58D = new CheckBox( "std58D", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58D() ) ) );
+            add( std58D );
+            std58E = new CheckBox( "std58E", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58E() ) ) );
+            add( std58E );
+            std58F = new CheckBox( "std58F", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58F() ) ) );
+            add( std58F );
+            std58G = new CheckBox( "std58G", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard58G() ) ) );
+            add( std58G );
+            std912A = new CheckBox( "std912A", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912A() ) ) );
+            add( std912A );
+            std912B = new CheckBox( "std912B", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912B() ) ) );
+            add( std912B );
+            std912C = new CheckBox( "std912C", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912C() ) ) );
+            add( std912C );
+            std912D = new CheckBox( "std912D", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912D() ) ) );
+            add( std912D );
+            std912E = new CheckBox( "std912E", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912E() ) ) );
+            add( std912E );
+            std912F = new CheckBox( "std912F", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912F() ) ) );
+            add( std912F );
+            std912G = new CheckBox( "std912G", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912G() ) ) );
+            add( std912G );
         }
 
         @Override
