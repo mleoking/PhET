@@ -132,6 +132,20 @@ public class StringUtils {
         return task.status;
     }
 
+    public static String escapeFileString( String str ) {
+        char[] chars = str.toCharArray();
+        StringBuffer buf = new StringBuffer();
+        for ( char c : chars ) {
+            if ( Character.isLetterOrDigit( c ) ) {
+                buf.append( c );
+            }
+            else {
+                buf.append( "_" );
+            }
+        }
+        return buf.toString();
+    }
+
     private static class StatusTask implements HibernateTask {
         public int status;
         private final int translationId;

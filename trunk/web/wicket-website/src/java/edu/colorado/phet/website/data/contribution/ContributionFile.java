@@ -18,8 +18,6 @@ public class ContributionFile implements Serializable {
     private String location;
     private int size; // bytes
 
-    // TODO: decide on implementation options, particularly how to avoid XSS vulnerabilities!
-
     private static Logger logger = Logger.getLogger( ContributionFile.class.getName() );
 
     public File getFileLocation() {
