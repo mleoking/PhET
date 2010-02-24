@@ -80,7 +80,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 			// The channel has closed and this element has not yet entered it.
 			// Time to override this motion strategy with a different one.
 			movableModelElement.setMotionStrategy(new WanderAwayThenFadeMotionStrategy(channel.getCenterLocation(),
-					movableModelElement.getPosition(), 0.001, 0.001));
+					movableModelElement.getPosition(), 0, 0.002));
 		}
 	}
 	

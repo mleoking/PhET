@@ -17,7 +17,7 @@ public class TimedFadeAwayStrategy extends FadeStrategy {
 	
 	@Override
 	public void updateOpaqueness(IFadable fadableModelElement, double dt) {
-		fadableModelElement.setOpaqueness( Math.max( fadeCountdownTimer / fadeTime, 0) );
+		fadableModelElement.setOpaqueness( Math.min( Math.max( fadeCountdownTimer / fadeTime, 0 ), fadableModelElement.getOpaqueness() ) );
 		fadeCountdownTimer -= dt;
 	}
 	
