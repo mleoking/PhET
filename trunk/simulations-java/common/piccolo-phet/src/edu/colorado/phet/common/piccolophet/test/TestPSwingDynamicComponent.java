@@ -15,9 +15,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Demonstrates a PSwing problem with dynamic Components.
@@ -40,15 +39,17 @@ public class TestPSwingDynamicComponent extends JFrame {
         // panel that we're display using pure Swing
         final LabelPanel swingLabelPanel = new LabelPanel();
         JPanel swingPanel = new JPanel();
+        swingPanel.setBorder( new LineBorder( Color.BLACK ) );
         swingPanel.add( swingLabelPanel );
         
         // panel that we'll display using Piccolo
         final LabelPanel piccoloLabelPanel = new LabelPanel();
         PSwing pswing = new PSwing( piccoloLabelPanel );
-        pswing.scale( 1.5 );
         pswing.setOffset( 50, 50 );
-        PhetPCanvas canvas = new PhetPCanvas( FRAME_SIZE );
-        canvas.addWorldChild( pswing );
+        PSwingCanvas canvas = new PSwingCanvas();
+        canvas.getLayer().addChild( pswing );
+        canvas.removeInputEventListener( canvas.getZoomEventHandler() );
+        canvas.removeInputEventListener( canvas.getPanEventHandler() );
         
         // text fields
         final JTextField topTextField = new JTextField( swingLabelPanel.getTopText() );
@@ -69,6 +70,7 @@ public class TestPSwingDynamicComponent extends JFrame {
         
         // control panel
         JPanel controlPanel = new JPanel();
+        controlPanel.setBorder( new LineBorder( Color.BLACK ) );
         EasyGridBagLayout controlPanelLayout = new EasyGridBagLayout( controlPanel );
         controlPanel.setLayout( controlPanelLayout );
         int row = 0;
@@ -134,7 +136,6 @@ public class TestPSwingDynamicComponent extends JFrame {
     public static void main( String[] args ) {
         JFrame frame = new TestPSwingDynamicComponent();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
     }
 }
