@@ -57,11 +57,13 @@ public class RPALCanvas extends PhetPCanvas {
     }
     
     protected void centerNode( PNode node ) {
-        Dimension2D worldSize = getWorldSize();
-        PBounds b = node.getFullBoundsReference();
-        double xOffset = ( worldSize.getWidth() - b.getWidth() - PNodeLayoutUtils.getOriginXOffset( node ) ) / 2;
-        double yOffset = ( worldSize.getHeight() - b.getHeight() - PNodeLayoutUtils.getOriginYOffset( node ) ) / 2;
-        node.setOffset( xOffset, yOffset );
+        if ( node != null ) {
+            Dimension2D worldSize = getWorldSize();
+            PBounds b = node.getFullBoundsReference();
+            double xOffset = ( worldSize.getWidth() - b.getWidth() - PNodeLayoutUtils.getOriginXOffset( node ) ) / 2;
+            double yOffset = ( worldSize.getHeight() - b.getHeight() - PNodeLayoutUtils.getOriginYOffset( node ) ) / 2;
+            node.setOffset( xOffset, yOffset );
+        }
     }
     
     /*

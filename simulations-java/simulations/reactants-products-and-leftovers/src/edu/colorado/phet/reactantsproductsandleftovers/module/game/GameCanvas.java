@@ -68,7 +68,6 @@ public class GameCanvas extends RPALCanvas {
     private final FaceNode faceNode;
     private final GradientButtonNode checkButton, nextButton, tryAgainButton, showAnswerButton;
     private final GameMessageNode instructionsNode;
-    private final GameSummaryNode gameSummaryNode;
     private final PointsDeltaNode pointsDeltaNode;
     private final GameRewardNode rewardNode;
     
@@ -79,6 +78,7 @@ public class GameCanvas extends RPALCanvas {
     private RealReactionEquationNode equationNode;
     private GameBeforeNode beforeNode;
     private GameAfterNode afterNode;
+    private GameSummaryNode gameSummaryNode; // allocate at end of game
     
     private boolean rewardNodeWasRunning; // was the reward node animation running the last time we switched to some other module?
 
@@ -94,17 +94,6 @@ public class GameCanvas extends RPALCanvas {
         gameSettingsNode = new GameSettingsNode( model, researchFlag );
         gameSettingsNode.scale( 1.5 );
 
-        // game summary
-        gameSummaryNode = new GameSummaryNode( model );
-        gameSummaryNode.scale( 1.5 );
-        gameSummaryNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                if ( evt.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
-                    centerGameSummary();
-                }
-            }
-        } );
-
         // all other nodes are children of this node
         parentNode = new PhetPNode();
         addWorldChild( parentNode );
@@ -114,7 +103,6 @@ public class GameCanvas extends RPALCanvas {
         addWorldChild( rewardNode );
         addWorldChild( parentNode );
         addWorldChild( gameSettingsNode );
-        addWorldChild( gameSummaryNode );
         
         // right-pointing arrow
         arrowNode = new RightArrowNode();
@@ -239,7 +227,7 @@ public class GameCanvas extends RPALCanvas {
         showAnswerButton.addPropertyChangeListener( buttonVisibilityListener );
         
         // visibility management
-        PNode[] allNodes = { rewardNode, gameSettingsNode, gameSummaryNode, parentNode, checkButton, nextButton, tryAgainButton, showAnswerButton, faceNode, instructionsNode, pointsDeltaNode };
+        PNode[] allNodes = { rewardNode, gameSettingsNode, parentNode, checkButton, nextButton, tryAgainButton, showAnswerButton, faceNode, instructionsNode, pointsDeltaNode };
         visibilityManager = new NodeVisibilityManager( allNodes );
         initVisibilityManager();
         
@@ -261,11 +249,12 @@ public class GameCanvas extends RPALCanvas {
         visibilityManager.add( SECOND_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode, pointsDeltaNode );
         visibilityManager.add( SECOND_ATTEMPT_WRONG_STATE, parentNode, showAnswerButton, faceNode );
         visibilityManager.add( ANSWER_SHOWN_STATE, parentNode, nextButton );
-        visibilityManager.add( GAME_SUMMARY_STATE, gameSummaryNode, rewardNode );
+        visibilityManager.add( GAME_SUMMARY_STATE, rewardNode );
     }
     
     private void handleNewGame() {
         showGuess( false );
+        removeGameSummaryNode();
         visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
@@ -275,6 +264,7 @@ public class GameCanvas extends RPALCanvas {
     }
     
     private void handleGameCompleted() {
+        addGameSummaryNode();
         rewardNode.setLevel( model.getLevel(), model.isPerfectScore() );
         visibilityManager.setVisibility( GAME_SUMMARY_STATE );
         if ( model.getPoints() == GameModel.getPerfectScore() ) {
@@ -286,6 +276,20 @@ public class GameCanvas extends RPALCanvas {
         else {
             audioPlayer.gameOverImperfectScore();
         }
+    }
+    
+    private void addGameSummaryNode() {
+        gameSummaryNode = new GameSummaryNode( model );
+        gameSummaryNode.scale( 1.5 );
+        centerGameSummary();
+        addWorldChild( gameSummaryNode );
+    }
+    
+    private void removeGameSummaryNode() {
+        if ( gameSummaryNode != null ) {
+            removeWorldChild( gameSummaryNode );
+        }
+        gameSummaryNode = null;
     }
 
     private void handleGameAborted() {
@@ -514,9 +518,11 @@ public class GameCanvas extends RPALCanvas {
      * Centers the "Game Summary" in the play area.
      */
     private void centerGameSummary() {
-        double x = parentNode.getFullBoundsReference().getCenterX() - ( gameSummaryNode.getFullBoundsReference().getWidth() / 2 );
-        double y = parentNode.getFullBoundsReference().getCenterY() - ( gameSummaryNode.getFullBoundsReference().getHeight() / 2 );
-        gameSummaryNode.setOffset( x, y );
+        if ( gameSummaryNode != null ) {
+            double x = parentNode.getFullBoundsReference().getCenterX() - ( gameSummaryNode.getFullBoundsReference().getWidth() / 2 );
+            double y = parentNode.getFullBoundsReference().getCenterY() - ( gameSummaryNode.getFullBoundsReference().getHeight() / 2 );
+            gameSummaryNode.setOffset( x, y );
+        }
     }
     
     /*
