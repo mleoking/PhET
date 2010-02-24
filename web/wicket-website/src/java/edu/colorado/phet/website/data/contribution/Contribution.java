@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.data.contribution;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -8,8 +9,10 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.util.StringUtils;
 
 public class Contribution implements Serializable {
 
@@ -85,6 +88,10 @@ public class Contribution implements Serializable {
         return standard58A || standard58B || standard58C || standard58D || standard58E || standard58F || standard58G ||
                standard912A || standard912B || standard912C || standard912D || standard912E || standard912F || standard912G ||
                standardK4A || standardK4B || standardK4C || standardK4D || standardK4E || standardK4F || standardK4G;
+    }
+
+    public File getZipFile() {
+        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getPhetDownloadRoot(), id + "/" + id + "-" + StringUtils.escapeFileString( title ) + ".zip" );
     }
 
     public void addComment( ContributionComment comment ) {
