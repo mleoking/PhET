@@ -392,6 +392,7 @@ public class HibernateUtils {
             logger.warn( "Exception", e );
             if ( tx != null && tx.isActive() ) {
                 try {
+                    logger.warn( "Attempting to roll back" );
                     tx.rollback();
                 }
                 catch( HibernateException e1 ) {

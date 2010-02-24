@@ -1,8 +1,5 @@
 package edu.colorado.phet.website.admin;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.form.Form;
@@ -11,12 +8,10 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
 
-import edu.colorado.phet.website.data.transfer.SqlResultTask;
-import edu.colorado.phet.website.data.transfer.SqlUtils;
 import edu.colorado.phet.website.data.transfer.TransferData;
-import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.test.LuceneTest;
 import edu.colorado.phet.website.translation.PhetLocalizer;
+import edu.colorado.phet.website.util.StringUtils;
 
 public class AdminMainPage extends AdminPage {
 
@@ -32,7 +27,13 @@ public class AdminMainPage extends AdminPage {
 
         add( new Link( "debug-action" ) {
             public void onClick() {
-                TransferData.transfer( getHibernateSession(), getServletContext() );
+                boolean success = TransferData.transfer( getHibernateSession(), getServletContext() );
+                if ( success ) {
+                    logger.info( "transfer success" );
+                }
+                else {
+                    logger.error( "transfer failure" );
+                }
             }
         } );
 

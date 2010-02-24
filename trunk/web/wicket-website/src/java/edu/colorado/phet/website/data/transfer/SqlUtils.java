@@ -5,7 +5,11 @@ import java.sql.*;
 
 import javax.servlet.ServletContext;
 
+import org.apache.log4j.Logger;
+
 public class SqlUtils {
+
+    private static Logger logger = Logger.getLogger( SqlUtils.class.getName() );
 
     private static Connection getConnection( ServletContext context ) throws IOException, SQLException, ClassNotFoundException {
         String user = context.getInitParameter( "transfer-user" );
@@ -14,7 +18,7 @@ public class SqlUtils {
         String name = context.getInitParameter( "transfer-name" );
 
         Class.forName( "com.mysql.jdbc.Driver" );
-        String url = "jdbc:mysql://" + host + ":3306/" + name;
+        String url = "jdbc:mysql://" + host + ":3306/" + name + "?zeroDateTimeBehavior=convertToNull"; // weird null behaviors
         Connection con = DriverManager.getConnection( url, user, pass );
         return con;
     }
@@ -34,14 +38,17 @@ public class SqlUtils {
         }
         catch( ClassNotFoundException e ) {
             e.printStackTrace();
+            logger.warn( "sqlutils", e );
             success = false;
         }
         catch( IOException e ) {
             e.printStackTrace();
+            logger.warn( "sqlutils", e );
             success = false;
         }
         catch( SQLException e ) {
             e.printStackTrace();
+            logger.warn( "sqlutils", e );
             success = false;
         }
         return success;

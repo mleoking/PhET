@@ -31,7 +31,7 @@ public class TransferData {
 
     private static Logger logger = Logger.getLogger( TransferData.class.getName() );
 
-    public static void transfer( Session session, final ServletContext servletContext ) {
+    public static boolean transfer( Session session, final ServletContext servletContext ) {
 
         final List<ContributionFile> files = new LinkedList<ContributionFile>();
 
@@ -80,6 +80,8 @@ public class TransferData {
                 if ( !sqlSuccess ) {
                     return sqlSuccess;
                 }
+
+                logger.info( "initial user setup complete" );
 
                 sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM contribution", new SqlResultTask() {
                     public boolean process( ResultSet result ) throws SQLException {
@@ -149,6 +151,8 @@ public class TransferData {
                     return sqlSuccess;
                 }
 
+                logger.info( "initial contribution setup complete" );
+
                 sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM contribution_comment", new SqlResultTask() {
                     public boolean process( ResultSet result ) throws SQLException {
                         ContributionComment comment = new ContributionComment();
@@ -173,11 +177,15 @@ public class TransferData {
                     return sqlSuccess;
                 }
 
+                logger.info( "initial contribution comment setup complete" );
+
                 File downloadMainDir = PhetWicketApplication.getFileFromLocation( servletContext.getInitParameter( PhetWicketApplication.PHET_DOWNLOAD_ROOT ) );
 
                 if ( downloadMainDir == null ) {
                     return false;
                 }
+
+                logger.info( "download root OK" );
 
                 sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM contribution_file", new SqlResultTask() {
                     public boolean process( ResultSet result ) throws SQLException {
@@ -215,6 +223,8 @@ public class TransferData {
                     return sqlSuccess;
                 }
 
+                logger.info( "initial contribution file setup partially handled (normal)" );
+
                 sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM contribution_level", new SqlResultTask() {
                     public boolean process( ResultSet result ) throws SQLException {
                         ContributionLevel level = new ContributionLevel();
@@ -236,6 +246,8 @@ public class TransferData {
                 if ( !sqlSuccess ) {
                     return sqlSuccess;
                 }
+
+                logger.info( "initial contribution level setup complete" );
 
                 sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM contribution_subject", new SqlResultTask() {
                     public boolean process( ResultSet result ) throws SQLException {
@@ -259,6 +271,8 @@ public class TransferData {
                     return sqlSuccess;
                 }
 
+                logger.info( "initial contribution subject setup complete" );
+
                 sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM contribution_type", new SqlResultTask() {
                     public boolean process( ResultSet result ) throws SQLException {
                         ContributionType type = new ContributionType();
@@ -280,6 +294,8 @@ public class TransferData {
                 if ( !sqlSuccess ) {
                     return sqlSuccess;
                 }
+
+                logger.info( "initial contribution type setup complete" );
 
                 // maps old sim IDs to new sims
                 final Map<Integer, Integer> simulationIdMap = new HashMap<Integer, Integer>();
@@ -309,6 +325,8 @@ public class TransferData {
                     return sqlSuccess;
                 }
 
+                logger.info( "initial contribution simulation mapping setup progress" );
+
                 // add simulation-contribution mappings
                 sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM simulation_contribution", new SqlResultTask() {
                     public boolean process( ResultSet result ) throws SQLException {
@@ -335,6 +353,8 @@ public class TransferData {
                 if ( !sqlSuccess ) {
                     return sqlSuccess;
                 }
+
+                logger.info( "initial contribution simulation mapping setup complete" );
 
                 List currentContributions = session.createQuery( "select c from Contribution as c" ).list();
                 for ( Object o : currentContributions ) {
@@ -393,6 +413,8 @@ public class TransferData {
         if ( oversuccess ) {
 
         }
+
+        return oversuccess;
 
     }
 
