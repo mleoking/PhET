@@ -8,8 +8,10 @@ import org.apache.wicket.Component;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
+import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.util.lang.Bytes;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.Simulation;
@@ -116,6 +118,8 @@ public class ContributionEditPanel extends PhetPanel {
         private RequiredTextField titleText;
         private RequiredTextField keywordsText;
 
+        private MultipleFileUploadPanel uploadPanel;
+
         private TextArea descriptionText;
 
         private DurationDropDownChoice durationChoice;
@@ -147,6 +151,9 @@ public class ContributionEditPanel extends PhetPanel {
         public ContributionForm( String id ) {
             super( id );
 
+            setMultiPart( true );
+            setMaxSize( Bytes.megabytes( 64 ) );
+
             authorsText = new RequiredTextField( "contribution.edit.authors", new Model( creating ? "" : contribution.getAuthors() ) );
             add( authorsText );
 
@@ -164,6 +171,9 @@ public class ContributionEditPanel extends PhetPanel {
 
             descriptionText = new TextArea( "contribution.edit.description", new Model( creating ? "" : contribution.getDescription() ) );
             add( descriptionText );
+
+            uploadPanel = new MultipleFileUploadPanel( "file-upload", context );
+            add( uploadPanel );
 
             add( simManager.getComponent( "simulations", context ) );
             add( typeManager.getComponent( "types", context ) );
@@ -245,6 +255,10 @@ public class ContributionEditPanel extends PhetPanel {
 
             for ( Subject subject : subjectManager.getValues() ) {
                 logger.debug( "subject: " + subject );
+            }
+
+            for ( FileUpload fileUpload : uploadPanel.getUploadedFiles() ) {
+                logger.debug( "file upload: " + fileUpload.getClientFileName() );
             }
 
         }
