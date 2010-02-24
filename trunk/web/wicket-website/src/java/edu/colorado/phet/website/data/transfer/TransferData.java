@@ -431,6 +431,10 @@ public class TransferData {
         byte[] blobData = blob.getBytes( 1, (int) blob.length() );
         byte[] fileData = Base64.decodeBase64( blobData );
 
+        if ( !file.exists() ) {
+            file.createNewFile();
+        }
+
         FileOutputStream fileOut = new FileOutputStream( file );
         fileOut.write( fileData, 0, fileData.length );
 
