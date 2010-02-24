@@ -1,3 +1,4 @@
+2/24/10 add a new flavor "rpal-research" for research version
 2/23/10 show "Hide" feature in Game Settings, since we have more work to do on it
 2/23/10 fix bug in "1 CS2 + 3 O2 -> 1 CO2 + 2 SO2"
 2/22/10 hide "Hide" feature in Game Settings

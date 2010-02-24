@@ -19,14 +19,18 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.Sandw
 public class ReactantsProductsAndLeftoversApplication extends PiccoloPhetApplication {
 
     public ReactantsProductsAndLeftoversApplication( PhetApplicationConfig config ) {
+        this( config, false /* researchFlag */ );
+    }
+    
+    public ReactantsProductsAndLeftoversApplication( PhetApplicationConfig config, boolean researchFlag ) {
         super( config );
         Frame parentFrame = getPhetFrame();
         addModule( new SandwichShopModule( parentFrame ) );
         addModule( new RealReactionModule( parentFrame ) );
-        addModule( new GameModule( parentFrame ) );
+        addModule( new GameModule( parentFrame, researchFlag ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        new PhetApplicationLauncher().launchSim( args, RPALConstants.PROJECT_NAME, ReactantsProductsAndLeftoversApplication.class );
+        new PhetApplicationLauncher().launchSim( args, RPALConstants.PROJECT_NAME, RPALConstants.FLAVOR_RPAL, ReactantsProductsAndLeftoversApplication.class );
     }
 }
