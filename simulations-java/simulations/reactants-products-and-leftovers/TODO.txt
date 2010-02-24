@@ -6,7 +6,6 @@ DEADLINES
 HIGH PRIORITY
 - have exactly one zero-products challenge per level
 - hide icons below histogram bars for "Hide molecules" feature
-- add a new flavor for research version
 - revise hide feature, don't modify solution box, hide images in controls below given box
 - #2161, Game Summary drawing problems on Windows, PSwing bug?
 - design/relationship of GameCanvas and GameModel is confusing, redesign

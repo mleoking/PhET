@@ -82,7 +82,7 @@ public class GameCanvas extends RPALCanvas {
     
     private boolean rewardNodeWasRunning; // was the reward node animation running the last time we switched to some other module?
 
-    public GameCanvas( final GameModel model, Resettable resettable ) {
+    public GameCanvas( final GameModel model, Resettable resettable, boolean researchFlag ) {
         super();
         
         audioPlayer = new RPALAudioPlayer( model.isSoundEnabled() );
@@ -91,7 +91,7 @@ public class GameCanvas extends RPALCanvas {
         rewardNode = new GameRewardNode();
         
         // game settings
-        gameSettingsNode = new GameSettingsNode( model );
+        gameSettingsNode = new GameSettingsNode( model, researchFlag );
         gameSettingsNode.scale( 1.5 );
 
         // game summary

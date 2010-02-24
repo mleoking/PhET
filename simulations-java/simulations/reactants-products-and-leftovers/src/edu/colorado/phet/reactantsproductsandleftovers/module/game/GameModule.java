@@ -18,14 +18,14 @@ public class GameModule extends PiccoloModule {
     private final GameModel model;
     private final GameCanvas canvas;
 
-    public GameModule( Frame parentFrame ) {
+    public GameModule( Frame parentFrame, boolean researchFlag ) {
         super( RPALStrings.TITLE_GAME, new RPALClock(), true /* startsPaused */ );
 
         // Model
         model = new GameModel( getClock() );
         
         // Canvas
-        canvas = new GameCanvas( model, this );
+        canvas = new GameCanvas( model, this, researchFlag );
         setSimulationPanel( canvas );
 
         // no control panel
