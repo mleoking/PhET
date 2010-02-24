@@ -1,5 +1,7 @@
 package edu.colorado.phet.website.panels;
 
+import org.apache.wicket.markup.html.basic.Label;
+
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.authentication.EditProfilePage;
 import edu.colorado.phet.website.authentication.PhetSession;
@@ -20,6 +22,12 @@ public class LogInOutPanel extends PhetPanel {
             add( SignOutPage.getLinker().getLink( "sign-out", context, getPhetCycle() ) );
             add( EditProfilePage.getLinker().getLink( "edit-profile", context, getPhetCycle() ) );
             add( new InvisibleComponent( "sign-in" ) );
+            if ( PhetSession.get().getUser().isTeamMember() ) {
+                add( new Label( "team-member", "" ) );
+            }
+            else {
+                add( new InvisibleComponent( "team-member" ) );
+            }
         }
         else {
             add( new InvisibleComponent( "edit-profile" ) );
@@ -30,6 +38,7 @@ public class LogInOutPanel extends PhetPanel {
             else {
                 add( new InvisibleComponent( "sign-in" ) );
             }
+            add( new InvisibleComponent( "team-member" ) );
         }
     }
 }
