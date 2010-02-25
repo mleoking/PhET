@@ -38,4 +38,8 @@ public class MultipleFileUploadPanel extends PhetPanel {
         }
         return ret;
     }
+
+    public MultiFileUploadField getField() {
+        return field;
+    }
 }

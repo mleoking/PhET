@@ -4,9 +4,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.wicket.Component;
+import org.apache.log4j.Logger;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
@@ -32,6 +34,8 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
 
     public abstract boolean onRemove( Item item, int index );
 
+    private static Logger logger = Logger.getLogger( SortedList.class.getName() );
+
     public SortedList( String id, PageContext context, final List<Item> items, final List<Item> allItems ) {
         super( id, context );
         this.items = items;
@@ -43,15 +47,19 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
         sortItems( items );
         sortItems( allItems );
 
-        add( new ListView( "items", items ) {
+        Form form = new Form( "form" );
+        add( form );
+
+        form.add( new ListView( "items", items ) {
             protected void populateItem( final ListItem listItem ) {
                 final Item item = (Item) listItem.getModel().getObject();
                 listItem.add( item.getDisplayComponent( "item-component" ) );
-                listItem.add( new Link( "remove" ) {
-                    public void onClick() {
+                listItem.add( new AjaxFallbackLink( "remove" ) {
+                    public void onClick( AjaxRequestTarget target ) {
                         boolean success = onRemove( item, listItem.getIndex() );
                         if ( success ) {
                             items.remove( item );
+                            target.addComponent( SortedList.this );
                         }
                     }
                 } );
@@ -60,10 +68,11 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
 
         dropDownChoice = new ItemDropDownChoice( "options", allItems );
 
-        add( dropDownChoice );
+        form.add( dropDownChoice );
 
-        add( new AjaxButton( "button" ) {
+        AjaxButton link = new AjaxButton( "button" ) {
             protected void onSubmit( AjaxRequestTarget target, Form form ) {
+                dropDownChoice.updateModel();
                 int itemId = Integer.valueOf( dropDownChoice.getModelValue() );
                 Item item = null;
                 for ( Item allItem : allItems ) {
@@ -76,6 +85,9 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
                 if ( success ) {
                     success = onAdd( item );
                 }
+                else {
+                    logger.warn( "item was null. itemId=" + itemId );
+                }
                 if ( success ) {
                     items.add( item );
                     sortItems( items );
@@ -84,7 +96,8 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
                 // redraw the whole list, but nothing else
                 target.addComponent( SortedList.this );
             }
-        } );
+        };
+        form.add( link );
     }
 
     private void sortItems( List<Item> list ) {
@@ -117,5 +130,9 @@ public abstract class SortedList<Item extends SortableListItem> extends PhetPane
                 }
             } );
         }
+    }
+
+    public DropDownChoice getFormComponent() {
+        return dropDownChoice;
     }
 }

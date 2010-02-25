@@ -139,7 +139,7 @@ public abstract class EnumSetManager<E extends Enum> implements Serializable {
         return ret;
     }
 
-    private static class ListItem<F extends Enum> implements SortableListItem, Serializable {
+    public static class ListItem<F extends Enum> implements SortableListItem, Serializable {
 
         private F val;
         private String desc;

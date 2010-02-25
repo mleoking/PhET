@@ -17,21 +17,23 @@
 
 <wicket:panel>
     <div wicket:message="dir:language.dir">
-        <table style="width: 100%">
-            <tr>
-                <td colspan="2">
-                    <select wicket:id="options">
-                        <option>This is an option</option>
-                        <option>Another option</option>
-                    </select>
-                    <input type="submit" wicket:id="button" value="add"/>
-                </td>
-            </tr>
-            <tr wicket:id="items">
-                <td wicket:id="item-component">Mechanics</td>
-                <td style="text-align: right;"><a href="OrderList.html#" wicket:id="remove">remove</a></td>
-            </tr>
-        </table>
+        <form wicket:id="form">
+            <table style="width: 100%">
+                <tr>
+                    <td colspan="2">
+                        <select wicket:id="options">
+                            <option>This is an option</option>
+                            <option>Another option</option>
+                        </select>
+                        <a href="#" wicket:id="button">add</a>
+                    </td>
+                </tr>
+                <tr wicket:id="items">
+                    <td wicket:id="item-component">Mechanics</td>
+                    <td style="text-align: right;"><a href="OrderList.html#" wicket:id="remove">remove</a></td>
+                </tr>
+            </table>
+        </form>
     </div>
 </wicket:panel>
 
