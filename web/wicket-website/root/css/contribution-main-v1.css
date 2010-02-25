@@ -35,3 +35,7 @@
 .contribution-feedback span {
     color: red;
 }
+
+.contribution-edit-table td.contribution-edit-input {
+    padding-bottom: 10px;
+}
