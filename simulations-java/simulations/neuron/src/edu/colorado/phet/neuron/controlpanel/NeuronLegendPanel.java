@@ -48,10 +48,10 @@ public class NeuronLegendPanel extends JPanel {
 	// reside on the canvas be of an appropriate size for inclusion on the
 	// control panel.
 	private static final ModelViewTransform2D PARTICLE_MVT = new ModelViewTransform2D(
-			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-6, -6, 12, 12));
+			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-8, -8, 16, 16));
 
 	private static final ModelViewTransform2D CHANNEL_MVT = new ModelViewTransform2D(
-			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-4, -4, 8, 8));
+			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-6, -6, 12, 12));
     
     //------------------------------------------------------------------------
     // Constructor
