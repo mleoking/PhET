@@ -152,9 +152,9 @@ public class MembraneChannelNode extends PNode{
 		
 		GeneralPath path = new GeneralPath();
 		path.moveTo(0, 0);
-		path.quadTo(width / 2, -height / 8, width, 0);
-		path.lineTo(width, -height);
-		path.quadTo(width/2, -height * 7 / 8, 0, -height);
+		path.quadTo(width * 0.6, -height / 8, width * 1.2, 0);
+		path.lineTo(width * 1.2, -height);
+		path.quadTo(width * 0.6, -height * 7 / 8, 0, -height);
 		path.closePath();
 		
 		channel.setPathTo(path);
