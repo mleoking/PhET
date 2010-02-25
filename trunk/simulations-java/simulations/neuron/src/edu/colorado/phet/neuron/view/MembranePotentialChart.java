@@ -104,8 +104,8 @@ public class MembranePotentialChart extends PNode {
      * @param time - Time in milliseconds.
      * @param voltage - Voltage in volts.
      */
-    public void addDataPoint(double time, double voltage){
-    	dataSeries.add(time, voltage);
+    public void addDataPoint(double time, double voltage, boolean update){
+    	dataSeries.add(time, voltage, update);
     	if (time > TIME_SPAN / 2){
     		// Slide the chart to the left to keep the data to keep the data
     		// in the middle.  This essentially creates a strip chart.
@@ -179,7 +179,6 @@ public class MembranePotentialChart extends PNode {
         XYPlot plot = chart.getXYPlot();
         XYItemRenderer renderer = plot.getRenderer();
         renderer.setStroke(new BasicStroke(3f, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_BEVEL));
-        System.out.println(chart.getAntiAlias());
 
     	return chart;
     }
@@ -229,11 +228,14 @@ public class MembranePotentialChart extends PNode {
     private void updateChart(ClockEvent clockEvent){
     	updateCountdownTimer -= clockEvent.getSimulationTimeChange();
     	
+    	double timeInMilliseconds = clockEvent.getSimulationTime() * 1000; 
+    	
     	if (updateCountdownTimer <= 0){
-    		// Time to do an update.
-    		double timeInMilliseconds = clockEvent.getSimulationTime() * 1000; 
-    		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential());
+    		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential(), true);
     		updateCountdownTimer = UPDATE_PERIOD;
+    	}
+    	else{
+    		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential(), false);
     	}
     }
 
@@ -307,8 +309,8 @@ public class MembranePotentialChart extends PNode {
         button.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				membranePotentialChart.addDataPoint(200, 70);
-				membranePotentialChart.addDataPoint(300, -20);
+				membranePotentialChart.addDataPoint(200, 70, true);
+				membranePotentialChart.addDataPoint(300, -20, true);
 			}
 		});
         PSwing buttonPSwing = new PSwing(button);
