@@ -9,7 +9,6 @@ HIGH PRIORITY
 
 MEDIUM PRIORITY
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around
-- when sandwich is defined as 2-meat, the image on RHS of equation is low
 - small piece at rightmost edge of "How many..." message doesn't disappear (making text static did not fix this)
 - tab traversal in play area (started this with VectorFocusTraversalPolicy)
 
