@@ -4,7 +4,6 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- have exactly one zero-products challenge per level
 - design/relationship of GameCanvas and GameModel is confusing and brittle, redesign
 - GameBeforeNode and GameAfterNode showGuess and showAnswer are confusing and brittle, redesign
 - make histograms optional in code, publish a version without
