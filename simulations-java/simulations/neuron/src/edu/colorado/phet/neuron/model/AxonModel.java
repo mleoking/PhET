@@ -94,7 +94,6 @@ public class AxonModel implements IParticleCapture {
         clock.addClockListener(new ClockAdapter(){
 			@Override
 			public void clockTicked(ClockEvent clockEvent) {
-				System.out.println(clockEvent.getWallTimeChange());
 				stepInTime( clockEvent.getSimulationTimeChange() );
 			}
         });
