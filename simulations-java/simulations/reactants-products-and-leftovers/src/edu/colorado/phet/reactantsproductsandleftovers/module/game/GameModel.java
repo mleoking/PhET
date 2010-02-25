@@ -20,6 +20,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  */
 public class GameModel extends RPALModel {
     
+    // default settings for user controls
+    private static final boolean DEFAULT_TIMER_VISIBLE = true;
+    private static final boolean DEFAULT_SOUND_ENABLED = true;
+    private static final ChallengeVisibility DEFAULT_CHALLENGE_VISIBILITY = ChallengeVisibility.BOTH;
+    
     private static final boolean DEBUG_NOTIFICATION = false;
     private static final boolean DEBUG_WRONG_GUESS = false;
     
@@ -27,10 +32,6 @@ public class GameModel extends RPALModel {
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
     private static final double POINTS_FIRST_ATTEMPT = 1;  // points to award for correct guess on 1st attempt
     private static final double POINTS_SECOND_ATTEMPT = 0.5; // points to award for correct guess on 2nd attempt
-    
-    private static final boolean DEFAULT_TIMER_VISIBLE = false;
-    private static final boolean DEFAULT_SOUND_ENABLED = true;
-    private static final ChallengeVisibility DEFAULT_CHALLENGE_VISIBILITY = ChallengeVisibility.BOTH;
     
     private final EventListenerList listeners;
     private final GameTimer timer;
