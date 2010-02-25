@@ -19,8 +19,8 @@ public class PotassiumGatedChannel extends GatedChannel {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final double CHANNEL_HEIGHT = AxonMembrane.MEMBRANE_THICKNESS * 1.4; // In nanometers.
-	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.70; // In nanometers.
+	private static final double CHANNEL_HEIGHT = AxonMembrane.MEMBRANE_THICKNESS * 1.2; // In nanometers.
+	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.50; // In nanometers.
 	
 	// Constants that control the rate at which this channel will capture ions
 	// when it is open.  Smaller numbers here will increase the capture rate
