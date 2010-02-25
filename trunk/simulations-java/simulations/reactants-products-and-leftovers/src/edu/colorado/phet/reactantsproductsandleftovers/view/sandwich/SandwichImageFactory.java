@@ -12,6 +12,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Factory that creates sandwich images, uses knowledge about someone might make a sandwich.
+ * No image caching is implemented, since it would complicate the code and result in
+ * very little memory savings.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -22,7 +24,6 @@ public class SandwichImageFactory {
     /* not intended for instantiation */
     private SandwichImageFactory() {}
 
-    //TODO reduce memory by reusing image if model hasn't changed
     public static Image createImage( SandwichShopModel model ) {
 
         Image image = null;
