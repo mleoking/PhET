@@ -4,14 +4,11 @@ package edu.colorado.phet.neuron.controlpanel;
 
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -150,8 +147,13 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 //        voltmeterControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
 //        addControlFullWidth(voltmeterControlCheckbox);
         
+        // Add the zoom slider.
+        zoomSlider = new ZoomSlider("Zoom Control", neuronCanvas);
+        addControlFullWidth(zoomSlider);
+        
         // Add the check box for hiding/showing the potential chart.
         addControlFullWidth(createVerticalSpacingPanel(60));
+        JPanel checkBoxPanel = new JPanel();
         final JCheckBox chartControlCheckbox = new JCheckBox(NeuronStrings.SHOW_POTENTIAL_CHART);
         chartControlCheckbox.addChangeListener(new ChangeListener() {
 			
@@ -159,8 +161,9 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 				axonModel.setPotentialChartVisible(chartControlCheckbox.isSelected());
 			}
 		});
-        chartControlCheckbox.setAlignmentX(RIGHT_ALIGNMENT);
-        addControlFullWidth(chartControlCheckbox);
+        chartControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
+        checkBoxPanel.add(chartControlCheckbox);
+        addControlFullWidth(checkBoxPanel);
         
         /*
          * TODO: Feb 19, 2010 - Got rid of this and put a button on the canvas
@@ -177,10 +180,6 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 		});
         addControl(stimulusButton);
          */
-        
-        // Add the zoom slider.
-        zoomSlider = new ZoomSlider("Zoom Control", neuronCanvas);
-        addControlFullWidth(zoomSlider);
         
         // Add the reset all button.
 //        addControlFullWidth(createVerticalSpacingPanel(60));
@@ -250,7 +249,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
             setUpDownArrowDelta( 0.01 );
             setTextFieldVisible(false);
             setMinorTicksVisible(false);
-            setBorder( BorderFactory.createEtchedBorder() );
+            setBorder( BorderFactory.createRaisedBevelBorder() );
             setSnapToTicks(false);
             
             // Put in the labels for the left and right bottom portion of the
