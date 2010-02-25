@@ -26,7 +26,7 @@ public abstract class MembraneChannel {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final double SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO = 1.6;
+	private static final double SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO = 1.3;
 	protected static final Random RAND = new Random();
 	
 	private static final double DEFAULT_PARTICLE_VELOCITY = 40000; // In nanometers per sec of sim time.
@@ -81,7 +81,7 @@ public abstract class MembraneChannel {
 
 	public MembraneChannel(double channelWidth, double channelHeight, IParticleCapture modelContainingParticles){
 		channelSize.setSize(channelWidth, channelHeight);
-		overallSize.setSize(channelWidth * 2.4, channelHeight * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
+		overallSize.setSize(channelWidth * 2.1, channelHeight * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
 		this.modelContainingParticles = modelContainingParticles;
 
 		updateTraversalReferencePoints();
@@ -277,11 +277,8 @@ public abstract class MembraneChannel {
 	}
 	
 	/**
-	 * Get the 2D size of the edges of the channel.  Even though there are
-	 * two sides 
-	 * Even though there are two sides, the channel is assumed to be
-	 * symmetric, so there is only one side rectangle supplied, and callers
-	 * are expected to use it twice.
+	 * Get the overall 2D size of the channel, which includes both the part
+	 * that the particles travel through as well as the edges.
 	 * 
 	 * @return
 	 */
