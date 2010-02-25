@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.ValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge;
@@ -75,7 +76,7 @@ public class GameBeforeNode extends AbstractBeforeNode {
         numbersHiddenNode = new GameMessageNode( RPALStrings.MESSAGE_NUMBERS_HIDDEN, Color.BLACK, 28 );
         addChild( numbersHiddenNode );
         x = ( boxSize.getWidth() - numbersHiddenNode.getFullBoundsReference().getWidth() ) / 2;
-        y = boxSize.getHeight() + 15;
+        y = boxSize.getHeight() + ( ValueNode.hasHistogramBar() ? 35 : 15 );
         numbersHiddenNode.setOffset( x, y );
         
         // default state

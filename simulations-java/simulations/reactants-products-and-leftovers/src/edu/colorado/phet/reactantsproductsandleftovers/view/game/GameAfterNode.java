@@ -9,6 +9,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.LeftoversValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.ValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
@@ -83,7 +84,7 @@ public class GameAfterNode extends AbstractAfterNode {
         numbersHiddenNode = new GameMessageNode( RPALStrings.MESSAGE_NUMBERS_HIDDEN, Color.BLACK, 28 );
         addChild( numbersHiddenNode );
         x = ( boxSize.getWidth() - numbersHiddenNode.getFullBoundsReference().getWidth() ) / 2;
-        y = boxSize.getHeight() + 15;
+        y = boxSize.getHeight() + ( ValueNode.hasHistogramBar() ? 35 : 15 );
         numbersHiddenNode.setOffset( x, y );
 
         // default state
