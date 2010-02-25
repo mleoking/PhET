@@ -31,7 +31,7 @@ public class AxonMembrane {
 
 	// Fixed membrane characteristics.
 	public static final double MEMBRANE_THICKNESS = 4;  // In nanometers, obtained from web research.
-	private static final double DEFAULT_DIAMETER = 80; // In nanometers.
+	private static final double DEFAULT_DIAMETER = 150; // In nanometers.
 	private static final double BODY_LENGTH = DEFAULT_DIAMETER * 1.5;
 	private static final double BODY_TILT_ANGLE = Math.PI/4;
 	
