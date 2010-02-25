@@ -292,6 +292,8 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         }
         
         // look for quantity range violations in all reactions
+        System.out.println( "LOOKING FOR QUANTITY RANGE VIOLATIONS ..." );
+        System.out.println();
         int maxQuantity = GameModel.getQuantityRange().getMax();
         for ( Class<? extends ChemicalReaction> reactionClass : reactionClasses ) {
             ChemicalReaction reaction = instantiateReaction( reactionClass );
@@ -300,10 +302,13 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
                 reactant.setQuantity( maxQuantity );
             }
             // look for violations and try to fix them.
-            fixQuantityRangeViolation( reaction, maxQuantity );
+            fixQuantityRangeViolation( reaction, maxQuantity, true /* enableDebugOutput */ );
         }
         
         // look for reactions with coefficients > maxQuantity, we must have none of these
+        System.out.println();
+        System.out.println( "LOOKING FOR COEFFICIENT PROBLEMS ..." );
+        System.out.println();
         for ( Class<? extends ChemicalReaction> reactionClass : reactionClasses ) {
             ChemicalReaction reaction = instantiateReaction( reactionClass );
             // set all reactant quantities to their max values.
@@ -315,6 +320,9 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         }
         
         // call many times to test for exceptions
+        System.out.println();
+        System.out.println( "TESTING CHALLENGE GENERATION ..." );
+        System.out.println();
         for ( int level = GameModel.getLevelRange().getMin(); level <= GameModel.getLevelRange().getMax(); level++ ) {
             for ( int i = 0; i < 100; i++ ) {
                 System.out.println( "level=" + level + " game=" + i );
