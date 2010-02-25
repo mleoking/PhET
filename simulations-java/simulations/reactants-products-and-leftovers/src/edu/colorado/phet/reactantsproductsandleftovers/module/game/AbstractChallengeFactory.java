@@ -12,8 +12,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
  */
 public abstract class AbstractChallengeFactory implements IChallengeFactory {
     
-    private static final boolean DEBUG_OUTPUT_ENABLED = true;
-    
     /*
      * Generates a random non-zero quantity.
      * We need at least one of each reactant to have a valid reaction.
@@ -53,6 +51,10 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
         return reaction;
     }
     
+    protected static void fixQuantityRangeViolation( ChemicalReaction reaction, int maxQuantity ) {
+        fixQuantityRangeViolation( reaction, maxQuantity, false /* enableDebugOutput */ );
+    }
+    
     /*
      * Fixes any quantity range violations in a reaction.
      * We do this by decrementing reactant quantites by 1, alternating reactants as we do so.
@@ -60,13 +62,12 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
      * 
      * @throw IllegalStateException if reducing all reactant quantities to 1 does not fix a range violation
      */
-    protected static void fixQuantityRangeViolation( ChemicalReaction reaction, int maxQuantity ) {
+    protected static void fixQuantityRangeViolation( ChemicalReaction reaction, int maxQuantity, boolean enableDebugOutput ) {
         
         if ( hasQuantityRangeViolation( reaction ) ) {
 
-            if ( DEBUG_OUTPUT_ENABLED ) {
-                System.out.print( "DEBUG:" );
-                System.out.print( " AbstractGameStrategy.fixQuantityRangeViolation" );
+            if ( enableDebugOutput ) {
+                System.out.print( "AbstractGameStrategy.fixQuantityRangeViolation" );
                 System.out.print( " reaction: " + reaction.getEquationPlainText() );
                 System.out.print( " violation: " + reaction.getQuantitiesString() );
             }
@@ -103,7 +104,7 @@ public abstract class AbstractChallengeFactory implements IChallengeFactory {
                 throw new IllegalStateException( "range violation can't be fixed: " + reaction.getEquationHTML() + " : " + reaction.getQuantitiesString() );
             }
 
-            if ( DEBUG_OUTPUT_ENABLED ) {
+            if ( enableDebugOutput ) {
                 System.out.println( " fixed: " + reaction.getQuantitiesString() );
             }
         }
