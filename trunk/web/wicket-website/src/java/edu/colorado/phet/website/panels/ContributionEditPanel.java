@@ -176,6 +176,9 @@ public class ContributionEditPanel extends PhetPanel {
         public ContributionForm( String id ) {
             super( id );
 
+            // for ajax fallback link
+            setOutputMarkupId( true );
+
             setMultiPart( true );
             setMaxSize( Bytes.megabytes( 64 ) );
 
@@ -311,9 +314,6 @@ public class ContributionEditPanel extends PhetPanel {
         private class ExistingListView extends ListView {
             public ExistingListView( String id ) {
                 super( id, existingFiles );
-
-                // for ajax fallback link
-                setOutputMarkupId( true );
             }
 
             protected void populateItem( ListItem item ) {
@@ -323,7 +323,7 @@ public class ContributionEditPanel extends PhetPanel {
                     public void onClick( AjaxRequestTarget target ) {
                         existingFiles.remove( cfile );
                         filesToRemove.add( cfile );
-                        target.addComponent( ExistingListView.this );
+                        target.addComponent( ContributionForm.this );
                     }
                 } );
             }
