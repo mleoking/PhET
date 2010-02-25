@@ -262,7 +262,12 @@ public class NeuronCanvas extends PhetPCanvas {
     public void setZoomFactor(double zoomFactor){
     	if (this.zoomFactor != zoomFactor){
     		myWorldNode.setTransform(new AffineTransform());
-    		myWorldNode.scaleAboutPoint(zoomFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 0);
+    		if (zoomFactor > 2){
+    			myWorldNode.scaleAboutPoint(zoomFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2, (zoomFactor - 2) * model.getAxonMembrane().getCrossSectionDiameter() * 0.1);
+    		}
+    		else{
+    			myWorldNode.scaleAboutPoint(zoomFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 0);
+    		}
     		this.zoomFactor = zoomFactor;
     		notifyZoomChanged();
     	}
