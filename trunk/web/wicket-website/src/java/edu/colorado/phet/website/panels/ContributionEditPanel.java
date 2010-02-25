@@ -5,10 +5,14 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.lang.Bytes;
@@ -20,6 +24,8 @@ import edu.colorado.phet.website.panels.lists.LevelSetManager;
 import edu.colorado.phet.website.panels.lists.SimSetManager;
 import edu.colorado.phet.website.panels.lists.SubjectSetManager;
 import edu.colorado.phet.website.panels.lists.TypeSetManager;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 
 public class ContributionEditPanel extends PhetPanel {
@@ -36,6 +42,9 @@ public class ContributionEditPanel extends PhetPanel {
     private LevelSetManager levelManager;
     private SubjectSetManager subjectManager;
 
+    private List existingFiles;
+    private List filesToRemove;
+
     public ContributionEditPanel( String id, PageContext context, Contribution preContribution ) {
         super( id, context );
 
@@ -46,6 +55,22 @@ public class ContributionEditPanel extends PhetPanel {
         contribution = preContribution;
 
         creating = contribution.getId() == 0;
+
+        existingFiles = new LinkedList();
+        filesToRemove = new LinkedList();
+
+        if ( !creating ) {
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    List list = session.createQuery( "select f from ContributionFile as f where f.contribution.id = :cid" )
+                            .setInteger( "cid", contribution.getId() ).list();
+                    for ( Object o : list ) {
+                        existingFiles.add( o );
+                    }
+                    return true;
+                }
+            } );
+        }
 
         // initialize selectors
 
@@ -231,6 +256,8 @@ public class ContributionEditPanel extends PhetPanel {
             add( std912F );
             std912G = new CheckBox( "std912G", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912G() ) ) );
             add( std912G );
+
+            add( new ExistingListView( "existing-files" ) );
         }
 
         @Override
@@ -278,6 +305,27 @@ public class ContributionEditPanel extends PhetPanel {
             }
             else {
                 submittingComponent.onSubmit();
+            }
+        }
+
+        private class ExistingListView extends ListView {
+            public ExistingListView( String id ) {
+                super( id, existingFiles );
+
+                // for ajax fallback link
+                setOutputMarkupId( true );
+            }
+
+            protected void populateItem( ListItem item ) {
+                final ContributionFile cfile = (ContributionFile) item.getModel().getObject();
+                item.add( new Label( "file-name", cfile.getFilename() ) );
+                item.add( new AjaxFallbackLink( "remove-link" ) {
+                    public void onClick( AjaxRequestTarget target ) {
+                        existingFiles.remove( cfile );
+                        filesToRemove.add( cfile );
+                        target.addComponent( ExistingListView.this );
+                    }
+                } );
             }
         }
     }
