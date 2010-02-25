@@ -151,8 +151,16 @@ public class PhetWicketApplication extends WebApplication {
         return getFileFromLocation( getServletContext().getInitParameter( PHET_DOWNLOAD_ROOT ) );
     }
 
+    public File getActivitiesRoot() {
+        return new File( getPhetDownloadRoot(), "activities" );
+    }
+
     public String getPhetDownloadLocation() {
         return getServletContext().getInitParameter( PHET_DOWNLOAD_LOCATION );
+    }
+
+    public String getActivitiesLocation() {
+        return getPhetDownloadLocation() + "/activities";
     }
 
     public static File getFileFromLocation( String location ) {

@@ -21,7 +21,7 @@ public class ContributionFile implements Serializable {
     private static Logger logger = Logger.getLogger( ContributionFile.class.getName() );
 
     public File getFileLocation() {
-        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getPhetDownloadRoot(), getRelativeLocation() );
+        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesRoot(), getRelativeLocation() );
     }
 
     public String getRelativeLocation() {
@@ -43,8 +43,14 @@ public class ContributionFile implements Serializable {
         };
     }
 
+    /**
+     * Used for transferring files from the old data
+     *
+     * @param id
+     * @return
+     */
     public File getTmpFileLocation( String id ) {
-        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getPhetDownloadRoot(), "tmp" + id + "/" + filename.replace( '/', '_' ) );
+        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesRoot(), "tmp" + id + "/" + filename.replace( '/', '_' ) );
     }
 
     public ContributionFile() {

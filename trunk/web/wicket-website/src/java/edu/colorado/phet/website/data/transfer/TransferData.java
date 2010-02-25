@@ -179,7 +179,7 @@ public class TransferData {
 
                 logger.info( "initial contribution comment setup complete" );
 
-                File downloadMainDir = PhetWicketApplication.getFileFromLocation( servletContext.getInitParameter( PhetWicketApplication.PHET_DOWNLOAD_ROOT ) );
+                File downloadMainDir = ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesRoot();
 
                 if ( downloadMainDir == null ) {
                     return false;
@@ -356,6 +356,12 @@ public class TransferData {
 
                 logger.info( "initial contribution simulation mapping setup complete" );
 
+                deleteAllInQuery( session, "select x from ContributionComment as x" );
+                deleteAllInQuery( session, "select x from ContributionFile as x" );
+                deleteAllInQuery( session, "select x from ContributionLevel as x" );
+                deleteAllInQuery( session, "select x from ContributionSubject as x" );
+                deleteAllInQuery( session, "select x from ContributionType as x" );
+
                 List currentContributions = session.createQuery( "select c from Contribution as c" ).list();
                 for ( Object o : currentContributions ) {
                     session.delete( o );
@@ -373,12 +379,6 @@ public class TransferData {
                     session.delete( user );
                 }
 
-                deleteAllInQuery( session, "select x from ContributionComment as x" );
-                deleteAllInQuery( session, "select x from ContributionFile as x" );
-                deleteAllInQuery( session, "select x from ContributionLevel as x" );
-                deleteAllInQuery( session, "select x from ContributionSubject as x" );
-                deleteAllInQuery( session, "select x from ContributionType as x" );
-
                 for ( Object ob : newObs ) {
                     session.save( ob );
                 }
@@ -392,8 +392,9 @@ public class TransferData {
 
             oversuccess = HibernateUtils.wrapTransaction( session, new HibernateTask() {
                 public boolean run( Session session ) {
-                    List cfiles = session.createQuery( "select f from ContributionFile as f" ).list();
 
+                    // copy over all of the contribution files to their permanent homes
+                    List cfiles = session.createQuery( "select f from ContributionFile as f" ).list();
                     for ( Object o : cfiles ) {
                         ContributionFile cfile = (ContributionFile) o;
                         File oldFile = cfile.getTmpFileLocation( cfile.getLocation() );
@@ -403,6 +404,19 @@ public class TransferData {
                         oldFile.getParentFile().delete();
                         cfile.setLocation( cfile.getFileLocation().getAbsolutePath() );
                         session.update( cfile );
+                    }
+
+                    List contribs = session.createQuery( "select c from Contribution as c" ).list();
+                    try {
+                        for ( Object o : contribs ) {
+                            Contribution contribution = (Contribution) o;
+                            contribution.createZipFile();
+                        }
+                    }
+                    catch( IOException e ) {
+                        e.printStackTrace();
+                        logger.warn( "contribution zipping", e );
+                        return false;
                     }
 
                     return true;

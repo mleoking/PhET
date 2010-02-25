@@ -1,11 +1,12 @@
 package edu.colorado.phet.website.data.contribution;
 
-import java.io.File;
-import java.io.Serializable;
+import java.io.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.log4j.Logger;
 
@@ -91,7 +92,42 @@ public class Contribution implements Serializable {
     }
 
     public File getZipFile() {
-        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getPhetDownloadRoot(), id + "/" + id + "-" + StringUtils.escapeFileString( title ) + ".zip" );
+        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesRoot(), "/zip/" + getZipName() + ".zip" );
+    }
+
+    public String getZipName() {
+        return id + "-" + StringUtils.escapeFileString( title );
+    }
+
+    public String getZipLocation() {
+        return ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesLocation() + "/zip/" + getZipName() + ".zip";
+    }
+
+    public void createZipFile() throws IOException {
+        File zipFile = getZipFile();
+        zipFile.getParentFile().mkdirs();
+        ZipOutputStream zout = new ZipOutputStream( new FileOutputStream( zipFile ) );
+
+        String zipName = getZipName();
+
+        for ( Object o : getFiles() ) {
+            ContributionFile cfile = (ContributionFile) o;
+            File file = cfile.getFileLocation();
+
+            zout.putNextEntry( new ZipEntry( zipName + "/" + cfile.getFilename() ) );
+
+            FileInputStream fin = new FileInputStream( file );
+            final int bufsize = 1024;
+            byte[] buf = new byte[bufsize];
+            int len;
+            while ( ( len = fin.read( buf ) ) != -1 ) {
+                zout.write( buf, 0, len );
+            }
+        }
+
+        zout.finish();
+        zout.flush();
+        zout.close();
     }
 
     public void addComment( ContributionComment comment ) {

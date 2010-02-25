@@ -15,6 +15,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.SearchResultsPage;
 import edu.colorado.phet.website.content.SimulationPage;
@@ -66,6 +67,8 @@ public class ContributionMainPanel extends PhetPanel {
                 item.add( new Label( "file-size", ( file.getSize() / 1000 ) + " kB" ) );
             }
         } );
+
+        add( new PhetLink( "zip-link", contribution.getZipLocation() ) );
 
         add( new Label( "authors", contribution.getAuthors() ) );
         add( new Label( "contact-email", contribution.getContactEmail() ) );
