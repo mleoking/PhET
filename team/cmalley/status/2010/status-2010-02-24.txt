@@ -19,7 +19,7 @@ ACCOMPLISHMENTS:
   
   Piccolo:
   - regression tested 1.3-rc3, voted to support
-  - #2171, PSwing bug with dynamic Components (reported as Piccolo issue 163)
+  - #2171, PSwing bug with dynamic Components (investigated, isolated, reported as Piccolo issue 163)
   
   misc:
   - status meeting
