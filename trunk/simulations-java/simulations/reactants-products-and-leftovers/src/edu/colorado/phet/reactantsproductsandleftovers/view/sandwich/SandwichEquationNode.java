@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.view.sandwich;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -16,8 +18,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.controls.IntegerSpinnerNo
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Product.ProductChangeAdapter;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Product.ProductChangeListener;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeListener;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
@@ -26,6 +26,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.PlusNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 
@@ -49,7 +50,6 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
     private final PNode arrowNode;
     private final ArrayList<PNode> lhsCoefficientNodes, lhsImageNodes, lhsPlusNodes, rhsCoefficientNodes, rhsImageNodes, rhsPlusNodes;
     private final ArrayList<ReactantChangeListener> reactantChangeListeners;
-    private final ArrayList<ProductChangeListener> productChangeListeners;
     private final ChangeListener reactionChangeListener;
     private final PText noReactionNode;
     
@@ -63,12 +63,20 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
         titleNode.setFont( TITLE_FONT );
         addChild( titleNode );
         
+        // image change listener, for sandwich image
+        PropertyChangeListener imageChangeListener = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                if ( evt.getPropertyName().equals( PImage.PROPERTY_IMAGE ) ) {
+                    updateLayout();
+                }
+            }
+        };
+        
         // left side (reactants)
         lhsCoefficientNodes = new ArrayList<PNode>();
         lhsImageNodes = new ArrayList<PNode>();
         lhsPlusNodes = new ArrayList<PNode>();
         reactantChangeListeners = new ArrayList<ReactantChangeListener>();
-        productChangeListeners = new ArrayList<ProductChangeListener>();
         Reactant[] reactants = reaction.getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
             
@@ -131,19 +139,10 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
             
             // image
             final SubstanceImageNode imageNode = new SubstanceImageNode( product );
+            imageNode.addPropertyChangeListener( imageChangeListener );
             imageNode.scale( RPALConstants.EQUATION_IMAGE_SCALE );
             addChild( imageNode );
             rhsImageNodes.add( imageNode );
-            
-            ProductChangeListener listener = new ProductChangeAdapter() {
-                @Override
-                // sandwich image will change based on coefficient values of bread, meat and cheese
-                public void imageChanged() {
-                    updateLayout();
-                }
-            };
-            product.addProductChangeListener( listener );
-            productChangeListeners.add( listener );
             
              // plus sign
             if ( i < products.length - 1 ) {
@@ -178,11 +177,6 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
         Reactant[] reactants = reaction.getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
             reactants[i].removeReactantChangeListener( reactantChangeListeners.get( i ) );
-        }
-        // product listeners
-        Product[] products = reaction.getProducts();
-        for ( int i = 0; i < products.length; i++ ) {
-            products[i].removeProductChangeListener( productChangeListeners.get( i ) );
         }
     }
     
