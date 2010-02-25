@@ -1,3 +1,4 @@
+2/24/10 revert to game timer "on" by default
 # 0.00.30 (38910) Feb 24, 2010
 2/24/10 #2161, reallocate GameSummaryNode as needed, rather than update it, to workaround PSwing bug #2171
 2/24/10 make "Hide molecules" feature hide the images below histogram bars before the box that has the givens
