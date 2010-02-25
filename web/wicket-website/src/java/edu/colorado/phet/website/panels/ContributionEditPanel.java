@@ -11,19 +11,18 @@ import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
+import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.lang.Bytes;
+import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.*;
-import edu.colorado.phet.website.panels.lists.LevelSetManager;
-import edu.colorado.phet.website.panels.lists.SimSetManager;
-import edu.colorado.phet.website.panels.lists.SubjectSetManager;
-import edu.colorado.phet.website.panels.lists.TypeSetManager;
+import edu.colorado.phet.website.panels.lists.*;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
@@ -189,6 +188,7 @@ public class ContributionEditPanel extends PhetPanel {
             add( organizationText );
 
             emailText = new RequiredTextField( "contribution.edit.email", new Model( creating ? "" : contribution.getContactEmail() ) );
+            emailText.add( EmailAddressValidator.getInstance() );
             add( emailText );
 
             titleText = new RequiredTextField( "contribution.edit.title", new Model( creating ? "" : contribution.getTitle() ) );
@@ -203,9 +203,12 @@ public class ContributionEditPanel extends PhetPanel {
             uploadPanel = new MultipleFileUploadPanel( "file-upload", context );
             add( uploadPanel );
 
-            add( simManager.getComponent( "simulations", context ) );
-            add( typeManager.getComponent( "types", context ) );
-            add( levelManager.getComponent( "levels", context ) );
+            final SortedList<SimOrderItem> simList = simManager.getComponent( "simulations", context );
+            add( simList );
+            final SortedList<EnumSetManager.ListItem<Type>> typeList = typeManager.getComponent( "types", context );
+            add( typeList );
+            final SortedList<EnumSetManager.ListItem<Level>> levelList = levelManager.getComponent( "levels", context );
+            add( levelList );
 
             add( subjectManager.getComponent( "subjects", context ) );
 
@@ -261,6 +264,38 @@ public class ContributionEditPanel extends PhetPanel {
             add( std912G );
 
             add( new ExistingListView( "existing-files" ) );
+
+            add( new AbstractFormValidator() {
+                public FormComponent[] getDependentFormComponents() {
+                    return new FormComponent[]{uploadPanel.getField()};
+                }
+
+                public void validate( Form form ) {
+                    uploadPanel.getField().updateModel();
+                    if ( uploadPanel.getUploadedFiles().size() + existingFiles.size() == 0 ) {
+                        error( uploadPanel.getField(), "contribution.edit.validation.mustHaveFiles" );
+                    }
+                }
+            } );
+
+            add( new AbstractFormValidator() {
+                public FormComponent[] getDependentFormComponents() {
+                    return new FormComponent[]{simList.getFormComponent(), typeList.getFormComponent(), levelList.getFormComponent()};
+                }
+
+                public void validate( Form form ) {
+                    if ( simManager.getSimulations().isEmpty() ) {
+                        error( simList.getFormComponent(), "contribution.edit.validation.mustHaveSims" );
+                    }
+                    if ( typeManager.getValues().isEmpty() ) {
+                        error( typeList.getFormComponent(), "contribution.edit.validation.mustHaveTypes" );
+                    }
+                    if ( levelManager.getValues().isEmpty() ) {
+                        error( levelList.getFormComponent(), "contribution.edit.validation.mustHaveLevels" );
+                    }
+                }
+            } );
+
         }
 
         @Override
