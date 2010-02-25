@@ -6,7 +6,6 @@ DEADLINES
 HIGH PRIORITY
 - design/relationship of GameCanvas and GameModel is confusing and brittle, redesign
 - GameBeforeNode and GameAfterNode showGuess and showAnswer are confusing and brittle, redesign
-- make histograms optional in code, publish a version without
 
 MEDIUM PRIORITY
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left, RHS of equation moves around

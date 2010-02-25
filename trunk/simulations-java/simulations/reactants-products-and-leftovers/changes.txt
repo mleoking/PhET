@@ -1,3 +1,5 @@
+2/25/10 publish a version without histograms for interviews
+2/25/10 add a flag in the code to show/hide histogram bars
 # 0.00.32 (38931) Feb 25, 2010
 2/25/10 have exactly one zero-products challenge per level
 # 0.00.31 (38914) Feb 24, 2010
