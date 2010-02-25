@@ -35,6 +35,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ValueNode extends PhetPNode {
     
+    // make it possible to hide the histogram bars, so we can test the value of this feature
+    private static final boolean USE_HISTOGRAMS = false;
+    
     private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;
     private static final Font VALUE_FONT = new PhetFont( 24 );
     private static final Font NAME_FONT = new PhetFont( 18 );
@@ -82,7 +85,9 @@ public class ValueNode extends PhetPNode {
         valueNode.setFont( VALUE_FONT );
         
         // rendering order
-        addChild( barNode );
+        if ( USE_HISTOGRAMS ) {
+            addChild( barNode );
+        }
         addChild( imageNode );
         if ( name != null ) {
             addChild( nameNode );
@@ -161,26 +166,46 @@ public class ValueNode extends PhetPNode {
     }
     
     private void updateLayout() {
-        // origin at top center of bar
-        double x = -( barNode.getFullBoundsReference().getWidth() / 2 );
-        double y = 0;
-        barNode.setOffset( x, y );
-        // spinner at lower left of histogram bar
-        x = barNode.getFullBoundsReference().getMinX() - spinnerNode.getFullBoundsReference().getWidth() - 2;
-        y = HISTOGRAM_BAR_SIZE.getHeight() - spinnerNode.getFullBoundsReference().getHeight();
-        spinnerNode.setOffset( x, y );
-        // read-only value at lower left of bar
-        x = barNode.getFullBoundsReference().getMinX() - valueNode.getFullBoundsReference().getWidth() - 6;
-        y = barNode.getFullBoundsReference().getMaxY() - valueNode.getFullBoundsReference().getHeight();
-        valueNode.setOffset( x, y );
-        // image centered below bar
-        x = barNode.getFullBoundsReference().getCenterX() - ( imageNode.getFullBoundsReference().getWidth() / 2 );
-        y = barNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( imageNode ) + 15;
-        imageNode.setOffset( x, y );
-        // name centered below image
-        x = imageNode.getFullBoundsReference().getCenterX() - ( nameNode.getFullBoundsReference().getWidth() / 2 );
-        y = imageNode.getFullBoundsReference().getMaxY() + 3;
-        nameNode.setOffset( x, y );
+        if ( USE_HISTOGRAMS ) {
+            // origin at top center of bar
+            double x = -( barNode.getFullBoundsReference().getWidth() / 2 );
+            double y = 0;
+            barNode.setOffset( x, y );
+            // spinner at lower left of histogram bar
+            x = barNode.getFullBoundsReference().getMinX() - spinnerNode.getFullBoundsReference().getWidth() - 2;
+            y = HISTOGRAM_BAR_SIZE.getHeight() - spinnerNode.getFullBoundsReference().getHeight();
+            spinnerNode.setOffset( x, y );
+            // read-only value at lower left of bar
+            x = barNode.getFullBoundsReference().getMinX() - valueNode.getFullBoundsReference().getWidth() - 6;
+            y = barNode.getFullBoundsReference().getMaxY() - valueNode.getFullBoundsReference().getHeight();
+            valueNode.setOffset( x, y );
+            // image centered below bar
+            x = barNode.getFullBoundsReference().getCenterX() - ( imageNode.getFullBoundsReference().getWidth() / 2 );
+            y = barNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( imageNode ) + 15;
+            imageNode.setOffset( x, y );
+            // name centered below image
+            x = imageNode.getFullBoundsReference().getCenterX() - ( nameNode.getFullBoundsReference().getWidth() / 2 );
+            y = imageNode.getFullBoundsReference().getMaxY() + 3;
+            nameNode.setOffset( x, y );
+        }
+        else {
+            // read-only value centered
+            double x = -( valueNode.getFullBoundsReference().getWidth() / 2 );
+            double y = 0;
+            valueNode.setOffset( x, y );
+            // spinner centered
+            x = -( spinnerNode.getFullBoundsReference().getWidth() / 2 );
+            y = 0;
+            spinnerNode.setOffset( x, y );
+            // image centered below numbers
+            x = -( imageNode.getFullBoundsReference().getWidth() / 2 );
+            y = Math.max( valueNode.getFullBoundsReference().getMaxY(), spinnerNode.getFullBoundsReference().getMaxY() ) + 5;
+            imageNode.setOffset( x, y );
+            // name centered below image
+            x = imageNode.getFullBoundsReference().getCenterX() - ( nameNode.getFullBoundsReference().getWidth() / 2 );
+            y = imageNode.getFullBoundsReference().getMaxY() + 3;
+            nameNode.setOffset( x, y );
+        }
     }
 
     public void addChangeListener( ChangeListener listener ) {

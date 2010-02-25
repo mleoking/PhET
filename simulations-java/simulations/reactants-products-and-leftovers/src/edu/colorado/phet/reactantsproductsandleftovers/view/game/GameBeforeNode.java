@@ -75,7 +75,7 @@ public class GameBeforeNode extends AbstractBeforeNode {
         numbersHiddenNode = new GameMessageNode( RPALStrings.MESSAGE_NUMBERS_HIDDEN, Color.BLACK, 28 );
         addChild( numbersHiddenNode );
         x = ( boxSize.getWidth() - numbersHiddenNode.getFullBoundsReference().getWidth() ) / 2;
-        y = boxSize.getHeight() + 40;
+        y = boxSize.getHeight() + 15;
         numbersHiddenNode.setOffset( x, y );
         
         // default state
