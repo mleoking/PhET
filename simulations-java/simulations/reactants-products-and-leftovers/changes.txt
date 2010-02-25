@@ -1,3 +1,4 @@
+2/25/10 determined that focus traversal cannot be addressed due to PSwing bug #1922
 2/25/10 fix alignment of sandwich image in SandwichEquationNode, the layout was being updated before the image node was changed
 2/25/10 clean up listeners in SandwichEquationNode
 2/25/10 beef up output from NumberOfVariablesChallengeFactory.main test routine
