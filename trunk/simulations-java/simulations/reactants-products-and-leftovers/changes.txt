@@ -1,3 +1,4 @@
+2/25/10 optimize layout of "numbers are hidden" message depending on whether ValueNode.hasHistogramBar
 2/25/10 restore histogram bars
 # 0.00.33 (38936) Feb 25, 2010
 2/25/10 publish a version without histograms for interviews

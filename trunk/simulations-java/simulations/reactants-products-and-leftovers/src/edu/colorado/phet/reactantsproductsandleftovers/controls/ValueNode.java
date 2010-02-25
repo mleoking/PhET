@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ValueNode extends PhetPNode {
     
     // make it possible to hide the histogram bars, so we can test the value of this feature
-    private static final boolean USE_HISTOGRAMS = true;
+    private static final boolean HAS_HISTOGRAM_BAR = true;
     
     private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;
     private static final Font VALUE_FONT = new PhetFont( 24 );
@@ -85,7 +85,7 @@ public class ValueNode extends PhetPNode {
         valueNode.setFont( VALUE_FONT );
         
         // rendering order
-        if ( USE_HISTOGRAMS ) {
+        if ( HAS_HISTOGRAM_BAR ) {
             addChild( barNode );
         }
         addChild( imageNode );
@@ -121,6 +121,10 @@ public class ValueNode extends PhetPNode {
         setEditable( editable );
         this.value = value - 1; // force update
         setValue( value );
+    }
+    
+    public static boolean hasHistogramBar() {
+        return HAS_HISTOGRAM_BAR;
     }
     
     public void setValue( int value ) {
@@ -166,7 +170,7 @@ public class ValueNode extends PhetPNode {
     }
     
     private void updateLayout() {
-        if ( USE_HISTOGRAMS ) {
+        if ( HAS_HISTOGRAM_BAR ) {
             // origin at top center of bar
             double x = -( barNode.getFullBoundsReference().getWidth() / 2 );
             double y = 0;
