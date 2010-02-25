@@ -231,8 +231,8 @@ public class AxonModel implements IParticleCapture {
     	}
     	
     	// Add the initial particles.
-    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 10);
-    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 100);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 4);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 200);
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 100);
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 5);
 
@@ -310,6 +310,7 @@ public class AxonModel implements IParticleCapture {
     		else{
     			positionParticleOutsideMembrane(newParticle);
     		}
+    		newParticle.setOpaqueness(0.20);
         	concentrationTracker.updateParticleCount(newParticle.getType(), position, 1);
     	}
     }
@@ -811,8 +812,10 @@ public class AxonModel implements IParticleCapture {
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	
     	// Choose a distance which is close to but inside the membrane.
+//    	double distance = crossSectionInnerRadius - particle.getDiameter() * 2 - 
+//    		RAND.nextDouble() * particle.getDiameter() * 2;
     	double distance = crossSectionInnerRadius - particle.getDiameter() * 2 - 
-    		RAND.nextDouble() * particle.getDiameter() * 2;
+     		RAND.nextDouble() * crossSectionInnerRadius * 0.8;
     	
     	/*
     	 * TODO: The code below was used prior to 10/9/2009, which is when it
@@ -839,8 +842,10 @@ public class AxonModel implements IParticleCapture {
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	
     	// Choose a distance which is close to but outside the membrane.
+//    	double distance = crossSectionOuterRadius + particle.getDiameter() * 2 + 
+//    		RAND.nextDouble() * particle.getDiameter() * 2;
     	double distance = crossSectionOuterRadius + particle.getDiameter() * 2 + 
-    		RAND.nextDouble() * particle.getDiameter() * 2;
+		RAND.nextDouble() * crossSectionOuterRadius * 0.8;
     	
     	particle.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
