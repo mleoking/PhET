@@ -25,7 +25,8 @@ public class ContributionFile implements Serializable {
     }
 
     public String getRelativeLocation() {
-        return contribution.getId() + "/" + filename.replace( '/', '_' );
+        // added a few sanity checks on filename to prevent files being written lower down
+        return contribution.getId() + "/" + filename.replace( '/', '_' ).replace( '\\', '_' );
     }
 
     public AbstractLinker getLinker() {
@@ -50,7 +51,7 @@ public class ContributionFile implements Serializable {
      * @return
      */
     public File getTmpFileLocation( String id ) {
-        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesRoot(), "tmp" + id + "/" + filename.replace( '/', '_' ) );
+        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesRoot(), "tmp" + getRelativeLocation() );
     }
 
     public ContributionFile() {
