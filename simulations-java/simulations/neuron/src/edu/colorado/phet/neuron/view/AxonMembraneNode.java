@@ -27,6 +27,7 @@ import edu.umd.cs.piccolo.PNode;
 public class AxonMembraneNode extends PNode {
 	
 	private static final Color AXON_BODY_COLOR = new Color(221, 216, 44);
+	private static final Stroke STROKE = new BasicStroke(2f);
 	private static final boolean SHOW_GRADIENT_LINE = false;
 	
 	private AxonMembrane axonMembraneModel;
@@ -64,7 +65,7 @@ public class AxonMembraneNode extends PNode {
         		ColorUtils.darkerColor(AXON_BODY_COLOR, 0.5),
         		gradientExtent,
         		ColorUtils.brighterColor(AXON_BODY_COLOR, 0.2));
-        axonBody = new PhetPPath( axonBodyShape, axonBodyGradient, new BasicStroke(4), Color.BLACK );
+        axonBody = new PhetPPath( axonBodyShape, axonBodyGradient, STROKE, Color.BLACK );
         addChild( axonBody );
         
         double outerDiameter = axonMembraneModel.getCrossSectionDiameter() + axonMembraneModel.getMembraneThickness();
@@ -103,9 +104,9 @@ public class AxonMembraneNode extends PNode {
         // the axon.
         Shape outerDiameterCircle = mvt.createTransformedShape(new Ellipse2D.Double(-outerDiameter / 2, -outerDiameter / 2, outerDiameter, outerDiameter));
         Shape innerDiameterCircle = mvt.createTransformedShape(new Ellipse2D.Double(-innerDiameter / 2, -innerDiameter / 2, innerDiameter, innerDiameter));
-        outerMembrane = new PhetPPath( outerDiameterCircle, Color.YELLOW, new BasicStroke(4), Color.BLACK);
+        outerMembrane = new PhetPPath( outerDiameterCircle, Color.YELLOW, STROKE, Color.BLACK);
 		addChild( outerMembrane );
-        innerMembrane = new PhetPPath( innerDiameterCircle, new Color(73, 210, 242),  new BasicStroke(4), Color.BLACK);
+        innerMembrane = new PhetPPath( innerDiameterCircle, new Color(73, 210, 242),  STROKE, Color.BLACK);
 		addChild( innerMembrane );		
 
 		if (SHOW_GRADIENT_LINE){
