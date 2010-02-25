@@ -109,7 +109,7 @@ public class NeuronCanvas extends PhetPCanvas {
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.55 )),
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.5 )),
         		4,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         		true);
 
