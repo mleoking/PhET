@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.view.sandwich;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -96,6 +94,7 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
             
             ReactantChangeListener listener = new ReactantChangeAdapter() {
                 @Override
+                // user has control over bread, meat and cheese coefficients
                 public void coefficientChanged() {
                     spinnerNode.setValue( reactant.getCoefficient() );
                 }
@@ -138,8 +137,9 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
             
             ProductChangeListener listener = new ProductChangeAdapter() {
                 @Override
-                public void coefficientChanged() {
-                    coefficientNode.setText( String.valueOf( product.getCoefficient() ) );
+                // sandwich image will change based on coefficient values of bread, meat and cheese
+                public void imageChanged() {
+                    updateLayout();
                 }
             };
             product.addProductChangeListener( listener );
@@ -156,14 +156,6 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
         noReactionNode = new PText( RPALStrings.LABEL_NO_REACTION );
         noReactionNode.setFont( NO_REACTION_FONT );
         addChild( noReactionNode );
-        
-        this.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
-                    updateLayout();
-                }
-            }
-        });
         
         reactionChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
