@@ -166,7 +166,13 @@ public class Contribution implements Serializable {
     }
 
     public void addSimulation( Simulation simulation ) {
+        simulation.getContributions().add( this );
         simulations.add( simulation );
+    }
+
+    public void removeSimulation( Simulation simulation ) {
+        simulation.getContributions().remove( this );
+        simulations.remove( simulation );
     }
 
     public int getId() {

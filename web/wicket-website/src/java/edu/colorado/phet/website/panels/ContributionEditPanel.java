@@ -1,5 +1,7 @@
 package edu.colorado.phet.website.panels;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -20,12 +22,16 @@ import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.authentication.PhetSession;
+import edu.colorado.phet.website.content.ContributionBrowsePage;
+import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.panels.lists.*;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.PhetWicketApplication;
 
 public class ContributionEditPanel extends PhetPanel {
 
@@ -302,28 +308,220 @@ public class ContributionEditPanel extends PhetPanel {
         protected void onSubmit() {
             super.onSubmit();
 
-            logger.debug( "Main submission" );
+            final int ids[] = new int[1];
 
-            logger.debug( "authors: " + authorsText.getModelObjectAsString() );
+            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
 
-            for ( Simulation simulation : simManager.getSimulations() ) {
-                logger.debug( "simulation: " + simulation.getName() );
-            }
+                    // pull out values
+                    String authors = authorsText.getModelObjectAsString();
+                    String org = organizationText.getModelObjectAsString();
+                    String email = emailText.getModelObjectAsString();
+                    String title = titleText.getModelObjectAsString();
+                    String keywords = keywordsText.getModelObjectAsString();
+                    String description = descriptionText.getModelObjectAsString();
+                    int duration = ( (DurationItem) durationChoice.getModelObject() ).getDuration();
+                    boolean answers = (Boolean) answersCheck.getModelObject();
+                    Locale locale = PhetWicketApplication.getDefaultLocale(); // TODO: localize
 
-            for ( Type type : typeManager.getValues() ) {
-                logger.debug( "type: " + type );
-            }
+                    Contribution contribution;
 
-            for ( Level level : levelManager.getValues() ) {
-                logger.debug( "level: " + level );
-            }
+                    // set up the contribution
+                    if ( creating ) {
+                        contribution = new Contribution();
+                        contribution.setDateCreated( new Date() );
+                    }
+                    else {
+                        contribution = (Contribution) session.load( Contribution.class, getContribution().getId() );
+                    }
 
-            for ( Subject subject : subjectManager.getValues() ) {
-                logger.debug( "subject: " + subject );
-            }
+                    contribution.setDateUpdated( new Date() );
 
-            for ( FileUpload fileUpload : uploadPanel.getUploadedFiles() ) {
-                logger.debug( "file upload: " + fileUpload.getClientFileName() );
+                    // set simple fields
+                    contribution.setAuthors( authors );
+                    contribution.setAuthorOrganization( org );
+                    contribution.setContactEmail( email );
+                    contribution.setTitle( title );
+                    contribution.setKeywords( keywords );
+                    contribution.setDescription( description );
+                    contribution.setDuration( duration );
+                    contribution.setAnswersIncluded( answers );
+                    contribution.setStandardK4A( (Boolean) stdK4A.getModelObject() );
+                    contribution.setStandardK4B( (Boolean) stdK4B.getModelObject() );
+                    contribution.setStandardK4C( (Boolean) stdK4C.getModelObject() );
+                    contribution.setStandardK4D( (Boolean) stdK4D.getModelObject() );
+                    contribution.setStandardK4E( (Boolean) stdK4E.getModelObject() );
+                    contribution.setStandardK4F( (Boolean) stdK4F.getModelObject() );
+                    contribution.setStandardK4G( (Boolean) stdK4G.getModelObject() );
+                    contribution.setStandard58A( (Boolean) std58A.getModelObject() );
+                    contribution.setStandard58B( (Boolean) std58B.getModelObject() );
+                    contribution.setStandard58C( (Boolean) std58C.getModelObject() );
+                    contribution.setStandard58D( (Boolean) std58D.getModelObject() );
+                    contribution.setStandard58E( (Boolean) std58E.getModelObject() );
+                    contribution.setStandard58F( (Boolean) std58F.getModelObject() );
+                    contribution.setStandard58G( (Boolean) std58G.getModelObject() );
+                    contribution.setStandard912A( (Boolean) std912A.getModelObject() );
+                    contribution.setStandard912B( (Boolean) std912B.getModelObject() );
+                    contribution.setStandard912C( (Boolean) std912C.getModelObject() );
+                    contribution.setStandard912D( (Boolean) std912D.getModelObject() );
+                    contribution.setStandard912E( (Boolean) std912E.getModelObject() );
+                    contribution.setStandard912F( (Boolean) std912F.getModelObject() );
+                    contribution.setStandard912G( (Boolean) std912G.getModelObject() );
+                    contribution.setPhetUser( (PhetUser) session.load( PhetUser.class, PhetSession.get().getUser().getId() ) );
+                    contribution.setLocale( locale );
+
+                    int contribId = (Integer) session.save( contribution );
+
+                    //----------------------------------------------------------------------------
+                    // sync simulations
+                    //----------------------------------------------------------------------------
+
+                    Set sims = contribution.getSimulations();
+                    Set iterSims = new HashSet( sims );
+                    Set selectedSims = new HashSet();
+
+                    // load into persistence
+                    for ( Simulation presim : simManager.getSimulations() ) {
+                        Simulation sim = (Simulation) session.load( Simulation.class, presim.getId() );
+                        selectedSims.add( presim );
+                    }
+
+                    for ( Object sim : selectedSims ) {
+                        if ( !sims.contains( sim ) ) {
+                            logger.info( "adding sim " + ( (Simulation) sim ).getName() + " to contribution" );
+                            contribution.addSimulation( (Simulation) session.load( Simulation.class, ( (Simulation) sim ).getId() ) );
+                        }
+                    }
+
+                    for ( Object sim : iterSims ) {
+                        if ( !selectedSims.contains( sim ) ) {
+                            logger.info( "removing sim " + ( (Simulation) sim ).getName() + " from contribution" );
+                            contribution.removeSimulation( (Simulation) sim );
+                        }
+                    }
+
+                    //----------------------------------------------------------------------------
+                    // sync types
+                    //----------------------------------------------------------------------------
+
+                    Set types = contribution.getTypes();
+                    Set iterTypes = new HashSet( types );
+
+                    for ( Type type : typeManager.getValues() ) {
+                        if ( !types.contains( type ) ) {
+                            logger.info( "adding type " + type + " to contribution" );
+                            ContributionType ctype = new ContributionType();
+                            ctype.setType( type );
+                            contribution.addType( ctype );
+                            ctype.setContribution( contribution );
+                            session.save( ctype );
+                        }
+                    }
+
+                    for ( Object o : iterTypes ) {
+                        ContributionType ctype = (ContributionType) o;
+                        if ( !typeManager.getValues().contains( ctype.getType() ) ) {
+                            contribution.getTypes().remove( ctype );
+                        }
+                    }
+
+                    //----------------------------------------------------------------------------
+                    // sync levels
+                    //----------------------------------------------------------------------------
+
+                    Set levels = contribution.getLevels();
+                    Set iterLevels = new HashSet( levels );
+
+                    for ( Level level : levelManager.getValues() ) {
+                        if ( !types.contains( level ) ) {
+                            logger.info( "adding level " + level + " to contribution" );
+                            ContributionLevel clevel = new ContributionLevel();
+                            clevel.setLevel( level );
+                            contribution.addLevel( clevel );
+                            clevel.setContribution( contribution );
+                            session.save( clevel );
+                        }
+                    }
+
+                    for ( Object o : iterLevels ) {
+                        ContributionLevel clevel = (ContributionLevel) o;
+                        if ( !levelManager.getValues().contains( clevel.getLevel() ) ) {
+                            contribution.getLevels().remove( clevel );
+                        }
+                    }
+
+                    //----------------------------------------------------------------------------
+                    // sync subjects
+                    //----------------------------------------------------------------------------
+
+                    Set subjects = contribution.getSubjects();
+                    Set iterSubjects = new HashSet( subjects );
+
+                    for ( Subject subject : subjectManager.getValues() ) {
+                        if ( !subjects.contains( subject ) ) {
+                            logger.info( "adding subject " + subject + " to contribution" );
+                            ContributionSubject csubject = new ContributionSubject();
+                            csubject.setSubject( subject );
+                            contribution.addSubject( csubject );
+                            csubject.setContribution( contribution );
+                            session.save( csubject );
+                        }
+                    }
+
+                    for ( Object o : iterSubjects ) {
+                        ContributionSubject csubject = (ContributionSubject) o;
+                        if ( !subjectManager.getValues().contains( csubject.getSubject() ) ) {
+                            contribution.getSubjects().remove( csubject );
+                        }
+                    }
+
+                    //----------------------------------------------------------------------------
+                    // file removal
+                    //----------------------------------------------------------------------------
+
+                    for ( Object o : filesToRemove ) {
+                        ContributionFile cfile = (ContributionFile) o;
+                        contribution.getFiles().remove( cfile );
+                        session.delete( cfile );
+                    }
+
+                    // sanity check
+                    contribution.setId( contribId );
+                    ids[0] = contribId;
+
+                    //----------------------------------------------------------------------------
+                    // file uploads
+                    //----------------------------------------------------------------------------
+
+                    for ( FileUpload upload : uploadPanel.getUploadedFiles() ) {
+                        ContributionFile cfile = new ContributionFile();
+                        cfile.setFilename( upload.getClientFileName() );
+                        contribution.addFile( cfile );
+                        cfile.setSize( (int) upload.getSize() );
+
+                        // remember to contribution.addFile before this, otherwise it will fail
+                        cfile.setLocation( cfile.getFileLocation().getAbsolutePath() );
+                        File file = cfile.getFileLocation();
+                        file.getParentFile().mkdirs();
+                        try {
+                            upload.writeTo( file );
+                        }
+                        catch( IOException e ) {
+                            e.printStackTrace();
+                            logger.warn( "upload failed", e );
+                            return false;
+                        }
+                        session.save( cfile );
+                    }
+
+                    return true;
+                }
+            } );
+
+            if ( success ) {
+                // should redirect us. not the pretty way, however it passes in all of the correct page parameters
+                // and reduces the dependencies
+                ContributionBrowsePage.getLinker().getLink( "id", context, getPhetCycle() ).onClick();
             }
 
         }
@@ -333,6 +531,7 @@ public class ContributionEditPanel extends PhetPanel {
             // we must override the delegate submit because we will have child ajax buttons to handle adding / removing
             // things like the simulations. they should NOT trigger a full form submission.
 
+            // TODO: consider changing, (nested forms partially used now)
             // yes this is ugly, maybe nested forms could be used?
 
             logger.debug( "submit delegation from: " + submittingComponent );
@@ -424,5 +623,7 @@ public class ContributionEditPanel extends PhetPanel {
 
     }
 
-
+    private Contribution getContribution() {
+        return contribution;
+    }
 }
