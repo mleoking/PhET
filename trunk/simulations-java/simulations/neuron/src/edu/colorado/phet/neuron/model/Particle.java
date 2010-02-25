@@ -168,7 +168,7 @@ public abstract class Particle implements IMovable, IFadable {
      * assumes a round particle.
      */
     public double getDiameter(){
-    	return 2;  // Default value, override if needed to support other particles.
+    	return 1.5;  // Default value, override if needed to support other particles.
     }
     
 	/**
