@@ -1,3 +1,4 @@
+2/25/10 tested i18n coverage with a dummy translation (not checked in)
 2/25/10 optimize layout of "numbers are hidden" message depending on whether ValueNode.hasHistogramBar
 2/25/10 restore histogram bars
 # 0.00.33 (38936) Feb 25, 2010
