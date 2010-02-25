@@ -16,7 +16,6 @@ LOW PRIORITY
 - remove silence from audio files, convert to WAV PCM mono
 - expose NumberOfVariablesChallengeFactory.main as a Developer menu item
 - "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
-- set font size of spinners instead of scaling (up/down arrows don't resize on Mac)
 - javadoc
 
 WARTS:
