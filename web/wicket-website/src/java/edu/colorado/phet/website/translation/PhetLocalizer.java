@@ -73,7 +73,7 @@ public class PhetLocalizer extends Localizer {
     }
 
     public String getString( String key, Component component, IModel model, String defaultValue, boolean checkDefault ) throws MissingResourceException {
-        logger.debug( "testing key: " + key );
+        //logger.debug( "testing key: " + key );
         String lookup = null;
         Integer translationId = null;
         if ( component.getVariation() != null ) {
