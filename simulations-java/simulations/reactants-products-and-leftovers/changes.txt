@@ -1,3 +1,4 @@
+2/25/10 have exactly one zero-products challenge per level
 # 0.00.31 (38914) Feb 24, 2010
 2/24/10 revert to game timer "on" by default
 # 0.00.30 (38910) Feb 24, 2010

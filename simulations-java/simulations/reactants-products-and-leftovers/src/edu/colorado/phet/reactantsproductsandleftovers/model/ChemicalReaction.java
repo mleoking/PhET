@@ -111,49 +111,6 @@ public class ChemicalReaction {
         return ( greaterThanZero > 1 || greaterThanOne > 0 );
     }
     
-    public String getEquationHTML() {
-        return getEquationHTML( reactants, products );
-    }
-    
-    /**
-     * Removes the <sub> tags from the HTML form of the equation.
-     * This is intended for use in debug output, where HTML is difficult to read.
-     * @return
-     */
-    public String getEquationPlainText() {
-        return getEquationHTML().replaceAll( "<sub>", "" ).replaceAll( "</sub>", "" );
-    }
-    
-    /**
-     * Example: 4,1 -> 1,2,2,0
-     * @return
-     */
-    public String getQuantitiesString() {
-        String s = "";
-        // reactants
-        for ( int i = 0; i < reactants.length; i++ ) {
-            if ( i != 0 ) {
-                s += ",";
-            }
-            s += String.valueOf( reactants[i].getQuantity() );
-        }
-        // arrow
-        s += " -> ";
-        // products
-        for ( int i = 0; i < products.length; i++ ) {
-            if ( i != 0 ) {
-                s += ",";
-            }
-            s += String.valueOf( products[i].getQuantity() );
-        }
-        // leftovers
-        for ( int i = 0; i < reactants.length; i++ ) {
-            s += ",";
-            s += String.valueOf( reactants[i].getLeftovers() );
-        }
-        return s;
-    }
-    
     /*
      * Updates the quantities of products and leftovers.
      */
@@ -228,6 +185,14 @@ public class ChemicalReaction {
         }
     }
     
+    public String toString() {
+        return getEquationPlainText() + " " + getQuantitiesString();
+    }
+    
+    public String getEquationHTML() {
+        return getEquationHTML( reactants, products );
+    }
+    
     /*
      * Creates an HTML fragment representation of the reaction's equation.
      * Example: 2F<sub>2</sub>+1H<sub>2</sub>O->1OF<sub>2</sub>+2HF
@@ -248,6 +213,45 @@ public class ChemicalReaction {
             }
             s += products[i].getCoefficient();
             s += products[i].getName();
+        }
+        return s;
+    }
+    
+    /**
+     * Removes the <sub> tags from the HTML form of the equation.
+     * This is intended for use in debug output, where HTML is difficult to read.
+     * @return
+     */
+    public String getEquationPlainText() {
+        return getEquationHTML().replaceAll( "<sub>", "" ).replaceAll( "</sub>", "" );
+    }
+    
+    /**
+     * Example: 4,1 -> 1,2,2,0
+     * @return
+     */
+    public String getQuantitiesString() {
+        String s = "";
+        // reactants
+        for ( int i = 0; i < reactants.length; i++ ) {
+            if ( i != 0 ) {
+                s += ",";
+            }
+            s += String.valueOf( reactants[i].getQuantity() );
+        }
+        // arrow
+        s += " -> ";
+        // products
+        for ( int i = 0; i < products.length; i++ ) {
+            if ( i != 0 ) {
+                s += ",";
+            }
+            s += String.valueOf( products[i].getQuantity() );
+        }
+        // leftovers
+        for ( int i = 0; i < reactants.length; i++ ) {
+            s += ",";
+            s += String.valueOf( reactants[i].getLeftovers() );
         }
         return s;
     }
