@@ -94,6 +94,7 @@ public class AxonModel implements IParticleCapture {
         clock.addClockListener(new ClockAdapter(){
 			@Override
 			public void clockTicked(ClockEvent clockEvent) {
+				System.out.println(clockEvent.getWallTimeChange());
 				stepInTime( clockEvent.getSimulationTimeChange() );
 			}
         });
@@ -231,10 +232,10 @@ public class AxonModel implements IParticleCapture {
     	}
     	
     	// Add the initial particles.
-//    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 1);
-//    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 10);
-//    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 10);
-//    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 1);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 10);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 100);
+    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 100);
+    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 5);
 
     	// Add the initial channels.
     	for (int i = 0; i < 4; i++){
@@ -470,7 +471,11 @@ public class AxonModel implements IParticleCapture {
      * @return
      */
     public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity){
-    	
+
+    	/*
+    	 * TODO: For an experiment, I am trying to have all requested particles
+    	 * be generated and never found, so that existing particles are left
+    	 * alone.  
     	// Scan the capture zone for particles of the desired type.
     	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getCaptureZone(), particleType);
     	Particle particleToCapture = czsr.getClosestFreeParticle();
@@ -481,6 +486,11 @@ public class AxonModel implements IParticleCapture {
     		newParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005));
    			particleToCapture = newParticle;
     	}
+    	*/
+    	Particle particleToCapture;
+		Particle newParticle = createParticle(particleType, channel.getCaptureZone());
+		newParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005));
+			particleToCapture = newParticle;
     	particleToCapture.setMotionStrategy(
     			new MembraneChannelTraversalMotionStrategy(channel, particleToCapture.getPosition(), maxVelocity));
     }
