@@ -13,6 +13,7 @@ import java.beans.PropertyChangeListener;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALAudioPlayer;
@@ -117,7 +118,7 @@ public class GameCanvas extends RPALCanvas {
         parentNode.addChild( scoreboardNode );
 
         // face, for indicating correct/incorrect guess
-        faceNode = new FaceNode();
+        faceNode = new FaceNode( 150, new Color( 255, 255, 0, 180 ) );
         parentNode.addChild( faceNode );
         
         // points awarded

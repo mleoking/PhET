@@ -1,3 +1,4 @@
+2/26/10 generalize FaceNode, move to piccolo-phet
 2/25/10 investigated setting font size instead of scaling for PSwing(JSpinner), can't be done because of Mac Aqua L&F
 2/25/10 determined that focus traversal cannot be addressed due to PSwing bug #1922
 2/25/10 fix alignment of sandwich image in SandwichEquationNode, the layout was being updated before the image node was changed
