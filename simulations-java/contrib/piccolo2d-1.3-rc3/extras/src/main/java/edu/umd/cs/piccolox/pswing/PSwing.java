@@ -28,20 +28,8 @@
  */
 package edu.umd.cs.piccolox.pswing;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -323,7 +311,13 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
             public void propertyChange(final PropertyChangeEvent evt) {
                 updateBounds();
             }
-        });       
+        });    
+        component.addHierarchyBoundsListener( new HierarchyBoundsAdapter() {
+            /** {@inheritDoc} */
+            public void ancestorResized( HierarchyEvent arg0 ) {
+                updateBounds();
+            }
+        } );
 
         updateBounds();
         listenForCanvas(this);
