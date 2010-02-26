@@ -15,7 +15,6 @@ MEDIUM PRIORITY
 LOW PRIORITY
 - developer controls for setting up specific Game challenges (expensive, do this if we need it for debugging)
 - expose NumberOfVariablesChallengeFactory.main as a Developer menu item
-- "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
 - javadoc
 
 WARTS:
