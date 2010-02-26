@@ -9,11 +9,11 @@ HIGH PRIORITY
 
 MEDIUM PRIORITY
 - dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left
+- remove silence from audio files, convert to WAV PCM mono
 - small piece at rightmost edge of "How many..." message doesn't disappear (making text static did not fix this)
 
 LOW PRIORITY
 - developer controls for setting up specific Game challenges (expensive, do this if we need it for debugging)
-- remove silence from audio files, convert to WAV PCM mono
 - expose NumberOfVariablesChallengeFactory.main as a Developer menu item
 - "1 O" in equations looks like "10" to SR, increase coefficient space? use a different font?
 - javadoc
