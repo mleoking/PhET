@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
@@ -95,8 +96,7 @@ public class GameRewardNode extends PhetPNode {
             }
 
             // smiley face image
-            FaceNode faceNode = new FaceNode();
-            faceNode.scale( 0.25 );
+            FaceNode faceNode = new FaceNode( 40 );
             faceImage = faceNode.toImage();
             images.add( faceImage );
 

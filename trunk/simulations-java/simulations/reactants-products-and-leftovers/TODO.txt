@@ -24,5 +24,4 @@ WARTS:
 MIGRATE TO COMMON
 - BracketedLabelNode
 - IntegerHistogramBarNode
-- FaceNode
 - AudioResourcePlayer
