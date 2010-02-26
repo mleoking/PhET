@@ -21,6 +21,7 @@
 //   The modern code for 'Hebrew' is 'he', we use the old code 'iw'
 //   Language 'Brazilian Portuguese' has been added with code 'bp'
 //   Language 'Taiwanese Chinese' has been added with code 'tc'
+//   Language 'Friulian' has been added with code 'fu'.  See ticket #2075. 
 
 function locale_get_language_map() {
     return array(
@@ -74,7 +75,7 @@ function locale_get_language_map() {
         "fj" => "Fijian",
         "fi" => "Finnish",
         "fr" => "French",
-        "fu" => "Friulian",
+        "fu" => "Friulian", /* added code, see Ticket #2075 */
         "ff" => "Fulah",
         "gl" => "Galician",
         "lg" => "Ganda",
