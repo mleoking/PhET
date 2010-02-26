@@ -187,7 +187,7 @@ class SimulationsPage extends SitePage {
                             <img src="$sim_thumbnail_link"
                                  width="130"
                                  alt="Screenshot of {$sim->getName()} Simulation"
-                                 title="Clear here to view the {$sim->getName()} simulation"
+                                 title="Click here to view the {$sim->getName()} simulation"
                              />
                         </a>
 
