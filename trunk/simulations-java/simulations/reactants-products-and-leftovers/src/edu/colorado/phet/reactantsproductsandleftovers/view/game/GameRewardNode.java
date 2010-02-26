@@ -42,6 +42,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class GameRewardNode extends PhetPNode {
     
     private static final int DEFAULT_CLOCK_DELAY = 60; // ms
+    private static final double FACE_DIAMETER = 40; // size of smiley face images
 
     private final ConstantDtClock clock;
     private final ArrayList<Image> images;
@@ -52,6 +53,11 @@ public class GameRewardNode extends PhetPNode {
     private int motionDelta;
     private IMotionStrategy motionStrategy;
     
+    /**
+     * An image node that has an associated motion delta.
+     * The motion delta is used by an IMotionStrategy to determine 
+     * how far an MovingImageNode moves on each animation step.
+     */
     private static class MovingImageNode extends PImage {
 
         private int motionDelta;
@@ -70,10 +76,20 @@ public class GameRewardNode extends PhetPNode {
         }
     }
     
+    /**
+     * Zero-args constructor.
+     * The this(...) arguments are not really relevant, just something to get us started.
+     */
     public GameRewardNode() {
         this( new PBounds( 0, 0, 100, 100 ), 100, 5 );
     }
 
+    /**
+     * Constructor.
+     * @param bounds images are constrained to motion within these bounds
+     * @param population how many images in the animation
+     * @param motionDelta nominal motion delta, may be randomly adjusted for each specific image
+     */
     public GameRewardNode( PBounds bounds, int population, int motionDelta ) {
         super();
         setPickable( false );
@@ -96,7 +112,7 @@ public class GameRewardNode extends PhetPNode {
             }
 
             // smiley face image
-            FaceNode faceNode = new FaceNode( 40 );
+            FaceNode faceNode = new FaceNode( FACE_DIAMETER );
             faceImage = faceNode.toImage();
             images.add( faceImage );
 
@@ -122,31 +138,37 @@ public class GameRewardNode extends PhetPNode {
         setBounds( bounds );
     }
     
+    /**
+     * Sets the animation parameters based on game difficulty level
+     * and whether the user got a perfect score.
+     * @param level
+     * @param perfectScore
+     */
     public void setLevel( int level, boolean perfectScore ) {
         if ( perfectScore ) {
+            
+            // all levels share these settings for a perfect score
+            setClockDelay( 40 );
+            setPopulation( 200 );
+            setMotionDelta( 10 );
+            
             switch ( level ) {
             case 1:
-                setClockDelay( 40 );
-                setPopulation( 200 );
-                setMotionDelta( 10 );
+                // show only molecules
                 setMoleculesVisible( true );
                 setSmileyFacesVisible( false );
                 setSandwichesVisible( false );
                 break;
                 
             case 2:
-                setClockDelay( 40 );
-                setPopulation( 200 );
-                setMotionDelta( 10 );
+                // show only smiley faces
                 setMoleculesVisible( false );
                 setSmileyFacesVisible( true );
                 setSandwichesVisible( false );
                 break;
                 
             case 3:
-                setClockDelay( 40 );
-                setPopulation( 200 );
-                setMotionDelta( 10 );
+                // show only sandwiches
                 setMoleculesVisible( false );
                 setSmileyFacesVisible( false );
                 setSandwichesVisible( true );
@@ -157,15 +179,23 @@ public class GameRewardNode extends PhetPNode {
             }
         }
         else {
-            setClockDelay( 40 );
-            setPopulation( 50 );
-            setMotionDelta( 2 );
+            // show nothing
             setMoleculesVisible( false );
             setSmileyFacesVisible( false );
             setSandwichesVisible( false );
+            // these settings give the feeling of slow and not exciting, included in case we ever decide to show something
+            setClockDelay( 40 );
+            setPopulation( 50 );
+            setMotionDelta( 2 );
         }
     }
 
+    /**
+     * When this node's bounds are changes, all images are repopulated
+     * so that the images are distributed randomly throughout the entire bounds.
+     * @param bounds
+     */
+    @Override
     public boolean setBounds( Rectangle2D bounds ) {
         if ( bounds.isEmpty() ) {
             throw new IllegalArgumentException( "bounds are empty" );
@@ -178,33 +208,33 @@ public class GameRewardNode extends PhetPNode {
         return boundsChanged;
     }
 
-    public void setClockDelay( int delay ) {
+    private void setClockDelay( int delay ) {
         clock.setDelay( delay );
     }
 
-    public int getClockDelay() {
+    private int getClockDelay() {
         return clock.getDelay();
     }
 
-    public void setPopulation( int population ) {
+    private void setPopulation( int population ) {
         if ( !( population > 0 ) ) {
             throw new IllegalArgumentException( "population must be > 0: " + population );
         }
-        if ( population != this.population ) {
+        if ( population != getPopulation() ) {
             this.population = population;
             updateImages( false /* removeImages */);
         }
     }
 
-    public int getPopulation() {
+    private int getPopulation() {
         return population;
     }
 
-    public void setMotionDelta( int motionDelta ) {
+    private void setMotionDelta( int motionDelta ) {
         if ( !( motionDelta > 0 ) ) {
             throw new IllegalArgumentException( "motionDelta must be > 0: " + motionDelta );
         }
-        if ( motionDelta != this.motionDelta ) {
+        if ( motionDelta != getMotionDelta() ) {
             this.motionDelta = motionDelta;
             for ( int i = 0; i < getChildrenCount(); i++ ) {
                 if ( getChild( i ) instanceof MovingImageNode ) {
@@ -215,11 +245,11 @@ public class GameRewardNode extends PhetPNode {
         }
     }
 
-    public int getMotionDelta() {
+    private int getMotionDelta() {
         return motionDelta;
     }
 
-    public void setSmileyFacesVisible( boolean visible ) {
+    private void setSmileyFacesVisible( boolean visible ) {
         if ( visible != isSmileyFacesVisible() ) {
             if ( visible ) {
                 images.add( faceImage );
@@ -231,11 +261,11 @@ public class GameRewardNode extends PhetPNode {
         }
     }
 
-    public boolean isSmileyFacesVisible() {
+    private boolean isSmileyFacesVisible() {
         return images.contains( faceImage );
     }
 
-    public void setSandwichesVisible( boolean visible ) {
+    private void setSandwichesVisible( boolean visible ) {
         if ( visible != isSandwichesVisible() ) {
             if ( visible ) {
                 images.add( sandwichImage );
@@ -253,11 +283,11 @@ public class GameRewardNode extends PhetPNode {
         }
     }
 
-    public boolean isSandwichesVisible() {
+    private boolean isSandwichesVisible() {
         return images.contains( sandwichImage );
     }
     
-    public void setMoleculesVisible( boolean visible ) {
+    private void setMoleculesVisible( boolean visible ) {
         if ( visible != isMoleculesVisible() ) {
             if ( visible ) {
                 for ( Image image : RPALImages.ALL_MOLECULES ) {
@@ -273,14 +303,20 @@ public class GameRewardNode extends PhetPNode {
         }
     }
 
-    public boolean isMoleculesVisible() {
+    private boolean isMoleculesVisible() {
         return images.contains( RPALImages.ALL_MOLECULES[0] );
     }
     
-    public void setMotionStrategy( IMotionStrategy motionStrategy ) {
+    private void setMotionStrategy( IMotionStrategy motionStrategy ) {
         this.motionStrategy = motionStrategy;
     }
 
+    /*
+     * Updates them images to match to the current population.
+     * If removeImages is true, all existing nodes are removed.
+     * Otherwise, nodes are added/removed to match the population.
+     * The last node added is the first one removed.
+     */
     private void updateImages( boolean removeImages ) {
         if ( removeImages ) {
             removeAllChildren(); // assume that this node has only MovingImages as children
@@ -301,6 +337,9 @@ public class GameRewardNode extends PhetPNode {
         }
     }
 
+    /*
+     * Adds a random node, with a random motion delta, at a random location within this node's bounds.
+     */
     private void addRandomNode() {
         
         // choose a random motion delta
@@ -319,12 +358,20 @@ public class GameRewardNode extends PhetPNode {
         imageNode.setOffset( x, y );
     }
 
+    /*
+     * Gets a random point within a specified bounds.
+     */
     private Point2D getRandomPoint( PBounds bounds ) {
         double x = bounds.getX() + ( Math.random() * bounds.getWidth() );
         double y = bounds.getY() + ( Math.random() * bounds.getHeight() );
         return new Point2D.Double( x, y );
     }
     
+    /**
+     * This node plays when it's visible, pauses when it's invisible.
+     * @param visible
+     */
+    @Override
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         if ( visible ) {
@@ -335,20 +382,31 @@ public class GameRewardNode extends PhetPNode {
         }
     }
 
+    /**
+     * Plays the animation.
+     */
     public void play() {
-//        System.out.println( "GameRewardNode.play" );
         clock.start();
     }
 
+    /**
+     * Pauses the animation.
+     */
     public void pause() {
-//        System.out.println( "GameRewardNode.pause" );
         clock.pause();
     }
     
+    /**
+     * Is the animation running?
+     * @return
+     */
     public boolean isRunning() {
         return clock.isRunning();
     }
 
+    /*
+     * Performs one animation step for all MovingImageNodes.
+     */
     private void step() {
         PBounds bounds = getBoundsReference();
         for ( int i = 0; i < getChildrenCount(); i++ ) {
@@ -358,10 +416,21 @@ public class GameRewardNode extends PhetPNode {
         }
     }
 
+    /**
+     * Interface implemented by all motion strategies.
+     */
     public interface IMotionStrategy {
+        /**
+         * Moves a node within the specified bounds.
+         * @param node
+         * @param bounds
+         */
         public void step( MovingImageNode node, PBounds bounds );
     }
     
+    /**
+     * Node jitters around, doing a simple random walk.
+     */
     public static class JitteryMotionStrategy implements IMotionStrategy {
         
         public void step( MovingImageNode node, PBounds bounds ) {
@@ -379,6 +448,9 @@ public class GameRewardNode extends PhetPNode {
         }
     }
     
+    /**
+     * Node falls vertically.
+     */
     public static class FallingMotionStrategy implements IMotionStrategy {
         public void step( MovingImageNode node, PBounds bounds ) {
             double y = node.getYOffset() + node.getMotionDelta();
@@ -389,7 +461,10 @@ public class GameRewardNode extends PhetPNode {
         }
     }
 
-    // test harness
+    /**
+     * This application was provided to team members so that they could experiment with settings.
+     * During one stage of development, it was published to dev as flavor "game-rewards-prototype".
+     */
     public static void main( String[] args ) {
 
         // parameters that control the animation
