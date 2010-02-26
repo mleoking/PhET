@@ -4,8 +4,8 @@ package edu.colorado.phet.common.phetcommon.resources;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 
 /**
  * DefaultResourceLoader is the default loader for JAR resources.

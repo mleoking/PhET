@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.reactantsproductsandleftovers.util;
+package edu.colorado.phet.common.phetcommon.audio;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;

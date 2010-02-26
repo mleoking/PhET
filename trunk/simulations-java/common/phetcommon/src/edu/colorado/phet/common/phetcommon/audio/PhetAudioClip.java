@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.common.phetcommon.view.util;
+package edu.colorado.phet.common.phetcommon.audio;
 
 import java.io.IOException;
 import java.net.URL;
