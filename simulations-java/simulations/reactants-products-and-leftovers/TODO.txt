@@ -8,7 +8,7 @@ HIGH PRIORITY
 - GameBeforeNode and GameAfterNode showGuess and showAnswer are confusing and brittle, redesign
 
 MEDIUM PRIORITY
-- dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift left
+- dynamic sandwich image doesn't center itself properly, stacks are sometimes lop-sided or drift right
 - remove silence from audio files, convert to WAV PCM mono
 - small piece at rightmost edge of "How many..." message doesn't disappear (making text static did not fix this)
 
