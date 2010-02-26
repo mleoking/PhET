@@ -6,8 +6,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 
 public class ElectricHockeySimulationPanel extends JPanel implements Runnable {
     private int width;

@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 
 /**
  * Created by: Sam

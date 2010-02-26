@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.phetcommon.resources;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
+import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

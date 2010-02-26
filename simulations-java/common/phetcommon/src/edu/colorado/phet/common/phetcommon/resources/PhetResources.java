@@ -10,9 +10,9 @@ import java.util.Properties;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
+import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
 import edu.colorado.phet.common.phetcommon.util.logging.ILogger;
 import edu.colorado.phet.common.phetcommon.util.logging.NullLogger;
-import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 
 /**
  * PhetResources provides the facilities for accessing JAR resources.

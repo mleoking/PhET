@@ -1,6 +1,6 @@
 package edu.colorado.phet.reactantsproductsandleftovers;
 
-import edu.colorado.phet.reactantsproductsandleftovers.util.AudioResourcePlayer;
+import edu.colorado.phet.common.phetcommon.audio.AudioResourcePlayer;
 
 /**
  * Audio player for sound resources.

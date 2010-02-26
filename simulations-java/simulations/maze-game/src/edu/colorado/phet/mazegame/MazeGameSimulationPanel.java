@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
+import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
 
 public class MazeGameSimulationPanel extends JPanel {
 
