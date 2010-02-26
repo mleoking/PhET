@@ -74,6 +74,7 @@ function locale_get_language_map() {
         "fj" => "Fijian",
         "fi" => "Finnish",
         "fr" => "French",
+        "fu" => "Friulian",
         "ff" => "Fulah",
         "gl" => "Galician",
         "lg" => "Ganda",
