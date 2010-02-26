@@ -42,6 +42,9 @@ public class GameCanvas extends RPALCanvas {
     
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     
+    private static final double FACE_DIAMETER = 150;
+    private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
+    
     // node collection names, for managing visibility
     private static final String GAME_SETTINGS_STATE = "gameSetting";
     private static final String GAME_SUMMARY_STATE = "gameSummary";
@@ -118,7 +121,7 @@ public class GameCanvas extends RPALCanvas {
         parentNode.addChild( scoreboardNode );
 
         // face, for indicating correct/incorrect guess
-        faceNode = new FaceNode( 150, new Color( 255, 255, 0, 180 ) );
+        faceNode = new FaceNode( FACE_DIAMETER, FACE_COLOR );
         parentNode.addChild( faceNode );
         
         // points awarded
