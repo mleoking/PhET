@@ -5,7 +5,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.view.realreaction;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.realreaction.RealReactionModel;
 import edu.colorado.phet.reactantsproductsandleftovers.view.AbstractBeforeNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.GridLayoutNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.GridLayoutNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**

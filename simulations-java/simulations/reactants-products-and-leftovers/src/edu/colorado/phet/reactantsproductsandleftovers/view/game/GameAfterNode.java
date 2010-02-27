@@ -20,9 +20,9 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameListener;
 import edu.colorado.phet.reactantsproductsandleftovers.view.AbstractAfterNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.GridLayoutNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.GridLayoutNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
