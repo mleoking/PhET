@@ -29,6 +29,8 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * Use the "font size" spinner to change the font size.
  * Start with size=100, then decrease by 1.
  * You'll see garbage left on the canvas for any sizes that have incorrect bounds.
+ * <p>
+ * See Unfuddle #2178.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
