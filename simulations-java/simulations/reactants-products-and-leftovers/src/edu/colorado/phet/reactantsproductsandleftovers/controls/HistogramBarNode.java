@@ -8,7 +8,6 @@ import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -20,7 +19,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class IntegerHistogramBarNode extends PNode {
+public class HistogramBarNode extends PNode {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -36,7 +35,7 @@ public class IntegerHistogramBarNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final IntegerRange range;
+    private final double min, max;
     private final PDimension size;
     private final FillNode fillNode;
     
@@ -44,12 +43,13 @@ public class IntegerHistogramBarNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IntegerHistogramBarNode( IntegerRange range, PDimension size ) {
+    public HistogramBarNode( double value, double min, double max, PDimension size ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
         
-        this.range = new IntegerRange( range );
+        this.min = min;
+        this.max = max;
         this.size = new PDimension( size );
         
         // components
@@ -63,7 +63,7 @@ public class IntegerHistogramBarNode extends PNode {
         addChild( strokeNode );
         
         // initialize
-        setValue( range.getDefault() );
+        setValue( value );
     }
     
     //----------------------------------------------------------------------------
@@ -76,10 +76,10 @@ public class IntegerHistogramBarNode extends PNode {
      * @param value
      */
     public void setValue( double value ) {
-        if ( !range.contains( value ) ) {
+        if ( !( value >= min && value <= max ) ) {
             throw new IllegalArgumentException( "value is out of range: " + value );
         }
-        double height = size.getHeight() * ( value - range.getMin() ) / ( range.getLength() );
+        double height = size.getHeight() * ( value - min ) / ( max );
         fillNode.setFillHeight( height );
     }
     
