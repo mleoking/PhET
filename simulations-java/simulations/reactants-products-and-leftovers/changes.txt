@@ -1,3 +1,4 @@
+2/26/10 convert audio files to reduce file size, format=WAV codec=PCM rate=22050 channels=1 (used Switch for Mac)
 2/26/10 major changes to StackedLayoutNode, to fix layout problems with dynamic sandwich images
 2/26/10 simplify ImageLayoutNode interface
 2/26/10 disable debug output that warns when all cells are occupied
