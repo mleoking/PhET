@@ -22,6 +22,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public abstract class ImageLayoutNode extends PhetPNode {
     
+    private static final boolean ENABLE_DEBUG_OUTPUT = false;
+    
     private final PDimension boxSize;
     
     public ImageLayoutNode( PDimension boxSize ) {
@@ -175,6 +177,7 @@ public abstract class ImageLayoutNode extends PhetPNode {
             int row = 0;
             int column = 0;
             boolean cellFound = false;
+            
             // search from random cell to end of grid
             for ( int i = startRow; i < ROWS; i++ ) {
                 for ( int j = ( i == startRow ? startColumn : 0 ); j < COLUMNS && !cellFound; j++ ) {
@@ -185,8 +188,9 @@ public abstract class ImageLayoutNode extends PhetPNode {
                     }
                 }
             }
+            
+            // search from beginning of grid to random cell
             if ( !cellFound ) {
-                // search from beginning of grid to random cell
                 for ( int i = 0; i <= startRow; i++ ) {
                     for ( int j = 0; j < ( i == startRow ? startColumn : COLUMNS ) && !cellFound; j++ ) {
                         if ( cells[i][j] == null ) {
@@ -197,13 +201,14 @@ public abstract class ImageLayoutNode extends PhetPNode {
                     }
                 }
             }
+            
             if ( !cellFound ) {
+                // all cells occupied, reuse a random cell
                 row = (int)( Math.random() * ROWS );
                 column = (int)( Math.random() * COLUMNS );
-                System.err.println( "GridLayoutStrategy.addNode: all cells are occupied, reusing cell [" + row + "," + column + "]" );
-            }
-            else if ( cells[row][column] != null ) {
-                System.err.println( "GridLayoutStrategy.addNode: bug in algorithm, cell [" + row + "," + column + "] is occupied" );
+                if ( ENABLE_DEBUG_OUTPUT ) {
+                   System.out.println( "ImageLayoutNode.addNode: all cells are occupied, reusing cell [" + row + "," + column + "]" );
+                }
             }
             cells[row][column] = node;
             
