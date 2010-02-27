@@ -1,3 +1,4 @@
+2/27/10 decide not to migrate BracketedLabelNode and HistogramBarNode to piccolo-phet, reuse questionable, wait until needed
 2/27/10 generalized IntegerHistogramBarNode to work with doubles, renamed HistogramBarNode
 2/27/10 change font size of message in Before/After boxes to workaround HTMLNode bounds problem #2178
 2/27/10 convert audio files to reduce file size, format=WAV codec=PCM rate=22050 channels=1 (used Switch for Mac)

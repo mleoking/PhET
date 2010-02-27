@@ -17,5 +17,3 @@ WARTS:
 - Molecule.image is mutable solely for Sandwich, difficult to change this
 
 MIGRATE TO COMMON
-- BracketedLabelNode
-- HistogramBarNode
