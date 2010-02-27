@@ -1,3 +1,4 @@
+2/27/10 expose NumberOfVariablesChallengeFactory.main as a Developer menu item
 2/27/10 simplify subclass implementations for two-product reactions
 2/27/10 simplify subclass implementations for one-product reactions
 2/27/10 decide not to migrate BracketedLabelNode and HistogramBarNode to piccolo-phet, reuse questionable, wait until needed
