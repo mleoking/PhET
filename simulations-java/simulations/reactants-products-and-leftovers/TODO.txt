@@ -11,7 +11,6 @@ MEDIUM PRIORITY
 
 LOW PRIORITY
 - developer controls for setting up specific Game challenges (expensive, do this if we need it for debugging)
-- expose NumberOfVariablesChallengeFactory.main as a Developer menu item
 
 WARTS:
 - Molecule.image is mutable solely for Sandwich, difficult to change this
