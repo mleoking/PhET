@@ -44,25 +44,25 @@ public abstract class Molecule {
     
     public static class Bread extends Molecule {
         public Bread() {
-            super( null /* symbol */, RPALImages.BREAD );
+            super( "bread", RPALImages.BREAD );
         }
     }
     
     public static class Meat extends Molecule {
         public Meat() {
-            super( null /* symbol */, RPALImages.MEAT );
+            super( "meat", RPALImages.MEAT );
         }
     }
     
     public static class Cheese extends Molecule {
         public Cheese() {
-            super( null /* symbol */, RPALImages.CHEESE );
+            super( "cheese", RPALImages.CHEESE );
         }
     }
     
     public static class Sandwich extends Molecule {
         public Sandwich() {
-            super( null /* symbol */, null /* image */ ); // image will be dynamically generated
+            super( "sandwich", null /* image */ ); // image will be dynamically generated
         }
     }
     

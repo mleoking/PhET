@@ -186,15 +186,10 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = imageNodeLists.get( i );
             while ( reactant.getQuantity() > imageNodes.size() ) {
-                PNode previousNode = null;
-                if ( imageNodes.size() > 0 ) {
-                    previousNode = imageNodes.get( imageNodes.size() - 1 );
-                }
                 SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                 imageNodes.add( imageNode );
-                imageLayoutNode.addNode( imageNode, previousNode, reactantValueNodes.get( i ) );
-                previousNode = imageNode;
+                imageLayoutNode.addNode( imageNode, reactantValueNodes.get( i ) );
             }
         }
     }

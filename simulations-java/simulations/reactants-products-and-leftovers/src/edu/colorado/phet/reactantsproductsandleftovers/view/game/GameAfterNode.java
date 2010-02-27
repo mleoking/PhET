@@ -23,7 +23,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.AbstractAfterNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SubstanceImageNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.GridLayoutNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -240,14 +239,10 @@ public class GameAfterNode extends AbstractAfterNode {
             ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
             Product product = products[i];
             while ( product.getQuantity() > imageNodes.size() ) {
-                PNode lastNodeAdded = null;
-                if ( imageNodes.size() > 0 ) {
-                    lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
-                }
                 SubstanceImageNode imageNode = new SubstanceImageNode( product );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                 imageNodes.add( imageNode );
-                guessImagesNode.addNode( imageNode, lastNodeAdded, productValueNodes.get( i ) );
+                guessImagesNode.addNode( imageNode, productValueNodes.get( i ) );
             }
         }
 
@@ -257,14 +252,10 @@ public class GameAfterNode extends AbstractAfterNode {
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = leftoverImageNodeLists.get( i );
             while ( reactant.getLeftovers() > imageNodes.size() ) {
-                PNode lastNodeAdded = null;
-                if ( imageNodes.size() > 0 ) {
-                    lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
-                }
                 SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                 imageNodes.add( imageNode );
-                guessImagesNode.addNode( imageNode, lastNodeAdded, leftoverValueNodes.get( i ) );
+                guessImagesNode.addNode( imageNode, leftoverValueNodes.get( i ) );
             }
         }
     }

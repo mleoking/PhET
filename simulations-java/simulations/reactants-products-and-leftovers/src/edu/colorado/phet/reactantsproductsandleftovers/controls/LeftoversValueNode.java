@@ -23,7 +23,7 @@ public class LeftoversValueNode extends ValueNode implements IDynamicNode {
     private final ReactantChangeListener reactantChangeListener;
     
     public LeftoversValueNode( Reactant reactant, IntegerRange range, double imageScale, boolean showName ) {
-        super( range, reactant.getLeftovers(), reactant.getImage(), imageScale, reactant.getName(), false /* editable */ );
+        super( range, reactant.getLeftovers(), reactant.getImage(), imageScale, reactant.getName(), showName, false /* editable */ );
         
         this.reactant = reactant;
         

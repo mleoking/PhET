@@ -292,14 +292,10 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
             ArrayList<SubstanceImageNode> imageNodes = productImageNodeLists.get( i );
             Product product = products[i];
             while ( product.getQuantity() > imageNodes.size() ) {
-                PNode lastNodeAdded = null;
-                if ( imageNodes.size() > 0 ) {
-                    lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
-                }
                 SubstanceImageNode imageNode = new SubstanceImageNode( product );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                 imageNodes.add( imageNode );
-                imageLayoutNode.addNode( imageNode, lastNodeAdded, productValueNodes.get( i ) );
+                imageLayoutNode.addNode( imageNode, productValueNodes.get( i ) );
             }
         }
 
@@ -308,14 +304,10 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
             Reactant reactant = reactants[i];
             ArrayList<SubstanceImageNode> imageNodes = leftoverImageNodeLists.get( i );
             while ( reactant.getLeftovers() > imageNodes.size() ) {
-                PNode lastNodeAdded = null;
-                if ( imageNodes.size() > 0 ) {
-                    lastNodeAdded = imageNodes.get( imageNodes.size() - 1 );
-                }
                 SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
                 imageNode.scale( RPALConstants.BEFORE_AFTER_BOX_IMAGE_SCALE );
                 imageNodes.add( imageNode );
-                imageLayoutNode.addNode( imageNode, lastNodeAdded, leftoverValueNodes.get( i ) );
+                imageLayoutNode.addNode( imageNode, leftoverValueNodes.get( i ) );
             }
         }
     }

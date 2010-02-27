@@ -6,13 +6,14 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.GridLinesNode;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.ValueNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -39,22 +40,20 @@ public abstract class ImageLayoutNode extends PhetPNode {
     }
     
     /**
-     * Adds node, relative to referenceNode, with knowledge of a related controlNode.
-     * The node is also added to the scenegraph.
+     * Adds a substance image node to the scenegraph.
+     * The corresponding ValueNode is provided in case nodes need to be aligned with it.
      * @param node
-     * @param parent
-     * @param referenceNode
-     * @param controlNode
+     * @param valueNode
      * @return
      */
-    public abstract void addNode( PNode node, PNode referenceNode, PNode controlNode );
+    public abstract void addNode( SubstanceImageNode node, ValueNode valueNode );
     
     /**
-     * Removes node from the layout, and from the scenegraph.
+     * Removes a substance image node from the scenegraph.
      * @param node
      * @param parent
      */
-    public abstract void removeNode( PNode node );
+    public abstract void removeNode( SubstanceImageNode node );
     
     /**
      * Stacks images vertically in the box.
@@ -64,63 +63,76 @@ public abstract class ImageLayoutNode extends PhetPNode {
         private static final double Y_MARGIN = 7;
         private static final double Y_SPACING = 28;
         
-        private final PropertyChangeListener propertyChangeListener;
-        private final HashMap<PNode,PBounds> fullBoundsMap; // keep track of node bounds, for adjusting the offset of dynamic images
+        private final PropertyChangeListener imageChangeListener;
+        private final HashMap<String,ArrayList<SubstanceImageNode>> stacks;
+        private final HashMap<String,PNode> valueNodes;
         
         public StackedLayoutNode( PDimension boxSize ) {
             super( boxSize );
-            propertyChangeListener = new PropertyChangeListener() {
+            imageChangeListener = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent event ) {
-                    if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
-                        updateNodeOffset( (PNode) event.getSource() );
+                    if ( event.getPropertyName().equals( PImage.PROPERTY_IMAGE ) ) {
+                        updateLayout();
                     }
                 }
             };
-            fullBoundsMap = new HashMap<PNode,PBounds>();
+            stacks = new HashMap<String,ArrayList<SubstanceImageNode>>();
+            valueNodes = new HashMap<String,PNode>();
         }
         
         /**
          * @param node the node to be added
          * @param referenceNode the node currently at the top of the stack, used for y offset.
-         * @param controlNode a control below the box, used for x offset.
+         * @param valueNode ValueNode below the box, used for x offset of each stack
          */
-        public void addNode( PNode node, PNode referenceNode, PNode controlNode ) {
+        public void addNode( SubstanceImageNode node, ValueNode valueNode ) {
+            
+            // get the substance name, it's the key for our data structures
+            String substanceName = node.getSubstance().getName();
+            
             // add the node to the scenegraph
             addChild( node );
-            // set the node's offset
-            double x = controlNode.getXOffset() - ( node.getFullBoundsReference().getWidth() / 2 );
-            double y = getBoxHeight() - node.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_MARGIN;
-            if ( referenceNode != null ) {
-                y = referenceNode.getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( node ) - Y_SPACING;
+            
+            // add the node to the proper stack
+            ArrayList<SubstanceImageNode> stack = stacks.get( substanceName );
+            if ( stack == null ) {
+                stack = new ArrayList<SubstanceImageNode>();
+                stacks.put( substanceName, stack );
             }
-            node.setOffset( x, y );
-            // listen for changes to the node's full bounds
-            fullBoundsMap.put( node, node.getFullBounds() );
-            node.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, propertyChangeListener );
+            stack.add( node );
+            
+            // remember the control node for this substance type
+            if ( valueNodes.get( substanceName ) == null ) {
+                valueNodes.put( substanceName, valueNode );
+            }
+            
+            // listen for changes to the node's image
+            node.addPropertyChangeListener( imageChangeListener );
+            
+            updateLayout();
         }
         
-        public void removeNode( PNode node ) {
+        public void removeNode( SubstanceImageNode node ) {
             removeChild( node );
-            fullBoundsMap.remove( node );
-            node.removePropertyChangeListener( propertyChangeListener );
+            ArrayList<SubstanceImageNode> stack = stacks.get( node.getSubstance().getName() );
+            stack.remove( node );
+            node.removePropertyChangeListener( imageChangeListener );
         }
         
         /*
-         * Some images (like the sandwich) are dynamic.
-         * As their full bounds change, their vertical offset must be adjusted,
-         * so that the bottoms of all images in the stacks remain vertically aligned.
-         * If we don't do this then (for example) increases in the complexity of a sandwich
-         * will cause the images in the sandwich stack to fall outside the bottom of the box. 
+         * Adjust the layout all images, in all stacks.
          */
-        private void updateNodeOffset( PNode node ) {
-            // adjust the vertical offset
-            PBounds oldBounds = fullBoundsMap.get( node );
-            PBounds newBounds = node.getFullBounds();
-            double yAdjust = oldBounds.getHeight() - newBounds.getHeight();
-            node.setOffset( node.getXOffset(), node.getYOffset() + yAdjust );
-            // make a record of the new bounds
-            fullBoundsMap.remove( node );
-            fullBoundsMap.put( node, newBounds );
+        private void updateLayout() {
+            for ( String substanceName : stacks.keySet() ){
+                ArrayList<SubstanceImageNode> stack = stacks.get( substanceName );
+                PNode controlNode = valueNodes.get( substanceName );
+                for ( int i = 0; i < stack.size(); i++ ) {
+                    SubstanceImageNode node = stack.get( i );
+                    double x = controlNode.getXOffset() - ( node.getFullBoundsReference().getWidth() / 2 );
+                    double y = getBoxHeight() - node.getFullBoundsReference().getHeight() - Y_MARGIN - ( i * Y_SPACING );
+                    node.setOffset( x, y );
+                }
+            }
         }
     }
     
@@ -160,10 +172,9 @@ public abstract class ImageLayoutNode extends PhetPNode {
         
         /**
          * @param node the node to be added
-         * @param referenceNode ignored
-         * @param controlNode ignored
+         * @param valueNode ignored
          */
-        public void addNode( PNode node, PNode referenceNode, PNode controlNode ) {
+        public void addNode( SubstanceImageNode node, ValueNode valueNode ) {
             addNode( node );
         }
         
@@ -228,7 +239,7 @@ public abstract class ImageLayoutNode extends PhetPNode {
             node.setOffset( x, y );
         }
         
-        public void removeNode( PNode node ) {
+        public void removeNode( SubstanceImageNode node ) {
             removeChild( node );
             // remove node from the grid
             boolean removed = false;

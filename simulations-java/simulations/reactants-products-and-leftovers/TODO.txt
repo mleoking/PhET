@@ -8,7 +8,6 @@ HIGH PRIORITY
 - GameBeforeNode and GameAfterNode showGuess and showAnswer are confusing and brittle, redesign
 
 MEDIUM PRIORITY
-- sandwich stacks are sometimes lopsided or drift right (set all quantities=10 and change coefficients)
 - remove silence from audio files, convert to WAV PCM mono
 - small piece at rightmost edge of "How many..." message doesn't disappear (making text static did not fix this)
 

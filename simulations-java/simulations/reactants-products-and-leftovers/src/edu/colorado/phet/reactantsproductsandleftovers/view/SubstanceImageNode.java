@@ -29,6 +29,10 @@ public class SubstanceImageNode extends PImage implements IDynamicNode {
         substance.addSubstanceChangeListener( listener );
     }
     
+    public Substance getSubstance() {
+        return substance;
+    }
+    
     private void update() {
         setImage( substance.getImage() );
     }
