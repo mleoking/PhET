@@ -13,10 +13,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  */
 public class RPALClock extends ConstantDtClock {
 
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-    
     public RPALClock() {
         super( 1000 / 5, 1 );
     }
