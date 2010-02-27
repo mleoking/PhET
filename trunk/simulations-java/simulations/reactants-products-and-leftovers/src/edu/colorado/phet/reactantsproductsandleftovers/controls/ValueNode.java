@@ -43,7 +43,7 @@ public class ValueNode extends PhetPNode {
     private static final Font NAME_FONT = new PhetFont( 18 );
     
     private final EventListenerList listeners;
-    private final IntegerHistogramBarNode barNode;
+    private final HistogramBarNode barNode;
     private final PImage imageNode;
     private final HTMLNode nameNode;
     private final IntegerSpinnerNode spinnerNode;
@@ -61,7 +61,7 @@ public class ValueNode extends PhetPNode {
         listeners = new EventListenerList();
         
         // bar
-        barNode = new IntegerHistogramBarNode( range, HISTOGRAM_BAR_SIZE );
+        barNode = new HistogramBarNode( value, range.getMin(), range.getMax(), HISTOGRAM_BAR_SIZE );
 
         // image
         imageNode = new PImage( image );

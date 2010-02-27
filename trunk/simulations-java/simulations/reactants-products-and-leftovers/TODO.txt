@@ -18,4 +18,4 @@ WARTS:
 
 MIGRATE TO COMMON
 - BracketedLabelNode
-- IntegerHistogramBarNode (generalize to Double?)
+- HistogramBarNode
