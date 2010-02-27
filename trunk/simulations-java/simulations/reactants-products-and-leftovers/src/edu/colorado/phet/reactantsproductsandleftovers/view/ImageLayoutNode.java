@@ -207,7 +207,7 @@ public abstract class ImageLayoutNode extends PhetPNode {
                 row = (int)( Math.random() * ROWS );
                 column = (int)( Math.random() * COLUMNS );
                 if ( ENABLE_DEBUG_OUTPUT ) {
-                   System.out.println( "ImageLayoutNode.addNode: all cells are occupied, reusing cell [" + row + "," + column + "]" );
+                   System.out.println( "GridLayoutNode.addNode: all cells are occupied, reusing cell [" + row + "," + column + "]" );
                 }
             }
             cells[row][column] = node;
