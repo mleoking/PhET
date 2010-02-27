@@ -5,7 +5,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.view.sandwich;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.colorado.phet.reactantsproductsandleftovers.view.AbstractAfterNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.ImageLayoutNode.StackedLayoutNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.StackedLayoutNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
