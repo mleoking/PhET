@@ -8,6 +8,7 @@ HIGH PRIORITY
 - GameBeforeNode and GameAfterNode showGuess and showAnswer are confusing and brittle, redesign
 
 MEDIUM PRIORITY
+- developer menu item for testing all reactions could be done better
 
 LOW PRIORITY
 - add developer controls for setting up specific Game challenges (expensive, do this only if needed for debugging)
