@@ -141,7 +141,7 @@ public class GameCanvas extends RPALCanvas {
         buttonsParentNode.addChild( showAnswerButton );
 
         // instructions
-        instructionsNode = new GameMessageNode( "?", Color.YELLOW, 36 ); // text will be set based on challenge type
+        instructionsNode = new GameMessageNode( "?", Color.YELLOW, 34 ); // text will be set based on challenge type
         parentNode.addChild( instructionsNode );
 
         // dev nodes
