@@ -1,3 +1,5 @@
+2/26/10 major changes to StackedLayoutNode, to fix layout problems with dynamic sandwich images
+2/26/10 simplify ImageLayoutNode interface
 2/26/10 disable debug output that warns when all cells are occupied
 2/26/10 will not fix: "1 O" in equations looks like "10" to Sam (has not been a problem in interviews and this is an expensive change)
 2/26/10 cleanup and javadoc GameRewardNode

@@ -23,7 +23,7 @@ public class QuantityValueNode extends ValueNode implements IDynamicNode {
     private final SubstanceChangeListener substanceChangeListener;
     
     public QuantityValueNode( Substance substance, IntegerRange range, double imageScale, boolean showName ) {
-        super( range, substance.getQuantity(), substance.getImage(), imageScale, substance.getName(), false /* editable */ );
+        super( range, substance.getQuantity(), substance.getImage(), imageScale, substance.getName(), showName, false /* editable */ );
         
         this.substance = substance;
 
