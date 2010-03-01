@@ -21,7 +21,12 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  * <li>Level 2: one product random, After 
  * <li>Level 3: two products random, After (4 variables)
  * </ul>
- * Also, every game will contain exactly one zero-products challenge.
+ * Additional requirements:
+ * <ul>
+ * <li>all coefficients will be > 0
+ * <li>all reactant quantities will be > 0
+ * <li>every game will contain exactly one zero-products challenge
+ * </ul>
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -303,8 +308,9 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
             ChemicalReaction reaction = instantiateReaction( reactionClass );
             // set all reactant quantities to their max values.
             for ( Reactant reactant : reaction.getReactants() ) {
-                if ( reactant.getCoefficient() > maxQuantity ) {
-                    System.out.println( "ERROR: coefficient > " + maxQuantity + ": " + reaction.getEquationPlainText() );
+                if ( reactant.getCoefficient() < 1 || reactant.getCoefficient() > maxQuantity ) {
+                    System.out.println( "ERROR: coefficient out of range : " + reaction.getEquationPlainText() );
+                    break;
                 }
             }
         }
