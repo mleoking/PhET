@@ -516,7 +516,7 @@ public class SwingLayoutNode extends PNode {
         horizontalLayoutNode.addChild( new PSwing( new JLabel( "Three" ) ) );
         horizontalLayoutNode.addChild( new PSwing( new JSlider() ) );
         horizontalLayoutNode.addChild( new PSwing( new JTextField( "Four" ) ) );
-        HTMLNode htmlNode = new HTMLNode( "<html>Five</html>", new PhetFont( 15, true ), Color.blue );
+        HTMLNode htmlNode = new HTMLNode( "<html>Five</html>", Color.blue, new PhetFont( 15, true ) );
         htmlNode.scale( 3 );
         horizontalLayoutNode.addChild( htmlNode );
         horizontalLayoutNode.setOffset( 100, 450 );

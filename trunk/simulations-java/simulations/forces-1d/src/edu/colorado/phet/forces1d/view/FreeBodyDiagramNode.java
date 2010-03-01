@@ -156,7 +156,7 @@ public class FreeBodyDiagramNode extends PNode {
             shapeGraphic = new PhetPPath( Force1DUtil.transparify( color, 150 ), new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), Force1DUtil.transparify( Color.black, 128 ) );
             addChild( shapeGraphic );
             Font font = new Font( PhetFont.getDefaultFontName(), Font.BOLD, 18 );
-            textGraphic = new HTMLNode( name, font, color );
+            textGraphic = new HTMLNode( name, color, font );
             addChild( textGraphic );
             setVector( v );
             setPickable( false );
@@ -227,8 +227,8 @@ public class FreeBodyDiagramNode extends PNode {
 
 
             Font font = new Font( PhetFont.getDefaultFontName(), Font.PLAIN, 16 );
-            xLabel = new HTMLNode( Force1DResources.get( "FreeBodyDiagram.fx" ), font, Color.black );
-            yLabel = new HTMLNode( Force1DResources.get( "FreeBodyDiagram.fy" ), font, Color.black );
+            xLabel = new HTMLNode( Force1DResources.get( "FreeBodyDiagram.fx" ), Color.black, font );
+            yLabel = new HTMLNode( Force1DResources.get( "FreeBodyDiagram.fy" ), Color.black, font );
             addChild( xLabel );
             addChild( yLabel );
 

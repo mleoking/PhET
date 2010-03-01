@@ -373,7 +373,7 @@ public class PhetTabbedPane extends JPanel {
         }
 
         protected PNode createTextNode( String html ) {
-            this.htmlNode = new HTMLNode( html, getTabFont(), getSelectedTextColor() );
+            this.htmlNode = new HTMLNode( html, getSelectedTextColor(), getTabFont() );
             return this.htmlNode;
         }
 
