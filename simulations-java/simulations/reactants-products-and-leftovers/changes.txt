@@ -1,4 +1,5 @@
-2/27/10 improve output of NumberOfVariablesChallengeFactory.main
+3/1/10 better doc for showAnswer and showGuess methods in GameBeforeNode and GameAfterNode
+3/1/10 improve output of NumberOfVariablesChallengeFactory.main
 2/27/10 expose NumberOfVariablesChallengeFactory.main as a Developer menu item
 2/27/10 simplify subclass implementations for two-product reactions
 2/27/10 simplify subclass implementations for one-product reactions

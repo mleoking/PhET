@@ -5,7 +5,6 @@ DEADLINES
 
 HIGH PRIORITY
 - design/relationship of GameCanvas and GameModel is confusing and brittle, redesign
-- GameBeforeNode and GameAfterNode showGuess and showAnswer are confusing and brittle, redesign
 
 MEDIUM PRIORITY
 
