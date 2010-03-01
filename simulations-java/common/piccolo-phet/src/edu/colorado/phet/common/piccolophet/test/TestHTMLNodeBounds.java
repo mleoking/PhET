@@ -24,11 +24,11 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 /**
  * Demonstrates a bounds problem with HTMLNode.
  * When setting the font some sizes, the bounds (as shown by the red PPath) are computed incorrectly.
- * In the size range 10-100, the problem occurs with size=12,20,28,36,57.
  * <p>
  * Use the "font size" spinner to change the font size.
  * Start with size=100, then decrease by 1.
  * You'll see garbage left on the canvas for any sizes that have incorrect bounds.
+ * The problem font sizes differs between platforms (probably because it differs between fonts).
  * <p>
  * See Unfuddle #2178.
  * 
@@ -72,6 +72,9 @@ public class TestHTMLNodeBounds extends JFrame {
         boundsNode.setStrokePaint( Color.RED );
         canvas.getLayer().addChild( boundsNode );
         
+        // label to show font name
+        JLabel fontNameLabel = new JLabel( "font face name: " + new PhetFont().getFontName() );
+        
         // spinner to change the font size of htmlNode
         final JSpinner fontSizeSpinner = new JSpinner();
         fontSizeSpinner.setModel( new SpinnerNumberModel( DEFAULT_FONT_SIZE, MIN_FONT_SIZE, MAX_FONT_SIZE, 1 ) );
@@ -88,6 +91,8 @@ public class TestHTMLNodeBounds extends JFrame {
         });
         
         JPanel controlPanel = new JPanel();
+        controlPanel.add( fontNameLabel );
+        controlPanel.add( Box.createHorizontalStrut( 40 ) );
         controlPanel.add( new JLabel( "font size:" ) );
         controlPanel.add( fontSizeSpinner );
         
