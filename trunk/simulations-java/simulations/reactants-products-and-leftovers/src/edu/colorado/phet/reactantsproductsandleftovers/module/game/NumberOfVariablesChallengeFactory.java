@@ -5,6 +5,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 import java.util.ArrayList;
 
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.*;
 import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.*;
@@ -274,12 +275,15 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
 
     /**
      * Test for problems with reactions and algorithm.
-     * Verify that quantity range violations are fixable.
+     * This can be run from the Developer menu.
+     * 
      * @param args
      */
     public static void main( String[] args ) {
         
-        // put all reactions in a container, removing duplicates.
+        int maxQuantity = GameModel.getQuantityRange().getMax();
+        
+        // Put all reactions in a container, removing duplicates.
         NumberOfVariablesChallengeFactory factory = new NumberOfVariablesChallengeFactory();
         ArrayList<Class<? extends ChemicalReaction>> reactionClasses = new ArrayList<Class<? extends ChemicalReaction>>();
         for ( int level = 1; level <= REACTIONS.size(); level++ ) {
@@ -291,10 +295,23 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
             }
         }
         
-        // look for quantity range violations in all reactions
-        System.out.println( "LOOKING FOR QUANTITY RANGE VIOLATIONS ..." );
+        // Look for reactions with coefficients > maxQuantity, we must have none of these.
         System.out.println();
-        int maxQuantity = GameModel.getQuantityRange().getMax();
+        System.out.println( "LOOKING FOR COEFFICIENTS RANGE VIOLATIONS ..." );
+        System.out.println();
+        for ( Class<? extends ChemicalReaction> reactionClass : reactionClasses ) {
+            ChemicalReaction reaction = instantiateReaction( reactionClass );
+            // set all reactant quantities to their max values.
+            for ( Reactant reactant : reaction.getReactants() ) {
+                if ( reactant.getCoefficient() > maxQuantity ) {
+                    System.out.println( "ERROR: coefficient > " + maxQuantity + ": " + reaction.getEquationPlainText() );
+                }
+            }
+        }
+        
+        // Look for quantity range violations in all reactions. We expect these, but require that they can be fixed.
+        System.out.println( "LOOKING FOR QUANTITY RANGE VIOLATIONS THAT CANNOT BE FIXED ..." );
+        System.out.println();
         for ( Class<? extends ChemicalReaction> reactionClass : reactionClasses ) {
             ChemicalReaction reaction = instantiateReaction( reactionClass );
             // set all reactant quantities to their max values.
@@ -305,33 +322,52 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
             fixQuantityRangeViolation( reaction, maxQuantity, true /* enableDebugOutput */ );
         }
         
-        // look for reactions with coefficients > maxQuantity, we must have none of these
-        System.out.println();
-        System.out.println( "LOOKING FOR COEFFICIENT PROBLEMS ..." );
-        System.out.println();
-        for ( Class<? extends ChemicalReaction> reactionClass : reactionClasses ) {
-            ChemicalReaction reaction = instantiateReaction( reactionClass );
-            // set all reactant quantities to their max values.
-            for ( Reactant reactant : reaction.getReactants() ) {
-                if ( reactant.getCoefficient() > maxQuantity ) {
-                    System.out.println( "ERROR! coefficient > " + maxQuantity + ": " + reaction.getEquationPlainText() );
-                }
-            }
-        }
-        
-        // call many times to test for exceptions
+        // Generate many challenges for each level, and validate our expectations.
         System.out.println();
         System.out.println( "TESTING CHALLENGE GENERATION ..." );
         System.out.println();
         for ( int level = GameModel.getLevelRange().getMin(); level <= GameModel.getLevelRange().getMax(); level++ ) {
             for ( int i = 0; i < 100; i++ ) {
-                System.out.println( "level=" + level + " game=" + i );
+                
+                // create challenges
                 GameChallenge[] challenges = factory.createChallenges( GameModel.getChallengesPerGame(), level, maxQuantity, ChallengeVisibility.BOTH );
-                for ( int j = 0; j < challenges.length; j++ ) {
-                    System.out.println( j + ": " + challenges[j].getReaction().toString() );
+                
+                // validate
+                int numberWithZeroProducts = 0;
+                for ( GameChallenge challenge : challenges ) {
+                    
+                    // verify that all reactant quantities are > 0
+                    boolean zeroReactants = false;
+                    for ( Reactant reactant : challenge.getReaction().getReactants() ) {
+                        if ( reactant.getQuantity() < 1 ) {
+                            zeroReactants = true;
+                        }
+                    }
+                    if ( zeroReactants ) {
+                        System.out.println( "ERROR: challenge has zero reactants, level=" + level + " : " +  challenge.getReaction().toString() );
+                    }
+                    
+                    // count how many challenges have zero products
+                    int nonZeroProducts = 0;
+                    for ( Product product : challenge.getReaction().getProducts() ) {
+                        if ( product.getQuantity() > 0 ) {
+                            nonZeroProducts++;
+                        }
+                    }
+                    if ( nonZeroProducts == 0 ) {
+                        numberWithZeroProducts++;
+                    }
                 }
-                System.out.println();
+                
+                // should have exactly one challenge with zero products
+                if ( numberWithZeroProducts != 1 ) {
+                    System.out.println( "ERROR: more than one challenge with zero products, level=" + level + " challenges=" );
+                    for ( int j = 0; j < challenges.length; j++ ) {
+                        System.out.println( j + ": " + challenges[j].getReaction().toString() );
+                    }
+                }
             }
         }
+        System.out.println( "Done." );
     }
 }
