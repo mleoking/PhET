@@ -112,23 +112,19 @@ public class GameAfterNode extends AbstractAfterNode {
         
         ChemicalReaction reaction = model.getChallenge().getReaction();
         
-        // products
+        // attach read-only value nodes to products of reaction
         ArrayList<QuantityValueNode> productValueNodes = getProductValueNodes();
         for ( int i = 0; i < productValueNodes.size(); i++ ) {
             QuantityValueNode valueNode = productValueNodes.get( i );
-            // attach to product of reaction
             valueNode.setSubstance( reaction.getProduct( i ) );
-            // set to read-only
             valueNode.setEditable( false );
         }
         
-        // leftovers
+        // attach read-only value nodes to leftovers of reaction
         ArrayList<LeftoversValueNode> leftoverValueNodes = getLeftoverValueNodes();
         for ( int i = 0; i < leftoverValueNodes.size(); i++ ) {
             LeftoversValueNode valueNode = leftoverValueNodes.get( i );
-            // attach to reactant of reaction
             valueNode.setReactant( reaction.getReactant( i ) );
-            // set to read-only
             valueNode.setEditable( false );
         }
         
@@ -154,23 +150,19 @@ public class GameAfterNode extends AbstractAfterNode {
         
         GameGuess guess = model.getChallenge().getGuess();
         
-        // products
+        // attach value nodes to products of guess, optionally editable
         ArrayList<QuantityValueNode> productValueNodes = getProductValueNodes();
         for ( int i = 0; i < productValueNodes.size(); i++ ) {
             QuantityValueNode valueNode = productValueNodes.get( i );
-            // attach to product of guess
             valueNode.setSubstance( guess.getProduct( i ) );
-            // set editability
             valueNode.setEditable( editable );
         }
         
-        // leftovers
+        // attach value nodes to leftovers of guess, optionally editable
         ArrayList<LeftoversValueNode> leftoverValueNodes = getLeftoverValueNodes();
         for ( int i = 0; i < leftoverValueNodes.size(); i++ ) {
             LeftoversValueNode valueNode = leftoverValueNodes.get( i );
-            // attach to reactant of guess
             valueNode.setReactant( guess.getReactant( i ) );
-            // set to read-only
             valueNode.setEditable( editable );
         }
         
