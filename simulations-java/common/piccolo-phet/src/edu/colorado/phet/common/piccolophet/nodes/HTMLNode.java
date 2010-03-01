@@ -4,13 +4,10 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 
 import javax.swing.JLabel;
-import javax.swing.plaf.basic.BasicHTML;
-import javax.swing.text.View;
 
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -36,11 +33,9 @@ public class HTMLNode extends PNode {
     //----------------------------------------------------------------------------
 
     private String html;
-    private Font font;
     private Color color;
+    private Font font;
     private final JLabel label;
-    private View view;
-    private final Rectangle bounds; // BasicHTML$Renderer.paint requires a Rectangle
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -59,11 +54,10 @@ public class HTMLNode extends PNode {
     }
 
     public HTMLNode( String html, Color color, Font font ) {
-        this.html = html;
+        this.html = HTMLUtils.toHTMLString( html );
         this.color = color;
         this.font = font;
         label = new JLabel();
-        bounds = new Rectangle();
         update();
     }
 
@@ -82,14 +76,17 @@ public class HTMLNode extends PNode {
 
     /**
      * Sets the HMTL string.
-     *
-     * @param html
+     * If you provide plain text or an HTML fragment, it will automatically be converted to HTML.
+     * 
+     * @param text 
      */
-    public void setHTML( String html ) {
-        if ( ( this.html != null && html == null ) || ( this.html == null && html != null ) || ( !this.html.equals( html ) ) ) {
-            this.html = html;
-            update();
+    public void setHTML( String text ) {
+        String html = HTMLUtils.toHTMLString( text );
+        if ( ( html == null && this.html == null ) || ( html != null && html.equals( this.html ) ) ) {
+            return;
         }
+        this.html = html;
+        update();
     }
 
     /**
@@ -145,9 +142,7 @@ public class HTMLNode extends PNode {
         label.setFont( font );
         label.setForeground( color );
         label.setSize( label.getPreferredSize() );
-        view = BasicHTML.createHTMLView( label, html == null ? "" : html );
-        bounds.setRect( 0, 0, view.getPreferredSpan( View.X_AXIS ), view.getPreferredSpan( View.Y_AXIS ) );
-        setBounds( bounds );
+        setBounds( 0, 0, label.getPreferredSize().getWidth(), label.getPreferredSize().getHeight() );
         repaint();
     }
 
@@ -157,17 +152,13 @@ public class HTMLNode extends PNode {
 
     /*
      * Paints the node.
-     * The HTML string is painted last, so it appears on top of any child nodes.
+     * The HTML is painted last, so it appears on top of any child nodes.
      * 
      * @param paintContext
      */
     @Override
     protected void paint( PPaintContext paintContext ) {
         super.paint( paintContext );
-        if ( label.getWidth() == 0 || label.getHeight() == 0 ) {
-            return;
-        }
-        Graphics2D g2 = paintContext.getGraphics();
-        view.paint( g2, bounds );
+        label.paint( paintContext.getGraphics() );
     }
 }
