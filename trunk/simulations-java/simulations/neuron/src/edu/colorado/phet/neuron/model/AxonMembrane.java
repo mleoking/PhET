@@ -168,7 +168,7 @@ public class AxonMembrane {
     	// Set up the shape of the neuron body.
     	axonBodyShape.append(ReversePathIterator.getReversePathIterator(curveA), false);
     	axonBodyShape.append(curveB, false);
-    	axonBodyShape.lineTo(intersectionPointA.getX(), intersectionPointA.getY());
+    	axonBodyShape.lineTo((float)intersectionPointA.getX(), (float)intersectionPointA.getY());
     	
     	return axonBodyShape;
     }
