@@ -103,7 +103,7 @@ public class GameAfterNode extends AbstractAfterNode {
     }
     
     /**
-     * Shows the images and quantities corresponding to the actual reaction.
+     * Shows the images and quantities corresponding to the answer (the actual reaction).
      * @param showImages
      * @param showNumbers
      */
@@ -112,7 +112,7 @@ public class GameAfterNode extends AbstractAfterNode {
         
         ChemicalReaction reaction = model.getChallenge().getReaction();
         
-        // attach read-only value nodes to products of reaction
+        // attach read-only value nodes to products of the answer
         ArrayList<QuantityValueNode> productValueNodes = getProductValueNodes();
         for ( int i = 0; i < productValueNodes.size(); i++ ) {
             QuantityValueNode valueNode = productValueNodes.get( i );
@@ -120,7 +120,7 @@ public class GameAfterNode extends AbstractAfterNode {
             valueNode.setEditable( false );
         }
         
-        // attach read-only value nodes to leftovers of reaction
+        // attach read-only value nodes to leftovers of the answer
         ArrayList<LeftoversValueNode> leftoverValueNodes = getLeftoverValueNodes();
         for ( int i = 0; i < leftoverValueNodes.size(); i++ ) {
             LeftoversValueNode valueNode = leftoverValueNodes.get( i );
@@ -131,7 +131,7 @@ public class GameAfterNode extends AbstractAfterNode {
         // hide guess images
         guessImagesNode.setVisible( false );
         
-        // possibly hide reaction images
+        // possibly hide answer images
         setReactionImagesVisible( showImages );
         setValueNodeImagesVisible( showImages );
         moleculesHiddenNode.setVisible( !showImages );
@@ -171,7 +171,7 @@ public class GameAfterNode extends AbstractAfterNode {
         moleculesHiddenNode.setVisible( false );
         setValueNodeImagesVisible( true );
         
-        // hide reaction images
+        // hide answer images
         setReactionImagesVisible( false );
         
         // show numbers
