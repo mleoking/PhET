@@ -95,7 +95,7 @@ public class GameBeforeNode extends AbstractBeforeNode {
     }
     
     /**
-     * Shows the images and quantities corresponding to the actual reaction.
+     * Shows the images and quantities corresponding to the answer (the actual reaction).
      * @param showImages
      * @param showNumbers
      */
@@ -115,7 +115,7 @@ public class GameBeforeNode extends AbstractBeforeNode {
         // hide guess images
         guessImagesNode.setVisible( false );
         
-        // possibly hide reaction images
+        // possibly hide answer images
         setReactionImagesVisible( showImages );
         setValueNodeImagesVisible( showImages );
         moleculesHiddenNode.setVisible( !showImages );
@@ -147,7 +147,7 @@ public class GameBeforeNode extends AbstractBeforeNode {
         moleculesHiddenNode.setVisible( false );
         setValueNodeImagesVisible( true );
         
-        // hide reaction images
+        // hide answer images
         setReactionImagesVisible( false );
         
         // show numbers
