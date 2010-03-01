@@ -105,12 +105,10 @@ public class GameBeforeNode extends AbstractBeforeNode {
         ChemicalReaction reaction = model.getChallenge().getReaction();
         ArrayList<QuantityValueNode> valueNodes = getReactantValueNodes();
         
-        // reactants
+        // attach read-only value nodes to reactants of reaction
         for ( int i = 0; i < valueNodes.size(); i++ ) {
             QuantityValueNode valueNode = valueNodes.get( i );
-            // attach to reactant of reaction
             valueNode.setSubstance( reaction.getReactant( i ) );
-            // set to read-only
             valueNode.setEditable( false );
         }
         
@@ -137,12 +135,10 @@ public class GameBeforeNode extends AbstractBeforeNode {
         GameGuess guess = model.getChallenge().getGuess();
         ArrayList<QuantityValueNode> valueNodes = getReactantValueNodes();
         
-        // reactants
+        // attach value nodes to reactants of guess, optionally editable
         for ( int i = 0; i < valueNodes.size(); i++ ) {
             QuantityValueNode valueNode = valueNodes.get( i );
-            // attach to reactant of user's answer
             valueNode.setSubstance( guess.getReactant( i ) );
-            // set editability
             valueNode.setEditable( editable );
         }
         
