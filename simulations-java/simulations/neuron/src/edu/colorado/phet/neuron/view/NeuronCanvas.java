@@ -155,7 +155,8 @@ public class NeuronCanvas extends PhetPCanvas {
         addScreenChild(chartLayer);
         
         // Add the button for stimulating the neuron.
-        stimulateNeuronButton = new GradientButtonNode("Stimulate", 12, CANVAS_BUTTON_COLOR);
+        // TODO: i18n.
+        stimulateNeuronButton = new GradientButtonNode("<html><center>Stimulate<br>Neuron</center></html>", 12, CANVAS_BUTTON_COLOR);
         stimulateNeuronButton.scale(2);
         stimulateNeuronButton.setOffset(10, 10);
         addScreenChild(stimulateNeuronButton);
