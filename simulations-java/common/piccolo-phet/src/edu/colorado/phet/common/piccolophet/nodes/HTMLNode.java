@@ -17,7 +17,6 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @author Sam Reid
- * @version $Revision$
  */
 public class HTMLNode extends PNode {
 
