@@ -14,6 +14,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * HTMLNode is a Piccolo node for rendering HTML text.
+ * Since it uses JLabel to render, any limitations of Swing's HTML support apply here.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @author Sam Reid
