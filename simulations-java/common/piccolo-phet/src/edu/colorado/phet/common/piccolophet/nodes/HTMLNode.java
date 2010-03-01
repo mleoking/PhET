@@ -29,7 +29,7 @@ public class HTMLNode extends PNode {
     //----------------------------------------------------------------------------
 
     private static final Font DEFAULT_FONT = new PhetFont( Font.BOLD, 12 );
-    private static final Color DEFAULT_HTML_COLOR = Color.BLACK;
+    private static final Color DEFAULT_COLOR = Color.BLACK;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -37,33 +37,33 @@ public class HTMLNode extends PNode {
 
     private String html;
     private Font font;
-    private Color htmlColor;
-    private JLabel htmlLabel;//todo: consider making this static, seemed to work properly under preliminary tests
-    private View htmlView;
-    private final Rectangle htmlBounds; // BasicHTML$Renderer.paint requires a Rectangle
+    private Color color;
+    private final JLabel label;
+    private View view;
+    private final Rectangle bounds; // BasicHTML$Renderer.paint requires a Rectangle
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public HTMLNode() {
-        this( null, DEFAULT_FONT, DEFAULT_HTML_COLOR );
+        this( null, DEFAULT_COLOR, DEFAULT_FONT );
     }
 
     public HTMLNode( String html ) {
-        this( html, DEFAULT_FONT, DEFAULT_HTML_COLOR );
+        this( html, DEFAULT_COLOR, DEFAULT_FONT );
     }
 
-    public HTMLNode( String html, Color htmlColor ) {
-        this( html, DEFAULT_FONT, htmlColor );
+    public HTMLNode( String html, Color color ) {
+        this( html, color, DEFAULT_FONT );
     }
 
-    public HTMLNode( String html, Font font, Color htmlColor ) {
+    public HTMLNode( String html, Color color, Font font ) {
         this.html = html;
+        this.color = color;
         this.font = font;
-        this.htmlColor = htmlColor;
-        htmlLabel = new JLabel();
-        htmlBounds = new Rectangle();
+        label = new JLabel();
+        bounds = new Rectangle();
         update();
     }
 
@@ -118,7 +118,7 @@ public class HTMLNode extends PNode {
      * @return the color used to render the HTML.
      */
     public Color getHTMLColor() {
-        return htmlColor;
+        return color;
     }
 
     /**
@@ -128,7 +128,7 @@ public class HTMLNode extends PNode {
      * @param color
      */
     public void setHTMLColor( Color color ) {
-        htmlColor = color;
+        this.color = color;
         update();
     }
 
@@ -137,18 +137,17 @@ public class HTMLNode extends PNode {
     //----------------------------------------------------------------------------
 
     /*
-    * Updates everything that is involved in rendering the HTML string.
-    * This method is called when one the HTML-related properties is modified.
-    */
-
+     * Updates everything that is involved in rendering the HTML string.
+     * This method is called when one the HTML-related properties is modified.
+     */
     private void update() {
-        htmlLabel.setText( html );
-        htmlLabel.setFont( font );
-        htmlLabel.setForeground( htmlColor );
-        htmlLabel.setSize( htmlLabel.getPreferredSize() );
-        htmlView = BasicHTML.createHTMLView( htmlLabel, html == null ? "" : html );
-        htmlBounds.setRect( 0, 0, htmlView.getPreferredSpan( View.X_AXIS ), htmlView.getPreferredSpan( View.Y_AXIS ) );
-        setBounds( htmlBounds );
+        label.setText( html );
+        label.setFont( font );
+        label.setForeground( color );
+        label.setSize( label.getPreferredSize() );
+        view = BasicHTML.createHTMLView( label, html == null ? "" : html );
+        bounds.setRect( 0, 0, view.getPreferredSpan( View.X_AXIS ), view.getPreferredSpan( View.Y_AXIS ) );
+        setBounds( bounds );
         repaint();
     }
 
@@ -157,18 +156,18 @@ public class HTMLNode extends PNode {
     //----------------------------------------------------------------------------
 
     /*
-    * Paints the node.
-    * The HTML string is painted last, so it appears on top of any child nodes.
-    * 
-    * @param paintContext
-    */
-
+     * Paints the node.
+     * The HTML string is painted last, so it appears on top of any child nodes.
+     * 
+     * @param paintContext
+     */
+    @Override
     protected void paint( PPaintContext paintContext ) {
         super.paint( paintContext );
-        if ( htmlLabel.getWidth() == 0 || htmlLabel.getHeight() == 0 ) {
+        if ( label.getWidth() == 0 || label.getHeight() == 0 ) {
             return;
         }
         Graphics2D g2 = paintContext.getGraphics();
-        htmlView.paint( g2, htmlBounds );
+        view.paint( g2, bounds );
     }
 }

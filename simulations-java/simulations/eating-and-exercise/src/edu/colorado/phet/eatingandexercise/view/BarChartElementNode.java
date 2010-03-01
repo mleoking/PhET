@@ -63,8 +63,8 @@ public class BarChartElementNode extends PNode {
         }
 
         PhetFont font = new PhetFont( 14, true );
-        textNode = new HTMLNode( barChartElement.getName(), font, barChartElement.getTextColor() );
-        valueNode = new HTMLNode( "", font, barChartElement.getTextColor() );
+        textNode = new HTMLNode( barChartElement.getName(), barChartElement.getTextColor(), font );
+        valueNode = new HTMLNode( "", barChartElement.getTextColor(), font );
         clip.addChild( imageNode );
         clip.addChild( textNode );
         clip.addChild( valueNode );

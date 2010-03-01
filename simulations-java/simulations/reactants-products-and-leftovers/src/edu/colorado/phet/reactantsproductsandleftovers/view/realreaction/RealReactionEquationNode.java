@@ -216,7 +216,7 @@ public class RealReactionEquationNode extends PComposite implements IDynamicNode
     private static class NameNode extends HTMLNode {
         
         public NameNode( String html ) {
-            super( HTMLUtils.toHTMLString( html ), FONT, NAME_COLOR );
+            super( HTMLUtils.toHTMLString( html ), NAME_COLOR, FONT );
         }
     }
 }

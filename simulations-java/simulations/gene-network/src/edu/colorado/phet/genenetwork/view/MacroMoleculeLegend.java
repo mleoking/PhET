@@ -261,7 +261,7 @@ public class MacroMoleculeLegend extends PhetPNode {
 		public LegendEntry(PNode icon, String captionText) {
 			this.icon = icon;
 			icon.setPickable(false);
-			caption = new HTMLNode(captionText, LABEL_FONT, LABEL_COLOR);
+			caption = new HTMLNode(captionText, LABEL_COLOR, LABEL_FONT);
 			caption.setPickable(false);
 		}
 
