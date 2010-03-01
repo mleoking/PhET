@@ -1,7 +1,7 @@
 package edu.colorado.phet.localizationstrings;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Properties;
@@ -11,16 +11,21 @@ import java.util.Properties;
  * For example, this was used to identify whether submitted translations to the old the-ramp are compatible enough with the new version to be kept.
  */
 public class StringKeyDiffer {
+    
     public static void main(String[] args) throws IOException {
+        if ( args.length != 2 ) {
+            System.out.println( "usage: " + StringKeyDiffer.class.getName() +  " file1.properties file2.properties" );
+            System.exit( 1 );
+        }
         new StringKeyDiffer().diff(new File(args[0]), new File(args[1]));
     }
 
     private void diff(File af, File bf) throws IOException {
         Properties a = new Properties();
-        a.load(new FileReader(af));
+        a.load(new FileInputStream(af));
 
         Properties b = new Properties();
-        b.load(new FileReader(bf));
+        b.load(new FileInputStream(bf));
 
         HashSet<Object> shared = new HashSet<Object>();
         for (Object o : a.keySet()) {
