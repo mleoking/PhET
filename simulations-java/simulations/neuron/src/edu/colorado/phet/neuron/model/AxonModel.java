@@ -736,7 +736,7 @@ public class AxonModel implements IParticleCapture {
 			break;
     	}
     	
-    	// Find a position for the new channel.
+    	// Find a position for the new channel. 
     	
     	/*
     	 * TODO: The following code distributes the channels fairly evenly around the
@@ -755,7 +755,7 @@ public class AxonModel implements IParticleCapture {
 		
 		*/
     	
-    	double angle = Math.PI * 0.3 + getNumMembraneChannels() * Math.PI / 2 + (getNumMembraneChannels() / 4) * Math.PI * 0.075;
+    	double angle = Math.PI * 0.2 + getNumMembraneChannels() * Math.PI / 2 + (getNumMembraneChannels() / 4) * Math.PI * 0.075;
     	double radius = axonMembrane.getCrossSectionDiameter() / 2;
 		Point2D newLocation = new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle));
     	
