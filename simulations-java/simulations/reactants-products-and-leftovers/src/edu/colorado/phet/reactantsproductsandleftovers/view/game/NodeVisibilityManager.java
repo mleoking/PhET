@@ -38,7 +38,7 @@ public class NodeVisibilityManager {
         }
         for ( PNode node : visibleNodes ) {
             if ( !managedNodes.contains( node ) ) {
-                throw new IllegalArgumentException( "collection contains an unmanaged node" );
+                throw new IllegalArgumentException( "attempt to add an unmanaged node, were all nodes specified in the constructor?" );
             }
         }
         visibleNodesMap.put( name, Arrays.asList( visibleNodes ) );
