@@ -7,6 +7,7 @@ HIGH PRIORITY
 - design/relationship of GameCanvas and GameModel is confusing and brittle, redesign
 
 MEDIUM PRIORITY
+- scoreboard background sometimes gets taller
 
 LOW PRIORITY
 - add developer controls for setting up specific Game challenges (expensive, do this only if needed for debugging)

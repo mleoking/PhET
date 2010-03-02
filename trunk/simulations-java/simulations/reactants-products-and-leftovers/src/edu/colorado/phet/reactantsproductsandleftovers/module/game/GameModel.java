@@ -25,35 +25,47 @@ public class GameModel extends RPALModel {
     private static final boolean DEFAULT_SOUND_ENABLED = true;
     private static final ChallengeVisibility DEFAULT_CHALLENGE_VISIBILITY = ChallengeVisibility.BOTH;
     
+    // debugging flags
     private static final boolean DEBUG_NOTIFICATION = false;
     private static final boolean DEBUG_WRONG_GUESS = false;
     
+    // game parameters
     private static final int CHALLENGES_PER_GAME = 5;
     private static final IntegerRange LEVEL_RANGE = new IntegerRange( 1, 3, 1 ); // difficulty level
     private static final double POINTS_FIRST_ATTEMPT = 1;  // points to award for correct guess on 1st attempt
     private static final double POINTS_SECOND_ATTEMPT = 0.5; // points to award for correct guess on 2nd attempt
     
+    private static final long NO_TIME = 0;
+    
     private final EventListenerList listeners;
     private final GameTimer timer;
     private final ChangeListener guessChangeListener;
     private final IChallengeFactory challengeFactory;
-    private final long[] bestTimes; // best times for each level, in ms
     
+    // state information for the current game
     private GameChallenge[] challenges; // the challenges that make up the current game
-    private int challengeNumber; // the current challenge that the user is attempting to solve
-    private int level; // level of difficulty
-    private boolean timerVisible; // is the timer visible?
+    private GameChallenge challenge; // the current challenge that the user is attempting to solve
+    private int challengeNumber; // the index of the current challenge that the user is attempting to solve, 0-N
     private int attempts; // how many attempts the user has made at solving the current challenge
     private double points; // how many points the user has earned for the current game
+    private final long[] bestTimes; // best times for each level, in ms
+    private boolean isNewBestTime; // is the time for this game a new best time?
+    private boolean gameCompleted; // was the game played to completion?
+    
+    // properties that can be configure by the user via the Game Settings panel
+    private int level; // level of difficulty
+    private boolean timerVisible; // is the timer visible?
     private boolean soundEnabled; // is sound enabled?
-    private boolean isNewBestTime;
-    private ChallengeVisibility challengeVisibility;
+    private ChallengeVisibility challengeVisibility; // what parts of the challenge are visible?
     
     public GameModel( IClock clock ) {
         
         listeners = new EventListenerList();
         
         bestTimes = new long[ getLevelRange().getLength() + 1 ]; // all zero by default
+        for ( int i = 0; i < bestTimes.length; i++ ) {
+            bestTimes[i] = NO_TIME;
+        }
         isNewBestTime = false;
         
         timer = new GameTimer( clock );
@@ -75,30 +87,27 @@ public class GameModel extends RPALModel {
         
         challengeFactory = new NumberOfVariablesChallengeFactory();
         
+        // initialize a default game, many parts of the view depend on it
         initGame( LEVEL_RANGE.getDefault(), DEFAULT_TIMER_VISIBLE, DEFAULT_SOUND_ENABLED, DEFAULT_CHALLENGE_VISIBILITY );
     }
     
-    /*
-     * Initializes a new game.
-     */
-    private void initGame( int level, boolean timerVisible, boolean soundEnabled, ChallengeVisibility challengeVisibility ) {
-        isNewBestTime = false;
-        setLevel( level );
-        setTimerVisible( timerVisible );
-        setSoundEnabled( soundEnabled );
-        setChallengeVisibility( challengeVisibility );
-        setPoints( 0 );
-        setAttempts( 0 );
-        newChallenges();
-    }
+    //---------------------------------------------------------------------------------
+    //
+    //  Game actions, initiated by the user.
+    //
+    //---------------------------------------------------------------------------------
     
     /**
-     * Initiates a new game, depending on whether the current game was fully played.
+     * Requests a new game.
+     * This doesn't start the new game, but tells the client that the user would like to start a new game.
+     * Before starting the game, user preferences need to be collected.
      */
     public void newGame() {
-        if ( !isGameCompleted() ) {
+        if ( !gameCompleted ) {
             fireGameAborted();
         }
+        timer.stop();
+        recordBestTime();
         fireNewGame();
     }
     
@@ -115,65 +124,38 @@ public class GameModel extends RPALModel {
         fireGameStarted();
     }
     
-    /**
-     * Ends the current game.
-     */
-    public void endGame() {
-        timer.stop();
-        if ( isGameCompleted() ) {
-            rememberBestTime();
-            fireGameCompleted();
-        }
-        else {
-            fireGameAborted();
-        }
-    }
-    
     /*
-     * Remembers the best time for the current game level.
-     * Times are only remembered if the timer was visible during the game, and the score was perfect.
+     * Initializes a new game.
      */
-    private void rememberBestTime() {
-        if ( isTimerVisible() && isPerfectScore() ) {
-            if ( bestTimes[level - 1] == 0 ) {
-                // this is our first game
-                bestTimes[level - 1] = getTime();
-                isNewBestTime = true;
-            }
-            else {
-                // compare with previous best time
-                final long time = getTime();
-                if ( time < bestTimes[level - 1] ) {
-                    bestTimes[level - 1] = time;
-                    isNewBestTime = true;
-                }
-            }
-        }
+    private void initGame( int level, boolean timerVisible, boolean soundEnabled, ChallengeVisibility challengeVisibility ) {
+        setLevel( level );
+        setTimerVisible( timerVisible );
+        setSoundEnabled( soundEnabled );
+        setChallengeVisibility( challengeVisibility );
+        setChallenges( challengeFactory.createChallenges( CHALLENGES_PER_GAME, getLevel(), getQuantityRange().getMax(), challengeVisibility ) );
     }
     
     /**
      * Advances to the next challenge.
-     * If we've completed all challenges, then end the game.
+     * If we've reached the last challenge, then the game is considered completed.
      */
     public void nextChallenge() {
-        if ( !isGameCompleted() ) {
-            challengeNumber++;
-            setAttempts( 0 );
-            getChallenge().getGuess().addChangeListener( guessChangeListener );
-            fireChallengeChanged();
+        if ( isLastChallenge() ) {
+            gameCompleted = true;
+            fireGameCompleted();
         }
         else {
-            endGame();
+            setChallenge( challengeNumber + 1 );
         }
     }
     
     /**
-     * Checks the user's guess and award points accordingly.
+     * Checks the user's guess and awards points accordingly.
      * @return true if the guess is correct, false if incorrect
      */
     public boolean checkGuess() {
         boolean correct = false;
-        setAttempts( getAttempts() + 1 );
+        attempts++;
         if ( getChallenge().isCorrect() ) {
             correct = true;
             if ( getAttempts() == 1 ) {
@@ -185,11 +167,6 @@ public class GameModel extends RPALModel {
             else {
                 // subsequent attempts score zero points
             }
-            
-            // stop the timer immediately when the last challenge is correctly guessed
-            if ( getChallengeNumber() == getChallengesPerGame() - 1 ) {
-                timer.stop();
-            }
         }
         else if ( DEBUG_WRONG_GUESS ) { /* see #2156 */
             String reactionString = getChallenge().getReaction().getEquationPlainText();
@@ -197,41 +174,59 @@ public class GameModel extends RPALModel {
             String guessString = getChallenge().getGuess().toString();
             System.out.println( "GameModel.checkGuess correct=" + correct + " reaction=" + reactionString + " challenge=[" + challengeString + "] guess=[" + guessString + "]" );
         }
+
+        // stop the timer immediately when the last challenge is completed correctly
+        if ( correct && isLastChallenge() ) {
+            timer.stop();
+            recordBestTime();
+        }
+        
         return correct;
     }
     
     /*
-     * Creates a new set of challenges.
+     * Records the best time for the current game level.
+     * Times are only remembered if the timer was visible during the game, and the score was perfect.
      */
-    private void newChallenges() {
-        if ( challenges != null ) {
-            getChallenge().getGuess().removeChangeListener( guessChangeListener );
+    private void recordBestTime() {
+        if ( isTimerVisible() && isPerfectScore() ) {
+            final long time = getTime();
+            if ( getBestTime() == NO_TIME || time < getBestTime() ) {
+                setBestTime( time );
+                isNewBestTime = true;
+            }
         }
-        challengeNumber = 0;
-        challenges = challengeFactory.createChallenges( CHALLENGES_PER_GAME, getLevel(), getQuantityRange().getMax(), challengeVisibility );
-        getChallenge().getGuess().addChangeListener( guessChangeListener );
-        fireChallengeChanged();
+    }
+    
+    //---------------------------------------------------------------------------------
+    //
+    //  Setters and getters
+    //
+    //---------------------------------------------------------------------------------
+    
+    /*
+     * Sets the challenges for the game.
+     */
+    private void setChallenges( GameChallenge[] challenges ) {
+        this.challenges = challenges;
+        gameCompleted = false;
+        isNewBestTime = false;
+        setPoints( 0 );
+        setChallenge( 0 );
     }
     
     /*
-     * A game is completed if all challenges have been presented to the user.
+     * Sets the current challenge.
      */
-    private boolean isGameCompleted() {
-        return ( challengeNumber == CHALLENGES_PER_GAME - 1 );
-    }
-    
-    /**
-     * Gets the index of the current challenge.
-     */
-    public int getChallengeNumber() {
-        return challengeNumber;
-    }
-    
-    /**
-     * Gets the current challenge.
-     */
-    public GameChallenge getChallenge() {
-        return challenges[ getChallengeNumber() ];
+    private void setChallenge( int challengeNumber ) {
+        if ( challenge != null ) {
+            challenge.getGuess().removeChangeListener( guessChangeListener );
+        }
+        attempts = 0;
+        this.challengeNumber = challengeNumber;
+        challenge = challenges[challengeNumber];
+        challenge.getGuess().addChangeListener( guessChangeListener );
+        fireChallengeChanged();
     }
     
     /**
@@ -243,11 +238,24 @@ public class GameModel extends RPALModel {
     }
     
     /**
-     * Gets the number of points that constitutes a perfect score in a completed game.
-     * @return
+     * Gets the index of the current challenge.
      */
-    public static double getPerfectScore() {
-        return getChallengesPerGame() * POINTS_FIRST_ATTEMPT;
+    public int getChallengeNumber() {
+        return challengeNumber;
+    }
+    
+    /*
+     * Is the current challenge the last challenge in the game?
+     */
+    private boolean isLastChallenge() {
+        return ( challengeNumber == getChallengesPerGame() - 1 );
+    }
+    
+    /**
+     * Gets the current challenge.
+     */
+    public GameChallenge getChallenge() {
+        return challenge;
     }
     
     /**
@@ -260,6 +268,7 @@ public class GameModel extends RPALModel {
     
     /*
      * Sets the difficulty level of the current game.
+     * @param level
      */
     private void setLevel( int level ) {
         if ( level != this.level ) {
@@ -276,7 +285,7 @@ public class GameModel extends RPALModel {
         return level;
     }
     
-    /**
+    /*
      * Determines whether the game timer is visible.
      * @param visible
      */
@@ -295,7 +304,7 @@ public class GameModel extends RPALModel {
         return timerVisible;
     }
     
-    /**
+    /*
      * Determines whether sound is enabled.
      * @param soundEnabled
      */
@@ -341,11 +350,36 @@ public class GameModel extends RPALModel {
     }
     
     /**
-     * Gets the best time for a specific level.
+     * Gets the best time for the current game's level.
      * @return time, in ms
      */
     public long getBestTime() {
-        return bestTimes[ level - 1 ];
+        return getBestTime( level );
+    }
+    
+    /*
+     * Sets the best time for the current game's level.
+     * @param time in ms
+     */
+    private void setBestTime( long time ) {
+        setBestTime( level, time );
+    }
+    
+    /*
+     * Gets the best time for a specified level.
+     * @param level
+     */
+    private long getBestTime( int level ) {
+        return bestTimes[ level - LEVEL_RANGE.getMin() ];
+    }
+    
+    /*
+     * Sets the best time for a specified level
+     * @param level
+     * @param time in ms
+     */
+    private void setBestTime( int level, long time ) {
+        bestTimes[ level - LEVEL_RANGE.getMin() ] = time;
     }
     
     /**
@@ -353,16 +387,6 @@ public class GameModel extends RPALModel {
      */
     public boolean isNewBestTime() {
         return isNewBestTime;
-    }
-    
-    /*
-     * Sets the number of attempts that the user has made at solving the current challenge.
-     */
-    private void setAttempts( int attempts ) {
-        if ( attempts != this.attempts ) {
-            this.attempts = attempts;
-            fireAttemptsChanged();
-        }
     }
     
     /**
@@ -377,9 +401,9 @@ public class GameModel extends RPALModel {
      * Sets the number of points scored so far for the current game.
      * @return
      */
-    private void setPoints( double score ) {
-        if ( score != this.points ) {
-            this.points = score;
+    private void setPoints( double points ) {
+        if ( points != this.points ) {
+            this.points = points;
             firePointsChanged();
         }
     }
@@ -399,6 +423,14 @@ public class GameModel extends RPALModel {
     public boolean isPerfectScore() {
         return points == getPerfectScore();
     }
+    
+    /**
+     * Gets the number of points that constitutes a perfect score in a completed game.
+     * @return
+     */
+    public static double getPerfectScore() {
+        return getChallengesPerGame() * POINTS_FIRST_ATTEMPT;
+    }
 
     //---------------------------------------------------------------------------------
     //
@@ -415,8 +447,7 @@ public class GameModel extends RPALModel {
         public void guessChanged(); // user's guess changed
         public void pointsChanged(); // the number of points changed
         public void levelChanged(); // the level of difficulty changed
-        public void attemptsChanged(); // the number of attempts changed
-        public void timerVisibleChanged(); // the timer visibility was changed
+        public void timerVisibleChanged(); // the timer visibility changed
         public void soundEnabledChanged(); // sound was toggled on or off
         public void challengeVisibilityChanged(); // what's visible while the user is solving a challenge has changed
         public void timeChanged(); // the time shown on the timer changed
@@ -434,7 +465,6 @@ public class GameModel extends RPALModel {
         public void guessChanged() {}
         public void pointsChanged() {}
         public void levelChanged() {}
-        public void attemptsChanged() {}
         public void timerVisibleChanged() {}
         public void soundEnabledChanged() {}
         public void challengeVisibilityChanged() {}
@@ -502,13 +532,6 @@ public class GameModel extends RPALModel {
         firePrintDebug( "fireLevelChanged" );
         for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.levelChanged();
-        }
-    }
-    
-    private void fireAttemptsChanged() {
-        firePrintDebug( "fireAttemptsChanged" );
-        for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
-            listener.attemptsChanged();
         }
     }
     
