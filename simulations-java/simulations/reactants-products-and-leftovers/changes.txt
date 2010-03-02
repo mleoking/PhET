@@ -1,3 +1,4 @@
+# 0.00.34 (39038) Mar 2, 2010
 3/2/10 dev version after completing all internal refactoring and cleanup
 3/2/10 fix bug introduced in water equation coefficient
 3/1/10 prevent scoreboard from unexplainably getting taller by maintaining it's original height
