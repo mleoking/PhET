@@ -237,10 +237,10 @@ public class AxonModel implements IParticleCapture {
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 5);
 
     	// Add the initial channels.
-    	for (int i = 0; i < 4; i++){
+    	for (int i = 0; i < 18; i++){
     		addChannel(MembraneChannelTypes.SODIUM_GATED_CHANNEL);
     	}
-    	for (int i = 0; i < 4; i++){
+    	for (int i = 0; i < 18; i++){
     		addChannel(MembraneChannelTypes.POTASSIUM_GATED_CHANNEL);
     	}
     	for (int i = 0; i < 4; i++){
