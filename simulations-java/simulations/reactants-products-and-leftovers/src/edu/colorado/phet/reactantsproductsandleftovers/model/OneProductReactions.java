@@ -17,7 +17,7 @@ public class OneProductReactions {
     public static class WaterReaction extends ChemicalReaction {
         public WaterReaction() {
             super( RPALStrings.RADIO_BUTTON_WATER, 
-                   new Reactant[] { new Reactant( 2, new H2() ), new Reactant( 2, new O2() ) },
+                   new Reactant[] { new Reactant( 2, new H2() ), new Reactant( 1, new O2() ) },
                     new Product[] { new Product( 2, new H2O() ) } );
         }
     }
