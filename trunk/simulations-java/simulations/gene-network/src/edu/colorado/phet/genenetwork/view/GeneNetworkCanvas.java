@@ -14,9 +14,11 @@ import edu.colorado.phet.genenetwork.model.Galactose;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.Glucose;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
+import edu.colorado.phet.genenetwork.model.MessengerRna;
 import edu.colorado.phet.genenetwork.model.ModelElementListenerAdapter;
 import edu.colorado.phet.genenetwork.model.RnaPolymerase;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
+import edu.colorado.phet.genenetwork.model.TransformationArrow;
 import edu.colorado.phet.genenetwork.module.LacOperonDefaults;
 import edu.umd.cs.piccolo.PNode;
 
@@ -142,6 +144,8 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     }
     
     private void addModelElement(final SimpleModelElement modelElement){
+    	
+    	// Create the node that will represent this model element.
     	final SimpleModelElementNode modelElementNode = new SimpleModelElementNode(modelElement, mvt, true);
     	
     	if (modelElement.isPartOfDnaStrand()){
@@ -159,6 +163,11 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     		else{
     			// Put everything else on the middle layer.
     			rovingModelElementLayer2.addChild(modelElementNode);
+    			
+    			if (modelElement instanceof MessengerRna || modelElement instanceof TransformationArrow){
+    				// These elements should not be movable by the user.
+    				modelElementNode.setPickable(false);
+    			}
     		}
     	}
     	
