@@ -242,7 +242,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     	
         private static final Font LABEL_FONT = new PhetFont(12);
         private static final double MIN_VAL = 0.5;
-        private static final double MAX_VAL = 5;
+        private static final double MAX_VAL = 7;
         
 		public ZoomSlider(String title, final NeuronCanvas neuronCanvas) {
             super( MIN_VAL, MAX_VAL, title, "0", "");
