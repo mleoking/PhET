@@ -29,7 +29,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GameSummaryNode extends PhetPNode {
+public class GameOverNode extends PhetPNode {
     
     private static final Font TITLE_FONT = new PhetFont( 24 );
     private static final Font LABEL_FONT = new PhetFont( 18 );
@@ -43,7 +43,7 @@ public class GameSummaryNode extends PhetPNode {
     private final JLabel scoreLabel;
     private final JLabel timeLabel;
     
-    public GameSummaryNode( final GameModel model ) {
+    public GameOverNode( final GameModel model ) {
         super();
         
         // title
