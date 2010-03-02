@@ -5,7 +5,6 @@ DEADLINES
 
 HIGH PRIORITY
 - audible click in the correctAnswer.wav
-- scoreboard background sometimes gets taller
 
 MEDIUM PRIORITY
 

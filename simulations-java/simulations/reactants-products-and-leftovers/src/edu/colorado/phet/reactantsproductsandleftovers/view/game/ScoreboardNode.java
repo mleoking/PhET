@@ -8,6 +8,7 @@ import java.awt.Component;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -55,6 +56,7 @@ public class ScoreboardNode extends PhetPNode {
     private final PImage timerIcon;
     private final PPath backgroundNode;
     private final GradientButtonNode newGameButton;
+    private final Rectangle2D backgroundShape;
     
     // mutable members
     private boolean confirmNewGame; // request confirmation when "New Game" button is pressed?
@@ -120,7 +122,8 @@ public class ScoreboardNode extends PhetPNode {
         
         // background, added last since it's sized to fit the child nodes above
         PBounds b = getFullBoundsReference();
-        backgroundNode = new PPath( new PBounds( 0, 0, b.getMaxX() + X_MARGIN, b.getMaxY() + Y_MARGIN ) );
+        backgroundShape = new Rectangle2D.Double( 0, 0, b.getMaxX() + X_MARGIN, b.getMaxY() + Y_MARGIN );
+        backgroundNode = new PPath( backgroundShape );
         backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
         backgroundNode.setStroke( BACKGROUND_STROKE );
         backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
@@ -221,13 +224,13 @@ public class ScoreboardNode extends PhetPNode {
     }
     
     /**
-     * Changes the width of the scoreboard, while keeping the "New Game" button
-     * at the right edge.  Used to adjust the scoreboard width to the play area.
+     * Changes the width of the scoreboard's background, while keeping the "New Game" button
+     * at the right edge.  Used to adjust the scoreboard width to other stuff in the play area.
      * @param width
      */
-    public void setPanelWidth( double width ) {
-        PBounds b = backgroundNode.getFullBoundsReference();
-        backgroundNode.setPathTo( new PBounds( 0, 0, width, b.getHeight() ) );
+    public void setBackgroundWidth( double width ) {
+        backgroundShape.setRect( backgroundShape.getX(), backgroundShape.getY(), width, backgroundShape.getHeight() );
+        backgroundNode.setPathTo( backgroundShape );
         double x = backgroundNode.getFullBoundsReference().getMaxX() - newGameButton.getFullBoundsReference().getWidth() - X_MARGIN;
         newGameButton.setOffset( x, newGameButton.getYOffset() );
     }
