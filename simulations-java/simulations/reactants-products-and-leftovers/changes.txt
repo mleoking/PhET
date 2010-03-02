@@ -1,3 +1,5 @@
+# 0.00.34 (39034) Mar 2, 2010
+3/2/10 dev version after completing all internal refactoring and cleanup
 3/1/10 prevent scoreboard from unexplainably getting taller by maintaining it's original height
 3/1/10 clean up GameCanvas, better docs and organization, so that this is more maintainable
 3/1/10 move game reward animation play/pause to module activate/deactivate
