@@ -1,3 +1,6 @@
+3/1/10 clean up GameCanvas, better docs and organization, so that this is more maintainable
+3/1/10 move game reward animation play/pause to module activate/deactivate
+3/1/10 rename GameSummaryNode to GameOverNode
 3/1/10 clean up GameModel, make it easier to understand, untangle some confusing semantics
 3/1/10 better doc for showAnswer and showGuess methods in GameBeforeNode and GameAfterNode
 3/1/10 improve output of NumberOfVariablesChallengeFactory.main

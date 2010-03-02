@@ -95,7 +95,14 @@ public class GameBeforeNode extends AbstractBeforeNode {
     }
     
     /**
-     * Shows the images and quantities corresponding to the answer (the actual reaction).
+     * Shows all components of the answer (the actual reaction).
+     */
+    public void showAnswer() {
+        showAnswer( true /* showImages */, true /* showNumbers */ );
+    }
+    
+    /**
+     * Shows specific components of the answer (the actual reaction).
      * @param showImages
      * @param showNumbers
      */

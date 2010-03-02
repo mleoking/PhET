@@ -36,6 +36,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class GameCanvas extends RPALCanvas {
     
+    //---------------------------------------------------------------------------------
+    //  Class data
+    //---------------------------------------------------------------------------------
+    
     private static final Color BUTTONS_COLOR = new Color( 255, 255, 0, 150 ); // translucent yellow
     private static final int BUTTONS_FONT_SIZE = 30;
     private static final double BUTTON_X_SPACING = 20;
@@ -47,7 +51,7 @@ public class GameCanvas extends RPALCanvas {
     
     // node collection names, for managing visibility
     private static final String GAME_SETTINGS_STATE = "gameSetting";
-    private static final String GAME_SUMMARY_STATE = "gameSummary";
+    private static final String GAME_OVER_STATE = "gameSummary";
     private static final String FIRST_ATTEMPT_STATE = "firstAttempt";
     private static final String FIRST_ATTEMPT_CORRECT_STATE = "firstAttemptCorrect";
     private static final String FIRST_ATTEMPT_WRONG_STATE = "firstAttemptWrong";
@@ -56,18 +60,22 @@ public class GameCanvas extends RPALCanvas {
     private static final String SECOND_ATTEMPT_WRONG_STATE = "secondAttemptWrong";
     private static final String ANSWER_SHOWN_STATE = "answerShown";
     
+    //---------------------------------------------------------------------------------
+    //  Instance data
+    //---------------------------------------------------------------------------------
+    
     private final GameModel model;
     private final NodeVisibilityManager visibilityManager;
     private final RPALAudioPlayer audioPlayer;
     
-    // nodes allocated once, always visible
-    private final PhetPNode parentNode;
+    // static nodes, allocated once, always visible
     private final PhetPNode buttonsParentNode;
     private final ScoreboardNode scoreboardNode;
     private final RightArrowNode arrowNode;
     private final ReactionNumberLabelNode reactionNumberLabelNode;
     
-    // nodes allocated once, visibility changes
+    // static nodes, allocated once, visibility changes
+    private final PhetPNode parentNode;
     private final PhetPNode gameSettingsNode;
     private final FaceNode faceNode;
     private final GradientButtonNode checkButton, nextButton, tryAgainButton, showAnswerButton;
@@ -78,14 +86,16 @@ public class GameCanvas extends RPALCanvas {
     // developer nodes, allocated once, always visible
     private final DevAnswerNode devAnswerNode;
 
-    // these nodes are mutable, allocated when reaction changes, always visible
-    private RealReactionEquationNode equationNode;
-    private GameBeforeNode beforeNode;
-    private GameAfterNode afterNode;
-    private GameSummaryNode gameSummaryNode; // allocate at end of game
-    
-    private boolean rewardNodeWasRunning; // was the reward node animation running the last time we switched to some other module?
+    // dynamic nodes, always visible
+    private RealReactionEquationNode equationNode; // allocated when reaction changes
+    private GameBeforeNode beforeNode; // allocated when reaction changes
+    private GameAfterNode afterNode; // allocated when reaction changes
+    private GameOverNode gameOverNode; // allocate at end of game
 
+    //---------------------------------------------------------------------------------
+    //  Constructors
+    //---------------------------------------------------------------------------------
+    
     public GameCanvas( final GameModel model, Resettable resettable, boolean researchFlag ) {
         super();
         
@@ -230,10 +240,18 @@ public class GameCanvas extends RPALCanvas {
         } );
         showAnswerButton.addPropertyChangeListener( buttonVisibilityListener );
         
-        // visibility management
-        PNode[] allNodes = { rewardNode, gameSettingsNode, parentNode, checkButton, nextButton, tryAgainButton, showAnswerButton, faceNode, instructionsNode, pointsDeltaNode };
-        visibilityManager = new NodeVisibilityManager( allNodes );
-        initVisibilityManager();
+        // Define which static nodes should be visible at each state of the game.
+        PNode[] managedNodes = { parentNode, gameSettingsNode, faceNode, checkButton, nextButton, tryAgainButton, showAnswerButton, instructionsNode, pointsDeltaNode, rewardNode };
+        visibilityManager = new NodeVisibilityManager( managedNodes );
+        visibilityManager.add( GAME_SETTINGS_STATE, gameSettingsNode );
+        visibilityManager.add( FIRST_ATTEMPT_STATE, parentNode, checkButton, instructionsNode );
+        visibilityManager.add( FIRST_ATTEMPT_CORRECT_STATE, parentNode, faceNode, nextButton, pointsDeltaNode );
+        visibilityManager.add( FIRST_ATTEMPT_WRONG_STATE, parentNode, faceNode, tryAgainButton );
+        visibilityManager.add( SECOND_ATTEMPT_STATE, parentNode, checkButton );
+        visibilityManager.add( SECOND_ATTEMPT_CORRECT_STATE, parentNode, faceNode, nextButton, pointsDeltaNode );
+        visibilityManager.add( SECOND_ATTEMPT_WRONG_STATE, parentNode, faceNode, showAnswerButton );
+        visibilityManager.add( ANSWER_SHOWN_STATE, parentNode, nextButton );
+        visibilityManager.add( GAME_OVER_STATE, rewardNode );
         
         // initial state
         updateDynamicNodes();
@@ -241,24 +259,24 @@ public class GameCanvas extends RPALCanvas {
         visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
-    /*
-     * Define which nodes should be visible at each state of the game.
+    //---------------------------------------------------------------------------------
+    //  Setters and getters
+    //---------------------------------------------------------------------------------
+    
+    /**
+     * Gets the game reward node, so we can play/pause the animation
+     * when the associated Module is activated/deactivated.
      */
-    private void initVisibilityManager() {
-        visibilityManager.add( GAME_SETTINGS_STATE, gameSettingsNode );
-        visibilityManager.add( FIRST_ATTEMPT_STATE, parentNode, checkButton, instructionsNode );
-        visibilityManager.add( FIRST_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode, pointsDeltaNode );
-        visibilityManager.add( FIRST_ATTEMPT_WRONG_STATE, parentNode, tryAgainButton, faceNode );
-        visibilityManager.add( SECOND_ATTEMPT_STATE, parentNode, checkButton );
-        visibilityManager.add( SECOND_ATTEMPT_CORRECT_STATE, parentNode, nextButton, faceNode, pointsDeltaNode );
-        visibilityManager.add( SECOND_ATTEMPT_WRONG_STATE, parentNode, showAnswerButton, faceNode );
-        visibilityManager.add( ANSWER_SHOWN_STATE, parentNode, nextButton );
-        visibilityManager.add( GAME_SUMMARY_STATE, rewardNode );
+    public GameRewardNode getRewardNode() {
+        return rewardNode;
     }
     
+    //---------------------------------------------------------------------------------
+    //  Handlers for model event notifications
+    //---------------------------------------------------------------------------------
+    
     private void handleNewGame() {
-        showGuess( false );
-        removeGameSummaryNode();
+        removeGameOverNode();
         visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
@@ -268,9 +286,9 @@ public class GameCanvas extends RPALCanvas {
     }
     
     private void handleGameCompleted() {
-        addGameSummaryNode();
+        addGameOverNode();
         rewardNode.setLevel( model.getLevel(), model.isPerfectScore() );
-        visibilityManager.setVisibility( GAME_SUMMARY_STATE );
+        visibilityManager.setVisibility( GAME_OVER_STATE );
         if ( model.isPerfectScore() ) {
             audioPlayer.gameOverPerfectScore();
         }
@@ -282,22 +300,21 @@ public class GameCanvas extends RPALCanvas {
         }
     }
     
-    private void addGameSummaryNode() {
-        gameSummaryNode = new GameSummaryNode( model );
-        gameSummaryNode.scale( 1.5 );
-        centerGameSummary();
-        addWorldChild( gameSummaryNode );
+    private void addGameOverNode() {
+        gameOverNode = new GameOverNode( model );
+        gameOverNode.scale( 1.5 );
+        addWorldChild( gameOverNode );
+        centerNode( gameOverNode );
     }
     
-    private void removeGameSummaryNode() {
-        if ( gameSummaryNode != null ) {
-            removeWorldChild( gameSummaryNode );
+    private void removeGameOverNode() {
+        if ( gameOverNode != null ) {
+            removeWorldChild( gameOverNode );
+            gameOverNode = null;
         }
-        gameSummaryNode = null;
     }
 
     private void handleGameAborted() {
-        showGuess( false );
         visibilityManager.setVisibility( GAME_SETTINGS_STATE );
     }
     
@@ -315,10 +332,14 @@ public class GameCanvas extends RPALCanvas {
         audioPlayer.setEnabled( model.isSoundEnabled() );
     }
     
+    //---------------------------------------------------------------------------------
+    //  Handlers for buttons
+    //---------------------------------------------------------------------------------
+    
     /*
      * When the "Check" button is pressed, ask the model to evaluate the user's answer.
      * The model handles the awarding of points.
-     * All we need to do here is more to the proper state based on whether the 
+     * All we need to do here is move to the proper state based on whether the 
      * answer was correct, and how many attempts the user had made.
      */
     private void checkButtonPressed() {
@@ -333,7 +354,7 @@ public class GameCanvas extends RPALCanvas {
             else {
                 visibilityManager.setVisibility( SECOND_ATTEMPT_CORRECT_STATE );
             }
-            showImagesForCorrectGuess();
+            showAnswerForCorrectGuess();
         }
         else {
             audioPlayer.wrongAnswer();
@@ -359,6 +380,68 @@ public class GameCanvas extends RPALCanvas {
     private void showAnswerButtonPressed() {
         showAnswer();
         visibilityManager.setVisibility( ANSWER_SHOWN_STATE );
+    }
+    
+    //---------------------------------------------------------------------------------
+    //  Visibility of guess and answer
+    //---------------------------------------------------------------------------------
+    
+    /*
+     * Shows the user's guess in the appropriate box, with optionally editable spinners.
+     */
+    private void showGuess( boolean editable ) {
+        GameChallenge challenge = model.getChallenge();
+        if ( challenge.getChallengeType() == ChallengeType.AFTER ) {
+            afterNode.showGuess( editable );
+        }
+        else {
+            beforeNode.showGuess( editable );
+        }
+    }
+
+    /*
+     * Shows all parts of the correct answer (molecules and numbers) in both boxes.
+     */
+    private void showAnswer() {
+        afterNode.showAnswer();
+        beforeNode.showAnswer();
+    }
+    
+    /*
+     * Shows all parts of the "given" answer associated with a correct guess,
+     * in case parts of the answer (molecules or numbers) were hidden as part of the challenge.
+     */
+    private void showAnswerForCorrectGuess() {
+        if ( model.getChallenge().getChallengeType() == ChallengeType.AFTER ) {
+            beforeNode.showAnswer();
+        }
+        else {
+            afterNode.showAnswer();
+        }
+    }
+    
+    //---------------------------------------------------------------------------------
+    //  Updaters
+    //---------------------------------------------------------------------------------
+    
+    /*
+     * Called when the canvas size changes.
+     */
+    @Override
+    protected void updateLayout() {
+        super.updateLayout();
+        Dimension2D worldSize = getWorldSize();
+        if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
+            
+            // make the reward fill the play area
+            PBounds newBounds = new PBounds( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
+            rewardNode.setBounds( newBounds );
+            
+            // center nodes in the play area
+            centerNode( gameSettingsNode );
+            centerNode( gameOverNode );
+            centerNode( parentNode );
+        }
     }
     
     /*
@@ -479,8 +562,6 @@ public class GameCanvas extends RPALCanvas {
         x = parentNode.getFullBoundsReference().getCenterX() - ( gameSettingsNode.getFullBoundsReference().getWidth() / 2 );
         y = parentNode.getFullBoundsReference().getCenterY() - ( gameSettingsNode.getFullBoundsReference().getHeight() / 2 );
         gameSettingsNode.setOffset( x, y );
-        
-        centerGameSummary();
     }
     
     /*
@@ -516,79 +597,5 @@ public class GameCanvas extends RPALCanvas {
         x = offset.getX() + ( ( BOX_SIZE.getWidth() - buttonMaxX ) / 2 );
         y = offset.getY() + BOX_SIZE.getHeight() - buttonMaxY - 10;
         buttonsParentNode.setOffset( x, y );
-    }
-    
-    /*
-     * Centers the "Game Summary" in the play area.
-     */
-    private void centerGameSummary() {
-        if ( gameSummaryNode != null ) {
-            double x = parentNode.getFullBoundsReference().getCenterX() - ( gameSummaryNode.getFullBoundsReference().getWidth() / 2 );
-            double y = parentNode.getFullBoundsReference().getCenterY() - ( gameSummaryNode.getFullBoundsReference().getHeight() / 2 );
-            gameSummaryNode.setOffset( x, y );
-        }
-    }
-    
-    /*
-     * Shows the user's guess in the appropriate box, with optionally editable spinners.
-     */
-    private void showGuess( boolean editable ) {
-        GameChallenge challenge = model.getChallenge();
-        if ( challenge.getChallengeType() == ChallengeType.AFTER ) {
-            afterNode.showGuess( editable );
-        }
-        else {
-            beforeNode.showGuess( editable );
-        }
-    }
-
-    /*
-     * Shows the correct answer, with images and numbers.
-     */
-    private void showAnswer() {
-        afterNode.showAnswer( true, true );
-        beforeNode.showAnswer( true, true );
-    }
-    
-    /*
-     * Shows molecule images for a correct guess.
-     */
-    private void showImagesForCorrectGuess() {
-        if ( model.getChallenge().getChallengeType() == ChallengeType.AFTER ) {
-            afterNode.showGuess( false );
-            beforeNode.showAnswer( true, true );
-        }
-        else {
-            beforeNode.showGuess( false );
-            afterNode.showAnswer( true, true );
-        }
-    }
-    
-    @Override
-    protected void updateLayout() {
-        super.updateLayout();
-        Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
-            
-            // make the reward fill the play area
-            PBounds newBounds = new PBounds( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
-            rewardNode.setBounds( newBounds );
-            
-            // center nodes in the play area
-            centerNode( gameSettingsNode );
-            centerNode( gameSummaryNode );
-            centerNode( parentNode );
-        }
-    }
-    
-    public void activate() {
-        if ( rewardNodeWasRunning ) {
-            rewardNode.play();
-        }
-    }
-    
-    public void deactivate() {
-        rewardNodeWasRunning = rewardNode.isRunning();
-        rewardNode.pause();
     }
 }

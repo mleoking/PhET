@@ -17,6 +17,7 @@ public class GameModule extends PiccoloModule {
     
     private final GameModel model;
     private final GameCanvas canvas;
+    private boolean rewardWasRunning = false; // was the game reward animation running when this module was deactivated?
 
     public GameModule( Frame parentFrame, boolean researchFlag ) {
         super( RPALStrings.TITLE_GAME, new RPALClock(), true /* startsPaused */ );
@@ -38,12 +39,15 @@ public class GameModule extends PiccoloModule {
     @Override
     public void activate() {
         super.activate();
-        canvas.activate();
+        if ( rewardWasRunning ) {
+            canvas.getRewardNode().play();
+        }
     }
     
     @Override
     public void deactivate() {
         super.deactivate();
-        canvas.deactivate();
+        rewardWasRunning = canvas.getRewardNode().isRunning();
+        canvas.getRewardNode().pause();
     }
 }
