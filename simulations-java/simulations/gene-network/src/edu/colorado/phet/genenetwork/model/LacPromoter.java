@@ -60,10 +60,10 @@ public class LacPromoter extends Promoter {
 		// on the lac operator.  This is a bit of "hollywooding" to prevent
 		// the race condition between RNA polymerase starting to traverse and
 		// the LacI attaching to the lac operator.  Note that we assume the
-		// presense of glucose indicates the presence of lactose.
+		// presence of glucose indicates the presence of lactose.
 		if ( ( getModel().getGlucoseList().size() > 0 ) || 
 			 ( getModel().getLacIList().size() == 0 ) || 
-			 ( getModel().getLacOperator().isLacIAttached() ) )
+			 ( getModel().getLacOperator() != null && getModel().getLacOperator().isLacIAttached() ) )
 		{
 			super.attemptToStartAttaching();
 		}
