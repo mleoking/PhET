@@ -4,9 +4,10 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
+- audible click in the correctAnswer.wav
+- scoreboard background sometimes gets taller
 
 MEDIUM PRIORITY
-- scoreboard background sometimes gets taller
 
 LOW PRIORITY
 - add developer controls for setting up specific Game challenges (expensive, do this only if needed for debugging)
