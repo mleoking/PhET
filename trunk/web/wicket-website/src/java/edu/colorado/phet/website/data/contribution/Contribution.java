@@ -554,5 +554,13 @@ public class Contribution implements Serializable, UpdateListener {
 
     public void onUpdate() {
         logger.info( "contribution #" + id + " updated" );
+
+        try {
+            createZipFile();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            logger.error( "unable to recreate zip file for contribution " + id, e );
+        }
     }
 }
