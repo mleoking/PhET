@@ -26,6 +26,10 @@ public class Glucose extends SimpleSugar {
 	// LacI, it should try to attach to it.
 	private static final double LAC_I_IMMEDIATE_ATTACH_DISTANCE = 8;
 	
+	// If this molecule is moved by the user to within this distance from a
+	// LacZ, it should try to attach to it.
+	private static final double LAC_Z_IMMEDIATE_ATTACH_DISTANCE = 8;
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -177,9 +181,6 @@ public class Glucose extends SimpleSugar {
 		lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		setMotionStrategy(new LinearThenRandomMotionStrategy(LacOperonModel.getMotionBoundsAboveDna(),
 				getPositionRef(), new Vector2D.Double(-3, -8), 1));
-		
-		// Once broken down from being a part of lactose, this fades away.
-		setExistenceTime(0.5);
 	}
 
 	/**
@@ -209,34 +210,6 @@ public class Glucose extends SimpleSugar {
 	}
 	
 	/**
-	 * Set the time for lactose to exist, after which it will fade out.  This
-	 * was created to allow lactose to fade out at the same time as lacI when
-	 * they are all bonded together.
-	 * 
-	 * TODO: As of this writing (Dec 15, 2009), lactose fades out after being
-	 * bonded to LacI.  We don't know if this is the desired behavior, since
-	 * it isn't specified, so the behavior may eventually be changed such that
-	 * lactose can only be removed after being broken down by LacZ.  If that
-	 * becomes the case, this method should go away.  UPDATE Jan 1, 2010 - 
-	 * After a review with the folks from UBC, it was decided that lactose and
-	 * LacI should NOT fade out after bonding.  Instead, the lactose should be
-	 * released after a while.  The only way for lactose to leave the sim will
-	 * be for it to be digested by LacZ.  So, this should be removed once it
-	 * is determined that not fading is the desired behavior.
-	 * 
-	 * @param existenceTime
-	 */
-	public void setLactoseExistenceTime(double existenceTime){
-		
-		assert galactoseAttachmentPartner != null;
-		galactoseAttachmentPartner.setOkayToFade(true);
-		galactoseAttachmentPartner.setExistenceTime(existenceTime);
-		setExistenceTime(existenceTime);
-		setOkayToFade(true);
-		
-	}
-	
-	/**
 	 * This is called to force this molecule to release the attached galactose
 	 * molecule, essentially breaking down from lactose into the constituent
 	 * molecules.
@@ -248,6 +221,9 @@ public class Glucose extends SimpleSugar {
 		}
 		galactoseAttachmentPartner.detach(this);
 		galactoseAttachmentPartner = null;
+		
+		// Once broken down from being a part of lactose, this fades away.
+		setExistenceTime(0.5);
 	}
 	
 	/**
@@ -314,8 +290,8 @@ public class Glucose extends SimpleSugar {
 			assert lacIAttachmentPartner == null;
 			assert lacZAttachmentPartner == null;
 			
-			// If this was dropped close to a LacI, it should try to attach to
-			// it.
+			// If this was dropped close to a LacI, it should try to
+			// attach to it.
 			ArrayList<LacI> lacIList = getModel().getLacIList();
 			for (LacI lacI : lacIList){
 				if (lacI.getPositionRef().distance(getPositionRef()) < LAC_I_IMMEDIATE_ATTACH_DISTANCE){
@@ -326,6 +302,25 @@ public class Glucose extends SimpleSugar {
 						// of requesting the immediate attachment, so nothing
 						// else needs to be done here.
 						break;
+					}
+				}
+			}
+			if (lacIAttachmentState != AttachmentState.ATTACHED && 
+				lacIAttachmentState != AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+
+				// If we were dropped close to a LacZ, and we weren't already
+				// picked up by a lacI, we should attach to the LacZ.
+				ArrayList<LacZ> lacZList = getModel().getLacZList();
+				for (LacZ lacZ : lacZList){
+					if (lacZ.getPositionRef().distance(getPositionRef()) < LAC_Z_IMMEDIATE_ATTACH_DISTANCE){
+						if (lacZ.requestImmediateAttach(this)){
+							// The request was accepted, so our work here is done.
+							// Note that all of the setting of state variables
+							// related to this attachment will be done as a result
+							// of requesting the immediate attachment, so nothing
+							// else needs to be done here.
+							break;
+						}
 					}
 				}
 			}
