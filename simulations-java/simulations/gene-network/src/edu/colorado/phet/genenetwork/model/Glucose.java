@@ -170,17 +170,27 @@ public class Glucose extends SimpleSugar {
 	
 	/**
 	 * Detach from LacZ.  This is intended to be used by a LacZ instance that
-	 * wants to detach.  After being released by LacZ, it is assumed that the
-	 * lactose has been "digested", so this molecule fades out of existence.
+	 * wants to detach.
 	 * 
 	 * @param lacI
 	 */
 	public void detach(LacZ lacZ){
 		assert lacZ == lacZAttachmentPartner;
 		lacZAttachmentPartner = null;
-		lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		setMotionStrategy(new LinearThenRandomMotionStrategy(LacOperonModel.getMotionBoundsAboveDna(),
 				getPositionRef(), new Vector2D.Double(-3, -8), 1));
+		
+		if (galactoseAttachmentPartner == null){
+			// This glucose molecule is not part of a lactose molecule, so it
+			// has essentially be "digested".  It shouldn't be available for
+			// any attachments.
+			lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+		}
+		else{
+			// This glucose molecule is still part of a lactose molecule, so
+			// it should be made available for attachment.
+			lacZAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+		}
 	}
 
 	/**
