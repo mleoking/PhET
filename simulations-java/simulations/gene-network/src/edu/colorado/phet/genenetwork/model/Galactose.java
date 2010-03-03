@@ -40,7 +40,6 @@ public class Galactose extends SimpleSugar {
 		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, glucoseAttachmentPartner, offset));
 	}
 	
-	boolean detachCalled = false;
 	public void detach(Glucose glucose){
 		assert glucose == glucoseAttachmentPartner;
 		
@@ -50,7 +49,6 @@ public class Galactose extends SimpleSugar {
 		
 		// This should fade out shortly after detaching.
 		setExistenceTime(0.5);
-		detachCalled = true;
 	}
 
 	@Override
