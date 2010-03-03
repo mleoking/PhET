@@ -242,7 +242,6 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.3-rc2" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1_3" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/circuit-construction-kit/scala-src" />
-      <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/force-law-lab/scala-src" />
       <excludeFolder url="file://$MODULE_DIR$/web/wicket-test/src/java" />
     </content>
     <orderEntry type="inheritedJdk" />
