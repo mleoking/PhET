@@ -82,7 +82,7 @@ public class ProbabilisticChooser {
      *
      * @param entries An array of ProbabilisticChooser.Entry objects
      */
-    public ProbabilisticChooser( Entry[] entries ) {
+    public ProbabilisticChooser( ProbabilisticChooser.Entry[] entries ) {
         _entries = new Entry[entries.length];
 
         // Get the normalization factor for the probabilities

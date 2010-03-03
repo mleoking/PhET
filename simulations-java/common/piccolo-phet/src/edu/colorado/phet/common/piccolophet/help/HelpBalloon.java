@@ -171,7 +171,7 @@ public class HelpBalloon extends AbstractHelpItem {
      * @param arrowTailPosition
      * @param arrowLength
      */
-    public HelpBalloon( JComponent helpPanel, String text, Attachment arrowTailPosition, double arrowLength ) {
+    public HelpBalloon( JComponent helpPanel, String text, HelpBalloon.Attachment arrowTailPosition, double arrowLength ) {
         this( helpPanel, text, arrowTailPosition, arrowLength, 0 /* arrowRotation */ );
     }
 
@@ -187,7 +187,7 @@ public class HelpBalloon extends AbstractHelpItem {
      * @param arrowLength
      * @param arrowRotation
      */
-    public HelpBalloon( JComponent helpPanel, String text, Attachment arrowTailPosition, double arrowLength, double arrowRotation ) {
+    public HelpBalloon( JComponent helpPanel, String text, HelpBalloon.Attachment arrowTailPosition, double arrowLength, double arrowRotation ) {
         super( helpPanel );
 
         // Validate arguments

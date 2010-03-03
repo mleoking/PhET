@@ -22,7 +22,7 @@ public class ZAbstractClockTester extends TestCase {
 
     private final ClockFactory factory;
 
-    public ZAbstractClockTester(ClockFactory factory) {
+    public ZAbstractClockTester(ZAbstractClockTester.ClockFactory factory) {
         this.factory = factory;
     }
 
