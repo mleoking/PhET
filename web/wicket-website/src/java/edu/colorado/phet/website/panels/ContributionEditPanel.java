@@ -24,8 +24,8 @@ import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.authentication.PhetSession;
-import edu.colorado.phet.website.content.ContributionBrowsePage;
 import edu.colorado.phet.website.content.ContributionPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
@@ -55,6 +55,8 @@ public class ContributionEditPanel extends PhetPanel {
     public ContributionEditPanel( String id, PageContext context, Contribution preContribution ) {
         super( id, context );
 
+        AuthenticatedPage.checkSignedIn();
+
         this.context = context;
 
         add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
@@ -66,17 +68,34 @@ public class ContributionEditPanel extends PhetPanel {
         existingFiles = new LinkedList();
         filesToRemove = new LinkedList();
 
+        final PhetUser currentUser = PhetSession.get().getUser();
+
+        boolean success = true;
+
         if ( !creating ) {
-            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
                     List list = session.createQuery( "select f from ContributionFile as f where f.contribution.id = :cid" )
                             .setInteger( "cid", contribution.getId() ).list();
                     for ( Object o : list ) {
                         existingFiles.add( o );
                     }
+                    if ( !currentUser.isTeamMember() ) {
+                        Contribution tmp = (Contribution) session.load( Contribution.class, contribution.getId() );
+                        if ( currentUser.getId() != tmp.getPhetUser().getId() ) {
+                            return false;
+                        }
+                    }
                     return true;
                 }
             } );
+
+            if ( !success ) {
+                logger.info( "Auth error?" );
+                // authentication failure!
+                // TODO: possibly bail out here? investigate wicket options
+                setResponsePage( PhetWicketApplication.get().getApplicationSettings().getAccessDeniedPage() );
+            }
         }
 
         // initialize selectors
@@ -327,11 +346,16 @@ public class ContributionEditPanel extends PhetPanel {
                     Locale locale = PhetWicketApplication.getDefaultLocale(); // TODO: localize
 
                     Contribution contribution;
+                    PhetUser user = (PhetUser) session.load( PhetUser.class, PhetSession.get().getUser().getId() );
 
                     // set up the contribution
                     if ( creating ) {
                         contribution = new Contribution();
                         contribution.setDateCreated( new Date() );
+                        contribution.setApproved( false );
+                        contribution.setFromPhet( user.isTeamMember() );
+                        contribution.setGoldStar( false );
+                        contribution.setOldId( 0 );
                     }
                     else {
                         contribution = (Contribution) session.load( Contribution.class, getContribution().getId() );
@@ -369,7 +393,7 @@ public class ContributionEditPanel extends PhetPanel {
                     contribution.setStandard912E( (Boolean) std912E.getModelObject() );
                     contribution.setStandard912F( (Boolean) std912F.getModelObject() );
                     contribution.setStandard912G( (Boolean) std912G.getModelObject() );
-                    contribution.setPhetUser( (PhetUser) session.load( PhetUser.class, PhetSession.get().getUser().getId() ) );
+                    contribution.setPhetUser( user );
                     contribution.setLocale( locale );
 
                     int contribId = (Integer) session.save( contribution );

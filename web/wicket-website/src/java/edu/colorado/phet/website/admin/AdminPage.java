@@ -18,4 +18,5 @@ public class AdminPage extends AuthenticatedPage {
 
         addTitle( "PhET Basic Administration" );
     }
+
 }
