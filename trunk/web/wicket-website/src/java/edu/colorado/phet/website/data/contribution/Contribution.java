@@ -92,7 +92,7 @@ public class Contribution implements Serializable {
     }
 
     public File getZipFile() {
-        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesRoot(), "/zip/" + getZipName() + ".zip" );
+        return new File( PhetWicketApplication.get().getActivitiesRoot(), "/zip/" + getZipName() + ".zip" );
     }
 
     public String getZipName() {
@@ -100,7 +100,7 @@ public class Contribution implements Serializable {
     }
 
     public String getZipLocation() {
-        return ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesLocation() + "/zip/" + getZipName() + ".zip";
+        return PhetWicketApplication.get().getActivitiesLocation() + "/zip/" + getZipName() + ".zip";
     }
 
     public void createZipFile() throws IOException {

@@ -282,4 +282,8 @@ public class PhetWicketApplication extends WebApplication {
         return new PhetCycleProcessor();
     }
 
+    public static PhetWicketApplication get() {
+        return (PhetWicketApplication) WebApplication.get();
+    }
+
 }
