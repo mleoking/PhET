@@ -9,6 +9,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.PhetUser;
@@ -132,6 +133,41 @@ public class Contribution implements Serializable, UpdateListener {
         zout.finish();
         zout.flush();
         zout.close();
+    }
+
+    /**
+     * Should be wrapped within a transaction
+     * @param session The hibernate session
+     */
+    public void deleteMe( Session session ) {
+        for ( Object o : comments ) {
+            session.delete( o );
+        }
+        for ( Object o : files ) {
+            // for now, leave the actual files in place. the ID will remain unique
+            session.delete( o );
+        }
+        for ( Object o : flags ) {
+            session.delete( o );
+        }
+        for ( Object o : levels ) {
+            session.delete( o );
+        }
+        for ( Object o : nominations ) {
+            session.delete( o );
+        }
+        for ( Object o : subjects ) {
+            session.delete( o );
+        }
+        for ( Object o : types ) {
+            session.delete( o );
+        }
+        for ( Object o : simulations ) {
+            Simulation simulation = (Simulation) o;
+            simulation.getContributions().remove( this );
+            // no update needed since the data is stored within the contribution
+        }
+        session.delete( this );
     }
 
     public void addComment( ContributionComment comment ) {

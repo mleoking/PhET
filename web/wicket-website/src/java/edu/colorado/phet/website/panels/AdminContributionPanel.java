@@ -64,7 +64,16 @@ public class AdminContributionPanel extends PhetPanel {
         add( new Link( "delete-link" ) {
             public void onClick() {
                 // TODO: do the delete magic
-                setResponsePage( IndexPage.class );
+                boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        Contribution contrib = (Contribution) session.load( Contribution.class, contribution.getId() );
+                        contrib.deleteMe( session );
+                        return true;
+                    }
+                } );
+                if ( success ) {
+                    setResponsePage( IndexPage.class );
+                }
             }
         } );
 
