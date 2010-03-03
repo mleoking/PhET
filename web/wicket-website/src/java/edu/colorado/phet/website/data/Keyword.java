@@ -3,7 +3,7 @@ package edu.colorado.phet.website.data;
 import java.io.Serializable;
 
 // TODO: make sure keywords can never exist with the same key. Thought it was implemented, but maybe it is broken?
-public class Keyword implements Serializable {
+public class Keyword implements Serializable, IntId {
 
     private int id;
 

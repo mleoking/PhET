@@ -6,8 +6,9 @@ import java.util.Date;
 import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.data.PhetUser;
+import edu.colorado.phet.website.data.IntId;
 
-public class ContributionComment implements Serializable {
+public class ContributionComment implements Serializable, IntId {
 
     private int id;
     private String text;

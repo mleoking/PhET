@@ -3,7 +3,7 @@ package edu.colorado.phet.website.data;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TranslatedString implements Serializable {
+public class TranslatedString implements Serializable, IntId {
     private int id;
     private Translation translation;
     private String key;

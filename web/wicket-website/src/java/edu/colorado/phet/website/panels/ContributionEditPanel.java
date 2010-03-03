@@ -27,6 +27,7 @@ import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.content.ContributionPage;
+import edu.colorado.phet.website.data.IntId;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.*;
@@ -413,14 +414,14 @@ public class ContributionEditPanel extends PhetPanel {
                     }
 
                     for ( Object sim : selectedSims ) {
-                        if ( !sims.contains( sim ) ) {
+                        if ( !containsId( sims, sim ) ) {
                             logger.info( "adding sim " + ( (Simulation) sim ).getName() + " to contribution" );
                             contribution.addSimulation( (Simulation) session.load( Simulation.class, ( (Simulation) sim ).getId() ) );
                         }
                     }
 
                     for ( Object sim : iterSims ) {
-                        if ( !selectedSims.contains( sim ) ) {
+                        if ( !containsId( selectedSims, sim ) ) {
                             logger.info( "removing sim " + ( (Simulation) sim ).getName() + " from contribution" );
                             contribution.removeSimulation( (Simulation) sim );
                         }
@@ -434,14 +435,22 @@ public class ContributionEditPanel extends PhetPanel {
                     Set iterTypes = new HashSet( types );
 
                     for ( Type type : typeManager.getValues() ) {
-                        if ( !types.contains( type ) ) {
-                            logger.info( "adding type " + type + " to contribution" );
-                            ContributionType ctype = new ContributionType();
-                            ctype.setType( type );
-                            contribution.addType( ctype );
-                            ctype.setContribution( contribution );
-                            session.save( ctype );
+                        boolean exists = false;
+                        for ( Object o : types ) {
+                            if ( ( (ContributionType) o ).getType() == type ) {
+                                exists = true;
+                                break;
+                            }
                         }
+                        if ( exists ) {
+                            continue;
+                        }
+                        logger.info( "adding type " + type + " to contribution" );
+                        ContributionType ctype = new ContributionType();
+                        ctype.setType( type );
+                        contribution.addType( ctype );
+                        ctype.setContribution( contribution );
+                        session.save( ctype );
                     }
 
                     for ( Object o : iterTypes ) {
@@ -459,14 +468,22 @@ public class ContributionEditPanel extends PhetPanel {
                     Set iterLevels = new HashSet( levels );
 
                     for ( Level level : levelManager.getValues() ) {
-                        if ( !types.contains( level ) ) {
-                            logger.info( "adding level " + level + " to contribution" );
-                            ContributionLevel clevel = new ContributionLevel();
-                            clevel.setLevel( level );
-                            contribution.addLevel( clevel );
-                            clevel.setContribution( contribution );
-                            session.save( clevel );
+                        boolean exists = false;
+                        for ( Object o : levels ) {
+                            if ( ( (ContributionLevel) o ).getLevel() == level ) {
+                                exists = true;
+                                break;
+                            }
                         }
+                        if ( exists ) {
+                            continue;
+                        }
+                        logger.info( "adding level " + level + " to contribution" );
+                        ContributionLevel clevel = new ContributionLevel();
+                        clevel.setLevel( level );
+                        contribution.addLevel( clevel );
+                        clevel.setContribution( contribution );
+                        session.save( clevel );
                     }
 
                     for ( Object o : iterLevels ) {
@@ -484,14 +501,22 @@ public class ContributionEditPanel extends PhetPanel {
                     Set iterSubjects = new HashSet( subjects );
 
                     for ( Subject subject : subjectManager.getValues() ) {
-                        if ( !subjects.contains( subject ) ) {
-                            logger.info( "adding subject " + subject + " to contribution" );
-                            ContributionSubject csubject = new ContributionSubject();
-                            csubject.setSubject( subject );
-                            contribution.addSubject( csubject );
-                            csubject.setContribution( contribution );
-                            session.save( csubject );
+                        boolean exists = false;
+                        for ( Object o : subjects ) {
+                            if ( ( (ContributionSubject) o ).getSubject() == subject ) {
+                                exists = true;
+                                break;
+                            }
                         }
+                        if ( exists ) {
+                            continue;
+                        }
+                        logger.info( "adding subject " + subject + " to contribution" );
+                        ContributionSubject csubject = new ContributionSubject();
+                        csubject.setSubject( subject );
+                        contribution.addSubject( csubject );
+                        csubject.setContribution( contribution );
+                        session.save( csubject );
                     }
 
                     for ( Object o : iterSubjects ) {
@@ -555,6 +580,24 @@ public class ContributionEditPanel extends PhetPanel {
 //                ContributionBrowsePage.getLinker().getLink( "id", context, getPhetCycle() ).onClick();
             }
 
+        }
+
+        /**
+         * Should only be applied to containsId( Collection<IntId> group, IntId element )
+         *
+         * @param group
+         * @param element
+         * @return
+         */
+        private boolean containsId( Collection group, Object element ) {
+            int elemId = ( (IntId) element ).getId();
+
+            for ( Object ob : group ) {
+                if ( ( (IntId) ob ).getId() == elemId ) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         @Override
