@@ -97,9 +97,6 @@ public class LacZ extends SimpleModelElement {
 					// Prevent fadeout from occurring while attached to lactose.
 					setOkayToFade(false);
 					
-					// Start the attachment timer/counter.
-					lactoseAttachmentCountdownTimer = LACTOSE_ATTACHMENT_TIME;
-					
 					// Move towards the partner.
 					Dimension2D offsetFromTarget = new PDimension(
 							Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
@@ -113,9 +110,7 @@ public class LacZ extends SimpleModelElement {
 			// See if the glucose is close enough to finalize the attachment.
 			if (getGlucoseAttachmentPointLocation().distance(glucoseAttachmentPartner.getLacZAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
 				// Finalize the attachment.
-				glucoseAttachmentPartner.attach(this);
-				glucoseAttachmentState = AttachmentState.ATTACHED;
-				setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBounds()));
+				completeAttachmentOfGlucose();
 			}
 		}
 		else if (glucoseAttachmentState == AttachmentState.ATTACHED){
@@ -137,6 +132,18 @@ public class LacZ extends SimpleModelElement {
 				glucoseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			}
 		}
+	}
+
+	/**
+	 * Complete that process of attaching to glucose.  Created to avoid
+	 * duplication of code.
+	 */
+	private void completeAttachmentOfGlucose() {
+		glucoseAttachmentPartner.attach(this);
+		glucoseAttachmentState = AttachmentState.ATTACHED;
+		setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBounds()));
+		// Start the attachment timer/counter.
+		lactoseAttachmentCountdownTimer = LACTOSE_ATTACHMENT_TIME;
 	}
 	
 	private static Shape createShape(){
@@ -181,6 +188,48 @@ public class LacZ extends SimpleModelElement {
 		
 		// It is now okay for the LacZ to fade out of existence if it needs to.
 		setOkayToFade(true);
+	}
+	
+	/**
+	 * Request an immediate attachment for a glucose molecule (which should
+	 * be half of a lactose molecule).  This is generally used when the
+	 * glucose was manually moved by the user to a location that is quite
+	 * close to this lacI.
+	 * 
+	 * @param glucose
+	 * @return true if it can attach, false if it already has a different
+	 * partner.
+	 */
+	public boolean requestImmediateAttach(Glucose glucose){
+		
+		// Shouldn't get a request for its current partner.
+		assert glucose != glucoseAttachmentPartner;
+		
+		if (glucoseAttachmentState == AttachmentState.ATTACHED){
+			// We are already attached to a glucose molecule, so we can attach
+			// to a different one.
+			return false;
+		}
+		
+		if (glucoseAttachmentPartner != null){
+			// We were moving towards attachment to a different glucose, so
+			// break off the engagement.
+			glucoseAttachmentPartner.detach(this);
+		}
+		
+		// Attach to this new glucose molecule.
+		if (glucose.considerProposalFrom(this) != true){
+			// This should never happen, since the glucose requested the
+			// attachment, so it should be debuged if it does.
+			System.err.println(getClass().getName() + "- Error: Proposal refused by element that requested attachment.");
+			assert false;
+		}
+		
+		// Everything should now be clear for finalizing the actual attachment.
+		glucoseAttachmentPartner = glucose;
+		completeAttachmentOfGlucose();
+		
+		return true;
 	}
 	
 	/**
