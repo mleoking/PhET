@@ -21,7 +21,7 @@ import edu.colorado.phet.flashlauncher.util.XMLUtils;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
-public class Project implements Serializable {
+public class Project implements Serializable, IntId {
 
     public static final int TYPE_JAVA = 0;
     public static final int TYPE_FLASH = 1;

@@ -11,7 +11,7 @@ import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.util.HibernateUtils;
 
-public class Category implements Serializable {
+public class Category implements Serializable, IntId {
     private int id;
     private String name;
     private boolean auto;

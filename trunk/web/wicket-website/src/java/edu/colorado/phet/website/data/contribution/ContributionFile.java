@@ -6,11 +6,12 @@ import java.io.Serializable;
 import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.data.IntId;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 
-public class ContributionFile implements Serializable {
+public class ContributionFile implements Serializable, IntId {
 
     private int id;
     private Contribution contribution;

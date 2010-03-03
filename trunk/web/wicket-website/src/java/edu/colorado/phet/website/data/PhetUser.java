@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-public class PhetUser implements Serializable {
+public class PhetUser implements Serializable, IntId {
 
     private int id;
     private String email;

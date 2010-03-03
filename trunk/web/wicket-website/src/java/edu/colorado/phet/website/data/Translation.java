@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-public class Translation implements Serializable {
+public class Translation implements Serializable, IntId {
     private int id;
     private Locale locale;
     private Set translatedStrings = new HashSet();

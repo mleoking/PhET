@@ -7,8 +7,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.data.contribution.Level;
+import edu.colorado.phet.website.data.IntId;
 
-public class ContributionLevel implements Serializable {
+public class ContributionLevel implements Serializable, IntId {
 
     private int id;
     private Level level;

@@ -6,7 +6,7 @@ import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
-public class Simulation implements Serializable {
+public class Simulation implements Serializable, IntId {
     private int id;
     private String name;
     private Project project;
