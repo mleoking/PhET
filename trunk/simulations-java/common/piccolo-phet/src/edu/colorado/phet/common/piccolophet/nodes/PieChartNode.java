@@ -21,13 +21,13 @@ public class PieChartNode extends PNode {
     /*
      * Creates a PieChartNode with the specified slices and area
      */
-    public PieChartNode( PieValue[] slices, Rectangle area ) {
+    public PieChartNode( PieChartNode.PieValue[] slices, Rectangle area ) {
         this.slices = slices;
         this.area = area;
         update();
     }
 
-    public void setPieValues( PieValue[] values ) {
+    public void setPieValues( PieChartNode.PieValue[] values ) {
         this.slices = values;
         update();
     }

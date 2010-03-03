@@ -34,7 +34,7 @@ public class MultiStateButton extends JButton {
      *
      * @param mode
      */
-    public MultiStateButton( Mode[] mode ) {
+    public MultiStateButton( MultiStateButton.Mode[] mode ) {
         for ( int i = 0; i < mode.length; i++ ) {
             addMode( mode[i].getKey(), mode[i].getLabel(), mode[i].getIcon() );
         }
