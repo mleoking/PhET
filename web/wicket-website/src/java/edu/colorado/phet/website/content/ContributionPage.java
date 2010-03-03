@@ -10,10 +10,12 @@ import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.ContributionMainPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
-import edu.colorado.phet.website.util.*;
-import edu.colorado.phet.website.util.links.RawLinkable;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
-import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.util.links.RawLinkable;
 
 /**
  * Holder page for showing a single contribution
@@ -56,12 +58,17 @@ public class ContributionPage extends PhetRegularPage {
         mapper.addMap( "^contributions/view/([^/]+)$", ContributionPage.class, new String[]{"contribution"} );
     }
 
-    public static PhetLink createLink( String id, PageContext context, Contribution contribution ) {
-        return createLink( id, context, contribution.getId() );
+    public static RawLinkable getLinker( final int contributionId ) {
+        return new AbstractLinker() {
+            @Override
+            public String getSubUrl( PageContext context ) {
+                return "contributions/view/" + contributionId;
+            }
+        };
     }
 
-    public static PhetLink createLink( String id, PageContext context, int contributionId ) {
-        return new PhetLink( id, context.getPrefix() + "contributions/view/" + contributionId );
+    public static RawLinkable getLinker( Contribution contribution ) {
+        return getLinker( contribution.getId() );
     }
 
 }
