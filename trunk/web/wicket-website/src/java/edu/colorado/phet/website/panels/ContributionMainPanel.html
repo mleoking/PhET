@@ -21,6 +21,8 @@
 <wicket:panel>
     <div class="contribution-main-container standard-content" wicket:message="dir:language.dir">
 
+        <div wicket:id="admin-contrib-panel"></div>
+
         <h2 class="contribution-title" style="vertical-align: middle;"><span wicket:id="contribution-title">Contribution Title</span>
             <img wicket:id="gold-star-contribution" src="../../../../../../../root/images/contributions/gold-star.jpg"
                  alt="Gold Star Contribution"/>
@@ -132,45 +134,88 @@
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;Science as Inquiry - A&nbsp;</td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4A" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std58A" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std912A" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4A"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std58A"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std912A"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;Physical Science - B&nbsp;</td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4B" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std58B" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std912B" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4B"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std58B"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std912B"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;Life Science - C&nbsp;</td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4C" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std58C" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std912C" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4C"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std58C"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std912C"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;Earth &amp; Space Science - D&nbsp;</td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4D" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std58D" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std912D" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4D"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std58D"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std912D"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;Science &amp; Technology - E&nbsp;</td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4E" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std58E" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std912E" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4E"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std58E"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std912E"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
                 </tr>
                 <tr>
-                    <td class="contribute-standard-label">&nbsp;Science in Personal and Social Perspective - F&nbsp;</td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4F" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std58F" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std912F" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
+                    <td class="contribute-standard-label">&nbsp;Science in Personal and Social Perspective -
+                        F&nbsp;</td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4F"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std58F"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std912F"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
                 </tr>
                 <tr>
                     <td class="contribute-standard-label">&nbsp;History and Nature of Science - G&nbsp;</td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4G" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std58G" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
-                    <td class="contribute-standard-checkmark"><img wicket:id="std912G" src="../../../../../../../root/images/checkmark.gif" alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="stdK4G"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std58G"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
+                    <td class="contribute-standard-checkmark"><img wicket:id="std912G"
+                                                                   src="../../../../../../../root/images/checkmark.gif"
+                                                                   alt=""/></td>
                 </tr>
             </table>
 

@@ -13,6 +13,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
@@ -20,6 +21,7 @@ import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.SearchResultsPage;
 import edu.colorado.phet.website.content.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
+import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.translation.PhetLocalizer;
@@ -43,6 +45,15 @@ public class ContributionMainPanel extends PhetPanel {
         add( new Label( "contribution-title", contribution.getTitle() ) );
 
         add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
+
+        PhetUser user = PhetSession.get().getUser();
+
+        if ( user != null && user.isTeamMember() ) {
+            add( new AdminContributionPanel( "admin-contrib-panel", context, contribution ) );
+        }
+        else {
+            add( new InvisibleComponent( "admin-contrib-panel" ) );
+        }
 
         // TODO: localize
         title = "PhET contribution: " + contribution.getTitle();

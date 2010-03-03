@@ -39,3 +39,19 @@
 .contribution-edit-table td.contribution-edit-input {
     padding-bottom: 10px;
 }
+
+.contribution-quick-admin {
+    font-weight: bold;
+    width: auto;
+    border: 1px solid red;
+    margin: 2px;
+    padding: 5px;
+}
+
+.contribution-approved {
+    color: green;
+}
+
+.contribution-unapproved {
+    color: red;
+}
