@@ -13,9 +13,10 @@ import org.apache.log4j.Logger;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.UpdateListener;
 import edu.colorado.phet.website.util.StringUtils;
 
-public class Contribution implements Serializable {
+public class Contribution implements Serializable, UpdateListener {
 
     private int id;
     private PhetUser phetUser;
@@ -549,5 +550,9 @@ public class Contribution implements Serializable {
 
     public void setLocale( Locale locale ) {
         this.locale = locale;
+    }
+
+    public void onUpdate() {
+        logger.info( "contribution #" + id + " updated" );
     }
 }
