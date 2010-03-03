@@ -128,6 +128,48 @@ public class LacI extends SimpleModelElement {
 		super.setDragging(dragging);
 	}
 	
+	/**
+	 * Request an immediate attachment for a glucose molecule (which should
+	 * be half of a lactose molecule).  This is generally used when the
+	 * glucose was manually moved by the user to a location that is quite
+	 * close to this lacI.
+	 * 
+	 * @param glucose
+	 * @return true if it can attach, false if it already has a different
+	 * partner.
+	 */
+	public boolean requestImmediateAttach(Glucose glucose){
+		
+		// Shouldn't get a request for its current partner.
+		assert glucose != glucoseAttachmentPartner;
+		
+		if (glucoseAttachmentState == AttachmentState.ATTACHED){
+			// We are already attached to a glucose molecule, so we can attach
+			// to a different one.
+			return false;
+		}
+		
+		if (glucoseAttachmentPartner != null){
+			// We are moving towards attachment to a different glucose, so
+			// break off the engagement.
+			glucoseAttachmentPartner.detach(this);
+		}
+		
+		// Attach to this new glucose molecule.
+		if (glucose.considerProposalFrom(this) != true){
+			// This should never happen, since the glucose requested the
+			// attachment, so it should be debuged if it does.
+			System.err.println(getClass().getName() + "- Error: Proposal refused by element that requested attachment.");
+			assert false;
+		}
+		
+		// Everything should now be clear for finalizing the actual attachment.
+		glucoseAttachmentPartner = glucose;
+		completeAttachmentOfGlucose();
+		
+		return true;
+	}
+	
 	@Override
 	protected void onTransitionToExistingState() {
 		setMotionStrategy(new DirectedRandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna(),
@@ -308,28 +350,7 @@ public class LacI extends SimpleModelElement {
 				if (getGlucoseAttachmentPointLocation().distance(glucoseAttachmentPartner.getLacZAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
 					
 					// Finalize the attachment.
-					glucoseAttachmentPartner.attach(this);
-					glucoseAttachmentState = AttachmentState.ATTACHED;
-					setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBounds()));
-					setShape(createInactiveConformationShape());
-					
-					// If we are currently attached to the lac operator, detach
-					// from it now, since the basic idea is that when lactose
-					// attaches to lacI it prevents it from being able to attach
-					// to the DNA.
-					if (lacOperatorAttachmentPartner != null){
-						lacOperatorAttachmentPartner.detach(this);
-						lacOperatorAttachmentPartner = null;
-						lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-						setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(
-								LacOperonModel.getMotionBounds(), 0, null, -1));
-					}
-					
-					// Prevent ourself from fading while bonded.
-					setOkayToFade(false);
-					
-					// Set the bond time.
-					glucoseAttachmentTimeCountdown = LACTOSE_BOND_TIME;
+					completeAttachmentOfGlucose();
 				}
 				break;
 				
@@ -458,5 +479,35 @@ public class LacI extends SimpleModelElement {
 			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget, 
 					LacOperonModel.getMotionBounds()));
 		}
+	}
+	
+	/**
+	 * Complete that process of attaching to glucose.  Created to avoid
+	 * duplication of code.
+	 */
+	private void completeAttachmentOfGlucose(){
+		
+		glucoseAttachmentPartner.attach(this);
+		glucoseAttachmentState = AttachmentState.ATTACHED;
+		setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBounds()));
+		setShape(createInactiveConformationShape());
+		
+		// If we are currently attached to the lac operator or moving towards
+		// attachment with it, detach now, since the basic idea is that when
+		// lactose attaches to lacI it prevents it from being able to attach
+		// to the lac operator on the DNA strand.
+		if (lacOperatorAttachmentPartner != null){
+			lacOperatorAttachmentPartner.detach(this);
+			lacOperatorAttachmentPartner = null;
+			lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+			setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(
+					LacOperonModel.getMotionBounds(), 0, null, -1));
+		}
+		
+		// Prevent ourself from fading while bonded.
+		setOkayToFade(false);
+		
+		// Set the bond time.
+		glucoseAttachmentTimeCountdown = LACTOSE_BOND_TIME;
 	}
 }
