@@ -27,11 +27,13 @@ import javax.swing.border.TitledBorder
 
 class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D, model: ForceLawLabModel,
                      color: Color, scale: Double, format: NumberFormat, offsetY: Double, right: Boolean) extends PNode {
-  val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true)
-  arrowNode.setPaint(color)
-  val label = new PText
-  label.setTextPaint(color)
-  label.setFont(new PhetFont(18, true))
+  val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true){
+	  setPaint(color)	  
+  }
+  val label = new PText{
+	  setTextPaint(color)
+	  setFont(new PhetFont(18, true))
+  }
 
   defineInvokeAndPass(model.addListenerByName) {
     label.setOffset(transform.modelToView(target.position) - new Vector2D(0, label.getFullBounds.getHeight + offsetY))
@@ -194,6 +196,7 @@ case class Units(name: String, scale: Double) {
 
   def unitsToMeters(u: Double) = u / scale
 }
+
 object UnitsCollection {
   val values = new Units(ForceLawLabResources.getLocalizedString("units.light-minutes"), 5.5594E-11) :: //new Units("meters", 1.0) ::
           new Units(ForceLawLabResources.getLocalizedString("units.kilometers"), 1 / 1000.0) :: Nil
@@ -320,12 +323,7 @@ class TinyDecimalFormat extends DecimalFormat("0.00000000000") {
   }
 }
 
-class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0", {
-  val f = new DecimalFormatSymbols
-  f.setGroupingSeparator(' ')
-  f
-}) {
-}
+class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0", new DecimalFormatSymbols{setGroupingSeparator(' ')})
 
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
   def massToRadiusFn(m: Double) = {
