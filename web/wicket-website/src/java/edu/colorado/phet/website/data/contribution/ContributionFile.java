@@ -21,7 +21,7 @@ public class ContributionFile implements Serializable {
     private static Logger logger = Logger.getLogger( ContributionFile.class.getName() );
 
     public File getFileLocation() {
-        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesRoot(), getRelativeLocation() );
+        return new File( PhetWicketApplication.get().getActivitiesRoot(), getRelativeLocation() );
     }
 
     public String getRelativeLocation() {
@@ -33,8 +33,8 @@ public class ContributionFile implements Serializable {
         return new AbstractLinker() {
             @Override
             public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
-                PhetWicketApplication app = (PhetWicketApplication) PhetWicketApplication.get();
-                return app.getPhetDownloadLocation() + "/" + getRelativeLocation();
+                PhetWicketApplication app = PhetWicketApplication.get();
+                return app.getActivitiesLocation() + "/" + getRelativeLocation();
             }
 
             @Override
@@ -51,7 +51,7 @@ public class ContributionFile implements Serializable {
      * @return
      */
     public File getTmpFileLocation( String id ) {
-        return new File( ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesRoot(), "tmp" + getRelativeLocation() );
+        return new File( PhetWicketApplication.get().getActivitiesRoot(), "tmp" + getRelativeLocation() );
     }
 
     public ContributionFile() {

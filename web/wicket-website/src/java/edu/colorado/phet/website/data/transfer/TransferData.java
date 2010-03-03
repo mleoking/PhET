@@ -179,7 +179,7 @@ public class TransferData {
 
                 logger.info( "initial contribution comment setup complete" );
 
-                File downloadMainDir = ( (PhetWicketApplication) PhetWicketApplication.get() ).getActivitiesRoot();
+                File downloadMainDir = PhetWicketApplication.get().getActivitiesRoot();
 
                 if ( downloadMainDir == null ) {
                     return false;
