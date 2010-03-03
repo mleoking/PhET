@@ -134,6 +134,31 @@ public class LacI extends SimpleModelElement {
 				INITIAL_DESTINATION_POINT));
 	}
 	
+	/**
+	 * Force a detach from the glucose molecule.  This was created to support
+	 * the case where the user grabs the glucose molecule when it is attached
+	 * to LacI, but may have other used.
+	 * 
+	 * @param glucose
+	 */
+	public void detach(Glucose glucose){
+		
+		// Make sure we are in the expect state.
+		assert glucose == glucoseAttachmentPartner;
+		assert glucoseAttachmentState == AttachmentState.ATTACHED || glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+		
+		// Clear the state variables that track attachment to lactose.
+		glucoseAttachmentPartner = null;
+		glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+		recoveryFromLactoseAttachmentCountdown = RECOVERY_TIME_FOR_LACTOSE_ATTACHMENT;
+		
+		// When the lactose is gone, LacI reverts to its active shape.
+		setShape(createActiveConformationShape());
+		
+		// It is now okay for the LacI to fade out of existence.
+		setOkayToFade(true);
+	}
+	
 	private static Shape createActiveConformationShape(){
 		
 		// Create the overall outline.

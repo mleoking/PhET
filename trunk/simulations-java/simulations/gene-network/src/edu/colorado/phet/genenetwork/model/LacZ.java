@@ -162,6 +162,28 @@ public class LacZ extends SimpleModelElement {
 	}
 	
 	/**
+	 * Force a detach from the glucose molecule.  This was created to support
+	 * the case where the user grabs the glucose molecule when it is attached
+	 * to LacI, but may have other used.
+	 * 
+	 * @param glucose
+	 */
+	public void detach(Glucose glucose){
+		
+		// Make sure we are in the expect state.
+		assert glucose == glucoseAttachmentPartner;
+		assert glucoseAttachmentState == AttachmentState.ATTACHED || glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+		
+		// Clear the state variables that track attachment to lactose.
+		glucoseAttachmentPartner = null;
+		glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+		recoverCountdownTimer = RECOVERY_TIME;
+		
+		// It is now okay for the LacZ to fade out of existence if it needs to.
+		setOkayToFade(true);
+	}
+	
+	/**
 	 * Get the location in absolute space of the attachment point for this
 	 * type of model element.
 	 */
