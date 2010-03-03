@@ -50,4 +50,28 @@ public class Galactose extends SimpleSugar {
 		// This should fade out shortly after detaching.
 		setExistenceTime(0.5);
 	}
+
+	@Override
+	public void setDragging(boolean dragging) {
+		super.setDragging(dragging);
+		if (glucoseAttachmentPartner != null){
+			// Our attached partner needs to be dragged or released along with
+			// this molecule.
+			glucoseAttachmentPartner.setDragging(dragging);
+		}
+	}
+
+	@Override
+	public void setPosition(double xPos, double yPos) {
+		super.setPosition(xPos, yPos);
+		if (isUserControlled() && glucoseAttachmentPartner != null){
+			// If this galactose is user controlled and has a partner, the
+			// partner should also be user controlled.
+			assert glucoseAttachmentPartner.isUserControlled();
+			
+			// Move our partner appropriately.
+			glucoseAttachmentPartner.setPosition(xPos + GLUCOSE_ATTACHMENT_OFFSET.getWidth() * 2,
+					yPos + GLUCOSE_ATTACHMENT_OFFSET.getHeight());
+		}
+	}
 }
