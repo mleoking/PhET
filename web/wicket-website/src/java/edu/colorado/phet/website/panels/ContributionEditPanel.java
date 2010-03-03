@@ -396,7 +396,7 @@ public class ContributionEditPanel extends PhetPanel {
                     contribution.setPhetUser( user );
                     contribution.setLocale( locale );
 
-                    int contribId = (Integer) session.save( contribution );
+                    int contribId = !creating ? contribution.getId() : (Integer) session.save( contribution );
 
                     //----------------------------------------------------------------------------
                     // sync simulations
@@ -538,6 +538,10 @@ public class ContributionEditPanel extends PhetPanel {
                             return false;
                         }
                         session.save( cfile );
+                    }
+
+                    if ( !creating ) {
+                        session.update( contribution );
                     }
 
                     return true;
