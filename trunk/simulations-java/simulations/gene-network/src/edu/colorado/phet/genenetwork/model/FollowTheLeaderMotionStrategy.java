@@ -21,7 +21,11 @@ public class FollowTheLeaderMotionStrategy extends AbstractMotionStrategy {
 	private ModelElementListenerAdapter leaderMotionListener = new ModelElementListenerAdapter() {
 		@Override
 		public void positionChanged() {
-			updateFollowerPosition(follower);
+			// The leader's position has changed, so the follower should,
+			// well, follow, but only if it is not user controlled.
+			if (!follower.isUserControlled()){
+				updateFollowerPosition(follower);
+			}
 		}
 	};
 	
