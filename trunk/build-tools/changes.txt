@@ -1,3 +1,5 @@
+# 00.68.00 (39074) Mar 3, 2010
+3/3/10 Fixing Flash signing issues
 # 00.67.00 (39073) Mar 3, 2010
 3/3/10 Fixing Flash translation deployment issue
 # 00.66.00 (36781) Nov 19, 2009
