@@ -106,6 +106,9 @@ public class Contribution implements Serializable {
     public void createZipFile() throws IOException {
         File zipFile = getZipFile();
         zipFile.getParentFile().mkdirs();
+        if ( zipFile.exists() ) {
+            zipFile.delete();
+        }
         ZipOutputStream zout = new ZipOutputStream( new FileOutputStream( zipFile ) );
 
         String zipName = getZipName();
