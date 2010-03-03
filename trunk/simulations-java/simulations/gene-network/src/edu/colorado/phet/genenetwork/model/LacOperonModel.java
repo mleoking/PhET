@@ -58,7 +58,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	
 	// Constant that controls the amount of time between automatic injections
 	// of a molecule of lactose.
-	private static final double INTER_LACTOSE_INJECTION_TIME = 1.5; // In seconds.
+	private static final double INTER_LACTOSE_INJECTION_TIME = 2; // In seconds.
 	
     //----------------------------------------------------------------------------
     // Instance Data
