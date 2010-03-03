@@ -143,6 +143,13 @@ public class Glucose extends SimpleSugar {
 		lacIAttachmentState = AttachmentState.ATTACHED;
 	}
 	
+	/**
+	 * Detach from LacZ.  This is intended to be used by a LacZ instance that
+	 * wants to detach.  After being released by LacZ, it is assumed that the
+	 * lactose has been "digested", so this molecule fades out of existence.
+	 * 
+	 * @param lacI
+	 */
 	public void detach(LacZ lacZ){
 		assert lacZ == lacZAttachmentPartner;
 		lacZAttachmentPartner = null;
@@ -155,7 +162,8 @@ public class Glucose extends SimpleSugar {
 	}
 
 	/**
-	 * Detach from LacI.
+	 * Detach from LacI.  This is intended to be used by a LacI instance that
+	 * wants to detach.
 	 * 
 	 * @param lacI
 	 */
@@ -228,7 +236,7 @@ public class Glucose extends SimpleSugar {
 				lacZAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			}
 		}
-		else if (lacIAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
+		else if (lacIAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE  && !isUserControlled()){
 			postAttachmentRecoveryCountdown -= dt;
 			if (postAttachmentRecoveryCountdown <= 0){
 				// Recovery complete - we are ready to attach again.
@@ -236,5 +244,50 @@ public class Glucose extends SimpleSugar {
 			}
 		}
 		super.stepInTime(dt);
+	}
+
+	@Override
+	public void setDragging(boolean dragging) {
+		if (dragging == true){
+			// The user has grabbed this node and is moving it.  Is it
+			// attached to a LacI or a LacZ?
+			if (lacIAttachmentPartner != null){
+				// It is attached to a LacI, so it needs to detach.
+				assert lacIAttachmentState == AttachmentState.ATTACHED || lacIAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT;  // State consistency test.
+				lacIAttachmentPartner.detach(this);
+				lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+				lacIAttachmentPartner = null;
+				setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
+			}
+			else if (lacZAttachmentPartner != null){
+				// It is attached to a LacZ, so it needs to detach.
+				assert lacZAttachmentState == AttachmentState.ATTACHED || lacZAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT;  // State consistency test.
+				lacZAttachmentPartner.detach(this);
+				lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+				lacZAttachmentPartner = null;
+				setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
+			}
+		}
+		else{
+			// This element has just been released by the user.  It should be
+			// considered available.
+			lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			lacZAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			
+			/*
+			// If this was dropped within range of the lac operator, it should
+			// try to attach to it.
+			LacOperator lacOperator = getModel().getLacOperator();
+			if ( lacOperator != null && 
+				 glucoseAttachmentState != AttachmentState.ATTACHED &&
+				 getPositionRef().distance(lacOperator.getPositionRef()) < LAC_OPERATOR_IMMEDIATE_ATTACH_DISTANCE){
+				
+				// We are in range, so try to attach.
+				lacOperator.requestImmediateAttach(this);
+			}
+			 */
+		}
+			
+		super.setDragging(dragging);
 	}
 }
