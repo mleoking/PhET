@@ -16,14 +16,17 @@ import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.pages.RedirectPage;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.content.ContributionBrowsePage;
+import edu.colorado.phet.website.content.ContributionPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.*;
@@ -31,7 +34,6 @@ import edu.colorado.phet.website.panels.lists.*;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.PhetWicketApplication;
 
 public class ContributionEditPanel extends PhetPanel {
 
@@ -519,9 +521,10 @@ public class ContributionEditPanel extends PhetPanel {
             } );
 
             if ( success ) {
+                setResponsePage( new RedirectPage( ContributionPage.getLinker( ids[0] ).getRawUrl( context, getPhetCycle() ) ) );
                 // should redirect us. not the pretty way, however it passes in all of the correct page parameters
                 // and reduces the dependencies
-                ContributionBrowsePage.getLinker().getLink( "id", context, getPhetCycle() ).onClick();
+//                ContributionBrowsePage.getLinker().getLink( "id", context, getPhetCycle() ).onClick();
             }
 
         }

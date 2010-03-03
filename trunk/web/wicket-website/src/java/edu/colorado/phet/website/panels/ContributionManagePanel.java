@@ -61,7 +61,7 @@ public class ContributionManagePanel extends PhetPanel {
         add( new ListView( "my-contributions", myContributions ) {
             protected void populateItem( ListItem item ) {
                 Contribution contribution = (Contribution) item.getModel().getObject();
-                Link link = ContributionPage.createLink( "contribution-link", context, contribution );
+                Link link = ContributionPage.getLinker( contribution ).getLink( "contribution-link", context, getPhetCycle() );
                 link.add( new Label( "contribution-title", contribution.getTitle() ) );
                 item.add( link );
                 item.add( new Label( "contribution-authors", contribution.getAuthors() ) );
@@ -73,7 +73,7 @@ public class ContributionManagePanel extends PhetPanel {
             add( new ListView( "other-contributions", otherContributions ) {
                 protected void populateItem( ListItem item ) {
                     Contribution contribution = (Contribution) item.getModel().getObject();
-                    Link link = ContributionPage.createLink( "contribution-link", context, contribution );
+                    Link link = ContributionPage.getLinker( contribution ).getLink( "contribution-link", context, getPhetCycle() );
                     link.add( new Label( "contribution-title", contribution.getTitle() ) );
                     item.add( link );
                     item.add( new Label( "contribution-authors", contribution.getAuthors() ) );
