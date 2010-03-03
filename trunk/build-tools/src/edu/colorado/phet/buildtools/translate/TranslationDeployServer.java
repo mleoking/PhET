@@ -120,6 +120,9 @@ public class TranslationDeployServer {
             runStringCommand( addFlashLauncherArgscommand );
 
             flashLauncherArgs.delete();
+
+            PhetJarSigner phetJarSigner = new PhetJarSigner( BuildLocalProperties.getInstance() );
+            phetJarSigner.signJar( localJAR );
         }
     }
 
@@ -216,6 +219,7 @@ public class TranslationDeployServer {
     }
 
     private void createOfflineJARFiles( File translationDir, String project ) throws IOException, InterruptedException {
+        // TODO: possibly eliminate double signing?
         new JARGenerator().generateOfflineJARs( getLocalCopyOfAllJAR( translationDir, project ), jarCommand, BuildLocalProperties.getProperties( buildLocalProperties ) );
     }
 
