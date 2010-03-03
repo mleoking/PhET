@@ -1,7 +1,7 @@
 #!/bin/bash
 ##############################################################################
 #
-#  Verifies the digital signature of all jars below a given directory.
+#  Verifies the digital signatures of all jars below a given directory.
 #  Use this to, for example, verify all jars on the PhET website.
 #
 ##############################################################################
