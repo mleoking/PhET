@@ -1,3 +1,5 @@
+# 2.07.00 (39060) Mar 3, 2010
+3/3/10 deprecate locale "no", it's the same as "nb" (see #2146)
 # 2.06.00 (37959) Jan 8, 2010
 1/8/10 fixes for languages that use preferred font + preferred font for Georgian
 # 2.05.02 (37958) Jan 8, 2010
