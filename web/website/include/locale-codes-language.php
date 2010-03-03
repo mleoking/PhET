@@ -22,6 +22,9 @@
 //   Language 'Brazilian Portuguese' has been added with code 'bp'
 //   Language 'Taiwanese Chinese' has been added with code 'tc'
 //   Language 'Friulian' has been added with code 'fu'.  See ticket #2075. 
+//   Language 'Norwegian' is deprecio
+//   Language 'Norwegian' is depreciated, see Ticket #2164.  Norwegian
+//       will be kept until the transition to the Wicket based website.
 
 function locale_get_language_map() {
     return array(
@@ -147,7 +150,7 @@ function locale_get_language_map() {
         "se" => "Northern Sami",
         "nb" => "Norwegian Bokmal",
         "nn" => "Norwegian Nynorsk",
-        "no" => "Norwegian",
+        "no" => "Norwegian",  // Norwegian is depreciated, see Ticket #2164.  Norwegian will be kept until the transition to the Wicket based website.
         "oc" => "Occitan",
         "oj" => "Ojibwa",
         "or" => "Oriya",
