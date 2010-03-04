@@ -1,10 +1,21 @@
 package edu.colorado.phet.website.translation.entities;
 
+import java.util.List;
+
+import org.hibernate.Session;
+
 import edu.colorado.phet.website.content.ContributePanel;
+import edu.colorado.phet.website.content.ContributionGuidelinesPanel;
+import edu.colorado.phet.website.content.TeacherIdeasPanel;
+import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.panels.ContributionEditPanel;
+import edu.colorado.phet.website.panels.ContributionMainPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetPanelFactory;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
+import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.HibernateTask;
 
 public class ContributeEntity extends TranslationEntity {
     public ContributeEntity() {
@@ -172,7 +183,39 @@ public class ContributeEntity extends TranslationEntity {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new ContributePanel( id, context );
             }
-        }, "Contribute" );
+        }, "Contribute to PhET" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new TeacherIdeasPanel( id, context );
+            }
+        }, "Teacher Ideas" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new ContributionGuidelinesPanel( id, context );
+            }
+        }, "Contribution guidelines" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                final Contribution contribution[] = new Contribution[1];
+                HibernateUtils.wrapTransaction( requestCycle.getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        List list = session.createQuery( "select c from Contribution as c" ).setMaxResults( 1 ).list();
+                        contribution[0] = (Contribution) list.get( 0 );
+                        return true;
+                    }
+                } );
+                return new ContributionMainPanel( id, contribution[0], context );
+            }
+        }, "Contribution view" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new ContributionEditPanel( id, context, new Contribution() );
+            }
+        }, "Contribution create / edit" );
     }
 
     public String getDisplayName() {
