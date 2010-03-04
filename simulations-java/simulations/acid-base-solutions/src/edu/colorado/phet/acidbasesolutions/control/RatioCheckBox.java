@@ -39,7 +39,7 @@ public abstract class RatioCheckBox extends JCheckBox {
         setComponents( symbol1, color1, symbol2, color2 );
     }
     
-    public void setComponent( String symbol1, String symbol2 ) {
+    public void setComponents( String symbol1, String symbol2 ) {
         setComponents( symbol1, DEFAULT_COLOR, symbol2, DEFAULT_COLOR );
     }
     
