@@ -531,7 +531,8 @@ public class ContributionEditPanel extends PhetPanel {
                     //----------------------------------------------------------------------------
 
                     for ( Object o : filesToRemove ) {
-                        ContributionFile cfile = (ContributionFile) o;
+                        ContributionFile x = (ContributionFile) o;
+                        ContributionFile cfile = (ContributionFile) session.load( ContributionFile.class, x.getId() );
                         contribution.getFiles().remove( cfile );
                         session.delete( cfile );
                     }
