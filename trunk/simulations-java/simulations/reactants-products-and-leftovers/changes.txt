@@ -3,7 +3,7 @@
 3/4/10 make "Reaction N of M" label smaller and black
 3/4/10 make New Game button in scoreboard less prominent (smaller and very light gray)
 3/4/10 simplify questions in Game
- 0.00.34 (39038) Mar 2, 2010
+# 0.00.34 (39038) Mar 2, 2010
 3/2/10 dev version after completing all internal refactoring and cleanup
 3/2/10 fix bug introduced in water equation coefficient
 3/1/10 prevent scoreboard from unexplainably getting taller by maintaining it's original height
