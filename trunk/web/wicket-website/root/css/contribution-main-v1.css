@@ -55,3 +55,12 @@
 .contribution-unapproved {
     color: red;
 }
+
+.contrib-guide-list li {
+    padding-bottom: 10px;
+}
+
+.contrib-guide-header {
+    font-weight: bold;
+    font-size: 120%;
+}
