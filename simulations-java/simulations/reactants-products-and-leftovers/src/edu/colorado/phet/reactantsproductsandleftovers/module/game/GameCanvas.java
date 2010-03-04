@@ -151,7 +151,7 @@ public class GameCanvas extends RPALCanvas {
         buttonsParentNode.addChild( showAnswerButton );
 
         // instructions
-        instructionsNode = new GameMessageNode( "?", Color.YELLOW, 34 ); // text will be set based on challenge type
+        instructionsNode = new GameMessageNode( "?", Color.YELLOW, 32 ); // text will be set based on challenge type
         parentNode.addChild( instructionsNode );
 
         // dev nodes
@@ -498,7 +498,7 @@ public class GameCanvas extends RPALCanvas {
 
         // Before box below reaction number label, left justified
         x = reactionNumberLabelNode.getFullBoundsReference().getMinX();
-        y = reactionNumberLabelNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeNode ) + 30;
+        y = reactionNumberLabelNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeNode ) + 40;
         beforeNode.setOffset( x, y );
 
         // arrow to the right of Before box, vertically centered with box

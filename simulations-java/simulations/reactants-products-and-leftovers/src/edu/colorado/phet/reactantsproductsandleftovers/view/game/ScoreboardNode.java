@@ -43,7 +43,8 @@ public class ScoreboardNode extends PhetPNode {
     private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
-    private static final Color BUTTON_COLOR = Color.WHITE;
+    private static final Color BUTTON_COLOR = new Color( 235, 235, 235 );
+    private static final int BUTTON_FONT_SIZE = 18;
     private static final int FONT_SIZE = 24;
     private static final PhetFont FONT = new PhetFont( FONT_SIZE );
     private static final int X_MARGIN = 20;
@@ -84,7 +85,7 @@ public class ScoreboardNode extends PhetPNode {
         setTime( 0 ); // start with this, so we have a reasonable size for layout
         
         // New Game button
-        newGameButton = new GradientButtonNode( RPALStrings.BUTTON_NEW_GAME, FONT_SIZE, BUTTON_COLOR );
+        newGameButton = new GradientButtonNode( RPALStrings.BUTTON_NEW_GAME, BUTTON_FONT_SIZE, BUTTON_COLOR );
         newGameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleNewGame();
