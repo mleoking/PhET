@@ -5,6 +5,7 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -125,6 +126,22 @@ public abstract class SimpleModelElement implements IModelElement{
 	
 	public Point2D getPositionRef(){
 		return position;
+	}
+	
+	/**
+	 * Get the bounds of this element's shape compensated by the position,
+	 * which is the bounds in model space.
+	 * 
+	 * @return
+	 */
+	public Rectangle2D getCompensatedBounds(){
+		Rectangle2D shapeBounds = getShape().getBounds2D();
+		return new Rectangle2D.Double(
+				getPositionRef().getX() + shapeBounds.getMinX(),
+				getPositionRef().getY() + shapeBounds.getMinY(),
+				shapeBounds.getWidth(),
+				shapeBounds.getHeight());
+		
 	}
 	
 	public void setPosition(double xPos, double yPos ){
