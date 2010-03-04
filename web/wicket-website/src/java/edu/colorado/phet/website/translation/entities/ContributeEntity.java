@@ -47,6 +47,40 @@ public class ContributeEntity extends TranslationEntity {
         addString( "teacherIdeas.guide.monitorUnderstanding.title" );
         addString( "teacherIdeas.guide.monitorUnderstanding" );
 
+        addString( "contribution.view.downloadableFiles" );
+        addString( "contribution.view.zipDownload" );
+        addString( "contribution.view.submissionInformation" );
+        addString( "contribution.view.authors" );
+        addString( "contribution.view.email" );
+        addString( "contribution.view.organization" );
+        addString( "contribution.view.submitted" );
+        addString( "contribution.view.updated" );
+        addString( "contribution.view.descriptionSection" );
+        addString( "contribution.view.title" );
+        addString( "contribution.view.simulations" );
+        addString( "contribution.view.keywords" );
+        addString( "contribution.view.description" );
+        addString( "contribution.view.level" );
+        addString( "contribution.view.type" );
+        addString( "contribution.view.subject" );
+        addString( "contribution.view.duration" );
+        addString( "contribution.view.answers" );
+        addString( "contribution.view.language" );
+
+        addString( "contribution.standards.header" );
+        addString( "contribution.standards.contentLevel" );
+        addString( "contribution.standards.contentStandard" );
+        addString( "contribution.standards.k4" );
+        addString( "contribution.standards.58" );
+        addString( "contribution.standards.912" );
+        addString( "contribution.standards.A" );
+        addString( "contribution.standards.B" );
+        addString( "contribution.standards.C" );
+        addString( "contribution.standards.D" );
+        addString( "contribution.standards.E" );
+        addString( "contribution.standards.F" );
+        addString( "contribution.standards.G" );
+
 
         addString( "contribution.level.k5" );
         addString( "contribution.level.middleSchool" );

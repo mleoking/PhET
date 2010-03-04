@@ -14,6 +14,12 @@
     border-right: 1px solid gray;
 }
 
+div.rtl .contribute-standard-label {
+    text-align: left;
+    border-right: none;
+    border-left: 1px solid gray;
+}
+
 .contribute-level-label {
     border: 1px solid gray;
 }
