@@ -3,6 +3,8 @@ package edu.colorado.phet.website.panels;
 import java.text.DateFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -62,6 +64,12 @@ public class ContributionBrowsePanel extends PhetPanel {
         // TODO: localize
 
         final DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, getLocale() );
+
+        Collections.sort( contributions, new Comparator<Contribution>() {
+            public int compare( Contribution a, Contribution b ) {
+                return a.displayCompareTo( b, getLocale() );
+            }
+        } );
 
         add( new ListView( "contributions", contributions ) {
             protected void populateItem( ListItem item ) {

@@ -12,10 +12,10 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.data.IntId;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.UpdateListener;
-import edu.colorado.phet.website.data.IntId;
 import edu.colorado.phet.website.util.StringUtils;
 
 public class Contribution implements Serializable, UpdateListener, IntId {
@@ -137,7 +137,39 @@ public class Contribution implements Serializable, UpdateListener, IntId {
     }
 
     /**
+     * Used to sort contributions for display
+     *
+     * @param other         The other contribution
+     * @param currentLocale The current locale to use for sorting.
+     * @return
+     */
+    public int displayCompareTo( Contribution other, Locale currentLocale ) {
+        if ( other.getId() == getId() ) {
+            // check for equality
+            return 0;
+        }
+        if ( !getLocale().equals( other.getLocale() ) ) {
+            // sort by locale
+            if ( getLocale().equals( currentLocale ) ) {
+                return -1;
+            }
+            if ( other.getLocale().equals( currentLocale ) ) {
+                return 1;
+            }
+            return getLocale().getLanguage().compareTo( other.getLocale().getLanguage() );
+        }
+        if ( isGoldStar() != other.isGoldStar() ) {
+            // sort by gold star
+            return isGoldStar() ? -1 : 1;
+        }
+
+        // sort by creation date
+        return getDateCreated().compareTo( other.getDateCreated() );
+    }
+
+    /**
      * Should be wrapped within a transaction
+     *
      * @param session The hibernate session
      */
     public void deleteMe( Session session ) {
