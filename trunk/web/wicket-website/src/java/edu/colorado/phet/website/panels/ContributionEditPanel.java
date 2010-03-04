@@ -10,6 +10,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
@@ -292,7 +293,12 @@ public class ContributionEditPanel extends PhetPanel {
             std912G = new CheckBox( "std912G", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandard912G() ) ) );
             add( std912G );
 
-            add( new ExistingListView( "existing-files" ) );
+            // wrap the existing files in a container so we can refresh it via ajax without wiping other form changes.
+            // particularly significant, since if would wipe any files to be uploaded otherwise
+            WebMarkupContainer fileContainer = new WebMarkupContainer( "file-markup-container" );
+            fileContainer.setOutputMarkupId( true );
+            add( fileContainer );
+            fileContainer.add( new ExistingListView( "existing-files" ) );
 
             add( new AbstractFormValidator() {
                 public FormComponent[] getDependentFormComponents() {
@@ -633,7 +639,9 @@ public class ContributionEditPanel extends PhetPanel {
                     public void onClick( AjaxRequestTarget target ) {
                         existingFiles.remove( cfile );
                         filesToRemove.add( cfile );
-                        target.addComponent( ContributionForm.this );
+
+                        // only update this list view, so we don't wipe new added files to be uploaded
+                        target.addComponent( ExistingListView.this.getParent() );
                     }
                 } );
             }

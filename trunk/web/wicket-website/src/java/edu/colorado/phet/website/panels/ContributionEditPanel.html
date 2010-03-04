@@ -82,12 +82,14 @@
                 <tr>
                     <td class="contribution-edit-label" style="vertical-align: top">existing file(s)</td>
                     <td class="contribution-edit-input">
-                        <table style="width: 100%">
-                            <tr wicket:id="existing-files">
-                                <td wicket:id="file-name"></td>
-                                <td><a href="#" wicket:id="remove-link">remove</a></td>
-                            </tr>
-                        </table>
+                        <div wicket:id="file-markup-container">
+                            <table style="width: 100%">
+                                <tr wicket:id="existing-files">
+                                    <td wicket:id="file-name"></td>
+                                    <td><a href="#" wicket:id="remove-link">remove</a></td>
+                                </tr>
+                            </table>
+                        </div>
                     </td>
                 </tr>
                 <tr>
