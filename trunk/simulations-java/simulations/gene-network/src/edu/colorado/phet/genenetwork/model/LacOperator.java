@@ -73,8 +73,7 @@ public class LacOperator extends SimpleModelElement {
 				checkTimeToDetach(dt);
 				break;
 			case UNATTACHED_BUT_UNAVALABLE:
-				// This state is not used for the lac operator.
-				System.err.println(getClass().getName() + " - Error: Shouldn't be in this state.");
+				checkBecomeAvailable(dt);
 				break;
 			default:
 				// Should never get here, should be debugged if it does.
@@ -109,13 +108,26 @@ public class LacOperator extends SimpleModelElement {
 	
 	private void attemptToStartAttaching(){
 		assert lacIAttachmentPartner == null;
-		// Search for a partner to attach to.
-		LacI lacI = getModel().getNearestFreeLacI(getPositionRef());
-		if (lacI != null){
-			if (lacI.considerProposalFrom(this)){
-				// Attachment formed.
-				lacIAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
-				lacIAttachmentPartner = lacI;
+		
+		// Don't initiate an attachment if RNA polymerse is on the lac
+		// operator.  This is a bit of "hollywooding" to avoid a situation
+		// where the LacI swoops in just as the RNA poly starts to traverse,
+		// making it look like the RNA poly traverses right over the LacI,
+		// which is confusing to users.
+		LacPromoter lacPromoter = getModel().getLacPromoter();
+		if (lacPromoter != null && lacPromoter.isInContactWithRnaPolymerase()){
+			// Can't attach now.
+			lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+		}
+		else{
+			// Okay to attach to LacI - search for a partner to attach to.
+			LacI lacI = getModel().getNearestFreeLacI(getPositionRef());
+			if (lacI != null){
+				if (lacI.considerProposalFrom(this)){
+					// Attachment formed.
+					lacIAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+					lacIAttachmentPartner = lacI;
+				}
 			}
 		}
 	}
@@ -148,24 +160,46 @@ public class LacOperator extends SimpleModelElement {
 		}
 	}
 	
+	private void checkBecomeAvailable(double dt){
+		if (!getModel().getLacPromoter().isInContactWithRnaPolymerase()){
+			// The lac promoter is not in contact with RNA polymerase, so we
+			// can seek attachment to LacI.
+			lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+		}
+	}
+	
 	private void checkAttachmentCompleted(){
 		assert lacIAttachmentPartner != null;
 
-		// Calculate the current location of our LacI attachment point.
-		Point2D lacIAttachmentPtLocation = 
-			new Point2D.Double(getPositionRef().getX() + LAC_I_ATTACHMENT_POINT_OFFSET.getWidth(),
-				getPositionRef().getY() + LAC_I_ATTACHMENT_POINT_OFFSET.getHeight());
-		
-		// Check the distance between the attachment points.
-		if (lacIAttachmentPtLocation.distance(lacIAttachmentPartner.getAttachmentPointLocation(this)) < ATTACHMENT_FORMING_DISTANCE){
-			// Close enough to attach.
-			lacIAttachmentPartner.attach(this);
-			lacIAttachmentState = AttachmentState.ATTACHED;
+		if (getModel().getLacPromoter().isInContactWithRnaPolymerase()){
+			// An instance of LacI is moving towards this lac operator, but
+			// RNA polymerase is now on the promoter.  This can create a
+			// visually confusing situation where the LacI attaches just as
+			// the RNA polymerase is starting to traverse the DNA, making it
+			// look like the polymerase goes right over the LacI.  To avoid
+			// this, we stop the LacI from moving towards us.
+			System.out.println("Dropping relationship with LacI due to presence of RNA poly");
+			lacIAttachmentPartner.detach(this);
+			lacIAttachmentPartner = null;
+			lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		}
-		
-		// Set the countdown timer that will control how long these remain
-		// attached to one another.
-		lacIAttachmentCountdownTimer = LAC_I_ATTACHMENT_TIME;
+		else{
+			// Calculate the current location of our LacI attachment point.
+			Point2D lacIAttachmentPtLocation = 
+				new Point2D.Double(getPositionRef().getX() + LAC_I_ATTACHMENT_POINT_OFFSET.getWidth(),
+						getPositionRef().getY() + LAC_I_ATTACHMENT_POINT_OFFSET.getHeight());
+			
+			// Check the distance between the attachment points.
+			if (lacIAttachmentPtLocation.distance(lacIAttachmentPartner.getAttachmentPointLocation(this)) < ATTACHMENT_FORMING_DISTANCE){
+				// Close enough to attach.
+				lacIAttachmentPartner.attach(this);
+				lacIAttachmentState = AttachmentState.ATTACHED;
+			}
+			
+			// Set the countdown timer that will control how long these remain
+			// attached to one another.
+			lacIAttachmentCountdownTimer = LAC_I_ATTACHMENT_TIME;
+		}
 	}
 
 	private static Shape createShape(){
