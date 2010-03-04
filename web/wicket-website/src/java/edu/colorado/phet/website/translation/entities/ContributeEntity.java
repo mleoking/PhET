@@ -81,6 +81,25 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.standards.F" );
         addString( "contribution.standards.G" );
 
+        addString( "contribution.edit.requiredInformation" );
+        addString( "contribution.edit.authors" );
+        addString( "contribution.edit.authors.tip" );
+        addString( "contribution.edit.organization" );
+        addString( "contribution.edit.email" );
+        addString( "contribution.edit.title" );
+        addString( "contribution.edit.keywords" );
+        addString( "contribution.edit.keywords.tip" );
+        addString( "contribution.edit.simulations" );
+        addString( "contribution.edit.types" );
+        addString( "contribution.edit.levels" );
+        addString( "contribution.edit.existingFiles" );
+        addString( "contribution.edit.removeFile" );
+        addString( "contribution.edit.newFiles" );
+        addString( "contribution.edit.description" );
+        addString( "contribution.edit.subjects" );
+        addString( "contribution.edit.duration" );
+        addString( "contribution.edit.answers" );
+        addString( "contribution.edit.language" );
 
         addString( "contribution.level.k5" );
         addString( "contribution.level.middleSchool" );
