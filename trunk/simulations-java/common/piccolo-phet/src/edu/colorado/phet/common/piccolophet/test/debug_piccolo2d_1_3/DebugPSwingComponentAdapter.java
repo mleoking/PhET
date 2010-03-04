@@ -201,7 +201,7 @@ public class DebugPSwingComponentAdapter extends JFrame {
              * added debug output on System.out to demonstrate the calls to
              * setVisible, for both the JCheckBox and its PSwing.
              */
-            monochromaticFeatureEnabled = false;
+            monochromaticFeatureEnabled = true;
             monochromaticFeatureCheckBox = new JCheckBox( "some monochromatic feature" ) {
                 @Override
                 public void setVisible( boolean b ) {
