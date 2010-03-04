@@ -16,6 +16,8 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class ContributionFile implements Serializable, IntId {
 
+    private static final String[] FILE_TYPE_WHITELIST = new String[]{"pdf", "doc", "docx", "ppt", "xls", "txt"};
+
     private int id;
     private Contribution contribution;
     private String filename;
@@ -46,6 +48,15 @@ public class ContributionFile implements Serializable, IntId {
                 return null;
             }
         };
+    }
+
+    public static boolean validateFileExtension( String filename ) {
+        for ( String s : FILE_TYPE_WHITELIST ) {
+            if ( filename.endsWith( "." + s ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void orderFiles( List<ContributionFile> files ) {
