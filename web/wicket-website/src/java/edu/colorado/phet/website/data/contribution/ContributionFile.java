@@ -2,6 +2,9 @@ package edu.colorado.phet.website.data.contribution;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -43,6 +46,22 @@ public class ContributionFile implements Serializable, IntId {
                 return null;
             }
         };
+    }
+
+    public static void orderFiles( List<ContributionFile> files ) {
+        Collections.sort( files, new Comparator<ContributionFile>() {
+            public int compare( ContributionFile a, ContributionFile b ) {
+                return a.getFilename().compareToIgnoreCase( b.getFilename() );
+            }
+        } );
+    }
+
+    public static void orderFilesCast( List files ) {
+        Collections.sort( files, new Comparator() {
+            public int compare( Object a, Object b ) {
+                return ( (ContributionFile) a ).getFilename().compareToIgnoreCase( ( (ContributionFile) b ).getFilename() );
+            }
+        } );
     }
 
     /**
