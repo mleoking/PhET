@@ -310,6 +310,15 @@ public class ContributionEditPanel extends PhetPanel {
                     if ( uploadPanel.getUploadedFiles().size() + existingFiles.size() == 0 ) {
                         error( uploadPanel.getField(), "contribution.edit.validation.mustHaveFiles" );
                     }
+                    List<FileUpload> newFiles = uploadPanel.getUploadedFiles();
+                    for ( FileUpload fileUpload : newFiles ) {
+                        if ( !ContributionFile.validateFileExtension( fileUpload.getClientFileName() ) ) {
+                            // TODO: verify that everything is properly escaped
+                            HashMap map = new HashMap();
+                            map.put( "0", fileUpload.getClientFileName() );
+                            error( uploadPanel.getField(), "contribution.edit.validation.fileType", map );
+                        }
+                    }
                 }
             } );
 
