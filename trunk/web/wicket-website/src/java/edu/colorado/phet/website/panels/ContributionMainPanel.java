@@ -68,7 +68,13 @@ public class ContributionMainPanel extends PhetPanel {
             add( new InvisibleComponent( "gold-star-contribution" ) );
         }
 
-        add( new ListView( "file", new LinkedList( contribution.getFiles() ) ) {
+        List<ContributionFile> files = new LinkedList<ContributionFile>();
+        for ( Object o : contribution.getFiles() ) {
+            files.add( (ContributionFile) o );
+        }
+        ContributionFile.orderFiles( files );
+
+        add( new ListView( "file", files ) {
             protected void populateItem( ListItem item ) {
                 ContributionFile file = (ContributionFile) item.getModel().getObject();
                 Link link = file.getLinker().getLink( "file-link", context, getPhetCycle() );

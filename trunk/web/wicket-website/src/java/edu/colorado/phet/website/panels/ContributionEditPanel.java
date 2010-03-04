@@ -81,6 +81,7 @@ public class ContributionEditPanel extends PhetPanel {
                     for ( Object o : list ) {
                         existingFiles.add( o );
                     }
+                    ContributionFile.orderFilesCast( existingFiles );
                     if ( !currentUser.isTeamMember() ) {
                         Contribution tmp = (Contribution) session.load( Contribution.class, contribution.getId() );
                         if ( currentUser.getId() != tmp.getPhetUser().getId() ) {
