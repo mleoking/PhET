@@ -141,6 +141,7 @@ public class LactoseInjectorNode extends PNode {
         pressedButtonImageNode.setPickable(false);
         injectorBodyImageNode.setPickable(false);
         unpressedButtonImageNode.addInputEventListener(new CursorHandler());
+        pressedButtonImageNode.addInputEventListener(new CursorHandler());
         unpressedButtonImageNode.addInputEventListener(new PBasicInputEventHandler(){
         	@Override
             public void mousePressed( PInputEvent event ) {
