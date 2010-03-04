@@ -4,6 +4,7 @@ DEADLINES
 - 3/21/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
+- bread + cheese -> sandwich ?
 
 MEDIUM PRIORITY
 - audible click in the correctAnswer.wav (appears in sound before optimization)
