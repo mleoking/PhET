@@ -54,6 +54,9 @@ public class NavMenu {
         NavLocation teacherIdeasEdit = new NavLocation( teacherIdeas, "teacherIdeas.edit", ContributionBrowsePage.getLinker() );
         addLocation( teacherIdeasEdit );
 
+        NavLocation teacherIdeasGuide = new NavLocation( teacherIdeas, "teacherIdeas.guide", ContributionGuidelinesPanel.getLinker() );
+        addLocation( teacherIdeasGuide );
+
         NavLocation workshops = new NavLocation( null, "workshops", WorkshopsPanel.getLinker() );
         addMajorLocation( workshops );
 

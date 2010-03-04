@@ -1,7 +1,5 @@
 package edu.colorado.phet.website.content;
 
-import org.apache.wicket.behavior.HeaderContributor;
-
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -11,6 +9,24 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 public class TeacherIdeasPanel extends PhetPanel {
     public TeacherIdeasPanel( String id, PageContext context ) {
         super( id, context );
+
+        add( new LocalizedText( "welcome", "teacherIdeas.welcome", new Object[]{
+                SimulationDisplay.getLinker().getHref( context, getPhetCycle() )
+        } ) );
+
+        add( new LocalizedText( "start", "teacherIdeas.start", new Object[]{
+                ContributionBrowsePage.getLinker().getHref( context, getPhetCycle() ),
+                SimulationDisplay.getLinker().getHref( context, getPhetCycle() )
+        } ) );
+
+        add( new LocalizedText( "contribute", "teacherIdeas.contribute", new Object[]{
+                ContributionCreatePage.getLinker().getHref( context, getPhetCycle() )
+        } ) );
+
+        add( new LocalizedText( "guidelines", "teacherIdeas.guidelines", new Object[]{
+                ContributionGuidelinesPanel.getLinker().getHref( context, getPhetCycle() ),
+                "href=\"/publications/activities-guide/contribution-guidelines.pdf\""
+        }));
 
         // TODO: localize, fix links
 

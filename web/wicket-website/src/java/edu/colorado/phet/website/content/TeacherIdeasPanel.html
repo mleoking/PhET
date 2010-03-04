@@ -14,15 +14,15 @@
 <wicket:panel>
     <div class="teacher-ideas standard-content" wicket:message="dir:language.dir">
 
-        <p>
+        <p wicket:id="welcome">
             Welcome to the Teacher Ideas &amp; Activities page. This page is your gateway to teacher-submitted
             contributions, designed to be used in conjunction with the
             <a href="../simulations/index.php">PhET simulations</a>.
         </p>
 
-        <h2>Browse</h2>
+        <h2><wicket:message key="teacherIdeas.browseSection">Browse</wicket:message></h2>
 
-        <p>
+        <p wicket:id="start">
             Start by <a href="browse.php">browsing</a> existing contributions. These contributions include homework
             assignments, lectures, activities, concept questions and more, and enable you to get the most out of your
             PhET experience. If you already have a simulation in mind, head over to the
@@ -30,26 +30,33 @@
             simulation.
         </p>
 
-        <h2>Contribute</h2>
+        <h2><wicket:message key="teacherIdeas.contributeSection">Contribute</wicket:message></h2>
 
-        <p>
+        <p wicket:id="contribute">
             If you have developed some material you'd like to share with others, please consider
             <a href="contribute.php">contributing it to PhET</a>.
         </p>
 
-        <h2>PhET's Advice for Creating Activities</h2>
+        <h2><wicket:message key="teacherIdeas.adviceSection">PhET's Advice for Creating Activities</wicket:message></h2>
 
-        <h3>&nbsp;&nbsp;&nbsp;General Guidelines</h3>
+        <h3><wicket:message key="teacherIdeas.guidelinesSection">General Guidelines</wicket:message></h3>
 
-        <p style="padding-bottom: 1em;">
+        <p wicket:id="guidelines">
             You can read our <a href="contribution-guidelines.php">guidelines for contributions</a> (<a
-                href="contribution-guidelines.pdf">PDF</a>).
+                href="contribution-guidelines.pdf">pdf</a>).
+        </p>
 
-        <h3>&nbsp;&nbsp;&nbsp;Example Course Use</h3>
+        <h3><wicket:message key="teacherIdeas.exampleSection">Example Course Use</wicket:message></h3>
         <ul>
-            <li><a href="HighSchoolSampleUse.pdf">High School</a></li>
-            <li><a href="ModernPhysicsSampleUse.pdf">Modern Physics</a></li>
-            <li><a href="PhysicsOfEverydayLifeSampleUse.pdf">Physics of Everyday Life</a></li>
+            <li><a href="/publications/activities-guide/HighSchoolSampleUse.pdf">
+                <wicket:message key="teacherIdeas.examples.highSchool">High School</wicket:message>
+            </a></li>
+            <li><a href="/publications/activities-guide/ModernPhysicsSampleUse.pdf">
+                <wicket:message key="teacherIdeas.examples.modernPhysics">Modern Physics</wicket:message>
+            </a></li>
+            <li><a href="/publications/activities-guide/PhysicsOfEverydayLifeSampleUse.pdf">
+                <wicket:message key="teacherIdeas.examples.everydayPhysics">Physics of Everyday Life</wicket:message>
+            </a></li>
         </ul>
         <br/>
 

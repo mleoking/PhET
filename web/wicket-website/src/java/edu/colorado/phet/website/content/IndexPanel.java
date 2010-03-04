@@ -16,6 +16,9 @@ import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
+/**
+ * The panel which represents the main content portion of the home (index) page
+ */
 public class IndexPanel extends PhetPanel {
     public IndexPanel( String id, PageContext context ) {
         super( id, context );
@@ -29,7 +32,6 @@ public class IndexPanel extends PhetPanel {
         add( imageLink );
         imageLink.add( new StaticImage( "index-animated-screenshot", "/images/mass-spring-lab-animated-screenshot.gif", null ) );
 
-        // TODO: refactor out context.getPrefix(), etc
         add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{"href=\"" + ResearchPanel.getLinker().getRawUrl( context, getPhetCycle() ) + "\""} ) );
 
         add( SimulationDisplay.createLink( "play-sims-link", context ) );
