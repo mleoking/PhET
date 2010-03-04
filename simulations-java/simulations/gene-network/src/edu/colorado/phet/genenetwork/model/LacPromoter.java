@@ -5,6 +5,7 @@ package edu.colorado.phet.genenetwork.model;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 
 /**
@@ -42,6 +43,24 @@ public class LacPromoter extends Promoter {
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
+	
+	/**
+	 * Returns true if an RNA polymerase is on this promoter, meaning that
+	 * any part of it is over the promoter and very close by.  Note that this
+	 * is distinct from being attached - this will return true when RNA
+	 * polymerase is attached, but also if it is traversing it.
+	 */
+	public boolean isInContactWithRnaPolymerase(){
+		boolean isInContactWithRnaPolymerase = false;
+		Rectangle2D myBounds = getCompensatedBounds();
+		for (RnaPolymerase rnaPoly : getModel().getRnaPolymeraseList()){
+			if (rnaPoly.getCompensatedBounds().intersects(myBounds)){
+				isInContactWithRnaPolymerase = true;
+				break;
+			}
+		}
+		return isInContactWithRnaPolymerase;
+	}
 	
 	@Override
 	protected boolean isInAllowableLocation() {
