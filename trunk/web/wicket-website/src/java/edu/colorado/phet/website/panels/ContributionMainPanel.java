@@ -85,7 +85,7 @@ public class ContributionMainPanel extends PhetPanel {
             }
         } );
 
-        add( new PhetLink( "zip-link", contribution.getZipLocation() ) );
+        add( new LocalizedText( "zip-link", "contribution.view.zipDownload", new Object[]{ "href=\"" + contribution.getZipLocation() + "\""}));
 
         add( new Label( "authors", contribution.getAuthors() ) );
         add( new Label( "contact-email", contribution.getContactEmail() ) );

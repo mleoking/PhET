@@ -28,23 +28,6 @@ public class TeacherIdeasPanel extends PhetPanel {
                 "href=\"/publications/activities-guide/contribution-guidelines.pdf\""
         }));
 
-        // TODO: localize, fix links
-
-//        add( SimulationDisplay.createLink( "online-link", context ) );
-//        add( FullInstallPanel.getLinker().getLink( "install-link", context, getPhetCycle() ) );
-//        add( OneAtATimePanel.getLinker().getLink( "offline-link", context, getPhetCycle() ) );
-//
-//        add( new LocalizedText( "get-phet-install-header", "get-phet.install.header" ) );
-//        add( new LocalizedText( "get-phet-offline-header", "get-phet.offline.header" ) );
-//
-//        add( new LocalizedText( "get-phet-install-howToGet", "get-phet.install.howToGet", new Object[]{
-//                FullInstallPanel.getLinker().getHref( context, getPhetCycle() )
-//        } ) );
-//
-//        add( new LocalizedText( "get-phet-offline-howToGet", "get-phet.offline.howToGet", new Object[]{
-//                OneAtATimePanel.getLinker().getHref( context, getPhetCycle() )
-//        } ) );
-
     }
 
     public static String getKey() {
