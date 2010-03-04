@@ -6,10 +6,17 @@ import org.apache.wicket.model.IModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
+/**
+ * Wicket model of a locale that makes it easy to use within locale drop-down boxes
+ */
 class LocaleModel implements IModel {
     private Locale locale;
     private String name;
 
+    /**
+     * @param locale The locale
+     * @param name   The name of the locale translated into the desired language
+     */
     LocaleModel( Locale locale, String name ) {
         this.locale = locale;
         this.name = name;
