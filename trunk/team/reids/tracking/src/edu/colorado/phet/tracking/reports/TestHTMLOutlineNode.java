@@ -43,7 +43,7 @@ public class TestHTMLOutlineNode extends PNode {
     }
 
     private void addChild(Color color, double dx, double dy) {
-        HTMLNode node = new HTMLNode(html, font, color);
+        HTMLNode node = new HTMLNode(html, color,font);
         node.setOffset(dx, dy);
         addChild(node);
     }
