@@ -95,11 +95,14 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.edit.existingFiles" );
         addString( "contribution.edit.removeFile" );
         addString( "contribution.edit.newFiles" );
+        addString( "contribution.edit.optionalInformation" );
         addString( "contribution.edit.description" );
         addString( "contribution.edit.subjects" );
         addString( "contribution.edit.duration" );
         addString( "contribution.edit.answers" );
         addString( "contribution.edit.language" );
+
+        addString( "list.add" );
 
         addString( "contribution.level.k5" );
         addString( "contribution.level.middleSchool" );

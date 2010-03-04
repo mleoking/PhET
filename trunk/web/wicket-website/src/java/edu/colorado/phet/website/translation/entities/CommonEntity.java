@@ -7,6 +7,7 @@ public class CommonEntity extends TranslationEntity {
         addString( "footer.someRightsReserved" );
         addString( "error.pageNotFound" );
         addString( "listSeparator" );
+        addString( "form.submit" );
     }
 
     public String getDisplayName() {
