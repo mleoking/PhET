@@ -57,6 +57,20 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.answers.yes" );
         addString( "contribution.answers.no" );
 
+        addString( "contribution.edit.authors.Required" );
+        addString( "contribution.edit.organization.Required" );
+        addString( "contribution.edit.email.Required" );
+        addString( "contribution.edit.title.Required" );
+        addString( "contribution.edit.keywords.Required" );
+        addString( "org.apache.wicket.mfu.delete", "Shown on the remove button for contribution file uploads" );
+        addString( "contribution.edit.email.EmailAddressValidator" );
+        addString( "contribution.edit.validation.mustHaveSims" );
+        addString( "contribution.edit.validation.mustHaveFiles" );
+        addString( "contribution.edit.validation.mustHaveTypes" );
+        addString( "contribution.edit.validation.mustHaveLevels" );
+        addString( "contribution.edit.validation.fileType" );
+
+
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new ContributePanel( id, context );
