@@ -104,6 +104,13 @@ public class ContributeEntity extends TranslationEntity {
 
         addString( "list.add" );
 
+        addString( "contribution.browse.title" );
+        addString( "contribution.browse.authors" );
+        addString( "contribution.browse.level" );
+        addString( "contribution.browse.type" );
+        addString( "contribution.browse.simulations" );
+        addString( "contribution.browse.updated" );
+
         addString( "contribution.level.k5" );
         addString( "contribution.level.middleSchool" );
         addString( "contribution.level.highSchool" );
