@@ -33,6 +33,7 @@ import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.panels.lists.*;
+import edu.colorado.phet.website.translation.LocaleDropDownChoice;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
@@ -202,6 +203,8 @@ public class ContributionEditPanel extends PhetPanel {
         private CheckBox std912F;
         private CheckBox std912G;
 
+        private LocaleDropDownChoice localeChoice;
+
         public ContributionForm( String id ) {
             super( id );
 
@@ -247,6 +250,9 @@ public class ContributionEditPanel extends PhetPanel {
 
             answersCheck = new CheckBox( "answers", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isAnswersIncluded() ) ) );
             add( answersCheck );
+
+            localeChoice = new LocaleDropDownChoice( "locale", context );
+            add( localeChoice );
 
             //stdK4A = new CheckBox( "stdK4A", new Model( creating ? Boolean.FALSE : new Boolean( contribution.isStandardK4A() ) ) ); add( stdK4A );
 
@@ -360,7 +366,7 @@ public class ContributionEditPanel extends PhetPanel {
                     String description = descriptionText.getModelObjectAsString();
                     int duration = ( (DurationItem) durationChoice.getModelObject() ).getDuration();
                     boolean answers = (Boolean) answersCheck.getModelObject();
-                    Locale locale = PhetWicketApplication.getDefaultLocale(); // TODO: localize
+                    Locale locale = localeChoice.getLocale() == null ? PhetWicketApplication.getDefaultLocale() : localeChoice.getLocale();
 
                     Contribution contribution;
                     PhetUser user = (PhetUser) session.load( PhetUser.class, PhetSession.get().getUser().getId() );

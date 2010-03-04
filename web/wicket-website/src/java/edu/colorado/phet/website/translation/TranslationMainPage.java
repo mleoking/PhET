@@ -12,7 +12,6 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.PopupSettings;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -29,7 +28,6 @@ import edu.colorado.phet.website.util.PageContext;
 
 public class TranslationMainPage extends TranslationPage {
 
-    private LocaleModel selectedLocaleModel;
     private PhetLocales phetLocales;
 
     private static Logger logger = Logger.getLogger( TranslationMainPage.class.getName() );
@@ -40,18 +38,6 @@ public class TranslationMainPage extends TranslationPage {
         phetLocales = ( (PhetWicketApplication) getApplication() ).getSupportedLocales();
 
         Form createTranslationForm = new CreateTranslationForm();
-
-        List<LocaleModel> models = new LinkedList<LocaleModel>();
-
-        for ( String name : phetLocales.getSortedNames() ) {
-            Locale locale = phetLocales.getLocale( name );
-            models.add( new LocaleModel( locale, name ) );
-        }
-
-        selectedLocaleModel = new LocaleModel( LocaleUtils.stringToLocale( "en" ), "English" );
-
-        DropDownChoice localeChoice = new DropDownChoice( "locales", selectedLocaleModel, models );
-        createTranslationForm.add( localeChoice );
 
         add( createTranslationForm );
 
@@ -99,51 +85,22 @@ public class TranslationMainPage extends TranslationPage {
         add( tlist );
     }
 
-    private static class LocaleModel implements IModel {
-        private Locale locale;
-        private String name;
-
-        private LocaleModel( Locale locale, String name ) {
-            this.locale = locale;
-            this.name = name;
-        }
-
-        public Object getObject() {
-            return locale;
-        }
-
-        public void setObject( Object object ) {
-            if ( object instanceof Locale ) {
-                locale = (Locale) object;
-            }
-            else if ( object instanceof LocaleModel ) {
-                locale = (Locale) ( (LocaleModel) object ).getObject();
-            }
-            else {
-                throw new RuntimeException( "Bad LocaleModel!" );
-            }
-        }
-
-        public void detach() {
-
-        }
-
-        @Override
-        public String toString() {
-            return name + "  ( " + LocaleUtils.localeToString( locale ) + " )";
-        }
-    }
-
     private class CreateTranslationForm extends Form {
+
+        private LocaleDropDownChoice localeChoice;
+
         public CreateTranslationForm() {
             super( "create-translation-form" );
+
+            localeChoice = new LocaleDropDownChoice( "locales", getPageContext() );
+            add( localeChoice );
         }
 
         @Override
         protected void onSubmit() {
-            logger.debug( selectedLocaleModel );
+            logger.debug( localeChoice.getLocale() );
 
-            if ( selectedLocaleModel.locale != null ) {
+            if ( localeChoice.getLocale() != null ) {
 
                 PageParameters params = new PageParameters();
 
@@ -154,7 +111,7 @@ public class TranslationMainPage extends TranslationPage {
                     tx = session.beginTransaction();
 
                     translation = new Translation();
-                    translation.setLocale( selectedLocaleModel.locale );
+                    translation.setLocale( localeChoice.getLocale() );
                     translation.setVisible( false );
 
                     PhetUser user = (PhetUser) session.load( PhetUser.class, TranslationMainPage.this.getUser().getId() );
@@ -179,7 +136,7 @@ public class TranslationMainPage extends TranslationPage {
                 }
 
                 params.put( "translationId", translation.getId() );
-                params.put( "translationLocale", LocaleUtils.localeToString( selectedLocaleModel.locale ) );
+                params.put( "translationLocale", LocaleUtils.localeToString( localeChoice.getLocale() ) );
 
                 setResponsePage( TranslationEditPage.class, params );
             }
