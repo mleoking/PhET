@@ -501,7 +501,7 @@ public class LacI extends SimpleModelElement {
 			lacOperatorAttachmentPartner = null;
 			lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 			setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(
-					LacOperonModel.getMotionBounds(), 0, null, -1));
+					LacOperonModel.getMotionBoundsAboveDna(), 0, null, -1));
 		}
 		
 		// Prevent ourself from fading while bonded.
