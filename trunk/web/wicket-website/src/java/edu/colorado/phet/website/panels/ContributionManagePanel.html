@@ -17,45 +17,18 @@
             <tr>
                 <td colspan="3"><h3>My Contributions</h3></td>
             </tr>
-            <tr>
-                <th>Title</th>
-                <th>Authors</th>
-                <th>Actions</th>
-            </tr>
-            <tr wicket:id="my-contributions">
-
-                <td>
-                    <a href="#" wicket:id="contribution-link">
-                        <span wicket:id="contribution-title"></span>
-                    </a>
-                </td>
-                <td wicket:id="contribution-authors"></td>
-                <td>
-                    <a href="#" wicket:id="edit-link">edit</a>
-                </td>
-            </tr>
+            <div wicket:id="my-contributions"></div>
+            <wicket:enclosure child="unapproved-contributions">
+                <tr>
+                    <td colspan="3"><h3>Unapproved Contributions</h3></td>
+                </tr>
+                <div wicket:id="unapproved-contributions"></div>
+            </wicket:enclosure>
             <wicket:enclosure child="other-contributions">
                 <tr>
-                    <td colspan="3"><h3>Ohter Contributions</h3></td>
+                    <td colspan="3"><h3>Other Contributions</h3></td>
                 </tr>
-                <tr>
-                    <th>Title</th>
-                    <th>Authors</th>
-                    <th>Actions</th>
-                </tr>
-                <tr wicket:id="other-contributions">
-
-                    <td>
-                        <a href="#" wicket:id="contribution-link">
-                            <span wicket:id="contribution-title"></span>
-                        </a>
-                    </td>
-                    <td wicket:id="contribution-authors"></td>
-                    <td>
-                        <a href="#" wicket:id="edit-link">edit</a>
-                    </td>
-
-                </tr>
+                <div wicket:id="other-contributions"></div>
             </wicket:enclosure>
         </table>
     </div>
