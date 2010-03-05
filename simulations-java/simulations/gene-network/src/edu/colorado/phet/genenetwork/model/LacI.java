@@ -123,6 +123,10 @@ public class LacI extends SimpleModelElement {
 				glucoseAttachmentPartner = null;
 				glucoseAttachmentTimeCountdown = 0;  // We are good to reattach as soon as we are released.
 			}
+			
+			if (glucoseAttachmentPartner == null && lacOperatorAttachmentPartner == null){
+				setOkayToFade(true);
+			}
 		}
 		else if (dragging == false && isUserControlled()){
 			// This element has just been released by the user.  It should be
