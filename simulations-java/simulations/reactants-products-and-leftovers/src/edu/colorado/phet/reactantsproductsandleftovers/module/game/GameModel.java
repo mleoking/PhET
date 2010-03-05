@@ -35,7 +35,7 @@ public class GameModel extends RPALModel {
     private static final double POINTS_FIRST_ATTEMPT = 1;  // points to award for correct guess on 1st attempt
     private static final double POINTS_SECOND_ATTEMPT = 0.5; // points to award for correct guess on 2nd attempt
     
-    private static final long NO_TIME = 0;
+    public static final long NO_TIME = 0;
     
     private final EventListenerList listeners;
     private final GameTimer timer;
