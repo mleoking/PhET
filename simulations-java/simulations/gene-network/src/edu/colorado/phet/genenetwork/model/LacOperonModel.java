@@ -107,6 +107,9 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     // State variable that tracks whether the legend should be shown.
     private boolean isLegendVisible = false;
     
+    // State variable that tracks whether lactose meter should be shown.
+    private boolean isLactoseMeterVisible = false;
+    
     // Timer used for delayed enabling of lactose injection.
     private final Timer delayedLactoseInjectionEnableTimer = new Timer(LACTOSE_INJECTION_ENABLE_DELAY, 
     		new ActionListener() {
@@ -130,7 +133,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 
 			@Override
 			public void clockTicked(ClockEvent clockEvent) {
-				handleClockTicked(clockEvent.getSimulationTimeChange());
+				stepInTime(clockEvent.getSimulationTimeChange());
 			}
         });
         
@@ -188,6 +191,8 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	    
 	    setLactoseInjectionAllowed(false);
 	    setAutomaticLactoseInjectionEnabled(false);
+	    setLegendVisible(false);
+	    setLactoseMeterVisible(false);
 	    
 	    addInitialModelElements();
 	}
@@ -408,6 +413,17 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		return this.isLegendVisible;
 	}
 	
+	public void setLactoseMeterVisible(boolean isLactoseMeterVisible){
+		if (isLactoseMeterVisible != this.isLactoseMeterVisible){
+			this.isLactoseMeterVisible = isLactoseMeterVisible;
+			notifyLactoseMeterVisibilityStateChange();
+		}
+	}
+	
+	public boolean isLactoseMeterVisible(){
+		return this.isLactoseMeterVisible;
+	}
+	
 	public boolean isPointInToolBox(Point2D pt){
 		return toolBoxRect.contains(pt);
 	}
@@ -620,7 +636,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		notifyModelElementAdded(glucose);
 	}
     
-    private void handleClockTicked(double dt){
+    private void stepInTime(double dt){
 
     	// Step the elements for which there can be multiple instances.
     	stepElementsInTime(lacZList, dt);
@@ -720,13 +736,18 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     			// strength is zero, it has essentially died, or dissolved, or
     			// just "ceased to be", so should be removed from the model.
     			toBeRemoved.add(element);
-    			element.removeFromModel();
     		}
     		else{
     			element.stepInTime(dt);
     		}
     	}
+    	
+    	// Remove the identified elements, if any.
     	elements.removeAll(toBeRemoved);
+    	for (IModelElement element : toBeRemoved){
+    		// Send out notifications of removal.
+    		element.removeFromModel();
+    	}
     }
     
     private void removeElementsFromModel(ArrayList<? extends IModelElement>elements){
@@ -769,6 +790,14 @@ public class LacOperonModel implements IGeneNetworkModelControl {
         for (IGeneNetworkModelListener listener : listeners)
         {
             listener.legendVisibilityStateChange(); 
+        }        
+    }
+
+    protected void notifyLactoseMeterVisibilityStateChange(){
+        // Notify all listeners of the change to the lactose meter visibility state.
+        for (IGeneNetworkModelListener listener : listeners)
+        {
+            listener.lactoseMeterVisibilityStateChange(); 
         }        
     }
 
