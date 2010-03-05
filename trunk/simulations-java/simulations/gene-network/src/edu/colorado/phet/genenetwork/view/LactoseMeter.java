@@ -57,7 +57,7 @@ public class LactoseMeter extends PNode {
 	
 	private IModelElementListener glucoseListener = new ModelElementListenerAdapter(){
 		public void removedFromModel(){
-			update();
+			updateBarSize();
 		}
 	};
 	
@@ -76,8 +76,11 @@ public class LactoseMeter extends PNode {
 					// We assume that the level of glucose is the same as the
 					// level of lactose.
 					((Glucose)modelElement).addListener(glucoseListener);
-					update();
+					updateBarSize();
 				}
+			}
+			public void lactoseMeterVisibilityStateChange() {
+				updateVisibility();
 			}
 		});
 		
@@ -95,7 +98,7 @@ public class LactoseMeter extends PNode {
 		
 		// Create the label.
 		// TODO: i18n
-		label = new HTMLNode("<html><center>Lactose<br>Level<center></html>", Color.BLACK, LABEL_FONT);
+		label = new HTMLNode("<html><center>Lactose<br>Level<center></html>", LABEL_FONT, Color.BLACK);
 		addChild(label);
 
 		// Scale the label to fit in the area below the bar, and to be the
@@ -115,19 +118,24 @@ public class LactoseMeter extends PNode {
 			glucose.addListener(glucoseListener);
 		}
 		
-		// Do the initial update.
-		update();
+		// Do the initial updates.
+		updateBarSize();
+		updateVisibility();
 	}
 	
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
 
-	private void update(){
+	private void updateBarSize(){
 		double barHeight = Math.min((double)model.getGlucoseList().size() / MAX_VALUE, 1) * maxBarHeight; 
 		barShape.setFrame(0, 0, barWidth, barHeight);
 		bar.setPathTo(barShape);
 		bar.setOffset(bar.getOffset().getX(),
 			barBackground.getBoundsReference().getMaxY() - barHeight + barBackground.getOffset().getY());
+	}
+	
+	private void updateVisibility(){
+		setVisible(model.isLactoseMeterVisible());
 	}
 }
