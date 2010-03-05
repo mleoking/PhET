@@ -35,7 +35,7 @@ public class RPALStrings {
     public static final String LABEL_HIDE = RPALResources.getString( "label.hide" );
     
     // formats
-    public static final String FORMAT_TIME_BESTTIME = RPALResources.getString( "format.time.bestTime" );
+    public static final String FORMAT_TIME_BEST = RPALResources.getString( "format.time.best" );
     
     // buttons
     public static final String BUTTON_CHECK = RPALResources.getString( "button.check" );
