@@ -185,7 +185,7 @@ public class DnaSegmentToolBoxNode extends PNode {
     	lacIBindingRegion.setOffset(boxBounds.width * 0.91, boxBounds.height * 0.25);
     	
     	// Position the check box button for turning the lactose meter on and off.
-    	lactoseMeterCheckBoxPSwing.setOffset( 5, boxBounds.height - lactoseMeterCheckBoxPSwing.getFullBoundsReference().height - 5);
+    	lactoseMeterCheckBoxPSwing.setOffset( 10, boxBounds.height - lactoseMeterCheckBoxPSwing.getFullBoundsReference().height - 5);
     	
     	// Position the check box button for turning the legend on and off.
     	legendControlCheckBoxPSwing.setOffset(
