@@ -4,10 +4,17 @@ package edu.colorado.phet.genenetwork.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -19,6 +26,7 @@ import edu.colorado.phet.genenetwork.model.ModelElementListenerAdapter;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * 
@@ -30,7 +38,7 @@ public class LactoseMeter extends PNode {
     // Class Data
     //------------------------------------------------------------------------
 
-	private static final Dimension2D size = new PDimension(80, 200);
+	private static final Dimension2D size = new PDimension(80, 230);
 	private static final PhetFont LABEL_FONT = new PhetFont(14, true);
 	private static final Color MAIN_BACKGROUND_COLOR = new Color(255, 255, 204);
 	private static float OUTLINE_STROKE_WIDTH = 1f;
@@ -39,7 +47,7 @@ public class LactoseMeter extends PNode {
 	private static final Color BAR_BACKGROUND_COLOR = Color.BLACK;
 	private static final Color BAR_COLOR = Color.BLUE;
 	private static final double BAR_WIDTH_PROPORTION = 0.9;
-	private static final double BAR_HEIGHT_PROPORTION = 0.7;
+	private static final double BAR_HEIGHT_PROPORTION = 0.6;
 	private static final double MAX_VALUE = 50;
 	
     //------------------------------------------------------------------------
@@ -54,6 +62,8 @@ public class LactoseMeter extends PNode {
 	private HTMLNode label;
 	private double barWidth;
 	private double maxBarHeight;
+    private JButton closeButton;
+    private PSwing closePSwing;
 	
 	private IModelElementListener glucoseListener = new ModelElementListenerAdapter(){
 		public void removedFromModel(){
@@ -89,11 +99,30 @@ public class LactoseMeter extends PNode {
 				MAIN_BACKGROUND_COLOR, OUTLINE_STROKE, OUTLINE_STROKE_COLOR);
 		addChild(background);
 
+		// Calculate some values that will be used when layout out the
+		// components that make up this node.
 		barWidth = size.getWidth() * BAR_WIDTH_PROPORTION;
 		maxBarHeight = size.getHeight() * BAR_HEIGHT_PROPORTION;
+		double edgeOffset = (size.getWidth() - barWidth) / 2 + OUTLINE_STROKE_WIDTH / 2;
+		
+		// Add the button that will allow the user to close (actually hide) the meter.
+		ImageIcon imageIcon = new ImageIcon( 
+				PhetCommonResources.getInstance().getImage(PhetCommonResources.IMAGE_CLOSE_BUTTON) );
+		closeButton = new JButton( imageIcon );
+		closeButton.setPreferredSize(new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight()));
+		closeButton.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				model.setLactoseMeterVisible(false);
+			}
+		} );
+		
+		closePSwing = new PSwing( closeButton );
+		closePSwing.setOffset(size.getWidth() - closeButton.getBounds().width - edgeOffset, edgeOffset / 2);
+		addChild(closePSwing);
+		
+		// Create the background for the bar.
 		barBackground = new PhetPPath(new Rectangle2D.Double(0, 0, barWidth, maxBarHeight), BAR_BACKGROUND_COLOR);
-		barBackground.setOffset((size.getWidth() - barWidth) / 2 + OUTLINE_STROKE_WIDTH / 2,
-				(size.getWidth() - barWidth) / 2 + OUTLINE_STROKE_WIDTH / 2);
+		barBackground.setOffset(edgeOffset, closePSwing.getFullBoundsReference().getMaxY() + edgeOffset / 2);
 		addChild(barBackground);
 		
 		// Create the label.
@@ -101,19 +130,29 @@ public class LactoseMeter extends PNode {
 		label = new HTMLNode("<html><center>Lactose<br>Level<center></html>", Color.BLACK, LABEL_FONT);
 		addChild(label);
 
-		// Scale the label to fit in the area below the bar, and to be the
-		// same width as the bar.
-		double scale = Math.min(size.getWidth() / label.getWidth() * 0.9, (size.getHeight() - maxBarHeight) * 0.9);
+		// Define the rectangle where the label needs to fit, which is just
+		// below the bar.
+		Rectangle2D labelAreaRect = new Rectangle2D.Double(
+				edgeOffset,
+				barBackground.getFullBoundsReference().getMaxY() + edgeOffset,
+				size.getWidth() - 2 * edgeOffset,
+				size.getHeight() - barBackground.getFullBoundsReference().getMaxY() - 2 * edgeOffset);
+		
+		// Scale the label to fit.
+		double scale = Math.min(labelAreaRect.getWidth() / label.getWidth(),
+				labelAreaRect.getHeight() / label.getHeight());
 		label.setScale(scale);
-		label.setOffset((size.getWidth() - label.getFullBoundsReference().width) / 2, 
-			size.getHeight() - (size.getHeight() - barBackground.getFullBoundsReference().getMaxY()) / 2 - label.getFullBoundsReference().height / 2);
+		label.setOffset(labelAreaRect.getCenterX() - label.getFullBoundsReference().width / 2, 
+			labelAreaRect.getCenterY() - label.getFullBoundsReference().height / 2);
 		
 		// Add the bar itself.  The shape will be set when updates occur.
 		bar = new PhetPPath( BAR_COLOR );
 		bar.setOffset((size.getWidth() - barWidth) / 2 + OUTLINE_STROKE_WIDTH / 2, 0);
 		addChild(bar);
 		
-		// Register to listen for updated from each existing glucose.
+		// Register to listen for updates from each existing glucose.  We are
+		// generally only interested in knowing when it gets removed from the
+		// model.
 		for (Glucose glucose : model.getGlucoseList()){
 			glucose.addListener(glucoseListener);
 		}
