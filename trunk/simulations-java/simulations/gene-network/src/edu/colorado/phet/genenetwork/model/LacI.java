@@ -62,6 +62,12 @@ public class LacI extends SimpleModelElement {
 	// operator.
 	private static final double LAC_OPERATOR_IMMEDIATE_ATTACH_DISTANCE = 8;
 	
+	// These are used to determine whether a lactose molecule is close enough
+	// that this molecule should try to grab it after it has been moved by
+	// the user.
+	private static final double LACTOSE_IMMEDIATE_GRAB_DISTANCE = 7; // In nanometers.
+	private static final double LACTOSE_GRAB_DISTANCE = 15; // In nanometers.
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -81,6 +87,7 @@ public class LacI extends SimpleModelElement {
 	
 	public LacI(IGeneNetworkModelControl model, Point2D initialPosition, boolean fadeIn) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
+		setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
 	}
 	
 	public LacI(IGeneNetworkModelControl model, boolean fadeIn) {
@@ -97,7 +104,7 @@ public class LacI extends SimpleModelElement {
 	
 	@Override
 	public void setDragging(boolean dragging) {
-		if (dragging == true){
+		if (dragging == true && !isUserControlled()){
 			// The user has grabbed this node and is moving it.  Is it
 			// attached to the lac operator?
 			if (lacOperatorAttachmentPartner != null){
@@ -108,8 +115,16 @@ public class LacI extends SimpleModelElement {
 				lacOperatorAttachmentPartner = null;
 				setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
 			}
+			// Does it have any pending relationships with lactose that need
+			// to be terminated?
+			if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+				glucoseAttachmentPartner.detach(this);
+				glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+				glucoseAttachmentPartner = null;
+				glucoseAttachmentTimeCountdown = 0;  // We are good to reattach as soon as we are released.
+			}
 		}
-		else{
+		else if (dragging == false && isUserControlled()){
 			// This element has just been released by the user.  It should be
 			// considered available.
 			lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
@@ -123,6 +138,10 @@ public class LacI extends SimpleModelElement {
 				
 				// We are in range, so try to attach.
 				lacOperator.requestImmediateAttach(this);
+			}
+			else if (glucoseAttachmentPartner == null){
+				// Check if there are any nearby lactoses to grab.
+				checkForNearbyLactoseToGrab();
 			}
 		}
 		super.setDragging(dragging);
@@ -509,5 +528,50 @@ public class LacI extends SimpleModelElement {
 		
 		// Set the bond time.
 		glucoseAttachmentTimeCountdown = LACTOSE_BOND_TIME;
+	}
+	
+	/**
+	 * Check if there is any lactose in the immediate vicinity and, if so,
+	 * attempt to establish a pending attachment with it.  This is generally
+	 * used when the user moves this element manually to some new location.
+	 */
+	private void checkForNearbyLactoseToGrab(){
+		assert glucoseAttachmentPartner == null;  // Shouldn't be doing this if we already have a partner.
+		Glucose nearestLactose = getModel().getNearestLactose(getPositionRef(), false);
+		if (nearestLactose != null && nearestLactose.getPositionRef().distance(getPositionRef()) < LACTOSE_GRAB_DISTANCE){
+			if (nearestLactose.breakOffPendingAttachments(this)){
+				// Looks like the lactose can be grabbed.
+				glucoseAttachmentPartner = nearestLactose;
+				getEngagedToLactose();
+				if (nearestLactose.getPositionRef().distance(getPositionRef()) < LACTOSE_IMMEDIATE_GRAB_DISTANCE){
+					// Attach right now.
+					completeAttachmentOfGlucose();
+				}
+			}
+		}
+	}
+	
+	private void getEngagedToLactose(){
+		
+		if (glucoseAttachmentPartner != null){
+			// We found a lactose that is free, so start the process of
+			// attaching to it.
+			if (glucoseAttachmentPartner.considerProposalFrom(this) != true){
+				assert false;  // As designed, this should always succeed, so debug if it doesn't.
+			}
+			else{
+				glucoseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+				
+				// Prevent fadeout from occurring while attached to lactose.
+				setOkayToFade(false);
+				
+				// Move towards the partner.
+				Dimension2D offsetFromTarget = new PDimension(
+						Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
+						Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
+				setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget,
+						LacOperonModel.getMotionBounds()));
+			}
+		}
 	}
 }
