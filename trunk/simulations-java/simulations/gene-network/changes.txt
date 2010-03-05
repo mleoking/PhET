@@ -1,3 +1,5 @@
+# 0.00.11 (39158) Mar 5, 2010
+3/5/10 Changes based on feedback from 1st round of interviews, plus lactose meter.
 # 0.0.10 (38880) Feb 23, 2010
 2/23/10 Retrying a deploy to dev that failed the first time.
 # 0.0.09 (38877) Feb 23, 2010
