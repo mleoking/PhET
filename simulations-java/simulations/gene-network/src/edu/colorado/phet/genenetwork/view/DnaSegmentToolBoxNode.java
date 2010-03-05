@@ -50,7 +50,7 @@ public class DnaSegmentToolBoxNode extends PNode {
 	// Background color used to fill the box.
 	static final Color BACKGROUND_COLOR = Color.WHITE; 
 	
-	// Font for the check box.  For consistency with the nodes that are placed
+	// Font for the check boxes.  For consistency with the nodes that are placed
 	// in the tool box, we load a serif font if no preferred font is
 	// specified.  For more information about why this is done, please look at
 	// the code for the nodes that are added to the tool box.
@@ -72,6 +72,9 @@ public class DnaSegmentToolBoxNode extends PNode {
 	
 	// The check box for controlling legend visibility.
 	private PSwing legendControlCheckBoxPSwing;
+	
+	// The check box for controlling lactose meter visibility.
+	private PSwing lactoseMeterCheckBoxPSwing;
 	
 	// Reference to the model.
 	private IGeneNetworkModelControl model;
@@ -116,6 +119,20 @@ public class DnaSegmentToolBoxNode extends PNode {
 		lacPromoter = new LacPromoterToolBoxNode(model, mvt, canvas);
 		addChild(lacPromoter);
 		
+		// Add a check box for enabling/disabling the lactose meter.
+		final JCheckBox lactoseMeterControlCheckBox = new JCheckBox(GeneNetworkStrings.LACTOSE_METER_VISIBILITY_CONTROL_CAPTION);
+		lactoseMeterControlCheckBox.setFont(CHECK_BOX_FONT);
+		lactoseMeterControlCheckBox.setBackground(BACKGROUND_COLOR);
+		lactoseMeterControlCheckBox.setSelected(model.isLegendVisible());
+		lactoseMeterControlCheckBox.setFocusable(false);
+		lactoseMeterControlCheckBox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				model.setLactoseMeterVisible(lactoseMeterControlCheckBox.isSelected());
+			}
+		});
+		lactoseMeterCheckBoxPSwing = new PSwing(lactoseMeterControlCheckBox);
+		addChild(lactoseMeterCheckBoxPSwing);
+		
 		// Add a check box for enabling/disabling the legend.
 		final JCheckBox legendControlCheckBox = new JCheckBox(GeneNetworkStrings.LEGEND_VISIBILITY_CONTROL_CAPTION);
 		legendControlCheckBox.setFont(CHECK_BOX_FONT);
@@ -135,6 +152,9 @@ public class DnaSegmentToolBoxNode extends PNode {
 		model.addListener(new GeneNetworkModelAdapter(){
 			public void legendVisibilityStateChange() { 
 				legendControlCheckBox.setSelected(model.isLegendVisible());
+			}
+			public void lactoseMeterVisibilityStateChange() {
+				lactoseMeterControlCheckBox.setSelected(model.isLactoseMeterVisible());
 			}
 		});
 		
@@ -163,6 +183,9 @@ public class DnaSegmentToolBoxNode extends PNode {
     	lacZGene.setOffset(boxBounds.width * 0.5, boxBounds.height * 0.25);
     	lacPromoter.setOffset(boxBounds.width * 0.71, boxBounds.height / 4);
     	lacIBindingRegion.setOffset(boxBounds.width * 0.91, boxBounds.height * 0.25);
+    	
+    	// Position the check box button for turning the lactose meter on and off.
+    	lactoseMeterCheckBoxPSwing.setOffset( 5, boxBounds.height - lactoseMeterCheckBoxPSwing.getFullBoundsReference().height - 5);
     	
     	// Position the check box button for turning the legend on and off.
     	legendControlCheckBoxPSwing.setOffset(
