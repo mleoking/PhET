@@ -47,7 +47,7 @@ public class GameOverNode extends PhetPNode {
         super();
         
         // title
-        JLabel titleLabel = new JLabel( RPALStrings.MESSAGE_GAME_OVER ); 
+        JLabel titleLabel = new JLabel( RPALStrings.TITLE_GAME_OVER ); 
         titleLabel.setFont( TITLE_FONT );
         
         // horizontal separator
@@ -126,28 +126,41 @@ public class GameOverNode extends PhetPNode {
         String scoreString = POINTS_FORMAT.format( model.getPoints() );
         String perfectScoreString = POINTS_FORMAT.format( GameModel.getPerfectScore() );
         if ( model.isPerfectScore() ) {
-            scoreLabel.setText( MessageFormat.format( RPALStrings.LABEL_PERFECT_SCORE, scoreString, perfectScoreString ) );
+            scoreLabel.setText( MessageFormat.format( RPALStrings.LABEL_SCORE_PERFECT, scoreString, perfectScoreString ) );
         }
         else {
-            scoreLabel.setText( MessageFormat.format( RPALStrings.LABEL_FINAL_SCORE, scoreString, perfectScoreString ) );
+            scoreLabel.setText( MessageFormat.format( RPALStrings.LABEL_SCORE_IMPERFECT, scoreString, perfectScoreString ) );
         }
 
         // time
+        timeLabel.setText( getTimeString() );
+    }
+    
+    /*
+     * Gets the time string.
+     * If we had an imperfect score, simply show the time.
+     * If we had a perfect score, show the best time, and indicate if the time was a "new best".
+     */
+    private String getTimeString() {
+        String s = " ";
         if ( model.isTimerVisible() ) {
-            String timeString = TimeUtils.getTimeString( model.getTime() );
-            String bestTimeString = TimeUtils.getTimeString( model.getBestTime() );
+            // Time: 0:29
+            String timeString = MessageFormat.format( RPALStrings.LABEL_TIME, TimeUtils.getTimeString( model.getTime() ) );
             if ( !model.isPerfectScore() ) {
-                timeLabel.setText( MessageFormat.format( RPALStrings.LABEL_TIME, timeString ) );
+                // Time: 0:29
+                s = timeString;
             }
             else if ( model.isNewBestTime() ) {
-                timeLabel.setText( MessageFormat.format( RPALStrings.LABEL_NEW_BEST_TIME, bestTimeString ) );
+                // Time: 0:29 (NEW BEST!)
+                s = MessageFormat.format( RPALStrings.FORMAT_TIME_BESTTIME, timeString, RPALStrings.LABEL_NEW_BEST );
             }
             else {
-                timeLabel.setText( MessageFormat.format( RPALStrings.LABEL_NOT_BEST_TIME, timeString, bestTimeString ) );
+                // (Best: 0:20)
+                String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, TimeUtils.getTimeString( model.getBestTime() ) );
+                // Time: 0:29 (Best: 0:20)
+                s = MessageFormat.format( RPALStrings.FORMAT_TIME_BESTTIME, timeString, bestTimeString );
             }
         }
-        else {
-            timeLabel.setText( " " );
-        }
+        return s;
     }
 }

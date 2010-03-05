@@ -191,10 +191,17 @@ public class ScoreboardNode extends PhetPNode {
     }
     
     private void setTime( long elapsedMillis ) {
-        String valueString = TimeUtils.getTimeString( elapsedMillis );
+        String valueString = null;
         long bestTime = model.getBestTime();
-        if ( bestTime > 0 ) {
-            valueString += " " + MessageFormat.format( RPALStrings.LABEL_BEST_TIME, TimeUtils.getTimeString( bestTime ) );
+        if ( bestTime == GameModel.NO_TIME ) {
+            // 0:29
+            valueString = TimeUtils.getTimeString( elapsedMillis );
+        }
+        else {
+            // (Best: 0:34)
+            String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, TimeUtils.getTimeString( bestTime ) );
+            // 0:29 (Best: 0:34)
+            valueString = MessageFormat.format( RPALStrings.FORMAT_TIME_BESTTIME, TimeUtils.getTimeString( elapsedMillis ), bestTimeString );
         }
         timerValue.setText( valueString );
     }
