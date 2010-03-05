@@ -78,6 +78,8 @@ public class LactoseMeter extends PNode {
 	public LactoseMeter(final IGeneNetworkModelControl model) {
 		
 		this.model = model;
+		setPickable(false);
+		setChildrenPickable(false);
 		
 		// Listen to the model for events that may matter to us.
 		model.addListener(new GeneNetworkModelAdapter(){
