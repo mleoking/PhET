@@ -3,8 +3,7 @@
 package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -17,50 +16,55 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 /**
  * Demonstrates a PSwing problem with dynamic JComponents.
  * <p>
- * This example shows 2 identical JPanels, 1 pure Swing and 1 drawn using PSwing.
- * The JPanels contain 2 JLabels, which can be updated by typing into JTextFields 
- * and pressing the JButton labeled Update.
+ * This example shows 2 identical JPanels.
+ * The panel on the left uses PSwing.
+ * The panel on the right uses pure Swing.
+ * <p>
+ * The JPanel contain various JComponents whose text can be updated by 
+ * typing into JTextFields and pressing the "Update" button.
  * The JPanel managed by PSwing is often rendered incorrectly.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestPSwingDynamicComponent extends JFrame {
     
-    private static final Dimension FRAME_SIZE = new Dimension( 600, 400 );
+    private static final Dimension FRAME_SIZE = new Dimension( 800, 400 );
+    private static final int TEXT_FIELD_COLUMNS = 30;
+    
+    private final ComponentPanel swingPanel, piccoloPanel;
+    private final JTextField labelTextField, checkBoxTextField, radioButtonTextField;
     
     public TestPSwingDynamicComponent() {
         super( TestPSwingDynamicComponent.class.getName() );
         setSize( FRAME_SIZE );
         
-        // panel that we're display using pure Swing
-        final LabelPanel swingLabelPanel = new LabelPanel();
-        JPanel swingPanel = new JPanel();
-        swingPanel.setBorder( new LineBorder( Color.BLACK ) );
-        swingPanel.add( swingLabelPanel );
-        
-        // panel that we'll display using Piccolo
-        final LabelPanel piccoloLabelPanel = new LabelPanel();
-        PSwing pswing = new PSwing( piccoloLabelPanel );
-        pswing.setOffset( 50, 50 );
+        // canvas
         PSwingCanvas canvas = new PSwingCanvas();
-        canvas.getLayer().addChild( pswing );
         canvas.removeInputEventListener( canvas.getZoomEventHandler() );
         canvas.removeInputEventListener( canvas.getPanEventHandler() );
         
-        // text fields
-        final JTextField topTextField = new JTextField( swingLabelPanel.getTopText() );
-        topTextField.setColumns( 40 );
-        final JTextField bottomTextField = new JTextField( swingLabelPanel.getBottomText() );
-        bottomTextField.setColumns( 40 );
+        // panel that we'll display using Piccolo
+        piccoloPanel = new ComponentPanel();
+        PSwing pswing = new PSwing( piccoloPanel );
+        canvas.getLayer().addChild( pswing );
+        pswing.setOffset( 10, 10 );
         
-        // Update button
+        // panel that we're display using pure Swing
+        swingPanel = new ComponentPanel();
+        JPanel jpanel = new JPanel();
+        jpanel.setBorder( new LineBorder( Color.BLACK ) );
+        jpanel.add( swingPanel );
+        
+        // text fields, for specifying dynamic text
+        labelTextField = new JTextField( swingPanel.label.getText(), TEXT_FIELD_COLUMNS );
+        checkBoxTextField = new JTextField( swingPanel.checkBox.getText(), TEXT_FIELD_COLUMNS );
+        radioButtonTextField = new JTextField( swingPanel.radioButton.getText(), TEXT_FIELD_COLUMNS );
+        
+        // Update button, for applying dynamic text
         JButton updateButton = new JButton( "Update" );
         updateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                swingLabelPanel.setTopText( topTextField.getText() );
-                swingLabelPanel.setBottomText( bottomTextField.getText() );
-                piccoloLabelPanel.setTopText( topTextField.getText() );
-                piccoloLabelPanel.setBottomText( bottomTextField.getText() );
+                updatePanels();
             }
         } );
         
@@ -69,72 +73,86 @@ public class TestPSwingDynamicComponent extends JFrame {
         controlPanel.setBorder( new LineBorder( Color.BLACK ) );
         controlPanel.setLayout( new GridBagLayout() );
         GridBagConstraints c = new GridBagConstraints();
-        c.anchor = GridBagConstraints.EAST;
+        // JLabel
         c.gridx = 0;
         c.gridy = 0;
-        controlPanel.add( new JLabel( "top text:" ), c );
-        c.anchor = GridBagConstraints.WEST;
-        c.gridx++;
-        controlPanel.add( topTextField, c );
         c.anchor = GridBagConstraints.EAST;
+        controlPanel.add( new JLabel( "JLabel text:" ), c );
+        c.gridx++;
+        c.anchor = GridBagConstraints.WEST;
+        controlPanel.add( labelTextField, c );
+        // JCheckBox
         c.gridx = 0;
         c.gridy++;
-        controlPanel.add( new JLabel( "bottom text:" ), c );
-        c.anchor = GridBagConstraints.WEST;
+        c.anchor = GridBagConstraints.EAST;
+        controlPanel.add( new JLabel( "JCheckBox text:" ), c );
         c.gridx++;
-        controlPanel.add( bottomTextField, c );
         c.anchor = GridBagConstraints.WEST;
+        controlPanel.add( checkBoxTextField, c );
+        // JRadioButton
+        c.gridx = 0;
+        c.gridy++;
+        c.anchor = GridBagConstraints.EAST;
+        controlPanel.add( new JLabel( "JRadioButton text:" ), c );
+        c.gridx++;
+        c.anchor = GridBagConstraints.WEST;
+        controlPanel.add( radioButtonTextField, c );
+        // Update button
         c.gridx = 1;
         c.gridy++;
+        c.anchor = GridBagConstraints.WEST;
         controlPanel.add( updateButton, c );
         
         // main panel
         JPanel mainPanel = new JPanel( new BorderLayout() );
         mainPanel.add( canvas, BorderLayout.CENTER );
-        mainPanel.add( swingPanel, BorderLayout.EAST );
+        mainPanel.add( jpanel, BorderLayout.EAST );
         mainPanel.add( controlPanel, BorderLayout.SOUTH );
         setContentPane( mainPanel );
     }
     
-    /**
-     * A panel with 2 JLabels. 
-     * The JLabels' text can be changed.
-     */
-    private static class LabelPanel extends JPanel {
+    // applies the text field values to the components in the panels
+    private void updatePanels() {
         
-        private final JLabel topLabel, bottomLabel;
+        // Piccolo (PSwing) panel
+        piccoloPanel.label.setText( labelTextField.getText() );
+        piccoloPanel.checkBox.setText( checkBoxTextField.getText() );
+        piccoloPanel.radioButton.setText( radioButtonTextField.getText() );
+        
+        // Swing panel
+        swingPanel.label.setText( labelTextField.getText() );
+        swingPanel.checkBox.setText( checkBoxTextField.getText() );
+        swingPanel.radioButton.setText( radioButtonTextField.getText() );
+    }
+    
+    // A panel with a few different types of JComponent.
+    private static class ComponentPanel extends JPanel {
+        
+        // allow public access to keep our example code short
+        public final JLabel label;
+        public final JCheckBox checkBox;
+        public final JRadioButton radioButton;
 
-        public LabelPanel() {
+        public ComponentPanel() {
             setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( 5, 14, 5, 14 ) ) );
             setBackground( new Color( 180, 205, 255 ) );
             
-            topLabel = new JLabel( "top" );
-            bottomLabel = new JLabel( "bottom" );
+            // components
+            label = new JLabel( "JLabel" );
+            checkBox = new JCheckBox( "JCheckBox" );
+            radioButton = new JRadioButton( "JRadioButton" );
             
+            // layout
             setLayout( new GridBagLayout() );
             GridBagConstraints c = new GridBagConstraints();
             c.anchor = GridBagConstraints.WEST;
             c.gridx = 0;
             c.gridy = 0;
-            add( topLabel, c );
+            add( label, c );
             c.gridy++;
-            add( bottomLabel, c );
-        }
-        
-        public void setTopText( String s ) {
-            topLabel.setText( s );
-        }
-        
-        public String getTopText() {
-            return topLabel.getText();
-        }
-        
-        public void setBottomText( String s ) {
-            bottomLabel.setText( s );
-        }
-        
-        public String getBottomText() {
-            return bottomLabel.getText();
+            add( checkBox, c );
+            c.gridy++;
+            add( radioButton, c );
         }
     }
 
