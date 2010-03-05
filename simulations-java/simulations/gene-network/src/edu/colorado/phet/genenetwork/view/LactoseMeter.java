@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.Glucose;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
@@ -128,8 +129,7 @@ public class LactoseMeter extends PNode {
 		addChild(barBackground);
 		
 		// Create the label.
-		// TODO: i18n
-		label = new HTMLNode("<html><center>Lactose<br>Level<center></html>", Color.BLACK, LABEL_FONT);
+		label = new HTMLNode(GeneNetworkStrings.LACTOSE_METER_CAPTION, Color.BLACK, LABEL_FONT);
 		addChild(label);
 
 		// Define the rectangle where the label needs to fit, which is just
