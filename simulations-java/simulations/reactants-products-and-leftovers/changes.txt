@@ -1,3 +1,4 @@
+3/5/10 checkin lastest version of design doc from Google Docs
 3/5/10 move non-localized string literals for sandwich components to RPALSymbols
 3/5/10 reduce number of translations required for display of time and best time
 3/5/10 clean up English strings file, use consistent string keys, delete unused strings
