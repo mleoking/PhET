@@ -7,9 +7,9 @@ HIGH PRIORITY
 - bread + cheese -> sandwich ?
 
 MEDIUM PRIORITY
-- audible click in the correctAnswer.wav (appears in sound before optimization)
 
 LOW PRIORITY
+- audible click in the correctAnswer.wav (appears in sound before optimization)
 - add developer controls for setting up specific Game challenges (expensive, do this only if needed for debugging)
 
 WARTS:
