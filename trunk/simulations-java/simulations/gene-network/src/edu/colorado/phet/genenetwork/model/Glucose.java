@@ -338,4 +338,41 @@ public class Glucose extends SimpleSugar {
 			
 		super.setDragging(dragging);
 	}
+	
+	/**
+	 * Break off any pending attachments, i.e. attachments that have yet to be
+	 * finalized.  This is generally used when a model element has identified
+	 * this as something that it wants to attach to.  It's like someone is
+	 * engaged to be married and someone else comes along and says, "Hey,
+	 * marry me instead".
+	 * 
+	 * @return - true if able to break off or if it was already available, false
+	 * otherwise.
+	 */
+	public boolean breakOffPendingAttachments(SimpleModelElement modelElement){
+		if (isAvailableForAttaching()){
+			// Already available, so bail now.
+			return true;
+		}
+		
+		if (lacZAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+			// Only do this if the requester is closer than the current pending partner.
+			if (getPositionRef().distance(modelElement.getPositionRef()) < getPositionRef().distance(lacZAttachmentPartner.getPositionRef())){
+				lacZAttachmentPartner.detach(this);
+				lacZAttachmentPartner = null;
+				lacZAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
+		}
+		if (lacIAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+			// Only do this if the requester is closer than the current pending partner.
+			if (getPositionRef().distance(modelElement.getPositionRef()) < getPositionRef().distance(lacIAttachmentPartner.getPositionRef())){
+				lacIAttachmentPartner.detach(this);
+				lacIAttachmentPartner = null;
+				lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
+		}
+		
+		return isAvailableForAttaching();
+		
+	}
 }
