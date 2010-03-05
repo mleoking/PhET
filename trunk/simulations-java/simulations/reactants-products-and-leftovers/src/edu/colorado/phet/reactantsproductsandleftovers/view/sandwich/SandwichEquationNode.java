@@ -152,7 +152,7 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
             }
         }
         
-        noReactionNode = new PText( RPALStrings.LABEL_NO_REACTION );
+        noReactionNode = new PText( RPALStrings.LABEL_NO_SANDWICH );
         noReactionNode.setFont( NO_REACTION_FONT );
         addChild( noReactionNode );
         
