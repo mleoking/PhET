@@ -327,13 +327,13 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
                 updateBounds();
             }
         });
-//        component.addHierarchyBoundsListener(new HierarchyBoundsAdapter() {
-//            /** {@inheritDoc} */
-//            public void ancestorResized(HierarchyEvent arg0) {
-//                System.out.println( "PSwing$HierarchyBoundsAdapter.ancestorResized" );//XXX
-//                updateBounds();
-//            }
-//        });
+        component.addHierarchyBoundsListener(new HierarchyBoundsAdapter() {
+            /** {@inheritDoc} */
+            public void ancestorResized(HierarchyEvent arg0) {
+                System.out.println( "PSwing$HierarchyBoundsAdapter.ancestorResized" );//XXX
+                updateBounds();
+            }
+        });
 
         updateBounds();
         listenForCanvas(this);
