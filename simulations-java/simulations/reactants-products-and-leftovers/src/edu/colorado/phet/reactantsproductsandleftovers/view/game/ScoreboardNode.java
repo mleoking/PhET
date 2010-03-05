@@ -201,7 +201,7 @@ public class ScoreboardNode extends PhetPNode {
             // (Best: 0:34)
             String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, TimeUtils.getTimeString( bestTime ) );
             // 0:29 (Best: 0:34)
-            valueString = MessageFormat.format( RPALStrings.FORMAT_TIME_BESTTIME, TimeUtils.getTimeString( elapsedMillis ), bestTimeString );
+            valueString = MessageFormat.format( RPALStrings.FORMAT_TIME_BEST, TimeUtils.getTimeString( elapsedMillis ), bestTimeString );
         }
         timerValue.setText( valueString );
     }

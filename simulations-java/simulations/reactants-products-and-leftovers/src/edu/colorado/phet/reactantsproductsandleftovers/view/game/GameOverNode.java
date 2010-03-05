@@ -152,13 +152,13 @@ public class GameOverNode extends PhetPNode {
             }
             else if ( model.isNewBestTime() ) {
                 // Time: 0:29 (NEW BEST!)
-                s = MessageFormat.format( RPALStrings.FORMAT_TIME_BESTTIME, timeString, RPALStrings.LABEL_NEW_BEST );
+                s = MessageFormat.format( RPALStrings.FORMAT_TIME_BEST, timeString, RPALStrings.LABEL_NEW_BEST );
             }
             else {
                 // (Best: 0:20)
                 String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, TimeUtils.getTimeString( model.getBestTime() ) );
                 // Time: 0:29 (Best: 0:20)
-                s = MessageFormat.format( RPALStrings.FORMAT_TIME_BESTTIME, timeString, bestTimeString );
+                s = MessageFormat.format( RPALStrings.FORMAT_TIME_BEST, timeString, bestTimeString );
             }
         }
         return s;
