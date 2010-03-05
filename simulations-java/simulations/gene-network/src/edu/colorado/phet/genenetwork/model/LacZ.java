@@ -46,6 +46,11 @@ public class LacZ extends SimpleModelElement {
 	// LacZ from getting into a state where it can never fade out.
 	private static final double RECOVERY_TIME = 0.250;  // In seconds.
 	
+	// This is used to determine whether a lactose molecule is close enough
+	// that this molecule should try to grab it after it has been moved by
+	// the user.
+	private static final double LACTOSE_GRAB_DISTANCE = 10; // In nanometers.
+	
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
@@ -86,26 +91,8 @@ public class LacZ extends SimpleModelElement {
 				// Look for some lactose to attach to.
 				glucoseAttachmentPartner = getModel().getNearestLactose(getPositionRef(), true);
 				
-				if (glucoseAttachmentPartner != null){
-					// We found a lactose that is free, so start the process of
-					// attaching to it.
-					if (glucoseAttachmentPartner.considerProposalFrom(this) != true){
-						assert false;  // As designed, this should always succeed, so debug if it doesn't.
-					}
-					else{
-						glucoseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
-						
-						// Prevent fadeout from occurring while attached to lactose.
-						setOkayToFade(false);
-						
-						// Move towards the partner.
-						Dimension2D offsetFromTarget = new PDimension(
-								Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
-								Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
-						setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget,
-								LacOperonModel.getMotionBounds()));
-					}
-				}
+				getEngagedToLactose();
+				
 			}
 			else if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
 				// See if the glucose is close enough to finalize the attachment.
@@ -136,16 +123,49 @@ public class LacZ extends SimpleModelElement {
 		}
 	}
 	
+	private void getEngagedToLactose(){
+		
+		if (glucoseAttachmentPartner != null){
+			// We found a lactose that is free, so start the process of
+			// attaching to it.
+			if (glucoseAttachmentPartner.considerProposalFrom(this) != true){
+				assert false;  // As designed, this should always succeed, so debug if it doesn't.
+			}
+			else{
+				glucoseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+				
+				// Prevent fadeout from occurring while attached to lactose.
+				setOkayToFade(false);
+				
+				// Move towards the partner.
+				Dimension2D offsetFromTarget = new PDimension(
+						Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
+						Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
+				setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget,
+						LacOperonModel.getMotionBounds()));
+			}
+		}
+	}
 
 	@Override
 	public void setDragging(boolean dragging) {
-		// The user has grabbed this element.  Have it release any pending
-		// attachments.
-		if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
-			glucoseAttachmentPartner.detach(this);
-			glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-			glucoseAttachmentPartner = null;
-			recoverCountdownTimer = 0;  // We are good to reattach as soon as we are released.
+		if (dragging && !isUserControlled()){
+			// The user has grabbed this element.  Have it release any pending
+			// attachments.
+			if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+				glucoseAttachmentPartner.detach(this);
+				glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+				glucoseAttachmentPartner = null;
+				recoverCountdownTimer = 0;  // We are good to reattach as soon as we are released.
+			}
+			super.setDragging(dragging);
+		}
+		else if (!dragging && isUserControlled()){
+			// The user has released this element.  See if there are any
+			// potential partners nearby.
+			if (glucoseAttachmentPartner == null){
+				checkForNearbyLactoseToGrab();
+			}
 		}
 		super.setDragging(dragging);
 	}
@@ -259,5 +279,29 @@ public class LacZ extends SimpleModelElement {
 	
 	public static Dimension2D getGlucoseAttachmentPointOffset() {
 		return new PDimension(GLUCOSE_ATTACHMENT_POINT_OFFSET);
+	}
+	
+	/**
+	 * Check if there is any lactose in the immediate vicinity and, if so,
+	 * attempt to establish a pending attachment with it.  This is generally
+	 * used when the user moves this element manually to some new location.
+	 */
+	private void checkForNearbyLactoseToGrab(){
+		assert glucoseAttachmentPartner == null;  // Shouldn't be doing this if we already have a partner.
+		Glucose nearestLactose = getModel().getNearestLactose(getPositionRef(), false);
+		if (nearestLactose != null && nearestLactose.getPositionRef().distance(getPositionRef()) < LACTOSE_GRAB_DISTANCE){
+			if (nearestLactose.breakOffPendingAttachments(this)){
+				// Looks like the lactose can be grabbed.
+				glucoseAttachmentPartner = nearestLactose;
+				if (nearestLactose.getPositionRef().distance(getPositionRef()) < ATTACHMENT_FORMING_DISTANCE){
+					// Attach right now.
+					completeAttachmentOfGlucose();
+				}
+				else{
+					// Set up a pending attachment.
+					getEngagedToLactose();
+				}
+			}
+		}
 	}
 }
