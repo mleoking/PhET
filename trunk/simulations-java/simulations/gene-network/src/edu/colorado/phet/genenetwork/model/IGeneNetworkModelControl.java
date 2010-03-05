@@ -211,6 +211,17 @@ public interface IGeneNetworkModelControl {
 	public boolean isLegendVisible();
 
 	/**
+	 * Set the state variable that controls whether or not the lactose meter
+	 * should be visible
+	 */
+	public void setLactoseMeterVisible(boolean lactoseMeterVisible);
+	
+	/**
+	 * Returns true if the lactose meter should be visible, false if not.
+	 */
+	public boolean isLactoseMeterVisible();
+
+	/**
 	 * Enable or disable the automatic injection of lactose into the model.
 	 * 
 	 * @param automaticLactoseInjectionEnabled

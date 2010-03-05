@@ -36,5 +36,12 @@ public interface IGeneNetworkModelListener {
      */
     void legendVisibilityStateChange();
     
+    /**
+     * Notify the listener that a change has occurred to the state variable
+     * that tracks whether or not the lactose meter should be visible to the
+     * user.
+     */
+    void lactoseMeterVisibilityStateChange();
+    
     
 }
