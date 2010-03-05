@@ -95,7 +95,7 @@ public class LactoseMeter extends PNode {
 		
 		// Create the label.
 		// TODO: i18n
-		label = new HTMLNode("<html><center>Lactose<br>Level<center></html>", LABEL_FONT, Color.BLACK);
+		label = new HTMLNode("<html><center>Lactose<br>Level<center></html>", Color.BLACK, LABEL_FONT);
 		addChild(label);
 
 		// Scale the label to fit in the area below the bar, and to be the
