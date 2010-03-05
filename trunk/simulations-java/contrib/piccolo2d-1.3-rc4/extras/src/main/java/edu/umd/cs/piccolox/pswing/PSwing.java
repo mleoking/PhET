@@ -323,15 +323,17 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         component.addPropertyChangeListener(new PropertyChangeListener() {
             /** {@inheritDoc} */
             public void propertyChange(final PropertyChangeEvent evt) {
+                System.out.println( "PSwing$PropertyChangeListener.propertyChanged " + evt.getPropertyName() );//XXX
                 updateBounds();
             }
         });
-        component.addHierarchyBoundsListener(new HierarchyBoundsAdapter() {
-            /** {@inheritDoc} */
-            public void ancestorResized(HierarchyEvent arg0) {
-                updateBounds();
-            }
-        });
+//        component.addHierarchyBoundsListener(new HierarchyBoundsAdapter() {
+//            /** {@inheritDoc} */
+//            public void ancestorResized(HierarchyEvent arg0) {
+//                System.out.println( "PSwing$HierarchyBoundsAdapter.ancestorResized" );//XXX
+//                updateBounds();
+//            }
+//        });
 
         updateBounds();
         listenForCanvas(this);
@@ -356,6 +358,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         // TODO: should we make sure this is called at least once
         // TODO: does this sometimes need to be called when size already equals
         // preferred size, to relayout/update things?
+        component.revalidate();
         if (componentNeedsResizing()) {
             component.setBounds(0, 0, component.getPreferredSize().width, component.getPreferredSize().height);
         }

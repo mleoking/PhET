@@ -25,7 +25,8 @@ public class RPALImages {
     
     // all sandwich images, used by game
     public static final BufferedImage[] ALL_SANDWICHES = {
-        BREAD, MEAT, CHEESE
+//        BREAD, MEAT, CHEESE
+        BREAD, CHEESE
     };
     
     // molecule images
