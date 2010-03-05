@@ -298,12 +298,12 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getNearestFreeLactose(Point2D pt)
 	 */
-	public Glucose getNearestFreeLactose(Point2D pt){
+	public Glucose getNearestLactose(Point2D pt, boolean freeOnly){
 		double distance = Double.POSITIVE_INFINITY;
 		Glucose nearestFreeGlucose = null;
 		for (Glucose glucose : glucoseList){
-			if (glucose.isBoundToGalactose() && 
-				glucose.isAvailableForAttaching() && 
+			if ( glucose.isBoundToGalactose() && 
+				(!freeOnly || glucose.isAvailableForAttaching()) && 
 				pt.distance(glucose.getPositionRef()) < distance){
 				
 				// This is the best candidate so far.
