@@ -48,7 +48,7 @@ public class LactoseMeter extends PhetPNode {
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(OUTLINE_STROKE_WIDTH);
 	private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
 	private static final Color BAR_BACKGROUND_COLOR = Color.BLACK;
-	private static final Color BAR_COLOR = Color.BLUE;
+	private static final Color BAR_COLOR = new Color(00, 204, 255);
 	private static final double BAR_WIDTH_PROPORTION = 0.9;
 	private static final double BAR_HEIGHT_PROPORTION = 0.6;
 	private static final double MAX_VALUE = 50;
