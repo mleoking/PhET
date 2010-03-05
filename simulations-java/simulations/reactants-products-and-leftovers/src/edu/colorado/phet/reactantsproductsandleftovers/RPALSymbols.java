@@ -12,6 +12,16 @@ package edu.colorado.phet.reactantsproductsandleftovers;
  */
 public class RPALSymbols {
     
+    /*
+     * Symbols for the sandwich components.
+     * These do not require localization because the names are not visible to the user.
+     * But they are required by StackedLayoutNode to determine which stack an associated image goes in.
+     */
+    public static final String BREAD = "bread";
+    public static final String MEAT = "meat";
+    public static final String CHEESE = "cheese";
+    public static final String SANDWICH = "sandwich";
+    
     // molecules
     public static final String C = toSubscript( "C" );
     public static final String C2H2 = toSubscript( "C2H2" );
