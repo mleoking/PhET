@@ -79,59 +79,75 @@ public class LacZ extends SimpleModelElement {
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
-		if (getExistenceState() == ExistenceState.EXISTING &&
-			glucoseAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
-			
-			// Look for some lactose to attach to.
-			glucoseAttachmentPartner = getModel().getNearestFreeLactose(getPositionRef());
-			
-			if (glucoseAttachmentPartner != null){
-				// We found a lactose that is free, so start the process of
-				// attaching to it.
-				if (glucoseAttachmentPartner.considerProposalFrom(this) != true){
-					assert false;  // As designed, this should always succeed, so debug if it doesn't.
+		if (!isUserControlled()){			
+			if (getExistenceState() == ExistenceState.EXISTING &&
+				glucoseAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
+				
+				// Look for some lactose to attach to.
+				glucoseAttachmentPartner = getModel().getNearestFreeLactose(getPositionRef());
+				
+				if (glucoseAttachmentPartner != null){
+					// We found a lactose that is free, so start the process of
+					// attaching to it.
+					if (glucoseAttachmentPartner.considerProposalFrom(this) != true){
+						assert false;  // As designed, this should always succeed, so debug if it doesn't.
+					}
+					else{
+						glucoseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+						
+						// Prevent fadeout from occurring while attached to lactose.
+						setOkayToFade(false);
+						
+						// Move towards the partner.
+						Dimension2D offsetFromTarget = new PDimension(
+								Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
+								Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
+						setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget,
+								LacOperonModel.getMotionBounds()));
+					}
 				}
-				else{
-					glucoseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
-					
-					// Prevent fadeout from occurring while attached to lactose.
-					setOkayToFade(false);
-					
-					// Move towards the partner.
-					Dimension2D offsetFromTarget = new PDimension(
-							Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
-							Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
-					setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget,
-							LacOperonModel.getMotionBounds()));
+			}
+			else if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+				// See if the glucose is close enough to finalize the attachment.
+				if (getGlucoseAttachmentPointLocation().distance(glucoseAttachmentPartner.getLacZAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
+					// Finalize the attachment.
+					completeAttachmentOfGlucose();
+				}
+			}
+			else if (glucoseAttachmentState == AttachmentState.ATTACHED){
+				lactoseAttachmentCountdownTimer -= dt;
+				if (lactoseAttachmentCountdownTimer <= 0){
+					// Time to break down and release the lactose.
+					glucoseAttachmentPartner.releaseGalactose();
+					glucoseAttachmentPartner.detach(this);
+					glucoseAttachmentPartner = null;
+					glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+					setOkayToFade(true);
+					recoverCountdownTimer = RECOVERY_TIME;
+				}
+			}
+			else if (glucoseAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
+				recoverCountdownTimer -= dt;
+				if (recoverCountdownTimer <= 0){
+					// Recovery is complete.
+					glucoseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 				}
 			}
 		}
-		else if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
-			// See if the glucose is close enough to finalize the attachment.
-			if (getGlucoseAttachmentPointLocation().distance(glucoseAttachmentPartner.getLacZAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
-				// Finalize the attachment.
-				completeAttachmentOfGlucose();
-			}
+	}
+	
+
+	@Override
+	public void setDragging(boolean dragging) {
+		// The user has grabbed this element.  Have it release any pending
+		// attachments.
+		if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+			glucoseAttachmentPartner.detach(this);
+			glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+			glucoseAttachmentPartner = null;
+			recoverCountdownTimer = 0;  // We are good to reattach as soon as we are released.
 		}
-		else if (glucoseAttachmentState == AttachmentState.ATTACHED){
-			lactoseAttachmentCountdownTimer -= dt;
-			if (lactoseAttachmentCountdownTimer <= 0){
-				// Time to break down and release the lactose.
-				glucoseAttachmentPartner.releaseGalactose();
-				glucoseAttachmentPartner.detach(this);
-				glucoseAttachmentPartner = null;
-				glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-				setOkayToFade(true);
-				recoverCountdownTimer = RECOVERY_TIME;
-			}
-		}
-		else if (glucoseAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
-			recoverCountdownTimer -= dt;
-			if (recoverCountdownTimer <= 0){
-				// Recovery is complete.
-				glucoseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-			}
-		}
+		super.setDragging(dragging);
 	}
 
 	/**
