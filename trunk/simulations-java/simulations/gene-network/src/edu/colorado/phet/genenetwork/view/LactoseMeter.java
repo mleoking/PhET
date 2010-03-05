@@ -7,13 +7,15 @@ import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
+import edu.colorado.phet.genenetwork.model.Glucose;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
+import edu.colorado.phet.genenetwork.model.IModelElementListener;
+import edu.colorado.phet.genenetwork.model.ModelElementListenerAdapter;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -38,7 +40,7 @@ public class LactoseMeter extends PNode {
 	private static final Color BAR_COLOR = Color.BLUE;
 	private static final double BAR_WIDTH_PROPORTION = 0.9;
 	private static final double BAR_HEIGHT_PROPORTION = 0.7;
-	private static final double MAX_VALUE = 10;
+	private static final double MAX_VALUE = 50;
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -50,9 +52,14 @@ public class LactoseMeter extends PNode {
 	private PhetPPath bar;
 	private Rectangle2D barShape = new Rectangle2D.Double();
 	private HTMLNode label;
-	private int currentQuantity = 0;
 	private double barWidth;
 	private double maxBarHeight;
+	
+	private IModelElementListener glucoseListener = new ModelElementListenerAdapter(){
+		public void removedFromModel(){
+			update();
+		}
+	};
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -64,8 +71,13 @@ public class LactoseMeter extends PNode {
 		
 		// Listen to the model for events that may matter to us.
 		model.addListener(new GeneNetworkModelAdapter(){
-			public void modelElementAdded(SimpleModelElement modelElement) { 
-				update();
+			public void modelElementAdded(SimpleModelElement modelElement) {
+				if (modelElement instanceof Glucose){
+					// We assume that the level of glucose is the same as the
+					// level of lactose.
+					((Glucose)modelElement).addListener(glucoseListener);
+					update();
+				}
 			}
 		});
 		
@@ -95,8 +107,13 @@ public class LactoseMeter extends PNode {
 		
 		// Add the bar itself.  The shape will be set when updates occur.
 		bar = new PhetPPath( BAR_COLOR );
-//		bar.setOffset((size.getWidth() - barWidth) / 2 + OUTLINE_STROKE_WIDTH / 2, 0);
+		bar.setOffset((size.getWidth() - barWidth) / 2 + OUTLINE_STROKE_WIDTH / 2, 0);
 		addChild(bar);
+		
+		// Register to listen for updated from each existing glucose.
+		for (Glucose glucose : model.getGlucoseList()){
+			glucose.addListener(glucoseListener);
+		}
 		
 		// Do the initial update.
 		update();
@@ -107,9 +124,10 @@ public class LactoseMeter extends PNode {
     //------------------------------------------------------------------------
 
 	private void update(){
-		double barHeight = (double)model.getGalactoseList().size() / MAX_VALUE * maxBarHeight; 
+		double barHeight = Math.min((double)model.getGlucoseList().size() / MAX_VALUE, 1) * maxBarHeight; 
 		barShape.setFrame(0, 0, barWidth, barHeight);
 		bar.setPathTo(barShape);
-//		bar.setOffset(bar.getOffset().getX(), barBackground.getBoundsReference().getMaxX());
+		bar.setOffset(bar.getOffset().getX(),
+			barBackground.getBoundsReference().getMaxY() - barHeight + barBackground.getOffset().getY());
 	}
 }
