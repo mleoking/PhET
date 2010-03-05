@@ -46,11 +46,12 @@ public class LacZ extends SimpleModelElement {
 	// LacZ from getting into a state where it can never fade out.
 	private static final double RECOVERY_TIME = 0.250;  // In seconds.
 	
-	// This is used to determine whether a lactose molecule is close enough
+	// These are used to determine whether a lactose molecule is close enough
 	// that this molecule should try to grab it after it has been moved by
 	// the user.
-	private static final double LACTOSE_GRAB_DISTANCE = 10; // In nanometers.
-	
+	private static final double LACTOSE_IMMEDIATE_GRAB_DISTANCE = 7; // In nanometers.
+	private static final double LACTOSE_GRAB_DISTANCE = 15; // In nanometers.
+
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
@@ -158,7 +159,6 @@ public class LacZ extends SimpleModelElement {
 				glucoseAttachmentPartner = null;
 				recoverCountdownTimer = 0;  // We are good to reattach as soon as we are released.
 			}
-			super.setDragging(dragging);
 		}
 		else if (!dragging && isUserControlled()){
 			// The user has released this element.  See if there are any
@@ -293,13 +293,10 @@ public class LacZ extends SimpleModelElement {
 			if (nearestLactose.breakOffPendingAttachments(this)){
 				// Looks like the lactose can be grabbed.
 				glucoseAttachmentPartner = nearestLactose;
-				if (nearestLactose.getPositionRef().distance(getPositionRef()) < ATTACHMENT_FORMING_DISTANCE){
+				getEngagedToLactose();
+				if (nearestLactose.getPositionRef().distance(getPositionRef()) < LACTOSE_IMMEDIATE_GRAB_DISTANCE){
 					// Attach right now.
 					completeAttachmentOfGlucose();
-				}
-				else{
-					// Set up a pending attachment.
-					getEngagedToLactose();
 				}
 			}
 		}
