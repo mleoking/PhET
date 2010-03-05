@@ -1,4 +1,3 @@
-# 0.00.36 (39129) Mar 5, 2010
 3/5/10 version for interviews with no meat in sandwich (bread + cheese -> sandwich)
 3/5/10 change 'no reaction' to 'no "reaction"' for sandwich equation, to be consistent with putting double quotes around "reaction" for sandwiches
 # 0.00.35 (39104) Mar 4, 2010
