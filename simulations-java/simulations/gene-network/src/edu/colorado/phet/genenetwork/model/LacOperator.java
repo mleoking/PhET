@@ -171,7 +171,8 @@ public class LacOperator extends SimpleModelElement {
 	private void checkAttachmentCompleted(){
 		assert lacIAttachmentPartner != null;
 
-		if (getModel().getLacPromoter().isInContactWithRnaPolymerase()){
+		LacPromoter lacPromoter = getModel().getLacPromoter();
+		if (lacPromoter != null && lacPromoter.isInContactWithRnaPolymerase()){
 			// An instance of LacI is moving towards this lac operator, but
 			// RNA polymerase is now on the promoter.  This can create a
 			// visually confusing situation where the LacI attaches just as
