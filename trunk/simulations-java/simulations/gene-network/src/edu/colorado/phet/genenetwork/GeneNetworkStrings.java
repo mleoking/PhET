@@ -38,5 +38,6 @@ public class GeneNetworkStrings {
     // Various other captions.
     public static final String CLOCK_SPEED_CONTROL_CAPTION = GeneNetworkResources.getString("ClockSpeedControlCaption");
     public static final String LEGEND_VISIBILITY_CONTROL_CAPTION = GeneNetworkResources.getString("LegendVisibilityControlCaption");
+    public static final String LACTOSE_METER_VISIBILITY_CONTROL_CAPTION = GeneNetworkResources.getString("LactoseMeterVisibilityControlCaption");
     public static final String RESET = GeneNetworkResources.getString("Reset");
 }
