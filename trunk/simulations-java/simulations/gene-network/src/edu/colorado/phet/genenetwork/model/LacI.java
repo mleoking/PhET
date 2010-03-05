@@ -317,7 +317,7 @@ public class LacI extends SimpleModelElement {
 			
 			case UNATTACHED_AND_AVAILABLE:
 				// Look for some lactose to attach to.
-				glucoseAttachmentPartner = getModel().getNearestFreeLactose(getPositionRef());
+				glucoseAttachmentPartner = getModel().getNearestLactose(getPositionRef(), true);
 				
 				if (glucoseAttachmentPartner != null){
 					// We found a lactose that is free, so start the process of

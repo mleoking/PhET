@@ -172,15 +172,17 @@ public interface IGeneNetworkModelControl {
 	boolean isPointInToolBox(Point2D pt);
 	
 	/**
-	 * Search through all of the glucose molecules finding those that are
-	 * formed into lactose and, of those, return the closest one that is not
-	 * bound to LacZ.
+	 * Search through all of the lactose molecules (which are a combination of
+	 * glucose and galactose) and return the nearest one.  If specified, only
+	 * free ones are returned (meaning ones that are not already attached to or
+	 * moving towards some other model element).
+	 * @param freeOnly TODO
 	 * 
 	 * @return A reference to a glucose molecule that is bound to a galactose
 	 * and therefore part of lactose.  Returns null if no available lactose
 	 * can be found.
 	 */
-	Glucose getNearestFreeLactose(Point2D pt);
+	Glucose getNearestLactose(Point2D pt, boolean freeOnly);
 	
 	/**
 	 * Search through all of the Lac I molecules and return the closest one
