@@ -40,8 +40,7 @@ public class SandwichShopModel extends RPALModel {
         bread = new Reactant( breadCoefficient, new Bread(), quantity );
         meat = new Reactant(  meatCoefficient, new Meat(), quantity );
         cheese = new Reactant( cheeseCoefficient, new Cheese(), quantity );
-//        Reactant[] reactants = { bread, meat, cheese };
-        Reactant[] reactants = { bread, cheese };
+        Reactant[] reactants = { bread, meat, cheese };
         
         // product, with dynamic image
         sandwich = new Product( 1, new Sandwich(), quantity );
