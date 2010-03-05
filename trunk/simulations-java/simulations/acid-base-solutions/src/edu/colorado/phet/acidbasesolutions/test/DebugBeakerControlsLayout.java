@@ -1,8 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.test;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -10,23 +8,23 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * See Unfuddle #2188.
- * Demonstrates a problem with the Beaker controls panel in acid-base-solutions.
- * This was supposed to demonstrate the problem in isolation.
- * The layout is indeed a messed up when switching between ratio check box labels.
- * But it's not exactly the same type of messed up as in the sim.
+ * Demonstrates a PSwing layout problem with the Beaker control panel in the "Acid Base Solutions" simulation.
+ * The controls (check boxes) in this panel have dynamic labels.
+ * When the labels are changed, the panel layout is messed up.
+ * <p>
+ * This example reduces the problem to one JCheckBox with dynamic text and one with static text.
+ * Use the 2 radio buttons at the bottom of the frame to change the dynamic text.
  * <p>
  * Behavior differs depending on whether we use HTML text.
  * With HTML, the JCheckBoxes have their text rendered properly, but their position in the JPanel is (sometimes) wrong.
  * Without HTML, the JCheckBoxes have their text truncated (sometimes) with ellipses.
- *
+ * <p>
+ * See Unfuddle #2188.
+ *  
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DebugBeakerControlsLayout extends JFrame {
@@ -39,15 +37,18 @@ public class DebugBeakerControlsLayout extends JFrame {
     
     public DebugBeakerControlsLayout() {
         super( DebugBeakerControlsLayout.class.getName() );
-        setSize( new Dimension( 500, 500 ) );
+        setSize( new Dimension( 500, 250 ) );
         
-        final ControlsNode controlsNode = new ControlsNode();
-        controlsNode.setOffset( 50, 50 );
-        
+        // Piccolo canvas
         PSwingCanvas canvas = new PSwingCanvas();
         canvas.removeInputEventListener( canvas.getZoomEventHandler() );
         canvas.removeInputEventListener( canvas.getPanEventHandler() );
-        canvas.getLayer().addChild( controlsNode );
+        
+        // Swing control panel wrapped in PSwing
+        final ControlPanel controlsNode = new ControlPanel();
+        PSwing pswing = new PSwing( controlsNode );
+        pswing.setOffset( 50, 50 );
+        canvas.getLayer().addChild( pswing );
         
         final JRadioButton rb1 = new JRadioButton( TEXT1 );
         rb1.addChangeListener( new ChangeListener() {
@@ -87,29 +88,26 @@ public class DebugBeakerControlsLayout extends JFrame {
     }
     
     // a simplified version of BeakerControlsNode
-    private static class ControlsNode extends PhetPNode {
+    private static class ControlPanel extends JPanel {
         
-        private JCheckBox ratioCheckBox; // when this check box's text is changed, the layout problem occurs
+        private JCheckBox ratioCheckBox; // when this check box's text is changed, the problem occurs
         
-        protected ControlsNode() {
+        protected ControlPanel() {
             
-            // check boxes
             ratioCheckBox = new JCheckBox( TEXT1 );
+            
+            // another JCheckBox, so we can see how it's mangled
             JCheckBox countsCheckBox = new JCheckBox( "Counts" );
 
-            // panel
-            JPanel panel = new JPanel();
-            panel.setBorder( new TitledBorder( "View" ) );
-            
-            // layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-            panel.setLayout( layout );
-            int row = 0;
-            int column = 0;
-            layout.addComponent( ratioCheckBox, row++, column );
-            layout.addComponent( countsCheckBox, row++, column );
-            
-            addChild( new PSwing( panel ) );
+            setBorder( new TitledBorder( "View" ) );
+            setLayout( new GridBagLayout() );
+            GridBagConstraints c = new GridBagConstraints();
+            c.gridx = 0;
+            c.gridy = 0;
+            c.anchor = GridBagConstraints.WEST;
+            add( ratioCheckBox, c );
+            c.gridy++;
+            add( countsCheckBox, c );
         }
         
         public void setCheckBox1( String s ) {
@@ -120,8 +118,6 @@ public class DebugBeakerControlsLayout extends JFrame {
     public static void main( String[] args ) {
         JFrame frame = new DebugBeakerControlsLayout();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
     }
-
 }
