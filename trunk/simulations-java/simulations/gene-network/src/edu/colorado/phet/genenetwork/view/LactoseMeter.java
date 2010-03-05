@@ -10,12 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
@@ -33,7 +35,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * 
  * @author John Blanco
  */
-public class LactoseMeter extends PNode {
+public class LactoseMeter extends PhetPNode {
 
 	//------------------------------------------------------------------------
     // Class Data
@@ -79,8 +81,6 @@ public class LactoseMeter extends PNode {
 	public LactoseMeter(final IGeneNetworkModelControl model) {
 		
 		this.model = model;
-		setPickable(false);
-		setChildrenPickable(false);
 		
 		// Listen to the model for events that may matter to us.
 		model.addListener(new GeneNetworkModelAdapter(){
@@ -98,7 +98,7 @@ public class LactoseMeter extends PNode {
 		});
 		
 		// Create the overall background.
-		background = new PhetPPath(new Rectangle2D.Double(0, 0, size.getWidth(), size.getHeight()),
+		background = new PhetPPath(new RoundRectangle2D.Double(0, 0, size.getWidth(), size.getHeight(), 8, 8),
 				MAIN_BACKGROUND_COLOR, OUTLINE_STROKE, OUTLINE_STROKE_COLOR);
 		addChild(background);
 
