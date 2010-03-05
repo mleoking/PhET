@@ -5,6 +5,7 @@ DEADLINES
 
 HIGH PRIORITY
 - bread + cheese -> sandwich ?
+- write description of model, check into doc/model.txt
 
 MEDIUM PRIORITY
 
