@@ -58,6 +58,10 @@ public class AbstractPropertiesFile {
      */
     private void store() {
         try {
+            final File parent = file.getParentFile();
+            if ( !parent.exists() ) {
+                parent.mkdirs();
+            }
             final FileOutputStream stream = new FileOutputStream(file);
             properties.store(stream, header );
             stream.close();//close the output stream after use to avoid file locking related problems
