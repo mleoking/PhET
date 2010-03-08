@@ -42,8 +42,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
-import java.awt.event.HierarchyBoundsAdapter;
-import java.awt.event.HierarchyEvent;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -319,18 +317,10 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         component.putClientProperty(PSWING_PROPERTY, this);
         initializeComponent(component);
 
-        component.revalidate();
+        //TODO: this listener is suspicious, it's not listening for any specific property
         component.addPropertyChangeListener(new PropertyChangeListener() {
             /** {@inheritDoc} */
             public void propertyChange(final PropertyChangeEvent evt) {
-                System.out.println( "PSwing$PropertyChangeListener.propertyChanged " + evt.getPropertyName() );//XXX
-                updateBounds();
-            }
-        });
-        component.addHierarchyBoundsListener(new HierarchyBoundsAdapter() {
-            /** {@inheritDoc} */
-            public void ancestorResized(HierarchyEvent arg0) {
-                System.out.println( "PSwing$HierarchyBoundsAdapter.ancestorResized" );//XXX
                 updateBounds();
             }
         });
