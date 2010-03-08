@@ -3,7 +3,8 @@
 package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -40,6 +41,7 @@ public class TestPSwingDynamicComponent extends JFrame {
         
         // canvas
         PSwingCanvas canvas = new PSwingCanvas();
+        canvas.setBackground( Color.RED );
         canvas.removeInputEventListener( canvas.getZoomEventHandler() );
         canvas.removeInputEventListener( canvas.getPanEventHandler() );
         
@@ -157,8 +159,12 @@ public class TestPSwingDynamicComponent extends JFrame {
     }
 
     public static void main( String[] args ) {
-        JFrame frame = new TestPSwingDynamicComponent();
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        frame.setVisible( true );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                JFrame frame = new TestPSwingDynamicComponent();
+                frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+                frame.setVisible( true );
+            }
+        } );
     }
 }
