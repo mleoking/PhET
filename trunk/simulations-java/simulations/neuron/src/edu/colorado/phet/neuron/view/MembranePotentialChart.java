@@ -40,7 +40,13 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Chart for depicting the membrane potential in the play area.
+ * Chart for depicting the membrane potential.  This is a PNode, and as such
+ * is intended for use primarily in the play area.
+ * 
+ * Originally, this chart was designed to scroll once there was enough data
+ * the fill the chart half way, but this turned out to be too CPU intensive,
+ * so it was changed to draw one line of data across the screen, then clear
+ * and draw the next line.
  * 
  * Author: John Blanco, Sam Reid
  */
@@ -49,7 +55,10 @@ public class MembranePotentialChart extends PNode {
 	
 	private static final Color STROKE_COLOR = Color.red;
 	private static final double TIME_SPAN = 100; // In milliseconds.
-	private static final double UPDATE_PERIOD = 10 * NeuronDefaults.CLOCK_DT; // In seconds, used to reduce processor consumption.
+	
+	// This value sets the frequency of chart updates, which helps to reduce
+	// the processor consumption.
+	private static final double UPDATE_PERIOD = 4 * NeuronDefaults.CLOCK_DT; // In seconds
 	
     private JFreeChart chart;
     private JFreeChartNode jFreeChartNode;
@@ -61,6 +70,8 @@ public class MembranePotentialChart extends PNode {
 	private static NumberAxis yAxis;
 	
 	private double updateCountdownTimer = 0;  // Init to zero to an update occurs right away.
+	
+	private double endTimeOfChart = TIME_SPAN;
 
     public MembranePotentialChart( Dimension2D size, String title, AxonModel axonModel, String distanceUnits ) {
     	
@@ -105,12 +116,17 @@ public class MembranePotentialChart extends PNode {
      * @param voltage - Voltage in volts.
      */
     public void addDataPoint(double time, double voltage, boolean update){
-    	dataSeries.add(time, voltage, update);
-    	if (time > TIME_SPAN / 2){
-    		// Slide the chart to the left to keep the data to keep the data
-    		// in the middle.  This essentially creates a strip chart.
-            chart.getXYPlot().getDomainAxis().setRange( time - TIME_SPAN / 2, time + TIME_SPAN / 2);
+    	if (time > endTimeOfChart){
+    		clearAndSetStartTime(time);
     	}
+    	dataSeries.add(time, voltage, update);
+    	
+//    	if (time > TIME_SPAN / 2){
+//    		// Slide the chart to the left to keep the data to keep the data
+//    		// in the middle.  This essentially creates a strip chart.
+//            chart.getXYPlot().getDomainAxis().setRange( time - TIME_SPAN / 2, time + TIME_SPAN / 2);
+//    	}
+    	
     }
     
     public void clearChart(){
@@ -287,6 +303,40 @@ public class MembranePotentialChart extends PNode {
         return jFreeChartNode.getFullBounds().getHeight();
     }
 
+    /**
+     * Clear all data from the chart and redraw the background starting from
+     * the provided initial time value.
+     *  
+     * @param initialTime
+     */
+    private void clearAndSetStartTime(double initialTime){
+    	dataSeries.clear();
+    	initialTime = roundToResolution(initialTime, -2);
+    	endTimeOfChart = initialTime + TIME_SPAN;
+    	chart.getXYPlot().getDomainAxis().setRange( initialTime, endTimeOfChart );
+    	updateCountdownTimer = 0;
+    }
+    
+    /**
+     * Utility to round to the specified number of decimal places.  Negative
+     * values can be used to round to the 10's, 100's, etc, places (e.g. -1
+     * means round to the nearest 10s digit, such as rounding 17 to 20).
+     */
+	private double roundToResolution(double val, int places) {
+		
+		double factor = Math.pow(10,places);
+
+		// Shift the decimal the correct number of places.
+		val = val * factor;
+
+		// Round to the nearest integer.
+		long tmp = Math.round(val);
+
+		// Shift the decimal the correct number of places
+		// back to the left.
+		return (double)tmp / factor;
+	}
+
     public static void main(String[] args) {
     	
     	// Set up the main frame for the application.
@@ -298,7 +348,7 @@ public class MembranePotentialChart extends PNode {
         // Create the chart.
         final MembranePotentialChart membranePotentialChart = 
         	new MembranePotentialChart(size, "Test Chart", null, "mV");
-        
+
         // Create the canvas and add the chart to it.
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         phetPCanvas.addScreenChild( membranePotentialChart );
