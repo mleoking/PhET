@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ValueNode extends PhetPNode {
     
     // make it possible to hide the histogram bars, so we can test the value of this feature
-    private static final boolean HAS_HISTOGRAM_BAR = true;
+    private static final boolean HAS_HISTOGRAM_BAR = RPALConstants.HISTOGRAM_BARS_VISIBLE;
     
     private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;
     private static final Font VALUE_FONT = new PhetFont( 24 );

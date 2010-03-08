@@ -31,7 +31,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 
 /**
- * Node that displays the equation for a sandwich, with editable coefficients.
+ * Node that displays the equation for a sandwich.
+ * Coefficients may or may not be editable, depending on a compile-time flag.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -83,33 +84,49 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
             final Reactant reactant = reactants[i];
             
             // coefficient spinner
-            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( SandwichShopModel.getCoefficientRange() );
-            spinnerNode.scale( 2 ); // setting font size would be preferable, but doesn't change size of up/down arrows on Mac
-            spinnerNode.setValue( reactant.getCoefficient() );
-            spinnerNode.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    reactant.setCoefficient( spinnerNode.getValue() );
-                }
-            });
-            addChild( spinnerNode );
-            lhsCoefficientNodes.add( spinnerNode );
+            PNode coefficientNode = null;
+            ReactantChangeListener listener = null;
+            if ( RPALConstants.SANDWICH_COEFFICIENTS_EDITABLE ) {
+                final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( SandwichShopModel.getCoefficientRange() );
+                spinnerNode.scale( 2 ); // setting font size would be preferable, but doesn't change size of up/down arrows on Mac
+                spinnerNode.setValue( reactant.getCoefficient() );
+                spinnerNode.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        reactant.setCoefficient( spinnerNode.getValue() );
+                    }
+                } );
+                listener = new ReactantChangeAdapter() {
+                    @Override
+                    // user has control over bread, meat and cheese coefficients
+                    public void coefficientChanged() {
+                        spinnerNode.setValue( reactant.getCoefficient() );
+                    }
+                };
+                coefficientNode = spinnerNode;
+            }
+            else {
+                final PText textNode = new PText( String.valueOf( reactant.getCoefficient() ) );
+                textNode.setFont( COEFFICIENT_FONT );
+                coefficientNode = textNode;
+                listener = new ReactantChangeAdapter() {
+                    @Override
+                    // user has control over bread, meat and cheese coefficients
+                    public void coefficientChanged() {
+                        textNode.setText( String.valueOf( reactant.getCoefficient() ) );
+                    }
+                };
+            }
+            addChild( coefficientNode );
+            lhsCoefficientNodes.add( coefficientNode );
+            reactant.addReactantChangeListener( listener );
+            reactantChangeListeners.add( listener );
             
             // image
             final SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
             imageNode.scale( RPALConstants.EQUATION_IMAGE_SCALE );
             addChild( imageNode );
             lhsImageNodes.add( imageNode );
-            
-            ReactantChangeListener listener = new ReactantChangeAdapter() {
-                @Override
-                // user has control over bread, meat and cheese coefficients
-                public void coefficientChanged() {
-                    spinnerNode.setValue( reactant.getCoefficient() );
-                }
-            };
-            reactant.addReactantChangeListener( listener );
-            reactantChangeListeners.add( listener );
-            
+
             // plus sign
             if ( i < reactants.length - 1 ) {
                 PNode plusNode = new PlusNode();

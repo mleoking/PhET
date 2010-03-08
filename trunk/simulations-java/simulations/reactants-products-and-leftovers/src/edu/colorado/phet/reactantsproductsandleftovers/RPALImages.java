@@ -23,11 +23,6 @@ public class RPALImages {
     public static final BufferedImage CHEESE = getSandwichImage( "cheese.png" );
     public static final BufferedImage MEAT = getSandwichImage( "meat.png" );
     
-    // all sandwich images, used by game
-    public static final BufferedImage[] ALL_SANDWICHES = {
-        BREAD, MEAT, CHEESE
-    };
-    
     // molecule images
     public static final BufferedImage C = getMoleculeImage( "C.png" );
     public static final BufferedImage C2H2 = getMoleculeImage( "C2H2.png" );

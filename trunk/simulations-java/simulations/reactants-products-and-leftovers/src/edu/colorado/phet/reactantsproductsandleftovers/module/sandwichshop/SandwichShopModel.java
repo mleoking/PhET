@@ -5,6 +5,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
@@ -27,20 +28,24 @@ public class SandwichShopModel extends RPALModel {
     
     private final Reactant bread, meat, cheese;
     private final Product sandwich;
-    
-    public SandwichShopModel() {
-        this( getCoefficientRange().getDefault(), getCoefficientRange().getDefault(), getCoefficientRange().getDefault() );
-    }
+    private final int defaultBreadCoefficient, defaultMeatCoefficient, defaultCheeseCoefficient;
     
     public SandwichShopModel( int breadCoefficient, int meatCoefficient, int cheeseCoefficient ) {
+        
+        // remember the defaults, for reset
+        this.defaultBreadCoefficient = breadCoefficient;
+        this.defaultMeatCoefficient = ( RPALConstants.SANDWICH_INCLUDES_MEAT ) ? meatCoefficient : 0;
+        this.defaultCheeseCoefficient = cheeseCoefficient;
         
         final int quantity = getQuantityRange().getDefault();
         
         // reactants
-        bread = new Reactant( breadCoefficient, new Bread(), quantity );
-        meat = new Reactant(  meatCoefficient, new Meat(), quantity );
-        cheese = new Reactant( cheeseCoefficient, new Cheese(), quantity );
-        Reactant[] reactants = { bread, meat, cheese };
+        bread = new Reactant( defaultBreadCoefficient, new Bread(), quantity );
+        meat = new Reactant(  defaultMeatCoefficient, new Meat(), quantity );
+        cheese = new Reactant( defaultCheeseCoefficient, new Cheese(), quantity );
+        Reactant[] breadMeatCheese = { bread, meat, cheese };
+        Reactant[] breadCheese = { bread, cheese };
+        Reactant[] reactants = ( RPALConstants.SANDWICH_INCLUDES_MEAT ) ? breadMeatCheese : breadCheese;
         
         // product, with dynamic image
         sandwich = new Product( 1, new Sandwich(), quantity );
@@ -61,9 +66,11 @@ public class SandwichShopModel extends RPALModel {
     /**
      * Sets all coefficients and quantities back to their defaults.
      */
-    public void reset() {
+    public void reset( ) {
+        bread.setCoefficient( defaultBreadCoefficient );
+        meat.setCoefficient( defaultMeatCoefficient );
+        cheese.setCoefficient( defaultCheeseCoefficient );
         for ( Reactant reactant : reaction.getReactants() ) {
-            reactant.setCoefficient( getCoefficientRange().getDefault() );
             reactant.setQuantity( getQuantityRange().getDefault() );
         }
     }

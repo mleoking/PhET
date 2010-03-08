@@ -27,6 +27,14 @@ public class RPALConstants {
     
     public static final String FLAVOR_RPAL = "reactants-products-and-leftovers";
     public static final String FLAVOR_RPAL_RESEARCH = "rpal-research";
+    
+    //----------------------------------------------------------------------------
+    // Flags
+    //----------------------------------------------------------------------------
+    
+    public static final boolean SANDWICH_COEFFICIENTS_EDITABLE = true;
+    public static final boolean SANDWICH_INCLUDES_MEAT = true;
+    public static final boolean HISTOGRAM_BARS_VISIBLE = true;
 
     //----------------------------------------------------------------------------
     // Dimensions
