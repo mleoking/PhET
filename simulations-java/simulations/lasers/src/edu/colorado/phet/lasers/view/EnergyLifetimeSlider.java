@@ -31,24 +31,26 @@ import edu.colorado.phet.lasers.view.util.DefaultGridBagConstraints;
  * @version $Revision$
  */
 public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listener {
-    public final static int sliderHeight = 20;
+    
+    private final static int MAX_SLIDER_WIDTH = 60;
+    public final static int SLIDER_HEIGHT = 20;
 
     private EnergyLevelGraphic graphic;
-    private int maxSliderWidth = 60;
     private int sliderWidth;
     private Container container;
     private boolean enableNotification = true;
     private AtomicState atomicState;
 
     public EnergyLifetimeSlider( final AtomicState atomicState, EnergyLevelGraphic graphic, int maxLifetime, int minLifetime, Container container ) {
+//        putClientProperty( "JComponent.sizeVariant", "mini" ); // see Unfuddle #2190
         this.container = container;
         this.atomicState = atomicState;
         atomicState.addListener( this );
         setMinimum( minLifetime );
         setMaximum( maxLifetime );
         int sliderWidthPadding = 20;
-        sliderWidth = (int) ( (double) ( maxSliderWidth - sliderWidthPadding ) * ( (double) getMaximum() / LasersConfig.MAXIMUM_STATE_LIFETIME ) ) + sliderWidthPadding;
-        sliderWidth = Math.min( sliderWidth, maxSliderWidth );
+        sliderWidth = (int) ( (double) ( MAX_SLIDER_WIDTH - sliderWidthPadding ) * ( (double) getMaximum() / LasersConfig.MAXIMUM_STATE_LIFETIME ) ) + sliderWidthPadding;
+        sliderWidth = Math.min( sliderWidth, MAX_SLIDER_WIDTH );
         setValue( maxLifetime / 2 );
         setMajorTickSpacing( maxLifetime );
         setMinorTickSpacing( maxLifetime );
@@ -80,7 +82,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
      * Positions the slider on the screen
      */
     public void update() {
-        this.setBounds( container.getWidth() - maxSliderWidth, (int) graphic.getPosition().getY(), sliderWidth, sliderHeight );
+        this.setBounds( container.getWidth() - MAX_SLIDER_WIDTH, (int) graphic.getPosition().getY(), sliderWidth, SLIDER_HEIGHT );
     }
 
     protected void fireStateChanged() {

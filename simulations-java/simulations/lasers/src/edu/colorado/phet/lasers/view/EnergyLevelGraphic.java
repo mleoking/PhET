@@ -56,7 +56,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
     private ModelViewTransform1D energyYTx;
     private boolean arrowsEnabled = true;
     // The fewest pixels that will be allowed between energy levels;
-    private int minPixelsBetweenLevels = EnergyLifetimeSlider.sliderHeight;
+    private int minPixelsBetweenLevels = EnergyLifetimeSlider.SLIDER_HEIGHT;
 
     // Strategy for setting to color of this energy level graphic
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
@@ -300,7 +300,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
             if ( textGraphic != null ) {
-                textGraphic.setLocation( (int) ( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int) energyLevelShape.getY() - textGraphic.getHeight() / 2 - EnergyLifetimeSlider.sliderHeight - 2 );
+                textGraphic.setLocation( (int) ( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int) energyLevelShape.getY() - textGraphic.getHeight() / 2 - EnergyLifetimeSlider.SLIDER_HEIGHT - 2 );
             }
 //            textGraphic.setLocation( (int)( iconLocX ), (int)levelLine.getY() );
             boundingRect = determineBoundsInternal();
