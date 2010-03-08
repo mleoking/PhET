@@ -1,3 +1,6 @@
+3/8/10 add flag to RPALConstants to determine whether sandwich contains meat
+3/8/10 add flag to RPALConstants to determine whether sandwich coefficients are editable
+3/8/10 move flag to RPALConstants to determine whether histogram bars are visible
 3/5/10 checkin lastest version of design doc from Google Docs
 3/5/10 move non-localized string literals for sandwich components to RPALSymbols
 3/5/10 reduce number of translations required for display of time and best time

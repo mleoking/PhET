@@ -29,8 +29,9 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
-import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -47,7 +48,7 @@ public class GameRewardNode extends PhetPNode {
     private final ConstantDtClock clock;
     private final ArrayList<Image> images;
     private final Image faceImage;
-    private final Image sandwichImage;
+    private final SandwichShopModel sandwichShopModel;
 
     private int population;
     private int motionDelta;
@@ -101,6 +102,9 @@ public class GameRewardNode extends PhetPNode {
 
         this.clock = new ConstantDtClock( DEFAULT_CLOCK_DELAY, 1 );
         this.clock.pause();
+        
+        // used for sandwich images
+        sandwichShopModel = new SandwichShopModel( 2, 1, 1 ); // coefficients for bread, meat, cheese
 
         // images list, includes everything by default
         {
@@ -116,13 +120,12 @@ public class GameRewardNode extends PhetPNode {
             faceImage = faceNode.toImage();
             images.add( faceImage );
 
-            // sandwiches
-            PImage sandwichNode = new PImage( SandwichImageFactory.createImage( new SandwichShopModel( 2, 1, 1 /* bread, meat, cheese */ ) ) );
-            sandwichNode.scale( 1 );
-            sandwichImage = sandwichNode.toImage();
-            images.add( sandwichImage );
-            for ( Image image : RPALImages.ALL_SANDWICHES ) {
-                images.add( image );
+            // sandwich images
+            for ( Reactant reactant : sandwichShopModel.getReaction().getReactants() ) {
+                images.add( reactant.getImage() );
+            }
+            for ( Product product : sandwichShopModel.getReaction().getProducts() ) {
+                images.add( product.getImage() );
             }
         }
 
@@ -268,15 +271,19 @@ public class GameRewardNode extends PhetPNode {
     private void setSandwichesVisible( boolean visible ) {
         if ( visible != isSandwichesVisible() ) {
             if ( visible ) {
-                images.add( sandwichImage );
-                for ( Image image : RPALImages.ALL_SANDWICHES ) {
-                    images.add( image );
+                for ( Reactant reactant : sandwichShopModel.getReaction().getReactants() ) {
+                    images.add( reactant.getImage() );
+                }
+                for ( Product product : sandwichShopModel.getReaction().getProducts() ) {
+                    images.add( product.getImage() );
                 }
             }
             else {
-                images.remove( sandwichImage );
-                for ( Image image : RPALImages.ALL_SANDWICHES ) {
-                    images.remove( image );
+                for ( Reactant reactant : sandwichShopModel.getReaction().getReactants() ) {
+                    images.remove( reactant.getImage() );
+                }
+                for ( Product product : sandwichShopModel.getReaction().getProducts() ) {
+                    images.remove( product.getImage() );
                 }
             }
             updateImages( true /* removeImages */);
@@ -284,7 +291,7 @@ public class GameRewardNode extends PhetPNode {
     }
 
     private boolean isSandwichesVisible() {
-        return images.contains( sandwichImage );
+        return images.contains( sandwichShopModel.getReaction().getProduct(0).getImage() );
     }
     
     private void setMoleculesVisible( boolean visible ) {
