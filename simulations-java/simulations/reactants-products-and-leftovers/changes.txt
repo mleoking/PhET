@@ -1,3 +1,4 @@
+3/8/10 dev version of "bread + cheese -> sandwich" with fixed coefficients
 3/8/10 add flag to RPALConstants to determine whether sandwich contains meat
 3/8/10 add flag to RPALConstants to determine whether sandwich coefficients are editable
 3/8/10 move flag to RPALConstants to determine whether histogram bars are visible
