@@ -34,6 +34,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
     
     private final static int MAX_SLIDER_WIDTH = 60;
     public final static int SLIDER_HEIGHT = 20;
+    private static final int SLIDER_WIDTH_PADDING = 20;
 
     private EnergyLevelGraphic graphic;
     private int sliderWidth;
@@ -47,14 +48,12 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         atomicState.addListener( this );
         setMinimum( minLifetime );
         setMaximum( maxLifetime );
-        int sliderWidthPadding = 20;
-        sliderWidth = (int) ( (double) ( MAX_SLIDER_WIDTH - sliderWidthPadding ) * ( (double) getMaximum() / LasersConfig.MAXIMUM_STATE_LIFETIME ) ) + sliderWidthPadding;
+        sliderWidth = (int) ( (double) ( MAX_SLIDER_WIDTH - SLIDER_WIDTH_PADDING ) * ( (double) getMaximum() / LasersConfig.MAXIMUM_STATE_LIFETIME ) ) + SLIDER_WIDTH_PADDING;
         sliderWidth = Math.min( sliderWidth, MAX_SLIDER_WIDTH );
         setValue( maxLifetime / 2 );
         setMajorTickSpacing( maxLifetime );
         setMinorTickSpacing( maxLifetime );
         setPaintTicks( true );
-//        setPaintTicks();
         this.graphic = graphic;
 
         setLayout( new GridBagLayout() );
