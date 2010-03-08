@@ -42,7 +42,6 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
     private AtomicState atomicState;
 
     public EnergyLifetimeSlider( final AtomicState atomicState, EnergyLevelGraphic graphic, int maxLifetime, int minLifetime, Container container ) {
-//        putClientProperty( "JComponent.sizeVariant", "mini" ); // see Unfuddle #2190
         this.container = container;
         this.atomicState = atomicState;
         atomicState.addListener( this );
