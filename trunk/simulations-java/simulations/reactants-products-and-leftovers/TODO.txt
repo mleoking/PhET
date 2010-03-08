@@ -1,13 +1,17 @@
 # TODO list for reactants-products-and-leftovers
 
 DEADLINES
-- 3/21/10, version 1.0 on PhET website before ACS meeting
+- Wednesday 3/17/10, 1.0 release candidate published to dev
+- Friday 3/19/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
 - bread + cheese -> sandwich ?
-- write description of model, check into doc/model.txt
+- fixed sandwich coefficients ?
+- "Hide" feature exposed in Game ?
+- histogram bars visible ?
 
 MEDIUM PRIORITY
+- write description of model, check into doc/model.txt
 
 LOW PRIORITY
 - audible click in the correctAnswer.wav (appears in sound before optimization)
