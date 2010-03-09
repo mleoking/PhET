@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.Glucose;
@@ -67,6 +68,7 @@ public class LactoseMeter extends PhetPNode {
 	private double maxBarHeight;
     private JButton closeButton;
     private PSwing closePSwing;
+    private ShadowHTMLNode overflowText;
 	
 	private IModelElementListener glucoseListener = new ModelElementListenerAdapter(){
 		public void removedFromModel(){
@@ -152,6 +154,18 @@ public class LactoseMeter extends PhetPNode {
 		bar.setOffset((size.getWidth() - barWidth) / 2 + OUTLINE_STROKE_WIDTH / 2, 0);
 		addChild(bar);
 		
+		// Add the text that will be shown if a value is set that exceeds the
+		// supported range.
+		overflowText = new ShadowHTMLNode("<html><center>Off<br>Chart</center></html>");
+		overflowText.setFont(LABEL_FONT);
+		overflowText.setColor(Color.YELLOW);
+		overflowText.setShadowColor(Color.black);
+		overflowText.setScale((barWidth - edgeOffset * 2) / overflowText.getFullBoundsReference().getWidth());
+		overflowText.setOffset(size.getWidth() / 2 - overflowText.getFullBoundsReference().getWidth() / 2, 
+				barBackground.getOffset().getY() + edgeOffset);
+		overflowText.setVisible(false);
+		addChild(overflowText);
+		
 		// Register to listen for updates from each existing glucose.  We are
 		// generally only interested in knowing when it gets removed from the
 		// model.
@@ -169,7 +183,17 @@ public class LactoseMeter extends PhetPNode {
     //------------------------------------------------------------------------
 
 	private void updateBarSize(){
-		double barHeight = Math.min((double)model.getGlucoseList().size() / MAX_VALUE, 1) * maxBarHeight; 
+		double barHeight;
+		if (model.getGalactoseList().size() > MAX_VALUE){
+			barHeight = maxBarHeight;
+			overflowText.setVisible(true);
+		}
+		else{
+			barHeight = (double)model.getGlucoseList().size() / MAX_VALUE * maxBarHeight;
+			if (overflowText.getVisible()){
+				overflowText.setVisible(false);
+			}
+		}
 		barShape.setFrame(0, 0, barWidth, barHeight);
 		bar.setPathTo(barShape);
 		bar.setOffset(bar.getOffset().getX(),
