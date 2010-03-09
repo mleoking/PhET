@@ -37,7 +37,7 @@ public class PotassiumGatedChannel extends GatedChannel {
     // Instance Data
     //----------------------------------------------------------------------------
 	
-	private HodgkinHuxleyModel hodgkinHuxleyModel;
+	private IHodgkinHuxleyModel hodgkinHuxleyModel;
 	
 	private double peak = 0;
 	
@@ -45,7 +45,7 @@ public class PotassiumGatedChannel extends GatedChannel {
     // Constructor
     //----------------------------------------------------------------------------
 	
-	public PotassiumGatedChannel(HodgkinHuxleyModel hodgekinHuxleyModel, IParticleCapture modelContainingParticles) {
+	public PotassiumGatedChannel(IHodgkinHuxleyModel hodgekinHuxleyModel, IParticleCapture modelContainingParticles) {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 		this.hodgkinHuxleyModel = hodgekinHuxleyModel;
 		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, 0, Math.PI * 0.6));

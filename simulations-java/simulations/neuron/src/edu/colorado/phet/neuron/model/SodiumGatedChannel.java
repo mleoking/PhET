@@ -36,12 +36,13 @@ public class SodiumGatedChannel extends GatedChannel {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-	private HodgkinHuxleyModel hodgkinHuxleyModel;
+	private IHodgkinHuxleyModel hodgkinHuxleyModel;
 	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-	public SodiumGatedChannel(HodgkinHuxleyModel hodgkinHuxleyModel, IParticleCapture modelContainingParticles) {
+	public SodiumGatedChannel(IHodgkinHuxleyModel hodgkinHuxleyModel, IParticleCapture modelContainingParticles) {
+		
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 		this.hodgkinHuxleyModel = hodgkinHuxleyModel;
 		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, 0, Math.PI * 0.8));
