@@ -2,14 +2,15 @@ package edu.colorado.phet.neuron.model;
 
 
 /**
- * This class is an implementation of the Hodgkin-Huxley model of neuron
- * membrane voltage.  This was originally taken from an example that was on
- * the web that was written by Anthony Fodor.  We obtained permission to use
- * the example code in our implementation (see Unfuddle #2121).
+ * This class is an implementation of the Hodgkin-Huxley model that started
+ * from an example taken from the web (see Unfuddle #2121 for more info on
+ * this) but that was modified significantly to fit the needs of this
+ * simulation.  The main change is that the way that the conductance values
+ * are calculated is different, and much simpler.
  * 
  * @author Anthony Fodor, John Blanco
  */
-public class HodgkinHuxleyModel implements IHodgkinHuxleyModel
+public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 {
 	//----------------------------------------------------------------------------
 	// Class Data
@@ -42,11 +43,13 @@ public class HodgkinHuxleyModel implements IHodgkinHuxleyModel
 	public float perNaChannels = 100f;
 	public float perKChannels = 100f;
 	
+	private double timeSinceActionPotential = Double.POSITIVE_INFINITY;
+	
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
 
-	public HodgkinHuxleyModel()
+	public ModifiedHodgkinHuxleyModel()
 	{
 		reset();
     }
@@ -80,6 +83,9 @@ public class HodgkinHuxleyModel implements IHodgkinHuxleyModel
 		n = an / (an + bn);
 		m = am / (am + bm);
 		h = ah / (ah + bh);
+		
+		// Time values.
+		timeSinceActionPotential = Double.POSITIVE_INFINITY;
 	}
 
 	/* (non-Javadoc)
@@ -229,8 +235,6 @@ public class HodgkinHuxleyModel implements IHodgkinHuxleyModel
 	float get_vClampValue() { return(float) (-1 * (vClampValue + resting_v)); }
 	void set_vClampValue( float vClampValue ) { this.vClampValue = convertV( vClampValue ); }
 	
-	private double peak_m3h = 0;
-	private double peak_n4 = 0;
     /* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#stepInTime(double)
 	 */
@@ -261,17 +265,16 @@ public class HodgkinHuxleyModel implements IHodgkinHuxleyModel
     		an = 0.01 * (v + 10) / (Math.exp( (v+10)/10 ) -1);
     		dm = (am * (1-m) - bm* m) * INTERNAL_TIME_STEP;
     		dn = (an * (1-n) - bn * n) * INTERNAL_TIME_STEP;
-    		
-    		n4 = n*n*n*n;
-    		if (n4 > peak_n4){
-    			peak_n4 = n4;
-    			System.out.println("peak n4 = " + peak_n4);
-    		}
-    		m3h = m*m*m*h;
-    		if (m3h > peak_m3h){
-    			peak_m3h = m3h;
-    			System.out.println("peak m3h = " + peak_m3h);
-    		}
+
+    		// Here is where the main change is that makes this a "modified"
+    		// version of Hodgkin-Huxley.  Note that the multiplier values
+    		// were determined empirically from running the more standard HH
+    		// model.
+    		// which are the mu
+//    		n4 = n*n*n*n;
+//    		m3h = m*m*m*h;
+    		n4 = 0.35 * Math.exp( -1 / 1.0 * Math.pow(timeSinceActionPotential - 3.0, 2));
+    		m3h = 0.278 * Math.exp( -1 / 0.3 * Math.pow(timeSinceActionPotential - 0.5, 2));
     		
     		na_current = gna * m3h * (v-vna);
     		k_current = gk * n4 * (v-vk);
@@ -284,7 +287,10 @@ public class HodgkinHuxleyModel implements IHodgkinHuxleyModel
     		m += dm;
     		n += dn;
     		
-    		elapsedTime+= INTERNAL_TIME_STEP;
+    		elapsedTime += INTERNAL_TIME_STEP;
+    		if (timeSinceActionPotential < Double.POSITIVE_INFINITY){
+    			timeSinceActionPotential += INTERNAL_TIME_STEP;
+    		}
     	}
 		
 		if ( vClampOn ) v = vClampValue;
@@ -304,5 +310,6 @@ public class HodgkinHuxleyModel implements IHodgkinHuxleyModel
     public void stimulate(){
     	// Add a fixed amount to the voltage across the membrane.
     	setV(getV() + 15);
+    	timeSinceActionPotential = 0;
     }
 }
