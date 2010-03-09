@@ -317,6 +317,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         component.putClientProperty(PSWING_PROPERTY, this);
         initializeComponent(component);
 
+        component.revalidate();
         //TODO: this listener is suspicious, it's not listening for any specific property
         component.addPropertyChangeListener(new PropertyChangeListener() {
             /** {@inheritDoc} */
@@ -348,7 +349,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         // TODO: should we make sure this is called at least once
         // TODO: does this sometimes need to be called when size already equals
         // preferred size, to relayout/update things?
-        component.revalidate();
         if (componentNeedsResizing()) {
             component.setBounds(0, 0, component.getPreferredSize().width, component.getPreferredSize().height);
         }
