@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.neuron.model.HodgkinHuxleyModel;
+import edu.colorado.phet.neuron.model.IHodgkinHuxleyModel;
 
 /**
  * Dialog that displays the internal dynamics of a Hodgkin-Huxley model, such
@@ -35,7 +35,7 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 
 	private static final Font DISPLAY_FONT = new PhetFont(14);
 	
-	private HodgkinHuxleyModel hodgkinHuxleyModel;
+	private IHodgkinHuxleyModel hodgkinHuxleyModel;
 	private JLabel timeLabel = new JLabel("Time: ");
 	private JTextField timeText = new JTextField("000.0000 ms");
 	private JLabel voltageLabel = new JLabel("Membrane Voltage: ");
@@ -58,7 +58,7 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 	
 	private ArrayList<HhDataCaptureEntry> captureData = new ArrayList<HhDataCaptureEntry>();
 	
-	public HodgkinHuxleyInternalDynamicsDlg(Frame frame, IClock clock, HodgkinHuxleyModel hhModel) {
+	public HodgkinHuxleyInternalDynamicsDlg(Frame frame, IClock clock, IHodgkinHuxleyModel hhModel) {
 		super(frame);
 		hodgkinHuxleyModel = hhModel;
 		
