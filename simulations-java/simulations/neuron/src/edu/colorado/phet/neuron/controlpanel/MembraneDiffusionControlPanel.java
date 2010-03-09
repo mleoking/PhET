@@ -22,7 +22,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
-import edu.colorado.phet.neuron.model.MembraneChannelTypes;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
 
 /**
@@ -41,8 +40,6 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
 	private AxonModel axonModel;
 	private NeuronCanvas neuronCanvas;
-	private LeakChannelSlider sodiumLeakChannelControl;
-	private LeakChannelSlider potassiumLeakChannelControl;
 	
 	// TODO: Removed the following sliders based on design mods that were
 	// made in December 2009.  Delete permanently if and when finalized.
@@ -194,22 +191,6 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
-    
-    private void updateChannelControlSliders(){
-    	
-    	if (sodiumLeakChannelControl.getValue() != 
-    		axonModel.getNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL)){
-    		
-    		sodiumLeakChannelControl.setValue(
-    				axonModel.getNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL));
-    	}
-    	if (potassiumLeakChannelControl.getValue() != 
-    		axonModel.getNumMembraneChannels(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL)){
-    		
-    		potassiumLeakChannelControl.setValue(
-    				axonModel.getNumMembraneChannels(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL));
-    	}
-    }
     
     /*
     // See TODO at top of this file for information about why the
