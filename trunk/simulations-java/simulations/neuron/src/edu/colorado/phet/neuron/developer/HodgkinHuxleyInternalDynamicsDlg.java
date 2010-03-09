@@ -145,14 +145,14 @@ public class HodgkinHuxleyInternalDynamicsDlg extends PaintImmediateDialog{
 			double m3h = hodgkinHuxleyModel.get_m3h();
 			timeText.setText(String.format("%.4f ms", elapsedTime));
 			voltageText.setText(String.format("%.2f mV", membraneVoltage));
-			sodiumChannelCurrentValue.setText(String.format("%.2f mA", currentNa));
-			potassiumChannelCurrentValue.setText(String.format("%.2f mA", currentK));
-			leakChannelCurrentValue.setText(String.format("%.2f mA", currentLeak));
+			sodiumChannelCurrentValue.setText(String.format("%.2f mA", -currentNa));
+			potassiumChannelCurrentValue.setText(String.format("%.2f mA", -currentK));
+			leakChannelCurrentValue.setText(String.format("%.2f mA", -currentLeak));
 			n4Value.setText(String.format("%.5f", n4));
 			m3hValue.setText(String.format("%.5f", m3h));
 			
 			if (capturing){
-				captureData.add(new HhDataCaptureEntry(elapsedTime, membraneVoltage, currentNa, currentK, currentLeak, n4, m3h));
+				captureData.add(new HhDataCaptureEntry(elapsedTime, membraneVoltage, -currentNa, -currentK, -currentLeak, n4, m3h));
 			}
 		}
 		previousElapsedTime = elapsedTime;
