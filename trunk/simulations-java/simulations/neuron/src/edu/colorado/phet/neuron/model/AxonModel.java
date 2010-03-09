@@ -16,7 +16,6 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.neuron.NeuronConstants;
 
 /**
  * This class represents the main class for modeling the axon.  It acts as the
@@ -56,6 +55,13 @@ public class AxonModel implements IParticleCapture {
 	// Constant that controls how often we calculate the membrane potential
 	// for internal use, i.e. particle motion calculations.
 	private static final int MEMBRANE_POTENTIAL_UPDATE_COUNT = 10;
+	
+	// Numbers of the various types of channels that are present on the
+	// membrane.
+	private static final int NUM_GATED_SODIUM_CHANNELS = 20;
+	private static final int NUM_GATED_POTASSIUM_CHANNELS = 20;
+	private static final int NUM_SODIUM_LEAK_CHANNELS = 3;
+	private static final int NUM_POTASSIUM_LEAK_CHANNELS = 7;
 	
 	// Countdown used for preventing the axon from receiving stimuli that
 	// are too close together.
@@ -171,30 +177,6 @@ public class AxonModel implements IParticleCapture {
     	return hodgkinHuxleyModel;
     }
 
-    public void setNumMembraneChannels(MembraneChannelTypes channelType, int desiredNumChannesl){
-    	if (desiredNumChannesl > NeuronConstants.MAX_CHANNELS_PER_TYPE){
-    		System.err.println(getClass().getName() + "- Warning: Attempt to set too many channels.");
-    		assert false;
-    		return;
-    	}
-    	
-    	if (desiredNumChannesl < getNumMembraneChannels(channelType)){
-    		// Need to remove one or more channels.
-    		while (desiredNumChannesl < getNumMembraneChannels(channelType)){
-    			removeChannel(channelType);
-    		}
-    	}
-    	else if (desiredNumChannesl > getNumMembraneChannels(channelType)){
-    		// Need to add one or more channels.
-    		while (desiredNumChannesl > getNumMembraneChannels(channelType)){
-    			addChannel(channelType);
-    		}
-    	}
-    	else{
-    		// Don't need to do nuthin'.
-    	}
-    }
-    
     public boolean isPotentialChartVisible(){
     	return potentialChartVisible;
     }
@@ -238,28 +220,77 @@ public class AxonModel implements IParticleCapture {
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 100);
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 5);
 
-    	// Add the initial channels.
-    	for (int i = 0; i < 18; i++){
-    		addChannel(MembraneChannelTypes.SODIUM_GATED_CHANNEL);
+    	// Add the initial channels.  The pattern is intended to be such that
+    	// the potassium and sodium gated channels are right next to each
+    	// other, with occasional leak channels interspersed.  There should
+    	// be one or more of each type of channel on the top of the membrane
+    	// so when the user zooms in, they can see all types.
+    	double angle  = Math.PI * 0.45;
+    	double totalNumGates = NUM_GATED_SODIUM_CHANNELS + NUM_GATED_POTASSIUM_CHANNELS + NUM_SODIUM_LEAK_CHANNELS +
+    		NUM_POTASSIUM_LEAK_CHANNELS;
+    	double angleIncrement = Math.PI * 2 / totalNumGates;
+    	int gatedSodiumChansAdded = 0;
+    	int gatedPotassiumChansAdded = 0;
+    	int sodiumLeakChansAdded = 0;
+    	int potassiumLeakChansAdded = 0;
+    	
+    	// Add some of each type so that they are visible at the top portion
+    	// of the membrane.
+    	addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL, angle);
+    	sodiumLeakChansAdded++;
+    	angle += angleIncrement;
+    	addChannel(MembraneChannelTypes.POTASSIUM_GATED_CHANNEL, angle);
+    	gatedPotassiumChansAdded++;
+    	angle += angleIncrement;
+    	addChannel(MembraneChannelTypes.SODIUM_GATED_CHANNEL, angle);
+    	gatedSodiumChansAdded++;
+    	angle += angleIncrement;
+    	addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL, angle);
+    	potassiumLeakChansAdded++;
+    	angle += angleIncrement;
+    	
+    	// Now loop through the rest of the membrane's circumference adding
+    	// the various types of gates.
+    	for (int i = 0; i < totalNumGates - 4; i++){
+    		// Calculate the "urgency" for each type of gate.
+    		double gatedSodiumUrgency = (double)NUM_GATED_SODIUM_CHANNELS / gatedSodiumChansAdded;
+    		double gatedPotassiumUrgency = (double)NUM_GATED_POTASSIUM_CHANNELS / gatedPotassiumChansAdded;
+    		double potassiumLeakUrgency = (double)NUM_POTASSIUM_LEAK_CHANNELS / potassiumLeakChansAdded;
+    		double sodiumLeakUrgency = (double)NUM_SODIUM_LEAK_CHANNELS / sodiumLeakChansAdded;
+    		MembraneChannelTypes channelTypeToAdd = null;
+			if (gatedSodiumUrgency >= gatedPotassiumUrgency
+					&& gatedSodiumUrgency >= potassiumLeakUrgency
+					&& gatedSodiumUrgency >= sodiumLeakUrgency) {
+				// Add a gated sodium channel.
+				channelTypeToAdd = MembraneChannelTypes.SODIUM_GATED_CHANNEL;
+				gatedSodiumChansAdded++;
+			} else if (gatedPotassiumUrgency > gatedSodiumUrgency
+					&& gatedPotassiumUrgency >= potassiumLeakUrgency
+					&& gatedPotassiumUrgency >= sodiumLeakUrgency) {
+				// Add a gated potassium channel.
+				channelTypeToAdd = MembraneChannelTypes.POTASSIUM_GATED_CHANNEL;
+				gatedPotassiumChansAdded++;
+			} else if (potassiumLeakUrgency > gatedSodiumUrgency
+					&& potassiumLeakUrgency > gatedPotassiumUrgency
+					&& potassiumLeakUrgency >= sodiumLeakUrgency) {
+				// Add a potassium leak channel.
+				channelTypeToAdd = MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
+				potassiumLeakChansAdded++;
+			} else if (sodiumLeakUrgency > gatedSodiumUrgency
+					&& sodiumLeakUrgency > gatedPotassiumUrgency
+					&& sodiumLeakUrgency > potassiumLeakUrgency) {
+				// Add a sodium leak channel.
+				channelTypeToAdd = MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
+				sodiumLeakChansAdded++;
+			}
+			else{
+				assert false; // Should never get here, so debug if it does.
+			}
+    		
+	    	addChannel(channelTypeToAdd, angle);
+	    	angle += angleIncrement;
     	}
-    	for (int i = 0; i < 18; i++){
-    		addChannel(MembraneChannelTypes.POTASSIUM_GATED_CHANNEL);
-    	}
-    	for (int i = 0; i < 4; i++){
-    		addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
-    	}
-    	for (int i = 0; i < 2; i++){
-    		addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
-    	}
-    	for (int i = 0; i < 4; i++){
-    		addChannel(MembraneChannelTypes.SODIUM_GATED_CHANNEL);
-    	}
-    	for (int i = 0; i < 4; i++){
-    		addChannel(MembraneChannelTypes.POTASSIUM_GATED_CHANNEL);
-    	}
-    	for (int i = 0; i < 2; i++){
-    		addChannel(MembraneChannelTypes.SODIUM_GATED_CHANNEL);
-    	}
+    	
     }
     
     /**
@@ -714,53 +745,16 @@ public class AxonModel implements IParticleCapture {
     }
     */
     
-    private void addChannel(MembraneChannelTypes channelType){
-    	MembraneChannel membraneChannel = null;
+	/**
+	 * Add the provided channel at the specified rotational location.
+	 * Locations are specified in terms of where on the circle of the membrane
+	 * they are, with a value of 0 being on the far right, PI/2 on the top,
+	 * PI on the far left, etc.
+	 */
+    private void addChannel(MembraneChannelTypes membraneChannelType, double angle){
     	
-    	if (getNumMembraneChannels(channelType) > NeuronConstants.MAX_CHANNELS_PER_TYPE){
-    		System.err.println(getClass().getName() + " - Warning: Ignoring attempt to add more than max allowed channels.");
-    		assert false;
-    		return;
-    	}
-    	
-    	switch (channelType){
-    	case SODIUM_LEAKAGE_CHANNEL:
-    		membraneChannel = new SodiumLeakageChannel(this);
-    		break;
-    		
-    	case SODIUM_GATED_CHANNEL:
-    		membraneChannel = new SodiumGatedChannel(hodgkinHuxleyModel, this);
-    		break;
-    		
-    	case POTASSIUM_LEAKAGE_CHANNEL:
-    		membraneChannel = new PotassiumLeakageChannel(this);
-    		break;
-    		
-		case POTASSIUM_GATED_CHANNEL:
-			membraneChannel = new PotassiumGatedChannel(hodgkinHuxleyModel, this);
-			break;
-    	}
-    	
-    	// Find a position for the new channel. 
-    	
-    	/*
-    	 * TODO: The following code distributes the channels fairly evenly around the
-    	 * membrane based on channel type.  This was commented out on Feb 2 2010
-    	 * because the specification changed to having the channels be grouped.
-    	 * Remove this or reinstate it once the desired behavior is worked out.
-
-    	double angleOffset = channelType == MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL ? 0 : 
-    		Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE;
-    	
-    	int numChannelsOfThisType = getNumMembraneChannels(channelType);
-    	double angle = (double)(numChannelsOfThisType % 2) * Math.PI + 
-    		(double)(numChannelsOfThisType / 2) * 2 * Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE + angleOffset;
-    	double radius = axonMembrane.getCrossSectionDiameter() / 2;
-		Point2D newLocation = new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle));
-		
-		*/
-    	
-    	double angle = Math.PI * 0.2 + getNumMembraneChannels() * Math.PI / 2 + (getNumMembraneChannels() / 4) * Math.PI * 0.075;
+    	MembraneChannel membraneChannel = MembraneChannel.createMembraneChannel(membraneChannelType, this,
+    			hodgkinHuxleyModel);
     	double radius = axonMembrane.getCrossSectionDiameter() / 2;
 		Point2D newLocation = new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle));
     	
