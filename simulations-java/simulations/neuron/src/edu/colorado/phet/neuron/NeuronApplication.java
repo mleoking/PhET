@@ -20,7 +20,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalDynamicsDlg;
 import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalParamsDlg;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
-import edu.colorado.phet.neuron.module.RestingPotentialModule;
 
 /**
  * NeuronApplication is the main application for this simulation.
@@ -34,7 +33,6 @@ public class NeuronApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     private MembraneDiffusionModule membraneDiffusionModule;
-    private RestingPotentialModule restingPotentialModule;
     
     // Developer window(s) and things for controlling them.
     private HodgkinHuxleyInternalDynamicsDlg hhInternalDynamicsDlg = null;
