@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.neuron.model.HodgkinHuxleyModel;
+import edu.colorado.phet.neuron.model.IHodgkinHuxleyModel;
 
 /**
  * Dialog that allows the user to set some of the internal parameters of a
@@ -25,7 +25,7 @@ import edu.colorado.phet.neuron.model.HodgkinHuxleyModel;
  */
 public class HodgkinHuxleyInternalParamsDlg extends PaintImmediateDialog{
 
-	private HodgkinHuxleyModel hodgkinHuxleyModel;
+	private IHodgkinHuxleyModel hodgkinHuxleyModel;
 	
 	private ParameterEntry membraneCapacitanceParmEntry = new ParameterEntry("Membrane Capacitance:", "mF");
 	private ParameterEntry gNaParmEntry = new ParameterEntry("Sodium Chan Conductance:", "S");
@@ -34,7 +34,7 @@ public class HodgkinHuxleyInternalParamsDlg extends PaintImmediateDialog{
 	private JButton readValuesButton = new JButton("Read Values");
 	private JButton writeValuesButton = new JButton("Write Values");
 	
-	public HodgkinHuxleyInternalParamsDlg(Frame frame, HodgkinHuxleyModel hhModel) {
+	public HodgkinHuxleyInternalParamsDlg(Frame frame, IHodgkinHuxleyModel hhModel) {
 		super(frame);
 		hodgkinHuxleyModel = hhModel;
 		
