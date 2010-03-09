@@ -65,7 +65,7 @@ public class AxonModel implements IParticleCapture {
 	
 	// Countdown used for preventing the axon from receiving stimuli that
 	// are too close together.
-	private static final double STIM_LOCKOUT_TIME = 0.01;  // Milliseconds of sim time.
+	private static final double STIM_LOCKOUT_TIME = 0.0075;  // Seconds of sim time.
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -198,7 +198,11 @@ public class AxonModel implements IParticleCapture {
     	hodgkinHuxleyModel.reset();
     	
     	// Reset the stimulation lockout time.
+    	boolean wasLockedOut = isStimulusInitiationLockedOut();
     	stimLockoutCountdownTime = 0;
+    	if (wasLockedOut){
+    		notifyStimulusLockoutStateChanged();
+    	}
     	
     	// Remove all particles.  This is done by telling the particle to send
     	// out notifications of its removal from the model.  All listeners,
@@ -416,10 +420,11 @@ public class AxonModel implements IParticleCapture {
     }
     
     public void initiateStimulusPulse(){
-    	if (!stimulusInitiationLockedOut()){
+    	if (!isStimulusInitiationLockedOut()){
     		axonMembrane.initiateTravelingActionPotential();
     		notifyStimulusPulseInitiated();
     		stimLockoutCountdownTime = STIM_LOCKOUT_TIME;
+    		notifyStimulusLockoutStateChanged();
     	}
     }
     
@@ -431,12 +436,8 @@ public class AxonModel implements IParticleCapture {
      * 
      * @return
      */
-    private boolean stimulusInitiationLockedOut(){
-    	// This works be requiring a certain minimum time and then by
-    	// looking at the constants that control the conductance values in the
-    	// HH model to tell when another action potential can happen.  The
-    	// values used for comparison were empirically determined.
-    	return (stimLockoutCountdownTime > 0 || hodgkinHuxleyModel.get_n4() > 0.02 || hodgkinHuxleyModel.get_m3h() > 0.01);
+    public boolean isStimulusInitiationLockedOut(){
+    	return (stimLockoutCountdownTime > 0);
     }
     
     public Shape getTravelingActionPotentialShape(){
@@ -550,6 +551,9 @@ public class AxonModel implements IParticleCapture {
     	// Update the stimulus lockout timer.
     	if (stimLockoutCountdownTime >= 0){
     		stimLockoutCountdownTime -= dt;
+    		if (stimLockoutCountdownTime <= 0){
+    			notifyStimulusLockoutStateChanged();
+    		}
     	}
     	
     	/*
@@ -658,6 +662,12 @@ public class AxonModel implements IParticleCapture {
 	private void notifyPotentialChartVisibilityChanged(){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.potentialChartVisibilityChanged();
+		}
+	}
+	
+	private void notifyStimulusLockoutStateChanged(){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.stimulationLockoutStateChanged();
 		}
 	}
 	
@@ -1012,6 +1022,12 @@ public class AxonModel implements IParticleCapture {
     	 */
     	public void potentialChartVisibilityChanged();
     	
+    	/**
+    	 * Notification that the state of stimulation lockout, which prevents
+    	 * stimuli from being initiated too close together, has changed.
+    	 */
+    	public void stimulationLockoutStateChanged();
+    	
     }
     
     public static class Adapter implements Listener{
@@ -1021,5 +1037,6 @@ public class AxonModel implements IParticleCapture {
 		public void concentrationRatioChanged(ParticleType particleType) {}
 		public void stimulusPulseInitiated() {}
 		public void potentialChartVisibilityChanged() {}
+		public void stimulationLockoutStateChanged() {}
     }
 }

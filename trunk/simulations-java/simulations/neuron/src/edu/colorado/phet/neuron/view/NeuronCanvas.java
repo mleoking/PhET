@@ -130,6 +130,9 @@ public class NeuronCanvas extends PhetPCanvas {
 					setZoomFactor(0.65);
 				}
 			}
+			public void stimulationLockoutStateChanged() {
+				updateStimButtonVisibility();
+			}
 		});
         
         setBackground( NeuronConstants.CANVAS_BACKGROUND );
@@ -209,6 +212,9 @@ public class NeuronCanvas extends PhetPCanvas {
         
         // Update the layout.
         updateLayout();
+        
+        // Update other initial state.
+        updateStimButtonVisibility();
     }
     
     //----------------------------------------------------------------------------
@@ -246,6 +252,10 @@ public class NeuronCanvas extends PhetPCanvas {
             voltmeter.setOffset(rightEdgeX - voltmeter.getFullBoundsReference().width - 5,
             		worldSize.getHeight() - voltmeter.getFullBounds().height - 5);
         }
+    }
+    
+    private void updateStimButtonVisibility(){
+    	stimulateNeuronButton.setVisible(!model.isStimulusInitiationLockedOut());
     }
     
 	public void addListener(NeuronCanvasZoomListener neuronCanvasZoomListener){
