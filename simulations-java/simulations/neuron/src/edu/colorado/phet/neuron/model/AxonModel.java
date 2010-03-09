@@ -76,7 +76,8 @@ public class AxonModel implements IParticleCapture {
     private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
     private int membranePotentialUpdateCounter = 0;
     private int membranePotentialSnapshot;
-    private HodgkinHuxleyModel hodgkinHuxleyModel = new HodgkinHuxleyModel();
+    private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
+    private AlternativeConductanceModel alternativeConductanceModel = new AlternativeConductanceModel();
     private boolean potentialChartVisible;
     private double stimLockoutCountdownTime;
 
@@ -107,6 +108,7 @@ public class AxonModel implements IParticleCapture {
 				// the simulates the action potential voltages and current
 				// flows.
 				hodgkinHuxleyModel.stimulate();
+				alternativeConductanceModel.initiateActionPotential();
 			}
 		});
     }
@@ -165,7 +167,7 @@ public class AxonModel implements IParticleCapture {
      * Get a reference to the first Hodgkins-Huxley model.  This is used
      * primarily for debugging purposes.
      */
-    public HodgkinHuxleyModel getHodgkinHuxleyModel(){
+    public IHodgkinHuxleyModel getHodgkinHuxleyModel(){
     	return hodgkinHuxleyModel;
     }
 
@@ -474,7 +476,7 @@ public class AxonModel implements IParticleCapture {
 
     	/*
     	 * TODO: For an experiment, I am trying to have all requested particles
-    	 * be generated and never found, so that existing particles are left
+    	 * be generated as opposed to found, so that existing particles are left
     	 * alone.  
     	// Scan the capture zone for particles of the desired type.
     	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getCaptureZone(), particleType);
@@ -500,6 +502,9 @@ public class AxonModel implements IParticleCapture {
     	// Update the value of the membrane potential by stepping the
     	// Hodgkins-Huxley model.
     	hodgkinHuxleyModel.stepInTime( dt );
+    	
+    	// Update the alternate model for calculating the conductance values
+    	alternativeConductanceModel.stepInTime( dt );
     	
     	// Step the membrane in time.
     	axonMembrane.stepInTime( dt );
