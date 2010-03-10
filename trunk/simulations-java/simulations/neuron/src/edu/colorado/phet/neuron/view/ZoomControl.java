@@ -47,6 +47,7 @@ public class ZoomControl extends PNode {
 	private double buttonZoomAmt;
 	private IZoomable zoomable;
 	private PNode zoomInButton, zoomOutButton;
+	private double sliderTrackHeight;
 	private PNode sliderTrack;
 	private double sliderKnobHeight;
 	private PNode sliderKnob;
@@ -77,8 +78,8 @@ public class ZoomControl extends PNode {
 		}
 		
 		// Add the slider track.
+		sliderTrackHeight = size.getHeight() - 2 * size.getWidth();
 		double sliderTrackWidth = size.getWidth() * SLIDER_TRACK_WIDTH_PROPORTION;
-		double sliderTrackHeight = size.getHeight() - 2 * size.getWidth();
 		Shape sliderTrackShape = new Rectangle2D.Double(-sliderTrackWidth / 2, 0, sliderTrackWidth, sliderTrackHeight);
 		sliderTrack = new PhetPPath(sliderTrackShape, FILL_COLOR, STROKE, STROKE_COLOR);
 		double tickMarkWidth = sliderTrackWidth * 0.25;
@@ -148,7 +149,7 @@ public class ZoomControl extends PNode {
 		zoomInLabel.setOffset(size.getWidth() / 2 - zoomInLabel.getFullBoundsReference().width / 2, 
 				size.getWidth() / 2 - zoomInLabel.getFullBoundsReference().height / 2);
 		zoomInButton.addChild(zoomInLabel);
-//		addChild(zoomInButton);
+		addChild(zoomInButton);
 		
 		zoomOutButton = new PhetPPath(zoomButtonShape, FILL_COLOR, STROKE, STROKE_COLOR);
 		zoomOutButton.setOffset(0, size.getHeight() - zoomOutButton.getBoundsReference().getHeight());
@@ -174,17 +175,14 @@ public class ZoomControl extends PNode {
 		zoomOutLabel.setOffset(size.getWidth() / 2 - zoomOutLabel.getFullBoundsReference().width / 2, 
 				size.getWidth() / 2 - zoomOutLabel.getFullBoundsReference().height / 2);
 		zoomOutButton.addChild(zoomOutLabel);
-//		addChild(zoomOutButton);
+		addChild(zoomOutButton);
 		
 		// Initialize slider knob position.
 		updateSliderKnobPosition();
 	}
 	
 	private void updateSliderKnobPosition(){
-		double minY = zoomInButton.getFullBoundsReference().getMaxY() + sliderKnobHeight / 2;
-		double maxY = zoomOutButton.getFullBoundsReference().getMinY() - sliderKnobHeight / 2;
-		double currentZoomProportion = zoomable.getZoomFactor() / ( maxZoom - minZoom ); 
-		sliderKnob.setOffset(sliderKnob.getOffset().getX(), maxY - currentZoomProportion * (maxY - minY));
+		sliderKnob.setOffset( sliderKnob.getOffset().getX(), zoomFactorToTrackPos(zoomable.getZoomFactor()) );
 	}
 	
     private void handleMouseDragEvent(PInputEvent event){
@@ -204,5 +202,18 @@ public class ZoomControl extends PNode {
 		newZoomValue = MathUtil.clamp(minZoom, newZoomValue, maxZoom);
 		
 		zoomable.setZoomFactor(newZoomValue);
+    }
+    
+    private double trackPosToZoomFactor(){
+    	return 0.5;
+    }
+    
+    private double zoomFactorToTrackPos(double zoomFactor){
+    	assert zoomFactor >= minZoom && zoomFactor <= maxZoom;
+    	
+    	double minPos = sliderTrackHeight + sliderTrack.getOffset().getY() - sliderKnobHeight / 2;
+    	double maxPos = minPos - sliderTrackHeight + sliderKnobHeight;
+    	
+    	return minPos - ((zoomFactor - minZoom) / (maxZoom - minZoom)) * (minPos - maxPos);
     }
 }
