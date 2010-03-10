@@ -24,6 +24,7 @@ import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.view.IZoomable;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
+import edu.colorado.phet.neuron.view.ZoomListener;
 
 /**
  * Control panel for the membrane diffusion module.
@@ -65,7 +66,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         this.neuronCanvas = canvas;
 
         // Listen to the canvas for changes that affect this control panel.
-        neuronCanvas.addListener(new NeuronCanvas.NeuronCanvasZoomListener() {
+        neuronCanvas.addZoomListener(new ZoomListener() {
 			public void zoomFactorChanged() {
 				updateZoomSlider();
 			}
