@@ -5,10 +5,9 @@ DEADLINES
 - Friday 3/19/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- bread + cheese -> sandwich ?
-- fixed sandwich coefficients ?
-- "Hide" feature exposed in Game ?
-- histogram bars visible ?
+- bread+cheese->sandwich
+- make it easy to add a second type of sandwich, bread+cheese+meat->sandwich
+- publicly expose "Hide" feature in Game
 
 MEDIUM PRIORITY
 - write description of model, check into doc/model.txt
