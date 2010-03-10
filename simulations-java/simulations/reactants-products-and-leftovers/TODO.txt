@@ -6,7 +6,8 @@ DEADLINES
 
 HIGH PRIORITY
 - bread+cheese->sandwich
-- make it easy to add a second type of sandwich, bread+cheese+meat->sandwich
+- allow choice of two sandwich types (bread+cheese, bread+cheese+meat) in SandwichShopModel (similar to RealReactionModel)
+- add Unfuddle ticket for "choose sandwich type" user interface control
 
 MEDIUM PRIORITY
 - write description of model, check into doc/model.txt
