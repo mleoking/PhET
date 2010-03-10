@@ -104,7 +104,7 @@ public class GameRewardNode extends PhetPNode {
         this.clock.pause();
         
         // used for sandwich images
-        sandwichShopModel = new SandwichShopModel( 2, 1, 1 ); // coefficients for bread, meat, cheese
+        sandwichShopModel = new SandwichShopModel( 2, 1, 1 ); // coefficients for bread, cheese, meat
 
         // images list, includes everything by default
         {

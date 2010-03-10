@@ -28,22 +28,22 @@ public class SandwichShopModel extends RPALModel {
     
     private final Reactant bread, meat, cheese;
     private final Product sandwich;
-    private final int defaultBreadCoefficient, defaultMeatCoefficient, defaultCheeseCoefficient;
+    private final int defaultBreadCoefficient, defaultCheeseCoefficient, defaultMeatCoefficient;
     
-    public SandwichShopModel( int breadCoefficient, int meatCoefficient, int cheeseCoefficient ) {
+    public SandwichShopModel( int breadCoefficient, int cheeseCoefficient, int meatCoefficient ) {
         
         // remember the defaults, for reset
         this.defaultBreadCoefficient = breadCoefficient;
-        this.defaultMeatCoefficient = ( RPALConstants.SANDWICH_INCLUDES_MEAT ) ? meatCoefficient : 0;
         this.defaultCheeseCoefficient = cheeseCoefficient;
+        this.defaultMeatCoefficient = ( RPALConstants.SANDWICH_INCLUDES_MEAT ) ? meatCoefficient : 0;
         
         final int quantity = getQuantityRange().getDefault();
         
         // reactants
         bread = new Reactant( defaultBreadCoefficient, new Bread(), quantity );
-        meat = new Reactant(  defaultMeatCoefficient, new Meat(), quantity );
         cheese = new Reactant( defaultCheeseCoefficient, new Cheese(), quantity );
-        Reactant[] breadMeatCheese = { bread, meat, cheese };
+        meat = new Reactant(  defaultMeatCoefficient, new Meat(), quantity );
+        Reactant[] breadMeatCheese = { bread, cheese, meat };
         Reactant[] breadCheese = { bread, cheese };
         Reactant[] reactants = ( RPALConstants.SANDWICH_INCLUDES_MEAT ) ? breadMeatCheese : breadCheese;
         
@@ -68,8 +68,8 @@ public class SandwichShopModel extends RPALModel {
      */
     public void reset( ) {
         bread.setCoefficient( defaultBreadCoefficient );
-        meat.setCoefficient( defaultMeatCoefficient );
         cheese.setCoefficient( defaultCheeseCoefficient );
+        meat.setCoefficient( defaultMeatCoefficient );
         for ( Reactant reactant : reaction.getReactants() ) {
             reactant.setQuantity( getQuantityRange().getDefault() );
         }
@@ -79,12 +79,12 @@ public class SandwichShopModel extends RPALModel {
         return bread;
     }
     
-    public Reactant getMeat() {
-        return meat;
-    }
-    
     public Reactant getCheese() {
         return cheese;
+    }
+    
+    public Reactant getMeat() {
+        return meat;
     }
     
     public ChemicalReaction getReaction() {
