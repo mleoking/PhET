@@ -143,6 +143,7 @@ public class ZoomControl extends PNode {
 		});
 		// TODO: i18n of plus and minus symbols?
 		PText zoomInLabel = new PText("+");
+		zoomInLabel.setPickable(false);
 		zoomInLabel.setFont(SYMBOL_FONT);
 		zoomInLabel.setTextPaint(SYMBOL_COLOR);
 		zoomInLabel.setScale(size.getWidth() * 0.5 / zoomInLabel.getFullBoundsReference().width);
@@ -169,6 +170,7 @@ public class ZoomControl extends PNode {
 		    }
 		});
 		PText zoomOutLabel = new PText("-");
+		zoomOutLabel.setPickable(false);
 		zoomOutLabel.setFont(SYMBOL_FONT);
 		zoomOutLabel.setTextPaint(SYMBOL_COLOR);
 		zoomOutLabel.setScale(size.getWidth() * 0.5 / zoomOutLabel.getFullBoundsReference().width);
