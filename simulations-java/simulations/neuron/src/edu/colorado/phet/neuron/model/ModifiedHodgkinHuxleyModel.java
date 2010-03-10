@@ -273,9 +273,15 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
     		// which are the mu
 //    		n4 = n*n*n*n;
 //    		m3h = m*m*m*h;
-    		n4 = 0.35 * Math.exp( -1 / 1.0 * Math.pow(timeSinceActionPotential - 3.0, 2));
-    		m3h = 0.278 * Math.exp( -1 / 0.3 * Math.pow(timeSinceActionPotential - 0.5, 2));
-    		
+		
+		// Old values
+//		n4 = 0.35 * Math.exp( -1 / 1.0 * Math.pow(timeSinceActionPotential - 3.0, 2));
+//		m3h = 0.278 * Math.exp( -1 / 0.3 * Math.pow(timeSinceActionPotential - 0.5, 2));
+
+    		// New values tried by NP 3/10/10
+		n4 = 0.35 * Math.exp( -1 / 1.0 * Math.pow(timeSinceActionPotential - 2.0, 2));
+    		m3h = 0.278 * Math.exp( -1 / 0.1 * Math.pow(timeSinceActionPotential - 0.5, 2));
+
     		na_current = gna * m3h * (v-vna);
     		k_current = gk * n4 * (v-vk);
     		l_current = gl * (v-vl);
