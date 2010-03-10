@@ -32,6 +32,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ZoomControl extends PNode {
 
+    //----------------------------------------------------------------------------
+    // Class Data
+    //----------------------------------------------------------------------------
+
 	private static final boolean SHOW_OUTLINE = false; // Generally used for debug.
 	private static final Stroke STROKE = new BasicStroke(1f);
 	private static final Color FILL_COLOR = Color.WHITE;
@@ -43,6 +47,10 @@ public class ZoomControl extends PNode {
 	private static final Stroke TICK_MARK_STROKE = new BasicStroke(1f);
 	private static final Color TICK_MARK_COLOR = Color.LIGHT_GRAY;
 	
+    //----------------------------------------------------------------------------
+    // Instance Data
+    //----------------------------------------------------------------------------
+
 	private double minZoom, maxZoom;
 	private double buttonZoomAmt;
 	private IZoomable zoomable;
@@ -59,6 +67,10 @@ public class ZoomControl extends PNode {
 		}
 	};
 	
+    //----------------------------------------------------------------------------
+    // Constructor(s)
+    //----------------------------------------------------------------------------
+
 	public ZoomControl(Dimension2D size, IZoomable zoomable, double minZoom, double maxZoom, int steps) {
 	
 		this.zoomable = zoomable;
@@ -66,18 +78,19 @@ public class ZoomControl extends PNode {
 		this.maxZoom = maxZoom;
 		this.buttonZoomAmt = (maxZoom - minZoom) / (double)steps;
 		
-		// Add our zoom listener, which will update the slider position then
+		// Add our zoom listener, which will update the slider position when
 		// the zoom level changes.
 		zoomable.addZoomListener(zoomListener);
 		
-		// Add the outline if it is enabled.
+		// Add the outline if it is enabled.  This is for debug.
 		if (SHOW_OUTLINE){
 			outline = new PhetPPath(new BasicStroke(2f), Color.RED);
 			outline.setPathTo(new Rectangle2D.Double(0, 0, size.getWidth(), size.getHeight()));
 			addChild(outline);
 		}
 		
-		// Add the slider track.
+		// Add the slider track.  It will have a listener so that the user can
+		// click on it in order to set the zoom value.
 		sliderTrackHeight = size.getHeight() - 2 * size.getWidth();
 		double sliderTrackWidth = size.getWidth() * SLIDER_TRACK_WIDTH_PROPORTION;
 		Shape sliderTrackShape = new Rectangle2D.Double(-sliderTrackWidth / 2, 0, sliderTrackWidth, sliderTrackHeight);
@@ -92,6 +105,12 @@ public class ZoomControl extends PNode {
 			sliderTrack.addChild(tickMark);
 		}
 		sliderTrack.setOffset(size.getWidth() / 2, size.getWidth());
+		sliderTrack.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
+		sliderTrack.addInputEventListener(new PBasicInputEventHandler(){
+		    public void mouseReleased(final PInputEvent event) {
+		    	ZoomControl.this.zoomable.setZoomFactor(trackPosToZoomFactor(event.getPositionRelativeTo(sliderTrack).getY()));
+		    }
+		});
 		addChild(sliderTrack);
 		
 		// Add the slider knob.
@@ -109,10 +128,9 @@ public class ZoomControl extends PNode {
 		addChild(sliderKnob);
 		
 		// Add the buttons for zooming in and out.
-		Shape zoomButtonShape = new RoundRectangle2D.Double(0, 0, size.getWidth(), size.getWidth(), 4, 4);
-		zoomInButton = new PhetPPath(zoomButtonShape, FILL_COLOR, STROKE, STROKE_COLOR);
+		// TODO: i18n of plus and minus symbols?
+		zoomInButton = createZoomButton(size.getWidth(), '+');
 		zoomInButton.setOffset(0, 0);
-		zoomInButton.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
 		zoomInButton.addInputEventListener(new PBasicInputEventHandler(){
 			@Override
 		    public void mouseReleased(final PInputEvent event) {
@@ -128,20 +146,10 @@ public class ZoomControl extends PNode {
 				}
 		    }
 		});
-		// TODO: i18n of plus and minus symbols?
-		PText zoomInLabel = new PText("+");
-		zoomInLabel.setPickable(false);
-		zoomInLabel.setFont(SYMBOL_FONT);
-		zoomInLabel.setTextPaint(SYMBOL_COLOR);
-		zoomInLabel.setScale(size.getWidth() * 0.5 / zoomInLabel.getFullBoundsReference().width);
-		zoomInLabel.setOffset(size.getWidth() / 2 - zoomInLabel.getFullBoundsReference().width / 2, 
-				size.getWidth() / 2 - zoomInLabel.getFullBoundsReference().height / 2);
-		zoomInButton.addChild(zoomInLabel);
 		addChild(zoomInButton);
 		
-		zoomOutButton = new PhetPPath(zoomButtonShape, FILL_COLOR, STROKE, STROKE_COLOR);
+		zoomOutButton = createZoomButton(size.getWidth(), '-');
 		zoomOutButton.setOffset(0, size.getHeight() - zoomOutButton.getBoundsReference().getHeight());
-		zoomOutButton.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
 		zoomOutButton.addInputEventListener(new PBasicInputEventHandler(){
 			@Override
 		    public void mouseReleased(final PInputEvent event) {
@@ -157,20 +165,16 @@ public class ZoomControl extends PNode {
 				}
 		    }
 		});
-		PText zoomOutLabel = new PText("-");
-		zoomOutLabel.setPickable(false);
-		zoomOutLabel.setFont(SYMBOL_FONT);
-		zoomOutLabel.setTextPaint(SYMBOL_COLOR);
-		zoomOutLabel.setScale(size.getWidth() * 0.5 / zoomOutLabel.getFullBoundsReference().width);
-		zoomOutLabel.setOffset(size.getWidth() / 2 - zoomOutLabel.getFullBoundsReference().width / 2, 
-				size.getWidth() / 2 - zoomOutLabel.getFullBoundsReference().height / 2);
-		zoomOutButton.addChild(zoomOutLabel);
 		addChild(zoomOutButton);
 		
 		// Initialize slider knob position.
 		updateSliderKnobPosition();
 	}
 	
+    //----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
+
 	private void updateSliderKnobPosition(){
 		sliderKnob.setOffset( sliderKnob.getOffset().getX(), zoomFactorToTrackPos(zoomable.getZoomFactor()) );
 	}
@@ -194,8 +198,18 @@ public class ZoomControl extends PNode {
 		zoomable.setZoomFactor(newZoomValue);
     }
     
-    private double trackPosToZoomFactor(){
-    	return 0.5;
+    private double trackPosToZoomFactor(double trackPosition){
+    	// Set up some values needed for calculations.  Note that the max
+    	// track position is associated with the min zoom, and vice versa,
+    	// which can be a bit confusing.
+    	double maxTrackPosition = sliderTrackHeight - sliderKnobHeight / 2;
+    	double minTrackPostion = sliderKnobHeight / 2;
+    	
+    	// Limit the position to a value was can work with.
+    	trackPosition = MathUtil.clamp(minTrackPostion, trackPosition, maxTrackPosition);
+    	
+    	// Do the math.
+    	return (maxTrackPosition - trackPosition) / maxTrackPosition * (maxZoom - minZoom) + minZoom;
     }
     
     private double zoomFactorToTrackPos(double zoomFactor){
@@ -205,5 +219,29 @@ public class ZoomControl extends PNode {
     	double maxPos = minPos - sliderTrackHeight + sliderKnobHeight;
     	
     	return minPos - ((zoomFactor - minZoom) / (maxZoom - minZoom)) * (minPos - maxPos);
+    }
+    
+    /**
+     * Create a zoom button.  This was created to avoid duplicated code, since
+     * two of these are needed.
+     * 
+     * @param size - Size of the button, only one dimension because it is assumed to be square.
+     * @param labelCharacter - Single character label.
+     * @return - The button.
+     */
+    private PNode createZoomButton(double size, char labelCharacter){
+		Shape zoomButtonShape = new RoundRectangle2D.Double(0, 0, size, size, 4, 4);
+		PNode zoomButton = new PhetPPath(zoomButtonShape, FILL_COLOR, STROKE, STROKE_COLOR);
+		zoomButton.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
+		PText zoomButtonLabel = new PText(String.valueOf(labelCharacter));
+		zoomButtonLabel.setPickable(false);
+		zoomButtonLabel.setFont(SYMBOL_FONT);
+		zoomButtonLabel.setTextPaint(SYMBOL_COLOR);
+		zoomButtonLabel.setScale(size * 0.5 / zoomButtonLabel.getFullBoundsReference().width);
+		zoomButtonLabel.setOffset(size / 2 - zoomButtonLabel.getFullBoundsReference().width / 2, 
+				size / 2 - zoomButtonLabel.getFullBoundsReference().height / 2);
+		zoomButton.addChild(zoomButtonLabel);
+		
+		return zoomButton;
     }
 }
