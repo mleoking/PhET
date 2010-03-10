@@ -38,7 +38,7 @@ public class GameSettingsNode extends PhetPNode {
     private final JRadioButton soundOnRadioButton, soundOffRadioButton;
     private final JRadioButton hideNothingRadioButton, hideMoleculesRadioButton, hideNumbersRadioButton;
     
-    public GameSettingsNode( final GameModel model, boolean researchFlag ) {
+    public GameSettingsNode( final GameModel model ) {
         super();
         
         // Title
@@ -143,11 +143,9 @@ public class GameSettingsNode extends PhetPNode {
         layout.addAnchoredComponent( soundLabel, row, column++, GridBagConstraints.EAST );
         layout.addComponent( soundPanel, row++, column );
         column = 0;
-        if ( researchFlag ) {
-            layout.addAnchoredComponent( hideLabel, row, column++, GridBagConstraints.EAST );
-            layout.addComponent( imagesPanel, row++, column );
-            column = 0;
-        }
+        layout.addAnchoredComponent( hideLabel, row, column++, GridBagConstraints.EAST );
+        layout.addComponent( imagesPanel, row++, column );
+        column = 0;
         layout.addFilledComponent( buttonSeparator, row++, column, 2, 1, GridBagConstraints.HORIZONTAL );
         layout.addComponent( startButton, row++, column, 2, 1, GridBagConstraints.CENTER );
         

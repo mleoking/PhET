@@ -7,7 +7,6 @@ DEADLINES
 HIGH PRIORITY
 - bread+cheese->sandwich
 - make it easy to add a second type of sandwich, bread+cheese+meat->sandwich
-- publicly expose "Hide" feature in Game
 
 MEDIUM PRIORITY
 - write description of model, check into doc/model.txt

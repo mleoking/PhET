@@ -96,7 +96,7 @@ public class GameCanvas extends RPALCanvas {
     //  Constructors
     //---------------------------------------------------------------------------------
     
-    public GameCanvas( final GameModel model, Resettable resettable, boolean researchFlag ) {
+    public GameCanvas( final GameModel model, Resettable resettable ) {
         super();
         
         audioPlayer = new RPALAudioPlayer( model.isSoundEnabled() );
@@ -105,7 +105,7 @@ public class GameCanvas extends RPALCanvas {
         rewardNode = new GameRewardNode();
         
         // game settings
-        gameSettingsNode = new GameSettingsNode( model, researchFlag );
+        gameSettingsNode = new GameSettingsNode( model );
         gameSettingsNode.scale( 1.5 );
 
         // all other nodes are children of this node
