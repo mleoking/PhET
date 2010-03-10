@@ -28,14 +28,18 @@ public class ZoomControl extends PNode {
 
 	private static final boolean SHOW_OUTLINE = true; // Generally used for debug.
 	private static final Stroke STROKE = new BasicStroke(1f);
+	private static final Color FILL_COLOR = Color.WHITE;
+	private static final Color STROKE_COLOR = Color.BLACK;
 	private static final Font SYMBOL_FONT = new PhetFont(14, true);
 	private static final Color SYMBOL_COLOR = Color.BLUE;
+	private static final double SLIDER_TRACK_WIDTH_PROPORTION = 0.2;
 	
-	private PhetPPath outline;
 	private double minZoom, maxZoom;
 	private double buttonZoomAmt;
-	private PNode zoomInButton, zoomOutButton;
 	private IZoomable zoomable;
+	private PNode zoomInButton, zoomOutButton;
+	private PNode sliderTrack;
+	private PhetPPath outline;
 	
 	public ZoomControl(Dimension2D size, IZoomable zoomable, double minZoom, double maxZoom, int steps) {
 	
@@ -51,9 +55,17 @@ public class ZoomControl extends PNode {
 			addChild(outline);
 		}
 		
+		// Add the slider track.
+		double sliderTrackWidth = size.getWidth() * SLIDER_TRACK_WIDTH_PROPORTION;
+		Shape sliderTrackShape = new Rectangle2D.Double(-sliderTrackWidth / 2, 0, sliderTrackWidth,
+				size.getHeight() - size.getWidth());
+		sliderTrack = new PhetPPath(sliderTrackShape, FILL_COLOR, STROKE, STROKE_COLOR);
+		sliderTrack.setOffset(size.getWidth() / 2, size.getWidth() / 2);
+		addChild(sliderTrack);
+		
 		// Add the buttons for zooming in and out.
 		Shape zoomButtonShape = new RoundRectangle2D.Double(0, 0, size.getWidth(), size.getWidth(), 4, 4);
-		zoomInButton = new PhetPPath(zoomButtonShape, Color.WHITE, STROKE, Color.BLACK);
+		zoomInButton = new PhetPPath(zoomButtonShape, FILL_COLOR, STROKE, STROKE_COLOR);
 		zoomInButton.setOffset(0, 0);
 		zoomInButton.addInputEventListener(new PBasicInputEventHandler(){
 			@Override
@@ -80,7 +92,7 @@ public class ZoomControl extends PNode {
 		zoomInButton.addChild(zoomInLabel);
 		addChild(zoomInButton);
 		
-		zoomOutButton = new PhetPPath(zoomButtonShape, Color.WHITE, STROKE, Color.BLACK);
+		zoomOutButton = new PhetPPath(zoomButtonShape, FILL_COLOR, STROKE, STROKE_COLOR);
 		zoomOutButton.setOffset(0, size.getHeight() - zoomOutButton.getBoundsReference().getHeight());
 		zoomOutButton.addInputEventListener(new PBasicInputEventHandler(){
 			@Override
