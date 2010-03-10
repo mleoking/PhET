@@ -4,16 +4,19 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * A control that is meant for a Piccolo canvas that can be used for
@@ -25,6 +28,8 @@ public class ZoomControl extends PNode {
 
 	private static final boolean SHOW_OUTLINE = true; // Generally used for debug.
 	private static final Stroke STROKE = new BasicStroke(1f);
+	private static final Font SYMBOL_FONT = new PhetFont(14, true);
+	private static final Color SYMBOL_COLOR = Color.BLUE;
 	
 	private PhetPPath outline;
 	private double minZoom, maxZoom;
@@ -65,7 +70,16 @@ public class ZoomControl extends PNode {
 				}
 		    }
 		});
+		// TODO: i18n of plus and minus symbols?
+		PText zoomInLabel = new PText("+");
+		zoomInLabel.setFont(SYMBOL_FONT);
+		zoomInLabel.setTextPaint(SYMBOL_COLOR);
+		zoomInLabel.setScale(size.getWidth() * 0.5 / zoomInLabel.getFullBoundsReference().width);
+		zoomInLabel.setOffset(size.getWidth() / 2 - zoomInLabel.getFullBoundsReference().width / 2, 
+				size.getWidth() / 2 - zoomInLabel.getFullBoundsReference().height / 2);
+		zoomInButton.addChild(zoomInLabel);
 		addChild(zoomInButton);
+		
 		zoomOutButton = new PhetPPath(zoomButtonShape, Color.WHITE, STROKE, Color.BLACK);
 		zoomOutButton.setOffset(0, size.getHeight() - zoomOutButton.getBoundsReference().getHeight());
 		zoomOutButton.addInputEventListener(new PBasicInputEventHandler(){
@@ -83,6 +97,13 @@ public class ZoomControl extends PNode {
 				}
 		    }
 		});
+		PText zoomOutLabel = new PText("-");
+		zoomOutLabel.setFont(SYMBOL_FONT);
+		zoomOutLabel.setTextPaint(SYMBOL_COLOR);
+		zoomOutLabel.setScale(size.getWidth() * 0.5 / zoomOutLabel.getFullBoundsReference().width);
+		zoomOutLabel.setOffset(size.getWidth() / 2 - zoomOutLabel.getFullBoundsReference().width / 2, 
+				size.getWidth() / 2 - zoomOutLabel.getFullBoundsReference().height / 2);
+		zoomOutButton.addChild(zoomOutLabel);
 		addChild(zoomOutButton);
 	}
 }
