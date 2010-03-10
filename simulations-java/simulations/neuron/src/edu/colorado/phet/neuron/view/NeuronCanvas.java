@@ -34,7 +34,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class NeuronCanvas extends PhetPCanvas {
+public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -196,6 +196,12 @@ public class NeuronCanvas extends PhetPCanvas {
         voltmeter.setVisible(false);
         chartLayer.addChild(voltmeter);
         
+        // Add the zoom slider.
+        ZoomControl zoomSlider = new ZoomControl(new PDimension(20, 130), this, 0.5, 7, 10);
+        zoomSlider.setOffset(stimulateNeuronButton.getXOffset(),
+        		stimulateNeuronButton.getFullBoundsReference().getMaxY() + 10);
+        chartLayer.addChild(zoomSlider);
+        
         // Add the depiction of the particle motion bounds, if enabled.
         if (SHOW_PARTICLE_BOUNDS){
         	PhetPPath particleMotionBounds = new PhetPPath(mvt.createTransformedShape(model.getParticleMotionBounds()),
@@ -270,6 +276,9 @@ public class NeuronCanvas extends PhetPCanvas {
     	voltmeter.setVisible(isVisible);
     }
     
+    /* (non-Javadoc)
+	 * @see edu.colorado.phet.neuron.view.IZoomable#setZoomFactor(double)
+	 */
     public void setZoomFactor(double zoomFactor){
     	if (this.zoomFactor != zoomFactor){
     		myWorldNode.setTransform(new AffineTransform());
@@ -284,6 +293,9 @@ public class NeuronCanvas extends PhetPCanvas {
     	}
     }
     
+    /* (non-Javadoc)
+	 * @see edu.colorado.phet.neuron.view.IZoomable#getZoomFactor()
+	 */
     public double getZoomFactor(){
     	return zoomFactor;
     }
