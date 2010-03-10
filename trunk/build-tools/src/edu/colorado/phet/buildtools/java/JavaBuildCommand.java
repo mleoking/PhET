@@ -137,14 +137,8 @@ public class JavaBuildCommand {
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
-        if ( project instanceof FlashSimulationProject.FlashLauncherProject ) {
-            javac.setSource( BuildToolsConstants.FLASH_LAUNCHER_JAVA_VERSION );
-            javac.setTarget( BuildToolsConstants.FLASH_LAUNCHER_JAVA_VERSION );
-        }
-        else {
-            javac.setSource( BuildToolsConstants.SIM_JAVA_VERSION );
-            javac.setTarget( BuildToolsConstants.SIM_JAVA_VERSION );
-        }
+        javac.setSource( project.getJavaSourceVersion() );
+        javac.setTarget( project.getJavaTargetVersion() );
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toString( src ) ) );
         javac.setDestdir( project.getClassesDirectory() );
 

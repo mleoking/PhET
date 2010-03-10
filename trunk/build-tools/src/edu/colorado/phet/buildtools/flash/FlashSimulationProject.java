@@ -612,5 +612,13 @@ public class FlashSimulationProject extends PhetProject {
         public boolean isTestable() {
             return false;
         }
+
+        public String getJavaTargetVersion() {
+            return BuildToolsConstants.FLASH_LAUNCHER_JAVA_VERSION;
+        }
+
+        public String getJavaSourceVersion() {
+            return BuildToolsConstants.FLASH_LAUNCHER_JAVA_VERSION;
+        }
     }
 }
