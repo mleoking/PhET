@@ -22,6 +22,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.view.IZoomable;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
 
 /**
@@ -225,7 +226,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         private static final double MIN_VAL = 0.5;
         private static final double MAX_VAL = 7;
         
-		public ZoomSlider(String title, final NeuronCanvas neuronCanvas) {
+		public ZoomSlider(String title, final IZoomable neuronCanvas) {
             super( MIN_VAL, MAX_VAL, title, "0", "");
             setUpDownArrowDelta( 0.01 );
             setTextFieldVisible(false);
