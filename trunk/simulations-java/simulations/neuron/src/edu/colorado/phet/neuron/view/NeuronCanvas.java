@@ -196,7 +196,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         chartLayer.addChild(voltmeter);
         
         // Add the zoom slider.
-        ZoomControl zoomSlider = new ZoomControl(new PDimension(20, 130), this, 0.5, 7, 10);
+        ZoomControl zoomSlider = new ZoomControl(new PDimension(25, 130), this, 0.6, 7, 10);
         zoomSlider.setOffset(stimulateNeuronButton.getXOffset(),
         		stimulateNeuronButton.getFullBoundsReference().getMaxY() + 10);
         chartLayer.addChild(zoomSlider);
