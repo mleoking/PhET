@@ -49,8 +49,8 @@ public class LactoseMeter extends PhetPNode {
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(OUTLINE_STROKE_WIDTH);
 	private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
 	private static final Color BAR_BACKGROUND_COLOR = Color.BLACK;
-	private static final Color BAR_COLOR = new Color(00, 204, 255);
-	private static final double BAR_WIDTH_PROPORTION = 0.9;
+	private static final Color BAR_COLOR = Color.ORANGE;
+	private static final double BAR_WIDTH_PROPORTION = 0.85;
 	private static final double BAR_HEIGHT_PROPORTION = 0.6;
 	private static final double MAX_VALUE = 50;
 	
@@ -68,7 +68,7 @@ public class LactoseMeter extends PhetPNode {
 	private double maxBarHeight;
     private JButton closeButton;
     private PSwing closePSwing;
-    private ShadowHTMLNode overflowText;
+    private HTMLNode overflowText;
 	
 	private IModelElementListener glucoseListener = new ModelElementListenerAdapter(){
 		public void removedFromModel(){
@@ -156,10 +156,9 @@ public class LactoseMeter extends PhetPNode {
 		
 		// Add the text that will be shown if a value is set that exceeds the
 		// supported range.
-		overflowText = new ShadowHTMLNode("<html><center>Off<br>Chart</center></html>");
+		overflowText = new HTMLNode("<html><center>Off<br>Chart</center></html>");
 		overflowText.setFont(LABEL_FONT);
-		overflowText.setColor(Color.YELLOW);
-		overflowText.setShadowColor(Color.black);
+		overflowText.setHTMLColor(Color.BLUE);
 		overflowText.setScale((barWidth - edgeOffset * 2) / overflowText.getFullBoundsReference().getWidth());
 		overflowText.setOffset(size.getWidth() / 2 - overflowText.getFullBoundsReference().getWidth() / 2, 
 				barBackground.getOffset().getY() + edgeOffset);
@@ -184,7 +183,7 @@ public class LactoseMeter extends PhetPNode {
 
 	private void updateBarSize(){
 		double barHeight;
-		if (model.getGalactoseList().size() > MAX_VALUE){
+		if (model.getGlucoseList().size() > MAX_VALUE){
 			barHeight = maxBarHeight;
 			overflowText.setVisible(true);
 		}
