@@ -22,17 +22,13 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.Sandw
 public class ReactantsProductsAndLeftoversApplication extends PiccoloPhetApplication {
 
     public ReactantsProductsAndLeftoversApplication( PhetApplicationConfig config ) {
-        this( config, false /* researchFlag */ );
-    }
-    
-    public ReactantsProductsAndLeftoversApplication( PhetApplicationConfig config, boolean researchFlag ) {
         super( config );
         
         // modules
         Frame parentFrame = getPhetFrame();
         addModule( new SandwichShopModule( parentFrame ) );
         addModule( new RealReactionModule( parentFrame ) );
-        addModule( new GameModule( parentFrame, researchFlag ) );
+        addModule( new GameModule( parentFrame ) );
         
         // menu items
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();

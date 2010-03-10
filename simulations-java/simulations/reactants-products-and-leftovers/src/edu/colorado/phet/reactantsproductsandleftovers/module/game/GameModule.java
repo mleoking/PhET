@@ -19,14 +19,14 @@ public class GameModule extends PiccoloModule {
     private final GameCanvas canvas;
     private boolean rewardWasRunning = false; // was the game reward animation running when this module was deactivated?
 
-    public GameModule( Frame parentFrame, boolean researchFlag ) {
+    public GameModule( Frame parentFrame ) {
         super( RPALStrings.TITLE_GAME, new RPALClock(), true /* startsPaused */ );
 
         // Model
         model = new GameModel( getClock() );
         
         // Canvas
-        canvas = new GameCanvas( model, this, researchFlag );
+        canvas = new GameCanvas( model, this );
         setSimulationPanel( canvas );
 
         // no control panel
