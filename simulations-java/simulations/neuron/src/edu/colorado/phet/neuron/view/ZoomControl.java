@@ -102,30 +102,17 @@ public class ZoomControl extends PNode {
 		sliderKnob.setOffset(size.getWidth() / 2, 0);  // Y position set by update method.
 		sliderKnob.addInputEventListener( new CursorHandler(Cursor.N_RESIZE_CURSOR) );
         sliderKnob.addInputEventListener( new PDragEventHandler(){
-            
-            public void startDrag( PInputEvent event) {
-                super.startDrag(event);
-                System.out.println("Start drag");
-            }
-            
             public void drag(PInputEvent event){
-                System.out.println("Drag");
-                handleMouseDragEvent(event);
-            }
-            
-            public void endDrag( PInputEvent event ){
-                super.endDrag(event);     
-                System.out.println("End drag");
+                handleSliderKnobDragEvent(event);
             }
         });
-
-
 		addChild(sliderKnob);
 		
 		// Add the buttons for zooming in and out.
 		Shape zoomButtonShape = new RoundRectangle2D.Double(0, 0, size.getWidth(), size.getWidth(), 4, 4);
 		zoomInButton = new PhetPPath(zoomButtonShape, FILL_COLOR, STROKE, STROKE_COLOR);
 		zoomInButton.setOffset(0, 0);
+		zoomInButton.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
 		zoomInButton.addInputEventListener(new PBasicInputEventHandler(){
 			@Override
 		    public void mouseReleased(final PInputEvent event) {
@@ -154,6 +141,7 @@ public class ZoomControl extends PNode {
 		
 		zoomOutButton = new PhetPPath(zoomButtonShape, FILL_COLOR, STROKE, STROKE_COLOR);
 		zoomOutButton.setOffset(0, size.getHeight() - zoomOutButton.getBoundsReference().getHeight());
+		zoomOutButton.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
 		zoomOutButton.addInputEventListener(new PBasicInputEventHandler(){
 			@Override
 		    public void mouseReleased(final PInputEvent event) {
@@ -187,7 +175,7 @@ public class ZoomControl extends PNode {
 		sliderKnob.setOffset( sliderKnob.getOffset().getX(), zoomFactorToTrackPos(zoomable.getZoomFactor()) );
 	}
 	
-    private void handleMouseDragEvent(PInputEvent event){
+    private void handleSliderKnobDragEvent(PInputEvent event){
         
         PNode draggedNode = event.getPickedNode();
         PDimension d = event.getDeltaRelativeTo(draggedNode);
