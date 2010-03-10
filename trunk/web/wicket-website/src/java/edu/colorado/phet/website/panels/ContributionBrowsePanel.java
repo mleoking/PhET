@@ -82,6 +82,7 @@ public class ContributionBrowsePanel extends PhetPanel {
 
         add( new ListView( "contributions", contributions ) {
             protected void populateItem( ListItem item ) {
+                logger.debug( "start item" );
                 Contribution contribution = (Contribution) item.getModel().getObject();
                 Link link = ContributionPage.getLinker( contribution ).getLink( "contribution-link", context, getPhetCycle() );
                 link.add( new Label( "contribution-title", contribution.getTitle() ) );
@@ -132,6 +133,7 @@ public class ContributionBrowsePanel extends PhetPanel {
                 } );
 
                 item.add( new Label( "contribution-updated", format.format( contribution.getDateUpdated() ) ) );
+                logger.debug( "finish item" );
             }
         } );
 

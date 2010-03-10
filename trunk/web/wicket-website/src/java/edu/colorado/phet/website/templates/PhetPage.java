@@ -181,6 +181,7 @@ public abstract class PhetPage extends WebPage {
         super.onBeforeRender();
         renderStart = System.currentTimeMillis();
         logger.info( "Pre-render: " + ( renderStart - initStart ) + " ms" );
+        logger.debug( "stack trace: ", new Exception() );
         logger.debug( "Debug: page stateless = " + isPageStateless() );
     }
 
