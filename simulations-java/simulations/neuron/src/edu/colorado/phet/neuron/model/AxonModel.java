@@ -220,7 +220,7 @@ public class AxonModel implements IParticleCapture {
     	
     	// Add the initial particles.
     	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 4);
-    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 200);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 250);
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 100);
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 5);
 
@@ -854,7 +854,7 @@ public class AxonModel implements IParticleCapture {
 //    	double distance = crossSectionOuterRadius + particle.getDiameter() * 2 + 
 //    		RAND.nextDouble() * particle.getDiameter() * 2;
     	double distance = crossSectionOuterRadius + particle.getDiameter() * 2 + 
-		RAND.nextDouble() * crossSectionOuterRadius * 0.8;
+			RAND.nextDouble() * crossSectionOuterRadius * 2;
     	
     	particle.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
