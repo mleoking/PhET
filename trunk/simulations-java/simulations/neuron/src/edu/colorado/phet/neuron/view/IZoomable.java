@@ -23,5 +23,19 @@ public interface IZoomable {
 	 * zoom in, smaller values zoom out.
 	 */
 	public abstract double getZoomFactor();
+	
+	/**
+	 * Add a listener for changes to the zoom factor.
+	 * 
+	 * @param zoomListener
+	 */
+	public abstract void addZoomListener(ZoomListener zoomListener);
+	
+	/**
+	 * Remove a zoom listener.
+	 * 
+	 * @param zoomListener
+	 */
+	public abstract void removeZoomListener(ZoomListener zoomListener);
 
 }

@@ -4,6 +4,7 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Shape;
 import java.awt.Stroke;
@@ -12,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -39,7 +41,15 @@ public class ZoomControl extends PNode {
 	private IZoomable zoomable;
 	private PNode zoomInButton, zoomOutButton;
 	private PNode sliderTrack;
+	private double sliderKnobHeight;
+	private PNode sliderKnob;
 	private PhetPPath outline;
+	
+	private ZoomListener zoomListener = new ZoomListener() {
+		public void zoomFactorChanged() {
+			updateSliderKnobPosition();
+		}
+	};
 	
 	public ZoomControl(Dimension2D size, IZoomable zoomable, double minZoom, double maxZoom, int steps) {
 	
@@ -47,6 +57,10 @@ public class ZoomControl extends PNode {
 		this.minZoom = minZoom;
 		this.maxZoom = maxZoom;
 		this.buttonZoomAmt = (maxZoom - minZoom) / (double)steps;
+		
+		// Add our zoom listener, which will update the slider position then
+		// the zoom level changes.
+		zoomable.addZoomListener(zoomListener);
 		
 		// Add the outline if it is enabled.
 		if (SHOW_OUTLINE){
@@ -62,6 +76,14 @@ public class ZoomControl extends PNode {
 		sliderTrack = new PhetPPath(sliderTrackShape, FILL_COLOR, STROKE, STROKE_COLOR);
 		sliderTrack.setOffset(size.getWidth() / 2, size.getWidth() / 2);
 		addChild(sliderTrack);
+		
+		// Add the slider knob.
+		sliderKnobHeight = size.getWidth() * 0.3;
+		Shape sliderKnobShape = new RoundRectangle2D.Double(-size.getWidth() / 2, -sliderKnobHeight / 2,
+				size.getWidth(), sliderKnobHeight, 4, 4);
+		sliderKnob = new PhetPPath(sliderKnobShape, FILL_COLOR, STROKE, STROKE_COLOR);
+		sliderKnob.setOffset(size.getWidth() / 2, 0);  // Y position set by update method.
+		addChild(sliderKnob);
 		
 		// Add the buttons for zooming in and out.
 		Shape zoomButtonShape = new RoundRectangle2D.Double(0, 0, size.getWidth(), size.getWidth(), 4, 4);
@@ -117,5 +139,15 @@ public class ZoomControl extends PNode {
 				size.getWidth() / 2 - zoomOutLabel.getFullBoundsReference().height / 2);
 		zoomOutButton.addChild(zoomOutLabel);
 		addChild(zoomOutButton);
+		
+		// Initialize slider knob position.
+		updateSliderKnobPosition();
+	}
+	
+	private void updateSliderKnobPosition(){
+		double minY = zoomInButton.getFullBoundsReference().getMaxY() + sliderKnobHeight / 2;
+		double maxY = zoomOutButton.getFullBoundsReference().getMinY() - sliderKnobHeight / 2;
+		double currentZoomProportion = zoomable.getZoomFactor() / ( maxZoom - minZoom ); 
+		sliderKnob.setOffset(sliderKnob.getOffset().getX(), minY + currentZoomProportion * (maxY - minY));
 	}
 }

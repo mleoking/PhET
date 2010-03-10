@@ -14,7 +14,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
@@ -264,12 +263,12 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	stimulateNeuronButton.setVisible(!model.isStimulusInitiationLockedOut());
     }
     
-	public void addListener(NeuronCanvasZoomListener neuronCanvasZoomListener){
-		listeners.add(NeuronCanvasZoomListener.class, neuronCanvasZoomListener);
+	public void addZoomListener(ZoomListener neuronCanvasZoomListener){
+		listeners.add(ZoomListener.class, neuronCanvasZoomListener);
 	}
 	
-	public void removeListener(NeuronCanvasZoomListener neuronCanvasZoomListener){
-		listeners.remove(NeuronCanvasZoomListener.class, neuronCanvasZoomListener);
+	public void removeZoomListener(ZoomListener neuronCanvasZoomListener){
+		listeners.remove(ZoomListener.class, neuronCanvasZoomListener);
 	}
     
     public void setVoltmeterVisible(boolean isVisible){
@@ -350,12 +349,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     }
     
 	private void notifyZoomChanged(){
-		for (NeuronCanvasZoomListener listener : listeners.getListeners(NeuronCanvasZoomListener.class)){
+		for (ZoomListener listener : listeners.getListeners(ZoomListener.class)){
 			listener.zoomFactorChanged();
 		}
 	}
-    
-    public interface NeuronCanvasZoomListener extends EventListener {
-    	public void zoomFactorChanged();
-    }
 }
