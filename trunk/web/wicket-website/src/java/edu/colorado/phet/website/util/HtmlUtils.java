@@ -1,6 +1,13 @@
 package edu.colorado.phet.website.util;
 
 public class HtmlUtils {
+
+    /**
+     * Encodes a string into an HTML-escaped version
+     *
+     * @param s String to encode
+     * @return HTML encoded response
+     */
     public static String encode( String s ) {
         if ( s == null ) {
             return null;

@@ -14,6 +14,11 @@ import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 
+/**
+ * Collections of utility functions that mainly deal with the website's interaction with Hibernate
+ * <p/>
+ * TODO: move other functions that aren't primarily related to hibernate elsewhere
+ */
 public class HibernateUtils {
 
     private static org.hibernate.SessionFactory sessionFactory;
