@@ -233,6 +233,4 @@ public class LactoseMeter extends PhetPNode {
     	lactoseNode.setChildrenPickable(false);
     	return lactoseNode;
     }
-
-
 }
