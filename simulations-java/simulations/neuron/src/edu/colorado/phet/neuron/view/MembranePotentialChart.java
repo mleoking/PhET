@@ -49,11 +49,11 @@ public class MembranePotentialChart extends PNode {
 	// Class Data
 	//----------------------------------------------------------------------------
 	
-	private static final double TIME_SPAN = 100; // In milliseconds.
+	private static final double TIME_SPAN = 25; // In milliseconds.
 	
 	// This value sets the frequency of chart updates, which helps to reduce
 	// the processor consumption.
-	private static final double UPDATE_PERIOD = 4 * NeuronDefaults.CLOCK_DT; // In seconds
+	private static final double UPDATE_PERIOD = 1 * NeuronDefaults.CLOCK_DT; // In seconds
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -199,7 +199,7 @@ public class MembranePotentialChart extends PNode {
      */
     private void clearAndSetStartTime(double initialTime){
     	dataSeries.clear();
-    	initialTime = roundToResolution(initialTime, -2);
+    	initialTime = roundToResolution(initialTime, 0);
     	endTimeOfChart = initialTime + TIME_SPAN;
     	chart.getXYPlot().getDomainAxis().setRange( initialTime, endTimeOfChart );
     	updateCountdownTimer = 0;
