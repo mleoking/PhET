@@ -12,13 +12,16 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * A control that is meant for a Piccolo canvas that can be used for
@@ -83,6 +86,26 @@ public class ZoomControl extends PNode {
 				size.getWidth(), sliderKnobHeight, 4, 4);
 		sliderKnob = new PhetPPath(sliderKnobShape, FILL_COLOR, STROKE, STROKE_COLOR);
 		sliderKnob.setOffset(size.getWidth() / 2, 0);  // Y position set by update method.
+		sliderKnob.addInputEventListener( new CursorHandler(Cursor.N_RESIZE_CURSOR) );
+        sliderKnob.addInputEventListener( new PDragEventHandler(){
+            
+            public void startDrag( PInputEvent event) {
+                super.startDrag(event);
+                System.out.println("Start drag");
+            }
+            
+            public void drag(PInputEvent event){
+                System.out.println("Drag");
+                handleMouseDragEvent(event);
+            }
+            
+            public void endDrag( PInputEvent event ){
+                super.endDrag(event);     
+                System.out.println("End drag");
+            }
+        });
+
+
 		addChild(sliderKnob);
 		
 		// Add the buttons for zooming in and out.
@@ -148,6 +171,25 @@ public class ZoomControl extends PNode {
 		double minY = zoomInButton.getFullBoundsReference().getMaxY() + sliderKnobHeight / 2;
 		double maxY = zoomOutButton.getFullBoundsReference().getMinY() - sliderKnobHeight / 2;
 		double currentZoomProportion = zoomable.getZoomFactor() / ( maxZoom - minZoom ); 
-		sliderKnob.setOffset(sliderKnob.getOffset().getX(), minY + currentZoomProportion * (maxY - minY));
+		sliderKnob.setOffset(sliderKnob.getOffset().getX(), maxY - currentZoomProportion * (maxY - minY));
 	}
+	
+    private void handleMouseDragEvent(PInputEvent event){
+        
+        PNode draggedNode = event.getPickedNode();
+        PDimension d = event.getDeltaRelativeTo(draggedNode);
+        draggedNode.localToParent(d);
+        double movementAmount = d.getHeight();
+        
+		double knobMovementRange = zoomOutButton.getFullBoundsReference().getMinY()
+				- zoomInButton.getFullBoundsReference().getMaxY();
+		
+		double zoomDelta = -movementAmount / knobMovementRange * (maxZoom - minZoom);
+		
+		double newZoomValue = zoomable.getZoomFactor() + zoomDelta;
+
+		newZoomValue = MathUtil.clamp(minZoom, newZoomValue, maxZoom);
+		
+		zoomable.setZoomFactor(newZoomValue);
+    }
 }
