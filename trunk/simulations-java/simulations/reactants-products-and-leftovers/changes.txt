@@ -1,3 +1,4 @@
+3/10/10 change bread+meat+cheese->sandwich to bread+cheese+meat->sandwich, since meat will be added to "bread+cheese->sandwich"
 3/8/10 restore editable sandwich coefficients
 3/8/10 restore meat in sandwich
 # 0.00.37 (39169) Mar 8, 2010

@@ -23,10 +23,10 @@ public class SandwichShopModule extends PiccoloModule {
 
         // Model
         if ( RPALConstants.SANDWICH_COEFFICIENTS_EDITABLE ) {
-            model = new SandwichShopModel( 0, 0, 0 ); // coefficients for bread, meat, cheese
+            model = new SandwichShopModel( 0, 0, 0 ); // coefficients for bread, cheese, meat
         }
         else {
-            model = new SandwichShopModel( 2, 1, 1 ); // coefficients for bread, meat, cheese
+            model = new SandwichShopModel( 2, 1, 1 ); // coefficients for bread, cheese, meat
         }
         
         // Canvas
