@@ -180,8 +180,8 @@ public abstract class PhetPage extends WebPage {
     protected void onBeforeRender() {
         super.onBeforeRender();
         renderStart = System.currentTimeMillis();
-        logger.debug( "Debug: page stateless = " + isPageStateless() );
         logger.info( "Pre-render: " + ( renderStart - initStart ) + " ms" );
+        logger.debug( "Debug: page stateless = " + isPageStateless() );
     }
 
     @Override

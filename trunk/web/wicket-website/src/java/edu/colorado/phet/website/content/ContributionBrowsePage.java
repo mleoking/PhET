@@ -24,6 +24,8 @@ public class ContributionBrowsePage extends PhetRegularPage {
     public ContributionBrowsePage( PageParameters parameters ) {
         super( parameters );
 
+        logger.debug( System.currentTimeMillis() + " start" );
+
 //        if ( category == null && parameters.containsKey( "categories" ) ) {
 //            // didn't find the category
 //            throw new RestartResponseAtInterceptPageException( NotFoundPage.class );
@@ -37,6 +39,8 @@ public class ContributionBrowsePage extends PhetRegularPage {
         // TODO: for now, only showing all contributions
         final List<Contribution> contributions = new LinkedList<Contribution>();
 
+        logger.debug( System.currentTimeMillis() + " A" );
+
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
                 List list = session.createQuery( "select c from Contribution as c" ).list();
@@ -47,7 +51,13 @@ public class ContributionBrowsePage extends PhetRegularPage {
             }
         } );
 
+        logger.debug( System.currentTimeMillis() + " B" );
+
         add( new ContributionBrowsePanel( "contribution-browse-panel", getPageContext(), contributions ) );
+
+        logger.debug( System.currentTimeMillis() + " finish init" );
+
+        logger.debug( "stack trace: ", new Exception() );
 
     }
 

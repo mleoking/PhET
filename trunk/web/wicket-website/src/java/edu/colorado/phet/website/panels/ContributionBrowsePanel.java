@@ -11,6 +11,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
@@ -31,8 +32,12 @@ public class ContributionBrowsePanel extends PhetPanel {
 
     private final List<Contribution> newContributions;
 
+    private static Logger logger = Logger.getLogger( ContributionBrowsePanel.class.getName() );
+
     public ContributionBrowsePanel( String id, final PageContext context, final List<Contribution> contributions ) {
         super( id, context );
+
+        logger.debug( System.currentTimeMillis() + " start" );
 
         add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
 
@@ -61,6 +66,8 @@ public class ContributionBrowsePanel extends PhetPanel {
             }
         } );
 
+        logger.debug( System.currentTimeMillis() + " A" );
+
         // TODO: localize
 
         final DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, getLocale() );
@@ -70,6 +77,8 @@ public class ContributionBrowsePanel extends PhetPanel {
                 return a.displayCompareTo( b, getLocale() );
             }
         } );
+
+        logger.debug( System.currentTimeMillis() + " B" );
 
         add( new ListView( "contributions", contributions ) {
             protected void populateItem( ListItem item ) {
@@ -125,6 +134,8 @@ public class ContributionBrowsePanel extends PhetPanel {
                 item.add( new Label( "contribution-updated", format.format( contribution.getDateUpdated() ) ) );
             }
         } );
+
+        logger.debug( System.currentTimeMillis() + " finish init" );
 
     }
 
