@@ -148,6 +148,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	 * Reset the model, which will remove all model elements.
 	 */
 	public void reset(){
+		
 	    removeElementsFromModel(lacIList);
 	    removeElementsFromModel(lacZList);
 	    removeElementsFromModel(glucoseList);
@@ -751,10 +752,11 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     }
     
     private void removeElementsFromModel(ArrayList<? extends IModelElement>elements){
-    	for (IModelElement element : elements){
+    	ArrayList<? extends IModelElement>elementsToRemove = new ArrayList<IModelElement>(elements);
+    	for (IModelElement element : elementsToRemove){
+    		elements.remove(element);
    			element.removeFromModel();
     	}
-    	elements.clear();
     }
     
     //------------------------------------------------------------------------
