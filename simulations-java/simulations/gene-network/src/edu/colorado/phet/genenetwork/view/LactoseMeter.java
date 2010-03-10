@@ -16,12 +16,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
+import edu.colorado.phet.genenetwork.model.Galactose;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.Glucose;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
@@ -45,13 +46,14 @@ public class LactoseMeter extends PhetPNode {
 	private static final Dimension2D size = new PDimension(80, 230);
 	private static final PhetFont LABEL_FONT = new PhetFont(14, true);
 	private static final Color MAIN_BACKGROUND_COLOR = new Color(255, 255, 204);
+
 	private static float OUTLINE_STROKE_WIDTH = 1f;
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(OUTLINE_STROKE_WIDTH);
 	private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
 	private static final Color BAR_BACKGROUND_COLOR = Color.BLACK;
 	private static final Color BAR_COLOR = Color.ORANGE;
 	private static final double BAR_WIDTH_PROPORTION = 0.85;
-	private static final double BAR_HEIGHT_PROPORTION = 0.6;
+	private static final double BAR_HEIGHT_PROPORTION = 0.55;
 	private static final double MAX_VALUE = 50;
 	
     //------------------------------------------------------------------------
@@ -130,6 +132,15 @@ public class LactoseMeter extends PhetPNode {
 		barBackground.setOffset(edgeOffset, closePSwing.getFullBoundsReference().getMaxY() + edgeOffset / 2);
 		addChild(barBackground);
 		
+		// Create a molecule of lactose to show near the label.
+		double mvtSizeFactor = size.getHeight() / 40; // Empirically determined, tweak as needed.
+		ModelViewTransform2D mvt = new ModelViewTransform2D(new Rectangle2D.Double(-1, -1, 2, 2),
+				new Rectangle2D.Double(-mvtSizeFactor, -mvtSizeFactor, mvtSizeFactor * 2, mvtSizeFactor * 2), true );
+		PNode lactoseNode = createLactoseNode(mvt);
+		lactoseNode.setOffset(size.getWidth() / 2, 
+				barBackground.getFullBoundsReference().getMaxY() + lactoseNode.getFullBoundsReference().height / 2 + edgeOffset);
+		addChild(lactoseNode);
+		
 		// Create the label.
 		label = new HTMLNode(GeneNetworkStrings.LACTOSE_METER_CAPTION, Color.BLACK, LABEL_FONT);
 		addChild(label);
@@ -138,9 +149,9 @@ public class LactoseMeter extends PhetPNode {
 		// below the bar.
 		Rectangle2D labelAreaRect = new Rectangle2D.Double(
 				edgeOffset,
-				barBackground.getFullBoundsReference().getMaxY() + edgeOffset,
+				lactoseNode.getFullBoundsReference().getMaxY(),
 				size.getWidth() - 2 * edgeOffset,
-				size.getHeight() - barBackground.getFullBoundsReference().getMaxY() - 2 * edgeOffset);
+				size.getHeight() - lactoseNode.getFullBoundsReference().getMaxY() - edgeOffset);
 		
 		// Scale the label to fit.
 		double scale = Math.min(labelAreaRect.getWidth() / label.getWidth(),
@@ -183,6 +194,7 @@ public class LactoseMeter extends PhetPNode {
 
 	private void updateBarSize(){
 		double barHeight;
+
 		if (model.getGlucoseList().size() > MAX_VALUE){
 			barHeight = maxBarHeight;
 			overflowText.setVisible(true);
@@ -202,4 +214,25 @@ public class LactoseMeter extends PhetPNode {
 	private void updateVisibility(){
 		setVisible(model.isLactoseMeterVisible());
 	}
+	
+    /**
+     * Generate an image of Lactose.  This is necessary because Lactose exists
+     * as a combination of two simple model elements in the model, so there is
+     * no model element that can be created easily as can be done for the
+     * simple model elements.
+     */
+    private PNode createLactoseNode(ModelViewTransform2D mvt){
+    	PNode lactoseNode = new PNode();
+    	PNode glucoseNode = new SimpleModelElementNode(new Glucose(), mvt, false);
+    	glucoseNode.setOffset(-glucoseNode.getFullBoundsReference().width / 2, 0);
+    	lactoseNode.addChild(glucoseNode);
+    	PNode galactoseNode = new SimpleModelElementNode(new Galactose(), mvt, false);
+    	galactoseNode.setOffset(galactoseNode.getFullBoundsReference().width / 2, 0);
+    	lactoseNode.addChild(galactoseNode);
+    	lactoseNode.setPickable(false);
+    	lactoseNode.setChildrenPickable(false);
+    	return lactoseNode;
+    }
+
+
 }
