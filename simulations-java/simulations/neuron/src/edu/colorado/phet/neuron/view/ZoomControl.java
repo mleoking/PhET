@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -31,13 +32,16 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ZoomControl extends PNode {
 
-	private static final boolean SHOW_OUTLINE = true; // Generally used for debug.
+	private static final boolean SHOW_OUTLINE = false; // Generally used for debug.
 	private static final Stroke STROKE = new BasicStroke(1f);
 	private static final Color FILL_COLOR = Color.WHITE;
 	private static final Color STROKE_COLOR = Color.BLACK;
 	private static final Font SYMBOL_FONT = new PhetFont(14, true);
 	private static final Color SYMBOL_COLOR = Color.BLUE;
-	private static final double SLIDER_TRACK_WIDTH_PROPORTION = 0.2;
+	private static final double SLIDER_TRACK_WIDTH_PROPORTION = 0.25;
+	private static final int NUM_TICK_MARKS_ON_TRACK = 10;
+	private static final Stroke TICK_MARK_STROKE = new BasicStroke(1f);
+	private static final Color TICK_MARK_COLOR = Color.LIGHT_GRAY;
 	
 	private double minZoom, maxZoom;
 	private double buttonZoomAmt;
@@ -74,10 +78,19 @@ public class ZoomControl extends PNode {
 		
 		// Add the slider track.
 		double sliderTrackWidth = size.getWidth() * SLIDER_TRACK_WIDTH_PROPORTION;
-		Shape sliderTrackShape = new Rectangle2D.Double(-sliderTrackWidth / 2, 0, sliderTrackWidth,
-				size.getHeight() - size.getWidth());
+		double sliderTrackHeight = size.getHeight() - 2 * size.getWidth();
+		Shape sliderTrackShape = new Rectangle2D.Double(-sliderTrackWidth / 2, 0, sliderTrackWidth, sliderTrackHeight);
 		sliderTrack = new PhetPPath(sliderTrackShape, FILL_COLOR, STROKE, STROKE_COLOR);
-		sliderTrack.setOffset(size.getWidth() / 2, size.getWidth() / 2);
+		double tickMarkWidth = sliderTrackWidth * 0.25;
+		double interTickMarkVertDistance = sliderTrackHeight / (double)(NUM_TICK_MARKS_ON_TRACK + 1);
+		for (int i = 0; i < NUM_TICK_MARKS_ON_TRACK; i++){
+			PNode tickMark = new PhetPPath(new Line2D.Double(-tickMarkWidth / 2, 0, tickMarkWidth / 2, 0),
+					TICK_MARK_STROKE, TICK_MARK_COLOR) {
+			};
+			tickMark.setOffset(0, (i + 1)*interTickMarkVertDistance);
+			sliderTrack.addChild(tickMark);
+		}
+		sliderTrack.setOffset(size.getWidth() / 2, size.getWidth());
 		addChild(sliderTrack);
 		
 		// Add the slider knob.
@@ -135,7 +148,7 @@ public class ZoomControl extends PNode {
 		zoomInLabel.setOffset(size.getWidth() / 2 - zoomInLabel.getFullBoundsReference().width / 2, 
 				size.getWidth() / 2 - zoomInLabel.getFullBoundsReference().height / 2);
 		zoomInButton.addChild(zoomInLabel);
-		addChild(zoomInButton);
+//		addChild(zoomInButton);
 		
 		zoomOutButton = new PhetPPath(zoomButtonShape, FILL_COLOR, STROKE, STROKE_COLOR);
 		zoomOutButton.setOffset(0, size.getHeight() - zoomOutButton.getBoundsReference().getHeight());
@@ -161,7 +174,7 @@ public class ZoomControl extends PNode {
 		zoomOutLabel.setOffset(size.getWidth() / 2 - zoomOutLabel.getFullBoundsReference().width / 2, 
 				size.getWidth() / 2 - zoomOutLabel.getFullBoundsReference().height / 2);
 		zoomOutButton.addChild(zoomOutLabel);
-		addChild(zoomOutButton);
+//		addChild(zoomOutButton);
 		
 		// Initialize slider knob position.
 		updateSliderKnobPosition();
