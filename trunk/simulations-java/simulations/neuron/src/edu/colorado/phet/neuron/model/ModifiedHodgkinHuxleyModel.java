@@ -280,7 +280,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 
     		// New values tried by NP 3/10/10
 		n4 = 0.35 * Math.exp( -1 / 1.0 * Math.pow(timeSinceActionPotential - 2.0, 2));
-    		m3h = 0.278 * Math.exp( -1 / 0.1 * Math.pow(timeSinceActionPotential - 0.5, 2));
+    		m3h = 0.278 * Math.exp( -1 / 0.3 * Math.pow(timeSinceActionPotential - 1.0, 2));
 
     		na_current = gna * m3h * (v-vna);
     		k_current = gk * n4 * (v-vk);
