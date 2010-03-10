@@ -14,10 +14,7 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-import edu.colorado.phet.buildtools.BuildToolsPaths;
-import edu.colorado.phet.buildtools.MyAntTaskRunner;
-import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.Simulation;
+import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -230,6 +227,14 @@ public abstract class JavaProject extends PhetProject {
         File file = new File( getAntOutputDir(), "jars/" + getJarName() );
         file.getParentFile().mkdirs();
         return file;
+    }
+
+    public String getJavaSourceVersion() {
+        return BuildToolsConstants.SIM_JAVA_VERSION;
+    }
+
+    public String getJavaTargetVersion() {
+        return BuildToolsConstants.SIM_JAVA_VERSION;
     }
 
 }
