@@ -259,6 +259,8 @@ class TroubleshootingPage extends SitePage {
 
             <p>The PhET simulations have been written so that they are easily translated to languages other than English. Please <a href="{$this->prefix}contribute/index.php">click here</a> for more information.</p>
 
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
+
             <h3 id="q12" >I have downloaded and installed the {$installer_anchor}, and I get a warning on every page. Why?</h3>
 
 	    <p>The {$installer_anchor} creates a local copy of the current version of the PhET website on your computer.  When you access this locally installed copy, your computer will use your default browser, which for many people is Internet Explorer.  If the security settings are set to their default values, you may get an error that says <em>"To help protect your security, Internet Explorer has restricted this webpage from running scripts or ActiveX controls that could access your computer.  Click here for options..."</em> (or something similar).  This is a security feature of Internet Explorer version 6 and later, and is meant to warn users about running active content locally.  The PhET simulations present no danger to your computer, and running them locally is no different than running them from the web site.</p>
@@ -266,6 +268,8 @@ class TroubleshootingPage extends SitePage {
 	    <p>If you wish to disable this warning, you can do so by adjusting your browser's security settings.  For IE versions 6 and 7, the way to do this is to go into Tools->Internet Options->Advanced, find the "Security" heading, and check "Allow active content to run in files on My Computer".  Note that you will need to restart Internet Explorer to get this change to take effect.  You should only do this if feel confident that there is no other off-line content that you may run on your computer that could be malicious.</p>
 
             <p>Alternatively, you could use a different browser (such as Firefox) that does not have this issue.</p>
+
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q13" >When I run simulations from the {$installer_name}, I am seeing a dialog that says "The application's digital signature has been verified.  Do you want to run the application?" (or something similar).  What does this mean?</h3>
             <p>The PhET simulations that are distributed with the installer include a "digital certificate" that verifies that these simulations were actually created by PhET.  This is a security measure that helps to prevent an unscrupulous individual from creating applications that claim to be produced by PhET but are not.  If the certificate acceptance dialog says that the publisher is "PhET, University of Colorado", and the dialog also says that the signature was validated by a trusted source, you can have a high degree of confidence that the application was produced by the PhET team.</p>
