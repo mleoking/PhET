@@ -62,7 +62,8 @@ public class PhetRequestCycle extends WebRequestCycle {
     }
 
     public String getUserAgent() {
-        return ( (WebClientInfo) getClientInfo() ).getUserAgent();
+        String userAgent = ( (WebClientInfo) getClientInfo() ).getUserAgent();
+        return userAgent == null ? "" : userAgent;
     }
 
     public boolean isInstaller() {
