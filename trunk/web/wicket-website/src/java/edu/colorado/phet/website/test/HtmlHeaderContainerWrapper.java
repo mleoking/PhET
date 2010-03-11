@@ -3,111 +3,64 @@ package edu.colorado.phet.website.test;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.ServletContext;
-
 import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
+import org.apache.wicket.Session;
 import org.apache.wicket.behavior.IBehavior;
-import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
-import org.apache.wicket.markup.html.HeaderPartContainer;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.internal.HtmlHeaderContainer;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.IModelComparator;
 import org.apache.wicket.util.convert.IConverter;
-import org.hibernate.Session;
 
-import edu.colorado.phet.website.menu.NavMenu;
-import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.PhetRequestCycle;
+public class HtmlHeaderContainerWrapper extends HtmlHeaderContainer {
 
-public class CacheTestPanel extends PhetPanel {
+    private HtmlHeaderContainer host;
 
-    private static Logger logger = Logger.getLogger( CacheTestPanel.class.getName() );
+    private static Logger logger = Logger.getLogger( HtmlHeaderContainerWrapper.class.getName() );
 
-    public CacheTestPanel( String id, PageContext context ) {
-        super( id, context );
-        logger.debug( "*(after) public CacheTestPanel( String id, PageContext context )" );
+    public HtmlHeaderContainerWrapper( HtmlHeaderContainer host ) {
+        super( host.getId() );
 
-        add( HeaderContributor.forCss( "/css/sponsors-v1.css" ) );
+        this.host = host;
     }
 
     @Override
-    public Locale getMyLocale() {
-        logger.debug( "* public Locale getMyLocale()" );
-        return super.getMyLocale();
+    protected boolean renderOpenAndCloseTags() {
+        logger.debug( "* protected boolean renderOpenAndCloseTags()" );
+        return super.renderOpenAndCloseTags();
     }
 
     @Override
-    public Session getHibernateSession() {
-        logger.debug( "* public Session getHibernateSession()" );
-        return super.getHibernateSession();
+    public boolean isTransparentResolver() {
+        logger.debug( "* public boolean isTransparentResolver()" );
+        return super.isTransparentResolver();
     }
 
     @Override
-    public NavMenu getNavMenu() {
-        logger.debug( "* public NavMenu getNavMenu()" );
-        return super.getNavMenu();
+    protected void onDetach() {
+        logger.debug( "* protected void onDetach()" );
+        super.onDetach();
     }
 
     @Override
-    public Locale getLocale() {
-        Locale ret = super.getLocale();
-        logger.debug( "* public Locale getLocale(): " + ret.toString() );
-        return ret;
+    protected IHeaderResponse newHeaderResponse() {
+        logger.debug( "* protected IHeaderResponse newHeaderResponse()" );
+        return super.newHeaderResponse();
     }
 
     @Override
-    public PhetRequestCycle getPhetCycle() {
-        logger.debug( "* public PhetRequestCycle getPhetCycle()" );
-        return super.getPhetCycle();
-    }
-
-    @Override
-    public PhetLocalizer getPhetLocalizer() {
-        logger.debug( "* public PhetLocalizer getPhetLocalizer()" );
-        return super.getPhetLocalizer();
-    }
-
-    @Override
-    public ServletContext getServletContext() {
-        logger.debug( "* public ServletContext getServletContext()" );
-        return super.getServletContext();
-    }
-
-    @Override
-    protected void onComponentTag( ComponentTag tag ) {
-        logger.debug( "* protected void onComponentTag( ComponentTag tag )" );
-        super.onComponentTag( tag );
-    }
-
-    @Override
-    protected void onComponentTagBody( MarkupStream markupStream, ComponentTag openTag ) {
-        logger.debug( "* protected void onComponentTagBody( MarkupStream markupStream, ComponentTag openTag )" );
-        super.onComponentTagBody( markupStream, openTag );
-    }
-
-    @Override
-    public void renderHead( HtmlHeaderContainer container ) {
-        logger.debug( "* public void renderHead( HtmlHeaderContainer container )" );
-        HtmlHeaderContainerWrapper wrapper = new HtmlHeaderContainerWrapper( container );
-        super.renderHead( wrapper );
-    }
-
-    @Override
-    public HeaderPartContainer newHeaderPartContainer( String id, String scope ) {
-        logger.debug( "* public HeaderPartContainer newHeaderPartContainer( String id, String scope )" );
-        return super.newHeaderPartContainer( id, scope );
+    public IHeaderResponse getHeaderResponse() {
+        logger.debug( "* public IHeaderResponse getHeaderResponse()" );
+        return super.getHeaderResponse();
     }
 
     @Override
     public String getMarkupType() {
-        String ret = super.getMarkupType();
-        logger.debug( "* public String getMarkupType(): " + ret );
-        return ret;
+        logger.debug( "* public String getMarkupType()" );
+        return super.getMarkupType();
     }
 
     @Override
@@ -120,12 +73,6 @@ public class CacheTestPanel extends PhetPanel {
     public void internalAdd( Component child ) {
         logger.debug( "* public void internalAdd( Component child )" );
         super.internalAdd( child );
-    }
-
-    @Override
-    public boolean isTransparentResolver() {
-        logger.debug( "* public boolean isTransparentResolver()" );
-        return super.isTransparentResolver();
     }
 
     @Override
@@ -190,8 +137,14 @@ public class CacheTestPanel extends PhetPanel {
 
     @Override
     public String getId() {
-        //logger.debug( "* public String getId()" );
+        logger.debug( "* public String getId()" );
         return super.getId();
+    }
+
+    @Override
+    public Locale getLocale() {
+        logger.debug( "* public Locale getLocale()" );
+        return super.getLocale();
     }
 
     @Override
@@ -207,8 +160,8 @@ public class CacheTestPanel extends PhetPanel {
     }
 
     @Override
-    public org.apache.wicket.Session getSession() {
-        logger.debug( "* public org.apache.wicket.Session getSession()" );
+    public Session getSession() {
+        logger.debug( "* public Session getSession()" );
         return super.getSession();
     }
 
@@ -220,9 +173,8 @@ public class CacheTestPanel extends PhetPanel {
 
     @Override
     public String getVariation() {
-        String ret = super.getVariation();
-        logger.debug( "* public String getVariation():" + ret );
-        return ret;
+        logger.debug( "* public String getVariation()" );
+        return super.getVariation();
     }
 
     @Override
@@ -239,15 +191,20 @@ public class CacheTestPanel extends PhetPanel {
 
     @Override
     public boolean isVisible() {
-        boolean ret = super.isVisible();
-        logger.debug( "* public boolean isVisible(): " + ret );
-        return ret;
+        logger.debug( "* public boolean isVisible()" );
+        return super.isVisible();
     }
 
     @Override
     public Component remove( IBehavior behavior ) {
         logger.debug( "* public Component remove( IBehavior behavior )" );
         return super.remove( behavior );
+    }
+
+    @Override
+    public void renderHead( HtmlHeaderContainer container ) {
+        logger.debug( "* public void renderHead( HtmlHeaderContainer container )" );
+        super.renderHead( container );
     }
 
     @Override
@@ -282,12 +239,8 @@ public class CacheTestPanel extends PhetPanel {
 
     @Override
     protected List getBehaviors( Class type ) {
-        List ret = super.getBehaviors( type );
-        logger.debug( "* protected List getBehaviors( Class type ): size " + ret.size() );
-        for ( Object o : ret ) {
-            logger.debug( "  " + o );
-        }
-        return ret;
+        logger.debug( "* protected List getBehaviors( Class type )" );
+        return super.getBehaviors( type );
     }
 
     @Override
@@ -345,9 +298,9 @@ public class CacheTestPanel extends PhetPanel {
     }
 
     @Override
-    protected void onDetach() {
-        logger.debug( "* protected void onDetach()" );
-        super.onDetach();
+    protected void onComponentTag( ComponentTag tag ) {
+        logger.debug( "* protected void onComponentTag( ComponentTag tag )" );
+        super.onComponentTag( tag );
     }
 
     @Override
