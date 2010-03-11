@@ -32,6 +32,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel.SandwichReaction;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -105,8 +106,19 @@ public class GameRewardNode extends PhetPNode {
         
         // used for sandwich images
         sandwichShopModel = new SandwichShopModel();
+        if ( RPALConstants.ENABLE_SANDWICH_CHOICES ) {
+            // use the sandwich with the most ingredients
+            SandwichReaction biggestSandwich = null;
+            for ( SandwichReaction reaction : sandwichShopModel.getReactions() ) {
+                if ( biggestSandwich == null || reaction.getNumberOfReactants() > biggestSandwich.getNumberOfReactants() ) {
+                    biggestSandwich = reaction;
+                }
+            }
+            sandwichShopModel.setReaction( biggestSandwich );
+        }
+        // set all reactant coefficients to max
         for ( Reactant reactant : sandwichShopModel.getReaction().getReactants() ) {
-            reactant.setCoefficient( 2 );
+            reactant.setCoefficient( SandwichShopModel.getCoefficientRange().getMax() );
         }
 
         // images list, includes everything by default

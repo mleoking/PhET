@@ -1,3 +1,4 @@
+3/10/10 #2194, if sandwich choices is enabled, use the biggest sandwich for the Game reward
 3/10/10 generalize SandwichImageFactory, make it treat bread specially, but interleave any other types of ingredients
 3/10/10 #2194, add support for multiple types of sandwich to the view
 3/10/10 #2194, add support for multiple types of sandwich to the model
