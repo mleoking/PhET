@@ -48,7 +48,7 @@ public class SandwichChoiceNode extends PhetPNode {
             radioButton.setOpaque( false );
             radioButtons.add( radioButton );
             group.add( radioButton );
-            layout.addComponent( radioButton, row++, column );
+            layout.addComponent( radioButton, row, column++ );
             if ( i == 0 ) {
                 radioButton.setSelected( true );
                 model.setReaction( reaction );
