@@ -8,7 +8,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
@@ -134,7 +133,7 @@ public class SandwichShopCanvas extends RPALCanvas {
         
         // Before box below equation, left justified
         x = equationNode.getFullBoundsReference().getMinX();
-        y = equationNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeNode ) + 30;
+        y = 180; // use a constant, the height of the equation changes based on sandwich complexity, and we don't want stuff below it to vertically shift
         beforeNode.setOffset( x, y );
         
         // arrow to the right of Before box, vertically centered with box
