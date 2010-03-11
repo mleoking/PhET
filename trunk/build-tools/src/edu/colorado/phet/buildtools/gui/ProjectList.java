@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -86,6 +83,7 @@ public class ProjectList extends JList {
             projects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
             projects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
             projects.add( new StatisticsProject( new File( trunk, BuildToolsPaths.STATISTICS ) ) );
+            projects.add( new WebsiteProject( new File( trunk, BuildToolsPaths.WEBSITE ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -116,7 +114,7 @@ public class ProjectList extends JList {
             while ( elements.hasMoreElements() && element == null ) {
                 ProjectListElement e = (ProjectListElement) elements.nextElement();
                 if ( e.getProject().getName().equals( name ) ) {
-                   element = e;
+                    element = e;
                 }
             }
         }
