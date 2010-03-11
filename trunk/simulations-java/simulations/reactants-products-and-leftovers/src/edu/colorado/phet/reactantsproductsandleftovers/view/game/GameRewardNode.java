@@ -106,16 +106,14 @@ public class GameRewardNode extends PhetPNode {
         
         // used for sandwich images
         sandwichShopModel = new SandwichShopModel();
-        if ( RPALConstants.ENABLE_SANDWICH_CHOICES ) {
-            // use the sandwich with the most ingredients
-            SandwichReaction biggestSandwich = null;
-            for ( SandwichReaction reaction : sandwichShopModel.getReactions() ) {
-                if ( biggestSandwich == null || reaction.getNumberOfReactants() > biggestSandwich.getNumberOfReactants() ) {
-                    biggestSandwich = reaction;
-                }
+        // select the sandwich with the most ingredients
+        SandwichReaction biggestSandwich = null;
+        for ( SandwichReaction reaction : sandwichShopModel.getReactions() ) {
+            if ( biggestSandwich == null || reaction.getNumberOfReactants() > biggestSandwich.getNumberOfReactants() ) {
+                biggestSandwich = reaction;
             }
-            sandwichShopModel.setReaction( biggestSandwich );
         }
+        sandwichShopModel.setReaction( biggestSandwich );
         // set all reactant coefficients to max
         for ( Reactant reactant : sandwichShopModel.getReaction().getReactants() ) {
             reactant.setCoefficient( SandwichShopModel.getCoefficientRange().getMax() );

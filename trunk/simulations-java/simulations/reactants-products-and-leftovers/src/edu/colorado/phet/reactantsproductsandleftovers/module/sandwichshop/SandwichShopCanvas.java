@@ -7,16 +7,12 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichEquationNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichShopAfterNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichShopBeforeNode;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -33,7 +29,6 @@ public class SandwichShopCanvas extends RPALCanvas {
     
     // these nodes are final, allocated once
     private final SandwichChoiceNode sandwichChoiceNode;
-    private final PText equationLabelNode;
     private final RightArrowNode arrowNode;
     private final PSwing resetAllButtonWrapper;
 
@@ -49,16 +44,7 @@ public class SandwichShopCanvas extends RPALCanvas {
         
         sandwichChoiceNode = new SandwichChoiceNode( model );
         sandwichChoiceNode.scale( 1.25 );
-        
-        equationLabelNode = new PText(  RPALStrings.LABEL_SANDWICH_EQUATION );
-        equationLabelNode.setFont( new PhetFont( 24 ) );
-        
-        if ( RPALConstants.ENABLE_SANDWICH_CHOICES ) {
-            addChild( sandwichChoiceNode );
-        }
-        else {
-            addChild( equationLabelNode );
-        }
+        addChild( sandwichChoiceNode );
         
         equationNode = new SandwichEquationNode( model );
         addChild( equationNode );
@@ -123,12 +109,11 @@ public class SandwichShopCanvas extends RPALCanvas {
         
         double x = 0;
         double y = 0;
-        PNode originNode = ( RPALConstants.ENABLE_SANDWICH_CHOICES ) ? sandwichChoiceNode : equationLabelNode;
-        originNode.setOffset( x, y );
+        sandwichChoiceNode.setOffset( x, y );
         
         // equation below choices, left justified
-        x = originNode.getFullBoundsReference().getMinX();
-        y = originNode.getFullBoundsReference().getMaxY() + 20;
+        x = sandwichChoiceNode.getFullBoundsReference().getMinX();
+        y = sandwichChoiceNode.getFullBoundsReference().getMaxY() + 20;
         equationNode.setOffset( x, y );
         
         // Before box below equation, left justified

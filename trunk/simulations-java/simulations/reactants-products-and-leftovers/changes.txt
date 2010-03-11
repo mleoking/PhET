@@ -1,10 +1,10 @@
-# 0.00.38 (39259) Mar 11, 2010
 3/11/10 1.0-rc1 (first release candidate for version 1.0)
-3/10/10 remove flag for making sandwich coefficients read-only, we're keeping them editable (r39256)
-3/10/10 remove flag for hiding histogram bars, we're keeping them (r39255)
-3/10/10 fix initial position of product & leftover brackets, don't assume coefficients are zero
-3/10/10 fix problem with layout shifting vertically when height of SandwichEquationNode is different
-3/10/10 simplify the ChemicalReaction model, remove some redundant code for the "no reaction" case
+3/11/10 #2194, remove flag for sandwich choices feature, we're including this
+3/11/10 remove flag for making sandwich coefficients read-only, we're keeping them editable (r39256)
+3/11/10 remove flag for hiding histogram bars, we're keeping them (r39255)
+3/11/10 fix initial position of product & leftover brackets, don't assume coefficients are zero
+3/11/10 fix problem with layout shifting vertically when height of SandwichEquationNode is different
+3/11/10 simplify the ChemicalReaction model, remove some redundant code for the "no reaction" case
 3/10/10 #2194, enable sandwich choices feature for possible inclusion in 1.0
 3/10/10 #2194, if sandwich choices is enabled, use the biggest sandwich for the Game reward
 3/10/10 generalize SandwichImageFactory, make it treat bread specially, but interleave any other types of ingredients
@@ -17,7 +17,7 @@
 3/8/10 restore meat in sandwich
 # 0.00.37 (39169) Mar 8, 2010
 3/8/10 dev version of "bread + cheese -> sandwich" with fixed coefficients
-3/8/10 add flag to RPALConstants to determine whether sandwich contains meat
+3/8/10 add flag to RPALConstants to determine whether sandwich contains meatRPAL
 3/8/10 add flag to RPALConstants to determine whether sandwich coefficients are editable
 3/8/10 move flag to RPALConstants to determine whether histogram bars are visible
 3/5/10 checkin lastest version of design doc from Google Docs
