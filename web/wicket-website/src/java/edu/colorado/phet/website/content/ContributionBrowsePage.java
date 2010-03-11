@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.panels.ContributionBrowsePanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
@@ -43,10 +45,22 @@ public class ContributionBrowsePage extends PhetRegularPage {
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
-                List list = session.createQuery( "select c from Contribution as c" ).list();
+                logger.debug( "V" );
+                List list = session.createCriteria( Contribution.class )
+                        .setFetchMode( "levels", FetchMode.JOIN )
+                        .setFetchMode( "types", FetchMode.JOIN )
+                        .setFetchMode( "simulations", FetchMode.JOIN )
+                        .list();
+                logger.debug( "W" );
                 for ( Object o : list ) {
                     contributions.add( (Contribution) o );
                 }
+
+                // preload localized simulations for each simulation
+                logger.debug( "X" );
+                List unusedList = session.createCriteria( Simulation.class ).setFetchMode( "localizedSimulations", FetchMode.JOIN ).list();
+                logger.debug( "Y" );
+
                 return true;
             }
         } );
@@ -57,7 +71,7 @@ public class ContributionBrowsePage extends PhetRegularPage {
 
         logger.debug( System.currentTimeMillis() + " finish init" );
 
-        logger.debug( "stack trace: ", new Exception() );
+        //logger.debug( "stack trace: ", new Exception() );
 
     }
 
