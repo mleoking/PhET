@@ -4,7 +4,10 @@ package edu.colorado.phet.reactantsproductsandleftovers.view.sandwich;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Molecule.Bread;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -34,53 +37,54 @@ public class SandwichImageFactory {
         else {
             PNode parent = new PNode();
 
-            // create nodes
-            ArrayList<PImage> breadNodes = new ArrayList<PImage>();
-            for ( int i = 0; model.getBread() != null && i < model.getBread().getCoefficient(); i++ ) {
-                breadNodes.add( new PImage( model.getBread().getImage() ) );
+            // create a list of images for each reactant
+            HashMap<Class<?>,ArrayList<PImage>> map = new HashMap<Class<?>,ArrayList<PImage>>();
+            for ( Reactant reactant : model.getReaction().getReactants() ) {
+                Class<?> moleculeClass = reactant.getMolecule().getClass();
+                assert( map.get( moleculeClass ) == null );
+                ArrayList<PImage> list = new ArrayList<PImage>();
+                map.put( moleculeClass, list );
+                for ( int i = 0; i < reactant.getCoefficient(); i++ ) {
+                    list.add( new PImage( reactant.getImage() ) );
+                }
             }
-            ArrayList<PImage> meatNodes = new ArrayList<PImage>();
-            for ( int i = 0; model.getMeat() != null && i < model.getMeat().getCoefficient(); i++ ) {
-                meatNodes.add( new PImage( model.getMeat().getImage() ) );
-            }
-            ArrayList<PImage> cheeseNodes = new ArrayList<PImage>();
-            for ( int i = 0; model.getCheese() != null && i < model.getCheese().getCoefficient(); i++ ) {
-                cheeseNodes.add( new PImage( model.getCheese().getImage() ) );
-            }
-
+            
             // save one piece of bread for the top
+            ArrayList<PImage> breadList = map.get( Bread.class );
             PImage topBreadNode = null;
-            if ( breadNodes.size() > 1 ) {
-                topBreadNode = breadNodes.remove( 0 );
+            if ( breadList.size() > 1 ) {
+                topBreadNode = breadList.remove( 0 );
             }
 
-            // stack ingredients, starting with bread, alternating ingredients
+            // stack ingredients, starting with bread, alternating other ingredients
+            boolean imageAdded = true;
             PNode previousNode = null;
-            int max = Math.max( breadNodes.size(), Math.max( meatNodes.size(), cheeseNodes.size() ) );
-            for ( int i = 0; i < max; i++ ) {
-                // bread
-                if ( breadNodes.size() > 0 ) {
-                    PNode node = breadNodes.remove( 0 );
+            while ( imageAdded ) { 
+                
+                imageAdded = false;
+                
+                // one slide of bread first...
+                if ( breadList.size() > 0 ) {
+                    PNode node = breadList.remove( 0 );
                     parent.addChild( node );
                     stackNode( node, previousNode );
                     previousNode = node;
+                    imageAdded = true;
                 }
-                // meat
-                if ( meatNodes.size() > 0 ) {
-                    PNode node = meatNodes.remove( 0 );
-                    parent.addChild( node );
-                    stackNode( node, previousNode );
-                    previousNode = node;
-                }
-                // cheese
-                if ( cheeseNodes.size() > 0 ) {
-                    PNode node = cheeseNodes.remove( 0 );
-                    parent.addChild( node );
-                    stackNode( node, previousNode );
-                    previousNode = node;
+                
+                // ...then one of each other ingredient
+                for ( Class<?> moleculeClass : map.keySet() ) {
+                    ArrayList<PImage> list = map.get( moleculeClass );
+                    if ( list != breadList && list.size() > 0 ) {
+                        PNode node = list.remove( 0 );
+                        parent.addChild( node );
+                        stackNode( node, previousNode );
+                        previousNode = node;
+                        imageAdded = true;
+                    }
                 }
             }
-
+            
             // top bread
             if ( topBreadNode != null ) {
                 parent.addChild( topBreadNode );
