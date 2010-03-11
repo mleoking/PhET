@@ -1,4 +1,4 @@
-3/10/10 remove flag for making sandwich coefficients read-only, we're keeping them editable
+3/10/10 remove flag for making sandwich coefficients read-only, we're keeping them editable (r39256)
 3/10/10 remove flag for hiding histogram bars, we're keeping them (r39255)
 3/10/10 fix initial position of product & leftover brackets, don't assume coefficients are zero
 3/10/10 fix problem with layout shifting vertically when height of SandwichEquationNode is different
