@@ -126,7 +126,7 @@ public class ChemicalReaction {
     }
     
     /*
-     * Gets the number of reactions we have, based on the reaction cofficients and reactant quantities.
+     * Gets the number of reactions we have, based on the coefficients and reactant quantities.
      */
     private int getNumReactions() {
         int numReactions = 0;
