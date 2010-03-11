@@ -1,3 +1,4 @@
+3/10/10 fix initial position of product & leftover brackets, don't assume coefficients are zero
 3/10/10 fix problem with layout shifting vertically when height of SandwichEquationNode is different
 3/10/10 simplify the ChemicalReaction model, remove some redundant code for the "no reaction" case
 3/10/10 #2194, enable sandwich choices feature for possible inclusion in 1.0

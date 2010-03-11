@@ -5,7 +5,6 @@ DEADLINES
 - Friday 3/19/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
-- initial position of product & leftover brackets assumes zero coefficients, no longer the case 
 
 MEDIUM PRIORITY
 - write description of model, check into doc/model.txt (see ChemicalReaction.getNumReactions and updateReaction)
