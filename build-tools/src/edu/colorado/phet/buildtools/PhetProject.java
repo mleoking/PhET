@@ -182,7 +182,7 @@ public abstract class PhetProject {
      */
     private PhetProject toProject( File file ) {
         try {
-            if ( file.equals( new BuildToolsProject( new File( getTrunk(), BuildToolsPaths.BUILD_TOOLS_DIR ) ) ) ) {
+            if ( file.equals( new File( getTrunk(), BuildToolsPaths.BUILD_TOOLS_DIR ) ) ) {
                 return new BuildToolsProject( new File( getTrunk(), BuildToolsPaths.BUILD_TOOLS_DIR ) );
             }
             else {
@@ -225,6 +225,10 @@ public abstract class PhetProject {
     }
 
     private File searchPath( String token ) {
+        File baseProject = new File( getTrunk(), token );
+        if ( baseProject.exists() && isProject( baseProject ) ) {
+            return baseProject;
+        }
         File commonProject = new File( getTrunk(), BuildToolsPaths.JAVA_COMMON + "/" + token );
         if ( commonProject.exists() && isProject( commonProject ) ) {
             return commonProject;

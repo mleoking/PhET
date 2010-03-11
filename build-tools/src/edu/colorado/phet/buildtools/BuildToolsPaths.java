@@ -83,6 +83,11 @@ public class BuildToolsPaths {
 
     public static final String STATISTICS = "statistics";
 
+    //----------------------------------------------------------------------------
+    // website
+    //----------------------------------------------------------------------------
+
+    public static final String WEBSITE = "web/wicket-website";
 
     //----------------------------------------------------------------------------
     // util
