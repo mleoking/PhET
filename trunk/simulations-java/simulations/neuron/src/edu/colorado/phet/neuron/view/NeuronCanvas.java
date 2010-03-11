@@ -77,6 +77,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     
     // Layers for the canvas.
     private PNode particleLayer;
+    private PNode axonBodyLayer;
     private PNode axonCrossSectionLayer;
     private PNode channelLayer;
     private PNode channelEdgeLayer;
@@ -143,11 +144,13 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         addWorldChild(myWorldNode);
 
         // Create the layers in the desired order.
+        axonBodyLayer = new PNode();
         axonCrossSectionLayer = new PNode();
         particleLayer = new PNode();
         channelLayer = new PNode();
         channelEdgeLayer = new PNode();
 
+        myWorldNode.addChild(axonBodyLayer);
         myWorldNode.addChild(axonCrossSectionLayer);
         myWorldNode.addChild(channelLayer);
         myWorldNode.addChild(particleLayer);
@@ -171,8 +174,10 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         });
         
         // Add the axon cross section.
-        AxonMembraneNode axonMembraneNode = new AxonMembraneNode(model.getAxonMembrane(), mvt);
-        axonCrossSectionLayer.addChild(axonMembraneNode);
+        AxonBodyNode axonBodyNode = new AxonBodyNode(model.getAxonMembrane(), mvt);
+        axonBodyLayer.addChild(axonBodyNode);
+        AxonCrossSectionNode axonCrossSectionNode = new AxonCrossSectionNode(model.getAxonMembrane(), mvt);
+        axonCrossSectionLayer.addChild(axonCrossSectionNode);
         
         // Add the particles.
         for (Particle particle : model.getParticles()){
