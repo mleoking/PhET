@@ -54,6 +54,8 @@ public class RPALStrings {
     public static final String RADIO_BUTTON_NOTHING = RPALResources.getString( "radioButton.nothing" );
     public static final String RADIO_BUTTON_MOLECULES = RPALResources.getString( "radioButton.molecules" );
     public static final String RADIO_BUTTON_NUMBERS = RPALResources.getString( "radioButton.numbers" );
+    public static final String RADIO_BUTTON_CHEESE_SANDWICH = RPALResources.getString( "radioButton.cheeseSandwich" );
+    public static final String RADIO_BUTTON_MEAT_CHEESE_SANDWICH = RPALResources.getString( "radioButton.meatCheeseSandwich" );
     
     // messages 
     public static final String MESSAGE_VALUE_OUT_OF_RANGE = RPALResources.getString( "message.valueOutOfRange" );

@@ -60,7 +60,7 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
         this.reaction = model.getReaction();
         
         // title
-        titleNode = new PText( reaction.getName() );
+        titleNode = new PText(  RPALStrings.LABEL_SANDWICH_EQUATION );
         titleNode.setFont( TITLE_FONT );
         addChild( titleNode );
         

@@ -5,7 +5,6 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
 
@@ -16,18 +15,13 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
  */
 public class SandwichShopModule extends PiccoloModule {
     
-    private SandwichShopModel model;
+    private final SandwichShopModel model;
 
     public SandwichShopModule( Frame parentFrame ) {
         super( RPALStrings.TITLE_SANDWICH_SHOP, new RPALClock(), true /* startsPaused */ );
 
         // Model
-        if ( RPALConstants.SANDWICH_COEFFICIENTS_EDITABLE ) {
-            model = new SandwichShopModel( 0, 0, 0 ); // coefficients for bread, cheese, meat
-        }
-        else {
-            model = new SandwichShopModel( 2, 1, 1 ); // coefficients for bread, cheese, meat
-        }
+        model = new SandwichShopModel();
         
         // Canvas
         SandwichShopCanvas canvas = new SandwichShopCanvas( model, this );

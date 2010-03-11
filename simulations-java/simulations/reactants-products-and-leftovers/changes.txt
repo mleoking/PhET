@@ -1,3 +1,4 @@
+3/10/10 #2194, add support for multiple types of sandwich to the model
 3/10/10 delete RPALResearchApplication, associated flavor and strings, since the only difference was the "Hide" feature in Game
 3/10/10 publicly expose "Hide" feature in Game
 3/10/10 change bread+meat+cheese->sandwich to bread+cheese+meat->sandwich, since meat will be added to "bread+cheese->sandwich"

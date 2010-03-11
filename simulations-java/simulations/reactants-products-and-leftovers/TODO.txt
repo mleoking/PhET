@@ -8,6 +8,7 @@ HIGH PRIORITY
 - bread+cheese->sandwich
 - allow choice of two sandwich types (bread+cheese, bread+cheese+meat) in SandwichShopModel (similar to RealReactionModel)
 - add Unfuddle ticket for "choose sandwich type" user interface control
+- generalize SandwichImageFactory, make it treat bread specially, but interleave all other types of ingredients
 
 MEDIUM PRIORITY
 - write description of model, check into doc/model.txt
