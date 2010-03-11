@@ -11,7 +11,6 @@ MEDIUM PRIORITY
 
 LOW PRIORITY
 - audible click in the correctAnswer.wav (appears in sound before optimization)
-- add developer controls for setting up specific Game challenges (expensive, do this only if needed for debugging)
 
 WARTS:
 - Molecule.image is mutable solely for Sandwich, difficult to change this
