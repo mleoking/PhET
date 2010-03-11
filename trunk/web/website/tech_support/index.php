@@ -72,19 +72,21 @@ class TroubleshootingPage extends SitePage {
 
                     <li class="faq"><a href="#q5">Why don't Flash simulations run on my computer?</a></li>
 
-                    <li class="faq"><a href="#q6">What is the ideal screen resolution to run PhET simulations?</a></li>
+                    <li class="faq"><a href="#q6">Sometimes when I try to run a downloaded sim, all I see is a text file, and the sim doesn't launch.</a></li>
 
-                    <li class="faq"><a href="#q7">I have Windows 2000 and can run Flash simulations but the Java based simulations do not work.</a></li>
+                    <li class="faq"><a href="#q7">What is the ideal screen resolution to run PhET simulations?</a></li>
 
-                    <li class="faq"><a href="#q8">Why do PhET simulations run slower on my laptop than on a desktop?</a></li>
+                    <li class="faq"><a href="#q8">I have Windows 2000 and can run Flash simulations but the Java based simulations do not work.</a></li>
 
-                    <li class="faq"><a href="#q9">Why does my computer crash when I run one of the simulations that has sound?</a></li>
+                    <li class="faq"><a href="#q9">Why do PhET simulations run slower on my laptop than on a desktop?</a></li>
 
-                    <li class="faq"><a href="#q10">I would like to translate PhET Simulations into another Language. Can this be easily done?</a></li>
+                    <li class="faq"><a href="#q10">Why does my computer crash when I run one of the simulations that has sound?</a></li>
 
-                    <li class="faq"><a href="#q11">I have downloaded and installed the {$installer_name}, and I get a warning on every page. Why?</a></li>
+                    <li class="faq"><a href="#q11">I would like to translate PhET Simulations into another Language. Can this be easily done?</a></li>
 
-                    <li class="faq"><a href="#q12">When I run simulations from the {$installer_name}, I am seeing a dialog that says "The application's digital signature has been verified.  Do you want to run the application?" (or something similar).  What does this mean?</a></li>
+                    <li class="faq"><a href="#q12">I have downloaded and installed the {$installer_name}, and I get a warning on every page. Why?</a></li>
+
+                    <li class="faq"><a href="#q13">When I run simulations from the {$installer_name}, I am seeing a dialog that says "The application's digital signature has been verified.  Do you want to run the application?" (or something similar).  What does this mean?</a></li>
 
                     <li class="faq"><a href="{$this->prefix}about/licensing.php">What are Licensing requirements?</a></li>
                 </ul>
@@ -178,7 +180,13 @@ class TroubleshootingPage extends SitePage {
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q6" >What is the ideal screen resolution to run PhET simulations?</h3>
+            <h3 id="q6" >Sometimes when I try to run a downloaded sim, all I see is a text file, and the sim doesn't launch.</h3>
+
+            <p>This issue can arise if the file associations on your system are set up such that HTML files are opened by an editor instead of a web browser.  The problem can be corrected by changing the file association setting for HTML files.  Information on how to do this on Windows can be found here: <a href="http://support.microsoft.com/kb/307859">"Microsoft Article on File Associations"</a></p>
+
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
+
+            <h3 id="q7" >What is the ideal screen resolution to run PhET simulations?</h3>
 
             <p>PhET simulations work best at a screen resolution of 1024 x 768 pixels. (Some of them are written so that they cannot be resized.) At lower resolution (e.g. 800 x 600), all the controls may not fit on your screen. At higher resolution (e.g. 1280 x 1024), you may not be able to make the simulation fill the whole screen, or if you do, it may slow down performance. To change your screen resolution, follow the directions below:</p>
 
@@ -210,7 +218,7 @@ class TroubleshootingPage extends SitePage {
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q7" >I have Windows 2000 and can run Flash simulations but the Java based simulations do not work.</h3>
+            <h3 id="q8" >I have Windows 2000 and can run Flash simulations but the Java based simulations do not work.</h3>
 
             <p>Some Windows 2000 systems have been reported to lack part of the necessary Java configuration. These systems will typically start our Flash-based simulations reliably, but will appear to do nothing when launching our Java-based simulations.</p>
 
@@ -233,7 +241,7 @@ class TroubleshootingPage extends SitePage {
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q8" >Why do PhET simulations run slower on my laptop than on a desktop?</h3>
+            <h3 id="q9" >Why do PhET simulations run slower on my laptop than on a desktop?</h3>
 
                 <p>On some laptop computers, simulations may appear to run much slower than anticipated and/or exhibit unexpected graphics problems. This may be due to power management settings that affect how the computer's graphics system runs and can be corrected by either a) changing the computer's power management configuration, or b) using the laptop computer while plugged in to an AC power source.</p>
 
@@ -241,17 +249,17 @@ class TroubleshootingPage extends SitePage {
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q9" >Why does my computer crash when I run one of the simulations that has sound?</h3>
+            <h3 id="q10" >Why does my computer crash when I run one of the simulations that has sound?</h3>
 
             <p>Simulations that use sound can be unstable when run on computers using old device driver software. If you are encountering crashes or other undesirable behavior with any of our simulations that use sound, we advise updating your sound drivers, as this may solve the problem. For assistance with updating your sound drivers, contact your computer vendor or audio hardware manufacturer. Contact us at <a href="mailto:{$phet_help_email}?Subject=Sound%20Issues">{$phet_help_email}</a> if you continue to encounter difficulty. </p>
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q10" >I would like to translate PhET Simulations into another Language. Can this be easily done?</h3>
+            <h3 id="q11" >I would like to translate PhET Simulations into another Language. Can this be easily done?</h3>
 
             <p>The PhET simulations have been written so that they are easily translated to languages other than English. Please <a href="{$this->prefix}contribute/index.php">click here</a> for more information.</p>
 
-            <h3 id="q11" >I have downloaded and installed the {$installer_anchor}, and I get a warning on every page. Why?</h3>
+            <h3 id="q12" >I have downloaded and installed the {$installer_anchor}, and I get a warning on every page. Why?</h3>
 
 	    <p>The {$installer_anchor} creates a local copy of the current version of the PhET website on your computer.  When you access this locally installed copy, your computer will use your default browser, which for many people is Internet Explorer.  If the security settings are set to their default values, you may get an error that says <em>"To help protect your security, Internet Explorer has restricted this webpage from running scripts or ActiveX controls that could access your computer.  Click here for options..."</em> (or something similar).  This is a security feature of Internet Explorer version 6 and later, and is meant to warn users about running active content locally.  The PhET simulations present no danger to your computer, and running them locally is no different than running them from the web site.</p>
 
@@ -259,7 +267,7 @@ class TroubleshootingPage extends SitePage {
 
             <p>Alternatively, you could use a different browser (such as Firefox) that does not have this issue.</p>
 
-            <h3 id="q12" >When I run simulations from the {$installer_name}, I am seeing a dialog that says "The application's digital signature has been verified.  Do you want to run the application?" (or something similar).  What does this mean?</h3>
+            <h3 id="q13" >When I run simulations from the {$installer_name}, I am seeing a dialog that says "The application's digital signature has been verified.  Do you want to run the application?" (or something similar).  What does this mean?</h3>
             <p>The PhET simulations that are distributed with the installer include a "digital certificate" that verifies that these simulations were actually created by PhET.  This is a security measure that helps to prevent an unscrupulous individual from creating applications that claim to be produced by PhET but are not.  If the certificate acceptance dialog says that the publisher is "PhET, University of Colorado", and the dialog also says that the signature was validated by a trusted source, you can have a high degree of confidence that the application was produced by the PhET team.</p>
             <p>On most systems, it is possible to permanently accept the PhET certificate and thereby prevent this dialog from appearing each time a simulation is run locally.  Most Windows and Max OSX systems have a check box on the certificate acceptance dialog that says "Always trust content from this publisher".  Checking this box will configure your system in such a way that the dialog will no longer appear when starting up PhET simulations.</p>
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
