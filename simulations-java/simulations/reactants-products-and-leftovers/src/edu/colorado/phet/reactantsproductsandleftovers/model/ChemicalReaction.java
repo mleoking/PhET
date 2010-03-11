@@ -116,11 +116,11 @@ public class ChemicalReaction {
      */
     private void update() {
         int numReactions = getNumReactions();
-        if ( numReactions > 0 ) {
-            updateReaction( numReactions );
+        for ( Product product : products ) {
+            product.setQuantity( numReactions * product.getCoefficient() );
         }
-        else {
-            updateNoReaction();
+        for ( Reactant reactant : reactants ) {
+            reactant.setLeftovers( reactant.getQuantity() - ( numReactions * reactant.getCoefficient() ) );
         }
         fireStateChanged();
     }
@@ -142,32 +142,6 @@ public class ChemicalReaction {
             numReactions = possibleValues.get( 0 );
         }
         return numReactions;
-    }
-    
-    /*
-     * We have a reaction, update the quantity of products and leftovers.
-     */
-    private void updateReaction( int numReactions ) {
-        for ( Product product : products ) {
-            product.setQuantity( numReactions * product.getCoefficient() );
-        }
-        for ( Reactant reactant : reactants ) {
-            reactant.setLeftovers( reactant.getQuantity() - ( numReactions * reactant.getCoefficient() ) );
-        }
-    }
-    
-    /*
-     * We have no reaction, update the quantity of products and leftovers.
-     */
-    private void updateNoReaction() {
-        // no products
-        for ( Product product : products ) { 
-            product.setQuantity( 0 );
-        }
-        // all reactants are leftovers
-        for ( Reactant reactant : reactants ) {
-            reactant.setLeftovers( reactant.getQuantity() );
-        }
     }
     
     public void addChangeListener( ChangeListener listener ) {
