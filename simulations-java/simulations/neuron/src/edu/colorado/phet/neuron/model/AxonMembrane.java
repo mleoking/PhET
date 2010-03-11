@@ -25,10 +25,6 @@ public class AxonMembrane {
 	// Class Data
 	//----------------------------------------------------------------------------
 	
-	// For now, and unless there is some reason to do otherwise, the center
-	// of the cross section is positioned at the origin.
-	private static final Point2D CROSS_SECTION_CENTER = new Point2D.Double(0, 0);
-
 	// Fixed membrane characteristics.
 	public static final double MEMBRANE_THICKNESS = 4;  // In nanometers, obtained from web research.
 	private static final double DEFAULT_DIAMETER = 150; // In nanometers.
@@ -41,7 +37,9 @@ public class AxonMembrane {
 
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
 
-	// Shape of the cross section of the membrane.
+	// Shape of the cross section of the membrane.	For now, and unless there
+    // is some reason to do otherwise, the center of the cross section is
+    // positioned at the origin.
 	private Ellipse2D crossSectionEllipseShape = new Ellipse2D.Double(-DEFAULT_DIAMETER / 2, -DEFAULT_DIAMETER / 2,
 			DEFAULT_DIAMETER, DEFAULT_DIAMETER);
 	
@@ -83,13 +81,10 @@ public class AxonMembrane {
     //----------------------------------------------------------------------------
 
 	public Ellipse2D getCrossSectionEllipseShape() {
-		return crossSectionEllipseShape;
+		return new Ellipse2D.Double(crossSectionEllipseShape.getX(), crossSectionEllipseShape.getY(),
+			crossSectionEllipseShape.getWidth(), crossSectionEllipseShape.getHeight());
 	}
 
-	public void setCrossSectionEllipseShape(Ellipse2D crossSectionEllipseShape) {
-		this.crossSectionEllipseShape = crossSectionEllipseShape;
-	}
-	
 	public double getMembraneThickness(){
 		return MEMBRANE_THICKNESS;
 	}
@@ -126,21 +121,24 @@ public class AxonMembrane {
     	// Find the two points at which the shape will intersect the outer
     	// edge of the cross section.
     	double r = getCrossSectionDiameter() / 2 + getMembraneThickness() / 2;
-    	double theta = BODY_TILT_ANGLE + Math.toRadians(90);
+    	double theta = BODY_TILT_ANGLE + Math.PI * 0.45; // Multiplier tweaked a bit for improved appearance.
     	intersectionPointA = new Point2D.Double(r * Math.cos(theta), r * Math.sin(theta));
     	theta += Math.PI;
     	intersectionPointB = new Point2D.Double(r * Math.cos(theta), r * Math.sin(theta));
     	
     	// Define the control points for the two curves.  Note that there is
     	// some tweaking in here, so change as needed to get the desired look.
-    	// If you can figure it out, that is.
+    	// If you can figure it out, that is.  Hints: The shape is drawn
+    	// starting as a curve from the vanishing point to intersection point
+    	// A, then a line to intersection point B, then as a curve back to the
+    	// vanishing point.
     	double ctrlPtRadius;
     	double angleToVanishingPt = Math.atan2(vanishingPoint.getY() - intersectionPointA.getY(), 
     			vanishingPoint.getX() - intersectionPointA.getX());
     	ctrlPtRadius = intersectionPointA.distance(vanishingPoint) * 0.33;
     	cntrlPtA1 = new Point2D.Double(
-    			intersectionPointA.getX() + ctrlPtRadius * Math.cos(angleToVanishingPt + 0.3), 
-    			intersectionPointA.getY() + ctrlPtRadius * Math.sin(angleToVanishingPt + 0.3));
+    			intersectionPointA.getX() + ctrlPtRadius * Math.cos(angleToVanishingPt + 0.15), 
+    			intersectionPointA.getY() + ctrlPtRadius * Math.sin(angleToVanishingPt + 0.15));
     	ctrlPtRadius = intersectionPointA.distance(vanishingPoint) * 0.67;
     	cntrlPtA2 = new Point2D.Double( 
     			intersectionPointA.getX() + ctrlPtRadius * Math.cos(angleToVanishingPt - 0.5), 
@@ -277,10 +275,12 @@ public class AxonMembrane {
      */
     public static class TravelingActionPotential {
     	
-    	private static double LIFETIME = 0.0020; // In seconds of sim time (not wall time).
+    	private static double TRAVELING_TIME = 0.0020; // In seconds of sim time (not wall time).
+    	private static double LINGER_AT_CROSS_SECTION_TIME = 0.0002; // In seconds of sim time (not wall time).
     	
         private ArrayList<Listener> listeners = new ArrayList<Listener>();
-    	private double lifetimeCountdownTimer = LIFETIME;
+    	private double travelTimeCountdownTimer = TRAVELING_TIME;
+    	private double lingerCountdownTimer = LINGER_AT_CROSS_SECTION_TIME;
     	private Shape shape;
     	private AxonMembrane axonMembrane;
     	
@@ -297,9 +297,14 @@ public class AxonMembrane {
     	 * @param dt
     	 */
     	public void stepInTime(double dt){
-    		if (lifetimeCountdownTimer > 0){
-    			lifetimeCountdownTimer -= dt;
-    			if (lifetimeCountdownTimer <= 0){
+    		if (travelTimeCountdownTimer > 0){
+    			travelTimeCountdownTimer -= dt;
+    			updateShape();
+    			notifyShapeChanged();
+    		}
+    		else if (lingerCountdownTimer > 0){
+    			lingerCountdownTimer -= dt;
+    			if (lingerCountdownTimer <= 0){
     				shape = null;
     				notifyTravelingCompleted();
     			}
@@ -320,22 +325,36 @@ public class AxonMembrane {
     	 * the axon body shape, this routine will need to be updated.
     	 */
     	private void updateShape(){
-			Point2D startPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveA(), 1 - lifetimeCountdownTimer / LIFETIME);
-			Point2D endPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveB(), 1 - lifetimeCountdownTimer / LIFETIME);
-			Point2D midPoint = new Point2D.Double((startPoint.getX() + endPoint.getX()) / 2, (startPoint.getY() + endPoint.getY()) / 2);
-			// The exponents used in the control point distances can be
-			// adjusted to make the top or bottom more or less curved as the
-			// potential moves down the membrane.
-			double ctrlPoint1Distance = endPoint.distance(startPoint) * 0.7 * Math.pow((1 - lifetimeCountdownTimer / LIFETIME), 1.8);
-			double ctrlPoint2Distance = endPoint.distance(startPoint) * 0.7 * Math.pow((1 - lifetimeCountdownTimer / LIFETIME), 0.8);
-			double perpendicularAngle = Math.atan2(endPoint.getY() - startPoint.getY(), endPoint.getX() - startPoint.getX()) + Math.PI / 2;
-			Point2D ctrlPoint1 = new Point2D.Double(
-					midPoint.getX() + ctrlPoint1Distance * Math.cos(perpendicularAngle + Math.PI / 6), 
-					midPoint.getY() + ctrlPoint1Distance * Math.sin(perpendicularAngle + Math.PI / 6));
-			Point2D ctrlPoint2 = new Point2D.Double(
-					midPoint.getX() + ctrlPoint2Distance * Math.cos(perpendicularAngle - Math.PI / 6), 
-					midPoint.getY() + ctrlPoint2Distance * Math.sin(perpendicularAngle - Math.PI / 6));
-			shape = new CubicCurve2D.Double(startPoint.getX(), startPoint.getY(), ctrlPoint1.getX(), ctrlPoint1.getY(), ctrlPoint2.getX(), ctrlPoint2.getY(), endPoint.getX(), endPoint.getY());
+    		if (travelTimeCountdownTimer > 0){
+    			// Calculate the start and end points.
+    			double travelAmtFactor = 1 - travelTimeCountdownTimer / TRAVELING_TIME;
+    			Point2D startPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveA(), travelAmtFactor);
+    			Point2D endPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveB(), travelAmtFactor);
+    			Point2D midPoint = new Point2D.Double((startPoint.getX() + endPoint.getX()) / 2, (startPoint.getY() + endPoint.getY()) / 2);
+    			// The exponents used in the control point distances can be
+    			// adjusted to make the top or bottom more or less curved as the
+    			// potential moves down the membrane.
+    			double ctrlPoint1Distance = endPoint.distance(startPoint) * 0.7 * Math.pow((travelAmtFactor), 1.8);
+    			double ctrlPoint2Distance = endPoint.distance(startPoint) * 0.7 * Math.pow((travelAmtFactor), 0.8);
+    			double perpendicularAngle = Math.atan2(endPoint.getY() - startPoint.getY(), endPoint.getX() - startPoint.getX()) + Math.PI / 2;
+    			Point2D ctrlPoint1 = new Point2D.Double(
+    					midPoint.getX() + ctrlPoint1Distance * Math.cos(perpendicularAngle + Math.PI / 6), 
+    					midPoint.getY() + ctrlPoint1Distance * Math.sin(perpendicularAngle + Math.PI / 6));
+    			Point2D ctrlPoint2 = new Point2D.Double(
+    					midPoint.getX() + ctrlPoint2Distance * Math.cos(perpendicularAngle - Math.PI / 6), 
+    					midPoint.getY() + ctrlPoint2Distance * Math.sin(perpendicularAngle - Math.PI / 6));
+    			shape = new CubicCurve2D.Double(startPoint.getX(), startPoint.getY(), ctrlPoint1.getX(), ctrlPoint1.getY(), ctrlPoint2.getX(), ctrlPoint2.getY(), endPoint.getX(), endPoint.getY());
+    		}
+    		else{
+    			Ellipse2D crossSectionEllipse = axonMembrane.getCrossSectionEllipseShape();
+    			// Make the shape a little bigger than the cross section so
+    			// that it can be seen behind it.  Note that these
+    			// calculations assume that it is centered at 0,0.
+    			double growthFactor = (1 - lingerCountdownTimer / LINGER_AT_CROSS_SECTION_TIME) * 0.03 + 1.01;
+    			double newWidth = crossSectionEllipse.getWidth() * growthFactor;
+    			double newHeight = crossSectionEllipse.getHeight() * growthFactor;
+    			shape = new Ellipse2D.Double( -newWidth / 2, -newHeight / 2, newWidth, newHeight );
+    		}
     	}
     	
 		public Shape getShape(){
