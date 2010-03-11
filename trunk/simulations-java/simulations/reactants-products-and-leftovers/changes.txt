@@ -1,3 +1,4 @@
+# 0.00.38 (39263) Mar 11, 2010
 3/11/10 1.0-rc1 (first release candidate for version 1.0)
 3/11/10 #2194, remove flag for sandwich choices feature, we're including this (r39261)
 3/11/10 remove flag for making sandwich coefficients read-only, we're keeping them editable (r39256)
