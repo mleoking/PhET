@@ -1,18 +1,14 @@
 package edu.colorado.phet.website.panels;
 
 import java.text.DateFormat;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
+import org.apache.log4j.Logger;
+import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.behavior.HeaderContributor;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.StaticImage;
@@ -24,7 +20,6 @@ import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionLevel;
 import edu.colorado.phet.website.data.contribution.ContributionType;
 import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 
@@ -34,6 +29,14 @@ public class ContributionBrowsePanel extends PhetPanel {
 
     private static Logger logger = Logger.getLogger( ContributionBrowsePanel.class.getName() );
 
+    /**
+     * NOTE: ALWAYS preload the levels, types, simulations, and those simulations' localizedSimulations. They are all
+     * lazy fields, and will throw errors if that isn't done.
+     *
+     * @param id
+     * @param context
+     * @param contributions List of contributions
+     */
     public ContributionBrowsePanel( String id, final PageContext context, final List<Contribution> contributions ) {
         super( id, context );
 
@@ -42,29 +45,6 @@ public class ContributionBrowsePanel extends PhetPanel {
         add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
 
         newContributions = new LinkedList<Contribution>();
-
-        // fill our new contributions list, and make sure to load all of the data that is lazy that we need
-        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
-            public boolean run( Session session ) {
-                for ( Contribution oldContrib : contributions ) {
-                    Contribution contribution = (Contribution) session.load( Contribution.class, oldContrib.getId() );
-
-                    // we need to read levels
-                    contribution.getLevels();
-
-                    // we also need to read the types
-                    contribution.getTypes();
-
-                    for ( Object o : contribution.getSimulations() ) {
-                        Simulation sim = (Simulation) o;
-
-                        // we need to be able to read these to determine the localized simulation title later
-                        sim.getLocalizedSimulations();
-                    }
-                }
-                return true;
-            }
-        } );
 
         logger.debug( System.currentTimeMillis() + " A" );
 
@@ -81,8 +61,10 @@ public class ContributionBrowsePanel extends PhetPanel {
         logger.debug( System.currentTimeMillis() + " B" );
 
         add( new ListView( "contributions", contributions ) {
+            private HashMap<Simulation, LocalizedSimulation> mapCache = new HashMap<Simulation, LocalizedSimulation>();
+
             protected void populateItem( ListItem item ) {
-                logger.debug( "start item" );
+                //logger.debug( "start item" );
                 Contribution contribution = (Contribution) item.getModel().getObject();
                 Link link = ContributionPage.getLinker( contribution ).getLink( "contribution-link", context, getPhetCycle() );
                 link.add( new Label( "contribution-title", contribution.getTitle() ) );
@@ -100,7 +82,16 @@ public class ContributionBrowsePanel extends PhetPanel {
                 // get a sorted (for the locale) list of simulations
                 List<LocalizedSimulation> lsims = new LinkedList<LocalizedSimulation>();
                 for ( Object o : contribution.getSimulations() ) {
-                    lsims.add( ( (Simulation) o ).getBestLocalizedSimulation( getLocale() ) );
+                    Simulation sim = (Simulation) o;
+                    LocalizedSimulation lsim;
+                    if ( mapCache.containsKey( sim ) ) {
+                        lsim = mapCache.get( sim );
+                    }
+                    else {
+                        lsim = sim.getBestLocalizedSimulation( getLocale() );
+                        mapCache.put( sim, lsim );
+                    }
+                    lsims.add( lsim );
                 }
                 HibernateUtils.orderSimulations( lsims, getLocale() );
 
@@ -133,7 +124,7 @@ public class ContributionBrowsePanel extends PhetPanel {
                 } );
 
                 item.add( new Label( "contribution-updated", format.format( contribution.getDateUpdated() ) ) );
-                logger.debug( "finish item" );
+                //logger.debug( "finish item" );
             }
         } );
 

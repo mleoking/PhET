@@ -14,9 +14,11 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.hibernate.FetchMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
@@ -100,7 +102,21 @@ public class SimulationMainPanel extends PhetPanel {
                     List list = session.createQuery( "select c from Contribution as c where :simulation member of c.simulations" )
                             .setEntity( "simulation", simulation.getSimulation() ).list();
                     for ( Object o : list ) {
-                        contributions.add( (Contribution) o );
+                        Contribution contribution = (Contribution) o;
+                        contributions.add( contribution );
+
+                        // we need to read levels
+                        contribution.getLevels();
+
+                        // we also need to read the types
+                        contribution.getTypes();
+
+                        for ( Object x : contribution.getSimulations() ) {
+                            Simulation sim = (Simulation) x;
+
+                            // we need to be able to read these to determine the localized simulation title later
+                            sim.getLocalizedSimulations();
+                        }
                     }
                     return true;
                 }
