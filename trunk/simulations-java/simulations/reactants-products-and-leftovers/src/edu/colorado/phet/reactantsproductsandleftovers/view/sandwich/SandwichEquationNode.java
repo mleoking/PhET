@@ -47,7 +47,6 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
     private static final int Y_SPACING = 30;
     
     private final ChemicalReaction reaction;
-    private final PText titleNode;
     private final PNode arrowNode;
     private final ArrayList<PNode> lhsCoefficientNodes, lhsImageNodes, lhsPlusNodes, rhsCoefficientNodes, rhsImageNodes, rhsPlusNodes;
     private final ArrayList<ReactantChangeListener> reactantChangeListeners;
@@ -58,11 +57,6 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
         super();
         
         this.reaction = model.getReaction();
-        
-        // title
-        titleNode = new PText(  RPALStrings.LABEL_SANDWICH_EQUATION );
-        titleNode.setFont( TITLE_FONT );
-        addChild( titleNode );
         
         // image change listener, for sandwich image
         PropertyChangeListener imageChangeListener = new PropertyChangeListener() {
@@ -225,7 +219,6 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
         // title
         double x = 0;
         double y = 0;
-        titleNode.setOffset( x, y );
         
         // left side
         for ( int i = 0; i < lhsCoefficientNodes.size(); i++ ) {
@@ -234,8 +227,8 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
             PNode coefficientNode = lhsCoefficientNodes.get( i );
             if ( i == 0 ) {
                 // below title
-                x = titleNode.getXOffset();
-                y = titleNode.getFullBoundsReference().getMaxY() + Y_SPACING - PNodeLayoutUtils.getOriginYOffset( coefficientNode );
+                x = 0;
+                y = 0;
                 coefficientNode.setOffset( x, y );
                 spinnerYOffset = y;
             }
