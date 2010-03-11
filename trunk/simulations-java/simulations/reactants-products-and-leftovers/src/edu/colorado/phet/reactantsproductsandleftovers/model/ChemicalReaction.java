@@ -148,7 +148,6 @@ public class ChemicalReaction {
      * We have a reaction, update the quantity of products and leftovers.
      */
     private void updateReaction( int numReactions ) {
-        System.out.println( "ChemicalReaction.updateReaction numReactions=" + numReactions );//XXX
         for ( Product product : products ) {
             product.setQuantity( numReactions * product.getCoefficient() );
         }
@@ -161,7 +160,6 @@ public class ChemicalReaction {
      * We have no reaction, update the quantity of products and leftovers.
      */
     private void updateNoReaction() {
-        System.out.println( "ChemicalReaction.updateNoReaction" );//XXX
         // no products
         for ( Product product : products ) { 
             product.setQuantity( 0 );

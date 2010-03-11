@@ -29,7 +29,6 @@ public class SandwichImageFactory {
         Image image = null;
 
         if ( !model.getReaction().isReaction() ) {
-            System.out.println( "SandwichImageFactory.createImage, not a reaction" );//XXX
             image = new PText( "?" ).toImage(); // so we have something to see
         }
         else {
@@ -48,7 +47,6 @@ public class SandwichImageFactory {
             for ( int i = 0; model.getCheese() != null && i < model.getCheese().getCoefficient(); i++ ) {
                 cheeseNodes.add( new PImage( model.getCheese().getImage() ) );
             }
-            System.out.println( "SandwichImageFactory.createImage bread=" + breadNodes.size() + " meat=" + meatNodes.size() + " cheese=" + cheeseNodes.size() );//XXX
 
             // save one piece of bread for the top
             PImage topBreadNode = null;
