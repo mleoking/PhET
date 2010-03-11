@@ -33,7 +33,6 @@ public class RPALConstants {
     //----------------------------------------------------------------------------
     
     public static final boolean ENABLE_SANDWICH_CHOICES = true; // see #2194
-    public static final boolean SANDWICH_COEFFICIENTS_EDITABLE = true;
 
     //----------------------------------------------------------------------------
     // Dimensions
