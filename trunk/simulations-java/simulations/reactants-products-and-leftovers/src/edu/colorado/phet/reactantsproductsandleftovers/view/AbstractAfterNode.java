@@ -147,10 +147,9 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
         }
         leftoversLabelNode.setOffset( x, y );
         
-        // start with products and leftovers brackets vertically aligned
-        double maxYOffset = Math.max( productsLabelNode.getYOffset(), leftoversLabelNode.getYOffset() );
-        productsLabelNode.setOffset( productsLabelNode.getXOffset(), maxYOffset );
-        leftoversLabelNode.setOffset( leftoversLabelNode.getXOffset(), maxYOffset );
+        // adjust products bracket so that it's never higher than leftovers bracket
+        y = Math.max( productsLabelNode.getYOffset(), leftoversLabelNode.getYOffset() );
+        productsLabelNode.setOffset( productsLabelNode.getXOffset(), y );
         
         update();
         
