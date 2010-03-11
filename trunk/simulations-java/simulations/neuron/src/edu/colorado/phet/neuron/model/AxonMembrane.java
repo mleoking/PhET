@@ -51,21 +51,13 @@ public class AxonMembrane {
 
 	// Points that define the body shape.
 	private Point2D vanishingPoint;
-
 	private Point2D intersectionPointA;
-
 	private Point2D intersectionPointB;
-
 	private Point2D cntrlPtA1;
-
 	private Point2D cntrlPtA2;
-
 	private Point2D cntrlPtB1;
-
 	private Point2D cntrlPtB2;
-
 	private CubicCurve2D curveA;
-
 	private CubicCurve2D curveB;
 	
     //----------------------------------------------------------------------------
@@ -348,8 +340,8 @@ public class AxonMembrane {
     		else{
     			Ellipse2D crossSectionEllipse = axonMembrane.getCrossSectionEllipseShape();
     			// Make the shape a little bigger than the cross section so
-    			// that it can be seen behind it.  Note that these
-    			// calculations assume that it is centered at 0,0.
+    			// that it can be seen behind it, and have it grow while it
+    			// is there.
     			double growthFactor = (1 - lingerCountdownTimer / LINGER_AT_CROSS_SECTION_TIME) * 0.03 + 1.01;
     			double newWidth = crossSectionEllipse.getWidth() * growthFactor;
     			double newHeight = crossSectionEllipse.getHeight() * growthFactor;
