@@ -38,13 +38,11 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
     
-    private static final PhetFont TITLE_FONT = new PhetFont( 24 );
     private static final PhetFont COEFFICIENT_FONT = new PhetFont( 24 );
     private static final PhetFont NO_REACTION_FONT = new PhetFont( 24 );
     
     private static final int IMAGE_X_SPACING = 6;
     private static final int TERM_X_SPACING = 20;
-    private static final int Y_SPACING = 30;
     
     private final ChemicalReaction reaction;
     private final PNode arrowNode;
