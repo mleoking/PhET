@@ -32,9 +32,8 @@ public class RPALConstants {
     // Flags
     //----------------------------------------------------------------------------
     
-    public static final boolean ENABLE_SANDWICH_CHOICES = true;
+    public static final boolean ENABLE_SANDWICH_CHOICES = true; // see #2194
     public static final boolean SANDWICH_COEFFICIENTS_EDITABLE = true;
-    public static final boolean HISTOGRAM_BARS_VISIBLE = true;
 
     //----------------------------------------------------------------------------
     // Dimensions
