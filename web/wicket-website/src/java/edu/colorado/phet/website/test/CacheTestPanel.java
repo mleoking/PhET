@@ -7,14 +7,17 @@ import javax.servlet.ServletContext;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
-import org.apache.wicket.behavior.IBehavior;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.Response;
 import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.behavior.IBehavior;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.HeaderPartContainer;
 import org.apache.wicket.markup.html.internal.HtmlHeaderContainer;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.IModelComparator;
+import org.apache.wicket.response.StringResponse;
 import org.apache.wicket.util.convert.IConverter;
 import org.hibernate.Session;
 
@@ -27,6 +30,8 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 public class CacheTestPanel extends PhetPanel {
 
     private static Logger logger = Logger.getLogger( CacheTestPanel.class.getName() );
+
+    private static StringResponse fakeResponse;
 
     public CacheTestPanel( String id, PageContext context ) {
         super( id, context );
@@ -155,7 +160,28 @@ public class CacheTestPanel extends PhetPanel {
     @Override
     protected void onRender( MarkupStream markupStream ) {
         logger.debug( "* protected void onRender( MarkupStream markupStream )" );
-        super.onRender( markupStream );
+
+        RequestCycle cycle = getRequestCycle();
+        Response response = cycle.getResponse();
+        synchronized( this ) {
+            if ( fakeResponse == null ) {
+                logger.debug( "not cached" );
+                fakeResponse = new StringResponse();
+
+                cycle.setResponse( fakeResponse );
+                super.onRender( markupStream );
+                cycle.setResponse( response );
+
+            }
+            else {
+                logger.debug( "cached" );
+                markupStream.skipComponent();
+            }
+        }
+
+        logger.debug( "fakeResponse: " + fakeResponse.getBuffer() );
+
+        response.write( fakeResponse.getBuffer() );
     }
 
     @Override
