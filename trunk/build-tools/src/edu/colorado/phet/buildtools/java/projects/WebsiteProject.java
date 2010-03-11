@@ -30,4 +30,9 @@ public class WebsiteProject extends JavaProject {
         return true;
     }
 
+    @Override
+    public boolean isShrink() {
+        // until many things are done
+        return false;
+    }
 }
