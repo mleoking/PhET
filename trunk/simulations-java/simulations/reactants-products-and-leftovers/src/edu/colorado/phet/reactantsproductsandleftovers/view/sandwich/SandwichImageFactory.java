@@ -29,6 +29,7 @@ public class SandwichImageFactory {
         Image image = null;
 
         if ( !model.getReaction().isReaction() ) {
+            System.out.println( "SandwichImageFactory.createImage, not a reaction" );//XXX
             image = new PText( "?" ).toImage(); // so we have something to see
         }
         else {
@@ -36,17 +37,18 @@ public class SandwichImageFactory {
 
             // create nodes
             ArrayList<PImage> breadNodes = new ArrayList<PImage>();
-            for ( int i = 0; i < model.getBread().getCoefficient(); i++ ) {
+            for ( int i = 0; model.getBread() != null && i < model.getBread().getCoefficient(); i++ ) {
                 breadNodes.add( new PImage( model.getBread().getImage() ) );
             }
             ArrayList<PImage> meatNodes = new ArrayList<PImage>();
-            for ( int i = 0; i < model.getMeat().getCoefficient(); i++ ) {
+            for ( int i = 0; model.getMeat() != null && i < model.getMeat().getCoefficient(); i++ ) {
                 meatNodes.add( new PImage( model.getMeat().getImage() ) );
             }
             ArrayList<PImage> cheeseNodes = new ArrayList<PImage>();
-            for ( int i = 0; i < model.getCheese().getCoefficient(); i++ ) {
+            for ( int i = 0; model.getCheese() != null && i < model.getCheese().getCoefficient(); i++ ) {
                 cheeseNodes.add( new PImage( model.getCheese().getImage() ) );
             }
+            System.out.println( "SandwichImageFactory.createImage bread=" + breadNodes.size() + " meat=" + meatNodes.size() + " cheese=" + cheeseNodes.size() );//XXX
 
             // save one piece of bread for the top
             PImage topBreadNode = null;
