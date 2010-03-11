@@ -179,7 +179,7 @@ public class JavaBuildCommand {
         PhetBuildUtils.antEcho( antTaskRunner, "Finished compiling java version checker for " + project.getName() + ".", getClass() );
     }
 
-    private void jar() throws ManifestException {
+    protected void jar() throws ManifestException {
         Jar jar = new Jar();
         File[] dataDirectories = project.getAllDataDirectories();
         for ( int i = 0; i < dataDirectories.length; i++ ) {
@@ -208,7 +208,7 @@ public class JavaBuildCommand {
         antTaskRunner.runTask( jar );
     }
 
-    private FileSet toFileSetFile( File file ) {
+    protected FileSet toFileSetFile( File file ) {
         FileSet fileSet = new FileSet();
         fileSet.setFile( file );
         return fileSet;
@@ -248,7 +248,7 @@ public class JavaBuildCommand {
         return file;
     }
 
-    private void proguard() throws Exception {
+    protected void proguard() throws Exception {
         PhetProguardConfigBuilder builder = new PhetProguardConfigBuilder();
 
         builder.setDestJar( outputJar );
