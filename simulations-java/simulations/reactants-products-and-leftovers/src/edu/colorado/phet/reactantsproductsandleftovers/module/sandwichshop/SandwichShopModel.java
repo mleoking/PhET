@@ -86,7 +86,7 @@ public class SandwichShopModel extends RPALModel {
         setReaction( reactions[DEFAULT_SANDWICH_INDEX] );
     }
     
-    public ChemicalReaction[] getReactions() {
+    public SandwichReaction[] getReactions() {
         return reactions;
     }
     

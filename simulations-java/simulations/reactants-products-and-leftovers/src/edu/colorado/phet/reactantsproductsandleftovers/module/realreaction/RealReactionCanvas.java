@@ -31,12 +31,12 @@ public class RealReactionCanvas extends RPALCanvas {
     // these nodes are final, allocated once
     private final ReactionChoiceNode reactionChoiceNode;
     private final RightArrowNode arrowNode;
+    private final PSwing resetAllButtonWrapper;
 
     // these nodes are mutable, allocated when reaction changes
     private RealReactionEquationNode equationNode;
     private RealReactionBeforeNode beforeNode;
     private RealReactionAfterNode afterNode;
-    private PSwing resetAllButtonWrapper;
 
     public RealReactionCanvas( final RealReactionModel model, Resettable resettable ) {
         super();

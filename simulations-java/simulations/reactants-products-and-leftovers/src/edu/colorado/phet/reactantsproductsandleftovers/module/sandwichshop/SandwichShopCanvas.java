@@ -2,15 +2,22 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichEquationNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichShopAfterNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichShopBeforeNode;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -23,31 +30,106 @@ public class SandwichShopCanvas extends RPALCanvas {
     
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
     
+    private final SandwichShopModel model;
+    
+    // these nodes are final, allocated once
+    private final SandwichChoiceNode sandwichChoiceNode;
+    private final PText equationLabelNode;
+    private final RightArrowNode arrowNode;
+    private final PSwing resetAllButtonWrapper;
+
+    // these nodes are mutable, allocated when reaction changes
+    private SandwichEquationNode equationNode;
+    private SandwichShopBeforeNode beforeNode;
+    private SandwichShopAfterNode afterNode;
+    
     public SandwichShopCanvas( SandwichShopModel model, Resettable resettable ) {
         super();
         
-        SandwichEquationNode equationNode = new SandwichEquationNode( model );
+        this.model = model;
+        
+        sandwichChoiceNode = new SandwichChoiceNode( model );
+        sandwichChoiceNode.scale( 1.25 );
+        
+        equationLabelNode = new PText(  RPALStrings.LABEL_SANDWICH_EQUATION );
+        equationLabelNode.setFont( new PhetFont( 24 ) );
+        
+        if ( RPALConstants.ENABLE_SANDWICH_CHOICES ) {
+            addChild( sandwichChoiceNode );
+        }
+        else {
+            addChild( equationLabelNode );
+        }
+        
+        equationNode = new SandwichEquationNode( model );
         addChild( equationNode );
         
-        SandwichShopBeforeNode beforeNode = new SandwichShopBeforeNode( model, BOX_SIZE );
+        beforeNode = new SandwichShopBeforeNode( model, BOX_SIZE );
         addChild( beforeNode );
         
-        RightArrowNode arrowNode = new RightArrowNode();
+        arrowNode = new RightArrowNode();
         addChild( arrowNode );
         
-        SandwichShopAfterNode afterNode = new SandwichShopAfterNode( model, BOX_SIZE );
+        afterNode = new SandwichShopAfterNode( model, BOX_SIZE );
         addChild( afterNode );
         
         ResetAllButton resetAllButton = new ResetAllButton( resettable, this );
-        PSwing resetAllButtonWrapper = new PSwing( resetAllButton );
+        resetAllButtonWrapper = new PSwing( resetAllButton );
         resetAllButtonWrapper.scale( 1.25 );
         addChild( resetAllButtonWrapper );
         
-        // layout of this module is static, so do it here...
+        model.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updateDynamicNodes();
+            }
+        } );
         
-        // equation at upper left
+        updateDynamicNodes();
+    }
+    
+    /*
+     * Updates nodes that are "dynamic".
+     * Dynamic nodes are replaced when the reaction changes.
+     */
+    private void updateDynamicNodes() {
+        
+        if ( equationNode != null ) {
+            removeChild( equationNode );
+            equationNode.cleanup();
+        }
+        equationNode = new SandwichEquationNode( model );
+        addChild( equationNode );
+
+        if ( beforeNode != null ) {
+            removeChild( beforeNode );
+            beforeNode.cleanup();
+        }
+        beforeNode = new SandwichShopBeforeNode( model, BOX_SIZE );
+        addChild( beforeNode );
+
+        if ( afterNode != null ) {
+            removeChild( afterNode );
+            afterNode.cleanup();
+        }
+        afterNode = new SandwichShopAfterNode( model, BOX_SIZE );
+        addChild( afterNode );
+
+        updateNodesLayout();
+    }
+    
+    /*
+     * Updates the layout of all nodes.
+     */
+    private void updateNodesLayout() {
+        
         double x = 0;
         double y = 0;
+        PNode originNode = ( RPALConstants.ENABLE_SANDWICH_CHOICES ) ? sandwichChoiceNode : equationLabelNode;
+        originNode.setOffset( x, y );
+        
+        // equation below choices, left justified
+        x = originNode.getFullBoundsReference().getMinX();
+        y = originNode.getFullBoundsReference().getMaxY() + 20;
         equationNode.setOffset( x, y );
         
         // Before box below equation, left justified
