@@ -190,6 +190,18 @@ public abstract class MembraneChannel {
 	}
 	
 	/**
+	 * Gets a values that indicates whether this channel has an inactivation
+	 * gate.  Most of the channels in this sim do not have these, so the
+	 * default is to return false.  This should be overridden in subclasses
+	 * that add inactivation gates to the channels.
+	 * 
+	 * @return
+	 */
+	public boolean getHasInactivationGate(){
+		return false;
+	}
+	
+	/**
 	 * TODO: This is a temp routine for debug.
 	 */
 	public Shape getChannelTestShape(){
@@ -345,7 +357,7 @@ public abstract class MembraneChannel {
 	protected void setInactivationAmt(double inactivationAmt) {
 		if (this.inactivationAmt != inactivationAmt){
 			this.inactivationAmt = inactivationAmt;
-			notifyOpennessChanged();
+			notifyInactivationAmtChanged();
 		}
 	}
 	
