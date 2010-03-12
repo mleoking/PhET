@@ -47,9 +47,9 @@ public class ContributionBrowsePage extends PhetRegularPage {
             public boolean run( Session session ) {
                 logger.debug( "V" );
                 List list = session.createCriteria( Contribution.class )
-                        .setFetchMode( "levels", FetchMode.JOIN )
-                        .setFetchMode( "types", FetchMode.JOIN )
-                        .setFetchMode( "simulations", FetchMode.JOIN )
+                        .setFetchMode( "levels", FetchMode.SELECT )
+                        .setFetchMode( "types", FetchMode.SELECT )
+                        .setFetchMode( "simulations", FetchMode.SELECT )
                         .list();
                 logger.debug( "W" );
                 for ( Object o : list ) {
