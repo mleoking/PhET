@@ -54,6 +54,10 @@ public abstract class MembraneChannel {
 	// Variable that defines how open the channel is.
 	private double openness = 0;  // Valid range is 0 to 1, 0 means fully closed, 1 is fully open.
 	
+	// Variable that defines how inactivated the channel is, which is distinct
+	// from openness.
+	private double inactivationAmt = 0;  // Valid range is 0 to 1, 0 means completely active, 1 is completely inactive.
+	
 	// Location of inner and outer openings of the channel.
 	private Point2D outerOpeningLocation = new Point2D.Double();
 	private Point2D innerOpeningLocation = new Point2D.Double();
@@ -326,10 +330,21 @@ public abstract class MembraneChannel {
 	public double getOpenness() {
 		return openness;
 	}
-
+	
 	protected void setOpenness(double openness) {
 		if (this.openness != openness){
 			this.openness = openness;
+			notifyOpennessChanged();
+		}
+	}
+	
+	public double getInactivationAmt(){
+		return inactivationAmt;
+	}
+
+	protected void setInactivationAmt(double inactivationAmt) {
+		if (this.inactivationAmt != inactivationAmt){
+			this.inactivationAmt = inactivationAmt;
 			notifyOpennessChanged();
 		}
 	}
@@ -410,14 +425,22 @@ public abstract class MembraneChannel {
 		}
 	}
 	
+	private void notifyInactivationAmtChanged(){
+		for (Listener listener : listeners){
+			listener.inactivationAmtChanged();
+		}
+	}
+	
 	public static interface Listener{
 		void removed();
 		void opennessChanged();
+		void inactivationAmtChanged();
 	}
 	
 	public static class Adapter implements Listener {
-		public void opennessChanged() {}
 		public void removed() {}
+		public void opennessChanged() {}
+		public void inactivationAmtChanged() {}
 	}
 	
 	protected double getMaxInterCaptureTime() {
