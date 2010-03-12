@@ -59,7 +59,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
     //----------------------------------------------------------------------------
 	
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#reset()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#reset()
 	 */
 	public void reset()
 	{
@@ -67,7 +67,8 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 		v = 0;
 		vna = -115;
 		vk = 12;
-		vl = -10.613;
+		vl = 0; // TODO: Modified from -10.613 by jblanco on 3/12/2010 in order to make potential stay steady
+		        // at the desired resting potential.  Need to determine if this is OK long term.
 		gna = perNaChannels * 120 / 100;
 		gk = perKChannels * 36 / 100;
 		gl = 0.3;
@@ -89,11 +90,11 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#get_n4()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_n4()
 	 */
 	public double get_n4() { return n4; }
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#get_m3h()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_m3h()
 	 */
 	public double get_m3h() { return m3h; }
 	
@@ -119,15 +120,15 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 
 	//The -1 is to correct for the fact that in the H & H paper, the currents are reversed.	
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#get_na_current()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_na_current()
 	 */
 	public double get_na_current() { return -1 * na_current; }
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#get_k_current()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_k_current()
 	 */
 	public double get_k_current() { return -1 * k_current; }
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#get_l_current()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_l_current()
 	 */
 	public double get_l_current() { return -1 * l_current; }
 
@@ -163,7 +164,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	}
 	
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#get_gk()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_gk()
 	 */
 	public double get_gk() {
 		return gk;
@@ -174,7 +175,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#get_gna()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_gna()
 	 */
 	public double get_gna() {
 		return gna;
@@ -185,7 +186,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#get_gl()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_gl()
 	 */
 	public double get_gl() {
 		return gl;
@@ -209,7 +210,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	public double getCm() {return cm; }
 
 	/* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#getElapsedTime()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#getElapsedTime()
 	 */
 	public double getElapsedTime() { return elapsedTime; }
 	public void resetElapsedTime() { elapsedTime = 0.0; } 
@@ -236,7 +237,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	void set_vClampValue( float vClampValue ) { this.vClampValue = convertV( vClampValue ); }
 	
     /* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#stepInTime(double)
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#stepInTime(double)
 	 */
     public void stepInTime(double dt)
     {
@@ -303,7 +304,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
     }
     
     /* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#getMembraneVoltage()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#getMembraneVoltage()
 	 */
     public double getMembraneVoltage(){
         // getV() converts the model's v to present day convention
@@ -311,7 +312,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
     }
     
     /* (non-Javadoc)
-	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#stimulate()
+	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#stimulate()
 	 */
     public void stimulate(){
     	// Add a fixed amount to the voltage across the membrane.
