@@ -46,12 +46,16 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	// Constant used when calculating how open this gate should be based on
 	// a value that exists within the Hodgkin-Huxley model.  This was
 	// empirically determined.
-	private static final double M3H_WHEN_FULLY_OPEN = 0.25; 
+	private static final double M3H_WHEN_FULLY_OPEN = 0.25;
+	
+	// Possible values for internal state.
+	private enum GateState {RESTING, ACTIVATING, ACTIVATED, BECOMING_INACTIVE, INACTIVATED, RESETTING};
 	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 	private IHodgkinHuxleyModel hodgkinHuxleyModel;
+	private GateState gateState = GateState.RESTING;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -111,6 +115,10 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		return ParticleType.SODIUM_ION;
 	}
 
+    //----------------------------------------------------------------------------
+    // Test Harness
+    //----------------------------------------------------------------------------
+	
 	// For testing, can be removed with main routine when it goes.
     private static final int INITIAL_INTERMEDIATE_COORD_WIDTH = 786;
     private static final int INITIAL_INTERMEDIATE_COORD_HEIGHT = 786;
