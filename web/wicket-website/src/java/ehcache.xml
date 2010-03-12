@@ -621,9 +621,7 @@ not perform any function when used with JMX monitors.
     <defaultCache
             maxElementsInMemory="10000"
             eternal="false"
-            timeToIdleSeconds="120"
-            timeToLiveSeconds="120"
-            overflowToDisk="true"
+            overflowToDisk="false"
             diskSpoolBufferSizeMB="30"
             maxElementsOnDisk="10000000"
             diskPersistent="false"
@@ -643,8 +641,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.Project"
@@ -652,8 +648,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.Simulation"
@@ -661,8 +655,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.LocalizedSimulation"
@@ -670,8 +662,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.TranslatedString"
@@ -679,8 +669,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.Category"
@@ -688,8 +676,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.Keyword"
@@ -697,8 +683,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.Translation"
@@ -706,19 +690,15 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <!-- contribution related caches -->
 
     <cache name="edu.colorado.phet.website.data.contribution.Contribution"
-           maxElementsInMemory="500"
+           maxElementsInMemory="2000"
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.contribution.ContributionComment"
@@ -726,8 +706,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.contribution.ContributionSubject"
@@ -735,8 +713,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.contribution.ContributionFlag"
@@ -744,8 +720,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.contribution.ContributionLevel"
@@ -753,8 +727,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.contribution.ContributionFile"
@@ -762,8 +734,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.contribution.ContributionNomination"
@@ -771,8 +741,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
     <cache name="edu.colorado.phet.website.data.contribution.ContributionType"
@@ -780,8 +748,6 @@ not perform any function when used with JMX monitors.
            eternal="false"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
             />
 
 </ehcache>
