@@ -112,6 +112,11 @@ public class Contribution implements Serializable, UpdateListener, IntId {
         if ( zipFile.exists() ) {
             zipFile.delete();
         }
+        if ( getFiles().isEmpty() ) {
+            // can't write a zip file with no files inside it. bail out if that is the case
+            logger.warn( "bailing out, will not attempt to write a zip file without any files" );
+            return;
+        }
         ZipOutputStream zout = new ZipOutputStream( new FileOutputStream( zipFile ) );
 
         String zipName = getZipName();
