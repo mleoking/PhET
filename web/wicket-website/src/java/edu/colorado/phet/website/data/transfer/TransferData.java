@@ -21,6 +21,7 @@ import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
  * Code to transfer the current MySQL data into the new PostgreSQL data
@@ -37,6 +38,13 @@ public class TransferData {
 
         boolean oversuccess = HibernateUtils.wrapTransaction( session, new HibernateTask() {
             public boolean run( final Session session ) {
+
+                // for now, clear out everything under activities
+                logger.info( "clearing activities directory" );
+                File acts = PhetWicketApplication.get().getActivitiesRoot();
+                acts.delete();
+                FileUtils.delete( acts );
+                acts.mkdir();
 
                 final List<Object> newObs = new LinkedList<Object>();
 
