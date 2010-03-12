@@ -191,6 +191,8 @@ public class TransferData {
                     public boolean process( ResultSet result ) throws SQLException {
                         ContributionFile cfile = new ContributionFile();
 
+                        logger.debug( "transferring \"" + result.getString( "contribution_file_name" ) + "\" with id " + result.getInt( "contribution_id" ) );
+
                         Contribution contribution = contributionIdMap.get( result.getInt( "contribution_id" ) );
                         if ( contribution == null ) {
                             // skip files where we don't know of the contribution
