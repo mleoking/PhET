@@ -89,6 +89,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     
     // Button for stimulating the neuron.
     GradientButtonNode stimulateNeuronButton;
+    GradientButtonNode grayedStimulateNeuronButton;
     
     // For debug: Shows center of zoom.
     private CrossHairNode crossHairNode;
@@ -165,6 +166,12 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         stimulateNeuronButton.scale(2);
         stimulateNeuronButton.setOffset(10, 10);
         addScreenChild(stimulateNeuronButton);
+        grayedStimulateNeuronButton = new GradientButtonNode("<html><center>Stimulate<br>Neuron</center></html>", 12, Color.LIGHT_GRAY);
+        grayedStimulateNeuronButton.scale(2);
+        grayedStimulateNeuronButton.setOffset(10, 10);
+        grayedStimulateNeuronButton.setPickable(false);
+        grayedStimulateNeuronButton.setChildrenPickable(false);
+        addScreenChild(grayedStimulateNeuronButton);
 
         // Register to receive button pushes.
         stimulateNeuronButton.addActionListener( new ActionListener(){
@@ -266,6 +273,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     
     private void updateStimButtonVisibility(){
     	stimulateNeuronButton.setVisible(!model.isStimulusInitiationLockedOut());
+    	grayedStimulateNeuronButton.setVisible(model.isStimulusInitiationLockedOut());
     }
     
 	public void addZoomListener(ZoomListener neuronCanvasZoomListener){
