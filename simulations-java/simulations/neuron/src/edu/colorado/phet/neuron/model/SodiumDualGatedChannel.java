@@ -5,11 +5,16 @@ package edu.colorado.phet.neuron.model;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -20,6 +25,7 @@ import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.colorado.phet.neuron.utils.MathUtils;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * A gated channel through which sodium passes when the channel is open.  This
@@ -49,13 +55,24 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	private static final double M3H_WHEN_FULLY_OPEN = 0.25;
 	
 	// Possible values for internal state.
-	private enum GateState {RESTING, ACTIVATING, ACTIVATED, BECOMING_INACTIVE, INACTIVATED, RESETTING};
+	private enum GateState {IDLE, OPENING, BECOMING_INACTIVE, INACTIVATED, RESETTING};
+	
+	// Values used for deciding on state transitions.
+	private static final double ACTIVATION_DECISION_THRESHOLD = 0.1;
+	private static final double FULLY_INACTIVE_DECISION_THRESHOLD = 0.05;
+	
+	// Values used for timed state transitions.
+	private static final double INACTIVE_TO_RESETTING_TIME = 0.001; // In seconds of sim time. 
+	private static final double RESETTING_TO_IDLE_TIME = 0.001; // In seconds of sim time. 
 	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
+	
 	private IHodgkinHuxleyModel hodgkinHuxleyModel;
-	private GateState gateState = GateState.RESTING;
+	private GateState gateState = GateState.IDLE;
+	private double previousNormalizedConductance;
+	private double stateTransitionTimer = 0;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -67,6 +84,12 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, 0, Math.PI * 0.8));
 		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
 		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
+		
+		// Initialize some internal state.
+		if (hodgkinHuxleyModel != null){
+			previousNormalizedConductance = calculateNormalizedConductance();
+			assert previousNormalizedConductance < ACTIVATION_DECISION_THRESHOLD;
+		}
 	}
 
     //----------------------------------------------------------------------------
@@ -90,24 +113,87 @@ public class SodiumDualGatedChannel extends GatedChannel {
 
 	@Override
 	public void stepInTime(double dt) {
+		
 		super.stepInTime(dt);
-		// Update the openness factor based on the state of the HH model.
-		// This is very specific to the model and the type of channel.
-		double openness = Math.min(Math.abs(hodgkinHuxleyModel.get_m3h())/M3H_WHEN_FULLY_OPEN, 1);
-		if (openness > 0 && openness < 1){
-			// Trim off some digits, otherwise we are continuously making
-			// tiny changes to this value due to internal gyrations of the
-			// HH model.
-			openness = MathUtils.round(openness, 2);
+		
+		// Get the conductance and normalize it from 0 to 1.
+		double normalizedConductance = calculateNormalizedConductance();
+		
+		if (normalizedConductance > 0 && normalizedConductance < 1){
+			// Trim off some digits to limit very small changes.
+			normalizedConductance = MathUtils.round(normalizedConductance, 2);
 		}
-		if (openness != getOpenness()){
-			setOpenness(openness);
-			if (isOpen() && getCaptureCountdownTimer() == Double.POSITIVE_INFINITY){
-				// We have just transitioned to the open state, so it is time
-				// to start capturing ions.
-				restartCaptureCountdownTimer();
+		else{
+			// This shouldn't happen, debug it if it does.
+			assert false;
+		}
+		
+		// Update the state.
+		switch ( gateState ) {
+		case IDLE:
+			if (normalizedConductance > ACTIVATION_DECISION_THRESHOLD){
+				// We are opening, change to the appropriate state.
+				gateState = GateState.OPENING;
+				setOpenness(normalizedConductance);
 			}
+			break;
+			
+		case OPENING:
+			if (previousNormalizedConductance  > normalizedConductance){
+				// We are on the way down, so set a new state.
+				gateState = GateState.BECOMING_INACTIVE;
+				// Should be fully open at this point.
+				setOpenness(1);
+			}
+			else{
+				setOpenness(normalizedConductance);
+			}
+			break;
+			
+		case BECOMING_INACTIVE:
+			if (normalizedConductance > FULLY_INACTIVE_DECISION_THRESHOLD){
+				setInactivationAmt(1 - normalizedConductance);
+			}
+			else{
+				// Fully inactive, move to next state.
+				setInactivationAmt(1);
+				gateState = GateState.INACTIVATED;
+				stateTransitionTimer = INACTIVE_TO_RESETTING_TIME;
+			}
+			break;
+			
+		case INACTIVATED:
+			stateTransitionTimer -= dt;
+			if (stateTransitionTimer < 0){
+				// Time to start resetting.
+				gateState = GateState.RESETTING;
+				stateTransitionTimer = RESETTING_TO_IDLE_TIME;
+			}
+			break;
+			
+		case RESETTING:
+			stateTransitionTimer -= dt;
+			if (stateTransitionTimer >= 0){
+				// Move the values of openness and activation back towards
+				// their idle (i.e. resting) states.
+				setOpenness(stateTransitionTimer/RESETTING_TO_IDLE_TIME);
+				setInactivationAmt(stateTransitionTimer/RESETTING_TO_IDLE_TIME);
+			}
+			else{
+				// Go back to the idle, or resting, state.
+				setOpenness(0);
+				setInactivationAmt(0);
+				gateState = GateState.IDLE;
+			}
+			break;
 		}
+		
+		// Save values for the next time through.
+		previousNormalizedConductance = normalizedConductance;
+	}
+	
+	private double calculateNormalizedConductance(){
+		return Math.min(Math.abs(hodgkinHuxleyModel.get_m3h())/M3H_WHEN_FULLY_OPEN, 1);
 	}
 
 	@Override
@@ -146,13 +232,32 @@ public class SodiumDualGatedChannel extends GatedChannel {
         PNode nonMvtTestNode = new PhetPPath(new Rectangle2D.Double(0, 0, 100, 100), Color.yellow);
 
         // Create the channel node.
-        SodiumDualGatedChannel sodiumDualGatedChannel = new SodiumDualGatedChannel(null, null);
+        IParticleCapture particleCapture = new IParticleCapture() {
+			public void requestParticleThroughChannel(ParticleType particleType,
+					MembraneChannel membraneChannel, double maxVelocity) {
+				// Do nothing.
+			}
+		};
+		final IHodgkinHuxleyModel hhModel = new ModifiedHodgkinHuxleyModel();
+        final SodiumDualGatedChannel sodiumDualGatedChannel = new SodiumDualGatedChannel(hhModel, particleCapture);
         sodiumDualGatedChannel.setRotationalAngle(Math.PI / 2);
         MembraneChannelNode channelNode = new MembraneChannelNode(sodiumDualGatedChannel, mvt);
         
         // Add node(s) to the canvas.
         canvas.addWorldChild(nonMvtTestNode);
         canvas.addWorldChild(channelNode);
+        
+        // Create and add a node for initiating a stimulation.
+        JButton stimButton = new JButton("Stimulate");
+        stimButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				hhModel.stimulate();
+			}
+		});
+        PSwing stimButtonPSwing = new PSwing(stimButton);
+        stimButtonPSwing.setOffset(20, 0);
+        canvas.addScreenChild(stimButtonPSwing);
 
         // Create the frame and put the canvas in it.
 		JFrame frame = new JFrame();
@@ -162,6 +267,13 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		frame.setVisible(true);
 		
 		// Put the channel through its paces.
-		sodiumDualGatedChannel.setOpenness(0.5);
+		clock.addClockListener(new ClockAdapter(){
+		    public void clockTicked( ClockEvent clockEvent ) {
+		    	hhModel.stepInTime(clockEvent.getSimulationTimeChange());
+		    	sodiumDualGatedChannel.stepInTime(clockEvent.getSimulationTimeChange());
+		    }
+		});
+		
+		clock.start();
 	}
 }
