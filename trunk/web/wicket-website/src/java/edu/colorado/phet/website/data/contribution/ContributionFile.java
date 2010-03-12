@@ -31,8 +31,12 @@ public class ContributionFile implements Serializable, IntId {
     }
 
     public String getRelativeLocation() {
+        return getRelativeLocation( String.valueOf( contribution.getId() ) );
+    }
+
+    public String getRelativeLocation( String id ) {
         // added a few sanity checks on filename to prevent files being written lower down
-        return contribution.getId() + "/" + filename.replace( '/', '_' ).replace( '\\', '_' );
+        return id + "/" + filename.replace( '/', '_' ).replace( '\\', '_' );
     }
 
     public AbstractLinker getLinker() {
@@ -82,7 +86,7 @@ public class ContributionFile implements Serializable, IntId {
      * @return
      */
     public File getTmpFileLocation( String id ) {
-        return new File( PhetWicketApplication.get().getActivitiesRoot(), "tmp" + getRelativeLocation() );
+        return new File( PhetWicketApplication.get().getActivitiesRoot(), "tmp" + getRelativeLocation( id ) );
     }
 
     public ContributionFile() {
