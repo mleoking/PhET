@@ -115,6 +115,10 @@ public class TransferData {
                         contribution.setAuthorOrganization( result.getString( "contribution_authors_organization" ) );
                         contribution.setDateCreated( result.getDate( "contribution_date_created" ) );
                         contribution.setDateUpdated( result.getDate( "contribution_date_updated" ) );
+                        if( contribution.getDateUpdated() == null ) {
+                            // apparently some contributions have bad data for date updated
+                            contribution.setDateUpdated( contribution.getDateCreated() );
+                        }
                         contribution.setFromPhet( result.getBoolean( "contribution_from_phet" ) );
                         contribution.setGoldStar( result.getBoolean( "contribution_is_gold_star" ) );
                         contribution.setOldId( oldId );
