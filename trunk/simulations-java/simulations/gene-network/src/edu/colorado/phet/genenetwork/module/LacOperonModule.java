@@ -57,8 +57,7 @@ public class LacOperonModule extends PiccoloModule {
         // Clock controls
     	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
     	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(LacOperonDefaults.CLOCK_DT / 5, 
-    			LacOperonDefaults.CLOCK_DT * 2, "0.00", (ConstantDtClock)getClock(),
-    			GeneNetworkStrings.CLOCK_SPEED_CONTROL_CAPTION);
+    			LacOperonDefaults.CLOCK_DT * 2, "0.00", (ConstantDtClock)getClock(), null);
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
