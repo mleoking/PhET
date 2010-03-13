@@ -25,9 +25,21 @@ public class AdminMainPage extends AdminPage {
 
         add( new SetStringForm( "set-string-form" ) );
 
-        add( new Link( "debug-action" ) {
+        add( new Link( "debug-usercontrib" ) {
             public void onClick() {
-                boolean success = TransferData.transfer( getHibernateSession(), getServletContext() );
+                boolean success = TransferData.transferUsersContributions( getHibernateSession(), getServletContext() );
+                if ( success ) {
+                    logger.info( "transfer success" );
+                }
+                else {
+                    logger.error( "transfer failure" );
+                }
+            }
+        } );
+
+        add( new Link( "debug-guide" ) {
+            public void onClick() {
+                boolean success = TransferData.transferTeachersGuides( getHibernateSession(), getServletContext() );
                 if ( success ) {
                     logger.info( "transfer success" );
                 }

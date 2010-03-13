@@ -14,14 +14,15 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.util.crypt.Base64;
 import org.hibernate.Session;
 
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.TeachersGuide;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
  * Code to transfer the current MySQL data into the new PostgreSQL data
@@ -32,7 +33,84 @@ public class TransferData {
 
     private static Logger logger = Logger.getLogger( TransferData.class.getName() );
 
-    public static boolean transfer( Session session, final ServletContext servletContext ) {
+    public static boolean transferTeachersGuides( Session session, final ServletContext servletContext ) {
+        boolean success = HibernateUtils.wrapTransaction( session, new HibernateTask() {
+            public boolean run( final Session session ) {
+                logger.info( "transferring teachers guides" );
+
+                File teacherRoot = PhetWicketApplication.get().getTeachersGuideRoot();
+                FileUtils.delete( teacherRoot );
+                teacherRoot.mkdir();
+
+                final List<Object> newObs = new LinkedList<Object>();
+
+                // map old teachers guide IDs to simulations. with style.
+                final Map<Integer, Simulation> badlyNamedVariable = new HashMap<Integer, Simulation>();
+
+                boolean sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM simulation", new SqlResultTask() {
+                    public boolean process( ResultSet result ) throws SQLException {
+                        int id = result.getInt( "sim_teachers_guide_id" );
+                        String name = result.getString( "sim_name" );
+                        Simulation simulation = (Simulation) ( session.createQuery( "select s from Simulation as s where s.name = :name" )
+                                .setString( "name", name ).uniqueResult() );
+                        badlyNamedVariable.put( id, simulation );
+                        logger.debug( "  registering guide #" + id + " with sim name " + name + " to actual sim id " + simulation.getId() );
+
+                        return true;
+                    }
+                } );
+
+                if ( !sqlSuccess ) { return false; }
+
+
+                sqlSuccess = SqlUtils.wrapTransaction( servletContext, "SELECT * FROM teachers_guide", new SqlResultTask() {
+                    public boolean process( ResultSet result ) throws SQLException {
+                        TeachersGuide guide = new TeachersGuide();
+
+                        newObs.add( guide );
+                        Simulation simulation = badlyNamedVariable.get( new Integer( result.getInt( "teachers_guide_id" ) ) );
+                        if ( simulation == null ) {
+                            logger.warn( "couldn't find simulation for teachers guide id " + result.getInt( "teachers_guide_id" ) );
+                            return false;
+                        }
+                        guide.setSimulation( simulation );
+                        guide.setFilename( simulation.getName() + "-guide.pdf" );
+                        guide.setLocation( guide.getFileLocation().getAbsolutePath() );
+
+                        Blob blob = result.getBlob( "teachers_guide_contents" );
+                        File file = guide.getFileLocation();
+                        try {
+                            file.getParentFile().mkdirs();
+                            writeBlobToFile( blob, file );
+                        }
+                        catch( IOException e ) {
+                            e.printStackTrace();
+                            logger.error( e );
+                            return false;
+                        }
+                        guide.setSize( (int) file.length() );
+
+                        return true;
+                    }
+                } );
+
+                if ( !sqlSuccess ) { return false; }
+
+
+                deleteAllInQuery( session, "select tg from TeachersGuide as tg" );
+
+                for ( Object ob : newObs ) {
+                    session.save( ob );
+                }
+
+                return sqlSuccess;
+            }
+        } );
+
+        return success;
+    }
+
+    public static boolean transferUsersContributions( Session session, final ServletContext servletContext ) {
 
         final List<ContributionFile> files = new LinkedList<ContributionFile>();
 
@@ -42,7 +120,6 @@ public class TransferData {
                 // for now, clear out everything under activities
                 logger.info( "clearing activities directory" );
                 File acts = PhetWicketApplication.get().getActivitiesRoot();
-                acts.delete();
                 FileUtils.delete( acts );
                 acts.mkdir();
 
@@ -85,9 +162,7 @@ public class TransferData {
                     }
                 } );
 
-                if ( !sqlSuccess ) {
-                    return sqlSuccess;
-                }
+                if ( !sqlSuccess ) { return sqlSuccess; }
 
                 logger.info( "initial user setup complete" );
 
@@ -115,7 +190,7 @@ public class TransferData {
                         contribution.setAuthorOrganization( result.getString( "contribution_authors_organization" ) );
                         contribution.setDateCreated( result.getDate( "contribution_date_created" ) );
                         contribution.setDateUpdated( result.getDate( "contribution_date_updated" ) );
-                        if( contribution.getDateUpdated() == null ) {
+                        if ( contribution.getDateUpdated() == null ) {
                             // apparently some contributions have bad data for date updated
                             contribution.setDateUpdated( contribution.getDateCreated() );
                         }
@@ -159,9 +234,7 @@ public class TransferData {
                     }
                 } );
 
-                if ( !sqlSuccess ) {
-                    return sqlSuccess;
-                }
+                if ( !sqlSuccess ) { return sqlSuccess; }
 
                 logger.info( "initial contribution setup complete" );
 
@@ -185,17 +258,13 @@ public class TransferData {
                     }
                 } );
 
-                if ( !sqlSuccess ) {
-                    return sqlSuccess;
-                }
+                if ( !sqlSuccess ) { return sqlSuccess; }
 
                 logger.info( "initial contribution comment setup complete" );
 
                 File downloadMainDir = PhetWicketApplication.get().getActivitiesRoot();
 
-                if ( downloadMainDir == null ) {
-                    return false;
-                }
+                if ( downloadMainDir == null ) { return false; }
 
                 logger.info( "download root OK" );
 
@@ -233,9 +302,7 @@ public class TransferData {
                     }
                 } );
 
-                if ( !sqlSuccess ) {
-                    return sqlSuccess;
-                }
+                if ( !sqlSuccess ) { return sqlSuccess; }
 
                 logger.info( "initial contribution file setup partially handled (normal)" );
 
@@ -257,9 +324,7 @@ public class TransferData {
                     }
                 } );
 
-                if ( !sqlSuccess ) {
-                    return sqlSuccess;
-                }
+                if ( !sqlSuccess ) { return sqlSuccess; }
 
                 logger.info( "initial contribution level setup complete" );
 
@@ -281,9 +346,7 @@ public class TransferData {
                     }
                 } );
 
-                if ( !sqlSuccess ) {
-                    return sqlSuccess;
-                }
+                if ( !sqlSuccess ) { return sqlSuccess; }
 
                 logger.info( "initial contribution subject setup complete" );
 
@@ -305,9 +368,7 @@ public class TransferData {
                     }
                 } );
 
-                if ( !sqlSuccess ) {
-                    return sqlSuccess;
-                }
+                if ( !sqlSuccess ) { return sqlSuccess; }
 
                 logger.info( "initial contribution type setup complete" );
 
@@ -335,9 +396,7 @@ public class TransferData {
                     }
                 } );
 
-                if ( !sqlSuccess ) {
-                    return sqlSuccess;
-                }
+                if ( !sqlSuccess ) { return sqlSuccess; }
 
                 logger.info( "initial contribution simulation mapping setup progress" );
 
@@ -364,9 +423,7 @@ public class TransferData {
                     }
                 } );
 
-                if ( !sqlSuccess ) {
-                    return sqlSuccess;
-                }
+                if ( !sqlSuccess ) { return sqlSuccess; }
 
                 logger.info( "initial contribution simulation mapping setup complete" );
 

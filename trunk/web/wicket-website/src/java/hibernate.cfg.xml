@@ -18,7 +18,6 @@
         <property name="hibernate.c3p0.timeout">1800</property>
         <property name="hibernate.c3p0.max_statements">50</property>
 
-        <!-- TODO: DEV add in EHCache configuration options -->
         <property name="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</property>
 
         <!-- Enable Hibernate's automatic session context management -->
@@ -38,6 +37,8 @@
         <mapping resource="edu/colorado/phet/website/data/Project.hbm.xml"/>
         <mapping resource="edu/colorado/phet/website/data/Simulation.hbm.xml"/>
         <mapping resource="edu/colorado/phet/website/data/LocalizedSimulation.hbm.xml"/>
+
+        <mapping resource="edu/colorado/phet/website/data/TeachersGuide.hbm.xml"/>
 
         <mapping resource="edu/colorado/phet/website/data/Category.hbm.xml"/>
 
