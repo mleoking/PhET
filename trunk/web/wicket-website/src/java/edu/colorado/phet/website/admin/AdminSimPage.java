@@ -3,12 +3,15 @@ package edu.colorado.phet.website.admin;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.File;
 import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
+import org.apache.wicket.markup.html.form.upload.FileUpload;
+import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -26,6 +29,7 @@ import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.data.Keyword;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.TeachersGuide;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
@@ -42,6 +46,7 @@ public class AdminSimPage extends AdminPage {
 
         int simulationId = parameters.getInt( "simulationId" );
 
+        List<TeachersGuide> guides = new LinkedList<TeachersGuide>();
 
         localizedSimulations = new LinkedList<LocalizedSimulation>();
         List<Keyword> simKeywords = new LinkedList<Keyword>();
@@ -73,6 +78,12 @@ public class AdminSimPage extends AdminPage {
             List allKeys = session.createQuery( "select k from Keyword as k" ).list();
             for ( Object allKey : allKeys ) {
                 allKeywords.add( (Keyword) allKey );
+            }
+
+            List tguides = session.createQuery( "select tg from TeachersGuide as tg where tg.simulation = :sim" )
+                    .setEntity( "sim", simulation ).list();
+            for ( Object o : tguides ) {
+                guides.add( (TeachersGuide) o );
             }
 
             tx.commit();
@@ -142,6 +153,15 @@ public class AdminSimPage extends AdminPage {
                 } );
             }
         } );
+
+        if ( !guides.isEmpty() ) {
+            add( guides.get( 0 ).getLinker().getLink( "guide-link", getPageContext(), getPhetCycle() ) );
+        }
+        else {
+            add( new InvisibleComponent( "guide-link" ) );
+        }
+
+        add( new FileUploadForm( "upload-guide-form" ) );
     }
 
     private void sortKeywords( List<Keyword> allKeywords ) {
@@ -650,6 +670,63 @@ public class AdminSimPage extends AdminPage {
                     return true;
                 }
             } );
+        }
+    }
+
+    private class FileUploadForm extends Form {
+
+        private FileUploadField field;
+
+        public FileUploadForm( String id ) {
+            super( id );
+
+            add( field = new FileUploadField( "file" ) );
+
+            setMultiPart( true );
+
+        }
+
+        @Override
+        protected void onSubmit() {
+            final FileUpload fup = field.getFileUpload();
+            if ( fup != null ) {
+                HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        List tguides = session.createQuery( "select tg from TeachersGuide as tg where tg.simulation = :sim" )
+                                .setEntity( "sim", simulation ).list();
+
+                        boolean old = !tguides.isEmpty();
+                        TeachersGuide guide = old ? (TeachersGuide) tguides.get( 0 ) : new TeachersGuide();
+
+                        if( !old ) {
+                            guide.setSimulation( simulation );
+                            guide.setFilename( TeachersGuide.createFilename(simulation ));
+                            guide.setLocation( guide.getFileLocation().getAbsolutePath() );
+                        }
+
+                        File file = guide.getFileLocation();
+                        file.getParentFile().mkdirs();
+                        try {
+                            file.createNewFile();
+                            fup.writeTo( file );
+                            guide.setSize( (int) file.length() );
+                        }
+                        catch( IOException e ) {
+                            e.printStackTrace();
+                            logger.warn( e );
+                            return false;
+                        }
+
+                        if( old ) {
+                            session.update( guide );
+                        } else {
+                            session.save( guide );
+                        }
+
+                        return true;
+                    }
+                } );
+            }
         }
     }
 }
