@@ -51,8 +51,17 @@ public class TransferData {
                     public boolean process( ResultSet result ) throws SQLException {
                         int id = result.getInt( "sim_teachers_guide_id" );
                         String name = result.getString( "sim_name" );
+                        if ( id == 0 ) {
+                            // don't handle non-existing ones?
+                            logger.warn( "id == 0, so hopefully no guide? sim name is " + name );
+                            return true;
+                        }
                         Simulation simulation = (Simulation) ( session.createQuery( "select s from Simulation as s where s.name = :name" )
                                 .setString( "name", name ).uniqueResult() );
+                        if ( simulation == null ) {
+                            logger.warn( "could not find simulation for name " + name );
+                            return false;
+                        }
                         badlyNamedVariable.put( id, simulation );
                         logger.debug( "  registering guide #" + id + " with sim name " + name + " to actual sim id " + simulation.getId() );
 
