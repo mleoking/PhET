@@ -63,6 +63,10 @@ public class TeachersGuide implements Serializable, IntId {
         };
     }
 
+    public static String createFilename( Simulation simulation ) {
+        return simulation.getName() + "-guide.pdf";
+    }
+
     //----------------------------------------------------------------------------
     // getters and setters
     //----------------------------------------------------------------------------

@@ -234,6 +234,18 @@
         <input type="submit" name="submit" value="submit"/>
     </form>
 </div>
+<div class="guide-holder">
+    <h3>Teacher's Guide</h3>
+    <wicket:enclosure child="guide-link">
+        <div>
+            <a href="#" wicket:id="guide-link">current guide</a>
+        </div>
+    </wicket:enclosure>
+    <form wicket:id="upload-guide-form">
+        Add or replace: <input wicket:id="file" type="file"/>
+        <input type="submit" name="submit" value="submit"/>
+    </form>
+</div>
 <div class="files-holder">
     <h3>Files</h3>
 
