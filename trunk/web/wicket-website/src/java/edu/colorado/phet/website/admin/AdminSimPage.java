@@ -1,9 +1,9 @@
 package edu.colorado.phet.website.admin;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.File;
 import java.util.*;
 
 import org.apache.log4j.Logger;
@@ -53,7 +53,7 @@ public class AdminSimPage extends AdminPage {
         List<Keyword> simTopics = new LinkedList<Keyword>();
         List<Keyword> allKeywords = new LinkedList<Keyword>();
 
-        Session session = getHibernateSession();
+        final Session session = getHibernateSession();
         final Locale english = LocaleUtils.stringToLocale( "en" );
 
         Transaction tx = null;
@@ -162,6 +162,21 @@ public class AdminSimPage extends AdminPage {
         }
 
         add( new FileUploadForm( "upload-guide-form" ) );
+
+        add( new Link( "remove-guide" ) {
+            public void onClick() {
+                boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        session.delete( session.createQuery( "select tg from TeachersGuide as tg where tg.simulation = :sim" )
+                                .setEntity( "sim", simulation ).uniqueResult() );
+                        return true;
+                    }
+                } );
+                if ( success ) {
+                    setResponsePage( AdminSimsPage.class );
+                }
+            }
+        } );
     }
 
     private void sortKeywords( List<Keyword> allKeywords ) {
@@ -690,7 +705,7 @@ public class AdminSimPage extends AdminPage {
         protected void onSubmit() {
             final FileUpload fup = field.getFileUpload();
             if ( fup != null ) {
-                HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                     public boolean run( Session session ) {
                         List tguides = session.createQuery( "select tg from TeachersGuide as tg where tg.simulation = :sim" )
                                 .setEntity( "sim", simulation ).list();
@@ -698,9 +713,9 @@ public class AdminSimPage extends AdminPage {
                         boolean old = !tguides.isEmpty();
                         TeachersGuide guide = old ? (TeachersGuide) tguides.get( 0 ) : new TeachersGuide();
 
-                        if( !old ) {
+                        if ( !old ) {
                             guide.setSimulation( simulation );
-                            guide.setFilename( TeachersGuide.createFilename(simulation ));
+                            guide.setFilename( TeachersGuide.createFilename( simulation ) );
                             guide.setLocation( guide.getFileLocation().getAbsolutePath() );
                         }
 
@@ -717,15 +732,20 @@ public class AdminSimPage extends AdminPage {
                             return false;
                         }
 
-                        if( old ) {
+                        if ( old ) {
                             session.update( guide );
-                        } else {
+                        }
+                        else {
                             session.save( guide );
                         }
 
                         return true;
                     }
                 } );
+
+                if ( success ) {
+                    setResponsePage( AdminSimsPage.class );
+                }
             }
         }
     }
