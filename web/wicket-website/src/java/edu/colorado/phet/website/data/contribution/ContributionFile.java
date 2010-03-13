@@ -16,6 +16,10 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class ContributionFile implements Serializable, IntId {
 
+    /**
+     * File types that are allowed to be uploaded. Older ones are grandfathered in, but currently not gracefully.
+     * (contributions with non-compliant files cannot be updated)
+     */
     private static final String[] FILE_TYPE_WHITELIST = new String[]{"pdf", "doc", "docx", "ppt", "xls", "txt"};
 
     private int id;
@@ -25,6 +29,17 @@ public class ContributionFile implements Serializable, IntId {
     private int size; // bytes
 
     private static Logger logger = Logger.getLogger( ContributionFile.class.getName() );
+
+    //----------------------------------------------------------------------------
+    // constructor
+    //----------------------------------------------------------------------------
+
+    public ContributionFile() {
+    }
+
+    //----------------------------------------------------------------------------
+    // public methods
+    //----------------------------------------------------------------------------
 
     public File getFileLocation() {
         return new File( PhetWicketApplication.get().getActivitiesRoot(), getRelativeLocation() );
@@ -82,15 +97,16 @@ public class ContributionFile implements Serializable, IntId {
     /**
      * Used for transferring files from the old data
      *
-     * @param id
+     * @param id Contribution file ID
      * @return
      */
     public File getTmpFileLocation( String id ) {
         return new File( PhetWicketApplication.get().getActivitiesRoot(), "tmp" + getRelativeLocation( id ) );
     }
 
-    public ContributionFile() {
-    }
+    //----------------------------------------------------------------------------
+    // getters and setters
+    //----------------------------------------------------------------------------
 
     public int getId() {
         return id;
