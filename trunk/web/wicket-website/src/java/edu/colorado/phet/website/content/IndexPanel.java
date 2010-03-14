@@ -66,9 +66,12 @@ public class IndexPanel extends PhetPanel {
 
         if ( DistributionHandler.redirectActivities( (PhetRequestCycle) getRequestCycle() ) ) {
             add( new PhetLink( "activities-link", "http://phet.colorado.edu/teacher_ideas/index.php" ) );
+            add( new PhetLink( "browse-activities-link", "http://phet.colorado.edu/teacher_ideas/browse.php" ) );
         }
         else {
-            add( new PhetLink( "activities-link", "/activities" ) );
+            // TODO: what to do when we use a distribution that doesn't want this link?
+            add( TeacherIdeasPanel.getLinker().getLink( "activities-link", context, getPhetCycle() ) );
+            add( ContributionBrowsePage.getLinker().getLink( "browse-activities-link", context, getPhetCycle() ) );
         }
 
         add( HeaderContributor.forCss( "/css/home-v1.css" ) );
