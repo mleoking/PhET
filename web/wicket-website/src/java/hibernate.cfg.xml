@@ -58,8 +58,14 @@
         <mapping resource="edu/colorado/phet/website/data/contribution/ContributionFlag.hbm.xml"/>
         <mapping resource="edu/colorado/phet/website/data/contribution/ContributionNomination.hbm.xml"/>
 
+        <event type="post-insert">
+            <listener class="edu.colorado.phet.website.data.HibernateEventListener"/>
+        </event>
         <event type="post-update">
-            <listener class="edu.colorado.phet.website.data.UpdateEventListener"/>
+            <listener class="edu.colorado.phet.website.data.HibernateEventListener"/>
+        </event>
+        <event type="post-delete">
+            <listener class="edu.colorado.phet.website.data.HibernateEventListener"/>
         </event>
 
     </session-factory>

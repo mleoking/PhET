@@ -15,10 +15,10 @@ import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.IntId;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
-import edu.colorado.phet.website.data.UpdateListener;
+import edu.colorado.phet.website.data.DataListener;
 import edu.colorado.phet.website.util.StringUtils;
 
-public class Contribution implements Serializable, UpdateListener, IntId {
+public class Contribution implements Serializable, DataListener, IntId {
 
     private int id;
     private PhetUser phetUser;
@@ -87,6 +87,10 @@ public class Contribution implements Serializable, UpdateListener, IntId {
 
     public Contribution() {
     }
+
+    //----------------------------------------------------------------------------
+    // public instance functions
+    //----------------------------------------------------------------------------
 
     public boolean hasStandards() {
         return standard58A || standard58B || standard58C || standard58D || standard58E || standard58F || standard58G ||
@@ -208,6 +212,22 @@ public class Contribution implements Serializable, UpdateListener, IntId {
         session.delete( this );
     }
 
+    public void onUpdate() {
+        logger.info( "contribution #" + id + " updated" );
+
+        try {
+            createZipFile();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            logger.error( "unable to recreate zip file for contribution " + id, e );
+        }
+    }
+
+    //----------------------------------------------------------------------------
+    // utilities to add related data
+    //----------------------------------------------------------------------------
+
     public void addComment( ContributionComment comment ) {
         comment.setContribution( this );
         comments.add( comment );
@@ -248,10 +268,18 @@ public class Contribution implements Serializable, UpdateListener, IntId {
         simulations.add( simulation );
     }
 
+    //----------------------------------------------------------------------------
+    // utilities to remove related data
+    //----------------------------------------------------------------------------
+
     public void removeSimulation( Simulation simulation ) {
         simulation.getContributions().remove( this );
         simulations.remove( simulation );
     }
+
+    //----------------------------------------------------------------------------
+    // getters and setters
+    //----------------------------------------------------------------------------
 
     public int getId() {
         return id;
@@ -626,15 +654,4 @@ public class Contribution implements Serializable, UpdateListener, IntId {
         this.locale = locale;
     }
 
-    public void onUpdate() {
-        logger.info( "contribution #" + id + " updated" );
-
-        try {
-            createZipFile();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            logger.error( "unable to recreate zip file for contribution " + id, e );
-        }
-    }
 }

@@ -4,7 +4,12 @@ import java.util.Locale;
 
 import javax.servlet.ServletContext;
 
+import org.apache.log4j.Logger;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.Response;
+import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.response.StringResponse;
 
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.menu.NavMenu;
@@ -20,12 +25,36 @@ public class PhetPanel extends Panel {
 
     private Locale myLocale;
 
+    private static String cachedVersion;
+
+    private static Logger logger = Logger.getLogger( PhetPanel.class.getName() );
+
+    //----------------------------------------------------------------------------
+    // constructor
+    //----------------------------------------------------------------------------
+
     public PhetPanel( String id, PageContext context ) {
         super( id );
         this.myLocale = context.getLocale();
 
         addStylesheets();
     }
+
+    //----------------------------------------------------------------------------
+    // public methods
+    //----------------------------------------------------------------------------
+
+    /**
+     * Override this and add the stylesheets required. This is desired so that if the component is cached, the correct
+     * stylesheets can be added back into the header.
+     */
+    public void addStylesheets() {
+
+    }
+
+    //----------------------------------------------------------------------------
+    // public getters
+    //----------------------------------------------------------------------------
 
     /**
      * Considered immutable
@@ -85,10 +114,46 @@ public class PhetPanel extends Panel {
     }
 
     /**
-     * Override this and add the stylesheets required. This is desired so that if the component is cached, the correct
-     * stylesheets can be added back into the header.
+     * @return Override with true to suggest that the page be cached by the panel
      */
-    public void addStylesheets() {
-
+    public boolean isCacheable() {
+        return false;
     }
+
+    //----------------------------------------------------------------------------
+    // caching implementation
+    //----------------------------------------------------------------------------
+
+//    @Override
+//    protected void onRender( MarkupStream markupStream ) {
+//        if ( isCacheable() ) {
+//            StringResponse fakeResponse;
+//
+//            RequestCycle cycle = getRequestCycle();
+//            Response response = cycle.getResponse();
+//            synchronized( this ) {
+//                if ( cachedVersion == null ) {
+//                    logger.debug( "not cached" );
+//                    fakeResponse = new StringResponse();
+//
+//                    cycle.setResponse( fakeResponse );
+//                    super.onRender( markupStream );
+//                    cycle.setResponse( response );
+//
+//                    cachedVersion =
+//                }
+//                else {
+//                    logger.debug( "cached" );
+//                    markupStream.skipComponent();
+//                }
+//            }
+//
+//            logger.debug( "fakeResponse: " + fakeResponse.getBuffer() );
+//
+//            response.write( fakeResponse.getBuffer() );
+//        }
+//        else {
+//            super.onRender( markupStream );
+//        }
+//    }
 }
