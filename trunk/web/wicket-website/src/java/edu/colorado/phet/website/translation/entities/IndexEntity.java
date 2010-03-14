@@ -17,8 +17,9 @@ public class IndexEntity extends TranslationEntity {
         addString( "home.oneAtATime" );
         addString( "home.teacherIdeasAndActivities" );
         addString( "home.browseActivities" );
-        addString( "home.workshops" );
         addString( "home.contribute" );
+        addString( "home.workshops" );
+        addString( "home.submitActivity" );
         addString( "home.supportPhet" );
         addString( "home.translateSimulations" );
         addString( "home.browseSims" );
