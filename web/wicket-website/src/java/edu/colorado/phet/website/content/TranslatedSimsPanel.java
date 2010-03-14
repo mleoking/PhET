@@ -144,14 +144,17 @@ public class TranslatedSimsPanel extends PhetPanel {
             }
         } );
 
-        add( HeaderContributor.forCss( "/css/translated-sims-v1.css" ) );
-
         Long d = System.currentTimeMillis();
 
         logger.debug( "a-b: " + ( b - a ) );
         logger.debug( "b-c: " + ( c - b ) );
         logger.debug( "c-d: " + ( d - c ) );
 
+    }
+
+    @Override
+    public void addStylesheets() {
+        add( HeaderContributor.forCss( "/css/translated-sims-v1.css" ) );
     }
 
     public static String getKey() {
