@@ -14,11 +14,9 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
-import org.hibernate.FetchMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
@@ -31,6 +29,7 @@ import edu.colorado.phet.website.content.about.AboutLegendPanel;
 import edu.colorado.phet.website.data.Keyword;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.TeachersGuide;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -51,6 +50,8 @@ public class SimulationMainPanel extends PhetPanel {
 
         add( new Label( "simulation-main-title", simulation.getTitle() ) );
 
+        add( HeaderContributor.forCss( "/css/simulation-main-v1.css" ) );
+
         if ( simulation.getLocale().equals( context.getLocale() ) ) {
             add( new InvisibleComponent( "untranslated-sim-text" ) );
         }
@@ -67,6 +68,10 @@ public class SimulationMainPanel extends PhetPanel {
         add( new LocalizedText( "simulation-main-description", simulation.getSimulation().getDescriptionKey() ) );
         add( new Label( "simulationMainPanel.version", new StringResourceModel( "simulationMainPanel.version", this, null, new String[]{simulationVersionString} ) ) );
         add( new Label( "simulationMainPanel.kilobytes", new StringResourceModel( "simulationMainPanel.kilobytes", this, null, new Object[]{simulation.getSimulation().getKilobytes()} ) ) );
+
+        //----------------------------------------------------------------------------
+        // rating icons
+        //----------------------------------------------------------------------------
 
         if ( simulation.getSimulation().isUnderConstruction() ) {
             Link uclink = AboutLegendPanel.getLinker().getLink( "rating-under-construction-link", context, getPhetCycle() );
@@ -94,6 +99,33 @@ public class SimulationMainPanel extends PhetPanel {
         else {
             add( new InvisibleComponent( "rating-classroom-tested-link" ) );
         }
+
+        //----------------------------------------------------------------------------
+        // teacher's guide
+        //----------------------------------------------------------------------------
+
+        final List<TeachersGuide> guides = new LinkedList<TeachersGuide>();
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                List li = session.createQuery( "select tg from TeachersGuide as tg where tg.simulation = :sim" )
+                        .setEntity( "sim", simulation.getSimulation() ).list();
+                if ( !li.isEmpty() ) {
+                    guides.add( (TeachersGuide) li.get( 0 ) );
+                }
+                return true;
+            }
+        } );
+        if ( !guides.isEmpty() ) {
+            add( new LocalizedText( "guide-text", "simulationMainPanel.teachersGuide", new Object[]{guides.get( 0 ).getLinker().getHref( context, getPhetCycle() )} ) );
+        }
+        else {
+            // make the teachers guide text (and whole section) invisible
+            add( new InvisibleComponent( "guide-text" ) );
+        }
+
+        //----------------------------------------------------------------------------
+        // contributions
+        //----------------------------------------------------------------------------
 
         if ( DistributionHandler.displayContributions( getPhetCycle() ) ) {
             final List<Contribution> contributions = new LinkedList<Contribution>();
@@ -127,6 +159,9 @@ public class SimulationMainPanel extends PhetPanel {
             add( new InvisibleComponent( "contributions-panel" ) );
         }
 
+        //----------------------------------------------------------------------------
+        // translations
+        //----------------------------------------------------------------------------
 
         List<LocalizedSimulation> simulations = HibernateUtils.getLocalizedSimulationsMatching( getHibernateSession(), null, simulation.getSimulation().getName(), null );
         HibernateUtils.orderSimulations( simulations, context.getLocale() );
@@ -175,9 +210,17 @@ public class SimulationMainPanel extends PhetPanel {
         };
         add( simulationList );
 
+        //----------------------------------------------------------------------------
+        // run / download links
+        //----------------------------------------------------------------------------
+
         // TODO: move from direct links to page redirections, so bookmarkables will be minimized
         add( new PhetLink( "run-online-link", simulation.getRunUrl() ) );
         add( new PhetLink( "run-offline-link", simulation.getDownloadUrl() ) );
+
+        //----------------------------------------------------------------------------
+        // keywords / topics
+        //----------------------------------------------------------------------------
 
         List<Keyword> keywords = new LinkedList<Keyword>();
         List<Keyword> topics = new LinkedList<Keyword>();
@@ -244,7 +287,10 @@ public class SimulationMainPanel extends PhetPanel {
             keywordList.setVisible( false );
         }
 
+        //----------------------------------------------------------------------------
         // system requirements
+        //----------------------------------------------------------------------------
+
         if ( simulation.getSimulation().isJava() ) {
             add( new Label( "windows-req", "Sun Java 1.5.0_15 or later" ) );
             add( new Label( "mac-req", "Sun Java 1.5.0_19 or later" ) );
@@ -266,11 +312,14 @@ public class SimulationMainPanel extends PhetPanel {
             simulationList.setVisible( false );
         }
 
-        add( HeaderContributor.forCss( "/css/simulation-main-v1.css" ) );
-
-        //new StringResourceModel( "simulationPage.title", this, null, new String[]{simulation.getTitle(), simulation.getSimulation().getProject().getVersionString()} )
         PhetLocalizer localizer = (PhetLocalizer) getLocalizer();
 
+        //----------------------------------------------------------------------------
+        // title
+        //----------------------------------------------------------------------------
+
+        // we initialize the title in the panel. then whatever page that wants to adopt this panel's "title" as the page
+        // title can
         List<String> titleParams = new LinkedList<String>();
         titleParams.add( simulation.getTitle() );
         for ( Keyword keyword : keywords ) {
@@ -289,6 +338,10 @@ public class SimulationMainPanel extends PhetPanel {
                 title = simulation.getTitle();
             }
         }
+
+        //----------------------------------------------------------------------------
+        // more info (design team, libraries, thanks, etc)
+        //----------------------------------------------------------------------------
 
         List<String> designTeam = new LinkedList<String>();
         List<String> libraries = new LinkedList<String>();
