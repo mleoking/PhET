@@ -11,6 +11,10 @@ import edu.colorado.phet.neuron.utils.MathUtils;
 /**
  * A gated channel through which sodium passes when the channel is open.
  * 
+ * TODO: This was essentially replaced by the dual-gated version in mid-March
+ * of 2010.  It will be kept around for a little while, but should be removed
+ * once the dual-gated version has been approved.
+ * 
  * @author John Blanco
  */
 public class SodiumGatedChannel extends GatedChannel {
