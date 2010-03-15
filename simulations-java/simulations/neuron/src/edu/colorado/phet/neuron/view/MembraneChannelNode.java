@@ -164,6 +164,7 @@ public class MembraneChannelNode extends PNode{
 		
 		Dimension2D channelSize = new PDimension(membraneChannelModel.getChannelSize().getWidth() * membraneChannelModel.getOpenness(),
 				membraneChannelModel.getChannelSize().getHeight());
+		System.out.println("Channel Size = " + channelSize);
 		Dimension2D transformedChannelSize = new PDimension(
 				Math.abs(mvt.modelToViewDifferentialXDouble(channelSize.getWidth())),
 				Math.abs(mvt.modelToViewDifferentialYDouble(channelSize.getHeight())));
@@ -174,16 +175,17 @@ public class MembraneChannelNode extends PNode{
 		
 		float width = (float)transformedChannelSize.getWidth() * oversizeFactor;
 		float height = (float)transformedChannelSize.getHeight() * oversizeFactor;
+		float edgeWidth = (float)leftEdgeNode.getFullBoundsReference().width; // Assume both edges are the same size.
 		
 		GeneralPath path = new GeneralPath();
 		path.moveTo(0, 0);
-		path.quadTo(width * 0.6f, -height / 8.0f, width * 1.2f, 0);
-		path.lineTo(width * 1.2f, -height);
-		path.quadTo(width * 0.6f, -height * 7 / 8, 0, -height);
+		path.quadTo((width + edgeWidth) / 2, height / 8, width + edgeWidth, 0);
+		path.lineTo(width + edgeWidth, height);
+		path.quadTo((width + edgeWidth) / 2, height * 7 / 8, 0, height);
 		path.closePath();
 		
 		channel.setPathTo(path);
-		channel.setOffset(-channel.getFullBoundsReference().width / 2, channel.getFullBoundsReference().height / 2);
+		channel.setOffset(-channel.getFullBoundsReference().width / 2, -channel.getFullBoundsReference().height / 2);
 
 		leftEdgeNode.setOffset(
 				-transformedChannelSize.getWidth() / 2 - leftEdgeNode.getFullBoundsReference().width / 2, 0);
