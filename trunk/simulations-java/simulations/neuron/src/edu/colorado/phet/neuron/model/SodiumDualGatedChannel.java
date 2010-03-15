@@ -119,12 +119,13 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		// Get the conductance and normalize it from 0 to 1.
 		double normalizedConductance = calculateNormalizedConductance();
 		
-		if (normalizedConductance > 0 && normalizedConductance < 1){
+		if (normalizedConductance >= 0 && normalizedConductance <= 1){
 			// Trim off some digits to limit very small changes.
 			normalizedConductance = MathUtils.round(normalizedConductance, 2);
 		}
 		else{
 			// This shouldn't happen, debug it if it does.
+			System.err.println(getClass().getName() + "Nomalized conductance out of range, = " + normalizedConductance);
 			assert false;
 		}
 		
@@ -139,6 +140,10 @@ public class SodiumDualGatedChannel extends GatedChannel {
 			break;
 			
 		case OPENING:
+			if (isOpen() && getCaptureCountdownTimer() == Double.POSITIVE_INFINITY){
+				// We are open enought to start capturing particles.
+				restartCaptureCountdownTimer();
+			}
 			if (previousNormalizedConductance  > normalizedConductance){
 				// We are on the way down, so set a new state.
 				gateState = GateState.BECOMING_INACTIVE;
