@@ -37,7 +37,7 @@ public class CacheTestPanel extends PhetPanel {
         super( id, context );
         logger.debug( "*(after) public CacheTestPanel( String id, PageContext context )" );
 
-        add( HeaderContributor.forCss( "/css/sponsors-v1.css" ) );
+        add( HeaderContributor.forCss( "/css/nonexistant-file.css" ) );
     }
 
     @Override
@@ -98,8 +98,54 @@ public class CacheTestPanel extends PhetPanel {
     @Override
     public void renderHead( HtmlHeaderContainer container ) {
         logger.debug( "* public void renderHead( HtmlHeaderContainer container )" );
-        HtmlHeaderContainerWrapper wrapper = new HtmlHeaderContainerWrapper( container );
-        super.renderHead( wrapper );
+        //HtmlHeaderContainerWrapper wrapper = new HtmlHeaderContainerWrapper( container );
+        //super.renderHead( wrapper );
+
+        StringResponse fakeResponse = new StringResponse();
+        RequestCycle cycle = getRequestCycle();
+        Response response = cycle.getResponse();
+
+        cycle.setResponse( fakeResponse );
+        super.renderHead( container );
+        cycle.setResponse( response );
+
+        logger.debug( "***\n" + fakeResponse.getBuffer() );
+
+        response.write( fakeResponse.getBuffer() );
+
+
+        //    @Override
+//    protected void onRender( MarkupStream markupStream ) {
+//        if ( isCacheable() ) {
+//            StringResponse fakeResponse;
+//
+//            RequestCycle cycle = getRequestCycle();
+//            Response response = cycle.getResponse();
+//            synchronized( this ) {
+//                if ( cachedVersion == null ) {
+//                    logger.debug( "not cached" );
+//                    fakeResponse = new StringResponse();
+//
+//                    cycle.setResponse( fakeResponse );
+//                    super.onRender( markupStream );
+//                    cycle.setResponse( response );
+//
+//                    cachedVersion =
+//                }
+//                else {
+//                    logger.debug( "cached" );
+//                    markupStream.skipComponent();
+//                }
+//            }
+//
+//            logger.debug( "fakeResponse: " + fakeResponse.getBuffer() );
+//
+//            response.write( fakeResponse.getBuffer() );
+//        }
+//        else {
+//            super.onRender( markupStream );
+//        }
+//    }
     }
 
     @Override

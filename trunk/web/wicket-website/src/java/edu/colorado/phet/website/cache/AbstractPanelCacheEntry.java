@@ -5,9 +5,9 @@ import java.util.List;
 
 public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
 
-    private Class panelClass;
-    private Class parentClass;
-    private String parentCacheId;
+    protected Class panelClass;
+    protected Class parentClass;
+    protected String parentCacheId;
     private List<EventDependency> dependencies = new LinkedList<EventDependency>();
 
     protected AbstractPanelCacheEntry( Class panelClass, Class parentClass, String parentCacheId ) {
