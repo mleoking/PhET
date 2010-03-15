@@ -30,6 +30,8 @@ public class TranslatedSimsPanel extends PhetPanel {
     public TranslatedSimsPanel( String id, final PageContext context ) {
         super( id, context );
 
+        add( HeaderContributor.forCss( "/css/translated-sims-v1.css" ) );
+
         final List<LocalizedSimulation> localizedSimulations = new LinkedList<LocalizedSimulation>();
         final Map<Locale, List<LocalizedSimulation>> localeMap = new HashMap<Locale, List<LocalizedSimulation>>();
         final List<Locale> locales = new LinkedList<Locale>();
@@ -150,11 +152,6 @@ public class TranslatedSimsPanel extends PhetPanel {
         logger.debug( "b-c: " + ( c - b ) );
         logger.debug( "c-d: " + ( d - c ) );
 
-    }
-
-    @Override
-    public void addStylesheets( PhetPanel panel ) {
-        panel.add( HeaderContributor.forCss( "/css/translated-sims-v1.css" ) );
     }
 
     public static String getKey() {

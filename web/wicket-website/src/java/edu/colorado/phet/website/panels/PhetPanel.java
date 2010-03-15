@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
 import org.apache.wicket.markup.MarkupStream;
+import org.apache.wicket.markup.html.internal.HtmlHeaderContainer;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.response.StringResponse;
 
@@ -46,20 +47,6 @@ public class PhetPanel extends Panel {
     public PhetPanel( String id, PageContext context ) {
         super( id );
         this.myLocale = context.getLocale();
-
-        addStylesheets( this );
-    }
-
-    //----------------------------------------------------------------------------
-    // public methods
-    //----------------------------------------------------------------------------
-
-    /**
-     * Override this and add the stylesheets required. This is desired so that if the component is cached, the correct
-     * stylesheets can be added back into the header.
-     */
-    public void addStylesheets( PhetPanel panel ) {
-
     }
 
     //----------------------------------------------------------------------------
@@ -161,6 +148,26 @@ public class PhetPanel extends Panel {
 //    }
 
     @Override
+    public void renderHead( HtmlHeaderContainer container ) {
+        if ( cacheEntry == null ) {
+            super.renderHead( container );
+        }
+        else {
+            StringResponse fakeResponse = new StringResponse();
+            RequestCycle cycle = getRequestCycle();
+            Response response = cycle.getResponse();
+
+            cycle.setResponse( fakeResponse );
+            super.renderHead( container );
+            cycle.setResponse( response );
+
+            cacheEntry.setHeader( fakeResponse.getBuffer() );
+
+            response.write( fakeResponse.getBuffer() );
+        }
+    }
+
+    @Override
     protected void onRender( MarkupStream markupStream ) {
         if ( cacheEntry == null ) {
             // not caching the component. render as normal
@@ -175,6 +182,8 @@ public class PhetPanel extends Panel {
             cycle.setResponse( fakeResponse );
             super.onRender( markupStream );
             cycle.setResponse( response );
+
+            cacheEntry.setBody( fakeResponse.getBuffer() );
 
             for ( EventDependency dependency : getDependencies() ) {
                 cacheEntry.addDependency( dependency );

@@ -42,6 +42,8 @@ public class ContributionBrowsePanel extends PhetPanel {
 
         logger.debug( System.currentTimeMillis() + " start" );
 
+        add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
+
         newContributions = new LinkedList<Contribution>();
 
         logger.debug( System.currentTimeMillis() + " A" );
@@ -128,11 +130,6 @@ public class ContributionBrowsePanel extends PhetPanel {
 
         logger.debug( System.currentTimeMillis() + " finish init" );
 
-    }
-
-    @Override
-    public void addStylesheets( PhetPanel panel ) {
-        panel.add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
     }
 
     public String getLevelString( Contribution contribution ) {

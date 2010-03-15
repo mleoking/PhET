@@ -25,6 +25,12 @@ public class PanelCache {
         return instance;
     }
 
+    public boolean contains( IPanelCacheEntry entry ) {
+        synchronized( lock ) {
+            return cache.contains( entry );
+        }
+    }
+
     /**
      * Adds an entry if it does not already exist in the cache.
      * Relies on all of the entries' equals() and hashcode() to be correct
