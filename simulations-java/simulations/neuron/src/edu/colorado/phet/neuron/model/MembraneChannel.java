@@ -110,7 +110,7 @@ public abstract class MembraneChannel {
     		break;
     		
     	case SODIUM_GATED_CHANNEL:
-    		membraneChannel = new SodiumGatedChannel(hodgkinHuxleyModel, particleModel);
+    		membraneChannel = new SodiumDualGatedChannel(hodgkinHuxleyModel, particleModel);
     		break;
     		
     	case POTASSIUM_LEAKAGE_CHANNEL:
@@ -164,9 +164,9 @@ public abstract class MembraneChannel {
 	 * @return
 	 */
 	protected boolean isOpen(){
-		// The threshold value used here is arbitrary, and can be changed if
+		// The threshold values used here are arbitrary, and can be changed if
 		// necessary.
-		return (getOpenness() > 0.4);
+		return (getOpenness() > 0.4 && getInactivationAmt() < 0.6);
 	}
 	
 	/**
