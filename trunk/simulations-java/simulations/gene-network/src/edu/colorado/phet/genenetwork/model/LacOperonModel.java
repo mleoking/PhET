@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
+
 /**
  * Primary model for the Lac Operon flavor of this sim.  The primary
  * responsibilities for this class are:
@@ -44,6 +45,10 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	private static final Dimension2D DNA_STRAND_SIZE = new PDimension(DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
 	private static final Point2D DNA_STRAND_POSITION = new Point2D.Double(0, -15);
 	
+	// Constants that define the size and position of the cell membrane.
+	private static final double CELL_MEMBRANE_THICKNESS = 4; // In nanometers.
+	private static final Point2D CELL_MEMBRANE_CENTER_POS = new Point2D.Double(0, 40);
+	
 	// Constants that define where the mobile model elements can go.
 	private static final Rectangle2D MOTION_BOUNDS = new Rectangle2D.Double(MODEL_BOUNDS.getMinX(), 
 			DNA_STRAND_POSITION.getY(), MODEL_BOUNDS.getWidth(),
@@ -69,6 +74,11 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     
     // The DNA strand.
     private final DnaStrand dnaStrand = new DnaStrand( this, DNA_STRAND_SIZE, DNA_STRAND_POSITION );
+    
+    // The cell membrane.  This is not always depicted.  It is intended to be
+    // a short, wide rectangle - so wide that the user never sees the left and
+    // right edges, only the top and bottom.
+    private Rectangle2D cellMembraneRect;
     
     // Lists of simple model elements for which multiple instances can exist.
     private final ArrayList<LacI> lacIList = new ArrayList<LacI>();
@@ -110,6 +120,11 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     // State variable that tracks whether lactose meter should be shown.
     private boolean isLactoseMeterVisible = false;
     
+    // Configuration variable that tracks whether LacY should be included
+    // in the simulation.  This affects a number of related behaviors, such
+    // as whether the cell membrane is depicted.
+    private final boolean isLacYSimulated;
+    
     // Timer used for delayed enabling of lactose injection.
     private final Timer delayedLactoseInjectionEnableTimer = new Timer(LACTOSE_INJECTION_ENABLE_DELAY, 
     		new ActionListener() {
@@ -124,10 +139,21 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     // Constructor(s)
     //----------------------------------------------------------------------------
     
-	public LacOperonModel( GeneNetworkClock clock ) {
+    /**
+     * Constructor for the main model for simulating the Lac Operon gene
+     * network.
+     * 
+     * @param clock - Simulation clock that will drive the model.
+     * @param simulateLacY - Boolean that controls whether LacY (the protein
+     * that transports lactose across the cell membrane) will be simulated.
+     * This has a number of implications for what is and isn't included in
+     * the operation of the model.
+     */
+	public LacOperonModel( GeneNetworkClock clock, boolean simulateLacY ) {
         super();
         
-        this.clock = clock;        
+        this.clock = clock;
+        this.isLacYSimulated = simulateLacY;
         
         clock.addClockListener(new ClockAdapter(){
 
@@ -422,7 +448,11 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	}
 	
 	public boolean isLactoseMeterVisible(){
-		return this.isLactoseMeterVisible;
+		return isLactoseMeterVisible;
+	}
+	
+	public boolean isLacYSimulated(){
+		return isLacYSimulated;
 	}
 	
 	public boolean isPointInToolBox(Point2D pt){
@@ -430,6 +460,15 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	}
 
 	private void addInitialModelElements() {
+		
+		// If LacY is being simulated, add a cell membrane.
+		if (isLacYSimulated){
+			cellMembraneRect = new Rectangle2D.Double(
+					-MODEL_AREA_WIDTH,
+					CELL_MEMBRANE_CENTER_POS.getY() - CELL_MEMBRANE_THICKNESS / 2,
+					MODEL_AREA_WIDTH * 2,
+					CELL_MEMBRANE_THICKNESS);
+		}
 		
         // Initialize the elements that are floating around the cell.
         for (int i = 0; i < 2; i++){
@@ -446,6 +485,16 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     
     public static Rectangle2D getMotionBounds(){
     	return MOTION_BOUNDS;
+    }
+    
+    public Rectangle2D getCellMembraneRect(){
+    	if (isLacYSimulated){
+    		return new Rectangle2D.Double(cellMembraneRect.getX(), cellMembraneRect.getY(), cellMembraneRect.getWidth(),
+    				cellMembraneRect.getHeight());
+    	}
+    	else{
+    		return null;
+    	}
     }
     
     /**

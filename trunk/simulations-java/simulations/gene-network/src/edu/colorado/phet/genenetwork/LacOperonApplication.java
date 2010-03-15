@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.genenetwork.module.LacOperonModule;
+import edu.colorado.phet.genenetwork.module.LactoseTransportModule;
 
 /**
  * The main application for this simulation.
@@ -59,6 +60,9 @@ public class LacOperonApplication extends PiccoloPhetApplication {
 
         Module firstModule = new LacOperonModule( parentFrame );
         addModule( firstModule );
+
+        Module secondModule = new LactoseTransportModule( parentFrame );
+        addModule( secondModule );
     }
 
     /*

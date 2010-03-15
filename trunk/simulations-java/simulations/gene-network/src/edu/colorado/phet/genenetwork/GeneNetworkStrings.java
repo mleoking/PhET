@@ -13,6 +13,7 @@ public class GeneNetworkStrings {
     private GeneNetworkStrings() {}
     
     public static final String TITLE_LACTOSE_REGULATION = GeneNetworkResources.getString( "ModuleTitle.LactoseRegulation" );
+    public static final String TITLE_LACTOSE_TRANSPORT = GeneNetworkResources.getString( "ModuleTitle.LactoseTransport" );
 
     public static final String UNITS_TIME = GeneNetworkResources.getString( "units.time" );
     

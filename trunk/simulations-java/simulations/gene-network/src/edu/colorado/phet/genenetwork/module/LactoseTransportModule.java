@@ -23,7 +23,7 @@ import edu.colorado.phet.genenetwork.view.GeneNetworkCanvas;
 /**
  * Module template.
  */
-public class LacOperonModule extends PiccoloModule {
+public class LactoseTransportModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -36,13 +36,13 @@ public class LacOperonModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public LacOperonModule( Frame parentFrame ) {
-        super( GeneNetworkStrings.TITLE_LACTOSE_REGULATION, new GeneNetworkClock( LacOperonDefaults.CLOCK_FRAME_RATE, 
+    public LactoseTransportModule( Frame parentFrame ) {
+        super( GeneNetworkStrings.TITLE_LACTOSE_TRANSPORT, new GeneNetworkClock( LacOperonDefaults.CLOCK_FRAME_RATE, 
         		LacOperonDefaults.CLOCK_DT ) );
 
         // Model
         GeneNetworkClock clock = (GeneNetworkClock) getClock();
-        model = new LacOperonModel( clock, false );
+        model = new LacOperonModel( clock, true );
 
         // Canvas
         canvas = new GeneNetworkCanvas( model );
