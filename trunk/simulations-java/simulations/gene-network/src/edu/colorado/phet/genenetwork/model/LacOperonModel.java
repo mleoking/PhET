@@ -83,6 +83,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     // Lists of simple model elements for which multiple instances can exist.
     private final ArrayList<LacI> lacIList = new ArrayList<LacI>();
     private final ArrayList<LacZ> lacZList = new ArrayList<LacZ>();
+    private final ArrayList<LacY> lacYList = new ArrayList<LacY>();
     private final ArrayList<Glucose> glucoseList = new ArrayList<Glucose>();
     private final ArrayList<Galactose> galactoseList = new ArrayList<Galactose>();
     private final ArrayList<RnaPolymerase> rnaPolymeraseList = new ArrayList<RnaPolymerase>();
@@ -477,6 +478,16 @@ public class LacOperonModel implements IGeneNetworkModelControl {
         	rnaPolymeraseList.add(rnaPolymerase);
         	notifyModelElementAdded(rnaPolymerase);
         }
+        
+        // TODO: Temp for testing - add a couple LacY's
+        if (isLacYSimulated){
+        	for (int i = 0; i < 2; i++){
+        		LacY lacY = new LacY(this, true);
+        		randomlyInitModelElement(lacY);
+        		lacYList.add(lacY);
+        		notifyModelElementAdded(lacY);
+        	}
+        }
 	}
 
     public GeneNetworkClock getClock() {
@@ -564,6 +575,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     	allSimples.addAll(rnaPolymeraseList);
     	allSimples.addAll(lacIList);
     	allSimples.addAll(lacZList);
+    	allSimples.addAll(lacYList);
     	allSimples.addAll(glucoseList);
     	allSimples.addAll(galactoseList);
     	allSimples.addAll(messengerRnaList);
@@ -691,6 +703,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     	// Step the elements for which there can be multiple instances.
     	stepElementsInTime(lacZList, dt);
     	stepElementsInTime(lacIList, dt);
+    	stepElementsInTime(lacYList, dt);
     	stepElementsInTime(glucoseList, dt);
     	stepElementsInTime(galactoseList, dt);
     	stepElementsInTime(rnaPolymeraseList, dt);
