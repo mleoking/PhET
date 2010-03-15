@@ -1,5 +1,8 @@
 package edu.colorado.phet.website.panels;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.ServletContext;
@@ -12,6 +15,9 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.response.StringResponse;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.cache.EventDependency;
+import edu.colorado.phet.website.cache.PanelCache;
+import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.PageContext;
@@ -24,8 +30,12 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 public class PhetPanel extends Panel {
 
     private Locale myLocale;
+    private List<EventDependency> dependencies = new LinkedList<EventDependency>();
 
-    private static String cachedVersion;
+    /**
+     * If set, this will cause the panel to be cached.
+     */
+    private SimplePanelCacheEntry cacheEntry;
 
     private static Logger logger = Logger.getLogger( PhetPanel.class.getName() );
 
@@ -37,7 +47,7 @@ public class PhetPanel extends Panel {
         super( id );
         this.myLocale = context.getLocale();
 
-        addStylesheets();
+        addStylesheets( this );
     }
 
     //----------------------------------------------------------------------------
@@ -48,7 +58,7 @@ public class PhetPanel extends Panel {
      * Override this and add the stylesheets required. This is desired so that if the component is cached, the correct
      * stylesheets can be added back into the header.
      */
-    public void addStylesheets() {
+    public void addStylesheets( PhetPanel panel ) {
 
     }
 
@@ -113,13 +123,6 @@ public class PhetPanel extends Panel {
         return ( (PhetWicketApplication) getApplication() ).getServletContext();
     }
 
-    /**
-     * @return Override with true to suggest that the page be cached by the panel
-     */
-    public boolean isCacheable() {
-        return false;
-    }
-
     //----------------------------------------------------------------------------
     // caching implementation
     //----------------------------------------------------------------------------
@@ -156,4 +159,57 @@ public class PhetPanel extends Panel {
 //            super.onRender( markupStream );
 //        }
 //    }
+
+    @Override
+    protected void onRender( MarkupStream markupStream ) {
+        if ( cacheEntry == null ) {
+            // not caching the component. render as normal
+            super.onRender( markupStream );
+        }
+        else {
+            StringResponse fakeResponse = new StringResponse();
+
+            RequestCycle cycle = getRequestCycle();
+            Response response = cycle.getResponse();
+
+            cycle.setResponse( fakeResponse );
+            super.onRender( markupStream );
+            cycle.setResponse( response );
+
+            for ( EventDependency dependency : getDependencies() ) {
+                cacheEntry.addDependency( dependency );
+            }
+
+            PanelCache.get().addIfMissing( cacheEntry );
+        }
+    }
+
+    /**
+     * Trigger the panel to be cached with this particular entry
+     *
+     * @param cacheEntry
+     */
+    public void setCacheEntry( SimplePanelCacheEntry cacheEntry ) {
+        this.cacheEntry = cacheEntry;
+    }
+
+    @Override
+    protected void onDetach() {
+        super.onDetach();
+
+        // don't try to make the dependencies serializable
+        dependencies = null;
+    }
+
+    public List<EventDependency> getDependencies() {
+        List<EventDependency> ret = new LinkedList<EventDependency>( dependencies );
+        Iterator iter = iterator();
+        while ( iter.hasNext() ) {
+            Object o = iter.next();
+            if ( o instanceof PhetPanel ) {
+                ret.addAll( ( (PhetPanel) o ).getDependencies() );
+            }
+        }
+        return ret;
+    }
 }

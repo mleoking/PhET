@@ -1,21 +1,25 @@
 package edu.colorado.phet.website.cache;
 
-import java.util.List;
-
-import org.apache.wicket.Component;
+import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.PageContext;
 
 /**
  * Represents a cached panel
  */
 public interface IPanelCacheEntry {
-    
+
     public Class getPanelClass();
 
     public Class getParentClass();
 
     public String getParentCacheID();
 
-    public Component fabricate();
+    public PhetPanel fabricate( String id, PageContext context );
 
-    public List<IPanelCacheDependency> getDependencies();
+    public void onEnterCache();
+
+    public void onExitCache();
+
+    public void addDependency( EventDependency dependency );
+
 }

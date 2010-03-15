@@ -131,8 +131,8 @@ public class ContributionBrowsePanel extends PhetPanel {
     }
 
     @Override
-    public void addStylesheets() {
-        add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
+    public void addStylesheets( PhetPanel panel ) {
+        panel.add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
     }
 
     public String getLevelString( Contribution contribution ) {

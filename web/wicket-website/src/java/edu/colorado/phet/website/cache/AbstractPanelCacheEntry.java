@@ -1,10 +1,14 @@
 package edu.colorado.phet.website.cache;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
 
     private Class panelClass;
     private Class parentClass;
     private String parentCacheId;
+    private List<EventDependency> dependencies = new LinkedList<EventDependency>();
 
     protected AbstractPanelCacheEntry( Class panelClass, Class parentClass, String parentCacheId ) {
         this.panelClass = panelClass;
@@ -71,5 +75,21 @@ public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
             }
         }
         return ret;
+    }
+
+    public void onEnterCache() {
+        for ( EventDependency dependency : dependencies ) {
+            dependency.addListeners();
+        }
+    }
+
+    public void onExitCache() {
+        for ( EventDependency dependency : dependencies ) {
+            dependency.deregister();
+        }
+    }
+
+    public void addDependency( EventDependency dependency ) {
+        dependencies.add( dependency );
     }
 }
