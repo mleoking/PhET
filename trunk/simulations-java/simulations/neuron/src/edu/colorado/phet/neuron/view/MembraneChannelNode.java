@@ -2,14 +2,18 @@
 
 package edu.colorado.phet.neuron.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.neuron.model.GatedChannel;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -38,6 +42,8 @@ public class MembraneChannelNode extends PNode{
 	private PPath leftEdgeNode;
 	private PPath rightEdgeNode;
 	private CaptureZoneNode captureZoneNode;
+	private PNode inactivationGateBallNode;
+	private PPath inactivationGateString;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -81,6 +87,22 @@ public class MembraneChannelNode extends PNode{
 		addChild(edgeLayer);
 		edgeLayer.addChild(leftEdgeNode);
 		edgeLayer.addChild(rightEdgeNode);
+		
+		if (membraneChannelModel.getHasInactivationGate()){
+			
+			// Add the ball and string that make up the inactivation gate.
+			
+			inactivationGateString = new PhetPPath(new BasicStroke(2f), Color.BLACK);
+			channelLayer.addChild(inactivationGateString);
+
+			double ballDiameter = mvt.modelToViewDifferentialXDouble(membraneChannelModel.getChannelSize().getWidth());
+			Shape inactivationBallShape = 
+				new Ellipse2D.Double(-ballDiameter / 2, -ballDiameter / 2, ballDiameter, ballDiameter);
+			inactivationGateBallNode = new PhetPPath(inactivationBallShape, membraneChannelModel.getEdgeColor(),
+					new BasicStroke(1f), ColorUtils.darkerColor(membraneChannelModel.getEdgeColor(), 0.3));
+			channelLayer.addChild(inactivationGateBallNode);
+			
+		}
 		
 		// Add the capture zone, which is only used for debug.
 		if (SHOW_CAPTURE_ZONE){
@@ -169,6 +191,22 @@ public class MembraneChannelNode extends PNode{
 		channelLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
 		edgeLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
 		
+		if (membraneChannelModel.getHasInactivationGate()){
+			// Position the ball portion of the inactivation gate.
+			inactivationGateBallNode.setOffset(
+				leftEdgeNode.getFullBoundsReference().getMaxX() - inactivationGateBallNode.getFullBoundsReference().width / 2,
+				transformedChannelSize.getHeight());
+
+			// Redraw the "string" (actually a strand of protein in real life)
+			// that connects the ball to the gate.
+			Point2D channelConnectionPoint = new Point2D.Double(leftEdgeNode.getFullBoundsReference().getCenterX(),
+					leftEdgeNode.getFullBoundsReference().getMaxY());
+			Point2D ballConnectionPoint = inactivationGateBallNode.getOffset();
+			
+			Shape stringShape = new Line2D.Double(channelConnectionPoint, ballConnectionPoint);
+			inactivationGateString.setPathTo(stringShape); 
+		}
+		
 		// Rotate based on the model element's orientation.
 		channelLayer.setRotation(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
 		edgeLayer.setRotation(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
@@ -188,5 +226,5 @@ public class MembraneChannelNode extends PNode{
 				captureZoneNode.setVisible(false);
 			}
 		}
-	}
+	}	
 }
