@@ -69,8 +69,9 @@ public class MembranePotentialChart extends PNode {
 	
 	private double updateCountdownTimer = 0;  // Init to zero to an update occurs right away.
 	
-	private double endTimeOfChart = TIME_SPAN;
-
+	private boolean recording = false;
+	private double timeIndexOfFirstDataPt = 0;
+	
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
@@ -87,11 +88,34 @@ public class MembranePotentialChart extends PNode {
         	    	updateChart(clockEvent);
         	    }
         	    public void simulationTimeReset( ClockEvent clockEvent ) {
-        	    	clearAndSetStartTime(0);
+        	    	clearChart();
         	    }
+        	});
+        	
+        	// Register for model events that are important to us.
+        	axonModel.addListener(new AxonModel.Adapter(){
+        		
+        		public void stimulusPulseInitiated() {
+        			if (MembranePotentialChart.this.axonModel.isPotentialChartVisible()){
+        				// The chart is visible and a stimulus has been
+        				// initiated.  Time to start recording (if we aren't
+        				// already).
+        				recording = true;
+        			}
+        		}
+        		
+        		public void potentialChartVisibilityChanged() {
+        			if (!MembranePotentialChart.this.axonModel.isPotentialChartVisible() && recording){
+        				// The chart is being hidden, so clear it and stop
+        				// recording.
+        				recording = false;
+        				clearChart();
+        			}
+        		}
         	});
         }
         
+        // Create the chart.
         XYDataset dataset = new XYSeriesCollection( dataSeries );
         // TODO: i18n.
         chart = createXYLineChart( title, "Time (ms)", "Membrane Potential (mv)", dataset, PlotOrientation.VERTICAL);
@@ -106,7 +130,23 @@ public class MembranePotentialChart extends PNode {
 
         jFreeChartNode.updateChartRenderingInfo();
 
+        // Add the chart to this node.
         addChild( jFreeChartNode );
+        
+        // Create a button for clearing the chart.
+        // TODO: i18n
+        JButton clearButton = new JButton("Clear Chart");
+        clearButton.setFont(new PhetFont(14));
+        clearButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Stop recording and clear the chart.
+				recording = false;
+				clearChart();
+			}
+		});
+        PSwing clearButtonPSwing = new PSwing(clearButton);
+        clearButtonPSwing.setOffset(getFullBoundsReference().getWidth() - clearButtonPSwing.getFullBoundsReference().width - 10, 0);
+        addChild(clearButtonPSwing);
     }
     
     //----------------------------------------------------------------------------
@@ -121,12 +161,19 @@ public class MembranePotentialChart extends PNode {
      */
     private void addDataPoint(double time, double voltage, boolean update){
 
-    	if (time > endTimeOfChart){
-    		clearAndSetStartTime(time);
+    	if (dataSeries.getItemCount() == 0){
+    		// This is the first data point added since the last time the
+    		// chart was cleared or since it was created.  Record the time
+    		// index for future reference.
+    		timeIndexOfFirstDataPt = time;
     	}
-    	// Add the date point to the data series.  Note that internally we
-    	// work in millivolts, not volts.
-    	dataSeries.add(time, voltage * 1000, update);
+    	
+    	// If the chart isn't full, add the data point to the data series.
+    	// Note that internally we work in millivolts, not volts.
+    	assert (time - timeIndexOfFirstDataPt >= 0);
+    	if (time - timeIndexOfFirstDataPt <= TIME_SPAN){
+    		dataSeries.add(time - timeIndexOfFirstDataPt, voltage * 1000, update);
+    	}
     }
     
     /**
@@ -178,30 +225,48 @@ public class MembranePotentialChart extends PNode {
      * @param clockEvent
      */
     private void updateChart(ClockEvent clockEvent){
-    	updateCountdownTimer -= clockEvent.getSimulationTimeChange();
     	
-    	double timeInMilliseconds = clockEvent.getSimulationTime() * 1000; 
-    	
-    	if (updateCountdownTimer <= 0){
-    		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential(), true);
-    		updateCountdownTimer = UPDATE_PERIOD;
+    	if (recording){
+    		if (!chartIsFull()){
+    			updateCountdownTimer -= clockEvent.getSimulationTimeChange();
+    			
+    			double timeInMilliseconds = clockEvent.getSimulationTime() * 1000; 
+    			
+    			if (updateCountdownTimer <= 0){
+    				addDataPoint(timeInMilliseconds, axonModel.getMembranePotential(), true);
+    				updateCountdownTimer = UPDATE_PERIOD;
+    			}
+    			else{
+    				addDataPoint(timeInMilliseconds, axonModel.getMembranePotential(), false);
+    			}
+    		}
     	}
     	else{
-    		addDataPoint(timeInMilliseconds, axonModel.getMembranePotential(), false);
+    		// The chart is not currently recording.  Is there data?
+    		if (dataSeries.getItemCount() > 0){
+    			// Yes there is, so it should be cleared.
+    			dataSeries.clear();
+    		}
     	}
+    }
+    
+    private boolean chartIsFull(){
+    	boolean chartIsFull = false;
+    	if (dataSeries.getItemCount() >= 2){
+    		if (dataSeries.getDataItem(dataSeries.getItemCount() - 1).getX().doubleValue() >= TIME_SPAN){
+    			chartIsFull = true;
+    		}
+    	}
+    	return chartIsFull;
     }
 
     /**
-     * Clear all data from the chart and redraw the background starting from
-     * the provided initial time value.
+     * Clear all data from the chart.
      *  
      * @param initialTime
      */
-    private void clearAndSetStartTime(double initialTime){
+    private void clearChart(){
     	dataSeries.clear();
-    	initialTime = roundToResolution(initialTime, 0);
-    	endTimeOfChart = initialTime + TIME_SPAN;
-    	chart.getXYPlot().getDomainAxis().setRange( initialTime, endTimeOfChart );
     	updateCountdownTimer = 0;
     }
     
