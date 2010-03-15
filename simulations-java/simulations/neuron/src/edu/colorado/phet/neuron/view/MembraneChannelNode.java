@@ -192,18 +192,31 @@ public class MembraneChannelNode extends PNode{
 		edgeLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
 		
 		if (membraneChannelModel.getHasInactivationGate()){
+			// This membrane channel has an inactivation gate, so update its
+			// representation.
+			
+			PDimension transformedOverallSize = 
+				new PDimension( mvt.modelToViewDifferentialXDouble(membraneChannelModel.getOverallSize().getWidth()),
+						mvt.modelToViewDifferentialYDouble(membraneChannelModel.getOverallSize().getHeight()));
+			
 			// Position the ball portion of the inactivation gate.
-			inactivationGateBallNode.setOffset(
-				leftEdgeNode.getFullBoundsReference().getMaxX() - inactivationGateBallNode.getFullBoundsReference().width / 2,
-				transformedChannelSize.getHeight());
+			System.out.println(membraneChannelModel.getInactivationAmt());
+			Point2D channelEdgeConnectionPoint = new Point2D.Double(leftEdgeNode.getFullBoundsReference().getCenterX(),
+					leftEdgeNode.getFullBoundsReference().getMaxY());
+			Point2D channelCenterBottomPoint = new Point2D.Double(0,
+					transformedChannelSize.getHeight() / 2);
+			double angle = -Math.PI / 2 * (1 - membraneChannelModel.getInactivationAmt());
+			double radius = (1 - membraneChannelModel.getInactivationAmt()) * transformedChannelSize.getHeight() / 2
+				+ membraneChannelModel.getInactivationAmt() * channelEdgeConnectionPoint.distance(channelCenterBottomPoint);
+			Point2D ballPosition = new Point2D.Double(channelEdgeConnectionPoint.getX() + Math.cos(angle) * radius,
+					channelEdgeConnectionPoint.getY() - Math.sin(angle) * radius);
+			inactivationGateBallNode.setOffset(ballPosition);
 
 			// Redraw the "string" (actually a strand of protein in real life)
 			// that connects the ball to the gate.
-			Point2D channelConnectionPoint = new Point2D.Double(leftEdgeNode.getFullBoundsReference().getCenterX(),
-					leftEdgeNode.getFullBoundsReference().getMaxY());
 			Point2D ballConnectionPoint = inactivationGateBallNode.getOffset();
 			
-			Shape stringShape = new Line2D.Double(channelConnectionPoint, ballConnectionPoint);
+			Shape stringShape = new Line2D.Double(channelEdgeConnectionPoint, ballConnectionPoint);
 			inactivationGateString.setPathTo(stringShape); 
 		}
 		
