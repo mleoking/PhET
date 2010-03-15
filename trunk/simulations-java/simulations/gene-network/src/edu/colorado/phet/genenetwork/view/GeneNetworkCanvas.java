@@ -5,6 +5,7 @@ package edu.colorado.phet.genenetwork.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GradientPaint;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -112,8 +113,11 @@ public class GeneNetworkCanvas extends PhetPCanvas {
         // Add the cell membrane (if it exists) to the canvas.
         Rectangle2D cellMembraneRect = model.getCellMembraneRect();
         if (cellMembraneRect != null){
-        	dnaStrandLayer.addChild(new PhetPPath(mvt.createTransformedShape(cellMembraneRect), Color.ORANGE,
-        			new BasicStroke(2f), Color.BLACK));
+        	Rectangle2D transformedCellMembraneRect = mvt.createTransformedShape(cellMembraneRect).getBounds2D();
+        	GradientPaint paint = new GradientPaint(0f, (float)transformedCellMembraneRect.getCenterY(), Color.WHITE,
+        			0f, (float)transformedCellMembraneRect.getBounds2D().getMaxY(), new Color(255, 100, 100), true);
+        	dnaStrandLayer.addChild(new PhetPPath(transformedCellMembraneRect, paint, new BasicStroke(2f),
+        			Color.BLACK));
         }
         
         // Add any model elements that are already present in the model.
