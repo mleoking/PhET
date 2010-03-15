@@ -63,6 +63,9 @@ public class MembraneChannelNode extends PNode{
 			public void opennessChanged() {
 				updateRepresentation();
 			}
+			public void inactivationAmtChanged() {
+				updateRepresentation();
+			}
 		});
 		
 		// Create the channel representation.
