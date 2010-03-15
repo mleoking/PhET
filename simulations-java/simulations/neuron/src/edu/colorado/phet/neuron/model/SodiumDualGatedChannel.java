@@ -191,7 +191,15 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		// Save values for the next time through.
 		previousNormalizedConductance = normalizedConductance;
 	}
-	
+
+	/**
+	 * This membrane channel has an inactivation gate.
+	 */
+	@Override
+	public boolean getHasInactivationGate() {
+		return true;
+	}
+
 	private double calculateNormalizedConductance(){
 		return Math.min(Math.abs(hodgkinHuxleyModel.get_m3h())/M3H_WHEN_FULLY_OPEN, 1);
 	}
