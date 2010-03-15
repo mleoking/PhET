@@ -2,13 +2,17 @@
 
 package edu.colorado.phet.genenetwork.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkConstants;
 import edu.colorado.phet.genenetwork.model.Galactose;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
@@ -104,6 +108,13 @@ public class GeneNetworkCanvas extends PhetPCanvas {
                 
         // Add the DNA strand to the canvas.
         dnaStrandLayer.addChild(new DnaStrandNode(model.getDnaStrand(), mvt, getBackground()));
+
+        // Add the cell membrane (if it exists) to the canvas.
+        Rectangle2D cellMembraneRect = model.getCellMembraneRect();
+        if (cellMembraneRect != null){
+        	dnaStrandLayer.addChild(new PhetPPath(mvt.createTransformedShape(cellMembraneRect), Color.ORANGE,
+        			new BasicStroke(2f), Color.BLACK));
+        }
         
         // Add any model elements that are already present in the model.
         for (SimpleModelElement modelElement : model.getAllSimpleModelElements()){
