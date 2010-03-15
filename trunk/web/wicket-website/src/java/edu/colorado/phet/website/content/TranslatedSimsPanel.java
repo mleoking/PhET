@@ -153,8 +153,8 @@ public class TranslatedSimsPanel extends PhetPanel {
     }
 
     @Override
-    public void addStylesheets() {
-        add( HeaderContributor.forCss( "/css/translated-sims-v1.css" ) );
+    public void addStylesheets( PhetPanel panel ) {
+        panel.add( HeaderContributor.forCss( "/css/translated-sims-v1.css" ) );
     }
 
     public static String getKey() {
