@@ -5,10 +5,10 @@ package edu.colorado.phet.neuron.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -164,7 +164,6 @@ public class MembraneChannelNode extends PNode{
 		
 		Dimension2D channelSize = new PDimension(membraneChannelModel.getChannelSize().getWidth() * membraneChannelModel.getOpenness(),
 				membraneChannelModel.getChannelSize().getHeight());
-		System.out.println("Channel Size = " + channelSize);
 		Dimension2D transformedChannelSize = new PDimension(
 				Math.abs(mvt.modelToViewDifferentialXDouble(channelSize.getWidth())),
 				Math.abs(mvt.modelToViewDifferentialYDouble(channelSize.getHeight())));
@@ -196,22 +195,20 @@ public class MembraneChannelNode extends PNode{
 		channelLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
 		edgeLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
 		
+		// If this membrane channel has an inactivation gate, draw it.
 		if (membraneChannelModel.getHasInactivationGate()){
-			// This membrane channel has an inactivation gate, so update its
-			// representation.
 			
 			PDimension transformedOverallSize = 
 				new PDimension( mvt.modelToViewDifferentialXDouble(membraneChannelModel.getOverallSize().getWidth()),
 						mvt.modelToViewDifferentialYDouble(membraneChannelModel.getOverallSize().getHeight()));
 			
 			// Position the ball portion of the inactivation gate.
-			System.out.println(membraneChannelModel.getInactivationAmt());
 			Point2D channelEdgeConnectionPoint = new Point2D.Double(leftEdgeNode.getFullBoundsReference().getCenterX(),
 					leftEdgeNode.getFullBoundsReference().getMaxY());
 			Point2D channelCenterBottomPoint = new Point2D.Double(0,
 					transformedChannelSize.getHeight() / 2);
 			double angle = -Math.PI / 2 * (1 - membraneChannelModel.getInactivationAmt());
-			double radius = (1 - membraneChannelModel.getInactivationAmt()) * transformedChannelSize.getHeight() / 2
+			double radius = (1 - membraneChannelModel.getInactivationAmt()) * transformedOverallSize.getWidth() / 2
 				+ membraneChannelModel.getInactivationAmt() * channelEdgeConnectionPoint.distance(channelCenterBottomPoint);
 			Point2D ballPosition = new Point2D.Double(channelEdgeConnectionPoint.getX() + Math.cos(angle) * radius,
 					channelEdgeConnectionPoint.getY() - Math.sin(angle) * radius);
@@ -221,7 +218,16 @@ public class MembraneChannelNode extends PNode{
 			// that connects the ball to the gate.
 			Point2D ballConnectionPoint = inactivationGateBallNode.getOffset();
 			
-			Shape stringShape = new Line2D.Double(channelEdgeConnectionPoint, ballConnectionPoint);
+			double connectorLength = channelCenterBottomPoint.distance(ballConnectionPoint);
+			Shape stringShape = new CubicCurve2D.Double(
+					channelEdgeConnectionPoint.getX(),
+					channelEdgeConnectionPoint.getY(),
+					channelEdgeConnectionPoint.getX() + connectorLength * 0.25,
+					channelEdgeConnectionPoint.getY() + connectorLength * 0.5,
+					ballConnectionPoint.getX() - connectorLength * 0.75,
+					ballConnectionPoint.getY() - connectorLength * 0.5,
+					ballConnectionPoint.getX(),
+					ballConnectionPoint.getY() );
 			inactivationGateString.setPathTo(stringShape); 
 		}
 		
