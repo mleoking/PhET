@@ -114,39 +114,6 @@ public class PhetPanel extends Panel {
     // caching implementation
     //----------------------------------------------------------------------------
 
-//    @Override
-//    protected void onRender( MarkupStream markupStream ) {
-//        if ( isCacheable() ) {
-//            StringResponse fakeResponse;
-//
-//            RequestCycle cycle = getRequestCycle();
-//            Response response = cycle.getResponse();
-//            synchronized( this ) {
-//                if ( cachedVersion == null ) {
-//                    logger.debug( "not cached" );
-//                    fakeResponse = new StringResponse();
-//
-//                    cycle.setResponse( fakeResponse );
-//                    super.onRender( markupStream );
-//                    cycle.setResponse( response );
-//
-//                    cachedVersion =
-//                }
-//                else {
-//                    logger.debug( "cached" );
-//                    markupStream.skipComponent();
-//                }
-//            }
-//
-//            logger.debug( "fakeResponse: " + fakeResponse.getBuffer() );
-//
-//            response.write( fakeResponse.getBuffer() );
-//        }
-//        else {
-//            super.onRender( markupStream );
-//        }
-//    }
-
     @Override
     public void renderHead( HtmlHeaderContainer container ) {
         if ( cacheEntry == null ) {

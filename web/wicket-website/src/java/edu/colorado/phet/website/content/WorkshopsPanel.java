@@ -12,6 +12,12 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 public class WorkshopsPanel extends PhetPanel {
     public WorkshopsPanel( String id, PageContext context ) {
         super( id, context );
+
+        add( new SimplePanelCacheEntry( CacheTestPanel.class, this.getClass(), context.getLocale(), "tester" ) {
+            public PhetPanel constructPanel( String id, PageContext context ) {
+                return new CacheTestPanel( id, context );
+            }
+        }.instantiate( "test-panel", context ) );
     }
 
     public static String getKey() {

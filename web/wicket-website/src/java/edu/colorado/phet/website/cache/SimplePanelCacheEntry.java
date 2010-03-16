@@ -1,5 +1,7 @@
 package edu.colorado.phet.website.cache;
 
+import java.util.Locale;
+
 import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -27,18 +29,12 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
 
     private static Logger logger = Logger.getLogger( SimplePanelCacheEntry.class.getName() );
 
-    public SimplePanelCacheEntry( Class panelClass, Class parentClass, String parentCacheId ) {
-        super( panelClass, parentClass, parentCacheId );
+    public SimplePanelCacheEntry( Class panelClass, Class parentClass, Locale locale, String parentCacheId ) {
+        super( panelClass, parentClass, locale, parentCacheId );
     }
 
     public final PhetPanel fabricate( String id, PageContext context ) {
-        return new SimplePanelCachePanel( id, context, header, body );
-    }
-
-    public SimplePanelCacheEntry ignoreParent() {
-        parentClass = null;
-        parentCacheId = null;
-        return this;
+        return new CacheReplacementPanel( id, context, header, body );
     }
 
     public abstract PhetPanel constructPanel( String id, PageContext context );
@@ -47,27 +43,29 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
         PanelCache cache = PanelCache.get();
         IPanelCacheEntry entry = cache.getMatching( this );
 
-        if ( entry != null ) {
-            logger.debug( "cached, delivering fabricated content" );
-            return entry.fabricate( id, context );
-        }
-        else {
-            logger.debug( "not cached, constructing original content" );
+        if ( entry == null || !context.isCacheable() ) {
+            if ( entry == null ) {
+                logger.debug( "not cached, constructing original content for " + this );
+            }
+            else {
+                logger.debug( "not cacheable, constructing original content for " + this );
+            }
             PhetPanel panel = constructPanel( id, context );
             panel.setCacheEntry( this );
             return panel;
+        }
+        else {
+            logger.debug( "cached, delivering " + entry );
+            return entry.fabricate( id, context );
         }
     }
 
     public void setHeader( CharSequence header ) {
         this.header = header;
-
-        logger.debug( "& header:\n" + header + "\nendheader" );
     }
 
     public void setBody( CharSequence body ) {
         this.body = body;
-
-        logger.debug( "& body:\n" + body + "\nendbody" );
     }
+
 }

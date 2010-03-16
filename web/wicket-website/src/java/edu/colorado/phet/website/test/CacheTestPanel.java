@@ -1,31 +1,12 @@
 package edu.colorado.phet.website.test;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.ServletContext;
-
 import org.apache.log4j.Logger;
-import org.apache.wicket.Component;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
 import org.apache.wicket.behavior.HeaderContributor;
-import org.apache.wicket.behavior.IBehavior;
-import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.MarkupStream;
-import org.apache.wicket.markup.html.HeaderPartContainer;
-import org.apache.wicket.markup.html.internal.HtmlHeaderContainer;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.IModelComparator;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.response.StringResponse;
-import org.apache.wicket.util.convert.IConverter;
-import org.hibernate.Session;
 
-import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class CacheTestPanel extends PhetPanel {
 
@@ -37,7 +18,9 @@ public class CacheTestPanel extends PhetPanel {
         super( id, context );
         //logger.debug( "*(after) public CacheTestPanel( String id, PageContext context )" );
 
-        add( HeaderContributor.forCss( "/css/nonexistant-file.css" ) );
+        add( HeaderContributor.forCss( "/css/warning-v1.css" ) );
+
+        add( new Label( "locale", getLocale().toString() ) );
     }
 
 /*

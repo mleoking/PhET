@@ -45,4 +45,10 @@ public class PageContext implements Serializable {
         return path;
     }
 
+    public boolean isCacheable() {
+        if ( prefix.startsWith( "/translation/" ) ) {
+            return false;
+        }
+        return true;
+    }
 }

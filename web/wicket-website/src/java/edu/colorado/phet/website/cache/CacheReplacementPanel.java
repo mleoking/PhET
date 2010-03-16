@@ -9,21 +9,21 @@ import org.apache.wicket.markup.html.internal.HtmlHeaderContainer;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 
-public class SimplePanelCachePanel extends PhetPanel {
+public class CacheReplacementPanel extends PhetPanel {
 
     private CharSequence header;
     private CharSequence body;
 
-    private static Logger logger = Logger.getLogger( SimplePanelCachePanel.class.getName() );
+    private static Logger logger = Logger.getLogger( CacheReplacementPanel.class.getName() );
 
-    public SimplePanelCachePanel( String id, PageContext context, CharSequence header, CharSequence body ) {
+    public CacheReplacementPanel( String id, PageContext context, CharSequence header, CharSequence body ) {
         super( id, context );
 
         this.header = header;
         this.body = body;
 
-        logger.debug( "init header " + header );
-        logger.debug( "init body " + body );
+        //logger.debug( "init header " + header );
+        //logger.debug( "init body " + body );
     }
 
     @Override
