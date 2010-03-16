@@ -117,19 +117,30 @@ public class PhetPanel extends Panel {
     @Override
     public void renderHead( HtmlHeaderContainer container ) {
         if ( cacheEntry == null ) {
+            // we are not caching, so render like normal
             super.renderHead( container );
         }
         else {
+            // get ahold of a new fake response, and the current response
             StringResponse fakeResponse = new StringResponse();
             RequestCycle cycle = getRequestCycle();
             Response response = cycle.getResponse();
 
+            // switch to our fake response, so data is written here
             cycle.setResponse( fakeResponse );
+
+            // render the component into the fake response
             super.renderHead( container );
+
+            // switch back to our regular response, so further data will be written out to the user
             cycle.setResponse( response );
 
             CharSequence buffer = fakeResponse.getBuffer();
+
+            // cache the retrieved result
             cacheEntry.setHeader( buffer );
+
+            // write the version back to the user
             response.write( buffer );
         }
     }
@@ -141,23 +152,34 @@ public class PhetPanel extends Panel {
             super.onRender( markupStream );
         }
         else {
+            // get ahold of a new fake response, and the current response
             StringResponse fakeResponse = new StringResponse();
-
             RequestCycle cycle = getRequestCycle();
             Response response = cycle.getResponse();
 
+            // switch to our fake response, so data is written here
             cycle.setResponse( fakeResponse );
+
+            // render the component into the fake response
             super.onRender( markupStream );
+
+            // switch back to our regular response, so further data will be written out to the user
             cycle.setResponse( response );
 
             CharSequence buffer = fakeResponse.getBuffer();
+
+            // cache the retrieved result
             cacheEntry.setBody( buffer );
+
+            // write the version back to the user
             response.write( buffer );
 
+            // search this panel's tree for dependencies, and add them all to the cache entry
             for ( EventDependency dependency : getDependencies() ) {
                 cacheEntry.addDependency( dependency );
             }
 
+            // attempt to add this panel to the cache
             PanelCache.get().addIfMissing( cacheEntry );
 
         }
@@ -180,6 +202,9 @@ public class PhetPanel extends Panel {
         dependencies = null;
     }
 
+    /**
+     * @return A list of all of the dependencies specified in all child PhetPanels.
+     */
     public List<EventDependency> getDependencies() {
         List<EventDependency> ret = new LinkedList<EventDependency>( dependencies );
         Iterator iter = iterator();
@@ -192,6 +217,11 @@ public class PhetPanel extends Panel {
         return ret;
     }
 
+    /**
+     * Adds a dependency to the current panel
+     *
+     * @param dependency The dependency
+     */
     public void addDependency( EventDependency dependency ) {
         dependencies.add( dependency );
     }
