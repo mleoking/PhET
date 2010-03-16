@@ -8,9 +8,18 @@ import org.apache.log4j.Logger;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
+/**
+ * Default implementation of IPanelCacheEntry. Takes care of handling the panel class, parent class, parent cache ID
+ * and locale. The parentCacheId (specified on creation) is combined with the locale to form the ID that is passed to
+ * the cache.
+ * <p/>
+ * Also handles dependencies (adding, registering, and deregistering), implements equality that is compliant with the
+ * IPanelCacheEntry standard, and a toString() that is useful for debugging
+ * <p/>
+ * Assumes a single-lifetime usage, and does not assume that it is ever added to a cache. In fact, many entries will
+ * not be added to the cache, but will be constructed to decide whether the panel they represent is cached.
+ */
 public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
-
-    // TODO: sanity checks for construction orders, etc.
 
     private Class panelClass;
     private Class parentClass;
@@ -40,6 +49,7 @@ public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
     }
 
     public String getCacheId() {
+        // combine the specified cache ID from the parent with the locale, so translated pages are distinctly cached
         return ( parentCacheId == null ? "" : parentCacheId ) + "_" + LocaleUtils.localeToString( locale );
     }
 

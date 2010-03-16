@@ -14,21 +14,37 @@ import edu.colorado.phet.website.util.PageContext;
  * <p/>
  * <pre>
  * {@code
- * add(newSimplePanelCacheEntry( CacheTestPanel.class,WorkshopsPanel.class, "tester" ) {
- *     public PhetPanel constructPanel( String id, PageContext context ) {
- *         return new CacheTestPanel( id, context );
- *     }
- * }.instantiate( "test-panel", context ) );
+ * add(newSimplePanelCacheEntry( SponsorsPanel.class,null,getPageContext().getLocale(), "tester" ) {
+ * public PhetPanel constructPanel( String id, PageContext context ) {
+ * return new SponsorsPanel( id, context );
+ * }
+ * }.instantiate( "sponsors-panel", getPageContext() ) );
  * }
  * </pre>
+ * <p/>
+ * After creation, instantiate() can be called to create the necessary panel. It will
+ * automatically create either the normal panel (implemented in constructPanel()) or a cached version of that panel.
  */
 public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
 
+    /**
+     * Represents the cached header string (everything inserted into the head tag)
+     */
     private CharSequence header;
+
+    /**
+     * Represents the main body of the cached panel
+     */
     private CharSequence body;
 
     private static Logger logger = Logger.getLogger( SimplePanelCacheEntry.class.getName() );
 
+    /**
+     * @param panelClass    The class of the panel to be cached
+     * @param parentClass   The (optionally null) class of the component where the panel will be placed.
+     * @param locale        The locale being used
+     * @param parentCacheId A parent-specific string to identify this particular construction of the panel
+     */
     public SimplePanelCacheEntry( Class panelClass, Class parentClass, Locale locale, String parentCacheId ) {
         super( panelClass, parentClass, locale, parentCacheId );
     }
@@ -37,8 +53,22 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
         return new CacheReplacementPanel( id, context, header, body );
     }
 
+    /**
+     * Override this to create the "regular" non-cached version of the panel
+     *
+     * @param id      The Wicket id to use
+     * @param context The page context
+     * @return A regular PhetPanel
+     */
     public abstract PhetPanel constructPanel( String id, PageContext context );
 
+    /**
+     * Get a copy of a PhetPanel to add to our component
+     *
+     * @param id      The Wicket id to use
+     * @param context The page context
+     * @return A (possibly cached) PhetPanel
+     */
     public final PhetPanel instantiate( String id, PageContext context ) {
         PanelCache cache = PanelCache.get();
         IPanelCacheEntry entry = cache.getMatching( this );
@@ -60,10 +90,20 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
         }
     }
 
+    /**
+     * Sets the header string. Should only be called during the rendering of the original panel
+     *
+     * @param header
+     */
     public void setHeader( CharSequence header ) {
         this.header = header;
     }
 
+    /**
+     * Sets the main body string. Should only be called during the rendering of the original panel
+     *
+     * @param body
+     */
     public void setBody( CharSequence body ) {
         this.body = body;
     }
