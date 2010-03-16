@@ -13,6 +13,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.cache.CacheableUrlStaticPanel;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -23,7 +24,9 @@ import edu.colorado.phet.website.util.*;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
-public class TranslatedSimsPanel extends PhetPanel {
+public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStaticPanel {
+
+    // TODO: add dependencies for caching
 
     private static Logger logger = Logger.getLogger( TranslatedSimsPanel.class.getName() );
 
