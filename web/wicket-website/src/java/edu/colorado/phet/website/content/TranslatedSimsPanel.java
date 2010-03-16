@@ -38,22 +38,6 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
 
         add( HeaderContributor.forCss( "/css/translated-sims-v1.css" ) );
 
-        addDependency( new EventDependency() {
-            @Override
-            public void addListeners() {
-                HibernateEventListener.addListener( Project.class, getAnyChangeInvalidator() );
-                HibernateEventListener.addListener( Simulation.class, getAnyChangeInvalidator() );
-                HibernateEventListener.addListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
-            }
-
-            @Override
-            public void removeListeners() {
-                HibernateEventListener.removeListener( Project.class, getAnyChangeInvalidator() );
-                HibernateEventListener.removeListener( Simulation.class, getAnyChangeInvalidator() );
-                HibernateEventListener.removeListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
-            }
-        } );
-
         final List<LocalizedSimulation> localizedSimulations = new LinkedList<LocalizedSimulation>();
         final Map<Locale, List<LocalizedSimulation>> localeMap = new HashMap<Locale, List<LocalizedSimulation>>();
         final List<Locale> locales = new LinkedList<Locale>();
@@ -173,6 +157,22 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
         logger.debug( "a-b: " + ( b - a ) );
         logger.debug( "b-c: " + ( c - b ) );
         logger.debug( "c-d: " + ( d - c ) );
+
+        addDependency( new EventDependency() {
+            @Override
+            public void addListeners() {
+                HibernateEventListener.addListener( Project.class, getAnyChangeInvalidator() );
+                HibernateEventListener.addListener( Simulation.class, getAnyChangeInvalidator() );
+                HibernateEventListener.addListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
+            }
+
+            @Override
+            public void removeListeners() {
+                HibernateEventListener.removeListener( Project.class, getAnyChangeInvalidator() );
+                HibernateEventListener.removeListener( Simulation.class, getAnyChangeInvalidator() );
+                HibernateEventListener.removeListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
+            }
+        } );
 
     }
 
