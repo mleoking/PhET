@@ -66,8 +66,9 @@ public class RnaPolymerase extends SimpleModelElement {
 	
 	public RnaPolymerase(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
-		
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
+		if (model != null){
+			setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
+		}
 	}
 	
 	public RnaPolymerase(IGeneNetworkModelControl model) {
@@ -201,7 +202,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	 */
 	private void freeMessengerRna(boolean fullyFormed) {
 		mRna.setFullyFormed(fullyFormed);
-		mRna.setMotionStrategy(new LinearMotionStrategy(LacOperonModel.getMotionBounds(), mRna.getPositionRef(),
+		mRna.setMotionStrategy(new LinearMotionStrategy(getModel().getMotionBounds(), mRna.getPositionRef(),
 				new Vector2D.Double(0, 4), 20));
 		mRna = null;
 	}
@@ -231,12 +232,12 @@ public class RnaPolymerase extends SimpleModelElement {
 					// towards attachment.  This relationship must be terminated.
 					promoterAttachmentPartner.detach(this);
 					promoterAttachmentPartner = null;
-					setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
+					setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
 				}
 				if (traversing){
 					// This polymerase was traversing the DNA strand, so the
 					// motion strategy must be changed.
-					setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
+					setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
 					if (transcribing){
 						// This polymerase was transcribing the DNA into mRNA, so
 						// the mRNA needs to be detached and should be marked as
@@ -302,7 +303,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			// We were attached, so now start traversing.
 			traversing = true;
 			traversalStartPt.setLocation(getPositionRef());
-			setMotionStrategy(new LinearMotionStrategy(LacOperonModel.getMotionBounds(), getPositionRef(), 
+			setMotionStrategy(new LinearMotionStrategy(getModel().getMotionBounds(), getPositionRef(), 
 					new Vector2D.Double(TRAVERSAL_SPEED, 0), MAX_TRAVERSAL_TIME));
 			promoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		}
@@ -311,7 +312,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			// happen in cases such as when our potential partner gets removed
 			// from the model.
 			promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-			setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
+			setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
 		}
 		previousPromoterAttachmentPartner = promoterAttachmentPartner;
 		promoterAttachmentPartner = null;
@@ -334,7 +335,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		// Create and set a motion strategy that initially moves up and
 		// to the right.  This minimizes visual interference with the mRNA
 		// that was just released.
-		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy( LacOperonModel.getMotionBoundsAboveDna(),
+		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy( getModel().getMotionBoundsAboveDna(),
 				delay, initialVelocity, 2));
 		
 		// Set the time until we are available to transcribe again.
@@ -403,12 +404,12 @@ public class RnaPolymerase extends SimpleModelElement {
 			if (getPositionRef().distance(targetPositionForLacPromoterAttachment) > 10){
 				// We are a ways away, so move toward the destination in a
 				// somewhat random fashion.
-				setMotionStrategy(new DirectedRandomWalkMotionStrategy(LacOperonModel.getMotionBounds()));
+				setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getMotionBounds()));
 				getMotionStrategyRef().setDestination(xDest, yDest);
 			}
 			else{
 				// Head straight to the destination.
-				setMotionStrategy(new LinearMotionStrategy(LacOperonModel.getMotionBounds(), getPositionRef(),
+				setMotionStrategy(new LinearMotionStrategy(getModel().getMotionBounds(), getPositionRef(),
 						targetPositionForLacPromoterAttachment, 3));
 			}
 		}

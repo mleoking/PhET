@@ -67,7 +67,9 @@ public class LacY extends SimpleModelElement {
 
 	public LacY(IGeneNetworkModelControl model, Point2D initialPosition, boolean fadeIn) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
-		setMotionStrategy(new StillnessMotionStrategy());
+		if (model != null){
+			setMotionStrategy(new StillnessMotionStrategy());
+		}
 	}
 	
 	public LacY(IGeneNetworkModelControl model, boolean fadeIn) {
@@ -177,7 +179,7 @@ public class LacY extends SimpleModelElement {
 	private void completeAttachmentOfGlucose() {
 //		glucoseAttachmentPartner.attach(this);
 		glucoseAttachmentState = AttachmentState.ATTACHED;
-		setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBounds()));
+		setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBounds()));
 		// Start the attachment timer/counter.
 		lactoseAttachmentCountdownTimer = LACTOSE_ATTACHMENT_TIME;
 	}
@@ -201,7 +203,7 @@ public class LacY extends SimpleModelElement {
 
 	@Override
 	protected void onTransitionToExistingState() {
-		setMotionStrategy(new RandomWalkMotionStrategy(LacOperonModel.getMotionBoundsAboveDna()));
+		setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
 	}
 	
 	/**
