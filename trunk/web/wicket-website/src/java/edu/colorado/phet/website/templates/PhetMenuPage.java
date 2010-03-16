@@ -7,12 +7,15 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.behavior.HeaderContributor;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.content.about.AboutLicensingPanel;
 import edu.colorado.phet.website.menu.NavLocation;
+import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.SideNavMenu;
 import edu.colorado.phet.website.panels.SponsorsPanel;
 import edu.colorado.phet.website.panels.TranslationLinksPanel;
+import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
 /**
@@ -22,7 +25,12 @@ public abstract class PhetMenuPage extends PhetPage {
     public PhetMenuPage( PageParameters parameters ) {
         super( parameters, true );
 
-        add( new SponsorsPanel( "sponsors-panel", getPageContext() ) );
+        add( new SimplePanelCacheEntry( SponsorsPanel.class, null, getPageContext().getLocale(), "tester" ) {
+            public PhetPanel constructPanel( String id, PageContext context ) {
+                return new SponsorsPanel( id, context );
+            }
+        }.instantiate( "sponsors-panel", getPageContext() ) );
+
         if ( DistributionHandler.displayTranslationLinksPanel( (PhetRequestCycle) getRequestCycle() ) ) {
             add( new TranslationLinksPanel( "translation-links", getPageContext() ) );
         }
