@@ -35,11 +35,12 @@ public class CacheTestPanel extends PhetPanel {
 
     public CacheTestPanel( String id, PageContext context ) {
         super( id, context );
-        logger.debug( "*(after) public CacheTestPanel( String id, PageContext context )" );
+        //logger.debug( "*(after) public CacheTestPanel( String id, PageContext context )" );
 
         add( HeaderContributor.forCss( "/css/nonexistant-file.css" ) );
     }
 
+/*
     @Override
     public Locale getMyLocale() {
         logger.debug( "* public Locale getMyLocale()" );
@@ -457,5 +458,6 @@ public class CacheTestPanel extends PhetPanel {
         logger.debug( "* protected void finalize() throws Throwable" );
         super.finalize();
     }
+*/
 
 }

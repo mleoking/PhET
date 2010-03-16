@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.content;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.test.CacheTestPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -11,8 +12,6 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 public class WorkshopsPanel extends PhetPanel {
     public WorkshopsPanel( String id, PageContext context ) {
         super( id, context );
-
-        add( new CacheTestPanel( "test-panel", context ) );
     }
 
     public static String getKey() {

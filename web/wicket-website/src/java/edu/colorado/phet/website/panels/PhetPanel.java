@@ -161,9 +161,9 @@ public class PhetPanel extends Panel {
             super.renderHead( container );
             cycle.setResponse( response );
 
-            cacheEntry.setHeader( fakeResponse.getBuffer() );
-
-            response.write( fakeResponse.getBuffer() );
+            CharSequence buffer = fakeResponse.getBuffer();
+            cacheEntry.setHeader( buffer );
+            response.write( buffer );
         }
     }
 
@@ -183,13 +183,16 @@ public class PhetPanel extends Panel {
             super.onRender( markupStream );
             cycle.setResponse( response );
 
-            cacheEntry.setBody( fakeResponse.getBuffer() );
+            CharSequence buffer = fakeResponse.getBuffer();
+            cacheEntry.setBody( buffer );
+            response.write( buffer );
 
             for ( EventDependency dependency : getDependencies() ) {
                 cacheEntry.addDependency( dependency );
             }
 
             PanelCache.get().addIfMissing( cacheEntry );
+
         }
     }
 
