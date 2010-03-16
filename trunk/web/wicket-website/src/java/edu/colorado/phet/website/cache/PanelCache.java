@@ -1,14 +1,13 @@
 package edu.colorado.phet.website.cache;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
 
 public class PanelCache {
 
     private static PanelCache instance;
     private static final Object lock = new Object();
 
-    private Set<IPanelCacheEntry> cache = new HashSet<IPanelCacheEntry>();
+    private HashMap<IPanelCacheEntry, IPanelCacheEntry> cache = new HashMap<IPanelCacheEntry, IPanelCacheEntry>();
 
     private PanelCache() {
     }
@@ -27,7 +26,13 @@ public class PanelCache {
 
     public boolean contains( IPanelCacheEntry entry ) {
         synchronized( lock ) {
-            return cache.contains( entry );
+            return cache.containsKey( entry );
+        }
+    }
+
+    public IPanelCacheEntry getMatching( IPanelCacheEntry entry ) {
+        synchronized( lock ) {
+            return cache.get( entry );
         }
     }
 
@@ -41,9 +46,9 @@ public class PanelCache {
     public boolean addIfMissing( IPanelCacheEntry entry ) {
         boolean adding;
         synchronized( lock ) {
-            adding = !cache.contains( entry );
+            adding = !cache.containsKey( entry );
             if ( adding ) {
-                cache.add( entry );
+                cache.put( entry, entry );
                 entry.onEnterCache();
             }
         }

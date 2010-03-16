@@ -1,14 +1,25 @@
 package edu.colorado.phet.website.cache;
 
 import org.apache.log4j.Logger;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
-import org.apache.wicket.markup.MarkupStream;
-import org.apache.wicket.markup.html.internal.HtmlHeaderContainer;
 
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 
+/**
+ * Cacheable panel entry. Upon the first non-cached request, it will deliver the panel specified in
+ * {@see constructPanel(String,PageContext)} with modifications that will cause it to be put in the cache when rendered.
+ * Afterwards (when the panel is in the cache), a placeholder panel will be inserted with the prerendered version.
+ * <p/>
+ * <pre>
+ * {@code
+ * add(newSimplePanelCacheEntry( CacheTestPanel.class,WorkshopsPanel.class, "tester" ) {
+ *     public PhetPanel constructPanel( String id, PageContext context ) {
+ *         return new CacheTestPanel( id, context );
+ *     }
+ * }.instantiate( "test-panel", context ) );
+ * }
+ * </pre>
+ */
 public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
 
     private CharSequence header;
@@ -21,22 +32,7 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
     }
 
     public final PhetPanel fabricate( String id, PageContext context ) {
-        return new PhetPanel( id, context ) {
-            @Override
-            public void renderHead( HtmlHeaderContainer container ) {
-                RequestCycle cycle = getRequestCycle();
-                Response response = cycle.getResponse();
-                response.write( header );
-            }
-
-            @Override
-            protected void onRender( MarkupStream markupStream ) {
-                markupStream.skipComponent();
-                RequestCycle cycle = getRequestCycle();
-                Response response = cycle.getResponse();
-                response.write( body );
-            }
-        };
+        return new SimplePanelCachePanel( id, context, header, body );
     }
 
     public SimplePanelCacheEntry ignoreParent() {
@@ -49,11 +45,14 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
 
     public final PhetPanel instantiate( String id, PageContext context ) {
         PanelCache cache = PanelCache.get();
+        IPanelCacheEntry entry = cache.getMatching( this );
 
-        if ( cache.contains( this ) ) {
-            return fabricate( id, context );
+        if ( entry != null ) {
+            logger.debug( "cached, delivering fabricated content" );
+            return entry.fabricate( id, context );
         }
         else {
+            logger.debug( "not cached, constructing original content" );
             PhetPanel panel = constructPanel( id, context );
             panel.setCacheEntry( this );
             return panel;
@@ -63,12 +62,12 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
     public void setHeader( CharSequence header ) {
         this.header = header;
 
-        logger.debug( "header:\n" + header + "\nendheader" );
+        logger.debug( "& header:\n" + header + "\nendheader" );
     }
 
     public void setBody( CharSequence body ) {
         this.body = body;
 
-        logger.debug( "body:\n" + body + "\nendbody" );
+        logger.debug( "& body:\n" + body + "\nendbody" );
     }
 }
