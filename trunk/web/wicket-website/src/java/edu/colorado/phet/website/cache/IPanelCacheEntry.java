@@ -12,7 +12,7 @@ public interface IPanelCacheEntry {
 
     public Class getParentClass();
 
-    public String getParentCacheID();
+    public String getCacheId();
 
     public PhetPanel fabricate( String id, PageContext context );
 

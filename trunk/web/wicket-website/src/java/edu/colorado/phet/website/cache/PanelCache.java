@@ -2,6 +2,8 @@ package edu.colorado.phet.website.cache;
 
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 public class PanelCache {
 
     private static PanelCache instance;
@@ -9,7 +11,10 @@ public class PanelCache {
 
     private HashMap<IPanelCacheEntry, IPanelCacheEntry> cache = new HashMap<IPanelCacheEntry, IPanelCacheEntry>();
 
+    private static Logger logger = Logger.getLogger( PanelCache.class.getName() );
+
     private PanelCache() {
+        // singleton
     }
 
     /**
@@ -52,10 +57,14 @@ public class PanelCache {
                 entry.onEnterCache();
             }
         }
+        if ( adding ) {
+            logger.debug( "adding to cache: " + entry );
+        }
         return adding;
     }
 
     public void remove( IPanelCacheEntry entry ) {
+        logger.debug( "attempting to remove from cache: " + entry );
         synchronized( lock ) {
             cache.remove( entry );
             entry.onExitCache();

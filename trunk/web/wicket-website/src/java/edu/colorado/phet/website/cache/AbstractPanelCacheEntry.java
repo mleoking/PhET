@@ -2,17 +2,24 @@ package edu.colorado.phet.website.cache;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
 
-    protected Class panelClass;
-    protected Class parentClass;
-    protected String parentCacheId;
+    // TODO: sanity checks for construction orders, etc.
+
+    private Class panelClass;
+    private Class parentClass;
+    private String parentCacheId;
+    private Locale locale;
     private List<EventDependency> dependencies = new LinkedList<EventDependency>();
 
-    protected AbstractPanelCacheEntry( Class panelClass, Class parentClass, String parentCacheId ) {
+    protected AbstractPanelCacheEntry( Class panelClass, Class parentClass, Locale locale, String parentCacheId ) {
         this.panelClass = panelClass;
         this.parentClass = parentClass;
+        this.locale = locale;
         this.parentCacheId = parentCacheId;
     }
 
@@ -28,53 +35,8 @@ public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
         return parentCacheId;
     }
 
-    @Override
-    public boolean equals( Object o ) {
-        if ( o == null ) {
-            return false;
-        }
-
-        /*
-        * intuitively, they must have the same panel class. parent class must be equal (either both null or both the
-        * same class), and if they specify the parent class, then the parent cache ID must be equal (either both null
-        * or both the same string value)
-        */
-        if ( o instanceof IPanelCacheEntry ) {
-            IPanelCacheEntry entry = (IPanelCacheEntry) o;
-            return (
-                    getPanelClass().equals( entry.getPanelClass() )
-                    && (
-                            getParentClass() == null
-                            ? ( entry.getParentClass() == null )
-                            : ( getParentClass().equals( entry.getParentClass() ) )
-                    )
-                    && (
-                            getParentClass() == null
-                            || (
-                                    getParentCacheID() == null
-                                    ? ( entry.getParentCacheID() == null )
-                                    : ( getParentCacheID().equals( entry.getParentCacheID() ) )
-                            )
-                    )
-            );
-        }
-        else {
-            return false;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        int ret = getPanelClass().hashCode();
-        ret *= 13;
-        if ( getParentClass() != null ) {
-            ret += getParentClass().hashCode();
-            ret *= 17;
-            if ( getParentCacheID() != null ) {
-                ret += getParentCacheID().hashCode();
-            }
-        }
-        return ret;
+    public String getCacheId() {
+        return ( parentCacheId == null ? "" : parentCacheId ) + "_" + LocaleUtils.localeToString( locale );
     }
 
     public void onEnterCache() {
@@ -91,5 +53,57 @@ public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
 
     public void addDependency( EventDependency dependency ) {
         dependencies.add( dependency );
+    }
+
+    @Override
+    public String toString() {
+        String ret = getPanelClass().getSimpleName();
+        if ( getParentClass() != null ) {
+            ret += "{" + getParentClass().getSimpleName() + "}";
+        }
+        ret += "#" + getCacheId();
+        return ret;
+    }
+
+    //----------------------------------------------------------------------------
+    // equals / hashcode implementation
+    //----------------------------------------------------------------------------
+
+    @Override
+    public boolean equals( Object o ) {
+        if ( o == null ) {
+            return false;
+        }
+
+        /*
+        Must have the same panel class, cache ID (including locale), and if specified the parent class
+         */
+        if ( o instanceof IPanelCacheEntry ) {
+            IPanelCacheEntry entry = (IPanelCacheEntry) o;
+            return (
+                    getCacheId().equals( entry.getCacheId() )
+                    && getPanelClass().equals( entry.getPanelClass() )
+                    && (
+                            getParentClass() == null
+                            ? ( entry.getParentClass() == null )
+                            : ( getParentClass().equals( entry.getParentClass() ) )
+                    )
+            );
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int ret = getPanelClass().hashCode();
+        ret *= 13;
+        if ( getParentClass() != null ) {
+            ret += getParentClass().hashCode();
+            ret *= 17;
+        }
+        ret += getCacheId().hashCode();
+        return ret;
     }
 }
