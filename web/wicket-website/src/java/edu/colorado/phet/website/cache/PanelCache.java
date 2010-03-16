@@ -4,11 +4,23 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Storage for cached panel versions. Should be a singleton, and is thread-safe with a hidden static lock so deadlock
+ * shouldn't be an accidental risk.
+ */
 public class PanelCache {
 
+    /**
+     * Singleton instance
+     */
     private static PanelCache instance;
+
     private static final Object lock = new Object();
 
+    /**
+     * Stores cached entries. Should be an entry, entry pair where the entries are identical, so that we can look up
+     * corresponding entries with filled in cached values.
+     */
     private HashMap<IPanelCacheEntry, IPanelCacheEntry> cache = new HashMap<IPanelCacheEntry, IPanelCacheEntry>();
 
     private static Logger logger = Logger.getLogger( PanelCache.class.getName() );
@@ -29,12 +41,21 @@ public class PanelCache {
         return instance;
     }
 
+    /**
+     * @param entry The entry
+     * @return Whether the cache contains a cached version for this entry
+     */
     public boolean contains( IPanelCacheEntry entry ) {
         synchronized( lock ) {
             return cache.containsKey( entry );
         }
     }
 
+    /**
+     * @param entry The entry
+     * @return Returns a cached version for this entry that can have fabricate() effectively called upon it, or null if
+     *         there is no such component
+     */
     public IPanelCacheEntry getMatching( IPanelCacheEntry entry ) {
         synchronized( lock ) {
             return cache.get( entry );
@@ -63,6 +84,11 @@ public class PanelCache {
         return adding;
     }
 
+    /**
+     * Removes an entry to the cache
+     *
+     * @param entry The entry to remove
+     */
     public void remove( IPanelCacheEntry entry ) {
         logger.debug( "attempting to remove from cache: " + entry );
         synchronized( lock ) {
