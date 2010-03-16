@@ -73,7 +73,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     protected ArrayList<IGeneNetworkModelListener> listeners = new ArrayList<IGeneNetworkModelListener>();
     
     // The DNA strand.
-    private final DnaStrand dnaStrand = new DnaStrand( this, DNA_STRAND_SIZE, DNA_STRAND_POSITION );
+    private DnaStrand dnaStrand = new DnaStrand( this, DNA_STRAND_SIZE, DNA_STRAND_POSITION );
     
     // The cell membrane.  This is not always depicted.  It is intended to be
     // a short, wide rectangle - so wide that the user never sees the left and
@@ -121,11 +121,6 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     // State variable that tracks whether lactose meter should be shown.
     private boolean isLactoseMeterVisible = false;
     
-    // Configuration variable that tracks whether LacY should be included
-    // in the simulation.  This affects a number of related behaviors, such
-    // as whether the cell membrane is depicted.
-    private final boolean isLacYSimulated;
-    
     // Timer used for delayed enabling of lactose injection.
     private final Timer delayedLactoseInjectionEnableTimer = new Timer(LACTOSE_INJECTION_ENABLE_DELAY, 
     		new ActionListener() {
@@ -154,7 +149,6 @@ public class LacOperonModel implements IGeneNetworkModelControl {
         super();
         
         this.clock = clock;
-        this.isLacYSimulated = simulateLacY;
         
         clock.addClockListener(new ClockAdapter(){
 
@@ -452,24 +446,11 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		return isLactoseMeterVisible;
 	}
 	
-	public boolean isLacYSimulated(){
-		return isLacYSimulated;
-	}
-	
 	public boolean isPointInToolBox(Point2D pt){
 		return toolBoxRect.contains(pt);
 	}
 
 	private void addInitialModelElements() {
-		
-		// If LacY is being simulated, add a cell membrane.
-		if (isLacYSimulated){
-			cellMembraneRect = new Rectangle2D.Double(
-					-MODEL_AREA_WIDTH,
-					CELL_MEMBRANE_CENTER_POS.getY() - CELL_MEMBRANE_THICKNESS / 2,
-					MODEL_AREA_WIDTH * 2,
-					CELL_MEMBRANE_THICKNESS);
-		}
 		
         // Initialize the elements that are floating around the cell.
         for (int i = 0; i < 2; i++){
@@ -478,45 +459,36 @@ public class LacOperonModel implements IGeneNetworkModelControl {
         	rnaPolymeraseList.add(rnaPolymerase);
         	notifyModelElementAdded(rnaPolymerase);
         }
-        
-        // TODO: Temp for testing - add a couple LacY's
-        if (isLacYSimulated){
-        	for (int i = 0; i < 2; i++){
-        		LacY lacY = new LacY(this, true);
-        		randomlyInitModelElement(lacY);
-        		lacYList.add(lacY);
-        		notifyModelElementAdded(lacY);
-        	}
-        }
 	}
 
     public GeneNetworkClock getClock() {
         return clock;
     }
     
-    public static Rectangle2D getMotionBounds(){
+    public Rectangle2D getMotionBounds(){
     	return MOTION_BOUNDS;
     }
     
+    /**
+     * Get the rectangle that represents the cell membrane.  Returns null if
+     * no cell membrane is included in this model.  This is the default in the
+     * base class, and subclasses should override this to add the membrane.
+     * 
+     * @return
+     */
     public Rectangle2D getCellMembraneRect(){
-    	if (isLacYSimulated){
-    		return new Rectangle2D.Double(cellMembraneRect.getX(), cellMembraneRect.getY(), cellMembraneRect.getWidth(),
-    				cellMembraneRect.getHeight());
-    	}
-    	else{
-    		return null;
-    	}
+   		return null;
     }
     
     /**
-     * The the area of the model where it is okay to move around and not end
+     * Get the area of the model where it is okay to move around and not end
      * up overlapping the DNA.  This actually excludes an area that is quite a
      * bit larger than the DNA so that model elements within it stay far
      * enough above that they don't end up overlapping it at all.
      * 
      * @return
      */
-    public static Rectangle2D getMotionBoundsAboveDna(){
+    public Rectangle2D getMotionBoundsAboveDna(){
     	return MOTION_BOUNDS_ABOVE_DNA;
     }
     
@@ -544,22 +516,20 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     	return dnaStrand;
     }
     
+    /**
+     * Used by subclasses to set the DNA strand to something other than the
+     * default configuration.
+     * 
+     * @param dnaStrand
+     */
+    protected void setDnaStrand(DnaStrand dnaStrand){
+    	this.dnaStrand = dnaStrand;
+    }
+    
     //----------------------------------------------------------------------------
     // Other Methods
     //----------------------------------------------------------------------------
 
-    /*
-     * TODO: Uncomment and get working or get rid of it.
-    private void addLactoseMolecule(){
-        Lactose lactose = new Lactose();
-        lactose.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
-    			(RAND.nextDouble() - 0.5) * (MODEL_AREA_HEIGHT / 2));
-    	double maxVel = 2;
-    	lactose.setVelocity((RAND.nextDouble() - 0.5) * maxVel, (RAND.nextDouble() - 0.5) * maxVel);
-        addModelElement(lactose);
-    }
-     */
-    
     private void randomlyInitModelElement(SimpleModelElement modelElement){
     	modelElement.setPosition((RAND.nextDouble() - 0.5) * (MODEL_AREA_WIDTH / 2), 
     			(RAND.nextDouble() / 2) * (MODEL_AREA_HEIGHT / 2));

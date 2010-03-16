@@ -243,6 +243,23 @@ public interface IGeneNetworkModelControl {
 	 * @param automaticLactoseInjectionEnabled
 	 */
 	public void setAutomaticLactoseInjectionParams(Point2D location, Vector2D velocity);
+
+	/**
+	 * Get the bounds for motion inside the cell.
+	 * 
+	 * @return
+	 */
+	Rectangle2D getMotionBounds();
+	
+    /**
+     * Get the area of the model where it is okay to move around and not end
+     * up overlapping the DNA.  This actually excludes an area that is quite a
+     * bit larger than the DNA so that model elements within it stay far
+     * enough above that they don't end up overlapping it at all.
+     * 
+     * @return
+     */
+    Rectangle2D getMotionBoundsAboveDna();
 	
 	
 }
