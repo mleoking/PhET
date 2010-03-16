@@ -54,11 +54,11 @@ public class PanelCache {
             adding = !cache.containsKey( entry );
             if ( adding ) {
                 cache.put( entry, entry );
-                entry.onEnterCache();
+                entry.onEnterCache( this );
             }
         }
         if ( adding ) {
-            logger.debug( "adding to cache: " + entry );
+            logger.debug( "added to cache: " + entry );
         }
         return adding;
     }

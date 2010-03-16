@@ -191,4 +191,8 @@ public class PhetPanel extends Panel {
         }
         return ret;
     }
+
+    public void addDependency( EventDependency dependency ) {
+        dependencies.add( dependency );
+    }
 }

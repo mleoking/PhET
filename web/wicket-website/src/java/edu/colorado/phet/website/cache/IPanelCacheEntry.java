@@ -16,7 +16,7 @@ public interface IPanelCacheEntry {
 
     public PhetPanel fabricate( String id, PageContext context );
 
-    public void onEnterCache();
+    public void onEnterCache( PanelCache cache );
 
     public void onExitCache();
 

@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
+
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
@@ -15,6 +17,8 @@ public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
     private String parentCacheId;
     private Locale locale;
     private List<EventDependency> dependencies = new LinkedList<EventDependency>();
+
+    private static Logger logger = Logger.getLogger( AbstractPanelCacheEntry.class.getName() );
 
     protected AbstractPanelCacheEntry( Class panelClass, Class parentClass, Locale locale, String parentCacheId ) {
         this.panelClass = panelClass;
@@ -39,19 +43,22 @@ public abstract class AbstractPanelCacheEntry implements IPanelCacheEntry {
         return ( parentCacheId == null ? "" : parentCacheId ) + "_" + LocaleUtils.localeToString( locale );
     }
 
-    public void onEnterCache() {
+    public void onEnterCache( PanelCache cache ) {
+        logger.debug( "onEnterCache: " + this );
         for ( EventDependency dependency : dependencies ) {
-            dependency.addListeners();
+            dependency.register( cache, this );
         }
     }
 
     public void onExitCache() {
+        logger.debug( "onExitCache: " + this );
         for ( EventDependency dependency : dependencies ) {
             dependency.deregister();
         }
     }
 
     public void addDependency( EventDependency dependency ) {
+        logger.debug( "addDependency: " + this );
         dependencies.add( dependency );
     }
 
