@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
 
+import edu.colorado.phet.website.cache.CacheableUrlStaticPanel;
+import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -25,13 +27,50 @@ public class StaticPage extends PhetRegularPage {
         try {
             String path = parameters.getString( "path" );
 
-            Class panelClass = panelMap.get( path );
+            final Class panelClass = panelMap.get( path );
 
-            Constructor ctor = panelClass.getConstructor( String.class, PageContext.class );
-            Method meth = panelClass.getMethod( "getKey" );
-            String key = (String) meth.invoke( null );
+            // determine whether it is cacheable or not
+            boolean cacheable = false;
+            for ( Class iface : panelClass.getInterfaces() ) {
+                if ( iface.equals( CacheableUrlStaticPanel.class ) ) {
+                    cacheable = true;
+                    break;
+                }
+            }
 
-            PhetPanel panel = (PhetPanel) ctor.newInstance( "panel", getPageContext() );
+            Method getKeyMethod = panelClass.getMethod( "getKey" );
+            String key = (String) getKeyMethod.invoke( null );
+
+            if ( cacheable ) {
+                logger.debug( "cacheable static panel: " + panelClass.getSimpleName() );
+                add( new SimplePanelCacheEntry( panelClass, this.getClass(), getPageContext().getLocale(), path ) {
+                    public PhetPanel constructPanel( String id, PageContext context ) {
+                        try {
+                            Constructor ctor = panelClass.getConstructor( String.class, PageContext.class );
+                            PhetPanel panel = (PhetPanel) ctor.newInstance( "panel", getPageContext() );
+                            return panel;
+                        }
+                        catch( InvocationTargetException e ) {
+                            e.printStackTrace();
+                        }
+                        catch( NoSuchMethodException e ) {
+                            e.printStackTrace();
+                        }
+                        catch( IllegalAccessException e ) {
+                            e.printStackTrace();
+                        }
+                        catch( InstantiationException e ) {
+                            e.printStackTrace();
+                        }
+                        throw new RuntimeException( "failed to construct panel!" );
+                    }
+                }.instantiate( "panel", getPageContext() ) );
+            }
+            else {
+                Constructor ctor = panelClass.getConstructor( String.class, PageContext.class );
+                PhetPanel panel = (PhetPanel) ctor.newInstance( "panel", getPageContext() );
+                add( panel );
+            }
 
             addTitle( new ResourceModel( key + ".title" ) );
             NavLocation navLocation = getNavMenu().getLocationByKey( key );
@@ -39,7 +78,7 @@ public class StaticPage extends PhetRegularPage {
                 logger.warn( "nav location == null for " + panelClass.getCanonicalName() );
             }
             initializeLocation( navLocation );
-            add( panel );
+
         }
         catch( RuntimeException e ) {
             e.printStackTrace();
