@@ -1,3 +1,4 @@
+3/16/10 #2119, make GameOverNode's JPanel totally static, to see if that solves the PSwing bounds problem
 3/16/10 #2218, pull IntegerSpinner out of IntegerSpinnerNode, for testing
 # 0.00.38 (39263) Mar 11, 2010
 3/11/10 1.0-rc1 (first release candidate for version 1.0)
