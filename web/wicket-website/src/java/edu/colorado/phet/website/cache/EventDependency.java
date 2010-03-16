@@ -12,7 +12,10 @@ import edu.colorado.phet.website.data.IChangeListener;
  * and then is responsible for removing the entry from the cache.
  * <p/>
  * Only designed to handle one PanelCache, and each instance is effectively tied to one cache and one entry in that
- * cache
+ * cache.
+ * <p/>
+ * HIGHLY recommended to create new instances each time, since if different pages share the same dependency, they will
+ * invalidate each other or cause other major errors.
  */
 public abstract class EventDependency {
 
@@ -60,6 +63,15 @@ public abstract class EventDependency {
     // register / deregister for cache control
     //----------------------------------------------------------------------------
 
+    /**
+     * Called when the parent cache entry is put into the cache. Responsible for setting everything up so listeners can
+     * listen and the entry can be invalidated.
+     * <p/>
+     * DO NOT CALL in subclass
+     *
+     * @param cache The cache
+     * @param entry The cache entry
+     */
     public final void register( PanelCache cache, IPanelCacheEntry entry ) {
         logger.debug( "registering dependency for entry " + entry );
         if ( !active ) {
@@ -73,6 +85,12 @@ public abstract class EventDependency {
         }
     }
 
+    /**
+     * Called when the parent cache entry is invalidated. Clean up method, and we make sure there would be no memory
+     * leaks.
+     * <p/>
+     * DO NOT CALL in subclass
+     */
     public final void deregister() {
         logger.debug( "deregistering dependency for entry " + entry );
         if ( active ) {
@@ -88,6 +106,9 @@ public abstract class EventDependency {
     // methods for subclasses
     //----------------------------------------------------------------------------
 
+    /**
+     * Invalidates the parent cache entry. Do not call deregister() on ourself, as the entry should take care of that.
+     */
     protected final void invalidate() {
         logger.debug( "invalidating dependency for entry " + entry );
         if ( cache != null ) {
@@ -95,6 +116,9 @@ public abstract class EventDependency {
         }
     }
 
+    /**
+     * @return A convenience listener that will invalidate the cache entry upon any insert, update or delete events
+     */
     protected final IChangeListener getAnyChangeInvalidator() {
         synchronized( this ) {
             if ( anyChangeListener == null ) {
