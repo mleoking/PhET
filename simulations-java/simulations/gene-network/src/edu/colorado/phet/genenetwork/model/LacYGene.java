@@ -22,6 +22,10 @@ public class LacYGene extends SimpleModelElement {
 		this(model, new Point2D.Double());
 	}
 	
+	public LacYGene(){
+		this(null, new Point2D.Double());
+	}
+	
 	@Override
 	public String getHtmlLabel() {
 		return GeneNetworkStrings.LAC_Y_GENE_LABEL;

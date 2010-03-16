@@ -22,6 +22,10 @@ public class LacZGene extends SimpleModelElement {
 		this(model, new Point2D.Double());
 	}
 	
+	public LacZGene(){
+		this(null, new Point2D.Double());
+	}
+	
 	@Override
 	public String getHtmlLabel() {
 		return GeneNetworkStrings.LAC_Z_GENE_LABEL;

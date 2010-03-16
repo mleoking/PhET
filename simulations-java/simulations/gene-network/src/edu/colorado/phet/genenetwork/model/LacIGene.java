@@ -34,6 +34,10 @@ public class LacIGene extends SimpleModelElement {
 		this(model, new Point2D.Double());
 	}
 	
+	public LacIGene(){
+		this(null, new Point2D.Double());
+	}
+	
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
