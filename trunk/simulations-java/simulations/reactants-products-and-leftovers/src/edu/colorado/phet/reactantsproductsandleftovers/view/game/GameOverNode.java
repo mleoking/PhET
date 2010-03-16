@@ -9,7 +9,10 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -20,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
-import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.util.TimeUtils;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -38,7 +40,6 @@ public class GameOverNode extends PhetPNode {
     private static final Color BACKGROUND = new Color( 180, 205, 255 );
     private static final int MIN_WIDTH = 200;
     
-    private final GameModel model;
     private final JLabel levelLabel;
     private final JLabel scoreLabel;
     private final JLabel timeLabel;
@@ -55,15 +56,15 @@ public class GameOverNode extends PhetPNode {
         titleSeparator.setForeground( Color.BLACK );
         
         // level
-        levelLabel = new JLabel( "?" ); // compute dynamically
+        levelLabel = new JLabel( getLevelString( model ) );
         levelLabel.setFont( LABEL_FONT );
         
         // score
-        scoreLabel = new JLabel( "?" ); // compute dynamically
+        scoreLabel = new JLabel( getScoreString( model ) );
         scoreLabel.setFont( LABEL_FONT );
         
         // time
-        timeLabel = new JLabel( "?" ); // compute dynamically
+        timeLabel = new JLabel( getTimeString( model ) ); 
         timeLabel.setFont( LABEL_FONT );
         
         // horizontal separator
@@ -100,40 +101,33 @@ public class GameOverNode extends PhetPNode {
         layout.addFilledComponent( buttonSeparator, row++, column, 1, 1, GridBagConstraints.HORIZONTAL );
         layout.addAnchoredComponent( buttonPanel, row++, column, GridBagConstraints.CENTER );
         
-        // PSwing
+        // wrap with PSwing after setting JLabel text values, to workaround #2171
         PSwing pswing = new PSwing( panel );
         addChild( pswing );
-        
-        // sync with model
-        this.model = model;
-        model.addGameListener( new GameAdapter() {
-            @Override
-            public void gameCompleted() {
-                update();
-            }
-        });
-        
-        // default state, to give this a general size for layout purposes
-        update();
     }
     
-    private void update() {
-        
-        // level
-        levelLabel.setText( MessageFormat.format( RPALStrings.LABEL_LEVEL, String.valueOf( model.getLevel() ) ) );
-        
-        // score
-        String scoreString = POINTS_FORMAT.format( model.getPoints() );
+    /*
+     * Gets the level string.
+     */
+    private static String getLevelString( GameModel model ) {
+        return MessageFormat.format( RPALStrings.LABEL_LEVEL, String.valueOf( model.getLevel() ) );
+    }
+    
+    /*
+     * Gets the score string.
+     * If we had a perfect score, indicate that.
+     */
+    private static String getScoreString( GameModel model ) {
+        String pointsString = POINTS_FORMAT.format( model.getPoints() );
         String perfectScoreString = POINTS_FORMAT.format( GameModel.getPerfectScore() );
+        String scoreString = null;
         if ( model.isPerfectScore() ) {
-            scoreLabel.setText( MessageFormat.format( RPALStrings.LABEL_SCORE_PERFECT, scoreString, perfectScoreString ) );
+            scoreString = MessageFormat.format( RPALStrings.LABEL_SCORE_PERFECT, pointsString, perfectScoreString );
         }
         else {
-            scoreLabel.setText( MessageFormat.format( RPALStrings.LABEL_SCORE_IMPERFECT, scoreString, perfectScoreString ) );
+            scoreString = MessageFormat.format( RPALStrings.LABEL_SCORE_IMPERFECT, pointsString, perfectScoreString );
         }
-
-        // time
-        timeLabel.setText( getTimeString() );
+        return scoreString;
     }
     
     /*
@@ -141,7 +135,7 @@ public class GameOverNode extends PhetPNode {
      * If we had an imperfect score, simply show the time.
      * If we had a perfect score, show the best time, and indicate if the time was a "new best".
      */
-    private String getTimeString() {
+    private static String getTimeString( GameModel model ) {
         String s = " ";
         if ( model.isTimerVisible() ) {
             // Time: 0:29
