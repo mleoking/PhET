@@ -5,6 +5,8 @@ DEADLINES
 - Friday 3/19/10, version 1.0 on PhET website before ACS meeting
 
 HIGH PRIORITY
+- #2218, error message bug with spinners
+- #2219, text cropped in Game Over panel
 
 MEDIUM PRIORITY
 - #2196, problem with y offset of "products" bracket
