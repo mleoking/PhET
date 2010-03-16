@@ -40,6 +40,10 @@ public class LacPromoter extends Promoter {
 		this(model, new Point2D.Double());
 	}
 	
+	public LacPromoter() {
+		this(null, new Point2D.Double());
+	}
+	
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------

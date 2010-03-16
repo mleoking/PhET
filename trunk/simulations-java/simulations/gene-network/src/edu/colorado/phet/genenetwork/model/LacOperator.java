@@ -54,6 +54,10 @@ public class LacOperator extends SimpleModelElement {
 		this(model, new Point2D.Double());
 	}
 	
+	public LacOperator() {
+		this(null, new Point2D.Double());
+	}
+	
 	//----------------------------------------------------------------------------
 	// Methods
 	//----------------------------------------------------------------------------
