@@ -14,10 +14,13 @@ import org.hibernate.Session;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.cache.CacheableUrlStaticPanel;
+import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.data.HibernateEventListener;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.*;
@@ -34,6 +37,22 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
         super( id, context );
 
         add( HeaderContributor.forCss( "/css/translated-sims-v1.css" ) );
+
+        addDependency( new EventDependency() {
+            @Override
+            public void addListeners() {
+                HibernateEventListener.addListener( Project.class, getAnyChangeInvalidator() );
+                HibernateEventListener.addListener( Simulation.class, getAnyChangeInvalidator() );
+                HibernateEventListener.addListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
+            }
+
+            @Override
+            public void removeListeners() {
+                HibernateEventListener.removeListener( Project.class, getAnyChangeInvalidator() );
+                HibernateEventListener.removeListener( Simulation.class, getAnyChangeInvalidator() );
+                HibernateEventListener.removeListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
+            }
+        } );
 
         final List<LocalizedSimulation> localizedSimulations = new LinkedList<LocalizedSimulation>();
         final Map<Locale, List<LocalizedSimulation>> localeMap = new HashMap<Locale, List<LocalizedSimulation>>();
