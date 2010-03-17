@@ -7,9 +7,12 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Canvas for the Lactose Regulation tab.
@@ -28,13 +31,16 @@ public class LactoseTransportCanvas extends GeneNetworkCanvas {
 		cellMembraneLayer = new PNode();
 		addWorldChild(cellMembraneLayer);
         Rectangle2D cellMembraneRect = model.getCellMembraneRect();
-        if (cellMembraneRect != null){
-        	Rectangle2D transformedCellMembraneRect = getMvt().createTransformedShape(cellMembraneRect).getBounds2D();
-        	GradientPaint paint = new GradientPaint(0f, (float)transformedCellMembraneRect.getCenterY(), Color.WHITE,
-        			0f, (float)transformedCellMembraneRect.getBounds2D().getMaxY(), new Color(255, 100, 100), true);
-        	cellMembraneLayer.addChild(new PhetPPath(transformedCellMembraneRect, paint, new BasicStroke(2f),
-        			Color.BLACK));
-        }
+    	Rectangle2D transformedCellMembraneRect = getMvt().createTransformedShape(cellMembraneRect).getBounds2D();
+    	GradientPaint paint = new GradientPaint(0f, (float)transformedCellMembraneRect.getCenterY(), Color.WHITE,
+    			0f, (float)transformedCellMembraneRect.getBounds2D().getMaxY(), new Color(255, 100, 100), true);
+    	PNode cellMembrane = new PhetPPath(transformedCellMembraneRect, paint, new BasicStroke(2f), Color.BLACK);
+    	cellMembraneLayer.addChild(cellMembrane);
+        PText cellMembraneLabel = new PText(GeneNetworkStrings.CELL_MEMBRANE_LABEL);
+        cellMembraneLabel.setFont(new PhetFont(18, true));
+        cellMembraneLabel.setOffset(getMvt().modelToViewXDouble(model.getMotionBounds().getMinX()), 
+        		transformedCellMembraneRect.getCenterY() - cellMembraneLabel.getFullBoundsReference().height / 2); 
+        cellMembrane.addChild(cellMembraneLabel);
         
         // Add the DNA strand to the canvas.
         setDnaStrand(new DnaStrandNode(model.getDnaStrand(), getMvt(), getBackground()));
