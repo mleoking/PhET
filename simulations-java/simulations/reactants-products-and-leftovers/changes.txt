@@ -1,3 +1,5 @@
+# 0.00.40 (39347) Mar 17, 2010
+3/17/10 another dev version for verifying #2219
 3/17/10 #2219, rewrite GameOverNode with no JPanel to workaround PSwing bounds problem
 # 0.00.39 (39330) Mar 16, 2010
 3/16/10 dev version for verifying #2219
