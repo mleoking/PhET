@@ -2,6 +2,7 @@ package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class DnaStrandWithLacY extends DnaStrand {
 
@@ -32,5 +33,17 @@ public class DnaStrandWithLacY extends DnaStrand {
 	public Point2D getLacYGeneLocation() {
 		return new Point2D.Double(getPositionRef().getX() + lacYGeneSpace.getOffsetFromDnaStrandPosRef().getX(),
 				getPositionRef().getY() + lacYGeneSpace.getOffsetFromDnaStrandPosRef().getY());
+	}
+
+
+	@Override
+	public boolean isOnLacYGeneSpace(Point2D pt) {
+		Rectangle2D uncompensatedBounds = lacYGeneSpace.getBounds2D();
+		Rectangle2D compensatedBounds = new Rectangle2D.Double(
+			uncompensatedBounds.getX() + lacYGeneSpace.getOffsetFromDnaStrandPosRef().getX() + getPositionRef().getX(),
+			uncompensatedBounds.getY() + lacYGeneSpace.getOffsetFromDnaStrandPosRef().getY() + getPositionRef().getY(),
+			uncompensatedBounds.getWidth(),
+			uncompensatedBounds.getHeight() + RANGE_FOR_PROXIMITRY_TEST);
+		return compensatedBounds.contains(pt);
 	}
 }

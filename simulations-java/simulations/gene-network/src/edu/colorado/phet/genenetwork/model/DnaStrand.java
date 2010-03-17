@@ -36,7 +36,7 @@ public class DnaStrand {
 	
 	// Distance value used when trying to determine whether a given point is
 	// just above a location on the DNA strand.
-	private static final double RANGE_FOR_PROXIMITRY_TEST = 3;  // In nanometers.
+	protected static final double RANGE_FOR_PROXIMITRY_TEST = 3;  // In nanometers.
 	
 	// Error range for comparing floating point values.
 	private static final double ERROR_RANGE = 0.01;
@@ -134,6 +134,21 @@ public class DnaStrand {
 			uncompensatedBounds.getWidth(),
 			uncompensatedBounds.getHeight() + RANGE_FOR_PROXIMITRY_TEST);
 		return compensatedBounds.contains(pt);
+	}
+	
+	/**
+	 * Get a boolean value indicating whether the provided point is just above
+	 * the LacY gene location on the DNA strand.  This is generally used when
+	 * traversing the DNA strand in order to know what should be transcribed.
+	 * 
+	 * NOTE: LacY is not present in the base class, so this is always false.
+	 * This should be overridden in subclasses that add LacY.
+	 * 
+	 * @param pt
+	 * @return
+	 */
+	public boolean isOnLacYGeneSpace(Point2D pt){
+		return false;
 	}
 	
 	/**
