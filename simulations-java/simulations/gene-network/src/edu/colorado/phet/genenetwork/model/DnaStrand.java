@@ -58,6 +58,8 @@ public class DnaStrand {
 	private DnaSegmentSpace lacPromoterSpace;
 	private DnaSegmentSpace lacOperatorSpace;
 	private DnaSegmentSpace lacZGeneSpace;
+
+	protected ArrayList<DnaSegmentSpace> shapeList = new ArrayList<DnaSegmentSpace>();
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -77,7 +79,13 @@ public class DnaStrand {
 		lacPromoterSpace = new DnaSegmentSpace(this, new LacPromoter(null).getShape(), new Point2D.Double(5, 0));
 		lacOperatorSpace = new DnaSegmentSpace(this, new LacOperator(null).getShape(), new Point2D.Double(15, 0));
 		lacZGeneSpace = new DnaSegmentSpace(this, new LacZGene(null).getShape(), new Point2D.Double(30, 0));
-		
+
+		shapeList.add(lacIPromoterSpace);
+		shapeList.add(lacIGeneSpace);
+		shapeList.add(lacPromoterSpace);
+		shapeList.add(lacOperatorSpace);
+		shapeList.add(lacZGeneSpace);
+
 		// Register for model events that concern us.
 		model.addListener(new GeneNetworkModelAdapter(){
 			public void modelElementAdded(SimpleModelElement modelElement) {
@@ -275,13 +283,8 @@ public class DnaStrand {
 	 * and all that will eventually go.
 	 */
 	public ArrayList<DnaSegmentSpace> getDnaSegmentSpaces(){
-		ArrayList<DnaSegmentSpace> shapeList = new ArrayList<DnaSegmentSpace>();
-		shapeList.add(lacIPromoterSpace);
-		shapeList.add(lacIGeneSpace);
-		shapeList.add(lacPromoterSpace);
-		shapeList.add(lacOperatorSpace);
-		shapeList.add(lacZGeneSpace);
-		return shapeList;
+		ArrayList<DnaSegmentSpace> shapeListCopy = new ArrayList<DnaSegmentSpace>(shapeList);
+		return shapeListCopy;
 	}
 	
 	private void handleModelElementAdded(SimpleModelElement modelElement){
