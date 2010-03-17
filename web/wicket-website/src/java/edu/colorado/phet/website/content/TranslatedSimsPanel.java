@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
+import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
@@ -17,10 +18,7 @@ import edu.colorado.phet.website.cache.CacheableUrlStaticPanel;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
-import edu.colorado.phet.website.data.HibernateEventListener;
-import edu.colorado.phet.website.data.LocalizedSimulation;
-import edu.colorado.phet.website.data.Simulation;
-import edu.colorado.phet.website.data.Project;
+import edu.colorado.phet.website.data.*;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.*;
@@ -159,16 +157,36 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
         logger.debug( "c-d: " + ( d - c ) );
 
         addDependency( new EventDependency() {
+
+            private IChangeListener projectListener;
+
+            @Override
+            protected void addListeners() {
+                projectListener = new AbstractChangeListener() {
+                    public void onUpdate( Object object, PostUpdateEvent event ) {
+                        if ( HibernateEventListener.getSafeHasChanged( event, "visible" ) ) {
+                            invalidate();
+                        }
+                    }
+                };
+                HibernateEventListener.addListener( Project.class, projectListener );
+            }
+
+            @Override
+            protected void removeListeners() {
+                HibernateEventListener.removeListener( Project.class, projectListener );
+            }
+        } );
+
+        addDependency( new EventDependency() {
             @Override
             public void addListeners() {
-                HibernateEventListener.addListener( Project.class, getAnyChangeInvalidator() );
                 HibernateEventListener.addListener( Simulation.class, getAnyChangeInvalidator() );
                 HibernateEventListener.addListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
             }
 
             @Override
             public void removeListeners() {
-                HibernateEventListener.removeListener( Project.class, getAnyChangeInvalidator() );
                 HibernateEventListener.removeListener( Simulation.class, getAnyChangeInvalidator() );
                 HibernateEventListener.removeListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
             }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.hibernate.event.*;
+import org.hibernate.persister.entity.EntityPersister;
 
 public class HibernateEventListener implements PostInsertEventListener, PostUpdateEventListener, PostDeleteEventListener {
 
@@ -83,4 +84,34 @@ public class HibernateEventListener implements PostInsertEventListener, PostUpda
             }
         }
     }
+
+    public static int getPersisterIndex( EntityPersister persister, String name ) {
+        String[] names = persister.getPropertyNames();
+        for ( int i = 0; i < names.length; i++ ) {
+            if ( names[i].equals( name ) ) {
+                // no current check for lazyness, but can do persister.getPropertyLaziness()[i]
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static boolean getSafeHasChanged( PostUpdateEvent event, String name ) {
+        int idx = getPersisterIndex( event.getPersister(), name );
+        if ( idx == -1 ) {
+            // name not included, so maybe it changed? warning!
+            logger.warn( "could not find parameter " + name + " in PostUpdateEvent for " + event.getEntity().getClass().getCanonicalName() );
+            return true;
+        }
+        Object oldVal = event.getOldState()[idx];
+        Object newVal = event.getState()[idx];
+        System.out.println( name + ": " + oldVal + " -> " + newVal );
+        if ( oldVal == null ) {
+            return newVal != null;
+        }
+        else {
+            return !oldVal.equals( newVal );
+        }
+    }
+
 }
