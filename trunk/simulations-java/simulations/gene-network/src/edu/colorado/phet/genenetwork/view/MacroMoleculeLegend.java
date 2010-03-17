@@ -30,7 +30,6 @@ import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.Glucose;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.LacI;
-import edu.colorado.phet.genenetwork.model.LacIMessengerRna;
 import edu.colorado.phet.genenetwork.model.LacZ;
 import edu.colorado.phet.genenetwork.model.MessengerRna;
 import edu.colorado.phet.genenetwork.model.RnaPolymerase;
@@ -125,7 +124,7 @@ public class MacroMoleculeLegend extends PhetPNode {
 		icon = createLactoseNode();
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.LACTOSE_LEGEND_CAPTION));
 		
-		MessengerRna mRna = new LacIMessengerRna(10);
+		MessengerRna mRna = new MessengerRna(null, 10, false);
 		mRna.setPredictibleShape();
 		icon = new SimpleModelElementNode(mRna, MVT, false);
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.MESSENGER_RNA_LEGEND_CAPTION));;

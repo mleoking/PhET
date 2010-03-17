@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * 
  * @author John Blanco
  */
-public abstract class MessengerRna extends SimpleModelElement {
+public class MessengerRna extends SimpleModelElement {
 	
 	//----------------------------------------------------------------------------
 	// Class Data
@@ -37,51 +37,52 @@ public abstract class MessengerRna extends SimpleModelElement {
 
 	// Used so that every strand looks a little different.
 	private static final Random RAND = new Random();
-	
-	// Constants that control when spawning occurs.
-	private static final double TIME_TO_FIRST_SPAWNING = 7; // In seconds.
-	private static final double TIME_BETWEEN_SPAWNINGS = 2; // In seconds.
-	
+
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
 	
 	private double length = 0;
 	private ArrayList<Point2D> points = new ArrayList<Point2D>();
-	private boolean fullyFormed = false;
 	
-	// Counter that tracks the number of "offspring" left to be spawned. 
-	private int spawnCounter;
+	// Spawning strategy - controls what is spawned where and when.
+	private MessengerRnaSpawningStrategy spawningStrategy = new SpawnNothingStrategy();
 	
-	// Count down timer for the next spawning event.
-	private double spawningCountdownTimer = TIME_TO_FIRST_SPAWNING;
+	// Boolean that controls whether spawning is enabled.
+	private boolean spawningEnabled = false;
 	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
 	//----------------------------------------------------------------------------
 	
-	public MessengerRna(IGeneNetworkModelControl model, Point2D initialPosition, double initialLength, int spawnCount, boolean fadeIn) {
+	public MessengerRna(IGeneNetworkModelControl model, Point2D initialPosition, double initialLength, boolean fadeIn) {
 		super(model, createInitialShape(), initialPosition, ELEMENT_PAINT, fadeIn, Double.POSITIVE_INFINITY);
-		this.spawnCounter = spawnCount;
 		while (length < initialLength){
 			grow(GROWTH_SEGMENT_LENGTH);
 		}
 	}
 	
-	public MessengerRna(IGeneNetworkModelControl model, double initialLength, int spawnCount, boolean fadeIn) {
-		this(model, new Point2D.Double(0, 0), initialLength, spawnCount, fadeIn);
+	public MessengerRna(IGeneNetworkModelControl model, double initialLength, boolean fadeIn) {
+		this(model, new Point2D.Double(0, 0), initialLength, fadeIn);
 	}
 
 	//----------------------------------------------------------------------------
 	// Methods
 	//----------------------------------------------------------------------------
 	
-	/**
-	 * Method that is called when it is time to spawn.  Must be overridden in
-	 * descendent classes.
-	 */
-	abstract protected void spawn();
+	public boolean isSpawningEnabled() {
+		return spawningEnabled;
+	}
+
+	public void setSpawningEnabled(boolean spawningEnabled) {
+		this.spawningEnabled = spawningEnabled;
+	}
 	
+	public void setSpawningStrategy(MessengerRnaSpawningStrategy spawningStrategy){
+		assert spawningStrategy != null;
+		this.spawningStrategy = spawningStrategy;
+	}
+
 	/**
 	 * Grow the RNA strand by the specified length.
 	 * 
@@ -138,20 +139,6 @@ public abstract class MessengerRna extends SimpleModelElement {
 	}
 	
 	/**
-	 * Set whether this mRNA strand is "fully formed", meaning that it is
-	 * capable of producing its target macromolecule.
-	 * 
-	 * @param fullyFormed
-	 */
-	public void setFullyFormed(boolean fullyFormed){
-		this.fullyFormed = fullyFormed;
-	}
-	
-	public boolean isFullyFormed(){
-		return fullyFormed;
-	}
-	
-	/**
 	 * This method is used to create a shape that is the same every time and
 	 * that can thus be used in places like legends, keys, tool bars, etc.  It
 	 * was created for this purpose (i.e. putting mRNA on a legend panel) but
@@ -171,38 +158,19 @@ public abstract class MessengerRna extends SimpleModelElement {
 		RAND.setSeed(System.currentTimeMillis());
 	}
 	
+	/**
+	 * Step this model element forward in time.  In this subclass, this is
+	 * primarily focused on updating the spawning strategy.
+	 */
 	@Override
 	public void stepInTime(double dt) {
 		
-		if (spawningCountdownTimer != Double.POSITIVE_INFINITY){
-	
-			spawningCountdownTimer -= dt;
-			
-			// Time to spawn?
-			if (spawningCountdownTimer <= 0){
-				if (!isFullyFormed()){
-					// This mRNA was not fully formed, so it can't spawn.  Just
-					// start fading out.
-					setExistenceTime(0);
-					spawningCountdownTimer = Double.POSITIVE_INFINITY;
-				}
-				else{
-					if (spawnCounter > 0){
-						// Time to spawn a new whatever.
-						spawn();
-						spawnCounter--;
-					}
-					if (spawnCounter > 0){
-						// Set time until next spawning.
-						spawningCountdownTimer = TIME_BETWEEN_SPAWNINGS;
-					}
-					else{
-						// We've done all the spawning that we need to, so it's
-						// time to start fading away.
-						setExistenceTime(0);
-						spawningCountdownTimer = Double.POSITIVE_INFINITY;
-					}
-				}
+		if (spawningEnabled){
+			spawningStrategy.stepInTime(dt, this);
+			if (spawningStrategy.isSpawningComplete()){
+				// Our work here is done, time to start fadin' away.
+				setExistenceTime(0);
+				spawningEnabled = false;
 			}
 		}
 		

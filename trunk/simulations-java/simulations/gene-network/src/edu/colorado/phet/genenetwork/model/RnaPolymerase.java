@@ -59,6 +59,9 @@ public class RnaPolymerase extends SimpleModelElement {
 	private MessengerRna mRna = null;
 	private boolean clearedToCrossLacOperator;
 	private int reattachCount;
+	private boolean touchedLacIGene = false;
+	private boolean touchedLacYGene = false;
+	private boolean touchedLacZGene = false;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -97,9 +100,17 @@ public class RnaPolymerase extends SimpleModelElement {
 						mRna.grow(getVelocityRef().getMagnitude() * dt);
 						if (!dnaStrand.isOnLacIGeneSpace(getLeftEdgePoint()) && !dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint())){
 							// We have fully traversed the gene.  Time to
-							// detach the mRNA from us and ourself from the
-							// DNA.
-							freeMessengerRna(true);
+							// tell the mRNA what to spawn, then detach the
+							// mRNA from us and ourself from the DNA.
+							if (touchedLacIGene){
+								mRna.setSpawningStrategy(new SpawnLacIStrategy());
+								mRna.setSpawningEnabled(true);
+							}
+							else if (touchedLacZGene){
+								mRna.setSpawningStrategy(new SpawnLacZStrategy());
+								mRna.setSpawningEnabled(true);
+							}
+							freeMessengerRna();
 							detachFromDna(0.25, new Vector2D.Double(2, 2));
 						}
 						else if ((dnaStrand.isOnLacIGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacIGeneInPlace()) ||
@@ -108,10 +119,10 @@ public class RnaPolymerase extends SimpleModelElement {
 							// gene is no longer there, most likely because it
 							// was removed by the user.  This is a rare
 							// situation, but handling for it was explicitly
-							// requested.  Detach the mRNA, but mark it as
-							// incomplete, and then detach ourself from the
-							// DNA strand.
-							freeMessengerRna(false);
+							// requested.  Detach the mRNA, but don't set it
+							// up to produce any macromolecules, and then
+							// detach ourself from the DNA strand.
+							freeMessengerRna();
 							detachFromDna(0);
 						}
 					}
@@ -156,10 +167,11 @@ public class RnaPolymerase extends SimpleModelElement {
 							if (dnaStrand.isLacZGeneInPlace()){
 								// We have moved into contact with the LacZ gene, so
 								// it is time to start transcribing.
-								mRna = new LacZMessengerRna(getModel(), 0);
+								mRna = new MessengerRna(getModel(), 0, false);
 								mRna.setPosition(getLeftEdgePoint().getX(), getLeftEdgePoint().getY());
 								getModel().addMessengerRna(mRna);					
 								transcribing = true;
+								touchedLacZGene = true;
 							}
 							else{
 								// We are over the lac Z gene location, but
@@ -171,10 +183,11 @@ public class RnaPolymerase extends SimpleModelElement {
 							if (dnaStrand.isLacIGeneInPlace()){
 								// We have moved into contact with the LacI gene, so
 								// it is time to start transcribing.
-								mRna = new LacIMessengerRna(getModel(), 0);
+								mRna = new MessengerRna(getModel(), 0, false);
 								mRna.setPosition(getLeftEdgePoint().getX(), getLeftEdgePoint().getY());
 								getModel().addMessengerRna(mRna);					
 								transcribing = true;
+								touchedLacIGene = true;
 							}
 							else{
 								// We are over the lac I gene location, but
@@ -200,8 +213,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	/**
 	 * Free the messenger RNA that has been transcribed.
 	 */
-	private void freeMessengerRna(boolean fullyFormed) {
-		mRna.setFullyFormed(fullyFormed);
+	private void freeMessengerRna() {
 		mRna.setMotionStrategy(new LinearMotionStrategy(getModel().getMotionBounds(), mRna.getPositionRef(),
 				new Vector2D.Double(0, 4), 20));
 		mRna = null;
@@ -239,10 +251,10 @@ public class RnaPolymerase extends SimpleModelElement {
 					// motion strategy must be changed.
 					setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
 					if (transcribing){
-						// This polymerase was transcribing the DNA into mRNA, so
-						// the mRNA needs to be detached and should be marked as
-						// not being fully formed.
-						freeMessengerRna(false);
+						// This polymerase was transcribing the DNA into mRNA,
+						// so the mRNA needs to be detached, and should not be
+						// set up to create any macromolecules.
+						freeMessengerRna();
 					}
 					traversing = false;
 					transcribing = false;
@@ -331,6 +343,9 @@ public class RnaPolymerase extends SimpleModelElement {
 		// No longer are we transcribing and traversing.
 		transcribing = false;
 		traversing = false;
+		touchedLacIGene = false;
+		touchedLacYGene = false;
+		touchedLacZGene = false;
 		
 		// Create and set a motion strategy that initially moves up and
 		// to the right.  This minimizes visual interference with the mRNA
