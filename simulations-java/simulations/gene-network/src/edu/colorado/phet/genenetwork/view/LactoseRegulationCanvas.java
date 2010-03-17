@@ -19,7 +19,7 @@ public class LactoseRegulationCanvas extends GeneNetworkCanvas {
         setDnaStrand(new DnaStrandNode(model.getDnaStrand(), getMvt(), getBackground()));
 
         // Add the tool box.
-        setToolBox(new DnaSegmentToolBoxNode(this, model, getMvt()));
+        setToolBox(new BasicDnaSegmentToolBoxNode(this, model, getMvt()));
         
         // Add the lactose injector.
         LactoseInjectorNode lactoseInjector = new LactoseInjectorNode(model, getMvt());

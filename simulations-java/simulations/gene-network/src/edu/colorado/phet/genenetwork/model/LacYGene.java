@@ -35,4 +35,9 @@ public class LacYGene extends SimpleModelElement {
 	public boolean isPartOfDnaStrand() {
 		return true;
 	}
+	
+	@Override
+	protected Point2D getDefaultLocation() {
+		return getModel().getDnaStrand().getLacYGeneLocation();
+	}
 }

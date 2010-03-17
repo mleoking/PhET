@@ -236,6 +236,20 @@ public class DnaStrand {
 	
 	/**
 	 * Get the location in absolute model space (i.e. not relative to the DNA
+	 * strand's position) of the LacYGene space on the DNA strand.
+	 * 
+	 * NOTE: LacY doesn't exist in this class, but there needs to be an
+	 * interface for getting it.  This should be overridden in any subclasses
+	 * that add LacY.
+	 * 
+	 * @return
+	 */
+	public Point2D getLacYGeneLocation(){
+		return null;
+	}
+	
+	/**
+	 * Get the location in absolute model space (i.e. not relative to the DNA
 	 * strand's position) of the LacIGene space on the DNA strand.
 	 * 
 	 * @return
@@ -287,7 +301,7 @@ public class DnaStrand {
 		return shapeListCopy;
 	}
 	
-	private void handleModelElementAdded(SimpleModelElement modelElement){
+	protected void handleModelElementAdded(SimpleModelElement modelElement){
 		// Set the "eye catching" mode for any model elements that are added,
 		// and register to clear it if the element is removed.
 		if (modelElement instanceof LacIPromoter){
