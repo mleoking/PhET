@@ -17,9 +17,9 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.GeneNetworkClock;
-import edu.colorado.phet.genenetwork.model.LacOperonModel;
 import edu.colorado.phet.genenetwork.model.LacOperonModelWithLacY;
 import edu.colorado.phet.genenetwork.view.GeneNetworkCanvas;
+import edu.colorado.phet.genenetwork.view.LactoseRegulationCanvas;
 
 /**
  * Module template.
@@ -46,7 +46,7 @@ public class LactoseTransportModule extends PiccoloModule {
         model = new LacOperonModelWithLacY( clock, true );
 
         // Canvas
-        canvas = new GeneNetworkCanvas( model );
+        canvas = new LactoseRegulationCanvas( model );
         setSimulationPanel( canvas );
 
         // Turn off the logo panel so that it doesn't take up space.

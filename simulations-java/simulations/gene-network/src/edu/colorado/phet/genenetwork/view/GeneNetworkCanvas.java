@@ -2,18 +2,13 @@
 
 package edu.colorado.phet.genenetwork.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GradientPaint;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkConstants;
 import edu.colorado.phet.genenetwork.model.Galactose;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
@@ -30,7 +25,7 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * Canvas template.
  */
-public class GeneNetworkCanvas extends PhetPCanvas {
+public abstract class GeneNetworkCanvas extends PhetPCanvas {
 	
     //------------------------------------------------------------------------
     // Class Data
@@ -49,26 +44,29 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     //------------------------------------------------------------------------
 
     // Model-view transform.
-    private ModelViewTransform2D mvt;
+    private final ModelViewTransform2D mvt;
     
-    // Layers for creating the desired overlap behavior.
-    private PNode toolBoxLayer;
-    private PNode dnaStrandLayer;
-    private PNode rovingModelElementLayer1; // Backmost layer for roving elements.
-    private PNode rovingModelElementLayer2;
-    private PNode rovingModelElementLayer3; // Frontmost layer for roving elements.
-    private PNode lactoseInjectorLayer;
-    private PNode legendLayer;
+	// Layers for creating the desired overlap behavior.
+    private final PNode toolBoxLayer;
+	private final PNode dnaStrandLayer;
+    private final PNode backmostRovingModelElementLayer; // Backmost layer for roving elements.
+    private final PNode middleRovingModelElementLayer;
+    private final PNode frontmostRovingModelElementLayer; // Frontmost layer for roving elements.
+    private final PNode lactoseInjectorLayer;
+    private final PNode legendLayer;
     
-    // Nodes for which references are needed, generally for layout purposes.
+    // Various non-moving nodes that exist on the canvas.
 	private MacroMoleculeLegend legend;
 	private LactoseMeter lactoseMeter;
+	private LactoseInjectorNode lactoseInjector;
+	private DnaStrandNode dnaStrand;
+	private DnaSegmentToolBoxNode toolBox;
     
     //------------------------------------------------------------------------
     // Constructors
     //------------------------------------------------------------------------
     
-    public GeneNetworkCanvas( LacOperonModel model ) {
+	public GeneNetworkCanvas( LacOperonModel model ) {
         super( LacOperonDefaults.VIEW_SIZE );
         
         setBackground( GeneNetworkConstants.CANVAS_BACKGROUND );
@@ -91,62 +89,107 @@ public class GeneNetworkCanvas extends PhetPCanvas {
 			}
 		});
         
-        // Layers.
+        // Create and add the layers.
         toolBoxLayer = new PNode();
         addScreenChild(toolBoxLayer);
         dnaStrandLayer = new PNode();
         addWorldChild(dnaStrandLayer);
-        rovingModelElementLayer1 = new PNode();
-        addWorldChild(rovingModelElementLayer1);
-        rovingModelElementLayer2 = new PNode();
-        addWorldChild(rovingModelElementLayer2);
-        rovingModelElementLayer3 = new PNode();
-        addWorldChild(rovingModelElementLayer3);
+        backmostRovingModelElementLayer = new PNode();
+        addWorldChild(backmostRovingModelElementLayer);
+        middleRovingModelElementLayer = new PNode();
+        addWorldChild(middleRovingModelElementLayer);
+        frontmostRovingModelElementLayer = new PNode();
+        addWorldChild(frontmostRovingModelElementLayer);
         lactoseInjectorLayer = new PNode();
         addWorldChild(lactoseInjectorLayer);
         legendLayer = new PNode();
         addScreenChild(legendLayer);
-                
-        // Add the DNA strand to the canvas.
-        dnaStrandLayer.addChild(new DnaStrandNode(model.getDnaStrand(), mvt, getBackground()));
-
-        // Add the cell membrane (if it exists) to the canvas.
-        Rectangle2D cellMembraneRect = model.getCellMembraneRect();
-        if (cellMembraneRect != null){
-        	Rectangle2D transformedCellMembraneRect = mvt.createTransformedShape(cellMembraneRect).getBounds2D();
-        	GradientPaint paint = new GradientPaint(0f, (float)transformedCellMembraneRect.getCenterY(), Color.WHITE,
-        			0f, (float)transformedCellMembraneRect.getBounds2D().getMaxY(), new Color(255, 100, 100), true);
-        	dnaStrandLayer.addChild(new PhetPPath(transformedCellMembraneRect, paint, new BasicStroke(2f),
-        			Color.BLACK));
-        }
         
-        // Add any model elements that are already present in the model.
+        // Add any simple model elements (which are, in general, the things
+        // that move around) that are already present in the model.
         for (SimpleModelElement modelElement : model.getAllSimpleModelElements()){
         	addModelElement(modelElement);
         }
-        
-        // Add the tool box.
-        toolBoxLayer.addChild(new DnaSegmentToolBoxNode(this, model, mvt));
-        
-        // Add the lactose injector.
-        LactoseInjectorNode lactoseInjector = new LactoseInjectorNode(model, mvt);
-        lactoseInjector.setOffset(-140, -40);
-        lactoseInjectorLayer.addChild(lactoseInjector);
-        
-        // Add the legend.
-        legend = new MacroMoleculeLegend(model, this);
-        legendLayer.addChild(legend);
-        
-        // Add the lactose meter.
-        lactoseMeter = new LactoseMeter(model);
-        lactoseMeter.setOffset(-140, 250);
-        lactoseInjectorLayer.addChild(lactoseMeter);
     }
 
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
     
+	protected ModelViewTransform2D getMvt() {
+		return mvt;
+	}
+	
+    protected DnaSegmentToolBoxNode getToolBox() {
+		return toolBox;
+	}
+
+	protected void setToolBox(DnaSegmentToolBoxNode toolBox) {
+		if (this.toolBox != null){
+			// Remove the old one.
+			toolBoxLayer.removeChild(this.toolBox);
+		}
+		// Add this to the canvas and keep a reference.
+		toolBoxLayer.addChild(toolBox);
+		this.toolBox = toolBox;
+	}
+
+    protected MacroMoleculeLegend getLegend() {
+		return legend;
+	}
+
+	protected void setLegend(MacroMoleculeLegend legend) {
+		if (this.legend != null){
+			// Remove the old one.
+			legendLayer.removeChild(this.legend);
+		}
+		// Add this to the canvas and keep a reference.
+		legendLayer.addChild(legend);
+		this.legend = legend;
+	}
+
+	protected LactoseMeter getLactoseMeter() {
+		return lactoseMeter;
+	}
+
+	protected void setLactoseMeter(LactoseMeter lactoseMeter) {
+		if (this.lactoseMeter != null){
+			// Remove the old one.
+			lactoseInjectorLayer.removeChild(this.lactoseMeter);
+		}
+		// Add this to the canvas and keep a reference.
+		lactoseInjectorLayer.addChild(lactoseMeter);
+		this.lactoseMeter = lactoseMeter;
+	}
+
+	protected LactoseInjectorNode getLactoseInjector() {
+		return lactoseInjector;
+	}
+
+	protected void setLactoseInjector(LactoseInjectorNode lactoseInjector) {
+		if (this.lactoseInjector != null){
+			// Remove the old one.
+			lactoseInjectorLayer.removeChild(this.lactoseInjector);
+		}
+		// Add this to the canvas and keep a reference.
+		lactoseInjectorLayer.addChild(lactoseInjector);
+		this.lactoseInjector = lactoseInjector;
+	}
+
+	protected DnaStrandNode getDnaStrand() {
+		return dnaStrand;
+	}
+
+	protected void setDnaStrand(DnaStrandNode dnaStrand) {
+		if (this.dnaStrand != null){
+			// Remove the old one.
+			dnaStrandLayer.removeChild(this.dnaStrand);
+		}
+		// Add this to the canvas and keep a reference.
+		dnaStrandLayer.addChild(dnaStrand);
+		this.dnaStrand = dnaStrand;
+	}
+
     /*
      * Updates the layout of stuff on the canvas.
      */
@@ -176,15 +219,15 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     	else{
     		if (modelElement instanceof Glucose || modelElement instanceof Galactose){
     			// Put lactose on the backmost layer.
-    			rovingModelElementLayer1.addChild(modelElementNode);
+    			backmostRovingModelElementLayer.addChild(modelElementNode);
     		}
     		else if (modelElement instanceof RnaPolymerase){
     			// Put RNA Polymerase on the foremost layer.
-    			rovingModelElementLayer3.addChild(modelElementNode);
+    			frontmostRovingModelElementLayer.addChild(modelElementNode);
     		}
     		else{
     			// Put everything else on the middle layer.
-    			rovingModelElementLayer2.addChild(modelElementNode);
+    			middleRovingModelElementLayer.addChild(modelElementNode);
     			
     			if (modelElement instanceof MessengerRna || modelElement instanceof TransformationArrow){
     				// These elements should not be movable by the user.
@@ -198,14 +241,14 @@ public class GeneNetworkCanvas extends PhetPCanvas {
     	modelElement.addListener(new ModelElementListenerAdapter(){
     		@Override
     		public void removedFromModel() {
-    	    	if ( rovingModelElementLayer1.getChildrenReference().contains(modelElementNode) ){
-    	    		rovingModelElementLayer1.removeChild(modelElementNode);
+    	    	if ( backmostRovingModelElementLayer.getChildrenReference().contains(modelElementNode) ){
+    	    		backmostRovingModelElementLayer.removeChild(modelElementNode);
     	    	}
-    	    	else if ( rovingModelElementLayer2.getChildrenReference().contains(modelElementNode) ){
-    	    		rovingModelElementLayer2.removeChild(modelElementNode);
+    	    	else if ( middleRovingModelElementLayer.getChildrenReference().contains(modelElementNode) ){
+    	    		middleRovingModelElementLayer.removeChild(modelElementNode);
     	    	}
-    	    	else if ( rovingModelElementLayer3.getChildrenReference().contains(modelElementNode) ){
-    	    		rovingModelElementLayer3.removeChild(modelElementNode);
+    	    	else if ( frontmostRovingModelElementLayer.getChildrenReference().contains(modelElementNode) ){
+    	    		frontmostRovingModelElementLayer.removeChild(modelElementNode);
     	    	}
     	    	else if ( dnaStrandLayer.getChildrenReference().contains(modelElementNode) ){
     	    		dnaStrandLayer.removeChild(modelElementNode);
