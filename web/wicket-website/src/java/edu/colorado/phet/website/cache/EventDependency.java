@@ -1,11 +1,15 @@
 package edu.colorado.phet.website.cache;
 
+import java.util.Locale;
+
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 import org.hibernate.event.PostDeleteEvent;
 import org.hibernate.event.PostInsertEvent;
 import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.website.data.IChangeListener;
+import edu.colorado.phet.website.data.TranslatedString;
 
 /**
  * A dependency for a particular cached panel. Should set up listeners to detect when this dependency is invalidated,
@@ -138,6 +142,30 @@ public abstract class EventDependency {
             }
         }
         return anyChangeListener;
+    }
+
+    protected final IChangeListener<TranslatedString> createTranslationChangeInvalidator( final Locale locale ) {
+        return new IChangeListener<TranslatedString>() {
+            public void onInsert( final TranslatedString object, PostInsertEvent event ) {
+                process( object, event.getSession() );
+            }
+
+            public void onUpdate( TranslatedString object, PostUpdateEvent event ) {
+                process( object, event.getSession() );
+            }
+
+            public void onDelete( TranslatedString object, PostDeleteEvent event ) {
+                process( object, event.getSession() );
+            }
+
+            private void process( final TranslatedString object, Session session ) {
+                //logger.debug( "checking string change on " + object.getKey() + " with panel locale " + locale + " for event: " + EventDependency.this + " this: " + this.toString() );
+                // TODO: assuming getTranslation() works! careful....
+                if ( object.getTranslation().getLocale().equals( locale ) ) {
+                    invalidate();
+                }
+            }
+        };
     }
 
 }
