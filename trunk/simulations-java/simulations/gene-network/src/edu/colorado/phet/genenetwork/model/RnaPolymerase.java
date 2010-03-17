@@ -35,7 +35,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			new Color(0, 153, 210), new Point2D.Double(WIDTH * 5, 0), Color.WHITE);
 	private static Dimension2D LAC_PROMOTER_ATTACHMENT_POINT_OFFSET = new PDimension(WIDTH * 0.15, -HEIGHT * 0.3);
 	private static double RECOVERY_TIME = 7;                  // Seconds.
-	private static double MAX_TRAVERSAL_TIME = 10; // In seconds.
+	private static double MAX_TRAVERSAL_TIME = 15; // In seconds.
 	private static double TRAVERSAL_SPEED = 5; // In nanometers/second.
 	private static Random RAND = new Random();
 	private static final int MAX_REATTACH_ATTEMPTS = 6;
@@ -98,23 +98,41 @@ public class RnaPolymerase extends SimpleModelElement {
 						// of the DNA strand. Continue growing the messenger
 						// RNA until we run off the end of the gene.
 						mRna.grow(getVelocityRef().getMagnitude() * dt);
-						if (!dnaStrand.isOnLacIGeneSpace(getLeftEdgePoint()) && !dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint())){
-							// We have fully traversed the gene.  Time to
-							// tell the mRNA what to spawn, then detach the
-							// mRNA from us and ourself from the DNA.
-							if (touchedLacIGene){
-								mRna.setSpawningStrategy(new SpawnLacIStrategy());
-								mRna.setSpawningEnabled(true);
+						if (touchedLacIGene && !dnaStrand.isOnLacIGeneSpace(getLeftEdgePoint())){
+							// We have fully traversed the LacI gene.  Time to
+							// tell the mRNA what to spawn, detach the mRNA,
+							// and then detach ourself from the DNA.
+							mRna.setSpawningStrategy(new SpawnLacIStrategy());
+							freeMessengerRna();
+							detachFromDna(0.25, new Vector2D.Double(2, 2));
+						}
+						else if (touchedLacZGene && !touchedLacYGene && !dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint())){
+							// We have fully traversed the LacZ gene.  See if
+							// the LacY gene is present.
+							if (dnaStrand.isOnLacYGeneSpace(getPositionRef()) && dnaStrand.isLacYGeneInPlace()){
+								// Yep, it's present.  Continue traversing.
+								touchedLacYGene = true;
 							}
-							else if (touchedLacZGene){
+							else{
+								// No LacY gene found, so tell the mRNA to
+								// transcribe just LacZ and release it, then
+								// detach ourself from the DNA.
 								mRna.setSpawningStrategy(new SpawnLacZStrategy());
-								mRna.setSpawningEnabled(true);
+								freeMessengerRna();
+								detachFromDna(0.25, new Vector2D.Double(2, 2));
 							}
+						}
+						else if ( touchedLacYGene && !dnaStrand.isOnLacYGeneSpace(getPositionRef()) && !dnaStrand.isOnLacYGeneSpace(getLeftEdgePoint())){
+							// We have fully traversed the LacY gene.  Time to
+							// tell the mRNA what to spawn, detach the mRNA,
+							// and then detach ourself from the DNA.
+							mRna.setSpawningStrategy(new SpawnLacYAndLacZStrategy());
 							freeMessengerRna();
 							detachFromDna(0.25, new Vector2D.Double(2, 2));
 						}
 						else if ((dnaStrand.isOnLacIGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacIGeneInPlace()) ||
-								 (dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacZGeneInPlace())){
+								 (dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacZGeneInPlace()) ||
+								 (dnaStrand.isOnLacYGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacZGeneInPlace())){
 							// This polymerase was traversing a gene but the
 							// gene is no longer there, most likely because it
 							// was removed by the user.  This is a rare
@@ -216,6 +234,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	private void freeMessengerRna() {
 		mRna.setMotionStrategy(new LinearMotionStrategy(getModel().getMotionBounds(), mRna.getPositionRef(),
 				new Vector2D.Double(0, 4), 20));
+		mRna.setSpawningEnabled(true);
 		mRna = null;
 	}
 	
