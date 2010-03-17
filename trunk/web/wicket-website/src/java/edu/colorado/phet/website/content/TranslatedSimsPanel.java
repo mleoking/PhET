@@ -159,6 +159,7 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
         addDependency( new EventDependency() {
 
             private IChangeListener projectListener;
+            private IChangeListener stringListener;
 
             @Override
             protected void addListeners() {
@@ -169,24 +170,17 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
                         }
                     }
                 };
+                stringListener = createTranslationChangeInvalidator( context.getLocale() );
                 HibernateEventListener.addListener( Project.class, projectListener );
-            }
-
-            @Override
-            protected void removeListeners() {
-                HibernateEventListener.removeListener( Project.class, projectListener );
-            }
-        } );
-
-        addDependency( new EventDependency() {
-            @Override
-            public void addListeners() {
+                HibernateEventListener.addListener( TranslatedString.class, stringListener );
                 HibernateEventListener.addListener( Simulation.class, getAnyChangeInvalidator() );
                 HibernateEventListener.addListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
             }
 
             @Override
-            public void removeListeners() {
+            protected void removeListeners() {
+                HibernateEventListener.removeListener( Project.class, projectListener );
+                HibernateEventListener.removeListener( TranslatedString.class, stringListener );
                 HibernateEventListener.removeListener( Simulation.class, getAnyChangeInvalidator() );
                 HibernateEventListener.removeListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
             }
