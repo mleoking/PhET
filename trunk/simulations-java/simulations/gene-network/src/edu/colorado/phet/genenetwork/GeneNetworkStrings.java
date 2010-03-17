@@ -21,6 +21,7 @@ public class GeneNetworkStrings {
     public static final String LAC_Z_GENE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.LacZGene" );
     public static final String LAC_I_GENE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.LacIGene" );
     public static final String LAC_Y_GENE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.LacYGene" );
+    public static final String CELL_MEMBRANE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.CellMembrane" );
     
     // Captions for items in the DNA segment tool box.
     public static final String LAC_PROMOTER_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.LacPromoter" );
