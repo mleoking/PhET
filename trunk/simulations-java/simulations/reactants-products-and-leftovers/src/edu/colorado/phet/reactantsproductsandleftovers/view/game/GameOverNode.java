@@ -30,6 +30,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Upon completion of a Game, this node is used to display a summary of the user's game results.
+ * <p>
+ * Note that this was originally implemented using a JPanel, wrapped with PSwing.
+ * But some problems with PSwing bounds (see #2219) forced a rewrite.
+ * Layout is now done using node offsets, PText is used instead of JLabels,
+ * and the background is a PPath instead of a JPanel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
