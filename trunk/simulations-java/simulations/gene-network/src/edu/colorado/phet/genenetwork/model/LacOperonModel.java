@@ -602,6 +602,13 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		return lacZGene;
 	}
     
+	public LacYGene createAndAddLacYGene(Point2D initialPosition) {
+		assert lacYGene == null; // Only one exists in this model, so multiple calls to this shouldn't occur.
+		lacYGene = new LacYGene(this, initialPosition);
+		notifyModelElementAdded(lacYGene);
+		return lacYGene;
+	}
+    
 	public LacIGene createAndAddLacIGene(Point2D initialPosition) {
 		assert lacIGene == null; // Only one exists in this model, so multiple calls to this shouldn't occur.
 		lacIGene = new LacIGene(this, initialPosition);
