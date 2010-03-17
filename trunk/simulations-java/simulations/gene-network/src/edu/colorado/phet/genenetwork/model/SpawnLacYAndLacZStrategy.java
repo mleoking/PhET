@@ -80,9 +80,9 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 		// Create and position the transformation arrow, which will in turn
 		// create the LacI.
 		Rectangle2D bounds = parentModelElement.getShape().getBounds2D();
-		Point2D transformationArrowPos = new Point2D.Double(bounds.getCenterX() + 
-				parentModelElement.getPositionRef().getX() + 3, bounds.getMaxY() + 
-				parentModelElement.getPositionRef().getY() + 1);
+		Point2D transformationArrowPos = new Point2D.Double(
+				bounds.getX() + parentModelElement.getPositionRef().getX() + bounds.getWidth() * 0.7 + 3,
+				bounds.getY() + parentModelElement.getPositionRef().getY() + bounds.getHeight() * 0.3 + 3);
 		LacYTransformationArrow transformationArrow = new LacYTransformationArrow(parentModelElement.getModel(),
 				transformationArrowPos, new LacY(parentModelElement.getModel(), true), Math.PI/4);
 		transformationArrow.setMotionStrategy(new LinearMotionStrategy(
@@ -95,9 +95,9 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 		// Create and position the transformation arrow, which will in turn
 		// create the LacI.
 		Rectangle2D bounds = parentModelElement.getShape().getBounds2D();
-		Point2D transformationArrowPos = new Point2D.Double(bounds.getCenterX() + 
-				parentModelElement.getPositionRef().getX() + 3, bounds.getMaxY() + 
-				parentModelElement.getPositionRef().getY() + 1);
+		Point2D transformationArrowPos = new Point2D.Double(
+				bounds.getX() + parentModelElement.getPositionRef().getX() + bounds.getWidth() / 3 + 3,
+				bounds.getMaxY() + parentModelElement.getPositionRef().getY() + 1);
 		LacZTransformationArrow transformationArrow = new LacZTransformationArrow(parentModelElement.getModel(),
 				transformationArrowPos, new LacZ(parentModelElement.getModel(), true), Math.PI/4);
 		transformationArrow.setMotionStrategy(new LinearMotionStrategy(
