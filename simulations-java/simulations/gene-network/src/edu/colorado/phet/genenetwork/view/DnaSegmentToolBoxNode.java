@@ -30,7 +30,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * 
  * @author John Blanco
  */
-public class DnaSegmentToolBoxNode extends PNode {
+public abstract class DnaSegmentToolBoxNode extends PNode {
 	
     //----------------------------------------------------------------------------
     // Class Data
@@ -61,29 +61,29 @@ public class DnaSegmentToolBoxNode extends PNode {
     //----------------------------------------------------------------------------
 	
 	// Main outline of the box.
-	private PhetPPath boxNode;
+	protected PhetPPath boxNode;
 
 	// The various grabbable things in the box.
-	private LacIPromoterToolBoxNode lacIPromoter;
-	private LacZGeneToolBoxNode lacZGene;
-	private LacIGeneToolBoxNode lacIGene;
-	private LacOperatorToolBoxNode lacIBindingRegion;
-	private LacPromoterToolBoxNode lacPromoter;
+	protected LacIPromoterToolBoxNode lacIPromoter;
+	protected LacZGeneToolBoxNode lacZGene;
+	protected LacIGeneToolBoxNode lacIGene;
+	protected LacOperatorToolBoxNode lacIBindingRegion;
+	protected LacPromoterToolBoxNode lacPromoter;
 	
 	// The check box for controlling legend visibility.
-	private PSwing legendControlCheckBoxPSwing;
+	protected PSwing legendControlCheckBoxPSwing;
 	
 	// The check box for controlling lactose meter visibility.
-	private PSwing lactoseMeterCheckBoxPSwing;
+	protected PSwing lactoseMeterCheckBoxPSwing;
 	
 	// Reference to the model.
-	private IGeneNetworkModelControl model;
+	protected IGeneNetworkModelControl model;
 	
 	// Reference to the model-view transform.
-	private ModelViewTransform2D mvt;
+	protected ModelViewTransform2D mvt;
 	
 	// Reference to the canvas upon which we are placed.
-	private PhetPCanvas canvas;
+	protected PhetPCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -157,53 +157,12 @@ public class DnaSegmentToolBoxNode extends PNode {
 				lactoseMeterControlCheckBox.setSelected(model.isLactoseMeterVisible());
 			}
 		});
-		
-		// Do the initial layout.
-		updateLayout(canvas);
 	}
 	
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
 	
-	private void updateLayout(JComponent parent){
-		
-		// Size the overall box.
-    	double width = parent.getWidth() * WIDTH_PROPORTION;
-    	boxNode.setPathTo(new RoundRectangle2D.Double(0, 0, width, width / ASPECT_RATIO, 15, 15));
-    	setOffset(((double)parent.getWidth() - width) / 2,
-    			parent.getHeight() - boxNode.getHeight() - OFFSET_FROM_BOTTOM);
-    	
-    	// Position the grabbable items.  Since the shapes of these vary quite
-    	// a lot, making them line up well requires tweaking the multipliers
-    	// below on an individual basis.
-    	PBounds boxBounds = boxNode.getFullBounds();
-    	lacIPromoter.setOffset(boxBounds.width * 0.11, boxBounds.height / 4);
-    	lacIGene.setOffset(boxBounds.width * 0.3, boxBounds.height * 0.25);
-    	lacZGene.setOffset(boxBounds.width * 0.5, boxBounds.height * 0.25);
-    	lacPromoter.setOffset(boxBounds.width * 0.71, boxBounds.height / 4);
-    	lacIBindingRegion.setOffset(boxBounds.width * 0.91, boxBounds.height * 0.25);
-    	
-    	// Position the check box button for turning the lactose meter on and off.
-    	lactoseMeterCheckBoxPSwing.setOffset( 10, boxBounds.height - lactoseMeterCheckBoxPSwing.getFullBoundsReference().height - 5);
-    	
-    	// Position the check box button for turning the legend on and off.
-    	legendControlCheckBoxPSwing.setOffset(
-    			boxBounds.width - legendControlCheckBoxPSwing.getFullBoundsReference().width *  1.1,
-    			boxBounds.height - legendControlCheckBoxPSwing.getFullBoundsReference().height - 5);
-    	
-    	// Let the model know our size, so that the model elements can figure
-    	// out when they are being put back in the box.  Note that some of the
-    	// odd-looking stuff related to the Y dimension is due to the
-    	// inversion of the Y axis.
-    	Point2D originInWorldCoords = localToGlobal(new Point2D.Double(boxBounds.x, boxBounds.y + boxBounds.height));
-    	canvas.getPhetRootNode().screenToWorld(originInWorldCoords);
-    	Point2D oppositeCornerInWorldCoords = localToGlobal(new Point2D.Double(boxBounds.getMaxX(), boxBounds.getMinY()));
-    	canvas.getPhetRootNode().screenToWorld(oppositeCornerInWorldCoords);
-    	Rectangle2D modelRect = new Rectangle2D.Double(mvt.viewToModelX(originInWorldCoords.getX()),
-    			mvt.viewToModelY(originInWorldCoords.getY()),
-    			mvt.viewToModelDifferentialX(oppositeCornerInWorldCoords.getX() - originInWorldCoords.getX()),
-    			mvt.viewToModelDifferentialY(oppositeCornerInWorldCoords.getY() - originInWorldCoords.getY()));
-    	model.setToolBoxRect( modelRect );
-	}
+	protected abstract void updateLayout(JComponent parent);
+	
 }
