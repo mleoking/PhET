@@ -6,7 +6,6 @@ DEADLINES
 
 HIGH PRIORITY
 - #2218, error message bug with spinners
-- #2219, text cropped in Game Over panel
 
 MEDIUM PRIORITY
 - #2196, problem with y offset of "products" bracket
