@@ -2,28 +2,30 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.util.TimeUtils;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -36,40 +38,36 @@ public class GameOverNode extends PhetPNode {
     private static final Font TITLE_FONT = new PhetFont( 24 );
     private static final Font LABEL_FONT = new PhetFont( 18 );
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
-    private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ),  new EmptyBorder( 5, 14, 5, 14 ) );
-    private static final Color BACKGROUND = new Color( 180, 205, 255 );
-    private static final int MIN_WIDTH = 200;
-    
-    private final JLabel levelLabel;
-    private final JLabel scoreLabel;
-    private final JLabel timeLabel;
+    private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
+    private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
+    private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
+    private static final double MIN_SEPARATOR_WIDTH = 175;
+    private static final double X_MARGIN = 25;
+    private static final double Y_MARGIN = 15;
+    private static final double Y_SPACING = 15;
     
     public GameOverNode( final GameModel model ) {
         super();
         
         // title
-        JLabel titleLabel = new JLabel( RPALStrings.TITLE_GAME_OVER ); 
-        titleLabel.setFont( TITLE_FONT );
-        
-        // horizontal separator
-        JSeparator titleSeparator = new JSeparator();
-        titleSeparator.setForeground( Color.BLACK );
+        PText titleNode = new PText( RPALStrings.TITLE_GAME_OVER ); 
+        titleNode.setFont( TITLE_FONT );
+        addChild( titleNode );
         
         // level
-        levelLabel = new JLabel( getLevelString( model ) );
-        levelLabel.setFont( LABEL_FONT );
+        PText levelNode = new PText( getLevelString( model ) );
+        levelNode.setFont( LABEL_FONT );
+        addChild( levelNode );
         
         // score
-        scoreLabel = new JLabel( getScoreString( model ) );
-        scoreLabel.setFont( LABEL_FONT );
+        PText scoreNode = new PText( getScoreString( model ) );
+        scoreNode.setFont( LABEL_FONT );
+        addChild( scoreNode );
         
         // time
-        timeLabel = new JLabel( getTimeString( model ) ); 
-        timeLabel.setFont( LABEL_FONT );
-        
-        // horizontal separator
-        JSeparator buttonSeparator = new JSeparator();
-        buttonSeparator.setForeground( Color.BLACK );
+        PText timeNode = new PText( getTimeString( model ) ); 
+        timeNode.setFont( LABEL_FONT );
+        addChild( timeNode );
         
         // buttons
         JButton newGameButton = new JButton( RPALStrings.BUTTON_NEW_GAME );
@@ -82,28 +80,53 @@ public class GameOverNode extends PhetPNode {
                 model.newGame();
             }
         });
+        PSwing newGameButtonWrapper = new PSwing( newGameButton );
+        newGameButtonWrapper.addInputEventListener( new CursorHandler() );
+        addChild( newGameButtonWrapper );
+       
+        // horizontal separators, compute width after adding other children
+        final double separatorWidth = Math.max( PNodeLayoutUtils.getMaxFullWidthChildren( this ), MIN_SEPARATOR_WIDTH );
+        PPath separatorNode1 = new PPath( new Line2D.Double( 0, 0, separatorWidth, 0 ) );
+        addChild( separatorNode1 );
+        PPath separatorNode2 = new PPath( new Line2D.Double( 0, 0, separatorWidth, 0 ) );
+        addChild( separatorNode2 );
         
-        // main panel
-        JPanel panel = new JPanel( new BorderLayout() );
-        panel.setBorder( BORDER );
-        panel.setBackground( BACKGROUND );
-        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-        layout.setInsets( new Insets( 5, 5, 5, 5 ) );
-        layout.setMinimumWidth( 0, MIN_WIDTH );
-        panel.setLayout( layout );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( titleLabel, row++, column, 1, 1, GridBagConstraints.CENTER );
-        layout.addFilledComponent( titleSeparator, row++, column, 1, 1, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( levelLabel, row++, column );
-        layout.addComponent( scoreLabel, row++, column );
-        layout.addComponent( timeLabel, row++, column );
-        layout.addFilledComponent( buttonSeparator, row++, column, 1, 1, GridBagConstraints.HORIZONTAL );
-        layout.addAnchoredComponent( buttonPanel, row++, column, GridBagConstraints.CENTER );
+        // create the background, after adding all other stuff
+        final double backgroundWidth = separatorWidth + ( 2 * X_MARGIN );
+        final double backgroundHeight = PNodeLayoutUtils.sumFullHeightsChildren( this ) + ( Y_SPACING * ( getChildrenCount() - 1 ) ) + ( 2 * Y_MARGIN );
+        PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, backgroundWidth, backgroundHeight ) );
+        backgroundNode.setStroke( BACKGROUND_STROKE );
+        backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
+        backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
+        addChild( backgroundNode );
+        backgroundNode.moveToBack();
         
-        // wrap with PSwing after setting JLabel text values, to workaround #2171
-        PSwing pswing = new PSwing( panel );
-        addChild( pswing );
+        // layout
+        double x = 0;
+        double y = 0;
+        backgroundNode.setOffset( x, y );
+        // title centered at top
+        x = ( backgroundNode.getFullBoundsReference().getWidth() - titleNode.getFullBoundsReference().getWidth() ) / 2;
+        y = backgroundNode.getFullBoundsReference().getMinY() + Y_MARGIN;
+        titleNode.setOffset( x, y );
+        // separator centered below title
+        x = ( backgroundNode.getFullBoundsReference().getWidth() - separatorNode1.getFullBoundsReference().getWidth() ) / 2;
+        y = titleNode.getFullBoundsReference().getMaxY() + Y_SPACING;
+        separatorNode1.setOffset( x, y );
+        // level, score and time left justified below separator
+        y = separatorNode1.getFullBoundsReference().getMaxY() + Y_SPACING;
+        levelNode.setOffset( x, y );
+        y = levelNode.getFullBoundsReference().getMaxY() + Y_SPACING;
+        scoreNode.setOffset( x, y );
+        y = scoreNode.getFullBoundsReference().getMaxY() + Y_SPACING;
+        timeNode.setOffset( x, y );
+        // separator centered below level, score and time
+        y = timeNode.getFullBoundsReference().getMaxY() + Y_SPACING;
+        separatorNode2.setOffset( x, y );
+        // button centered below separator
+        x = ( backgroundNode.getFullBoundsReference().getWidth() - newGameButtonWrapper.getFullBoundsReference().getWidth() ) / 2;
+        y = separatorNode2.getFullBoundsReference().getMaxY() + Y_SPACING;
+        newGameButtonWrapper.setOffset( x, y );
     }
     
     /*
