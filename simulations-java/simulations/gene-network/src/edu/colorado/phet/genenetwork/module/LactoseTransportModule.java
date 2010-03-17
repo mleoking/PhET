@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockContr
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.GeneNetworkClock;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
+import edu.colorado.phet.genenetwork.model.LacOperonModelWithLacY;
 import edu.colorado.phet.genenetwork.view.GeneNetworkCanvas;
 
 /**
@@ -29,7 +30,7 @@ public class LactoseTransportModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private LacOperonModel model;
+    private LacOperonModelWithLacY model;
     private GeneNetworkCanvas canvas;
 
     //----------------------------------------------------------------------------
@@ -42,7 +43,7 @@ public class LactoseTransportModule extends PiccoloModule {
 
         // Model
         GeneNetworkClock clock = (GeneNetworkClock) getClock();
-        model = new LacOperonModel( clock, true );
+        model = new LacOperonModelWithLacY( clock, true );
 
         // Canvas
         canvas = new GeneNetworkCanvas( model );

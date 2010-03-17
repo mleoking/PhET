@@ -33,7 +33,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	// Class Data
 	//----------------------------------------------------------------------------
 	
-	private static final double MODEL_AREA_WIDTH = 120;
+	protected static final double MODEL_AREA_WIDTH = 120;
 	private static final double MODEL_AREA_HEIGHT = 100;
 	private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double(-MODEL_AREA_WIDTH / 2,
 			-MODEL_AREA_HEIGHT / 2, MODEL_AREA_WIDTH, MODEL_AREA_HEIGHT);
@@ -42,12 +42,8 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	// Constants that define where in the model space the DNA strand will be.
 	private static final double DNA_STRAND_WIDTH = MODEL_AREA_WIDTH * 1.3;
 	private static final double DNA_STRAND_HEIGHT = 1.5;  // In nanometers.
-	private static final Dimension2D DNA_STRAND_SIZE = new PDimension(DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
-	private static final Point2D DNA_STRAND_POSITION = new Point2D.Double(0, -15);
-	
-	// Constants that define the size and position of the cell membrane.
-	private static final double CELL_MEMBRANE_THICKNESS = 4; // In nanometers.
-	private static final Point2D CELL_MEMBRANE_CENTER_POS = new Point2D.Double(0, 40);
+	protected static final Dimension2D DNA_STRAND_SIZE = new PDimension(DNA_STRAND_WIDTH, DNA_STRAND_HEIGHT);
+	protected static final Point2D DNA_STRAND_POSITION = new Point2D.Double(0, -15);
 	
 	// Constants that define where the mobile model elements can go.
 	private static final Rectangle2D MOTION_BOUNDS = new Rectangle2D.Double(MODEL_BOUNDS.getMinX(), 
@@ -74,11 +70,6 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     
     // The DNA strand.
     private DnaStrand dnaStrand = new DnaStrand( this, DNA_STRAND_SIZE, DNA_STRAND_POSITION );
-    
-    // The cell membrane.  This is not always depicted.  It is intended to be
-    // a short, wide rectangle - so wide that the user never sees the left and
-    // right edges, only the top and bottom.
-    private Rectangle2D cellMembraneRect;
     
     // Lists of simple model elements for which multiple instances can exist.
     private final ArrayList<LacI> lacIList = new ArrayList<LacI>();
