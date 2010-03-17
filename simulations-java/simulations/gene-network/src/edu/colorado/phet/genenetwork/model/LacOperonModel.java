@@ -33,7 +33,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	// Class Data
 	//----------------------------------------------------------------------------
 	
-	protected static final double MODEL_AREA_WIDTH = 120;
+	protected static final double MODEL_AREA_WIDTH = 140;
 	private static final double MODEL_AREA_HEIGHT = 100;
 	private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double(-MODEL_AREA_WIDTH / 2,
 			-MODEL_AREA_HEIGHT / 2, MODEL_AREA_WIDTH, MODEL_AREA_HEIGHT);
@@ -584,6 +584,14 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     	notifyModelElementAdded(lacZ);
     	
     	// If LacZ is present, lactose injection should be allowed.
+    	startLactoseInjectionAllowedTimer();
+    }
+    
+    public void addLacY(LacY lacY){
+    	lacYList.add(lacY);
+    	notifyModelElementAdded(lacY);
+    	
+    	// If LacY is present, lactose injection should be allowed.
     	startLactoseInjectionAllowedTimer();
     }
     

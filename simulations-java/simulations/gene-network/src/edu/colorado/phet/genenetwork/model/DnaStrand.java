@@ -39,13 +39,13 @@ public class DnaStrand {
 	protected static final double RANGE_FOR_PROXIMITRY_TEST = 3;  // In nanometers.
 	
 	// Error range for comparing floating point values.
-	private static final double ERROR_RANGE = 0.01;
+	protected static final double ERROR_RANGE = 0.01;
 
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
-	private IGeneNetworkModelControl model;
+	protected IGeneNetworkModelControl model;
 	private DoubleGeneralPath strand1Shape = new DoubleGeneralPath();
 	private DoubleGeneralPath strand2Shape = new DoubleGeneralPath();
 	private final Dimension2D size;
@@ -174,6 +174,19 @@ public class DnaStrand {
 		}
 		
 		return lacZGeneInPlace;
+	}
+	
+	/**
+	 * Returns true if the LacY gene is in place on the DNA strand and false
+	 * if not.
+	 * 
+	 * NOTE: LacY doesn't exist in the base class, so this must be overridden
+	 * in classes that include LacY.
+	 * 
+	 * @return
+	 */
+	public boolean isLacYGeneInPlace(){
+		return false;
 	}
 	
 	/**

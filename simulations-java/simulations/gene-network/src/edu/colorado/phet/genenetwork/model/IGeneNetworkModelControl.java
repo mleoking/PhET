@@ -154,6 +154,8 @@ public interface IGeneNetworkModelControl {
 
 	void addLacI(LacI lacIToAddToModel);
 	
+    void addLacY(LacY lacY);
+    
 	/**
 	 * Add a listener.
 	 */

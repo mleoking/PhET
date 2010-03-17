@@ -46,4 +46,30 @@ public class DnaStrandWithLacY extends DnaStrand {
 			uncompensatedBounds.getHeight() + RANGE_FOR_PROXIMITRY_TEST);
 		return compensatedBounds.contains(pt);
 	}
+	
+	/**
+	 * Returns true if the LacZ gene is in place on the DNA strand and false
+	 * if not.
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean isLacYGeneInPlace(){
+		LacYGene lacYGene = model.getLacYGene();
+		boolean lacYGeneInPlace = false;
+		if (lacYGene != null){
+			double xPos = lacYGeneSpace.getOffsetFromDnaStrandPosRef().getX() + getPositionRef().getX();
+			double yPos = lacYGeneSpace.getOffsetFromDnaStrandPosRef().getY() + getPositionRef().getY();
+			// Use a range for this test to account for floating point errors.
+			if ( lacYGene.getPositionRef().getX() + ERROR_RANGE > xPos &&
+				 lacYGene.getPositionRef().getX() - ERROR_RANGE <  xPos &&
+				 lacYGene.getPositionRef().getY() + ERROR_RANGE > yPos &&
+				 lacYGene.getPositionRef().getY() - ERROR_RANGE <  yPos ){
+				
+				lacYGeneInPlace = true;
+			}
+		}
+		
+		return lacYGeneInPlace;
+	}
 }
