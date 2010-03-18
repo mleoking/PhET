@@ -54,16 +54,15 @@ public class LactoseInjectorNode extends PNode {
 	// Angle of rotation of this node.
 //	private static final double ROTATION_ANGLE = -Math.PI/3;
 //	private static final double ROTATION_ANGLE = 0;
-//	private static final double ROTATION_ANGLE = -Math.PI/2;
-	private static final double ROTATION_ANGLE = -Math.PI/4;
+	private static final double ROTATION_ANGLE = -Math.PI/2;
+//	private static final double ROTATION_ANGLE = -Math.PI/4;
 	
 	// Offset of button within this node.  This was determined by trial and
 	// error and will need to be tweaked if the images change.
 	private static final Point2D BUTTON_OFFSET = new Point2D.Double(-95, -70);
 	
 	// Velocity at which lactose is injected in to the model.
-	private static final Vector2D NOMINAL_LACTOSE_INJECTION_VELOCITY = 
-		(new Vector2D.Double(20, 0)).rotate(ROTATION_ANGLE);
+	private static double NOMINAL_LACTOSE_INJECTION_VELOCITY = 20; 
 	
 	// Random number generator.
 	private static final Random RAND = new Random();
@@ -86,6 +85,7 @@ public class LactoseInjectorNode extends PNode {
 	private Dimension2D injectionPointOffset = new PDimension();
 	private float transparency;  // For fading.  0 is transparent, 1 is opaque.
 	private Point2D injectionPointInModelCoords = new Point2D.Double();
+	private Vector2D nominalInjectionVelocityVector = new Vector2D.Double(NOMINAL_LACTOSE_INJECTION_VELOCITY, 0);
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -95,6 +95,8 @@ public class LactoseInjectorNode extends PNode {
 		
 		this.model = model;
 		this.mvt = mvt;
+		
+		nominalInjectionVelocityVector.rotate(ROTATION_ANGLE);
 
 		PNode injectorNode = new PNode();
 		
@@ -141,7 +143,7 @@ public class LactoseInjectorNode extends PNode {
         // Set the point for automatic injection to be at the tip of the
         // injector.
         updateInjectionPoint();
-        model.setAutomaticLactoseInjectionParams( injectionPointInModelCoords, NOMINAL_LACTOSE_INJECTION_VELOCITY );
+        model.setAutomaticLactoseInjectionParams( injectionPointInModelCoords, nominalInjectionVelocityVector );
         
         // Set up the button handling.
         unpressedButtonImageNode.setPickable(true);
@@ -196,11 +198,11 @@ public class LactoseInjectorNode extends PNode {
 	public void setOffset(double x, double y) {
 		super.setOffset(x, y);
 		updateInjectionPoint();
-		model.setAutomaticLactoseInjectionParams(injectionPointInModelCoords, NOMINAL_LACTOSE_INJECTION_VELOCITY);
+		model.setAutomaticLactoseInjectionParams(injectionPointInModelCoords, nominalInjectionVelocityVector);
 	}
 
 	private void injectLactose(){
-		Vector2D initialVelocity = new Vector2D.Double(NOMINAL_LACTOSE_INJECTION_VELOCITY);
+		Vector2D initialVelocity = new Vector2D.Double(nominalInjectionVelocityVector);
 		initialVelocity.rotate((RAND.nextDouble() - 0.5) * Math.PI * 0.15);
         model.createAndAddLactose(injectionPointInModelCoords, initialVelocity); 
 	}
