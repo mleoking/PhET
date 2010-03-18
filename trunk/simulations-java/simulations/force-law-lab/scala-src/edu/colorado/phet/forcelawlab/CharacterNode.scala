@@ -18,8 +18,8 @@ class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform2D, 
 
   val ropeNode = new PhetPPath(new BasicStroke(5), Color.black)
   addChild(ropeNode)
-  mass2.addListener(update)
   mass.addListener(update)
+  mass2.addListener(update)
 
   addInputEventListener(new DragHandler(mass,transformMV,minDragX,maxDragX,this))
   addInputEventListener(new CursorHandler)
