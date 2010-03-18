@@ -53,8 +53,8 @@ public class LactoseInjectorNode extends PNode {
 	
 	// Angle of rotation of this node.
 //	private static final double ROTATION_ANGLE = -Math.PI/3;
-//	private static final double ROTATION_ANGLE = 0;
-	private static final double ROTATION_ANGLE = -Math.PI/2;
+	private static final double ROTATION_ANGLE = 0;
+//	private static final double ROTATION_ANGLE = -Math.PI/2;
 //	private static final double ROTATION_ANGLE = -Math.PI/4;
 	
 	// Offset of button within this node.  This was determined by trial and
@@ -134,11 +134,13 @@ public class LactoseInjectorNode extends PNode {
         injectorNode.setOffset(-Math.abs(Math.sin(ROTATION_ANGLE * 2)) * 30, 0);
         addChild(injectorNode);
         
-        
-        // Set up the injection point offset.  This is currently fixed, which
-        // assumes that the node is rotated so that it is pointing down and to
-        // the right.  This may need to be generalized some day.
-        injectionPointOffset.setSize(getFullBoundsReference().width * 0.46, getFullBoundsReference().height * 0.23);
+        // Set up the injection point offset. This makes some assumptions
+        // about the nature of the image, and will need to be updated if the
+        // image is changed.
+        double distanceCenterToTip = 110;
+        double centerOffsetX = 55;
+        injectionPointOffset.setSize(distanceCenterToTip * Math.cos(ROTATION_ANGLE) + centerOffsetX,
+        		distanceCenterToTip * Math.sin(-ROTATION_ANGLE));
         
         // Set the point for automatic injection to be at the tip of the
         // injector.
