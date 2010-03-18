@@ -96,10 +96,9 @@ public class IntegerSpinner extends JSpinner {
     }
     
     private void handleInvalidValue() {
+        textField.setValue( getValue() ); // revert, sync textfield to value
         Toolkit.getDefaultToolkit().beep();
         showInvalidValueDialog();
-        textField.setValue( getValue() ); // revert, sync textfield to value
-        textField.selectAll();
     }
     
     private void showInvalidValueDialog() {
