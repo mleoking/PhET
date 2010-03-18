@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Molecule.Bread;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel;
+import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel.SandwichReaction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -27,11 +27,11 @@ public class SandwichImageFactory {
     /* not intended for instantiation */
     private SandwichImageFactory() {}
 
-    public static Image createImage( SandwichShopModel model ) {
+    public static Image createImage( SandwichReaction sandwichReaction ) {
 
         Image image = null;
 
-        if ( !model.getReaction().isReaction() ) {
+        if ( !sandwichReaction.isReaction() ) {
             image = new PText( "?" ).toImage(); // so we have something to see
         }
         else {
@@ -39,7 +39,7 @@ public class SandwichImageFactory {
 
             // create a list of images for each reactant
             HashMap<Class<?>,ArrayList<PImage>> map = new HashMap<Class<?>,ArrayList<PImage>>();
-            for ( Reactant reactant : model.getReaction().getReactants() ) {
+            for ( Reactant reactant : sandwichReaction.getReactants() ) {
                 Class<?> moleculeClass = reactant.getMolecule().getClass();
                 assert( map.get( moleculeClass ) == null );
                 ArrayList<PImage> list = new ArrayList<PImage>();

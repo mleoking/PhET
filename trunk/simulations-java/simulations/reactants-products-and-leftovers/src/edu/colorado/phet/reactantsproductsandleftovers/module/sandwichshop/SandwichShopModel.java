@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 
-import java.awt.Image;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -17,6 +15,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Molecule.Bread;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Molecule.Cheese;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Molecule.Meat;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Molecule.Sandwich;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.view.sandwich.SandwichImageFactory;
 
 /**
@@ -30,17 +29,31 @@ public class SandwichShopModel extends RPALModel {
     private static int DEFAULT_QUANTITY = 0;
     private static int DEFAULT_SANDWICH_INDEX = 0;
     
-    // base class for all sandwich reactions, all have one product, which is a sandwich
+    /*
+     * Base class for all sandwich reactions.
+     * All have one product, which is a sandwich, and its image is dynamic.
+     */
     public static abstract class SandwichReaction extends ChemicalReaction {
+        
         public SandwichReaction( String name, Reactant[] reactants ) {
             super( name, reactants, new Product[] { new Product( 1, new Sandwich(), DEFAULT_QUANTITY ) } );
-            assert( getProduct( 0 ).getMolecule() instanceof Sandwich );
+            for ( Reactant reactant : getReactants() ) {
+                reactant.addReactantChangeListener( new ReactantChangeAdapter() {
+                    public void coefficientChanged() {
+                        updateSandwichImage();
+                    }
+                });
+            }
+            updateSandwichImage();
         }
         
-        public void setSandwichImage( Image image ) {
-            Product product = getProduct( 0 );
-            assert( product.getMolecule() instanceof Sandwich );
-            product.setImage( image );
+        private Product getSandwich() {
+            assert( getProduct( 0 ).getMolecule() instanceof Sandwich );
+            return getProduct( 0 );
+        }
+        
+        private void updateSandwichImage() {
+            getSandwich().setImage( SandwichImageFactory.createImage( this ) );
         }
     }
     
@@ -63,22 +76,11 @@ public class SandwichShopModel extends RPALModel {
     private final EventListenerList listeners;
     private final SandwichReaction[] reactions;
     private SandwichReaction reaction;
-    private final ChangeListener reactionChangeListener;
     
     public SandwichShopModel() {
-        
         listeners = new EventListenerList();
         reactions = new SandwichReaction[] { new CheeseSandwichReaction(), new MeatCheeseSandwich() };
         reaction = reactions[DEFAULT_SANDWICH_INDEX];
-        
-        // dynamic sandwich image
-        reactionChangeListener = new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                updateSandwichImage();
-            }
-        };
-        reaction.addChangeListener( reactionChangeListener );
-        updateSandwichImage();
     }
     
     /**
@@ -86,7 +88,7 @@ public class SandwichShopModel extends RPALModel {
      * selects the default sandwich reaction.
      */
     public void reset( ) {
-        for ( ChemicalReaction sandwich : reactions ) {
+        for ( SandwichReaction sandwich : reactions ) {
             for ( Reactant reactant : sandwich.getReactants() ) {
                 reactant.setCoefficient( DEFAULT_COEFFICIENT );
                 reactant.setQuantity( DEFAULT_QUANTITY );
@@ -100,21 +102,12 @@ public class SandwichShopModel extends RPALModel {
     }
     
     public void setReaction( SandwichReaction reaction ) {
-        assert( reaction != null );
-        if ( this.reaction != null ) {
-            this.reaction.removeChangeListener( reactionChangeListener );
-        }
         this.reaction = reaction;
-        this.reaction.addChangeListener( reactionChangeListener );
         fireStateChanged();
     }
     
     public SandwichReaction getReaction() {
         return reaction;
-    }
-    
-    private void updateSandwichImage() {
-        reaction.setSandwichImage( SandwichImageFactory.createImage( this ) );
     }
     
     public void addChangeListener( ChangeListener listener ) {
