@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -34,7 +35,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Node that represents the thing that the user interacts with in order to
+ * Node that represents the thing with which the user interacts in order to
  * inject lactose into the system.
  * 
  * @author John Blanco
@@ -48,18 +49,21 @@ public class LactoseInjectorNode extends PNode {
 	// Height of the injector prior to rotation.  This is in world size, which
 	// is close to pixels (but not quite exactly due to all that transform
 	// craziness).
-	private static final double INJECTOR_HEIGHT = 175;
+	private static final double INJECTOR_HEIGHT = 150;
 	
 	// Angle of rotation of this node.
-	private static final double ROTATION_ANGLE = -Math.PI/3;
+//	private static final double ROTATION_ANGLE = -Math.PI/3;
+//	private static final double ROTATION_ANGLE = 0;
+//	private static final double ROTATION_ANGLE = -Math.PI/2;
+	private static final double ROTATION_ANGLE = -Math.PI/4;
 	
 	// Offset of button within this node.  This was determined by trial and
 	// error and will need to be tweaked if the images change.
-	private static final Point2D BUTTON_OFFSET = new Point2D.Double(45, 45);
+	private static final Point2D BUTTON_OFFSET = new Point2D.Double(-95, -70);
 	
 	// Velocity at which lactose is injected in to the model.
 	private static final Vector2D NOMINAL_LACTOSE_INJECTION_VELOCITY = 
-		(new Vector2D.Double(0, -20)).rotate(-ROTATION_ANGLE);
+		(new Vector2D.Double(20, 0)).rotate(ROTATION_ANGLE);
 	
 	// Random number generator.
 	private static final Random RAND = new Random();
@@ -94,9 +98,12 @@ public class LactoseInjectorNode extends PNode {
 
 		PNode injectorNode = new PNode();
 		
-		// Load the graphic images for this device.
+		// Load the graphic images for this device.  These are offset in order
+		// to make the center of rotation be the center of the bulb.
 		BufferedImage injectorBodyImage = GeneNetworkResources.getImage( "squeezer_background.png" );
         injectorBodyImageNode = new PImage( injectorBodyImage );
+        Rectangle2D originalBodyBounds = injectorBodyImageNode.getFullBounds();
+        injectorBodyImageNode.setOffset(-originalBodyBounds.getWidth() / 2, -originalBodyBounds.getHeight() / 2);
         injectorNode.addChild(injectorBodyImageNode);
         BufferedImage pressedButtonImage = GeneNetworkResources.getImage( "button_pressed.png" );
         pressedButtonImageNode = new PImage(pressedButtonImage);
@@ -109,21 +116,22 @@ public class LactoseInjectorNode extends PNode {
         
         // Rotate and scale the image node as a whole.
         double scale = INJECTOR_HEIGHT / injectorBodyImageNode.getFullBoundsReference().height;
-        injectorNode.rotateAboutPoint( ROTATION_ANGLE, new Point2D.Double( injectorBodyImageNode.getFullBoundsReference().width / 2, injectorBodyImageNode.getFullBoundsReference().height / 2));
+        injectorNode.rotate(-ROTATION_ANGLE);
         injectorNode.scale(scale);
         
         // Add the node that allows control of automatic injection.
-        autoInjectionControl = new AutomaticInjectionSelector(model, injectorNode.getFullBoundsReference().height * 0.4);
-        autoInjectionControl.setOffset(0,
+        autoInjectionControl = new AutomaticInjectionSelector(model, INJECTOR_HEIGHT * 0.6);
+        autoInjectionControl.setOffset(
+        	injectorNode.getFullBoundsReference().getMinX() - autoInjectionControl.getFullBoundsReference().width + 5,
         	injectorNode.getFullBoundsReference().getCenterY() - autoInjectionControl.getFullBoundsReference().width / 2);
         addChild(autoInjectionControl);
         
         // Add the injector node.  Note that the position has to be tweaked
         // in order to account for the rotation of the node image, since the
         // rotation of the square image enlarges the bounds.
+        injectorNode.setOffset(-Math.abs(Math.sin(ROTATION_ANGLE * 2)) * 30, 0);
         addChild(injectorNode);
-        injectorNode.setOffset(autoInjectionControl.getFullBoundsReference().getMaxX() - 26,
-        		getFullBoundsReference().getCenterY());
+        
         
         // Set up the injection point offset.  This is currently fixed, which
         // assumes that the node is rotated so that it is pointing down and to
@@ -134,7 +142,6 @@ public class LactoseInjectorNode extends PNode {
         // injector.
         updateInjectionPoint();
         model.setAutomaticLactoseInjectionParams( injectionPointInModelCoords, NOMINAL_LACTOSE_INJECTION_VELOCITY );
-        
         
         // Set up the button handling.
         unpressedButtonImageNode.setPickable(true);
@@ -230,7 +237,7 @@ public class LactoseInjectorNode extends PNode {
 		private static final Color BACKGROUND_COLOR = new Color(248, 236, 84);
 		private static final Stroke BORDER_STROKE = new BasicStroke(2f);
 		private static final Stroke CONNECTOR_STROKE = new BasicStroke(8f);
-		private static final double CONNECTOR_LENGTH = 10;  // In screen coords, which is roughly pixels.
+		private static final double CONNECTOR_LENGTH = 20;  // In screen coords, which is roughly pixels.
 		
 		private IGeneNetworkModelControl model;
 		private JRadioButton manualButton;
