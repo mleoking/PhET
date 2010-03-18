@@ -1,3 +1,5 @@
+3/17/10 #2196, fix problem with y offset of "products" bracket, the sandwich image wasn't properly initialized by Reset All
+3/17/10 #2196, move responsibility for sandwich image update to SandwichReaction class
 3/17/10 dynamic nodes were being initialized twice in SandwichShopCanvas constructor
 3/17/10 simplification and reordering of initial layout and init in AbstractAfterNode constructor, #2196
 # 0.00.40 (39347) Mar 17, 2010

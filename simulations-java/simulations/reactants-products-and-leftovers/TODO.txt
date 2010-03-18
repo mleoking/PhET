@@ -8,7 +8,6 @@ HIGH PRIORITY
 - #2218, error message bug with spinners
 
 MEDIUM PRIORITY
-- #2196, problem with y offset of "products" bracket
 - write description of model, check into doc/model.txt (see ChemicalReaction.getNumReactions and updateReaction)
 
 LOW PRIORITY

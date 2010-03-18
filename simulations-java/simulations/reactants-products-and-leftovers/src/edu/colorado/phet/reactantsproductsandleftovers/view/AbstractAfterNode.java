@@ -315,10 +315,9 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
      */
     private void updateProductsLabelOffset() {
         double x = productsLabelNode.getXOffset();
-        double y = 0;
+        double y = leftoversLabelNode.getYOffset(); // never higher than the leftovers bracket;
         for ( QuantityValueNode node : productValueNodes ) {
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
-            y = Math.max( y, leftoversLabelNode.getYOffset() ); // never higher than the leftovers bracket
         }
         productsLabelNode.setOffset( x, y );
     }
