@@ -23,13 +23,17 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 	private static final double CELL_MEMBRANE_THICKNESS = 4; // In nanometers.
 	private static final Point2D CELL_MEMBRANE_CENTER_POS = new Point2D.Double(0, 40);
 	
+	// The rectangle that describes the position of the cell membrane.
+	private static final Rectangle2D CELL_MEMBRANE_RECT = new Rectangle2D.Double(
+			-MODEL_AREA_WIDTH,
+			CELL_MEMBRANE_CENTER_POS.getY() - CELL_MEMBRANE_THICKNESS / 2,
+			MODEL_AREA_WIDTH * 2,
+			CELL_MEMBRANE_THICKNESS);
+	
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
 	
-    // The rectangle that describes the position of the cell membrane.
-    private Rectangle2D cellMembraneRect;
-    
 	//----------------------------------------------------------------------------
 	// Constructor(s)
 	//----------------------------------------------------------------------------
@@ -38,12 +42,6 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 		super(clock, simulateLacY);
 		
 		setDnaStrand(new DnaStrandWithLacY(this, DNA_STRAND_SIZE, DNA_STRAND_POSITION));
-		
-		cellMembraneRect = new Rectangle2D.Double(
-				-MODEL_AREA_WIDTH,
-				CELL_MEMBRANE_CENTER_POS.getY() - CELL_MEMBRANE_THICKNESS / 2,
-				MODEL_AREA_WIDTH * 2,
-				CELL_MEMBRANE_THICKNESS);
 	}
 
 	//----------------------------------------------------------------------------
@@ -56,7 +54,23 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 	 */
 	@Override
 	public Rectangle2D getCellMembraneRect() {
-		return new Rectangle2D.Double(cellMembraneRect.getX(), cellMembraneRect.getY(), cellMembraneRect.getWidth(),
-				cellMembraneRect.getHeight());
+		return new Rectangle2D.Double(CELL_MEMBRANE_RECT.getX(), CELL_MEMBRANE_RECT.getY(), CELL_MEMBRANE_RECT.getWidth(),
+				CELL_MEMBRANE_RECT.getHeight());
+	}
+
+	@Override
+	public Rectangle2D getMotionBounds() {
+		// Subtract off the area above the cell membrane.
+		Rectangle2D origRect = super.getMotionBounds();
+		return new Rectangle2D.Double(origRect.getX(), origRect.getY(), origRect.getWidth(),
+				CELL_MEMBRANE_RECT.getMinY() - origRect.getY());
+	}
+
+	@Override
+	public Rectangle2D getMotionBoundsAboveDna() {
+		// Subtract off the area above the cell membrane.
+		Rectangle2D origRect = super.getMotionBoundsAboveDna();
+		return new Rectangle2D.Double(origRect.getX(), origRect.getY(), origRect.getWidth(),
+				CELL_MEMBRANE_RECT.getMinY() - origRect.getY());
 	}
 }
