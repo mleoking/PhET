@@ -251,16 +251,16 @@ public class LactoseInjectorNode extends PNode {
 			// or disable automatic lactose injections.
 			// TODO: i18n.
 			manualButton = new JRadioButton("Manual");
-			manualButton.setFont(LABEL_FONT);
 			manualButton.setBackground(BACKGROUND_COLOR);
+			manualButton.setFont(LABEL_FONT);
 			manualButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					model.setAutomaticLactoseInjectionEnabled(false);
 				}
 			});
 			autoButton = new JRadioButton("Auto");
-			autoButton.setFont(LABEL_FONT);
 			autoButton.setBackground(BACKGROUND_COLOR);
+			autoButton.setFont(LABEL_FONT);
 			autoButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					model.setAutomaticLactoseInjectionEnabled(true);
