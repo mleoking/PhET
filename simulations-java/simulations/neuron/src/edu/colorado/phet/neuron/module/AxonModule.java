@@ -19,11 +19,11 @@ import edu.colorado.phet.neuron.model.NeuronClock;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
 
 /**
- * Membrane Diffusion module.
+ * Axon Slice module.
  *
  * @author John Blanco
  */
-public class AxonSliceModule extends PiccoloModule {
+public class AxonModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -38,7 +38,7 @@ public class AxonSliceModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public AxonSliceModule( Frame parentFrame ) {
+    public AxonModule( Frame parentFrame ) {
         super( NeuronStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
         		NeuronDefaults.CLOCK_DT ) );
 

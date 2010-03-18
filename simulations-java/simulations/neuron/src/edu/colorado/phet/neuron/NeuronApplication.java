@@ -19,7 +19,8 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalDynamicsDlg;
 import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalParamsDlg;
-import edu.colorado.phet.neuron.module.AxonSliceModule;
+import edu.colorado.phet.neuron.module.AxonModule;
+import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 
 /**
  * NeuronApplication is the main application for this simulation.
@@ -32,7 +33,8 @@ public class NeuronApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private AxonSliceModule neuronModule;
+    private AxonModule neuronModule;
+    private MembraneDiffusionModule membraneDiffusionModule;
     
     // Developer window(s) and things for controlling them.
     private HodgkinHuxleyInternalDynamicsDlg hhInternalDynamicsDlg = null;
@@ -67,9 +69,12 @@ public class NeuronApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        neuronModule = new AxonSliceModule( parentFrame );
-        addModule( neuronModule );
+        membraneDiffusionModule = new MembraneDiffusionModule(parentFrame);
+        addModule(membraneDiffusionModule);
 
+        neuronModule = new AxonModule( parentFrame );
+        addModule( neuronModule );
+        
         /*
          * TODO: Removed this tab for now, since we are not doing the resting
          * membrane potential any more.  Replace it with something else or
@@ -165,7 +170,6 @@ public class NeuronApplication extends PiccoloPhetApplication {
     	
     	if (hhInternalParamsDlg != null){
     		hhInternalParamsDlg.setVisible(isVisible);
-    		
     	}
     }
 
