@@ -201,7 +201,8 @@ public class LacZ extends SimpleModelElement {
 
 	@Override
 	protected void onTransitionToExistingState() {
-		setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
+		setMotionStrategy(new RandomWalkMotionStrategy(
+				MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
 	}
 	
 	/**
