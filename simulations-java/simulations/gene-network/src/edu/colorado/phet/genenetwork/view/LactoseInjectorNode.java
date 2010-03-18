@@ -53,7 +53,7 @@ public class LactoseInjectorNode extends PNode {
 	
 	// Offset of button within this node.  This was determined by trial and
 	// error and will need to be tweaked if the images change.
-	private static final Point2D BUTTON_OFFSET = new Point2D.Double(-95, -70);
+	private static final Point2D BUTTON_OFFSET = new Point2D.Double(-100, -65);
 	
 	// Velocity at which lactose is injected in to the model.
 	private static double NOMINAL_LACTOSE_INJECTION_VELOCITY = 20; 
