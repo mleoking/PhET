@@ -92,9 +92,17 @@ public class LacPromoter extends Promoter {
 		}
 	}
 
+	/**
+	 * In some situations, we don't want the lac promoter to allow the RNA
+	 * polymerase to attach to it, since otherwise it can look like the
+	 * RNA poly goes right over or through the LacI.  This method embodies
+	 * the logic of such situations.  This is a bit of "hollywooding".
+	 */
 	@Override
 	protected boolean isOkayToAttachToRnaPoly() {
-		return ( getModel().getGlucoseList().size() > 0 ) || ( getModel().getLacIList().size() == 0 ) ||
+		return ( getModel().getGlucoseList().size() > 0 ) || 
+		       ( getModel().getLacIList().size() == 0 ) ||
+		       ( getModel().getLacOperator() == null ) ||
 			   ( getModel().getLacOperator().isLacIAttached() );
 	}
 }
