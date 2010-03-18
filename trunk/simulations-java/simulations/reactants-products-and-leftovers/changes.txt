@@ -1,3 +1,5 @@
+3/17/10 dynamic nodes were being initialized twice in SandwichShopCanvas constructor
+3/17/10 simplification and reordering of initial layout and init in AbstractAfterNode constructor, #2196
 # 0.00.40 (39347) Mar 17, 2010
 3/17/10 another dev version for verifying #2219
 3/17/10 #2219, rewrite GameOverNode with no JPanel to workaround PSwing bounds problem
