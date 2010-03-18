@@ -35,6 +35,7 @@ public class LactoseTransportCanvas extends GeneNetworkCanvas {
     	GradientPaint paint = new GradientPaint(0f, (float)transformedCellMembraneRect.getCenterY(), Color.WHITE,
     			0f, (float)transformedCellMembraneRect.getBounds2D().getMaxY(), new Color(255, 100, 100), true);
     	PNode cellMembrane = new PhetPPath(transformedCellMembraneRect, paint, new BasicStroke(2f), Color.BLACK);
+    	cellMembrane.setTransparency(0.7f);
     	cellMembraneLayer.addChild(cellMembrane);
         PText cellMembraneLabel = new PText(GeneNetworkStrings.CELL_MEMBRANE_LABEL);
         cellMembraneLabel.setFont(new PhetFont(18, true));
