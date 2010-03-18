@@ -1,3 +1,5 @@
+3/17/10 rename ChemicalReaction.getNumberOfReactions because it's referenced in model.txt
+3/17/10 create high-level description of model in model.txt
 3/17/10 #2196, fix problem with y offset of "products" bracket, the sandwich image wasn't properly initialized by Reset All
 3/17/10 #2196, move responsibility for sandwich image update to SandwichReaction class
 3/17/10 dynamic nodes were being initialized twice in SandwichShopCanvas constructor

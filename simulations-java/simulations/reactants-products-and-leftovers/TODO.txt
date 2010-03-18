@@ -8,10 +8,9 @@ HIGH PRIORITY
 - #2218, error message bug with spinners
 
 MEDIUM PRIORITY
-- write description of model, check into doc/model.txt (see ChemicalReaction.getNumReactions and updateReaction)
 
 LOW PRIORITY
-- audible click in the correctAnswer.wav (appears in sound before optimization)
+- #2220, audible click in the correctAnswer.wav (appears in sound before optimization)
 
 WARTS:
 - Molecule.image is mutable solely for Sandwich, difficult to change this
