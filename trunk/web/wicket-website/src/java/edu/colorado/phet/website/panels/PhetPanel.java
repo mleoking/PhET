@@ -1,13 +1,11 @@
 package edu.colorado.phet.website.panels;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import javax.servlet.ServletContext;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.Component;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
 import org.apache.wicket.markup.MarkupStream;
@@ -37,6 +35,8 @@ public class PhetPanel extends Panel {
      * If set, this will cause the panel to be cached.
      */
     private SimplePanelCacheEntry cacheEntry;
+
+    private Map<Object, Object> cacheMap;
 
     private static Logger logger = Logger.getLogger( PhetPanel.class.getName() );
 
@@ -115,7 +115,7 @@ public class PhetPanel extends Panel {
     //----------------------------------------------------------------------------
 
     @Override
-    public void renderHead( HtmlHeaderContainer container ) {
+    public void renderHead( final HtmlHeaderContainer container ) {
         if ( cacheEntry == null ) {
             // we are not caching, so render like normal
             super.renderHead( container );
@@ -131,6 +131,19 @@ public class PhetPanel extends Panel {
 
             // render the component into the fake response
             super.renderHead( container );
+
+            // render all of the heads below
+            visitChildren( new IVisitor() {
+                public Object component( Component component ) {
+                    if ( component.isVisible() ) {
+                        component.renderHead( container );
+                        return IVisitor.CONTINUE_TRAVERSAL;
+                    }
+                    else {
+                        return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+                    }
+                }
+            } );
 
             // switch back to our regular response, so further data will be written out to the user
             cycle.setResponse( response );
@@ -179,6 +192,9 @@ public class PhetPanel extends Panel {
                 cacheEntry.addDependency( dependency );
             }
 
+            // set the cache map, so we can store arbitrary parameters in the cache
+            cacheEntry.setMap( cacheMap );
+
             // attempt to add this panel to the cache
             PanelCache.get().addIfMissing( cacheEntry );
 
@@ -224,5 +240,31 @@ public class PhetPanel extends Panel {
      */
     public void addDependency( EventDependency dependency ) {
         dependencies.add( dependency );
+    }
+
+    /**
+     * Add a parameter to be stored in the cache. Beware of memory leaks using this!
+     *
+     * @param key
+     * @param value
+     */
+    public void addCacheParameter( Object key, Object value ) {
+        if ( cacheMap == null ) {
+            // lazy initialize, many panels won't use this
+            cacheMap = new HashMap<Object, Object>();
+        }
+        cacheMap.put( key, value );
+    }
+
+    public void setCacheMap( Map<Object, Object> cacheMap ) {
+        this.cacheMap = cacheMap;
+    }
+
+    public Object getCacheParameter( Object key ) {
+        if ( cacheMap == null ) {
+            logger.warn( "trying to access null cacheMap" );
+            return null;
+        }
+        return cacheMap.get( key );
     }
 }

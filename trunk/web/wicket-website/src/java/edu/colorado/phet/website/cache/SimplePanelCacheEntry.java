@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.cache;
 
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -24,6 +25,8 @@ import edu.colorado.phet.website.util.PageContext;
  * <p/>
  * After creation, instantiate() can be called to create the necessary panel. It will
  * automatically create either the normal panel (implemented in constructPanel()) or a cached version of that panel.
+ * <p/>
+ * Additionally, parameters can be stored within the map to be used later.
  */
 public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
 
@@ -36,6 +39,8 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
      * Represents the main body of the cached panel
      */
     private CharSequence body;
+
+    private Map<Object, Object> map;
 
     private static Logger logger = Logger.getLogger( SimplePanelCacheEntry.class.getName() );
 
@@ -50,7 +55,11 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
     }
 
     public final PhetPanel fabricate( String id, PageContext context ) {
-        return new CacheReplacementPanel( id, context, header, body );
+        CacheReplacementPanel panel = new CacheReplacementPanel( id, context, header, body );
+
+        // make the cache map accessible to the next panel
+        panel.setCacheMap( map );
+        return panel;
     }
 
     /**
@@ -97,6 +106,8 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
      */
     public void setHeader( CharSequence header ) {
         this.header = header;
+
+        //logger.debug( "set header: " + header );
     }
 
     /**
@@ -106,6 +117,16 @@ public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
      */
     public void setBody( CharSequence body ) {
         this.body = body;
+
+        //logger.debug( "set body: " + body );
     }
 
+    /**
+     * Sets the map, useful for storing data pulled from the DB when the pre-cached version is constructed
+     *
+     * @param map
+     */
+    public void setMap( Map<Object, Object> map ) {
+        this.map = map;
+    }
 }

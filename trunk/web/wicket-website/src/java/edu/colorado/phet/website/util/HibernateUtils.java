@@ -342,13 +342,17 @@ public class HibernateUtils {
         return defaultSim;
     }
 
-    public static List<LocalizedSimulation> preferredFullSimulationList( Session session, Locale locale ) {
+    public static void addPreferredFullSimulationList( List<LocalizedSimulation> lsims, Session session, Locale locale ) {
         List sims = session.createQuery( "select s from Simulation as s where s.project.visible = true and s.simulationVisible = true" ).list();
-        LinkedList<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
         for ( Object sim : sims ) {
             Simulation simulation = (Simulation) sim;
-            ret.add( pickBestTranslation( simulation, locale ) );
+            lsims.add( pickBestTranslation( simulation, locale ) );
         }
+    }
+
+    public static List<LocalizedSimulation> preferredFullSimulationList( Session session, Locale locale ) {
+        LinkedList<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
+        addPreferredFullSimulationList( ret, session, locale );
         return ret;
     }
 
