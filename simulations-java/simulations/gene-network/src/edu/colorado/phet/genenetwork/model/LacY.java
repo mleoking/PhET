@@ -10,7 +10,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.Random;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -51,6 +53,9 @@ public class LacY extends SimpleModelElement {
 	// the user.
 	private static final double LACTOSE_IMMEDIATE_GRAB_DISTANCE = 7; // In nanometers.
 	private static final double LACTOSE_GRAB_DISTANCE = 15; // In nanometers.
+	
+	// For use in positioning in the cell membrane.
+	private static final Random RAND = new Random();
 
 	//----------------------------------------------------------------------------
 	// Instance Data
@@ -83,6 +88,8 @@ public class LacY extends SimpleModelElement {
 	//----------------------------------------------------------------------------
 	// Methods
 	//----------------------------------------------------------------------------
+	
+	
 	
 	@Override
 	public void stepInTime(double dt) {
@@ -126,6 +133,12 @@ public class LacY extends SimpleModelElement {
 		}
 	}
 	
+	@Override
+	protected void setMotionStrategy(AbstractMotionStrategy motionStrategy) {
+		// TODO Auto-generated method stub
+		super.setMotionStrategy(motionStrategy);
+	}
+
 	private void getEngagedToLactose(){
 		
 		if (glucoseAttachmentPartner != null){
@@ -203,7 +216,20 @@ public class LacY extends SimpleModelElement {
 
 	@Override
 	protected void onTransitionToExistingState() {
-		setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
+		// Pick a point on the cell membrane and set a motion strategy to get
+		// there.
+		// TODO: This should work with the model at some point to find free
+		// locations.  This is essentially a rapid prototype at this point.
+		double xDest = getModel().getMotionBounds().getCenterX() + RAND.nextDouble() * getModel().getMotionBounds().getWidth() / 2;
+		double yDest = getModel().getCellMembraneRect().getCenterY();
+		// Extend the motion bounds to allow this to move into the membrane.
+		Rectangle2D motionBounds = getModel().getMotionBoundsAboveDna();
+		motionBounds.setFrame(motionBounds.getX(), motionBounds.getY(), motionBounds.getWidth(),
+				motionBounds.getHeight() + getModel().getCellMembraneRect().getHeight());
+		// Set a motion strategy that will move this LacY to a spot on the
+		// membrane.
+		setMotionStrategy(new LinearMotionStrategy(motionBounds, getPositionRef(), 
+				new Point2D.Double(xDest, yDest), 10));
 	}
 	
 	/**

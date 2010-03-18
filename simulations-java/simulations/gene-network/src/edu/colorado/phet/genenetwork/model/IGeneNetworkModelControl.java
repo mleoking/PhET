@@ -43,6 +43,8 @@ public interface IGeneNetworkModelControl {
 	
 	DnaStrand getDnaStrand();
 	
+    Rectangle2D getCellMembraneRect();
+
 	/**
 	 * Create a lacZ gene and add it to the model.
 	 * 
