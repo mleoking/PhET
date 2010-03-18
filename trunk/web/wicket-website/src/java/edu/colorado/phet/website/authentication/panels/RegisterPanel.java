@@ -17,6 +17,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.website.authentication.PhetSession;
+import edu.colorado.phet.website.components.StringPasswordTextField;
+import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -62,12 +64,12 @@ public class RegisterPanel extends PhetPanel {
         public RegisterForm( final String id ) {
             super( id );
 
-            add( name = new TextField( "name", new PropertyModel( properties, "name" ) ) );
-            add( organization = new TextField( "organization", new PropertyModel( properties, "organization" ) ) );
+            add( name = new StringTextField( "name", new PropertyModel( properties, "name" ) ) );
+            add( organization = new StringTextField( "organization", new PropertyModel( properties, "organization" ) ) );
             add( description = new DropDownChoice( "description", new PropertyModel( properties, "description" ), PhetUser.getDescriptionOptions() ) );
-            add( username = new TextField( "username", new PropertyModel( properties, "username" ) ) );
-            add( password = new PasswordTextField( "password", new PropertyModel( properties, "password" ) ) );
-            add( passwordCopy = new PasswordTextField( "passwordCopy", new PropertyModel( properties, "passwordCopy" ) ) );
+            add( username = new StringTextField( "username", new PropertyModel( properties, "username" ) ) );
+            add( password = new StringPasswordTextField( "password", new PropertyModel( properties, "password" ) ) );
+            add( passwordCopy = new StringPasswordTextField( "passwordCopy", new PropertyModel( properties, "passwordCopy" ) ) );
 
             // so we can respond to the error messages
             password.setRequired( false );

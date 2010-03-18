@@ -19,6 +19,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.buildtools.util.ProjectPropertiesFile;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -147,15 +148,15 @@ public class AdminProjectPage extends AdminPage {
             } );
             add( visible );
 
-            major = new TextField( "major", new Model( String.valueOf( project.getVersionMajor() ) ) );
+            major = new StringTextField( "major", new Model( String.valueOf( project.getVersionMajor() ) ) );
             add( major );
-            minor = new TextField( "minor", new Model( String.valueOf( project.getVersionMinor() ) ) );
+            minor = new StringTextField( "minor", new Model( String.valueOf( project.getVersionMinor() ) ) );
             add( minor );
-            dev = new TextField( "dev", new Model( String.valueOf( project.getVersionDev() ) ) );
+            dev = new StringTextField( "dev", new Model( String.valueOf( project.getVersionDev() ) ) );
             add( dev );
-            revision = new TextField( "revision", new Model( String.valueOf( project.getVersionRevision() ) ) );
+            revision = new StringTextField( "revision", new Model( String.valueOf( project.getVersionRevision() ) ) );
             add( revision );
-            timestamp = new TextField( "timestamp", new Model( String.valueOf( project.getVersionTimestamp() ) ) );
+            timestamp = new StringTextField( "timestamp", new Model( String.valueOf( project.getVersionTimestamp() ) ) );
             add( timestamp );
         }
 
@@ -222,7 +223,7 @@ public class AdminProjectPage extends AdminPage {
         public AddSimulationForm( String id ) {
             super( id );
 
-            nameField = new TextField( "name", new Model( project.getName() ) );
+            nameField = new StringTextField( "name", new Model( project.getName() ) );
             add( nameField );
         }
 

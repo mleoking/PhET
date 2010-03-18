@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -86,7 +87,7 @@ public class TranslationUserPanel extends PhetPanel {
             errorLabel = new Label( "error-text", "" );
             add( errorLabel );
 
-            userField = new TextField( "user", new Model( "" ) );
+            userField = new StringTextField( "user", new Model( "" ) );
             userField.setEscapeModelStrings( false );
             add( userField );
 

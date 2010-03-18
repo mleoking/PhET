@@ -12,6 +12,7 @@ import edu.colorado.phet.website.data.transfer.TransferData;
 import edu.colorado.phet.website.test.LuceneTest;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.StringUtils;
+import edu.colorado.phet.website.components.StringTextField;
 
 public class AdminMainPage extends AdminPage {
 
@@ -65,8 +66,8 @@ public class AdminMainPage extends AdminPage {
         public SetStringForm( final String id ) {
             super( id );
 
-            add( keyText = new TextField( "key", new PropertyModel( properties, "key" ) ) );
-            add( valueText = new TextField( "value", new PropertyModel( properties, "value" ) ) );
+            add( keyText = new StringTextField( "key", new PropertyModel( properties, "key" ) ) );
+            add( valueText = new StringTextField( "value", new PropertyModel( properties, "value" ) ) );
 
             // don't turn <'s and other characters into HTML/XML entities!!!
             valueText.setEscapeModelStrings( false );

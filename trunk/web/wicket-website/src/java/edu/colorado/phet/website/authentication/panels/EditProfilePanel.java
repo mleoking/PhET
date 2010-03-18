@@ -17,6 +17,7 @@ import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.authentication.PhetSession;
+import edu.colorado.phet.website.components.StringTextField;
 
 public class EditProfilePanel extends PhetPanel {
 
@@ -78,19 +79,19 @@ public class EditProfilePanel extends PhetPanel {
             properties.add( "phone2", user.getPhone2() );
             properties.add( "fax", user.getFax() );
 
-            add( name = new TextField( "name", new PropertyModel( properties, "name" ) ) );
-            add( organization = new TextField( "organization", new PropertyModel( properties, "organization" ) ) );
+            add( name = new StringTextField( "name", new PropertyModel( properties, "name" ) ) );
+            add( organization = new StringTextField( "organization", new PropertyModel( properties, "organization" ) ) );
             add( description = new DropDownChoice( "description", new PropertyModel( properties, "description" ), PhetUser.getDescriptionOptions() ) );
-            add( jobTitle = new TextField( "jobTitle", new PropertyModel( properties, "jobTitle" ) ) );
-            add( address1 = new TextField( "address1", new PropertyModel( properties, "address1" ) ) );
-            add( address2 = new TextField( "address2", new PropertyModel( properties, "address2" ) ) );
-            add( city = new TextField( "city", new PropertyModel( properties, "city" ) ) );
-            add( state = new TextField( "state", new PropertyModel( properties, "state" ) ) );
-            add( country = new TextField( "country", new PropertyModel( properties, "country" ) ) );
-            add( zipcode = new TextField( "zipcode", new PropertyModel( properties, "zipcode" ) ) );
-            add( phone1 = new TextField( "phone1", new PropertyModel( properties, "phone1" ) ) );
-            add( phone2 = new TextField( "phone2", new PropertyModel( properties, "phone2" ) ) );
-            add( fax = new TextField( "fax", new PropertyModel( properties, "fax" ) ) );
+            add( jobTitle = new StringTextField( "jobTitle", new PropertyModel( properties, "jobTitle" ) ) );
+            add( address1 = new StringTextField( "address1", new PropertyModel( properties, "address1" ) ) );
+            add( address2 = new StringTextField( "address2", new PropertyModel( properties, "address2" ) ) );
+            add( city = new StringTextField( "city", new PropertyModel( properties, "city" ) ) );
+            add( state = new StringTextField( "state", new PropertyModel( properties, "state" ) ) );
+            add( country = new StringTextField( "country", new PropertyModel( properties, "country" ) ) );
+            add( zipcode = new StringTextField( "zipcode", new PropertyModel( properties, "zipcode" ) ) );
+            add( phone1 = new StringTextField( "phone1", new PropertyModel( properties, "phone1" ) ) );
+            add( phone2 = new StringTextField( "phone2", new PropertyModel( properties, "phone2" ) ) );
+            add( fax = new StringTextField( "fax", new PropertyModel( properties, "fax" ) ) );
             add( receiveEmail = new CheckBox( "receiveEmail", new Model( new Boolean( user.isReceiveEmail() ) ) ) );
 
 
