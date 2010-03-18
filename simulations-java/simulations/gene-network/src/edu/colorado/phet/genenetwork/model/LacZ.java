@@ -177,7 +177,7 @@ public class LacZ extends SimpleModelElement {
 	private void completeAttachmentOfGlucose() {
 		glucoseAttachmentPartner.attach(this);
 		glucoseAttachmentState = AttachmentState.ATTACHED;
-		setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBounds()));
+		setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
 		// Start the attachment timer/counter.
 		lactoseAttachmentCountdownTimer = LACTOSE_ATTACHMENT_TIME;
 	}

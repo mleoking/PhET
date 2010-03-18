@@ -88,7 +88,8 @@ public class LacI extends SimpleModelElement {
 	public LacI(IGeneNetworkModelControl model, Point2D initialPosition, boolean fadeIn) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
 		if (model != null){
-			setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
+			setMotionStrategy(new RandomWalkMotionStrategy(
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
 		}
 	}
 	
@@ -115,7 +116,7 @@ public class LacI extends SimpleModelElement {
 				lacOperatorAttachmentPartner.detach(this);
 				lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 				lacOperatorAttachmentPartner = null;
-				setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
+				setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
 			}
 			// Does it have any pending relationships with lactose that need
 			// to be terminated?
@@ -495,7 +496,8 @@ public class LacI extends SimpleModelElement {
 		// lactose molecule.
 		if (glucoseAttachmentPartner == null){
 			setOkayToFade(true);
-			setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(getModel().getMotionBounds(), 0, null, -1));
+			setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this), 0, null, -1));
 		}
 		else{
 			Dimension2D offsetFromTarget = new PDimension(
@@ -514,7 +516,7 @@ public class LacI extends SimpleModelElement {
 		
 		glucoseAttachmentPartner.attach(this);
 		glucoseAttachmentState = AttachmentState.ATTACHED;
-		setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBounds()));
+		setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
 		setShape(createInactiveConformationShape());
 		
 		// If we are currently attached to the lac operator or moving towards
@@ -526,7 +528,7 @@ public class LacI extends SimpleModelElement {
 			lacOperatorAttachmentPartner = null;
 			lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 			setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(
-					getModel().getMotionBoundsAboveDna(), 0, null, -1));
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this), 0, null, -1));
 		}
 		
 		// Prevent ourself from fading while bonded.
