@@ -124,12 +124,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 			}
 			public void potentialChartVisibilityChanged(){
 				membranePotentialChart.setVisible(model.isPotentialChartVisible());
-				if (!model.isPotentialChartVisible()){
-					setZoomFactor(1);
-				}
-				else{
-					setZoomFactor(0.65);
-				}
 			}
 			public void stimulationLockoutStateChanged() {
 				updateStimButtonVisibility();
