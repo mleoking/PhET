@@ -50,7 +50,7 @@ public class LactoseTransportCanvas extends GeneNetworkCanvas {
         setToolBox(new DnaSegmentToolboxWithLacYNode(this, model, getMvt()));
         
         // Add the lactose injector.
-        LactoseInjectorNode lactoseInjector = new LactoseInjectorNode(model, getMvt());
+        LactoseInjectorNode lactoseInjector = new LactoseInjectorNode(model, getMvt(), 0);
         lactoseInjector.setOffset(-140, -40);
         setLactoseInjector(lactoseInjector);
         

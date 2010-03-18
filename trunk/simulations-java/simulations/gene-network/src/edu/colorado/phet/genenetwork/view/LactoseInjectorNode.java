@@ -49,13 +49,7 @@ public class LactoseInjectorNode extends PNode {
 	// Height of the injector prior to rotation.  This is in world size, which
 	// is close to pixels (but not quite exactly due to all that transform
 	// craziness).
-	private static final double INJECTOR_HEIGHT = 150;
-	
-	// Angle of rotation of this node.
-	private static final double ROTATION_ANGLE = -Math.PI/3;
-//	private static final double ROTATION_ANGLE = 0;
-//	private static final double ROTATION_ANGLE = -Math.PI/2;
-//	private static final double ROTATION_ANGLE = -Math.PI/4;
+	private static final double INJECTOR_HEIGHT = 140;
 	
 	// Offset of button within this node.  This was determined by trial and
 	// error and will need to be tweaked if the images change.
@@ -91,12 +85,12 @@ public class LactoseInjectorNode extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-	public LactoseInjectorNode(final IGeneNetworkModelControl model, ModelViewTransform2D mvt) {
+	public LactoseInjectorNode(final IGeneNetworkModelControl model, ModelViewTransform2D mvt, double rotationAngle) {
 		
 		this.model = model;
 		this.mvt = mvt;
 		
-		nominalInjectionVelocityVector.rotate(ROTATION_ANGLE);
+		nominalInjectionVelocityVector.rotate(rotationAngle);
 
 		PNode injectorNode = new PNode();
 		
@@ -118,7 +112,7 @@ public class LactoseInjectorNode extends PNode {
         
         // Rotate and scale the image node as a whole.
         double scale = INJECTOR_HEIGHT / injectorBodyImageNode.getFullBoundsReference().height;
-        injectorNode.rotate(-ROTATION_ANGLE);
+        injectorNode.rotate(-rotationAngle);
         injectorNode.scale(scale);
         
         // Add the node that allows control of automatic injection.
@@ -131,16 +125,16 @@ public class LactoseInjectorNode extends PNode {
         // Add the injector node.  Note that the position has to be tweaked
         // in order to account for the rotation of the node image, since the
         // rotation of the square image enlarges the bounds.
-        injectorNode.setOffset(-Math.abs(Math.sin(ROTATION_ANGLE * 2)) * 30, 0);
+        injectorNode.setOffset(-Math.abs(Math.sin(rotationAngle * 2)) * 30, 0);
         addChild(injectorNode);
         
         // Set up the injection point offset. This makes some assumptions
         // about the nature of the image, and will need to be updated if the
         // image is changed.
-        double distanceCenterToTip = 110;
-        double centerOffsetX = 55;
-        injectionPointOffset.setSize(distanceCenterToTip * Math.cos(ROTATION_ANGLE) + centerOffsetX,
-        		distanceCenterToTip * Math.sin(-ROTATION_ANGLE));
+        double distanceCenterToTip = 0.7 * INJECTOR_HEIGHT;
+        double centerOffsetX = 0.4 * INJECTOR_HEIGHT;
+        injectionPointOffset.setSize(distanceCenterToTip * Math.cos(rotationAngle) + centerOffsetX,
+        		distanceCenterToTip * Math.sin(-rotationAngle));
         
         // Set the point for automatic injection to be at the tip of the
         // injector.
