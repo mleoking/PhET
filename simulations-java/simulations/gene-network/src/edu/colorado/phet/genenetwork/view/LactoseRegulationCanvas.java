@@ -22,8 +22,8 @@ public class LactoseRegulationCanvas extends GeneNetworkCanvas {
         setToolBox(new BasicDnaSegmentToolBoxNode(this, model, getMvt()));
         
         // Add the lactose injector.
-        LactoseInjectorNode lactoseInjector = new LactoseInjectorNode(model, getMvt());
-        lactoseInjector.setOffset(-140, -40);
+        LactoseInjectorNode lactoseInjector = new LactoseInjectorNode(model, getMvt(), -Math.PI/6);
+        lactoseInjector.setOffset(-40, 120);
         setLactoseInjector(lactoseInjector);
         
         // Add the legend.
@@ -31,7 +31,7 @@ public class LactoseRegulationCanvas extends GeneNetworkCanvas {
         
         // Add the lactose meter.
         LactoseMeter lactoseMeter = new LactoseMeter(model);
-        lactoseMeter.setOffset(-140, 250);
+        lactoseMeter.setOffset(-170, 250);
         setLactoseMeter(lactoseMeter);
 	}
 
