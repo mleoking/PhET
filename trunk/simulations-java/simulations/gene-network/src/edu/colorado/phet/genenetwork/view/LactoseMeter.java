@@ -4,6 +4,7 @@ package edu.colorado.phet.genenetwork.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
@@ -125,6 +127,7 @@ public class LactoseMeter extends PhetPNode {
 		
 		closePSwing = new PSwing( closeButton );
 		closePSwing.setOffset(size.getWidth() - closeButton.getBounds().width - edgeOffset, edgeOffset / 2);
+		closePSwing.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
 		addChild(closePSwing);
 		
 		// Create the background for the bar.
