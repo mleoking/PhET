@@ -13,6 +13,8 @@ import org.apache.wicket.util.value.ValueMap;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.authentication.RegisterPage;
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.components.StringPasswordTextField;
+import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -50,8 +52,8 @@ public class SignInPanel extends PhetPanel {
         public SignInForm( final String id ) {
             super( id );
 
-            add( username = new TextField( "username", new PropertyModel( properties, "username" ) ) );
-            add( password = new PasswordTextField( "password", new PropertyModel( properties, "password" ) ) );
+            add( username = new StringTextField( "username", new PropertyModel( properties, "username" ) ) );
+            add( password = new StringPasswordTextField( "password", new PropertyModel( properties, "password" ) ) );
 
             final WebMarkupContainer rememberBox = new WebMarkupContainer( "remember" );
             add( rememberBox );

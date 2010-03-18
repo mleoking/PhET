@@ -17,6 +17,7 @@ import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
@@ -111,7 +112,7 @@ public class AdminProjectsPage extends AdminPage {
         public UpdateSpecificProjectForm( final String id ) {
             super( id );
 
-            add( projectText = new TextField( "project", new PropertyModel( properties, "project" ) ) );
+            add( projectText = new StringTextField( "project", new PropertyModel( properties, "project" ) ) );
         }
 
         public final void onSubmit() {

@@ -26,6 +26,7 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.Keyword;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
@@ -343,8 +344,8 @@ public class AdminSimPage extends AdminPage {
             super( id );
             this.allKeywords = allKeywords;
 
-            add( valueText = new TextField( "value", new PropertyModel( properties, "value" ) ) );
-            add( keyText = new TextField( "key", new PropertyModel( properties, "key" ) ) );
+            add( valueText = new StringTextField( "value", new PropertyModel( properties, "value" ) ) );
+            add( keyText = new StringTextField( "key", new PropertyModel( properties, "key" ) ) );
         }
 
         @Override
@@ -611,7 +612,7 @@ public class AdminSimPage extends AdminPage {
         private KilobytesForm( String id ) {
             super( id );
 
-            textfield = new TextField( "value", new Model( Integer.toString( simulation.getKilobytes() ) ) );
+            textfield = new StringTextField( "value", new Model( Integer.toString( simulation.getKilobytes() ) ) );
             add( textfield );
         }
 
@@ -644,10 +645,10 @@ public class AdminSimPage extends AdminPage {
         public ModifyTranslationForm( String id ) {
             super( id );
 
-            localeField = new TextField( "locale", new Model( "" ) );
+            localeField = new StringTextField( "locale", new Model( "" ) );
             localeField.setEscapeModelStrings( false );
             add( localeField );
-            titleField = new TextField( "title", new Model( "" ) );
+            titleField = new StringTextField( "title", new Model( "" ) );
             add( titleField );
         }
 
