@@ -49,7 +49,7 @@ public class LactoseInjectorNode extends PNode {
 	// Height of the injector prior to rotation.  This is in world size, which
 	// is close to pixels (but not quite exactly due to all that transform
 	// craziness).
-	private static final double INJECTOR_HEIGHT = 140;
+	private static final double INJECTOR_HEIGHT = 130;
 	
 	// Offset of button within this node.  This was determined by trial and
 	// error and will need to be tweaked if the images change.
@@ -116,7 +116,7 @@ public class LactoseInjectorNode extends PNode {
         injectorNode.scale(scale);
         
         // Add the node that allows control of automatic injection.
-        autoInjectionControl = new AutomaticInjectionSelector(model, INJECTOR_HEIGHT * 0.6);
+        autoInjectionControl = new AutomaticInjectionSelector(model, INJECTOR_HEIGHT * 0.7);
         autoInjectionControl.setOffset(
         	injectorNode.getFullBoundsReference().getMinX() - autoInjectionControl.getFullBoundsReference().width + 5,
         	injectorNode.getFullBoundsReference().getCenterY() - autoInjectionControl.getFullBoundsReference().height / 2);
