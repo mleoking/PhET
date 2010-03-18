@@ -70,7 +70,8 @@ public class RnaPolymerase extends SimpleModelElement {
 	public RnaPolymerase(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		if (model != null){
-			setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
+			setMotionStrategy(new DirectedRandomWalkMotionStrategy(
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
 		}
 	}
 	
@@ -263,7 +264,7 @@ public class RnaPolymerase extends SimpleModelElement {
 					// towards attachment.  This relationship must be terminated.
 					promoterAttachmentPartner.detach(this);
 					promoterAttachmentPartner = null;
-					setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
+					setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
 				}
 				if (traversing){
 					// This polymerase was traversing the DNA strand, so the
@@ -343,7 +344,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			// happen in cases such as when our potential partner gets removed
 			// from the model.
 			promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-			setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
+			setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
 		}
 		previousPromoterAttachmentPartner = promoterAttachmentPartner;
 		promoterAttachmentPartner = null;
@@ -369,8 +370,11 @@ public class RnaPolymerase extends SimpleModelElement {
 		// Create and set a motion strategy that initially moves up and
 		// to the right.  This minimizes visual interference with the mRNA
 		// that was just released.
-		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy( getModel().getMotionBoundsAboveDna(),
-				delay, initialVelocity, 2));
+		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy( 
+				MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this),
+				delay, 
+				initialVelocity, 
+				2 ));
 		
 		// Set the time until we are available to transcribe again.
 		recoveryCountdownTimer = RECOVERY_TIME;
