@@ -8,8 +8,9 @@ OVERVIEW
  chemical substances (reactants) to another (products).  We refer to the reactants
  that do not transform to products as "leftovers".
  
-Each reactant and product has a coefficient. The coefficients describe the quantities 
-of reactants required, and the quantities of products that will be produced.
+Each reactant and product has a coefficient, given by the chemical equation.
+The coefficients describe the quantities of reactants required, and the 
+quantities of products that will be produced.
 
 Before a reaction takes place, we start with some quantities of reactants.
 After the reaction runs to completion, some quantities of products are produced, 
@@ -22,9 +23,9 @@ We start by determining the number of reactions that will take place.
 For each reactant, we divide its quantity by its coefficient.
 The smallest such value determines the number of reactions N that will occur.
 
-The quantity Q of product P with coefficient C: Q = N * C
+The quantity Q of product P with coefficient C1: Q = N * C1
 
-The leftovers L of reactant R with coefficient C: L = ( initial quantity of R ) - ( N * C )
+The leftovers L of reactant R with coefficient C2: L = ( initial quantity of R ) - ( N * C2 )
 
 JAVA IMPLEMENTATION
 
