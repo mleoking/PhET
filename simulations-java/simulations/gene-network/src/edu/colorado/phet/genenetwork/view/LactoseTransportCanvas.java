@@ -51,7 +51,8 @@ public class LactoseTransportCanvas extends GeneNetworkCanvas {
         
         // Add the lactose injector.
         LactoseInjectorNode lactoseInjector = new LactoseInjectorNode(model, getMvt(), 0);
-        lactoseInjector.setOffset(-140, -40);
+        lactoseInjector.setOffset(-40,
+        		cellMembrane.getFullBoundsReference().getMinY() - lactoseInjector.getFullBoundsReference().height / 2 - 4);
         setLactoseInjector(lactoseInjector);
         
         // Add the legend.
