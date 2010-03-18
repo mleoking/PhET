@@ -3,17 +3,11 @@
 package edu.colorado.phet.reactantsproductsandleftovers.controls;
 
 import java.awt.Toolkit;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.text.MessageFormat;
 import java.text.ParseException;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -47,14 +41,14 @@ public class IntegerSpinner extends JSpinner {
         textField.addKeyListener( new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
-                    commit();
+                    commitEdit();
                 }
             }
         });
         textField.addFocusListener( new FocusAdapter() {
             
             public void focusLost( FocusEvent e ) {
-                commit();
+                commitEdit();
             }
             
             /*
@@ -78,21 +72,34 @@ public class IntegerSpinner extends JSpinner {
     public int getIntValue() {
         return ( (Integer) getValue() ).intValue();
     }
-    
-    /*
-     * If we can't commit the value in the text field, then revert.
-     */
-    private void commit() {
+
+    @Override
+    public void commitEdit() {
         try {
             //TODO this converts invalid entries like "12abc" to "12", standard JSpinner behavior but not desirable for PhET
-            commitEdit();
+            super.commitEdit();
         }
         catch ( ParseException pe ) {
-            textField.setValue( getValue() ); // revert, sync textfield to value
-            Toolkit.getDefaultToolkit().beep();
-            showInvalidValueDialog();
-            textField.selectAll();
+            handleInvalidValueDelayed();
         }
+    }
+    
+    // Workaround for #2218.
+    private void handleInvalidValueDelayed() {
+        Timer t = new Timer( 500, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                handleInvalidValue();
+            }
+        });
+        t.setRepeats( false );
+        t.start();
+    }
+    
+    private void handleInvalidValue() {
+        Toolkit.getDefaultToolkit().beep();
+        showInvalidValueDialog();
+        textField.setValue( getValue() ); // revert, sync textfield to value
+        textField.selectAll();
     }
     
     private void showInvalidValueDialog() {
