@@ -8,6 +8,7 @@ HIGH PRIORITY
 - #2218, error message bug with spinners
 
 MEDIUM PRIORITY
+- upload Tips For Teachers to website with 1.0
 
 LOW PRIORITY
 - #2220, audible click in the correctAnswer.wav (appears in sound before optimization)
