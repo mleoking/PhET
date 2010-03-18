@@ -128,10 +128,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
         productsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_PRODUCTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
         addChild( productsLabelNode );
         x = startX + ( ( endX - startX - width ) / 2 ); 
-        y = 0;
-        for ( QuantityValueNode node : productValueNodes ) {
-            y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
-        }
+        y = 0; // vertical offset will be adjusted later, via updateProductsLabelOffset
         productsLabelNode.setOffset( x, y );
         
         // leftovers bracket, after doing layout of leftover quantity displays
@@ -147,22 +144,22 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
         }
         leftoversLabelNode.setOffset( x, y );
         
+        // do this after productLabelNode has been initialized
+        PropertyChangeListener fullBoundsListener = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
+                    updateProductsLabelOffset();
+                }
+            }
+        };
+        for ( QuantityValueNode displayNode : productValueNodes ) {
+            displayNode.addPropertyChangeListener( fullBoundsListener );
+        }
+        
         // adjust products bracket so that it's never higher than leftovers bracket
-        y = Math.max( productsLabelNode.getYOffset(), leftoversLabelNode.getYOffset() );
-        productsLabelNode.setOffset( productsLabelNode.getXOffset(), y );
+        updateProductsLabelOffset();
         
         update();
-        
-        // do this after productLabelNode has been initialized
-        for ( QuantityValueNode displayNode : productValueNodes ) {
-            displayNode.addPropertyChangeListener( new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    if ( evt.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
-                        updateProductsLabelOffset();
-                    }
-                }
-            } );
-        }
     }
     
     /**
@@ -321,7 +318,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
         double y = 0;
         for ( QuantityValueNode node : productValueNodes ) {
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
-            y = Math.max( y, leftoversLabelNode.getYOffset() ); // never higher than the leftovers label
+            y = Math.max( y, leftoversLabelNode.getYOffset() ); // never higher than the leftovers bracket
         }
         productsLabelNode.setOffset( x, y );
     }
