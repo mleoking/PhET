@@ -52,8 +52,8 @@ public class LactoseInjectorNode extends PNode {
 	private static final double INJECTOR_HEIGHT = 150;
 	
 	// Angle of rotation of this node.
-//	private static final double ROTATION_ANGLE = -Math.PI/3;
-	private static final double ROTATION_ANGLE = 0;
+	private static final double ROTATION_ANGLE = -Math.PI/3;
+//	private static final double ROTATION_ANGLE = 0;
 //	private static final double ROTATION_ANGLE = -Math.PI/2;
 //	private static final double ROTATION_ANGLE = -Math.PI/4;
 	
@@ -125,7 +125,7 @@ public class LactoseInjectorNode extends PNode {
         autoInjectionControl = new AutomaticInjectionSelector(model, INJECTOR_HEIGHT * 0.6);
         autoInjectionControl.setOffset(
         	injectorNode.getFullBoundsReference().getMinX() - autoInjectionControl.getFullBoundsReference().width + 5,
-        	injectorNode.getFullBoundsReference().getCenterY() - autoInjectionControl.getFullBoundsReference().width / 2);
+        	injectorNode.getFullBoundsReference().getCenterY() - autoInjectionControl.getFullBoundsReference().height / 2);
         addChild(autoInjectionControl);
         
         // Add the injector node.  Note that the position has to be tweaked
