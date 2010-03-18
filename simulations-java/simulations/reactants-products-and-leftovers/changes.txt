@@ -1,3 +1,4 @@
+# 1.00.00 (39390) Mar 18, 2010
 3/18/10 1.0 release to PhET website
 3/18/10 create screenshot for website
 3/18/10 delete TODO file, all work is complete, any additional work will be tracked in Unfuddle
