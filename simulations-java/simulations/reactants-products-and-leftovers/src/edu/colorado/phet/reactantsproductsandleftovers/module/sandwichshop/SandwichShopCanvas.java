@@ -46,17 +46,8 @@ public class SandwichShopCanvas extends RPALCanvas {
         sandwichChoiceNode.scale( 1.25 );
         addChild( sandwichChoiceNode );
         
-        equationNode = new SandwichEquationNode( model );
-        addChild( equationNode );
-        
-        beforeNode = new SandwichShopBeforeNode( model, BOX_SIZE );
-        addChild( beforeNode );
-        
         arrowNode = new RightArrowNode();
         addChild( arrowNode );
-        
-        afterNode = new SandwichShopAfterNode( model, BOX_SIZE );
-        addChild( afterNode );
         
         ResetAllButton resetAllButton = new ResetAllButton( resettable, this );
         resetAllButtonWrapper = new PSwing( resetAllButton );
