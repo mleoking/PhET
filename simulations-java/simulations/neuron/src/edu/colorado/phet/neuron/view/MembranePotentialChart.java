@@ -270,26 +270,6 @@ public class MembranePotentialChart extends PNode {
     	updateCountdownTimer = 0;
     }
     
-    /**
-     * Utility to round to the specified number of decimal places.  Negative
-     * values can be used to round to the 10's, 100's, etc, places (e.g. -1
-     * means round to the nearest 10s digit, such as rounding 17 to 20).
-     */
-	private double roundToResolution(double val, int places) {
-		
-		double factor = Math.pow(10,places);
-
-		// Shift the decimal the correct number of places.
-		val = val * factor;
-
-		// Round to the nearest integer.
-		long tmp = Math.round(val);
-
-		// Shift the decimal the correct number of places
-		// back to the left.
-		return (double)tmp / factor;
-	}
-
 	/**
 	 * Test framework, do whatever is needed here to test the behavior of
 	 * this node.
