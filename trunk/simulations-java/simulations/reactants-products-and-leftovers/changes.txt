@@ -1,4 +1,6 @@
-3/17/10 add Kelly's feedback to model.txt
+3/18/10 delete TODO file, all work is complete, any additional work will be tracked in Unfuddle
+3/18/10 #2218, workaround for spinners problem
+3/18/10 add Kelly's feedback to model.txt
 3/17/10 rename ChemicalReaction.getNumberOfReactions because it's referenced in model.txt
 3/17/10 create high-level description of model in model.txt
 3/17/10 #2196, fix problem with y offset of "products" bracket, the sandwich image wasn't properly initialized by Reset All
