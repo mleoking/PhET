@@ -115,12 +115,12 @@ public class ChemicalReaction {
      * Updates the quantities of products and leftovers.
      */
     private void update() {
-        int numReactions = getNumReactions();
+        int numberOfReactions = getNumberOfReactions();
         for ( Product product : products ) {
-            product.setQuantity( numReactions * product.getCoefficient() );
+            product.setQuantity( numberOfReactions * product.getCoefficient() );
         }
         for ( Reactant reactant : reactants ) {
-            reactant.setLeftovers( reactant.getQuantity() - ( numReactions * reactant.getCoefficient() ) );
+            reactant.setLeftovers( reactant.getQuantity() - ( numberOfReactions * reactant.getCoefficient() ) );
         }
         fireStateChanged();
     }
@@ -128,8 +128,8 @@ public class ChemicalReaction {
     /*
      * Gets the number of reactions we have, based on the coefficients and reactant quantities.
      */
-    private int getNumReactions() {
-        int numReactions = 0;
+    private int getNumberOfReactions() {
+        int numberOfReactions = 0;
         if ( isReaction() ) {
             ArrayList<Integer> possibleValues = new ArrayList<Integer>();
             for ( Reactant reactant : reactants ) {
@@ -139,9 +139,9 @@ public class ChemicalReaction {
             }
             assert ( possibleValues.size() > 0 );
             Collections.sort( possibleValues );
-            numReactions = possibleValues.get( 0 );
+            numberOfReactions = possibleValues.get( 0 );
         }
-        return numReactions;
+        return numberOfReactions;
     }
     
     public void addChangeListener( ChangeListener listener ) {
