@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalDynamicsDlg;
 import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalParamsDlg;
-import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
+import edu.colorado.phet.neuron.module.AxonSliceModule;
 
 /**
  * NeuronApplication is the main application for this simulation.
@@ -32,7 +32,7 @@ public class NeuronApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private MembraneDiffusionModule membraneDiffusionModule;
+    private AxonSliceModule neuronModule;
     
     // Developer window(s) and things for controlling them.
     private HodgkinHuxleyInternalDynamicsDlg hhInternalDynamicsDlg = null;
@@ -67,8 +67,8 @@ public class NeuronApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        membraneDiffusionModule = new MembraneDiffusionModule( parentFrame );
-        addModule( membraneDiffusionModule );
+        neuronModule = new AxonSliceModule( parentFrame );
+        addModule( neuronModule );
 
         /*
          * TODO: Removed this tab for now, since we are not doing the resting
@@ -118,7 +118,7 @@ public class NeuronApplication extends PiccoloPhetApplication {
     	if (isVisible && hhInternalDynamicsDlg == null){
     		// The internal dynamics window has not been created yet, so create it now.
     		hhInternalDynamicsDlg = new HodgkinHuxleyInternalDynamicsDlg(getPhetFrame(),
-    				membraneDiffusionModule.getClock(), membraneDiffusionModule.getHodgkinHuxleyModel());
+    				neuronModule.getClock(), neuronModule.getHodgkinHuxleyModel());
     		
     		// Just hide when closed so we don't have to keep recreating it.
     		hhInternalDynamicsDlg.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -145,7 +145,7 @@ public class NeuronApplication extends PiccoloPhetApplication {
     	
     	if (isVisible && hhInternalParamsDlg == null){
     		// The internal parameters window has not been created yet, so create it now.
-    		hhInternalParamsDlg = new HodgkinHuxleyInternalParamsDlg( getPhetFrame(), membraneDiffusionModule.getHodgkinHuxleyModel() );
+    		hhInternalParamsDlg = new HodgkinHuxleyInternalParamsDlg( getPhetFrame(), neuronModule.getHodgkinHuxleyModel() );
     		
     		// Just hide when closed so we don't have to keep recreating it.
     		hhInternalParamsDlg.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
