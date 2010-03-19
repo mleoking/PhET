@@ -151,9 +151,6 @@ public class Glucose extends SimpleSugar {
 			proposalAccepted = true;
 			
 			// Set ourself up to move toward the attaching location.
-			Dimension2D offsetFromTarget = new PDimension(
-					LacY.getGlucoseAttachmentPointOffset().getWidth() - getLacIAttachmentPointOffset().getWidth(),
-					LacY.getGlucoseAttachmentPointOffset().getHeight() - getLacIAttachmentPointOffset().getHeight());
 			setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getExteriorMotionBounds(),
 					lacY.getGlucoseAttachmentPointLocation()));
 		}
@@ -205,12 +202,8 @@ public class Glucose extends SimpleSugar {
 		}
 		setPosition(lacY.getGlucoseAttachmentPointLocation().getX() - ATTACHMENT_POINT_OFFSET.getWidth(),
 				lacY.getGlucoseAttachmentPointLocation().getY() - ATTACHMENT_POINT_OFFSET.getHeight());
-		Dimension2D followingOffset = new PDimension(
-				LacY.getGlucoseAttachmentPointOffset().getWidth() - ATTACHMENT_POINT_OFFSET.getWidth(),
-				LacY.getGlucoseAttachmentPointOffset().getHeight() - ATTACHMENT_POINT_OFFSET.getHeight());
-		// TODO: This isn't right.
-		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, lacY, followingOffset));
-		lacIAttachmentState = AttachmentState.ATTACHED;
+		setMotionStrategy(new StillnessMotionStrategy());
+		lacYAttachmentState = AttachmentState.ATTACHED;
 	}
 	
 	/**
@@ -316,6 +309,15 @@ public class Glucose extends SimpleSugar {
 				getPositionRef().getY() + ATTACHMENT_POINT_OFFSET.getHeight()));
 	}
 
+	/**
+	 * Get the location in absolute model space of this element's attachment
+	 * point for LacY.
+	 */
+	public Point2D getLacYAttachmentPointLocation(){
+		return (new Point2D.Double(getPositionRef().getX() + ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + ATTACHMENT_POINT_OFFSET.getHeight()));
+	}
+
 	@Override
 	public void stepInTime(double dt) {
 		if (holdoffPriorToFirstAttachmentCountdown > 0){
@@ -326,11 +328,15 @@ public class Glucose extends SimpleSugar {
 				lacYAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			}
 		}
-		else if (lacIAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE  && !isUserControlled()){
+		else if ((lacIAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE  ||
+				  lacYAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE) && 
+				  !isUserControlled()){
+			
 			postAttachmentRecoveryCountdown -= dt;
 			if (postAttachmentRecoveryCountdown <= 0){
 				// Recovery complete - we are ready to attach again.
 				lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				lacYAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			}
 		}
 		super.stepInTime(dt);
