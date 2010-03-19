@@ -16,9 +16,7 @@ public class Glucose extends SimpleSugar {
     // Class Data
     //------------------------------------------------------------------------
 
-	private static final Dimension2D GALACTOSE_ATTACHMENT_POINT_OFFSET = new PDimension(getWidth()/2, 0);
-	private static final Dimension2D LAC_Z_ATTACHMENT_POINT_OFFSET = new PDimension(getWidth()/2, 0);
-	private static final Dimension2D LAC_I_ATTACHMENT_POINT_OFFSET = new PDimension(getWidth()/2, 0);
+	private static final Dimension2D ATTACHMENT_POINT_OFFSET = new PDimension(getWidth()/2, 0);
 	private static final double HOLDOFF_TIME_UNTIL_FIRST_ATTACHMENT = 2; // In seconds.
 	private static final double POST_ATTACHMENT_RECOVERY_TIME = 1; // In seconds.
 	
@@ -30,15 +28,21 @@ public class Glucose extends SimpleSugar {
 	// LacZ, it should try to attach to it.
 	private static final double LAC_Z_IMMEDIATE_ATTACH_DISTANCE = 8;
 	
+	// If this molecule is moved by the user to within this distance from a
+	// LacY, it should try to attach to it.
+	private static final double LAC_Y_IMMEDIATE_ATTACH_DISTANCE = 8;
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
-	private Galactose galactoseAttachmentPartner;
+	private Galactose galactoseAttachmentPartner; // Partner for combining to create lactose.
 	private LacZ lacZAttachmentPartner;
 	private AttachmentState lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 	private LacI lacIAttachmentPartner;
 	private AttachmentState lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+	private LacY lacYAttachmentPartner;
+	private AttachmentState lacYAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 	private double holdoffPriorToFirstAttachmentCountdown = HOLDOFF_TIME_UNTIL_FIRST_ATTACHMENT;
 	private double postAttachmentRecoveryCountdown = POST_ATTACHMENT_RECOVERY_TIME;
 
@@ -63,15 +67,15 @@ public class Glucose extends SimpleSugar {
     //------------------------------------------------------------------------
 	
 	public static Dimension2D getGalactoseAttachmentPointOffset(){
-		return new PDimension(GALACTOSE_ATTACHMENT_POINT_OFFSET);
+		return new PDimension(ATTACHMENT_POINT_OFFSET);
 	}
 	
 	public static Dimension2D getLacZAttachmentPointOffset(){
-		return new PDimension(LAC_Z_ATTACHMENT_POINT_OFFSET);
+		return new PDimension(ATTACHMENT_POINT_OFFSET);
 	}
 	
 	public static Dimension2D getLacIAttachmentPointOffset(){
-		return new PDimension(LAC_I_ATTACHMENT_POINT_OFFSET);
+		return new PDimension(ATTACHMENT_POINT_OFFSET);
 	}
 	
 	public void formLactose(Galactose galactose){
@@ -134,6 +138,28 @@ public class Glucose extends SimpleSugar {
 		return proposalAccepted;
 	}
 	
+	public boolean considerProposalFrom(LacY lacY){
+		boolean proposalAccepted = false;
+		
+		if (lacYAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE && 
+			getExistenceState() == ExistenceState.EXISTING){
+			
+			assert lacYAttachmentPartner == null;  // For debug - Make sure consistent with attachment state.
+			lacYAttachmentPartner = lacY;
+			lacYAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+			proposalAccepted = true;
+			
+			// Set ourself up to move toward the attaching location.
+			Dimension2D offsetFromTarget = new PDimension(
+					LacY.getGlucoseAttachmentPointOffset().getWidth() - getLacIAttachmentPointOffset().getWidth(),
+					LacY.getGlucoseAttachmentPointOffset().getHeight() - getLacIAttachmentPointOffset().getHeight());
+			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(lacY, offsetFromTarget,
+					getModel().getInteriorMotionBounds()));
+		}
+		
+		return proposalAccepted;
+	}
+	
 	public void attach(LacZ lacZ){
 		if (lacZ != lacZAttachmentPartner){
 			// For this bond, it is expected that we were already moving
@@ -142,11 +168,11 @@ public class Glucose extends SimpleSugar {
 			assert false;
 			return;
 		}
-		setPosition(lacZ.getGlucoseAttachmentPointLocation().getX() - LAC_Z_ATTACHMENT_POINT_OFFSET.getWidth(),
-				lacZ.getGlucoseAttachmentPointLocation().getY() - LAC_Z_ATTACHMENT_POINT_OFFSET.getHeight());
+		setPosition(lacZ.getGlucoseAttachmentPointLocation().getX() - ATTACHMENT_POINT_OFFSET.getWidth(),
+				lacZ.getGlucoseAttachmentPointLocation().getY() - ATTACHMENT_POINT_OFFSET.getHeight());
 		Dimension2D followingOffset = new PDimension(
-				LacZ.getGlucoseAttachmentPointOffset().getWidth() - LAC_Z_ATTACHMENT_POINT_OFFSET.getWidth(),
-				LacZ.getGlucoseAttachmentPointOffset().getHeight() - LAC_Z_ATTACHMENT_POINT_OFFSET.getHeight());
+				LacZ.getGlucoseAttachmentPointOffset().getWidth() - ATTACHMENT_POINT_OFFSET.getWidth(),
+				LacZ.getGlucoseAttachmentPointOffset().getHeight() - ATTACHMENT_POINT_OFFSET.getHeight());
 		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, lacZ, followingOffset));
 		lacZAttachmentState = AttachmentState.ATTACHED;
 	}
@@ -159,12 +185,30 @@ public class Glucose extends SimpleSugar {
 			assert false;
 			return;
 		}
-		setPosition(lacI.getGlucoseAttachmentPointLocation().getX() - LAC_I_ATTACHMENT_POINT_OFFSET.getWidth(),
-				lacI.getGlucoseAttachmentPointLocation().getY() - LAC_I_ATTACHMENT_POINT_OFFSET.getHeight());
+		setPosition(lacI.getGlucoseAttachmentPointLocation().getX() - ATTACHMENT_POINT_OFFSET.getWidth(),
+				lacI.getGlucoseAttachmentPointLocation().getY() - ATTACHMENT_POINT_OFFSET.getHeight());
 		Dimension2D followingOffset = new PDimension(
-				LacI.getGlucoseAttachmentPointOffset().getWidth() - LAC_I_ATTACHMENT_POINT_OFFSET.getWidth(),
-				LacI.getGlucoseAttachmentPointOffset().getHeight() - LAC_I_ATTACHMENT_POINT_OFFSET.getHeight());
+				LacI.getGlucoseAttachmentPointOffset().getWidth() - ATTACHMENT_POINT_OFFSET.getWidth(),
+				LacI.getGlucoseAttachmentPointOffset().getHeight() - ATTACHMENT_POINT_OFFSET.getHeight());
 		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, lacI, followingOffset));
+		lacIAttachmentState = AttachmentState.ATTACHED;
+	}
+	
+	public void attach(LacY lacY){
+		if (lacY != lacYAttachmentPartner){
+			// For this bond, it is expected that we were already moving
+			// towards this partner.  If not, it's unexpected.
+			System.err.println(getClass().getName() + " - Error: Attach request from non-partner.");
+			assert false;
+			return;
+		}
+		setPosition(lacY.getGlucoseAttachmentPointLocation().getX() - ATTACHMENT_POINT_OFFSET.getWidth(),
+				lacY.getGlucoseAttachmentPointLocation().getY() - ATTACHMENT_POINT_OFFSET.getHeight());
+		Dimension2D followingOffset = new PDimension(
+				LacY.getGlucoseAttachmentPointOffset().getWidth() - ATTACHMENT_POINT_OFFSET.getWidth(),
+				LacY.getGlucoseAttachmentPointOffset().getHeight() - ATTACHMENT_POINT_OFFSET.getHeight());
+		// TODO: This isn't right.
+		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, lacY, followingOffset));
 		lacIAttachmentState = AttachmentState.ATTACHED;
 	}
 	
@@ -241,8 +285,8 @@ public class Glucose extends SimpleSugar {
 	 * point for LacZ.
 	 */
 	public Point2D getLacZAttachmentPointLocation(){
-		return (new Point2D.Double(getPositionRef().getX() + LAC_Z_ATTACHMENT_POINT_OFFSET.getWidth(),
-				getPositionRef().getY() + LAC_Z_ATTACHMENT_POINT_OFFSET.getHeight()));
+		return (new Point2D.Double(getPositionRef().getX() + ATTACHMENT_POINT_OFFSET.getWidth(),
+				getPositionRef().getY() + ATTACHMENT_POINT_OFFSET.getHeight()));
 	}
 
 	@Override
@@ -268,7 +312,7 @@ public class Glucose extends SimpleSugar {
 	public void setDragging(boolean dragging) {
 		if (dragging == true){
 			// The user has grabbed this node and is moving it.  Is it
-			// attached to a LacI or a LacZ?
+			// attached to a LacI, LacZ, or LacY?
 			if (lacIAttachmentPartner != null){
 				// It is attached to a LacI, so it needs to detach.
 				assert lacIAttachmentState == AttachmentState.ATTACHED || lacIAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT;  // State consistency test.
@@ -283,9 +327,17 @@ public class Glucose extends SimpleSugar {
 				lacZAttachmentPartner = null;
 				setMotionStrategy(new RandomWalkMotionStrategy(getModel().getInteriorMotionBoundsAboveDna()));
 			}
+			else if (lacYAttachmentPartner != null){
+				// It is attached to a LacY, so it needs to detach.
+				assert lacYAttachmentState == AttachmentState.ATTACHED || lacYAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT;  // State consistency test.
+				lacYAttachmentPartner.detach(this);
+				lacYAttachmentPartner = null;
+				setMotionStrategy(new RandomWalkMotionStrategy(getModel().getExteriorMotionBounds()));
+			}
 			// Make it unavailable for other attachments.
 			lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 			lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+			lacYAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 			
 			// If the initial holdoff timer is running, stop it.
 			if (holdoffPriorToFirstAttachmentCountdown > 0){
@@ -297,33 +349,54 @@ public class Glucose extends SimpleSugar {
 			// considered available.
 			lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			lacZAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			lacYAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			assert lacIAttachmentPartner == null;
 			assert lacZAttachmentPartner == null;
+			assert lacYAttachmentPartner == null;
 			
-			// If this was dropped close to a LacI, it should try to
-			// attach to it.
-			ArrayList<LacI> lacIList = getModel().getLacIList();
-			for (LacI lacI : lacIList){
-				if (lacI.getPositionRef().distance(getPositionRef()) < LAC_I_IMMEDIATE_ATTACH_DISTANCE){
-					if (lacI.requestImmediateAttach(this)){
-						// The request was accepted, so our work here is done.
-						// Note that all of the setting of state variables
-						// related to this attachment will be done as a result
-						// of requesting the immediate attachment, so nothing
-						// else needs to be done here.
-						break;
+			if (getModel().classifyPosWrtCell(getPositionRef()) == PositionWrtCell.INSIDE_CELL){
+				// If this was dropped close to a LacI, it should try to
+				// attach to it.
+				ArrayList<LacI> lacIList = getModel().getLacIList();
+				for (LacI lacI : lacIList){
+					if (lacI.getPositionRef().distance(getPositionRef()) < LAC_I_IMMEDIATE_ATTACH_DISTANCE){
+						if (lacI.requestImmediateAttach(this)){
+							// The request was accepted, so our work here is done.
+							// Note that all of the setting of state variables
+							// related to this attachment will be done as a result
+							// of requesting the immediate attachment, so nothing
+							// else needs to be done here.
+							break;
+						}
+					}
+				}
+				if (lacIAttachmentState != AttachmentState.ATTACHED && 
+						lacIAttachmentState != AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+					
+					// If we were dropped close to a LacZ, and we weren't already
+					// picked up by a lacI, we should attach to the LacZ.
+					ArrayList<LacZ> lacZList = getModel().getLacZList();
+					for (LacZ lacZ : lacZList){
+						if (lacZ.getPositionRef().distance(getPositionRef()) < LAC_Z_IMMEDIATE_ATTACH_DISTANCE){
+							if (lacZ.requestImmediateAttach(this)){
+								// The request was accepted, so our work here is done.
+								// Note that all of the setting of state variables
+								// related to this attachment will be done as a result
+								// of requesting the immediate attachment, so nothing
+								// else needs to be done here.
+								break;
+							}
+						}
 					}
 				}
 			}
-			if (lacIAttachmentState != AttachmentState.ATTACHED && 
-				lacIAttachmentState != AttachmentState.MOVING_TOWARDS_ATTACHMENT){
-
-				// If we were dropped close to a LacZ, and we weren't already
-				// picked up by a lacI, we should attach to the LacZ.
-				ArrayList<LacZ> lacZList = getModel().getLacZList();
-				for (LacZ lacZ : lacZList){
-					if (lacZ.getPositionRef().distance(getPositionRef()) < LAC_Z_IMMEDIATE_ATTACH_DISTANCE){
-						if (lacZ.requestImmediateAttach(this)){
+			else{
+				// If this was dropped close to a LacY, and is outside the
+				// cell, it should try to attach.
+				ArrayList<LacY> lacYList = getModel().getLacYList();
+				for (LacY lacY : lacYList){
+					if (lacY.getPositionRef().distance(getPositionRef()) < LAC_Y_IMMEDIATE_ATTACH_DISTANCE){
+						if (lacY.requestImmediateAttach(this)){
 							// The request was accepted, so our work here is done.
 							// Note that all of the setting of state variables
 							// related to this attachment will be done as a result
@@ -371,8 +444,15 @@ public class Glucose extends SimpleSugar {
 				lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			}
 		}
+		if (lacYAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
+			// Only do this if the requester is closer than the current pending partner.
+			if (getPositionRef().distance(modelElement.getPositionRef()) < getPositionRef().distance(lacYAttachmentPartner.getPositionRef())){
+				lacYAttachmentPartner.detach(this);
+				lacYAttachmentPartner = null;
+				lacYAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			}
+		}
 		
 		return isAvailableForAttaching();
-		
 	}
 }
