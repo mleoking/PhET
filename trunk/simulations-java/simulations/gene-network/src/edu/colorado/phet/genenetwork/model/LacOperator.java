@@ -183,7 +183,6 @@ public class LacOperator extends SimpleModelElement {
 			// the RNA polymerase is starting to traverse the DNA, making it
 			// look like the polymerase goes right over the LacI.  To avoid
 			// this, we stop the LacI from moving towards us.
-			System.out.println("Dropping relationship with LacI due to presence of RNA poly");
 			lacIAttachmentPartner.detach(this);
 			lacIAttachmentPartner = null;
 			lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
