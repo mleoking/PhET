@@ -37,7 +37,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	private static final double MODEL_AREA_HEIGHT = 120;
 	private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double(-MODEL_AREA_WIDTH / 2,
 			-MODEL_AREA_HEIGHT / 2, MODEL_AREA_WIDTH, MODEL_AREA_HEIGHT);
-	private static final Random RAND = new Random();
+	protected static final Random RAND = new Random();
 
 	// Constants that define where in the model space the DNA strand will be.
 	private static final double DNA_STRAND_WIDTH = MODEL_AREA_WIDTH * 1.3;
@@ -891,5 +891,14 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		// In this base class, there is no exterior of the cell, so everything
 		// is inside.
 		return PositionWrtCell.INSIDE_CELL;
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getOpenSpotForLacY()
+	 */
+	public Point2D getOpenSpotForLacY() {
+		// Does nothing in this class, and shouldn't really be called.
+		assert false;
+		return null;
 	}
 }

@@ -12,6 +12,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.Point2D.Double;
 import java.util.Random;
 
 import edu.umd.cs.piccolo.util.PDimension;
@@ -67,6 +68,7 @@ public class LacY extends SimpleModelElement {
 	private double lactoseTraversalCoundownTimer;
 	private double recoverCountdownTimer;
 	private double lactoseTraversalDistance;
+	private Point2D membraneDestination = new Point2D.Double();
 	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
@@ -220,18 +222,14 @@ public class LacY extends SimpleModelElement {
 	protected void onTransitionToExistingState() {
 		// Pick a point on the cell membrane and set a motion strategy to get
 		// there.
-		// TODO: This should work with the model at some point to find free
-		// locations.  This is essentially a rapid prototype at this point.
-		double xDest = getModel().getInteriorMotionBounds().getCenterX() + RAND.nextDouble() * getModel().getInteriorMotionBounds().getWidth() / 2;
-		double yDest = getModel().getCellMembraneRect().getCenterY();
 		// Extend the motion bounds to allow this to move into the membrane.
 		Rectangle2D motionBounds = getModel().getInteriorMotionBoundsAboveDna();
 		motionBounds.setFrame(motionBounds.getX(), motionBounds.getY(), motionBounds.getWidth(),
 				motionBounds.getHeight() + getModel().getCellMembraneRect().getHeight());
 		// Set a motion strategy that will move this LacY to a spot on the
 		// membrane.
-		setMotionStrategy(new LinearMotionStrategy(motionBounds, getPositionRef(), 
-				new Point2D.Double(xDest, yDest), 10));
+		setMembraneDestination(getModel().getOpenSpotForLacY());
+		setMotionStrategy(new LinearMotionStrategy(motionBounds, getPositionRef(), getMembraneDestinationRef(), 10));
 	}
 	
 	/**
@@ -333,7 +331,7 @@ public class LacY extends SimpleModelElement {
 	}
 	
 	private static final double ERROR_TOLERENCE = 0.01;
-	private boolean isEmbeddedInMembrane(){
+	public boolean isEmbeddedInMembrane(){
 		boolean isEmbeddedInMembrane = false;
 		Rectangle2D cellMembraneRect = getModel().getCellMembraneRect();
 		if ( cellMembraneRect != null &&
@@ -344,5 +342,13 @@ public class LacY extends SimpleModelElement {
 		}
 		
 		return isEmbeddedInMembrane;
+	}
+	
+	protected Point2D getMembraneDestinationRef() {
+		return membraneDestination;
+	}
+
+	protected void setMembraneDestination(Point2D membraneDestination) {
+		this.membraneDestination.setLocation(membraneDestination);
 	}
 }
