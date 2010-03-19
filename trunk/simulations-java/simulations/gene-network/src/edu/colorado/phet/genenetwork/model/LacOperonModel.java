@@ -684,11 +684,11 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		// cell.
 		if (classifyPosWrtCell(initialPosition) == PositionWrtCell.INSIDE_CELL){
 			glucose.setMotionStrategy(new InjectionMotionStrategy(
-				MotionBoundsTrimmer.trimMotionBounds(getInteriorMotionBoundsAboveDna(), glucose), initialVelocity));
+				MotionBoundsTrimmer.trim(getInteriorMotionBoundsAboveDna(), glucose), initialVelocity));
 		}
 		else{
 			glucose.setMotionStrategy(new InjectionMotionStrategy(
-				MotionBoundsTrimmer.trimMotionBounds(getExteriorMotionBounds(), glucose), initialVelocity));
+				MotionBoundsTrimmer.trim(getExteriorMotionBounds(), glucose), initialVelocity));
 		}
 		
 		// Attach these two to one another.

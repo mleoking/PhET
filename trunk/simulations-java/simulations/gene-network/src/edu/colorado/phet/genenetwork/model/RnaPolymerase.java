@@ -71,7 +71,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		if (model != null){
 			setMotionStrategy(new DirectedRandomWalkMotionStrategy(
-					MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
+					MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), this)));
 		}
 	}
 	
@@ -264,7 +264,7 @@ public class RnaPolymerase extends SimpleModelElement {
 					// towards attachment.  This relationship must be terminated.
 					promoterAttachmentPartner.detach(this);
 					promoterAttachmentPartner = null;
-					setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
+					setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), this)));
 				}
 				if (traversing){
 					// This polymerase was traversing the DNA strand, so the
@@ -344,7 +344,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			// happen in cases such as when our potential partner gets removed
 			// from the model.
 			promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-			setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
+			setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), this)));
 		}
 		previousPromoterAttachmentPartner = promoterAttachmentPartner;
 		promoterAttachmentPartner = null;
@@ -371,7 +371,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		// to the right.  This minimizes visual interference with the mRNA
 		// that was just released.
 		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy( 
-				MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this),
+				MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), this),
 				delay, 
 				initialVelocity, 
 				2 ));
