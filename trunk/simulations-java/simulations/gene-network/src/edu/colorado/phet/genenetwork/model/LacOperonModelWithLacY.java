@@ -59,19 +59,27 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 	}
 
 	@Override
-	public Rectangle2D getMotionBounds() {
+	public Rectangle2D getInteriorMotionBounds() {
 		// Subtract off the area above the cell membrane.
-		Rectangle2D origRect = super.getMotionBounds();
+		Rectangle2D origRect = super.getInteriorMotionBounds();
 		return new Rectangle2D.Double(origRect.getX(), origRect.getY(), origRect.getWidth(),
 				CELL_MEMBRANE_RECT.getMinY() - origRect.getY());
 	}
 
 	@Override
-	public Rectangle2D getMotionBoundsAboveDna() {
+	public Rectangle2D getInteriorMotionBoundsAboveDna() {
 		// Subtract off the area above the cell membrane.
-		Rectangle2D origRect = super.getMotionBoundsAboveDna();
+		Rectangle2D origRect = super.getInteriorMotionBoundsAboveDna();
 		return new Rectangle2D.Double(origRect.getX(), origRect.getY(), origRect.getWidth(),
 				CELL_MEMBRANE_RECT.getMinY() - origRect.getY());
+	}
+	
+	@Override
+	public Rectangle2D getExteriorMotionBounds() {
+		// Determine the area above the cell membrane.
+		Rectangle2D origRect = super.getInteriorMotionBounds();
+		return new Rectangle2D.Double(origRect.getX(), CELL_MEMBRANE_RECT.getMaxY(), origRect.getWidth(),
+				origRect.getMaxY() - CELL_MEMBRANE_RECT.getMaxY());
 	}
 
 	@Override

@@ -34,7 +34,7 @@ public class Cap extends SimpleModelElement {
 	public Cap(IGeneNetworkModelControl model, Point2D initialPosition) {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		if (model != null){
-			setMotionStrategy(new DirectedRandomWalkMotionStrategy(model.getMotionBounds()));
+			setMotionStrategy(new DirectedRandomWalkMotionStrategy(model.getInteriorMotionBounds()));
 		}
 	}
 	
@@ -126,7 +126,7 @@ public class Cap extends SimpleModelElement {
 				CAP_BINDING_REGION_ATTACHMENT_OFFSET.getWidth();
 			double yDest = capBindingRegionPartner.getAttachmentPointLocation(this).getY() - 
 				CAP_BINDING_REGION_ATTACHMENT_OFFSET.getHeight();
-			setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getMotionBounds()));
+			setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getInteriorMotionBounds()));
 			getMotionStrategyRef().setDestination(xDest, yDest);
 			targetPositionForAttachingToBindingRegion.setLocation(xDest, yDest);
 		}

@@ -77,7 +77,7 @@ public class SpawnLacZStrategy extends MessengerRnaSpawningStrategy {
 		LacZTransformationArrow transformationArrow = new LacZTransformationArrow(parentModelElement.getModel(),
 				transformationArrowPos, new LacZ(parentModelElement.getModel(), true), Math.PI/4);
 		transformationArrow.setMotionStrategy(new LinearMotionStrategy(
-				parentModelElement.getModel().getMotionBoundsAboveDna(), transformationArrowPos,
+				parentModelElement.getModel().getInteriorMotionBoundsAboveDna(), transformationArrowPos,
 				new Vector2D.Double(parentModelElement.getVelocityRef()), 5.0));
 		parentModelElement.getModel().addTransformationArrow(transformationArrow);
 	}
