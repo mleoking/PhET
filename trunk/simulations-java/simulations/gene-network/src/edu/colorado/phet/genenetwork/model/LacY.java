@@ -18,8 +18,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
- * Class that represents LacZ, which is the model element that breaks up the
- * lactose.
+ * Class that represents LacY, which is the model element that transports
+ * lactose from outside the cell membrane to inside.
  * 
  * @author John Blanco
  */
@@ -39,13 +39,13 @@ public class LacY extends SimpleModelElement {
 	// lactose offset too.
 	private static final Dimension2D GLUCOSE_ATTACHMENT_POINT_OFFSET = new PDimension(0, SIZE/2);
 	
-	// Amount of time that lactose is attached before it is "digested",
-	// meaning that it is broken apart and released.
-	private static final double LACTOSE_ATTACHMENT_TIME = 0.5;  // In seconds.
+	// Amount of time that it takes for lactose to traverse from the
+	// attachment point to the other side.
+	private static final double LACTOSE_TRAVERSAL_TIME = 1;  // In seconds.
 	
 	// Amount of time after releasing one lactose molecule until it is okay
 	// to start trying to attach to another.  This is needed to prevent the
-	// LacZ from getting into a state where it can never fade out.
+	// LacY from getting into a state where it can never fade out.
 	private static final double RECOVERY_TIME = 0.250;  // In seconds.
 	
 	// These are used to determine whether a lactose molecule is close enough
@@ -63,8 +63,9 @@ public class LacY extends SimpleModelElement {
 
 	private Glucose glucoseAttachmentPartner = null;
 	private AttachmentState glucoseAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-	private double lactoseAttachmentCountdownTimer;
+	private double lactoseTraversalCoundownTimer;
 	private double recoverCountdownTimer;
+	private double lactoseTraversalDistance;
 	
 	//----------------------------------------------------------------------------
 	// Constructor(s)
@@ -75,6 +76,7 @@ public class LacY extends SimpleModelElement {
 		if (model != null){
 			setMotionStrategy(new StillnessMotionStrategy());
 		}
+		lactoseTraversalDistance = getShape().getBounds2D().getHeight();
 	}
 	
 	public LacY(IGeneNetworkModelControl model, boolean fadeIn) {
@@ -107,14 +109,28 @@ public class LacY extends SimpleModelElement {
 			}
 			else if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
 				// See if the glucose is close enough to finalize the attachment.
-				if (getGlucoseAttachmentPointLocation().distance(glucoseAttachmentPartner.getLacZAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
+				if (getGlucoseAttachmentPointLocation().distance( glucoseAttachmentPartner.getLacYAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
 					// Finalize the attachment.
 					completeAttachmentOfGlucose();
 				}
 			}
 			else if (glucoseAttachmentState == AttachmentState.ATTACHED){
-				lactoseAttachmentCountdownTimer -= dt;
-				setOkayToFade(true);
+				// Move the lactose to the appropriate location based on the
+				// amount of time that it has been attached.  This is how the
+				// lactose moves through the cell membrane.
+				lactoseTraversalCoundownTimer -= dt;
+				double distanceTraveled = (1 - lactoseTraversalCoundownTimer/LACTOSE_TRAVERSAL_TIME) * lactoseTraversalDistance;
+				glucoseAttachmentPartner.setPosition(glucoseAttachmentPartner.getPositionRef().getX(),
+					getGlucoseAttachmentPointLocation().getY() - distanceTraveled);
+				if (lactoseTraversalCoundownTimer <= 0){
+					// The lactose has fully traversed the membrane.  Release
+					// it - it should now be inside the cell.
+					glucoseAttachmentPartner.detach(this);
+					glucoseAttachmentPartner = null;
+					glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+					recoverCountdownTimer = RECOVERY_TIME;
+					setOkayToFade(true);
+				}
 			}
 			else if (glucoseAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
 				recoverCountdownTimer -= dt;
@@ -179,7 +195,7 @@ public class LacY extends SimpleModelElement {
 		glucoseAttachmentPartner.attach(this);
 		glucoseAttachmentState = AttachmentState.ATTACHED;
 		// Start the attachment timer/counter.
-		lactoseAttachmentCountdownTimer = LACTOSE_ATTACHMENT_TIME;
+		lactoseTraversalCoundownTimer = LACTOSE_TRAVERSAL_TIME;
 	}
 	
 	private static Shape createShape(){
@@ -220,7 +236,7 @@ public class LacY extends SimpleModelElement {
 	/**
 	 * Force a detach from the glucose molecule.  This was created to support
 	 * the case where the user grabs the glucose molecule when it is attached
-	 * to LacI, but may have other used.
+	 * to LacY, but may have other uses.
 	 * 
 	 * @param glucose
 	 */
@@ -235,7 +251,7 @@ public class LacY extends SimpleModelElement {
 		glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		recoverCountdownTimer = RECOVERY_TIME;
 		
-		// It is now okay for the LacZ to fade out of existence if it needs to.
+		// It is now okay for the LacY to fade out of existence if it needs to.
 		setOkayToFade(true);
 	}
 	
