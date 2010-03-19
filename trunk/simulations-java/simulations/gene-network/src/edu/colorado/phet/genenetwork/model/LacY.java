@@ -52,7 +52,8 @@ public class LacY extends SimpleModelElement {
 	// that this molecule should try to grab it after it has been moved by
 	// the user.
 	private static final double LACTOSE_IMMEDIATE_GRAB_DISTANCE = 7; // In nanometers.
-	private static final double LACTOSE_GRAB_DISTANCE = 15; // In nanometers.
+	private static final double LACTOSE_GRAB_DISTANCE = 100; // In nanometers.
+	private static final double LACTOSE_ATTACHMENT_FORMING_DISTANCE = 2; // In nanometers.
 	
 	// For use in positioning in the cell membrane.
 	private static final Random RAND = new Random();
@@ -109,7 +110,7 @@ public class LacY extends SimpleModelElement {
 			}
 			else if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
 				// See if the glucose is close enough to finalize the attachment.
-				if (getGlucoseAttachmentPointLocation().distance( glucoseAttachmentPartner.getLacYAttachmentPointLocation()) < ATTACHMENT_FORMING_DISTANCE){
+				if (getGlucoseAttachmentPointLocation().distance( glucoseAttachmentPartner.getLacYAttachmentPointLocation()) < LACTOSE_ATTACHMENT_FORMING_DISTANCE){
 					// Finalize the attachment.
 					completeAttachmentOfGlucose();
 				}
