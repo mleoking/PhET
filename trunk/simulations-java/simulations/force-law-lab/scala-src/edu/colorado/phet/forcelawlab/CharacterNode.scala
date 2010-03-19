@@ -16,7 +16,7 @@ class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform2D, 
   val shadowNode = new PhetPPath(Color.gray)
   addChild(shadowNode)
 
-  val ropeNode = new PhetPPath(new BasicStroke(5), Color.black)
+  val ropeNode = new PhetPPath(null:BasicStroke, null)
   addChild(ropeNode)
   mass.addListener(update)
   mass2.addListener(update)
@@ -37,16 +37,11 @@ class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform2D, 
 
   lazy val sign = if (leftOfObject) -1 else 1
 
-  def ropeEnd = {
-    val length = transformMV.modelToViewDifferentialX(mass.radius) + 100
-    ropeStart + new Vector2D(length * sign, 0)
-  }
+  def ropeLength = transformMV.modelToViewDifferentialX(mass.radius) + 100 
+  
+  def ropeEnd = ropeStart + new Vector2D(ropeLength * sign, 0)
 
   def updateRopeNode() = {
-    //    ropeNode.setPathTo(new Line2D.Double(ropeStart, ropeEnd))
-
-    ropeNode.setStroke(null)
-    ropeNode.setStrokePaint(null)
     ropeNode.setPathTo(new BasicStroke(5).createStrokedShape(new Line2D.Double(ropeStart, ropeEnd)))
     val im = BufferedImageUtils.multiScaleToHeight(ForceLawLabResources.getImage("rope-pattern.png"), 5)
 
