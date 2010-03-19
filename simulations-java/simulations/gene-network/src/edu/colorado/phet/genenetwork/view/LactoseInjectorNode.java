@@ -61,9 +61,8 @@ public class LactoseInjectorNode extends PNode {
 	// Random number generator.
 	private static final Random RAND = new Random();
 	
-    // Timer used for fading in and out.
-	private static final int BUTTON_DELAY_TIME = 40; // In milliseconds.
-    private static final Timer FADE_IN_TIMER = new Timer( BUTTON_DELAY_TIME, null );
+    // Time values used for fading in and out.
+	private static final int FADE_IN_DELAY_TIME = 40; // In milliseconds.
     private static final float FADE_INCREMENT = 0.05f;
     
     //------------------------------------------------------------------------
@@ -80,6 +79,7 @@ public class LactoseInjectorNode extends PNode {
 	private float transparency;  // For fading.  0 is transparent, 1 is opaque.
 	private Point2D injectionPointInModelCoords = new Point2D.Double();
 	private Vector2D nominalInjectionVelocityVector = new Vector2D.Double(NOMINAL_LACTOSE_INJECTION_VELOCITY, 0);
+    private final Timer fadeInTimer = new Timer( FADE_IN_DELAY_TIME, null );
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -172,12 +172,12 @@ public class LactoseInjectorNode extends PNode {
         });
         
         // Set up listener to the timer used for fading in.
-		FADE_IN_TIMER.addActionListener( new ActionListener() {
+		fadeInTimer.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
         		transparency = Math.min(1, transparency + FADE_INCREMENT);
         		setTransparency(transparency);
         		if (transparency >= 1){
-        			FADE_IN_TIMER.stop();
+        			fadeInTimer.stop();
         		}
             }
         } );
@@ -205,7 +205,7 @@ public class LactoseInjectorNode extends PNode {
 	
 	private void updateInjectorNodeVisibility(){
 		if (model.isLactoseInjectionAllowed()){
-			FADE_IN_TIMER.start();
+			fadeInTimer.start();
 		}
 		else{
 			transparency = 0;
