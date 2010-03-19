@@ -265,17 +265,27 @@ public interface IGeneNetworkModelControl {
 	 * 
 	 * @return
 	 */
-	Rectangle2D getMotionBounds();
+	Rectangle2D getInteriorMotionBounds();
 	
     /**
-     * Get the area of the model where it is okay to move around and not end
-     * up overlapping the DNA.  This actually excludes an area that is quite a
-     * bit larger than the DNA so that model elements within it stay far
-     * enough above that they don't end up overlapping it at all.
+     * Get the area of the model where it is inside the cell and it is okay to
+     * move around and not end up overlapping the DNA.  This actually excludes
+     * an area that is quite a bit larger than the DNA so that model elements
+     * within it stay far enough above that they don't end up overlapping it
+     * at all.
      * 
      * @return
      */
-    Rectangle2D getMotionBoundsAboveDna();
+    Rectangle2D getInteriorMotionBoundsAboveDna();
+	
+    /**
+     * Get the area of the model that is outside of the cell where things can
+     * be moving around (and not float off into space and thus become
+     * invisible to the users).
+     * 
+     * @return bounds rect, or null if there is no cell exterior for the model.
+     */
+    Rectangle2D getExteriorMotionBounds();
 	
     /**
      * Classify the provided position with respect to the cell membrane, i.e.

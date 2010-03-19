@@ -89,7 +89,7 @@ public class LacI extends SimpleModelElement {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
 		if (model != null){
 			setMotionStrategy(new RandomWalkMotionStrategy(
-					MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 		}
 	}
 	
@@ -116,7 +116,7 @@ public class LacI extends SimpleModelElement {
 				lacOperatorAttachmentPartner.detach(this);
 				lacOperatorAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 				lacOperatorAttachmentPartner = null;
-				setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
+				setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 			}
 			// Does it have any pending relationships with lactose that need
 			// to be terminated?
@@ -198,7 +198,7 @@ public class LacI extends SimpleModelElement {
 	
 	@Override
 	protected void onTransitionToExistingState() {
-		setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna(),
+		setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getInteriorMotionBoundsAboveDna(),
 				INITIAL_DESTINATION_POINT));
 	}
 	
@@ -365,7 +365,7 @@ public class LacI extends SimpleModelElement {
 									Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
 	
 							setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner,
-									offsetFromTarget, getModel().getMotionBoundsAboveDna()));
+									offsetFromTarget, getModel().getInteriorMotionBoundsAboveDna()));
 						}
 					}
 				}
@@ -446,7 +446,7 @@ public class LacI extends SimpleModelElement {
 				LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getWidth();
 			double yDest = lacOperatorAttachmentPartner.getLacIAttachmentPointLocation().getY() -
 				LAC_OPERATOR_ATTACHMENT_POINT_OFFSET.getHeight();
-			setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getMotionBounds(),
+			setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getInteriorMotionBounds(),
 					new Point2D.Double(xDest, yDest)));
 			targetPositionForLacOperatorAttachment.setLocation(xDest, yDest);
 		}
@@ -497,14 +497,14 @@ public class LacI extends SimpleModelElement {
 		if (glucoseAttachmentPartner == null){
 			setOkayToFade(true);
 			setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(
-					MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this), 0, null, -1));
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this), 0, null, -1));
 		}
 		else{
 			Dimension2D offsetFromTarget = new PDimension(
 					Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
 					Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
 			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget, 
-					getModel().getMotionBounds()));
+					getModel().getInteriorMotionBounds()));
 		}
 	}
 	
@@ -516,7 +516,7 @@ public class LacI extends SimpleModelElement {
 		
 		glucoseAttachmentPartner.attach(this);
 		glucoseAttachmentState = AttachmentState.ATTACHED;
-		setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
+		setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 		setShape(createInactiveConformationShape());
 		
 		// If we are currently attached to the lac operator or moving towards
@@ -528,7 +528,7 @@ public class LacI extends SimpleModelElement {
 			lacOperatorAttachmentPartner = null;
 			lacOperatorAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 			setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy(
-					MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this), 0, null, -1));
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this), 0, null, -1));
 		}
 		
 		// Prevent ourself from fading while bonded.
@@ -578,7 +578,7 @@ public class LacI extends SimpleModelElement {
 						Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
 						Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
 				setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget,
-						getModel().getMotionBounds()));
+						getModel().getInteriorMotionBounds()));
 			}
 		}
 	}

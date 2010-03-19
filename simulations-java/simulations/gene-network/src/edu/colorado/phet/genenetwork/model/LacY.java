@@ -192,7 +192,7 @@ public class LacY extends SimpleModelElement {
 	private void completeAttachmentOfGlucose() {
 //		glucoseAttachmentPartner.attach(this);
 		glucoseAttachmentState = AttachmentState.ATTACHED;
-		setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
+		setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 		// Start the attachment timer/counter.
 		lactoseAttachmentCountdownTimer = LACTOSE_ATTACHMENT_TIME;
 	}
@@ -220,10 +220,10 @@ public class LacY extends SimpleModelElement {
 		// there.
 		// TODO: This should work with the model at some point to find free
 		// locations.  This is essentially a rapid prototype at this point.
-		double xDest = getModel().getMotionBounds().getCenterX() + RAND.nextDouble() * getModel().getMotionBounds().getWidth() / 2;
+		double xDest = getModel().getInteriorMotionBounds().getCenterX() + RAND.nextDouble() * getModel().getInteriorMotionBounds().getWidth() / 2;
 		double yDest = getModel().getCellMembraneRect().getCenterY();
 		// Extend the motion bounds to allow this to move into the membrane.
-		Rectangle2D motionBounds = getModel().getMotionBoundsAboveDna();
+		Rectangle2D motionBounds = getModel().getInteriorMotionBoundsAboveDna();
 		motionBounds.setFrame(motionBounds.getX(), motionBounds.getY(), motionBounds.getWidth(),
 				motionBounds.getHeight() + getModel().getCellMembraneRect().getHeight());
 		// Set a motion strategy that will move this LacY to a spot on the

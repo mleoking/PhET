@@ -39,7 +39,7 @@ public class LactoseTransportCanvas extends GeneNetworkCanvas {
     	cellMembraneLayer.addChild(cellMembrane);
         PText cellMembraneLabel = new PText(GeneNetworkStrings.CELL_MEMBRANE_LABEL);
         cellMembraneLabel.setFont(new PhetFont(18, true));
-        cellMembraneLabel.setOffset(getMvt().modelToViewXDouble(model.getMotionBounds().getMinX()), 
+        cellMembraneLabel.setOffset(getMvt().modelToViewXDouble(model.getInteriorMotionBounds().getMinX()), 
         		transformedCellMembraneRect.getCenterY() - cellMembraneLabel.getFullBoundsReference().height / 2); 
         cellMembrane.addChild(cellMembraneLabel);
         

@@ -34,7 +34,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	//----------------------------------------------------------------------------
 	
 	protected static final double MODEL_AREA_WIDTH = 140;
-	private static final double MODEL_AREA_HEIGHT = 100;
+	private static final double MODEL_AREA_HEIGHT = 120;
 	private static final Rectangle2D MODEL_BOUNDS = new Rectangle2D.Double(-MODEL_AREA_WIDTH / 2,
 			-MODEL_AREA_HEIGHT / 2, MODEL_AREA_WIDTH, MODEL_AREA_HEIGHT);
 	private static final Random RAND = new Random();
@@ -52,7 +52,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	
 	private static final Rectangle2D MOTION_BOUNDS_ABOVE_DNA = new Rectangle2D.Double(MODEL_BOUNDS.getMinX(), 
 			DNA_STRAND_POSITION.getY() + DNA_STRAND_HEIGHT + 10, MODEL_BOUNDS.getWidth(),
-			MODEL_BOUNDS.getHeight() - DNA_STRAND_POSITION.getY() + MODEL_BOUNDS.getMinY());
+			MODEL_BOUNDS.getMaxY() - (DNA_STRAND_POSITION.getY() + DNA_STRAND_HEIGHT + 10));
 	
 	// Constant that controls delayed enabling of lactose injection.
 	private static final int LACTOSE_INJECTION_ENABLE_DELAY = 3000;  // In milliseconds.
@@ -456,10 +456,6 @@ public class LacOperonModel implements IGeneNetworkModelControl {
         return clock;
     }
     
-    public Rectangle2D getMotionBounds(){
-    	return MOTION_BOUNDS;
-    }
-    
     /**
      * Get the rectangle that represents the cell membrane.  Returns null if
      * no cell membrane is included in this model.  This is the default in the
@@ -471,16 +467,26 @@ public class LacOperonModel implements IGeneNetworkModelControl {
    		return null;
     }
     
-    /**
-     * Get the area of the model where it is okay to move around and not end
-     * up overlapping the DNA.  This actually excludes an area that is quite a
-     * bit larger than the DNA so that model elements within it stay far
-     * enough above that they don't end up overlapping it at all.
-     * 
-     * @return
-     */
-    public Rectangle2D getMotionBoundsAboveDna(){
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getInteriorMotionBoundsAboveDna()
+	 */
+    public Rectangle2D getInteriorMotionBoundsAboveDna(){
     	return MOTION_BOUNDS_ABOVE_DNA;
+    }
+    
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getInteriorMotionBounds()
+	 */
+    public Rectangle2D getInteriorMotionBounds(){
+    	return MOTION_BOUNDS;
+    }
+    
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getExteriorMotionBounds()
+	 */
+    public Rectangle2D getExteriorMotionBounds(){
+    	// This version of the model has no exterior, so return null.
+    	return null;
     }
     
     public boolean isLacIAttachedToDna(){
@@ -661,8 +667,17 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		Glucose glucose = new Glucose(this);
 		double xOffset = glucose.getShape().getBounds2D().getWidth() / 2;
 		glucose.setPosition(initialPosition.getX() - xOffset, initialPosition.getY());
-		glucose.setMotionStrategy(new InjectionMotionStrategy(MOTION_BOUNDS_ABOVE_DNA, initialVelocity));
 		Galactose galactose = new Galactose(this);
+		
+		// Set the motion for the glucose (with will define the motion of the
+		// lactose molecule) based on whether it is inside or outside of the
+		// cell.
+		if (classifyPosWrtCell(initialPosition) == PositionWrtCell.INSIDE_CELL){
+			glucose.setMotionStrategy(new InjectionMotionStrategy(getInteriorMotionBoundsAboveDna(), initialVelocity));
+		}
+		else{
+			glucose.setMotionStrategy(new InjectionMotionStrategy(getExteriorMotionBounds(), initialVelocity));
+		}
 		
 		// Attach these two to one another.
 		glucose.formLactose(galactose);

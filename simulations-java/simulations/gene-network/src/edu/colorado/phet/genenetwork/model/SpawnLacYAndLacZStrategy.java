@@ -86,7 +86,7 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 		LacYTransformationArrow transformationArrow = new LacYTransformationArrow(parentModelElement.getModel(),
 				transformationArrowPos, new LacY(parentModelElement.getModel(), true), Math.PI/4);
 		transformationArrow.setMotionStrategy(new LinearMotionStrategy(
-				parentModelElement.getModel().getMotionBoundsAboveDna(), transformationArrowPos,
+				parentModelElement.getModel().getInteriorMotionBoundsAboveDna(), transformationArrowPos,
 				new Vector2D.Double(parentModelElement.getVelocityRef()), 5.0));
 		parentModelElement.getModel().addTransformationArrow(transformationArrow);
 	}
@@ -101,7 +101,7 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 		LacZTransformationArrow transformationArrow = new LacZTransformationArrow(parentModelElement.getModel(),
 				transformationArrowPos, new LacZ(parentModelElement.getModel(), true), Math.PI/4);
 		transformationArrow.setMotionStrategy(new LinearMotionStrategy(
-				parentModelElement.getModel().getMotionBoundsAboveDna(), transformationArrowPos,
+				parentModelElement.getModel().getInteriorMotionBoundsAboveDna(), transformationArrowPos,
 				new Vector2D.Double(parentModelElement.getVelocityRef()), 5.0));
 		parentModelElement.getModel().addTransformationArrow(transformationArrow);
 	}

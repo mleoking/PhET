@@ -71,7 +71,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		super(model, createActiveConformationShape(), initialPosition, ELEMENT_PAINT, false, Double.POSITIVE_INFINITY);
 		if (model != null){
 			setMotionStrategy(new DirectedRandomWalkMotionStrategy(
-					MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 		}
 	}
 	
@@ -233,7 +233,7 @@ public class RnaPolymerase extends SimpleModelElement {
 	 * Free the messenger RNA that has been transcribed.
 	 */
 	private void freeMessengerRna() {
-		mRna.setMotionStrategy(new LinearMotionStrategy(getModel().getMotionBounds(), mRna.getPositionRef(),
+		mRna.setMotionStrategy(new LinearMotionStrategy(getModel().getInteriorMotionBounds(), mRna.getPositionRef(),
 				new Vector2D.Double(0, 4), 20));
 		mRna.setSpawningEnabled(true);
 		mRna = null;
@@ -264,12 +264,12 @@ public class RnaPolymerase extends SimpleModelElement {
 					// towards attachment.  This relationship must be terminated.
 					promoterAttachmentPartner.detach(this);
 					promoterAttachmentPartner = null;
-					setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
+					setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 				}
 				if (traversing){
 					// This polymerase was traversing the DNA strand, so the
 					// motion strategy must be changed.
-					setMotionStrategy(new RandomWalkMotionStrategy(getModel().getMotionBoundsAboveDna()));
+					setMotionStrategy(new RandomWalkMotionStrategy(getModel().getInteriorMotionBoundsAboveDna()));
 					if (transcribing){
 						// This polymerase was transcribing the DNA into mRNA,
 						// so the mRNA needs to be detached, and should not be
@@ -335,7 +335,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			// We were attached, so now start traversing.
 			traversing = true;
 			traversalStartPt.setLocation(getPositionRef());
-			setMotionStrategy(new LinearMotionStrategy(getModel().getMotionBounds(), getPositionRef(), 
+			setMotionStrategy(new LinearMotionStrategy(getModel().getInteriorMotionBounds(), getPositionRef(), 
 					new Vector2D.Double(TRAVERSAL_SPEED, 0), MAX_TRAVERSAL_TIME));
 			promoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 		}
@@ -344,7 +344,7 @@ public class RnaPolymerase extends SimpleModelElement {
 			// happen in cases such as when our potential partner gets removed
 			// from the model.
 			promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-			setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this)));
+			setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 		}
 		previousPromoterAttachmentPartner = promoterAttachmentPartner;
 		promoterAttachmentPartner = null;
@@ -371,7 +371,7 @@ public class RnaPolymerase extends SimpleModelElement {
 		// to the right.  This minimizes visual interference with the mRNA
 		// that was just released.
 		setMotionStrategy(new DetachFromDnaThenRandomMotionWalkStrategy( 
-				MotionBoundsTrimmer.trimMotionBounds(getModel().getMotionBoundsAboveDna(), this),
+				MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this),
 				delay, 
 				initialVelocity, 
 				2 ));
@@ -442,12 +442,12 @@ public class RnaPolymerase extends SimpleModelElement {
 			if (getPositionRef().distance(targetPositionForLacPromoterAttachment) > 10){
 				// We are a ways away, so move toward the destination in a
 				// somewhat random fashion.
-				setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getMotionBounds()));
+				setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getInteriorMotionBounds()));
 				getMotionStrategyRef().setDestination(xDest, yDest);
 			}
 			else{
 				// Head straight to the destination.
-				setMotionStrategy(new LinearMotionStrategy(getModel().getMotionBounds(), getPositionRef(),
+				setMotionStrategy(new LinearMotionStrategy(getModel().getInteriorMotionBounds(), getPositionRef(),
 						targetPositionForLacPromoterAttachment, 3));
 			}
 		}

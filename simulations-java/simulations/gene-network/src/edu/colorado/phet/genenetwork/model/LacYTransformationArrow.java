@@ -20,7 +20,7 @@ public class LacYTransformationArrow extends TransformationArrow {
 		double xOffset = Math.cos(getPointingAngle()) * getHeadHeight() + 6;
 		double yOffset = Math.sin(getPointingAngle()) * getHeadHeight() + 4;
 		lacYToAddToModel.setPosition(getPositionRef().getX() + xOffset, getPositionRef().getY() + yOffset);
-		lacYToAddToModel.setMotionStrategy(new LinearMotionStrategy( getModel().getMotionBoundsAboveDna(),
+		lacYToAddToModel.setMotionStrategy(new LinearMotionStrategy( getModel().getInteriorMotionBoundsAboveDna(),
 				lacYToAddToModel.getPositionRef(), new Vector2D.Double(getVelocityRef()), 5.0));
 		getModel().addLacY(lacYToAddToModel);
 	}
