@@ -34,7 +34,7 @@ public class LinearThenRandomMotionStrategy extends AbstractMotionStrategy {
 	public void updatePositionAndMotion(double dt, SimpleModelElement modelElement) {
 		if (movingLinearly){
 			linearMotionStrategy.updatePositionAndMotion(dt, modelElement);
-			if (linearMotionStrategy.isDestinationReached()){
+			if (linearMotionStrategy.isDestinationReached() || linearMotionStrategy.isBoundsReached()){
 				// Time to switch to a random walk.
 				movingLinearly = false;
 				linearMotionStrategy = null;

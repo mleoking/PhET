@@ -20,6 +20,7 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 	private boolean initialVelocitySet = false;
 	private Vector2D initialVelocity = new Vector2D.Double();
 	private boolean isDestinationReached = false;
+	private boolean isBoundsReached = false;
 	
 	public LinearMotionStrategy(Rectangle2D bounds, Point2D initialLocation, Point2D destination, double velocityScaler) {
 		super(bounds);
@@ -60,6 +61,7 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 			
 			// We are at or past the boundary, so stop forward motion.
 			modelElement.setVelocity(0, 0);
+			isBoundsReached = true;
 		}
 		
 		if (modelElement.getVelocityRef().getMagnitude() > 0){
@@ -70,6 +72,10 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 	
 	public boolean isDestinationReached(){
 		return isDestinationReached;
+	}
+	
+	public boolean isBoundsReached(){
+		return isBoundsReached;
 	}
 	
 	static private Point2D velocityAndTimeToPoint(Point2D startingLocation, Vector2D velocity, double time){
