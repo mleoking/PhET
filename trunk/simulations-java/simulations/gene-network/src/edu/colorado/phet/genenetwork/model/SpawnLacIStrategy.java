@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class SpawnLacIStrategy extends MessengerRnaSpawningStrategy {
 	
-	private static final double PRE_SPAWN_TIME = 7;          // In seconds of sim time.
+	private static final double PRE_SPAWN_TIME = 3;          // In seconds of sim time.
 	private static final double TIME_BETWEEN_SPAWNINGS = 2;  // In seconds of sim time.
 	private static final Random RAND = new Random(4324);
 	private static final int MIN_AUTO_GEN_SPAWN_COUNT = 2;
