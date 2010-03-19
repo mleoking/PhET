@@ -683,10 +683,12 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		// lactose molecule) based on whether it is inside or outside of the
 		// cell.
 		if (classifyPosWrtCell(initialPosition) == PositionWrtCell.INSIDE_CELL){
-			glucose.setMotionStrategy(new InjectionMotionStrategy(getInteriorMotionBoundsAboveDna(), initialVelocity));
+			glucose.setMotionStrategy(new InjectionMotionStrategy(
+				MotionBoundsTrimmer.trimMotionBounds(getInteriorMotionBoundsAboveDna(), glucose), initialVelocity));
 		}
 		else{
-			glucose.setMotionStrategy(new InjectionMotionStrategy(getExteriorMotionBounds(), initialVelocity));
+			glucose.setMotionStrategy(new InjectionMotionStrategy(
+				MotionBoundsTrimmer.trimMotionBounds(getExteriorMotionBounds(), glucose), initialVelocity));
 		}
 		
 		// Attach these two to one another.
