@@ -87,7 +87,8 @@ public class Glucose extends SimpleSugar {
 	
 	public boolean isAvailableForAttaching(){
 		return ( lacZAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE &&
-				 lacIAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE );
+				 lacIAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE &&
+				 lacYAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE);
 	}
 	
 	public boolean isBoundToGalactose(){
@@ -153,8 +154,8 @@ public class Glucose extends SimpleSugar {
 			Dimension2D offsetFromTarget = new PDimension(
 					LacY.getGlucoseAttachmentPointOffset().getWidth() - getLacIAttachmentPointOffset().getWidth(),
 					LacY.getGlucoseAttachmentPointOffset().getHeight() - getLacIAttachmentPointOffset().getHeight());
-			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(lacY, offsetFromTarget,
-					getModel().getInteriorMotionBounds()));
+			setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getExteriorMotionBounds(),
+					lacY.getGlucoseAttachmentPointLocation()));
 		}
 		
 		return proposalAccepted;
@@ -264,6 +265,32 @@ public class Glucose extends SimpleSugar {
 	}
 	
 	/**
+	 * Detach from LacY.  This is intended to be used by a LacY instance that
+	 * wants to detach.
+	 * 
+	 * @param lacY
+	 */
+	public void detach(LacY lacY){
+		assert lacY == lacYAttachmentPartner;
+		lacYAttachmentPartner = null;
+		if (lacYAttachmentState == AttachmentState.ATTACHED){
+			// Move down and away, then get random.
+			setMotionStrategy(new LinearThenRandomMotionStrategy(getModel().getInteriorMotionBoundsAboveDna(), 
+					getPositionRef(), new Vector2D.Double(0, -8), 0.5));
+			// Recover for a while before attaching to something else.
+			lacYAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+			postAttachmentRecoveryCountdown = POST_ATTACHMENT_RECOVERY_TIME;
+		}
+		else{
+			// Go back to random motion.
+			setMotionStrategy(new RandomWalkMotionStrategy(getModel().getInteriorMotionBoundsAboveDna()));
+			// Okay to attach to something else right away.
+			lacYAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+			postAttachmentRecoveryCountdown = 0;
+		}
+	}
+	
+	/**
 	 * This is called to force this molecule to release the attached galactose
 	 * molecule, essentially breaking down from lactose into the constituent
 	 * molecules.
@@ -296,6 +323,7 @@ public class Glucose extends SimpleSugar {
 			if (holdoffPriorToFirstAttachmentCountdown <= 0){
 				lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 				lacZAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+				lacYAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			}
 		}
 		else if (lacIAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE  && !isUserControlled()){

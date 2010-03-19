@@ -37,7 +37,7 @@ public class LacY extends SimpleModelElement {
 	// Attachment point for glucose.  Note that glucose generally only
 	// attaches when it is bound up in lactose, so this is essentially the
 	// lactose offset too.
-	private static final Dimension2D GLUCOSE_ATTACHMENT_POINT_OFFSET = new PDimension(0, -SIZE/2);
+	private static final Dimension2D GLUCOSE_ATTACHMENT_POINT_OFFSET = new PDimension(0, SIZE/2);
 	
 	// Amount of time that lactose is attached before it is "digested",
 	// meaning that it is broken apart and released.
@@ -96,14 +96,14 @@ public class LacY extends SimpleModelElement {
 		super.stepInTime(dt);
 		if (!isUserControlled()){			
 			if (getExistenceState() == ExistenceState.EXISTING &&
-				glucoseAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
+				glucoseAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE &&
+				isEmbeddedInMembrane()){
 				
 				// Look for some lactose to attach to.
 				glucoseAttachmentPartner = 
 					getModel().getNearestLactose(getPositionRef(), PositionWrtCell.OUTSIDE_CELL, true);
 				
 				getEngagedToLactose();
-				
 			}
 			else if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
 				// See if the glucose is close enough to finalize the attachment.
@@ -114,15 +114,7 @@ public class LacY extends SimpleModelElement {
 			}
 			else if (glucoseAttachmentState == AttachmentState.ATTACHED){
 				lactoseAttachmentCountdownTimer -= dt;
-				if (lactoseAttachmentCountdownTimer <= 0){
-					// Time to break down and release the lactose.
-					glucoseAttachmentPartner.releaseGalactose();
-//					glucoseAttachmentPartner.detach(this);
-					glucoseAttachmentPartner = null;
-					glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
-					setOkayToFade(true);
-					recoverCountdownTimer = RECOVERY_TIME;
-				}
+				setOkayToFade(true);
 			}
 			else if (glucoseAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
 				recoverCountdownTimer -= dt;
@@ -145,22 +137,15 @@ public class LacY extends SimpleModelElement {
 		if (glucoseAttachmentPartner != null){
 			// We found a lactose that is free, so start the process of
 			// attaching to it.
-//			if (glucoseAttachmentPartner.considerProposalFrom(this) != true){
-//				assert false;  // As designed, this should always succeed, so debug if it doesn't.
-//			}
-//			else{
-//				glucoseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
-//				
-//				// Prevent fadeout from occurring while attached to lactose.
-//				setOkayToFade(false);
-//				
-//				// Move towards the partner.
-//				Dimension2D offsetFromTarget = new PDimension(
-//						Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
-//						Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
-//				setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget,
-//						LacOperonModel.getMotionBounds()));
-//			}
+			if (glucoseAttachmentPartner.considerProposalFrom(this) != true){
+				assert false;  // As designed, this should always succeed, so debug if it doesn't.
+			}
+			else{
+				glucoseAttachmentState = AttachmentState.MOVING_TOWARDS_ATTACHMENT;
+				
+				// Prevent fadeout from occurring while attached to lactose.
+				setOkayToFade(false);
+			}
 		}
 	}
 
@@ -170,7 +155,7 @@ public class LacY extends SimpleModelElement {
 			// The user has grabbed this element.  Have it release any pending
 			// attachments.
 			if (glucoseAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT){
-//				glucoseAttachmentPartner.detach(this);
+				glucoseAttachmentPartner.detach(this);
 				glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 				glucoseAttachmentPartner = null;
 				recoverCountdownTimer = 0;  // We are good to reattach as soon as we are released.
@@ -191,9 +176,8 @@ public class LacY extends SimpleModelElement {
 	 * duplication of code.
 	 */
 	private void completeAttachmentOfGlucose() {
-//		glucoseAttachmentPartner.attach(this);
+		glucoseAttachmentPartner.attach(this);
 		glucoseAttachmentState = AttachmentState.ATTACHED;
-		setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 		// Start the attachment timer/counter.
 		lactoseAttachmentCountdownTimer = LACTOSE_ATTACHMENT_TIME;
 	}
@@ -259,7 +243,7 @@ public class LacY extends SimpleModelElement {
 	 * Request an immediate attachment for a glucose molecule (which should
 	 * be half of a lactose molecule).  This is generally used when the
 	 * glucose was manually moved by the user to a location that is quite
-	 * close to this lacI.
+	 * close to this lacY.
 	 * 
 	 * @param glucose
 	 * @return true if it can attach, false if it already has a different
@@ -279,18 +263,16 @@ public class LacY extends SimpleModelElement {
 		if (glucoseAttachmentPartner != null){
 			// We were moving towards attachment to a different glucose, so
 			// break off the engagement.
-//			glucoseAttachmentPartner.detach(this);
+			glucoseAttachmentPartner.detach(this);
 		}
 		
 		// Attach to this new glucose molecule.
-		/*
 		if (glucose.considerProposalFrom(this) != true){
 			// This should never happen, since the glucose requested the
 			// attachment, so it should be debuged if it does.
 			System.err.println(getClass().getName() + "- Error: Proposal refused by element that requested attachment.");
 			assert false;
 		}
-		*/
 		
 		// Everything should now be clear for finalizing the actual attachment.
 		glucoseAttachmentPartner = glucose;
@@ -331,5 +313,19 @@ public class LacY extends SimpleModelElement {
 				}
 			}
 		}
+	}
+	
+	private static final double ERROR_TOLERENCE = 0.01;
+	private boolean isEmbeddedInMembrane(){
+		boolean isEmbeddedInMembrane = false;
+		Rectangle2D cellMembraneRect = getModel().getCellMembraneRect();
+		if ( cellMembraneRect != null &&
+			 getPositionRef().getY() + ERROR_TOLERENCE > cellMembraneRect.getCenterY() &&
+			 getPositionRef().getY() - ERROR_TOLERENCE < cellMembraneRect.getCenterY()){
+			
+			isEmbeddedInMembrane = true;
+		}
+		
+		return isEmbeddedInMembrane;
 	}
 }
