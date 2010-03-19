@@ -19,6 +19,8 @@ public interface IGeneNetworkModelControl {
 
 	ArrayList<LacZ> getLacZList();
 
+	ArrayList<LacY> getLacYList();
+
 	ArrayList<Glucose> getGlucoseList();
 
 	ArrayList<Galactose> getGalactoseList();

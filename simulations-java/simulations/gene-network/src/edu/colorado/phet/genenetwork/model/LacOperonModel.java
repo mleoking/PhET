@@ -225,6 +225,13 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 	}
 
 	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getLacYList()
+	 */
+	public ArrayList<LacY> getLacYList() {
+		return lacYList;
+	}
+
+	/* (non-Javadoc)
 	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getGlucoseList()
 	 */
 	public ArrayList<Glucose> getGlucoseList() {
