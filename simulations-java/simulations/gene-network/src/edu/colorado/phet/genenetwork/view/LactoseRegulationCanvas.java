@@ -31,7 +31,7 @@ public class LactoseRegulationCanvas extends GeneNetworkCanvas {
         
         // Add the lactose meter.
         LactoseMeter lactoseMeter = new LactoseMeter(model);
-        lactoseMeter.setOffset(-170, 250);
+        lactoseMeter.setOffset(-200, 250);
         setLactoseMeter(lactoseMeter);
 	}
 
