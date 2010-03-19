@@ -190,15 +190,15 @@ public interface IGeneNetworkModelControl {
 	 * moving towards some other model element).
 	 * 
 	 * @param pt - Location of the requester.
+	 * @param positionWrtCell TODO
 	 * @param freeOnly - Only return free lactose molecules, i.e. ones that
 	 * are not attached to something else or heading towards such an
 	 * attachment.
-	 * 
 	 * @return A reference to a glucose molecule that is bound to a galactose
 	 * and therefore part of lactose.  Returns null if no available lactose
 	 * can be found.
 	 */
-	Glucose getNearestLactose(Point2D pt, boolean freeOnly);
+	Glucose getNearestLactose(Point2D pt, PositionWrtCell positionWrtCell, boolean freeOnly);
 	
 	/**
 	 * Search through all of the Lac I molecules and return the closest one

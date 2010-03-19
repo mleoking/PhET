@@ -99,7 +99,8 @@ public class LacY extends SimpleModelElement {
 				glucoseAttachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE){
 				
 				// Look for some lactose to attach to.
-				glucoseAttachmentPartner = getModel().getNearestLactose(getPositionRef(), true);
+				glucoseAttachmentPartner = 
+					getModel().getNearestLactose(getPositionRef(), PositionWrtCell.OUTSIDE_CELL, true);
 				
 				getEngagedToLactose();
 				
@@ -318,7 +319,7 @@ public class LacY extends SimpleModelElement {
 	 */
 	private void checkForNearbyLactoseToGrab(){
 		assert glucoseAttachmentPartner == null;  // Shouldn't be doing this if we already have a partner.
-		Glucose nearestLactose = getModel().getNearestLactose(getPositionRef(), false);
+		Glucose nearestLactose = getModel().getNearestLactose(getPositionRef(), PositionWrtCell.OUTSIDE_CELL, false);
 		if (nearestLactose != null && nearestLactose.getPositionRef().distance(getPositionRef()) < LACTOSE_GRAB_DISTANCE){
 			if (nearestLactose.breakOffPendingAttachments(this)){
 				// Looks like the lactose can be grabbed.
