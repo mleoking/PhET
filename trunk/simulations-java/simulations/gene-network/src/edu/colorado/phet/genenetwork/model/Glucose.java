@@ -242,7 +242,8 @@ public class Glucose extends SimpleSugar {
 		lacIAttachmentPartner = null;
 		if (lacIAttachmentState == AttachmentState.ATTACHED){
 			// Move up and away, then get random.
-			setMotionStrategy(new LinearThenRandomMotionStrategy(getModel().getInteriorMotionBoundsAboveDna(), 
+			setMotionStrategy(new LinearThenRandomMotionStrategy(
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this), 
 					getPositionRef(), new Vector2D.Double(0, 8), 0.5));
 			// Recover for a while before attaching to something else.
 			lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
@@ -268,7 +269,8 @@ public class Glucose extends SimpleSugar {
 		lacYAttachmentPartner = null;
 		if (lacYAttachmentState == AttachmentState.ATTACHED){
 			// Move down and away, then get random.
-			setMotionStrategy(new LinearThenRandomMotionStrategy(getModel().getInteriorMotionBoundsAboveDna(), 
+			setMotionStrategy(new LinearThenRandomMotionStrategy(
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this), 
 					getPositionRef(), new Vector2D.Double(0, -8), 0.5));
 			// Recover for a while before attaching to something else.
 			lacYAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
