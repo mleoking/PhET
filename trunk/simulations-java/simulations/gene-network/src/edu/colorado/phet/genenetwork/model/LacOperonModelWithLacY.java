@@ -2,6 +2,8 @@ package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D.Double;
+import java.util.ArrayList;
 
 
 /**
@@ -30,6 +32,8 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 			MODEL_AREA_WIDTH * 2,
 			CELL_MEMBRANE_THICKNESS);
 	
+	private static final double MIN_DISTANCE_BETWEEN_LAC_Y = new LacY().getShape().getBounds2D().getWidth() * 1.1;
+
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
@@ -93,5 +97,34 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 		else{
 			return PositionWrtCell.WITHIN_CELL_MEMBRANE;
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getOpenSpotForLacY()
+	 */
+	@Override
+	public Point2D getOpenSpotForLacY() {
+		double yPos = CELL_MEMBRANE_RECT.getCenterY();
+		double xPos = 0;
+		double xMin = CELL_MEMBRANE_RECT.getCenterX() - 20;
+		double xRange = getInteriorMotionBounds().getMaxX() - xMin;
+		boolean openSpotFound = false;
+		for (int i = 0; i < 100 && !openSpotFound; i++){
+			xPos = xMin + xRange * RAND.nextDouble();
+			openSpotFound = true;
+			for (LacY lacY : getLacYList()){
+				if (Math.abs(lacY.getMembraneDestinationRef().getX() - xPos) < MIN_DISTANCE_BETWEEN_LAC_Y){
+					openSpotFound = false;
+					break;
+				}
+			}
+		}
+		
+		if (!openSpotFound){
+			System.err.println(getClass().getName() + " - Warning: No open spots found, choosing arbitrarily.");
+			// Use the last value chosen in the loop.
+		}
+		
+		return new Point2D.Double(xPos, yPos);
 	}
 }

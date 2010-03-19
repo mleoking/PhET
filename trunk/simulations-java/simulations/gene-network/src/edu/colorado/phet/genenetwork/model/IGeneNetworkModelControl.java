@@ -209,6 +209,14 @@ public interface IGeneNetworkModelControl {
 	LacI getNearestFreeLacI(Point2D pt);
 	
 	/**
+	 * Get an open location on the cell membrane for LacY.  This is done so
+	 * that all the LacYs don't pile up in the same spot.
+	 * 
+	 * @return
+	 */
+	Point2D getOpenSpotForLacY();
+	
+	/**
 	 * Search through all of the RNA Polymerase molecules and return the
 	 * closest one that is not bound to LacZ.
 	 */
