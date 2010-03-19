@@ -11,5 +11,5 @@ public enum PositionWrtCell {
 
 	INSIDE_CELL,
 	OUTSIDE_CELL,
-	IN_CELL_MEMBRANE
+	WITHIN_CELL_MEMBRANE
 }

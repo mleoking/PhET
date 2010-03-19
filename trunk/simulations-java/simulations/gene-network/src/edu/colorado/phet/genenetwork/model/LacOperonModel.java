@@ -856,4 +856,13 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     public void removeListener(IGeneNetworkModelListener listener){
     	listeners.remove(listener);
     }
+
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#classifyPosWrtCell(Point2D pt)
+	 */
+	public PositionWrtCell classifyPosWrtCell(Point2D pt) {
+		// In this base class, there is no exterior of the cell, so everything
+		// is inside.
+		return PositionWrtCell.INSIDE_CELL;
+	}
 }
