@@ -111,7 +111,7 @@ public class Glucose extends SimpleSugar {
 					LacZ.getGlucoseAttachmentPointOffset().getWidth() - getLacZAttachmentPointOffset().getWidth(),
 					LacZ.getGlucoseAttachmentPointOffset().getHeight() - getLacZAttachmentPointOffset().getHeight());
 			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(lacZ, offsetFromTarget,
-					getModel().getInteriorMotionBounds()));
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBounds(), this)));
 		}
 		
 		return proposalAccepted;
@@ -133,7 +133,7 @@ public class Glucose extends SimpleSugar {
 					LacI.getGlucoseAttachmentPointOffset().getWidth() - getLacIAttachmentPointOffset().getWidth(),
 					LacI.getGlucoseAttachmentPointOffset().getHeight() - getLacIAttachmentPointOffset().getHeight());
 			setMotionStrategy(new CloseOnMovingTargetMotionStrategy(lacI, offsetFromTarget,
-					getModel().getInteriorMotionBounds()));
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBounds(), this)));
 		}
 		
 		return proposalAccepted;
@@ -151,7 +151,8 @@ public class Glucose extends SimpleSugar {
 			proposalAccepted = true;
 			
 			// Set ourself up to move toward the attaching location.
-			setMotionStrategy(new DirectedRandomWalkMotionStrategy(getModel().getExteriorMotionBounds(),
+			setMotionStrategy(new DirectedRandomWalkMotionStrategy(
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getExteriorMotionBounds(), this),
 					lacY.getGlucoseAttachmentPointLocation()));
 		}
 		
@@ -215,7 +216,8 @@ public class Glucose extends SimpleSugar {
 	public void detach(LacZ lacZ){
 		assert lacZ == lacZAttachmentPartner;
 		lacZAttachmentPartner = null;
-		setMotionStrategy(new LinearThenRandomMotionStrategy(getModel().getInteriorMotionBoundsAboveDna(),
+		setMotionStrategy(new LinearThenRandomMotionStrategy(
+				MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this),
 				getPositionRef(), new Vector2D.Double(-3, -8), 1));
 		
 		if (galactoseAttachmentPartner == null){
@@ -251,7 +253,8 @@ public class Glucose extends SimpleSugar {
 		}
 		else{
 			// Go back to random motion.
-			setMotionStrategy(new RandomWalkMotionStrategy(getModel().getInteriorMotionBoundsAboveDna()));
+			setMotionStrategy(new RandomWalkMotionStrategy(
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 			// Okay to attach to something else right away.
 			lacIAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			postAttachmentRecoveryCountdown = 0;
@@ -278,7 +281,8 @@ public class Glucose extends SimpleSugar {
 		}
 		else{
 			// Go back to random motion.
-			setMotionStrategy(new RandomWalkMotionStrategy(getModel().getInteriorMotionBoundsAboveDna()));
+			setMotionStrategy(new RandomWalkMotionStrategy(
+					MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 			// Okay to attach to something else right away.
 			lacYAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 			postAttachmentRecoveryCountdown = 0;
@@ -354,21 +358,23 @@ public class Glucose extends SimpleSugar {
 				assert lacIAttachmentState == AttachmentState.ATTACHED || lacIAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT;  // State consistency test.
 				lacIAttachmentPartner.detach(this);
 				lacIAttachmentPartner = null;
-				setMotionStrategy(new RandomWalkMotionStrategy(getModel().getInteriorMotionBoundsAboveDna()));
+				setMotionStrategy(new RandomWalkMotionStrategy(
+						MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 			}
 			else if (lacZAttachmentPartner != null){
 				// It is attached to a LacZ, so it needs to detach.
 				assert lacZAttachmentState == AttachmentState.ATTACHED || lacZAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT;  // State consistency test.
 				lacZAttachmentPartner.detach(this);
 				lacZAttachmentPartner = null;
-				setMotionStrategy(new RandomWalkMotionStrategy(getModel().getInteriorMotionBoundsAboveDna()));
+				setMotionStrategy(new RandomWalkMotionStrategy(
+						MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
 			}
 			else if (lacYAttachmentPartner != null){
 				// It is attached to a LacY, so it needs to detach.
 				assert lacYAttachmentState == AttachmentState.ATTACHED || lacYAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT;  // State consistency test.
 				lacYAttachmentPartner.detach(this);
 				lacYAttachmentPartner = null;
-				setMotionStrategy(new RandomWalkMotionStrategy(getModel().getExteriorMotionBounds()));
+				setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getExteriorMotionBounds(), this)));
 			}
 			// Make it unavailable for other attachments.
 			lacZAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
