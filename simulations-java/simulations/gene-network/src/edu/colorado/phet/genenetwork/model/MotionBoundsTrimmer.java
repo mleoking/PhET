@@ -11,11 +11,27 @@ import java.awt.geom.Rectangle2D.Double;
  */
 public class MotionBoundsTrimmer {
 
-	static Rectangle2D trimMotionBounds(Rectangle2D originalBounds, SimpleModelElement sme){
-		return trimMotionBounds(originalBounds, sme.getShape().getBounds2D());
+	/**
+	 * Trim the motion bounds such that the provided simple model element will
+	 * stay completely inside them.
+	 * 
+	 * @param originalBounds
+	 * @param sme
+	 * @return
+	 */
+	static Rectangle2D trim(Rectangle2D originalBounds, SimpleModelElement sme){
+		return trim(originalBounds, sme.getShape().getBounds2D());
 	}
 
-	static Rectangle2D trimMotionBounds(Rectangle2D originalBounds, Rectangle2D boundsOfShape){
+	/**
+	 * Trim the motion bounds such that the provided shape would stay
+	 * completely inside the bounds.
+	 * 
+	 * @param originalBounds
+	 * @param boundsOfShape
+	 * @return
+	 */
+	static Rectangle2D trim(Rectangle2D originalBounds, Rectangle2D boundsOfShape){
 		// Make sure that this shape is not something unexpected.
 		assert boundsOfShape.getMinX() <= 0 && boundsOfShape.getMinY() <= 0 && 
 			   boundsOfShape.getMaxX() >= 0 && boundsOfShape.getMaxY() >= 0;

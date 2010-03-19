@@ -144,7 +144,7 @@ public class LacZ extends SimpleModelElement {
 						Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
 						Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
 				setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget,
-						MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBounds(), this)));
+						MotionBoundsTrimmer.trim(getModel().getInteriorMotionBounds(), this)));
 			}
 		}
 	}
@@ -178,7 +178,7 @@ public class LacZ extends SimpleModelElement {
 	private void completeAttachmentOfGlucose() {
 		glucoseAttachmentPartner.attach(this);
 		glucoseAttachmentState = AttachmentState.ATTACHED;
-		setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
+		setMotionStrategy(new RandomWalkMotionStrategy(MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), this)));
 		// Start the attachment timer/counter.
 		lactoseAttachmentCountdownTimer = LACTOSE_ATTACHMENT_TIME;
 	}
@@ -203,7 +203,7 @@ public class LacZ extends SimpleModelElement {
 	@Override
 	protected void onTransitionToExistingState() {
 		setMotionStrategy(new RandomWalkMotionStrategy(
-				MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBoundsAboveDna(), this)));
+				MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), this)));
 	}
 	
 	/**
