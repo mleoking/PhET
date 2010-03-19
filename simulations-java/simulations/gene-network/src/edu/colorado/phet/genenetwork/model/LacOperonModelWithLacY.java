@@ -73,4 +73,17 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 		return new Rectangle2D.Double(origRect.getX(), origRect.getY(), origRect.getWidth(),
 				CELL_MEMBRANE_RECT.getMinY() - origRect.getY());
 	}
+
+	@Override
+	public PositionWrtCell classifyPosWrtCell(Point2D pt) {
+		if (pt.getY() < CELL_MEMBRANE_RECT.getMinY()){
+			return PositionWrtCell.INSIDE_CELL;
+		}
+		else if (pt.getY() > CELL_MEMBRANE_RECT.getMaxY()){
+			return PositionWrtCell.OUTSIDE_CELL;
+		}
+		else{
+			return PositionWrtCell.WITHIN_CELL_MEMBRANE;
+		}
+	}
 }
