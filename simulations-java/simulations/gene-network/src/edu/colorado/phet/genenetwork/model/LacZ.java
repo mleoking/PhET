@@ -144,7 +144,7 @@ public class LacZ extends SimpleModelElement {
 						Glucose.getLacZAttachmentPointOffset().getWidth() - getGlucoseAttachmentPointOffset().getWidth(),
 						Glucose.getLacZAttachmentPointOffset().getHeight() - getGlucoseAttachmentPointOffset().getHeight());
 				setMotionStrategy(new CloseOnMovingTargetMotionStrategy(glucoseAttachmentPartner, offsetFromTarget,
-						getModel().getInteriorMotionBounds()));
+						MotionBoundsTrimmer.trimMotionBounds(getModel().getInteriorMotionBounds(), this)));
 			}
 		}
 	}
