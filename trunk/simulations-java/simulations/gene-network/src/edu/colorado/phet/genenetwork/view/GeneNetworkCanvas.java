@@ -53,6 +53,7 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
     private final PNode middleRovingModelElementLayer;
     private final PNode frontmostRovingModelElementLayer; // Frontmost layer for roving elements.
     private final PNode lactoseInjectorLayer;
+    private final PNode cellMembraneLayer;
     private final PNode legendLayer;
     
     // Various non-moving nodes that exist on the canvas.
@@ -61,6 +62,7 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
 	private LactoseInjectorNode lactoseInjector;
 	private DnaStrandNode dnaStrand;
 	private DnaSegmentToolBoxNode toolBox;
+	private PNode cellMembraneNode;
     
     //------------------------------------------------------------------------
     // Constructors
@@ -102,6 +104,8 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
         addWorldChild(frontmostRovingModelElementLayer);
         lactoseInjectorLayer = new PNode();
         addWorldChild(lactoseInjectorLayer);
+        cellMembraneLayer = new PNode();
+        addWorldChild(cellMembraneLayer);
         legendLayer = new PNode();
         addScreenChild(legendLayer);
         
@@ -132,6 +136,16 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
 		// Add this to the canvas and keep a reference.
 		toolBoxLayer.addChild(toolBox);
 		this.toolBox = toolBox;
+	}
+
+	protected void setCellMembraneNode(PNode cellMembraneNode) {
+		if (this.cellMembraneNode != null){
+			// Remove the old one.
+			cellMembraneLayer.removeChild(this.cellMembraneNode);
+		}
+		// Add this to the canvas and keep a reference.
+		cellMembraneLayer.addChild(cellMembraneNode);
+		this.cellMembraneNode = cellMembraneNode;
 	}
 
     protected MacroMoleculeLegend getLegend() {

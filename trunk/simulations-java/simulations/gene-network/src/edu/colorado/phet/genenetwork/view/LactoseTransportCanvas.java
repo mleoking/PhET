@@ -21,27 +21,24 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class LactoseTransportCanvas extends GeneNetworkCanvas {
 	
-	private PNode cellMembraneLayer; 
 
 	public LactoseTransportCanvas(LacOperonModel model) {
 		
 		super(model);
 		
         // Add the cell membrane to the canvas.
-		cellMembraneLayer = new PNode();
-		addWorldChild(cellMembraneLayer);
         Rectangle2D cellMembraneRect = model.getCellMembraneRect();
     	Rectangle2D transformedCellMembraneRect = getMvt().createTransformedShape(cellMembraneRect).getBounds2D();
     	GradientPaint paint = new GradientPaint(0f, (float)transformedCellMembraneRect.getCenterY(), Color.WHITE,
     			0f, (float)transformedCellMembraneRect.getBounds2D().getMaxY(), new Color(255, 100, 100), true);
     	PNode cellMembrane = new PhetPPath(transformedCellMembraneRect, paint, new BasicStroke(2f), Color.BLACK);
     	cellMembrane.setTransparency(0.7f);
-    	cellMembraneLayer.addChild(cellMembrane);
         PText cellMembraneLabel = new PText(GeneNetworkStrings.CELL_MEMBRANE_LABEL);
         cellMembraneLabel.setFont(new PhetFont(18, true));
         cellMembraneLabel.setOffset(getMvt().modelToViewXDouble(model.getInteriorMotionBounds().getMinX()), 
         		transformedCellMembraneRect.getCenterY() - cellMembraneLabel.getFullBoundsReference().height / 2); 
         cellMembrane.addChild(cellMembraneLabel);
+        setCellMembraneNode(cellMembrane);
         
         // Add the DNA strand to the canvas.
         setDnaStrand(new DnaStrandNode(model.getDnaStrand(), getMvt(), getBackground()));
@@ -63,5 +60,4 @@ public class LactoseTransportCanvas extends GeneNetworkCanvas {
         lactoseMeter.setOffset(-200, 250);
         setLactoseMeter(lactoseMeter);
 	}
-
 }
