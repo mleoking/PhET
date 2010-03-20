@@ -66,7 +66,7 @@ public class TestTheveninCapacitorRC {
 
     public static State newStateMacro(double vBattery, double rResistor, double c, State state, double totalDT) {
         double elapsed = 0.0;
-        //run a number of dt's so that totalDT has passed at the end
+        //run a number of dt's so that totalDT elapses in the end
         while (elapsed < totalDT) {
             double dt = getTimestep(vBattery, rResistor, c, state, totalDT);
             if (dt + elapsed > totalDT) dt = totalDT - elapsed;//don't overshoot
@@ -77,14 +77,19 @@ public class TestTheveninCapacitorRC {
         return state;
     }
 
+    //TODO: we need a way to store the previously used DT and try it first, then to increase it when possible.
+    //TODO: also, what about reusing the computations of newState, instead of recomputing them later once dt has been accepted?
     private static double getTimestep(double vBattery, double rResistor, double c, State state, double dt) {
+        if (errorAcceptable(vBattery, rResistor, c, state, dt)) return dt;
+        else return getTimestep(vBattery, rResistor, c, state, dt / 2);
+    }
+
+    private static boolean errorAcceptable(double vBattery, double rResistor, double c, State state, double dt) {
         State a = newState(vBattery, rResistor, c, state, dt);
-//
         State b1 = newState(vBattery, rResistor, c, state, dt / 2);
         State b2 = newState(vBattery, rResistor, c, b1, dt / 2);
-        double dist = a.distance(b2);
-        if (dist < 1E-7) return dt;
-        else return getTimestep(vBattery, rResistor, c, state, dt / 2);
+        boolean errorAcceptable = a.distance(b2) < 1E-7;
+        return errorAcceptable;
     }
 
     private static State newState(double vBattery, double rResistor, double c, State state, double dt) {
