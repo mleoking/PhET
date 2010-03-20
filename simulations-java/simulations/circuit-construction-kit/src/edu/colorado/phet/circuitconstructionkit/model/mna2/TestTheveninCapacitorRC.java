@@ -1,7 +1,5 @@
 package edu.colorado.phet.circuitconstructionkit.model.mna2;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -18,17 +16,20 @@ public class TestTheveninCapacitorRC {
             this.i = i;
         }
 
+        public static double square(double x) {
+            return x * x;
+        }
+
         public double distance(State state) {
-            return (Math.abs(state.v - v) + Math.abs(state.i - i)) / 2;//todo: when comparing entire circuits, important to divide by number of components
-//            return Math.abs(state.i - i);//todo: when comparing entire circuits, important to divide by number of components
+            return Math.sqrt(square(state.v - v) + square(state.i - i)) / 2;
         }
     }
 
     public static void main(String[] args) throws IOException {
         DecimalFormat f = new DecimalFormat("0.000000000000000000");
         double vBattery = 9;
-        double rResistor = 1;
-//        double rResistor = 1E-6;
+//        double rResistor = 1;
+        double rResistor = 1E-6;
         double c = 0.1;
         double omega = 2 * Math.PI * 1;
 
@@ -63,57 +64,41 @@ public class TestTheveninCapacitorRC {
         bufferedWriter.close();
     }
 
-    public static State newStateMacro(double vBattery,double rResistor,double c,State state,double totalDT){
-        double dt = getTimestep(vBattery, rResistor, c, state, totalDT);
+    public static State newStateMacro(double vBattery, double rResistor, double c, State state, double totalDT) {
+        double elapsed = 0.0;
         //run a number of dt's so that totalDT has passed at the end
-        int numToRun = (int) (totalDT/dt);//todo: how to handle this roundoff?
-        System.out.println("numToRun = " + numToRun);
-        for (int i=0;i<numToRun;i++){
-            state = newState(vBattery,rResistor, c, state, dt);
+        while (elapsed < totalDT) {
+            double dt = getTimestep(vBattery, rResistor, c, state, totalDT);
+            if (dt + elapsed > totalDT) dt = totalDT - elapsed;//don't overshoot
+            state = newState(vBattery, rResistor, c, state, dt);
+            elapsed = elapsed + dt;
+//            System.out.println("picked dt = "+dt);
         }
         return state;
     }
 
     private static double getTimestep(double vBattery, double rResistor, double c, State state, double dt) {
-//        return dt;
         State a = newState(vBattery, rResistor, c, state, dt);
 //
         State b1 = newState(vBattery, rResistor, c, state, dt / 2);
         State b2 = newState(vBattery, rResistor, c, b1, dt / 2);
         double dist = a.distance(b2);
-        if (dist < 1E-8) return dt;
+        if (dist < 1E-7) return dt;
         else return getTimestep(vBattery, rResistor, c, state, dt / 2);
     }
 
-    static boolean signsMatch(double x, double y) {
-        return MathUtil.getSign(x) == MathUtil.getSign(y);
-    }
-
     private static State newState(double vBattery, double rResistor, double c, State state, double dt) {
-//        double vc = MathUtil.clamp(-9,state.v + dt / 2 / c * state.i,9);
-
         //TRAPEZOIDAL
-        double vc = state.v + dt / 2 / c * state.i;
-        double rc = dt / 2 / c;
+//        double vc = state.v + dt / 2 / c * state.i;
+//        double rc = dt / 2 / c;
 
         //BACKWARD EULER
-//        double vc = state.v;
-//        double rc = dt / c;
+        double vc = state.v;
+        double rc = dt / c;
 
-//        System.out.println("vc = " + vc+", rc = "+rc);
         double newCurrent = (vBattery - vc) / (rc + rResistor);
         double newVoltage = vBattery - newCurrent * rResistor;//signs may be wrong here
-//        double avgCurrent = (newCurrent*0.9 + state.i*0.1);
-//        double avgVolts = (newVoltage*0.9 + state.v*0.1);
 
-//        if (!signsMatch(newVoltage,state.v) || !signsMatch(newCurrent,state.i)){
         return new State(newVoltage, newCurrent);
-//        }
-//        else
-//        return new State(newVoltage, newCurrent);
     }
-
-//    private static double getTimestep(double v, double i) {
-//        return 0;
-//    }
 }
