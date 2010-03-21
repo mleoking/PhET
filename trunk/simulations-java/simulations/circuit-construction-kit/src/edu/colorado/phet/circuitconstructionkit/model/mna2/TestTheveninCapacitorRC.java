@@ -15,7 +15,6 @@ public class TestTheveninCapacitorRC {
 //        double rResistor = 1;
         double rResistor = 1E-6;
         double c = 0.1;
-        double omega = 2 * Math.PI * 1;
 
         double t = 0;
         double dt = 0.03;
@@ -45,6 +44,7 @@ public class TestTheveninCapacitorRC {
 
     public static State updateWithSubdivisions(double vBattery, double rResistor, double c, State state, double totalDT) {
         double elapsed = 0.0;
+        int numSubdivisions = 0;
         //run a number of dt's so that totalDT elapses in the end
         while (elapsed < totalDT) {
             ResultCache resultCache = new ResultCache(vBattery, rResistor, c);//to prevent recomputation of updates
@@ -52,8 +52,10 @@ public class TestTheveninCapacitorRC {
             if (dt + elapsed > totalDT) dt = totalDT - elapsed;//don't overshoot the specified total
             state = resultCache.update(state, dt);
             elapsed = elapsed + dt;
+            numSubdivisions++;
 //            System.out.println("picked dt = "+dt);
         }
+//        System.out.println("num subdivisions = "+numSubdivisions);
         return state;
     }
 
@@ -66,7 +68,7 @@ public class TestTheveninCapacitorRC {
     }
 
     private static boolean errorAcceptable(double vBattery, double rResistor, double c, State state, double dt, ResultCache cache) {
-        if (dt<1E-6) return true;
+        if (dt < 1E-6) return true;
         State a = cache.update(state, dt);
         State b1 = cache.update(state, dt / 2);
         State b2 = cache.update(b1, dt / 2);
@@ -76,12 +78,12 @@ public class TestTheveninCapacitorRC {
 
     private static State update(double vBattery, double rResistor, double c, State state, double dt) {
         //TRAPEZOIDAL
-        double vc = state.v + dt / 2 / c * state.i;
-        double rc = dt / 2 / c;
+//        double vc = state.v + dt / 2 / c * state.i;
+//        double rc = dt / 2 / c;
 
         //BACKWARD EULER
-//        double vc = state.v;
-//        double rc = dt / c;
+        double vc = state.v;
+        double rc = dt / c;
 
         double newCurrent = (vBattery - vc) / (rc + rResistor);
         double newVoltage = vBattery - newCurrent * rResistor;//signs may be wrong here
