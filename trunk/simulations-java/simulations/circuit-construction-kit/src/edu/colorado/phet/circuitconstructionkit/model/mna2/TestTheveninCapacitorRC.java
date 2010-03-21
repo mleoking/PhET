@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public class TestTheveninCapacitorRC {
 
@@ -46,39 +47,41 @@ public class TestTheveninCapacitorRC {
         double elapsed = 0.0;
         //run a number of dt's so that totalDT elapses in the end
         while (elapsed < totalDT) {
-            double dt = getTimestep(vBattery, rResistor, c, state, state.dt);
+            ResultCache resultCache = new ResultCache(vBattery, rResistor, c);//to prevent recomputation of updates
+            double dt = getTimestep(vBattery, rResistor, c, state, state.dt, resultCache);
             if (dt + elapsed > totalDT) dt = totalDT - elapsed;//don't overshoot the specified total
-            state = update(vBattery, rResistor, c, state, dt);
+            state = resultCache.update(state, dt);
             elapsed = elapsed + dt;
 //            System.out.println("picked dt = "+dt);
         }
         return state;
     }
 
-    //TODO: Reuse the computations of update between error checks, and return one of the intermediate states instead of recomputing once dt has been accepted.
-    private static double getTimestep(double vBattery, double rResistor, double c, State state, double dt) {
+    private static double getTimestep(double vBattery, double rResistor, double c, State state, double dt, ResultCache resultCache) {
         //store the previously used DT and try it first, then to increase it when possible.
-        if (errorAcceptable(vBattery, rResistor, c, state, dt * 2)) return dt * 2;//only increase by one factor; if this exceeds the totalDT, it will be cropped later
-        else if (errorAcceptable(vBattery, rResistor, c, state, dt)) return dt * 2;
-        else return getTimestep(vBattery, rResistor, c, state, dt / 2);
+        if (errorAcceptable(vBattery, rResistor, c, state, dt * 2, resultCache))
+            return dt * 2;//only increase by one factor; if this exceeds the totalDT, it will be cropped later
+        else if (errorAcceptable(vBattery, rResistor, c, state, dt, resultCache)) return dt * 2;
+        else return getTimestep(vBattery, rResistor, c, state, dt / 2, resultCache);
     }
 
-    private static boolean errorAcceptable(double vBattery, double rResistor, double c, State state, double dt) {
-        State a = update(vBattery, rResistor, c, state, dt);
-        State b1 = update(vBattery, rResistor, c, state, dt / 2);
-        State b2 = update(vBattery, rResistor, c, b1, dt / 2);
+    private static boolean errorAcceptable(double vBattery, double rResistor, double c, State state, double dt, ResultCache cache) {
+        if (dt<1E-6) return true;
+        State a = cache.update(state, dt);
+        State b1 = cache.update(state, dt / 2);
+        State b2 = cache.update(b1, dt / 2);
         boolean errorAcceptable = a.distance(b2) < 1E-7;
         return errorAcceptable;
     }
 
     private static State update(double vBattery, double rResistor, double c, State state, double dt) {
         //TRAPEZOIDAL
-//        double vc = state.v + dt / 2 / c * state.i;
-//        double rc = dt / 2 / c;
+        double vc = state.v + dt / 2 / c * state.i;
+        double rc = dt / 2 / c;
 
         //BACKWARD EULER
-        double vc = state.v;
-        double rc = dt / c;
+//        double vc = state.v;
+//        double rc = dt / c;
 
         double newCurrent = (vBattery - vc) / (rc + rResistor);
         double newVoltage = vBattery - newCurrent * rResistor;//signs may be wrong here
@@ -103,6 +106,66 @@ public class TestTheveninCapacitorRC {
 
         public double distance(State state) {
             return Math.sqrt(square(state.v - v) + square(state.i - i)) / 2;
+        }
+    }
+
+    static class Key {
+        State state;
+        double dt;
+
+        Key(double dt, State state) {
+            this.dt = dt;
+            this.state = state;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Key key = (Key) o;
+
+            if (Double.compare(key.dt, dt) != 0) return false;
+            if (state != null ? !state.equals(key.state) : key.state != null) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result;
+            long temp;
+            result = state != null ? state.hashCode() : 0;
+            temp = dt != +0.0d ? Double.doubleToLongBits(dt) : 0L;
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            return result;
+        }
+    }
+
+    //TODO: Reuse the computations of update between error checks, and return one of the intermediate states instead of recomputing once dt has been accepted.
+    static class ResultCache {
+        private double vBattery;
+        private double rResistor;
+        private double c;
+        private HashMap<Key, State> cache = new HashMap<Key, State>();
+
+        public ResultCache(double vBattery, double rResistor, double c) {
+            this.vBattery = vBattery;
+            this.rResistor = rResistor;
+            this.c = c;
+        }
+
+        public State update(State state, double dt) {
+            Key key = new Key(dt, state);
+            if (cache.containsKey(key)) {
+//                System.out.println("Cache hit");
+                return cache.get(key);
+            } else {
+//                System.out.println("Cache miss");
+                State result = TestTheveninCapacitorRC.update(vBattery, rResistor, c, state, dt);
+                cache.put(key, result);
+                return result;
+            }
         }
     }
 }
