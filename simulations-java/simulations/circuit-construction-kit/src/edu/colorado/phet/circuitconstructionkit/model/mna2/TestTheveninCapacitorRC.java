@@ -55,10 +55,10 @@ public class TestTheveninCapacitorRC {
         return state;
     }
 
-    //TODO: What about reusing the computations of newState, instead of recomputing them later once dt has been accepted?
+    //TODO: Reuse the computations of update between error checks, and return one of the intermediate states instead of recomputing once dt has been accepted.
     private static double getTimestep(double vBattery, double rResistor, double c, State state, double dt) {
         //store the previously used DT and try it first, then to increase it when possible.
-        if (errorAcceptable(vBattery, rResistor, c, state, dt * 2)) return dt * 2;
+        if (errorAcceptable(vBattery, rResistor, c, state, dt * 2)) return dt * 2;//only increase by one factor; if this exceeds the totalDT, it will be cropped later
         else if (errorAcceptable(vBattery, rResistor, c, state, dt)) return dt * 2;
         else return getTimestep(vBattery, rResistor, c, state, dt / 2);
     }
