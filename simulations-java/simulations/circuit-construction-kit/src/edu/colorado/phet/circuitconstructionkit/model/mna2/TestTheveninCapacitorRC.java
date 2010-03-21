@@ -7,46 +7,27 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class TestTheveninCapacitorRC {
-    static class State {
-        final double v;
-        final double i;
-
-        State(double v, double i) {
-            this.v = v;
-            this.i = i;
-        }
-
-        public static double square(double x) {
-            return x * x;
-        }
-
-        public double distance(State state) {
-            return Math.sqrt(square(state.v - v) + square(state.i - i)) / 2;
-        }
-    }
 
     public static void main(String[] args) throws IOException {
-        DecimalFormat f = new DecimalFormat("0.000000000000000000");
+        DecimalFormat f = new DecimalFormat("0.000000000000000");
         double vBattery = 9;
 //        double rResistor = 1;
         double rResistor = 1E-6;
         double c = 0.1;
         double omega = 2 * Math.PI * 1;
 
-        State state = new State(0, vBattery / rResistor);
+        double t = 0;
+        double dt = 0.03;
 
-//        double dt = 0.03;
+        State state = new State(0, vBattery / rResistor, dt);
+
         String headers = "iteration \t dt \t t \t v(t) \t i(t) \t vTrue \t vNumerical \t error";
         System.out.println(headers);
 
-//        double[] dtArray =new double[]{1E-6,1E-6,1E-5,1E-4,1E-3,1E-2,1E-2,1E-2};
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File("C:/Users/Sam/Desktop/cck-out" + System.currentTimeMillis() + ".txt")));
         bufferedWriter.write(headers + "\n");
-        double t = 0;
-        double BASE_DT = 0.03;
-        for (int j = 0; j < 1000; j++) {
-//            double dt = getTimestep(vBattery, rResistor, c, state, BASE_DT);
-            double dt = BASE_DT;
+
+        for (int j = 0; j < 15; j++) {
             double vTrue = vBattery * Math.exp(-t / rResistor / c);
             double vNumeric = vBattery - state.v;
 
@@ -55,44 +36,42 @@ public class TestTheveninCapacitorRC {
             System.out.println(str);
             bufferedWriter.write(str + "\n");
 
-//            int REPEATS = 1000;
-//            for (int k = 0 ;k < REPEATS;k++)
-            state = newStateMacro(vBattery, rResistor, c, state, BASE_DT);
-
+            state = updateWithSubdivisions(vBattery, rResistor, c, state, dt);
             t = t + dt;
         }
         bufferedWriter.close();
     }
 
-    public static State newStateMacro(double vBattery, double rResistor, double c, State state, double totalDT) {
+    public static State updateWithSubdivisions(double vBattery, double rResistor, double c, State state, double totalDT) {
         double elapsed = 0.0;
         //run a number of dt's so that totalDT elapses in the end
         while (elapsed < totalDT) {
-            double dt = getTimestep(vBattery, rResistor, c, state, totalDT);
-            if (dt + elapsed > totalDT) dt = totalDT - elapsed;//don't overshoot
-            state = newState(vBattery, rResistor, c, state, dt);
+            double dt = getTimestep(vBattery, rResistor, c, state, state.dt);
+            if (dt + elapsed > totalDT) dt = totalDT - elapsed;//don't overshoot the specified total
+            state = update(vBattery, rResistor, c, state, dt);
             elapsed = elapsed + dt;
 //            System.out.println("picked dt = "+dt);
         }
         return state;
     }
 
-    //TODO: we need a way to store the previously used DT and try it first, then to increase it when possible.
-    //TODO: also, what about reusing the computations of newState, instead of recomputing them later once dt has been accepted?
+    //TODO: What about reusing the computations of newState, instead of recomputing them later once dt has been accepted?
     private static double getTimestep(double vBattery, double rResistor, double c, State state, double dt) {
-        if (errorAcceptable(vBattery, rResistor, c, state, dt)) return dt;
+        //store the previously used DT and try it first, then to increase it when possible.
+        if (errorAcceptable(vBattery, rResistor, c, state, dt * 2)) return dt * 2;
+        else if (errorAcceptable(vBattery, rResistor, c, state, dt)) return dt * 2;
         else return getTimestep(vBattery, rResistor, c, state, dt / 2);
     }
 
     private static boolean errorAcceptable(double vBattery, double rResistor, double c, State state, double dt) {
-        State a = newState(vBattery, rResistor, c, state, dt);
-        State b1 = newState(vBattery, rResistor, c, state, dt / 2);
-        State b2 = newState(vBattery, rResistor, c, b1, dt / 2);
+        State a = update(vBattery, rResistor, c, state, dt);
+        State b1 = update(vBattery, rResistor, c, state, dt / 2);
+        State b2 = update(vBattery, rResistor, c, b1, dt / 2);
         boolean errorAcceptable = a.distance(b2) < 1E-7;
         return errorAcceptable;
     }
 
-    private static State newState(double vBattery, double rResistor, double c, State state, double dt) {
+    private static State update(double vBattery, double rResistor, double c, State state, double dt) {
         //TRAPEZOIDAL
 //        double vc = state.v + dt / 2 / c * state.i;
 //        double rc = dt / 2 / c;
@@ -104,6 +83,26 @@ public class TestTheveninCapacitorRC {
         double newCurrent = (vBattery - vc) / (rc + rResistor);
         double newVoltage = vBattery - newCurrent * rResistor;//signs may be wrong here
 
-        return new State(newVoltage, newCurrent);
+        return new State(newVoltage, newCurrent, dt);
+    }
+
+    static class State {
+        final double v;
+        final double i;
+        final double dt;//last value used for dt
+
+        State(double v, double i, double dt) {
+            this.v = v;
+            this.i = i;
+            this.dt = dt;
+        }
+
+        public static double square(double x) {
+            return x * x;
+        }
+
+        public double distance(State state) {
+            return Math.sqrt(square(state.v - v) + square(state.i - i)) / 2;
+        }
     }
 }
