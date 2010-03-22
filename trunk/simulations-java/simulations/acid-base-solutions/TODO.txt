@@ -1,0 +1,11 @@
+TODO list for acid-base-solutions
+
+HIGH PRIORITY
+- why does PhetResources think that acid-base-solutions.properties and phetcommon.properties do not exist?
+- prototype of magnifying glass view
+
+MEDUIUM PRIORITY
+
+LOW PRIORITY
+
+--
