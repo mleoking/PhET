@@ -1,3 +1,4 @@
+3/22/2010 Resolved a problem that caused the goal to sometimes be incorrectly detected as a barrier.
 # 1.07.01 (39439) Mar 22, 2010
 # 1.07.00 (37992) Jan 9, 2010
 1/9/10 public version for milestone "full redeploy, 2010 Q1"
