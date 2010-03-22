@@ -1,11 +1,11 @@
-package edu.colorado.phet.acidbasesolutions.module.comparing;
+package edu.colorado.phet.advancedacidbasesolutions.module.comparing;
 
 import java.awt.Color;
 
-import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
-import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox;
-import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.GeneralSoluteRatioCheckBox;
-import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
+import edu.colorado.phet.advancedacidbasesolutions.control.BeakerControlsNode;
+import edu.colorado.phet.advancedacidbasesolutions.control.RatioCheckBox;
+import edu.colorado.phet.advancedacidbasesolutions.control.RatioCheckBox.GeneralSoluteRatioCheckBox;
+import edu.colorado.phet.advancedacidbasesolutions.view.beaker.BeakerNode;
 
 /**
  * Beaker controls used in the "Comparing Solutions" module.

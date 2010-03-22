@@ -1,9 +1,9 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.solutions;
+package edu.colorado.phet.advancedacidbasesolutions.module.solutions;
 
-import edu.colorado.phet.acidbasesolutions.model.Acid.CustomAcid;
-import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
+import edu.colorado.phet.advancedacidbasesolutions.model.Acid.CustomAcid;
+import edu.colorado.phet.advancedacidbasesolutions.persistence.SolutionsConfig;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**

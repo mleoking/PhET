@@ -1,16 +1,16 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions;
+package edu.colorado.phet.advancedacidbasesolutions;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.acidbasesolutions.module.comparing.ComparingModule;
-import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModule;
-import edu.colorado.phet.acidbasesolutions.module.solutions.SolutionsModule;
-import edu.colorado.phet.acidbasesolutions.persistence.AABSConfig;
-import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
-import edu.colorado.phet.acidbasesolutions.persistence.MatchingGameConfig;
-import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
+import edu.colorado.phet.advancedacidbasesolutions.module.comparing.ComparingModule;
+import edu.colorado.phet.advancedacidbasesolutions.module.matchinggame.MatchingGameModule;
+import edu.colorado.phet.advancedacidbasesolutions.module.solutions.SolutionsModule;
+import edu.colorado.phet.advancedacidbasesolutions.persistence.AABSConfig;
+import edu.colorado.phet.advancedacidbasesolutions.persistence.ComparingConfig;
+import edu.colorado.phet.advancedacidbasesolutions.persistence.MatchingGameConfig;
+import edu.colorado.phet.advancedacidbasesolutions.persistence.SolutionsConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;

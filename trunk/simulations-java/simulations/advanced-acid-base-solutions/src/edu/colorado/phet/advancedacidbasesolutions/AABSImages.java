@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions;
+package edu.colorado.phet.advancedacidbasesolutions;
 
 import java.awt.image.BufferedImage;
 

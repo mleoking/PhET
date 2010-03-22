@@ -1,17 +1,17 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.comparing;
+package edu.colorado.phet.advancedacidbasesolutions.module.comparing;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
-import edu.colorado.phet.acidbasesolutions.AdvancedAcidBaseSolutionsApplication;
-import edu.colorado.phet.acidbasesolutions.control.*;
-import edu.colorado.phet.acidbasesolutions.model.AABSClock;
-import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
-import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
-import edu.colorado.phet.acidbasesolutions.module.AABSAbstractModule;
-import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.AdvancedAcidBaseSolutionsApplication;
+import edu.colorado.phet.advancedacidbasesolutions.control.*;
+import edu.colorado.phet.advancedacidbasesolutions.model.AABSClock;
+import edu.colorado.phet.advancedacidbasesolutions.model.SoluteFactory;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute.ICustomSolute;
+import edu.colorado.phet.advancedacidbasesolutions.module.AABSAbstractModule;
+import edu.colorado.phet.advancedacidbasesolutions.persistence.ComparingConfig;
 
 /**
  * ComparingModule is the "Comparing Solutions" module.

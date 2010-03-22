@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.view.beaker;
+package edu.colorado.phet.advancedacidbasesolutions.view.beaker;
 
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
@@ -9,11 +9,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 
-import edu.colorado.phet.acidbasesolutions.AABSColors;
-import edu.colorado.phet.acidbasesolutions.AABSSymbols;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
+import edu.colorado.phet.advancedacidbasesolutions.AABSColors;
+import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;

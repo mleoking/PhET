@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.advancedacidbasesolutions.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 

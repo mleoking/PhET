@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.control;
+package edu.colorado.phet.advancedacidbasesolutions.control;
 
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;

@@ -1,18 +1,18 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.matchinggame;
+package edu.colorado.phet.advancedacidbasesolutions.module.matchinggame;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.acidbasesolutions.AABSConstants;
-import edu.colorado.phet.acidbasesolutions.model.AABSClock;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
-import edu.colorado.phet.acidbasesolutions.model.Acid.CustomAcid;
-import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
-import edu.colorado.phet.acidbasesolutions.module.AABSModel;
-import edu.colorado.phet.acidbasesolutions.util.PrecisionDecimal;
+import edu.colorado.phet.advancedacidbasesolutions.AABSConstants;
+import edu.colorado.phet.advancedacidbasesolutions.model.AABSClock;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute;
+import edu.colorado.phet.advancedacidbasesolutions.model.Acid.CustomAcid;
+import edu.colorado.phet.advancedacidbasesolutions.model.Base.CustomBase;
+import edu.colorado.phet.advancedacidbasesolutions.module.AABSModel;
+import edu.colorado.phet.advancedacidbasesolutions.util.PrecisionDecimal;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 

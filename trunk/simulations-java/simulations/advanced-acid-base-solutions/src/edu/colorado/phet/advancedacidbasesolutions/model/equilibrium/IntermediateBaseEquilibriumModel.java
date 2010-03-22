@@ -1,8 +1,8 @@
-package edu.colorado.phet.acidbasesolutions.model.equilibrium;
+package edu.colorado.phet.advancedacidbasesolutions.model.equilibrium;
 
-import edu.colorado.phet.acidbasesolutions.AABSConstants;
-import edu.colorado.phet.acidbasesolutions.model.Base;
-import edu.colorado.phet.acidbasesolutions.model.Water;
+import edu.colorado.phet.advancedacidbasesolutions.AABSConstants;
+import edu.colorado.phet.advancedacidbasesolutions.model.Base;
+import edu.colorado.phet.advancedacidbasesolutions.model.Water;
 
 /**
  * Equilibrium model for an "intermediate" base.

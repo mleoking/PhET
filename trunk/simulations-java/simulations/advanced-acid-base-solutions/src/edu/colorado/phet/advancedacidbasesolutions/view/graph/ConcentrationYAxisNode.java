@@ -1,13 +1,13 @@
 /* Copyright 2008-2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.view.graph;
+package edu.colorado.phet.advancedacidbasesolutions.view.graph;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.nodes.PPath;

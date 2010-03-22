@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.persistence;
+package edu.colorado.phet.advancedacidbasesolutions.persistence;
 
 
 /**

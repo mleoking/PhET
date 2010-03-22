@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.acidbasesolutions.control;
+package edu.colorado.phet.advancedacidbasesolutions.control;
 
 import java.awt.Color;
 import java.awt.Paint;

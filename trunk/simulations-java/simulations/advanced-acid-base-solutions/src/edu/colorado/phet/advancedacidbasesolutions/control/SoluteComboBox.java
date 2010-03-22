@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.acidbasesolutions.control;
+package edu.colorado.phet.advancedacidbasesolutions.control;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -9,13 +9,13 @@ import java.awt.Font;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import edu.colorado.phet.acidbasesolutions.model.NoSolute;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
-import edu.colorado.phet.acidbasesolutions.model.Acid.*;
-import edu.colorado.phet.acidbasesolutions.model.Base.Ammonia;
-import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
-import edu.colorado.phet.acidbasesolutions.model.Base.Pyridine;
-import edu.colorado.phet.acidbasesolutions.model.Base.SodiumHydroxide;
+import edu.colorado.phet.advancedacidbasesolutions.model.NoSolute;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute;
+import edu.colorado.phet.advancedacidbasesolutions.model.Acid.*;
+import edu.colorado.phet.advancedacidbasesolutions.model.Base.Ammonia;
+import edu.colorado.phet.advancedacidbasesolutions.model.Base.CustomBase;
+import edu.colorado.phet.advancedacidbasesolutions.model.Base.Pyridine;
+import edu.colorado.phet.advancedacidbasesolutions.model.Base.SodiumHydroxide;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolox.pswing.PComboBox;

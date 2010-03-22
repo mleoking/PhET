@@ -1,8 +1,8 @@
-package edu.colorado.phet.acidbasesolutions.model.equilibrium;
+package edu.colorado.phet.advancedacidbasesolutions.model.equilibrium;
 
-import edu.colorado.phet.acidbasesolutions.AABSConstants;
-import edu.colorado.phet.acidbasesolutions.model.PHValue;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
+import edu.colorado.phet.advancedacidbasesolutions.AABSConstants;
+import edu.colorado.phet.advancedacidbasesolutions.model.PHValue;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 /**

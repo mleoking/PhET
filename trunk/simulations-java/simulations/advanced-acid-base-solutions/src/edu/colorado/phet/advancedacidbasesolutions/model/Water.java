@@ -1,9 +1,9 @@
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.advancedacidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.AABSColors;
-import edu.colorado.phet.acidbasesolutions.AABSImages;
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
-import edu.colorado.phet.acidbasesolutions.AABSSymbols;
+import edu.colorado.phet.advancedacidbasesolutions.AABSColors;
+import edu.colorado.phet.advancedacidbasesolutions.AABSImages;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
 
 /**
  * Water molecule.

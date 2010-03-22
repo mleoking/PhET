@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.view;
+package edu.colorado.phet.advancedacidbasesolutions.view;
 
 import java.awt.Color;
 import java.awt.Font;

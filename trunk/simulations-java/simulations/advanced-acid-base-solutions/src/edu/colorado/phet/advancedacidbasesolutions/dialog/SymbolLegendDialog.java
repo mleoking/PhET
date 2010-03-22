@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.dialog;
+package edu.colorado.phet.advancedacidbasesolutions.dialog;
 
 import java.awt.Font;
 import java.awt.Frame;
@@ -11,9 +11,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import edu.colorado.phet.acidbasesolutions.AABSImages;
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
-import edu.colorado.phet.acidbasesolutions.AABSSymbols;
+import edu.colorado.phet.advancedacidbasesolutions.AABSImages;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;

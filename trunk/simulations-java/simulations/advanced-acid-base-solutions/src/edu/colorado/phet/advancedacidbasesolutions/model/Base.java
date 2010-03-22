@@ -1,9 +1,9 @@
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.advancedacidbasesolutions.model;
 
 import java.awt.Color;
 import java.awt.Image;
 
-import edu.colorado.phet.acidbasesolutions.*;
+import edu.colorado.phet.advancedacidbasesolutions.*;
 
 /**
  * Base class for all bases.

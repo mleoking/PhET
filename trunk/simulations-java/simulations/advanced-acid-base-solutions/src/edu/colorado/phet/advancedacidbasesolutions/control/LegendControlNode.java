@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.control;
+package edu.colorado.phet.advancedacidbasesolutions.control;
 
 import java.awt.Color;
 import java.awt.Frame;
@@ -11,8 +11,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
-import edu.colorado.phet.acidbasesolutions.dialog.SymbolLegendDialog;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.dialog.SymbolLegendDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PNode;

@@ -1,10 +1,10 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.solutions;
+package edu.colorado.phet.advancedacidbasesolutions.module.solutions;
 
-import edu.colorado.phet.acidbasesolutions.model.AABSClock;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.module.AABSModel;
+import edu.colorado.phet.advancedacidbasesolutions.model.AABSClock;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.advancedacidbasesolutions.module.AABSModel;
 
 /**
  * SolutionsModel is the model for SolutionsModule.

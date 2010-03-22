@@ -1,10 +1,10 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.comparing;
+package edu.colorado.phet.advancedacidbasesolutions.module.comparing;
 
-import edu.colorado.phet.acidbasesolutions.model.Acid.CustomAcid;
-import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
-import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
+import edu.colorado.phet.advancedacidbasesolutions.model.Acid.CustomAcid;
+import edu.colorado.phet.advancedacidbasesolutions.model.Base.CustomBase;
+import edu.colorado.phet.advancedacidbasesolutions.persistence.ComparingConfig;
 import edu.umd.cs.piccolo.util.PDimension;
 
 

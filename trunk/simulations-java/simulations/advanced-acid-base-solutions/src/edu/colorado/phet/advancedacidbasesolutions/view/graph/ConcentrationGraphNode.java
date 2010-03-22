@@ -1,9 +1,9 @@
 
-package edu.colorado.phet.acidbasesolutions.view.graph;
+package edu.colorado.phet.advancedacidbasesolutions.view.graph;
 
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**

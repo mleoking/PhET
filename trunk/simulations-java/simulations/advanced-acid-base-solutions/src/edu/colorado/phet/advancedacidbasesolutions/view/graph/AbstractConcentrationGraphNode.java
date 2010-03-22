@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.view.graph;
+package edu.colorado.phet.advancedacidbasesolutions.view.graph;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -8,10 +8,10 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.acidbasesolutions.AABSColors;
-import edu.colorado.phet.acidbasesolutions.AABSImages;
-import edu.colorado.phet.acidbasesolutions.AABSSymbols;
-import edu.colorado.phet.acidbasesolutions.view.NegligibleValueNode;
+import edu.colorado.phet.advancedacidbasesolutions.AABSColors;
+import edu.colorado.phet.advancedacidbasesolutions.AABSImages;
+import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
+import edu.colorado.phet.advancedacidbasesolutions.view.NegligibleValueNode;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.advancedacidbasesolutions.model;
 
 import java.awt.Color;
 import java.awt.Image;

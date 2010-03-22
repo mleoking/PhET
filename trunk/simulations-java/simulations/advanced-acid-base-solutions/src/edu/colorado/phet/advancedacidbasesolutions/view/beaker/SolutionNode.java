@@ -1,11 +1,11 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.view.beaker;
+package edu.colorado.phet.advancedacidbasesolutions.view.beaker;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.advancedacidbasesolutions.AABSColors;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 

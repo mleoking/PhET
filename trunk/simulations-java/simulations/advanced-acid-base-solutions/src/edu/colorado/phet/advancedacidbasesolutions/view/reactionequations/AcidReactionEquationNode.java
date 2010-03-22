@@ -1,15 +1,15 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.view.reactionequations;
+package edu.colorado.phet.advancedacidbasesolutions.view.reactionequations;
 
 import java.awt.Color;
 
-import edu.colorado.phet.acidbasesolutions.AABSColors;
-import edu.colorado.phet.acidbasesolutions.AABSImages;
-import edu.colorado.phet.acidbasesolutions.AABSSymbols;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
-import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
+import edu.colorado.phet.advancedacidbasesolutions.AABSColors;
+import edu.colorado.phet.advancedacidbasesolutions.AABSImages;
+import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute.ICustomSolute;
 
 /**
  * Reaction equation for acids.

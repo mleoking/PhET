@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.advancedacidbasesolutions.model;
 
 /**
  * Model for mapping a concentration value to a font size.

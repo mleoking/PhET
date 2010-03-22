@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.module.matchinggame;
+package edu.colorado.phet.advancedacidbasesolutions.module.matchinggame;
 
 import java.text.DecimalFormat;
 
@@ -7,8 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

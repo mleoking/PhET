@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.acidbasesolutions.control;
+package edu.colorado.phet.advancedacidbasesolutions.control;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -15,9 +15,9 @@ import java.util.Iterator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.AABSColors;
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
-import edu.colorado.phet.acidbasesolutions.control.IScalarTransform.LogLinearTransform;
+import edu.colorado.phet.advancedacidbasesolutions.AABSColors;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.control.IScalarTransform.LogLinearTransform;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;

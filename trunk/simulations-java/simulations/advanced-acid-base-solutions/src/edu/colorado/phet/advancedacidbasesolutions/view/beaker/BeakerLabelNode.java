@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.view.beaker;
+package edu.colorado.phet.advancedacidbasesolutions.view.beaker;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -7,11 +7,11 @@ import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
-import edu.colorado.phet.acidbasesolutions.control.ConcentrationControlNode;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.control.ConcentrationControlNode;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution.SolutionAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.util;
+package edu.colorado.phet.advancedacidbasesolutions.util;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,8 +1,8 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.matchinggame;
+package edu.colorado.phet.advancedacidbasesolutions.module.matchinggame;
 
-import edu.colorado.phet.acidbasesolutions.persistence.MatchingGameConfig;
+import edu.colorado.phet.advancedacidbasesolutions.persistence.MatchingGameConfig;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
