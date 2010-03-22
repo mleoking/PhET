@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -171,7 +172,18 @@ public class Project implements Serializable, IntId {
 
                         String simName = element.getAttribute( "name" );
                         String simLocaleString = element.getAttribute( "locale" );
-                        String simTitle = ( (Element) ( element.getElementsByTagName( "title" ).item( 0 ) ) ).getChildNodes().item( 0 ).getNodeValue();
+                        Node titleChild = element.getElementsByTagName( "title" ).item( 0 );
+
+                        // need to check for the degenerate case where the title was translated to the empty string.
+                        String simTitle;
+                        if ( titleChild != null && titleChild.getChildNodes().getLength() > 0 ) {
+                            simTitle = titleChild.getChildNodes().item( 0 ).getNodeValue();
+                        }
+                        else {
+                            // if there is no title, reset to the simulation name
+                            simTitle = simName;
+                        }
+
 
                         Locale simLocale = LocaleUtils.stringToLocale( simLocaleString );
 
@@ -368,7 +380,18 @@ public class Project implements Serializable, IntId {
 
                     String simName = element.getAttribute( "name" );
                     String simLocaleString = element.getAttribute( "locale" );
-                    String simTitle = ( (Element) ( element.getElementsByTagName( "title" ).item( 0 ) ) ).getChildNodes().item( 0 ).getNodeValue();
+                    Node titleChild = element.getElementsByTagName( "title" ).item( 0 );
+
+                    // need to check for the degenerate case where the title was translated to the empty string.
+                    String simTitle;
+                    if ( titleChild != null && titleChild.getChildNodes().getLength() > 0 ) {
+                        simTitle = titleChild.getChildNodes().item( 0 ).getNodeValue();
+                    }
+                    else {
+                        // if there is no title, reset to the simulation name
+                        simTitle = simName;
+                    }
+                    //String simTitle = element.getElementsByTagName( "title" ).item( 0 ).getChildNodes().item( 0 ).getNodeValue();
 
                     Locale simLocale = LocaleUtils.stringToLocale( simLocaleString );
 
@@ -436,6 +459,7 @@ public class Project implements Serializable, IntId {
             }
             catch( Exception e ) {
                 e.printStackTrace();
+                logger.warn( "Error matching XML and simulations", e );
                 appendWarning( builder, "Error matching XML and simulations" );
                 warning = true;
             }

@@ -9,19 +9,20 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.ContributionPage;
 import edu.colorado.phet.website.content.SimulationPage;
-import edu.colorado.phet.website.data.LocalizedSimulation;
-import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.*;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionLevel;
 import edu.colorado.phet.website.data.contribution.ContributionType;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.cache.EventDependency;
 
 public class ContributionBrowsePanel extends PhetPanel {
 
@@ -125,6 +126,19 @@ public class ContributionBrowsePanel extends PhetPanel {
 
                 item.add( new Label( "contribution-updated", format.format( contribution.getDateUpdated() ) ) );
                 //logger.debug( "finish item" );
+            }
+        } );
+
+        addDependency( new EventDependency() {
+
+            @Override
+            protected void addListeners() {
+                HibernateEventListener.addListener( Contribution.class, getAnyChangeInvalidator() );
+            }
+
+            @Override
+            protected void removeListeners() {
+                HibernateEventListener.removeListener( Contribution.class, getAnyChangeInvalidator() );
             }
         } );
 

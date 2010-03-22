@@ -14,7 +14,7 @@ public class ContributePanel extends PhetPanel {
         super( id, context );
 
         add( new LocalizedText( "contribute-main", "contribute.main", new Object[]{
-                "<a href=\"mailto:phethelp@colorado.edu?Subject=Financial%20Contribution&amp;Body=Dear%20Sir%20or%20Madam:%20I%20would%20like%20to%20make%20a%20generous%20donation%20to%20PhET.\">phethelp@colorado.edu</a>"
+                "http://www.cufund.org/giving-opportunities/fund-description/?id=3685"
         } ) );
 
         add( new LocalizedText( "contribute-thanks", "contribute.thanks", new Object[]{

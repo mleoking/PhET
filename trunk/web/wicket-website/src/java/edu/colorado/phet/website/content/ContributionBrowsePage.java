@@ -28,11 +28,6 @@ public class ContributionBrowsePage extends PhetRegularPage {
 
         logger.debug( System.currentTimeMillis() + " start" );
 
-//        if ( category == null && parameters.containsKey( "categories" ) ) {
-//            // didn't find the category
-//            throw new RestartResponseAtInterceptPageException( NotFoundPage.class );
-//        }
-
         initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.browse" ) );
 
         // TODO: localize
@@ -70,8 +65,6 @@ public class ContributionBrowsePage extends PhetRegularPage {
         add( new ContributionBrowsePanel( "contribution-browse-panel", getPageContext(), contributions ) );
 
         logger.debug( System.currentTimeMillis() + " finish init" );
-
-        //logger.debug( "stack trace: ", new Exception() );
 
     }
 
