@@ -9,6 +9,8 @@ public class BarrierList {
     //Arrays of barrier Rectangles made by edu.colorado.phet.ehockey.BarrierMaker.class
 
     //Level O play has no barriers
+
+    //See the note below requiring the indices of the goal region to be 0,1,2 in each rectangle array
     static Rectangle[] rectArray0 = {new Rectangle( 625, 265, 15, 5 ),
             new Rectangle( 625, 330, 10, 5 ),
             new Rectangle( 635, 265, 5, 70 ),};
@@ -43,6 +45,7 @@ public class BarrierList {
 
     //Need two copies of the arrays, but I don't know how to clone
     //arrays, so I simply make them again.
+    //SR: Why do we need two copies of the arrays?
 
     static Rectangle[] rectArray0b = {
             new Rectangle( 625, 265, 15, 5 ),
@@ -105,7 +108,8 @@ public class BarrierList {
                 Point pt = new Point( i, j );
                 boolean isInside = false;
 
-                for ( int k = 0; k < rectArray.length; k++ ) {
+                for ( int k = 3; k < rectArray.length; k++ ) {//Start at index k=3 since k=0,1,2 are components of the goal region, which shouldn't count as a collision
+                    //todo: a better long term solution would be to rewrite the goal region to be a separate entity from the collision regions, instead of treating them differently based on index in an array
 
                     if ( rectArray[k].contains( pt ) ) {
                         isInside = true;
