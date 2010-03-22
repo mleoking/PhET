@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 /**
  * Storage for cached panel versions. Should be a singleton, and is thread-safe with a hidden static lock so deadlock
  * shouldn't be an accidental risk.
+ *
+ * TODO: store metadata in the cache like timestamp created / expiring / memory footprint / value in previous render and setup time
  */
 public class PanelCache {
 

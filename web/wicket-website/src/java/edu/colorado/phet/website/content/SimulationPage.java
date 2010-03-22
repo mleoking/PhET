@@ -16,11 +16,14 @@ import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.SimulationMainPanel;
+import edu.colorado.phet.website.panels.SponsorsPanel;
+import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
+import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 
 public class SimulationPage extends PhetMenuPage {
 
@@ -65,9 +68,17 @@ public class SimulationPage extends PhetMenuPage {
             throw new RestartResponseAtInterceptPageException( NotFoundPage.class );
         }
 
-        SimulationMainPanel simPanel = new SimulationMainPanel( "simulation-main-panel", simulation, getPageContext() );
+        final LocalizedSimulation finalSim = simulation;
+        PhetPanel simPanel = new SimplePanelCacheEntry( SimulationMainPanel.class, null, getPageContext().getLocale(), getMyPath() ) {
+            public PhetPanel constructPanel( String id, PageContext context ) {
+                return new SimulationMainPanel( id, finalSim, context );
+            }
+        }.instantiate( "simulation-main-panel", getPageContext() );
+
+        //SimulationMainPanel simPanel = new SimulationMainPanel( "simulation-main-panel", simulation, getPageContext() );
         add( simPanel );
-        addTitle( simPanel.getTitle() );
+        //addTitle( simPanel.getTitle() );
+        addTitle( (String) simPanel.getCacheParameter( "title" ) );
 
         initializeLocationWithSet( locations );
 

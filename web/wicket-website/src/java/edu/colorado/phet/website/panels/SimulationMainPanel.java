@@ -17,19 +17,19 @@ import org.apache.wicket.model.StringResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.content.ContributePanel;
 import edu.colorado.phet.website.content.SimsByKeywordPage;
 import edu.colorado.phet.website.content.about.AboutLegendPanel;
-import edu.colorado.phet.website.data.Keyword;
-import edu.colorado.phet.website.data.LocalizedSimulation;
-import edu.colorado.phet.website.data.Simulation;
-import edu.colorado.phet.website.data.TeachersGuide;
+import edu.colorado.phet.website.data.*;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -339,6 +339,8 @@ public class SimulationMainPanel extends PhetPanel {
             }
         }
 
+        addCacheParameter( "title", title );
+
         //----------------------------------------------------------------------------
         // more info (design team, libraries, thanks, etc)
         //----------------------------------------------------------------------------
@@ -428,6 +430,40 @@ public class SimulationMainPanel extends PhetPanel {
             learningGoalsView.setVisible( false );
         }
         add( learningGoalsView );
+
+        //add( ContributePanel.getLinker().getLink( "donate1", context, getPhetCycle() ) );
+        add( ContributePanel.getLinker().getLink( "donate2", context, getPhetCycle() ) );
+        add( ContributePanel.getLinker().getLink( "donate3", context, getPhetCycle() ) );
+
+        addDependency( new EventDependency() {
+
+            private IChangeListener projectListener;
+            private IChangeListener stringListener;
+
+            @Override
+            protected void addListeners() {
+                projectListener = new AbstractChangeListener() {
+                    public void onUpdate( Object object, PostUpdateEvent event ) {
+                        if ( HibernateEventListener.getSafeHasChanged( event, "visible" ) ) {
+                            invalidate();
+                        }
+                    }
+                };
+                stringListener = createTranslationChangeInvalidator( context.getLocale() );
+                HibernateEventListener.addListener( Project.class, projectListener );
+                HibernateEventListener.addListener( TranslatedString.class, stringListener );
+                HibernateEventListener.addListener( Simulation.class, getAnyChangeInvalidator() );
+                HibernateEventListener.addListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
+            }
+
+            @Override
+            protected void removeListeners() {
+                HibernateEventListener.removeListener( Project.class, projectListener );
+                HibernateEventListener.removeListener( TranslatedString.class, stringListener );
+                HibernateEventListener.removeListener( Simulation.class, getAnyChangeInvalidator() );
+                HibernateEventListener.removeListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
+            }
+        } );
     }
 
     public String getTitle() {
