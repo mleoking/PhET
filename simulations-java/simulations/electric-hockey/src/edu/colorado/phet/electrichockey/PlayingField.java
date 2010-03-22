@@ -39,6 +39,7 @@ public class PlayingField extends JPanel {
     private Stroke pathStroke = new BasicStroke( 1, BasicStroke.CAP_SQUARE,
                                                  BasicStroke.JOIN_MITER, 1, new float[]{10, 5}, 0 );
     private Color pathColor = Color.red;
+    private boolean debugRegions = false;
 
     public PlayingField( int fieldWidth, int fieldHeight, ElectricHockeySimulationPanel electricHockeySimulationPanel ) {
         this.electricHockeySimulationPanel = electricHockeySimulationPanel;
@@ -66,7 +67,7 @@ public class PlayingField extends JPanel {
 
         barrierState = electricHockeySimulationPanel.getControlPanel().getLevelState();
 
-        goal = new Rectangle( 89 * fieldWidth / 100, fieldHeight / 2 - 25, 10, 50 );
+        goal = new Rectangle( 89 * fieldWidth / 100, fieldHeight / 2 - 30, 13, 60 );
 
         this.addMouseListener( new FieldMouseListener() );
         this.addMouseMotionListener( new FieldMouseMotionListener() );
@@ -208,6 +209,13 @@ public class PlayingField extends JPanel {
             g2D.fill3DRect( x, y, w, h, true );    //last argument: true = raised, false = sunken; doesn't work!
         }
 
+        //FOR DEBUGGING
+        //show the region that classifies as a goal
+        if (debugRegions) {
+            g2D.setColor(Color.red);
+            g2D.fillRect(goal.x, goal.y, goal.width, goal.height);
+        }
+
         //paint charges and forces
         for ( int i = 0; i < electricHockeySimulationPanel.getModel().getChargeListSize(); i++ ) {
             Charge chargeI = electricHockeySimulationPanel.getModel().getChargeAt( i );//(edu.colorado.phet.ehockey.Charge)(chargeList.elementAt(i));
@@ -242,6 +250,7 @@ public class PlayingField extends JPanel {
             g2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             g2D.drawString( ElectricHockeyStrings.getString( "HockeyPlayingField.Goal" ), 3 * fieldWidth / 10, fieldHeight / 5 );
         }
+        //what happens when you hit the goal
         if ( electricHockeySimulationPanel.getModel().getCollisionState() && !electricHockeySimulationPanel.getModel().getGoalState() ) {
             g2D.setColor( Color.red );
             g2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -256,6 +265,20 @@ public class PlayingField extends JPanel {
             g2D.setColor( pathColor );
             g2D.draw( electricHockeySimulationPanel.getModel().getPath() );
             g2D.setStroke( origStroke );
+        }
+
+        //FOR DEBUGGING
+        //show the regions that can cause collisions 
+        if (debugRegions) {
+            int[][] array = BarrierList.currentCollisionArray;
+            g2D.setColor(new Color(Color.pink.getRed(), Color.pink.getGreen(), Color.pink.getBlue(), 128));
+            for (int i = 0; i < array.length; i++) {
+                for (int k = 0; k < array[i].length; k++) {
+                    if (array[i][k] == 1) {
+                        g2D.fillRect(i, k, 1, 1);
+                    }
+                }
+            }
         }
 
     }
