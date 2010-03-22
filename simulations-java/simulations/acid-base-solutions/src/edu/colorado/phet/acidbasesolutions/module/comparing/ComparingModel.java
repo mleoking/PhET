@@ -2,20 +2,20 @@
 
 package edu.colorado.phet.acidbasesolutions.module.comparing;
 
-import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.model.AABSClock;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.module.ABSModel;
+import edu.colorado.phet.acidbasesolutions.module.AABSModel;
 
 /**
  * ComparingModel is the model for ComparingModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComparingModel extends ABSModel {
+public class ComparingModel extends AABSModel {
     
     private final AqueousSolution solutionLeft, solutionRight;
     
-    public ComparingModel( ABSClock clock ) {
+    public ComparingModel( AABSClock clock ) {
         super( clock );
         this.solutionLeft = new AqueousSolution();
         this.solutionRight = new AqueousSolution();

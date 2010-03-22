@@ -9,7 +9,7 @@ import java.util.Iterator;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.AABSSymbols;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -245,11 +245,11 @@ public class SymbolNode extends PComposite {
 
         Font font = new PhetFont( Font.BOLD, 18 );
         ArrayList<PNode> nodes = new ArrayList<PNode>();
-        nodes.add( new SymbolNode( ABSSymbols.H3O_PLUS, font, Color.RED ) );
-        nodes.add( new SymbolNode( ABSSymbols.HA, font, Color.GREEN ) );
-        nodes.add( new SymbolNode( ABSSymbols.H2O, font, Color.BLUE ) );
-        nodes.add( new SymbolNode( ABSSymbols.C5H5NH_PLUS, font, Color.BLACK ) );
-        nodes.add( new SymbolNode( ABSSymbols.HCl, font, Color.BLACK ) );
+        nodes.add( new SymbolNode( AABSSymbols.H3O_PLUS, font, Color.RED ) );
+        nodes.add( new SymbolNode( AABSSymbols.HA, font, Color.GREEN ) );
+        nodes.add( new SymbolNode( AABSSymbols.H2O, font, Color.BLUE ) );
+        nodes.add( new SymbolNode( AABSSymbols.C5H5NH_PLUS, font, Color.BLACK ) );
+        nodes.add( new SymbolNode( AABSSymbols.HCl, font, Color.BLACK ) );
         
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( new Dimension( 600, 400 ) );

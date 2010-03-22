@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
@@ -79,7 +79,7 @@ public class ConcentrationControlNode extends PNode {
         textField.addFocusListener( textFieldListener );
         textField.addKeyListener( textFieldListener );
         
-        JLabel unitsLabel = new JLabel( ABSStrings.UNITS_MOLES_PER_LITER );
+        JLabel unitsLabel = new JLabel( AABSStrings.UNITS_MOLES_PER_LITER );
         unitsLabel.setFont( UNITS_FONT );
         
         JPanel panel = new JPanel();

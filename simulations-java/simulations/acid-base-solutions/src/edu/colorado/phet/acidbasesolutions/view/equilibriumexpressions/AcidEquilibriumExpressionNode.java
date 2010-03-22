@@ -1,8 +1,8 @@
 /* Copyright 2009, University of Colorado */
 package edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 
@@ -20,8 +20,8 @@ public class AcidEquilibriumExpressionNode extends AbstractEquilibriumExpression
         assert( solution.isAcidic() );
         this.solution = solution;
         Solute solute = solution.getSolute();
-        setKLabel( ABSSymbols.Ka );
-        setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSColors.H3O_PLUS );
+        setKLabel( AABSSymbols.Ka );
+        setLeftNumeratorProperties( AABSSymbols.H3O_PLUS, AABSColors.H3O_PLUS );
         setRightNumeratorProperties( solute.getConjugateSymbol(), solute.getConjugateColor() );
         setDenominatorProperties( solute.getSymbol(), solute.getColor() );
         update();

@@ -5,7 +5,7 @@ package edu.colorado.phet.acidbasesolutions.view.beaker;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -21,7 +21,7 @@ class SolutionNode extends PPath {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Color COLOR = ABSColors.H2O;
+    private static final Color COLOR = AABSColors.H2O;
     
     //----------------------------------------------------------------------------
     // Constructors

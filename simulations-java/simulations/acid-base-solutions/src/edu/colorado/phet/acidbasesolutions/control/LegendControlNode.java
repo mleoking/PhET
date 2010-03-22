@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.acidbasesolutions.dialog.SymbolLegendDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -36,7 +36,7 @@ public class LegendControlNode extends PNode {
         
         parentFrame = PhetApplication.getInstance().getPhetFrame();
         
-        checkBox = new JCheckBox( ABSStrings.CHECK_BOX_SYMBOL_LEGEND );
+        checkBox = new JCheckBox( AABSStrings.CHECK_BOX_SYMBOL_LEGEND );
         checkBox.setOpaque( false );
         checkBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

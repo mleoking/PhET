@@ -8,10 +8,10 @@ import java.awt.image.BufferedImage;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ABSImages {
+public class AABSImages {
 
     /* not intended for instantiation */
-    private ABSImages() {}
+    private AABSImages() {}
     
     public static final BufferedImage A_MINUS_MOLECULE = getBufferedImage( "molecules/A_minus.png" );
     public static final BufferedImage B_MOLECULE = getBufferedImage( "molecules/B.png" );
@@ -41,6 +41,6 @@ public class ABSImages {
     public static final BufferedImage TEAR_OFF_BUTTON = getBufferedImage( "tear_off_icon.png" );
     
     private static final BufferedImage getBufferedImage( String resourceName ) {
-        return ABSResources.getBufferedImage( resourceName );
+        return AABSResources.getBufferedImage( resourceName );
     }
 }

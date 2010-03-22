@@ -1,6 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.model.equilibrium;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.AABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.Acid;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
@@ -20,7 +20,7 @@ public class IntermediateAcidEquilibriumModel extends AbstractEquilibriumModel {
     
     // [HA] = [HA for weak acid with Ka=Kmin]*10^(4*(K-Kmin)/(K-Kmax))
     public double getReactantConcentration() {
-        final double Ka = ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin();
+        final double Ka = AABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin();
         final double c = getSolute().getConcentration();
         final double baseConcentration = ( -Ka + Math.sqrt( ( Ka * Ka ) + ( 4 * Ka * c ) ) ) / 2;
         final double acidConcentration = c - baseConcentration;
@@ -29,8 +29,8 @@ public class IntermediateAcidEquilibriumModel extends AbstractEquilibriumModel {
     
     private double getKScale() {
         final double K = getSolute().getStrength();
-        final double Kmin = ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin();
-        final double Kmax = ABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMax();
+        final double Kmin = AABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMin();
+        final double Kmax = AABSConstants.INTERMEDIATE_STRENGTH_RANGE.getMax();
         return ( K - Kmin ) / ( Kmax - Kmin );
     }
     

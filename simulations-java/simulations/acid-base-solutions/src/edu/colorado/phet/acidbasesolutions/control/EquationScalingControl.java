@@ -13,8 +13,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -37,7 +37,7 @@ public class EquationScalingControl extends JPanel {
         listeners = new ArrayList<ChangeListener>();
         
         // label
-        JLabel label = new JLabel( ABSStrings.LABEL_EQUATION_SCALING );
+        JLabel label = new JLabel( AABSStrings.LABEL_EQUATION_SCALING );
         label.setFont( FONT );
         
         // change notifier
@@ -48,12 +48,12 @@ public class EquationScalingControl extends JPanel {
         };
         
         // on
-        onRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_EQUATION_SCALING_ON );
+        onRadioButton = new JRadioButton( AABSStrings.RADIO_BUTTON_EQUATION_SCALING_ON );
         onRadioButton.setFont( FONT );
         onRadioButton.addActionListener( scaleOnOffActionListener );
         
         // off
-        offRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_EQUATION_SCALING_OFF );
+        offRadioButton = new JRadioButton( AABSStrings.RADIO_BUTTON_EQUATION_SCALING_OFF );
         offRadioButton.setFont( FONT );
         offRadioButton.addActionListener( scaleOnOffActionListener );
         
@@ -72,7 +72,7 @@ public class EquationScalingControl extends JPanel {
         innerPanel.add( onRadioButton );
         innerPanel.add( offRadioButton );
         
-        SwingUtils.setBackgroundDeep( this, ABSColors.COLOR_PANEL_BACKGROUND );
+        SwingUtils.setBackgroundDeep( this, AABSColors.COLOR_PANEL_BACKGROUND );
     }
     
     public void setScalingEnabled( boolean enabled ) {

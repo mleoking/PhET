@@ -6,8 +6,8 @@ import java.awt.geom.Dimension2D;
 
 import javax.swing.JComponent;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSConstants;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -21,16 +21,16 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ABSAbstractCanvas extends PhetPCanvas {
+public class AABSAbstractCanvas extends PhetPCanvas {
     
     private static final double MIN_MARGIN = 10;
 
     private final PNode rootNode;
     private final PNode resetAllButtonWrapper;
     
-    public ABSAbstractCanvas( Resettable resettable ) {
-        super( ABSConstants.CANVAS_RENDERING_SIZE );
-        setBackground( ABSColors.CANVAS_BACKGROUND );
+    public AABSAbstractCanvas( Resettable resettable ) {
+        super( AABSConstants.CANVAS_RENDERING_SIZE );
+        setBackground( AABSColors.CANVAS_BACKGROUND );
         
         // Root of our scene graph
         rootNode = new PNode();
@@ -41,7 +41,7 @@ public class ABSAbstractCanvas extends PhetPCanvas {
         JComponent resetAllButton = new ResetAllButton( resettable, this );
         resetAllButton.setOpaque( false ); // Mac OS 10.4
         resetAllButtonWrapper = new PSwing( resetAllButton );
-        resetAllButtonWrapper.scale( ABSConstants.PSWING_SCALE );
+        resetAllButtonWrapper.scale( AABSConstants.PSWING_SCALE );
         resetAllButtonWrapper.addInputEventListener( new CursorHandler() );
         rootNode.addChild( resetAllButtonWrapper );
     }    

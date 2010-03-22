@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.module;
 
-import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.model.AABSClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 
 /**
@@ -10,19 +10,19 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ABSModel {
+public class AABSModel {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final ABSClock clock;
+    private final AABSClock clock;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ABSModel( ABSClock clock ) {
+    public AABSModel( AABSClock clock ) {
         this.clock = clock;
     }
     
@@ -30,7 +30,7 @@ public class ABSModel {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public ABSClock getClock() {
+    public AABSClock getClock() {
         return clock;
     }
     

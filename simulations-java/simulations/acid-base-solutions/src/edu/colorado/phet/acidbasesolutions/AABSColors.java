@@ -7,10 +7,10 @@ import java.awt.Color;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ABSColors {
+public class AABSColors {
     
     /* not intended for instantiation */
-    private ABSColors() {}
+    private AABSColors() {}
 
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 230, 230, 230 );

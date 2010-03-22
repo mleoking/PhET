@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 
-import edu.colorado.phet.acidbasesolutions.ABSImages;
+import edu.colorado.phet.acidbasesolutions.AABSImages;
 import edu.colorado.phet.acidbasesolutions.model.ConcentrationScaleModel;
 import edu.colorado.phet.acidbasesolutions.util.ScalingAnimator;
 import edu.colorado.phet.acidbasesolutions.view.SymbolNode;
@@ -178,10 +178,10 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     
     protected void setBidirectional( boolean b ) {
         if ( b ) {
-            arrow.setImage( ABSImages.ARROW_DOUBLE );
+            arrow.setImage( AABSImages.ARROW_DOUBLE );
         }
         else {
-            arrow.setImage( ABSImages.ARROW_SINGLE );
+            arrow.setImage( AABSImages.ARROW_SINGLE );
         }
         updateLayout();
     }

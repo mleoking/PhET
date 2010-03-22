@@ -2,9 +2,9 @@ package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 
 import java.awt.Color;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSImages;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSImages;
+import edu.colorado.phet.acidbasesolutions.AABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 
@@ -23,10 +23,10 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
     public WaterReactionEquationNode( AqueousSolution solution ) {
         super();
         this.solution = solution;
-        setTerm( H2O_LEFT_INDEX, ABSSymbols.H2O, ABSColors.H2O_EQUATION, ABSImages.H2O_STRUCTURE );
-        setTerm( H2O_RIGHT_INDEX, ABSSymbols.H2O, ABSColors.H2O_EQUATION, ABSImages.H2O_STRUCTURE );
-        setTerm( H3O_PLUS_INDEX, ABSSymbols.H3O_PLUS, ABSColors.H3O_PLUS, ABSImages.H3O_PLUS_STRUCTURE );
-        setTerm( OH_MINUS_INDEX, ABSSymbols.OH_MINUS, ABSColors.OH_MINUS, ABSImages.OH_MINUS_STRUCTURE );
+        setTerm( H2O_LEFT_INDEX, AABSSymbols.H2O, AABSColors.H2O_EQUATION, AABSImages.H2O_STRUCTURE );
+        setTerm( H2O_RIGHT_INDEX, AABSSymbols.H2O, AABSColors.H2O_EQUATION, AABSImages.H2O_STRUCTURE );
+        setTerm( H3O_PLUS_INDEX, AABSSymbols.H3O_PLUS, AABSColors.H3O_PLUS, AABSImages.H3O_PLUS_STRUCTURE );
+        setTerm( OH_MINUS_INDEX, AABSSymbols.OH_MINUS, AABSColors.OH_MINUS, AABSImages.OH_MINUS_STRUCTURE );
         setBidirectional( true );
         update();
         updateH2OColor();
@@ -46,7 +46,7 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
     
     protected void updateH2OColor() {
         // H2O does not scale, use black text when scaling is enabled
-        Color waterColor = ( isScalingEnabled() ? Color.BLACK : ABSColors.H2O_EQUATION );
+        Color waterColor = ( isScalingEnabled() ? Color.BLACK : AABSColors.H2O_EQUATION );
         setTermColor( H2O_LEFT_INDEX, waterColor );
         setTermColor( H2O_RIGHT_INDEX, waterColor );
     }

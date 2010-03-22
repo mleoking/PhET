@@ -13,10 +13,10 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ABSConstants {
+public class AABSConstants {
 
     /* Not intended for instantiation. */
-    private ABSConstants() {}
+    private AABSConstants() {}
     
     //----------------------------------------------------------------------------
     // Debugging
@@ -29,7 +29,7 @@ public class ABSConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final String PROJECT_NAME = "acid-base-solutions";
+    public static final String PROJECT_NAME = "advanced-acid-base-solutions";
 
     //----------------------------------------------------------------------------
     // View

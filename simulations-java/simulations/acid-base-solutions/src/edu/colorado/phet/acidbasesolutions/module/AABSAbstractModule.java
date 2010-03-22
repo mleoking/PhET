@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.module;
 
-import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.model.AABSClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
@@ -10,9 +10,9 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ABSAbstractModule extends PiccoloModule {
+public class AABSAbstractModule extends PiccoloModule {
 
-    public ABSAbstractModule( String name, ABSClock clock ) {
+    public AABSAbstractModule( String name, AABSClock clock ) {
         super( name, clock );
         
         setLogoPanelVisible( false );

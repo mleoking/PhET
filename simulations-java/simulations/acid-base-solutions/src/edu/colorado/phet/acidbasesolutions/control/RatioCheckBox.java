@@ -5,9 +5,9 @@ import java.text.MessageFormat;
 
 import javax.swing.JCheckBox;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSSymbols;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
@@ -72,7 +72,7 @@ public abstract class RatioCheckBox extends JCheckBox {
     public static class SpecificSoluteRatioCheckBox extends RatioCheckBox {
         
         public SpecificSoluteRatioCheckBox() {
-            super( ABSStrings.CHECK_BOX_SOLUTE_RATIO_SPECIFIC );
+            super( AABSStrings.CHECK_BOX_SOLUTE_RATIO_SPECIFIC );
         }
     }
     
@@ -82,7 +82,7 @@ public abstract class RatioCheckBox extends JCheckBox {
     public static class GeneralSoluteRatioCheckBox extends RatioCheckBox {
         
         public GeneralSoluteRatioCheckBox() {
-            super( ABSStrings.CHECK_BOX_SOLUTE_RATIO_GENERAL );
+            super( AABSStrings.CHECK_BOX_SOLUTE_RATIO_GENERAL );
         }
     }
     
@@ -92,7 +92,7 @@ public abstract class RatioCheckBox extends JCheckBox {
     public static class HydroniumHydroxideRatioCheckBox extends RatioCheckBox {
         
         public HydroniumHydroxideRatioCheckBox() {
-            super( ABSStrings.CHECK_BOX_H3O_OH_RATIO, ABSSymbols.H3O_PLUS, ABSColors.H3O_PLUS, ABSSymbols.OH_MINUS, ABSColors.OH_MINUS );
+            super( AABSStrings.CHECK_BOX_H3O_OH_RATIO, AABSSymbols.H3O_PLUS, AABSColors.H3O_PLUS, AABSSymbols.OH_MINUS, AABSColors.OH_MINUS );
         }
     }
 }

@@ -6,9 +6,9 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSConstants;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ConcentrationScaleModel;
 import edu.colorado.phet.acidbasesolutions.util.ScalingAnimator;
 import edu.colorado.phet.acidbasesolutions.view.SymbolNode;
@@ -252,8 +252,8 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     private void updateKRepresentation() {
         if ( kRepresentationVaries ) {
             final double k = valueNode.getValue();
-            boolean isWeak = ABSConstants.WEAK_STRENGTH_RANGE.contains( k );
-            boolean isStrong = ABSConstants.STRONG_STRENGTH_RANGE.contains( k );
+            boolean isWeak = AABSConstants.WEAK_STRENGTH_RANGE.contains( k );
+            boolean isStrong = AABSConstants.STRONG_STRENGTH_RANGE.contains( k );
             valueNode.setVisible( isWeak );
             largeValueNode.setVisible( isStrong );
             rightEqualsNode.setVisible( isStrong || isWeak );
@@ -370,7 +370,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         public KNode( String text ) {
             super( HTMLUtils.toHTMLString( text ) );
             setFont( K_FONT );
-            setHTMLColor( ABSColors.K );
+            setHTMLColor( AABSColors.K );
         }
         
         public void setHTML( String text ) {
@@ -444,7 +444,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
      */
     private static class LargeValueNode extends PText {
         public LargeValueNode() {
-            super( ABSStrings.VALUE_LARGE );
+            super( AABSStrings.VALUE_LARGE );
             setFont( VALUE_FONT );
             setTextPaint( VALUE_COLOR );
         }

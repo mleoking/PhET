@@ -15,8 +15,8 @@ import java.util.Iterator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.IScalarTransform.LogLinearTransform;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -44,9 +44,9 @@ public class StrengthSliderNode extends PhetPNode {
 
     // Thumb
     private static final PDimension THUMB_SIZE = new PDimension( 13, 18 );
-    private static final Color THUMB_ENABLED_COLOR = ABSColors.THUMB_ENABLED;
-    private static final Color THUMB_HILITE_COLOR = ABSColors.THUMB_HIGHLIGHTED;
-    private static final Color THUMB_DISABLED_COLOR = ABSColors.THUMB_DISABLED;
+    private static final Color THUMB_ENABLED_COLOR = AABSColors.THUMB_ENABLED;
+    private static final Color THUMB_HILITE_COLOR = AABSColors.THUMB_HIGHLIGHTED;
+    private static final Color THUMB_DISABLED_COLOR = AABSColors.THUMB_DISABLED;
     private static final Color THUMB_STROKE_COLOR = Color.BLACK;
     private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
 
@@ -119,14 +119,14 @@ public class StrengthSliderNode extends PhetPNode {
         trackNode.addInputEventListener( new TrackClickHandler( this ) );
         
         // weak range label
-        PNode weakRangeLabelNode = new RangeLabelNode( TRACK_WEAK_WIDTH, ABSStrings.LABEL_WEAK, ABSStrings.LABEL_WEAKER, ABSStrings.LABEL_STRONGER );
+        PNode weakRangeLabelNode = new RangeLabelNode( TRACK_WEAK_WIDTH, AABSStrings.LABEL_WEAK, AABSStrings.LABEL_WEAKER, AABSStrings.LABEL_STRONGER );
         addChild( weakRangeLabelNode );
         double xOffset = 0;
         double yOffset = ( weakRangeLabelNode.getYOffset() - weakRangeLabelNode.getY() ) - 20;
         weakRangeLabelNode.setOffset( xOffset, yOffset );
         
         // strong range label
-        PNode strongRangeLabelNode = new RangeLabelNode( TRACK_STRONG_WIDTH, ABSStrings.LABEL_STRONG );
+        PNode strongRangeLabelNode = new RangeLabelNode( TRACK_STRONG_WIDTH, AABSStrings.LABEL_STRONG );
         addChild( strongRangeLabelNode );
         xOffset = TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH;
         yOffset = ( strongRangeLabelNode.getYOffset() - strongRangeLabelNode.getY() ) - 20;

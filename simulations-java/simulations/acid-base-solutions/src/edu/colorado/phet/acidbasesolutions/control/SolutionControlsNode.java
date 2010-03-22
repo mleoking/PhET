@@ -11,9 +11,9 @@ import java.util.Iterator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSConstants;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
@@ -49,12 +49,12 @@ public class SolutionControlsNode extends PhetPNode {
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final double BACKGROUND_MARGIN = 10;
     private static final double BACKGROUND_CORNER_RADIUS = 25;
-    private static final Color BACKGROUND_COLOR = ABSColors.COLOR_PANEL_BACKGROUND;
+    private static final Color BACKGROUND_COLOR = AABSColors.COLOR_PANEL_BACKGROUND;
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color SEPARATOR_COLOR = BACKGROUND_COLOR.darker();
     private static final Stroke SEPARATOR_STROKE = new BasicStroke( 1f );
-    private static final String STRENGTH_LABEL_PATTERN = ABSStrings.LABEL_STRENGTH;
+    private static final String STRENGTH_LABEL_PATTERN = AABSStrings.LABEL_STRENGTH;
     
     private final AqueousSolution solution;
     private final SoluteComboBox soluteComboBox;
@@ -86,7 +86,7 @@ public class SolutionControlsNode extends PhetPNode {
         listeners = new ArrayList<SolutionControlsListener>();
         
         // Solute selection
-        PNode soluteLabel = new LabelNode( ABSStrings.LABEL_SOLUTE );
+        PNode soluteLabel = new LabelNode( AABSStrings.LABEL_SOLUTE );
         addChild( soluteLabel );
         
         soluteComboBox = new SoluteComboBox();
@@ -102,10 +102,10 @@ public class SolutionControlsNode extends PhetPNode {
         soluteComboBox.setEnvironment( soluteComboBoxWrapper, canvas ); // hack required by PComboBox
         
         // Concentration
-        concentrationLabelNode = new LabelNode( ABSStrings.LABEL_CONCENTRATION );
+        concentrationLabelNode = new LabelNode( AABSStrings.LABEL_CONCENTRATION );
         addChild( concentrationLabelNode );
         
-        concentrationControlNode = new ConcentrationControlNode( ABSConstants.CONCENTRATION_RANGE );
+        concentrationControlNode = new ConcentrationControlNode( AABSConstants.CONCENTRATION_RANGE );
         concentrationControlNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 notifyConcentrationChanged();
@@ -114,10 +114,10 @@ public class SolutionControlsNode extends PhetPNode {
         addChild( concentrationControlNode );
         
         // Strength
-        strengthLabelNode = new LabelNode( ABSStrings.LABEL_STRENGTH );
+        strengthLabelNode = new LabelNode( AABSStrings.LABEL_STRENGTH );
         addChild( strengthLabelNode );
         
-        strengthSliderNode = new StrengthSliderNode( ABSConstants.WEAK_STRENGTH_RANGE, ABSConstants.STRONG_STRENGTH_RANGE );
+        strengthSliderNode = new StrengthSliderNode( AABSConstants.WEAK_STRENGTH_RANGE, AABSConstants.STRONG_STRENGTH_RANGE );
         strengthSliderNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 notifyStrengthChanged();

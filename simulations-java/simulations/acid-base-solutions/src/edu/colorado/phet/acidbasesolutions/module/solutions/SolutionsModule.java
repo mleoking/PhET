@@ -4,15 +4,15 @@ package edu.colorado.phet.acidbasesolutions.module.solutions;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
+import edu.colorado.phet.acidbasesolutions.AdvancedAcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.LegendControlNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
-import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.model.AABSClock;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
-import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
+import edu.colorado.phet.acidbasesolutions.module.AABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
 
 /**
@@ -20,14 +20,14 @@ import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SolutionsModule extends ABSAbstractModule {
+public class SolutionsModule extends AABSAbstractModule {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String TITLE = ABSStrings.TITLE_SOLUTIONS_MODULE;
-    private static final ABSClock CLOCK = new ABSClock();
+    private static final String TITLE = AABSStrings.TITLE_SOLUTIONS_MODULE;
+    private static final AABSClock CLOCK = new AABSClock();
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -151,7 +151,7 @@ public class SolutionsModule extends ABSAbstractModule {
 
         // Module
         if ( config.isActive() ) {
-            AcidBaseSolutionsApplication.getInstance().setActiveModule( this );
+            AdvancedAcidBaseSolutionsApplication.getInstance().setActiveModule( this );
         }
 
         // solution controls

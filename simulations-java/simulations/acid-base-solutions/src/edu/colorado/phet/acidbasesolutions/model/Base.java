@@ -23,7 +23,7 @@ public abstract class Base extends Solute {
     }
     
     public String getStrengthSymbol() {
-        return ABSSymbols.Kb;
+        return AABSSymbols.Kb;
     }
     
     //----------------------------------------------------------------------------
@@ -33,23 +33,23 @@ public abstract class Base extends Solute {
     public abstract static class StrongBase extends Base {
         
         // all strong bases have the same strength, in the middle of the range
-        private static final double STRENGTH = ABSConstants.STRONG_STRENGTH_RANGE.getMin() +  ( ABSConstants.STRONG_STRENGTH_RANGE.getLength() / 2 );
+        private static final double STRENGTH = AABSConstants.STRONG_STRENGTH_RANGE.getMin() +  ( AABSConstants.STRONG_STRENGTH_RANGE.getLength() / 2 );
         
         private StrongBase( String name, String symbol, String conjugateSymbol  ) {
             super( name, 
-                   symbol, ABSImages.MOH_MOLECULE, ABSImages.MOH_STRUCTURE, ABSColors.MOH, 
-                   conjugateSymbol, ABSImages.M_PLUS_MOLECULE, ABSImages.M_PLUS_STRUCTURE, ABSColors.M_PLUS, 
+                   symbol, AABSImages.MOH_MOLECULE, AABSImages.MOH_STRUCTURE, AABSColors.MOH, 
+                   conjugateSymbol, AABSImages.M_PLUS_MOLECULE, AABSImages.M_PLUS_STRUCTURE, AABSColors.M_PLUS, 
                    STRENGTH );
         }
         
         protected boolean isValidStrength( double strength ) {
-            return ABSConstants.STRONG_STRENGTH_RANGE.contains( strength );
+            return AABSConstants.STRONG_STRENGTH_RANGE.contains( strength );
         }
     }
     
     public static class SodiumHydroxide extends StrongBase {
         public SodiumHydroxide() {
-            super( ABSStrings.SODIUM_HYDROXIDE, ABSSymbols.NaOH, ABSSymbols.Na_PLUS );
+            super( AABSStrings.SODIUM_HYDROXIDE, AABSSymbols.NaOH, AABSSymbols.Na_PLUS );
         }
     }
 
@@ -61,25 +61,25 @@ public abstract class Base extends Solute {
         
         private WeakBase( String name, String symbol, String conjugateSymbol, double strength ) {
             super( name, 
-                   symbol, ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSColors.B, 
-                   conjugateSymbol, ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSColors.BH_PLUS,
+                   symbol, AABSImages.B_MOLECULE, AABSImages.B_STRUCTURE, AABSColors.B, 
+                   conjugateSymbol, AABSImages.BH_PLUS_MOLECULE, AABSImages.BH_PLUS_STRUCTURE, AABSColors.BH_PLUS,
                    strength );
         }
         
         protected boolean isValidStrength( double strength ) {
-            return ABSConstants.WEAK_STRENGTH_RANGE.contains( strength );
+            return AABSConstants.WEAK_STRENGTH_RANGE.contains( strength );
         }
     }
 
     public static class Ammonia extends WeakBase {
         public Ammonia() {
-            super( ABSStrings.AMMONIA, ABSSymbols.NH3, ABSSymbols.NH4_PLUS, 1.8E-5 );
+            super( AABSStrings.AMMONIA, AABSSymbols.NH3, AABSSymbols.NH4_PLUS, 1.8E-5 );
         }
     }
     
     public static class Pyridine extends WeakBase {
         public Pyridine() {
-            super( ABSStrings.PYRIDINE, ABSSymbols.C5H5N, ABSSymbols.C5H5NH_PLUS, 1.7E-9 );
+            super( AABSStrings.PYRIDINE, AABSSymbols.C5H5N, AABSSymbols.C5H5NH_PLUS, 1.7E-9 );
         }
     }
     
@@ -89,22 +89,22 @@ public abstract class Base extends Solute {
 
     public static class CustomBase extends Base implements ICustomSolute {
         
-        private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
+        private static final double DEFAULT_STRENGTH = AABSConstants.WEAK_STRENGTH_RANGE.getMin();
         
         public CustomBase() {
             this( DEFAULT_STRENGTH );
         }
         
         public CustomBase( double strength ) {
-            super( ABSStrings.CUSTOM_BASE, 
-                   "symbol?", ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSColors.B, 
-                   "symbol?", ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSColors.BH_PLUS, 
+            super( AABSStrings.CUSTOM_BASE, 
+                   "symbol?", AABSImages.B_MOLECULE, AABSImages.B_STRUCTURE, AABSColors.B, 
+                   "symbol?", AABSImages.BH_PLUS_MOLECULE, AABSImages.BH_PLUS_STRUCTURE, AABSColors.BH_PLUS, 
                    strength );
             updateSymbol( getStrength() );
         }
         
         protected boolean isValidStrength( double strength ) {
-            return ABSConstants.CUSTOM_STRENGTH_RANGE.contains( strength );
+            return AABSConstants.CUSTOM_STRENGTH_RANGE.contains( strength );
         }
         
         // public, so that custom base strength is mutable
@@ -115,25 +115,25 @@ public abstract class Base extends Solute {
         
         //XXX redo this
         private void updateSymbol( double strength ) {
-            if ( ABSConstants.STRONG_STRENGTH_RANGE.contains( strength ) ) {
-                setSymbol( ABSSymbols.MOH );
-                setIcon( ABSImages.MOH_MOLECULE );
-                setStructure( ABSImages.MOH_STRUCTURE );
-                setColor( ABSColors.MOH );
-                setConjugateSymbol( ABSSymbols.M_PLUS );
-                setConjugateIcon( ABSImages.M_PLUS_MOLECULE );
-                setConjugateStructure( ABSImages.M_PLUS_STRUCTURE );
-                setConjugateColor( ABSColors.M_PLUS );
+            if ( AABSConstants.STRONG_STRENGTH_RANGE.contains( strength ) ) {
+                setSymbol( AABSSymbols.MOH );
+                setIcon( AABSImages.MOH_MOLECULE );
+                setStructure( AABSImages.MOH_STRUCTURE );
+                setColor( AABSColors.MOH );
+                setConjugateSymbol( AABSSymbols.M_PLUS );
+                setConjugateIcon( AABSImages.M_PLUS_MOLECULE );
+                setConjugateStructure( AABSImages.M_PLUS_STRUCTURE );
+                setConjugateColor( AABSColors.M_PLUS );
             }
             else {
-                setSymbol( ABSSymbols.B );
-                setIcon( ABSImages.B_MOLECULE );
-                setStructure( ABSImages.B_STRUCTURE );
-                setColor( ABSColors.B );
-                setConjugateSymbol( ABSSymbols.BH_PLUS );
-                setConjugateIcon( ABSImages.BH_PLUS_MOLECULE );
-                setConjugateStructure( ABSImages.BH_PLUS_STRUCTURE );
-                setConjugateColor( ABSColors.BH_PLUS );
+                setSymbol( AABSSymbols.B );
+                setIcon( AABSImages.B_MOLECULE );
+                setStructure( AABSImages.B_STRUCTURE );
+                setColor( AABSColors.B );
+                setConjugateSymbol( AABSSymbols.BH_PLUS );
+                setConjugateIcon( AABSImages.BH_PLUS_MOLECULE );
+                setConjugateStructure( AABSImages.BH_PLUS_STRUCTURE );
+                setConjugateColor( AABSColors.BH_PLUS );
             }
         }
     }

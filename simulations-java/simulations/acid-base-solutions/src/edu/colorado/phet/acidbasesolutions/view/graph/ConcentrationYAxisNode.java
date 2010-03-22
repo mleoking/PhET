@@ -7,7 +7,7 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -72,7 +72,7 @@ class ConcentrationYAxisNode extends PComposite {
         }
         
         // y-axis label
-        PText labelNode = new PText( ABSStrings.LABEL_CONCENTRATION_GRAPH_Y_AXIS );
+        PText labelNode = new PText( AABSStrings.LABEL_CONCENTRATION_GRAPH_Y_AXIS );
         labelNode.rotate( -Math.PI / 2 );
         labelNode.setFont( AXIS_LABEL_FONT );
         labelNode.setTextPaint( AXIS_LABEL_COLOR );
