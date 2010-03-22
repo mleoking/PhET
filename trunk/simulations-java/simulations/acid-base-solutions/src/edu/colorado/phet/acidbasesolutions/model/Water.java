@@ -1,9 +1,9 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSImages;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSImages;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSSymbols;
 
 /**
  * Water molecule.
@@ -16,7 +16,7 @@ public class Water extends Molecule {
     private static final double Kw = 1E-14; // equilibrium constant
 
     public Water() {
-        super( ABSStrings.WATER, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSImages.H2O_STRUCTURE, ABSColors.H2O );
+        super( AABSStrings.WATER, AABSSymbols.H2O, AABSImages.H2O_MOLECULE, AABSImages.H2O_STRUCTURE, AABSColors.H2O );
     }
     
     public static double getConcentration() {

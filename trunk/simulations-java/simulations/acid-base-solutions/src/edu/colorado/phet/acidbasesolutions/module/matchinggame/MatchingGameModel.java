@@ -5,13 +5,13 @@ package edu.colorado.phet.acidbasesolutions.module.matchinggame;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.AABSConstants;
+import edu.colorado.phet.acidbasesolutions.model.AABSClock;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.Acid.CustomAcid;
 import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
-import edu.colorado.phet.acidbasesolutions.module.ABSModel;
+import edu.colorado.phet.acidbasesolutions.module.AABSModel;
 import edu.colorado.phet.acidbasesolutions.util.PrecisionDecimal;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MatchingGameModel extends ABSModel {
+public class MatchingGameModel extends AABSModel {
     
     private static final boolean DEBUG_MATCH = false;
     
@@ -51,7 +51,7 @@ public class MatchingGameModel extends ABSModel {
     private int deltaPoints; // most recent points delta
     private final PrecisionDecimal concentrationValue;
 
-    public MatchingGameModel( ABSClock clock ) {
+    public MatchingGameModel( AABSClock clock ) {
         super( clock );
         numberOfSolutions = 0;
         points = 0;
@@ -59,7 +59,7 @@ public class MatchingGameModel extends ABSModel {
         solutionLeft = new AqueousSolution();
         solutionRight = new AqueousSolution();  
         listeners = new ArrayList<MatchingGameModelListener>();
-        concentrationValue = new PrecisionDecimal( ABSConstants.CONCENTRATION_RANGE.getMin(), ABSConstants.CONCENTRATION_DECIMAL_PLACES );
+        concentrationValue = new PrecisionDecimal( AABSConstants.CONCENTRATION_RANGE.getMin(), AABSConstants.CONCENTRATION_DECIMAL_PLACES );
         reset();
     }
     
@@ -268,12 +268,12 @@ public class MatchingGameModel extends ABSModel {
     
     private double getRandomConcentration() {
         // limit the precision of the concentration so that we don't have issues with precision of controls
-        concentrationValue.setValue( getRandomLog10( ABSConstants.CONCENTRATION_RANGE ) );
+        concentrationValue.setValue( getRandomLog10( AABSConstants.CONCENTRATION_RANGE ) );
         return concentrationValue.getValue();
     }
     
     private double getRandomStrength() {
-        return getRandomLog10( ABSConstants.CUSTOM_STRENGTH_RANGE );
+        return getRandomLog10( AABSConstants.CUSTOM_STRENGTH_RANGE );
     }
     
     /* 

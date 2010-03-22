@@ -11,7 +11,7 @@ package edu.colorado.phet.acidbasesolutions;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ABSSymbols {
+public class AABSSymbols {
     
     // generic acid/base/metal symbols
     public static final String A = "<i>A</i>";

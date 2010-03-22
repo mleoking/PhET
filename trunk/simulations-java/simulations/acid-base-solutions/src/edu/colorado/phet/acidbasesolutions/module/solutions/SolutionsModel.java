@@ -2,20 +2,20 @@
 
 package edu.colorado.phet.acidbasesolutions.module.solutions;
 
-import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.model.AABSClock;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.module.ABSModel;
+import edu.colorado.phet.acidbasesolutions.module.AABSModel;
 
 /**
  * SolutionsModel is the model for SolutionsModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SolutionsModel extends ABSModel {
+public class SolutionsModel extends AABSModel {
     
     private final AqueousSolution solution;
     
-    public SolutionsModel( ABSClock clock ) {
+    public SolutionsModel( AABSClock clock ) {
         super( clock );
         this.solution = new AqueousSolution();
     }

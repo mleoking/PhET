@@ -4,13 +4,13 @@ package edu.colorado.phet.acidbasesolutions.module.comparing;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
+import edu.colorado.phet.acidbasesolutions.AdvancedAcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.control.*;
-import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.model.AABSClock;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
-import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
+import edu.colorado.phet.acidbasesolutions.module.AABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
 
 /**
@@ -18,14 +18,14 @@ import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComparingModule extends ABSAbstractModule {
+public class ComparingModule extends AABSAbstractModule {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String TITLE = ABSStrings.TITLE_COMPARING_MODULE;
-    private static final ABSClock CLOCK = new ABSClock();
+    private static final String TITLE = AABSStrings.TITLE_COMPARING_MODULE;
+    private static final AABSClock CLOCK = new AABSClock();
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -122,7 +122,7 @@ public class ComparingModule extends ABSAbstractModule {
 
         // Module
         if ( config.isActive() ) {
-            AcidBaseSolutionsApplication.getInstance().setActiveModule( this );
+            AdvancedAcidBaseSolutionsApplication.getInstance().setActiveModule( this );
         }
 
         // left solution controls

@@ -1,6 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 
 /**
  * Represents the absences of a solute.
@@ -11,7 +11,7 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 public class NoSolute extends Solute {
     
     public NoSolute() {
-        super( ABSStrings.NO_SOLUTE, "", null, null, null, "", null, null, null, 0 );
+        super( AABSStrings.NO_SOLUTE, "", null, null, null, "", null, null, null, 0 );
     }
     
     public String getStrengthSymbol() {

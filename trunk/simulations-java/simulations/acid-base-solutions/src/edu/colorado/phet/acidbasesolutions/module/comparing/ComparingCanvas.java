@@ -7,11 +7,11 @@ import java.awt.geom.Dimension2D;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.AABSConstants;
 import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
+import edu.colorado.phet.acidbasesolutions.module.AABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComparingCanvas extends ABSAbstractCanvas {
+public class ComparingCanvas extends AABSAbstractCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -63,13 +63,13 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         equationsNodeRight = new ComparingEquationsNode( solutionRight );
         
         solutionControlsNodeLeft = new SolutionControlsNode( this, solutionLeft );
-        solutionControlsNodeLeft.scale( ABSConstants.PSWING_SCALE );
+        solutionControlsNodeLeft.scale( AABSConstants.PSWING_SCALE );
         
         solutionControlsNodeRight = new SolutionControlsNode( this, solutionRight );
-        solutionControlsNodeRight.scale( ABSConstants.PSWING_SCALE );
+        solutionControlsNodeRight.scale( AABSConstants.PSWING_SCALE );
         
         viewControlsNode = new ComparingViewControlsNode( getBackground() );
-        viewControlsNode.scale( ABSConstants.PSWING_SCALE );
+        viewControlsNode.scale( AABSConstants.PSWING_SCALE );
         viewControlsNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateVisibility();
@@ -77,7 +77,7 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         });
         
         beakerControlsNode = new ComparingBeakerControlsNode( getBackground(), beakerNodeLeft, beakerNodeRight );
-        beakerControlsNode.scale( ABSConstants.PSWING_SCALE );
+        beakerControlsNode.scale( AABSConstants.PSWING_SCALE );
         
         equationScalingControl = new EquationScalingControl();
         equationScalingControl.addChangeListener( new ChangeListener() {
@@ -87,7 +87,7 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         });
         equationScalingControlWrapper = new PhetPNode(); // so that pickability changes with visibility
         equationScalingControlWrapper.addChild( new PSwing( equationScalingControl ) );
-        equationScalingControlWrapper.scale( ABSConstants.PSWING_SCALE );
+        equationScalingControlWrapper.scale( AABSConstants.PSWING_SCALE );
         
         // rendering order
         addNode( solutionControlsNodeLeft );
@@ -166,7 +166,7 @@ public class ComparingCanvas extends ABSAbstractCanvas {
             // canvas hasn't been sized, blow off layout
             return;
         }
-        else if ( ABSConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
+        else if ( AABSConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( getClass().getName() + ".updateLayout worldSize=" + worldSize );
         }
         

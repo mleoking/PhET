@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
@@ -40,7 +40,7 @@ public class KExpressionDialog extends PaintImmediateDialog {
     
     public KExpressionDialog( Frame owner, final AqueousSolution solution, boolean showWaterExpression ) {
         super( owner );
-        setTitle( ABSStrings.TITLE_EQUILIBRIUM_EXPRESSION );
+        setTitle( AABSStrings.TITLE_EQUILIBRIUM_EXPRESSION );
         setResizable( false );
         
         this.solution = solution;
@@ -79,7 +79,7 @@ public class KExpressionDialog extends PaintImmediateDialog {
             }
         };
         canvas.setPreferredSize( TOP_CANVAS_SIZE );
-        canvas.setBackground( ABSColors.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
+        canvas.setBackground( AABSColors.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
         
         // solute expression, will be set based on solution
         soluteNode = null;
@@ -89,7 +89,7 @@ public class KExpressionDialog extends PaintImmediateDialog {
         canvasPanel.setLayout( new BoxLayout( canvasPanel, BoxLayout.Y_AXIS ) );
         canvasPanel.add( canvas );
         JPanel userPanel = new JPanel( new BorderLayout() );
-        userPanel.setBackground( ABSColors.COLOR_PANEL_BACKGROUND );
+        userPanel.setBackground( AABSColors.COLOR_PANEL_BACKGROUND );
         userPanel.add( scalingControl, BorderLayout.NORTH );
         userPanel.add( canvasPanel, BorderLayout.CENTER );
         JPanel mainPanel = new JPanel( new BorderLayout() );

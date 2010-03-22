@@ -1,8 +1,8 @@
 /* Copyright 2009, University of Colorado */
 package edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 
@@ -19,8 +19,8 @@ public class BaseEquilibriumExpressionNode extends AbstractEquilibriumExpression
         super( true, true );
         assert( solution.isBasic() );
         this.solution = solution;
-        setKLabel( ABSSymbols.Kb );
-        setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSColors.OH_MINUS );
+        setKLabel( AABSSymbols.Kb );
+        setRightNumeratorProperties( AABSSymbols.OH_MINUS, AABSColors.OH_MINUS );
         update();
     }
 

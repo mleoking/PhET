@@ -3,7 +3,7 @@ package edu.colorado.phet.acidbasesolutions.view;
 import java.awt.Color;
 import java.awt.Font;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModel;
 import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModel.MatchingGameModelAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -25,9 +25,9 @@ public class MatchingGameScoreNode extends PComposite {
     
     public MatchingGameScoreNode( final MatchingGameModel model ) {
         
-        LabelNode pointsLabel = new LabelNode( ABSStrings.LABEL_POINTS );
+        LabelNode pointsLabel = new LabelNode( AABSStrings.LABEL_POINTS );
         pointsValue = new IntValueNode();
-        LabelNode solutionsLabel = new LabelNode( ABSStrings.LABEL_SOLUTIONS );
+        LabelNode solutionsLabel = new LabelNode( AABSStrings.LABEL_SOLUTIONS );
         
         solutionsValue = new IntValueNode();
         

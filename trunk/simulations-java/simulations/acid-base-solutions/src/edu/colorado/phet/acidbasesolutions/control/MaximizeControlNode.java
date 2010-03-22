@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSImages;
+import edu.colorado.phet.acidbasesolutions.AABSImages;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -61,7 +61,7 @@ public class MaximizeControlNode extends PhetPNode {
         
         // button
         isMaximized = false;
-        buttonNode = new PImage( ABSImages.MAXIMIZE_BUTTON );
+        buttonNode = new PImage( AABSImages.MAXIMIZE_BUTTON );
         buttonNode.scale( 1.5 );//XXX
         buttonNode.addInputEventListener( new CursorHandler() );
         buttonNode.addInputEventListener( new PBasicInputEventHandler() {
@@ -78,7 +78,7 @@ public class MaximizeControlNode extends PhetPNode {
         addChild( labelNode );
         
         // tear-off icon
-        tearOffNode = new PImage( ABSImages.TEAR_OFF_BUTTON );
+        tearOffNode = new PImage( AABSImages.TEAR_OFF_BUTTON );
         tearOffNode.addInputEventListener( new CursorHandler() );
         tearOffNode.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseReleased( PInputEvent event ) {
@@ -119,12 +119,12 @@ public class MaximizeControlNode extends PhetPNode {
         if ( b != isMaximized ) {
             isMaximized = b;
             if ( isMaximized ) {
-                buttonNode.setImage( ABSImages.MINIMIZE_BUTTON );
+                buttonNode.setImage( AABSImages.MINIMIZE_BUTTON );
                 backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, maximizedSize.getWidth(), maximizedSize.getHeight() ) );
                 addChild( managedNode );
             }
             else {
-                buttonNode.setImage( ABSImages.MAXIMIZE_BUTTON );
+                buttonNode.setImage( AABSImages.MAXIMIZE_BUTTON );
                 backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, minimizedSize.getWidth(), minimizedSize.getHeight() ) );
                 removeChild( managedNode );
             }

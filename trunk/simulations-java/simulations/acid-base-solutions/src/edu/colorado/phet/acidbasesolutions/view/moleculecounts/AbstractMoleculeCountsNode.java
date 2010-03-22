@@ -8,8 +8,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.acidbasesolutions.ABSImages;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.AABSImages;
+import edu.colorado.phet.acidbasesolutions.AABSSymbols;
 import edu.colorado.phet.acidbasesolutions.view.NegligibleValueNode;
 import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
@@ -80,9 +80,9 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
             addChild( labelNodes[i] );
         }
         
-        setIconAndLabel( H3O_INDEX, ABSImages.H3O_PLUS_MOLECULE, ABSSymbols.H3O_PLUS );
-        setIconAndLabel( OH_INDEX, ABSImages.OH_MINUS_MOLECULE, ABSSymbols.OH_MINUS );
-        setIconAndLabel( H2O_INDEX, ABSImages.H2O_MOLECULE, ABSSymbols.H2O );
+        setIconAndLabel( H3O_INDEX, AABSImages.H3O_PLUS_MOLECULE, AABSSymbols.H3O_PLUS );
+        setIconAndLabel( OH_INDEX, AABSImages.OH_MINUS_MOLECULE, AABSSymbols.OH_MINUS );
+        setIconAndLabel( H2O_INDEX, AABSImages.H2O_MOLECULE, AABSSymbols.H2O );
         setCountFormat( H2O_INDEX, VALUE_FORMAT_H2O );
         
         updateLayout();

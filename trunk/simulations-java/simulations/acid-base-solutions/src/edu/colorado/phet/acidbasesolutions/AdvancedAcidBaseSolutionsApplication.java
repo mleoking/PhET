@@ -7,7 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.acidbasesolutions.module.comparing.ComparingModule;
 import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModule;
 import edu.colorado.phet.acidbasesolutions.module.solutions.SolutionsModule;
-import edu.colorado.phet.acidbasesolutions.persistence.ABSConfig;
+import edu.colorado.phet.acidbasesolutions.persistence.AABSConfig;
 import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
 import edu.colorado.phet.acidbasesolutions.persistence.MatchingGameConfig;
 import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
@@ -24,7 +24,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 
  */
-public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
+public class AdvancedAcidBaseSolutionsApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -46,7 +46,7 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public AcidBaseSolutionsApplication( PhetApplicationConfig config )
+    public AdvancedAcidBaseSolutionsApplication( PhetApplicationConfig config )
     {
         super( config );
         initModules();
@@ -97,7 +97,7 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     @Override
     public void save() {
         
-        ABSConfig appConfig = new ABSConfig();
+        AABSConfig appConfig = new AABSConfig();
         
         appConfig.setVersionString( getSimInfo().getVersion().toString() );
         appConfig.setVersionMajor( getSimInfo().getVersion().getMajor() );
@@ -126,15 +126,15 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         Object object = persistenceManager.load();
         if ( object != null ) {
             
-            if ( object instanceof ABSConfig ) {
-                ABSConfig appConfig = (ABSConfig) object;
+            if ( object instanceof AABSConfig ) {
+                AABSConfig appConfig = (AABSConfig) object;
                 
                 solutionsModule.load( appConfig.getSolutionsConfig() );
                 comparingModule.load( appConfig.getComparingConfig() );
                 matchingGameModule.load( appConfig.getMatchGameConfig() );
             }
             else {
-                String message = ABSStrings.MESSAGE_NOT_A_CONFIG;
+                String message = AABSStrings.MESSAGE_NOT_A_CONFIG;
                 PhetOptionPane.showErrorDialog( getPhetFrame(), message );
             }
         }
@@ -149,6 +149,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
          * If you want to customize your application (look-&-feel, window size, etc) 
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
-        new PhetApplicationLauncher().launchSim( args, ABSConstants.PROJECT_NAME, AcidBaseSolutionsApplication.class );
+        new PhetApplicationLauncher().launchSim( args, AABSConstants.PROJECT_NAME, AdvancedAcidBaseSolutionsApplication.class );
     }
 }

@@ -5,7 +5,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.AABSConstants;
 
 /**
  * A solute is a substance that is dissolved in a solution.
@@ -40,7 +40,7 @@ public abstract class Solute extends Molecule {
         this.conjugateStructure = conjugateStructure;
         this.conjugateColor = conjugateColor;
         this.strength = strength;
-        this.concentration = ABSConstants.CONCENTRATION_RANGE.getMin();
+        this.concentration = AABSConstants.CONCENTRATION_RANGE.getMin();
         listeners = new ArrayList<SoluteListener>();
     }
     
@@ -55,15 +55,15 @@ public abstract class Solute extends Molecule {
     }
     
     public boolean isStrong() {
-        return ABSConstants.STRONG_STRENGTH_RANGE.contains( getStrength() );
+        return AABSConstants.STRONG_STRENGTH_RANGE.contains( getStrength() );
     }
     
     public boolean isWeak() {
-        return ABSConstants.WEAK_STRENGTH_RANGE.contains( getStrength() );
+        return AABSConstants.WEAK_STRENGTH_RANGE.contains( getStrength() );
     }
     
     public boolean isIntermediate() {
-        return ABSConstants.INTERMEDIATE_STRENGTH_RANGE.containsExclusive( getStrength() );
+        return AABSConstants.INTERMEDIATE_STRENGTH_RANGE.containsExclusive( getStrength() );
     }
     
     protected void setConjugateSymbol( String conjugateSymbol ) {

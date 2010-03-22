@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.PHValue;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
@@ -115,7 +115,7 @@ class PHProbeNode extends PComposite {
         public DisplayNode() {
             super();
             
-            PText labelNode = new PText( ABSStrings.LABEL_PH );
+            PText labelNode = new PText( AABSStrings.LABEL_PH );
             labelNode.setFont( DISPLAY_FONT );
             
             _valueNode = new PText( "XXX.XX" );

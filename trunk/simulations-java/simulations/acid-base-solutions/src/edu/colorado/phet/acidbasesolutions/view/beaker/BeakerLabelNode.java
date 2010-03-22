@@ -7,7 +7,7 @@ import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.ConcentrationControlNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
@@ -109,13 +109,13 @@ class BeakerLabelNode extends PNode {
         
         private void updateLabel() {
             if ( solution.isPureWater() ) {
-                String text = ABSStrings.PURE_WATER;
+                String text = AABSStrings.PURE_WATER;
                 labelNode.setHTML( text );
             }
             else {
                 Solute solute = solution.getSolute();
                 String cString = CONCENTRATION_FORMAT.format( solute.getConcentration() );
-                String text = solute.getName() + ", " + cString + " " + ABSStrings.UNITS_MOLAR;
+                String text = solute.getName() + ", " + cString + " " + AABSStrings.UNITS_MOLAR;
                 labelNode.setHTML( text );
             }
         }

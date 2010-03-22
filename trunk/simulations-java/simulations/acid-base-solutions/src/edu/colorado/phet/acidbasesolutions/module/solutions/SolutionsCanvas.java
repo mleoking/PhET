@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSConstants;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.LegendControlNode;
 import edu.colorado.phet.acidbasesolutions.control.MaximizeControlNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
+import edu.colorado.phet.acidbasesolutions.module.AABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SolutionsCanvas extends ABSAbstractCanvas {
+public class SolutionsCanvas extends AABSAbstractCanvas {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -72,13 +72,13 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         equilibriumExpressionsNode = new SolutionsEquilibriumExpressionsNode( solution );
         
         solutionControlsNode = new SolutionControlsNode( this, solution, true /* showKButton */ );
-        solutionControlsNode.scale( ABSConstants.PSWING_SCALE );
+        solutionControlsNode.scale( AABSConstants.PSWING_SCALE );
         
         beakerControlsNode = new SolutionsBeakerControlsNode( getBackground(), beakerNode, solution );
-        beakerControlsNode.scale( ABSConstants.PSWING_SCALE );
+        beakerControlsNode.scale( AABSConstants.PSWING_SCALE );
         
         legendControlNode = new LegendControlNode( getBackground() );
-        legendControlNode.scale( ABSConstants.PSWING_SCALE );
+        legendControlNode.scale( AABSConstants.PSWING_SCALE );
         
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -96,15 +96,15 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         exclusiveControls = new ArrayList<MaximizeControlNode>();
         
-        graphMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_GRAPH, new PDimension( MAXIMIZE_CONTROL_WIDTH, 560 ), concentrationGraphNode );
+        graphMaximizeControlNode = new MaximizeControlNode( AABSStrings.BUTTON_GRAPH, new PDimension( MAXIMIZE_CONTROL_WIDTH, 560 ), concentrationGraphNode );
         graphMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( graphMaximizeControlNode );
         
-        reactionEquationsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_REACTION_EQUATIONS, new PDimension( MAXIMIZE_CONTROL_WIDTH, 450 ), reactionEquationsNode );
+        reactionEquationsMaximizeControlNode = new MaximizeControlNode( AABSStrings.BUTTON_REACTION_EQUATIONS, new PDimension( MAXIMIZE_CONTROL_WIDTH, 450 ), reactionEquationsNode );
         reactionEquationsMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( reactionEquationsMaximizeControlNode );
         
-        equilibriumExpressionsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_EQUILIBRIUM_EXPRESSIONS, new PDimension( MAXIMIZE_CONTROL_WIDTH, 380 ), equilibriumExpressionsNode );
+        equilibriumExpressionsMaximizeControlNode = new MaximizeControlNode( AABSStrings.BUTTON_EQUILIBRIUM_EXPRESSIONS, new PDimension( MAXIMIZE_CONTROL_WIDTH, 380 ), equilibriumExpressionsNode );
         equilibriumExpressionsMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( equilibriumExpressionsMaximizeControlNode );
         
@@ -188,7 +188,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
             // canvas hasn't been sized, blow off layout
             return;
         }
-        else if ( ABSConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
+        else if ( AABSConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( getClass().getName() + ".updateLayout worldSize=" + worldSize );
         }
         

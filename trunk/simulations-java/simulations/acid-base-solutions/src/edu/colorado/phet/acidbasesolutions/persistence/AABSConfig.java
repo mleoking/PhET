@@ -5,12 +5,12 @@ package edu.colorado.phet.acidbasesolutions.persistence;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
- * ABSConfig describes a configuration of this simulation.
+ * Describes a configuration of this simulation.
  * It encapsulates all of the settings that the user can change.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ABSConfig implements IProguardKeepClass {
+public class AABSConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -35,7 +35,7 @@ public class ABSConfig implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
-    public ABSConfig() {
+    public AABSConfig() {
         solutionsConfig = new SolutionsConfig();
         comparingConfig = new ComparingConfig();
         matchGameConfig = new MatchingGameConfig();

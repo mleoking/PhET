@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.HydroniumHydroxideRatioCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -53,14 +53,14 @@ public abstract class BeakerControlsNode extends PhetPNode {
             }
         });
         
-        moleculeCountsCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_MOLECULE_COUNTS );
+        moleculeCountsCheckBox = new JCheckBox( AABSStrings.CHECK_BOX_MOLECULE_COUNTS );
         moleculeCountsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyMoleculeCountsChanged();
             }
         });
         
-        labelCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_BEAKER_LABEL );
+        labelCheckBox = new JCheckBox( AABSStrings.CHECK_BOX_BEAKER_LABEL );
         labelCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                notifyLabelChanged();
@@ -69,7 +69,7 @@ public abstract class BeakerControlsNode extends PhetPNode {
 
         // border
         panel = new JPanel();
-        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_VIEW );
+        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), AABSStrings.TITLE_VIEW );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
         panel.setBorder( border );
         

@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
@@ -44,7 +44,7 @@ public class NegligibleValueNode extends PhetPNode {
         numberNode = new FormattedNumberNode( format, value, VALUE_FONT, VALUE_COLOR );
         addChild( numberNode );
         // displays "NEGLIGIBLE"
-        negligibleNode = new PText( ABSStrings.VALUE_NEGLIGIBLE );
+        negligibleNode = new PText( AABSStrings.VALUE_NEGLIGIBLE );
         negligibleNode.setFont( VALUE_FONT );
         negligibleNode.setTextPaint( VALUE_COLOR );
         addChild( negligibleNode );

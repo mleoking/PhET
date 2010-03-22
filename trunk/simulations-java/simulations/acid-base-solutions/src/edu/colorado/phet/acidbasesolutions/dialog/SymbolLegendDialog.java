@@ -11,9 +11,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import edu.colorado.phet.acidbasesolutions.ABSImages;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.AABSImages;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSSymbols;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -32,7 +32,7 @@ public class SymbolLegendDialog extends PaintImmediateDialog {
     public static final Font DESCRIPTION_FONT = new PhetFont();
     
     public SymbolLegendDialog( Frame owner ) {
-        super( owner, ABSStrings.TITLE_SYMBOL_LEGEND );
+        super( owner, AABSStrings.TITLE_SYMBOL_LEGEND );
         setResizable( false );
         
         JPanel panel = new SymbolLegendPanel();
@@ -47,14 +47,14 @@ public class SymbolLegendDialog extends PaintImmediateDialog {
         public SymbolLegendPanel() {
             super();
             
-            JLabel labelHA = new MoleculeLabel( ABSSymbols.HA, ABSImages.HA_MOLECULE );
-            JLabel descriptionHA = new DescriptionLabel( ABSStrings.LEGEND_HA );
+            JLabel labelHA = new MoleculeLabel( AABSSymbols.HA, AABSImages.HA_MOLECULE );
+            JLabel descriptionHA = new DescriptionLabel( AABSStrings.LEGEND_HA );
             
-            JLabel labelB = new MoleculeLabel( ABSSymbols.B, ABSImages.B_MOLECULE );
-            JLabel descriptionB = new DescriptionLabel( ABSStrings.LEGEND_B );
+            JLabel labelB = new MoleculeLabel( AABSSymbols.B, AABSImages.B_MOLECULE );
+            JLabel descriptionB = new DescriptionLabel( AABSStrings.LEGEND_B );
             
-            JLabel labelMOH = new MoleculeLabel( ABSSymbols.MOH, ABSImages.MOH_MOLECULE );
-            JLabel descriptionMOH = new DescriptionLabel( ABSStrings.LEGEND_MOH );
+            JLabel labelMOH = new MoleculeLabel( AABSSymbols.MOH, AABSImages.MOH_MOLECULE );
+            JLabel descriptionMOH = new DescriptionLabel( AABSStrings.LEGEND_MOH );
             
             // layout
             

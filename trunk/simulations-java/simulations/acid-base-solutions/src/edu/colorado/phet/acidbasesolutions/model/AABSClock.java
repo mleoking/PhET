@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ABSClock extends ConstantDtClock {
+public class AABSClock extends ConstantDtClock {
 
     public static final int DEFAULT_FRAME_RATE = 25; // fps, frames per second (wall time)
     public static final double DEFAULT_DT = 1;
@@ -20,11 +20,11 @@ public class ABSClock extends ConstantDtClock {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ABSClock() {
+    public AABSClock() {
         this( DEFAULT_FRAME_RATE, DEFAULT_DT );
     }
     
-    protected ABSClock( int framesPerSecond, double dt ) {
+    protected AABSClock( int framesPerSecond, double dt ) {
         super( 1000 / framesPerSecond, dt );
     }
 }

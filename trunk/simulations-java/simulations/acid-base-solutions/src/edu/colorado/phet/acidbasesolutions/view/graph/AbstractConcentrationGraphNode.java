@@ -8,9 +8,9 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSImages;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSImages;
+import edu.colorado.phet.acidbasesolutions.AABSSymbols;
 import edu.colorado.phet.acidbasesolutions.view.NegligibleValueNode;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
@@ -177,9 +177,9 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         }
         // layout of icons and labels will be handled when they are set
 
-        setMolecule( H3O_INDEX, ABSSymbols.H3O_PLUS, ABSImages.H3O_PLUS_MOLECULE, ABSColors.H3O_PLUS );
-        setMolecule( OH_INDEX, ABSSymbols.OH_MINUS, ABSImages.OH_MINUS_MOLECULE, ABSColors.OH_MINUS );
-        setMolecule( H2O_INDEX, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSColors.H2O );
+        setMolecule( H3O_INDEX, AABSSymbols.H3O_PLUS, AABSImages.H3O_PLUS_MOLECULE, AABSColors.H3O_PLUS );
+        setMolecule( OH_INDEX, AABSSymbols.OH_MINUS, AABSImages.OH_MINUS_MOLECULE, AABSColors.OH_MINUS );
+        setMolecule( H2O_INDEX, AABSSymbols.H2O, AABSImages.H2O_MOLECULE, AABSColors.H2O );
         setFormat( H2O_INDEX, H2O_FORMAT );
     }
 

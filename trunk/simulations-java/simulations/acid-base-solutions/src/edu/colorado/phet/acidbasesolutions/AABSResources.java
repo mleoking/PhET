@@ -15,12 +15,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ABSResources {
+public class AABSResources {
     
-    private static final PhetResources RESOURCES = new PhetResources( ABSConstants.PROJECT_NAME );
+    private static final PhetResources RESOURCES = new PhetResources( AABSConstants.PROJECT_NAME );
     
     /* not intended for instantiation */
-    private ABSResources() {}
+    private AABSResources() {}
     
     public static final PhetResources getResourceLoader() {
         return RESOURCES;

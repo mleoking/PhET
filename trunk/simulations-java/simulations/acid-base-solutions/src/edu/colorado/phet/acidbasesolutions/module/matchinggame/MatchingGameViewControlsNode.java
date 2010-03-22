@@ -16,7 +16,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.AABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.GeneralSoluteRatioCheckBox;
 import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.HydroniumHydroxideRatioCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -54,10 +54,10 @@ public class MatchingGameViewControlsNode extends PhetPNode {
             }
         };
         
-        beakersRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_BEAKERS );
+        beakersRadioButton = new JRadioButton( AABSStrings.RADIO_BUTTON_BEAKERS );
         beakersRadioButton.addActionListener( actionListener );
         
-        graphsRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_GRAPHS );
+        graphsRadioButton = new JRadioButton( AABSStrings.RADIO_BUTTON_GRAPHS );
         graphsRadioButton.addActionListener( actionListener );
         
         ButtonGroup group = new ButtonGroup();
@@ -84,7 +84,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
             }
         });
         
-        moleculeCountsCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_MOLECULE_COUNTS );
+        moleculeCountsCheckBox = new JCheckBox( AABSStrings.CHECK_BOX_MOLECULE_COUNTS );
         moleculeCountsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyStateChanged();
@@ -93,7 +93,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         
         // panel with border
         panel = new JPanel();
-        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_VIEW );
+        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), AABSStrings.TITLE_VIEW );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
         panel.setBorder( border );
         

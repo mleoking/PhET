@@ -1,8 +1,8 @@
 /* Copyright 2009, University of Colorado */
 package edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
@@ -18,9 +18,9 @@ public class WaterEquilibriumExpressionNode extends AbstractEquilibriumExpressio
     public WaterEquilibriumExpressionNode( AqueousSolution solution ) {
         super( false, false );
         this.solution = solution;
-        setKLabel( ABSSymbols.Kw );
-        setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSColors.H3O_PLUS );
-        setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSColors.OH_MINUS );
+        setKLabel( AABSSymbols.Kw );
+        setLeftNumeratorProperties( AABSSymbols.H3O_PLUS, AABSColors.H3O_PLUS );
+        setRightNumeratorProperties( AABSSymbols.OH_MINUS, AABSColors.OH_MINUS );
         update();
     }
     

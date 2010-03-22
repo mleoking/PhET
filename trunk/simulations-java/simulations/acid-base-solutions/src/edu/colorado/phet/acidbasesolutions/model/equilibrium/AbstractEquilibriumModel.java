@@ -1,6 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.model.equilibrium;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.AABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.PHValue;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -67,6 +67,6 @@ public abstract class AbstractEquilibriumModel {
     }
     
     protected static double getMoleculeCount( double concentration ) {
-        return concentration * ABSConstants.AVOGADROS_NUMBER;
+        return concentration * AABSConstants.AVOGADROS_NUMBER;
     }
 }

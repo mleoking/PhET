@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.AABSColors;
+import edu.colorado.phet.acidbasesolutions.AABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
@@ -235,8 +235,8 @@ public class RatioDotsNode extends PComposite {
 
         dotsH3O = getNumberOfDots( solution.getH3OConcentration() );
         dotsOH = getNumberOfDots( solution.getOHConcentration() );
-        createNodes( dotsH3O, ABSColors.H3O_PLUS, parentH3O );
-        createNodes( dotsOH, ABSColors.OH_MINUS, parentOH );
+        createNodes( dotsH3O, AABSColors.H3O_PLUS, parentH3O );
+        createNodes( dotsOH, AABSColors.OH_MINUS, parentOH );
 
         // Change rendering order from most to least dots.
         Arrays.sort( dotParents, new ChildrenCountComparator() );
@@ -250,7 +250,7 @@ public class RatioDotsNode extends PComposite {
             Solute solute = solution.getSolute();
             soluteComponentsCountNode.setCounts( solute.getSymbol(), solute.getConjugateSymbol(), dotsReactant, dotsProduct );
         }
-        hydroniumHydroxideCountsNode.setCounts( ABSSymbols.H3O_PLUS, ABSSymbols.OH_MINUS, dotsH3O, dotsOH );
+        hydroniumHydroxideCountsNode.setCounts( AABSSymbols.H3O_PLUS, AABSSymbols.OH_MINUS, dotsH3O, dotsOH );
     }
     
     /*
