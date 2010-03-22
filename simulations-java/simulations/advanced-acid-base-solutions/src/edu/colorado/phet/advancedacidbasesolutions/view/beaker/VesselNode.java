@@ -1,12 +1,12 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.view.beaker;
+package edu.colorado.phet.advancedacidbasesolutions.view.beaker;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

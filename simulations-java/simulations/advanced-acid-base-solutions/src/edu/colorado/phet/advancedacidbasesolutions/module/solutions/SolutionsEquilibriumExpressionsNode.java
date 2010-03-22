@@ -1,15 +1,15 @@
-package edu.colorado.phet.acidbasesolutions.module.solutions;
+package edu.colorado.phet.advancedacidbasesolutions.module.solutions;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
-import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.AbstractEquilibriumExpressionNode;
-import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.AcidEquilibriumExpressionNode;
-import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.BaseEquilibriumExpressionNode;
-import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.WaterEquilibriumExpressionNode;
+import edu.colorado.phet.advancedacidbasesolutions.control.EquationScalingControl;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution.SolutionListener;
+import edu.colorado.phet.advancedacidbasesolutions.view.equilibriumexpressions.AbstractEquilibriumExpressionNode;
+import edu.colorado.phet.advancedacidbasesolutions.view.equilibriumexpressions.AcidEquilibriumExpressionNode;
+import edu.colorado.phet.advancedacidbasesolutions.view.equilibriumexpressions.BaseEquilibriumExpressionNode;
+import edu.colorado.phet.advancedacidbasesolutions.view.equilibriumexpressions.WaterEquilibriumExpressionNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.pswing.PSwing;

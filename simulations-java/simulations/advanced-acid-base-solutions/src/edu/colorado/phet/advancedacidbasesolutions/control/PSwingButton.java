@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.control;
+package edu.colorado.phet.advancedacidbasesolutions.control;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;

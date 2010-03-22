@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.solutions;
+package edu.colorado.phet.advancedacidbasesolutions.module.solutions;
 
 import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.AABSConstants;
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
-import edu.colorado.phet.acidbasesolutions.control.LegendControlNode;
-import edu.colorado.phet.acidbasesolutions.control.MaximizeControlNode;
-import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.module.AABSAbstractCanvas;
-import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
-import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
+import edu.colorado.phet.advancedacidbasesolutions.AABSConstants;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.control.LegendControlNode;
+import edu.colorado.phet.advancedacidbasesolutions.control.MaximizeControlNode;
+import edu.colorado.phet.advancedacidbasesolutions.control.SolutionControlsNode;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.advancedacidbasesolutions.module.AABSAbstractCanvas;
+import edu.colorado.phet.advancedacidbasesolutions.view.beaker.BeakerNode;
+import edu.colorado.phet.advancedacidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;

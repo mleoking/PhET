@@ -1,7 +1,7 @@
-package edu.colorado.phet.acidbasesolutions.model.equilibrium;
+package edu.colorado.phet.advancedacidbasesolutions.model.equilibrium;
 
-import edu.colorado.phet.acidbasesolutions.model.NoSolute;
-import edu.colorado.phet.acidbasesolutions.model.Water;
+import edu.colorado.phet.advancedacidbasesolutions.model.NoSolute;
+import edu.colorado.phet.advancedacidbasesolutions.model.Water;
 
 /**
  * Equilibrium model for pure water (no solute).

@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.test;
+package edu.colorado.phet.advancedacidbasesolutions.test;
 
 import java.awt.*;
 

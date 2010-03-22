@@ -1,11 +1,11 @@
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.advancedacidbasesolutions.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.acidbasesolutions.model.Solute.SoluteListener;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.AbstractEquilibriumModel;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModelFactory;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute.SoluteListener;
+import edu.colorado.phet.advancedacidbasesolutions.model.equilibrium.AbstractEquilibriumModel;
+import edu.colorado.phet.advancedacidbasesolutions.model.equilibrium.EquilibriumModelFactory;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**

@@ -1,6 +1,6 @@
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.advancedacidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
 
 /**
  * Represents the absences of a solute.

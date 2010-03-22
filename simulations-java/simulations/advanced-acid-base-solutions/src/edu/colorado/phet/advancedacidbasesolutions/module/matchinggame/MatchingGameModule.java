@@ -1,14 +1,14 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.matchinggame;
+package edu.colorado.phet.advancedacidbasesolutions.module.matchinggame;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
-import edu.colorado.phet.acidbasesolutions.AdvancedAcidBaseSolutionsApplication;
-import edu.colorado.phet.acidbasesolutions.model.AABSClock;
-import edu.colorado.phet.acidbasesolutions.module.AABSAbstractModule;
-import edu.colorado.phet.acidbasesolutions.persistence.MatchingGameConfig;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.AdvancedAcidBaseSolutionsApplication;
+import edu.colorado.phet.advancedacidbasesolutions.model.AABSClock;
+import edu.colorado.phet.advancedacidbasesolutions.module.AABSAbstractModule;
+import edu.colorado.phet.advancedacidbasesolutions.persistence.MatchingGameConfig;
 
 /**
  * MatchingGameModule is the "Matching Game" module.

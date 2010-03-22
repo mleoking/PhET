@@ -1,10 +1,10 @@
 /* Copyright 2009, University of Colorado */
-package edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions;
+package edu.colorado.phet.advancedacidbasesolutions.view.equilibriumexpressions;
 
-import edu.colorado.phet.acidbasesolutions.AABSColors;
-import edu.colorado.phet.acidbasesolutions.AABSSymbols;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
+import edu.colorado.phet.advancedacidbasesolutions.AABSColors;
+import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute;
 
 /**
  * Equilibrium expression for bases.

@@ -1,11 +1,11 @@
-package edu.colorado.phet.acidbasesolutions.view;
+package edu.colorado.phet.advancedacidbasesolutions.view;
 
 import java.awt.Color;
 import java.awt.Font;
 
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
-import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModel;
-import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModel.MatchingGameModelAdapter;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.module.matchinggame.MatchingGameModel;
+import edu.colorado.phet.advancedacidbasesolutions.module.matchinggame.MatchingGameModel.MatchingGameModelAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;

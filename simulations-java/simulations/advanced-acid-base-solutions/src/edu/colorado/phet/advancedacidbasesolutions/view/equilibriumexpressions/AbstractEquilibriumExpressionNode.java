@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions;
+package edu.colorado.phet.advancedacidbasesolutions.view.equilibriumexpressions;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -6,12 +6,12 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.acidbasesolutions.AABSColors;
-import edu.colorado.phet.acidbasesolutions.AABSConstants;
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
-import edu.colorado.phet.acidbasesolutions.model.ConcentrationScaleModel;
-import edu.colorado.phet.acidbasesolutions.util.ScalingAnimator;
-import edu.colorado.phet.acidbasesolutions.view.SymbolNode;
+import edu.colorado.phet.advancedacidbasesolutions.AABSColors;
+import edu.colorado.phet.advancedacidbasesolutions.AABSConstants;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.model.ConcentrationScaleModel;
+import edu.colorado.phet.advancedacidbasesolutions.util.ScalingAnimator;
+import edu.colorado.phet.advancedacidbasesolutions.view.SymbolNode;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;

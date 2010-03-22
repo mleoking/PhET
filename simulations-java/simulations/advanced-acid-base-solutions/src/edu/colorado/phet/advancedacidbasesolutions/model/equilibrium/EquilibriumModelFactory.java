@@ -1,13 +1,13 @@
-package edu.colorado.phet.acidbasesolutions.model.equilibrium;
+package edu.colorado.phet.advancedacidbasesolutions.model.equilibrium;
 
-import edu.colorado.phet.acidbasesolutions.model.NoSolute;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
-import edu.colorado.phet.acidbasesolutions.model.Acid.CustomAcid;
-import edu.colorado.phet.acidbasesolutions.model.Acid.StrongAcid;
-import edu.colorado.phet.acidbasesolutions.model.Acid.WeakAcid;
-import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
-import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
-import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
+import edu.colorado.phet.advancedacidbasesolutions.model.NoSolute;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute;
+import edu.colorado.phet.advancedacidbasesolutions.model.Acid.CustomAcid;
+import edu.colorado.phet.advancedacidbasesolutions.model.Acid.StrongAcid;
+import edu.colorado.phet.advancedacidbasesolutions.model.Acid.WeakAcid;
+import edu.colorado.phet.advancedacidbasesolutions.model.Base.CustomBase;
+import edu.colorado.phet.advancedacidbasesolutions.model.Base.StrongBase;
+import edu.colorado.phet.advancedacidbasesolutions.model.Base.WeakBase;
 
 /**
  * Factory for creating equilibrium models.

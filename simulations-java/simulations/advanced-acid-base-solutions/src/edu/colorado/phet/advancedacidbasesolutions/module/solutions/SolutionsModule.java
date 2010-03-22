@@ -1,19 +1,19 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module.solutions;
+package edu.colorado.phet.advancedacidbasesolutions.module.solutions;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.acidbasesolutions.AABSStrings;
-import edu.colorado.phet.acidbasesolutions.AdvancedAcidBaseSolutionsApplication;
-import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
-import edu.colorado.phet.acidbasesolutions.control.LegendControlNode;
-import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
-import edu.colorado.phet.acidbasesolutions.model.AABSClock;
-import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
-import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
-import edu.colorado.phet.acidbasesolutions.module.AABSAbstractModule;
-import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
+import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
+import edu.colorado.phet.advancedacidbasesolutions.AdvancedAcidBaseSolutionsApplication;
+import edu.colorado.phet.advancedacidbasesolutions.control.BeakerControlsNode;
+import edu.colorado.phet.advancedacidbasesolutions.control.LegendControlNode;
+import edu.colorado.phet.advancedacidbasesolutions.control.SolutionControlsNode;
+import edu.colorado.phet.advancedacidbasesolutions.model.AABSClock;
+import edu.colorado.phet.advancedacidbasesolutions.model.SoluteFactory;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute.ICustomSolute;
+import edu.colorado.phet.advancedacidbasesolutions.module.AABSAbstractModule;
+import edu.colorado.phet.advancedacidbasesolutions.persistence.SolutionsConfig;
 
 /**
  * SolutionsModule is the "Solutions" module.

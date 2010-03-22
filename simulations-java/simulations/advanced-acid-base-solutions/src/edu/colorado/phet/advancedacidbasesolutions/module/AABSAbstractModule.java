@@ -1,8 +1,8 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.module;
+package edu.colorado.phet.advancedacidbasesolutions.module;
 
-import edu.colorado.phet.acidbasesolutions.model.AABSClock;
+import edu.colorado.phet.advancedacidbasesolutions.model.AABSClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**

@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.acidbasesolutions.view.moleculecounts;
+package edu.colorado.phet.advancedacidbasesolutions.view.moleculecounts;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,9 +8,9 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.acidbasesolutions.AABSImages;
-import edu.colorado.phet.acidbasesolutions.AABSSymbols;
-import edu.colorado.phet.acidbasesolutions.view.NegligibleValueNode;
+import edu.colorado.phet.advancedacidbasesolutions.AABSImages;
+import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
+import edu.colorado.phet.advancedacidbasesolutions.view.NegligibleValueNode;
 import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;

@@ -1,14 +1,14 @@
-package edu.colorado.phet.acidbasesolutions.module.solutions;
+package edu.colorado.phet.advancedacidbasesolutions.module.solutions;
 
 import java.awt.Color;
 
-import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
-import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox;
-import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.SpecificSoluteRatioCheckBox;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
-import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
+import edu.colorado.phet.advancedacidbasesolutions.control.BeakerControlsNode;
+import edu.colorado.phet.advancedacidbasesolutions.control.RatioCheckBox;
+import edu.colorado.phet.advancedacidbasesolutions.control.RatioCheckBox.SpecificSoluteRatioCheckBox;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.advancedacidbasesolutions.model.Solute;
+import edu.colorado.phet.advancedacidbasesolutions.model.AqueousSolution.SolutionAdapter;
+import edu.colorado.phet.advancedacidbasesolutions.view.beaker.BeakerNode;
 
 /**
  * Beaker controls used in the Solutions module.

@@ -1,11 +1,11 @@
-package edu.colorado.phet.acidbasesolutions.model;
+package edu.colorado.phet.advancedacidbasesolutions.model;
 
 import java.awt.Color;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.acidbasesolutions.AABSConstants;
+import edu.colorado.phet.advancedacidbasesolutions.AABSConstants;
 
 /**
  * A solute is a substance that is dissolved in a solution.

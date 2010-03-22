@@ -1,13 +1,13 @@
-package edu.colorado.phet.acidbasesolutions.view.reactionequations;
+package edu.colorado.phet.advancedacidbasesolutions.view.reactionequations;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 
-import edu.colorado.phet.acidbasesolutions.AABSImages;
-import edu.colorado.phet.acidbasesolutions.model.ConcentrationScaleModel;
-import edu.colorado.phet.acidbasesolutions.util.ScalingAnimator;
-import edu.colorado.phet.acidbasesolutions.view.SymbolNode;
+import edu.colorado.phet.advancedacidbasesolutions.AABSImages;
+import edu.colorado.phet.advancedacidbasesolutions.model.ConcentrationScaleModel;
+import edu.colorado.phet.advancedacidbasesolutions.util.ScalingAnimator;
+import edu.colorado.phet.advancedacidbasesolutions.view.SymbolNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;

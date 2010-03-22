@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.view;
+package edu.colorado.phet.advancedacidbasesolutions.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,7 +9,7 @@ import java.util.Iterator;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.acidbasesolutions.AABSSymbols;
+import edu.colorado.phet.advancedacidbasesolutions.AABSSymbols;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
