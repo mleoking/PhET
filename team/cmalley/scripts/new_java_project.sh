@@ -7,7 +7,7 @@
 
 # command line args
 if [ "${#}" -ne "2" ] ; then
-    echo "usage: ${0} trunk_dir project_name";
+    echo "usage: ${0} project_name trunk_dir";
     exit 1;
 fi
 PROJECT_NAME=${1}
