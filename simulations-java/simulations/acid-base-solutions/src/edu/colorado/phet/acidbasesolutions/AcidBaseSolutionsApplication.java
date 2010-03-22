@@ -4,11 +4,14 @@ package edu.colorado.phet.acidbasesolutions;
 
 import java.awt.Frame;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.umd.cs.piccolo.PCanvas;
 
 /**
  * Main application for this simulation.
@@ -45,6 +48,14 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     // Initialization
     //----------------------------------------------------------------------------
 
+    //TODO delete this
+    private static class DummyModule extends Module {
+        public DummyModule() {
+            super( "dummy", new ConstantDtClock( 1000, 1 ) );
+            setSimulationPanel( new PCanvas() );
+        }
+    }
+    
     /*
      * Initializes the modules.
      */
@@ -53,6 +64,7 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         Frame parentFrame = getPhetFrame();
 
         //TODO add modules
+        addModule( new DummyModule() );
     }
 
     /*
