@@ -97,6 +97,8 @@
 	<classpathentry excluding="edu/umd/cs/piccolo/swtexamples/" kind="src" path="simulations-java/contrib/piccolo2d/examples/src/main/java"/>
 	
 	<!-- Java simulations -->
+    <classpathentry kind="src" path="simulations-java/simulations/acid-base-solutions/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/acid-base-solutions/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/advanced-acid-base-solutions/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/advanced-acid-base-solutions/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/balloons/src"/>
