@@ -1,1 +1,1 @@
-2.7.3 final compiled for JVM 1.4
+scala-2.8.0.Beta1-prerelease
