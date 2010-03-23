@@ -107,12 +107,14 @@ class MNAFunSuite extends FunSuite {
 
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
-    for (i <- 0 until 1000) { //takes 0.3 sec on my machine
+    println("desired \t numerical \t error")
+    for (i <- 0 until 100) { //takes 0.3 sec on my machine
       val t = i * dt
       val solutionAtTPlusDT = dynamicCircuit.solve(dt)
       val voltage = solutionAtTPlusDT.getVoltage(resistor)
       val desiredVoltageAtTPlusDT = -v * exp(-(t+dt) / r / c)
       val error = abs(voltage - desiredVoltageAtTPlusDT)
+      println(desiredVoltageAtTPlusDT+"\t"+voltage+"\t"+error)
       assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
       dynamicCircuit = dynamicCircuit.stepInTime(dt)
     }
@@ -125,6 +127,9 @@ class MNAFunSuite extends FunSuite {
   }
   test("RC Circuit should have voltage exponentially decay with T=RC for v=3, r=7, c=1E-1") {
     testVRCCircuit(3, 7, 1E-1)
+  }
+  test("RC Circuit should have voltage exponentially decay with T=RC for v=9, r=1E-6, c=1E-1") {
+    testVRCCircuit(9, 1E-6, 1E-1)
   }
   test("RC Circuit should have voltage exponentially decay with T=RC for v=3, r=7, c=100") {
     testVRCCircuit(3, 7, 100)
