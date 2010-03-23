@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -114,6 +111,37 @@ public class TestHTMLNodeBounds extends JFrame {
                 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 SwingUtils.centerWindowOnScreen(frame);
                 frame.setVisible(true);
+            }
+        });
+    }
+}
+
+//Sample application that mimics the above behavior, but using Swing only (no Piccolo).
+class Test2 {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                JFrame frame = new JFrame();
+                final JLabel label = new JLabel("<html><center>How many<br>reactants<br>in this reaction?</center></html>");
+                frame.setContentPane(new JComponent() {
+                    protected void paintComponent(Graphics g) {
+                        Graphics2D g2 = (Graphics2D) g;
+                        g2.setPaint(Color.blue);
+                        g2.setStroke(new BasicStroke(1));
+                        g2.drawRect(0, 0, label.getPreferredSize().width, label.getPreferredSize().height);
+                    }
+                });
+
+                label.setForeground(Color.red);
+                label.setFont(new PhetFont(53));
+                System.out.println("label.getPreferredSize() = " + label.getPreferredSize());
+                frame.getContentPane().setLayout(null);
+                frame.getContentPane().add(label);
+                label.setBounds(0, 0, label.getPreferredSize().width, label.getPreferredSize().height);
+
+                frame.setVisible(true);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(new Dimension(800, 450));
             }
         });
     }
