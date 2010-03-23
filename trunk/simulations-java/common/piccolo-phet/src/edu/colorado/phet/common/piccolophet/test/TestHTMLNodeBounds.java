@@ -106,11 +106,15 @@ public class TestHTMLNodeBounds extends JFrame {
     private void updateBoundsNode() {
         boundsNode.setPathTo( htmlNode.getBounds() );
     }
-        
-    public static void main( String[] args ) {
-        JFrame frame = new TestHTMLNodeBounds();
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        SwingUtils.centerWindowOnScreen( frame );
-        frame.setVisible( true );
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                JFrame frame = new TestHTMLNodeBounds();
+                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                SwingUtils.centerWindowOnScreen(frame);
+                frame.setVisible(true);
+            }
+        });
     }
 }
