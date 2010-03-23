@@ -54,8 +54,7 @@ echo "project.flavor.FLAVOR.mainclass=${PACKAGE_NAME}.X" >> ${BUILD_PROPERTIES}
 echo "project.flavor.FLAVOR.args=" >> ${BUILD_PROPERTIES}
 
 # project properties
-PROJECT_PROPERTIES=${PROJECT_DIR}/data/${PROECT_NAME}/${PROJECT_NAME}.properties
-touch ${PROJECT_PROPERTIES}
+PROJECT_PROPERTIES=${PROJECT_DIR}/data/${PROJECT_NAME}/${PROJECT_NAME}.properties
 echo "version.major=0" >> ${PROJECT_PROPERTIES}
 echo "version.minor=00" >> ${PROJECT_PROPERTIES}
 echo "version.dev=00" >> ${PROJECT_PROPERTIES}
@@ -69,7 +68,7 @@ echo "# English strings for ${PROJECT_NAME}" >> ${STRINGS_FILE}
 echo "FLAVOR.name=" >> ${STRINGS_FILE}
 
 # credits skeleton
-CREDITS=${PROJECT_DIR}/data/${PROECT_NAME}/credits.txt
+CREDITS=${PROJECT_DIR}/data/${PROJECT_NAME}/credits.txt
 touch ${CREDITS}
 echo "phet-credits lead-design=X software-development=X design-team=X, X, X interviews=X, X, X" >> ${CREDITS}
 
