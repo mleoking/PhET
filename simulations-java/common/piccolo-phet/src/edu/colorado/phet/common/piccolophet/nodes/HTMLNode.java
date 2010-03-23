@@ -156,19 +156,18 @@ public class HTMLNode extends PNode {
      * @param paintContext
      */
     @Override
-    protected void paint( PPaintContext paintContext ) {
-        super.paint( paintContext );
-        Graphics2D g2= paintContext.getGraphics();
+    protected void paint(PPaintContext paintContext) {
+        super.paint(paintContext);
+        Graphics2D g2 = paintContext.getGraphics();
 
-        //save the old value for restoring afterwards 
-        Object savedValue = g2.getRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS);
-        if (savedValue == null) savedValue = RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT;//I think the RenderingHints API sometimes returns null, which means the default value
+        //save the old RenderingHints for restoring afterwards
+        RenderingHints renderingHints = g2.getRenderingHints();
 
         //disable fractional metrics, see #2178
-        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
-        label.paint( g2 );
+        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+        label.paint(g2);
 
-        //restore old value of fractional metrics so other painting systems are undisturbed
-        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,savedValue);
+        //restore rendering hints so other painting systems are undisturbed
+        g2.setRenderingHints(renderingHints);
     }
 }
