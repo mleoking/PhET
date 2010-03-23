@@ -1,2 +1,3 @@
+3/22/10 added prototype requirements section to Google design doc
 3/22/10 use ph-scale TestParticleViews as starting point for magnifying glass prototype
 3/22/10 create project skeleton in SVN
