@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 import javax.swing.JLabel;
 
@@ -159,6 +158,17 @@ public class HTMLNode extends PNode {
     @Override
     protected void paint( PPaintContext paintContext ) {
         super.paint( paintContext );
-        label.paint( paintContext.getGraphics() );
+        Graphics2D g2= paintContext.getGraphics();
+
+        //save the old value for restoring afterwards 
+        Object savedValue = g2.getRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS);
+        if (savedValue == null) savedValue = RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT;//I think the RenderingHints API sometimes returns null, which means the default value
+
+        //disable fractional metrics, see #2178
+        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+        label.paint( g2 );
+
+        //restore old value of fractional metrics so other painting systems are undisturbed
+        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,savedValue);
     }
 }
