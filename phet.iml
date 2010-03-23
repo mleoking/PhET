@@ -243,7 +243,6 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.3-rc1" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.3-rc2" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d-1.3-rc3" />
-      <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/circuit-construction-kit/scala-src" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -1500,6 +1499,15 @@
       <library>
         <CLASSES>
           <root url="jar://C:/install/scala-2.8.0.Beta1-prerelease/lib/scala-compiler.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/simulations-java/contrib/scalatest/scalatest.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
