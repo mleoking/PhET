@@ -39,7 +39,6 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
         };
         
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, WaveInterferenceConstants.PROJECT_NAME );
-        appConfig.setFrameSetup( WaveInterferenceConstants.FRAME_SETUP );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 
