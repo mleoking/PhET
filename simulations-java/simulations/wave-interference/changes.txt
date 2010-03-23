@@ -1,3 +1,5 @@
+> Standardized window size on startup to be 1024x768
+sim starts at 1024x768 instead of 1280x960, see #2102
 # 1.08.00 (38037) Jan 11, 2010
 1/11/10 public version for milestone "full redeploy, 2010 Q1"
 # 1.07.01 (37385) Dec 11, 2009
