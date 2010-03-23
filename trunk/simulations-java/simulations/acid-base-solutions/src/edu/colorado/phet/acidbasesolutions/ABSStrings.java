@@ -1,7 +1,6 @@
-/* Copyright 2009, University of Colorado */
+/* Copyright 2010, University of Colorado */
 
 package edu.colorado.phet.acidbasesolutions;
-
 
 /**
  * Collection of localized strings used by this simulations.
@@ -14,4 +13,12 @@ public class ABSStrings {
     
     /* not intended for instantiation */
     private ABSStrings() {}
+    
+    private static final String getString( String key ) {
+        return ABSResources.getString( key );
+    }
+    
+    private static final String getCommonString( String key ) {
+        return ABSResources.getCommonString( key );
+    }
 }

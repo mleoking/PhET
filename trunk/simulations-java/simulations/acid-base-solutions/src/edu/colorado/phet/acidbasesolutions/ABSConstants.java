@@ -4,7 +4,6 @@ package edu.colorado.phet.acidbasesolutions;
 
 import java.awt.Dimension;
 
-
 /**
  * A collection of constants that configure global properties.
  * If you change something here, it will change *everywhere* in this simulation.
