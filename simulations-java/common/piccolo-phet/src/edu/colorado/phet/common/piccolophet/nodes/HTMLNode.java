@@ -156,18 +156,18 @@ public class HTMLNode extends PNode {
      * @param paintContext
      */
     @Override
-    protected void paint(PPaintContext paintContext) {
-        super.paint(paintContext);
+    protected void paint( PPaintContext paintContext ) {
+        super.paint( paintContext );
         Graphics2D g2 = paintContext.getGraphics();
 
         //save the old RenderingHints for restoring afterwards
         RenderingHints renderingHints = g2.getRenderingHints();
 
-        //disable fractional metrics, see #2178
-        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
-        label.paint(g2);
+        //disable fractional metrics, if causes bounds to be computed incorrectly for some font sizes, see #2178
+        g2.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
+        label.paint( g2 );
 
         //restore rendering hints so other painting systems are undisturbed
-        g2.setRenderingHints(renderingHints);
+        g2.setRenderingHints( renderingHints );
     }
 }
