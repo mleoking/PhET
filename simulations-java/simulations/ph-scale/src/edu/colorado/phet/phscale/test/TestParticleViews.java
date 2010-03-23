@@ -241,7 +241,7 @@ public class TestParticleViews extends JFrame {
                     _beakerNode.setPercentFilled( _liquidFillControl.getValue() );
                 }
             } );
-            Hashtable beakerFillLabelTable = new Hashtable();
+            Hashtable<Double,JLabel> beakerFillLabelTable = new Hashtable<Double,JLabel>();
             beakerFillLabelTable.put( new Double( _liquidFillControl.getMinimum() ), new JLabel( "empty" ) );
             beakerFillLabelTable.put( new Double( _liquidFillControl.getMaximum() ), new JLabel( "full" ) );
             _liquidFillControl.setTickLabels( beakerFillLabelTable );
@@ -287,7 +287,7 @@ public class TestParticleViews extends JFrame {
                     updateParticles();
                 }
             });
-            Hashtable particleTransparencyLabelTable = new Hashtable();
+            Hashtable<Double,JLabel> particleTransparencyLabelTable = new Hashtable<Double,JLabel>();
             particleTransparencyLabelTable.put( new Double( _particleTransparencyControl.getMinimum() ), new JLabel( "invisible" ) );
             particleTransparencyLabelTable.put( new Double( _particleTransparencyControl.getMaximum() ), new JLabel( "opaque" ) );
             _particleTransparencyControl.setTickLabels( particleTransparencyLabelTable );
@@ -366,21 +366,23 @@ public class TestParticleViews extends JFrame {
 
         // control panel
         JPanel controlPanel = new JPanel();
+        controlPanel.setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
         {
-            controlPanel.setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
-            EasyGridBagLayout controlPanelLayout = new EasyGridBagLayout( controlPanel );
-            controlPanel.setLayout( controlPanelLayout );
+            JPanel innerPanel = new JPanel();
+            controlPanel.add( innerPanel ); // so that controls stay anchored to the top of the control panel
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
             int row = 0;
             int column = 0;
-            controlPanelLayout.addComponent( Box.createHorizontalStrut( MIN_CONTROL_PANEL_WIDTH ), row++, column );
-            controlPanelLayout.addFilledComponent( viewPanel, row++, column, GridBagConstraints.HORIZONTAL );
-            controlPanelLayout.addFilledComponent( _countPanel, row++, column, GridBagConstraints.HORIZONTAL );
-            controlPanelLayout.addFilledComponent( _phControl, row++, column, GridBagConstraints.HORIZONTAL );
-            controlPanelLayout.addFilledComponent( _microscopePanel, row++, column, GridBagConstraints.HORIZONTAL );
-            controlPanelLayout.addFilledComponent( _beakerPanel, row++, column, GridBagConstraints.HORIZONTAL );
-            controlPanelLayout.addFilledComponent( _particlePanel, row++, column, GridBagConstraints.HORIZONTAL );
-            controlPanelLayout.addFilledComponent( colorsPanel, row++, column, GridBagConstraints.HORIZONTAL );
-            controlPanelLayout.addAnchoredComponent( resetAllButton, row++, column, GridBagConstraints.CENTER );
+            layout.addComponent( Box.createHorizontalStrut( MIN_CONTROL_PANEL_WIDTH ), row++, column );
+            layout.addFilledComponent( viewPanel, row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( _countPanel, row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( _phControl, row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( _microscopePanel, row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( _beakerPanel, row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( _particlePanel, row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( colorsPanel, row++, column, GridBagConstraints.HORIZONTAL );
+            layout.addAnchoredComponent( resetAllButton, row++, column, GridBagConstraints.CENTER );
         }
         
         // scroll bars
