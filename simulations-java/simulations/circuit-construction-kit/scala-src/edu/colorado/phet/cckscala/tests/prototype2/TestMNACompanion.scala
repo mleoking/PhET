@@ -39,17 +39,16 @@ class CompanionCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], curren
     //BACKWARD EULER
     //        double vc = state.v;
     //        double rc = dt / c;
-
     for (c <- capacitors) {
       //in series
       val newNode = max(usedNodes.toList) + 1
       usedNodes += newNode
-      val battery = new Battery(c.node0, newNode, c.voltage + dt / 2.0 / c.capacitance * c.current)
+      val battery = new Battery(c.node0, newNode, c.voltage - dt / 2.0 / c.capacitance * c.current)//TODO: explain the difference between this sign and the one in TestTheveninCapacitorRC
       val resistor = new Resistor(newNode, c.node1, dt / 2.0 / c.capacitance)
       companionBatteries += battery
       companionResistors += resistor
       //we need to be able to get the current for this component
-      currentCompanions(c) = (s: Solution) => s.getCurrent(battery)
+      currentCompanions(c) = (s: Solution) => s.getCurrent(battery) //in series, so current is same through both companion components
     }
 
     //    for (i <- inductors) {
@@ -75,13 +74,15 @@ case class Solution1(circuit: CompanionCircuit, mnaSolution: Solution, currentCo
 object TestMNACompanion {
   def main(args: Array[String]) {
     val voltage = 9.0
-//    val resistance = 1E-6
+    //    val resistance = 1E-6
     val resistance = 1
     val c = new Capacitor(2, 0, 0.1, 0.0, voltage / resistance)
-    val battery = new Battery(0, 1, 9.0)
+    val battery = new Battery(0, 1, voltage)
     var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
+    //    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 0, resistance) :: Nil, Nil, Nil, Nil)
     for (i <- 0 until 10) {
       val solution = circuit.propagate(0.03)
+      //      println("solution = " + solution)
       println("current through battery = " + solution.getCurrent(battery))
       circuit = circuit.updateCircuit(solution)
     }
