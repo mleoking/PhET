@@ -323,7 +323,11 @@ class TinyDecimalFormat extends DecimalFormat("0.00000000000") {
   }
 }
 
-class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0", new DecimalFormatSymbols{setGroupingSeparator(' ')})
+class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0", {
+    val x = new DecimalFormatSymbols()
+    x.setGroupingSeparator(' ')
+    x
+  })
 
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
   def massToRadiusFn(m: Double) = {
