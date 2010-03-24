@@ -1,3 +1,4 @@
+# 1.27.03 (39484) Mar 24, 2010
 # 1.27.02 (38411) Feb 4, 2010
 > Fixed: Sim should automatically switch to "acceleration-driven" mode so that all initial conditions are preserved
 See #2150
