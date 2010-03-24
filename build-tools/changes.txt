@@ -1,3 +1,4 @@
+3/24/2010 Updated scalac target from jvm-1.4 to jvm-1.5
 3/24/2010 Added time tracking for java project building, see #1943
 3/24/2010 Added a command line script that can be used to identify all phet simulations with a declared dependency on the specified project.  See #2122
 # 00.68.00 (39074) Mar 3, 2010
