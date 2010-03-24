@@ -4,13 +4,12 @@ import collection.mutable.{HashSet, HashMap, ArrayBuffer}
 import edu.colorado.phet.cckscala.tests._
 
 class CompanionCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[CurrentSource], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) {
-  def solve(dt: Double) = {
+  def propagate(dt: Double) = {
     val (mnaCircuit, currentCompanions) = toMNACircuit(dt)
     new Solution1(this, mnaCircuit.solve, currentCompanions)
   }
-  //
-  def update(dt: Double) = {
-    val solution = solve(dt)
+
+  def updateCircuit(solution: Solution1) = {
     val updatedCapacitors = for (c <- capacitors) yield
       new Capacitor(c.node0, c.node1, c.capacitance, solution.getNodeVoltage(c.node1) - solution.getNodeVoltage(c.node0), solution.getCurrent(c))
     new CompanionCircuit(batteries, resistors, currents, updatedCapacitors, inductors)
@@ -76,18 +75,15 @@ case class Solution1(circuit: CompanionCircuit, mnaSolution: Solution, currentCo
 object TestMNACompanion {
   def main(args: Array[String]) {
     val voltage = 9.0
-    val resistance = 1E-6
+//    val resistance = 1E-6
+    val resistance = 1
     val c = new Capacitor(2, 0, 0.1, 0.0, voltage / resistance)
     val battery = new Battery(0, 1, 9.0)
     var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
-    val solution = circuit.solve(0.03)
-    println("solution = " + solution)
-    //    solution.getCurrent(c)
-    solution.getCurrent(battery)
-
     for (i <- 0 until 10) {
-      circuit = circuit.update(0.03)
-      println("current through battery = " + circuit.solve(0.03).getCurrent(battery))
+      val solution = circuit.propagate(0.03)
+      println("current through battery = " + solution.getCurrent(battery))
+      circuit = circuit.updateCircuit(solution)
     }
   }
 }
