@@ -1,3 +1,4 @@
+3/24/2010 Added a command line script that can be used to identify all phet simulations with a declared dependency on the specified project.  See #2122
 # 00.68.00 (39074) Mar 3, 2010
 3/3/10 Fixing Flash signing issues
 # 00.67.00 (39073) Mar 3, 2010
