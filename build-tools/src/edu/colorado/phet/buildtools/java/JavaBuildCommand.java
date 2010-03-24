@@ -59,12 +59,15 @@ public class JavaBuildCommand {
     }
 
     public void execute() throws Exception {
+        long executeStartTime = System.currentTimeMillis();//Time tracking, may be removed later
         clean();
         compile();
         copySoftwareAgreement();
         project.copyLicenseInfo();
         jar();
+        long proguardStartTime = System.currentTimeMillis();//Time tracking, may be removed later
         proguard();
+        long proguardEndTime = System.currentTimeMillis();//Time tracking, may be removed later
         if (BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified()) {
             if (project.getSignJar()) {
                 signJAR();
@@ -72,6 +75,13 @@ public class JavaBuildCommand {
         } else {
             System.out.println("Jarsigner credentials not specified in build file, skipping jar signing.");
         }
+        
+        //Time tracking, may be removed later
+        long executeEndTime = System.currentTimeMillis();
+        double proguardPercent = ((double)(proguardEndTime-proguardStartTime))/(executeEndTime-executeStartTime)*100.0;
+        System.out.println("timing "+project.getName()+": proguardTime = "+(proguardEndTime-proguardStartTime)+" ms");
+        System.out.println("timing "+project.getName()+": execTime = "+(executeEndTime-executeStartTime)+" ms");
+        System.out.println("timing "+project.getName()+": proguard took "+proguardPercent+"%");
     }
 
     public void copySoftwareAgreement() {
