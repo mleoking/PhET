@@ -1,51 +1,52 @@
 package edu.colorado.phet.cckscala.tests.prototype2
 
-import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver.Equation
 import collection.mutable.{HashSet, HashMap, ArrayBuffer}
+import edu.colorado.phet.cckscala.tests._
 
-class MNACircuit(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[CurrentSource], currentCompanions: HashMap[Branch, Solution => Double]) {
-  def getLinearSystem: LinearSystem = null
-}
-class LinearSystem(equations: Seq[Equation]) {
-  def solve = new Solution
-}
-class Solution {
-  def getCurrent(branch: Branch) = 0.0
-}
-trait Branch{
-  def node0:Int
-  def node1:Int
-}
-case class Capacitor(node0: Int, node1: Int, capacitance: Double) extends Branch
-case class CurrentSource(node0: Int, node1: Int, current: Double) extends Branch
-case class Battery(node0: Int, node1: Int, voltage: Double) extends Branch
-case class Resistor(node0: Int, node1: Int, resistance: Double) extends Branch
-case class Inductor(node0: Int, node1: Int, inductance: Double) extends Branch
-class Circuit1(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[CurrentSource], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) {
-  def solve = new Solution1(this, toMNACircuit)
+class CompanionCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[CurrentSource], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) {
+  def solve(dt: Double) = {
+    val (mnaCircuit, currentCompanions) = toMNACircuit(dt)
+    new Solution1(this, mnaCircuit.solve, currentCompanions)
+  }
+  //
+  def update(dt: Double) = {
+    val solution = solve(dt)
+    val updatedCapacitors = for (c <- capacitors) yield
+      new Capacitor(c.node0, c.node1, c.capacitance, solution.getNodeVoltage(c.node1) - solution.getNodeVoltage(c.node0), solution.getCurrent(c))
+    new CompanionCircuit(batteries, resistors, currents, updatedCapacitors, inductors)
+  }
 
   //why not give every component a companion in the MNACircuit?
-  def toMNACircuit = {
+  def toMNACircuit(dt: Double) = {
     val companionBatteries = new ArrayBuffer[Battery]
     val companionResistors = new ArrayBuffer[Resistor]
     val companionCurrents = new ArrayBuffer[CurrentSource]
-    val currentCompanions = new HashMap[Branch, Solution => Double]
+    val currentCompanions = new HashMap[Element, Solution => Double]
 
     val usedNodes = new HashSet[Int]
-    val allBranches:Seq[Branch] = batteries.toList ++  resistors.toList ++  currents.toList ++  capacitors.toList ++  inductors.toList 
-    for (b <- allBranches) {
-      usedNodes+=b.node0
-      usedNodes+=b.node1
+    val allElements: Seq[Element] = batteries.toList ++ resistors.toList ++ currents.toList ++ capacitors.toList ++ inductors.toList
+    for (b <- allElements) {
+      usedNodes += b.node0
+      usedNodes += b.node1
     }
-    def max(m:List[Int]) =m.sortWith(_ < _).reverse.head
+    def max(m: List[Int]) = m.sortWith(_ < _).reverse.head
 
     //add companion models for capacitor
+
+    //TRAPEZOIDAL
+    //        double vc = state.v + dt / 2 / c * state.i;
+    //        double rc = dt / 2 / c;
+
+    //BACKWARD EULER
+    //        double vc = state.v;
+    //        double rc = dt / c;
+
     for (c <- capacitors) {
       //in series
-      val newNode = max(usedNodes.toList)+1
+      val newNode = max(usedNodes.toList) + 1
       usedNodes += newNode
-      val battery = new Battery(c.node0, newNode, 2 / c.capacitance)
-      val resistor = new Resistor(newNode, c.node1, 123)
+      val battery = new Battery(c.node0, newNode, c.voltage + dt / 2.0 / c.capacitance * c.current)
+      val resistor = new Resistor(newNode, c.node1, dt / 2.0 / c.capacitance)
       companionBatteries += battery
       companionResistors += resistor
       //we need to be able to get the current for this component
@@ -56,25 +57,37 @@ class Circuit1(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[
     //      mnaBatteries += new Battery
     //      mnaCurrents += new CurrentSource
     //    }
-
-    new MNACircuit(batteries ++ companionBatteries, resistors ++ companionResistors, currents ++ companionCurrents, currentCompanions)
+    (new Circuit(batteries ++ companionBatteries, resistors ++ companionResistors, currents ++ companionCurrents), currentCompanions)
   }
 }
 
-class Solution1(circuit: Circuit1, mnaCircuit: MNACircuit) {
-  val mnaSolution = mnaCircuit.getLinearSystem.solve
+case class Solution1(circuit: CompanionCircuit, mnaSolution: Solution, currentCompanions: HashMap[Element, Solution => Double]) {
+  def getNodeVoltage(node: Int) = mnaSolution.getNodeVoltage(node)
 
-  def getNodeVoltage(node: Int) = 0.0
+  def getCurrent(element: Element) = {
+    if (currentCompanions.contains(element))
+      currentCompanions(element)(mnaSolution)
+    else
+      mnaSolution.getCurrent(element)
+  }
 
-  def getCurrent(branch: Branch) = mnaSolution.getCurrent(branch)
 }
 
 object TestMNACompanion {
   def main(args: Array[String]) {
-    val c = new Capacitor(0, 1, 0.1)
-    val circuit = new Circuit1(new Battery(1, 0, 9.0) :: Nil, Nil, Nil, c :: Nil, Nil)
-    val solution = circuit.solve
+    val voltage = 9.0
+    val resistance = 1E-6
+    val c = new Capacitor(2, 0, 0.1, 0.0, voltage / resistance)
+    val battery = new Battery(0, 1, 9.0)
+    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
+    val solution = circuit.solve(0.03)
     println("solution = " + solution)
-    solution.getCurrent(c)
+    //    solution.getCurrent(c)
+    solution.getCurrent(battery)
+
+    for (i <- 0 until 10) {
+      circuit = circuit.update(0.03)
+      println("current through battery = " + circuit.solve(0.03).getCurrent(battery))
+    }
   }
 }
