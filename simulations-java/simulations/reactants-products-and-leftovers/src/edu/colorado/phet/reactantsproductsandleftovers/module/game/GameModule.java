@@ -4,7 +4,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALModule;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
 
@@ -13,7 +13,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GameModule extends PiccoloModule {
+public class GameModule extends RPALModule {
     
     private final GameModel model;
     private final GameCanvas canvas;
@@ -28,12 +28,6 @@ public class GameModule extends PiccoloModule {
         // Canvas
         canvas = new GameCanvas( model, this );
         setSimulationPanel( canvas );
-
-        // no control panel
-        setControlPanel( null );
-        
-        // no clock controls
-        setClockControlPanel( null );
     }
     
     @Override

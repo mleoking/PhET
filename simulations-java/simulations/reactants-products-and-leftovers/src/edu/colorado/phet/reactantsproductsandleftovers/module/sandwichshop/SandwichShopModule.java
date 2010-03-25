@@ -4,7 +4,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALModule;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
 
@@ -13,7 +13,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SandwichShopModule extends PiccoloModule {
+public class SandwichShopModule extends RPALModule {
     
     private final SandwichShopModel model;
 
@@ -26,12 +26,6 @@ public class SandwichShopModule extends PiccoloModule {
         // Canvas
         SandwichShopCanvas canvas = new SandwichShopCanvas( model, this );
         setSimulationPanel( canvas );
-
-        // no control panel
-        setControlPanel( null );
-        
-        // no clock controls
-        setClockControlPanel( null );
 
         // Set initial state
         reset();

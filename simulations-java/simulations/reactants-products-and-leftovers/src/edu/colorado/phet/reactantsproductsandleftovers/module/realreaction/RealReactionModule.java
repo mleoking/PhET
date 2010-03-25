@@ -4,7 +4,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.realreaction;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALModule;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
 
@@ -13,12 +13,12 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RealReactionModule extends PiccoloModule {
+public class RealReactionModule extends RPALModule {
     
     private final RealReactionModel model;
 
     public RealReactionModule( Frame parentFrame ) {
-        super( RPALStrings.TITLE_REAL_REACTION, new RPALClock() );
+        super( RPALStrings.TITLE_REAL_REACTION, new RPALClock(), true /* startsPaused */ );
 
         // Model
         model = new RealReactionModel();
@@ -26,17 +26,6 @@ public class RealReactionModule extends PiccoloModule {
         // Canvas
         RealReactionCanvas canvas = new RealReactionCanvas( model, this );
         setSimulationPanel( canvas );
-
-        // this module has no control panel
-        setControlPanel( null );
-        
-        // this module has no clock controls
-        setClockControlPanel( null );
-
-        // Help
-        if ( hasHelp() ) {
-            //XXX add help items
-        }
 
         // Set initial state
         reset();
