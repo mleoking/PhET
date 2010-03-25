@@ -1,3 +1,4 @@
+> 3/25/2010 Prevented goals from being scored from the back or sides of the net. 
 > 3/22/2010 Resolved a problem that caused the goal to sometimes be incorrectly detected as a barrier.
 see #2049
 # 1.07.01 (39439) Mar 22, 2010

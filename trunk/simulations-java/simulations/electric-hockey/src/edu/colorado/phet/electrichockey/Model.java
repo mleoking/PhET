@@ -212,7 +212,19 @@ public class Model {
             int x = puck.getPosition().x;
             int y = puck.getPosition().y;
             //prt("x=" + x);
-            if ( x > 0 && x < fieldWidth && y > 0 && y < fieldHeight ) {
+
+            if ( electricHockeySimulationPanel.getPlayingField().goal.contains( puck.getPosition() ) ) {
+                goalState = true;
+                if ( electricHockeySimulationPanel.getTada() != null ) {
+                    electricHockeySimulationPanel.getTada().play();
+                }
+                electricHockeySimulationPanel.getPlayingField().paintAgain();
+                stopTimer();
+
+                // do not allow the puck to be moved
+                return;
+            }
+            else if ( x > 0 && x < fieldWidth && y > 0 && y < fieldHeight ) {
                 if ( BarrierList.currentCollisionArray[x][y] == 1 ) {
                     collisionState = true;
                     if ( electricHockeySimulationPanel.getCork() != null ) {
@@ -229,17 +241,7 @@ public class Model {
                     return;
                 }
             }
-            if ( electricHockeySimulationPanel.getPlayingField().goal.contains( puck.getPosition() ) ) {
-                goalState = true;
-                if ( electricHockeySimulationPanel.getTada() != null ) {
-                    electricHockeySimulationPanel.getTada().play();
-                }
-                electricHockeySimulationPanel.getPlayingField().paintAgain();
-                stopTimer();
 
-                // do not allow the puck to be moved
-                return;
-            }
 
             // only if the puck did not hit anything do we allow it to move
             time++;
