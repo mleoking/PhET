@@ -101,38 +101,40 @@ public class TestCanvasLayoutMacOS extends JFrame {
         
     }
     
+    private static class SleepThread extends Thread {
+
+        public SleepThread( long millis ) {
+            super( new Runnable() {
+                public void run() {
+                    while ( true ) {
+                        try {
+                            SwingUtilities.invokeAndWait( new Runnable() {
+                                public void run() {
+                                    try {
+                                        Thread.sleep( 1000 );
+                                    }
+                                    catch ( InterruptedException e ) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            } );
+                        }
+                        catch ( InterruptedException e ) {
+                            e.printStackTrace();
+                        }
+                        catch ( InvocationTargetException e ) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } );
+        }
+    }
+    
     public static void main( String[] args ) {
         
         // This thread serves to make the problem more noticeable.
-        Thread t = new Thread( new Runnable() {
-            public void run() {
-                while ( true ) {
-                    try {
-                        SwingUtilities.invokeAndWait( new Runnable() {
-                            public void run() {
-                                try {
-                                    Thread.sleep( 1000 );
-                                }
-                                catch ( InterruptedException e ) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
-                            }
-                            
-                        });
-                    }
-                    catch ( InterruptedException e ) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    catch ( InvocationTargetException e ) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } );
-        t.start();
+        new SleepThread( 1000 ).start();
         
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
