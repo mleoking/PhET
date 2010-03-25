@@ -90,7 +90,7 @@ public class TestCanvasLayoutMacOS extends JFrame {
         
         protected void updateLayout() {
             PDimension canvasSize = new PDimension( getWidth(), getHeight() );
-            System.out.println( "updateLayout canvasSize=" + canvasSize.width + "x" + canvasSize.height );
+            System.out.println( "updateLayout canvasSize=" + (int)canvasSize.width + "x" + (int)canvasSize.height );
             if ( canvasSize.getWidth() > 0 && canvasSize.getHeight() > 0 ) {
                 // center in the canvas
                 double x = ( canvasSize.getWidth() - pathNode.getFullBoundsReference().getWidth() ) / 2;
