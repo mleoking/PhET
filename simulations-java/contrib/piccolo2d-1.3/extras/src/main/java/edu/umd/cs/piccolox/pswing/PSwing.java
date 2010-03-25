@@ -37,8 +37,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
@@ -270,12 +268,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
 
     };
 
-    private final PropertyChangeListener reshapeListener = new PropertyChangeListener() {
-        public void propertyChange(final PropertyChangeEvent evt) {
-            repaint();
-        }
-    };
-
     /**
      * Listens to container nodes for changes to its contents. Any additions
      * will automatically have double buffering turned off.
@@ -318,14 +310,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         initializeComponent(component);
 
         component.revalidate();
-        //TODO: this listener is suspicious, it's not listening for any specific property
-        component.addPropertyChangeListener(new PropertyChangeListener() {
-            /** {@inheritDoc} */
-            public void propertyChange(final PropertyChangeEvent evt) {
-                updateBounds();
-            }
-        });
-
         updateBounds();
         listenForCanvas(this);
     }
@@ -345,10 +329,10 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * bounds of this PNode.
      */
     public void updateBounds() {
-        // Avoid setBounds if it is unnecessary
-        // TODO: should we make sure this is called at least once
-        // TODO: does this sometimes need to be called when size already equals
-        // preferred size, to relayout/update things?
+        /*
+         * Need to explicitly set the component's bounds because 
+         * the component's parent (PSwingCanvas.ChildWrapper) has no layout manager.
+         */
         if (componentNeedsResizing()) {
             component.setBounds(0, 0, component.getPreferredSize().width, component.getPreferredSize().height);
         }
@@ -374,6 +358,12 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * @param renderContext Contains information about current render.
      */
     public void paint(final PPaintContext renderContext) {
+        
+        if (componentNeedsResizing()) {
+            component.setBounds(0, 0, component.getPreferredSize().width, component.getPreferredSize().height);
+            component.validate();
+        }
+        
         final Graphics2D g2 = renderContext.getGraphics();
 
         if (defaultStroke == null) {
@@ -382,10 +372,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
 
         g2.setStroke(defaultStroke);
         g2.setFont(DEFAULT_FONT);
-
-        if (component.getParent() == null) {
-            component.revalidate();
-        }
 
         if (shouldRenderGreek(renderContext)) {
             paintAsGreek(g2);
@@ -516,17 +502,17 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         c.addPropertyChangeListener("font", this);
 
         // Update shape when any property (such as text or font) changes.
-        c.addPropertyChangeListener(reshapeListener);
+//        c.addPropertyChangeListener(reshapeListener);
 
-        c.addComponentListener(new ComponentAdapter() {
-            public void componentResized(final ComponentEvent e) {
-                updateBounds();
-            }
-
-            public void componentShown(final ComponentEvent e) {
-                updateBounds();
-            }
-        });
+//        c.addComponentListener(new ComponentAdapter() {
+//            public void componentResized(final ComponentEvent e) {
+//                updateBounds();
+//            }
+//
+//            public void componentShown(final ComponentEvent e) {
+//                updateBounds();
+//            }
+//        });
 
         if (c instanceof Container) {
             initializeChildren((Container) c);
