@@ -108,7 +108,7 @@ public class BarrierList {
                 Point pt = new Point( i, j );
                 boolean isInside = false;
 
-                for ( int k = 3; k < rectArray.length; k++ ) {//Start at index k=3 since k=0,1,2 are components of the goal region, which shouldn't count as a collision
+                for ( int k = 0; k < rectArray.length; k++ ) {
                     //todo: a better long term solution would be to rewrite the goal region to be a separate entity from the collision regions, instead of treating them differently based on index in an array
 
                     if ( rectArray[k].contains( pt ) ) {

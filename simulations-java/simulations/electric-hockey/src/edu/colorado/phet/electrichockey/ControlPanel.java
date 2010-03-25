@@ -210,6 +210,7 @@ public class ControlPanel extends JPanel {
         add( panelTop );
         add( panelBottom );
 
+        resetLevel();
     }
 
     private class StartBtnHandler implements ActionListener {
@@ -318,12 +319,17 @@ public class ControlPanel extends JPanel {
                 //prt("Level 3 pushed");
                 levelState = LEVEL_3;
             }
+            resetLevel();
+            electricHockeySimulationPanel.getPlayingField().paintAgain();
+        }
+
+    }
+
+        private void resetLevel() {
             nbrTries = 0;
             setNbrTriesLbl();
             electricHockeySimulationPanel.getModel().setBarrierState( levelState );
-            electricHockeySimulationPanel.getPlayingField().paintAgain();
         }
-    }
 
     private class MassTextListener implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
