@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -101,6 +102,38 @@ public class TestCanvasLayoutMacOS extends JFrame {
     }
     
     public static void main( String[] args ) {
+        
+        // This thread serves to make the problem more noticeable.
+        Thread t = new Thread( new Runnable() {
+            public void run() {
+                while ( true ) {
+                    try {
+                        SwingUtilities.invokeAndWait( new Runnable() {
+                            public void run() {
+                                try {
+                                    Thread.sleep( 1000 );
+                                }
+                                catch ( InterruptedException e ) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            }
+                            
+                        });
+                    }
+                    catch ( InterruptedException e ) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    catch ( InvocationTargetException e ) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } );
+        t.start();
+        
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 JFrame frame = new TestCanvasLayoutMacOS();
