@@ -33,7 +33,6 @@ import java.util.Vector;
 
 import javax.swing.JComponent;
 import javax.swing.RepaintManager;
-import javax.swing.SwingUtilities;
 
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -145,8 +144,7 @@ public class PSwingRepaintManager extends RepaintManager {
             }
         }
 
-        // Now we check to see if we should capture the repaint and act
-        // accordingly
+        // Now we check to see if we should capture the repaint and act accordingly
         if (captureRepaint) {
             if (!isPainting(childComponent)) {
                 final double repaintW = Math.min(childComponent.getWidth() - captureX, width);
@@ -162,12 +160,7 @@ public class PSwingRepaintManager extends RepaintManager {
 
     private void dispatchRepaint(final JComponent childComponent, final PBounds repaintBounds) {
         final PSwing pSwing = (PSwing) childComponent.getClientProperty(PSwing.PSWING_PROPERTY);
-
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                pSwing.repaint(repaintBounds);
-            }
-        });
+        pSwing.repaint(repaintBounds);
     }
 
     /**
@@ -181,19 +174,13 @@ public class PSwingRepaintManager extends RepaintManager {
      */
     public synchronized void addInvalidComponent(final JComponent invalidComponent) {
         final JComponent capturedComponent = invalidComponent;
-
-        if (capturedComponent.getParent() == null
-                || !(capturedComponent.getParent() instanceof PSwingCanvas.ChildWrapper)) {
+        if (capturedComponent.getParent() == null || !(capturedComponent.getParent() instanceof PSwingCanvas.ChildWrapper)) {
             super.addInvalidComponent(invalidComponent);
         }
         else {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    capturedComponent.validate();
-                    final PSwing pSwing = (PSwing) capturedComponent.getClientProperty(PSwing.PSWING_PROPERTY);
-                    pSwing.updateBounds();
-                }
-            });
+            capturedComponent.validate();
+            final PSwing pSwing = (PSwing) capturedComponent.getClientProperty( PSwing.PSWING_PROPERTY );
+            pSwing.updateBounds();
         }
     }
 }
