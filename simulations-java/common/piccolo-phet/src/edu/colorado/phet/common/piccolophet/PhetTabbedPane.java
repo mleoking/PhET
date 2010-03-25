@@ -72,7 +72,6 @@ public class PhetTabbedPane extends JPanel {
 
         tabPane = new TabPane( selectedTabColor, unselectedTabColor );
         add( tabPane, BorderLayout.NORTH );
-        setComponent( component );
         ComponentListener relayoutHandler = new ComponentListener() {
             public void componentHidden( ComponentEvent e ) {
             }
@@ -89,6 +88,15 @@ public class PhetTabbedPane extends JPanel {
             }
         };
         addComponentListener( relayoutHandler );
+        
+        relayoutComponents();
+    }
+    
+    @Override 
+    public void setBounds( int x, int y, int w, int h ) {
+        System.out.println( "PhetTabbedPane.setBounds " + x + "," + y + "," + w + "," + h );//XXX
+        super.setBounds( x, y, w, h );
+        relayoutComponents();
     }
 
     public void setLogoVisible( boolean logoVisible ) {
@@ -110,10 +118,12 @@ public class PhetTabbedPane extends JPanel {
     private void relayoutComponents() {
 //todo I originally believed this to be necessary in QWI to get tabs content JComponent to appear at the right size the first time they appear, but this code causes an error in 1.5: no content JComponent shows initially.
 //todo This fixed version works correctly for the TestPhetTabbedPane test under 1.4 and 1.5, so maybe the fault was originally with QWI.  This warrants further investigation.
-        Rectangle bounds = component.getBounds();
-        for ( int i = 0; i < getTabCount(); i++ ) {
-            tabPane.getTabs()[i].getComponent().setSize( bounds.width, bounds.height );//to mimic behavior in JTabbedPane
-            updateLayout( tabPane.getTabs()[i].getComponent() );
+        if ( component != null ) {
+            Rectangle bounds = component.getBounds();
+            for ( int i = 0; i < getTabCount(); i++ ) {
+                tabPane.getTabs()[i].getComponent().setSize( bounds.width, bounds.height );//to mimic behavior in JTabbedPane
+                updateLayout( tabPane.getTabs()[i].getComponent() );
+            }
         }
     }
 
@@ -659,21 +669,12 @@ public class PhetTabbedPane extends JPanel {
 
             getLayer().addChild( logo );
             getLayer().addChild( tabBase );
-            addComponentListener( new ComponentListener() {
-                public void componentHidden( ComponentEvent e ) {
-                }
-
-                public void componentMoved( ComponentEvent e ) {
-                }
-
-                public void componentResized( ComponentEvent e ) {
-                    relayout();
-                }
-
-                public void componentShown( ComponentEvent e ) {
-                    relayout();
-                }
-            } );
+            relayout();
+        }
+        
+        @Override 
+        public void setBounds( int x, int y, int w, int h ) {
+            super.setBounds( x, y, w, h );
             relayout();
         }
 
