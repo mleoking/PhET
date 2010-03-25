@@ -93,15 +93,6 @@ public class ModulePanel extends JPanel {
         setControlPanel( controlPanel );
         setHelpPanel( helpPanel );
 
-        addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                relayoutAll();
-            }
-
-            public void componentShown( ComponentEvent e ) {
-                relayoutAll();
-            }
-        } );
         addContainerListener( new ContainerListener() {
             public void componentAdded( ContainerEvent e ) {
                 relayoutAll();
@@ -111,6 +102,17 @@ public class ModulePanel extends JPanel {
                 relayoutAll();
             }
         } );
+        relayoutAll();
+    }
+    
+    /**
+     * See #2015, ensure that scaling and layout are updated when bounds change.
+     * This must happen synchronously; if you schedule it in a ComponentEvent,
+     * you will see the scaling and layout.
+     */
+    @Override 
+    public void setBounds( int x, int y, int w, int h ) {
+        super.setBounds( x, y, w, h );
         relayoutAll();
     }
 
