@@ -92,9 +92,13 @@ public class PhetTabbedPane extends JPanel {
         relayoutComponents();
     }
     
+    /**
+     * See #2015, ensure that scaling and layout are updated when bounds change.
+     * This must happen synchronously; if you schedule it in a ComponentEvent,
+     * you will see the scaling and layout.
+     */
     @Override 
     public void setBounds( int x, int y, int w, int h ) {
-        System.out.println( "PhetTabbedPane.setBounds " + x + "," + y + "," + w + "," + h );//XXX
         super.setBounds( x, y, w, h );
         relayoutComponents();
     }
