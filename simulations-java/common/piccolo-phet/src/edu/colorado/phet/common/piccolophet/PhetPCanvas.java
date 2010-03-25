@@ -45,10 +45,8 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
     //----------------------------------------------------------------------------
     
     private TransformStrategy worldTransformStrategy;
-    private ComponentAdapter resizeAdapter;
     private PhetRootPNode phetRootNode;
     private AffineTransform transform;
-    private boolean layoutDirty;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -103,8 +101,6 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         removeInputEventListener( getZoomEventHandler() );
         removeInputEventListener( getPanEventHandler() );
 
-        resizeAdapter = new ResizeAdapter();
-        addComponentListener( resizeAdapter );
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 requestFocus();
@@ -118,43 +114,21 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         setOpaque( true );
         setBorder( BorderFactory.createLineBorder( Color.black ) );
         requestFocus();
-        
-        // update layout when the canvas is resized
-        {
-            layoutDirty = true;
-            
-            addComponentListener( new ComponentAdapter() {
-
-                // if the component is resized while visible, update the layout.
-                // otherwise, mark the layout as dirty.
-                public void componentResized( ComponentEvent e ) {
-                    if ( e.getComponent().isShowing() ) {
-                        updateLayout();
-                        layoutDirty = false;
-                    }
-                    else {
-                        layoutDirty = true;
-                    }
-                }
-            } );
-            
-            addAncestorListener( new AncestorListener() {
-
-                // called when the source or one of its ancestors is make visible either
-                // by setVisible(true) being called or by its being added to the component hierarchy
-                public void ancestorAdded( AncestorEvent e ) {
-                    if ( layoutDirty && e.getComponent().isShowing() ) {
-                        updateLayout();
-                        layoutDirty = false;
-                    }
-                }
-
-                public void ancestorMoved( AncestorEvent event ) {}
-
-                public void ancestorRemoved( AncestorEvent event ) {}
-            } );
-        }
     }
+    
+    /**
+     * See #2015, ensure that scaling and layout are updated when bounds change.
+     * This must happen synchronously; if you schedule it in a ComponentEvent,
+     * you will see the scaling and layout.
+     */
+    @Override
+    public void setBounds( int x, int y, int w, int h ) {
+        if ( getBounds().getX() != x || getBounds().getY() != y || getBounds().getWidth() != w || getBounds().getHeight() != h ) {
+            super.setBounds( x, y, w, h );
+            updateWorldScale();
+            updateLayout();
+        }
+    } 
     
     /**
      * Updates the layout when the canvas is resized.
@@ -220,19 +194,6 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
 
     //----------------------------------------------------------------------------
     
-    /*
-     * PLEASE DOCUMENT ME.
-     */
-    protected class ResizeAdapter extends ComponentAdapter {
-        public void componentResized( ComponentEvent e ) {
-            updateWorldScale();
-        }
-
-        public void componentShown( ComponentEvent e ) {
-            updateWorldScale();
-        }
-    }
-
     /**
      * Gets the PhetRootPNode associated with the PCanvas.
      * 
@@ -317,7 +278,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
     }
 
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the size of the canvas in screen coordinates.
      *
