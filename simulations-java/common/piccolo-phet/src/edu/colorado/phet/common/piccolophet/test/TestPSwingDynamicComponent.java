@@ -5,6 +5,7 @@ package edu.colorado.phet.common.piccolophet.test;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -47,7 +48,7 @@ public class TestPSwingDynamicComponent extends JFrame {
         
         // panel that we'll display using Piccolo
         piccoloPanel = new ComponentPanel();
-        PSwing pswing = new PSwing( piccoloPanel );
+        final PSwing pswing = new PSwing( piccoloPanel );
         canvas.getLayer().addChild( pswing );
         pswing.setOffset( 10, 10 );
         
@@ -69,6 +70,17 @@ public class TestPSwingDynamicComponent extends JFrame {
                 updatePanels();
             }
         } );
+        
+        // 
+        JButton addComponentButton = new JButton( "add component" );
+        addComponentButton.addActionListener( new ActionListener() {
+
+            public void actionPerformed( ActionEvent e ) {
+                piccoloPanel.addComponent( new JLabel( "new" ) );
+                swingPanel.addComponent( new JLabel( "new" ) );
+            }
+            
+        });
         
         // control panel
         JPanel controlPanel = new JPanel();
@@ -104,6 +116,13 @@ public class TestPSwingDynamicComponent extends JFrame {
         c.gridy++;
         c.anchor = GridBagConstraints.WEST;
         controlPanel.add( updateButton, c );
+        // Add component buttons
+        c.gridx = 1;
+        c.gridy++;
+        c.anchor = GridBagConstraints.WEST;
+        controlPanel.add( addComponentButton, c );
+        
+       
         
         // main panel
         JPanel mainPanel = new JPanel( new BorderLayout() );
@@ -134,6 +153,7 @@ public class TestPSwingDynamicComponent extends JFrame {
         public final JLabel label;
         public final JCheckBox checkBox;
         public final JRadioButton radioButton;
+        public final GridBagConstraints constraints;
 
         public ComponentPanel() {
             setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( 5, 14, 5, 14 ) ) );
@@ -146,19 +166,54 @@ public class TestPSwingDynamicComponent extends JFrame {
             
             // layout
             setLayout( new GridBagLayout() );
-            GridBagConstraints c = new GridBagConstraints();
-            c.anchor = GridBagConstraints.WEST;
-            c.gridx = 0;
-            c.gridy = 0;
-            add( label, c );
-            c.gridy++;
-            add( checkBox, c );
-            c.gridy++;
-            add( radioButton, c );
+            constraints = new GridBagConstraints();
+            constraints.anchor = GridBagConstraints.WEST;
+            constraints.gridx = 0;
+            constraints.gridy = GridBagConstraints.RELATIVE;
+            addComponent( label );
+            addComponent( checkBox );
+            addComponent( radioButton );
+        }
+        
+        public void addComponent( JComponent c ) {
+            add( c, constraints );
+            revalidate();
+        }
+    }
+    
+    public static class SleepThread extends Thread {
+
+        public SleepThread( long millis ) {
+            super( new Runnable() {
+                public void run() {
+                    while ( true ) {
+                        try {
+                            SwingUtilities.invokeAndWait( new Runnable() {
+                                public void run() {
+                                    try {
+                                        Thread.sleep( 1000 );
+                                    }
+                                    catch ( InterruptedException e ) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            } );
+                        }
+                        catch ( InterruptedException e ) {
+                            e.printStackTrace();
+                        }
+                        catch ( InvocationTargetException e ) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } );
         }
     }
 
     public static void main( String[] args ) {
+        // This thread serves to make the problem more noticeable.
+//        new SleepThread( 1000 ).start();
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 JFrame frame = new TestPSwingDynamicComponent();
