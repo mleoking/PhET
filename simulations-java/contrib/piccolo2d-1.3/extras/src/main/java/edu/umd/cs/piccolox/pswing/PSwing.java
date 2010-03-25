@@ -501,19 +501,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         }
         c.addPropertyChangeListener("font", this);
 
-        // Update shape when any property (such as text or font) changes.
-//        c.addPropertyChangeListener(reshapeListener);
-
-//        c.addComponentListener(new ComponentAdapter() {
-//            public void componentResized(final ComponentEvent e) {
-//                updateBounds();
-//            }
-//
-//            public void componentShown(final ComponentEvent e) {
-//                updateBounds();
-//            }
-//        });
-
         if (c instanceof Container) {
             initializeChildren((Container) c);
             ((Container) c).addContainerListener(doubleBufferRemover);
