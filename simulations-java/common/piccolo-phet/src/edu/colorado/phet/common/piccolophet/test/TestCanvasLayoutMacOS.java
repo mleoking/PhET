@@ -2,19 +2,15 @@ package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.umd.cs.piccolo.PCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -34,7 +30,7 @@ public class TestCanvasLayoutMacOS extends JFrame {
         pack();
     }
     
-    private class TestCanvas extends PCanvas { // subclass PCanvas to rule out issues with PhetPCanvas
+    private class TestCanvas extends PhetPCanvas { 
         
         private final PPath pathNode;
         
@@ -44,48 +40,7 @@ public class TestCanvasLayoutMacOS extends JFrame {
             pathNode = new PPath( new Rectangle2D.Double( 0, 0, 200, 200 ) );
             pathNode.setPaint( Color.RED );
             getLayer().addChild( pathNode );
-            addListeners();
             updateLayout();
-        }
-        
-        /*
-         * This is a simplified version of what's done in PhetPCanvas constructor.
-         * Listeners that tell us when to update the scenegraph layout.
-         */
-        private void addListeners() {
-
-            addComponentListener( new ComponentAdapter() {
-
-                // When the component is resized, update the layout.
-                @Override
-                public void componentResized( ComponentEvent e ) {
-                    System.out.println( "componentResized" );
-                    updateLayout();
-                }
-
-                // When the component is made visible, update the layout.
-                @Override
-                public void componentShown( ComponentEvent e ) {
-                    System.out.println( "componentShown" );
-                    updateLayout();
-                }
-            } );
-
-            addAncestorListener( new AncestorListener() {
-
-                /* 
-                 * Called when the source or one of its ancestors is make visible either
-                 * via setVisible(true) or by its being added to the component hierarchy.
-                 */
-                public void ancestorAdded( AncestorEvent e ) {
-                    System.out.println( "ancestorAdded" );
-                    updateLayout();
-                }
-
-                public void ancestorMoved( AncestorEvent event ) {}
-
-                public void ancestorRemoved( AncestorEvent event ) {}
-            } );
         }
         
         protected void updateLayout() {
