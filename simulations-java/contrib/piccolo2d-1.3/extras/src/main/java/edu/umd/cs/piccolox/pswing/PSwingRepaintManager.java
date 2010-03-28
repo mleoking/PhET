@@ -173,13 +173,12 @@ public class PSwingRepaintManager extends RepaintManager {
      * @param invalidComponent The Swing component that needs validation
      */
     public synchronized void addInvalidComponent(final JComponent invalidComponent) {
-        final JComponent capturedComponent = invalidComponent;
-        if (capturedComponent.getParent() == null || !(capturedComponent.getParent() instanceof PSwingCanvas.ChildWrapper)) {
+        if (invalidComponent.getParent() == null || !(invalidComponent.getParent() instanceof PSwingCanvas.ChildWrapper)) {
             super.addInvalidComponent(invalidComponent);
         }
         else {
-            capturedComponent.validate();
-            final PSwing pSwing = (PSwing) capturedComponent.getClientProperty( PSwing.PSWING_PROPERTY );
+            invalidComponent.validate();
+            final PSwing pSwing = (PSwing) invalidComponent.getClientProperty( PSwing.PSWING_PROPERTY );
             pSwing.updateBounds();
         }
     }
