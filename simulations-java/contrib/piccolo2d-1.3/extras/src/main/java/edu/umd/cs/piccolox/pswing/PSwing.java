@@ -217,7 +217,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
 
     /**
      * Default stroke, <code>new BasicStroke()</code>. Cannot be made static
-     * because BasicStroke is not serializable.
+     * because BasicStroke is not serializable.  Should not be null.
      */
     private Stroke defaultStroke = new BasicStroke();
 
@@ -363,9 +363,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
             component.validate();
         }
         final Graphics2D g2 = renderContext.getGraphics();
-        if (defaultStroke == null) {
-            defaultStroke = new BasicStroke();
-        }
         g2.setStroke(defaultStroke);
         g2.setFont(DEFAULT_FONT);
         
