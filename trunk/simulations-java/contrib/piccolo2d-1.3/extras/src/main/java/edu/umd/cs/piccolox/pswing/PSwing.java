@@ -636,7 +636,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * threshold the Swing component is rendered as 'Greek' instead of painting
      * the Swing component. Defaults to {@link #DEFAULT_GREEK_THRESHOLD}.
      * 
-     * @see PSwing#paintGreek(PPaintContext)
+     * @see PSwing#paintAsGreek(Graphics2D)
      * @return the current Greek threshold scale
      */
     public double getGreekThreshold() {
@@ -648,7 +648,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * scale will be below this threshold the Swing component is rendered as
      * 'Greek' instead of painting the Swing component..
      * 
-     * @see PSwing#paintGreek(PPaintContext)
+     * @see PSwing#paintAsGreek(Graphics2D)
      * @param greekThreshold Greek threshold in scale
      */
     public void setGreekThreshold(final double greekThreshold) {
