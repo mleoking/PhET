@@ -38,7 +38,8 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * This RepaintManager replaces the default Swing implementation, and is used to
- * intercept and repaint dirty regions of PSwing components.
+ * repaint dirty regions of PSwing components and make sure the PSwings have
+ * the appropriate size.
  * <p>
  * This is an internal class used by Piccolo to support Swing components in
  * Piccolo. This should not be instantiated, though all the public methods of
@@ -48,12 +49,12 @@ import edu.umd.cs.piccolo.util.PBounds;
  * <p>
  * PBasicRepaint Manager is an extension of RepaintManager that traps those
  * repaints called by the Swing components that have been added to the PCanvas
- * and passes these repaints to the SwingVisualComponent rather than up the
+ * and passes these repaints to the PSwing rather than up the
  * component hierarchy as usually happens.
  * </p>
  * <p>
- * Also traps revalidate calls made by the Swing components added to the PCanvas
- * to reshape the applicable Visual Component.
+ * Also traps invalidate calls made by the Swing components added to the PCanvas
+ * to reshape the corresponding PSwing.
  * </p>
  * <p>
  * Also keeps a list of PSwings that are painting. This disables repaint until
@@ -61,9 +62,8 @@ import edu.umd.cs.piccolo.util.PBounds;
  * by Swing's CellRendererPane which is itself a work-around. The problem is
  * that JTable's, JTree's, and JList's cell renderers need to be validated
  * before repaint. Since we have to repaint the entire Swing component hierarchy
- * (in the case of a Swing component group used as a Piccolo visual component).
- * This causes an infinite loop. So we introduce the restriction that no
- * repaints can be triggered by a call to paint.
+ * (in the case of a PSwing), this causes an infinite loop. So we introduce the
+ * restriction that no repaints can be triggered by a call to paint.
  * </p>
  * 
  * @author Benjamin B. Bederson
