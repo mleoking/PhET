@@ -8,14 +8,14 @@ object TestPrototype {
   def main(args: Array[String]) {
     val f = new DecimalFormat("0.000000000000000")
     val vBattery = 9
-    //        val rResistor = 1
-    val rResistor = 1E-6
+    val rResistor = 1
+    //    val rResistor = 1E-6
     val c = 0.1
 
-    val t = 0
+    var t = 0.0
     val dt = 0.03
 
-    val state = new State(0, vBattery / rResistor, dt)
+    var state = new State(0, vBattery / rResistor, dt)
 
     val headers = "iteration \t dt \t t \t v(t) \t i(t) \t vTrue \t vNumerical \t error"
     println(headers)
@@ -38,24 +38,25 @@ object TestPrototype {
     bufferedWriter.close()
   }
 
-  def updateWithSubdivisions(vBattery: Double, rResistor: Double, c: Double, state: State, totalDT: Double) {
-    val elapsed = 0.0
-    val numSubdivisions = 0
+  def updateWithSubdivisions(vBattery: Double, rResistor: Double, c: Double, s: State, totalDT: Double) = {
+    var state = s
+    var elapsed = 0.0
+    var numSubdivisions = 0
     //run a number of dt's so that totalDT elapses in the end
     while (elapsed < totalDT) {
-      ResultCache resultCache = new ResultCache(vBattery, rResistor, c) //to prevent recomputation of updates
-      val dt = getTimestep(vBattery, rResistor, c, state, state.dt, resultCache)
+      val resultCache = new ResultCache(vBattery, rResistor, c) //to prevent recomputation of updates
+      var dt = getTimestep(vBattery, rResistor, c, state, state.dt, resultCache)
       if (dt + elapsed > totalDT) dt = totalDT - elapsed //don't overshoot the specified total
       state = resultCache.update(state, dt)
       elapsed = elapsed + dt
-      numSubdivisions ++
+      numSubdivisions = numSubdivisions + 1
       //            System.out.println("picked dt = "+dt)
     }
     //        System.out.println("num subdivisions = "+numSubdivisions)
-    return state
+    state
   }
 
-  def getTimestep(vBattery: Double, rResistor: Double, c: Double, state: State, dt: Double, resultCache: ResultCache) = {
+  def getTimestep(vBattery: Double, rResistor: Double, c: Double, state: State, dt: Double, resultCache: ResultCache): Double = {
     //store the previously used DT and try it first, then to increase it when possible.
     if (errorAcceptable(vBattery, rResistor, c, state, dt * 2, resultCache))
       dt * 2 //only increase by one factor if this exceeds the totalDT, it will be cropped later
@@ -63,26 +64,25 @@ object TestPrototype {
     else getTimestep(vBattery, rResistor, c, state, dt / 2, resultCache)
   }
 
-  def errorAcceptable(vBattery: Double, rResistor: Double, c: Double, state: State, dt: Double, cache: Double) = {
+  def errorAcceptable(vBattery: Double, rResistor: Double, c: Double, state: State, dt: Double, cache: ResultCache): Boolean = {
     if (dt < 1E-6)
       true
     else {
       val a = cache.update(state, dt)
       val b1 = cache.update(state, dt / 2)
       val b2 = cache.update(b1, dt / 2)
-      boolean errorAcceptable = a.distance(b2) < 1E-7
-      errorAcceptable
+      a.distance(b2) < 1E-7
     }
   }
 
   def update(vBattery: Double, rResistor: Double, c: Double, state: State, dt: Double) = {
     //TRAPEZOIDAL
-    //        val vc = state.v + dt / 2 / c * state.i
-    //        val rc = dt / 2 / c
+    val vc = state.v + dt / 2 / c * state.i
+    val rc = dt / 2 / c
 
     //BACKWARD EULER
-    val vc = state.v
-    val rc = dt / c
+    //    val vc = state.v
+    //    val rc = dt / c
 
     val newCurrent = (vBattery - vc) / (rc + rResistor)
     val newVoltage = vBattery - newCurrent * rResistor //signs may be wrong here
@@ -102,9 +102,9 @@ object TestPrototype {
   case class ResultCache(vBattery: Double, rResistor: Double, c: Double) {
     val cache = new HashMap[Key, State]
 
-    def update(state: State, dt: Double) = {
+    def update(state: State, dt: Double): State = {
       val key = new Key(dt, state)
-      if (cache.contains(key)) cache.get(key)
+      if (cache.contains(key)) cache.get(key).get
       else {
         val result = TestPrototype.update(vBattery, rResistor, c, state, dt)
         cache(key) = result
