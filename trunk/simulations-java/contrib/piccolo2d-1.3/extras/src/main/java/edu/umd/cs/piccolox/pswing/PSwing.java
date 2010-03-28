@@ -345,8 +345,8 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     /**
-     * Determines if the Swing component should be rendered normally or as a
-     * filled rectangle.
+     * Paints the PSwing on the specified renderContext.  Also determines if
+     * the Swing component should be rendered normally or as a filled rectangle (greeking).
      * <p/>
      * The transform, clip, and composite will be set appropriately when this
      * object is rendered. It is up to this object to restore the transform,
@@ -358,21 +358,17 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * @param renderContext Contains information about current render.
      */
     public void paint(final PPaintContext renderContext) {
-        
         if (componentNeedsResizing()) {
             component.setBounds(0, 0, component.getPreferredSize().width, component.getPreferredSize().height);
             component.validate();
         }
-        
         final Graphics2D g2 = renderContext.getGraphics();
-
         if (defaultStroke == null) {
             defaultStroke = new BasicStroke();
         }
-
         g2.setStroke(defaultStroke);
         g2.setFont(DEFAULT_FONT);
-
+        
         if (shouldRenderGreek(renderContext)) {
             paintAsGreek(g2);
         }
