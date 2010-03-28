@@ -387,24 +387,26 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     /**
-     * Paints the Swing component as greek.
+     * Paints the Swing component as greek.  This method assumes that the stroke has been set beforehand.
      * 
      * @param g2 The graphics used to render the filled rectangle
      */
     public void paintAsGreek(final Graphics2D g2) {
-        final Color background = component.getBackground();
-        final Color foreground = component.getForeground();
-        final Rectangle2D rect = getBounds();
+        //Save original color for restoring painting as greek.
+        Color originalColor = g2.getColor();
 
-        if (background != null) {
-            g2.setColor(background);
+        if (component.getBackground() != null) {
+            g2.setColor(component.getBackground());
         }
-        g2.fill(rect);
+        g2.fill(getBounds());
 
-        if (foreground != null) {
-            g2.setColor(foreground);
+        if (component.getForeground() != null) {
+            g2.setColor(component.getForeground());
         }
-        g2.draw(rect);
+        g2.draw(getBounds());
+
+        //Restore original color on the Graphics2D
+        g2.setColor(originalColor);
     }
 
     /** {@inheritDoc} */
