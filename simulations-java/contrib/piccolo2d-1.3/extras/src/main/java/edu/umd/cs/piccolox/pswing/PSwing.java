@@ -363,6 +363,11 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
             component.validate();
         }
         final Graphics2D g2 = renderContext.getGraphics();
+
+        //Save Stroke and Font for restoring.
+        Stroke originalStroke = g2.getStroke();
+        Font originalFont = g2.getFont();
+
         g2.setStroke(defaultStroke);
         g2.setFont(DEFAULT_FONT);
         
@@ -372,6 +377,10 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         else {
             paint(g2);
         }
+
+        //Overwrite the modified stroke and font with the original values.
+        g2.setStroke(originalStroke);
+        g2.setFont(originalFont);
     }
 
     /**
