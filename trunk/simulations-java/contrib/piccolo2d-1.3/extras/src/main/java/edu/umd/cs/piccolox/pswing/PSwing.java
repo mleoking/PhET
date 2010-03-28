@@ -334,14 +334,27 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
          * the component's parent (PSwingCanvas.ChildWrapper) has no layout manager.
          */
         if (componentNeedsResizing()) {
-            component.setBounds(0, 0, component.getPreferredSize().width, component.getPreferredSize().height);
+            updateComponentSize();
         }
         setBounds(0, 0, component.getPreferredSize().width, component.getPreferredSize().height);
     }
 
+    /**
+     * Since the parent ChildWrapper has no layout manager, it is the responsibility of this PSwing
+     * to make sure the component has its bounds set properly, otherwise it will not be drawn properly.
+     * This method sets the bounds of the component to be equal to its preferred size.
+     */
+    private void updateComponentSize() {
+        component.setBounds(0, 0, component.getPreferredSize().width, component.getPreferredSize().height);
+    }
+
+    /**
+     * Determines whether the component should be resized, based on whether its actual width and height
+     * differ from its preferred width and height.
+     * @return true if the component should be resized.
+     */
     private boolean componentNeedsResizing() {
-        return component.getWidth() != component.getPreferredSize().width
-                || component.getHeight() != component.getPreferredSize().height;
+        return component.getWidth() != component.getPreferredSize().width || component.getHeight() != component.getPreferredSize().height;
     }
 
     /**
@@ -359,7 +372,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      */
     public void paint(final PPaintContext renderContext) {
         if (componentNeedsResizing()) {
-            component.setBounds(0, 0, component.getPreferredSize().width, component.getPreferredSize().height);
+            updateComponentSize();
             component.validate();
         }
         final Graphics2D g2 = renderContext.getGraphics();
