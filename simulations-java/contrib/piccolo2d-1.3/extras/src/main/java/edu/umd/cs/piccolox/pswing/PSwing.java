@@ -378,7 +378,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
             paint(g2);
         }
 
-        //Overwrite the modified stroke and font with the original values.
+        //Restore the stroke and font on the Graphics2D
         g2.setStroke(originalStroke);
         g2.setFont(originalFont);
     }
