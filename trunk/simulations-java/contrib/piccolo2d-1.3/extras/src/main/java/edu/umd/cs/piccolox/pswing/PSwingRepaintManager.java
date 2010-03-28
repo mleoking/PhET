@@ -118,19 +118,15 @@ public class PSwingRepaintManager extends RepaintManager {
      * @param width Width of the dirty region in the component
      * @param height Height of the dirty region in the component
      */
-    public synchronized void addDirtyRegion(final JComponent component, final int x, final int y, final int width,
-            final int height) {
+    public synchronized void addDirtyRegion(final JComponent component, final int x, final int y, final int width, final int height) {
         boolean captureRepaint = false;
         JComponent childComponent = null;
-
         int captureX = x;
         int captureY = y;
 
-        // We have to check to see if the PCanvas
-        // (ie. the SwingWrapper) is in the components ancestry. If so,
-        // we will want to capture that repaint. However, we also will
-        // need to translate the repaint request since the component may
-        // be offset inside another component.
+        // We have to check to see if the PCanvas (ie. the SwingWrapper) is in the components ancestry. If so, we will
+        // want to capture that repaint. However, we also will need to translate the repaint request since the component
+        // may be offset inside another component.
         for (Component comp = component; comp != null && comp.isLightweight(); comp = comp.getParent()) {
             if (comp.getParent() instanceof PSwingCanvas.ChildWrapper) {
                 captureRepaint = true;
@@ -150,7 +146,8 @@ public class PSwingRepaintManager extends RepaintManager {
                 final double repaintW = Math.min(childComponent.getWidth() - captureX, width);
                 final double repaintH = Math.min(childComponent.getHeight() - captureY, height);
 
-                dispatchRepaint(childComponent, new PBounds(captureX, captureY, repaintW, repaintH));
+                //Schedule a repaint for the dirty part of the PSwing
+                getPSwing(childComponent).repaint(new PBounds(captureX, captureY, repaintW, repaintH));
             }
         }
         else {
@@ -158,14 +155,9 @@ public class PSwingRepaintManager extends RepaintManager {
         }
     }
 
-    private void dispatchRepaint(final JComponent childComponent, final PBounds repaintBounds) {
-        final PSwing pSwing = (PSwing) childComponent.getClientProperty(PSwing.PSWING_PROPERTY);
-        pSwing.repaint(repaintBounds);
-    }
-
     /**
-     * This is the method "revalidate" calls in the Swing components. Overridden
-     * to capture revalidate calls from those Swing components being used as
+     * This is the method "invalidate" calls in the Swing components. Overridden
+     * to capture invalidation calls from those Swing components being used as
      * Piccolo visual components and to update Piccolo's visual component
      * wrapper bounds (these are stored separately from the Swing component).
      * Otherwise, behaves like the superclass.
@@ -178,8 +170,16 @@ public class PSwingRepaintManager extends RepaintManager {
         }
         else {
             invalidComponent.validate();
-            final PSwing pSwing = (PSwing) invalidComponent.getClientProperty( PSwing.PSWING_PROPERTY );
-            pSwing.updateBounds();
+            getPSwing(invalidComponent).updateBounds();
         }
+    }
+
+    /**
+     * Obtains the PSwing associated with the specified component.
+     * @param component the component for which to return the associated PSwing
+     * @return the associated PSwing
+     */
+    private PSwing getPSwing(JComponent component) {
+        return (PSwing) component.getClientProperty( PSwing.PSWING_PROPERTY );
     }
 }
