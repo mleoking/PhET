@@ -9,6 +9,10 @@ class CompanionCircuit2(batteries: Seq[Battery], resistors: Seq[Resistor], curre
     new Solution1(this, mnaCircuit.solve, currentCompanions)
   }
 
+  def updateWithSubdivisions(dt: Double) = {
+
+  }
+
   def updateCircuit(solution: Solution1) = {
     val updatedCapacitors = for (c <- capacitors) yield
       new Capacitor(c.node0, c.node1, c.capacitance, solution.getNodeVoltage(c.node1) - solution.getNodeVoltage(c.node0), solution.getCurrent(c))
@@ -43,7 +47,7 @@ class CompanionCircuit2(batteries: Seq[Battery], resistors: Seq[Resistor], curre
       //in series
       val newNode = max(usedNodes.toList) + 1
       usedNodes += newNode
-      val battery = new Battery(c.node0, newNode, c.voltage - dt / 2.0 / c.capacitance * c.current)//TODO: explain the difference between this sign and the one in TestTheveninCapacitorRC
+      val battery = new Battery(c.node0, newNode, c.voltage - dt / 2.0 / c.capacitance * c.current) //TODO: explain the difference between this sign and the one in TestTheveninCapacitorRC
       val resistor = new Resistor(newNode, c.node1, dt / 2.0 / c.capacitance)
       companionBatteries += battery
       companionResistors += resistor
