@@ -38,13 +38,24 @@ object TestPrototype {
     bufferedWriter.close()
   }
 
+  def updateWithSubdivisionsGeneric[IState](originalState: IState, dt: Double, getTimestep: (IState, Double) => Double, update: (IState, Double) => IState) = {
+    var state = originalState
+    def elapsed = 0.0
+    while (elapsed < dt) {
+      var subdivisionDT = getTimestep(state, dt)
+      if (subdivisionDT + elapsed > dt) subdivisionDT = dt - elapsed // don't exceed max allowed dt
+      state = update(state, subdivisionDT)
+    }
+    state
+  }
+
   def updateWithSubdivisions(voltage: Double, resistance: Double, capacitance: Double, originalState: State, dt: Double) = {
     var state = originalState
     val startTime = state.time
     val endTime = startTime + dt
     while (state.time < endTime) { //run a number of dt's so that totalDT elapses in the end
       var subdivisionDT = getTimestep(voltage, resistance, capacitance, state, state.dt)
-      if (subdivisionDT + state.time > endTime) subdivisionDT = endTime-state.time //don't overshoot the specified total
+      if (subdivisionDT + state.time > endTime) subdivisionDT = endTime - state.time //don't overshoot the specified total
       state = update(voltage, resistance, capacitance, state, subdivisionDT)
     }
     state

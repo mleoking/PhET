@@ -13,8 +13,9 @@ object TestCompanionModel {
     val c = new Capacitor(2, 0, 0.1, 0.0, voltage / resistance)
     val battery = new Battery(0, 1, voltage)
     var circuit = new CompanionCircuit2(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
-    val solution = circuit.propagate(totalDT)
-    solution.getCurrent(battery)
+//    val solution = circuit.updateWithSubdivisions(totalDT)
+//    solution.getCurrent(battery)
+    null
   }
 
   def main(args: Array[String]) {
