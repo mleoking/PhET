@@ -1,9 +1,9 @@
-package edu.colorado.phet.cckscala.tests.prototype2
+package edu.colorado.phet.cckscala.tests
 
 import collection.mutable.{HashSet, HashMap, ArrayBuffer}
 import edu.colorado.phet.cckscala.tests._
 
-class CompanionCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[CurrentSource], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) {
+class CompanionCircuit2(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[CurrentSource], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) {
   def propagate(dt: Double) = {
     val (mnaCircuit, currentCompanions) = toMNACircuit(dt)
     new Solution1(this, mnaCircuit.solve, currentCompanions)
@@ -12,7 +12,7 @@ class CompanionCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], curren
   def updateCircuit(solution: Solution1) = {
     val updatedCapacitors = for (c <- capacitors) yield
       new Capacitor(c.node0, c.node1, c.capacitance, solution.getNodeVoltage(c.node1) - solution.getNodeVoltage(c.node0), solution.getCurrent(c))
-    new CompanionCircuit(batteries, resistors, currents, updatedCapacitors, inductors)
+    new CompanionCircuit2(batteries, resistors, currents, updatedCapacitors, inductors)
   }
 
   //why not give every component a companion in the MNACircuit?
@@ -59,7 +59,7 @@ class CompanionCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], curren
   }
 }
 
-case class Solution1(circuit: CompanionCircuit, mnaSolution: Solution, currentCompanions: HashMap[Element, Solution => Double]) {
+case class Solution1(circuit: CompanionCircuit2, mnaSolution: Solution, currentCompanions: HashMap[Element, Solution => Double]) {
   def getNodeVoltage(node: Int) = mnaSolution.getNodeVoltage(node)
 
   def getCurrent(element: Element) = {
@@ -78,7 +78,7 @@ object TestMNACompanion {
     val resistance = 1
     val c = new Capacitor(2, 0, 0.1, 0.0, voltage / resistance)
     val battery = new Battery(0, 1, voltage)
-    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
+    var circuit = new CompanionCircuit2(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
     //    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 0, resistance) :: Nil, Nil, Nil, Nil)
     for (i <- 0 until 10) {
       val solution = circuit.propagate(0.03)
