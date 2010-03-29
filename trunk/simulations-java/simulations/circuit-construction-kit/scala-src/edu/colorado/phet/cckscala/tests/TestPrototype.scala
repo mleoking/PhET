@@ -38,46 +38,13 @@ object TestPrototype {
     bufferedWriter.close()
   }
 
-  def updateWithSubdivisionsGeneric[IState](originalState: IState, dt: Double, getTimestep: (IState, Double) => Double, update: (IState, Double) => IState) = {
-    var state = originalState
-    def elapsed = 0.0
-    while (elapsed < dt) {
-      var subdivisionDT = getTimestep(state, dt)
-      if (subdivisionDT + elapsed > dt) subdivisionDT = dt - elapsed // don't exceed max allowed dt
-      state = update(state, subdivisionDT)
-    }
-    state
-  }
-
   def updateWithSubdivisions(voltage: Double, resistance: Double, capacitance: Double, originalState: State, dt: Double) = {
-    var state = originalState
-    val startTime = state.time
-    val endTime = startTime + dt
-    while (state.time < endTime) { //run a number of dt's so that totalDT elapses in the end
-      var subdivisionDT = getTimestep(voltage, resistance, capacitance, state, state.dt)
-      if (subdivisionDT + state.time > endTime) subdivisionDT = endTime - state.time //don't overshoot the specified total
-      state = update(voltage, resistance, capacitance, state, subdivisionDT)
-    }
-    state
-  }
+    val steppable = new Steppable[State] {
+      def update(a: State, dt: Double) = TestPrototype.update(voltage, resistance, capacitance, a, dt)
 
-  def getTimestep(voltage: Double, resistance: Double, capacitance: Double, state: State, dt: Double): Double = {
-    //store the previously used DT and try it first, then to increase it when possible.
-    if (errorAcceptable(voltage, resistance, capacitance, state, dt * 2))
-      dt * 2 //only increase by one factor if this exceeds the totalDT, it will be cropped later
-    else if (errorAcceptable(voltage, resistance, capacitance, state, dt)) dt * 2
-    else getTimestep(voltage, resistance, capacitance, state, dt / 2)
-  }
-
-  def errorAcceptable(voltage: Double, resistance: Double, capacitance: Double, state: State, dt: Double): Boolean = {
-    if (dt < 1E-6)
-      true
-    else {
-      val a = update(voltage, resistance, capacitance, state, dt)
-      val b1 = update(voltage, resistance, capacitance, state, dt / 2)
-      val b2 = update(voltage, resistance, capacitance, b1, dt / 2)
-      a.distance(b2) < 1E-7
+      def distance(a: State, b: State) = a.distance(b)
     }
+    new TimestepSubdivisions().update(originalState, steppable, dt)
   }
 
   def update(voltage: Double, resistance: Double, capacitance: Double, state: State, dt: Double) = {
