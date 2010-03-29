@@ -15,7 +15,7 @@ object TestPrototype {
     var t = 0.0
     val dt = 0.03
 
-    var state = new State(0, vBattery / rResistor, dt)
+    var state = new State(0, vBattery / rResistor, dt, t)
 
     val headers = "iteration \t dt \t t \t v(t) \t i(t) \t vTrue \t vNumerical \t error"
     println(headers)
@@ -38,59 +38,53 @@ object TestPrototype {
     bufferedWriter.close()
   }
 
-  def updateWithSubdivisions(vBattery: Double, rResistor: Double, c: Double, s: State, totalDT: Double) = {
-    var state = s
-    var elapsed = 0.0
-    var numSubdivisions = 0
-    //run a number of dt's so that totalDT elapses in the end
-    while (elapsed < totalDT) {
-      val resultCache = new ResultCache(vBattery, rResistor, c) //to prevent recomputation of updates
-      var dt = getTimestep(vBattery, rResistor, c, state, state.dt, resultCache)
-      if (dt + elapsed > totalDT) dt = totalDT - elapsed //don't overshoot the specified total
-      state = resultCache.update(state, dt)
-      elapsed = elapsed + dt
-      numSubdivisions = numSubdivisions + 1
-      //            System.out.println("picked dt = "+dt)
+  def updateWithSubdivisions(voltage: Double, resistance: Double, capacitance: Double, originalState: State, dt: Double) = {
+    var state = originalState
+    val startTime = state.time
+    val endTime = startTime + dt
+    while (state.time < endTime) { //run a number of dt's so that totalDT elapses in the end
+      var subdivisionDT = getTimestep(voltage, resistance, capacitance, state, state.dt)
+      if (subdivisionDT + state.time > endTime) subdivisionDT = endTime-state.time //don't overshoot the specified total
+      state = update(voltage, resistance, capacitance, state, subdivisionDT)
     }
-    //        System.out.println("num subdivisions = "+numSubdivisions)
     state
   }
 
-  def getTimestep(vBattery: Double, rResistor: Double, c: Double, state: State, dt: Double, resultCache: ResultCache): Double = {
+  def getTimestep(voltage: Double, resistance: Double, capacitance: Double, state: State, dt: Double): Double = {
     //store the previously used DT and try it first, then to increase it when possible.
-    if (errorAcceptable(vBattery, rResistor, c, state, dt * 2, resultCache))
+    if (errorAcceptable(voltage, resistance, capacitance, state, dt * 2))
       dt * 2 //only increase by one factor if this exceeds the totalDT, it will be cropped later
-    else if (errorAcceptable(vBattery, rResistor, c, state, dt, resultCache)) dt * 2
-    else getTimestep(vBattery, rResistor, c, state, dt / 2, resultCache)
+    else if (errorAcceptable(voltage, resistance, capacitance, state, dt)) dt * 2
+    else getTimestep(voltage, resistance, capacitance, state, dt / 2)
   }
 
-  def errorAcceptable(vBattery: Double, rResistor: Double, c: Double, state: State, dt: Double, cache: ResultCache): Boolean = {
+  def errorAcceptable(voltage: Double, resistance: Double, capacitance: Double, state: State, dt: Double): Boolean = {
     if (dt < 1E-6)
       true
     else {
-      val a = cache.update(state, dt)
-      val b1 = cache.update(state, dt / 2)
-      val b2 = cache.update(b1, dt / 2)
+      val a = update(voltage, resistance, capacitance, state, dt)
+      val b1 = update(voltage, resistance, capacitance, state, dt / 2)
+      val b2 = update(voltage, resistance, capacitance, b1, dt / 2)
       a.distance(b2) < 1E-7
     }
   }
 
-  def update(vBattery: Double, rResistor: Double, c: Double, state: State, dt: Double) = {
+  def update(voltage: Double, resistance: Double, capacitance: Double, state: State, dt: Double) = {
     //TRAPEZOIDAL
-    val vc = state.v + dt / 2 / c * state.i
-    val rc = dt / 2 / c
+    val vc = state.v + dt / 2 / capacitance * state.i
+    val rc = dt / 2 / capacitance
 
     //BACKWARD EULER
     //    val vc = state.v
     //    val rc = dt / c
 
-    val newCurrent = (vBattery - vc) / (rc + rResistor)
-    val newVoltage = vBattery - newCurrent * rResistor //signs may be wrong here
+    val newCurrent = (voltage - vc) / (rc + resistance)
+    val newVoltage = voltage - newCurrent * resistance //signs may be wrong here
 
-    new State(newVoltage, newCurrent, dt)
+    new State(newVoltage, newCurrent, dt, state.time + dt)
   }
 
-  case class State(v: Double, i: Double, dt: Double) {
+  case class State(v: Double, i: Double, dt: Double, time: Double) {
     def distance(s: State) = Math.sqrt(square(s.v - v) + square(s.i - i)) / 2
 
     def square(x: Double) = x * x
