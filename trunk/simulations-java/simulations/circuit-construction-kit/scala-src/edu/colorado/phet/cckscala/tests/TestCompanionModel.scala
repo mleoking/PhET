@@ -26,8 +26,8 @@ object TestCompanionModel {
     val battery = new Battery(0, 1, voltage)
     val dt = 0.03
 
-    val currentThroughPrototype = stepPrototype(voltage, resistance, capacitance, new State(0.0, voltage / resistance, dt), dt)
-    val currentThroughCompanion = stepCompanion(voltage, resistance, capacitance, new State(0.0, voltage / resistance, dt), dt)
+    val currentThroughPrototype = stepPrototype(voltage, resistance, capacitance, new State(0.0, voltage / resistance, dt,0.0), dt)
+    val currentThroughCompanion = stepCompanion(voltage, resistance, capacitance, new State(0.0, voltage / resistance, dt,0.0), dt)
 
     if (currentThroughPrototype != currentThroughCompanion) throw new RuntimeException("mismatch: prototype = "+currentThroughPrototype+", companion = "+currentThroughCompanion)
 
