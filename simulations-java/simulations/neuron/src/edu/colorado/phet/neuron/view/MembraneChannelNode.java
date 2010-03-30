@@ -101,8 +101,11 @@ public class MembraneChannelNode extends PNode{
 			double ballDiameter = mvt.modelToViewDifferentialXDouble(membraneChannelModel.getChannelSize().getWidth());
 			Shape inactivationBallShape = 
 				new Ellipse2D.Double(-ballDiameter / 2, -ballDiameter / 2, ballDiameter, ballDiameter);
-			inactivationGateBallNode = new PhetPPath(inactivationBallShape, membraneChannelModel.getEdgeColor(),
-					new BasicStroke(1f), ColorUtils.darkerColor(membraneChannelModel.getEdgeColor(), 0.3));
+			inactivationGateBallNode = new PhetPPath(
+					inactivationBallShape, 
+					ColorUtils.darkerColor(membraneChannelModel.getEdgeColor(), 0.3),
+					new BasicStroke(1f), 
+					ColorUtils.darkerColor(membraneChannelModel.getEdgeColor(), 0.3));
 			channelLayer.addChild(inactivationGateBallNode);
 			
 		}
