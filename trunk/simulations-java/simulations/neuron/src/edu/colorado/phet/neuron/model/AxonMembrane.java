@@ -268,7 +268,7 @@ public class AxonMembrane {
     public static class TravelingActionPotential {
     	
     	private static double TRAVELING_TIME = 0.0020; // In seconds of sim time (not wall time).
-    	private static double LINGER_AT_CROSS_SECTION_TIME = 0.0002; // In seconds of sim time (not wall time).
+    	private static double LINGER_AT_CROSS_SECTION_TIME = 0.0004; // In seconds of sim time (not wall time).
     	
         private ArrayList<Listener> listeners = new ArrayList<Listener>();
     	private double travelTimeCountdownTimer = TRAVELING_TIME;
@@ -318,7 +318,9 @@ public class AxonMembrane {
     	 */
     	private void updateShape(){
     		if (travelTimeCountdownTimer > 0){
-    			// Calculate the start and end points.
+    			// Depict the traveling action potential as a curved line
+    			// moving down the axon.  Start by calculating the start and
+    			// end points.
     			double travelAmtFactor = 1 - travelTimeCountdownTimer / TRAVELING_TIME;
     			Point2D startPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveA(), travelAmtFactor);
     			Point2D endPoint = AxonMembrane.evaluateCurve(axonMembrane.getCurveB(), travelAmtFactor);
@@ -338,11 +340,14 @@ public class AxonMembrane {
     			shape = new CubicCurve2D.Double(startPoint.getX(), startPoint.getY(), ctrlPoint1.getX(), ctrlPoint1.getY(), ctrlPoint2.getX(), ctrlPoint2.getY(), endPoint.getX(), endPoint.getY());
     		}
     		else{
+    			// Define the shape as a circle that changes shape a bit.
+    			// This is done when the action potential has essentially
+    			// reached the point of the cross section.
     			Ellipse2D crossSectionEllipse = axonMembrane.getCrossSectionEllipseShape();
     			// Make the shape a little bigger than the cross section so
     			// that it can be seen behind it, and have it grow while it
     			// is there.
-    			double growthFactor = (1 - lingerCountdownTimer / LINGER_AT_CROSS_SECTION_TIME) * 0.03 + 1.01;
+    			double growthFactor = (1 - Math.abs(lingerCountdownTimer / LINGER_AT_CROSS_SECTION_TIME - 0.5) * 2) * 0.03 + 1.01;
     			double newWidth = crossSectionEllipse.getWidth() * growthFactor;
     			double newHeight = crossSectionEllipse.getHeight() * growthFactor;
     			shape = new Ellipse2D.Double( -newWidth / 2, -newHeight / 2, newWidth, newHeight );
