@@ -52,7 +52,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.3);
     
     // Color of button for stimulating the neuron.
-    private static final Color CANVAS_BUTTON_COLOR = Color.GREEN;
+    private static final Color CANVAS_BUTTON_COLOR = new Color(255, 144, 0);
     
     // For debug: Enable and disable nodes that can help with debug of layout.
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
