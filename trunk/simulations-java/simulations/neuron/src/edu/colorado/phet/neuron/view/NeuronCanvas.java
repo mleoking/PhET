@@ -19,7 +19,6 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.AxonModel;
@@ -88,8 +87,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private MembraneVoltmeter voltmeter;
     
     // Button for stimulating the neuron.
-    GradientButtonNode stimulateNeuronButton;
-    GradientButtonNode grayedStimulateNeuronButton;
+    DisableableGradientButtonNode stimulateNeuronButton2;
     
     // For debug: Shows center of zoom.
     private CrossHairNode crossHairNode;
@@ -126,7 +124,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 				membranePotentialChart.setVisible(model.isPotentialChartVisible());
 			}
 			public void stimulationLockoutStateChanged() {
-				updateStimButtonVisibility();
+				updateStimButtonState();
 			}
 		});
         
@@ -156,21 +154,17 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         
         // Add the button for stimulating the neuron.
         // TODO: i18n.
-        stimulateNeuronButton = new GradientButtonNode("<html><center>Stimulate<br>Neuron</center></html>", 12, CANVAS_BUTTON_COLOR);
-        stimulateNeuronButton.scale(2);
-        stimulateNeuronButton.setOffset(10, 10);
-        addScreenChild(stimulateNeuronButton);
-        grayedStimulateNeuronButton = new GradientButtonNode("<html><center>Stimulate<br>Neuron</center></html>", 12, Color.LIGHT_GRAY);
-        grayedStimulateNeuronButton.scale(2);
-        grayedStimulateNeuronButton.setOffset(10, 10);
-        grayedStimulateNeuronButton.setPickable(false);
-        grayedStimulateNeuronButton.setChildrenPickable(false);
-        addScreenChild(grayedStimulateNeuronButton);
+        stimulateNeuronButton2 = new DisableableGradientButtonNode(
+        		"<html><center>Stimulate<br>Neuron</center></html>", 12, CANVAS_BUTTON_COLOR);
+        stimulateNeuronButton2.scale(2);
+        stimulateNeuronButton2.setOffset(10, 10);
+        addScreenChild(stimulateNeuronButton2);
 
         // Register to receive button pushes.
-        stimulateNeuronButton.addActionListener( new ActionListener(){
+        stimulateNeuronButton2.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
             	model.initiateStimulusPulse();
+            	updateStimButtonState();
             }
         });
         
@@ -203,8 +197,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         
         // Add the zoom slider.
         ZoomControl zoomSlider = new ZoomControl(new PDimension(25, 130), this, 0.6, 7, 10);
-        zoomSlider.setOffset(stimulateNeuronButton.getXOffset(),
-        		stimulateNeuronButton.getFullBoundsReference().getMaxY() + 10);
+        zoomSlider.setOffset(stimulateNeuronButton2.getXOffset(),
+        		stimulateNeuronButton2.getFullBoundsReference().getMaxY() + 10);
         chartLayer.addChild(zoomSlider);
         
         // Add the depiction of the particle motion bounds, if enabled.
@@ -225,7 +219,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         updateLayout();
         
         // Update other initial state.
-        updateStimButtonVisibility();
+        updateStimButtonState();
     }
     
     //----------------------------------------------------------------------------
@@ -265,9 +259,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         }
     }
     
-    private void updateStimButtonVisibility(){
-    	stimulateNeuronButton.setVisible(!model.isStimulusInitiationLockedOut());
-    	grayedStimulateNeuronButton.setVisible(model.isStimulusInitiationLockedOut());
+    private void updateStimButtonState(){
+    	stimulateNeuronButton2.setEnabled(!model.isStimulusInitiationLockedOut());
     }
     
 	public void addZoomListener(ZoomListener neuronCanvasZoomListener){
