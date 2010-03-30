@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalDynamicsDlg;
 import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalParamsDlg;
-import edu.colorado.phet.neuron.module.AxonModule;
+import edu.colorado.phet.neuron.module.AxonCrossSectionModule;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 
 /**
@@ -33,7 +33,7 @@ public class NeuronApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private AxonModule neuronModule;
+    private AxonCrossSectionModule neuronModule;
     private MembraneDiffusionModule membraneDiffusionModule;
     
     // Developer window(s) and things for controlling them.
@@ -72,7 +72,7 @@ public class NeuronApplication extends PiccoloPhetApplication {
 //        membraneDiffusionModule = new MembraneDiffusionModule(parentFrame);
 //        addModule(membraneDiffusionModule);
 
-        neuronModule = new AxonModule( parentFrame );
+        neuronModule = new AxonCrossSectionModule( parentFrame );
         addModule( neuronModule );
         
         /*

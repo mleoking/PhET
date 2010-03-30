@@ -27,11 +27,11 @@ import edu.colorado.phet.neuron.view.NeuronCanvas;
 import edu.colorado.phet.neuron.view.ZoomListener;
 
 /**
- * Control panel for the membrane diffusion module.
+ * Control panel for the axon cross section module.
  *
  * @author John Blanco
  */
-public class MembraneDiffusionControlPanel extends ControlPanel {
+public class AxonCrossSectionControlPanel extends ControlPanel {
 
 	//----------------------------------------------------------------------------
     // Class Data
@@ -61,7 +61,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public MembraneDiffusionControlPanel( PiccoloModule module, Frame parentFrame, final AxonModel model, NeuronCanvas canvas ) {
+    public AxonCrossSectionControlPanel( PiccoloModule module, Frame parentFrame, final AxonModel model, NeuronCanvas canvas ) {
         super();
         
         this.axonModel = model;

@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.neuron.NeuronStrings;
-import edu.colorado.phet.neuron.controlpanel.MembraneDiffusionControlPanel;
+import edu.colorado.phet.neuron.controlpanel.AxonCrossSectionControlPanel;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.IHodgkinHuxleyModel;
 import edu.colorado.phet.neuron.model.NeuronClock;
@@ -23,7 +23,7 @@ import edu.colorado.phet.neuron.view.NeuronCanvas;
  *
  * @author John Blanco
  */
-public class AxonModule extends PiccoloModule {
+public class AxonCrossSectionModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -31,14 +31,14 @@ public class AxonModule extends PiccoloModule {
 
     private AxonModel model;
     private NeuronCanvas canvas;
-    private MembraneDiffusionControlPanel controlPanel;
+    private AxonCrossSectionControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public AxonModule( Frame parentFrame ) {
+    public AxonCrossSectionModule( Frame parentFrame ) {
         super( NeuronStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
         		NeuronDefaults.CLOCK_DT ) );
 
@@ -51,7 +51,7 @@ public class AxonModule extends PiccoloModule {
         setSimulationPanel( canvas );
 
         // Control Panel
-        controlPanel = new MembraneDiffusionControlPanel( this, parentFrame, model, canvas );
+        controlPanel = new AxonCrossSectionControlPanel( this, parentFrame, model, canvas );
         setControlPanel( controlPanel );
         
         // Clock controls
