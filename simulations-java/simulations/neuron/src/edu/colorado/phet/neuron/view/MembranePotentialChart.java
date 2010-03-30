@@ -3,10 +3,13 @@
 package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -23,8 +26,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
@@ -76,7 +81,7 @@ public class MembranePotentialChart extends PNode {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-    public MembranePotentialChart( Dimension2D size, String title, AxonModel axonModel, String distanceUnits ) {
+    public MembranePotentialChart( Dimension2D size, String title, final AxonModel axonModel, String distanceUnits ) {
     	
         this.axonModel = axonModel;
         
@@ -133,6 +138,22 @@ public class MembranePotentialChart extends PNode {
         // Add the chart to this node.
         addChild( jFreeChartNode );
         
+		// Add the button that will allow the user to close the chart.
+		ImageIcon imageIcon = new ImageIcon( 
+				PhetCommonResources.getInstance().getImage(PhetCommonResources.IMAGE_CLOSE_BUTTON) );
+		JButton closeButton = new JButton( imageIcon );
+		closeButton.setPreferredSize(new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight()));
+		closeButton.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				axonModel.setPotentialChartVisible(false);
+			}
+		} );
+		
+		PSwing closePSwing = new PSwing( closeButton );
+		closePSwing.setOffset(size.getWidth() - closeButton.getBounds().width - 2, 2);
+		closePSwing.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
+		addChild(closePSwing);
+		
         // Create a button for clearing the chart.
         // TODO: i18n
         JButton clearButton = new JButton("Clear Chart");
@@ -145,7 +166,9 @@ public class MembranePotentialChart extends PNode {
 			}
 		});
         PSwing clearButtonPSwing = new PSwing(clearButton);
-        clearButtonPSwing.setOffset(getFullBoundsReference().getWidth() - clearButtonPSwing.getFullBoundsReference().width - 10, 0);
+        clearButtonPSwing.setOffset(
+        		closePSwing.getFullBoundsReference().getMinX() - clearButtonPSwing.getFullBoundsReference().width - 10,
+        		0);
         addChild(clearButtonPSwing);
     }
     

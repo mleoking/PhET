@@ -47,7 +47,9 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 	// made in December 2009.  Delete permanently if and when finalized.
 //	private ConcentrationSlider sodiumConcentrationControl;
 //	private ConcentrationSlider potassiumConcentrationControl;
+	
 	private ZoomSlider zoomSlider;
+	private JCheckBox chartControlCheckbox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,12 +75,16 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 		});
         
         // Listen to the model for changes that affect this control panel.
-        /*
-         * TODO: Decoupled sliders from the model on Feb 3 2009 because it
-         * has been decided that they should be opened/closed, not added and
-         * removed.  This code should be removed or revised based on what
-         * the design ends up as.
         model.addListener(new AxonModel.Adapter(){
+    		public void potentialChartVisibilityChanged() {
+    			chartControlCheckbox.setSelected(model.isPotentialChartVisible());
+    		}
+
+            /*
+             * TODO: Decoupled sliders from the model on Feb 3 2009 because it
+             * has been decided that they should be opened/closed, not added and
+             * removed.  This code should be removed or revised based on what
+             * the design ends up as.
         	@Override
     		public void channelAdded(AbstractMembraneChannel channel) {
     			updateChannelControlSliders();
@@ -91,10 +97,10 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 
 			@Override
     		public void concentrationRatioChanged(ParticleType atomType) {
-//    			updateConcentrationControlSliders();
+    			updateConcentrationControlSliders();
     		}
-        });
          */
+        });
         
         // Set the control panel's minimum width.
         int minimumWidth = NeuronResources.getInt( "int.minControlPanelWidth", 215 );
@@ -153,7 +159,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         // Add the check box for hiding/showing the potential chart.
         addControlFullWidth(createVerticalSpacingPanel(60));
         JPanel checkBoxPanel = new JPanel();
-        final JCheckBox chartControlCheckbox = new JCheckBox(NeuronStrings.SHOW_POTENTIAL_CHART);
+        chartControlCheckbox = new JCheckBox(NeuronStrings.SHOW_POTENTIAL_CHART);
         chartControlCheckbox.addChangeListener(new ChangeListener() {
 			
 			public void stateChanged(ChangeEvent e) {
