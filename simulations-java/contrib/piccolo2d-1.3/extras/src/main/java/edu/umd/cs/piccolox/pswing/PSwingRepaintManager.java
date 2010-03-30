@@ -74,7 +74,7 @@ public class PSwingRepaintManager extends RepaintManager {
 
     // The components that are currently painting
     // This needs to be a vector for thread safety
-    private final Vector<JComponent> paintingComponents = new Vector<JComponent>();
+    private final Vector paintingComponents = new Vector();
 
     /**
      * Locks repaint for a particular (Swing) component displayed by PCanvas.
