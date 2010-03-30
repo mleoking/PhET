@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
@@ -46,6 +49,7 @@ public class GradientButtonNode extends PhetPNode {
     // Defaults for values that might not be specified at construction.
     private static final Color DEFAULT_COLOR = Color.GRAY;
     private static final int DEFAULT_FONT_SIZE = 14;
+    private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
     
     // Constants that control various visual aspects of the button.
     private static final double COLOR_SCALING_FACTOR = 0.5;
@@ -69,16 +73,29 @@ public class GradientButtonNode extends PhetPNode {
      * Construct a gradient button node.
      * 
      * @param label - Text that will appear on the button.
+     * @param textColor - Color of the text that will appear on the button.
+     * @param fontSize - Size of font for the label text.
+     * @param buttonColor - Overall color of button from which gradient will
+     * be created.
+     */
+    public GradientButtonNode(String label, Color textColor, int fontSize, Color buttonColor){
+        this( createTextIcon( label, textColor, fontSize ), buttonColor );
+    }
+
+    /**
+     * Construct a gradient button node.
+     * 
+     * @param label - Text that will appear on the button.
      * @param fontSize - Size of font for the label text.
      * @param buttonColor - Overall color of button from which gradient will
      * be created.
      */
     public GradientButtonNode(String label, int fontSize, Color buttonColor){
-        this( createTextIcon( label, fontSize ), buttonColor );
+        this( createTextIcon( label, DEFAULT_TEXT_COLOR, fontSize ), buttonColor );
     }
 
     //Assumes the PNode has an offset of (0,0)
-    public GradientButtonNode(PNode icon,Color buttonColor){
+    public GradientButtonNode(PNode icon, Color buttonColor){
         this._icon=icon;
         _icon.setOffset((getIconWidth() * HORIZONTAL_PADDING_FACTOR - getIconWidth()) / 2, 
         		(getIconHeight() * VERTICAL_PADDING_FACTOR - getIconHeight()) / 2);
@@ -145,10 +162,10 @@ public class GradientButtonNode extends PhetPNode {
         } );
     }
 
-    private static PNode createTextIcon( String label, int fontSize ) {
+    private static PNode createTextIcon( String label, Color textColor, int fontSize ) {
         // Create the label node first, since its size will be the basis for
         // the other components of this button.
-        final HTMLNode _buttonText = new HTMLNode(label);
+        final HTMLNode _buttonText = new HTMLNode(label, textColor);
         _buttonText.setFont(new PhetFont(Font.BOLD, fontSize));
         _buttonText.setPickable( false );
         return _buttonText;
@@ -198,7 +215,10 @@ public class GradientButtonNode extends PhetPNode {
     	return _button;
     }
     
-    /**
+    
+    
+    
+	/**
      * Constructor for creating a default gradient button with only the label
      * specified.
      * 
@@ -209,13 +229,13 @@ public class GradientButtonNode extends PhetPNode {
     }
     
     /**
-     * Constructor for creating a button assuming the default font size.
+     * Constructor for creating a button assuming the default font size & color.
      * 
      * @param label
-     * @param color
+     * @param buttonColor
      */
-    public GradientButtonNode(String label, Color color){
-        this(label, DEFAULT_FONT_SIZE, color);
+    public GradientButtonNode(String label, Color buttonColor){
+        this(label, DEFAULT_FONT_SIZE, buttonColor);
     }
     
     //------------------------------------------------------------------------
