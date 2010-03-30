@@ -48,7 +48,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
     // Size of the chart the depicts the membrane potential.
-    private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH,
+    private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH * 0.95,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.3);
     
     // Color of button for stimulating the neuron.
