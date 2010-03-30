@@ -215,10 +215,7 @@ public class GradientButtonNode extends PhetPNode {
     	return _button;
     }
     
-    
-    
-    
-	/**
+    /**
      * Constructor for creating a default gradient button with only the label
      * specified.
      * 
