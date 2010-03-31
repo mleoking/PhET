@@ -179,7 +179,7 @@ EOT;
 
                 <dd><a href="teacher_ideas/index.php">Provide ideas you've used in class</a></dd><!-- ' -->
 
-                <dd><a href="contribute/index.php">Support PhET</a></dd>
+                <dd><a href="contribute/donate.php">Support PhET</a></dd>
 
                 <dd><a href="contribute/translation-utility.php">Translate Simulations</a></dd>
             </dl>
