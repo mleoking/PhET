@@ -199,14 +199,30 @@ public class AxonModel implements IParticleCapture {
     	return bulkChargesSimulated;
     }
     
+    /**
+     * Set the boolean value that indicates whether bulk charges are shown in
+     * the simulation.  Bulk charges are essentially the ions that are shown
+     * to exist all the time, i.e. even when no action potential is in
+     * progress.
+     * 
+     * @param bulkChargesSimulated
+     */
     public void setBulkChargesSimulated(boolean bulkChargesSimulated){
     	// This can only be changed when the stimlus initiation is not locked
     	// out.  Otherwise, particles would come and go during an action
-    	// potential, which should be hard to handle.
+    	// potential, which would be hard to handle and potentially confusing.
     	if (!isStimulusInitiationLockedOut()){
     		if (this.bulkChargesSimulated != bulkChargesSimulated){
     			this.bulkChargesSimulated = bulkChargesSimulated; 
     			notifyBulkChargesSimulatedChanged();
+    			if (this.bulkChargesSimulated){
+    				// Add the bulk particles.
+    				addInitialBulkParticles();
+    			}
+    			else{
+    				// Remove the bulk particles.
+    				removeAllParticles();
+    			}
     		}
     	}
     }
@@ -232,14 +248,9 @@ public class AxonModel implements IParticleCapture {
     	if (wasLockedOut){
     		notifyStimulusLockoutStateChanged();
     	}
-    	
-    	// Remove all particles.  This is done by telling the particle to send
-    	// out notifications of its removal from the model.  All listeners,
-    	// including this class, should remove their references in response.
-    	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
-    	for (Particle particle : particlesCopy){
-    		particle.notifyRemoved();
-    	}
+
+    	// Remove all the particles.
+    	removeAllParticles();
     	
     	// Remove all channels.
     	ArrayList<MembraneChannel> tempChannelList = new ArrayList<MembraneChannel>(channels);
@@ -247,12 +258,6 @@ public class AxonModel implements IParticleCapture {
     		removeChannel(channel.getChannelType());
     	}
     	
-    	// Add the initial particles.
-    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 4);
-    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 250);
-    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 100);
-    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 5);
-
     	// Add the initial channels.  The pattern is intended to be such that
     	// the potassium and sodium gated channels are right next to each
     	// other, with occasional leak channels interspersed.  There should
@@ -918,6 +923,34 @@ public class AxonModel implements IParticleCapture {
 		}
     	
     	return inside;
+    }
+    
+    /**
+     * Add the "bulk particles", which are particles that are inside and
+     * outside of the membrane and, except in cases where they happen to end
+     * up positioned close to the membrane, they generally stay where
+     * initially positioned. 
+     */
+    private void addInitialBulkParticles(){
+    	// Add the initial particles.
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 4);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 250);
+    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 100);
+    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 5);
+    }
+    
+    /**
+     * Remove all particles (i.e. ions) from the simulation.
+     */
+    private void removeAllParticles(){
+    	// Remove all particles.  This is done by telling each particle to
+    	// send out notifications of its removal from the model.  All
+    	// listeners, including this class, should remove their references in
+    	// response.
+    	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
+    	for (Particle particle : particlesCopy){
+    		particle.notifyRemoved();
+    	}
     }
     
     //----------------------------------------------------------------------------
