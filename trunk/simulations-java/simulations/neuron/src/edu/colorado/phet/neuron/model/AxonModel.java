@@ -121,6 +121,9 @@ public class AxonModel implements IParticleCapture {
 				alternativeConductanceModel.initiateActionPotential();
 			}
 		});
+        
+        // Add the membrane channels.
+        addInitialChannels();
     }
     
     //----------------------------------------------------------------------------
@@ -254,84 +257,6 @@ public class AxonModel implements IParticleCapture {
 
     	// Remove all the particles.
     	removeAllParticles();
-    	
-    	// Remove all channels.
-    	ArrayList<MembraneChannel> tempChannelList = new ArrayList<MembraneChannel>(channels);
-    	for ( MembraneChannel channel : tempChannelList){
-    		removeChannel(channel.getChannelType());
-    	}
-    	
-    	// Add the initial channels.  The pattern is intended to be such that
-    	// the potassium and sodium gated channels are right next to each
-    	// other, with occasional leak channels interspersed.  There should
-    	// be one or more of each type of channel on the top of the membrane
-    	// so when the user zooms in, they can see all types.
-    	double angle  = Math.PI * 0.45;
-    	double totalNumGates = NUM_GATED_SODIUM_CHANNELS + NUM_GATED_POTASSIUM_CHANNELS + NUM_SODIUM_LEAK_CHANNELS +
-    		NUM_POTASSIUM_LEAK_CHANNELS;
-    	double angleIncrement = Math.PI * 2 / totalNumGates;
-    	int gatedSodiumChansAdded = 0;
-    	int gatedPotassiumChansAdded = 0;
-    	int sodiumLeakChansAdded = 0;
-    	int potassiumLeakChansAdded = 0;
-    	
-    	// Add some of each type so that they are visible at the top portion
-    	// of the membrane.
-    	addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL, angle);
-    	sodiumLeakChansAdded++;
-    	angle += angleIncrement;
-    	addChannel(MembraneChannelTypes.POTASSIUM_GATED_CHANNEL, angle);
-    	gatedPotassiumChansAdded++;
-    	angle += angleIncrement;
-    	addChannel(MembraneChannelTypes.SODIUM_GATED_CHANNEL, angle);
-    	gatedSodiumChansAdded++;
-    	angle += angleIncrement;
-    	addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL, angle);
-    	potassiumLeakChansAdded++;
-    	angle += angleIncrement;
-    	
-    	// Now loop through the rest of the membrane's circumference adding
-    	// the various types of gates.
-    	for (int i = 0; i < totalNumGates - 4; i++){
-    		// Calculate the "urgency" for each type of gate.
-    		double gatedSodiumUrgency = (double)NUM_GATED_SODIUM_CHANNELS / gatedSodiumChansAdded;
-    		double gatedPotassiumUrgency = (double)NUM_GATED_POTASSIUM_CHANNELS / gatedPotassiumChansAdded;
-    		double potassiumLeakUrgency = (double)NUM_POTASSIUM_LEAK_CHANNELS / potassiumLeakChansAdded;
-    		double sodiumLeakUrgency = (double)NUM_SODIUM_LEAK_CHANNELS / sodiumLeakChansAdded;
-    		MembraneChannelTypes channelTypeToAdd = null;
-			if (gatedSodiumUrgency >= gatedPotassiumUrgency
-					&& gatedSodiumUrgency >= potassiumLeakUrgency
-					&& gatedSodiumUrgency >= sodiumLeakUrgency) {
-				// Add a gated sodium channel.
-				channelTypeToAdd = MembraneChannelTypes.SODIUM_GATED_CHANNEL;
-				gatedSodiumChansAdded++;
-			} else if (gatedPotassiumUrgency > gatedSodiumUrgency
-					&& gatedPotassiumUrgency >= potassiumLeakUrgency
-					&& gatedPotassiumUrgency >= sodiumLeakUrgency) {
-				// Add a gated potassium channel.
-				channelTypeToAdd = MembraneChannelTypes.POTASSIUM_GATED_CHANNEL;
-				gatedPotassiumChansAdded++;
-			} else if (potassiumLeakUrgency > gatedSodiumUrgency
-					&& potassiumLeakUrgency > gatedPotassiumUrgency
-					&& potassiumLeakUrgency >= sodiumLeakUrgency) {
-				// Add a potassium leak channel.
-				channelTypeToAdd = MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
-				potassiumLeakChansAdded++;
-			} else if (sodiumLeakUrgency > gatedSodiumUrgency
-					&& sodiumLeakUrgency > gatedPotassiumUrgency
-					&& sodiumLeakUrgency > potassiumLeakUrgency) {
-				// Add a sodium leak channel.
-				channelTypeToAdd = MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
-				sodiumLeakChansAdded++;
-			}
-			else{
-				assert false; // Should never get here, so debug if it does.
-			}
-    		
-	    	addChannel(channelTypeToAdd, angle);
-	    	angle += angleIncrement;
-    	}
-    	
     }
     
     /**
@@ -798,6 +723,80 @@ public class AxonModel implements IParticleCapture {
     	particle.setVelocity(velocity * Math.cos(angle), velocity * Math.sin(angle));
     }
     */
+	
+	private void addInitialChannels(){
+		
+    	// Add the initial channels.  The pattern is intended to be such that
+    	// the potassium and sodium gated channels are right next to each
+    	// other, with occasional leak channels interspersed.  There should
+    	// be one or more of each type of channel on the top of the membrane
+    	// so when the user zooms in, they can see all types.
+    	double angle  = Math.PI * 0.45;
+    	double totalNumGates = NUM_GATED_SODIUM_CHANNELS + NUM_GATED_POTASSIUM_CHANNELS + NUM_SODIUM_LEAK_CHANNELS +
+    		NUM_POTASSIUM_LEAK_CHANNELS;
+    	double angleIncrement = Math.PI * 2 / totalNumGates;
+    	int gatedSodiumChansAdded = 0;
+    	int gatedPotassiumChansAdded = 0;
+    	int sodiumLeakChansAdded = 0;
+    	int potassiumLeakChansAdded = 0;
+    	
+    	// Add some of each type so that they are visible at the top portion
+    	// of the membrane.
+    	addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL, angle);
+    	sodiumLeakChansAdded++;
+    	angle += angleIncrement;
+    	addChannel(MembraneChannelTypes.POTASSIUM_GATED_CHANNEL, angle);
+    	gatedPotassiumChansAdded++;
+    	angle += angleIncrement;
+    	addChannel(MembraneChannelTypes.SODIUM_GATED_CHANNEL, angle);
+    	gatedSodiumChansAdded++;
+    	angle += angleIncrement;
+    	addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL, angle);
+    	potassiumLeakChansAdded++;
+    	angle += angleIncrement;
+    	
+    	// Now loop through the rest of the membrane's circumference adding
+    	// the various types of gates.
+    	for (int i = 0; i < totalNumGates - 4; i++){
+    		// Calculate the "urgency" for each type of gate.
+    		double gatedSodiumUrgency = (double)NUM_GATED_SODIUM_CHANNELS / gatedSodiumChansAdded;
+    		double gatedPotassiumUrgency = (double)NUM_GATED_POTASSIUM_CHANNELS / gatedPotassiumChansAdded;
+    		double potassiumLeakUrgency = (double)NUM_POTASSIUM_LEAK_CHANNELS / potassiumLeakChansAdded;
+    		double sodiumLeakUrgency = (double)NUM_SODIUM_LEAK_CHANNELS / sodiumLeakChansAdded;
+    		MembraneChannelTypes channelTypeToAdd = null;
+			if (gatedSodiumUrgency >= gatedPotassiumUrgency
+					&& gatedSodiumUrgency >= potassiumLeakUrgency
+					&& gatedSodiumUrgency >= sodiumLeakUrgency) {
+				// Add a gated sodium channel.
+				channelTypeToAdd = MembraneChannelTypes.SODIUM_GATED_CHANNEL;
+				gatedSodiumChansAdded++;
+			} else if (gatedPotassiumUrgency > gatedSodiumUrgency
+					&& gatedPotassiumUrgency >= potassiumLeakUrgency
+					&& gatedPotassiumUrgency >= sodiumLeakUrgency) {
+				// Add a gated potassium channel.
+				channelTypeToAdd = MembraneChannelTypes.POTASSIUM_GATED_CHANNEL;
+				gatedPotassiumChansAdded++;
+			} else if (potassiumLeakUrgency > gatedSodiumUrgency
+					&& potassiumLeakUrgency > gatedPotassiumUrgency
+					&& potassiumLeakUrgency >= sodiumLeakUrgency) {
+				// Add a potassium leak channel.
+				channelTypeToAdd = MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
+				potassiumLeakChansAdded++;
+			} else if (sodiumLeakUrgency > gatedSodiumUrgency
+					&& sodiumLeakUrgency > gatedPotassiumUrgency
+					&& sodiumLeakUrgency > potassiumLeakUrgency) {
+				// Add a sodium leak channel.
+				channelTypeToAdd = MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
+				sodiumLeakChansAdded++;
+			}
+			else{
+				assert false; // Should never get here, so debug if it does.
+			}
+    		
+	    	addChannel(channelTypeToAdd, angle);
+	    	angle += angleIncrement;
+    	}
+	}
     
 	/**
 	 * Add the provided channel at the specified rotational location.
