@@ -241,9 +241,14 @@ EOT;
         <div class="container">
 
             <div id="simsummary">
-                <p class="sim-abstract">{$this->sim->getDescription()}</p>
-
-		<p class="sim-donate"><a href="../contribute/donate.php">Support PhET &gt;</a><br/></p>
+                <div class="sim-abstract">
+			<p>{$this->sim->getDescription()}</p>
+			<div style="display:table; height: 100px; margin: auto;">
+				<div style="display:table-cell; vertical-align: middle;">
+					<a href="../contribute/donate.php"><img src="../images/support-phet.gif" alt="Click here to learn more about supporting PhET financially" style="border: none;"/></a>
+				</div>
+			</div>
+		</div>
 
                 <table id="simratings">
                     <tr>
