@@ -1021,13 +1021,8 @@ ul.content-points li a:hover {
     text-align: right;
 }
 
-p.sim-abstract {
-    min-height: 130px;
-}
-
-p.sim-donate {
-    text-align: center;
-	margin-bottom: 15px;
+.sim-abstract {
+    min-height: 165px;
 }
 
 #simratings {
