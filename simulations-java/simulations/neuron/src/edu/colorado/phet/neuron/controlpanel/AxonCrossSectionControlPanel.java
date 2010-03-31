@@ -16,6 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -49,6 +50,7 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
 //	private ConcentrationSlider potassiumConcentrationControl;
 	
 	private ZoomSlider zoomSlider;
+	private JCheckBox showBulkChargesCheckbox;
 	private JCheckBox chartControlCheckbox;
     
     //----------------------------------------------------------------------------
@@ -76,10 +78,15 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         
         // Listen to the model for changes that affect this control panel.
         model.addListener(new AxonModel.Adapter(){
+        	@Override
     		public void potentialChartVisibilityChanged() {
     			chartControlCheckbox.setSelected(model.isPotentialChartVisible());
     		}
 
+        	@Override
+    		public void bulkChargesSimulatedChanged() {
+    			showBulkChargesCheckbox.setSelected(model.isBulkChargesSimulated());
+    		}
             /*
              * TODO: Decoupled sliders from the model on Feb 3 2009 because it
              * has been decided that they should be opened/closed, not added and
@@ -156,9 +163,22 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         zoomSlider = new ZoomSlider("Zoom Control", neuronCanvas);
         addControlFullWidth(zoomSlider);
         
-        // Add the check box for hiding/showing the potential chart.
+        JPanel checkBoxPanel = new VerticalLayoutPanel();
+
+        // Add the check box for hiding/showing the bulk charges.
         addControlFullWidth(createVerticalSpacingPanel(60));
-        JPanel checkBoxPanel = new JPanel();
+        showBulkChargesCheckbox = new JCheckBox(NeuronStrings.SHOW_BULK_CHARGES);
+        showBulkChargesCheckbox.addChangeListener(new ChangeListener() {
+			
+			public void stateChanged(ChangeEvent e) {
+				axonModel.setBulkChargesSimulated(showBulkChargesCheckbox.isSelected());
+			}
+		});
+        showBulkChargesCheckbox.setAlignmentX(CENTER_ALIGNMENT);
+        checkBoxPanel.add(showBulkChargesCheckbox);
+        
+        // Add the check box for hiding/showing the potential chart.
+        addControlFullWidth(createVerticalSpacingPanel(10));
         chartControlCheckbox = new JCheckBox(NeuronStrings.SHOW_POTENTIAL_CHART);
         chartControlCheckbox.addChangeListener(new ChangeListener() {
 			
@@ -168,6 +188,8 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
 		});
         chartControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
         checkBoxPanel.add(chartControlCheckbox);
+        addControlFullWidth(checkBoxPanel);
+        
         addControlFullWidth(checkBoxPanel);
         
         /*
