@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.neuron.controlpanel;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.util.Hashtable;
@@ -12,6 +13,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -25,7 +28,6 @@ import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.view.IZoomable;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
-import edu.colorado.phet.neuron.view.ZoomListener;
 
 /**
  * Control panel for the axon cross section module.
@@ -49,7 +51,10 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
 //	private ConcentrationSlider sodiumConcentrationControl;
 //	private ConcentrationSlider potassiumConcentrationControl;
 	
-	private ZoomSlider zoomSlider;
+	// TODO: March 31 2010 - Removed the zoom slider since one has now been
+	// added to the play area.  Remove permanently (search the file for other
+	// commented-out code) when this is finalized.
+//	private ZoomSlider zoomSlider;
 	private JCheckBox showBulkChargesCheckbox;
 	private JCheckBox chartControlCheckbox;
     
@@ -70,11 +75,11 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         this.neuronCanvas = canvas;
 
         // Listen to the canvas for changes that affect this control panel.
-        neuronCanvas.addZoomListener(new ZoomListener() {
-			public void zoomFactorChanged() {
-				updateZoomSlider();
-			}
-		});
+//        neuronCanvas.addZoomListener(new ZoomListener() {
+//			public void zoomFactorChanged() {
+//				updateZoomSlider();
+//			}
+//		});
         
         // Listen to the model for changes that affect this control panel.
         model.addListener(new AxonModel.Adapter(){
@@ -170,13 +175,21 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
 //        addControlFullWidth(voltmeterControlCheckbox);
         
         // Add the zoom slider.
-        zoomSlider = new ZoomSlider("Zoom Control", neuronCanvas);
-        addControlFullWidth(zoomSlider);
+//        zoomSlider = new ZoomSlider("Zoom Control", neuronCanvas);
+//        addControlFullWidth(zoomSlider);
         
         JPanel checkBoxPanel = new VerticalLayoutPanel();
+        BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+    	// TODO: i18n
+        TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+                "Control",
+                TitledBorder.LEFT,
+                TitledBorder.TOP,
+                new PhetFont( Font.BOLD, 14 ),
+                Color.GRAY );
+        checkBoxPanel.setBorder(titledBorder);
 
         // Add the check box for hiding/showing the bulk charges.
-        addControlFullWidth(createVerticalSpacingPanel(60));
         showBulkChargesCheckbox = new JCheckBox(NeuronStrings.SHOW_BULK_CHARGES);
         showBulkChargesCheckbox.addChangeListener(new ChangeListener() {
 			
@@ -188,7 +201,7 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         checkBoxPanel.add(showBulkChargesCheckbox);
         
         // Add the check box for hiding/showing the potential chart.
-        addControlFullWidth(createVerticalSpacingPanel(10));
+        addControlFullWidth(createVerticalSpacingPanel(5));
         chartControlCheckbox = new JCheckBox(NeuronStrings.SHOW_POTENTIAL_CHART);
         chartControlCheckbox.addChangeListener(new ChangeListener() {
 			
@@ -219,13 +232,13 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
          */
         
         // Add the reset all button.
-//        addControlFullWidth(createVerticalSpacingPanel(60));
-//        addResetAllButton( module );
+        addControlFullWidth(createVerticalSpacingPanel(30));
+        addResetAllButton( module );
         
         // Update the states of the controls.
 //        updateChannelControlSliders();
 //        updateConcentrationControlSliders();
-        updateZoomSlider();
+//        updateZoomSlider();
     }
     
     //----------------------------------------------------------------------------
@@ -246,11 +259,11 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
     }
     */
     
-    private void updateZoomSlider(){
-    	if ( zoomSlider.getValue() != neuronCanvas.getZoomFactor()){
-    		zoomSlider.setValue(neuronCanvas.getZoomFactor());
-    	}
-    }
+//    private void updateZoomSlider(){
+//    	if ( zoomSlider.getValue() != neuronCanvas.getZoomFactor()){
+//    		zoomSlider.setValue(neuronCanvas.getZoomFactor());
+//    	}
+//    }
     
     private JPanel createVerticalSpacingPanel(int space){
         JPanel spacePanel = new JPanel();

@@ -213,11 +213,20 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	protected ParticleType getParticleTypeToCapture() {
 		return ParticleType.SODIUM_ION;
 	}
+	
+	@Override
+	public void reset() {
+		gateState = GateState.IDLE;
+		stateTransitionTimer = 0;
+		previousNormalizedConductance = calculateNormalizedConductance();
+		setOpenness(0);
+		setInactivationAmt(0);
+	}
 
     //----------------------------------------------------------------------------
     // Test Harness
     //----------------------------------------------------------------------------
-	
+
 	// For testing, can be removed with main routine when it goes.
     private static final int INITIAL_INTERMEDIATE_COORD_WIDTH = 786;
     private static final int INITIAL_INTERMEDIATE_COORD_HEIGHT = 786;
