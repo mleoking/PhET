@@ -87,6 +87,16 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
     		public void bulkChargesSimulatedChanged() {
     			showBulkChargesCheckbox.setSelected(model.isBulkChargesSimulated());
     		}
+
+        	@Override
+    		public void stimulationLockoutStateChanged() {
+        		// When stimulation is locked out, we also lock out the
+        		// ability to change the bulk charges state, since otherwise
+        		// ions would have to disappear during an action potential,
+        		// which would be tricky.
+        		showBulkChargesCheckbox.setEnabled(!model.isStimulusInitiationLockedOut());
+        	}
+        	
             /*
              * TODO: Decoupled sliders from the model on Feb 3 2009 because it
              * has been decided that they should be opened/closed, not added and
