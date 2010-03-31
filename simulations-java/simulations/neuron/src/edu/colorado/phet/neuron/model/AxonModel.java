@@ -200,9 +200,14 @@ public class AxonModel implements IParticleCapture {
     }
     
     public void setBulkChargesSimulated(boolean bulkChargesSimulated){
-    	if (this.bulkChargesSimulated != bulkChargesSimulated){
-    		this.bulkChargesSimulated = bulkChargesSimulated; 
-    		notifyBulkChargesSimulatedChanged();
+    	// This can only be changed when the stimlus initiation is not locked
+    	// out.  Otherwise, particles would come and go during an action
+    	// potential, which should be hard to handle.
+    	if (!isStimulusInitiationLockedOut()){
+    		if (this.bulkChargesSimulated != bulkChargesSimulated){
+    			this.bulkChargesSimulated = bulkChargesSimulated; 
+    			notifyBulkChargesSimulatedChanged();
+    		}
     	}
     }
     
