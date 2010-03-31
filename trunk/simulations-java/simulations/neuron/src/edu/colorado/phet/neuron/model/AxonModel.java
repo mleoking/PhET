@@ -77,7 +77,7 @@ public class AxonModel implements IParticleCapture {
     private final ConstantDtClock clock;
     private final AxonMembrane axonMembrane = new AxonMembrane();
     private ArrayList<Particle> particles = new ArrayList<Particle>();
-    private ArrayList<MembraneChannel> channels = new ArrayList<MembraneChannel>();
+    private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
     private final double crossSectionInnerRadius;
     private final double crossSectionOuterRadius;
     private int particleUpdateOffset = 0;
@@ -147,14 +147,14 @@ public class AxonModel implements IParticleCapture {
     }
     
     public ArrayList<MembraneChannel> getMembraneChannels(){
-    	return new ArrayList<MembraneChannel>(channels);
+    	return new ArrayList<MembraneChannel>(membraneChannels);
     }
     
     public int getNumMembraneChannels(MembraneChannelTypes channelType){
     	
     	int numChannels = 0;
     	
-    	for (MembraneChannel channel : channels){
+    	for (MembraneChannel channel : membraneChannels){
     		if (channel.getChannelType() == channelType){
     			numChannels++;
     		}
@@ -164,7 +164,7 @@ public class AxonModel implements IParticleCapture {
     }
     
     public int getNumMembraneChannels(){
-    	return channels.size();
+    	return membraneChannels.size();
     }
     
     /**
@@ -257,6 +257,11 @@ public class AxonModel implements IParticleCapture {
 
     	// Remove all the particles.
     	removeAllParticles();
+    	
+    	// Reset all membrane channels.
+    	for (MembraneChannel membraneChannel : membraneChannels){
+    		membraneChannel.reset();
+    	}
     }
     
     /**
@@ -282,7 +287,7 @@ public class AxonModel implements IParticleCapture {
     	// Add in the charges from any particles that are in channels.  Note
     	// that particles that are in channels are assumed to be inside the
     	// membrane.
-    	for (MembraneChannel channel : channels){
+    	for (MembraneChannel channel : membraneChannels){
     		ArrayList<Particle> particlesInChannel = channel.getOwnedAtomsRef();
         	for (Particle particle : particlesInChannel){
        			quantizedInsideCharge += particle.getCharge();
@@ -541,7 +546,7 @@ public class AxonModel implements IParticleCapture {
     	 */
     	
     	// Step the channels.
-    	for (MembraneChannel channel : channels){
+    	for (MembraneChannel channel : membraneChannels){
     		channel.stepInTime( dt );
     	}
     	
@@ -816,7 +821,7 @@ public class AxonModel implements IParticleCapture {
     	membraneChannel.setCenterLocation(newLocation);
 
     	// Add the channel and let everyone know it exists.
-    	channels.add(membraneChannel);
+    	membraneChannels.add(membraneChannel);
     	notifyChannelAdded(membraneChannel);
     }
     
@@ -831,9 +836,9 @@ public class AxonModel implements IParticleCapture {
     	// Work backwards through the array so that the most recently added
     	// channel is removed first.  This just looks better visually and
     	// makes the positioning of channels work better.
-    	for (int i = channels.size() - 1; i >= 0; i--){
-    		if (channels.get(i).getChannelType() == channelType){
-    			channelToRemove = channels.get(i);
+    	for (int i = membraneChannels.size() - 1; i >= 0; i--){
+    		if (membraneChannels.get(i).getChannelType() == channelType){
+    			channelToRemove = membraneChannels.get(i);
     			break;
     		}
     	}
@@ -850,7 +855,7 @@ public class AxonModel implements IParticleCapture {
     			}
     		}
     		// Remove the channel and send any notifications.
-    		channels.remove(channelToRemove);
+    		membraneChannels.remove(channelToRemove);
     		channelToRemove.remove();
     		notifyChannelRemoved(channelToRemove);
     	}
@@ -914,7 +919,7 @@ public class AxonModel implements IParticleCapture {
 
     	boolean inside = false;
     	
-		for (MembraneChannel channel : channels){
+		for (MembraneChannel channel : membraneChannels){
 			if (channel.getOwnedParticles().contains(particle)){
 				inside = true;
 				break;
