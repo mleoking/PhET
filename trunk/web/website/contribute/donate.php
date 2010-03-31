@@ -24,7 +24,7 @@ class DonatePage extends SitePage {
 	Donations of any size--$10, $50, $100, or more--help make it possible for us to continue to grow our library of simulations, provide on-going support and assist underserved populations around the world. All donations are tax deductable.
 </p>
 
-<div style="text-align: center; width: 100%; background-color: white; padding-top: 5px; padding-bottom: 5px; border-top: 1px solid #BBBBBB; border-bottom: 1px solid #BBBBBB;">
+<div style="text-align: center; width: 100%;">
 	<a href="http://www.cufund.org/giving-opportunities/fund-description/?id=3685" onclick="javascript:window.open('http://www.cufund.org/giving-opportunities/fund-description/?id=3685', 'cufund', 'resizable=yes,status=yes,toolbar=yes,location=yes,menubar=yes,directories=yes,scrollbars=yes'); return false;">
 		<img src="../images/donate-now.gif" alt="Click here to go to the donation page for PhET"/>
 	</a>
