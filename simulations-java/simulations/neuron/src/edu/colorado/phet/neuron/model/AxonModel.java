@@ -320,6 +320,24 @@ public class AxonModel implements IParticleCapture {
     }
 
     /**
+     * Add the specified particles to the given capture zone.
+     * 
+     * @param particleType
+     * @param captureZone
+     * @param numberToAdd
+     */
+    public void addParticles(ParticleType particleType, CaptureZone captureZone, int numberToAdd){
+    	Particle newParticle = null;
+    	for (int i = 0; i < numberToAdd; i++){
+    		newParticle = createParticle(particleType);
+    		
+    		newParticle.setOpaqueness(DEFAULT_OPAQUENESS);
+    		Point2D position = captureZone.getSuggestedNewParticleLocation();
+    		newParticle.setPosition(position);
+    	}
+    }
+    
+    /**
      * Get the proportion of particles of a given type that are inside the
      * axon membrane.  A value of 1 indicates that all particles are inside, 0
      * means that none are inside.
@@ -948,6 +966,18 @@ public class AxonModel implements IParticleCapture {
     	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 250);
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 100);
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 5);
+    	
+    	// Look at each sodium gate and, if there are no ions in its capture
+    	// zone, add some.
+    	for (MembraneChannel membraneChannel : membraneChannels){
+    		if (membraneChannel instanceof SodiumDualGatedChannel){
+    			CaptureZone captureZone = membraneChannel.getCaptureZone();
+    			CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(captureZone, ParticleType.SODIUM_ION);
+    			if (czsr.numParticlesInZone == 0){
+    				addParticles(ParticleType.SODIUM_ION, captureZone, RAND.nextInt(2) + 1);
+    			}
+    		}
+    	}
     	
     	// Set all new particles to exhibit simple Brownian motion.
     	for (Particle particle : particles){
