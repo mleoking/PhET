@@ -936,15 +936,20 @@ public class AxonModel implements IParticleCapture {
      * initially positioned. 
      */
     private void addInitialBulkParticles(){
+    	// Make a list of pre-existing particles.
+    	ArrayList<Particle> preExistingParticles = new ArrayList<Particle>(particles);
+    	
     	// Add the initial particles.
     	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 4);
     	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 250);
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 100);
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 5);
     	
-    	// Set all particles to exhibit simple Brownian motion.
+    	// Set all new particles to exhibit simple Brownian motion.
     	for (Particle particle : particles){
-    		particle.setMotionStrategy(new SlowBrownianMotionStrategy(particle.getPositionReference()));
+    		if (!preExistingParticles.contains(particle)){
+    			particle.setMotionStrategy(new SlowBrownianMotionStrategy(particle.getPositionReference()));
+    		}
     	}
     }
     
