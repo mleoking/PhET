@@ -557,8 +557,8 @@ public class AxonModel implements IParticleCapture {
     		// We found a particle to capture, but we should replace it with
     		// another in the same zone.
     		Particle replacementParticle = createParticle(particleType, channel.getCaptureZone());
-    		replacementParticle.setOpaqueness(DEFAULT_OPAQUENESS);
     		replacementParticle.setMotionStrategy(new SlowBrownianMotionStrategy(replacementParticle.getPositionReference()));
+    		replacementParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005, DEFAULT_OPAQUENESS));
     	}
     	
     	// Set a motion strategy that will cause this particle to move across
