@@ -220,6 +220,12 @@ public class AxonModel implements IParticleCapture {
     	// Reset the HH model.
     	hodgkinHuxleyModel.reset();
     	
+    	// Set the membrane chart to its initial state.
+    	setPotentialChartVisible(false);
+    	
+    	// Set the bulk charges to their initial state.
+    	setBulkChargesSimulated(false);
+    	
     	// Reset the stimulation lockout time.
     	boolean wasLockedOut = isStimulusInitiationLockedOut();
     	stimLockoutCountdownTime = 0;
