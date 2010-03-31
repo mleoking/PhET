@@ -131,7 +131,7 @@ public class SimulationMainPanel extends PhetPanel {
             final List<Contribution> contributions = new LinkedList<Contribution>();
             HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
-                    List list = session.createQuery( "select c from Contribution as c where :simulation member of c.simulations" )
+                    List list = session.createQuery( "select c from Contribution as c where :simulation member of c.simulations and c.approved = true" )
                             .setEntity( "simulation", simulation.getSimulation() ).list();
                     for ( Object o : list ) {
                         Contribution contribution = (Contribution) o;

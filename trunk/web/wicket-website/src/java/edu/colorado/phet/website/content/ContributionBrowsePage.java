@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.Contribution;
@@ -45,6 +46,7 @@ public class ContributionBrowsePage extends PhetRegularPage {
                         .setFetchMode( "levels", FetchMode.SELECT )
                         .setFetchMode( "types", FetchMode.SELECT )
                         .setFetchMode( "simulations", FetchMode.SELECT )
+                        .add( Restrictions.eq( "approved", new Boolean( true ) ) )
                         .list();
                 logger.debug( "W" );
                 for ( Object o : list ) {
