@@ -19,10 +19,11 @@ class NavBar {
     const NAV_GET_PHET =  4;
     const NAV_TECH_SUPPORT =  5;
     const NAV_CONTRIBUTE =  6;
-    const NAV_RESEARCH =  7;
-    const NAV_ABOUT_PHET =  8;
-    const NAV_ADMIN =  9;
-    const NAV_COUNT =  10;
+    const NAV_DONATE = 7;
+    const NAV_RESEARCH =  8;
+    const NAV_ABOUT_PHET =  9;
+    const NAV_ADMIN =  10;
+    const NAV_COUNT =  11;
 
     // TODO: this should be an abstract interface for authentication
     private $page;
@@ -312,6 +313,13 @@ EOT;
             array(
                 'contribute/translation-utility.php'    => 'PhET Translation Utility'
             )
+        );
+	
+	$this->print_navigation_element(
+            $prefix,
+            $selected_page,
+            "contribute/donate.php",
+            "Donate"
         );
 
         $this->print_navigation_element(

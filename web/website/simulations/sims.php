@@ -243,6 +243,8 @@ EOT;
             <div id="simsummary">
                 <p class="sim-abstract">{$this->sim->getDescription()}</p>
 
+		<p class="sim-donate"><a href="../contribute/donate.php">Support PhET &gt;</a><br/></p>
+
                 <table id="simratings">
                     <tr>
                         <td>{$guidance_html}</td>   <td>&nbsp;</td>     <td>{$SimUtils->getRatingImageAnchorTag($this->sim->getRating())}</td>
