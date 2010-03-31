@@ -84,7 +84,8 @@ public class AxonModel implements IParticleCapture {
     private int membranePotentialSnapshot;
     private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
     private AlternativeConductanceModel alternativeConductanceModel = new AlternativeConductanceModel();
-    private boolean potentialChartVisible;
+    private boolean potentialChartVisible = false;
+    private boolean bulkChargesSimulated = false; // Controls whether bulk charges are simulated.
     private double stimLockoutCountdownTime;
 
     //----------------------------------------------------------------------------
@@ -185,6 +186,23 @@ public class AxonModel implements IParticleCapture {
     	if (potentialChartVisible != isVisible){
     		potentialChartVisible = isVisible;
     		notifyPotentialChartVisibilityChanged();
+    	}
+    }
+    
+    /**
+     * Return a value indicating whether bulk charges are currently turned
+     * on in the simulation.  And yes, it would be more grammatically correct
+     * to set "areBulkChargesSimulated", but we are sticking with the
+     * convention for boolean variables.
+     */
+    public boolean isBulkChargesSimulated(){
+    	return bulkChargesSimulated;
+    }
+    
+    public void setBulkChargesSimulated(boolean bulkChargesSimulated){
+    	if (this.bulkChargesSimulated != bulkChargesSimulated){
+    		this.bulkChargesSimulated = bulkChargesSimulated; 
+    		notifyBulkChargesSimulatedChanged();
     	}
     }
     
@@ -665,6 +683,12 @@ public class AxonModel implements IParticleCapture {
 		}
 	}
 	
+	private void notifyBulkChargesSimulatedChanged(){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.bulkChargesSimulatedChanged();
+		}
+	}
+	
 	private void notifyStimulusLockoutStateChanged(){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.stimulationLockoutStateChanged();
@@ -1023,6 +1047,12 @@ public class AxonModel implements IParticleCapture {
     	public void potentialChartVisibilityChanged();
     	
     	/**
+    	 * Notification that the setting for whether or not the bulk charges
+    	 * are included in the simulation has changed.
+    	 */
+    	public void bulkChargesSimulatedChanged();
+    	
+    	/**
     	 * Notification that the state of stimulation lockout, which prevents
     	 * stimuli from being initiated too close together, has changed.
     	 */
@@ -1038,5 +1068,6 @@ public class AxonModel implements IParticleCapture {
 		public void stimulusPulseInitiated() {}
 		public void potentialChartVisibilityChanged() {}
 		public void stimulationLockoutStateChanged() {}
+		public void bulkChargesSimulatedChanged() {}
     }
 }
