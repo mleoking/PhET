@@ -937,6 +937,11 @@ public class AxonModel implements IParticleCapture {
     	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 250);
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 100);
     	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 5);
+    	
+    	// Set all particles to exhibit simple Brownian motion.
+    	for (Particle particle : particles){
+    		particle.setMotionStrategy(new SlowBrownianMotionStrategy(particle.getPositionReference()));
+    	}
     }
     
     /**
