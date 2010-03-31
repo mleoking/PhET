@@ -67,6 +67,9 @@ public class AxonModel implements IParticleCapture {
 	// are too close together.
 	private static final double STIM_LOCKOUT_TIME = 0.0075;  // Seconds of sim time.
 	
+	// Default value of opaqueness for newly created particles.
+	private static final double DEFAULT_OPAQUENESS = 0.20;
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -381,7 +384,7 @@ public class AxonModel implements IParticleCapture {
     		else{
     			positionParticleOutsideMembrane(newParticle);
     		}
-    		newParticle.setOpaqueness(0.20);
+    		newParticle.setOpaqueness(DEFAULT_OPAQUENESS);
         	concentrationTracker.updateParticleCount(newParticle.getType(), position, 1);
     	}
     }
@@ -540,10 +543,6 @@ public class AxonModel implements IParticleCapture {
      */
     public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity){
 
-    	/*
-    	 * TODO: For an experiment, I am trying to have all requested particles
-    	 * be generated as opposed to found, so that existing particles are left
-    	 * alone.  
     	// Scan the capture zone for particles of the desired type.
     	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getCaptureZone(), particleType);
     	Particle particleToCapture = czsr.getClosestFreeParticle();
@@ -554,11 +553,16 @@ public class AxonModel implements IParticleCapture {
     		newParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005));
    			particleToCapture = newParticle;
     	}
-    	*/
-    	Particle particleToCapture;
-		Particle newParticle = createParticle(particleType, channel.getCaptureZone());
-		newParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005));
-			particleToCapture = newParticle;
+    	else{
+    		// We found a particle to capture, but we should replace it with
+    		// another in the same zone.
+    		Particle replacementParticle = createParticle(particleType, channel.getCaptureZone());
+    		replacementParticle.setOpaqueness(DEFAULT_OPAQUENESS);
+    		replacementParticle.setMotionStrategy(new SlowBrownianMotionStrategy(replacementParticle.getPositionReference()));
+    	}
+    	
+    	// Set a motion strategy that will cause this particle to move across
+    	// the membrane.
     	particleToCapture.setMotionStrategy(
     			new MembraneChannelTraversalMotionStrategy(channel, particleToCapture.getPosition(), maxVelocity));
     }
