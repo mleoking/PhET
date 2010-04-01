@@ -6,7 +6,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.data.contribution.Contribution;
-import edu.colorado.phet.website.panels.ContributionEditPanel;
+import edu.colorado.phet.website.panels.contribution.ContributionEditPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;

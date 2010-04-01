@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import edu.colorado.phet.website.data.IntId;
+import edu.colorado.phet.website.data.util.IntId;
 
 public class ContributionType implements Serializable, IntId {
 

@@ -12,10 +12,10 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.data.IntId;
+import edu.colorado.phet.website.data.util.IntId;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
-import edu.colorado.phet.website.data.DataListener;
+import edu.colorado.phet.website.data.util.DataListener;
 import edu.colorado.phet.website.util.StringUtils;
 
 public class Contribution implements Serializable, DataListener, IntId {

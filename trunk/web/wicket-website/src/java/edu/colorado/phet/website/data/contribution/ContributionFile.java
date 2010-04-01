@@ -9,7 +9,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.data.IntId;
+import edu.colorado.phet.website.data.util.IntId;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;

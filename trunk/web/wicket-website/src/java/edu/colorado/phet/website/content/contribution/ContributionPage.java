@@ -7,7 +7,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.menu.NavLocation;
-import edu.colorado.phet.website.panels.ContributionMainPanel;
+import edu.colorado.phet.website.panels.contribution.ContributionMainPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;

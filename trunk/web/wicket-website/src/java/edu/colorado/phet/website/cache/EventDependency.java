@@ -8,7 +8,7 @@ import org.hibernate.event.PostDeleteEvent;
 import org.hibernate.event.PostInsertEvent;
 import org.hibernate.event.PostUpdateEvent;
 
-import edu.colorado.phet.website.data.IChangeListener;
+import edu.colorado.phet.website.data.util.IChangeListener;
 import edu.colorado.phet.website.data.TranslatedString;
 
 /**

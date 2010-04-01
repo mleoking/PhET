@@ -12,7 +12,7 @@ import org.apache.wicket.PageParameters;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.LocalizedSimulation;
-import edu.colorado.phet.website.panels.SimulationDisplayPanel;
+import edu.colorado.phet.website.panels.simulation.SimulationDisplayPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.test.LuceneTest;
 import edu.colorado.phet.website.translation.PhetLocalizer;

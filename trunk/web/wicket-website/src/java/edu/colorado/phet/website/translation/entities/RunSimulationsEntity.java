@@ -1,7 +1,7 @@
 package edu.colorado.phet.website.translation.entities;
 
-import edu.colorado.phet.website.content.OneAtATimePanel;
-import edu.colorado.phet.website.content.RunOurSimulationsPanel;
+import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
+import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetPanelFactory;
 import edu.colorado.phet.website.util.PageContext;

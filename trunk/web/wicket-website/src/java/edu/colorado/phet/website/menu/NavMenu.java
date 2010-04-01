@@ -12,6 +12,11 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.*;
+import edu.colorado.phet.website.content.getphet.FullInstallPanel;
+import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
+import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
+import edu.colorado.phet.website.content.simulations.SimulationDisplay;
+import edu.colorado.phet.website.content.simulations.TranslatedSimsPanel;
 import edu.colorado.phet.website.content.contribution.*;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;

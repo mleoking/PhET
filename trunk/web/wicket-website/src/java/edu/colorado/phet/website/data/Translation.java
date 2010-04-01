@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.data.util.IntId;
 
 public class Translation implements Serializable, IntId {
     private int id;

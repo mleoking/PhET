@@ -8,6 +8,7 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
 import edu.colorado.phet.website.content.contribution.ContributionCreatePage;
 import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
+import edu.colorado.phet.website.content.simulations.SimulationDisplay;
 
 public class TeacherIdeasPanel extends PhetPanel {
     public TeacherIdeasPanel( String id, PageContext context ) {
