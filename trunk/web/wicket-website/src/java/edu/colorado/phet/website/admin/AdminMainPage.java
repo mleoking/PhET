@@ -74,6 +74,7 @@ public class AdminMainPage extends AdminPage {
         }
 
         public final void onSubmit() {
+            // TODO: important before deploy: add authorization or remove (for specific translation)
             String key = keyText.getModelObjectAsString();
             String value = valueText.getModelObjectAsString();
             logger.info( "Submitted new string: " + key + " = " + value );
