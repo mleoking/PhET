@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.translation.entities;
 
-import edu.colorado.phet.website.content.simulations.TranslatedSimsPanel;
+import edu.colorado.phet.website.content.simulations.TranslationListPanel;
+import edu.colorado.phet.website.content.simulations.TranslationLocaleListPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetPanelFactory;
 import edu.colorado.phet.website.util.PageContext;
@@ -17,9 +18,15 @@ public class TranslatedSimsEntity extends TranslationEntity {
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
-                return new TranslatedSimsPanel( id, context );
+                return new TranslationLocaleListPanel( id, context );
             }
         }, "Translated Sims" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new TranslationListPanel( id, context, context.getLocale() );
+            }
+        }, "Translation list" );
     }
 
     public String getDisplayName() {

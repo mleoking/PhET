@@ -6,36 +6,37 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 import org.hibernate.event.PostUpdateEvent;
 
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.cache.CacheableUrlStaticPanel;
 import edu.colorado.phet.website.cache.EventDependency;
-import edu.colorado.phet.website.components.InvisibleComponent;
-import edu.colorado.phet.website.components.PhetLink;
-import edu.colorado.phet.website.data.*;
+import edu.colorado.phet.website.data.LocalizedSimulation;
+import edu.colorado.phet.website.data.Project;
+import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.TranslatedString;
 import edu.colorado.phet.website.data.util.AbstractChangeListener;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.data.util.IChangeListener;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.util.*;
-import edu.colorado.phet.website.util.links.AbstractLinker;
-import edu.colorado.phet.website.util.links.RawLinkable;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.StringUtils;
 
-public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStaticPanel {
+public class TranslationLocaleListPanel extends PhetPanel implements CacheableUrlStaticPanel {
 
-    // TODO: add dependencies for caching
+    private static Logger logger = Logger.getLogger( TranslationLocaleListPanel.class.getName() );
 
-    private static Logger logger = Logger.getLogger( TranslatedSimsPanel.class.getName() );
-
-    public TranslatedSimsPanel( String id, final PageContext context ) {
+    public TranslationLocaleListPanel( String id, final PageContext context ) {
         super( id, context );
+
+        // TODO: remove unnecessary steps
 
         add( HeaderContributor.forCss( "/css/translated-sims-v1.css" ) );
 
@@ -43,9 +44,6 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
         final Map<Locale, List<LocalizedSimulation>> localeMap = new HashMap<Locale, List<LocalizedSimulation>>();
         final List<Locale> locales = new LinkedList<Locale>();
         final Map<Locale, String> localeNames = new HashMap<Locale, String>();
-        final Map<Simulation, String> simNameDefault = new HashMap<Simulation, String>();
-
-        Long a = System.currentTimeMillis();
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
@@ -67,18 +65,12 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
                         localeMap.put( localizedSimulation.getLocale(), localeSimList );
                     }
 
-                    if ( localizedSimulation.getLocale().equals( context.getLocale() ) ) {
-                        simNameDefault.put( localizedSimulation.getSimulation(), localizedSimulation.getTitle() );
-                    }
-
                     localeSimList.add( localizedSimulation );
                 }
 
                 return true;
             }
         } );
-
-        Long b = System.currentTimeMillis();
 
         for ( Locale locale : localeMap.keySet() ) {
             locales.add( locale );
@@ -95,8 +87,6 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
             HibernateUtils.orderSimulations( simulationList, context.getLocale() );
         }
 
-        Long c = System.currentTimeMillis();
-
         add( new ListView( "locale-list", locales ) {
             protected void populateItem( ListItem item ) {
                 Locale locale = (Locale) item.getModel().getObject();
@@ -104,7 +94,8 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
                 // TODO: override with language.name when possible
                 item.add( new Label( "locale-title-translated", locale.getDisplayName( locale ) ) );
 
-                PhetLink link = new PhetLink( "locale-link", "#" + LocaleUtils.localeToString( locale ) );
+                //PhetLink link = new PhetLink( "locale-link", "#" + LocaleUtils.localeToString( locale ) );
+                Link link = TranslatedSimsPage.getLinker( locale ).getLink( "locale-link", context, getPhetCycle() );
                 link.add( new Label( "locale-title", localeNames.get( locale ) ) );
                 item.add( link );
 
@@ -117,48 +108,7 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
             }
         } );
 
-        add( new ListView( "translation-locales", locales ) {
-            protected void populateItem( ListItem item ) {
-                final Locale locale = (Locale) item.getModel().getObject();
-
-                item.setMarkupId( LocaleUtils.localeToString( locale ) );
-                item.setOutputMarkupId( true );
-
-                // TODO: localize order of translated title: {0} - {1} ex.
-                item.add( new Label( "locale-header", locale.getDisplayName( locale ) + " " + localeNames.get( locale ) ) );
-                item.add( new ListView( "translations", localeMap.get( locale ) ) {
-                    protected void populateItem( ListItem subItem ) {
-                        LocalizedSimulation lsim = (LocalizedSimulation) subItem.getModel().getObject();
-
-                        subItem.add( new Label( "title-translated", lsim.getTitle() ) );
-                        String otherTitle = simNameDefault.get( lsim.getSimulation() );
-                        if ( otherTitle == null ) {
-                            otherTitle = "-";
-                        }
-                        subItem.add( new Label( "title", otherTitle ) );
-                        subItem.add( lsim.getRunLink( "run-now-link" ) );
-
-                        if ( DistributionHandler.displayJARLink( (PhetRequestCycle) getRequestCycle(), lsim ) ) {
-                            subItem.add( lsim.getDownloadLink( "download-link" ) );
-                        }
-                        else {
-                            subItem.add( new InvisibleComponent( "download-link" ) );
-                        }
-
-                        if ( subItem.getIndex() % 2 == 0 ) {
-                            subItem.add( new AttributeAppender( "class", new Model( "highlight-background" ), " " ) );
-                        }
-                    }
-                } );
-            }
-        } );
-
-        Long d = System.currentTimeMillis();
-
-        logger.debug( "a-b: " + ( b - a ) );
-        logger.debug( "b-c: " + ( c - b ) );
-        logger.debug( "c-d: " + ( d - c ) );
-
+        // TODO: refine dependencies
         addDependency( new EventDependency() {
 
             private IChangeListener projectListener;
@@ -191,19 +141,4 @@ public class TranslatedSimsPanel extends PhetPanel implements CacheableUrlStatic
 
     }
 
-    public static String getKey() {
-        return "simulations.translated";
-    }
-
-    public static String getUrl() {
-        return "simulations/translated";
-    }
-
-    public static RawLinkable getLinker() {
-        return new AbstractLinker() {
-            public String getSubUrl( PageContext context ) {
-                return getUrl();
-            }
-        };
-    }
 }

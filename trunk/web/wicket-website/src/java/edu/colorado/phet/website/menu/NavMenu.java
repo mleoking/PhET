@@ -16,7 +16,7 @@ import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
 import edu.colorado.phet.website.content.simulations.SimulationDisplay;
-import edu.colorado.phet.website.content.simulations.TranslatedSimsPanel;
+import edu.colorado.phet.website.content.simulations.TranslatedSimsPage;
 import edu.colorado.phet.website.content.contribution.*;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
@@ -183,7 +183,7 @@ public class NavMenu {
             addLocation( allLocation );
             location.addChild( allLocation );
 
-            NavLocation translatedSimsLocation = new NavLocation( location, "simulations.translated", TranslatedSimsPanel.getLinker() );
+            NavLocation translatedSimsLocation = new NavLocation( location, "simulations.translated", TranslatedSimsPage.getLinker() );
             addLocation( translatedSimsLocation );
             location.addChild( translatedSimsLocation );
         }
