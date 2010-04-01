@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import edu.colorado.phet.website.PhetWicketApplication;
+
 public class Translation implements Serializable, IntId {
     private int id;
     private Locale locale;
@@ -13,7 +15,8 @@ public class Translation implements Serializable, IntId {
     private boolean visible;
 
     public boolean isAuthorizedUser( PhetUser user ) {
-        if ( user.isTeamMember() ) {
+        // must be specifically authorized to change main English translation strings
+        if ( user.isTeamMember() && ( !visible || !PhetWicketApplication.getDefaultLocale().equals( locale ) ) ) {
             return true;
         }
         for ( Object authorizedUser : authorizedUsers ) {
