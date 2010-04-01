@@ -73,13 +73,13 @@ public class GradientButtonNode extends PhetPNode {
      * Construct a gradient button node.
      * 
      * @param label - Text that will appear on the button.
-     * @param textColor - Color of the text that will appear on the button.
      * @param fontSize - Size of font for the label text.
      * @param buttonColor - Overall color of button from which gradient will
      * be created.
+     * @param textColor - Color of the text that will appear on the button.
      */
-    public GradientButtonNode(String label, Color textColor, int fontSize, Color buttonColor){
-        this( createTextIcon( label, textColor, fontSize ), buttonColor );
+    public GradientButtonNode(String label, int fontSize, Color buttonColor, Color textColor){
+        this( createTextIcon( label, fontSize, textColor ), buttonColor );
     }
 
     /**
@@ -91,7 +91,7 @@ public class GradientButtonNode extends PhetPNode {
      * be created.
      */
     public GradientButtonNode(String label, int fontSize, Color buttonColor){
-        this( createTextIcon( label, DEFAULT_TEXT_COLOR, fontSize ), buttonColor );
+        this( createTextIcon( label, fontSize, DEFAULT_TEXT_COLOR ), buttonColor );
     }
 
     //Assumes the PNode has an offset of (0,0)
@@ -162,7 +162,7 @@ public class GradientButtonNode extends PhetPNode {
         } );
     }
 
-    private static PNode createTextIcon( String label, Color textColor, int fontSize ) {
+    private static PNode createTextIcon( String label, int fontSize, Color textColor ) {
         // Create the label node first, since its size will be the basis for
         // the other components of this button.
         final HTMLNode _buttonText = new HTMLNode(label, textColor);
