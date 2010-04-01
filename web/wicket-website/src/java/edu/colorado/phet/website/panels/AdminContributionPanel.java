@@ -9,7 +9,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.content.ContributionEditPage;
+import edu.colorado.phet.website.content.contribution.ContributionEditPage;
 import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.util.HibernateTask;

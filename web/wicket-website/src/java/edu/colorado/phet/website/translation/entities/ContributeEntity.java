@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.content.ContributePanel;
-import edu.colorado.phet.website.content.ContributionGuidelinesPanel;
+import edu.colorado.phet.website.content.contribution.ContributePanel;
+import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
 import edu.colorado.phet.website.content.TeacherIdeasPanel;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.panels.ContributionEditPanel;

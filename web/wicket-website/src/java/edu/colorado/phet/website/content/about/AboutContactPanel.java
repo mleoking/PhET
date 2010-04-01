@@ -2,7 +2,7 @@ package edu.colorado.phet.website.content.about;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
-import edu.colorado.phet.website.content.ContributePanel;
+import edu.colorado.phet.website.content.contribution.ContributePanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;

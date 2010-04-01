@@ -1,4 +1,4 @@
-package edu.colorado.phet.website.content;
+package edu.colorado.phet.website.content.contribution;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;

@@ -5,6 +5,9 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
+import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
+import edu.colorado.phet.website.content.contribution.ContributionCreatePage;
+import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
 
 public class TeacherIdeasPanel extends PhetPanel {
     public TeacherIdeasPanel( String id, PageContext context ) {

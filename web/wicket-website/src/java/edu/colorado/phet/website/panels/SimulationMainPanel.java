@@ -26,7 +26,7 @@ import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
-import edu.colorado.phet.website.content.ContributePanel;
+import edu.colorado.phet.website.content.contribution.ContributePanel;
 import edu.colorado.phet.website.content.SimsByKeywordPage;
 import edu.colorado.phet.website.content.about.AboutLegendPanel;
 import edu.colorado.phet.website.data.*;

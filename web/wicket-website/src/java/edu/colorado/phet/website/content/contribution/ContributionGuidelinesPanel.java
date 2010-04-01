@@ -1,4 +1,4 @@
-package edu.colorado.phet.website.content;
+package edu.colorado.phet.website.content.contribution;
 
 import org.apache.wicket.behavior.HeaderContributor;
 
