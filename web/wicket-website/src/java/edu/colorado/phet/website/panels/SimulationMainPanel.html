@@ -61,15 +61,18 @@
             <div class="rating-holder">
                 <a href="#" wicket:id="rating-under-construction-link">
                     <img src="../../../../../../../root/images/ratings/under-construction.png"
-                         alt="Under Construction icon" class="noborder" wicket:id="rating-under-construction-image">
+                         alt="Under Construction icon" class="noborder" wicket:id="rating-under-construction-image"
+                         wicket:message="title:tooltip.legend.underConstruction">
                 </a>
                 <a href="#" wicket:id="rating-guidance-recommended-link">
                     <img src="../../../../../../../root/images/ratings/guidance-recommended.png"
-                         alt="Guidance Recommended icon" class="noborder" wicket:id="rating-guidance-recommended-image">
+                         alt="Guidance Recommended icon" class="noborder" wicket:id="rating-guidance-recommended-image"
+                         wicket:message="title:tooltip.legend.guidanceRecommended">
                 </a>
                 <a href="#" wicket:id="rating-classroom-tested-link">
                     <img src="../../../../../../../root/images/ratings/classroom-tested.png"
-                         alt="Classroom Tested icon" class="noborder" wicket:id="rating-classroom-tested-image">
+                         alt="Classroom Tested icon" class="noborder" wicket:id="rating-classroom-tested-image"
+                         wicket:message="title:tooltip.legend.classroomTested">
                 </a>
             </div>
 
@@ -83,7 +86,9 @@
 <div>
 
     <wicket:enclosure child="guide-text">
-        <h2><wicket:message key="simulationMainPanel.tipsForTeachers">Tips for Teachers</wicket:message></h2>
+        <h2>
+            <wicket:message key="simulationMainPanel.tipsForTeachers">Tips for Teachers</wicket:message>
+        </h2>
         <div wicket:id="guide-text">
             The <a href="#">teacher's guide</a> (pdf) contains tips for teachers created by the PhET team.
         </div>
