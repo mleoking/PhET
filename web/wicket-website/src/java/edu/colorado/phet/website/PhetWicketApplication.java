@@ -22,10 +22,7 @@ import edu.colorado.phet.website.content.*;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
-import edu.colorado.phet.website.content.simulations.SimsByKeywordPage;
-import edu.colorado.phet.website.content.simulations.SimulationDisplay;
-import edu.colorado.phet.website.content.simulations.SimulationPage;
-import edu.colorado.phet.website.content.simulations.TranslatedSimsPanel;
+import edu.colorado.phet.website.content.simulations.*;
 import edu.colorado.phet.website.content.contribution.*;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
@@ -89,7 +86,7 @@ public class PhetWicketApplication extends WebApplication {
         StaticPage.addPanel( AboutWhoWeArePanel.class );
         StaticPage.addPanel( AboutLicensingPanel.class );
         StaticPage.addPanel( AboutSponsorsPanel.class );
-        StaticPage.addPanel( TranslatedSimsPanel.class );
+        //StaticPage.addPanel( TranslatedSimsPanel.class );
         StaticPage.addPanel( TeacherIdeasPanel.class );
         StaticPage.addPanel( ContributionGuidelinesPanel.class );
 
@@ -110,6 +107,7 @@ public class PhetWicketApplication extends WebApplication {
         ContributionCreatePage.addToMapper( mapper );
         ContributionEditPage.addToMapper( mapper );
         ContributionManagePage.addToMapper( mapper );
+        TranslatedSimsPage.addToMapper( mapper );
 
         // set up the custom localizer
         getResourceSettings().setLocalizer( new PhetLocalizer() );

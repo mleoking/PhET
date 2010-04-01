@@ -24,7 +24,7 @@ public class NavLocation implements Serializable {
     }
 
     public String getLocalizationKey() {
-        if ( getKey().startsWith( "keyword" ) ) {
+        if ( getKey().startsWith( "keyword" ) || getKey().startsWith( "language.names." ) ) {
             return getKey();
         }
         else {

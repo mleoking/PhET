@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title>[PREVIEW] TranslationListPanel</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../../../../../../root/css/preview.css"/>
+    </wicket:remove>
+</head>
+<body>
+
+<wicket:panel>
+    <div class="translated-sims standard-content" wicket:message="dir:language.dir">
+        <h3 wicket:id="locale-header" style="border-top: 1px solid #aaaaaa;">polski - Polish</h3>
+        <table class="t-translations">
+            <tr wicket:id="translations">
+                <td>
+                    <a href="#" wicket:id="sim-link">
+                        <span wicket:id="title-translated">Title in sub language</span>
+                    </a>
+                </td>
+                <td>
+                    <span wicket:id="title">Title in overall language</span>
+                </td>
+                <td>
+                    <a href="#" wicket:id="run-now-link">
+                        <wicket:message key="simulations.translated.runNow">Run&nbsp;Now</wicket:message>
+                    </a>
+                </td>
+                <wicket:enclosure child="download-link">
+                    <td>
+                        <a href="#" wicket:id="download-link">
+                            <wicket:message key="simulations.translated.download">Download</wicket:message>
+                        </a>
+                    </td>
+                </wicket:enclosure>
+            </tr>
+        </table>
+    </div>
+</wicket:panel>
+
+</body>
+</html>
