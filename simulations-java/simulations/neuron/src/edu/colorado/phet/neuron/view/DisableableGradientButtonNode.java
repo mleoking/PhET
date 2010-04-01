@@ -58,7 +58,7 @@ public class DisableableGradientButtonNode extends PNode {
     private static class DisabledGradientButtonNode extends GradientButtonNode {
 
 		public DisabledGradientButtonNode(String label, int fontSize) {
-			super(label, Color.LIGHT_GRAY, fontSize, Color.GRAY);
+			super(label, fontSize, Color.GRAY, Color.LIGHT_GRAY);
 			setPickable(false);
 			setChildrenPickable(false);
 			getButton().setOffset(SHADOW_OFFSET, SHADOW_OFFSET);
