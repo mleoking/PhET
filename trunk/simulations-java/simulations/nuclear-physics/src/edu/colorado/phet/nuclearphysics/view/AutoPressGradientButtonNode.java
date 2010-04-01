@@ -28,9 +28,9 @@ public class AutoPressGradientButtonNode extends GradientButtonNode{
 	private static final int BUTTON_POST_PRESS_HIGHLIGHTED = 3;
 	
 	// Timers
-    private static final Timer PRE_PRESS_HIGHLIGHT_TIMER = new Timer( HIGHLIGHT_TIME, null );
-    private static final Timer PRESS_TIMER = new Timer( PRESS_TIME, null );
-    private static final Timer POST_PRESS_HIGHLIGHT_TIMER = new Timer( HIGHLIGHT_TIME, null );
+    private final Timer PRE_PRESS_HIGHLIGHT_TIMER = new Timer( HIGHLIGHT_TIME, null );
+    private final Timer PRESS_TIMER = new Timer( PRESS_TIME, null );
+    private final Timer POST_PRESS_HIGHLIGHT_TIMER = new Timer( HIGHLIGHT_TIME, null );
     
     // State variable for button state.
 	private int buttonState;
