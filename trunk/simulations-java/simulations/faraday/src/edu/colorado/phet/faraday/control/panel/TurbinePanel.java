@@ -214,7 +214,7 @@ public class TurbinePanel extends FaradayPanel {
                 // Read the value.
                 double percent = Math.floor( _strengthControl.getValue() );
                 // Update the model.
-                double strength = ( percent / 100.0 ) * FaradayConstants.BAR_MAGNET_STRENGTH_MAX ;
+                double strength = ( percent / 100.0 ) * FaradayConstants.TURBINE_STRENGTH_MAX ;
                 _turbineModel.setStrength( strength );
                 /*
                  * We're displaying strength in integer precision, but the slider is in double precision.
