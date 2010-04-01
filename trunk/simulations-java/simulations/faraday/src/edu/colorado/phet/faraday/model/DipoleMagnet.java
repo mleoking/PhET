@@ -237,8 +237,6 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * @param outputVector write the result into this vector
      */
     private void getStrengthInside( Point2D p, Vector2D outputVector /* output */ ) {
-        assert( p != null );
-        assert( outputVector != null );
         getStrengthInsideConstant( p, outputVector );
 //        getStrengthInsideLinear( p, outputVector );
 //        getStrengthInsideCurve( p, outputVector );
@@ -257,9 +255,9 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * Linear transition to half magnet strength at the magnet ends.
      */
     private void getStrengthInsideLinear( Point2D p, Vector2D outputVector ) {
-        double bx = getStrength() - ( getStrength() / getWidth() ) * Math.abs( p.getX() );
-        double by = 0;
-        outputVector.setMagnitudeAngle( bx, by );
+        double Bx = getStrength() - ( getStrength() / getWidth() ) * Math.abs( p.getX() );
+        double By = 0;
+        outputVector.setMagnitudeAngle( Bx, By );
     }
     
     /*
@@ -274,9 +272,11 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         double h = getHeight();
         double x = p.getX();
         double C = ( strength / 2 ) * ( Math.sqrt( ( w * w ) + ( h * h ) ) / w );
-        double bx = C * ( ( ( w / 2 - x ) / Math.sqrt( ( ( x - w / 2 ) * ( x - w / 2 ) ) + ( h / 2 * h / 2 ) ) ) + ( ( w / 2 + x ) / Math.sqrt( ( ( x + w / 2 ) * ( x + w / 2 ) ) + ( h / 2 * h / 2 ) ) ) );
-        double by = 0;
-        outputVector.setMagnitudeAngle( bx, by );
+        double denominator1 = Math.sqrt( ( ( x - w / 2 ) * ( x - w / 2 ) ) + ( h / 2 * h / 2 ) );
+        double denomimator2 = Math.sqrt( ( ( x + w / 2 ) * ( x + w / 2 ) ) + ( h / 2 * h / 2 ) );
+        double Bx = C * ( ( ( w / 2 - x ) / denominator1 ) + ( ( w / 2 + x ) / denomimator2 ) );
+        double By = 0;
+        outputVector.setMagnitudeAngle( Bx, By );
     }
     
     /**
