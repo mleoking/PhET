@@ -1,3 +1,5 @@
+# 2.01.00 (39582) Apr 1, 2010
+4/1/10 Statistics and common fixes
 # 2.01.00 (37295) Dec 10, 2009
 12/10/09 > Common interface fixes, improvements, and Khmer support.
 # 2.00.00 (30671) Apr 21, 2009
