@@ -1,4 +1,4 @@
-package edu.colorado.phet.website.content;
+package edu.colorado.phet.website.content.contribution;
 
 import java.util.LinkedList;
 import java.util.List;

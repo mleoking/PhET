@@ -9,11 +9,10 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.StaticImage;
-import edu.colorado.phet.website.content.ContributionPage;
+import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.SimulationPage;
 import edu.colorado.phet.website.data.*;
 import edu.colorado.phet.website.data.contribution.Contribution;

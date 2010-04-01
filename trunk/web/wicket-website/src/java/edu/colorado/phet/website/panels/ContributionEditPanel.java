@@ -27,7 +27,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.authentication.PhetSession;
-import edu.colorado.phet.website.content.ContributionPage;
+import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.data.IntId;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;

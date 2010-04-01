@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.admin.AdminMainPage;
 import edu.colorado.phet.website.authentication.*;
 import edu.colorado.phet.website.content.*;
+import edu.colorado.phet.website.content.contribution.*;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;

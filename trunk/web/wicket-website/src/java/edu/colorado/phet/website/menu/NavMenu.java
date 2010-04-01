@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.*;
+import edu.colorado.phet.website.content.contribution.*;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;

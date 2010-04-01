@@ -6,6 +6,8 @@ import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.content.contribution.ContributePanel;
+import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
