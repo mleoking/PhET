@@ -82,9 +82,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private PNode channelEdgeLayer;
     private PNode chartLayer;
     
-    // Chart and voltmeter for showing membrane potential.
+    // Chart for showing membrane potential.
     private MembranePotentialChart membranePotentialChart;
-    private MembraneVoltmeter voltmeter;
     
     // Button for stimulating the neuron.
     DisableableGradientButtonNode stimulateNeuronButton2;
@@ -190,11 +189,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         membranePotentialChart.setVisible(false);
         chartLayer.addChild(membranePotentialChart);
         
-        // Add the voltmeter.
-        voltmeter = new MembraneVoltmeter(model);
-        voltmeter.setVisible(false);
-        chartLayer.addChild(voltmeter);
-        
         // Add the zoom slider.
         ZoomControl zoomSlider = new ZoomControl(new PDimension(25, 130), this, 0.6, 7, 10);
         zoomSlider.setOffset(stimulateNeuronButton2.getXOffset(),
@@ -252,9 +246,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
             membranePotentialChart.setOffset(
             		centerX - membranePotentialChart.getFullBoundsReference().width / 2,
             		screenSize.getHeight() - membranePotentialChart.getFullBoundsReference().height - 5);
-            
-            voltmeter.setOffset(rightEdgeX - voltmeter.getFullBoundsReference().width - 5,
-            		worldSize.getHeight() - voltmeter.getFullBounds().height - 5);
         }
     }
     
@@ -269,10 +260,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 	public void removeZoomListener(ZoomListener neuronCanvasZoomListener){
 		listeners.remove(ZoomListener.class, neuronCanvasZoomListener);
 	}
-    
-    public void setVoltmeterVisible(boolean isVisible){
-    	voltmeter.setVisible(isVisible);
-    }
     
     /* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.view.IZoomable#setZoomFactor(double)
