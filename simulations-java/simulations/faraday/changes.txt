@@ -1,3 +1,4 @@
+4/1/10 #2236, implement new algorithms for b-field inside dipole magnet, but continue to use old algorithm
 # 2.03.00 (37994) Jan 9, 2010
 1/9/10 public version for milestone "full redeploy, 2010 Q1"
 # 2.02.01 (37349) Dec 11, 2009

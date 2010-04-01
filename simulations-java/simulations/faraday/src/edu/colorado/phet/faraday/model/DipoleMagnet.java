@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
@@ -30,6 +30,8 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * Arbitrary positive "fudge factor".
      * This should be adjusted so that transitions between inside and outside
      * the magnet don't result in abrupt changes in the magnetic field.
+     * Adjustment is done via trial and error. Use the B-field meter to measure
+     * inside and outside the ends of the magnet, try to make the transition small.
      */
     private static final double FUDGE_FACTOR = 700.0;
     
@@ -212,11 +214,11 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         fieldVector.rotate( getDirection() );
 
         // Clamp magnitude to magnet strength.
-        double magnetStrength = super.getStrength();
+        double magnetStrength = getStrength();
         double magnitude = fieldVector.getMagnitude();
         if ( magnitude > magnetStrength ) {
             fieldVector.setMagnitude( magnetStrength );
-            //System.out.println( "DipoleMagnet.getStrength - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
+//            System.out.println( "DipoleMagnet.getStrength - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
         }
         
         return fieldVector;
@@ -224,7 +226,6 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     
     /**
      * Gets the magnetic field strength at a point inside the magnet.
-     * This is constant for all points inside the magnet.
      * <p>
      * This algorithm makes the following assumptions:
      * <ul>
@@ -232,13 +233,50 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * <li>the magnet's direction is 0.0 (north pole pointing down the positive X axis)
      * </ul>
      * 
-     * @param p the point
+     * @param p the point, relative to the magnet's origin
      * @param outputVector write the result into this vector
      */
     private void getStrengthInside( Point2D p, Vector2D outputVector /* output */ ) {
         assert( p != null );
         assert( outputVector != null );
+        getStrengthInsideConstant( p, outputVector );
+//        getStrengthInsideLinear( p, outputVector );
+//        getStrengthInsideCurve( p, outputVector );
+    }
+    
+    /*
+     * Constant strength inside the magnet.
+     */
+    private void getStrengthInsideConstant( Point2D p, Vector2D outputVector ) {
         outputVector.setMagnitudeAngle( getStrength(), 0 );
+    }
+    
+    /*
+     * B-field varies linearly inside the magnet.
+     * Full magnet strength is at the magnet center.
+     * Linear transition to half magnet strength at the magnet ends.
+     */
+    private void getStrengthInsideLinear( Point2D p, Vector2D outputVector ) {
+        double bx = getStrength() - ( getStrength() / getWidth() ) * Math.abs( p.getX() );
+        double by = 0;
+        outputVector.setMagnitudeAngle( bx, by );
+    }
+    
+    /*
+     * B-field varies as a gradual curve inside the magnet.
+     * Full magnet strength is at the magnet center.
+     * B-field drops off more rapidly the further you get from the center,
+     * and is half magnet strength at the magnet ends.
+     */
+    private void getStrengthInsideCurve( Point2D p, Vector2D outputVector ) {
+        double strength = getStrength();
+        double w = getWidth();
+        double h = getHeight();
+        double x = p.getX();
+        double C = ( strength / 2 ) * ( Math.sqrt( ( w * w ) + ( h * h ) ) / w );
+        double bx = C * ( ( ( w / 2 - x ) / Math.sqrt( ( ( x - w / 2 ) * ( x - w / 2 ) ) + ( h / 2 * h / 2 ) ) ) + ( ( w / 2 + x ) / Math.sqrt( ( ( x + w / 2 ) * ( x + w / 2 ) ) + ( h / 2 * h / 2 ) ) ) );
+        double by = 0;
+        outputVector.setMagnitudeAngle( bx, by );
     }
     
     /**
@@ -255,7 +293,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * <li>the point has been transformed so that it is relative to above magnet assumptions
      * </ul>
      * 
-     * @param p the point
+     * @param p the point, relative to the magnet's origin
      * @param outputVector write the result into this vector
      * @param distanceExponent exponent that determines how the field strength decreases
      * with the distance from the magnet
