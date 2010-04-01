@@ -11,7 +11,7 @@ import org.hibernate.criterion.Restrictions;
 
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.Contribution;
-import edu.colorado.phet.website.panels.ContributionBrowsePanel;
+import edu.colorado.phet.website.panels.contribution.ContributionBrowsePanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;

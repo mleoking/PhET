@@ -3,7 +3,7 @@ package edu.colorado.phet.website;
 import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.content.contribution.ContributePanel;
-import edu.colorado.phet.website.content.FullInstallPanel;
+import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.ResearchPanel;
 import edu.colorado.phet.website.content.WorkshopsPanel;
 import edu.colorado.phet.website.content.about.*;

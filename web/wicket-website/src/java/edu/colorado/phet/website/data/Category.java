@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.data.util.IntId;
 
 public class Category implements Serializable, IntId {
     private int id;

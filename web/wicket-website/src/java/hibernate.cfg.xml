@@ -59,13 +59,13 @@
         <mapping resource="edu/colorado/phet/website/data/contribution/ContributionNomination.hbm.xml"/>
 
         <event type="post-insert">
-            <listener class="edu.colorado.phet.website.data.HibernateEventListener"/>
+            <listener class="edu.colorado.phet.website.data.util.HibernateEventListener"/>
         </event>
         <event type="post-update">
-            <listener class="edu.colorado.phet.website.data.HibernateEventListener"/>
+            <listener class="edu.colorado.phet.website.data.util.HibernateEventListener"/>
         </event>
         <event type="post-delete">
-            <listener class="edu.colorado.phet.website.data.HibernateEventListener"/>
+            <listener class="edu.colorado.phet.website.data.util.HibernateEventListener"/>
         </event>
 
     </session-factory>

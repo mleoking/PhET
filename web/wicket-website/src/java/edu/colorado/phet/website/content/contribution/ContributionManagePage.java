@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
-import edu.colorado.phet.website.panels.ContributionManagePanel;
+import edu.colorado.phet.website.panels.contribution.ContributionManagePanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.website.data.util.IntId;
 
 public class Simulation implements Serializable, IntId {
     private int id;
