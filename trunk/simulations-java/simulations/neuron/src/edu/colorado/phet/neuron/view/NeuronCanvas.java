@@ -239,7 +239,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         Dimension2D screenSize = getScreenSize();
         Rectangle bounds = getBounds();
         Dimension size = getSize();
-        System.out.println("bounds = " + bounds + ", size = " + size + " + world size = " + worldSize + ", screen size = " + screenSize);
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
