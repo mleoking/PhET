@@ -82,9 +82,8 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     private PNode channelEdgeLayer;
     private PNode chartLayer;
     
-    // Chart and voltmeter for showing membrane potential.
+    // Chart for showing membrane potential.
     private MembranePotentialChart membranePotentialChart;
-    private MembraneVoltmeter voltmeter;
     
     // Button for stimulating the neuron.
     GradientButtonNode stimulateNeuronButton;
@@ -184,10 +183,6 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
 	public void removeZoomListener(ZoomListener neuronCanvasZoomListener){
 		listeners.remove(ZoomListener.class, neuronCanvasZoomListener);
 	}
-    
-    public void setVoltmeterVisible(boolean isVisible){
-    	voltmeter.setVisible(isVisible);
-    }
     
     private void addParticle(Particle particleToBeAdded){
     	final ParticleNode particleNode = new ParticleNode(particleToBeAdded, mvt); 

@@ -162,18 +162,6 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         addControlFullWidth(potassiumConcentrationControl);
          */
         
-        // Add the check box for hiding/showing the voltmeter.
-//        addControlFullWidth(createVerticalSpacingPanel(30));
-//        final JCheckBox voltmeterControlCheckbox = new JCheckBox(NeuronStrings.SHOW_VOLTMETER);
-//        voltmeterControlCheckbox.addChangeListener(new ChangeListener() {
-//			
-//			public void stateChanged(ChangeEvent e) {
-//				neuronCanvas.setVoltmeterVisible(voltmeterControlCheckbox.isSelected());
-//			}
-//		});
-//        voltmeterControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
-//        addControlFullWidth(voltmeterControlCheckbox);
-        
         // Add the zoom slider.
 //        zoomSlider = new ZoomSlider("Zoom Control", neuronCanvas);
 //        addControlFullWidth(zoomSlider);
