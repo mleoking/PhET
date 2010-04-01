@@ -55,7 +55,7 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
 	// added to the play area.  Remove permanently (search the file for other
 	// commented-out code) when this is finalized.
 //	private ZoomSlider zoomSlider;
-	private JCheckBox showBulkChargesCheckbox;
+	private JCheckBox showAllIons;
 	private JCheckBox chartControlCheckbox;
     
     //----------------------------------------------------------------------------
@@ -89,17 +89,17 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
     		}
 
         	@Override
-    		public void bulkChargesSimulatedChanged() {
-    			showBulkChargesCheckbox.setSelected(model.isBulkChargesSimulated());
+    		public void allIonsSimulatedChanged() {
+    			showAllIons.setSelected(model.isAllIonsSimulated());
     		}
 
         	@Override
     		public void stimulationLockoutStateChanged() {
         		// When stimulation is locked out, we also lock out the
-        		// ability to change the bulk charges state, since otherwise
-        		// ions would have to disappear during an action potential,
+        		// ability to change the "All Ions Simulated" state, since
+        		// otherwise ions would have to disappear during an action potential,
         		// which would be tricky.
-        		showBulkChargesCheckbox.setEnabled(!model.isStimulusInitiationLockedOut());
+        		showAllIons.setEnabled(!model.isStimulusInitiationLockedOut());
         	}
         	
             /*
@@ -189,16 +189,16 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
                 Color.GRAY );
         checkBoxPanel.setBorder(titledBorder);
 
-        // Add the check box for hiding/showing the bulk charges.
-        showBulkChargesCheckbox = new JCheckBox(NeuronStrings.SHOW_BULK_CHARGES);
-        showBulkChargesCheckbox.addChangeListener(new ChangeListener() {
+        // Add the check box for hiding/showing all ions.
+        showAllIons = new JCheckBox(NeuronStrings.SHOW_ALL_IONS);
+        showAllIons.addChangeListener(new ChangeListener() {
 			
 			public void stateChanged(ChangeEvent e) {
-				axonModel.setBulkChargesSimulated(showBulkChargesCheckbox.isSelected());
+				axonModel.setAllIonsSimulated(showAllIons.isSelected());
 			}
 		});
-        showBulkChargesCheckbox.setAlignmentX(CENTER_ALIGNMENT);
-        checkBoxPanel.add(showBulkChargesCheckbox);
+        showAllIons.setAlignmentX(CENTER_ALIGNMENT);
+        checkBoxPanel.add(showAllIons);
         
         // Add the check box for hiding/showing the potential chart.
         addControlFullWidth(createVerticalSpacingPanel(5));

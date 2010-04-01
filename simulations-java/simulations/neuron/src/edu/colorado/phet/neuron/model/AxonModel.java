@@ -88,7 +88,7 @@ public class AxonModel implements IParticleCapture {
     private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
     private AlternativeConductanceModel alternativeConductanceModel = new AlternativeConductanceModel();
     private boolean potentialChartVisible = false;
-    private boolean bulkChargesSimulated = false; // Controls whether bulk charges are simulated.
+    private boolean allIonsSimulated = false; // Controls whether all ions, or just those near membrane, are simulated.
     private double stimLockoutCountdownTime;
 
     //----------------------------------------------------------------------------
@@ -196,37 +196,35 @@ public class AxonModel implements IParticleCapture {
     }
     
     /**
-     * Return a value indicating whether bulk charges are currently turned
-     * on in the simulation.  And yes, it would be more grammatically correct
-     * to set "areBulkChargesSimulated", but we are sticking with the
-     * convention for boolean variables.
+     * Return a value indicating whether simulation of all ions is currently
+     * turned on in the simulation.  And yes, it would be more grammatically
+     * correct to set "areAllIonsSimulated", but we are sticking with the
+     * convention for boolean variables.  So get over it.
      */
-    public boolean isBulkChargesSimulated(){
-    	return bulkChargesSimulated;
+    public boolean isAllIonsSimulated(){
+    	return allIonsSimulated;
     }
     
     /**
-     * Set the boolean value that indicates whether bulk charges are shown in
-     * the simulation.  Bulk charges are essentially the ions that are shown
-     * to exist all the time, i.e. even when no action potential is in
-     * progress.
+     * Set the boolean value that indicates whether all ions are shown in the
+     * simulation, or just those that are moving across the membrane.
      * 
-     * @param bulkChargesSimulated
+     * @param allIonsSimulated
      */
-    public void setBulkChargesSimulated(boolean bulkChargesSimulated){
+    public void setAllIonsSimulated(boolean allIonsSimulated){
     	// This can only be changed when the stimlus initiation is not locked
     	// out.  Otherwise, particles would come and go during an action
     	// potential, which would be hard to handle and potentially confusing.
     	if (!isStimulusInitiationLockedOut()){
-    		if (this.bulkChargesSimulated != bulkChargesSimulated){
-    			this.bulkChargesSimulated = bulkChargesSimulated; 
-    			notifyBulkChargesSimulatedChanged();
-    			if (this.bulkChargesSimulated){
+    		if (this.allIonsSimulated != allIonsSimulated){
+    			this.allIonsSimulated = allIonsSimulated; 
+    			notifyAllIonsSimulatedChanged();
+    			if (this.allIonsSimulated){
     				// Add the bulk particles.
     				addInitialBulkParticles();
     			}
     			else{
-    				// Remove the bulk particles.
+    				// Remove all particles.
     				removeAllParticles();
     			}
     		}
@@ -252,8 +250,9 @@ public class AxonModel implements IParticleCapture {
     	// Set the membrane chart to its initial state.
     	setPotentialChartVisible(false);
     	
-    	// Set the bulk charges to their initial state.
-    	setBulkChargesSimulated(false);
+    	// Set the boolean that controls whether all ions are simulated to its
+    	// original state.
+    	setAllIonsSimulated(false);
     	
     	// Remove all the particles.
     	removeAllParticles();
@@ -651,9 +650,9 @@ public class AxonModel implements IParticleCapture {
 		}
 	}
 	
-	private void notifyBulkChargesSimulatedChanged(){
+	private void notifyAllIonsSimulatedChanged(){
 		for (Listener listener : listeners.getListeners(Listener.class)){
-			listener.bulkChargesSimulatedChanged();
+			listener.allIonsSimulatedChanged();
 		}
 	}
 	
@@ -1139,10 +1138,10 @@ public class AxonModel implements IParticleCapture {
     	public void potentialChartVisibilityChanged();
     	
     	/**
-    	 * Notification that the setting for whether or not the bulk charges
-    	 * are included in the simulation has changed.
+    	 * Notification that the setting for whether or not all ions are
+    	 * included in the simulation has changed.
     	 */
-    	public void bulkChargesSimulatedChanged();
+    	public void allIonsSimulatedChanged();
     	
     	/**
     	 * Notification that the state of stimulation lockout, which prevents
@@ -1160,6 +1159,6 @@ public class AxonModel implements IParticleCapture {
 		public void stimulusPulseInitiated() {}
 		public void potentialChartVisibilityChanged() {}
 		public void stimulationLockoutStateChanged() {}
-		public void bulkChargesSimulatedChanged() {}
+		public void allIonsSimulatedChanged() {}
     }
 }
