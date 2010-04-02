@@ -53,7 +53,7 @@ public class LactoseTransportCanvas extends GeneNetworkCanvas {
         setLactoseInjector(lactoseInjector);
         
         // Add the legend.
-        setLegend(new MacroMoleculeLegend(model, this));
+        setLegend(new MacroMoleculeLegend(model, this, true));
         
         // Add the lactose meter.
         LactoseMeter lactoseMeter = new LactoseMeter(model);
