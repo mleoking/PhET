@@ -55,8 +55,7 @@ class ControlPanel extends JPanel {
         // model
         ProtoModel model = new ProtoModel();
         // view
-        PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setBackground( ProtoConstants.CANVAS_COLOR );
+        PhetPCanvas canvas = new ProtoCanvas( model );
         // control
         ControlPanel controlPanel = new ControlPanel( frame, canvas, model );
         // layout

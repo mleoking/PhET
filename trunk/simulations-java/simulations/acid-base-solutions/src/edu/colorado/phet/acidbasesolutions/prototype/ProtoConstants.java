@@ -3,6 +3,8 @@
 package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -19,6 +21,7 @@ public class ProtoConstants {
 
     // canvas
     public static final Color CANVAS_COLOR = Color.WHITE;
+    public static final Dimension2D CANVAS_SIZE = new Dimension( 1024, 768 );
     
     // beaker
     public static final IntegerRange BEAKER_WIDTH_RANGE = new IntegerRange( 50, 500, 250 );
