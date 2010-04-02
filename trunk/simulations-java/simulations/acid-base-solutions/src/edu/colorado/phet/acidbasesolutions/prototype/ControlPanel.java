@@ -31,7 +31,7 @@ class ControlPanel extends JPanel {
         
         magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
         beakerControls = new BeakerControls( parentFrame, model.getBeaker() );
-        weakAcidControls = new WeakAcidControls( model.getSolution() );
+        weakAcidControls = new WeakAcidControls( parentFrame, model.getSolution() );
         moleculeCountPanel = new MoleculeCountPanel();
         canvasControls = new CanvasControls( parentFrame, canvas );
         

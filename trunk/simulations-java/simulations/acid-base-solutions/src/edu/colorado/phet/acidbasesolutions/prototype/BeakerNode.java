@@ -25,11 +25,12 @@ class BeakerNode extends PhetPNode {
     private static final Color STROKE_COLOR = Color.BLACK;
     
     private final Beaker beaker;
+    private final Solution solution;
     private final PPath outlineNode, solutionNode;
     private final GeneralPath outlinePath; 
     private final Rectangle2D solutionRectangle;
     
-    public BeakerNode( Beaker beaker ) {
+    public BeakerNode( Beaker beaker, Solution solution ) {
         super();
         
         this.beaker = beaker;
@@ -39,9 +40,16 @@ class BeakerNode extends PhetPNode {
             }
         });
         
+        this.solution = solution;
+        solution.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                update();
+            }
+        } );
+        
         solutionRectangle = new Rectangle2D.Double();
         solutionNode = new PPath();
-        solutionNode.setPaint( beaker.getSolutionColor() );
+        solutionNode.setPaint( solution.getColor() );
         solutionNode.setStroke( null );
         addChild( solutionNode );
         
@@ -75,7 +83,7 @@ class BeakerNode extends PhetPNode {
     }
     
     private void updateSolution() {
-        solutionNode.setPaint( beaker.getSolutionColor() );
+        solutionNode.setPaint( solution.getColor() );
         double width = beaker.getWidth();
         double height = beaker.getHeight();
         solutionRectangle.setRect( -width/2, -height/2, width, height );

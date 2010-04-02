@@ -27,7 +27,6 @@ public class ProtoConstants {
     public static final IntegerRange BEAKER_WIDTH_RANGE = new IntegerRange( 400, 1000, 600 );
     public static final IntegerRange BEAKER_HEIGHT_RANGE = new IntegerRange( 400, 1000, 800 );
     public static final Point2D BEAKER_CENTER = new Point2D.Double( 450, 600 );
-    public static final Color BEAKER_SOLUTION_COLOR = new Color( 193, 222, 227 ); // light blue
     
     // magnifying glass
     public static final IntegerRange MAGNIFYING_GLASS_DIAMETER_RANGE = new IntegerRange( 100, 1200, 500 );
@@ -36,4 +35,5 @@ public class ProtoConstants {
     // weak acid
     public static final DoubleRange WEAK_ACID_CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
     public static final DoubleRange WEAK_ACID_STRENGTH_RANGE = new DoubleRange( 1E-10, 1 );
+    public static final Color WEAK_ACID_COLOR = new Color( 193, 222, 227 ); // light blue
 }

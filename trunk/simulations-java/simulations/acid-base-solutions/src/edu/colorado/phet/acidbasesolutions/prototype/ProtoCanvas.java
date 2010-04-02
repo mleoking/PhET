@@ -23,11 +23,11 @@ class ProtoCanvas extends PhetPCanvas {
         parentNode = new PNode();
         addWorldChild( parentNode );
         
-        beakerNode = new BeakerNode( model.getBeaker() );
+        beakerNode = new BeakerNode( model.getBeaker(), model.getSolution() );
         beakerNode.setOffset( model.getBeaker().getCenterReference() );
         addChild( beakerNode );
         
-        magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass() );
+        magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass(), model.getSolution() );
         magnifyingGlassNode.setOffset( model.getMagnifyingGlass().getCenterReference() );
         addChild( magnifyingGlassNode );
     }
