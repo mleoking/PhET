@@ -7,8 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JCheckBox;
@@ -21,7 +19,6 @@ import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -41,8 +38,8 @@ public abstract class DnaSegmentToolBoxNode extends PNode {
 	static final double WIDTH_PROPORTION = 0.8;
 	
 	// Aspect ratio, width divided by height, from which the height will be
-	// calculated.
-	static final double ASPECT_RATIO = 6; 
+	// calculated.  Smaller numbers means a taller box.
+	static final double ASPECT_RATIO = 8; 
 	
 	// Offset from the bottom of the window.
 	static final double OFFSET_FROM_BOTTOM = 10;
