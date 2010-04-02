@@ -213,6 +213,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         // Adjust the field vector to match the magnet's direction.
         fieldVector.rotate( getDirection() );
 
+        //TODO Why is this necessary? If I remove it, the max strength is exceeded often, sometime by a large amount.
         // Clamp magnitude to magnet strength.
         double magnetStrength = getStrength();
         double magnitude = fieldVector.getMagnitude();
