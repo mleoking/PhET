@@ -31,6 +31,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -85,7 +86,17 @@ public class LactoseInjectorNode extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-	public LactoseInjectorNode(final IGeneNetworkModelControl model, ModelViewTransform2D mvt, double rotationAngle) {
+    /**
+     * Constructs a lactose injection node.
+     * 
+     * @param model - The model into which the lactose will be injected.
+     * @param mvt - Model-view transform for relating view space to model space.
+     * @param rotationAngle - Angle of rotation for the injection bulb.
+     * @param labelText - Text of label that will go above the injector, null
+     * indicates that no label should be shown.
+     */
+	public LactoseInjectorNode(final IGeneNetworkModelControl model, ModelViewTransform2D mvt, double rotationAngle, 
+			String labelText) {
 		
 		this.model = model;
 		this.mvt = mvt;
@@ -122,9 +133,9 @@ public class LactoseInjectorNode extends PNode {
         	injectorNode.getFullBoundsReference().getCenterY() - autoInjectionControl.getFullBoundsReference().height / 2);
         addChild(autoInjectionControl);
         
-        // Add the injector node.  Note that the position has to be tweaked
-        // in order to account for the rotation of the node image, since the
-        // rotation of the square image enlarges the bounds.
+        // Add the injector image node.  Note that the position has to be
+        // tweaked in order to account for the rotation of the node image,
+        // since the rotation of the square image enlarges the bounds.
         injectorNode.setOffset(-Math.abs(Math.sin(rotationAngle * 2)) * 30, 0);
         addChild(injectorNode);
         
@@ -140,6 +151,24 @@ public class LactoseInjectorNode extends PNode {
         // injector.
         updateInjectionPoint();
         model.setAutomaticLactoseInjectionParams( injectionPointInModelCoords, nominalInjectionVelocityVector );
+        
+        // If specified, add the label.  To better support internationalization,
+        // a dimension is defined into which the label must fit, and the label
+        // is scaled as needed to fit within this dimension.
+        if (labelText != null){
+        	Dimension2D labelMaxSize = new PDimension(getFullBoundsReference().width * 0.6,
+        			getFullBoundsReference().getHeight() * 0.2);
+        	PText label = new PText("Lactose Injector");
+        	label.setFont(new PhetFont());
+        	double labelScale = Math.min(labelMaxSize.getWidth() / label.getWidth(),
+        			labelMaxSize.getHeight() / label.getHeight());
+        	label.setScale(labelScale);
+        	// Position the label.  This must be adjusted based on the rotational
+        	// angle of the image, since rotation messes up the bounds.
+        	label.setOffset( getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() * 0.1 - label.getFullBoundsReference().width / 2,
+        			getFullBoundsReference().getMinY() - label.getFullBoundsReference().height + Math.sin(Math.abs(rotationAngle * 2)) * label.getFullBoundsReference().height * 0.9);
+        	addChild(label);
+        }
         
         // Set up the button handling.
         unpressedButtonImageNode.setPickable(true);
@@ -184,6 +213,17 @@ public class LactoseInjectorNode extends PNode {
         
         updateInjectorNodeVisibility();
         updateInjectButtonVisibility();
+	}
+	
+	/**
+	 * Constructor that assumes no label.
+	 * 
+	 * @param model
+	 * @param mvt
+	 * @param rotationAngle
+	 */
+	public LactoseInjectorNode(final IGeneNetworkModelControl model, ModelViewTransform2D mvt, double rotationAngle){
+		this(model, mvt, rotationAngle, null);
 	}
 
 	/**
@@ -231,7 +271,7 @@ public class LactoseInjectorNode extends PNode {
 	
 	private static class AutomaticInjectionSelector extends PNode {
 		
-		private static final Font LABEL_FONT = new PhetFont(14);
+		private static final Font AUTO_INJECT_CTRL_LABEL_FONT = new PhetFont(14);
 		private static final Color BACKGROUND_COLOR = new Color(248, 236, 84);
 		private static final Stroke BORDER_STROKE = new BasicStroke(2f);
 		private static final Stroke CONNECTOR_STROKE = new BasicStroke(8f);
@@ -257,7 +297,7 @@ public class LactoseInjectorNode extends PNode {
 			// TODO: i18n.
 			manualButton = new JRadioButton("Manual");
 			manualButton.setBackground(BACKGROUND_COLOR);
-			manualButton.setFont(LABEL_FONT);
+			manualButton.setFont(AUTO_INJECT_CTRL_LABEL_FONT);
 			manualButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					model.setAutomaticLactoseInjectionEnabled(false);
@@ -265,7 +305,7 @@ public class LactoseInjectorNode extends PNode {
 			});
 			autoButton = new JRadioButton("Auto");
 			autoButton.setBackground(BACKGROUND_COLOR);
-			autoButton.setFont(LABEL_FONT);
+			autoButton.setFont(AUTO_INJECT_CTRL_LABEL_FONT);
 			autoButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					model.setAutomaticLactoseInjectionEnabled(true);

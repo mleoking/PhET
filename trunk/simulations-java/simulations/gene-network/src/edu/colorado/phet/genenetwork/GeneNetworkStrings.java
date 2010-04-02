@@ -42,4 +42,5 @@ public class GeneNetworkStrings {
     public static final String LACTOSE_METER_VISIBILITY_CONTROL_CAPTION = GeneNetworkResources.getString("LactoseMeterVisibilityControlCaption");
     public static final String LACTOSE_METER_CAPTION = GeneNetworkResources.getString("LactoseMeterCaption");
     public static final String RESET = GeneNetworkResources.getString("Reset");
+    public static final String LACTOSE_INJECTOR_LABEL = GeneNetworkResources.getString("LactoseInjectorLabel");
 }

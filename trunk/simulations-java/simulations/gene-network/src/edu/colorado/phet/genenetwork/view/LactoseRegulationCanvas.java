@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.genenetwork.view;
 
+import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.LacOperonModel;
 
 /**
@@ -22,7 +23,8 @@ public class LactoseRegulationCanvas extends GeneNetworkCanvas {
         setToolBox(new BasicDnaSegmentToolBoxNode(this, model, getMvt()));
         
         // Add the lactose injector.
-        LactoseInjectorNode lactoseInjector = new LactoseInjectorNode(model, getMvt(), -Math.PI/6);
+        LactoseInjectorNode lactoseInjector = 
+        	new LactoseInjectorNode(model, getMvt(), -Math.PI/6, GeneNetworkStrings.LACTOSE_INJECTOR_LABEL);
         lactoseInjector.setOffset(-40, 120);
         setLactoseInjector(lactoseInjector);
         
