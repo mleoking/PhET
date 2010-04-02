@@ -33,6 +33,7 @@ import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.Glucose;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.colorado.phet.genenetwork.model.LacI;
+import edu.colorado.phet.genenetwork.model.LacY;
 import edu.colorado.phet.genenetwork.model.LacZ;
 import edu.colorado.phet.genenetwork.model.MessengerRna;
 import edu.colorado.phet.genenetwork.model.RnaPolymerase;
@@ -88,8 +89,12 @@ public class MacroMoleculeLegend extends PhetPNode {
     //------------------------------------------------------------------------
     // Constructors
     //------------------------------------------------------------------------
-    	
-	public MacroMoleculeLegend(final IGeneNetworkModelControl model, final PhetPCanvas canvas){
+    
+    /**
+     * Constructor that allows the user to specify whether or not LacY is
+     * depicted.
+     */
+	public MacroMoleculeLegend(final IGeneNetworkModelControl model, final PhetPCanvas canvas, boolean showLacY){
 		
 		// Register for notifications of size change from the canvas.
 		canvas.addComponentListener(new ComponentAdapter() {
@@ -126,6 +131,12 @@ public class MacroMoleculeLegend extends PhetPNode {
 		
 		icon = new SimpleModelElementNode(new LacI(), MVT, false);
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.LAC_I_LEGEND_CAPTION));
+
+		// LacY is optional since it is sometimes not needed.
+		if (showLacY){
+			icon = new SimpleModelElementNode(new LacY(), MVT, false);
+			legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.LAC_I_LEGEND_CAPTION));
+		}
 		
 		icon = createLactoseNode();
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.LACTOSE_LEGEND_CAPTION));
@@ -163,6 +174,16 @@ public class MacroMoleculeLegend extends PhetPNode {
 		
 		// Update visibility.
 		updateVisibility(model);
+	}
+    	
+	/**
+	 * Constructor that assumes that LacY is not shown.
+	 * 
+	 * @param model
+	 * @param canvas
+	 */
+	public MacroMoleculeLegend(final IGeneNetworkModelControl model, final PhetPCanvas canvas){
+		this(model, canvas, false);
 	}
 	
     //------------------------------------------------------------------------
