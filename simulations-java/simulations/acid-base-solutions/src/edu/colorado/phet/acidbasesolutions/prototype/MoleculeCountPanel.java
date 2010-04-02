@@ -23,7 +23,7 @@ class MoleculeCountPanel extends JPanel {
     
     public MoleculeCountPanel() {
         super();
-        setBorder( new TitledBorder( "Particle counts" ) );
+        setBorder( new TitledBorder( "Molecule counts" ) );
         
         displayedHA = new IntegerLabel();
         displayedA = new IntegerLabel();
@@ -47,7 +47,7 @@ class MoleculeCountPanel extends JPanel {
         layout.setMinimumWidth( 2, minColumnWidth );
         int row = 0;
         int column = 0;
-        layout.addComponent( new JLabel( "<html><u>particle</u></html>" ), row, column++ );
+        layout.addComponent( new JLabel( "<html><u>molecule</u></html>" ), row, column++ );
         layout.addComponent( new JLabel( "<html><u>displayed</u></html>" ), row, column++ );
         layout.addComponent( new JLabel( "<html><u>actual</u></html>" ), row, column++ );
         row++;
