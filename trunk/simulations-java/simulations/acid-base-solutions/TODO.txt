@@ -3,6 +3,8 @@ TODO list for acid-base-solutions
 HIGH PRIORITY
 - proto: control panel for dots view
 - proto: control panel for images view
+- proto: weak acid model
+- proto: algorithm for number of visible molecules
 - proto: dots view
 - proto: images view
 - proto: canvas layout issues
