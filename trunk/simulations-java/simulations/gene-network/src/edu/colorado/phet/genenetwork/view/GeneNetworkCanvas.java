@@ -2,13 +2,16 @@
 
 package edu.colorado.phet.genenetwork.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkConstants;
 import edu.colorado.phet.genenetwork.model.Galactose;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
@@ -47,6 +50,7 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
     private final ModelViewTransform2D mvt;
     
 	// Layers for creating the desired overlap behavior.
+    private final PNode cellularFluidLayer;
     private final PNode toolBoxLayer;
 	private final PNode dnaStrandLayer;
     private final PNode backmostRovingModelElementLayer; // Backmost layer for roving elements.
@@ -92,6 +96,8 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
 		});
         
         // Create and add the layers.
+        cellularFluidLayer = new PNode();
+        addWorldChild(cellularFluidLayer);
         toolBoxLayer = new PNode();
         addScreenChild(toolBoxLayer);
         dnaStrandLayer = new PNode();
@@ -146,6 +152,16 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
 		// Add this to the canvas and keep a reference.
 		cellMembraneLayer.addChild(cellMembraneNode);
 		this.cellMembraneNode = cellMembraneNode;
+		
+		// Create a background above the cell membrane that looks distinct
+		// from the cell interior.
+		cellularFluidLayer.removeAllChildren();
+		double fluidBackgroundWidth = INITIAL_INTERMEDIATE_COORD_WIDTH * 3;
+		double fluidBackgroundHeight = INITIAL_INTERMEDIATE_COORD_HEIGHT;
+		PNode extraCellularFluid = new PhetPPath(new Rectangle2D.Double(0, 0, fluidBackgroundWidth, fluidBackgroundHeight), Color.GREEN);
+		extraCellularFluid.setOffset(INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - fluidBackgroundWidth / 2, 
+				cellMembraneNode.getFullBoundsReference().getMinY() - fluidBackgroundHeight);
+		cellularFluidLayer.addChild(extraCellularFluid);
 	}
 
     protected MacroMoleculeLegend getLegend() {
