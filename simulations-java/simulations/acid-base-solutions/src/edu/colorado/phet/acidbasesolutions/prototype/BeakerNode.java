@@ -4,6 +4,7 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
@@ -19,6 +20,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 class BeakerNode extends PhetPNode {
+    
+    private static final Stroke STROKE = new BasicStroke( 6f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    private static final Color STROKE_COLOR = Color.BLACK;
     
     private final Beaker beaker;
     private final PPath outlineNode, solutionNode;
@@ -44,8 +48,8 @@ class BeakerNode extends PhetPNode {
         outlinePath = new GeneralPath();
         outlineNode = new PPath();
         outlineNode.setPaint( null );
-        outlineNode.setStroke( new BasicStroke( 2f ) );
-        outlineNode.setStrokePaint( Color.BLACK );
+        outlineNode.setStroke( STROKE );
+        outlineNode.setStrokePaint( STROKE_COLOR );
         addChild( outlineNode );
         
         update();
