@@ -4,12 +4,14 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.GridBagConstraints;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -23,8 +25,9 @@ class BeakerControls extends JPanel {
     
     private final Beaker beaker;
     private final LinearValueControl widthControl, heightControl;
+    private final ColorControl solutionColorControl;
     
-    public BeakerControls( final Beaker beaker ) {
+    public BeakerControls( final JFrame parentFrame, final Beaker beaker ) {
         setBorder( new TitledBorder( "Beaker" ) );
         
         this.beaker = beaker;
@@ -54,6 +57,13 @@ class BeakerControls extends JPanel {
             }
         });
         
+        solutionColorControl = new ColorControl( parentFrame, "solution color:", beaker.getSolutionColor() );
+        solutionColorControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                beaker.setSolutionColor( solutionColorControl.getColor() );
+            }
+        } );
+        
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -64,6 +74,9 @@ class BeakerControls extends JPanel {
         row++;
         column = 0;
         layout.addComponent( heightControl, row, column++ );
+        row++;
+        column = 0;
+        layout.addComponent( solutionColorControl, row, column++ );
         
         // default state
         updateControls();
@@ -72,5 +85,6 @@ class BeakerControls extends JPanel {
     private void updateControls() {
         widthControl.setValue( beaker.getWidth() );
         heightControl.setValue( beaker.getHeight() );
+        solutionColorControl.setColor( beaker.getSolutionColor() );
     }
 }

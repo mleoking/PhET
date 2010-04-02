@@ -30,7 +30,7 @@ class ControlPanel extends JPanel {
     public ControlPanel( JFrame parentFrame, final PCanvas canvas, ProtoModel model ) {
         
         magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
-        beakerControls = new BeakerControls( model.getBeaker() );
+        beakerControls = new BeakerControls( parentFrame, model.getBeaker() );
         weakAcidControls = new WeakAcidControls( model.getSolution() );
         moleculeCountPanel = new MoleculeCountPanel();
         canvasControls = new CanvasControls( parentFrame, canvas );
