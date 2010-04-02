@@ -55,6 +55,7 @@ class MagnifyingGlassControls extends JPanel {
         buttonGroupH2O.add( imagesRadioButtonH2O );
         buttonGroupH2O.add( solidRadioButtonH2O );
         
+        // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );

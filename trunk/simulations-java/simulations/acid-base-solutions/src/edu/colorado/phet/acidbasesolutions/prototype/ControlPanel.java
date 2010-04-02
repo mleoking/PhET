@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.acidbasesolutions.prototype;
 
-import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JFrame;
@@ -22,6 +23,7 @@ class ControlPanel extends JPanel {
     
     private final MagnifyingGlassControls magnifyingGlassControls;
     private final BeakerControls beakerControls;
+    private final SolutionControls solutionControls;
     private final MoleculeCountPanel moleculeCountPanel;
     private final CanvasControls canvasControls;
     
@@ -29,6 +31,7 @@ class ControlPanel extends JPanel {
         
         magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
         beakerControls = new BeakerControls( model.getBeaker() );
+        solutionControls = new SolutionControls( model.getSolution() );
         moleculeCountPanel = new MoleculeCountPanel();
         canvasControls = new CanvasControls( parentFrame, canvas );
         
@@ -42,17 +45,27 @@ class ControlPanel extends JPanel {
         int column = 0;
         layout.addComponent( magnifyingGlassControls, row++, column );
         layout.addComponent( beakerControls, row++, column );
+        layout.addComponent( solutionControls, row++, column );
         layout.addComponent( moleculeCountPanel, row++, column );
         layout.addComponent( canvasControls, row++, column );
     }
     
     public static void main( String[] args ) {
-        ProtoModel model = new ProtoModel();
-        PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setBackground( Color.RED );
         JFrame frame = new JFrame();
-        frame.setContentPane( new ControlPanel( frame, canvas, model ) );
-        frame.pack();
+        // model
+        ProtoModel model = new ProtoModel();
+        // view
+        PhetPCanvas canvas = new PhetPCanvas();
+        canvas.setBackground( ProtoConstants.CANVAS_COLOR );
+        // control
+        ControlPanel controlPanel = new ControlPanel( frame, canvas, model );
+        // layout
+        JPanel mainPanel = new JPanel( new BorderLayout() );
+        mainPanel.add( canvas, BorderLayout.CENTER );
+        mainPanel.add( controlPanel, BorderLayout.EAST );
+        // frame
+        frame.setContentPane( mainPanel );
+        frame.setSize( new Dimension( 1024, 768 ) );
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
