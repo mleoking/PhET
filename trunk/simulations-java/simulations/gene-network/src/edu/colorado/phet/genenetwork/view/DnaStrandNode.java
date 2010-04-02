@@ -21,6 +21,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class DnaStrandNode extends PNode {
 
+	public static Color STRAND_1_COLOR = new Color(31, 163, 223);
+	public static Color STRAND_2_COLOR = new Color(214, 87, 107);
 	private static final boolean SHOW_BOUNDS = true;
 	private static final Stroke STRAND_STROKE = new BasicStroke(2);
 	
@@ -36,9 +38,9 @@ public class DnaStrandNode extends PNode {
 		this.mvt = mvt;
 		
 		// Create the two main strands of the DNA.
-		strand1Node = new PhetPPath(STRAND_STROKE, new Color(31, 163, 223));
+		strand1Node = new PhetPPath(STRAND_STROKE, STRAND_1_COLOR);
 		addChild(strand1Node);
-		strand2Node = new PhetPPath(STRAND_STROKE, new Color(214, 87, 107));
+		strand2Node = new PhetPPath(STRAND_STROKE, STRAND_2_COLOR);
 		addChild(strand2Node);
 		
 		// Update the shape of the DNA strands.

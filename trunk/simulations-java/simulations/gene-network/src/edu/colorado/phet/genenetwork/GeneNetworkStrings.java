@@ -36,6 +36,7 @@ public class GeneNetworkStrings {
     public static final String LACTOSE_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.Lactose" );
     public static final String MESSENGER_RNA_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.MessengerRna" );
     public static final String TRANSFORMATION_ARROW_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.TransformationArrow" );
+    public static final String DNA_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.Dna" );
 
     // Various other captions.
     public static final String LEGEND_VISIBILITY_CONTROL_CAPTION = GeneNetworkResources.getString("LegendVisibilityControlCaption");
