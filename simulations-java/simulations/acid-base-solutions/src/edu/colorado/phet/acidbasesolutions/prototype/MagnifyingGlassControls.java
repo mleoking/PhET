@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -21,14 +23,23 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 class MagnifyingGlassControls extends JPanel {
     
+    private final MagnifyingGlass magnifyingGlass;
     private final LinearValueControl diameterControl;
     private final JRadioButton dotsRadioButton, imagesRadioButton;
     private final JRadioButton dotsRadioButtonH2O, imagesRadioButtonH2O, solidRadioButtonH2O;
     
-    public MagnifyingGlassControls() {
+    public MagnifyingGlassControls( MagnifyingGlass magnifyingGlass ) {
         setBorder( new TitledBorder( "Magnifying glass" ) );
         
+        this.magnifyingGlass = magnifyingGlass;
+        
         diameterControl = new LinearValueControl( 10, 500, "diameter:", "##0", "", new HorizontalLayoutStrategy() );
+        diameterControl.setUpDownArrowDelta( 1 );
+        diameterControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updateMagnifyingGlass();
+            }
+        });
         
         dotsRadioButton = new JRadioButton( "dots" );
         imagesRadioButton = new JRadioButton( "images" );
@@ -63,8 +74,13 @@ class MagnifyingGlassControls extends JPanel {
         layout.addComponent( solidRadioButtonH2O, row, column++ );
         
         // default state
-        diameterControl.setValue( 100 );//XXX get state from what we're controlling
+        diameterControl.setValue( magnifyingGlass.getDiameter() );
         dotsRadioButton.setSelected( true ); //XXX get state from what we're controlling
         solidRadioButtonH2O.setSelected( true ); //XXX get state from what we're controlling
+    }
+    
+    private void updateMagnifyingGlass() {
+        magnifyingGlass.setDiameter( (int)diameterControl.getValue() );
+        //XXX change particle representation
     }
 }
