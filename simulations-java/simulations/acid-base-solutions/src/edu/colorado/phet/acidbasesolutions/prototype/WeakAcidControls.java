@@ -4,12 +4,14 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.GridBagConstraints;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -23,9 +25,10 @@ class WeakAcidControls extends JPanel {
     
     private final WeakAcid weakAcid;
     private final LogarithmicValueControl concentrationControl, strengthControl;
+    private final ColorControl solutionColorControl;
     
-    public WeakAcidControls( final WeakAcid weakAcid ) {
-        setBorder( new TitledBorder( "Weak acid" ) );
+    public WeakAcidControls( final JFrame parentFrame, final WeakAcid weakAcid ) {
+        setBorder( new TitledBorder( "Solution (weak acid)" ) );
         
         this.weakAcid = weakAcid;
         weakAcid.addChangeListener( new ChangeListener() {
@@ -50,6 +53,13 @@ class WeakAcidControls extends JPanel {
             }
         });
         
+        solutionColorControl = new ColorControl( parentFrame, "color:", weakAcid.getColor() );
+        solutionColorControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                weakAcid.setColor( solutionColorControl.getColor() );
+            }
+        } );
+        
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -60,6 +70,9 @@ class WeakAcidControls extends JPanel {
         row++;
         column = 0;
         layout.addComponent( strengthControl, row, column++ );
+        row++;
+        column = 0;
+        layout.addComponent( solutionColorControl, row, column++ );
         
         // default state
         updateControls();
@@ -68,5 +81,6 @@ class WeakAcidControls extends JPanel {
     private void updateControls() {
         concentrationControl.setValue( weakAcid.getConcentration() );
         strengthControl.setValue( weakAcid.getStrength() );
+        solutionColorControl.setColor( weakAcid.getColor() );
     }
 }
