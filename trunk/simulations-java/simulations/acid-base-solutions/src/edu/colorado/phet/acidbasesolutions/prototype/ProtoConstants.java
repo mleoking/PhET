@@ -24,13 +24,13 @@ public class ProtoConstants {
     public static final Dimension2D CANVAS_SIZE = new Dimension( 1024, 768 );
     
     // beaker
-    public static final IntegerRange BEAKER_WIDTH_RANGE = new IntegerRange( 50, 500, 250 );
-    public static final IntegerRange BEAKER_HEIGHT_RANGE = new IntegerRange( 50, 500, 300 );
-    public static final Point2D BEAKER_CENTER = new Point2D.Double( 400, 400 );
+    public static final IntegerRange BEAKER_WIDTH_RANGE = new IntegerRange( 400, 1000, 600 );
+    public static final IntegerRange BEAKER_HEIGHT_RANGE = new IntegerRange( 400, 1000, 800 );
+    public static final Point2D BEAKER_CENTER = new Point2D.Double( 450, 600 );
     public static final Color BEAKER_SOLUTION_COLOR = new Color( 193, 222, 227 ); // light blue
     
     // magnifying glass
-    public static final IntegerRange MAGNIFYING_GLASS_DIAMETER_RANGE = new IntegerRange( 100, 700, 400 );
+    public static final IntegerRange MAGNIFYING_GLASS_DIAMETER_RANGE = new IntegerRange( 100, 1200, 500 );
     public static final Point2D MAGNIFYING_GLASS_CENTER = BEAKER_CENTER;
     
     // weak acid

@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.prototype.MagnifyingGlass.H2ORepresentation;
 import edu.colorado.phet.acidbasesolutions.prototype.MagnifyingGlass.MoleculeRepresentation;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -40,7 +41,8 @@ class MagnifyingGlassControls extends JPanel {
             }
         });
         
-        diameterControl = new LinearValueControl( 10, 500, "diameter:", "##0", "", new HorizontalLayoutStrategy() );
+        IntegerRange diameterRange = ProtoConstants.MAGNIFYING_GLASS_DIAMETER_RANGE;
+        diameterControl = new LinearValueControl( diameterRange.getMin(), diameterRange.getMax(), "diameter:", "##0", "", new HorizontalLayoutStrategy() );
         diameterControl.setUpDownArrowDelta( 1 );
         diameterControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
