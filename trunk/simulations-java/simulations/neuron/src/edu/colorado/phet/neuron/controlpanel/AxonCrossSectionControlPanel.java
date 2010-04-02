@@ -5,6 +5,8 @@ package edu.colorado.phet.neuron.controlpanel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
@@ -85,12 +87,12 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         model.addListener(new AxonModel.Adapter(){
         	@Override
     		public void potentialChartVisibilityChanged() {
-    			chartControlCheckbox.setSelected(model.isPotentialChartVisible());
+    			updateChartVisibilityCheckBox();
     		}
 
         	@Override
     		public void allIonsSimulatedChanged() {
-    			showAllIons.setSelected(model.isAllIonsSimulated());
+    			updateShowAllIonsCheckBox();
     		}
 
         	@Override
@@ -179,29 +181,36 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
 
         // Add the check box for hiding/showing all ions.
         showAllIons = new JCheckBox(NeuronStrings.SHOW_ALL_IONS);
-        showAllIons.addChangeListener(new ChangeListener() {
+        showAllIons.addItemListener(new ItemListener() {
 			
-			public void stateChanged(ChangeEvent e) {
+			public void itemStateChanged(ItemEvent e) {
 				axonModel.setAllIonsSimulated(showAllIons.isSelected());
 			}
 		});
         showAllIons.setAlignmentX(CENTER_ALIGNMENT);
         checkBoxPanel.add(showAllIons);
+        updateShowAllIonsCheckBox();
         
         // Add the check box for hiding/showing the potential chart.
         addControlFullWidth(createVerticalSpacingPanel(5));
         chartControlCheckbox = new JCheckBox(NeuronStrings.SHOW_POTENTIAL_CHART);
-        chartControlCheckbox.addChangeListener(new ChangeListener() {
+//        chartControlCheckbox.addChangeListener(new ChangeListener() {
+//			
+//			public void stateChanged(ChangeEvent e) {
+//				axonModel.setPotentialChartVisible(chartControlCheckbox.isSelected());
+//			}
+//		});
+        chartControlCheckbox.addItemListener(new ItemListener() {
 			
-			public void stateChanged(ChangeEvent e) {
+			public void itemStateChanged(ItemEvent e) {
 				axonModel.setPotentialChartVisible(chartControlCheckbox.isSelected());
+				
 			}
 		});
         chartControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
         checkBoxPanel.add(chartControlCheckbox);
         addControlFullWidth(checkBoxPanel);
-        
-        addControlFullWidth(checkBoxPanel);
+        updateChartVisibilityCheckBox();
         
         /*
          * TODO: Feb 19, 2010 - Got rid of this and put a button on the canvas
@@ -258,6 +267,14 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
         spacePanel.add( Box.createVerticalStrut( space ) );
         return spacePanel;
+    }
+    
+    private void updateChartVisibilityCheckBox(){
+		chartControlCheckbox.setSelected(axonModel.isPotentialChartVisible());
+    }
+    
+    private void updateShowAllIonsCheckBox(){
+		showAllIons.setSelected(axonModel.isAllIonsSimulated());
     }
     
     private static class ZoomSlider extends LinearValueControl{

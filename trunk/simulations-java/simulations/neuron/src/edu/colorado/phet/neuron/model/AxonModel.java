@@ -16,6 +16,7 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.translationutility.test.TestValidation.AddButton;
 
 /**
  * This class represents the main class for modeling the axon.  It acts as the
@@ -70,6 +71,12 @@ public class AxonModel implements IParticleCapture {
 	// Default value of opaqueness for newly created particles.
 	private static final double DEFAULT_OPAQUENESS = 0.20;
 	
+	// Default for whether all ions are shown.
+	private static final boolean DEFAULT_FOR_SHOW_ALL_IONS = true;
+	
+	// Default for whether the membrane potential chart is visible.
+	private static final boolean DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY = false;
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -87,8 +94,8 @@ public class AxonModel implements IParticleCapture {
     private int membranePotentialSnapshot;
     private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
     private AlternativeConductanceModel alternativeConductanceModel = new AlternativeConductanceModel();
-    private boolean potentialChartVisible = false;
-    private boolean allIonsSimulated = false; // Controls whether all ions, or just those near membrane, are simulated.
+    private boolean potentialChartVisible = DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY;
+    private boolean allIonsSimulated = DEFAULT_FOR_SHOW_ALL_IONS; // Controls whether all ions, or just those near membrane, are simulated.
     private double stimLockoutCountdownTime;
 
     //----------------------------------------------------------------------------
@@ -124,6 +131,11 @@ public class AxonModel implements IParticleCapture {
         
         // Add the membrane channels.
         addInitialChannels();
+        
+        // If the default is set to show all ions, add them now.
+        if (allIonsSimulated){
+        	addInitialBulkParticles();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -248,14 +260,11 @@ public class AxonModel implements IParticleCapture {
     	}
     	
     	// Set the membrane chart to its initial state.
-    	setPotentialChartVisible(false);
+    	setPotentialChartVisible(DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY);
     	
     	// Set the boolean that controls whether all ions are simulated to its
     	// original state.
-    	setAllIonsSimulated(false);
-    	
-    	// Remove all the particles.
-    	removeAllParticles();
+    	setAllIonsSimulated(DEFAULT_FOR_SHOW_ALL_IONS);
     	
     	// Reset all membrane channels.
     	for (MembraneChannel membraneChannel : membraneChannels){
