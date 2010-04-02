@@ -62,7 +62,7 @@ class MoleculeCountPanel extends JPanel {
         layout.addComponent( actualA, row, column++ );
         row++;
         column = 0;
-        layout.addComponent( new JLabel( "<html>H<sub>3</sub>O<sup>-</sup></html>" ), row, column++ );
+        layout.addComponent( new JLabel( "<html>H<sub>3</sub>O<sup>+</sup></html>" ), row, column++ );
         layout.addComponent( displayedH3O, row, column++ );
         layout.addComponent( actualH3O, row, column++ );
         row++;
