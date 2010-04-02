@@ -21,6 +21,7 @@ import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -113,6 +114,9 @@ public class MacroMoleculeLegend extends PhetPNode {
 		
 		// Create the various legend items and add them to the list of items.
 		PNode icon;
+		
+		icon = createDnaStrandNode();
+		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.DNA_LEGEND_CAPTION));
 		
 		icon = new SimpleModelElementNode(new RnaPolymerase(), MVT, false);
 		legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.POLYMERASE_LEGEND_CAPTION));
@@ -247,6 +251,45 @@ public class MacroMoleculeLegend extends PhetPNode {
     	return lactoseNode;
     }
 
+    /**
+     * Generate an image of a DNA strand.  This is necessary because the DNA
+     * strand in the model is not implemented as a SimpleModelElement, which
+     * most of the rest of the things on the legend are.  The appearence of
+     * this strand is, at least in part, manually coordinated with the real
+     * DNA strand, so if the one in the model changes, this will need to
+     * change too.
+     */
+    private PNode createDnaStrandNode(){
+    	
+    	// Parameters of the DNA strand, adjust as needed in order to alter
+    	// the appearance.
+    	double totalWidth = 40;
+    	double height = 5;
+    	double interStrandOffset = 3;
+    	double numCycles = 3;
+    	double numSamples = 100;
+    	Stroke strandStroke = new BasicStroke(1);
+    	
+    	// Create the shapes of the DNA strand.
+    	DoubleGeneralPath strandShape = new DoubleGeneralPath();
+    	strandShape.moveTo(0, 0);
+    	double angleIncrement = Math.PI * 2 * numCycles / numSamples;
+    	for (int i = 0; i < numSamples; i++){
+    		System.out.println(Math.sin(angleIncrement * i));
+    		strandShape.lineTo(i * (totalWidth / numSamples), Math.sin(angleIncrement * i) * height);
+    	}
+    	PNode dnaStrandNode = new PNode();
+    	PNode strand1Node = new PhetPPath(strandShape.getGeneralPath(), strandStroke, DnaStrandNode.STRAND_1_COLOR);
+    	strand1Node.setOffset(totalWidth / 2, 0);
+    	dnaStrandNode.addChild(strand1Node);
+    	PNode strand2Node = new PhetPPath(strandShape.getGeneralPath(), strandStroke, DnaStrandNode.STRAND_2_COLOR);
+    	strand2Node.setOffset(totalWidth / 2 + interStrandOffset, 0);
+    	dnaStrandNode.addChild(strand2Node);
+    	dnaStrandNode.setPickable(false);
+    	dnaStrandNode.setChildrenPickable(false);
+    	return dnaStrandNode;
+    }
+    
 	/**
 	 * A very simple class that bundles together two PNodes, one that is a
 	 * graphical representation of an item and the other that is the
