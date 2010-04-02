@@ -1,5 +1,6 @@
 package edu.colorado.phet.genenetwork.view;
 
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -44,6 +45,10 @@ public class BasicDnaSegmentToolBoxNode extends DnaSegmentToolBoxNode {
     	legendControlCheckBoxPSwing.setOffset(
     			boxBounds.width - legendControlCheckBoxPSwing.getFullBoundsReference().width *  1.1,
     			boxBounds.height - legendControlCheckBoxPSwing.getFullBoundsReference().height - 5);
+    	
+    	// Position the line that divides the DNA segments from the check boxes.
+    	dividerLine.setPathTo(new Line2D.Double(0, 0, boxBounds.width - 3 * OUTLINE_STROKE_WIDTH, 0));
+    	dividerLine.setOffset(OUTLINE_STROKE_WIDTH, legendControlCheckBoxPSwing.getFullBoundsReference().getMinY());
     	
     	// Let the model know our size, so that the model elements can figure
     	// out when they are being put back in the box.  Note that some of the

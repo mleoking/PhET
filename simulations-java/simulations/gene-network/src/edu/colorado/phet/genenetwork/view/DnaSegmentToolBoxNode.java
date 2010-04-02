@@ -3,6 +3,7 @@ package edu.colorado.phet.genenetwork.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -19,6 +20,7 @@ import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -35,23 +37,31 @@ public abstract class DnaSegmentToolBoxNode extends PNode {
 	
 	// Defines the width of the tool box as a proportion of the parent window's
 	// width.
-	static final double WIDTH_PROPORTION = 0.8;
+	protected static final double WIDTH_PROPORTION = 0.8;
 	
 	// Aspect ratio, width divided by height, from which the height will be
 	// calculated.  Smaller numbers means a taller box.
-	static final double ASPECT_RATIO = 8; 
+	protected static final double ASPECT_RATIO = 8; 
 	
 	// Offset from the bottom of the window.
-	static final double OFFSET_FROM_BOTTOM = 10;
+	protected static final double OFFSET_FROM_BOTTOM = 10;
 	
 	// Background color used to fill the box.
-	static final Color BACKGROUND_COLOR = Color.WHITE; 
+	private static final Color BACKGROUND_COLOR = Color.WHITE; 
+	
+	// Outline stroke.
+	protected static final float OUTLINE_STROKE_WIDTH = 2f;
+	private static final Stroke OUTLINE_STROKE = new BasicStroke(OUTLINE_STROKE_WIDTH);
 	
 	// Font for the check boxes.  For consistency with the nodes that are placed
 	// in the tool box, we load a serif font if no preferred font is
 	// specified.  For more information about why this is done, please look at
 	// the code for the nodes that are added to the tool box.
-	static final Font CHECK_BOX_FONT = GeneNetworkFontFactory.getFont(16, Font.PLAIN);
+	private static final Font CHECK_BOX_FONT = GeneNetworkFontFactory.getFont(16, Font.PLAIN);
+	
+	// TODO: Take this out when finalized.
+	protected static final boolean SHOW_DIVIDER_LINE = true;
+	PPath dividerLine;
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -101,7 +111,7 @@ public abstract class DnaSegmentToolBoxNode extends PNode {
 		
 		// Create the surrounding box.
 		boxNode = new PhetPPath(new RoundRectangle2D.Double(0, 0, canvas.getWidth(), 100, 15, 15), BACKGROUND_COLOR,
-				new BasicStroke(2f), Color.BLACK);
+				OUTLINE_STROKE, Color.BLACK);
 		addChild(boxNode);
 		
 		// Create the grabbable items in the box.
@@ -143,6 +153,12 @@ public abstract class DnaSegmentToolBoxNode extends PNode {
 		});
 		legendControlCheckBoxPSwing = new PSwing(legendControlCheckBox);
 		addChild(legendControlCheckBoxPSwing);
+		
+		// Add a divider line between the DNA segments and the controls.
+		if (SHOW_DIVIDER_LINE){
+			dividerLine = new PhetPPath(OUTLINE_STROKE, Color.LIGHT_GRAY);
+			addChild(dividerLine);
+		}
 		
 		// Listen to the model for changes to the setting for the legend
 		// visibility.
