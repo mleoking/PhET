@@ -31,11 +31,11 @@ public class BasicDnaSegmentToolBoxNode extends DnaSegmentToolBoxNode {
     	// a lot, making them line up well requires tweaking the multipliers
     	// below on an individual basis.
     	PBounds boxBounds = boxNode.getFullBounds();
-    	lacIPromoter.setOffset(boxBounds.width * 0.11, boxBounds.height / 4);
-    	lacIGene.setOffset(boxBounds.width * 0.3, boxBounds.height * 0.25);
-    	lacZGene.setOffset(boxBounds.width * 0.5, boxBounds.height * 0.25);
-    	lacPromoter.setOffset(boxBounds.width * 0.71, boxBounds.height / 4);
-    	lacIBindingRegion.setOffset(boxBounds.width * 0.91, boxBounds.height * 0.25);
+    	lacIPromoter.setOffset(boxBounds.width * 0.11, boxBounds.height * 0.20);
+    	lacIGene.setOffset(boxBounds.width * 0.3, boxBounds.height * 0.20);
+    	lacZGene.setOffset(boxBounds.width * 0.5, boxBounds.height * 0.20);
+    	lacPromoter.setOffset(boxBounds.width * 0.71, boxBounds.height * 0.20);
+    	lacIBindingRegion.setOffset(boxBounds.width * 0.91, boxBounds.height * 0.20);
     	
     	// Position the check box button for turning the lactose meter on and off.
     	lactoseMeterCheckBoxPSwing.setOffset( 10, boxBounds.height - lactoseMeterCheckBoxPSwing.getFullBoundsReference().height - 5);
