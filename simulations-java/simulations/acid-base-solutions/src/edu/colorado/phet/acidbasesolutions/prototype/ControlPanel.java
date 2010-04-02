@@ -23,7 +23,7 @@ class ControlPanel extends JPanel {
     
     private final MagnifyingGlassControls magnifyingGlassControls;
     private final BeakerControls beakerControls;
-    private final SolutionControls solutionControls;
+    private final WeakAcidControls weakAcidControls;
     private final MoleculeCountPanel moleculeCountPanel;
     private final CanvasControls canvasControls;
     
@@ -31,7 +31,7 @@ class ControlPanel extends JPanel {
         
         magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
         beakerControls = new BeakerControls( model.getBeaker() );
-        solutionControls = new SolutionControls( model.getSolution() );
+        weakAcidControls = new WeakAcidControls( model.getSolution() );
         moleculeCountPanel = new MoleculeCountPanel();
         canvasControls = new CanvasControls( parentFrame, canvas );
         
@@ -45,7 +45,7 @@ class ControlPanel extends JPanel {
         int column = 0;
         layout.addComponent( magnifyingGlassControls, row++, column );
         layout.addComponent( beakerControls, row++, column );
-        layout.addComponent( solutionControls, row++, column );
+        layout.addComponent( weakAcidControls, row++, column );
         layout.addComponent( moleculeCountPanel, row++, column );
         layout.addComponent( canvasControls, row++, column );
     }
