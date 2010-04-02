@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkResources;
+import edu.colorado.phet.genenetwork.GeneNetworkStrings;
 import edu.colorado.phet.genenetwork.model.GeneNetworkModelAdapter;
 import edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl;
 import edu.umd.cs.piccolo.PNode;
@@ -294,8 +295,7 @@ public class LactoseInjectorNode extends PNode {
 			
 			// Create the radio buttons that will allow the user to enable
 			// or disable automatic lactose injections.
-			// TODO: i18n.
-			manualButton = new JRadioButton("Manual");
+			manualButton = new JRadioButton(GeneNetworkStrings.MANUAL_LACTOSE_INJECTION_LABEL);
 			manualButton.setBackground(BACKGROUND_COLOR);
 			manualButton.setFont(AUTO_INJECT_CTRL_LABEL_FONT);
 			manualButton.addActionListener(new ActionListener() {
@@ -303,7 +303,7 @@ public class LactoseInjectorNode extends PNode {
 					model.setAutomaticLactoseInjectionEnabled(false);
 				}
 			});
-			autoButton = new JRadioButton("Auto");
+			autoButton = new JRadioButton(GeneNetworkStrings.AUTO_LACTOSE_INJECTION_LABEL);
 			autoButton.setBackground(BACKGROUND_COLOR);
 			autoButton.setFont(AUTO_INJECT_CTRL_LABEL_FONT);
 			autoButton.addActionListener(new ActionListener() {
