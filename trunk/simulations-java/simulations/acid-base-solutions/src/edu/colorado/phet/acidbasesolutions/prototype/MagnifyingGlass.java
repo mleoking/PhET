@@ -13,22 +13,21 @@ import java.awt.geom.Point2D;
 class MagnifyingGlass extends Changeable {
     
     public enum MoleculeRepresentation { DOTS, IMAGES };
-    public enum H2ORepresentation { DOTS, IMAGES, SOLID_COLOR };
     
     private int diameter;
     private final Point2D center;
     private MoleculeRepresentation moleculeRepresentation;
-    private H2ORepresentation h2oRepresentation;
+    private boolean showH2O;
     
     public MagnifyingGlass() {
-        this( ProtoConstants.MAGNIFYING_GLASS_DIAMETER_RANGE.getDefault(), ProtoConstants.MAGNIFYING_GLASS_CENTER, MoleculeRepresentation.DOTS, H2ORepresentation.SOLID_COLOR );
+        this( ProtoConstants.MAGNIFYING_GLASS_DIAMETER_RANGE.getDefault(), ProtoConstants.MAGNIFYING_GLASS_CENTER, MoleculeRepresentation.DOTS, false /* showH2O */ );
     }
 
-    public MagnifyingGlass( int diameter, Point2D center, MoleculeRepresentation moleculeRepresentation, H2ORepresentation h2oRepresentation ) {
+    public MagnifyingGlass( int diameter, Point2D center, MoleculeRepresentation moleculeRepresentation, boolean showH2O ) {
         this.diameter = diameter;
         this.center = new Point2D.Double( center.getX(), center.getY() );
         this.moleculeRepresentation = moleculeRepresentation;
-        this.h2oRepresentation = h2oRepresentation;
+        this.showH2O = showH2O;
     }
     
     public void setDiameter( int diameter ) {
@@ -57,14 +56,14 @@ class MagnifyingGlass extends Changeable {
         return moleculeRepresentation;
     }
     
-    public void setH2ORepresentation( H2ORepresentation h2oRepresentation ) {
-        if ( h2oRepresentation != this.h2oRepresentation ) {
-            this.h2oRepresentation = h2oRepresentation;
+    public void setShowH2O( boolean showH2O ) {
+        if ( showH2O != this.showH2O ) {
+            this.showH2O = showH2O;
             fireStateChanged();
         }
     }
     
-    public H2ORepresentation getH2ORepresentation() {
-        return h2oRepresentation;
+    public boolean getShowH2O() {
+        return showH2O;
     }
 }

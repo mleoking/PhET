@@ -1,7 +1,11 @@
 TODO list for acid-base-solutions
 
 HIGH PRIORITY
-- prototype of magnifying glass view
+- proto: control panel for dots view
+- proto: control panel for images view
+- proto: dots view
+- proto: images view
+- proto: canvas layout issues
 
 MEDUIUM PRIORITY
 
