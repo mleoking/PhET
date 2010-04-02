@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.Color;
@@ -5,8 +7,14 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
-
+/**
+ * Collection of constants for the Magnifying Glass View prototype.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ProtoConstants {
+    
+    private ProtoConstants() {}
 
     public static final Color CANVAS_COLOR = Color.WHITE;
     public static final IntegerRange BEAKER_WIDTH_RANGE = new IntegerRange( 50, 500, 250 );

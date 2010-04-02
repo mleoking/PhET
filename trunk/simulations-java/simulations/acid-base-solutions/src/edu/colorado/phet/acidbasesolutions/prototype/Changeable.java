@@ -1,9 +1,18 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.acidbasesolutions.prototype;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+/**
+ * Base class for things that are changeable.
+ * Listeners will be notified that some property changed, but won't know which property.
+ * This is sufficient for our prototype.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public abstract class Changeable {
     
     private final EventListenerList listenerList;

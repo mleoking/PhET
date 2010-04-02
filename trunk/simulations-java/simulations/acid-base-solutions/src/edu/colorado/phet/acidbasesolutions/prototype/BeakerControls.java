@@ -24,10 +24,15 @@ class BeakerControls extends JPanel {
     private final Beaker beaker;
     private final LinearValueControl widthControl, heightControl;
     
-    public BeakerControls( Beaker beaker ) {
+    public BeakerControls( final Beaker beaker ) {
         setBorder( new TitledBorder( "Beaker" ) );
         
         this.beaker = beaker;
+        beaker.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updateControls();
+            }
+        });
         
         // beaker width
         IntegerRange widthRange = ProtoConstants.BEAKER_WIDTH_RANGE;
@@ -35,7 +40,7 @@ class BeakerControls extends JPanel {
         widthControl.setUpDownArrowDelta( 1 );
         widthControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateBeaker();
+                beaker.setWidth( (int)widthControl.getValue() );
             }
         });
 
@@ -45,7 +50,7 @@ class BeakerControls extends JPanel {
         heightControl.setUpDownArrowDelta( 1 );
         heightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateBeaker();
+                beaker.setHeight( (int)heightControl.getValue() );
             }
         });
         
@@ -61,12 +66,11 @@ class BeakerControls extends JPanel {
         layout.addComponent( heightControl, row, column++ );
         
         // default state
-        widthControl.setValue( beaker.getWidth() );
-        heightControl.setValue( beaker.getHeight() );
+        updateControls();
     }
     
-    private void updateBeaker() {
-        beaker.setWidth( (int)widthControl.getValue() );
-        beaker.setHeight( (int)heightControl.getValue() );
+    private void updateControls() {
+        widthControl.setValue( beaker.getWidth() );
+        heightControl.setValue( beaker.getHeight() );
     }
 }
