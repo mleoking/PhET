@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.acidbasesolutions.prototype;
 
+import java.awt.geom.Point2D;
+
+
 /**
  * Model of a beaker.
  *
@@ -10,13 +13,15 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 class Beaker extends Changeable {
     
     private int width, height;
+    private final Point2D center;
 
     public Beaker() {
-        this( ProtoConstants.BEAKER_WIDTH_RANGE.getDefault(), ProtoConstants.BEAKER_HEIGHT_RANGE.getDefault() );
+        this( ProtoConstants.BEAKER_WIDTH_RANGE.getDefault(), ProtoConstants.BEAKER_HEIGHT_RANGE.getDefault(), ProtoConstants.BEAKER_CENTER );
     }
-    public Beaker( int width, int height ) {
+    public Beaker( int width, int height, Point2D center ) {
         this.width = width;
         this.height = height;
+        this.center = new Point2D.Double( center.getX(), center.getY() );
     }
     
     public void setWidth( int width ) {
@@ -39,5 +44,9 @@ class Beaker extends Changeable {
     
     public int getHeight() {
         return height;
+    }
+    
+    public Point2D getCenterReference() {
+        return center;
     }
 }

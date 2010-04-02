@@ -106,7 +106,7 @@ class MagnifyingGlassControls extends JPanel {
         layout.addComponent( diameterControl, row, column++, 5, 1 );
         row++;
         column = 0;
-        layout.addAnchoredComponent( new JLabel( "particles:" ), row, column++, GridBagConstraints.EAST );
+        layout.addAnchoredComponent( new JLabel( "molecules:" ), row, column++, GridBagConstraints.EAST );
         layout.addComponent( dotsRadioButton, row, column++ );
         layout.addComponent( imagesRadioButton, row, column++ );
         row++;
