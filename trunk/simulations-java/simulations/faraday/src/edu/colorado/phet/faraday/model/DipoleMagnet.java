@@ -33,7 +33,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * Adjustment is done via trial and error. Use the B-field meter to measure
      * inside and outside the ends of the magnet, try to make the transition small.
      */
-    private static final double FUDGE_FACTOR = 700.0;
+    private static final double FUDGE_FACTOR = 321;
     
     // Magnetic field strength drops off by this power.
     private static final double DEFAULT_DISTANCE_EXPONENT = 3.0;
@@ -237,11 +237,12 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * @param outputVector write the result into this vector
      */
     private void getStrengthInside( Point2D p, Vector2D outputVector /* output */ ) {
-        getStrengthInsideConstant( p, outputVector );
+//        getStrengthInsideConstant( p, outputVector );
 //        getStrengthInsideLinear( p, outputVector );
-//        getStrengthInsideCurve( p, outputVector );
+        getStrengthInsideCurve( p, outputVector );
     }
     
+    //TODO delete this method
     /*
      * Constant strength inside the magnet.
      */
@@ -249,6 +250,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         outputVector.setMagnitudeAngle( getStrength(), 0 );
     }
     
+    //TODO delete this method
     /*
      * B-field varies linearly inside the magnet.
      * Full magnet strength is at the magnet center.
