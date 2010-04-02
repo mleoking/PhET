@@ -1,3 +1,5 @@
+# 2.03.01 (39591) Apr 1, 2010
+4/1/10 dev version for Mike Dubson to test his fix for #2236
 4/1/10 #2236, use new b-field inside algorithm for dipole magnet, adjust FUDGE_FACTOR using test app
 4/1/10 #2236, implement new algorithms for b-field inside dipole magnet, but continue to use old algorithm
 # 2.03.00 (37994) Jan 9, 2010
