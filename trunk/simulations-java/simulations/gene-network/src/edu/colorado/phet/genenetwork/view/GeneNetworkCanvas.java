@@ -219,7 +219,7 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
         }
         
         // Place the legend where it needs to go.
-        legend.setOffset(getWidth() - legend.getFullBoundsReference().getWidth() - 10, 20);
+        legend.setOffset(getWidth() - legend.getFullBoundsReference().getWidth() - 10, 10);
     }
     
     private void addModelElement(final SimpleModelElement modelElement){
