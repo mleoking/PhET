@@ -13,16 +13,22 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PCanvas;
 
-
-public class ControlPanel extends JPanel {
+/**
+ * Control panel for the Magnifying Glass View prototype.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+class ControlPanel extends JPanel {
     
     private final MagnifyingGlassControls magnifyingGlassControls;
+    private final BeakerControls beakerControls;
     private final MoleculeCountPanel moleculeCountPanel;
     private final CanvasControls canvasControls;
     
-    public ControlPanel( JFrame parentFrame, final PCanvas canvas ) {
+    public ControlPanel( JFrame parentFrame, final PCanvas canvas, ProtoModel model ) {
         
-        magnifyingGlassControls = new MagnifyingGlassControls();
+        magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
+        beakerControls = new BeakerControls( model.getBeaker() );
         moleculeCountPanel = new MoleculeCountPanel();
         canvasControls = new CanvasControls( parentFrame, canvas );
         
@@ -35,15 +41,17 @@ public class ControlPanel extends JPanel {
         int row = 0;
         int column = 0;
         layout.addComponent( magnifyingGlassControls, row++, column );
+        layout.addComponent( beakerControls, row++, column );
         layout.addComponent( moleculeCountPanel, row++, column );
         layout.addComponent( canvasControls, row++, column );
     }
     
     public static void main( String[] args ) {
+        ProtoModel model = new ProtoModel();
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setBackground( Color.RED );
         JFrame frame = new JFrame();
-        frame.setContentPane( new ControlPanel( frame, canvas ) );
+        frame.setContentPane( new ControlPanel( frame, canvas, model ) );
         frame.pack();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         frame.setVisible( true );
