@@ -37,6 +37,7 @@ class MoleculeCountPanel extends JPanel {
         actualOH = new ScientificIntegerLabel();
         actualH2O = new ScientificIntegerLabel();
         
+        // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         layout.setAnchor( GridBagConstraints.EAST );
@@ -74,6 +75,9 @@ class MoleculeCountPanel extends JPanel {
         layout.addComponent( new JLabel( "<html>H<sub>2</sub>O</html>" ), row, column++ );
         layout.addComponent( displayedH2O, row, column++ );
         layout.addComponent( actualH2O, row, column++ );
+        
+        // default state
+        //XXX
     }
     
     public void setActualValues( int HA, int A, int H3O, int OH, int H2O ) {

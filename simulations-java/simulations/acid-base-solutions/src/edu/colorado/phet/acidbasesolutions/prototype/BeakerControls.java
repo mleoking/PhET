@@ -32,7 +32,6 @@ class BeakerControls extends JPanel {
         // beaker width
         IntegerRange widthRange = ProtoConstants.BEAKER_WIDTH_RANGE;
         widthControl = new LinearValueControl( widthRange.getMin(), widthRange.getMax(), "width:", "##0", "", new HorizontalLayoutStrategy() );
-        widthControl.setValue( beaker.getWidth() );
         widthControl.setUpDownArrowDelta( 1 );
         widthControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -43,7 +42,6 @@ class BeakerControls extends JPanel {
         // beaker height
         IntegerRange heightRange = ProtoConstants.BEAKER_HEIGHT_RANGE;
         heightControl = new LinearValueControl( heightRange.getMin(), heightRange.getMax(), "height:", "##0", "", new HorizontalLayoutStrategy() );
-        heightControl.setValue( beaker.getHeight() );
         heightControl.setUpDownArrowDelta( 1 );
         heightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -51,6 +49,7 @@ class BeakerControls extends JPanel {
             }
         });
         
+        // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
@@ -60,6 +59,10 @@ class BeakerControls extends JPanel {
         row++;
         column = 0;
         layout.addComponent( heightControl, row, column++ );
+        
+        // default state
+        widthControl.setValue( beaker.getWidth() );
+        heightControl.setValue( beaker.getHeight() );
     }
     
     private void updateBeaker() {

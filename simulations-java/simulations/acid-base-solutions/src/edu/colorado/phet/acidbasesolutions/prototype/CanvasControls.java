@@ -33,6 +33,7 @@ class CanvasControls extends JPanel {
             }
         } );
         
+        // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
