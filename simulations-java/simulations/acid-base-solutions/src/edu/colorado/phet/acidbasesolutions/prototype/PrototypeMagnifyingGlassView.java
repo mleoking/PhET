@@ -36,7 +36,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PrototypeMagnifyingGlassView extends JFrame {
+class PrototypeMagnifyingGlassView extends JFrame {
     
     //----------------------------------------------------------------------------
     // Class data
