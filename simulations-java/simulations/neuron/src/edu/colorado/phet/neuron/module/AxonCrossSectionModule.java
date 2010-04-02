@@ -97,5 +97,8 @@ public class AxonCrossSectionModule extends PiccoloModule {
         
         // Reset the model.
         model.reset();
+        
+        // Reset the canvas.
+        canvas.reset();
     }    
 }
