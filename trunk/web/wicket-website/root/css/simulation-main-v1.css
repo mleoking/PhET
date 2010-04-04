@@ -137,7 +137,7 @@ div.rtl .simulation-main-image-panel {
 }
 
 div.rtl .simulation-contributions-pane {
-    /* leave the other margin? */
+/* leave the other margin? */
     margin-right: 5px;
 }
 
@@ -228,4 +228,37 @@ div.rating-holder {
 div.rtl div.rating-holder {
     text-align: left;
     padding-top: 10px;
+}
+
+.see-below {
+    float: right;
+    background-color: white;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    border-left: 1px solid #cc6600;
+    border-bottom: 1px solid #cc6600;
+    border-top: 1px solid #cc6600;
+}
+
+div.rtl .see-below {
+    float: left;
+    padding-left: 0;
+    padding-right: 15px;
+    border-left: none;
+    border-right: 1px solid #cc6600;
+}
+
+ul.see-below-links {
+    padding: 0;
+    margin: 0;
+}
+
+ul.see-below-links li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.see-below a {
+    text-decoration: none;
 }

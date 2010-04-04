@@ -40,6 +40,14 @@ public class SimulationMainEntity extends TranslationEntity {
         addString( "simulationMainPanel.thirdPartyLibraries" );
         addString( "simulationMainPanel.thanksTo" );
         addString( "simulationMainPanel.untranslatedMessage" );
+
+        addString( "simulationMainPanel.seeBelow");
+        addString( "simulationMainPanel.seeBelow.content");
+        addString( "simulationMainPanel.seeBelow.teachingIdeas");
+        addString( "simulationMainPanel.seeBelow.softwareRequirements");
+        addString( "simulationMainPanel.seeBelow.translatedVersions");
+        addString( "simulationMainPanel.seeBelow.credits");
+
         addString( "simulationDisplay.indexView" );
         addString( "simulationDisplay.thumbnailView" );
         addPreview( new PhetPanelFactory() {
