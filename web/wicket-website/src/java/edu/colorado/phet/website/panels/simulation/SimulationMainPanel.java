@@ -21,21 +21,21 @@ import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
-import edu.colorado.phet.website.panels.contribution.ContributionBrowsePanel;
-import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.content.about.AboutLegendPanel;
 import edu.colorado.phet.website.content.contribution.ContributePanel;
 import edu.colorado.phet.website.content.simulations.SimsByKeywordPage;
-import edu.colorado.phet.website.content.about.AboutLegendPanel;
 import edu.colorado.phet.website.data.*;
+import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.util.AbstractChangeListener;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.data.util.IChangeListener;
-import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.panels.contribution.ContributionBrowsePanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
@@ -159,9 +159,13 @@ public class SimulationMainPanel extends PhetPanel {
                 }
             } );
             add( new ContributionBrowsePanel( "contributions-panel", context, contributions ) );
+            Label visLabel = new Label( "teacher-ideas-visible", "" );
+            visLabel.setRenderBodyOnly( true ); // don't make anything appear
+            add( visLabel );
         }
         else {
             add( new InvisibleComponent( "contributions-panel" ) );
+            add( new InvisibleComponent( "teacher-ideas-visible" ) );
         }
 
         //----------------------------------------------------------------------------

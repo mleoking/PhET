@@ -85,14 +85,41 @@
 
 <div>
 
+    <div class="see-below">
+        <h3><wicket:message key="simulationMainPanel.seeBelow">See Below</wicket:message></h3>
+        <ul class="see-below-links">
+            <li><a href="#content"><wicket:message key="simulationMainPanel.seeBelow.content">
+                Content &gt;&gt;
+            </wicket:message></a></li>
+            <wicket:enclosure child="teacher-ideas-visible">
+                <li><a href="#teaching-ideas"><wicket:message key="simulationMainPanel.seeBelow.teachingIdeas">
+                    Teaching Ideas &gt;&gt;
+                </wicket:message></a></li>
+                <span wicket:id="teacher-ideas-visible"></span>
+            </wicket:enclosure>
+            <li><a href="#software-requirements"><wicket:message key="simulationMainPanel.seeBelow.softwareRequirements">
+                Software Requirements &gt;&gt;
+            </wicket:message></a></li>
+            <li><a href="#translated-versions"><wicket:message key="simulationMainPanel.seeBelow.translatedVersions">
+                Translated Versions &gt;&gt;
+            </wicket:message></a></li>
+            <li><a href="#credits"><wicket:message key="simulationMainPanel.seeBelow.credits">
+                Credits &gt;&gt;
+            </wicket:message></a></li>
+        </ul>
+    </div>
+
     <wicket:enclosure child="guide-text">
         <h2>
             <wicket:message key="simulationMainPanel.tipsForTeachers">Tips for Teachers</wicket:message>
         </h2>
         <div wicket:id="guide-text">
-            The <a href="SimulationMainPanel.html#">teacher's guide</a> (pdf) contains tips for teachers created by the PhET team.
+            The <a href="SimulationMainPanel.html#">teacher's guide</a> (pdf) contains tips for teachers created by the
+            PhET team.
         </div>
     </wicket:enclosure>
+
+    <a name="content"></a>
 
     <h2>
         <wicket:message key="simulationMainPanel.topics">Topics</wicket:message>
@@ -135,6 +162,8 @@
 
     <wicket:enclosure child="contributions-panel">
 
+        <a name="teaching-ideas"></a>
+
         <h2>
             <wicket:message key="simulationMainPanel.teachingIdeas">Teaching Ideas</wicket:message>
         </h2>
@@ -146,6 +175,8 @@
     <h2>
         <wicket:message key="simulationMainPanel.softwareRequirements">Software Requirements</wicket:message>
     </h2>
+
+    <a name="software-requirements"></a>
 
     <table class="system-requirements-table">
         <tr>
@@ -171,6 +202,8 @@
             </td>
         </tr>
     </table>
+
+    <a name="translated-versions"></a>
 
     <h2>
         <wicket:message key="simulationMainPanel.translatedVersions">Translated versions</wicket:message>
@@ -223,6 +256,8 @@
         Please see
         our <a href="SimulationMainPanel.html#" wicket:id="donate3">Donation Page</a>.
     </p>
+
+    <a name="credits"></a>
 
     <h2>
         <wicket:message key="simulationMainPanel.credits">Credits</wicket:message>
