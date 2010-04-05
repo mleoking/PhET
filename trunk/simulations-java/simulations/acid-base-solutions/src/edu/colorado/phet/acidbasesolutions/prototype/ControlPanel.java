@@ -21,16 +21,16 @@ import edu.umd.cs.piccolo.PCanvas;
  */
 class ControlPanel extends JPanel {
     
-    private final MagnifyingGlassControls magnifyingGlassControls;
     private final BeakerControls beakerControls;
+    private final MagnifyingGlassControls magnifyingGlassControls;
     private final WeakAcidControls weakAcidControls;
     private final MoleculeCountPanel moleculeCountPanel;
     private final CanvasControls canvasControls;
     
     public ControlPanel( JFrame parentFrame, final PCanvas canvas, ProtoModel model ) {
         
-        magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
         beakerControls = new BeakerControls( parentFrame, model.getBeaker() );
+        magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
         weakAcidControls = new WeakAcidControls( parentFrame, model.getSolution() );
         moleculeCountPanel = new MoleculeCountPanel();
         canvasControls = new CanvasControls( parentFrame, canvas );
@@ -43,8 +43,8 @@ class ControlPanel extends JPanel {
         innerPanel.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( magnifyingGlassControls, row++, column );
         layout.addComponent( beakerControls, row++, column );
+        layout.addComponent( magnifyingGlassControls, row++, column );
         layout.addComponent( weakAcidControls, row++, column );
         layout.addComponent( moleculeCountPanel, row++, column );
         layout.addComponent( canvasControls, row++, column );
