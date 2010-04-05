@@ -1,3 +1,5 @@
+4/5/10 connect molecule counts display to model and dots view
+4/5/10 add pH display to prototype
 4/5/10 convert prototype to a PhetApplication subclass
 4/5/10 add dot view to prototype
 4/5/10 add weak acid model, extracted from advanced-acid-base-solutions
