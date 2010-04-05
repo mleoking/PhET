@@ -10,6 +10,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.prototype.IntegerLabel.ScientificIntegerLabel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
  * Displays counts (actual and displayed) for the various particles.
@@ -52,27 +53,27 @@ class MoleculeCountPanel extends JPanel {
         layout.addComponent( new JLabel( "<html><u>actual</u></html>" ), row, column++ );
         row++;
         column = 0;
-        layout.addComponent( new JLabel( "HA" ), row, column++ );
+        layout.addComponent( new JLabel( HTMLUtils.toHTMLString( ProtoConstants.HA_FRAGMENT ) ), row, column++ );
         layout.addComponent( displayedHA, row, column++ );
         layout.addComponent( actualHA, row, column++ );
         row++;
         column = 0;
-        layout.addComponent( new JLabel( "<html>A<sup>-</sub></html>" ), row, column++ );
+        layout.addComponent( new JLabel( HTMLUtils.toHTMLString( ProtoConstants.A_MINUS_FRAGMENT ) ), row, column++ );
         layout.addComponent( displayedA, row, column++ );
         layout.addComponent( actualA, row, column++ );
         row++;
         column = 0;
-        layout.addComponent( new JLabel( "<html>H<sub>3</sub>O<sup>+</sup></html>" ), row, column++ );
+        layout.addComponent( new JLabel( HTMLUtils.toHTMLString( ProtoConstants.H3O_PLUS_FRAGMENT ) ), row, column++ );
         layout.addComponent( displayedH3O, row, column++ );
         layout.addComponent( actualH3O, row, column++ );
         row++;
         column = 0;
-        layout.addComponent( new JLabel( "<html>OH<sup>-</sup></html>" ), row, column++ );
+        layout.addComponent( new JLabel( HTMLUtils.toHTMLString( ProtoConstants.OH_MINUS_FRAGMENT ) ), row, column++ );
         layout.addComponent( displayedOH, row, column++ );
         layout.addComponent( actualOH, row, column++ );
         row++;
         column = 0;
-        layout.addComponent( new JLabel( "<html>H<sub>2</sub>O</html>" ), row, column++ );
+        layout.addComponent( new JLabel( HTMLUtils.toHTMLString( ProtoConstants.H2O_FRAGMENT ) ), row, column++ );
         layout.addComponent( displayedH2O, row, column++ );
         layout.addComponent( actualH2O, row, column++ );
         

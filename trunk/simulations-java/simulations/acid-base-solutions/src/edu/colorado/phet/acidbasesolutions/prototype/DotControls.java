@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
  * Controls for the dot view.
@@ -70,28 +71,28 @@ class DotControls extends JPanel {
         // colors
         JPanel colorsPanel = new JPanel();
         {
-            final ColorControl colorHAControl = new ColorControl( parentFrame, "<html>HA:</html>", ProtoConstants.COLOR_HA );
+            final ColorControl colorHAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( ProtoConstants.HA_FRAGMENT ), ProtoConstants.COLOR_HA );
             colorHAControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     magnifyingGlassNode.setDotColorHA( colorHAControl.getColor() );
                 }
             } );
             
-            final ColorControl colorAControl = new ColorControl( parentFrame, "<html>A<sup>-</sup>:</html>", ProtoConstants.COLOR_A_MINUS );
+            final ColorControl colorAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( ProtoConstants.A_MINUS_FRAGMENT ), ProtoConstants.COLOR_A_MINUS );
             colorAControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     magnifyingGlassNode.setDotColorA( colorAControl.getColor() );
                 }
             } );
             
-            final ColorControl colorH3OControl = new ColorControl( parentFrame, "<html>H<sub>3</sub>O<sup>+</sup>:</html>", ProtoConstants.COLOR_H3O_PLUS );
+            final ColorControl colorH3OControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( ProtoConstants.H3O_PLUS_FRAGMENT ), ProtoConstants.COLOR_H3O_PLUS );
             colorH3OControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     magnifyingGlassNode.setDotColorH3O( colorH3OControl.getColor() );
                 }
             } );
             
-            final ColorControl colorOHControl = new ColorControl( parentFrame, "<html>OH<sup>-</sup>:</html>", ProtoConstants.COLOR_OH_MINUS );
+            final ColorControl colorOHControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( ProtoConstants.OH_MINUS_FRAGMENT ), ProtoConstants.COLOR_OH_MINUS );
             colorOHControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     magnifyingGlassNode.setDotColorOH( colorOHControl.getColor() );

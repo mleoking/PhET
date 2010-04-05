@@ -48,5 +48,11 @@ public class ProtoConstants {
     public static final Color COLOR_H3O_PLUS = new Color( 222, 2, 0 );
     public static final Color COLOR_OH_MINUS = new Color( 102, 132, 242 );
     public static final Color COLOR_H2O = new Color( 193, 222, 227 );
-
+    
+    // HTML fragments
+    public static final String HA_FRAGMENT = "HA";
+    public static final String A_MINUS_FRAGMENT = "A<sup>-</sup>";
+    public static final String H3O_PLUS_FRAGMENT = "H<sub>3</sub>O<sup>+</sup>";
+    public static final String OH_MINUS_FRAGMENT = "OH<sup>-</sup>";
+    public static final String H2O_FRAGMENT = "H<sub>2</sub>O";
 }
