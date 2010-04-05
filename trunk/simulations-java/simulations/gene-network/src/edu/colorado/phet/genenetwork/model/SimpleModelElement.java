@@ -57,6 +57,7 @@ public abstract class SimpleModelElement implements IModelElement{
     private double existenceTimeCountdown;
     private double existenceTime;
     private boolean okayToFade = true;
+    private Rectangle2D dragBounds = null;
     
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -146,8 +147,10 @@ public abstract class SimpleModelElement implements IModelElement{
 	
 	public void setPosition(double xPos, double yPos ){
 		if (xPos != position.getX() || yPos != position.getY()){
-			position.setLocation(xPos, yPos);
-			notifyPositionChanged();
+			if (!isUserControlled() ||  dragBounds == null || dragBounds.contains(xPos, yPos) ){
+				position.setLocation(xPos, yPos);
+				notifyPositionChanged();
+			}
 		}
 	}
 	
@@ -155,8 +158,17 @@ public abstract class SimpleModelElement implements IModelElement{
 		setPosition(newPosition.getX(), newPosition.getY());
 	}
 	
-	public void move(double xDelta, double yDelta){
-		setPosition(position.getX() + xDelta, position.getY() + yDelta);
+	/**
+	 * Set the boundary within which this can be dragged.  This is used to
+	 * prevent the users from dragging model elements into places that don't
+	 * make sense or that could create situations that are difficult for the
+	 * code to handle.
+	 * 
+	 * @param dragBounds
+	 */
+	protected void setDragBounds(Rectangle2D dragBounds){
+		this.dragBounds = new Rectangle2D.Double(dragBounds.getX(), dragBounds.getY(), dragBounds.getWidth(),
+				dragBounds.getHeight());
 	}
 	
 	public Paint getPaint(){

@@ -75,6 +75,11 @@ public class LacY extends SimpleModelElement {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
 		if (model != null){
 			setMotionStrategy(new StillnessMotionStrategy());
+			// Set bounds that will prevent the user from dragging this below the
+			// DNA.
+			Rectangle2D dragBounds = getModel().getInteriorMotionBounds();
+			dragBounds.add(new Point2D.Double(dragBounds.getX(), dragBounds.getMaxY() + this.getShape().getBounds2D().getHeight()));
+			setDragBounds(dragBounds);
 		}
 		lactoseTraversalDistance = getShape().getBounds2D().getHeight();
 	}

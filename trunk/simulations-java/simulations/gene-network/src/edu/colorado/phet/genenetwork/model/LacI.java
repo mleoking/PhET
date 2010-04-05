@@ -90,6 +90,9 @@ public class LacI extends SimpleModelElement {
 		if (model != null){
 			setMotionStrategy(new RandomWalkMotionStrategy(
 					MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), this)));
+			// Set bounds that will prevent the user from dragging this below the
+			// DNA or above the cell membrane.
+			setDragBounds(getModel().getInteriorMotionBounds());
 		}
 	}
 	

@@ -67,7 +67,12 @@ public class LacZ extends SimpleModelElement {
 
 	public LacZ(IGeneNetworkModelControl model, Point2D initialPosition, boolean fadeIn) {
 		super(model, createShape(), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
-		setMotionStrategy(new StillnessMotionStrategy());
+		if (model != null){
+			setMotionStrategy(new StillnessMotionStrategy());
+			// Set bounds that will prevent the user from dragging this below the
+			// DNA or above the cell membrane.
+			setDragBounds(getModel().getInteriorMotionBounds());
+		}
 	}
 	
 	public LacZ(IGeneNetworkModelControl model, boolean fadeIn) {
