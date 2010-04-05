@@ -10,7 +10,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.prototype.IntegerLabel.ScientificIntegerLabel;
+import edu.colorado.phet.acidbasesolutions.prototype.NumberLabel.IntegerLabel;
+import edu.colorado.phet.acidbasesolutions.prototype.NumberLabel.ScientificIntegerLabel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
@@ -119,12 +120,19 @@ class MoleculeCountPanel extends JPanel {
         //TODO H2O
         
         // images
+        //TODO
         
         // actual
-        actualHA.setValue( (int) solution.getMoleculeCountHA() );
-        actualA.setValue( (int) solution.getMoleculeCountA() );
-        actualH3O.setValue( (int) solution.getMoleculeCountH3O() );
-        actualOH.setValue( (int) solution.getMoleculeCountOH() );
-        actualH2O.setValue( (int) solution.getMoleculeCountH2O() );
+        actualHA.setValue( solution.getMoleculeCountHA() );
+        actualA.setValue( solution.getMoleculeCountA() );
+        actualH3O.setValue( solution.getMoleculeCountH3O() );
+        actualOH.setValue( solution.getMoleculeCountOH() );
+        actualH2O.setValue( solution.getMoleculeCountH2O() );
+        
+        System.out.println( "HA=" + solution.getMoleculeCountHA() );
+        System.out.println( "A=" + solution.getMoleculeCountA() );
+        System.out.println( "H3O=" + solution.getMoleculeCountH3O() );
+        System.out.println( "OH=" + solution.getMoleculeCountOH() );
+        System.out.println( "H2O=" + solution.getMoleculeCountH2O() );
     }
 }
