@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -15,6 +16,7 @@ import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
+import edu.colorado.phet.faraday.control.panel.DeveloperControlsPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.FieldMeter;
@@ -170,6 +172,14 @@ public class BarMagnetModule extends FaradayModule {
                     _bFieldInsideGraphic, _bFieldOutsideGraphic, _earthGraphic );
             controlPanel.addControlFullWidth( _barMagnetPanel );
             
+            // Developer controls
+            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+                controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
+                
+                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( _barMagnetModel, null, null, null, null, null, null );
+                controlPanel.addControlFullWidth( developerControlsPanel );
+            }
+
             // Reset button
             controlPanel.addResetAllButton( this ); 
         }

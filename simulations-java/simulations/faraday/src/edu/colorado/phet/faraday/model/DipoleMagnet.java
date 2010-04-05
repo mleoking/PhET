@@ -27,13 +27,10 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     //----------------------------------------------------------------------------
  
     /*
-     * Arbitrary positive "fudge factor".
-     * This should be adjusted so that transitions between inside and outside
-     * the magnet don't result in abrupt changes in the magnetic field.
-     * Adjustment is done via trial and error. Use the B-field meter to measure
-     * inside and outside the ends of the magnet, try to make the transition small.
+     * Arbitrary "fudge factor" that controls the B-field transitions between
+     * inside and outside the magnet.  Adjust this using the provided developer control.
      */
-    private static final double FUDGE_FACTOR = 321;
+    private static final double DEFAULT_INSIDE_OUTSIDE_TRANSITION_FACTOR = 321;
     
     // Magnetic field strength drops off by this power.
     private static final double DEFAULT_DISTANCE_EXPONENT = 3.0;
@@ -50,6 +47,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     private Point2D _normalizedPoint;
     private Vector2D _northVector, _southVector;
     private Rectangle2D _modelShape;
+    private double _insideOutsideTransitionFactor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,6 +62,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         _northVector = new Vector2D();
         _southVector = new Vector2D();
         _modelShape = new Rectangle2D.Double();
+        _insideOutsideTransitionFactor = DEFAULT_INSIDE_OUTSIDE_TRANSITION_FACTOR;
     }
     
     //----------------------------------------------------------------------------
@@ -87,6 +86,27 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      */
     public boolean isInside( Point2D p ) {
         return _modelShape.contains( p );
+    }
+    
+    /**
+     * Sets the factor that controls the B-field transitions between inside and outside the magnet.
+     * Intended for use by developer control, for calibration only.
+     * 
+     * @param insideOutsideTransitionFactor
+     */
+    public void setInsideOutsideTransitionFactor( double insideOutsideTransitionFactor ) {
+        if ( insideOutsideTransitionFactor != _insideOutsideTransitionFactor ) {
+            _insideOutsideTransitionFactor = insideOutsideTransitionFactor;
+        }
+    }
+    
+    /**
+     * Gets the factor that controls the B-field transitions between inside and outside the magnet.
+     * 
+     * @param insideOutsideTransitionFactor
+     */
+    public double getInsideOutsideTransitionFactor() {
+        return _insideOutsideTransitionFactor;
     }
     
     //----------------------------------------------------------------------------
@@ -325,7 +345,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         double L = _southPoint.distance( _northPoint ); // dipole to dipole
         
         // Fudge factor
-        double C = FUDGE_FACTOR * magnetStrength;
+        double C = _insideOutsideTransitionFactor * magnetStrength;
         
         // North dipole field strength vector.
         double cN = +( C / Math.pow( rN, distanceExponent ) ); // constant multiplier
