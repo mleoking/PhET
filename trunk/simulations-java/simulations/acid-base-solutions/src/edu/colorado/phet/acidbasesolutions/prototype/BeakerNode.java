@@ -25,12 +25,12 @@ class BeakerNode extends PhetPNode {
     private static final Color STROKE_COLOR = Color.BLACK;
     
     private final Beaker beaker;
-    private final Solution solution;
+    private final WeakAcid solution;
     private final PPath outlineNode, solutionNode;
     private final GeneralPath outlinePath; 
     private final Rectangle2D solutionRectangle;
     
-    public BeakerNode( Beaker beaker, Solution solution ) {
+    public BeakerNode( Beaker beaker, WeakAcid solution ) {
         super();
         
         this.beaker = beaker;
