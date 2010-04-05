@@ -296,7 +296,6 @@ public class MacroMoleculeLegend extends PhetPNode {
     	strandShape.moveTo(0, 0);
     	double angleIncrement = Math.PI * 2 * numCycles / numSamples;
     	for (int i = 0; i < numSamples; i++){
-    		System.out.println(Math.sin(angleIncrement * i));
     		strandShape.lineTo(i * (totalWidth / numSamples), Math.sin(angleIncrement * i) * height);
     	}
     	PNode dnaStrandNode = new PNode();
