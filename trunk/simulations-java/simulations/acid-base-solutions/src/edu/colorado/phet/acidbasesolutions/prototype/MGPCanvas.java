@@ -6,19 +6,19 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Piccolo canvas for the Magnifying Glass View prototype.
+ * Piccolo canvas for the Magnifying Glass prototype.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class ProtoCanvas extends PhetPCanvas {
+class MGPCanvas extends PhetPCanvas {
     
     private final PNode parentNode;
     private final BeakerNode beakerNode;
     private final MagnifyingGlassNode magnifyingGlassNode;
 
-    public ProtoCanvas( ProtoModel model ) {
-        super( ProtoConstants.CANVAS_SIZE );
-        setBackground( ProtoConstants.CANVAS_COLOR );
+    public MGPCanvas( MGPModel model ) {
+        super( MGPConstants.CANVAS_SIZE );
+        setBackground( MGPConstants.CANVAS_COLOR );
         
         parentNode = new PNode();
         addWorldChild( parentNode );

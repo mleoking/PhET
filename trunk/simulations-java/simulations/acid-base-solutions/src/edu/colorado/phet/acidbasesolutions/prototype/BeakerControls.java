@@ -36,7 +36,7 @@ class BeakerControls extends JPanel {
         });
         
         // beaker width
-        IntegerRange widthRange = ProtoConstants.BEAKER_WIDTH_RANGE;
+        IntegerRange widthRange = MGPConstants.BEAKER_WIDTH_RANGE;
         widthControl = new LinearValueControl( widthRange.getMin(), widthRange.getMax(), "width:", "##0", "", new HorizontalLayoutStrategy() );
         widthControl.setUpDownArrowDelta( 1 );
         widthControl.addChangeListener( new ChangeListener() {
@@ -46,7 +46,7 @@ class BeakerControls extends JPanel {
         });
 
         // beaker height
-        IntegerRange heightRange = ProtoConstants.BEAKER_HEIGHT_RANGE;
+        IntegerRange heightRange = MGPConstants.BEAKER_HEIGHT_RANGE;
         heightControl = new LinearValueControl( heightRange.getMin(), heightRange.getMax(), "height:", "##0", "", new HorizontalLayoutStrategy() );
         heightControl.setUpDownArrowDelta( 1 );
         heightControl.addChangeListener( new ChangeListener() {

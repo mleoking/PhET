@@ -11,13 +11,13 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
- * Collection of constants for the Magnifying Glass View prototype.
+ * Collection of constants for the Magnifying Glass prototype.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ProtoConstants {
+public class MGPConstants {
     
-    private ProtoConstants() {}
+    private MGPConstants() {}
 
     // canvas
     public static final Color CANVAS_COLOR = Color.WHITE;

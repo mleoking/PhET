@@ -27,6 +27,8 @@ public class ABSConstants {
     //----------------------------------------------------------------------------
     
     public static final String PROJECT_NAME = "acid-base-solutions";
+    
+    public static final String FLAVOR_MAGNIFYING_GLASS_PROTOTYPE = "magnifying-glass-prototype";
 
     //----------------------------------------------------------------------------
     // View

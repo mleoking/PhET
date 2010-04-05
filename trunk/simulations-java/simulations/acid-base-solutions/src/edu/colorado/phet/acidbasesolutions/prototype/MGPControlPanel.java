@@ -2,25 +2,23 @@
 
 package edu.colorado.phet.acidbasesolutions.prototype;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.prototype.MagnifyingGlass.MoleculeRepresentation;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
- * Control panel for the Magnifying Glass View prototype.
+ * Control panel for the Magnifying Glass prototype.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class ControlPanel extends JPanel {
+class MGPControlPanel extends ControlPanel {
     
     private final BeakerControls beakerControls;
     private final MagnifyingGlassControls magnifyingGlassControls;
@@ -29,7 +27,7 @@ class ControlPanel extends JPanel {
     private final MoleculeCountPanel moleculeCountPanel;
     private final CanvasControls canvasControls;
     
-    public ControlPanel( JFrame parentFrame, final ProtoCanvas canvas, final ProtoModel model ) {
+    public MGPControlPanel( JFrame parentFrame, final MGPCanvas canvas, final MGPModel model ) {
         
         model.getMagnifyingGlass().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -45,7 +43,7 @@ class ControlPanel extends JPanel {
         canvasControls = new CanvasControls( parentFrame, canvas );
         
         JPanel innerPanel = new JPanel();
-        add( innerPanel );
+        addControl( innerPanel );
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -60,27 +58,9 @@ class ControlPanel extends JPanel {
         layout.addComponent( moleculeCountPanel, row++, column );
         layout.addComponent( canvasControls, row++, column );
         
+        addControlFullWidth( innerPanel );
+        
         // default state
         dotControls.setVisible( model.getMagnifyingGlass().getMoleculeRepresentation() == MoleculeRepresentation.DOTS );
     }
-    
-    public static void main( String[] args ) {
-        JFrame frame = new JFrame();
-        // model
-        ProtoModel model = new ProtoModel();
-        // view
-        ProtoCanvas canvas = new ProtoCanvas( model );
-        // control
-        ControlPanel controlPanel = new ControlPanel( frame, canvas, model );
-        // layout
-        JPanel mainPanel = new JPanel( new BorderLayout() );
-        mainPanel.add( canvas, BorderLayout.CENTER );
-        mainPanel.add( controlPanel, BorderLayout.EAST );
-        // frame
-        frame.setContentPane( mainPanel );
-        frame.setSize( new Dimension( 1024, 768 ) );
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        frame.setVisible( true );
-    }
-
 }
