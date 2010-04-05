@@ -32,7 +32,7 @@ class DotControls extends JPanel {
         setBorder( new TitledBorder( "Dot view" ) );
         
         // max dots
-        IntegerRange maxDotsRange = ProtoConstants.MAX_DOTS_RANGE;
+        IntegerRange maxDotsRange = MGPConstants.MAX_DOTS_RANGE;
         final LinearValueControl maxDotsControl = new LinearValueControl( maxDotsRange.getMin(), maxDotsRange.getMax(), "max dots:", "####0", "", new HorizontalLayoutStrategy() );
         maxDotsControl.setValue( maxDotsRange.getDefault() );
         maxDotsControl.setUpDownArrowDelta( 1 );
@@ -43,7 +43,7 @@ class DotControls extends JPanel {
         });
 
         // diameter
-        DoubleRange diameterRange = ProtoConstants.DOT_DIAMETER_RANGE;
+        DoubleRange diameterRange = MGPConstants.DOT_DIAMETER_RANGE;
         final LinearValueControl diameterControl = new LinearValueControl( diameterRange.getMin(), diameterRange.getMax(), "diameter:", "#0", "", new HorizontalLayoutStrategy() );
         diameterControl.setValue( diameterRange.getDefault() );
         diameterControl.setUpDownArrowDelta( 1 );
@@ -54,7 +54,7 @@ class DotControls extends JPanel {
         });
 
         // transparency
-        DoubleRange transparencyRange = ProtoConstants.DOT_TRANSPARENCY_RANGE;
+        DoubleRange transparencyRange = MGPConstants.DOT_TRANSPARENCY_RANGE;
         final LinearValueControl transparencyControl = new LinearValueControl( transparencyRange.getMin(), transparencyRange.getMax(), "transparency:", "0.00", "", new HorizontalLayoutStrategy() );
         transparencyControl.setValue( transparencyRange.getDefault() );
         transparencyControl.setUpDownArrowDelta( 0.01 );
@@ -71,28 +71,28 @@ class DotControls extends JPanel {
         // colors
         JPanel colorsPanel = new JPanel();
         {
-            final ColorControl colorHAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( ProtoConstants.HA_FRAGMENT ), ProtoConstants.COLOR_HA );
+            final ColorControl colorHAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.HA_FRAGMENT ), MGPConstants.COLOR_HA );
             colorHAControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     magnifyingGlassNode.setDotColorHA( colorHAControl.getColor() );
                 }
             } );
             
-            final ColorControl colorAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( ProtoConstants.A_MINUS_FRAGMENT ), ProtoConstants.COLOR_A_MINUS );
+            final ColorControl colorAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.A_MINUS_FRAGMENT ), MGPConstants.COLOR_A_MINUS );
             colorAControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     magnifyingGlassNode.setDotColorA( colorAControl.getColor() );
                 }
             } );
             
-            final ColorControl colorH3OControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( ProtoConstants.H3O_PLUS_FRAGMENT ), ProtoConstants.COLOR_H3O_PLUS );
+            final ColorControl colorH3OControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.H3O_PLUS_FRAGMENT ), MGPConstants.COLOR_H3O_PLUS );
             colorH3OControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     magnifyingGlassNode.setDotColorH3O( colorH3OControl.getColor() );
                 }
             } );
             
-            final ColorControl colorOHControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( ProtoConstants.OH_MINUS_FRAGMENT ), ProtoConstants.COLOR_OH_MINUS );
+            final ColorControl colorOHControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.OH_MINUS_FRAGMENT ), MGPConstants.COLOR_OH_MINUS );
             colorOHControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     magnifyingGlassNode.setDotColorOH( colorOHControl.getColor() );

@@ -20,7 +20,7 @@ class MagnifyingGlass extends Changeable {
     private boolean showH2O;
     
     public MagnifyingGlass() {
-        this( ProtoConstants.MAGNIFYING_GLASS_DIAMETER_RANGE.getDefault(), ProtoConstants.MAGNIFYING_GLASS_CENTER, MoleculeRepresentation.DOTS, false /* showH2O */ );
+        this( MGPConstants.MAGNIFYING_GLASS_DIAMETER_RANGE.getDefault(), MGPConstants.MAGNIFYING_GLASS_CENTER, MoleculeRepresentation.DOTS, false /* showH2O */ );
     }
 
     public MagnifyingGlass( int diameter, Point2D center, MoleculeRepresentation moleculeRepresentation, boolean showH2O ) {

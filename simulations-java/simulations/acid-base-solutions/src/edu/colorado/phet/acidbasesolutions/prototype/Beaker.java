@@ -16,7 +16,7 @@ class Beaker extends Changeable {
     private final Point2D center;
 
     public Beaker() {
-        this( ProtoConstants.BEAKER_WIDTH_RANGE.getDefault(), ProtoConstants.BEAKER_HEIGHT_RANGE.getDefault(), ProtoConstants.BEAKER_CENTER );
+        this( MGPConstants.BEAKER_WIDTH_RANGE.getDefault(), MGPConstants.BEAKER_HEIGHT_RANGE.getDefault(), MGPConstants.BEAKER_CENTER );
     }
     public Beaker( int width, int height, Point2D center ) {
         this.width = width;

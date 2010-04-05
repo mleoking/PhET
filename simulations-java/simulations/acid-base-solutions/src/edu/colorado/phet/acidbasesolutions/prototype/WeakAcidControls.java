@@ -37,7 +37,7 @@ class WeakAcidControls extends JPanel {
             }
         });
         
-        DoubleRange concentrationRange = ProtoConstants.WEAK_ACID_CONCENTRATION_RANGE;
+        DoubleRange concentrationRange = MGPConstants.WEAK_ACID_CONCENTRATION_RANGE;
         concentrationControl = new LogarithmicValueControl( concentrationRange.getMin(), concentrationRange.getMax(), "concentration:", "0.0E0", "mol/L", new HorizontalLayoutStrategy() );
         concentrationControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -45,7 +45,7 @@ class WeakAcidControls extends JPanel {
             }
         });
         
-        DoubleRange strengthRange = ProtoConstants.WEAK_ACID_STRENGTH_RANGE;
+        DoubleRange strengthRange = MGPConstants.WEAK_ACID_STRENGTH_RANGE;
         strengthControl = new LogarithmicValueControl( strengthRange.getMin(), strengthRange.getMax(), "strength:", "0.0E0", "", new HorizontalLayoutStrategy() );
         strengthControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

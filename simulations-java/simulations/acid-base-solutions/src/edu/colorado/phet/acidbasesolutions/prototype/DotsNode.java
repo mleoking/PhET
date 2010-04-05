@@ -150,10 +150,10 @@ public class DotsNode extends PComposite {
         int dotsH3O = getNumberOfDots( solution.getConcentrationH3O() );
         int dotsOH = getNumberOfDots( solution.getConcentrationOH() );
         
-        createNodes( dotsReactant, ProtoConstants.COLOR_HA, parentHA );
-        createNodes( dotsProduct, ProtoConstants.COLOR_A_MINUS, parentA );
-        createNodes( dotsH3O, ProtoConstants.COLOR_H3O_PLUS, parentH3O );
-        createNodes( dotsOH, ProtoConstants.COLOR_OH_MINUS, parentOH );
+        createNodes( dotsReactant, MGPConstants.COLOR_HA, parentHA );
+        createNodes( dotsProduct, MGPConstants.COLOR_A_MINUS, parentA );
+        createNodes( dotsH3O, MGPConstants.COLOR_H3O_PLUS, parentH3O );
+        createNodes( dotsOH, MGPConstants.COLOR_OH_MINUS, parentOH );
 
         sortDots();
     }
