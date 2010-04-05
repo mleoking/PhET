@@ -46,6 +46,14 @@ public interface IGeneNetworkModelControl {
 	DnaStrand getDnaStrand();
 	
     Rectangle2D getCellMembraneRect();
+    
+    /**
+     * Get a count of the number of lactose molecules that are inside the
+     * cell.  Note that if there is no cell membrane present, all lactose
+     * molecules are considered to be inside the cell.
+     * @return
+     */
+    int getLactoseLevel();
 
 	/**
 	 * Create a lacZ gene and add it to the model.

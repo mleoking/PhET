@@ -11,4 +11,6 @@ public class GeneNetworkModelAdapter implements IGeneNetworkModelListener {
 	public void legendVisibilityStateChange() { }
 
 	public void lactoseMeterVisibilityStateChange() { }
+
+	public void lactoseLevelChanged() {}
 }

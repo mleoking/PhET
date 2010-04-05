@@ -122,6 +122,9 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		}
 	});
     
+    // Count of the amount of lactose in the cell.
+    int lactoseLevel;
+    
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
@@ -712,6 +715,20 @@ public class LacOperonModel implements IGeneNetworkModelControl {
     	stepElementsInTime(rnaPolymeraseList, dt);
     	stepElementsInTime(messengerRnaList, dt);
     	stepElementsInTime(transformationArrowList, dt);
+
+    	// See if the level of lactose has changed and update it if so.
+    	int currentLactoseLevel = 0;
+    	for (Glucose glucose : glucoseList){
+    		if (glucose.isBoundToGalactose() && classifyPosWrtCell(glucose.getPositionRef()) == PositionWrtCell.INSIDE_CELL){
+    			currentLactoseLevel++;
+    		}
+    	}
+    	if (lactoseLevel != currentLactoseLevel){
+    		// Save the new value.
+    		lactoseLevel = currentLactoseLevel;
+    		// Notify listenters of the change.
+    		notifyLactoseLevelChanged();
+    	}
     	
     	// Step the elements for which there can be only one.
     	if (cap != null){
@@ -868,6 +885,14 @@ public class LacOperonModel implements IGeneNetworkModelControl {
         }        
     }
 
+    protected void notifyLactoseLevelChanged(){
+        // Notify all listeners of the change to the lactose level.
+        for (IGeneNetworkModelListener listener : listeners)
+        {
+            listener.lactoseLevelChanged(); 
+        }        
+    }
+
     public void addListener(IGeneNetworkModelListener listener) {
         if (listeners.contains( listener ))
         {
@@ -900,5 +925,9 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		// Does nothing in this class, and shouldn't really be called.
 		assert false;
 		return null;
+	}
+
+	public int getLactoseLevel() {
+		return lactoseLevel;
 	}
 }
