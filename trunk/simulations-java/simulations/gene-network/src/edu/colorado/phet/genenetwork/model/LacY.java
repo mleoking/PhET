@@ -12,8 +12,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.geom.Point2D.Double;
-import java.util.Random;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -56,9 +54,6 @@ public class LacY extends SimpleModelElement {
 	private static final double LACTOSE_GRAB_DISTANCE = 100; // In nanometers.
 	private static final double LACTOSE_ATTACHMENT_FORMING_DISTANCE = 2; // In nanometers.
 	
-	// For use in positioning in the cell membrane.
-	private static final Random RAND = new Random();
-
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
