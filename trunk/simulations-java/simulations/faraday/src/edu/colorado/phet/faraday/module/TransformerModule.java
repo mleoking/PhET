@@ -262,12 +262,12 @@ public class TransformerModule extends FaradayModule {
                     _pickupCoilModel, _pickupCoilGraphic, _lightbulbModel, _voltmeterModel );
             controlPanel.addControlFullWidth( _pickupCoilPanel );
             
-            // Scaling calibration
+            // Developer controls
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
-                        _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
+                        null, _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
                         _pickupCoilGraphic, _electromagnetGraphic, _pickupCoilGraphic.getLightbulbGraphic() );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }

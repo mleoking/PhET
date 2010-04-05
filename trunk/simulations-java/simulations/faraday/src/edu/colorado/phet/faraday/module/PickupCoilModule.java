@@ -227,12 +227,12 @@ public class PickupCoilModule extends FaradayModule {
                     _pickupCoilModel, _pickupCoilGraphic, _lightbulbModel, _voltmeterModel );
             controlPanel.addControlFullWidth( _pickupCoilPanel );
             
-            // Scaling calibration
+            // Developer controls
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
-                        _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
+                        _barMagnetModel, _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
                         _pickupCoilGraphic, null, _pickupCoilGraphic.getLightbulbGraphic() );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }

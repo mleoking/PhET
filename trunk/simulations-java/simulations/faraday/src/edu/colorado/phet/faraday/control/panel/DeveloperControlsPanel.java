@@ -18,6 +18,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.model.DipoleMagnet;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.Voltmeter;
@@ -44,6 +45,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
      * @param pickupCoilModel
      */
     public DeveloperControlsPanel( 
+            final DipoleMagnet magnetModel,
             final PickupCoil pickupCoilModel,
             final Lightbulb lightbulbModel,
             final Voltmeter voltmeterModel,
@@ -68,6 +70,21 @@ public class DeveloperControlsPanel extends FaradayPanel {
         JLabel message = new JLabel( "<html>These controls will NOT be reset<br>when you press the Reset All button." );
         message.setForeground( Color.RED );
         layout.addComponent( message, row++, 0 );
+        
+        // Dipole magnet
+        if ( magnetModel != null ) {
+            double min = 200;
+            double max = 400;
+            final LinearValueControl insideOutsideTransitionControl = new LinearValueControl( min, max, "<html>B-field inside/outside<br>transition factor:</html>", "##0.0", "" ); 
+            insideOutsideTransitionControl.setValue( magnetModel.getInsideOutsideTransitionFactor() );
+            insideOutsideTransitionControl.setUpDownArrowDelta( 0.1 );
+            insideOutsideTransitionControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    magnetModel.setInsideOutsideTransitionFactor( insideOutsideTransitionControl.getValue() );
+                }
+            });
+            layout.addComponent( insideOutsideTransitionControl, row++, 0 );
+        }
         
         // Electromagnet shape
         if ( electromagnetGraphic != null ) {
