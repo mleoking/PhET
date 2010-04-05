@@ -78,6 +78,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
             final LinearValueControl insideOutsideTransitionControl = new LinearValueControl( min, max, "<html>B-field inside/outside<br>transition factor:</html>", "##0.0", "" ); 
             insideOutsideTransitionControl.setValue( magnetModel.getInsideOutsideTransitionFactor() );
             insideOutsideTransitionControl.setUpDownArrowDelta( 0.1 );
+            insideOutsideTransitionControl.setToolTipText( "<html>larger values increase the size of<br>the B-field just outside the end of the magnet</html>" );
             insideOutsideTransitionControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     magnetModel.setInsideOutsideTransitionFactor( insideOutsideTransitionControl.getValue() );
