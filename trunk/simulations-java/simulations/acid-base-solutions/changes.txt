@@ -1,3 +1,4 @@
+4/5/10 add dot view to prototype
 4/5/10 add weak acid model, extracted from advanced-acid-base-solutions
 4/2/10 control panels and model elements for prototype
 3/22/10 added prototype requirements section to Google design doc

@@ -11,6 +11,8 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.acidbasesolutions.prototype.MagnifyingGlass.MoleculeRepresentation;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolox.nodes.PClip;
@@ -20,7 +22,7 @@ import edu.umd.cs.piccolox.nodes.PClip;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class MagnifyingGlassNode extends DotContainerNode {
+class MagnifyingGlassNode extends PhetPNode {
     
     private static final Stroke GLASS_STROKE = new BasicStroke( 18f );
     private static final Color GLASS_STROKE_COLOR = Color.BLACK;
@@ -35,6 +37,7 @@ class MagnifyingGlassNode extends DotContainerNode {
     private final Rectangle2D handlePath;
     private final PPath circleNode;
     private final Ellipse2D circlePath;
+    private final DotsNode dotsNode;
     
     public MagnifyingGlassNode( MagnifyingGlass magnifyingGlass, WeakAcid solution ) {
         super();
@@ -66,9 +69,34 @@ class MagnifyingGlassNode extends DotContainerNode {
         circleNode.setStrokePaint( GLASS_STROKE_COLOR );
         addChild( circleNode );
         
-        circleNode.addChild( getDotsParent() ); // clip particles to circle
+        dotsNode = new DotsNode( solution, circleNode );
+        circleNode.addChild( dotsNode ); // clip dots to circle
         
         update();
+    }
+    
+    public void setDotDiameter( double diameter ) {
+        dotsNode.setDotDiameter( diameter );
+    }
+    
+    public void setDotTransparency( float transparency ) {
+        dotsNode.setDotTransparency( transparency );
+    }
+    
+    public void setDotColorHA( Color color ) {
+        dotsNode.setColorHA( color );
+    }
+    
+    public void setDotColorA( Color color ) {
+        dotsNode.setColorA( color );
+    }
+    
+    public void setDotColorH3O( Color color ) {
+        dotsNode.setColorH3O( color );
+    }
+    
+    public void setDotColorOH( Color color ) {
+        dotsNode.setColorOH( color );
     }
     
     private void update() {
@@ -87,6 +115,8 @@ class MagnifyingGlassNode extends DotContainerNode {
         transform.rotate(  -Math.PI / 4 );
         transform.translate( 0, diameter / 2 );
         handleNode.setTransform( transform );
+        // representation
+        dotsNode.setVisible( magnifyingGlass.getMoleculeRepresentation() == MoleculeRepresentation.DOTS );
     }
     
 }

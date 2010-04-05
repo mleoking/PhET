@@ -63,63 +63,64 @@ class WeakAcid extends Changeable {
         return color;
     }
     
+    // pH = -log10( [H3O] )
     public double getPH() {
-        return -MathUtil.log10( getH3OConcentration() );
+        return -MathUtil.log10( getConcentrationH3O() );
     }
     
     // [HA] = c - [A-]
-    public double getReactantConcentration() {
-        return getConcentration() - getProductConcentration();
+    public double getConcentrationHA() {
+        return getConcentration() - getConcentrationA();
     }
     
     // [A-] = ( -Ka + sqrt( Ka*Ka + 4*Ka*c ) ) / 2 
-    public double getProductConcentration() {
+    public double getConcentrationA() {
         final double Ka = getStrength();
         final double c = getConcentration();
         return ( -Ka + Math.sqrt( ( Ka * Ka ) + ( 4 * Ka * c ) ) ) / 2;
     }
     
     // [H3O+] = [A-]
-    public double getH3OConcentration() {
-        return getProductConcentration();
+    public double getConcentrationH3O() {
+        return getConcentrationA();
     }
     
     // [OH-] = Kw / [H3O+]
-    public double getOHConcentration() {
-        return Kw / getH3OConcentration();
+    public double getConcentrationOH() {
+        return Kw / getConcentrationH3O();
     }
     
     // [H2O] = W - [A-]
-    public double getH2OConcentration() {
-        return W - getProductConcentration();
+    public double getConcentrationH2O() {
+        return W - getConcentrationA();
     }
     
-    public double getH3OConcentration( double pH ) {
+    public double getConcentrationH3O( double pH ) {
         return Math.pow( 10, -pH );
     }
     
-    public double getOHConcentration( double pH ) {
+    public double getConcentrationOH( double pH ) {
         return Math.pow( 10, -( 14 - pH ) );
     }
     
-    public double getReactantMoleculeCount() {
-        return getMoleculeCount( getReactantConcentration() ); 
+    public double getMoleculeCountHA() {
+        return getMoleculeCount( getConcentrationHA() ); 
     }
     
-    public double getProductMoleculeCount() {
-        return getMoleculeCount( getProductConcentration() ); 
+    public double getMoleculeCountA() {
+        return getMoleculeCount( getConcentrationA() ); 
     }
     
-    public double getH3OMoleculeCount() {
-        return getMoleculeCount( getH3OConcentration() ); 
+    public double getMoleculeCountH3O() {
+        return getMoleculeCount( getConcentrationH3O() ); 
     }
     
-    public double getOHMoleculeCount() {
-        return getMoleculeCount( getOHConcentration() ); 
+    public double getMoleculeCountOH() {
+        return getMoleculeCount( getConcentrationOH() ); 
     }
     
-    public double getH2OMoleculeCount() {
-        return getMoleculeCount( getH2OConcentration() ); 
+    public double getMoleculeCountH2O() {
+        return getMoleculeCount( getConcentrationH2O() ); 
     }
     
     protected static double getMoleculeCount( double concentration ) {

@@ -36,4 +36,12 @@ public class ProtoConstants {
     public static final DoubleRange WEAK_ACID_CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
     public static final DoubleRange WEAK_ACID_STRENGTH_RANGE = new DoubleRange( 1E-10, 1 );
     public static final Color WEAK_ACID_COLOR = new Color( 193, 222, 227 ); // light blue
+    
+    // colors
+    public static final Color COLOR_HA = new Color( 13, 176, 47 );
+    public static final Color COLOR_A_MINUS = new Color( 235, 145, 5 );
+    public static final Color COLOR_H3O_PLUS = new Color( 222, 2, 0 );
+    public static final Color COLOR_OH_MINUS = new Color( 102, 132, 242 );
+    public static final Color COLOR_H2O = new Color( 193, 222, 227 );
+
 }
