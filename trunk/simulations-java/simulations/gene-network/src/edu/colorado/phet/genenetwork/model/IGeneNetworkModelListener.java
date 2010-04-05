@@ -43,5 +43,11 @@ public interface IGeneNetworkModelListener {
      */
     void lactoseMeterVisibilityStateChange();
     
+    /**
+     * Notify the listener that a change has occurred to the amount of lactose
+     * in the cell. 
+     */
+    void lactoseLevelChanged();
+    
     
 }

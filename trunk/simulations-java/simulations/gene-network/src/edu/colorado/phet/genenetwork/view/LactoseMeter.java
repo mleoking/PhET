@@ -90,13 +90,8 @@ public class LactoseMeter extends PhetPNode {
 		
 		// Listen to the model for events that may matter to us.
 		model.addListener(new GeneNetworkModelAdapter(){
-			public void modelElementAdded(SimpleModelElement modelElement) {
-				if (modelElement instanceof Glucose){
-					// We assume that the level of glucose is the same as the
-					// level of lactose.
-					((Glucose)modelElement).addListener(glucoseListener);
-					updateBarSize();
-				}
+			public void lactoseLevelChanged() {
+				updateBarSize();
 			}
 			public void lactoseMeterVisibilityStateChange() {
 				updateVisibility();
@@ -203,7 +198,7 @@ public class LactoseMeter extends PhetPNode {
 			overflowText.setVisible(true);
 		}
 		else{
-			barHeight = (double)model.getGlucoseList().size() / MAX_VALUE * maxBarHeight;
+			barHeight = (double)model.getLactoseLevel() / MAX_VALUE * maxBarHeight;
 			if (overflowText.getVisible()){
 				overflowText.setVisible(false);
 			}
