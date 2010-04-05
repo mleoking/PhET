@@ -12,17 +12,17 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.prototype.MagnifyingGlass.MoleculeRepresentation;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolox.nodes.PClip;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Visual representation of a magnifying glass.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class MagnifyingGlassNode extends PhetPNode {
+class MagnifyingGlassNode extends PComposite {
     
     private static final Stroke GLASS_STROKE = new BasicStroke( 18f );
     private static final Color GLASS_STROKE_COLOR = Color.BLACK;
