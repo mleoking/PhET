@@ -166,6 +166,7 @@ public class LacOperonModel implements IGeneNetworkModelControl {
 		
 	    removeElementsFromModel(lacIList);
 	    removeElementsFromModel(lacZList);
+	    removeElementsFromModel(lacYList);
 	    removeElementsFromModel(glucoseList);
 	    removeElementsFromModel(galactoseList);
 	    removeElementsFromModel(rnaPolymeraseList);
