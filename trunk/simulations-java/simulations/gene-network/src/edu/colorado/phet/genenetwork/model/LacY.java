@@ -54,6 +54,10 @@ public class LacY extends SimpleModelElement {
 	private static final double LACTOSE_GRAB_DISTANCE = 100; // In nanometers.
 	private static final double LACTOSE_ATTACHMENT_FORMING_DISTANCE = 2; // In nanometers.
 	
+	// Distance within which we will snap to the membrane if dropped there by
+	// the user.
+	private static final double SNAP_TO_MEMBRANE_DISTANCE = 5;
+	
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
@@ -176,14 +180,23 @@ public class LacY extends SimpleModelElement {
 		else if (!dragging && isUserControlled()){
 			// The user has released this element.
 			if (!isEmbeddedInMembrane()){
-				// Set a motion strategy to move to the membrane.  We probably
-				// already had one, but it will need to be set up again, since
-				// the path to the membrane is now likely to be different.
-				Rectangle2D motionBounds = getModel().getInteriorMotionBoundsAboveDna();
-				motionBounds.setFrame(motionBounds.getX(), motionBounds.getY(), motionBounds.getWidth(),
-						motionBounds.getHeight() + getModel().getCellMembraneRect().getHeight());
-				setMotionStrategy(new LinearMotionStrategy(motionBounds, getPositionRef(), getMembraneDestinationRef(),
-						10));
+				// The user had grabbed this before it was embedded in the
+				// membrane.  If they have dropped this close to the membrane,
+				// assume that they were trying to position it on the membrane
+				// and just go straight to it.  If they dropped this some
+				// distance from the membrane, resume the motion needed to get
+				// to it.
+				if (Math.abs(getPositionRef().getY() - getModel().getCellMembraneRect().getCenterY()) < SNAP_TO_MEMBRANE_DISTANCE){
+					setPosition(getPositionRef().getX(), getModel().getCellMembraneRect().getCenterY());
+					setMotionStrategy(new StillnessMotionStrategy());
+				}
+				else{
+					Rectangle2D motionBounds = getModel().getInteriorMotionBoundsAboveDna();
+					motionBounds.setFrame(motionBounds.getX(), motionBounds.getY(), motionBounds.getWidth(),
+							motionBounds.getHeight() + getModel().getCellMembraneRect().getHeight());
+					setMotionStrategy(new LinearMotionStrategy(motionBounds, getPositionRef(), getMembraneDestinationRef(),
+							10));
+				}
 			}
 		}
 		super.setDragging(dragging);
