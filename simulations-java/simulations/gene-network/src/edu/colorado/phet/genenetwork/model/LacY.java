@@ -89,8 +89,6 @@ public class LacY extends SimpleModelElement {
 	// Methods
 	//----------------------------------------------------------------------------
 	
-	
-	
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
@@ -173,7 +171,7 @@ public class LacY extends SimpleModelElement {
 				glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 				glucoseAttachmentPartner = null;
 				recoverCountdownTimer = 0;  // We are good to reattach as soon as we are released.
-			}
+			}			
 		}
 		else if (!dragging && isUserControlled()){
 			// The user has released this element.  See if there are any
@@ -183,6 +181,15 @@ public class LacY extends SimpleModelElement {
 			}
 		}
 		super.setDragging(dragging);
+	}
+	
+	@Override
+	public void setPosition(double xPos, double yPos) {
+		// Prevent the user from dragging this out of the membrane once it has
+		// been embedded there.
+		if (!isUserControlled() || !isEmbeddedInMembrane()){
+			super.setPosition(xPos, yPos);
+		}
 	}
 
 	/**
