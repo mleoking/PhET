@@ -11,15 +11,15 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Visual representation of a beaker that is filled to the top with a solution.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class BeakerNode extends PhetPNode {
+class BeakerNode extends PComposite {
     
     private static final Stroke STROKE = new BasicStroke( 6f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final Color STROKE_COLOR = Color.BLACK;
