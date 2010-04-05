@@ -12,43 +12,46 @@ import javax.swing.JLabel;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class IntegerLabel extends JLabel {
+abstract class NumberLabel extends JLabel {
     
     private final NumberFormat format;
-    private int value;
+    private double value;
     
-    public IntegerLabel() {
-        this( 0 );
-    }
-    
-    public IntegerLabel( int value ) {
-        this( value, new DecimalFormat( "0" ) );
-    }
-    
-    protected IntegerLabel( int value, NumberFormat format ) {
+    protected NumberLabel( double value, NumberFormat format ) {
         this.format = format;
         setValue( value );
     }
 
-    public void setValue( int value ) {
+    public void setValue( double value ) {
         setText( format.format( value ) );
         this.value = value;
     }
     
-    public int getValue() {
+    public double getValue() {
         return value;
+    }
+    
+    public static class IntegerLabel extends NumberLabel {
+        
+        public IntegerLabel() {
+            this( 0 );
+        }
+        
+        public IntegerLabel( double value ) {
+            super( value, new DecimalFormat( "0" ) );
+        }
     }
     
     /**
      * A label that displays large integer values in scientific notation.
      */
-    public static class ScientificIntegerLabel extends IntegerLabel {
+    public static class ScientificIntegerLabel extends NumberLabel {
         
         public ScientificIntegerLabel() {
             this( 0 );
         }
         
-        public ScientificIntegerLabel( int value ) {
+        public ScientificIntegerLabel( double value ) {
             super( value, new DecimalFormat( "0.0E0" ) );
         }
     }

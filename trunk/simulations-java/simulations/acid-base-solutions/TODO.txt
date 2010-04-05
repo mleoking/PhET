@@ -1,7 +1,6 @@
 TODO list for acid-base-solutions
 
 HIGH PRIORITY
-- proto: actual molecule counts don't update, all 2.1E9
 - proto: why no OH- dots?
 - proto: control panel for images view
 - proto: algorithm for number of visible molecules
