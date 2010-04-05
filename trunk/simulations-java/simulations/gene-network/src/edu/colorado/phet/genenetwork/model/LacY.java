@@ -50,8 +50,6 @@ public class LacY extends SimpleModelElement {
 	// These are used to determine whether a lactose molecule is close enough
 	// that this molecule should try to grab it after it has been moved by
 	// the user.
-	private static final double LACTOSE_IMMEDIATE_GRAB_DISTANCE = 7; // In nanometers.
-	private static final double LACTOSE_GRAB_DISTANCE = 100; // In nanometers.
 	private static final double LACTOSE_ATTACHMENT_FORMING_DISTANCE = 2; // In nanometers.
 	
 	// Distance within which we will snap to the membrane if dropped there by
