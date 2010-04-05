@@ -32,6 +32,10 @@ class ProtoCanvas extends PhetPCanvas {
         addChild( magnifyingGlassNode );
     }
     
+    public MagnifyingGlassNode getMagnifyingGlassNode() {
+        return magnifyingGlassNode;
+    }
+    
     private void addChild( PNode node ) {
         parentNode.addChild( node );
     }
