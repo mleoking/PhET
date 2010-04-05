@@ -497,4 +497,36 @@ public class Glucose extends SimpleSugar {
 		
 		return isAvailableForAttaching();
 	}
+	
+	/**
+	 * Set up the draggable bounds based on either being outside or inside the
+	 * cell.  This is needed for glucose since, at least as of this writing
+	 * (April 4, 2010), lactose is the only thing that crosses the cell
+	 * membrane.
+	 * 
+	 * @param positionWrtCell
+	 */
+	public void setUpDraggableBounds(PositionWrtCell positionWrtCell){
+		
+		switch(positionWrtCell){
+		
+		case INSIDE_CELL:
+			setDragBounds(getModel().getInteriorMotionBounds());
+			if (galactoseAttachmentPartner != null){
+				galactoseAttachmentPartner.setDragBounds(getModel().getInteriorMotionBounds());
+			}
+			break;
+			
+		case OUTSIDE_CELL:
+			setDragBounds(getModel().getExteriorMotionBounds());
+			if (galactoseAttachmentPartner != null){
+				galactoseAttachmentPartner.setDragBounds(getModel().getExteriorMotionBounds());
+			}
+			break;
+			
+		default:
+			assert false;
+			break;
+		}
+	}
 }

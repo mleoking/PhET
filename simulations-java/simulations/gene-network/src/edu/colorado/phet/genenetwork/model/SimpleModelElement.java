@@ -171,6 +171,10 @@ public abstract class SimpleModelElement implements IModelElement{
 				dragBounds.getHeight());
 	}
 	
+	protected Rectangle2D getDragBounds(){
+		return new Rectangle2D.Double(dragBounds.getX(), dragBounds.getY(), dragBounds.getWidth(), dragBounds.getHeight());
+	}
+	
 	public Paint getPaint(){
 		return paint;
 	}
