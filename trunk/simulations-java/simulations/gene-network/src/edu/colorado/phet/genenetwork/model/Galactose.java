@@ -38,6 +38,7 @@ public class Galactose extends SimpleSugar {
 				glucose.getPositionRef().getY() + offset.getHeight());
 		setPosition(position);
 		setMotionStrategy(new FollowTheLeaderMotionStrategy(this, glucoseAttachmentPartner, offset));
+		setDragBounds(glucoseAttachmentPartner.getDragBounds());
 	}
 	
 	public void detach(Glucose glucose){
