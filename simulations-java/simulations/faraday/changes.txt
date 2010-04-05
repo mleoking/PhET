@@ -1,3 +1,5 @@
+# 2.03.02 (39627) Apr 5, 2010
+4/5/10 dev version for Mike Dubson to test
 4/5/10 #2236, add developer control for "B-field inside/outside transition factor"
 # 2.03.01 (39591) Apr 1, 2010
 4/1/10 dev version for Mike Dubson to test his fix for #2236
