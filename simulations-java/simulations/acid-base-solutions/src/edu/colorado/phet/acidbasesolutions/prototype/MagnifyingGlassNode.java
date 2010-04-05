@@ -30,13 +30,13 @@ class MagnifyingGlassNode extends DotContainerNode {
     private static final Color HANDLE_FILL_COLOR = new Color( 85, 55, 33 ); // brown
     
     private final MagnifyingGlass magnifyingGlass;
-    private final Solution solution;
+    private final WeakAcid solution;
     private final PPath handleNode;
     private final Rectangle2D handlePath;
     private final PPath circleNode;
     private final Ellipse2D circlePath;
     
-    public MagnifyingGlassNode( MagnifyingGlass magnifyingGlass, Solution solution ) {
+    public MagnifyingGlassNode( MagnifyingGlass magnifyingGlass, WeakAcid solution ) {
         super();
         
         this.magnifyingGlass = magnifyingGlass;
