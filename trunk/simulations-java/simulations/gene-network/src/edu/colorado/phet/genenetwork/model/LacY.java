@@ -171,13 +171,19 @@ public class LacY extends SimpleModelElement {
 				glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
 				glucoseAttachmentPartner = null;
 				recoverCountdownTimer = 0;  // We are good to reattach as soon as we are released.
-			}			
+			}
 		}
 		else if (!dragging && isUserControlled()){
-			// The user has released this element.  See if there are any
-			// potential partners nearby.
-			if (glucoseAttachmentPartner == null){
-				checkForNearbyLactoseToGrab();
+			// The user has released this element.
+			if (!isEmbeddedInMembrane()){
+				// Set a motion strategy to move to the membrane.  We probably
+				// already had one, but it will need to be set up again, since
+				// the path to the membrane is now likely to be different.
+				Rectangle2D motionBounds = getModel().getInteriorMotionBoundsAboveDna();
+				motionBounds.setFrame(motionBounds.getX(), motionBounds.getY(), motionBounds.getWidth(),
+						motionBounds.getHeight() + getModel().getCellMembraneRect().getHeight());
+				setMotionStrategy(new LinearMotionStrategy(motionBounds, getPositionRef(), getMembraneDestinationRef(),
+						10));
 			}
 		}
 		super.setDragging(dragging);
