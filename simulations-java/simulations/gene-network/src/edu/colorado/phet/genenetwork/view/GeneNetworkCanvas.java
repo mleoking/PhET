@@ -158,7 +158,8 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
 		cellularFluidLayer.removeAllChildren();
 		double fluidBackgroundWidth = INITIAL_INTERMEDIATE_COORD_WIDTH * 3;
 		double fluidBackgroundHeight = INITIAL_INTERMEDIATE_COORD_HEIGHT;
-		PNode extraCellularFluid = new PhetPPath(new Rectangle2D.Double(0, 0, fluidBackgroundWidth, fluidBackgroundHeight), Color.GREEN);
+		PNode extraCellularFluid = new PhetPPath(new Rectangle2D.Double(0, 0, fluidBackgroundWidth,
+				fluidBackgroundHeight), new Color(204, 255, 249));
 		extraCellularFluid.setOffset(INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - fluidBackgroundWidth / 2, 
 				cellMembraneNode.getFullBoundsReference().getMinY() - fluidBackgroundHeight);
 		cellularFluidLayer.addChild(extraCellularFluid);
