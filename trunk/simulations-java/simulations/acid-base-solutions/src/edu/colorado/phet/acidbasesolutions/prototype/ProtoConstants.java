@@ -37,6 +37,11 @@ public class ProtoConstants {
     public static final DoubleRange WEAK_ACID_STRENGTH_RANGE = new DoubleRange( 1E-10, 1 );
     public static final Color WEAK_ACID_COLOR = new Color( 193, 222, 227 ); // light blue
     
+    // dots
+    public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 1000, 10000, 5000 );
+    public static final DoubleRange DOT_DIAMETER_RANGE = new DoubleRange( 1, 40, 6 );
+    public static final DoubleRange DOT_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 0.5 );
+    
     // colors
     public static final Color COLOR_HA = new Color( 13, 176, 47 );
     public static final Color COLOR_A_MINUS = new Color( 235, 145, 5 );

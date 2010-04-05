@@ -75,6 +75,10 @@ class MagnifyingGlassNode extends PhetPNode {
         update();
     }
     
+    public void setMaxDots( int maxDots ) {
+        dotsNode.setMaxDots( maxDots );
+    }
+    
     public void setDotDiameter( double diameter ) {
         dotsNode.setDotDiameter( diameter );
     }
