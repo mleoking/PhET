@@ -75,32 +75,8 @@ class MagnifyingGlassNode extends PComposite {
         update();
     }
     
-    public void setMaxDots( int maxDots ) {
-        dotsNode.setMaxDots( maxDots );
-    }
-    
-    public void setDotDiameter( double diameter ) {
-        dotsNode.setDotDiameter( diameter );
-    }
-    
-    public void setDotTransparency( float transparency ) {
-        dotsNode.setDotTransparency( transparency );
-    }
-    
-    public void setDotColorHA( Color color ) {
-        dotsNode.setColorHA( color );
-    }
-    
-    public void setDotColorA( Color color ) {
-        dotsNode.setColorA( color );
-    }
-    
-    public void setDotColorH3O( Color color ) {
-        dotsNode.setColorH3O( color );
-    }
-    
-    public void setDotColorOH( Color color ) {
-        dotsNode.setColorOH( color );
+    public DotsNode getDotsNode() {
+        return dotsNode;
     }
     
     private void update() {

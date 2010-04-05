@@ -49,7 +49,7 @@ class IntegerLabel extends JLabel {
         }
         
         public ScientificIntegerLabel( int value ) {
-            super( value, new DecimalFormat( "0E0" ) );
+            super( value, new DecimalFormat( "0.0E0" ) );
         }
     }
 }

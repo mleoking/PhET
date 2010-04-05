@@ -28,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  */
 class DotControls extends JPanel {
     
-    public DotControls( JFrame parentFrame, final MagnifyingGlassNode magnifyingGlassNode ) {
+    public DotControls( JFrame parentFrame, final DotsNode dotsNode ) {
         setBorder( new TitledBorder( "Dot view" ) );
         
         // max dots
@@ -38,7 +38,7 @@ class DotControls extends JPanel {
         maxDotsControl.setUpDownArrowDelta( 1 );
         maxDotsControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                magnifyingGlassNode.setMaxDots( (int)maxDotsControl.getValue() );
+                dotsNode.setMaxDots( (int)maxDotsControl.getValue() );
             }
         });
 
@@ -49,7 +49,7 @@ class DotControls extends JPanel {
         diameterControl.setUpDownArrowDelta( 1 );
         diameterControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                magnifyingGlassNode.setDotDiameter( diameterControl.getValue() );
+                dotsNode.setDotDiameter( diameterControl.getValue() );
             }
         });
 
@@ -60,7 +60,7 @@ class DotControls extends JPanel {
         transparencyControl.setUpDownArrowDelta( 0.01 );
         transparencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                magnifyingGlassNode.setDotTransparency( (float)transparencyControl.getValue() );
+                dotsNode.setDotTransparency( (float)transparencyControl.getValue() );
             }
         });
         Hashtable<Double, JLabel> transparencyLabelTable = new Hashtable<Double, JLabel>();
@@ -74,28 +74,28 @@ class DotControls extends JPanel {
             final ColorControl colorHAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.HA_FRAGMENT ), MGPConstants.COLOR_HA );
             colorHAControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    magnifyingGlassNode.setDotColorHA( colorHAControl.getColor() );
+                    dotsNode.setColorHA( colorHAControl.getColor() );
                 }
             } );
             
             final ColorControl colorAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.A_MINUS_FRAGMENT ), MGPConstants.COLOR_A_MINUS );
             colorAControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    magnifyingGlassNode.setDotColorA( colorAControl.getColor() );
+                    dotsNode.setColorA( colorAControl.getColor() );
                 }
             } );
             
             final ColorControl colorH3OControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.H3O_PLUS_FRAGMENT ), MGPConstants.COLOR_H3O_PLUS );
             colorH3OControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    magnifyingGlassNode.setDotColorH3O( colorH3OControl.getColor() );
+                    dotsNode.setColorH3O( colorH3OControl.getColor() );
                 }
             } );
             
             final ColorControl colorOHControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.OH_MINUS_FRAGMENT ), MGPConstants.COLOR_OH_MINUS );
             colorOHControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    magnifyingGlassNode.setDotColorOH( colorOHControl.getColor() );
+                    dotsNode.setColorOH( colorOHControl.getColor() );
                 }
             } );
             
@@ -129,8 +129,8 @@ class DotControls extends JPanel {
         layout.addComponent( colorsPanel, row, column++ );
         
         // default state
-        magnifyingGlassNode.setMaxDots( (int) maxDotsControl.getValue() );
-        magnifyingGlassNode.setDotDiameter( diameterControl.getValue() );
-        magnifyingGlassNode.setDotTransparency( (float)transparencyControl.getValue() );
+        dotsNode.setMaxDots( (int) maxDotsControl.getValue() );
+        dotsNode.setDotDiameter( diameterControl.getValue() );
+        dotsNode.setDotTransparency( (float)transparencyControl.getValue() );
     }
 }

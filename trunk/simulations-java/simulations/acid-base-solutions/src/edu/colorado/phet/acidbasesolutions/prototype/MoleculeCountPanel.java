@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.prototype.IntegerLabel.ScientificIntegerLabel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -19,18 +21,36 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  */
 class MoleculeCountPanel extends JPanel {
     
-    private final IntegerLabel displayedHA, displayedA, displayedH3O, displayedOH, displayedH2O;
+    private final WeakAcid solution;
+    private final MagnifyingGlassNode magnifyingGlassNode;
+    private final IntegerLabel dotsHA, dotsA, dotsH3O, dotsOH, dotsH2O;
+    private final IntegerLabel imagesHA, imagesA, imagesH3O, imagesOH, imagesH2O;
     private final ScientificIntegerLabel actualHA, actualA, actualH3O, actualOH, actualH2O;
     
-    public MoleculeCountPanel() {
+    public MoleculeCountPanel( WeakAcid solution, MagnifyingGlassNode magnifyingGlassNode ) {
         super();
         setBorder( new TitledBorder( "Molecule counts" ) );
         
-        displayedHA = new IntegerLabel();
-        displayedA = new IntegerLabel();
-        displayedH3O = new IntegerLabel();
-        displayedOH = new IntegerLabel();
-        displayedH2O = new IntegerLabel();
+        this.solution = solution;
+        this.magnifyingGlassNode = magnifyingGlassNode;
+        
+        solution.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                update();
+            }
+        });
+        
+        dotsHA = new IntegerLabel();
+        dotsA = new IntegerLabel();
+        dotsH3O = new IntegerLabel();
+        dotsOH = new IntegerLabel();
+        dotsH2O = new IntegerLabel();
+        
+        imagesHA = new IntegerLabel();
+        imagesA = new IntegerLabel();
+        imagesH3O = new IntegerLabel();
+        imagesOH = new IntegerLabel();
+        imagesH2O = new IntegerLabel();
         
         actualHA = new ScientificIntegerLabel();
         actualA = new ScientificIntegerLabel();
@@ -43,57 +63,68 @@ class MoleculeCountPanel extends JPanel {
         setLayout( layout );
         layout.setAnchor( GridBagConstraints.EAST );
         int minColumnWidth = 75;
-        layout.setMinimumWidth( 0, minColumnWidth );
-        layout.setMinimumWidth( 1, minColumnWidth );
-        layout.setMinimumWidth( 2, minColumnWidth );
         int row = 0;
         int column = 0;
+        layout.setMinimumWidth( column, minColumnWidth );
         layout.addComponent( new JLabel( "<html><u>molecule</u></html>" ), row, column++ );
-        layout.addComponent( new JLabel( "<html><u>displayed</u></html>" ), row, column++ );
+        layout.setMinimumWidth( column, minColumnWidth );
+        layout.addComponent( new JLabel( "<html><u>dots</u></html>" ), row, column++ );
+        layout.setMinimumWidth( column, minColumnWidth );
+        layout.addComponent( new JLabel( "<html><u>images</u></html>" ), row, column++ );
+        layout.setMinimumWidth( column, minColumnWidth );
         layout.addComponent( new JLabel( "<html><u>actual</u></html>" ), row, column++ );
         row++;
         column = 0;
         layout.addComponent( new JLabel( HTMLUtils.toHTMLString( MGPConstants.HA_FRAGMENT ) ), row, column++ );
-        layout.addComponent( displayedHA, row, column++ );
+        layout.addComponent( dotsHA, row, column++ );
+        layout.addComponent( imagesHA, row, column++ );
         layout.addComponent( actualHA, row, column++ );
         row++;
         column = 0;
         layout.addComponent( new JLabel( HTMLUtils.toHTMLString( MGPConstants.A_MINUS_FRAGMENT ) ), row, column++ );
-        layout.addComponent( displayedA, row, column++ );
+        layout.addComponent( dotsA, row, column++ );
+        layout.addComponent( imagesA, row, column++ );
         layout.addComponent( actualA, row, column++ );
         row++;
         column = 0;
         layout.addComponent( new JLabel( HTMLUtils.toHTMLString( MGPConstants.H3O_PLUS_FRAGMENT ) ), row, column++ );
-        layout.addComponent( displayedH3O, row, column++ );
+        layout.addComponent( dotsH3O, row, column++ );
+        layout.addComponent( imagesH3O, row, column++ );
         layout.addComponent( actualH3O, row, column++ );
         row++;
         column = 0;
         layout.addComponent( new JLabel( HTMLUtils.toHTMLString( MGPConstants.OH_MINUS_FRAGMENT ) ), row, column++ );
-        layout.addComponent( displayedOH, row, column++ );
+        layout.addComponent( dotsOH, row, column++ );
+        layout.addComponent( imagesOH, row, column++ );
         layout.addComponent( actualOH, row, column++ );
         row++;
         column = 0;
         layout.addComponent( new JLabel( HTMLUtils.toHTMLString( MGPConstants.H2O_FRAGMENT ) ), row, column++ );
-        layout.addComponent( displayedH2O, row, column++ );
+        layout.addComponent( dotsH2O, row, column++ );
+        layout.addComponent( imagesH2O, row, column++ );
         layout.addComponent( actualH2O, row, column++ );
         
         // default state
-        //XXX
+        update();
     }
     
-    public void setActualValues( int HA, int A, int H3O, int OH, int H2O ) {
-        actualHA.setValue( HA );
-        actualA.setValue( A );
-        actualH3O.setValue( H3O );
-        actualOH.setValue( OH );
-        actualH2O.setValue( H2O );
-    }
-    
-    public void setDisplayedValues( int HA, int A, int H3O, int OH, int H2O ) {
-        displayedHA.setValue( HA );
-        displayedA.setValue( A );
-        displayedH3O.setValue( H3O );
-        displayedOH.setValue( OH );
-        displayedH2O.setValue( H2O );
+    private void update() {
+        
+        // dots
+        DotsNode dotsNode = magnifyingGlassNode.getDotsNode();
+        dotsHA.setValue( dotsNode.getDotsHA() );
+        dotsA.setValue( dotsNode.getDotsA() );
+        dotsH3O.setValue( dotsNode.getDotsH3O() );
+        dotsOH.setValue( dotsNode.getDotsOH() );
+        //TODO H2O
+        
+        // images
+        
+        // actual
+        actualHA.setValue( (int) solution.getMoleculeCountHA() );
+        actualA.setValue( (int) solution.getMoleculeCountA() );
+        actualH3O.setValue( (int) solution.getMoleculeCountH3O() );
+        actualOH.setValue( (int) solution.getMoleculeCountOH() );
+        actualH2O.setValue( (int) solution.getMoleculeCountH2O() );
     }
 }

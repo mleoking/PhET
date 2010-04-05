@@ -46,13 +46,14 @@ public class DotsNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private final WeakAcid solution;
-    private int maxDots = DEFAULT_MAX_DOTS;
-    private double dotDiameter = DEFAULT_DOT_DIAMETER;
-    private float dotTransparency = DEFAULT_DOT_TRANSPARENCY;
-    
     private final PNode containerNode;
     private final PNode parentHA, parentA, parentH3O, parentOH;
     private final Random randomCoordinate;
+    
+    private int maxDots = DEFAULT_MAX_DOTS;
+    private double dotDiameter = DEFAULT_DOT_DIAMETER;
+    private float dotTransparency = DEFAULT_DOT_TRANSPARENCY;
+    private int dotsHA, dotsA, dotsH3O, dotsOH;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -132,6 +133,22 @@ public class DotsNode extends PComposite {
         return dotTransparency;
     }
     
+    public int getDotsHA() {
+        return dotsHA;
+    }
+    
+    public int getDotsA() {
+        return dotsA;
+    }
+    
+    public int getDotsH3O() {
+        return dotsH3O;
+    }
+    
+    public int getDotsOH() {
+        return dotsOH;
+    }
+    
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
@@ -145,13 +162,13 @@ public class DotsNode extends PComposite {
 
         deleteAllDots();
 
-        int dotsReactant = getNumberOfDots( solution.getConcentrationHA() );
-        int dotsProduct = getNumberOfDots( solution.getConcentrationA() );
-        int dotsH3O = getNumberOfDots( solution.getConcentrationH3O() );
-        int dotsOH = getNumberOfDots( solution.getConcentrationOH() );
+        dotsHA = getNumberOfDots( solution.getConcentrationHA() );
+        dotsA = getNumberOfDots( solution.getConcentrationA() );
+        dotsH3O = getNumberOfDots( solution.getConcentrationH3O() );
+        dotsOH = getNumberOfDots( solution.getConcentrationOH() );
         
-        createNodes( dotsReactant, MGPConstants.COLOR_HA, parentHA );
-        createNodes( dotsProduct, MGPConstants.COLOR_A_MINUS, parentA );
+        createNodes( dotsHA, MGPConstants.COLOR_HA, parentHA );
+        createNodes( dotsA, MGPConstants.COLOR_A_MINUS, parentA );
         createNodes( dotsH3O, MGPConstants.COLOR_H3O_PLUS, parentH3O );
         createNodes( dotsOH, MGPConstants.COLOR_OH_MINUS, parentOH );
 
@@ -164,6 +181,7 @@ public class DotsNode extends PComposite {
         parentA.removeAllChildren();
         parentH3O.removeAllChildren();
         parentOH.removeAllChildren();
+        dotsHA = dotsA = dotsH3O = dotsOH = 0;
     }
     
     // Changes the rendering order from most to least dots.
