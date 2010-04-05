@@ -128,11 +128,5 @@ class MoleculeCountPanel extends JPanel {
         actualH3O.setValue( solution.getMoleculeCountH3O() );
         actualOH.setValue( solution.getMoleculeCountOH() );
         actualH2O.setValue( solution.getMoleculeCountH2O() );
-        
-        System.out.println( "HA=" + solution.getMoleculeCountHA() );
-        System.out.println( "A=" + solution.getMoleculeCountA() );
-        System.out.println( "H3O=" + solution.getMoleculeCountH3O() );
-        System.out.println( "OH=" + solution.getMoleculeCountOH() );
-        System.out.println( "H2O=" + solution.getMoleculeCountH2O() );
     }
 }
