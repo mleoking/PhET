@@ -330,27 +330,6 @@ public class LacY extends SimpleModelElement {
 		return new PDimension(GLUCOSE_ATTACHMENT_POINT_OFFSET);
 	}
 	
-	/**
-	 * Check if there is any lactose in the immediate vicinity and, if so,
-	 * attempt to establish a pending attachment with it.  This is generally
-	 * used when the user moves this element manually to some new location.
-	 */
-	private void checkForNearbyLactoseToGrab(){
-		assert glucoseAttachmentPartner == null;  // Shouldn't be doing this if we already have a partner.
-		Glucose nearestLactose = getModel().getNearestLactose(getPositionRef(), PositionWrtCell.OUTSIDE_CELL, false);
-		if (nearestLactose != null && nearestLactose.getPositionRef().distance(getPositionRef()) < LACTOSE_GRAB_DISTANCE){
-			if (nearestLactose.breakOffPendingAttachments(this)){
-				// Looks like the lactose can be grabbed.
-				glucoseAttachmentPartner = nearestLactose;
-				getEngagedToLactose();
-				if (nearestLactose.getPositionRef().distance(getPositionRef()) < LACTOSE_IMMEDIATE_GRAB_DISTANCE){
-					// Attach right now.
-					completeAttachmentOfGlucose();
-				}
-			}
-		}
-	}
-	
 	private static final double ERROR_TOLERENCE = 0.01;
 	public boolean isEmbeddedInMembrane(){
 		boolean isEmbeddedInMembrane = false;
