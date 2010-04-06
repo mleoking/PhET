@@ -135,7 +135,7 @@ public class MacroMoleculeLegend extends PhetPNode {
 		// LacY is optional since it is sometimes not needed.
 		if (showLacY){
 			icon = new SimpleModelElementNode(new LacY(), MVT, false);
-			legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.LAC_I_LEGEND_CAPTION));
+			legendEntries.add(new LegendEntry(icon, GeneNetworkStrings.LAC_Y_LEGEND_CAPTION));
 		}
 		
 		icon = createLactoseNode();
