@@ -7,25 +7,22 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
- * A motion strategy for traversing a membrane channel, e.g. going from
- * outside the cell to inside.
+ * A motion strategy for traversing a basic membrane channel, i.e. one that
+ * has only one gate. 
  * 
  * @author John Blanco
  */
-public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
+public class BasicChannelTraversalMotionStrategy extends MembraneTraversalMotionStrategy {
 
 	private static final Random RAND = new Random();
-	private static final double DEFAULT_MAX_VELOCITY = 40000; // Velocity that particles move, in nm/sec (sim time).
-	
-	private final MembraneChannel channel; // Channel through which to move. 
-	
 	private Vector2D velocityVector = new Vector2D.Double();
 	private ArrayList<Point2D> traversalPoints;
 	private int currentDestinationIndex = 0;
 	private boolean channelHasBeenEntered = false; // Flag that is set when the channel is entered.
 	private double maxVelocity;
+	protected final MembraneChannel channel;
 	
-	public MembraneChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation, double maxVelocity) {
+	public BasicChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation, double maxVelocity) {
 		this.channel = channel;
 		this.maxVelocity = maxVelocity;
 		traversalPoints = channel.getTraversalPoints(startingLocation);
@@ -33,7 +30,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 		setCourseForCurrentTraversalPoint(startingLocation);
 	}
 
-	public MembraneChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation) {
+	public BasicChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation) {
 		this(channel, startingLocation, DEFAULT_MAX_VELOCITY);
 	}
 
