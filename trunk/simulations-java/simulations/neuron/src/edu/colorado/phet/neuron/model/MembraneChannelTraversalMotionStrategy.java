@@ -71,7 +71,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 					// Slow down the speed.  Don't do this if it is already
 					// moving pretty slowly.
 					if (maxVelocity / DEFAULT_MAX_VELOCITY >= 0.5){
-						velocityVector.scale(0.2);
+						velocityVector.scale(0.5);
 					}
 				}
 			}
@@ -106,7 +106,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 				double velocityRotationAngle = 0;
 				double minRotation = 0;
 				double maxRotation = 0;
-				if (RAND.nextBoolean()){
+				if (RAND.nextDouble() > 0.3){
 					// Move out to the right (assuming channel is vertical).
 					// The angle at which we can move gets more restricted
 					// as the inactivation gate closes.
@@ -118,8 +118,8 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 					// Move out to the left (assuming channel is vertical).
 					// The angle at which we can move gets more restricted
 					// as the inactivation gate closes.
-					maxRotation = -Math.PI * 0.5;
-					double angularRange = (1 - channel.getInactivationAmt()) * -Math.PI * 0.2;
+					maxRotation = -Math.PI * 0.45;
+					double angularRange = (1 - channel.getInactivationAmt()) * -Math.PI * 0.1;
 					minRotation = maxRotation - angularRange;
 				}
 				velocityRotationAngle = minRotation + RAND.nextDouble() * (maxRotation - minRotation);
