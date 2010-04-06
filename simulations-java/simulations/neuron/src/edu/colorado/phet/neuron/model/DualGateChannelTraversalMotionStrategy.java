@@ -18,19 +18,16 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  * 
  * @author John Blanco
  */
-public class DualGateChannelTraversalMotionStrategy extends MotionStrategy {
-
+public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMotionStrategy {
+	
 	private static final Random RAND = new Random();
-	private static final double DEFAULT_MAX_VELOCITY = 40000; // Velocity that particles move, in nm/sec (sim time).
-	
-	private final MembraneChannel channel; // Channel through which to move. 
-	
 	private Vector2D velocityVector = new Vector2D.Double();
 	private ArrayList<Point2D> traversalPoints;
 	private int currentDestinationIndex = 0;
 	private boolean channelHasBeenEntered = false; // Flag that is set when the channel is entered.
 	private double maxVelocity;
-	
+	protected final MembraneChannel channel;
+
 	public DualGateChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation, double maxVelocity) {
 		this.channel = channel;
 		this.maxVelocity = maxVelocity;
@@ -77,7 +74,15 @@ public class DualGateChannelTraversalMotionStrategy extends MotionStrategy {
 					// Slow down the speed.  Don't do this if it is already
 					// moving pretty slowly.
 					if (maxVelocity / DEFAULT_MAX_VELOCITY >= 0.5){
-						velocityVector.scale(0.2);
+						if (channel.getHasInactivationGate()){
+							// Scale less for inactivaction gate versions,
+							// since otherwise it looks like ions go through
+							// the gate.
+							velocityVector.scale(0.4);
+						}
+						else{
+							velocityVector.scale(0.2);
+						}
 					}
 				}
 			}
@@ -98,11 +103,42 @@ public class DualGateChannelTraversalMotionStrategy extends MotionStrategy {
 			velocityVector.scale(scaleFactor);
 		}
 		else{
-			// All points have been traversed.  The behavior at this point is
-			// to make a random change to the direction of travel so that
-			// things look a little "Brownian".  The severity of the allowed
-			// angle depends on the velocity.
-			velocityVector.rotate((RAND.nextDouble() - 0.5) * ( Math.PI * 0.9 ) * maxVelocity / DEFAULT_MAX_VELOCITY);
+			// All points have been traversed.  The behavior at this point
+			// depends on whether the channel has an inactivation gate, since
+			// such a gate is depicted on the cell-interior side of the
+			// channel in this sim.  No matter whether such a gate exists or
+			// not, the particle is re-routed a bit in order to create a bit
+			// of a brownian look.  If the gate exists, there are more
+			// limitations to where the particle can go.
+			if (channel.getHasInactivationGate()){
+				// NOTE: The following is tweaked to work with a particular
+				// visual representation of the inactivation gate, and may
+				// need to be changed if that representation is changed.
+				double velocityRotationAngle = 0;
+				double minRotation = 0;
+				double maxRotation = 0;
+				if (RAND.nextDouble() > 0.3){
+					// Move out to the right (assuming channel is vertical).
+					// The angle at which we can move gets more restricted
+					// as the inactivation gate closes.
+					maxRotation = Math.PI * 0.4;
+					double angularRange = (1 - channel.getInactivationAmt()) * Math.PI * 0.3;
+					minRotation = maxRotation - angularRange;
+				}
+				else{
+					// Move out to the left (assuming channel is vertical).
+					// The angle at which we can move gets more restricted
+					// as the inactivation gate closes.
+					maxRotation = -Math.PI * 0.4;
+					double angularRange = (1 - channel.getInactivationAmt()) * -Math.PI * 0.1;
+					minRotation = maxRotation - angularRange;
+				}
+				velocityRotationAngle = minRotation + RAND.nextDouble() * (maxRotation - minRotation);
+				velocityVector.rotate(velocityRotationAngle);
+			}
+			else{
+				velocityVector.rotate((RAND.nextDouble() - 0.5) * ( Math.PI * 0.9 ) * maxVelocity / DEFAULT_MAX_VELOCITY);
+			}
 		}
 	}
 }
