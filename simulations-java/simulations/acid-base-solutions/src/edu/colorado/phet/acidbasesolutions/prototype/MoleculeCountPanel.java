@@ -3,7 +3,9 @@
 package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -14,6 +16,7 @@ import edu.colorado.phet.acidbasesolutions.prototype.NumberLabel.IntegerLabel;
 import edu.colorado.phet.acidbasesolutions.prototype.NumberLabel.ScientificIntegerLabel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Displays counts (actual and displayed) for the various particles.
@@ -24,6 +27,7 @@ class MoleculeCountPanel extends JPanel {
     
     private final WeakAcid solution;
     private final MagnifyingGlassNode magnifyingGlassNode;
+    private final IconLabel iconHA, iconA, iconH3O, iconOH, iconH2O;
     private final IntegerLabel dotsHA, dotsA, dotsH3O, dotsOH, dotsH2O;
     private final IntegerLabel imagesHA, imagesA, imagesH3O, imagesOH, imagesH2O;
     private final ScientificIntegerLabel actualHA, actualA, actualH3O, actualOH, actualH2O;
@@ -44,6 +48,12 @@ class MoleculeCountPanel extends JPanel {
         magnifyingGlassNode.getDotsNode().addChangeListener( changeListener );
         magnifyingGlassNode.getImagesNode().addChangeListener( changeListener );
         
+        iconHA = new IconLabel( MGPConstants.HA_IMAGE );
+        iconA = new IconLabel( MGPConstants.A_MINUS_IMAGE );
+        iconH3O = new IconLabel( MGPConstants.H3O_PLUS_IMAGE );
+        iconOH = new IconLabel( MGPConstants.OH_MINUS_IMAGE );
+        iconH2O = new IconLabel( MGPConstants.H2O_IMAGE );
+       
         dotsHA = new IntegerLabel();
         dotsA = new IntegerLabel();
         dotsH3O = new IntegerLabel();
@@ -70,6 +80,8 @@ class MoleculeCountPanel extends JPanel {
         int row = 0;
         int column = 0;
         layout.setMinimumWidth( column, minColumnWidth );
+        layout.addComponent( new JLabel( "" ), row, column++ );
+        layout.setMinimumWidth( column, minColumnWidth );
         layout.addComponent( new JLabel( "<html><u>molecule</u></html>" ), row, column++ );
         layout.setMinimumWidth( column, minColumnWidth );
         layout.addComponent( new JLabel( "<html><u>dots</u></html>" ), row, column++ );
@@ -79,30 +91,35 @@ class MoleculeCountPanel extends JPanel {
         layout.addComponent( new JLabel( "<html><u>actual</u></html>" ), row, column++ );
         row++;
         column = 0;
+        layout.addComponent( iconHA, row, column++ );
         layout.addComponent( new JLabel( HTMLUtils.toHTMLString( MGPConstants.HA_FRAGMENT ) ), row, column++ );
         layout.addComponent( dotsHA, row, column++ );
         layout.addComponent( imagesHA, row, column++ );
         layout.addComponent( actualHA, row, column++ );
         row++;
         column = 0;
+        layout.addComponent( iconA, row, column++ );
         layout.addComponent( new JLabel( HTMLUtils.toHTMLString( MGPConstants.A_MINUS_FRAGMENT ) ), row, column++ );
         layout.addComponent( dotsA, row, column++ );
         layout.addComponent( imagesA, row, column++ );
         layout.addComponent( actualA, row, column++ );
         row++;
         column = 0;
+        layout.addComponent( iconH3O, row, column++ );
         layout.addComponent( new JLabel( HTMLUtils.toHTMLString( MGPConstants.H3O_PLUS_FRAGMENT ) ), row, column++ );
         layout.addComponent( dotsH3O, row, column++ );
         layout.addComponent( imagesH3O, row, column++ );
         layout.addComponent( actualH3O, row, column++ );
         row++;
         column = 0;
+        layout.addComponent( iconOH, row, column++ );
         layout.addComponent( new JLabel( HTMLUtils.toHTMLString( MGPConstants.OH_MINUS_FRAGMENT ) ), row, column++ );
         layout.addComponent( dotsOH, row, column++ );
         layout.addComponent( imagesOH, row, column++ );
         layout.addComponent( actualOH, row, column++ );
         row++;
         column = 0;
+        layout.addComponent( iconH2O, row, column++ );
         layout.addComponent( new JLabel( HTMLUtils.toHTMLString( MGPConstants.H2O_FRAGMENT ) ), row, column++ );
         layout.addComponent( dotsH2O, row, column++ );
         layout.addComponent( imagesH2O, row, column++ );
@@ -136,5 +153,14 @@ class MoleculeCountPanel extends JPanel {
         actualH3O.setValue( solution.getMoleculeCountH3O() );
         actualOH.setValue( solution.getMoleculeCountOH() );
         actualH2O.setValue( solution.getMoleculeCountH2O() );
+    }
+    
+    private static class IconLabel extends JLabel {
+        public IconLabel( Image image ) {
+            super();
+            PImage node = new PImage( image );
+            node.scale( 0.75 );
+            setIcon( new ImageIcon( node.toImage() ) );
+        }
     }
 }

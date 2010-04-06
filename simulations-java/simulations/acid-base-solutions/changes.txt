@@ -1,3 +1,4 @@
+4/5/10 prototype: add molecule images to count display
 4/5/10 prototype: base class for DotsNode and ImagesNode
 4/5/10 prototype: add/delete nodes as needed instead of deleteAll
 4/5/10 prototype: add image view
