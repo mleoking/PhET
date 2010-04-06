@@ -39,7 +39,7 @@ public class AxonCrossSectionModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public AxonCrossSectionModule( Frame parentFrame ) {
-        super( NeuronStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
+        super( NeuronStrings.TITLE_AXON_CROSS_SECTION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
         		NeuronDefaults.CLOCK_DT ) );
 
         // Model
