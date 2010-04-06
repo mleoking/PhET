@@ -1,3 +1,5 @@
+# 0.00.15 (39672) Apr 6, 2010
+4/6/10 Version with 2nd tab pretty much fully implemented, publishing for review & feedback.
 # 0.00.14 (39424) Mar 19, 2010
 3/19/10 First version with the 2nd tab.
 # 0.00.13 (39200) Mar 10, 2010
