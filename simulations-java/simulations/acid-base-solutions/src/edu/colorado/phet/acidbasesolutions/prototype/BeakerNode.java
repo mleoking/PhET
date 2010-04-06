@@ -82,12 +82,12 @@ class BeakerNode extends PComposite {
         double height = beaker.getHeight();
         double rimOffset = 20;
         outlinePath.reset();
-        outlinePath.moveTo( (float) -width/2 - rimOffset, (float) -height/2 - rimOffset );
+        outlinePath.moveTo( (float) ( -width/2 - rimOffset ), (float) ( -height/2 - rimOffset ) );
         outlinePath.lineTo( (float) -width/2, (float) -height/2 );
         outlinePath.lineTo( (float) -width/2, (float) +height/2 );
         outlinePath.lineTo( (float) +width/2, (float) +height/2 );
         outlinePath.lineTo( (float) +width/2, (float) -height/2 );
-        outlinePath.lineTo( (float) +width/2 + rimOffset, (float) -height/2 - rimOffset );
+        outlinePath.lineTo( (float) ( +width/2 + rimOffset ), (float) ( -height/2 - rimOffset ) );
         outlineNode.setPathTo( outlinePath );
     }
     
