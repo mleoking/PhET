@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 class MGPControlPanel extends ControlPanel {
     
+    private final MGPModel model;
     private final BeakerControls beakerControls;
     private final MagnifyingGlassControls magnifyingGlassControls;
     private final DotControls dotControls;
@@ -30,10 +31,10 @@ class MGPControlPanel extends ControlPanel {
     
     public MGPControlPanel( JFrame parentFrame, final MGPCanvas canvas, final MGPModel model ) {
         
+        this.model = model;
         model.getMagnifyingGlass().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                dotControls.setVisible( model.getMagnifyingGlass().getMoleculeRepresentation() == MoleculeRepresentation.DOTS );
-                imageControls.setVisible( model.getMagnifyingGlass().getMoleculeRepresentation() == MoleculeRepresentation.IMAGES );
+                updateVisibility();
             }
         });
         
@@ -65,6 +66,11 @@ class MGPControlPanel extends ControlPanel {
         addControlFullWidth( innerPanel );
         
         // default state
+        updateVisibility();
+    }
+    
+    private void updateVisibility() {
         dotControls.setVisible( model.getMagnifyingGlass().getMoleculeRepresentation() == MoleculeRepresentation.DOTS );
+        imageControls.setVisible( model.getMagnifyingGlass().getMoleculeRepresentation() == MoleculeRepresentation.IMAGES );
     }
 }
