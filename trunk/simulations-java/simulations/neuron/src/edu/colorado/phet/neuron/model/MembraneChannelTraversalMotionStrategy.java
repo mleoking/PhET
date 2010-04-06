@@ -71,7 +71,15 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 					// Slow down the speed.  Don't do this if it is already
 					// moving pretty slowly.
 					if (maxVelocity / DEFAULT_MAX_VELOCITY >= 0.5){
-						velocityVector.scale(0.5);
+						if (channel.getHasInactivationGate()){
+							// Scale less for inactivaction gate versions,
+							// since otherwise it looks like ions go through
+							// the gate.
+							velocityVector.scale(0.4);
+						}
+						else{
+							velocityVector.scale(0.2);
+						}
 					}
 				}
 			}
@@ -110,7 +118,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 					// Move out to the right (assuming channel is vertical).
 					// The angle at which we can move gets more restricted
 					// as the inactivation gate closes.
-					maxRotation = Math.PI * 0.45;
+					maxRotation = Math.PI * 0.4;
 					double angularRange = (1 - channel.getInactivationAmt()) * Math.PI * 0.3;
 					minRotation = maxRotation - angularRange;
 				}
@@ -118,7 +126,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 					// Move out to the left (assuming channel is vertical).
 					// The angle at which we can move gets more restricted
 					// as the inactivation gate closes.
-					maxRotation = -Math.PI * 0.45;
+					maxRotation = -Math.PI * 0.4;
 					double angularRange = (1 - channel.getInactivationAmt()) * -Math.PI * 0.1;
 					minRotation = maxRotation - angularRange;
 				}
