@@ -166,17 +166,15 @@ public class DotsNode extends PComposite {
      */
     private void updateNumberOfDots() {
 
-        deleteAllDots();
-
         countHA = getNumberOfDots( solution.getConcentrationHA() );
         countA = getNumberOfDots( solution.getConcentrationA() );
         countH3O = getNumberOfDots( solution.getConcentrationH3O() );
         countOH = getNumberOfDots( solution.getConcentrationOH() );
         
-        createNodes( countHA, MGPConstants.COLOR_HA, parentHA );
-        createNodes( countA, MGPConstants.COLOR_A_MINUS, parentA );
-        createNodes( countH3O, MGPConstants.COLOR_H3O_PLUS, parentH3O );
-        createNodes( countOH, MGPConstants.COLOR_OH_MINUS, parentOH );
+        adjustNodeCount( countHA, MGPConstants.COLOR_HA, parentHA );
+        adjustNodeCount( countA, MGPConstants.COLOR_A_MINUS, parentA );
+        adjustNodeCount( countH3O, MGPConstants.COLOR_H3O_PLUS, parentH3O );
+        adjustNodeCount( countOH, MGPConstants.COLOR_OH_MINUS, parentOH );
 
         sortDots();
     }
@@ -206,17 +204,22 @@ public class DotsNode extends PComposite {
         return (int)( BASE_DOTS * Math.pow( baseFactor, raiseFactor ) );
     }
     
-    // Creates nodes at random locations.
-    private void createNodes( int count, Color color, PNode parent ) {
-        if ( count > 0 ) {
-            Point2D pOffset = new Point2D.Double();
-            PBounds bounds = getContainerBounds( count );
-            for ( int i = 0; i < count; i++ ) {
-                getRandomPoint( bounds, pOffset );
-                DotNode p = new DotNode( dotDiameter, color, dotTransparency );
-                p.setOffset( pOffset );
-                parent.addChild( p );
-            }
+    // Adjusts the number of dots, creates dots at random locations.
+    private void adjustNodeCount( int count, Color color, PNode parent ) {
+
+        // remove nodes
+        while ( count < parent.getChildrenCount() && count > 0 ) {
+            parent.removeChild( parent.getChildrenCount() - 1 );
+        }
+
+        // add nodes
+        Point2D pOffset = new Point2D.Double();
+        PBounds bounds = getContainerBounds( count );
+        while ( count > parent.getChildrenCount() ) {
+            getRandomPoint( bounds, pOffset );
+            DotNode p = new DotNode( dotDiameter, color, dotTransparency );
+            p.setOffset( pOffset );
+            parent.addChild( p );
         }
     }
     

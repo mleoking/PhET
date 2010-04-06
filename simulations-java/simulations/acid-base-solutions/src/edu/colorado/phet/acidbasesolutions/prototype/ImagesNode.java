@@ -141,17 +141,15 @@ class ImagesNode extends PComposite {
      */
     private void updateNumberOfImages() {
 
-        deleteAllImages();
-
         countHA = getNumberOfImages( solution.getConcentrationHA() );
         countA = getNumberOfImages( solution.getConcentrationA() );
         countH3O = getNumberOfImages( solution.getConcentrationH3O() );
         countOH = getNumberOfImages( solution.getConcentrationOH() );
         
-        createNodes( countHA, MGPConstants.HA_IMAGE, parentHA );
-        createNodes( countA, MGPConstants.A_MINUS_IMAGE, parentA );
-        createNodes( countH3O, MGPConstants.H3O_PLUS_IMAGE, parentH3O );
-        createNodes( countOH, MGPConstants.OH_MINUS_IMAGE, parentOH );
+        adjustNodeCount( countHA, MGPConstants.HA_IMAGE, parentHA );
+        adjustNodeCount( countA, MGPConstants.A_MINUS_IMAGE, parentA );
+        adjustNodeCount( countH3O, MGPConstants.H3O_PLUS_IMAGE, parentH3O );
+        adjustNodeCount( countOH, MGPConstants.OH_MINUS_IMAGE, parentOH );
 
         sortDots();
     }
@@ -180,17 +178,22 @@ class ImagesNode extends PComposite {
         return (int)( BASE_DOTS * Math.pow( baseFactor, raiseFactor ) );
     }
     
-    // Creates nodes at random locations.
-    private void createNodes( int count, Image image, PNode parent ) {
-        if ( count > 0 ) {
-            Point2D pOffset = new Point2D.Double();
-            PBounds bounds = getContainerBounds( count );
-            for ( int i = 0; i < count; i++ ) {
-                getRandomPoint( bounds, pOffset );
-                ImageNode p = new ImageNode( image, imageScale, imageTransparency );
-                p.setOffset( pOffset );
-                parent.addChild( p );
-            }
+    // Adjusts the number of images, creates images at random locations.
+    private void adjustNodeCount( int count, Image image, PNode parent ) {
+
+        // remove nodes
+        while ( count < parent.getChildrenCount() && count > 0 ) {
+            parent.removeChild( parent.getChildrenCount() - 1 );
+        }
+
+        // add nodes
+        Point2D pOffset = new Point2D.Double();
+        PBounds bounds = getContainerBounds( count );
+        while ( count > parent.getChildrenCount() ) {
+            getRandomPoint( bounds, pOffset );
+            ImageNode p = new ImageNode( image, imageScale, imageTransparency );
+            p.setOffset( pOffset );
+            parent.addChild( p );
         }
     }
     
