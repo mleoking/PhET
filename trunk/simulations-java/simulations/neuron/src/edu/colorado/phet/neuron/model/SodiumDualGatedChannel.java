@@ -77,6 +77,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
+	
 	public SodiumDualGatedChannel(IHodgkinHuxleyModel hodgkinHuxleyModel, IParticleCapture modelContainingParticles) {
 		
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
@@ -197,6 +198,11 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		
 		// Save values for the next time through.
 		previousNormalizedConductance = normalizedConductance;
+	}
+	
+	@Override
+	public void createAndSetTraversalMotionStrategy(Particle particle) {
+		particle.setMotionStrategy(new DualGateChannelTraversalMotionStrategy(this, particle.getPositionReference()));
 	}
 
 	/**
