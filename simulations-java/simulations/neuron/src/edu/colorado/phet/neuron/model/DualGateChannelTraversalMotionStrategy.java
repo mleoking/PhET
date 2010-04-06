@@ -31,7 +31,7 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 	public DualGateChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation, double maxVelocity) {
 		this.channel = channel;
 		this.maxVelocity = maxVelocity;
-		traversalPoints = channel.getTraversalPoints(startingLocation);
+		traversalPoints = createTraversalPoints(channel, startingLocation);
 		currentDestinationIndex = 0;
 		setCourseForCurrentTraversalPoint(startingLocation);
 	}
@@ -93,6 +93,36 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 			movableModelElement.setMotionStrategy(new WanderAwayThenFadeMotionStrategy(channel.getCenterLocation(),
 					movableModelElement.getPosition(), 0, 0.002));
 		}
+	}
+	
+	/**
+	 * Create the points through which a particle must move when traversing
+	 * this channel.
+	 * 
+	 * @param channel
+	 * @param startingLocation
+	 * @return
+	 */
+	private ArrayList<Point2D> createTraversalPoints(MembraneChannel channel, Point2D startingLocation){
+		
+		ArrayList<Point2D> points = new ArrayList<Point2D>();
+		Point2D ctr = channel.getCenterLocation();
+		double r = channel.getChannelSize().getHeight() * 0.6; // Make the point a little outside the channel.
+		Point2D outerOpeningLocation = new Point2D.Double(ctr.getX() + Math.cos(channel.getRotationalAngle()) * r,
+				ctr.getY() + Math.sin(channel.getRotationalAngle()) * r);
+		Point2D innerOpeningLocation = new Point2D.Double(ctr.getX() - Math.cos(channel.getRotationalAngle()) * r,
+				ctr.getY() - Math.sin(channel.getRotationalAngle()) * r);
+
+		if (startingLocation.distance(innerOpeningLocation) < startingLocation.distance(outerOpeningLocation)){
+			points.add(innerOpeningLocation);
+			points.add(outerOpeningLocation);
+		}
+		else{
+			points.add(outerOpeningLocation);
+			points.add(innerOpeningLocation);
+		}
+
+		return points;
 	}
 	
 	private void setCourseForCurrentTraversalPoint(Point2D currentLocation){
