@@ -2,9 +2,6 @@ TODO list for acid-base-solutions
 
 HIGH PRIORITY
 - proto: why no OH- dots?
-- proto: control panel for images view
-- proto: algorithm for number of visible molecules
-- proto: images view
 - proto: H2O controls and view
 
 MEDUIUM PRIORITY

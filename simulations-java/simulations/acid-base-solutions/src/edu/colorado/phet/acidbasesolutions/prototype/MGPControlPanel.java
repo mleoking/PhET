@@ -23,6 +23,7 @@ class MGPControlPanel extends ControlPanel {
     private final BeakerControls beakerControls;
     private final MagnifyingGlassControls magnifyingGlassControls;
     private final DotControls dotControls;
+    private final ImageControls imageControls;
     private final WeakAcidControls weakAcidControls;
     private final MoleculeCountPanel moleculeCountPanel;
     private final CanvasControls canvasControls;
@@ -32,12 +33,14 @@ class MGPControlPanel extends ControlPanel {
         model.getMagnifyingGlass().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 dotControls.setVisible( model.getMagnifyingGlass().getMoleculeRepresentation() == MoleculeRepresentation.DOTS );
+                imageControls.setVisible( model.getMagnifyingGlass().getMoleculeRepresentation() == MoleculeRepresentation.IMAGES );
             }
         });
         
         beakerControls = new BeakerControls( parentFrame, model.getBeaker() );
         magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
         dotControls = new DotControls( parentFrame, canvas.getMagnifyingGlassNode().getDotsNode() );
+        imageControls = new ImageControls( canvas.getMagnifyingGlassNode().getImagesNode() );
         weakAcidControls = new WeakAcidControls( parentFrame, model.getSolution() );
         moleculeCountPanel = new MoleculeCountPanel( model.getSolution(), canvas.getMagnifyingGlassNode() );
         canvasControls = new CanvasControls( parentFrame, canvas );
@@ -54,6 +57,7 @@ class MGPControlPanel extends ControlPanel {
         layout.addComponent( beakerControls, row++, column );
         layout.addComponent( magnifyingGlassControls, row++, column );
         layout.addComponent( dotControls, row++, column );
+        layout.addComponent( imageControls, row++, column );
         layout.addComponent( weakAcidControls, row++, column );
         layout.addComponent( moleculeCountPanel, row++, column );
         layout.addComponent( canvasControls, row++, column );

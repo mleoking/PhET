@@ -35,11 +35,14 @@ class MoleculeCountPanel extends JPanel {
         this.solution = solution;
         this.magnifyingGlassNode = magnifyingGlassNode;
         
-        solution.addChangeListener( new ChangeListener() {
+        ChangeListener changeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update();
             }
-        });
+        };
+        solution.addChangeListener( changeListener );
+        magnifyingGlassNode.getDotsNode().addChangeListener( changeListener );
+        magnifyingGlassNode.getImagesNode().addChangeListener( changeListener );
         
         dotsHA = new IntegerLabel();
         dotsA = new IntegerLabel();
@@ -113,14 +116,19 @@ class MoleculeCountPanel extends JPanel {
         
         // dots
         DotsNode dotsNode = magnifyingGlassNode.getDotsNode();
-        dotsHA.setValue( dotsNode.getDotsHA() );
-        dotsA.setValue( dotsNode.getDotsA() );
-        dotsH3O.setValue( dotsNode.getDotsH3O() );
-        dotsOH.setValue( dotsNode.getDotsOH() );
+        dotsHA.setValue( dotsNode.getCountHA() );
+        dotsA.setValue( dotsNode.getCountA() );
+        dotsH3O.setValue( dotsNode.getCountH3O() );
+        dotsOH.setValue( dotsNode.getCountOH() );
         //TODO H2O
         
         // images
-        //TODO
+        ImagesNode imagesNode = magnifyingGlassNode.getImagesNode();
+        imagesHA.setValue( imagesNode.getCountHA() );
+        imagesA.setValue( imagesNode.getCountA() );
+        imagesH3O.setValue( imagesNode.getCountH3O() );
+        imagesOH.setValue( imagesNode.getCountOH() );
+        //TODO H2O
         
         // actual
         actualHA.setValue( solution.getMoleculeCountHA() );

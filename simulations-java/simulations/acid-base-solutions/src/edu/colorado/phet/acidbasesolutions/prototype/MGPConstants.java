@@ -6,7 +6,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
@@ -18,6 +21,9 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 public class MGPConstants {
     
     private MGPConstants() {}
+    
+    // Resource loader
+    private static final PhetResources RESOURCES = new PhetResources( ABSConstants.PROJECT_NAME );
 
     // canvas
     public static final Color CANVAS_COLOR = Color.WHITE;
@@ -40,7 +46,17 @@ public class MGPConstants {
     // dots
     public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 1000, 10000, 5000 );
     public static final DoubleRange DOT_DIAMETER_RANGE = new DoubleRange( 1, 40, 6 );
-    public static final DoubleRange DOT_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 0.5 );
+    public static final DoubleRange DOT_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 0.6 );
+    
+    // images
+    public static final IntegerRange MAX_IMAGES_RANGE = new IntegerRange( 1000, 10000, 5000 );
+    public static final DoubleRange IMAGE_SCALE_RANGE = new DoubleRange( 0.25, 2.5, 1 );
+    public static final DoubleRange IMAGE_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 0.5 );
+    public static final BufferedImage HA_IMAGE = RESOURCES.getImage( "molecules/HA.png" );
+    public static final BufferedImage A_MINUS_IMAGE = RESOURCES.getImage( "molecules/A_minus.png" );
+    public static final BufferedImage H3O_PLUS_IMAGE = RESOURCES.getImage( "molecules/H3O_plus.png" );
+    public static final BufferedImage OH_MINUS_IMAGE = RESOURCES.getImage( "molecules/OH_minus.png" );
+    public static final BufferedImage H2O_IMAGE = RESOURCES.getImage( "molecules/H2O.png" );
     
     // colors
     public static final Color COLOR_HA = new Color( 13, 176, 47 );

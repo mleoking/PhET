@@ -38,6 +38,7 @@ class MagnifyingGlassNode extends PComposite {
     private final PPath circleNode;
     private final Ellipse2D circlePath;
     private final DotsNode dotsNode;
+    private final ImagesNode imagesNode;
     
     public MagnifyingGlassNode( MagnifyingGlass magnifyingGlass, WeakAcid solution ) {
         super();
@@ -72,11 +73,18 @@ class MagnifyingGlassNode extends PComposite {
         dotsNode = new DotsNode( solution, circleNode );
         circleNode.addChild( dotsNode ); // clip dots to circle
         
+        imagesNode = new ImagesNode( solution, circleNode );
+        circleNode.addChild( imagesNode ); // clip images to circle
+        
         update();
     }
     
     public DotsNode getDotsNode() {
         return dotsNode;
+    }
+    
+    public ImagesNode getImagesNode() {
+        return imagesNode;
     }
     
     private void update() {
@@ -97,6 +105,7 @@ class MagnifyingGlassNode extends PComposite {
         handleNode.setTransform( transform );
         // representation
         dotsNode.setVisible( magnifyingGlass.getMoleculeRepresentation() == MoleculeRepresentation.DOTS );
+        imagesNode.setVisible( magnifyingGlass.getMoleculeRepresentation() == MoleculeRepresentation.IMAGES );
     }
     
 }
