@@ -248,6 +248,16 @@ public abstract class MembraneChannel {
 		}
 	}
 	
+	/**
+	 * Set the motion strategy for a particle that will cause the particle to
+	 * traverse the channel.
+	 * 
+	 * @param particle
+	 */
+	public void createAndSetTraversalMotionStrategy(Particle particle){
+		particle.setMotionStrategy(new MembraneChannelTraversalMotionStrategy(this, particle.getPositionReference()));
+	}
+	
 	protected double getParticleVelocity() {
 		return particleVelocity;
 	}
@@ -255,7 +265,7 @@ public abstract class MembraneChannel {
 	protected void setParticleVelocity(double particleVelocity) {
 		this.particleVelocity = particleVelocity;
 	}
-
+	
 	/**
 	 * Start or restart the countdown timer which is used to time the event
 	 * where a particle is captured for movement across the membrane.
