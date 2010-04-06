@@ -34,7 +34,7 @@ class ImageControls extends JPanel {
         maxImagesControl.setUpDownArrowDelta( 1 );
         maxImagesControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                imagesNode.setMaxImages( (int)maxImagesControl.getValue() );
+                imagesNode.setMaxMolecules( (int)maxImagesControl.getValue() );
             }
         });
 
@@ -79,7 +79,7 @@ class ImageControls extends JPanel {
         layout.addComponent( transparencyControl, row, column++ );
         
         // default state
-        imagesNode.setMaxImages( (int) maxImagesControl.getValue() );
+        imagesNode.setMaxMolecules( (int) maxImagesControl.getValue() );
         imagesNode.setImageScale( scaleControl.getValue() );
         imagesNode.setImageTransparency( (float)transparencyControl.getValue() );
     }
