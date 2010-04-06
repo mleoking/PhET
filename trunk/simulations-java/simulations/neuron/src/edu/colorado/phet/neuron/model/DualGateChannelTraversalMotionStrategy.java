@@ -107,18 +107,31 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 		
 		ArrayList<Point2D> points = new ArrayList<Point2D>();
 		Point2D ctr = channel.getCenterLocation();
-		double r = channel.getChannelSize().getHeight() * 0.6; // Make the point a little outside the channel.
+		double r = channel.getChannelSize().getHeight() * 0.5;
+		
+		// Create points that represent the inner and outer mouths of the channel.
 		Point2D outerOpeningLocation = new Point2D.Double(ctr.getX() + Math.cos(channel.getRotationalAngle()) * r,
 				ctr.getY() + Math.sin(channel.getRotationalAngle()) * r);
 		Point2D innerOpeningLocation = new Point2D.Double(ctr.getX() - Math.cos(channel.getRotationalAngle()) * r,
 				ctr.getY() - Math.sin(channel.getRotationalAngle()) * r);
+		
+		// Create a point that just above where the inactivation gate would
+		// be if the channel were inactivated.  Since the model doesn't
+		// actually track the location of the inactivation gate (it is left
+		// up to the view), this location is a guess, and may have to be
+		// tweaked in order to work well with the view.
+		Point2D aboveInactivationGateLocation =
+			new Point2D.Double(ctr.getX() - Math.cos(channel.getRotationalAngle()) * r * 0.5,
+				ctr.getY() - Math.sin(channel.getRotationalAngle()) * r * 0.5);
 
 		if (startingLocation.distance(innerOpeningLocation) < startingLocation.distance(outerOpeningLocation)){
 			points.add(innerOpeningLocation);
+			points.add(aboveInactivationGateLocation);
 			points.add(outerOpeningLocation);
 		}
 		else{
 			points.add(outerOpeningLocation);
+			points.add(aboveInactivationGateLocation);
 			points.add(innerOpeningLocation);
 		}
 
