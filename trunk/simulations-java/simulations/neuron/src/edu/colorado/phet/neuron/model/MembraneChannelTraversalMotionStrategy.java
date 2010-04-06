@@ -71,15 +71,7 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 					// Slow down the speed.  Don't do this if it is already
 					// moving pretty slowly.
 					if (maxVelocity / DEFAULT_MAX_VELOCITY >= 0.5){
-						if (channel.getHasInactivationGate()){
-							// Scale less for inactivaction gate versions,
-							// since otherwise it looks like ions go through
-							// the gate.
-							velocityVector.scale(0.4);
-						}
-						else{
-							velocityVector.scale(0.2);
-						}
+						velocityVector.scale(0.2);
 					}
 				}
 			}
@@ -100,42 +92,9 @@ public class MembraneChannelTraversalMotionStrategy extends MotionStrategy {
 			velocityVector.scale(scaleFactor);
 		}
 		else{
-			// All points have been traversed.  The behavior at this point
-			// depends on whether the channel has an inactivation gate, since
-			// such a gate is depicted on the cell-interior side of the
-			// channel in this sim.  No matter whether such a gate exists or
-			// not, the particle is re-routed a bit in order to create a bit
-			// of a brownian look.  If the gate exists, there are more
-			// limitations to where the particle can go.
-			if (channel.getHasInactivationGate()){
-				// NOTE: The following is tweaked to work with a particular
-				// visual representation of the inactivation gate, and may
-				// need to be changed if that representation is changed.
-				double velocityRotationAngle = 0;
-				double minRotation = 0;
-				double maxRotation = 0;
-				if (RAND.nextDouble() > 0.3){
-					// Move out to the right (assuming channel is vertical).
-					// The angle at which we can move gets more restricted
-					// as the inactivation gate closes.
-					maxRotation = Math.PI * 0.4;
-					double angularRange = (1 - channel.getInactivationAmt()) * Math.PI * 0.3;
-					minRotation = maxRotation - angularRange;
-				}
-				else{
-					// Move out to the left (assuming channel is vertical).
-					// The angle at which we can move gets more restricted
-					// as the inactivation gate closes.
-					maxRotation = -Math.PI * 0.4;
-					double angularRange = (1 - channel.getInactivationAmt()) * -Math.PI * 0.1;
-					minRotation = maxRotation - angularRange;
-				}
-				velocityRotationAngle = minRotation + RAND.nextDouble() * (maxRotation - minRotation);
-				velocityVector.rotate(velocityRotationAngle);
-			}
-			else{
-				velocityVector.rotate((RAND.nextDouble() - 0.5) * ( Math.PI * 0.9 ) * maxVelocity / DEFAULT_MAX_VELOCITY);
-			}
+			// All points have been traversed.  Change the direction a bit in
+			// order to make things look a little more "Brownian".
+			velocityVector.rotate((RAND.nextDouble() - 0.5) * Math.PI * 0.9);
 		}
 	}
 }
