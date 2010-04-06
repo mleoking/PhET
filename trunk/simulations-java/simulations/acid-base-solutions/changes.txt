@@ -1,10 +1,11 @@
-4/5/10 add image view to prototype
-4/5/10 connect molecule counts display to model and dots view
-4/5/10 add pH display to prototype
-4/5/10 convert prototype to a PhetApplication subclass
-4/5/10 add dot view to prototype
-4/5/10 add weak acid model, extracted from advanced-acid-base-solutions
-4/2/10 control panels and model elements for prototype
-3/22/10 added prototype requirements section to Google design doc
-3/22/10 use ph-scale TestParticleViews as starting point for magnifying glass prototype
+4/5/10 prototype: add/delete nodes as needed instead of deleteAll
+4/5/10 prototype: add image view
+4/5/10 prototype: connect molecule counts display to model and dots view
+4/5/10 prototype: add pH display
+4/5/10 prototype: convert to a PhetApplication subclass
+4/5/10 prototype: add dot view
+4/5/10 prototype: add weak acid model, extracted from advanced-acid-base-solutions
+4/2/10 prototype: control panels and model elements
+3/22/10 prototype: add requirements section to Google design doc
+3/22/10 prototype: use ph-scale's TestParticleViews as starting point for magnifying glass prototype
 3/22/10 create project skeleton in SVN
