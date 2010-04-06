@@ -59,7 +59,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	
 	// Values used for deciding on state transitions.
 	private static final double ACTIVATION_DECISION_THRESHOLD = 0.1;
-	private static final double FULLY_INACTIVE_DECISION_THRESHOLD = 0.05;
+	private static final double FULLY_INACTIVE_DECISION_THRESHOLD = 0.98;
 	
 	// Values used for timed state transitions.
 	private static final double INACTIVE_TO_RESETTING_TIME = 0.001; // In seconds of sim time. 
@@ -156,8 +156,10 @@ public class SodiumDualGatedChannel extends GatedChannel {
 			break;
 			
 		case BECOMING_INACTIVE:
-			if (normalizedConductance > FULLY_INACTIVE_DECISION_THRESHOLD){
-				setInactivationAmt(1 - normalizedConductance);
+			if (getInactivationAmt() < FULLY_INACTIVE_DECISION_THRESHOLD){
+				// Not yet fully inactive - update the level.  Note the non-
+				// linear mapping to the conductance amount.
+				setInactivationAmt(1 - Math.pow(normalizedConductance, 5));
 			}
 			else{
 				// Fully inactive, move to next state.
@@ -233,6 +235,12 @@ public class SodiumDualGatedChannel extends GatedChannel {
     private static final Dimension INITIAL_INTERMEDIATE_DIMENSION = new Dimension( INITIAL_INTERMEDIATE_COORD_WIDTH,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
 
+    
+    /**
+     * Test harness.
+     * 
+     * @param args
+     */
 	public static void main(String[] args) {
 		
     	ConstantDtClock clock = new ConstantDtClock( NeuronDefaults.CLOCK_FRAME_RATE, NeuronDefaults.CLOCK_DT );
