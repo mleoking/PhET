@@ -44,14 +44,14 @@ public class MGPConstants {
     public static final Color WEAK_ACID_COLOR = new Color( 193, 222, 227 ); // light blue
     
     // dots
-    public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 1000, 10000, 5000 );
+    public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 500, 10000, 5000 );
     public static final DoubleRange DOT_DIAMETER_RANGE = new DoubleRange( 1, 40, 6 );
     public static final DoubleRange DOT_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 0.6 );
     
     // images
-    public static final IntegerRange MAX_IMAGES_RANGE = new IntegerRange( 1000, 10000, 5000 );
+    public static final IntegerRange MAX_IMAGES_RANGE = MAX_DOTS_RANGE;
     public static final DoubleRange IMAGE_SCALE_RANGE = new DoubleRange( 0.25, 2.5, 1 );
-    public static final DoubleRange IMAGE_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 0.5 );
+    public static final DoubleRange IMAGE_TRANSPARENCY_RANGE = DOT_TRANSPARENCY_RANGE;
     public static final BufferedImage HA_IMAGE = RESOURCES.getImage( "molecules/HA.png" );
     public static final BufferedImage A_MINUS_IMAGE = RESOURCES.getImage( "molecules/A_minus.png" );
     public static final BufferedImage H3O_PLUS_IMAGE = RESOURCES.getImage( "molecules/H3O_plus.png" );

@@ -1,7 +1,6 @@
 TODO list for acid-base-solutions
 
 HIGH PRIORITY
-- proto: base class for DotsNode and ImagesNode
 - proto: scale images from their centers
 - proto: why no OH- dots?
 - proto: H2O controls and view

@@ -38,7 +38,7 @@ class DotControls extends JPanel {
         maxDotsControl.setUpDownArrowDelta( 1 );
         maxDotsControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                dotsNode.setMaxDots( (int)maxDotsControl.getValue() );
+                dotsNode.setMaxMolecules( (int)maxDotsControl.getValue() );
             }
         });
 
@@ -129,7 +129,7 @@ class DotControls extends JPanel {
         layout.addComponent( colorsPanel, row, column++ );
         
         // default state
-        dotsNode.setMaxDots( (int) maxDotsControl.getValue() );
+        dotsNode.setMaxMolecules( (int) maxDotsControl.getValue() );
         dotsNode.setDotDiameter( diameterControl.getValue() );
         dotsNode.setDotTransparency( (float)transparencyControl.getValue() );
     }
