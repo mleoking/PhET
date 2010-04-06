@@ -165,7 +165,10 @@ public class MembraneChannelNode extends PNode{
 	
 	private void updateRepresentation(){
 		
-		Dimension2D channelSize = new PDimension(membraneChannelModel.getChannelSize().getWidth() * membraneChannelModel.getOpenness(),
+		// Note that the channel width is a non-linear function openness.
+		double channelWidth = membraneChannelModel.getChannelSize().getWidth() * Math.min(membraneChannelModel.getOpenness() * 2, 1);
+		Dimension2D channelSize = new PDimension(
+				channelWidth,
 				membraneChannelModel.getChannelSize().getHeight());
 		Dimension2D transformedChannelSize = new PDimension(
 				Math.abs(mvt.modelToViewDifferentialXDouble(channelSize.getWidth())),

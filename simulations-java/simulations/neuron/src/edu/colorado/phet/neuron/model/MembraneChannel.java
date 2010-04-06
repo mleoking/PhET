@@ -175,7 +175,7 @@ public abstract class MembraneChannel {
 	protected boolean isOpen(){
 		// The threshold values used here are arbitrary, and can be changed if
 		// necessary.
-		return (getOpenness() > 0.4 && getInactivationAmt() < 0.7);
+		return (getOpenness() > 0.3 && getInactivationAmt() < 0.7);
 	}
 	
 	/**
