@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.prototype;
 
-import java.awt.Color;
-import java.awt.geom.Ellipse2D;
+import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,20 +16,16 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Depicts the ratio of concentrations (HA/A, H3O/OH) as a set of "dots".
+ * Depicts the ratio of concentrations (HA/A, H3O/OH) as images.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DotsNode extends PComposite {
-    
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
+class ImagesNode extends PComposite {
     
     private static final double BASE_CONCENTRATION = 1E-7;
     private static final int BASE_DOTS = 2;
@@ -38,40 +33,29 @@ public class DotsNode extends PComposite {
     // if we have fewer than this number of dots, cheat them towards the center of the bounds
     private static final int COUNT_THRESHOLD_FOR_ADJUSTING_BOUNDS = 20;
     
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
     private final WeakAcid solution;
     private final PNode containerNode;
     private final PNode parentHA, parentA, parentH3O, parentOH;
     private final Random randomCoordinate;
     private final EventListenerList listeners;
     
-    private int maxDots = MGPConstants.MAX_DOTS_RANGE.getDefault();
-    private double dotDiameter = MGPConstants.DOT_DIAMETER_RANGE.getDefault();
-    private float dotTransparency = (float) MGPConstants.DOT_TRANSPARENCY_RANGE.getDefault();
+    private int maxImages = MGPConstants.MAX_IMAGES_RANGE.getDefault();
+    private double imageScale = MGPConstants.IMAGE_SCALE_RANGE.getDefault();
+    private float imageTransparency = (float) MGPConstants.IMAGE_TRANSPARENCY_RANGE.getDefault();
     private int countHA, countA, countH3O, countOH;
     
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-   
-    public DotsNode( final WeakAcid solution, PNode containerNode ) {
+    public ImagesNode( final WeakAcid solution, PNode containerNode ) {
         super();
+        setPickable( false );
         
         listeners = new EventListenerList();
-        
-        // not interactive
-        setPickable( false );
-        setChildrenPickable( false );
-        
+
         this.containerNode = containerNode;
         containerNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
-                    deleteAllDots();
-                    updateNumberOfDots();
+                    deleteAllImages();
+                    updateNumberOfImages();
                 }
             }
         });
@@ -79,7 +63,7 @@ public class DotsNode extends PComposite {
         this.solution = solution;
         solution.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                updateNumberOfDots();
+                updateNumberOfImages();
             }
         });
         
@@ -96,48 +80,43 @@ public class DotsNode extends PComposite {
         addChild( parentH3O );
         addChild( parentOH );
         
-        updateNumberOfDots();
+        updateNumberOfImages();
     }
     
-    //----------------------------------------------------------------------------
-    // Setters and getters
-    //----------------------------------------------------------------------------
-    
-    public void setMaxDots( int maxDots ) {
-        if ( maxDots != this.maxDots ) {
-            this.maxDots = maxDots;
-            deleteAllDots();
-            updateNumberOfDots();
+    public void setMaxImages( int maxImages ) {
+        if ( maxImages != this.maxImages ) {
+            this.maxImages = maxImages;
+            updateNumberOfImages();
             fireStateChanged();
         }
     }
     
-    public int getMaxDots() {
-        return maxDots;
+    public int getMaxImages() {
+        return maxImages;
     }
     
-    public void setDotDiameter( double dotDiameter ) {
-        if ( dotDiameter != this.dotDiameter ) {
-            this.dotDiameter = dotDiameter;
-            updateDiameter();
+    public void setImageScale( double imageScale ) {
+        if ( imageScale != this.imageScale ) {
+            this.imageScale = imageScale;
+            updateScale();
             fireStateChanged();
         }
     }
     
-    public double getDotDiameter() {
-        return dotDiameter;
+    public double getImageScale() {
+        return imageScale;
     }
     
-    public void setDotTransparency( float dotTransparency ) {
-        if ( dotTransparency != this.dotTransparency ) {
-            this.dotTransparency = dotTransparency;
+    public void setImageTransparency( float imageTransparency ) {
+        if ( imageTransparency != this.imageTransparency ) {
+            this.imageTransparency = imageTransparency;
             updateTransparency();
             fireStateChanged();
         }
     }
     
-    public float getDotTransparency() {
-        return dotTransparency;
+    public float getImageTransparency() {
+        return imageTransparency;
     }
     
     public int getCountHA() {
@@ -155,34 +134,29 @@ public class DotsNode extends PComposite {
     public int getCountOH() {
         return countOH;
     }
-    
-    //----------------------------------------------------------------------------
-    // Updaters
-    //----------------------------------------------------------------------------
-    
+
     /*
-     * Creates dots based on the current pH value.
-     * Dots are spread at random location throughout the container.
+     * Creates images based on the current pH value.
+     * Images are spread at random location throughout the container.
      */
-    private void updateNumberOfDots() {
+    private void updateNumberOfImages() {
 
-        deleteAllDots();
+        deleteAllImages();
 
-        countHA = getNumberOfDots( solution.getConcentrationHA() );
-        countA = getNumberOfDots( solution.getConcentrationA() );
-        countH3O = getNumberOfDots( solution.getConcentrationH3O() );
-        countOH = getNumberOfDots( solution.getConcentrationOH() );
+        countHA = getNumberOfImages( solution.getConcentrationHA() );
+        countA = getNumberOfImages( solution.getConcentrationA() );
+        countH3O = getNumberOfImages( solution.getConcentrationH3O() );
+        countOH = getNumberOfImages( solution.getConcentrationOH() );
         
-        createNodes( countHA, MGPConstants.COLOR_HA, parentHA );
-        createNodes( countA, MGPConstants.COLOR_A_MINUS, parentA );
-        createNodes( countH3O, MGPConstants.COLOR_H3O_PLUS, parentH3O );
-        createNodes( countOH, MGPConstants.COLOR_OH_MINUS, parentOH );
+        createNodes( countHA, MGPConstants.HA_IMAGE, parentHA );
+        createNodes( countA, MGPConstants.A_MINUS_IMAGE, parentA );
+        createNodes( countH3O, MGPConstants.H3O_PLUS_IMAGE, parentH3O );
+        createNodes( countOH, MGPConstants.OH_MINUS_IMAGE, parentOH );
 
         sortDots();
     }
     
-    // Deletes all dots.
-    private void deleteAllDots() {
+    private void deleteAllImages() {
         parentHA.removeAllChildren();
         parentA.removeAllChildren();
         parentH3O.removeAllChildren();
@@ -199,21 +173,21 @@ public class DotsNode extends PComposite {
         }
     }
     
-    // Number of dots is based on concentration.
-    private int getNumberOfDots( double concentration ) {
+    // Number of images is based on concentration.
+    private int getNumberOfImages( double concentration ) {
         final double raiseFactor = MathUtil.log10( concentration / BASE_CONCENTRATION );
-        final double baseFactor = Math.pow( ( maxDots / BASE_DOTS ), ( 1 / MathUtil.log10( 1 / BASE_CONCENTRATION ) ) );
+        final double baseFactor = Math.pow( ( maxImages / BASE_DOTS ), ( 1 / MathUtil.log10( 1 / BASE_CONCENTRATION ) ) );
         return (int)( BASE_DOTS * Math.pow( baseFactor, raiseFactor ) );
     }
     
     // Creates nodes at random locations.
-    private void createNodes( int count, Color color, PNode parent ) {
+    private void createNodes( int count, Image image, PNode parent ) {
         if ( count > 0 ) {
             Point2D pOffset = new Point2D.Double();
             PBounds bounds = getContainerBounds( count );
             for ( int i = 0; i < count; i++ ) {
                 getRandomPoint( bounds, pOffset );
-                DotNode p = new DotNode( dotDiameter, color, dotTransparency );
+                ImageNode p = new ImageNode( image, imageScale, imageTransparency );
                 p.setOffset( pOffset );
                 parent.addChild( p );
             }
@@ -242,84 +216,44 @@ public class DotsNode extends PComposite {
         pOutput.setLocation( x, y );
     }
     
-    private void updateDiameter() {
-        updateDiameter( parentHA, dotDiameter );
-        updateDiameter( parentA, dotDiameter );
-        updateDiameter( parentH3O, dotDiameter );
-        updateDiameter( parentOH, dotDiameter );
+    private void updateScale() {
+        updateScale( parentHA, imageScale );
+        updateScale( parentA, imageScale );
+        updateScale( parentH3O, imageScale );
+        updateScale( parentOH, imageScale );
     }
     
-    private static void updateDiameter( PNode parent, double diameter ) {
+    private static void updateScale( PNode parent, double scale ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
-            if ( child instanceof DotNode ) {
-                ( (DotNode) child ).setDiameter( diameter );
+            if ( child instanceof ImageNode ) {
+                ( (ImageNode) child ).setScale( scale );
             }
         }
     }
     
     private void updateTransparency() {
-        updateTransparency( parentHA, dotTransparency );
-        updateTransparency( parentA, dotTransparency );
-        updateTransparency( parentH3O, dotTransparency );
-        updateTransparency( parentOH, dotTransparency );
+        updateTransparency( parentHA, imageTransparency );
+        updateTransparency( parentA, imageTransparency );
+        updateTransparency( parentH3O, imageTransparency );
+        updateTransparency( parentOH, imageTransparency );
     }
     
     private static void updateTransparency( PNode parent, float transparency ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
-            if ( child instanceof DotNode ) {
-                ( (DotNode) child ).setTransparency( transparency );
+            if ( child instanceof ImageNode ) {
+                ( (ImageNode) child ).setTransparency( transparency );
             }
         }
     }
     
-    public void setColorHA( Color color ) {
-        setDotColor( color, parentHA );
-    }
-    
-    public void setColorA( Color color ) {
-        setDotColor( color, parentA );
-    }
-    
-    public void setColorH3O( Color color ) {
-        setDotColor( color, parentH3O );
-    }
-    
-    public void setColorOH( Color color ) {
-        setDotColor( color, parentOH );
-    }
-    
-    private void setDotColor( Color color, PNode parent ) {
-        for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
-            PNode child = parent.getChild( i );
-            if ( child instanceof DotNode ) {
-                ( (DotNode) child ).setPaint( color );
-            }
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    // Dots
-    private static class DotNode extends PPath {
-
-        private Ellipse2D ellipse;
-
-        public DotNode( double diameter, Color color, float transparency ) {
-            super();
-            ellipse = new Ellipse2D.Double();
+    // marker class for molecule image nodes
+    private static class ImageNode extends PImage {
+        public ImageNode( Image image, double scale, float transparency ) {
+            super( image );
+            setScale( scale );
             setTransparency( transparency );
-            setPaint( color );
-            setStroke( null );
-            setDiameter( diameter );
-        }
-
-        public void setDiameter( double diameter ) {
-            ellipse.setFrame( -diameter / 2, -diameter / 2, diameter, diameter ); // origin at geometric center
-            setPathTo( ellipse );
         }
     }
     
