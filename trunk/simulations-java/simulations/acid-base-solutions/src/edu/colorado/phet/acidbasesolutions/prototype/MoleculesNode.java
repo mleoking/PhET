@@ -76,6 +76,8 @@ abstract class MoleculesNode extends PComposite {
         addChild( parentA );
         addChild( parentH3O );
         addChild( parentOH );
+        
+        updateNumberOfMoleculeNodes();
     }
     
     protected WeakAcid getSolution() {
