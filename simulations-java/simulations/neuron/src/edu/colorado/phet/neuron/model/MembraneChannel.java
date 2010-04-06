@@ -399,7 +399,7 @@ public abstract class MembraneChannel {
 	 */
 	private void updateTraversalReferencePoints(){
 		Point2D ctr = getCenterLocation();
-		double r = getChannelSize().getHeight() / 2;
+		double r = getChannelSize().getHeight() * 0.6; // Make the point a little outside the channel.
 		outerOpeningLocation = new Point2D.Double(ctr.getX() + Math.cos(rotationalAngle) * r,
 				ctr.getY() + Math.sin(rotationalAngle) * r);
 		innerOpeningLocation = new Point2D.Double(ctr.getX() - Math.cos(rotationalAngle) * r,
