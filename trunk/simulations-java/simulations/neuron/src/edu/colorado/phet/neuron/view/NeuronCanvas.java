@@ -217,12 +217,18 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     }
     
     //----------------------------------------------------------------------------
-    // Accessors
+    // Methods
     //----------------------------------------------------------------------------
     
-    //----------------------------------------------------------------------------
-    // Canvas layout
-    //----------------------------------------------------------------------------
+    /**
+     * Reset any stateful behavior of the canvas, such as the zoom factor.
+     * Note that this does NOT cause the removal of nodes that were added to
+     * the canvas due to model events - we rely on the model being reset and
+     * sending out the appropriate notifications for that part.
+     */
+    public void reset(){
+    	setZoomFactor(1);
+    }
     
     /**
      * Updates the layout of stuff on the canvas.
