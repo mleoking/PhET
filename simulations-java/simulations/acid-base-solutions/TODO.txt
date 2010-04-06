@@ -1,8 +1,10 @@
 TODO list for acid-base-solutions
 
 HIGH PRIORITY
+- proto: counts are not displayed properly on startup
+- proto: OH- count is zero, but 1 dot (or image) is displayed, why?
 - proto: scale images from their centers
-- proto: why no OH- dots?
+- proto: why is OH- count always zero or 1?
 - proto: H2O controls and view
 
 MEDUIUM PRIORITY
