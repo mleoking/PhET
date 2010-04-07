@@ -108,7 +108,7 @@ public abstract class MembraneChannel {
     		break;
     		
     	case POTASSIUM_LEAKAGE_CHANNEL:
-    		membraneChannel = new PotassiumLeakageChannel(particleModel);
+    		membraneChannel = new PotassiumLeakageChannel(particleModel, hodgkinHuxleyModel);
     		break;
     		
 		case POTASSIUM_GATED_CHANNEL:
@@ -233,7 +233,7 @@ public abstract class MembraneChannel {
 				}
 			}
 			else{
-				// If the channel is closed the countdown timer shouldn't be
+				// If the channel is closed, the countdown timer shouldn't be
 				// running, so this code is generally hit when the membrane
 				// just became closed.  Turn off the countdown timer by
 				// setting it to infinity.
