@@ -21,18 +21,22 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMotionStrategy {
 	
 	private static final Random RAND = new Random();
+	
+	// Threshold at which particles will "bounce" back out of the channel
+	// rather than traversing it.
+	private static final double INACTIVATION_BOUNCE_THRESHOLD = 0.5; 
+	
 	private Vector2D velocityVector = new Vector2D.Double();
 	private ArrayList<Point2D> traversalPoints;
 	private int currentDestinationIndex = 0;
-	private boolean channelHasBeenEntered = false; // Flag that is set when the channel is entered.
 	private double maxVelocity;
 	protected final MembraneChannel channel;
+	private boolean bouncing = false;
 
 	public DualGateChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation, double maxVelocity) {
 		this.channel = channel;
 		this.maxVelocity = maxVelocity;
 		traversalPoints = createTraversalPoints(channel, startingLocation);
-		currentDestinationIndex = 0;
 		setCourseForCurrentTraversalPoint(startingLocation);
 	}
 
@@ -43,56 +47,124 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 	@Override
 	public void move(IMovable movableModelElement, IFadable fadableModelElement, double dt) {
 		
+		assert currentDestinationIndex < traversalPoints.size();  // Error checking.
+		
 		Point2D currentPosition = movableModelElement.getPosition();
 		
-		if (!channelHasBeenEntered){
-			// Update the flag the tracks whether this particle has made it
-			// to the channel and started traversing it.
-			channelHasBeenEntered = channel.isPointInChannel(currentPosition);
-		}
-		
-		if (channel.isOpen() || channelHasBeenEntered){
-			// The channel is open, or we are inside it or have gone all the
-			// way through, so keep executing this motion strategy.
-			if ( currentDestinationIndex >= traversalPoints.size() || maxVelocity * dt < currentPosition.distance(traversalPoints.get(currentDestinationIndex))){
-				// Move according to the current velocity.
-				movableModelElement.setPosition(currentPosition.getX() + velocityVector.getX() * dt,
-						currentPosition.getY() + velocityVector.getY() * dt);
+		if (currentDestinationIndex == 0){
+			// Currently moving towards the first destination point.  Is the
+			// channel still open?
+			if (!channel.isOpen()){
+				// The channel has closed, so there is no sense in continuing
+				// towards it.  The particle should wander and then fade out.
+				movableModelElement.setMotionStrategy(new WanderAwayThenFadeMotionStrategy(channel.getCenterLocation(),
+						movableModelElement.getPosition(), 0, 0.002));
+				// For error checking, set the destination index really high.
+				// That way it will be detected if this strategy instance is
+				// used again.
+				currentDestinationIndex = Integer.MAX_VALUE;
 			}
-			else{
-				// We are close enough to the destination that we should just
-				// position ourself there and update to the next traversal point.
+			else if (currentPosition.distance(traversalPoints.get(currentDestinationIndex)) < velocityVector.getMagnitude() * dt){
+				// We have arrived at the first traversal point, so now start
+				// heading towards the second.
 				movableModelElement.setPosition(traversalPoints.get(currentDestinationIndex));
 				currentDestinationIndex++;
-				setCourseForCurrentTraversalPoint(movableModelElement.getPosition());
-				if (currentDestinationIndex == traversalPoints.size()){
-					// We have traversed through all points and are now
-					// presumably on the other side of the membrane, so we need to
-					// start fading out of existence.
-					fadableModelElement.setFadeStrategy(new TimedFadeAwayStrategy(0.002));
-					
-					// Slow down the speed.  Don't do this if it is already
-					// moving pretty slowly.
-					if (maxVelocity / DEFAULT_MAX_VELOCITY >= 0.5){
-						if (channel.getHasInactivationGate()){
-							// Scale less for inactivaction gate versions,
-							// since otherwise it looks like ions go through
-							// the gate.
-							velocityVector.scale(0.4);
-						}
-						else{
-							velocityVector.scale(0.2);
-						}
-					}
-				}
+				setCourseForPoint(movableModelElement.getPosition(), traversalPoints.get(currentDestinationIndex),
+						velocityVector.getMagnitude());
+			}
+			else{
+				// Keep moving towards current destination.
+				moveBasedOnCurrentVelocity(movableModelElement, dt);
 			}
 		}
-		else{
-			// The channel has closed and this element has not yet entered it.
-			// Time to replace this motion strategy with a different one.
-			movableModelElement.setMotionStrategy(new WanderAwayThenFadeMotionStrategy(channel.getCenterLocation(),
-					movableModelElement.getPosition(), 0, 0.002));
+		else if (currentDestinationIndex == 1){
+			// Currently moving towards the 2nd point, which is in the
+			// channel just above where the inactivation gate appears.
+			if (channel.getInactivationAmt() > INACTIVATION_BOUNCE_THRESHOLD){
+				// The inactivation threshold has been reached, so we can't
+				// finish traversing the channel and need to bounce.  Check
+				// whether we've already handled this.
+				if (!bouncing){
+					// Set the particle up to "bounce", i.e. to turn around
+					// and go back whence it came once it reaches the 2nd
+					// point.
+					traversalPoints.get(2).setLocation(traversalPoints.get(0));
+					bouncing = true; // Flag for tracking that we need to bounce.
+				}
+			}
+			if (currentPosition.distance(traversalPoints.get(currentDestinationIndex)) < velocityVector.getMagnitude() * dt){
+				// The element has reached the current traversal point, so
+				// it should start moving towards the next.
+				movableModelElement.setPosition(traversalPoints.get(currentDestinationIndex));
+				currentDestinationIndex++;
+				setCourseForPoint(movableModelElement.getPosition(), traversalPoints.get(currentDestinationIndex),
+						velocityVector.getMagnitude());
+				if (bouncing){
+					// Slow down if we are bouncing - it looks better this way.
+					velocityVector.scale(0.5);
+				}
+			}
+			else{
+				// Keep moving towards current destination.
+				moveBasedOnCurrentVelocity(movableModelElement, dt);
+			}
 		}
+		else if (currentDestinationIndex == 2){
+			// Currently moving towards the 3rd point.
+			if (currentPosition.distance(traversalPoints.get(currentDestinationIndex)) < velocityVector.getMagnitude() * dt){
+				// The element has reached the last traversal point, so a
+				// new motion strategy is set to have it move away and then
+				// fade out.
+				movableModelElement.setPosition(traversalPoints.get(currentDestinationIndex));
+				currentDestinationIndex = Integer.MAX_VALUE;
+				Vector2D newVelocityVector = new Vector2D.Double(velocityVector);
+				if (bouncing){
+					// This particle should be back where it entered the
+					// channel, and can head off in any direction except
+					// back toward the membrane.
+					newVelocityVector.rotate((RAND.nextDouble() - 0.5) * Math.PI);
+					newVelocityVector.scale(0.3 + (RAND.nextDouble() * 0.2));
+				}
+				else{
+					// The particle is existing the part of the channel where
+					// the inactivation gate exists, so it needs to take on a
+					// new course that avoids the gate.  Note that this is set
+					// up to work with a specific representation of the
+					// inactivation gate, and will need to be changed if the
+					// representation of the gate is changed.
+					newVelocityVector.scale(0.5 + (RAND.nextDouble() * 0.3));
+					double maxRotation, minRotation;
+					if (RAND.nextDouble() > 0.3){
+						// Move out to the right (assuming channel is vertical).
+						// The angle at which we can move gets more restricted
+						// as the inactivation gate closes.
+						maxRotation = Math.PI * 0.4;
+						double angularRange = (1 - channel.getInactivationAmt()) * Math.PI * 0.3;
+						minRotation = maxRotation - angularRange;
+					}
+					else{
+						// Move out to the left (assuming channel is vertical).
+						// The angle at which we can move gets more restricted
+						// as the inactivation gate closes.
+						maxRotation = -Math.PI * 0.4;
+						double angularRange = (1 - channel.getInactivationAmt()) * -Math.PI * 0.1;
+						minRotation = maxRotation - angularRange;
+					}
+					newVelocityVector.rotate(minRotation + RAND.nextDouble() * (maxRotation - minRotation));
+				}
+				movableModelElement.setMotionStrategy(new LinearMotionStrategy(newVelocityVector));
+				fadableModelElement.setFadeStrategy(new TimedFadeAwayStrategy(0.003));
+			}
+			else{
+				// Keep moving towards current destination.
+				moveBasedOnCurrentVelocity(movableModelElement, dt);
+			}
+		}
+	}
+	
+	private void moveBasedOnCurrentVelocity(IMovable movable, double dt){
+		movable.setPosition(movable.getPosition().getX() + velocityVector.getX() * dt, 
+				movable.getPosition().getY() + velocityVector.getY() * dt);
 	}
 	
 	/**
@@ -136,6 +208,12 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 		}
 
 		return points;
+	}
+	private void setCourseForPoint(Point2D startLocation, Point2D destination, double velocityScaler){
+		velocityVector.setComponents(destination.getX() - startLocation.getX(),
+				destination.getY() - startLocation.getY());
+		double scaleFactor = maxVelocity / velocityVector.getMagnitude();
+		velocityVector.scale(scaleFactor);
 	}
 	
 	private void setCourseForCurrentTraversalPoint(Point2D currentLocation){
