@@ -1,4 +1,5 @@
-4/5/10 prototype: fix molecule counts to be displayed properly on startup
+4/7/10 prototype: fix bug in dot/image creating that showed 1 dot/image when count was zero
+4/7/10 prototype: fix molecule counts to be displayed properly on startup
 4/5/10 prototype: add molecule images to count display
 4/5/10 prototype: base class for DotsNode and ImagesNode
 4/5/10 prototype: add/delete nodes as needed instead of deleteAll

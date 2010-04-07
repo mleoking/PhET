@@ -116,7 +116,7 @@ public class DotsNode extends MoleculesNode {
     private void updateNumberOfMoleculeNodes( PNode parent, int count, Color color ) {
 
         // remove nodes
-        while ( count < parent.getChildrenCount() && count > 0 ) {
+        while ( count < parent.getChildrenCount() && count >= 0 ) {
             parent.removeChild( parent.getChildrenCount() - 1 );
         }
 
@@ -129,6 +129,8 @@ public class DotsNode extends MoleculesNode {
             p.setOffset( pOffset );
             parent.addChild( p );
         }
+        
+        assert( count == parent.getChildrenCount() );
     }
     
     // Dots

@@ -90,7 +90,7 @@ class ImagesNode extends MoleculesNode {
     private void updateNumberOfMoleculeNodes( PNode parent, int count, Image image ) {
 
         // remove nodes
-        while ( count < parent.getChildrenCount() && count > 0 ) {
+        while ( count < parent.getChildrenCount() && count >= 0 ) {
             parent.removeChild( parent.getChildrenCount() - 1 );
         }
 
@@ -103,6 +103,8 @@ class ImagesNode extends MoleculesNode {
             p.setOffset( pOffset );
             parent.addChild( p );
         }
+        
+        assert( count == parent.getChildrenCount() );
     }
     
     // Molecule image node
