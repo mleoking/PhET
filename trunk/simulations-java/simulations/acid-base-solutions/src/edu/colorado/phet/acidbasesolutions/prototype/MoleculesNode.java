@@ -135,6 +135,7 @@ abstract class MoleculesNode extends PComposite {
         countOH = getNumberOfDots( solution.getConcentrationOH(), maxMolecules );
         updateNumberOfMoleculeNodes();
         sortMolecules();
+        fireStateChanged();
     }
     
     protected abstract void updateNumberOfMoleculeNodes();
