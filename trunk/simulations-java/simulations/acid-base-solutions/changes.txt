@@ -1,3 +1,5 @@
+# 0.00.01 (39700) Apr 7, 2010
+4/7/10 prototype: publish a preview for discussion with Kelly
 4/7/10 prototype: fix bug in dot/image creating that showed 1 dot/image when count was zero
 4/7/10 prototype: fix molecule counts to be displayed properly on startup
 4/5/10 prototype: add molecule images to count display
