@@ -124,6 +124,7 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 					// back toward the membrane.
 					newVelocityVector.rotate((RAND.nextDouble() - 0.5) * Math.PI);
 					newVelocityVector.scale(0.3 + (RAND.nextDouble() * 0.2));
+					movableModelElement.setMotionStrategy(new LinearMotionStrategy(newVelocityVector));
 				}
 				else{
 					// The particle is existing the part of the channel where
@@ -151,8 +152,8 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 						minRotation = maxRotation - angularRange;
 					}
 					newVelocityVector.rotate(minRotation + RAND.nextDouble() * (maxRotation - minRotation));
+					movableModelElement.setMotionStrategy(new SpeedChangeLinearMotionStrategy(newVelocityVector, 0.2, 0.0002));
 				}
-				movableModelElement.setMotionStrategy(new LinearMotionStrategy(newVelocityVector));
 				fadableModelElement.setFadeStrategy(new TimedFadeAwayStrategy(0.003));
 			}
 			else{
