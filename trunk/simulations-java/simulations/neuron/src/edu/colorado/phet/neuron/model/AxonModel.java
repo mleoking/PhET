@@ -16,7 +16,6 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.translationutility.test.TestValidation.AddButton;
 
 /**
  * This class represents the main class for modeling the axon.  It acts as the
