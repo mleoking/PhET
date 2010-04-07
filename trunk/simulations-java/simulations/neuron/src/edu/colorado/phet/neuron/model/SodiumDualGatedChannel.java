@@ -46,8 +46,8 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	// Constants that control the rate at which this channel will capture ions
 	// when it is open.  Smaller numbers here will increase the capture rate
 	// and thus make the flow appear to be faster.
-	private static final double MIN_INTER_CAPTURE_TIME = 0.00005; // In seconds of sim time.
-	private static final double MAX_INTER_CAPTURE_TIME = 0.00020; // In seconds of sim time.
+	private static final double MIN_INTER_CAPTURE_TIME = 0.00002; // In seconds of sim time.
+	private static final double MAX_INTER_CAPTURE_TIME = 0.00010; // In seconds of sim time.
 	
 	// Constant used when calculating how open this gate should be based on
 	// a value that exists within the Hodgkin-Huxley model.  This was
