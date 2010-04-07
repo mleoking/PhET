@@ -1,7 +1,6 @@
 TODO list for acid-base-solutions
 
 HIGH PRIORITY
-- prototype: why is OH- count always zero or 1?
 - prototype: OH- count is zero, but 1 dot (or image) is displayed, why?
 - prototype: use spinners for beaker size to take up less space
 - prototype: H2O controls and view
