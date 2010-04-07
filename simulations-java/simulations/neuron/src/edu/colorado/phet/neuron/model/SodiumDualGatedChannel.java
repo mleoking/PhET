@@ -201,7 +201,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	}
 	
 	@Override
-	public void createAndSetTraversalMotionStrategy(Particle particle) {
+	public void createAndSetTraversalMotionStrategy(Particle particle, double maxVelocity) {
 		particle.setMotionStrategy(new DualGateChannelTraversalMotionStrategy(this, particle.getPositionReference()));
 	}
 
