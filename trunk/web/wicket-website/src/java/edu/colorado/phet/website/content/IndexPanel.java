@@ -34,9 +34,9 @@ public class IndexPanel extends PhetPanel {
         add( new StaticImage( "nsf-logo", "/images/sponsors/nsf-logo-small.gif", null ) );
         add( new StaticImage( "hewlett-logo", "/images/sponsors/hewlett-logo-small.jpg", null ) );
 
-        PhetLink imageLink = SimulationDisplay.createLink( "image-link", context );
-        add( imageLink );
-        imageLink.add( new StaticImage( "index-animated-screenshot", "/images/mass-spring-lab-animated-screenshot.gif", null ) );
+        //PhetLink imageLink = SimulationDisplay.createLink( "image-link", context );
+        //add( imageLink );
+        //imageLink.add( new StaticImage( "index-animated-screenshot", "/images/mass-spring-lab-animated-screenshot.gif", null ) );
 
         add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{"href=\"" + ResearchPanel.getLinker().getRawUrl( context, getPhetCycle() ) + "\""} ) );
 
