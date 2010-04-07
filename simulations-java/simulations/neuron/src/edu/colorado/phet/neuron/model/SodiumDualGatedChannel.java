@@ -93,6 +93,10 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		}
 	}
 
+	public SodiumDualGatedChannel(){
+		this(null, null);
+	}
+
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------

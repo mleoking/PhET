@@ -50,6 +50,10 @@ public class PotassiumGatedChannel extends GatedChannel {
 		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
 		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
 	}
+	
+	public PotassiumGatedChannel(){
+		this(null, null);
+	}
 
     //----------------------------------------------------------------------------
     // Methods

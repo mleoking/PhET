@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.neuron.model.PotassiumGatedChannel;
 import edu.colorado.phet.neuron.model.PotassiumIon;
 import edu.colorado.phet.neuron.model.PotassiumLeakageChannel;
-import edu.colorado.phet.neuron.model.SodiumGatedChannel;
+import edu.colorado.phet.neuron.model.SodiumDualGatedChannel;
 import edu.colorado.phet.neuron.model.SodiumIon;
 import edu.colorado.phet.neuron.model.SodiumLeakageChannel;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
@@ -83,20 +83,20 @@ public class NeuronLegendPanel extends JPanel {
    		imageNode = new ParticleNode(new PotassiumIon(), PARTICLE_MVT);
    		addLegendItem( imageNode.toImage(), "Potassium Ion (K+)", row++ );
 
-   		imageNode = new MembraneChannelNode(new SodiumGatedChannel(null, null), CHANNEL_MVT);
-   		imageNode.rotate(Math.PI / 2);
+   		imageNode = new MembraneChannelNode(new SodiumDualGatedChannel(), CHANNEL_MVT);
+   		imageNode.rotate(-Math.PI / 2);
    		addLegendItem( imageNode.toImage(), "Sodium Gated Channel", row++ );
 
-   		imageNode = new MembraneChannelNode(new PotassiumGatedChannel(null, null), CHANNEL_MVT);
-   		imageNode.rotate(Math.PI / 2);
+   		imageNode = new MembraneChannelNode(new PotassiumGatedChannel(), CHANNEL_MVT);
+   		imageNode.rotate(-Math.PI / 2);
    		addLegendItem( imageNode.toImage(), "Potassium Gated Channel", row++ );
 
-   		imageNode = new MembraneChannelNode(new SodiumLeakageChannel(null), CHANNEL_MVT);
-   		imageNode.rotate(Math.PI / 2);
+   		imageNode = new MembraneChannelNode(new SodiumLeakageChannel(), CHANNEL_MVT);
+   		imageNode.rotate(-Math.PI / 2);
    		addLegendItem( imageNode.toImage(), "Sodium Leak Channel", row++ );
 
-   		imageNode = new MembraneChannelNode(new PotassiumLeakageChannel(null, null), CHANNEL_MVT);
-   		imageNode.rotate(Math.PI / 2);
+   		imageNode = new MembraneChannelNode(new PotassiumLeakageChannel(), CHANNEL_MVT);
+   		imageNode.rotate(-Math.PI / 2);
    		addLegendItem( imageNode.toImage(), "Potassium Leak Channel", row++ );
     }
     

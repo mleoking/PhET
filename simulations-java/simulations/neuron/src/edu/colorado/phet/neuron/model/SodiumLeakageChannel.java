@@ -51,6 +51,10 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 		// capturing particles.
 		restartCaptureCountdownTimer();
 	}
+	
+	public SodiumLeakageChannel(){
+		this(null);
+	}
 
     //----------------------------------------------------------------------------
     // Methods

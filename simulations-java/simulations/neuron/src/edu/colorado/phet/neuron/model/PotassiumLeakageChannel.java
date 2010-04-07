@@ -33,7 +33,7 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 	private double previousNormalizedLeakCurrent = 0;
 	
     //----------------------------------------------------------------------------
-    // Constructor
+    // Constructor(s)
     //----------------------------------------------------------------------------
 	
 	public PotassiumLeakageChannel(IParticleCapture modelContainingParticles, IHodgkinHuxleyModel hodgkinHuxleyModel) {
@@ -50,6 +50,14 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 		// capturing particles.
 		restartCaptureCountdownTimer();
 	}
+	
+	public PotassiumLeakageChannel(){
+		this(null, null);
+	}
+
+    //----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
 
 	@Override
 	public Color getChannelColor() {

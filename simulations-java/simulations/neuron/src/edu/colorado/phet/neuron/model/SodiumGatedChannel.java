@@ -43,8 +43,9 @@ public class SodiumGatedChannel extends GatedChannel {
 	private IHodgkinHuxleyModel hodgkinHuxleyModel;
 	
     //----------------------------------------------------------------------------
-    // Constructor
+    // Constructor(s)
     //----------------------------------------------------------------------------
+	
 	public SodiumGatedChannel(IHodgkinHuxleyModel hodgkinHuxleyModel, IParticleCapture modelContainingParticles) {
 		
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
@@ -52,6 +53,10 @@ public class SodiumGatedChannel extends GatedChannel {
 		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, 0, Math.PI * 0.8));
 		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
 		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
+	}
+	
+	public SodiumGatedChannel(){
+		this(null, null);
 	}
 
     //----------------------------------------------------------------------------
