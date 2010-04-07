@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.neuron.NeuronConstants;
+import edu.colorado.phet.neuron.utils.MathUtils;
 
 public class PotassiumLeakageChannel extends AbstractLeakChannel {
 
@@ -18,34 +19,32 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 	
 	private static final Color BASE_COLOR = ColorUtils.interpolateRBGA(NeuronConstants.POTASSIUM_COLOR, new Color(00, 200, 255), 0.6);
 	
-	// Constants that control the rate at which this channel will capture ions
-	// when it is open.  Smaller numbers here will increase the capture rate
-	// and thus make the flow appear to be faster.
-	private static final double MIN_INTER_CAPTURE_TIME = 0.0025; // In seconds of sim time.
-	private static final double MAX_INTER_CAPTURE_TIME = 0.0100; // In seconds of sim time.
+	private static final double DEFAULT_PARTICLE_VELOCITY = 10000; // In nanometers per sec of sim time.
 	
-	private static final double DEFAULT_PARTICLE_VELOCITY = 5000; // In nanometers per sec of sim time.
+	// A scaling factor that is used to normalize the amount of leak channel
+	// current to a value between 0 and 1.
+	private static final double PEAK_NEGATIVE_CURRENT = 3.44;
 	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 	
+	private IHodgkinHuxleyModel hodgkinHuxleyModel;
+	private double previousNormalizedLeakCurrent = 0;
+	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-	public PotassiumLeakageChannel(IParticleCapture modelContainingParticles) {
+	
+	public PotassiumLeakageChannel(IParticleCapture modelContainingParticles, IHodgkinHuxleyModel hodgkinHuxleyModel) {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
-		
-		// Set the rate at which particles are captured for moving through
-		// this channel.
-		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
-		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
+		this.hodgkinHuxleyModel = hodgkinHuxleyModel;
 		
 		// Set the speed at which particles will move through the channel.
 		setParticleVelocity(DEFAULT_PARTICLE_VELOCITY);
 		
 		// Set up the capture zone for this channel.
-		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, 0, Math.PI * 0.3));
+		setCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, 0, Math.PI * 0.8));
 		
 		// Start the capture timer now, since leak channels are always
 		// capturing particles.
@@ -70,5 +69,60 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 	@Override
 	protected ParticleType getParticleTypeToCapture() {
 		return ParticleType.POTASSIUM_ION;
+	}
+
+	@Override
+	public void stepInTime(double dt) {
+		super.stepInTime(dt);
+		
+		// Since this is a leak channel, it is always open, so the openness
+		// is not updated as it is for the gated channels.  However, we DO
+		// want more potassium to flow through when the leak current in the
+		// HH model goes up, so the following code accomplishes that goal.
+
+		double normalizedLeakCurrent = MathUtils.round(hodgkinHuxleyModel.get_l_current() / PEAK_NEGATIVE_CURRENT, 2);
+		if (normalizedLeakCurrent <= 0){
+			// Only pay attention to negative values for the current, which
+			// we will map to potassium flow back into the cell.  This is a
+			// bit of hollywooding.
+			normalizedLeakCurrent = Math.max(normalizedLeakCurrent, -1);
+			if (normalizedLeakCurrent != previousNormalizedLeakCurrent){
+				previousNormalizedLeakCurrent = normalizedLeakCurrent;
+				updateParticleCaptureRate(Math.abs(normalizedLeakCurrent));
+			}
+		}
+	}
+	
+	/**
+	 * Update the rate of particle capture based on the supplied normalized
+	 * value.
+	 * 
+	 * @param normalizedRate - A value between 0 and 1 where 0 represents the
+	 * minimum capture rate for particles and 1 represents the max.
+	 */
+	private void updateParticleCaptureRate(double normalizedRate){
+		if (normalizedRate <= 0.01){
+			// No captures at this rate.
+			setMinInterCaptureTime(Double.POSITIVE_INFINITY);
+			setMaxInterCaptureTime(Double.POSITIVE_INFINITY);
+			restartCaptureCountdownTimer();
+		}
+		else{
+			// Tweak the following values for different behavior.  Lower
+			// values will yeild more captures per unit time.
+			double smallestAllowableMin = 0.0002;
+			double largestAllowableMin = 0.002;
+			double smallestAllowableMax = smallestAllowableMin * 3;
+			double largestAllowableMax = largestAllowableMin * 3;
+			
+			setMinInterCaptureTime(smallestAllowableMin + (1 - normalizedRate) * (largestAllowableMin - smallestAllowableMin));
+			setMaxInterCaptureTime(smallestAllowableMax + (1 - normalizedRate) * (largestAllowableMax - smallestAllowableMax));
+			
+			if (getCaptureCountdownTimer() > getMaxInterCaptureTime()){
+				// Only restart the capture countdown if the current values is
+				// higher than the max.
+				restartCaptureCountdownTimer();
+			}
+		}
 	}
 }

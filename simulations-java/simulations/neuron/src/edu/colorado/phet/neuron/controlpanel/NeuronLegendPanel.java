@@ -95,7 +95,7 @@ public class NeuronLegendPanel extends JPanel {
    		imageNode.rotate(Math.PI / 2);
    		addLegendItem( imageNode.toImage(), "Sodium Leak Channel", row++ );
 
-   		imageNode = new MembraneChannelNode(new PotassiumLeakageChannel(null), CHANNEL_MVT);
+   		imageNode = new MembraneChannelNode(new PotassiumLeakageChannel(null, null), CHANNEL_MVT);
    		imageNode.rotate(Math.PI / 2);
    		addLegendItem( imageNode.toImage(), "Potassium Leak Channel", row++ );
     }
