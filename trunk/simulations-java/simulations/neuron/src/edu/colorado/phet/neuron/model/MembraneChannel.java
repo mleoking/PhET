@@ -247,9 +247,10 @@ public abstract class MembraneChannel {
 	 * traverse the channel.
 	 * 
 	 * @param particle
+	 * @param maxVelocity
 	 */
-	public void createAndSetTraversalMotionStrategy(Particle particle){
-		particle.setMotionStrategy(new BasicChannelTraversalMotionStrategy(this, particle.getPositionReference()));
+	public void createAndSetTraversalMotionStrategy(Particle particle, double maxVelocity){
+		particle.setMotionStrategy(new BasicChannelTraversalMotionStrategy(this, particle.getPositionReference(), maxVelocity));
 	}
 	
 	protected double getParticleVelocity() {
