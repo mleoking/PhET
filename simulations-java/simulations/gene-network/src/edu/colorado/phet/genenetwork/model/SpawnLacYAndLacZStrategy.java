@@ -16,12 +16,10 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 	private static final double PRE_SPAWN_TIME = 2;          // In seconds of sim time.
 	private static final double TIME_BETWEEN_SPAWNINGS = 1.5;  // In seconds of sim time.
 	private static final Random RAND = new Random(2211934);
-	private static final int MIN_AUTO_GEN_SPAWN_COUNT = 2;
-	private static final int MAX_AUTO_GEN_SPAWN_COUNT = 3;
 
 	private double spawnCountdownTimer = PRE_SPAWN_TIME;
 	private int spawnCount = Integer.MAX_VALUE;
-	private boolean spawnLacZNext;
+	private boolean spawnLacZNext = true;
 	
 	/**
 	 * Constructor where the number of elements to spawn is specified.
@@ -31,14 +29,15 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 	public SpawnLacYAndLacZStrategy(int numberToSpawn) {
 		super();
 		spawnCount = numberToSpawn;
-		spawnLacZNext = RAND.nextBoolean();
 	}
 	
 	/**
 	 * Constructor that will choose the number to spawn.
 	 */
 	public SpawnLacYAndLacZStrategy(){
-		this(MIN_AUTO_GEN_SPAWN_COUNT + RAND.nextInt(MAX_AUTO_GEN_SPAWN_COUNT - MIN_AUTO_GEN_SPAWN_COUNT + 1));
+		// Choose a random number of spawns.  This choses only even numbers
+		// so that equal amounts of LacZ and LacY are spawned.
+		this(autoGenSpawnCount());
 	}
 
 	@Override
@@ -104,5 +103,42 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 				parentModelElement.getModel().getInteriorMotionBoundsAboveDna(), transformationArrowPos,
 				new Vector2D.Double(parentModelElement.getVelocityRef()), 5.0));
 		parentModelElement.getModel().addTransformationArrow(transformationArrow);
+	}
+	
+	/**
+	 * Automatically generate a pseudo-random number of items to spawn.
+	 * 
+	 * @return
+	 */
+	private static int autoGenSpawnCount(){
+		// Notes: This version will only generate even numbers, since my
+		// (jblanco) thinking as of April 8 2010 is that this is how it works
+		// in real life - the mRNA is fully transcribed, and each time both
+		// LacZ and LacY are produced.  I am not certain if this is the case,
+		// it just stands to reason.
+		//
+		// Second, this function includes a "tweak factor" the influences the
+		// probability of spawning 2 items (1 transcription) or 4 items (2
+		// transcriptions).  This can be used to make there be on average more
+		// or less LacZ and LacY present in the sim.  Right now this is only
+		// adjustable at compile time, but could be hooked into the reading of
+		// the lactose level if desired (and if we're sure it won't mislead
+		// users).
+		
+		// Tweak factor - higher values make it more likely that more LacZ & 
+		// LacY will be spawned.  1 is the max value.
+		double makeMoreTweakFactor = 0.75;
+		
+		int spawnCount;
+		if (RAND.nextDouble() > makeMoreTweakFactor){
+			// Spawn 2.
+			spawnCount = 2;
+		}
+		else{
+			// Spawn 4.
+			spawnCount = 4;
+		}
+		
+		return spawnCount;
 	}
 }
