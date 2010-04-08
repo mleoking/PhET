@@ -3,6 +3,8 @@
 package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.GridBagConstraints;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,6 +27,14 @@ class CanvasControls extends JPanel {
     
     public CanvasControls( JFrame parentFrame, final PCanvas canvas ) {
         setBorder( new TitledBorder( "Play area" ) );
+        
+        canvas.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                if ( evt.getPropertyName().equals( "background" ) ) {
+                    backgroundColorControl.setColor( canvas.getBackground() );
+                }
+            }
+        });
         
         backgroundColorControl = new ColorControl( parentFrame, "background color:", canvas.getBackground() );
         backgroundColorControl.addChangeListener( new ChangeListener() {

@@ -16,11 +16,12 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 class ImagesNode extends MoleculesNode {
     
-    private double imageScale = MGPConstants.IMAGE_SCALE_RANGE.getDefault();
+    private double imageScale;
     
     public ImagesNode( final WeakAcid solution, PNode containerNode ) {
         super( solution, containerNode, MGPConstants.MAX_IMAGES_RANGE.getDefault(), MGPConstants.MAX_H2O_IMAGES_RANGE.getDefault(), (float) MGPConstants.IMAGE_TRANSPARENCY_RANGE.getDefault() );
-        updateNumberOfMoleculeNodes();
+        imageScale = MGPConstants.IMAGE_SCALE_RANGE.getDefault();
+        updateNumberOfMoleculeNodes(); // call this last
     }
     
     public double getImageScale() {
@@ -33,14 +34,15 @@ class ImagesNode extends MoleculesNode {
             for ( int i = 0; i < getChildrenCount(); i++ ) {
                 PNode parent = getChild( i );
                 if ( parent instanceof MoleculeParentNode ) {
-                    setScale( parent, imageScale );
+                    updateScale( parent, imageScale );
                 }
             }
             fireStateChanged();
         }
     }
     
-    private static void setScale( PNode parent, double scale ) {
+    // Updates scale of existing image nodes.
+    private static void updateScale( PNode parent, double scale ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
             if ( child instanceof ImageNode ) {
@@ -49,6 +51,7 @@ class ImagesNode extends MoleculesNode {
         }
     }
     
+    // Updates transparency of existing image nodes.
     protected void updateTransparency( PNode parent, float transparency ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
