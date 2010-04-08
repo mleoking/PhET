@@ -29,7 +29,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 class DotControls extends JPanel {
     
     public DotControls( JFrame parentFrame, final DotsNode dotsNode ) {
-        setBorder( new TitledBorder( "Dot view" ) );
+        setBorder( new TitledBorder( "Dots" ) );
         
         // max dots
         IntegerRange maxDotsRange = MGPConstants.MAX_DOTS_RANGE;

@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 class ImageControls extends JPanel {
     
     public ImageControls( final ImagesNode imagesNode ) {
-        setBorder( new TitledBorder( "Images view" ) );
+        setBorder( new TitledBorder( "Images" ) );
         
         // max images
         IntegerRange maxImagesRange = MGPConstants.MAX_IMAGES_RANGE;
