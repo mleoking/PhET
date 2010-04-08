@@ -192,6 +192,10 @@ abstract class MoleculesNode extends PComposite {
         layeringStrategy.setRenderingOrder( parentHA, parentA, parentH3O, parentOH, parentH2O );
     }
     
+    /*
+     * Updates the number of molecule nodes to match the counts.
+     * Subclasses should implement this, using their specific representations for the molecule nodes (eg, dots, images).
+     */
     protected abstract void updateNumberOfMoleculeNodes();
     
     private void deleteAllMolecules() {
@@ -205,10 +209,10 @@ abstract class MoleculesNode extends PComposite {
     }
     
     /*
-     * Gets the bounds within which a dot will be created.
+     * Gets the bounds within which a molecule node will be created.
      * This is typically the container bounds.
      * But if the number of dots is small, we shrink the container bounds so 
-     * that dots stay away from the edges, making them easier to see.
+     * that molecules stay away from the edges, making them easier to see.
      */
     protected PBounds getContainerBounds( int count ) {
         PBounds bounds = containerNode.getFullBoundsReference();
