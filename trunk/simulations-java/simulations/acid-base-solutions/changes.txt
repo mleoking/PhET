@@ -1,3 +1,4 @@
+4/8/10 prototype: make transparency default to opaque
 4/8/10 prototype: bug fix, set transparency properly on startup
 4/8/10 prototype: add ticket marks and 1L label to beaker
 4/8/10 prototype: set default dot diameter to 12

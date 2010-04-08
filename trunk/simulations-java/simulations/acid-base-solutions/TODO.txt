@@ -3,7 +3,6 @@ TODO list for acid-base-solutions
 HIGH PRIORITY
 - prototype: add image legend below beaker
 - prototype: make H2O images fill magnifying glass, remove "H2O images" control, add show/hide checkbox
-- prototype: make non-H2O transparency default to opaque
 - prototype: counts don't add up to MoleculesNode.maxMolecules
 - prototype: implement Reset All, Save, Load?
 - prototype: scale molecule images from their centers?
