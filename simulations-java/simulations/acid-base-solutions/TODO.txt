@@ -1,6 +1,7 @@
 TODO list for acid-base-solutions
 
 HIGH PRIORITY
+- prototype: molecule counts don't update when typing in concentration value
 - prototype: make H2O images fill magnifying glass, remove "H2O images" control
 - prototype: counts don't add up to MoleculesNode.maxMolecules
 - prototype: investigate origin of ConcentrationMoleculeCountStrategy algorithm
