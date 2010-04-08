@@ -193,7 +193,7 @@ public class LactoseMeter extends PhetPNode {
 	private void updateBarSize(){
 		double barHeight;
 
-		if (model.getGlucoseList().size() > MAX_VALUE){
+		if (model.getLactoseLevel() > MAX_VALUE){
 			barHeight = maxBarHeight;
 			overflowText.setVisible(true);
 		}
