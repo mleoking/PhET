@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public interface IMoleculeCountStrategy {
+interface IMoleculeCountStrategy {
 
     public int getNumberOfMolecules( double concentration, int maxMolecules );
    
