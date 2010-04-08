@@ -1,3 +1,5 @@
+4/7/10 prototype: javadoc
+4/7/10 prototype: bug fix in DotsNode transparency control
 4/7/10 prototype: make all classes package private, so they aren't used outside of prototype
 4/7/10 prototype: use strategy pattern for computing number of molecules to display
 4/7/10 prototype: make all control panels sync to model and/or view

@@ -83,10 +83,6 @@ abstract class MoleculesNode extends PComposite {
         addChild( parentH2O );
     }
     
-    protected WeakAcid getSolution() {
-        return solution;
-    }
-    
     public int getMaxMolecules() {
         return maxMolecules;
     }
@@ -115,14 +111,14 @@ abstract class MoleculesNode extends PComposite {
         return moleculeTransparency;
     }
     
-    public void setMoleculeTransparency( float transparency ) {
-        if ( transparency != this.moleculeTransparency ) {
-            this.moleculeTransparency = transparency;
+    public void setMoleculeTransparency( float moleculeTransparency ) {
+        if ( moleculeTransparency != this.moleculeTransparency ) {
+            this.moleculeTransparency = moleculeTransparency;
             // update the transparency of all existing non-H2O molecules
             for ( int i = 0; i < getChildrenCount(); i++ ) {
                 PNode parent = getChild( i );
                 if ( parent instanceof MoleculeParentNode && parent != getParentH2O() ) {
-                    updateTransparency( parent, transparency );
+                    updateTransparency( parent, moleculeTransparency );
                 }
             }
             fireStateChanged();
@@ -142,6 +138,7 @@ abstract class MoleculesNode extends PComposite {
         }
     }
     
+    // Updates the transparency of existing molecule nodes that are children of parent.
     protected abstract void updateTransparency( PNode parent, float transparency );
     
     public int getCountHA() {

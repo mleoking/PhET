@@ -44,7 +44,7 @@ class ImagesNode extends MoleculesNode {
         }
     }
     
-    // Updates scale of existing image nodes.
+    // Updates the scale of existing ImageNodes that are children of parent.
     private static void updateScale( PNode parent, double scale ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
@@ -54,7 +54,7 @@ class ImagesNode extends MoleculesNode {
         }
     }
     
-    // Updates transparency of existing image nodes.
+    // Updates the transparency of existing ImageNodes that are children of parent.
     protected void updateTransparency( PNode parent, float transparency ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
