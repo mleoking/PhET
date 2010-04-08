@@ -1,7 +1,6 @@
 TODO list for acid-base-solutions
 
 HIGH PRIORITY
-- prototype: add ticket marks and 1L label to beaker
 - prototype: add image legend below beaker
 - prototype: make H2O images fill magnifying glass, remove "H2O images" control, add show/hide checkbox
 - prototype: bug, transparency is not set properly on startup, everything is opaque

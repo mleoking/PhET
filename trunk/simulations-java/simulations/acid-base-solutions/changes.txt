@@ -1,3 +1,4 @@
+4/8/10 prototype: add ticket marks and 1L label to beaker
 4/8/10 prototype: set default dot diameter to 12
 4/8/10 prototype: set default molecule representation to "images", change radio buttons order
 4/8/10 prototype: use strategy pattern for determining rendering order of molecules
