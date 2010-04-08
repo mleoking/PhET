@@ -1,3 +1,4 @@
+4/8/10 prototype: bugfix, molecule counts don't update when typing in concentration value
 4/8/10 prototype: adjust slider ranges
 4/8/10 prototype: add "show H2O" check box
 4/8/10 prototype: make transparency default to opaque
