@@ -46,7 +46,7 @@ class MGPConstants {
     public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 200, 10000, 500 );
     public static final IntegerRange MAX_H2O_DOTS_RANGE = new IntegerRange( 0, 10000, 1000 );
     public static final DoubleRange DOT_DIAMETER_RANGE = new DoubleRange( 1, 40, 12 );
-    public static final DoubleRange DOT_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 0.6 );
+    public static final DoubleRange DOT_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 1 );
     
     // images
     public static final IntegerRange MAX_IMAGES_RANGE = MAX_DOTS_RANGE;
