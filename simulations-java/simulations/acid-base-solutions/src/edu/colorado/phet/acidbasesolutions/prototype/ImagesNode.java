@@ -69,10 +69,10 @@ class ImagesNode extends MoleculesNode {
      * Images are spread at random location throughout the container.
      */
     protected void updateNumberOfMoleculeNodes() {
-        updateNumberOfMoleculeNodes( getParentHA(), getCountHA(), imageScale, getTransparency(), MGPConstants.HA_IMAGE );
-        updateNumberOfMoleculeNodes( getParentA(), getCountA(), imageScale, getTransparency(), MGPConstants.A_MINUS_IMAGE );
-        updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), imageScale, getTransparency(), MGPConstants.H3O_PLUS_IMAGE );
-        updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), imageScale, getTransparency(), MGPConstants.OH_MINUS_IMAGE );
+        updateNumberOfMoleculeNodes( getParentHA(), getCountHA(), imageScale, getMoleculeTransparency(), MGPConstants.HA_IMAGE );
+        updateNumberOfMoleculeNodes( getParentA(), getCountA(), imageScale, getMoleculeTransparency(), MGPConstants.A_MINUS_IMAGE );
+        updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), imageScale, getMoleculeTransparency(), MGPConstants.H3O_PLUS_IMAGE );
+        updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), imageScale, getMoleculeTransparency(), MGPConstants.OH_MINUS_IMAGE );
         updateNumberOfMoleculeNodes( getParentH2O(), getCountH2O(), imageScale, getH2OTransparency(), MGPConstants.H2O_IMAGE );
     }
     

@@ -146,10 +146,10 @@ class DotsNode extends MoleculesNode {
      * Dots are spread at random location throughout the container.
      */
     protected void updateNumberOfMoleculeNodes() {
-        updateNumberOfMoleculeNodes( getParentHA(), getCountHA(), dotDiameter, getTransparency(), colorHA );
-        updateNumberOfMoleculeNodes( getParentA(), getCountA(), dotDiameter, getTransparency(), colorA );
-        updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), dotDiameter, getTransparency(), colorH3O );
-        updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), dotDiameter, getTransparency(), colorOH );
+        updateNumberOfMoleculeNodes( getParentHA(), getCountHA(), dotDiameter, getMoleculeTransparency(), colorHA );
+        updateNumberOfMoleculeNodes( getParentA(), getCountA(), dotDiameter, getMoleculeTransparency(), colorA );
+        updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), dotDiameter, getMoleculeTransparency(), colorH3O );
+        updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), dotDiameter, getMoleculeTransparency(), colorOH );
         updateNumberOfMoleculeNodes( getParentH2O(), getCountH2O(), dotDiameter, getH2OTransparency(), colorH2O );
     }
     
