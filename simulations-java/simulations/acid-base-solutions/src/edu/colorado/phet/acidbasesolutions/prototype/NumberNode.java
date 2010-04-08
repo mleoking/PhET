@@ -5,19 +5,19 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import javax.swing.JLabel;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * A label that displays integer values.
+ * A PText node that displays numbers in a specified format.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-abstract class NumberLabel extends JLabel {
+abstract class NumberNode extends PText {
     
     private final NumberFormat format;
     private double value;
     
-    protected NumberLabel( double value, NumberFormat format ) {
+    protected NumberNode( double value, NumberFormat format ) {
         this.format = format;
         setValue( value );
     }
@@ -31,27 +31,30 @@ abstract class NumberLabel extends JLabel {
         return value;
     }
     
-    public static class IntegerLabel extends NumberLabel {
+    /**
+     * A NumberNode that displays integer values.
+     */
+    public static class IntegerNode extends NumberNode {
         
-        public IntegerLabel() {
+        public IntegerNode() {
             this( 0 );
         }
         
-        public IntegerLabel( double value ) {
+        public IntegerNode( double value ) {
             super( value, new DecimalFormat( "0" ) );
         }
     }
     
     /**
-     * A label that displays large integer values in scientific notation.
+     * A NumberNode that displays large integer values in scientific notation.
      */
-    public static class ScientificIntegerLabel extends NumberLabel {
+    public static class ScientificIntegerNode extends NumberNode {
         
-        public ScientificIntegerLabel() {
+        public ScientificIntegerNode() {
             this( 0 );
         }
         
-        public ScientificIntegerLabel( double value ) {
+        public ScientificIntegerNode( double value ) {
             super( value, new DecimalFormat( "0.0E0" ) );
         }
     }

@@ -15,8 +15,8 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 class MGPCanvas extends PhetPCanvas {
     
     private final PNode parentNode;
-    private final BeakerNode beakerNode;
     private final MagnifyingGlassNode magnifyingGlassNode;
+    private final BeakerNode beakerNode;
 
     public MGPCanvas( MGPModel model ) {
         super( MGPConstants.CANVAS_SIZE );
@@ -25,17 +25,19 @@ class MGPCanvas extends PhetPCanvas {
         parentNode = new PNode();
         addWorldChild( parentNode );
         
-        beakerNode = new BeakerNode( model.getBeaker(), model.getSolution() );
+        magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass(), model.getSolution() );
+        magnifyingGlassNode.setOffset( model.getMagnifyingGlass().getCenterReference() );
+        magnifyingGlassNode.addInputEventListener( new PDragEventHandler() );
+        magnifyingGlassNode.addInputEventListener( new CursorHandler() );
+        
+        beakerNode = new BeakerNode( model.getBeaker(), model.getSolution(), magnifyingGlassNode );
         beakerNode.setOffset( model.getBeaker().getCenterReference() );
-        addChild( beakerNode );
         beakerNode.addInputEventListener( new PDragEventHandler() );
         beakerNode.addInputEventListener( new CursorHandler() );
         
-        magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass(), model.getSolution() );
-        magnifyingGlassNode.setOffset( model.getMagnifyingGlass().getCenterReference() );
+        // rendering order
+        addChild( beakerNode );
         addChild( magnifyingGlassNode );
-        magnifyingGlassNode.addInputEventListener( new PDragEventHandler() );
-        magnifyingGlassNode.addInputEventListener( new CursorHandler() );
     }
     
     public MagnifyingGlassNode getMagnifyingGlassNode() {
