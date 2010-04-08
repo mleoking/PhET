@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConcentrationMoleculeCountStrategy;
+import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConstantMoleculeCountStrategy;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -21,7 +23,8 @@ public class DotsNode extends MoleculesNode {
     private Color colorHA, colorA, colorH3O, colorOH, colorH2O;
     
     public DotsNode( final WeakAcid solution, PNode containerNode ) {
-        super( solution, containerNode, MGPConstants.MAX_DOTS_RANGE.getDefault(), MGPConstants.MAX_H2O_DOTS_RANGE.getDefault(), (float) MGPConstants.DOT_TRANSPARENCY_RANGE.getDefault() );
+        super( solution, containerNode, MGPConstants.MAX_DOTS_RANGE.getDefault(), MGPConstants.MAX_H2O_DOTS_RANGE.getDefault(),
+                (float) MGPConstants.DOT_TRANSPARENCY_RANGE.getDefault(), new ConcentrationMoleculeCountStrategy(), new ConstantMoleculeCountStrategy() );
         dotDiameter = MGPConstants.DOT_DIAMETER_RANGE.getDefault();
         colorHA = MGPConstants.COLOR_HA;
         colorA = MGPConstants.COLOR_A_MINUS;

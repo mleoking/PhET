@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 class ImageControls extends JPanel {
     
     private final ImagesNode imagesNode;
-    private final LinearValueControl maxImagesControl, h2oImagesControl, scaleControl, transparencyControl, h2oTransparencyControl;
+    private final LinearValueControl maxMoleculesControl, maxH2OControl, scaleControl, transparencyControl, h2oTransparencyControl;
     
     public ImageControls( final ImagesNode imagesNode ) {
         setBorder( new TitledBorder( "Images" ) );
@@ -40,22 +40,22 @@ class ImageControls extends JPanel {
         
         // max images
         IntegerRange maxImagesRange = MGPConstants.MAX_IMAGES_RANGE;
-        maxImagesControl = new LinearValueControl( maxImagesRange.getMin(), maxImagesRange.getMax(), "max images:", "####0", "", new HorizontalLayoutStrategy() );
-        maxImagesControl.setUpDownArrowDelta( 1 );
-        maxImagesControl.addChangeListener( new ChangeListener() {
+        maxMoleculesControl = new LinearValueControl( maxImagesRange.getMin(), maxImagesRange.getMax(), "max images:", "####0", "", new HorizontalLayoutStrategy() );
+        maxMoleculesControl.setUpDownArrowDelta( 1 );
+        maxMoleculesControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                imagesNode.setMaxMolecules( (int)maxImagesControl.getValue() );
+                imagesNode.setMaxMolecules( (int)maxMoleculesControl.getValue() );
             }
         });
         
         // H2O images
         IntegerRange h2OImagesRange = MGPConstants.MAX_H2O_IMAGES_RANGE;
         String h2oImagesLabel = HTMLUtils.toHTMLString( MGPConstants.H2O_FRAGMENT + " images:" );
-        h2oImagesControl = new LinearValueControl( h2OImagesRange.getMin(), h2OImagesRange.getMax(), h2oImagesLabel, "####0", "", new HorizontalLayoutStrategy() );
-        h2oImagesControl.setUpDownArrowDelta( 1 );
-        h2oImagesControl.addChangeListener( new ChangeListener() {
+        maxH2OControl = new LinearValueControl( h2OImagesRange.getMin(), h2OImagesRange.getMax(), h2oImagesLabel, "####0", "", new HorizontalLayoutStrategy() );
+        maxH2OControl.setUpDownArrowDelta( 1 );
+        maxH2OControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                imagesNode.setCountH2O( (int) h2oImagesControl.getValue() );
+                imagesNode.setMaxH2O( (int) maxH2OControl.getValue() );
             }
         });
 
@@ -104,10 +104,10 @@ class ImageControls extends JPanel {
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int column = 0;
-        layout.addComponent( maxImagesControl, row, column++ );
+        layout.addComponent( maxMoleculesControl, row, column++ );
         row++;
         column = 0;
-        layout.addComponent( h2oImagesControl, row, column++ );
+        layout.addComponent( maxH2OControl, row, column++ );
         row++;
         column = 0;
         layout.addComponent( scaleControl, row, column++ );
@@ -122,8 +122,8 @@ class ImageControls extends JPanel {
     }
     
     private void updateControls() {
-        maxImagesControl.setValue( imagesNode.getMaxMolecules() );
-        h2oImagesControl.setValue( imagesNode.getCountH2O() );
+        maxMoleculesControl.setValue( imagesNode.getMaxMolecules() );
+        maxH2OControl.setValue( imagesNode.getMaxH2O() );
         scaleControl.setValue( imagesNode.getImageScale() );
         transparencyControl.setValue( imagesNode.getMoleculeTransparency() ); 
         h2oTransparencyControl.setValue( imagesNode.getH2OTransparency() );

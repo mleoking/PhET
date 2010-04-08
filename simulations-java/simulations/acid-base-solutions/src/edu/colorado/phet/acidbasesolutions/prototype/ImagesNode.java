@@ -5,6 +5,8 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConcentrationMoleculeCountStrategy;
+import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConstantMoleculeCountStrategy;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -19,7 +21,8 @@ class ImagesNode extends MoleculesNode {
     private double imageScale;
     
     public ImagesNode( final WeakAcid solution, PNode containerNode ) {
-        super( solution, containerNode, MGPConstants.MAX_IMAGES_RANGE.getDefault(), MGPConstants.MAX_H2O_IMAGES_RANGE.getDefault(), (float) MGPConstants.IMAGE_TRANSPARENCY_RANGE.getDefault() );
+        super( solution, containerNode, MGPConstants.MAX_IMAGES_RANGE.getDefault(), MGPConstants.MAX_H2O_IMAGES_RANGE.getDefault(), 
+                (float) MGPConstants.IMAGE_TRANSPARENCY_RANGE.getDefault(), new ConcentrationMoleculeCountStrategy(), new ConstantMoleculeCountStrategy() );
         imageScale = MGPConstants.IMAGE_SCALE_RANGE.getDefault();
         updateNumberOfMoleculeNodes(); // call this last
     }
