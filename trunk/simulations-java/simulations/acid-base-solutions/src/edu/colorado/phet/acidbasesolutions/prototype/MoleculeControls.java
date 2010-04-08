@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 class MoleculeControls extends JPanel {
     
     private final MagnifyingGlass magnifyingGlass;
-    private final JRadioButton dotsRadioButton, imagesRadioButton;
+    private final JRadioButton imagesRadioButton, dotsRadioButton;
     
     public MoleculeControls( final MagnifyingGlass magnifyingGlass ) {
         setBorder( new TitledBorder( "Molecules" ) );
@@ -35,14 +35,6 @@ class MoleculeControls extends JPanel {
             }
         });
         
-        dotsRadioButton = new JRadioButton( "dots" );
-        dotsRadioButton.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                if ( dotsRadioButton.isSelected() ) {
-                    magnifyingGlass.setMoleculeRepresentation( MoleculeRepresentation.DOTS );
-                }
-            }
-        });
         imagesRadioButton = new JRadioButton( "images" );
         imagesRadioButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -51,14 +43,24 @@ class MoleculeControls extends JPanel {
                 }
             }
         });
+        
+        dotsRadioButton = new JRadioButton( "dots" );
+        dotsRadioButton.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                if ( dotsRadioButton.isSelected() ) {
+                    magnifyingGlass.setMoleculeRepresentation( MoleculeRepresentation.DOTS );
+                }
+            }
+        });
+       
         ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( dotsRadioButton );
         buttonGroup.add( imagesRadioButton );
+        buttonGroup.add( dotsRadioButton );
         
         JPanel representationPanel = new JPanel();
         representationPanel.add( new JLabel( "representation:" ) );
-        representationPanel.add( dotsRadioButton );
         representationPanel.add( imagesRadioButton );
+        representationPanel.add( dotsRadioButton );
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -73,7 +75,7 @@ class MoleculeControls extends JPanel {
     }
     
     private void updateControls() {
-        dotsRadioButton.setSelected( magnifyingGlass.getMoleculeRepresentation() == MoleculeRepresentation.DOTS );
         imagesRadioButton.setSelected( magnifyingGlass.getMoleculeRepresentation() == MoleculeRepresentation.IMAGES );
+        dotsRadioButton.setSelected( magnifyingGlass.getMoleculeRepresentation() == MoleculeRepresentation.DOTS );
     }
 }
