@@ -181,7 +181,7 @@ abstract class MoleculesNode extends PComposite {
         return parentH2O;
     }
     
-    private void updateNumberOfMolecules() {
+    protected void updateNumberOfMolecules() {
         countHA = moleculeCountStrategy.getNumberOfMolecules( solution.getConcentrationHA(), maxMolecules );
         countA = moleculeCountStrategy.getNumberOfMolecules( solution.getConcentrationA(), maxMolecules );
         countH3O = moleculeCountStrategy.getNumberOfMolecules( solution.getConcentrationH3O(), maxMolecules );
