@@ -1,3 +1,4 @@
+4/7/10 prototype: remove H2O visibility flag from model
 # 0.00.01 (39700) Apr 7, 2010
 4/7/10 prototype: publish a preview for discussion with Kelly
 4/7/10 prototype: fix bug in dot/image creating that showed 1 dot/image when count was zero

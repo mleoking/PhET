@@ -25,7 +25,6 @@ class MagnifyingGlassControls extends JPanel {
     private final MagnifyingGlass magnifyingGlass;
     private final LinearValueControl diameterControl;
     private final JRadioButton dotsRadioButton, imagesRadioButton;
-    private final JCheckBox showH2OCheckBox;
     
     public MagnifyingGlassControls( final MagnifyingGlass magnifyingGlass ) {
         setBorder( new TitledBorder( "Magnifying glass" ) );
@@ -71,8 +70,6 @@ class MagnifyingGlassControls extends JPanel {
         representationPanel.add( dotsRadioButton );
         representationPanel.add( imagesRadioButton );
         
-        showH2OCheckBox = new JCheckBox( "<html>show H<sub>2</sub>O molecules</html>" );
-        
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -83,9 +80,6 @@ class MagnifyingGlassControls extends JPanel {
         row++;
         column = 0;
         layout.addComponent( representationPanel, row, column++ );
-        row++;
-        column = 0;
-        layout.addComponent( showH2OCheckBox, row, column++ );
         
         // default state
         updateControls();
@@ -95,6 +89,5 @@ class MagnifyingGlassControls extends JPanel {
         diameterControl.setValue( magnifyingGlass.getDiameter() );
         dotsRadioButton.setSelected( magnifyingGlass.getMoleculeRepresentation() == MoleculeRepresentation.DOTS );
         imagesRadioButton.setSelected( magnifyingGlass.getMoleculeRepresentation() == MoleculeRepresentation.IMAGES );
-        showH2OCheckBox.setSelected( magnifyingGlass.getShowH2O() );
     }
 }

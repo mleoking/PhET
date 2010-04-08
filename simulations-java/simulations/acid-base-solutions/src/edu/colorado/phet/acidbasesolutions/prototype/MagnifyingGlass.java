@@ -17,17 +17,15 @@ class MagnifyingGlass extends Changeable {
     private int diameter;
     private final Point2D center;
     private MoleculeRepresentation moleculeRepresentation;
-    private boolean showH2O;
     
     public MagnifyingGlass() {
-        this( MGPConstants.MAGNIFYING_GLASS_DIAMETER_RANGE.getDefault(), MGPConstants.MAGNIFYING_GLASS_CENTER, MoleculeRepresentation.DOTS, false /* showH2O */ );
+        this( MGPConstants.MAGNIFYING_GLASS_DIAMETER_RANGE.getDefault(), MGPConstants.MAGNIFYING_GLASS_CENTER, MoleculeRepresentation.DOTS );
     }
 
-    public MagnifyingGlass( int diameter, Point2D center, MoleculeRepresentation moleculeRepresentation, boolean showH2O ) {
+    public MagnifyingGlass( int diameter, Point2D center, MoleculeRepresentation moleculeRepresentation ) {
         this.diameter = diameter;
         this.center = new Point2D.Double( center.getX(), center.getY() );
         this.moleculeRepresentation = moleculeRepresentation;
-        this.showH2O = showH2O;
     }
     
     public void setDiameter( int diameter ) {
@@ -54,16 +52,5 @@ class MagnifyingGlass extends Changeable {
     
     public MoleculeRepresentation getMoleculeRepresentation() {
         return moleculeRepresentation;
-    }
-    
-    public void setShowH2O( boolean showH2O ) {
-        if ( showH2O != this.showH2O ) {
-            this.showH2O = showH2O;
-            fireStateChanged();
-        }
-    }
-    
-    public boolean getShowH2O() {
-        return showH2O;
     }
 }
