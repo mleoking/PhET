@@ -13,7 +13,7 @@ import javax.swing.event.EventListenerList;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class Changeable {
+abstract class Changeable {
     
     private final EventListenerList listenerList;
     

@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MagnifyingGlassPrototypeApplication extends PiccoloPhetApplication {
+class MagnifyingGlassPrototypeApplication extends PiccoloPhetApplication {
 
     public MagnifyingGlassPrototypeApplication( PhetApplicationConfig config ) {
         super( config );

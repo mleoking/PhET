@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DotsNode extends MoleculesNode {
+class DotsNode extends MoleculesNode {
     
     private double dotDiameter;
     private Color colorHA, colorA, colorH3O, colorOH, colorH2O;

@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MGPConstants {
+class MGPConstants {
     
     private MGPConstants() {}
     
