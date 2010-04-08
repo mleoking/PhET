@@ -1,3 +1,5 @@
+# 0.00.03 (39740) Apr 8, 2010
+4/8/10 prototype: publish dev version for discussion
 4/8/10 prototype: round corners of magnifying glass handle
 4/8/10 prototype: rewrite molecule counts panel as a node that appears below beaker
 4/8/10 prototype: rewrite molecule counts panel as a node that appears below beaker
