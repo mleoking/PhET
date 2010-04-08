@@ -67,6 +67,7 @@ abstract class MoleculesNode extends PComposite {
         solution.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 updateNumberOfMolecules();
+                fireStateChanged();
             }
         });
         
