@@ -104,7 +104,7 @@ class DotControls extends JPanel {
         h2oTransparencyControl.setTickLabels( h2oTransparencyLabelTable );
         
         // show H2O checkbox
-        showH2OCheckBox = new JCheckBox( "show H2O" );
+        showH2OCheckBox = new JCheckBox( "show H2O dots" );
         showH2OCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dotsNode.setH2OVisible( showH2OCheckBox.isSelected() );
