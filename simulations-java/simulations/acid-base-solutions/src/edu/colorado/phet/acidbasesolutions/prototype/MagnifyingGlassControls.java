@@ -76,6 +76,9 @@ class MagnifyingGlassControls extends JPanel {
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int column = 0;
+        layout.addComponent( new JLabel( "position: drag to move" ), row, column++ );
+        row++;
+        column = 0;
         layout.addComponent( diameterControl, row, column++ );
         row++;
         column = 0;

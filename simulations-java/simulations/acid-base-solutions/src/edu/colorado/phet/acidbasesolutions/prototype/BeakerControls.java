@@ -5,6 +5,7 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -61,6 +62,9 @@ class BeakerControls extends JPanel {
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int column = 0;
+        layout.addComponent( new JLabel( "position: drag to move" ), row, column++ );
+        row++;
+        column = 0;
         layout.addComponent( widthControl, row, column++ );
         row++;
         column = 0;
