@@ -4,6 +4,7 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -88,7 +89,7 @@ class MoleculeCountNode extends PComposite {
         SwingLayoutNode layoutNode = new SwingLayoutNode( layout );
         addChild( layoutNode );
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.anchor = GridBagConstraints.EAST;
         constraints.gridx = 1;
         constraints.gridy = 0;
         layoutNode.addChild( imageHA, constraints );
@@ -112,7 +113,7 @@ class MoleculeCountNode extends PComposite {
         layoutNode.addChild( symbolOH, constraints );
         constraints.gridx++;
         layoutNode.addChild( symbolH2O, constraints );
-        constraints.anchor = GridBagConstraints.EAST;
+        constraints.insets = new Insets( 5, 2, 0, 2 ); // top, left, bottom, right
         constraints.gridx = 0;
         constraints.gridy++;
         layoutNode.addChild( imagesLabel, constraints );
