@@ -103,7 +103,7 @@ class ImageControls extends JPanel {
         h2oTransparencyControl.setTickLabels( h2oTransparencyLabelTable );
         
         // show H2O checkbox
-        showH2OCheckBox = new JCheckBox( "show H2O" );
+        showH2OCheckBox = new JCheckBox( "show H2O images" );
         showH2OCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 imagesNode.setH2OVisible( showH2OCheckBox.isSelected() );
