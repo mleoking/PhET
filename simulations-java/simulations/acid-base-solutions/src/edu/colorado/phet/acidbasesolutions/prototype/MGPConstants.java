@@ -30,12 +30,12 @@ class MGPConstants {
     public static final Dimension2D CANVAS_SIZE = new Dimension( 1024, 768 );
     
     // beaker
-    public static final IntegerRange BEAKER_WIDTH_RANGE = new IntegerRange( 400, 1000, 600 );
-    public static final IntegerRange BEAKER_HEIGHT_RANGE = new IntegerRange( 400, 1000, 800 );
+    public static final IntegerRange BEAKER_WIDTH_RANGE = new IntegerRange( 400, 1000, 700 );
+    public static final IntegerRange BEAKER_HEIGHT_RANGE = new IntegerRange( 400, 1000, 770 );
     public static final Point2D BEAKER_CENTER = new Point2D.Double( 450, 600 );
     
     // magnifying glass
-    public static final IntegerRange MAGNIFYING_GLASS_DIAMETER_RANGE = new IntegerRange( 100, 1200, 500 );
+    public static final IntegerRange MAGNIFYING_GLASS_DIAMETER_RANGE = new IntegerRange( 100, 1200, 675 );
     public static final Point2D MAGNIFYING_GLASS_CENTER = BEAKER_CENTER;
     
     // weak acid
@@ -43,14 +43,14 @@ class MGPConstants {
     public static final DoubleRange WEAK_ACID_STRENGTH_RANGE = new DoubleRange( 1E-10, 1 );
     
     // dots
-    public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 200, 10000, 5000 );
+    public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 200, 10000, 500 );
     public static final IntegerRange MAX_H2O_DOTS_RANGE = new IntegerRange( 0, 10000, 1000 );
     public static final DoubleRange DOT_DIAMETER_RANGE = new DoubleRange( 1, 40, 6 );
     public static final DoubleRange DOT_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 0.6 );
     
     // images
     public static final IntegerRange MAX_IMAGES_RANGE = MAX_DOTS_RANGE;
-    public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 0, 2500, 1000 );;
+    public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 0, 10000, 1000 );;
     public static final DoubleRange IMAGE_SCALE_RANGE = new DoubleRange( 0.25, 2.5, 1 );
     public static final DoubleRange IMAGE_TRANSPARENCY_RANGE = DOT_TRANSPARENCY_RANGE;
     public static final BufferedImage HA_IMAGE = RESOURCES.getImage( "molecules/HA.png" );

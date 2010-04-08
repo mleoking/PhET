@@ -5,14 +5,13 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Random;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeLayeringStrategy.WeakAcidLayeringStrategy;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -33,6 +32,7 @@ abstract class MoleculesNode extends PComposite {
     private final Random randomCoordinate;
     private final EventListenerList listeners;
     private final IMoleculeCountStrategy moleculeCountStrategy, h2oCountStrategy;
+    private final IMoleculeLayeringStrategy layeringStrategy;
     
     private int maxMolecules, maxH2O;
     private float moleculeTransparency, h2oTransparency;
@@ -48,7 +48,10 @@ abstract class MoleculesNode extends PComposite {
         this.moleculeTransparency = this.h2oTransparency = moleculeTransparency;
         this.moleculeCountStrategy = moleculeCountStrategy;
         this.h2oCountStrategy = h2oCountStrategy;
+        
+        randomCoordinate = new Random();
         listeners = new EventListenerList();
+        layeringStrategy = new WeakAcidLayeringStrategy();
         
         this.containerNode = containerNode;
         containerNode.addPropertyChangeListener( new PropertyChangeListener() {
@@ -67,8 +70,6 @@ abstract class MoleculesNode extends PComposite {
             }
         });
         
-        randomCoordinate = new Random();
-        
         parentHA = new MoleculeParentNode();
         parentA = new MoleculeParentNode();
         parentH3O = new MoleculeParentNode();
@@ -76,11 +77,11 @@ abstract class MoleculesNode extends PComposite {
         parentH2O = new MoleculeParentNode();
         
         // rendering order will be modified later based on number of dots
+        addChild( parentH2O );
         addChild( parentHA );
         addChild( parentA );
         addChild( parentH3O );
         addChild( parentOH );
-        addChild( parentH2O );
     }
     
     public int getMaxMolecules() {
@@ -188,7 +189,7 @@ abstract class MoleculesNode extends PComposite {
         countOH = moleculeCountStrategy.getNumberOfMolecules( solution.getConcentrationOH(), maxMolecules );
         countH2O = h2oCountStrategy.getNumberOfMolecules( solution.getConcentrationH2O(), maxH2O );
         updateNumberOfMoleculeNodes();
-        sortMolecules();
+        layeringStrategy.setRenderingOrder( parentHA, parentA, parentH3O, parentOH, parentH2O );
     }
     
     protected abstract void updateNumberOfMoleculeNodes();
@@ -225,36 +226,8 @@ abstract class MoleculesNode extends PComposite {
         pOutput.setLocation( x, y );
     }
     
-    // Changes the rendering order from most to least number of molecules.
-    private void sortMolecules() {
-        PNode[] dotParents = new PNode[] { parentHA, parentA, parentH3O, parentOH };
-        Arrays.sort( dotParents, new ChildrenCountComparator() );
-        for ( int i = 0; i < dotParents.length; i++ ) {
-            dotParents[i].moveToBack();
-        }
-        parentH2O.moveToBack(); // H2O is always in the background
-    }
-    
     // marker class for parents of molecule nodes
     protected static class MoleculeParentNode extends PComposite {}
-    
-    // Sorts PNodes based on how many children they have (least to most).
-    private static class ChildrenCountComparator implements Comparator<PNode> {
-
-        public int compare( final PNode node1, final PNode node2 ) {
-            final int count1 = node1.getChildrenCount();
-            final int count2 = node2.getChildrenCount();
-            if ( count1 > count2 ) {
-                return 1;
-            }
-            else if ( count1 < count2 ) {
-                return -1;
-            }
-            else {
-                return 0;
-            }
-        }
-    }
     
     public void addChangeListener( ChangeListener listener ) {
         listeners.add( ChangeListener.class, listener );

@@ -19,7 +19,7 @@ class MagnifyingGlass extends Changeable {
     private MoleculeRepresentation moleculeRepresentation;
     
     public MagnifyingGlass() {
-        this( MGPConstants.MAGNIFYING_GLASS_DIAMETER_RANGE.getDefault(), MGPConstants.MAGNIFYING_GLASS_CENTER, MoleculeRepresentation.DOTS );
+        this( MGPConstants.MAGNIFYING_GLASS_DIAMETER_RANGE.getDefault(), MGPConstants.MAGNIFYING_GLASS_CENTER, MoleculeRepresentation.IMAGES );
     }
 
     public MagnifyingGlass( int diameter, Point2D center, MoleculeRepresentation moleculeRepresentation ) {
