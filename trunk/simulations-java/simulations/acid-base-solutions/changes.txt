@@ -1,3 +1,4 @@
+4/7/10 prototype: fix molecule counts (again) to be displayed properly on startup
 4/7/10 prototype: javadoc
 4/7/10 prototype: bug fix in DotsNode transparency control
 4/7/10 prototype: make all classes package private, so they aren't used outside of prototype

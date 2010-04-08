@@ -31,7 +31,7 @@ class DotsNode extends MoleculesNode {
         colorH3O = MGPConstants.COLOR_H3O_PLUS;
         colorOH = MGPConstants.COLOR_OH_MINUS;
         colorH2O = MGPConstants.COLOR_H2O;
-        updateNumberOfMoleculeNodes(); // call this last
+        updateNumberOfMolecules(); // call this last
     }
     
     public double getDotDiameter() {

@@ -24,7 +24,7 @@ class ImagesNode extends MoleculesNode {
         super( solution, containerNode, MGPConstants.MAX_IMAGES_RANGE.getDefault(), MGPConstants.MAX_H2O_IMAGES_RANGE.getDefault(), 
                 (float) MGPConstants.IMAGE_TRANSPARENCY_RANGE.getDefault(), new ConcentrationMoleculeCountStrategy(), new ConstantMoleculeCountStrategy() );
         imageScale = MGPConstants.IMAGE_SCALE_RANGE.getDefault();
-        updateNumberOfMoleculeNodes(); // call this last
+        updateNumberOfMolecules(); // call this last
     }
     
     public double getImageScale() {
