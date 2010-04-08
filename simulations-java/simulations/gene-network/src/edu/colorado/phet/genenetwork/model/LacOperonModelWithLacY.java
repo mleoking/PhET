@@ -105,7 +105,7 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 		double yPos = CELL_MEMBRANE_RECT.getCenterY();
 		double xPos = 0;
 		double xMin = CELL_MEMBRANE_RECT.getCenterX() - 20;
-		double xRange = getInteriorMotionBounds().getMaxX() - xMin;
+		double xRange = getInteriorMotionBounds().getMaxX() - 20 - xMin;
 		boolean openSpotFound = false;
 		for (int i = 0; i < 100 && !openSpotFound; i++){
 			xPos = xMin + xRange * RAND.nextDouble();
