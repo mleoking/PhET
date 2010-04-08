@@ -28,12 +28,14 @@ public class Rotator extends MovieClip {
         this.useHandCursor = true;
 
         var li : LoaderInfo = this.root.loaderInfo;
+
+        var quantity : Number = Number(li.parameters.quantity);
+
         var url1 : String = li.parameters.url1;
-        if ( url1 ) {
-            var tf : TextField = new TextField();
-            tf.text = url1;
-            addChild(tf);
-        }
+        if ( !url1 ) { url1 = "/en/simulation/mass-spring-lab"; } // TODO: remove after dev
+        var tf : TextField = new TextField();
+        tf.text = url1;
+        addChild(tf);
 
         loader.addEventListener(MouseEvent.CLICK, function( evt : Event ) {
             navigateToURL(new URLRequest(url1), '_self');
