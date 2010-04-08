@@ -21,7 +21,7 @@ class WeakAcid extends Changeable {
     private Color color;
     
     public WeakAcid() {
-        this( MGPConstants.WEAK_ACID_CONCENTRATION_RANGE.getDefault(), MGPConstants.WEAK_ACID_STRENGTH_RANGE.getDefault(), MGPConstants.WEAK_ACID_COLOR );
+        this( MGPConstants.WEAK_ACID_CONCENTRATION_RANGE.getDefault(), MGPConstants.WEAK_ACID_STRENGTH_RANGE.getDefault(), MGPConstants.COLOR_WEAK_ACID );
     }
     
     public WeakAcid( double concentration, double strength, Color color ) {

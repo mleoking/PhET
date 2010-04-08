@@ -33,18 +33,21 @@ abstract class MoleculesNode extends PComposite {
     
     private final WeakAcid solution;
     private final PNode containerNode;
-    private final MoleculeParentNode parentHA, parentA, parentH3O, parentOH;
+    private final MoleculeParentNode parentHA, parentA, parentH3O, parentOH, parentH2O;
     private final Random randomCoordinate;
     private final EventListenerList listeners;
     
     private int maxMolecules;
-    private int countHA, countA, countH3O, countOH;
+    private float moleculeTransparency, h2oTransparency;
+    private int countHA, countA, countH3O, countOH, countH2O;
     
-    public MoleculesNode( WeakAcid solution, PNode containerNode, int maxMolecules ) {
+    public MoleculesNode( WeakAcid solution, PNode containerNode, int maxMolecules, int countH2O, float moleculeTransparency ) {
         super();
         setPickable( false );
         
         this.maxMolecules = maxMolecules;
+        this.countH2O = countH2O;
+        this.moleculeTransparency = this.h2oTransparency = moleculeTransparency;
         listeners = new EventListenerList();
         
         this.containerNode = containerNode;
@@ -70,14 +73,14 @@ abstract class MoleculesNode extends PComposite {
         parentA = new MoleculeParentNode();
         parentH3O = new MoleculeParentNode();
         parentOH = new MoleculeParentNode();
+        parentH2O = new MoleculeParentNode();
         
         // rendering order will be modified later based on number of dots
         addChild( parentHA );
         addChild( parentA );
         addChild( parentH3O );
         addChild( parentOH );
-        
-        updateNumberOfMoleculeNodes();
+        addChild( parentH2O );
     }
     
     protected WeakAcid getSolution() {
@@ -96,6 +99,39 @@ abstract class MoleculesNode extends PComposite {
         return maxMolecules;
     }
     
+    public float getMoleculeTransparency() {
+        return moleculeTransparency;
+    }
+    
+    public void setMoleculeTransparency( float transparency ) {
+        if ( transparency != this.moleculeTransparency ) {
+            this.moleculeTransparency = transparency;
+            // update the transparency of all existing non-H2O molecules
+            for ( int i = 0; i < getChildrenCount(); i++ ) {
+                PNode parent = getChild( i );
+                if ( parent instanceof MoleculeParentNode && parent != getParentH2O() ) {
+                    updateTransparency( parent, transparency );
+                }
+            }
+            fireStateChanged();
+        }
+    }
+    
+    public float getH2OTransparency() {
+        return h2oTransparency;
+    }
+    
+    public void setH2OTransparency( float h2oTransparency ) {
+        if ( h2oTransparency != this.h2oTransparency ) {
+            this.h2oTransparency = h2oTransparency;
+            // update the transparency of all existing H2O molecules
+            updateTransparency( getParentH2O(), h2oTransparency );
+            fireStateChanged();
+        }
+    }
+    
+    protected abstract void updateTransparency( PNode parent, float transparency );
+    
     public int getCountHA() {
         return countHA;
     }
@@ -110,6 +146,17 @@ abstract class MoleculesNode extends PComposite {
     
     public int getCountOH() {
         return countOH;
+    }
+    
+    public int getCountH2O() {
+        return countH2O;
+    }
+    
+    public void setCountH2O( int countH2O ) {
+        if ( countH2O != this.countH2O ) {
+            this.countH2O = countH2O;
+            updateNumberOfMolecules();
+        }
     }
     
     protected PNode getParentHA() {
@@ -128,11 +175,16 @@ abstract class MoleculesNode extends PComposite {
         return parentOH;
     }
     
+    protected PNode getParentH2O() {
+        return parentH2O;
+    }
+    
     private void updateNumberOfMolecules() {
         countHA = getNumberOfDots( solution.getConcentrationHA(), maxMolecules );
         countA = getNumberOfDots( solution.getConcentrationA(), maxMolecules );
         countH3O = getNumberOfDots( solution.getConcentrationH3O(), maxMolecules );
         countOH = getNumberOfDots( solution.getConcentrationOH(), maxMolecules );
+        // countH2O is a constant, not based on concentration!
         updateNumberOfMoleculeNodes();
         sortMolecules();
         fireStateChanged();
@@ -140,7 +192,7 @@ abstract class MoleculesNode extends PComposite {
     
     protected abstract void updateNumberOfMoleculeNodes();
     
-    protected void deleteAllMolecules() {
+    private void deleteAllMolecules() {
         for ( int i = 0; i < getChildrenCount(); i++ ) {
             PNode node = getChild( i );
             if ( node instanceof MoleculeParentNode ) {
@@ -148,6 +200,7 @@ abstract class MoleculesNode extends PComposite {
             }
         }
         countHA = countA = countH3O = countOH = 0;
+        // countH2O remains constant
     }
     
     /*
@@ -179,6 +232,7 @@ abstract class MoleculesNode extends PComposite {
         for ( int i = 0; i < dotParents.length; i++ ) {
             dotParents[i].moveToBack();
         }
+        parentH2O.moveToBack(); // H2O is always in the background
     }
     
     // Number of molecules displayed is based on concentration.

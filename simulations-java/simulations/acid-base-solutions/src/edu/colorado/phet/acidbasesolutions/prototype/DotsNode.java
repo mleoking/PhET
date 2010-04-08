@@ -18,10 +18,16 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class DotsNode extends MoleculesNode {
     
     private double dotDiameter = MGPConstants.DOT_DIAMETER_RANGE.getDefault();
-    private float dotTransparency = (float) MGPConstants.DOT_TRANSPARENCY_RANGE.getDefault();
+    private Color colorHA, colorA, colorH3O, colorOH, colorH2O;
     
     public DotsNode( final WeakAcid solution, PNode containerNode ) {
-        super( solution, containerNode, MGPConstants.MAX_DOTS_RANGE.getDefault() );
+        super( solution, containerNode, MGPConstants.MAX_DOTS_RANGE.getDefault(), MGPConstants.MAX_H2O_DOTS_RANGE.getDefault(), (float) MGPConstants.DOT_TRANSPARENCY_RANGE.getDefault() );
+        colorHA = MGPConstants.COLOR_HA;
+        colorA = MGPConstants.COLOR_A_MINUS;
+        colorH3O = MGPConstants.COLOR_H3O_PLUS;
+        colorOH = MGPConstants.COLOR_OH_MINUS;
+        colorH2O = MGPConstants.COLOR_H2O;
+        updateNumberOfMoleculeNodes();
     }
     
     public double getDotDiameter() {
@@ -50,24 +56,7 @@ public class DotsNode extends MoleculesNode {
         }
     }
     
-    public float getDotTransparency() {
-        return dotTransparency;
-    }
-    
-    public void setDotTransparency( float dotTransparency ) {
-        if ( dotTransparency != this.dotTransparency ) {
-            this.dotTransparency = dotTransparency;
-            for ( int i = 0; i < getChildrenCount(); i++ ) {
-                PNode parent = getChild( i );
-                if ( parent instanceof MoleculeParentNode ) {
-                    updateTransparency( parent, dotTransparency );
-                }
-            }
-            fireStateChanged();
-        }
-    }
-    
-    private static void updateTransparency( PNode parent, float transparency ) {
+    protected void updateTransparency( PNode parent, float transparency ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
             if ( child instanceof DotNode ) {
@@ -76,20 +65,49 @@ public class DotsNode extends MoleculesNode {
         }
     }
     
+    public Color getColorHA() {
+        return colorHA;
+    }
+    
     public void setColorHA( Color color ) {
+        colorHA = color;
         setDotColor( color, getParentHA() );
     }
     
+    public Color getColorA() {
+        return colorA;
+    }
+    
     public void setColorA( Color color ) {
+        colorA = color;
         setDotColor( color, getParentA() );
     }
     
+    public Color getColorH3O() {
+        return colorH3O;
+    }
+    
     public void setColorH3O( Color color ) {
+        colorH3O = color;
         setDotColor( color, getParentH3O() );
     }
     
+    public Color getColorOH() {
+        return colorOH;
+    }
+    
     public void setColorOH( Color color ) {
+        colorOH = color;
         setDotColor( color, getParentOH() );
+    }
+    
+    public Color getColorH2O() {
+        return colorH2O;
+    }
+    
+    public void setColorH2O( Color color ) {
+        colorH2O = color;
+        setDotColor( color, getParentH2O() );
     }
     
     private static void setDotColor( Color color, PNode parent ) {
@@ -106,14 +124,15 @@ public class DotsNode extends MoleculesNode {
      * Dots are spread at random location throughout the container.
      */
     protected void updateNumberOfMoleculeNodes() {
-        updateNumberOfMoleculeNodes( getParentHA(), getCountHA(), MGPConstants.COLOR_HA );
-        updateNumberOfMoleculeNodes( getParentA(), getCountA(), MGPConstants.COLOR_A_MINUS );
-        updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), MGPConstants.COLOR_H3O_PLUS );
-        updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), MGPConstants.COLOR_OH_MINUS );
+        updateNumberOfMoleculeNodes( getParentHA(), getCountHA(), dotDiameter, getTransparency(), colorHA );
+        updateNumberOfMoleculeNodes( getParentA(), getCountA(), dotDiameter, getTransparency(), colorA );
+        updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), dotDiameter, getTransparency(), colorH3O );
+        updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), dotDiameter, getTransparency(), colorOH );
+        updateNumberOfMoleculeNodes( getParentH2O(), getCountH2O(), dotDiameter, getH2OTransparency(), colorH2O );
     }
     
     // Adjusts the number of dots, creates dots at random locations.
-    private void updateNumberOfMoleculeNodes( PNode parent, int count, Color color ) {
+    private void updateNumberOfMoleculeNodes( PNode parent, int count, double diameter, float transparency, Color color ) {
 
         // remove nodes
         while ( count < parent.getChildrenCount() && count >= 0 ) {
@@ -125,7 +144,7 @@ public class DotsNode extends MoleculesNode {
         PBounds bounds = getContainerBounds( count );
         while ( count > parent.getChildrenCount() ) {
             getRandomPoint( bounds, pOffset );
-            DotNode p = new DotNode( dotDiameter, color, dotTransparency );
+            DotNode p = new DotNode( diameter, color, transparency );
             p.setOffset( pOffset );
             parent.addChild( p );
         }

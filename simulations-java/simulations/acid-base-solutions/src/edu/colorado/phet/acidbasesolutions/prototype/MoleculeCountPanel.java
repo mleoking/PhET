@@ -80,9 +80,9 @@ class MoleculeCountPanel extends JPanel {
         int row = 0;
         int column = 0;
         layout.setMinimumWidth( column, minColumnWidth );
-        layout.addComponent( new JLabel( "" ), row, column++ );
+        layout.addComponent( new JLabel( "<html><u>icon</u></html>" ), row, column++ );
         layout.setMinimumWidth( column, minColumnWidth );
-        layout.addComponent( new JLabel( "<html><u>molecule</u></html>" ), row, column++ );
+        layout.addComponent( new JLabel( "<html><u>symbol</u></html>" ), row, column++ );
         layout.setMinimumWidth( column, minColumnWidth );
         layout.addComponent( new JLabel( "<html><u>dots</u></html>" ), row, column++ );
         layout.setMinimumWidth( column, minColumnWidth );
@@ -137,7 +137,7 @@ class MoleculeCountPanel extends JPanel {
         dotsA.setValue( dotsNode.getCountA() );
         dotsH3O.setValue( dotsNode.getCountH3O() );
         dotsOH.setValue( dotsNode.getCountOH() );
-        //TODO H2O
+        dotsH2O.setValue( dotsNode.getCountH2O() );
         
         // images
         ImagesNode imagesNode = magnifyingGlassNode.getImagesNode();
@@ -145,7 +145,7 @@ class MoleculeCountPanel extends JPanel {
         imagesA.setValue( imagesNode.getCountA() );
         imagesH3O.setValue( imagesNode.getCountH3O() );
         imagesOH.setValue( imagesNode.getCountOH() );
-        //TODO H2O
+        imagesH2O.setValue( imagesNode.getCountH2O() );
         
         // actual
         actualHA.setValue( solution.getMoleculeCountHA() );

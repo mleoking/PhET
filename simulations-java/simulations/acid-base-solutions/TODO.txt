@@ -1,8 +1,6 @@
 TODO list for acid-base-solutions
 
 HIGH PRIORITY
-- prototype: use spinners for beaker size to take up less space
-- prototype: H2O controls and view
 - prototype: scale molecule images from their centers
 - prototype: pop out control panel as a separate window?
 - prototype: move some things (molecule counts? play area color?) to play area

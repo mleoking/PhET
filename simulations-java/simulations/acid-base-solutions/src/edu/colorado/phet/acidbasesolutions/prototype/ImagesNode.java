@@ -17,10 +17,10 @@ import edu.umd.cs.piccolo.util.PBounds;
 class ImagesNode extends MoleculesNode {
     
     private double imageScale = MGPConstants.IMAGE_SCALE_RANGE.getDefault();
-    private float imageTransparency = (float) MGPConstants.IMAGE_TRANSPARENCY_RANGE.getDefault();
     
     public ImagesNode( final WeakAcid solution, PNode containerNode ) {
-        super( solution, containerNode, MGPConstants.MAX_IMAGES_RANGE.getDefault() );
+        super( solution, containerNode, MGPConstants.MAX_IMAGES_RANGE.getDefault(), MGPConstants.MAX_H2O_IMAGES_RANGE.getDefault(), (float) MGPConstants.IMAGE_TRANSPARENCY_RANGE.getDefault() );
+        updateNumberOfMoleculeNodes();
     }
     
     public double getImageScale() {
@@ -49,24 +49,7 @@ class ImagesNode extends MoleculesNode {
         }
     }
     
-    public float getImageTransparency() {
-        return imageTransparency;
-    }
-    
-    public void setImageTransparency( float imageTransparency ) {
-        if ( imageTransparency != this.imageTransparency ) {
-            this.imageTransparency = imageTransparency;
-            for ( int i = 0; i < getChildrenCount(); i++ ) {
-                PNode parent = getChild( i );
-                if ( parent instanceof MoleculeParentNode ) {
-                   setTransparency( parent, imageTransparency );
-                }
-            }
-            fireStateChanged();
-        }
-    }
-    
-    private static void setTransparency( PNode parent, float transparency ) {
+    protected void updateTransparency( PNode parent, float transparency ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
             if ( child instanceof ImageNode ) {
@@ -80,14 +63,15 @@ class ImagesNode extends MoleculesNode {
      * Images are spread at random location throughout the container.
      */
     protected void updateNumberOfMoleculeNodes() {
-        updateNumberOfMoleculeNodes( getParentHA(), getCountHA(), MGPConstants.HA_IMAGE );
-        updateNumberOfMoleculeNodes( getParentA(), getCountA(), MGPConstants.A_MINUS_IMAGE );
-        updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), MGPConstants.H3O_PLUS_IMAGE );
-        updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), MGPConstants.OH_MINUS_IMAGE );
+        updateNumberOfMoleculeNodes( getParentHA(), getCountHA(), imageScale, getTransparency(), MGPConstants.HA_IMAGE );
+        updateNumberOfMoleculeNodes( getParentA(), getCountA(), imageScale, getTransparency(), MGPConstants.A_MINUS_IMAGE );
+        updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), imageScale, getTransparency(), MGPConstants.H3O_PLUS_IMAGE );
+        updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), imageScale, getTransparency(), MGPConstants.OH_MINUS_IMAGE );
+        updateNumberOfMoleculeNodes( getParentH2O(), getCountH2O(), imageScale, getH2OTransparency(), MGPConstants.H2O_IMAGE );
     }
     
     // Adjusts the number of images, creates images at random locations.
-    private void updateNumberOfMoleculeNodes( PNode parent, int count, Image image ) {
+    private void updateNumberOfMoleculeNodes( PNode parent, int count, double scale, float transparency, Image image ) {
 
         // remove nodes
         while ( count < parent.getChildrenCount() && count >= 0 ) {
@@ -99,7 +83,7 @@ class ImagesNode extends MoleculesNode {
         PBounds bounds = getContainerBounds( count );
         while ( count > parent.getChildrenCount() ) {
             getRandomPoint( bounds, pOffset );
-            ImageNode p = new ImageNode( image, imageScale, imageTransparency );
+            ImageNode p = new ImageNode( image, scale, transparency );
             p.setOffset( pOffset );
             parent.addChild( p );
         }
