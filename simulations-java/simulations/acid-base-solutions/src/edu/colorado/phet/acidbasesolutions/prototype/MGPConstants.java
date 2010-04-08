@@ -67,7 +67,8 @@ class MGPConstants {
     public static final Color COLOR_H2O = Color.LIGHT_GRAY;
     public static final Color COLOR_WEAK_ACID = new Color( 193, 222, 227 ); // light blue
     
-    // HTML fragments
+    // Strings & HTML fragments
+    public static final String UNITS_LITERS = "L";
     public static final String HA_FRAGMENT = "HA";
     public static final String A_MINUS_FRAGMENT = "A<sup>-</sup>";
     public static final String H3O_PLUS_FRAGMENT = "H<sub>3</sub>O<sup>+</sup>";

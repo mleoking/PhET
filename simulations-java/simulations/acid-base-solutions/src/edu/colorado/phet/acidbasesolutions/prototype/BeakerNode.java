@@ -11,7 +11,6 @@ import java.text.DecimalFormat;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.advancedacidbasesolutions.AABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -142,7 +141,7 @@ class BeakerNode extends PComposite {
                 
                 int labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
                 if ( labelIndex < MAJOR_TICK_LABELS.length && MAJOR_TICK_LABELS[ labelIndex ] != null ) {
-                    String label = MAJOR_TICK_LABELS[ labelIndex ] + AABSStrings.UNITS_LITERS;
+                    String label = MAJOR_TICK_LABELS[ labelIndex ] + MGPConstants.UNITS_LITERS;
                     PText textNode = new PText( label );
                     textNode.setFont( TICK_LABEL_FONT );
                     textNode.setTextPaint( TICK_COLOR );
