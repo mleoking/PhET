@@ -1,3 +1,5 @@
+4/7/10 prototype: add H2O controls
+4/7/10 prototype: handle dot colors properly
 4/7/10 prototype: reorder control panel so that most important stuff is at top
 4/7/10 prototype: move molecule representation radio to buttons to their own subpanel
 4/7/10 prototype: remove H2O visibility flag from model

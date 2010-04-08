@@ -41,15 +41,16 @@ public class MGPConstants {
     // weak acid
     public static final DoubleRange WEAK_ACID_CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
     public static final DoubleRange WEAK_ACID_STRENGTH_RANGE = new DoubleRange( 1E-10, 1 );
-    public static final Color WEAK_ACID_COLOR = new Color( 193, 222, 227 ); // light blue
     
     // dots
-    public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 500, 10000, 5000 );
+    public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 200, 10000, 5000 );
+    public static final IntegerRange MAX_H2O_DOTS_RANGE = new IntegerRange( 0, 10000, 1000 );
     public static final DoubleRange DOT_DIAMETER_RANGE = new DoubleRange( 1, 40, 6 );
     public static final DoubleRange DOT_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 0.6 );
     
     // images
     public static final IntegerRange MAX_IMAGES_RANGE = MAX_DOTS_RANGE;
+    public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 0, 2500, 1000 );;
     public static final DoubleRange IMAGE_SCALE_RANGE = new DoubleRange( 0.25, 2.5, 1 );
     public static final DoubleRange IMAGE_TRANSPARENCY_RANGE = DOT_TRANSPARENCY_RANGE;
     public static final BufferedImage HA_IMAGE = RESOURCES.getImage( "molecules/HA.png" );
@@ -63,7 +64,8 @@ public class MGPConstants {
     public static final Color COLOR_A_MINUS = new Color( 235, 145, 5 );
     public static final Color COLOR_H3O_PLUS = new Color( 222, 2, 0 );
     public static final Color COLOR_OH_MINUS = new Color( 102, 132, 242 );
-    public static final Color COLOR_H2O = new Color( 193, 222, 227 );
+    public static final Color COLOR_H2O = Color.LIGHT_GRAY;
+    public static final Color COLOR_WEAK_ACID = new Color( 193, 222, 227 ); // light blue
     
     // HTML fragments
     public static final String HA_FRAGMENT = "HA";
