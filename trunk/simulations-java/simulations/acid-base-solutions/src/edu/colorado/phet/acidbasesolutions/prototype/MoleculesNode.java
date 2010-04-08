@@ -156,6 +156,7 @@ abstract class MoleculesNode extends PComposite {
         if ( countH2O != this.countH2O ) {
             this.countH2O = countH2O;
             updateNumberOfMolecules();
+            fireStateChanged();
         }
     }
     
@@ -187,7 +188,6 @@ abstract class MoleculesNode extends PComposite {
         // countH2O is a constant, not based on concentration!
         updateNumberOfMoleculeNodes();
         sortMolecules();
-        fireStateChanged();
     }
     
     protected abstract void updateNumberOfMoleculeNodes();

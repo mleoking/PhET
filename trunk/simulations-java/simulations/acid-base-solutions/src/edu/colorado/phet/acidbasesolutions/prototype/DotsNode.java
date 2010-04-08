@@ -17,17 +17,18 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class DotsNode extends MoleculesNode {
     
-    private double dotDiameter = MGPConstants.DOT_DIAMETER_RANGE.getDefault();
+    private double dotDiameter;
     private Color colorHA, colorA, colorH3O, colorOH, colorH2O;
     
     public DotsNode( final WeakAcid solution, PNode containerNode ) {
         super( solution, containerNode, MGPConstants.MAX_DOTS_RANGE.getDefault(), MGPConstants.MAX_H2O_DOTS_RANGE.getDefault(), (float) MGPConstants.DOT_TRANSPARENCY_RANGE.getDefault() );
+        dotDiameter = MGPConstants.DOT_DIAMETER_RANGE.getDefault();
         colorHA = MGPConstants.COLOR_HA;
         colorA = MGPConstants.COLOR_A_MINUS;
         colorH3O = MGPConstants.COLOR_H3O_PLUS;
         colorOH = MGPConstants.COLOR_OH_MINUS;
         colorH2O = MGPConstants.COLOR_H2O;
-        updateNumberOfMoleculeNodes();
+        updateNumberOfMoleculeNodes(); // call this last
     }
     
     public double getDotDiameter() {
@@ -47,6 +48,67 @@ public class DotsNode extends MoleculesNode {
         }
     }
     
+    public Color getColorHA() {
+        return colorHA;
+    }
+    
+    public void setColorHA( Color color ) {
+        if ( !color.equals( colorHA ) ) {
+            colorHA = color;
+            updateDotColor( color, getParentHA() );
+            fireStateChanged();
+        }
+    }
+    
+    public Color getColorA() {
+        return colorA;
+    }
+    
+    public void setColorA( Color color ) {
+        if ( !color.equals( colorA ) ) {
+            colorA = color;
+            updateDotColor( color, getParentA() );
+            fireStateChanged();
+        }
+    }
+    
+    public Color getColorH3O() {
+        return colorH3O;
+    }
+    
+    public void setColorH3O( Color color ) {
+        if ( !color.equals( colorH3O ) ) {
+            colorH3O = color;
+            updateDotColor( color, getParentH3O() );
+            fireStateChanged();
+        }
+    }
+    
+    public Color getColorOH() {
+        return colorOH;
+    }
+    
+    public void setColorOH( Color color ) {
+        if ( !color.equals( colorOH ) ) {
+            colorOH = color;
+            updateDotColor( color, getParentOH() );
+            fireStateChanged();
+        }
+    }
+    
+    public Color getColorH2O() {
+        return colorH2O;
+    }
+    
+    public void setColorH2O( Color color ) {
+        if ( !color.equals( colorH2O ) ) {
+            colorH2O = color;
+            updateDotColor( color, getParentH2O() );
+            fireStateChanged();
+        }
+    }
+    
+    // Updates the diameter of existing dot nodes.
     private static void updateDiameter( PNode parent, double diameter ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
@@ -56,6 +118,7 @@ public class DotsNode extends MoleculesNode {
         }
     }
     
+    // Updates the transparency of existing dot nodes.
     protected void updateTransparency( PNode parent, float transparency ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
@@ -65,52 +128,8 @@ public class DotsNode extends MoleculesNode {
         }
     }
     
-    public Color getColorHA() {
-        return colorHA;
-    }
-    
-    public void setColorHA( Color color ) {
-        colorHA = color;
-        setDotColor( color, getParentHA() );
-    }
-    
-    public Color getColorA() {
-        return colorA;
-    }
-    
-    public void setColorA( Color color ) {
-        colorA = color;
-        setDotColor( color, getParentA() );
-    }
-    
-    public Color getColorH3O() {
-        return colorH3O;
-    }
-    
-    public void setColorH3O( Color color ) {
-        colorH3O = color;
-        setDotColor( color, getParentH3O() );
-    }
-    
-    public Color getColorOH() {
-        return colorOH;
-    }
-    
-    public void setColorOH( Color color ) {
-        colorOH = color;
-        setDotColor( color, getParentOH() );
-    }
-    
-    public Color getColorH2O() {
-        return colorH2O;
-    }
-    
-    public void setColorH2O( Color color ) {
-        colorH2O = color;
-        setDotColor( color, getParentH2O() );
-    }
-    
-    private static void setDotColor( Color color, PNode parent ) {
+    // Updates the color of existing dot nodes
+    private static void updateDotColor( Color color, PNode parent ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
             if ( child instanceof DotNode ) {
