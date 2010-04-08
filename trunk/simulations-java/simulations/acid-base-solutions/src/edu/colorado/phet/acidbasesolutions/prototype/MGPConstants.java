@@ -32,7 +32,7 @@ class MGPConstants {
     // beaker
     public static final IntegerRange BEAKER_WIDTH_RANGE = new IntegerRange( 400, 1000, 700 );
     public static final IntegerRange BEAKER_HEIGHT_RANGE = new IntegerRange( 400, 1000, 770 );
-    public static final Point2D BEAKER_CENTER = new Point2D.Double( 450, 600 );
+    public static final Point2D BEAKER_CENTER = new Point2D.Double( 450, 550 );
     
     // magnifying glass
     public static final IntegerRange MAGNIFYING_GLASS_DIAMETER_RANGE = new IntegerRange( 100, 1200, 675 );
