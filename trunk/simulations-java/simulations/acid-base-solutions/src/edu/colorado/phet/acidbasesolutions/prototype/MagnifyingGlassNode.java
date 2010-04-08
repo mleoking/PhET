@@ -6,7 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -27,14 +27,15 @@ class MagnifyingGlassNode extends PComposite {
     private static final Stroke GLASS_STROKE = new BasicStroke( 18f );
     private static final Color GLASS_STROKE_COLOR = Color.BLACK;
     
-    private static final Stroke HANDLE_STROKE = new BasicStroke( 1f );
+    private static final Stroke HANDLE_STROKE = new BasicStroke( 2f );
     private static final Color HANDLE_STROKE_COLOR = Color.BLACK;
     private static final Color HANDLE_FILL_COLOR = new Color( 85, 55, 33 ); // brown
+    private static final double HANDLE_ARC_WIDTH = 40;
     
     private final MagnifyingGlass magnifyingGlass;
     private final WeakAcid solution;
     private final PPath handleNode;
-    private final Rectangle2D handlePath;
+    private final RoundRectangle2D handlePath;
     private final PPath circleNode;
     private final Ellipse2D circlePath;
     private final DotsNode dotsNode;
@@ -57,7 +58,7 @@ class MagnifyingGlassNode extends PComposite {
             }
         });
         
-        handlePath = new Rectangle2D.Double();
+        handlePath = new RoundRectangle2D.Double();
         handleNode = new PPath();
         handleNode.setStroke( HANDLE_STROKE );
         handleNode.setStrokePaint( HANDLE_STROKE_COLOR );
@@ -96,7 +97,7 @@ class MagnifyingGlassNode extends PComposite {
         // handle
         double width = diameter / 8;
         double height = diameter / 2;
-        handlePath.setRect( -width/2, 0, width, height );
+        handlePath.setRoundRect( -width/2, 0, width, height, HANDLE_ARC_WIDTH, HANDLE_ARC_WIDTH );
         handleNode.setPathTo( handlePath );
         handleNode.getTransform().setToIdentity();
         PAffineTransform transform = new PAffineTransform();
