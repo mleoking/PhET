@@ -1,3 +1,5 @@
+# 0.00.16 (39752) Apr 8, 2010
+4/8/10 Fixed a bug with the lactose meter on the 2nd tab, adjusted some params to make lacose get into cells quicker, made 1st tab achieve homeostasis.
 # 0.00.15 (39672) Apr 6, 2010
 4/6/10 Version with 2nd tab pretty much fully implemented, publishing for review & feedback.
 # 0.00.14 (39424) Mar 19, 2010
