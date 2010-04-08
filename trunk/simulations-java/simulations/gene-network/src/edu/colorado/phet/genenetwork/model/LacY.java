@@ -31,7 +31,7 @@ public class LacY extends SimpleModelElement {
 	private static final double SIZE = 8; // In nanometers.
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-SIZE, 0), 
 			new Color(0, 200, 0), new Point2D.Double(SIZE * 5, 0), Color.WHITE);
-	private static final double EXISTENCE_TIME = 25; // Seconds.
+	private static final double EXISTENCE_TIME = 35; // Seconds.
 	
 	// Attachment point for glucose.  Note that glucose generally only
 	// attaches when it is bound up in lactose, so this is essentially the
@@ -40,12 +40,12 @@ public class LacY extends SimpleModelElement {
 	
 	// Amount of time that it takes for lactose to traverse from the
 	// attachment point to the other side.
-	private static final double LACTOSE_TRAVERSAL_TIME = 1;  // In seconds.
+	private static final double LACTOSE_TRAVERSAL_TIME = 0.5;  // In seconds.
 	
 	// Amount of time after releasing one lactose molecule until it is okay
 	// to start trying to attach to another.  This is needed to prevent the
 	// LacY from getting into a state where it can never fade out.
-	private static final double RECOVERY_TIME = 0.250;  // In seconds.
+	private static final double RECOVERY_TIME = 0.150;  // In seconds.
 	
 	// These are used to determine whether a lactose molecule is close enough
 	// that this molecule should try to grab it after it has been moved by
