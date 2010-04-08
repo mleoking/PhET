@@ -48,8 +48,9 @@ class BeakerNode extends PComposite {
     private final Rectangle2D solutionRectangle;
     private final PComposite ticksNode;
     private final PText pHNode;
+    private final MoleculeCountNode countsNode;
     
-    public BeakerNode( Beaker beaker, WeakAcid solution ) {
+    public BeakerNode( Beaker beaker, WeakAcid solution, MagnifyingGlassNode magnifyingGlassNode ) {
         super();
         
         this.beaker = beaker;
@@ -86,6 +87,10 @@ class BeakerNode extends PComposite {
         pHNode.scale( 3 );
         addChild( pHNode );
         
+        countsNode = new MoleculeCountNode(solution, magnifyingGlassNode );
+        countsNode.scale( 1.75 );
+        addChild( countsNode );
+        
         update();
     }
     
@@ -94,6 +99,7 @@ class BeakerNode extends PComposite {
         updateTicks();
         updateSolution();
         updatePH();
+        updateCounts();
     }
     
     private void updateBeaker() {
@@ -162,5 +168,11 @@ class BeakerNode extends PComposite {
         double x = -pHNode.getFullBoundsReference().getWidth()/2;
         double y = -beaker.getHeight()/2 - pHNode.getFullBoundsReference().getHeight() - 5;
         pHNode.setOffset( x, y );
+    }
+    
+    private void updateCounts() {
+        double x = -countsNode.getFullBoundsReference().getWidth() / 2;
+        double y = outlineNode.getFullBounds().getMaxY() + 20;
+        countsNode.setOffset( x, y );
     }
 }
