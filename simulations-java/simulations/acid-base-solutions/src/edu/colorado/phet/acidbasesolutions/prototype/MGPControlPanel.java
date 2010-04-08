@@ -21,12 +21,14 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 class MGPControlPanel extends ControlPanel {
     
     private final MGPModel model;
-    private final BeakerControls beakerControls;
-    private final MagnifyingGlassControls magnifyingGlassControls;
+    
+    private final WeakAcidControls weakAcidControls;
+    private final MoleculeControls moleculeControls;
     private final DotControls dotControls;
     private final ImageControls imageControls;
-    private final WeakAcidControls weakAcidControls;
     private final MoleculeCountPanel moleculeCountPanel;
+    private final BeakerControls beakerControls;
+    private final MagnifyingGlassControls magnifyingGlassControls;
     private final CanvasControls canvasControls;
     
     public MGPControlPanel( JFrame parentFrame, final MGPCanvas canvas, final MGPModel model ) {
@@ -38,12 +40,13 @@ class MGPControlPanel extends ControlPanel {
             }
         });
         
-        beakerControls = new BeakerControls( parentFrame, model.getBeaker() );
-        magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
+        weakAcidControls = new WeakAcidControls( parentFrame, model.getSolution() );
+        moleculeControls = new MoleculeControls( model.getMagnifyingGlass() );
         dotControls = new DotControls( parentFrame, canvas.getMagnifyingGlassNode().getDotsNode() );
         imageControls = new ImageControls( canvas.getMagnifyingGlassNode().getImagesNode() );
-        weakAcidControls = new WeakAcidControls( parentFrame, model.getSolution() );
         moleculeCountPanel = new MoleculeCountPanel( model.getSolution(), canvas.getMagnifyingGlassNode() );
+        beakerControls = new BeakerControls( parentFrame, model.getBeaker() );
+        magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
         canvasControls = new CanvasControls( parentFrame, canvas );
         
         JPanel innerPanel = new JPanel();
@@ -55,12 +58,13 @@ class MGPControlPanel extends ControlPanel {
         innerPanel.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( beakerControls, row++, column );
-        layout.addComponent( magnifyingGlassControls, row++, column );
+        layout.addComponent( weakAcidControls, row++, column );
+        layout.addComponent( moleculeControls, row++, column );
         layout.addComponent( dotControls, row++, column );
         layout.addComponent( imageControls, row++, column );
-        layout.addComponent( weakAcidControls, row++, column );
         layout.addComponent( moleculeCountPanel, row++, column );
+        layout.addComponent( beakerControls, row++, column );
+        layout.addComponent( magnifyingGlassControls, row++, column );
         layout.addComponent( canvasControls, row++, column );
         
         addControlFullWidth( innerPanel );

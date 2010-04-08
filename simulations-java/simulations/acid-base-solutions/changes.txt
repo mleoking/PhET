@@ -1,3 +1,5 @@
+4/7/10 prototype: reorder control panel so that most important stuff is at top
+4/7/10 prototype: move molecule representation radio to buttons to their own subpanel
 4/7/10 prototype: remove H2O visibility flag from model
 # 0.00.01 (39700) Apr 7, 2010
 4/7/10 prototype: publish a preview for discussion with Kelly
