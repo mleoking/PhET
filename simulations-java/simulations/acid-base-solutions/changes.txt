@@ -1,3 +1,5 @@
+4/7/10 prototype: set default dot diameter to 12
+4/7/10 prototype: set default molecule representation to "images", change radio buttons order
 4/7/10 prototype: use strategy pattern for determining rendering order of molecules
 # 0.00.02 (39716) Apr 7, 2010
 4/7/10 prototype: publish dev version for discussion
