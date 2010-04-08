@@ -43,7 +43,7 @@ class MGPConstants {
     public static final DoubleRange WEAK_ACID_STRENGTH_RANGE = new DoubleRange( 1E-10, 1 );
     
     // dots
-    public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 200, 10000, 500 );
+    public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 100, 2000, 500 );
     public static final IntegerRange MAX_H2O_DOTS_RANGE = new IntegerRange( 0, 10000, 1000 );
     public static final DoubleRange DOT_DIAMETER_RANGE = new DoubleRange( 1, 40, 12 );
     public static final DoubleRange DOT_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 1 );
