@@ -3,12 +3,11 @@
 package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Hashtable;
 
-import javax.swing.Box;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -30,7 +29,8 @@ class DotControls extends JPanel {
     
     private final DotsNode dotsNode;
     
-    private final LinearValueControl maxMoleculesControl, maxH2OControl, diameterControl, transparencyControl, h2oTransparencyControl;
+    private final LinearValueControl maxMoleculesControl, diameterControl, transparencyControl, maxH2OControl, h2oTransparencyControl;
+    private final JCheckBox showH2OCheckBox;
     private final ColorControl colorHAControl, colorAControl, colorH3OControl, colorOHControl, colorH2OControl;
     
     public DotControls( JFrame parentFrame, final DotsNode dotsNode ) {
@@ -53,17 +53,6 @@ class DotControls extends JPanel {
             }
         });
         
-        // H2O dots
-        IntegerRange h2oDotsRange = MGPConstants.MAX_H2O_DOTS_RANGE;
-        String h2oDotsLabel = HTMLUtils.toHTMLString( MGPConstants.H2O_FRAGMENT + " dots:" );
-        maxH2OControl = new LinearValueControl( h2oDotsRange.getMin(), h2oDotsRange.getMax(), h2oDotsLabel, "####0", "", new HorizontalLayoutStrategy() );
-        maxH2OControl.setUpDownArrowDelta( 1 );
-        maxH2OControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                dotsNode.setMaxH2O( (int) maxH2OControl.getValue() );
-            }
-        });
-
         // diameter
         DoubleRange diameterRange = MGPConstants.DOT_DIAMETER_RANGE;
         diameterControl = new LinearValueControl( diameterRange.getMin(), diameterRange.getMax(), "diameter:", "#0", "", new HorizontalLayoutStrategy() );
@@ -88,6 +77,17 @@ class DotControls extends JPanel {
         transparencyLabelTable.put( new Double( transparencyControl.getMaximum() ), new JLabel( "opaque" ) );
         transparencyControl.setTickLabels( transparencyLabelTable );
         
+        // H2O dots
+        IntegerRange h2oDotsRange = MGPConstants.MAX_H2O_DOTS_RANGE;
+        String h2oDotsLabel = HTMLUtils.toHTMLString( MGPConstants.H2O_FRAGMENT + " dots:" );
+        maxH2OControl = new LinearValueControl( h2oDotsRange.getMin(), h2oDotsRange.getMax(), h2oDotsLabel, "####0", "", new HorizontalLayoutStrategy() );
+        maxH2OControl.setUpDownArrowDelta( 1 );
+        maxH2OControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                dotsNode.setMaxH2O( (int) maxH2OControl.getValue() );
+            }
+        });
+        
         // H2O transparency
         DoubleRange h2oTransparencyRange = MGPConstants.DOT_TRANSPARENCY_RANGE;
         String h2oTransparencyLabel = HTMLUtils.toHTMLString( MGPConstants.H2O_FRAGMENT + " transparency:" );
@@ -102,6 +102,14 @@ class DotControls extends JPanel {
         h2oTransparencyLabelTable.put( new Double( h2oTransparencyControl.getMinimum() ), new JLabel( "invisible" ) );
         h2oTransparencyLabelTable.put( new Double( h2oTransparencyControl.getMaximum() ), new JLabel( "opaque" ) );
         h2oTransparencyControl.setTickLabels( h2oTransparencyLabelTable );
+        
+        // show H2O checkbox
+        showH2OCheckBox = new JCheckBox( "show H2O" );
+        showH2OCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dotsNode.setH2OVisible( showH2OCheckBox.isSelected() );
+            }
+        } );
         
         // colors
         colorHAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.HA_FRAGMENT ), dotsNode.getColorHA() );
@@ -162,16 +170,19 @@ class DotControls extends JPanel {
         layout.addComponent( maxMoleculesControl, row, column++ );
         row++;
         column = 0;
-        layout.addComponent( maxH2OControl, row, column++ );
-        row++;
-        column = 0;
         layout.addComponent( diameterControl, row, column++ );
         row++;
         column = 0;
         layout.addComponent( transparencyControl, row, column++ );
         row++;
         column = 0;
+        layout.addComponent( maxH2OControl, row, column++ );
+        row++;
+        column = 0;
         layout.addComponent( h2oTransparencyControl, row, column++ );
+        row++;
+        column = 0;
+        layout.addComponent( showH2OCheckBox, row, column++ );
         row++;
         column = 0;
         layout.addComponent( colorsPanel, row, column++ );
@@ -181,10 +192,11 @@ class DotControls extends JPanel {
     
     private void updateControls() {
         maxMoleculesControl.setValue( dotsNode.getMaxMolecules() );
-        maxH2OControl.setValue( dotsNode.getMaxH2O() );
         diameterControl.setValue( dotsNode.getDotDiameter() );
         transparencyControl.setValue( dotsNode.getMoleculeTransparency() );
+        maxH2OControl.setValue( dotsNode.getMaxH2O() );
         h2oTransparencyControl.setValue( dotsNode.getH2OTransparency() );
+        showH2OCheckBox.setSelected( dotsNode.isH2OVisible() );
         colorHAControl.setColor( dotsNode.getColorHA() );
         colorAControl.setColor( dotsNode.getColorA() );
         colorH3OControl.setColor( dotsNode.getColorH3O() );

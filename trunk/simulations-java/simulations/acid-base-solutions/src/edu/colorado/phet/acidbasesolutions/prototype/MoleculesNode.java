@@ -84,6 +84,17 @@ abstract class MoleculesNode extends PComposite {
         addChild( parentOH );
     }
     
+    public boolean isH2OVisible() {
+        return parentH2O.getVisible();
+    }
+    
+    public void setH2OVisible( boolean visible ) {
+        if ( visible != isH2OVisible() ) {
+            parentH2O.setVisible( visible );
+            fireStateChanged();
+        }
+    }
+    
     public int getMaxMolecules() {
         return maxMolecules;
     }

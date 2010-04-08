@@ -1,7 +1,6 @@
 TODO list for acid-base-solutions
 
 HIGH PRIORITY
-- prototype: add "show H2O" check box
 - prototype: make H2O images fill magnifying glass, remove "H2O images" control
 - prototype: counts don't add up to MoleculesNode.maxMolecules
 - prototype: investigate origin of ConcentrationMoleculeCountStrategy algorithm
