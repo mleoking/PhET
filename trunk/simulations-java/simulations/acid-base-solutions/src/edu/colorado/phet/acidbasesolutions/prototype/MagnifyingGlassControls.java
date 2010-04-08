@@ -4,12 +4,12 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.GridBagConstraints;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.prototype.MagnifyingGlass.MoleculeRepresentation;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -24,7 +24,6 @@ class MagnifyingGlassControls extends JPanel {
     
     private final MagnifyingGlass magnifyingGlass;
     private final LinearValueControl diameterControl;
-    private final JRadioButton dotsRadioButton, imagesRadioButton;
     
     public MagnifyingGlassControls( final MagnifyingGlass magnifyingGlass ) {
         setBorder( new TitledBorder( "Magnifying glass" ) );
@@ -45,31 +44,6 @@ class MagnifyingGlassControls extends JPanel {
             }
         });
         
-        dotsRadioButton = new JRadioButton( "dots" );
-        dotsRadioButton.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                if ( dotsRadioButton.isSelected() ) {
-                    magnifyingGlass.setMoleculeRepresentation( MoleculeRepresentation.DOTS );
-                }
-            }
-        });
-        imagesRadioButton = new JRadioButton( "images" );
-        imagesRadioButton.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                if ( imagesRadioButton.isSelected() ) {
-                    magnifyingGlass.setMoleculeRepresentation( MoleculeRepresentation.IMAGES );
-                }
-            }
-        });
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( dotsRadioButton );
-        buttonGroup.add( imagesRadioButton );
-        
-        JPanel representationPanel = new JPanel();
-        representationPanel.add( new JLabel( "show molecules as:" ) );
-        representationPanel.add( dotsRadioButton );
-        representationPanel.add( imagesRadioButton );
-        
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -80,9 +54,6 @@ class MagnifyingGlassControls extends JPanel {
         row++;
         column = 0;
         layout.addComponent( diameterControl, row, column++ );
-        row++;
-        column = 0;
-        layout.addComponent( representationPanel, row, column++ );
         
         // default state
         updateControls();
@@ -90,7 +61,5 @@ class MagnifyingGlassControls extends JPanel {
     
     private void updateControls() {
         diameterControl.setValue( magnifyingGlass.getDiameter() );
-        dotsRadioButton.setSelected( magnifyingGlass.getMoleculeRepresentation() == MoleculeRepresentation.DOTS );
-        imagesRadioButton.setSelected( magnifyingGlass.getMoleculeRepresentation() == MoleculeRepresentation.IMAGES );
     }
 }
