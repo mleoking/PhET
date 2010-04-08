@@ -1,3 +1,5 @@
+# 0.00.02 (39716) Apr 7, 2010
+4/7/10 publish dev version for discussion
 4/7/10 prototype: fix molecule counts (again) to be displayed properly on startup
 4/7/10 prototype: javadoc
 4/7/10 prototype: bug fix in DotsNode transparency control
