@@ -49,7 +49,7 @@ class DotControls extends JPanel {
         maxMoleculesControl.setUpDownArrowDelta( 1 );
         maxMoleculesControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                dotsNode.setMaxMolecules( (int)maxMoleculesControl.getValue() );
+                dotsNode.setMaxMolecules( (int) maxMoleculesControl.getValue() );
             }
         });
         
@@ -60,7 +60,7 @@ class DotControls extends JPanel {
         maxH2OControl.setUpDownArrowDelta( 1 );
         maxH2OControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                dotsNode.setMaxH2O( (int)maxH2OControl.getValue() );
+                dotsNode.setMaxH2O( (int) maxH2OControl.getValue() );
             }
         });
 
@@ -80,7 +80,7 @@ class DotControls extends JPanel {
         transparencyControl.setUpDownArrowDelta( 0.01 );
         transparencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                dotsNode.setTransparency( (float)transparencyControl.getValue() );
+                dotsNode.setMoleculeTransparency( (float) transparencyControl.getValue() );
             }
         });
         Hashtable<Double, JLabel> transparencyLabelTable = new Hashtable<Double, JLabel>();
@@ -95,7 +95,7 @@ class DotControls extends JPanel {
         h2oTransparencyControl.setUpDownArrowDelta( 0.01 );
         h2oTransparencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                dotsNode.setH2OTransparency( (float)h2oTransparencyControl.getValue() );
+                dotsNode.setH2OTransparency( (float) h2oTransparencyControl.getValue() );
             }
         });
         Hashtable<Double, JLabel> h2oTransparencyLabelTable = new Hashtable<Double, JLabel>();

@@ -111,7 +111,7 @@ class DotsNode extends MoleculesNode {
         }
     }
     
-    // Updates the diameter of existing dot nodes.
+    // Updates the diameter of existing DotNodes that are children of parent.
     private static void updateDiameter( PNode parent, double diameter ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
@@ -121,7 +121,7 @@ class DotsNode extends MoleculesNode {
         }
     }
     
-    // Updates the transparency of existing dot nodes.
+    // Updates the transparency of existing DotNodes that are children of parent.
     protected void updateTransparency( PNode parent, float transparency ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
@@ -131,7 +131,7 @@ class DotsNode extends MoleculesNode {
         }
     }
     
-    // Updates the color of existing dot nodes
+    // Updates the color of existing DotNodes that are children of parent.
     private static void updateDotColor( Color color, PNode parent ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
