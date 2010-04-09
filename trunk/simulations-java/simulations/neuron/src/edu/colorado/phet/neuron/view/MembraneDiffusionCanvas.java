@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.colorado.phet.neuron.model.Particle;
+import edu.colorado.phet.neuron.model.ParticleType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -129,12 +130,17 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         // Add the nodes that will be used to inject ions into the chamber.
         // There is an assumption here that the injection point is on the
         // right side of the node and in the vertical center of it.
-        ParticleInjectorNode sodiumInjector = new ParticleInjectorNode(model, mvt, 0);
+        ParticleInjectorNode sodiumInjector = new ParticleInjectorNode(ParticleType.SODIUM_ION, model, mvt, 0);
         sodiumInjector.setOffset(
         		transformedParticleChamberRect.getMinX() - sodiumInjector.getFullBoundsReference().getMaxX() + 20, 
         		transformedParticleChamberRect.getMinY() + transformedParticleChamberRect.getHeight() * 0.2);
         chamberLayer.addChild(sodiumInjector);
         
+        ParticleInjectorNode potassiumInjector = new ParticleInjectorNode(ParticleType.POTASSIUM_ION, model, mvt, 0);
+        potassiumInjector.setOffset(
+        		transformedParticleChamberRect.getMinX() - potassiumInjector.getFullBoundsReference().getMaxX() + 20, 
+        		transformedParticleChamberRect.getMaxY() - transformedParticleChamberRect.getHeight() * 0.2);
+        chamberLayer.addChild(potassiumInjector);
 
         // Update the layout.
         updateLayout();

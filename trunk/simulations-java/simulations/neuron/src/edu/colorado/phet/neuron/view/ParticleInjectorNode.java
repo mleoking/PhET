@@ -79,12 +79,13 @@ public class ParticleInjectorNode extends PNode {
 
     /**
      * Constructs a particle injection node.
-     * 
+     * @param particleType TODO
      * @param model - The model into which the particles will be injected.
      * @param mvt - Model-view transform for relating view space to model space.
      * @param rotationAngle - Angle of rotation for the injection bulb.
      */
-	public ParticleInjectorNode(final MembraneDiffusionModel model, ModelViewTransform2D mvt, double rotationAngle) {
+	public ParticleInjectorNode(ParticleType particleType, final MembraneDiffusionModel model,
+			ModelViewTransform2D mvt, double rotationAngle) {
 		
 		this.model = model;
 		this.mvt = mvt;
@@ -115,7 +116,7 @@ public class ParticleInjectorNode extends PNode {
         injectorNode.scale(scale);
         
         // Add the node that allows control of automatic injection.
-        particleTypeLabel = new InjectorLabelNode(INJECTOR_HEIGHT * 0.3, ParticleType.POTASSIUM_ION);
+        particleTypeLabel = new InjectorLabelNode(INJECTOR_HEIGHT * 0.25, particleType);
         particleTypeLabel.setOffset(
         	injectorNode.getFullBoundsReference().getMinX() - particleTypeLabel.getFullBoundsReference().width + 5,
         	injectorNode.getFullBoundsReference().getCenterY() - particleTypeLabel.getFullBoundsReference().height / 2);
