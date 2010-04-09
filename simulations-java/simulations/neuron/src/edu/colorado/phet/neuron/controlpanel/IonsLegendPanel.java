@@ -51,10 +51,10 @@ public class IonsLegendPanel extends JPanel {
     
     public IonsLegendPanel() {
         
-    	// TODO: i18n
         // Add the border around the legend.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+        		// TODO: i18n
                 "Ions",
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
@@ -67,12 +67,13 @@ public class IonsLegendPanel extends JPanel {
         setLayout( new GridBagLayout() );
 
         // Add the images and labels for the ions.
-        // TODO: i18n.
         int row = 0;
    		PNode imageNode = new ParticleNode(new SodiumIon(), PARTICLE_MVT);
+   		// TODO: i18n.
    		addLegendItem( imageNode.toImage(), "Sodium Ion (Na+)", row++ );
         		
    		imageNode = new ParticleNode(new PotassiumIon(), PARTICLE_MVT);
+   		// TODO: i18n.
    		addLegendItem( imageNode.toImage(), "Potassium Ion (K+)", row++ );
     }
     
