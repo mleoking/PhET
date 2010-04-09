@@ -2,8 +2,8 @@ TODO list for acid-base-solutions
 
 HIGH PRIORITY
 - prototype: discuss desired "look" of H2O images and how to implement
+- prototype: algorithm for number of molecules displayed doesn't give desired behavior
 - prototype: counts don't add up to MoleculesNode.maxMolecules
-- prototype: investigate origin of ConcentrationMoleculeCountStrategy algorithm
 
 MEDUIUM PRIORITY
 
