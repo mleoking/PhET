@@ -74,8 +74,8 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     	// Set up the model-canvas transform.
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
-        		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.4 )),
+        		new Point((int)Math.round(INITIAL_INTERMEDIATE_COORD_WIDTH * 0.55 ), // Mult by 0.5 is center.
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.4 )), // Mult by 0.5 is center.
         		8,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         		true);
 
@@ -105,8 +105,9 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         
         // Add the node the will represent the chamber where the particles can
         // move around.
-        PNode particleChamberNode = new PhetPPath(mvt.createTransformedShape(model.getParticleChamberRect()),
-        		Color.WHITE);
+        Rectangle2D transformedParticleChamberRect = 
+        	mvt.createTransformedShape(model.getParticleChamberRect()).getBounds2D();
+        PNode particleChamberNode = new PhetPPath(transformedParticleChamberRect, Color.WHITE);
         chamberLayer.addChild(particleChamberNode);
         
         // Add the node that will represent the membrane that separates the
@@ -124,6 +125,16 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         		transformedMembraneRect.getCenterY() - membraneLabel.getFullBoundsReference().height / 2);
         membraneNode.addChild(membraneLabel);
         membraneLayer.addChild(membraneNode);
+        
+        // Add the nodes that will be used to inject ions into the chamber.
+        // There is an assumption here that the injection point is on the
+        // right side of the node and in the vertical center of it.
+        ParticleInjectorNode sodiumInjector = new ParticleInjectorNode(model, mvt, 0);
+        sodiumInjector.setOffset(
+        		transformedParticleChamberRect.getMinX() - sodiumInjector.getFullBoundsReference().getMaxX() + 20, 
+        		transformedParticleChamberRect.getMinY() + transformedParticleChamberRect.getHeight() * 0.2);
+        chamberLayer.addChild(sodiumInjector);
+        
 
         // Update the layout.
         updateLayout();
