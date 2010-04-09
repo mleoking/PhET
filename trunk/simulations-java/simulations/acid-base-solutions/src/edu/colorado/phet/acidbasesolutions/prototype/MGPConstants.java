@@ -31,11 +31,11 @@ class MGPConstants {
     
     // beaker
     public static final IntegerRange BEAKER_WIDTH_RANGE = new IntegerRange( 400, 1000, 700 );
-    public static final IntegerRange BEAKER_HEIGHT_RANGE = new IntegerRange( 400, 1000, 770 );
+    public static final IntegerRange BEAKER_HEIGHT_RANGE = new IntegerRange( 400, 1000, 800 );
     public static final Point2D BEAKER_CENTER = new Point2D.Double( 450, 550 );
     
     // magnifying glass
-    public static final IntegerRange MAGNIFYING_GLASS_DIAMETER_RANGE = new IntegerRange( 100, 1200, 675 );
+    public static final IntegerRange MAGNIFYING_GLASS_DIAMETER_RANGE = new IntegerRange( 100, 1200, 700 );
     public static final Point2D MAGNIFYING_GLASS_CENTER = BEAKER_CENTER;
     
     // weak acid
@@ -49,8 +49,8 @@ class MGPConstants {
     public static final DoubleRange DOT_TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 1 );
     
     // images
-    public static final IntegerRange MAX_IMAGES_RANGE = MAX_DOTS_RANGE;
-    public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 0, 10000, 1000 );;
+    public static final IntegerRange MAX_IMAGES_RANGE = new IntegerRange( 100, 2000, 200 );;
+    public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 0, 10000, 3000 );;
     public static final DoubleRange IMAGE_SCALE_RANGE = new DoubleRange( 0.25, 2.5, 1 );
     public static final DoubleRange IMAGE_TRANSPARENCY_RANGE = DOT_TRANSPARENCY_RANGE;
     public static final BufferedImage HA_IMAGE = RESOURCES.getImage( "molecules/HA.png" );
