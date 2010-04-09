@@ -75,9 +75,11 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         addControlFullWidth(createVerticalSpacingPanel(10));
         addControl(activatePotassiumChannelsButton);
 
-        // Add the check box for hiding/showing the concentration graphs.
+        // Add the check box for hiding/showing the concentration graphs.  It
+        // is in its own panel so that it can be centered.
         addControlFullWidth(createVerticalSpacingPanel(30));
         // TODO: i18n
+        JPanel checkBoxPanel = new JPanel();
         showConcentrationsCheckBox = new JCheckBox("Show Concentrations");
         showConcentrationsCheckBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -85,7 +87,8 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 			}
 		});
         showConcentrationsCheckBox.setAlignmentX(CENTER_ALIGNMENT);
-        addControlFullWidth(showConcentrationsCheckBox);
+        checkBoxPanel.add(showConcentrationsCheckBox);
+        addControlFullWidth(checkBoxPanel);
         
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(60));
