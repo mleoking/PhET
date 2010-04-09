@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.controlpanel.MembraneDiffusionControlPanel;
+import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.colorado.phet.neuron.model.NeuronClock;
 import edu.colorado.phet.neuron.view.MembraneDiffusionCanvas;
 
@@ -27,6 +28,7 @@ public class MembraneDiffusionModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
+	private MembraneDiffusionModel model;
     private MembraneDiffusionCanvas canvas;
     private MembraneDiffusionControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
@@ -39,8 +41,12 @@ public class MembraneDiffusionModule extends PiccoloModule {
         super( NeuronStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
         		NeuronDefaults.CLOCK_DT ) );
 
+        // Model
+        NeuronClock clock = (NeuronClock) getClock();
+        model = new MembraneDiffusionModel(clock);
+        
         // Canvas
-        canvas = new MembraneDiffusionCanvas();
+        canvas = new MembraneDiffusionCanvas(model);
         setSimulationPanel( canvas );
 
         // Control Panel
