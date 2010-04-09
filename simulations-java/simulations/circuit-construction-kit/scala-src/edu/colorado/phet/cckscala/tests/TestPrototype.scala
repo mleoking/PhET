@@ -44,7 +44,7 @@ object TestPrototype {
 
       def distance(a: State, b: State) = a.distance(b)
     }
-    new TimestepSubdivisions().update(originalState, steppable, dt)
+    new TimestepSubdivisions(1E-7).update(originalState, steppable, dt)
   }
 
   def update(voltage: Double, resistance: Double, capacitance: Double, state: State, dt: Double) = {

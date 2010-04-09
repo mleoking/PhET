@@ -6,7 +6,7 @@ trait Steppable[A] {
   def update(a: A, dt: Double): A
 }
 
-class TimestepSubdivisions {
+class TimestepSubdivisions(errorThreshold: Double) {
   def update[A](originalState: A, steppable: Steppable[A], dt: Double) = {
     var state = originalState
     var elapsed = 0.0
@@ -34,7 +34,25 @@ class TimestepSubdivisions {
       val a = steppable.update(state, dt)
       val b1 = steppable.update(state, dt / 2)
       val b2 = steppable.update(b1, dt / 2)
-      steppable.distance(a, b2) < 1E-7
+      steppable.distance(a, b2) < errorThreshold
+    }
+  }
+}
+
+object TestTimestepSubdivisions {
+  case class TestState(time: Double = 0.0)
+  def main(args: Array[String]) {
+    val originalState = new TestState
+    val steppable = new Steppable[TestState] {
+      def update(a: TestState, dt: Double) = new TestState(a.time + dt)
+
+      def distance(a: TestState, b: TestState) = (a.time - b.time).abs
+    }
+    val dt = 1.0
+    var state = originalState
+    for (i <- 0 until 10) {
+      println("state = " + state)
+      state = new TimestepSubdivisions(1E-7).update(state, steppable, dt)
     }
   }
 }
