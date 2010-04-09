@@ -29,13 +29,13 @@ interface IMoleculeCountStrategy {
      */
     public static class ConcentrationMoleculeCountStrategy implements IMoleculeCountStrategy {
 
-        private static final double BASE_CONCENTRATION = 1E-7;
-        private static final int BASE_DOTS = 2;
+        private static final double BASE_CONCENTRATION = 1E-7; //TODO is this [H3O+] and [OH-] in pure water?
+        private static final int BASE_DOTS = 2; //TODO what is this?
 
         public int getNumberOfMolecules( double concentration, int maxMolecules ) {
-            final double raiseFactor = MathUtil.log10( concentration / BASE_CONCENTRATION );
-            final double baseFactor = Math.pow( ( maxMolecules / BASE_DOTS ), ( 1 / MathUtil.log10( 1 / BASE_CONCENTRATION ) ) );
-            return (int) ( BASE_DOTS * Math.pow( baseFactor, raiseFactor ) );
+            final double base = Math.pow( ( maxMolecules / BASE_DOTS ), ( 1 / MathUtil.log10( 1 / BASE_CONCENTRATION ) ) );
+            final double exponent = MathUtil.log10( concentration / BASE_CONCENTRATION );
+            return (int) ( BASE_DOTS * Math.pow( base, exponent ) );
         }
     }
  
