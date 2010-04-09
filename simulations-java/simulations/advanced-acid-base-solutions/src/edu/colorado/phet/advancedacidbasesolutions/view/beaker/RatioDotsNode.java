@@ -255,6 +255,7 @@ public class RatioDotsNode extends PComposite {
     
     /*
      * Number of dots is based on concentration.
+     * This algorithm is documented in advanced-acid-base-solutions/doc/HA_A-_ratio_model.pdf.
      */
     private int getNumberOfDots( double concentration ) {
         final double raiseFactor = MathUtil.log10( concentration / BASE_CONCENTRATION );
