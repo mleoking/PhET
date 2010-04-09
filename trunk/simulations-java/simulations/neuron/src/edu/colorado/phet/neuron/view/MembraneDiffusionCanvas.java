@@ -108,7 +108,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         // move around.
         Rectangle2D transformedParticleChamberRect = 
         	mvt.createTransformedShape(model.getParticleChamberRect()).getBounds2D();
-        PNode particleChamberNode = new PhetPPath(transformedParticleChamberRect, Color.WHITE);
+        PNode particleChamberNode = new PhetPPath(transformedParticleChamberRect, new Color(199, 234, 252));
         chamberLayer.addChild(particleChamberNode);
         
         // Add the node that will represent the membrane that separates the
