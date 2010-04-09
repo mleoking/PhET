@@ -1,3 +1,4 @@
+4/8/10 prototype: located doc for "number of molecules" algorithm, checked into advanced-acid-base-solutions/doc/HA_A-_ratio_model.pdf
 4/8/10 prototype: modify some defaults as requested by Kelly
 # 0.00.03 (39742) Apr 8, 2010
 4/8/10 prototype: publish dev version for discussion
