@@ -1,7 +1,8 @@
-4/8/10 prototype: located doc for "number of molecules" algorithm, checked into advanced-acid-base-solutions/doc/HA_A-_ratio_model.pdf
-4/8/10 prototype: modify some defaults as requested by Kelly
+4/9/10 prototype: publish for team discussion
+4/9/10 prototype: located doc for "number of molecules" algorithm, checked into advanced-acid-base-solutions/doc/HA_A-_ratio_model.pdf
+4/9/10 prototype: modify some defaults as requested by Kelly
 # 0.00.03 (39742) Apr 8, 2010
-4/8/10 prototype: publish dev version for discussion
+4/8/10 prototype: publish for discussion with Kelly
 4/8/10 prototype: round corners of magnifying glass handle
 4/8/10 prototype: rewrite molecule counts panel as a node that appears below beaker
 4/8/10 prototype: rewrite molecule counts panel as a node that appears below beaker
@@ -16,7 +17,7 @@
 4/8/10 prototype: use strategy pattern for determining rendering order of molecules
 4/8/10 prototype: change defaults for size of beaker and magnifying glass
 # 0.00.02 (39716) Apr 7, 2010
-4/7/10 prototype: publish dev version for discussion
+4/7/10 prototype: publish for discussion with Kelly
 4/7/10 prototype: fix molecule counts (again) to be displayed properly on startup
 4/7/10 prototype: javadoc
 4/7/10 prototype: bug fix in DotsNode transparency control
@@ -29,7 +30,7 @@
 4/7/10 prototype: move molecule representation radio to buttons to their own subpanel
 4/7/10 prototype: remove H2O visibility flag from model
 # 0.00.01 (39700) Apr 7, 2010
-4/7/10 prototype: publish a preview for discussion with Kelly
+4/7/10 prototype: publish for discussion with Kelly
 4/7/10 prototype: fix bug in dot/image creating that showed 1 dot/image when count was zero
 4/7/10 prototype: fix molecule counts to be displayed properly on startup
 4/5/10 prototype: add molecule images to count display
