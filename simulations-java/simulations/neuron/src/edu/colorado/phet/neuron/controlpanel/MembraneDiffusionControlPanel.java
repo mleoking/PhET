@@ -2,22 +2,30 @@
 
 package edu.colorado.phet.neuron.controlpanel;
 
+import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.neuron.NeuronResources;
-import edu.colorado.phet.neuron.NeuronStrings;
+import edu.colorado.phet.neuron.model.PotassiumGatedChannel;
+import edu.colorado.phet.neuron.model.SodiumDualGatedChannel;
+import edu.colorado.phet.neuron.view.MembraneChannelNode;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Control panel for the membrane diffusion module.
@@ -30,6 +38,9 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     // Class Data
     //----------------------------------------------------------------------------
 	
+	private static final ModelViewTransform2D CHANNEL_ICON_MVT = new ModelViewTransform2D(
+			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-4, -4, 8, 8));
+    
 	//----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -54,27 +65,39 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         
         addControlFullWidth(new IonsLegendPanel());
         
-        // Add the buttons for stimulating the channels.
+        // Create the buttons for stimulating the channels.
+   		PNode imageNode = new MembraneChannelNode(new SodiumDualGatedChannel(), CHANNEL_ICON_MVT);
+   		imageNode.rotate(-Math.PI / 2);
+   		ImageIcon icon = new ImageIcon(imageNode.toImage());
         // TODO: i18n
-        final JButton activateSodiumChannelsButton = new JButton("Open Sodium Gates");
+        final JButton activateSodiumChannelsButton = new JButton("Open Sodium Gates", icon);
         activateSodiumChannelsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO: TBD
 			}
 		});
-        addControlFullWidth(createVerticalSpacingPanel(10));
-        addControl(activateSodiumChannelsButton);
         
+   		imageNode = new MembraneChannelNode(new PotassiumGatedChannel(), CHANNEL_ICON_MVT);
+   		imageNode.rotate(-Math.PI / 2);
+   		icon = new ImageIcon(imageNode.toImage());
         // TODO: i18n
-        final JButton activatePotassiumChannelsButton = new JButton("Open Potassium Gates");
+        final JButton activatePotassiumChannelsButton = new JButton("Open Potassium Gates", icon);
         activatePotassiumChannelsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO: TBD
 			}
 		});
-        addControlFullWidth(createVerticalSpacingPanel(10));
-        addControl(activatePotassiumChannelsButton);
+        
+        // Make the buttons the same size by placing them on a panel with a
+        // grid layout.
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 1));
+        buttonPanel.add(activateSodiumChannelsButton);
+        buttonPanel.add(activatePotassiumChannelsButton);
 
+        // Add the button panel to the control panel.
+        addControlFullWidth(createVerticalSpacingPanel(20));
+        addControl(buttonPanel);
+        
         // Add the check box for hiding/showing the concentration graphs.  It
         // is in its own panel so that it can be centered.
         addControlFullWidth(createVerticalSpacingPanel(30));
