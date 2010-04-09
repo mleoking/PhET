@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author John Blanco
  */
-public class NeuronLegendPanel extends JPanel {
+public class IonsAndChannelsLegendPanel extends JPanel {
         
     //------------------------------------------------------------------------
     // Class Data
@@ -57,7 +57,7 @@ public class NeuronLegendPanel extends JPanel {
     // Constructor
     //------------------------------------------------------------------------
     
-    public NeuronLegendPanel() {
+    public IonsAndChannelsLegendPanel() {
         
     	// TODO: i18n
         // Add the border around the legend.

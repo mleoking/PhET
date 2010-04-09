@@ -131,7 +131,7 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Add the legend.
-        addControlFullWidth(new NeuronLegendPanel());
+        addControlFullWidth(new IonsAndChannelsLegendPanel());
         
         /*
          * TODO: Feb 19 2010 - There have been some radical changes made, and
