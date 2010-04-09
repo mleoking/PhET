@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.neuron.NeuronStrings;
-import edu.colorado.phet.neuron.controlpanel.AxonCrossSectionControlPanel;
+import edu.colorado.phet.neuron.controlpanel.MembraneDiffusionControlPanel;
 import edu.colorado.phet.neuron.model.NeuronClock;
 import edu.colorado.phet.neuron.view.MembraneDiffusionCanvas;
 
@@ -28,7 +28,7 @@ public class MembraneDiffusionModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private MembraneDiffusionCanvas canvas;
-    private AxonCrossSectionControlPanel controlPanel;
+    private MembraneDiffusionControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
 
     //----------------------------------------------------------------------------
@@ -39,17 +39,13 @@ public class MembraneDiffusionModule extends PiccoloModule {
         super( NeuronStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
         		NeuronDefaults.CLOCK_DT ) );
 
-        // Model
-        NeuronClock clock = (NeuronClock) getClock();
-        // TODO: TBD
-        
         // Canvas
         canvas = new MembraneDiffusionCanvas();
         setSimulationPanel( canvas );
 
         // Control Panel
-//        controlPanel = new MembraneDiffusionControlPanel( this, parentFrame, model, canvas );
-//        setControlPanel( controlPanel );
+        controlPanel = new MembraneDiffusionControlPanel( this, parentFrame );
+        setControlPanel( controlPanel );
         
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
