@@ -1,22 +1,47 @@
 package edu.colorado.phet.cckscala.tests
 
 import collection.mutable.{HashSet, HashMap, ArrayBuffer}
-import edu.colorado.phet.cckscala.tests._
 
-class CompanionCircuit2(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[CurrentSource], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) {
+object MathUtil {
+  def euclideanDistance(x: Seq[Double], y: Seq[Double]) = {
+    if (x.length != y.length) throw new RuntimeException("Vector length mismatch")
+    val sqDiffs = for (i <- 0 until x.length) yield (x(i) - y(i)) * (x(i) - y(i))
+    val sum = sqDiffs.foldLeft(0.0)(_ + _)
+    Math.sqrt(sum)
+  }
+}
+
+/**This is a rewrite of companion mapping to make it simpler to construct and inspect companion models.*/
+case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[CurrentSource], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) {
   def propagate(dt: Double) = {
     val (mnaCircuit, currentCompanions) = toMNACircuit(dt)
-    new Solution1(this, mnaCircuit.solve, currentCompanions)
+    new DynamicCircuitSolution(this, mnaCircuit.solve, currentCompanions)
   }
 
   def updateWithSubdivisions(dt: Double) = {
+    val originalState = this
+    val steppable = new Steppable[DynamicCircuit] {
+      def update(a: DynamicCircuit, dt: Double) = a.update(dt)
 
+      //TODO: generalize distance criterion
+      def distance(a: DynamicCircuit, b: DynamicCircuit) = {
+        //for now, just compare current through the capacitors
+        val aCurrents = for (c <- a.capacitors) yield c.current
+        val bCurrents = for (c <- b.capacitors) yield c.current
+        val euclideanDistance = MathUtil.euclideanDistance(aCurrents, bCurrents)
+        euclideanDistance
+      }
+    }
+    new TimestepSubdivisions(1E-7).update(originalState, steppable, dt)
   }
 
-  def updateCircuit(solution: Solution1) = {
-    val updatedCapacitors = for (c <- capacitors) yield
-      new Capacitor(c.node0, c.node1, c.capacitance, solution.getNodeVoltage(c.node1) - solution.getNodeVoltage(c.node0), solution.getCurrent(c))
-    new CompanionCircuit2(batteries, resistors, currents, updatedCapacitors, inductors)
+  def update(dt:Double) = updateCircuit(propagate(dt))
+
+  //Applies the specified solution to the circuit.
+  def updateCircuit(solution: DynamicCircuitSolution) = {
+    val updatedCapacitors = for (c <- capacitors) yield new Capacitor(c.node0, c.node1, c.capacitance, solution.getNodeVoltage(c.node1) - solution.getNodeVoltage(c.node0), solution.getCurrent(c))
+    //todo: update inductors
+    new DynamicCircuit(batteries, resistors, currents, updatedCapacitors, inductors)
   }
 
   //why not give every component a companion in the MNACircuit?
@@ -63,7 +88,7 @@ class CompanionCircuit2(batteries: Seq[Battery], resistors: Seq[Resistor], curre
   }
 }
 
-case class Solution1(circuit: CompanionCircuit2, mnaSolution: Solution, currentCompanions: HashMap[Element, Solution => Double]) {
+case class DynamicCircuitSolution(circuit: DynamicCircuit, mnaSolution: Solution, currentCompanions: HashMap[Element, Solution => Double]) {
   def getNodeVoltage(node: Int) = mnaSolution.getNodeVoltage(node)
 
   def getCurrent(element: Element) = {
@@ -72,7 +97,6 @@ case class Solution1(circuit: CompanionCircuit2, mnaSolution: Solution, currentC
     else
       mnaSolution.getCurrent(element)
   }
-
 }
 
 object TestMNACompanion {
@@ -82,7 +106,7 @@ object TestMNACompanion {
     val resistance = 1
     val c = new Capacitor(2, 0, 0.1, 0.0, voltage / resistance)
     val battery = new Battery(0, 1, voltage)
-    var circuit = new CompanionCircuit2(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
+    var circuit = new DynamicCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
     //    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 0, resistance) :: Nil, Nil, Nil, Nil)
     for (i <- 0 until 10) {
       val solution = circuit.propagate(0.03)

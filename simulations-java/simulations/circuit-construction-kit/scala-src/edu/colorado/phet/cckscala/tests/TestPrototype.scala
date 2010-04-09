@@ -42,7 +42,7 @@ object TestPrototype {
     val steppable = new Steppable[State] {
       def update(a: State, dt: Double) = TestPrototype.update(voltage, resistance, capacitance, a, dt)
 
-      def distance(a: State, b: State) = a.distance(b)
+      def distance(a: State, b: State) = MathUtil.euclideanDistance(a.i :: Nil, b.i :: Nil)//a.distance(b)//TODO: improve distance metric; just using current euclidean for comparison for TestCompanionModel
     }
     new TimestepSubdivisions(1E-7).update(originalState, steppable, dt)
   }
