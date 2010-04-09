@@ -2,21 +2,25 @@
 
 package edu.colorado.phet.neuron.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GradientPaint;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-
-import javax.swing.event.EventListenerList;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.MembraneChannel;
+import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Canvas on which the neuron simulation is depicted.
@@ -42,7 +46,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private AxonModel model;
+    private MembraneDiffusionModel model;
     
     // Model-view transform.
     private ModelViewTransform2D mvt;
@@ -60,7 +64,9 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MembraneDiffusionCanvas(  ) {
+    public MembraneDiffusionCanvas(MembraneDiffusionModel model  ) {
+    	
+    	this.model = model;
 
     	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, INITIAL_INTERMEDIATE_DIMENSION));
@@ -69,8 +75,8 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.5 )),
-        		4,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.4 )),
+        		8,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         		true);
 
         setBackground( Color.BLACK );
@@ -96,6 +102,28 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
 
         chartLayer = new PNode();
         addScreenChild(chartLayer);
+        
+        // Add the node the will represent the chamber where the particles can
+        // move around.
+        PNode particleChamberNode = new PhetPPath(mvt.createTransformedShape(model.getParticleChamberRect()),
+        		Color.WHITE);
+        chamberLayer.addChild(particleChamberNode);
+        
+        // Add the node that will represent the membrane that separates the
+        // upper and lower portions of the chamber.
+        Rectangle2D membraneRect = model.getMembraneRect();
+    	Rectangle2D transformedMembraneRect = mvt.createTransformedShape(membraneRect).getBounds2D();
+    	GradientPaint paint = new GradientPaint(0f, (float)transformedMembraneRect.getCenterY(), Color.YELLOW,
+    			0f, (float)transformedMembraneRect.getBounds2D().getMaxY(), new Color(255, 100, 100), true);
+    	PNode membraneNode = new PhetPPath(transformedMembraneRect, paint, new BasicStroke(1f), Color.BLACK);
+    	// TODO: i18n
+        PText membraneLabel = new PText("Membrane");
+        membraneLabel.setFont(new PhetFont());
+        membraneLabel.setScale(transformedMembraneRect.getHeight() * 0.7 / membraneLabel.getFullBoundsReference().height);
+        membraneLabel.setOffset(transformedMembraneRect.getMinX() + 10,
+        		transformedMembraneRect.getCenterY() - membraneLabel.getFullBoundsReference().height / 2);
+        membraneNode.addChild(membraneLabel);
+        membraneLayer.addChild(membraneNode);
 
         // Update the layout.
         updateLayout();
