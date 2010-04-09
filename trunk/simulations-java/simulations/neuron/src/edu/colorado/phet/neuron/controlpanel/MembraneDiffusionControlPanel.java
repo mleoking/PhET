@@ -4,7 +4,6 @@ package edu.colorado.phet.neuron.controlpanel;
 
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -19,6 +18,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.neuron.NeuronResources;
@@ -88,10 +88,16 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 			}
 		});
         
-        // Make the buttons the same size by placing them on a panel with a
-        // grid layout.
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 1));
+        // Make the buttons the same size by placing them on a panel and by
+        // setting the preferred height to be equal.
+        Dimension buttonPreferredSize = new Dimension(
+        		Math.max(activateSodiumChannelsButton.getPreferredSize().width, activatePotassiumChannelsButton.getPreferredSize().width),
+        		Math.max(activateSodiumChannelsButton.getPreferredSize().height, activatePotassiumChannelsButton.getPreferredSize().height));
+        JPanel buttonPanel = new VerticalLayoutPanel();
+        activateSodiumChannelsButton.setPreferredSize(buttonPreferredSize);
+        activatePotassiumChannelsButton.setPreferredSize(buttonPreferredSize);
         buttonPanel.add(activateSodiumChannelsButton);
+        buttonPanel.add(createVerticalSpacingPanel(5));
         buttonPanel.add(activatePotassiumChannelsButton);
 
         // Add the button panel to the control panel.
