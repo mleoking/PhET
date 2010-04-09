@@ -26,7 +26,6 @@ interface IMoleculeCountStrategy {
     /**
      * Algorithm used in advanced-acid-base-solutions, see RatioDotsNode.getNumberOfDots.
      * Number of molecules is based on concentration and an upper bound.
-     * 
      * This algorithm is documented in advanced-acid-base-solutions/doc/HA_A-_ratio_model.pdf.
      */
     public static class ConcentrationMoleculeCountStrategy implements IMoleculeCountStrategy {
