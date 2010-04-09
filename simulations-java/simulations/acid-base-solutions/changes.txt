@@ -1,3 +1,4 @@
+4/8/10 prototype: modify some defaults as requested by Kelly
 # 0.00.03 (39742) Apr 8, 2010
 4/8/10 prototype: publish dev version for discussion
 4/8/10 prototype: round corners of magnifying glass handle
