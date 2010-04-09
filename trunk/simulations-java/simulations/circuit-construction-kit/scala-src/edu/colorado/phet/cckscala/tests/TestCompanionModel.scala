@@ -5,17 +5,15 @@ import edu.colorado.phet.cckscala.tests.TestPrototype.State
 //This class verifies that the behavior of the prototype (which inlines the companion model) and the true companion models are identical.
 object TestCompanionModel {
   def stepPrototype(vBattery: Double, rResistor: Double, c: Double, s: State, totalDT: Double) = {
-    val state = TestPrototype.updateWithSubdivisions(vBattery, rResistor, c, s, totalDT)
-    state.i
+    TestPrototype.updateWithSubdivisions(vBattery, rResistor, c, s, totalDT).i
   }
 
   def stepCompanion(voltage: Double, resistance: Double, capacitance: Double, s: State, totalDT: Double) = {
     val c = new Capacitor(2, 0, 0.1, 0.0, voltage / resistance)
     val battery = new Battery(0, 1, voltage)
-    var circuit = new CompanionCircuit2(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
-//    val solution = circuit.updateWithSubdivisions(totalDT)
-//    solution.getCurrent(battery)
-    null
+    var circuit = new DynamicCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
+    val solution = circuit.updateWithSubdivisions(totalDT)
+    solution.capacitors(0).current
   }
 
   def main(args: Array[String]) {
@@ -27,10 +25,19 @@ object TestCompanionModel {
     val battery = new Battery(0, 1, voltage)
     val dt = 0.03
 
-    val currentThroughPrototype = stepPrototype(voltage, resistance, capacitance, new State(0.0, voltage / resistance, dt,0.0), dt)
-    val currentThroughCompanion = stepCompanion(voltage, resistance, capacitance, new State(0.0, voltage / resistance, dt,0.0), dt)
+    var current = voltage / resistance
+    var volts = 0.0
+    for (i <- 0 until 10) {
+      val currentThroughPrototype = stepPrototype(voltage, resistance, capacitance, new State(volts, current, dt, 0.0), dt)
+      val currentThroughCompanion = stepCompanion(voltage, resistance, capacitance, new State(volts, current, dt, 0.0), dt)
+      val diff = currentThroughPrototype - currentThroughCompanion
+      println("i= "+i+", diff = " + diff)
 
-    if (currentThroughPrototype != currentThroughCompanion) throw new RuntimeException("mismatch: prototype = "+currentThroughPrototype+", companion = "+currentThroughCompanion)
+      if (diff.abs > 1E-10) throw new RuntimeException("mismatch: prototype = " + currentThroughPrototype + ", companion = " + currentThroughCompanion)
+
+      current = currentThroughCompanion
+      volts = voltage - current * resistance
+    }
 
     //    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
     //    //    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 0, resistance) :: Nil, Nil, Nil, Nil)
