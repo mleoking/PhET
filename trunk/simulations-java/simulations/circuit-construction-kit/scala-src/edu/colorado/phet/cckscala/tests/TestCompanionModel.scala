@@ -9,7 +9,7 @@ object TestCompanionModel {
   }
 
   def stepCompanion(voltage: Double, resistance: Double, capacitance: Double, s: State, totalDT: Double) = {
-    val c = new Capacitor(2, 0, 0.1, 0.0, voltage / resistance)
+    val c = new Capacitor(2, 0, 0.1, s.v, s.i)
     val battery = new Battery(0, 1, voltage)
     var circuit = new DynamicCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
     val solution = circuit.updateWithSubdivisions(totalDT)
@@ -31,7 +31,7 @@ object TestCompanionModel {
       val currentThroughPrototype = stepPrototype(voltage, resistance, capacitance, new State(volts, current, dt, 0.0), dt)
       val currentThroughCompanion = stepCompanion(voltage, resistance, capacitance, new State(volts, current, dt, 0.0), dt)
       val diff = currentThroughPrototype - currentThroughCompanion
-      println("i= "+i+", diff = " + diff)
+      println("i= " + i + ", diff = " + diff)
 
       if (diff.abs > 1E-10) throw new RuntimeException("mismatch: prototype = " + currentThroughPrototype + ", companion = " + currentThroughCompanion)
 

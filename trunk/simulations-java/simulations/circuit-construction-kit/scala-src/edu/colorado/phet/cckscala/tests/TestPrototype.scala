@@ -62,26 +62,10 @@ object TestPrototype {
     new State(newVoltage, newCurrent, dt, state.time + dt)
   }
 
+  //voltage and current across the capacitor
   case class State(v: Double, i: Double, dt: Double, time: Double) {
     def distance(s: State) = Math.sqrt(square(s.v - v) + square(s.i - i)) / 2
 
     def square(x: Double) = x * x
-  }
-
-  case class Key(dt: Double, state: State)
-
-  //TODO: Reuse the computations of update between error checks, and return one of the intermediate states instead of recomputing once dt has been accepted.
-  case class ResultCache(vBattery: Double, rResistor: Double, c: Double) {
-    val cache = new HashMap[Key, State]
-
-    def update(state: State, dt: Double): State = {
-      val key = new Key(dt, state)
-      if (cache.contains(key)) cache.get(key).get
-      else {
-        val result = TestPrototype.update(vBattery, rResistor, c, state, dt)
-        cache(key) = result
-        result
-      }
-    }
   }
 }
