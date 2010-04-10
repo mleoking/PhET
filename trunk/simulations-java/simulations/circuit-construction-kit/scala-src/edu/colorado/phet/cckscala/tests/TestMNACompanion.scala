@@ -13,7 +13,9 @@ object MathUtil {
 
 /**This is a rewrite of companion mapping to make it simpler to construct and inspect companion models.*/
 case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[CurrentSource], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) {
-  def propagate(dt: Double) = {
+
+  //Solving the companion model is the same as propagating forward in time by dt.
+  def solvePropagate(dt: Double) = {
     val (mnaCircuit, currentCompanions) = toMNACircuit(dt)
     new DynamicCircuitSolution(this, mnaCircuit.solve, currentCompanions)
   }
@@ -35,7 +37,7 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
     new TimestepSubdivisions(1E-7).update(originalState, steppable, dt)
   }
 
-  def update(dt:Double) = updateCircuit(propagate(dt))
+  def update(dt:Double) = updateCircuit(solvePropagate(dt))
 
   //Applies the specified solution to the circuit.
   def updateCircuit(solution: DynamicCircuitSolution) = {
@@ -108,11 +110,10 @@ object TestMNACompanion {
     val battery = new Battery(0, 1, voltage)
     var circuit = new DynamicCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
     //    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 0, resistance) :: Nil, Nil, Nil, Nil)
+    println("current through capacitor")
     for (i <- 0 until 10) {
-      val solution = circuit.propagate(0.03)
-      //      println("solution = " + solution)
-      println("current through battery = " + solution.getCurrent(battery))
-      circuit = circuit.updateCircuit(solution)
+      circuit = circuit.updateWithSubdivisions(0.03)
+      println(circuit.capacitors(0).current)
     }
   }
 }

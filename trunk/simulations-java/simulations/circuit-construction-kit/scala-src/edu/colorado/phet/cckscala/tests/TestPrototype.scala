@@ -63,9 +63,5 @@ object TestPrototype {
   }
 
   //voltage and current across the capacitor
-  case class State(v: Double, i: Double, dt: Double, time: Double) {
-    def distance(s: State) = Math.sqrt(square(s.v - v) + square(s.i - i)) / 2
-
-    def square(x: Double) = x * x
-  }
+  case class State(v: Double, i: Double, dt: Double, time: Double)
 }
