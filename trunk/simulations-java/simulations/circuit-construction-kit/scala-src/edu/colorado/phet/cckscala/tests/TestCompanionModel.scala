@@ -1,15 +1,15 @@
 package edu.colorado.phet.cckscala.tests
 
-import edu.colorado.phet.cckscala.tests.TestPrototype.State
+import edu.colorado.phet.cckscala.tests.TestPrototype.CapacitorState
 
 //This class verifies that the behavior of the prototype (which inlines the companion model) and the true companion models are identical.
 object TestCompanionModel {
-  def stepPrototype(vBattery: Double, rResistor: Double, c: Double, s: State, totalDT: Double) = {
-    TestPrototype.updateWithSubdivisions(vBattery, rResistor, c, s, totalDT).i
+  def stepPrototype(vBattery: Double, rResistor: Double, c: Double, s: CapacitorState, totalDT: Double) = {
+    TestPrototype.updateWithSubdivisions(vBattery, rResistor, c, s, totalDT).current
   }
 
-  def stepCompanion(voltage: Double, resistance: Double, capacitance: Double, s: State, totalDT: Double) = {
-    val c = new Capacitor(2, 0, 0.1, s.v, s.i)
+  def stepCompanion(voltage: Double, resistance: Double, capacitance: Double, s: CapacitorState, totalDT: Double) = {
+    val c = new Capacitor(2, 0, 0.1, s.voltage, s.current)
     val battery = new Battery(0, 1, voltage)
     var circuit = new DynamicCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
     val solution = circuit.updateWithSubdivisions(totalDT)
@@ -28,8 +28,8 @@ object TestCompanionModel {
     var current = voltage / resistance
     var volts = 0.0
     for (i <- 0 until 10) {
-      val currentThroughPrototype = stepPrototype(voltage, resistance, capacitance, new State(volts, current, dt, 0.0), dt)
-      val currentThroughCompanion = stepCompanion(voltage, resistance, capacitance, new State(volts, current, dt, 0.0), dt)
+      val currentThroughPrototype = stepPrototype(voltage, resistance, capacitance, new CapacitorState(volts, current), dt)
+      val currentThroughCompanion = stepCompanion(voltage, resistance, capacitance, new CapacitorState(volts, current), dt)
       val diff = currentThroughPrototype - currentThroughCompanion
       println("i= " + i + ", diff = " + diff)
 

@@ -1,6 +1,5 @@
 package edu.colorado.phet.cckscala.tests
 
-
 import collection.mutable.{ArrayBuffer, HashMap}
 import java.util.ArrayList
 
