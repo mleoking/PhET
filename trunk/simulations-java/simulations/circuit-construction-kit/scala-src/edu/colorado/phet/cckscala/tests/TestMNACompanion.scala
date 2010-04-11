@@ -10,10 +10,10 @@ object MathUtil {
     Math.sqrt(sum)
   }
 }
-case class CState(voltage:Double,current:Double)
+case class CState(voltage: Double, current: Double)
 
 /**This is a rewrite of companion mapping to make it simpler to construct and inspect companion models.*/
-case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[CurrentSource], capacitors: Seq[(Capacitor,CState)], inductors: Seq[(Inductor,CState)]) {
+case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], currents: Seq[CurrentSource], resistiveBatteries: Seq[ResistiveBattery], capacitors: Seq[(Capacitor, CState)], inductors: Seq[(Inductor, CState)]) {
 
   //Solving the companion model is the same as propagating forward in time by dt.
   def solvePropagate(dt: Double) = {
@@ -54,9 +54,9 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
 
   //Applies the specified solution to the circuit.
   def updateCircuit(solution: DynamicCircuitSolution) = {
-    val updatedCapacitors = for (cap <- capacitors;c=cap._1) yield (c,new CState(solution.getNodeVoltage(c.node1) - solution.getNodeVoltage(c.node0), solution.getCurrent(c)))
+    val updatedCapacitors = for (cap <- capacitors; c = cap._1) yield (c, new CState(solution.getNodeVoltage(c.node1) - solution.getNodeVoltage(c.node0), solution.getCurrent(c)))
     //todo: update inductors
-    new DynamicCircuit(batteries, resistors, currents, updatedCapacitors, inductors)
+    new DynamicCircuit(batteries, resistors, currents, resistiveBatteries, updatedCapacitors, inductors)
   }
 
   //why not give every component a companion in the MNACircuit?
@@ -66,13 +66,28 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
     val companionCurrents = new ArrayBuffer[CurrentSource]
     val currentCompanions = new HashMap[Element, Solution => Double]
 
-    val usedNodes = new HashSet[Int]
-    val allElements: Seq[Element] = batteries.toList ++ resistors.toList ++ currents.toList ++ (for (c<-capacitors) yield c._1).toList ++ (for (i <- inductors) yield i._1).toList
-    for (b <- allElements) {
-      usedNodes += b.node0
-      usedNodes += b.node1
+    val usedNodes = new HashSet[Int] {
+      val allElements: Seq[Element] = batteries.toList ++ resistors.toList ++ currents.toList ++ resistiveBatteries.toList ++ (for (c <- capacitors) yield c._1).toList ++ (for (i <- inductors) yield i._1).toList
+      for (b <- allElements) {
+        this += b.node0
+        this += b.node1
+      }
     }
+
     def max(m: List[Int]) = m.sortWith(_ < _).reverse.head
+
+    //each resistive battery is a resistor in series with a battery
+    for (b <- resistiveBatteries) {
+      val newNode = max(usedNodes.toList) + 1
+      usedNodes += newNode
+
+      val idealBattery =new Battery(b.node0,newNode,b.voltage)
+      val resistor = new Resistor(newNode,b.node1,b.resistance)
+      companionBatteries += idealBattery
+      companionResistors += resistor
+      //we need to be able to get the current for this component
+      currentCompanions(b) = (s: Solution) => s.getCurrent(idealBattery) //in series, so current is same through both companion components
+    }
 
     //add companion models for capacitor
 
@@ -100,10 +115,9 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
       companionResistors += resistor
       //we need to be able to get the current for this component
 
-      //TODO: don't cache based on entire capacitor specification; current and voltage will change over time (for each subdivision)
       currentCompanions(capacitor) = (s: Solution) => s.getCurrent(battery) //in series, so current is same through both companion components
     }
-//        println("currentCompanions = " + currentCompanions)
+    //        println("currentCompanions = " + currentCompanions)
     //    for (i <- inductors) {
     //      mnaBatteries += new Battery
     //      mnaCurrents += new CurrentSource
@@ -130,14 +144,14 @@ object TestMNACompanion {
     val resistance = 1
     val c = new Capacitor(2, 0, 0.1)
     val battery = new Battery(0, 1, voltage)
-    var circuit = new DynamicCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, (c,new CState(0.0, voltage / resistance)) :: Nil, Nil)
+    var circuit = new DynamicCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, Nil, (c, new CState(0.0, voltage / resistance)) :: Nil, Nil)
     //    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 0, resistance) :: Nil, Nil, Nil, Nil)
     println("current through capacitor")
     for (i <- 0 until 10) {
       val solution = circuit.solveItWithSubdivisions(0.03)
       circuit = circuit.updateWithSubdivisions(0.03)
       //      println("Circuit: "+circuit)
-      println("companions = "+solution.currentCompanions)
+      println("companions = " + solution.currentCompanions)
       println(circuit.capacitors(0)._2.current + "\t" + solution.getCurrent(c))
     }
   }

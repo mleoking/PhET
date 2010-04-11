@@ -11,6 +11,7 @@ class TimestepSubdivisions(errorThreshold: Double) {
     var state = originalState
     var elapsed = 0.0
     while (elapsed < dt) {
+      //println("elapsed = "+elapsed +", dt = "+dt)
       var subdivisionDT = getTimestep(state, steppable, dt)
       if (subdivisionDT + elapsed > dt) subdivisionDT = dt - elapsed // don't exceed max allowed dt
       state = steppable.update(state, subdivisionDT)
