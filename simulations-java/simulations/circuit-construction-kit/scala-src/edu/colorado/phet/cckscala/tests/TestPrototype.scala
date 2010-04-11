@@ -2,12 +2,13 @@ package edu.colorado.phet.cckscala.tests
 
 import java.text.DecimalFormat
 import java.io.{File, FileWriter, BufferedWriter}
+
 object TestPrototype {
   def main(args: Array[String]) {
     val f = new DecimalFormat("0.000000000000000")
     val voltage = 9
-    val resistance = 1
-    //    val rResistor = 1E-6
+    //    val resistance = 1
+    val resistance = 1E-6
     val capacitance = 0.1
     var time = 0.0
     val dt = 0.03
@@ -48,7 +49,7 @@ object TestPrototype {
     val companionBatteryVoltage = state.voltage + dt / 2 / capacitance * state.current
     val companionResistorResistance = dt / 2 / capacitance
 
-//    println("companion resistor resistance = "+companionResistorResistance+", companion battery voltage = "+companionBatteryVoltage)
+    //    println("companion resistor resistance = "+companionResistorResistance+", companion battery voltage = "+companionBatteryVoltage)
 
     //BACKWARD EULER
     //    val companionBatteryVoltage = state.voltage

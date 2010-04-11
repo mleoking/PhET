@@ -20,7 +20,7 @@ class UnitTest extends FunSuite {
     println("using initial current = " + current + ", init volts = " + capacitorVoltage)
     val currentThroughPrototype = TestPrototype.updateWithSubdivisions(voltage, resistance, capacitance, new CapacitorState(capacitorVoltage, current), dt).current
     val currentThroughCompanion = {
-      var circuit = DynamicCircuit(new Battery(0, 1, voltage) :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, (new Capacitor(2, 0, capacitance),new CState(-capacitorVoltage, current)) :: Nil, Nil)//todo: why -capacitorVoltage?
+      var circuit = DynamicCircuit(new Battery(0, 1, voltage) :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, Nil, (new Capacitor(2, 0, capacitance),new CState(-capacitorVoltage, current)) :: Nil, Nil)//todo: why -capacitorVoltage?
       val solution = circuit.updateWithSubdivisions(dt)
       solution.capacitors(0)._2.current
     }
