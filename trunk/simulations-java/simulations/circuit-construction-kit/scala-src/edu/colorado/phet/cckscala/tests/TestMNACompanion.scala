@@ -54,7 +54,7 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
 
   //Applies the specified solution to the circuit.
   def updateCircuit(solution: DynamicCircuitSolution) = {
-    val updatedCapacitors = for (cap <- capacitors;c=cap._1) yield (new Capacitor(c.node0, c.node1, c.capacitance),new CState(solution.getNodeVoltage(c.node1) - solution.getNodeVoltage(c.node0), solution.getCurrent(c)))
+    val updatedCapacitors = for (cap <- capacitors;c=cap._1) yield (c,new CState(solution.getNodeVoltage(c.node1) - solution.getNodeVoltage(c.node0), solution.getCurrent(c)))
     //todo: update inductors
     new DynamicCircuit(batteries, resistors, currents, updatedCapacitors, inductors)
   }
