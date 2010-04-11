@@ -9,11 +9,11 @@ object TestCompanionModel {
   }
 
   def stepCompanion(voltage: Double, resistance: Double, capacitance: Double, s: CapacitorState, totalDT: Double) = {
-    val c = new Capacitor(2, 0, 0.1, s.voltage, s.current)
+    val c = new Capacitor(2, 0, 0.1)
     val battery = new Battery(0, 1, voltage)
-    var circuit = new DynamicCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, c :: Nil, Nil)
+    var circuit = new DynamicCircuit(battery :: Nil, new Resistor(1, 2, resistance) :: Nil, Nil, (c,CState(s.voltage, s.current)) :: Nil, Nil)
     val solution = circuit.updateWithSubdivisions(totalDT)
-    solution.capacitors(0).current
+    solution.capacitors(0)._2.current
   }
 
   def main(args: Array[String]) {
@@ -21,8 +21,6 @@ object TestCompanionModel {
     //    val resistance = 1E-6
     val resistance = 1
     val capacitance = 0.1
-    val c = new Capacitor(2, 0, capacitance, 0.0, voltage / resistance)
-    val battery = new Battery(0, 1, voltage)
     val dt = 0.03
 
     var current = voltage / resistance
