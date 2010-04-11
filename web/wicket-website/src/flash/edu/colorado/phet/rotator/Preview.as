@@ -39,7 +39,7 @@ public class Preview extends MovieClip{
         titleText.text = "Try \"" + title + "\" now >>";
         titleText.mouseEnabled = false;
         Rotator.styleText(titleText);
-        titleText.y = 200 - titleText.height - 1;
+        titleText.y = Rotator.HEIGHT - titleText.height - 1;
         addChild(titleText);
     }
 
