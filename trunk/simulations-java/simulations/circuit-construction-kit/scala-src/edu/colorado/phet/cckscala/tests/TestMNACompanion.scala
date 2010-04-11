@@ -17,6 +17,7 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
   //Solving the companion model is the same as propagating forward in time by dt.
   def solvePropagate(dt: Double) = {
     val (mnaCircuit, currentCompanions) = toMNACircuit(dt)
+    //    println("called solve propagate, companions = "+currentCompanions)
     new DynamicCircuitSolution(this, mnaCircuit.solve, currentCompanions)
   }
 
@@ -28,7 +29,7 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
     }
   }
 
-  def solveWithSubdivisions(dt:Double) = {
+  def solveWithSubdivisions(dt: Double) = {
     val steppable = new Steppable[DynamicState] {
       def update(a: DynamicState, dt: Double) = a.update(dt)
 
@@ -45,6 +46,8 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
   }
 
   def updateWithSubdivisions(dt: Double) = solveWithSubdivisions(dt).circuit
+
+  def solveItWithSubdivisions(dt: Double) = solveWithSubdivisions(dt).solution
 
   def update(dt: Double) = updateCircuit(solvePropagate(dt))
 
@@ -79,23 +82,25 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
     //BACKWARD EULER
     //        double vc = state.v;
     //        double rc = dt / c;
-    for (c <- capacitors) {
+    for (capacitor <- capacitors) {
       //in series
       val newNode = max(usedNodes.toList) + 1
       usedNodes += newNode
 
-      val companionResistance = dt / 2.0 / c.capacitance
-      val companionVoltage = c.voltage - companionResistance * c.current//TODO: explain the difference between this sign and the one in TestTheveninCapacitorRC
-//      println("companion resistance = "+companionResistance+", companion voltage = "+companionVoltage)
+      val companionResistance = dt / 2.0 / capacitor.capacitance
+      val companionVoltage = capacitor.voltage - companionResistance * capacitor.current //TODO: explain the difference between this sign and the one in TestTheveninCapacitorRC
+      //      println("companion resistance = "+companionResistance+", companion voltage = "+companionVoltage)
 
-      val battery = new Battery(c.node0, newNode, companionVoltage)
-      val resistor = new Resistor(newNode, c.node1, companionResistance)
+      val battery = new Battery(capacitor.node0, newNode, companionVoltage)
+      val resistor = new Resistor(newNode, capacitor.node1, companionResistance)
       companionBatteries += battery
       companionResistors += resistor
       //we need to be able to get the current for this component
-      currentCompanions(c) = (s: Solution) => s.getCurrent(battery) //in series, so current is same through both companion components
-    }
 
+      //TODO: don't cache based on entire capacitor specification; current and voltage will change over time (for each subdivision)
+      currentCompanions(capacitor) = (s: Solution) => s.getCurrent(battery) //in series, so current is same through both companion components
+    }
+    //    println("currentCompanions = " + currentCompanions)
     //    for (i <- inductors) {
     //      mnaBatteries += new Battery
     //      mnaCurrents += new CurrentSource
@@ -126,9 +131,10 @@ object TestMNACompanion {
     //    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 0, resistance) :: Nil, Nil, Nil, Nil)
     println("current through capacitor")
     for (i <- 0 until 10) {
+      val solution = circuit.solveItWithSubdivisions(0.03)
       circuit = circuit.updateWithSubdivisions(0.03)
-//      println("Circuit: "+circuit)
-      println(circuit.capacitors(0).current)
+      //      println("Circuit: "+circuit)
+      println(circuit.capacitors(0).current + "\t" + solution.getCurrent(c))
     }
   }
 }

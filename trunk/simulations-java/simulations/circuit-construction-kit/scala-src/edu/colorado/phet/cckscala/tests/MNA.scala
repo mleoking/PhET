@@ -44,7 +44,7 @@ case class Solution(private val nodeVoltages: collection.Map[Int, Double], priva
       e match {
       //current flows from high to low potential in a component (except batteries)
         case r: Resistor => -getVoltage(r) / r.resistance
-        case _ => throw new RuntimeException("Solution does not contain current for element: " + e)
+        case _ => throw new RuntimeException("Solution does not contain current for element: " + e+", but it did contain: "+branchCurrents)
       }
     }
   }

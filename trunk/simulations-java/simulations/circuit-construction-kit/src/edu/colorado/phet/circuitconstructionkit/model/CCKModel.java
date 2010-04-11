@@ -14,6 +14,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.colorado.phet.cckscala.tests.PureScalaSolver;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.mna2.PureJavaSolver;
@@ -77,7 +78,7 @@ public class CCKModel {
             }
         };
         this.circuit = new Circuit( circuitChangeListener );
-        circuitSolver = new PureJavaSolver();
+        circuitSolver = new PureScalaSolver();
 
         particleSet = new ParticleSet( getCircuit() );
         layout = new ConstantDensityLayout( getCircuit(), particleSet );
