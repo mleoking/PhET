@@ -48,7 +48,7 @@ object TestPrototype {
     val companionBatteryVoltage = state.voltage + dt / 2 / capacitance * state.current
     val companionResistorResistance = dt / 2 / capacitance
 
-    println("companion resistor resistance = "+companionResistorResistance+", companion battery voltage = "+companionBatteryVoltage)
+//    println("companion resistor resistance = "+companionResistorResistance+", companion battery voltage = "+companionBatteryVoltage)
 
     //BACKWARD EULER
     //    val companionBatteryVoltage = state.voltage

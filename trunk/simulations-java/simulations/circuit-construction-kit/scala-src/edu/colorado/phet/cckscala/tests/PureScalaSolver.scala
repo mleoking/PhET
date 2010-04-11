@@ -27,17 +27,17 @@ class PureScalaSolver extends CircuitSolver
   class ResistorAdapter(c: CCKCircuit, b: Branch) extends Resistor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getResistance) with Adapter {
     def getComponent = b
   }
-  class CapacitorAdapter(c: CCKCircuit, b: CCKCapacitor) extends Capacitor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getCapacitance, b.getVoltageDrop, b.getCurrent) with Adapter {
+  class CapacitorAdapter(c: CCKCircuit, b: CCKCapacitor) extends Capacitor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getCapacitance) with Adapter {
     def getComponent = b
   }
-  class InductorAdapter(c: CCKCircuit, b: CCKInductor) extends Inductor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getInductance, b.getVoltageDrop, b.getCurrent) with Adapter {
+  class InductorAdapter(c: CCKCircuit, b: CCKInductor) extends Inductor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getInductance) with Adapter {
     def getComponent = b
   }
   def apply(circuit: CCKCircuit, dt: Double) = {
     val batteries = new ArrayBuffer[ResistiveBatteryAdapter]
     val resistors = new ArrayBuffer[ResistorAdapter]
-    val capacitors = new ArrayBuffer[CapacitorAdapter]
-    val inductors = new ArrayBuffer[InductorAdapter]
+    val capacitors = new ArrayBuffer[(CapacitorAdapter,CState)]
+    val inductors = new ArrayBuffer[(InductorAdapter,CState)]
     for (i <- 0 until circuit.numBranches) {
       circuit.getBranches.apply(i) match {
         case battery: CCKBattery => batteries += new ResistiveBatteryAdapter(circuit, battery)
@@ -47,16 +47,16 @@ class PureScalaSolver extends CircuitSolver
         case resistor: Switch => resistors += new ResistorAdapter(circuit, resistor)
         case resistor: Bulb => resistors += new ResistorAdapter(circuit, resistor)
         case resistor: SeriesAmmeter => resistors += new ResistorAdapter(circuit, resistor)
-        case capacitor: CCKCapacitor => capacitors += new CapacitorAdapter(circuit, capacitor)
-        case inductor: CCKInductor => inductors += new InductorAdapter(circuit, inductor)
+        case capacitor: CCKCapacitor => {}//capacitors += (new CapacitorAdapter(circuit, capacitor),new CState(capacitor.getVoltageDrop,capacitor.getCurrent))
+        case inductor: CCKInductor => {}//inductors += (new InductorAdapter(circuit, inductor),new CState(inductor.getVoltageDrop,inductor.getCurrent))
       }
     }
     val circ = new DynamicCircuit(batteries, resistors, Nil,capacitors, inductors)
     val solution = circ.solveItWithSubdivisions(dt)
     batteries.foreach(_.applySolution(solution))
     resistors.foreach(_.applySolution(solution))
-    capacitors.foreach(_.applySolution(solution))
-    inductors.foreach(_.applySolution(solution))
+//    capacitors.foreach(_.applySolution(solution))
+//    inductors.foreach(_.applySolution(solution))
     fireCircuitSolved()
   }
 }

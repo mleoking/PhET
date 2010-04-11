@@ -61,9 +61,9 @@ trait Element {
   def getOpposite(n: Int): Int = if (n == node0) node1 else if (n == node1) node0 else throw new RuntimeException("error")
 }
 
-case class Battery(node0: Int, node1: Int, voltage: Double) extends Element
-case class Resistor(node0: Int, node1: Int, resistance: Double) extends Element
-case class CurrentSource(node0: Int, node1: Int, current: Double) extends Element
+class Battery(val node0: Int, val node1: Int, val voltage: Double) extends Element
+class Resistor(val node0: Int, val node1: Int, val resistance: Double) extends Element
+class CurrentSource(val node0: Int, val node1: Int, val current: Double) extends Element
 
 trait AbstractCircuit {
   def getNodeSet = {
@@ -264,9 +264,9 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
 
 object TestMNA {
   def main(args: Array[String]) {
-    val battery = Battery(0, 1, 4.0)
-    val resistor = Resistor(1, 2, 4.0)
-    val resistor2 = Resistor(2, 0, 0.0)
+    val battery = new Battery(0, 1, 4.0)
+    val resistor = new Resistor(1, 2, 4.0)
+    val resistor2 = new Resistor(2, 0, 0.0)
     val circuit = new Circuit(battery :: Nil, resistor :: resistor2 :: Nil)
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2 -> 0.0), Map(battery -> 1.0, resistor2 -> 1.0))
     circuit.debug = true
