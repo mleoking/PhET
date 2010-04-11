@@ -27,7 +27,7 @@ object TestCompanionModel {
     var volts = 0.0
     for (i <- 0 until 10) {
       val currentThroughPrototype = stepPrototype(voltage, resistance, capacitance, new CapacitorState(volts, current), dt)
-      val currentThroughCompanion = stepCompanion(voltage, resistance, capacitance, new CapacitorState(volts, current), dt)
+      val currentThroughCompanion = stepCompanion(voltage, resistance, capacitance, new CapacitorState(-volts, current), dt)//TODO: why is this minus sign needed?
       val diff = currentThroughPrototype - currentThroughCompanion
       println("i= " + i + ", diff = " + diff)
 
