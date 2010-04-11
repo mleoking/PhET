@@ -20,24 +20,33 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
     new DynamicCircuitSolution(this, mnaCircuit.solve, currentCompanions)
   }
 
-  def updateWithSubdivisions(dt: Double) = {
-    val originalState = this
-    val steppable = new Steppable[DynamicCircuit] {
-      def update(a: DynamicCircuit, dt: Double) = a.update(dt)
+  case class DynamicState(circuit: DynamicCircuit, solution: DynamicCircuitSolution) {
+    def update(dt: Double) = {
+      val solution = circuit.solvePropagate(dt)
+      val newCircuit = circuit.updateCircuit(solution)
+      new DynamicState(newCircuit, solution)
+    }
+  }
 
-      //TODO: generalize distance criterion
-      def distance(a: DynamicCircuit, b: DynamicCircuit) = {
+  def solveWithSubdivisions(dt:Double) = {
+    val steppable = new Steppable[DynamicState] {
+      def update(a: DynamicState, dt: Double) = a.update(dt)
+
+      //TODO: generalize distance criterion, will be simpler if solutions are incorporated
+      def distance(a: DynamicState, b: DynamicState) = {
         //for now, just compare current through the capacitors
-        val aCurrents = for (c <- a.capacitors) yield c.current
-        val bCurrents = for (c <- b.capacitors) yield c.current
+        val aCurrents = for (c <- a.circuit.capacitors) yield c.current
+        val bCurrents = for (c <- b.circuit.capacitors) yield c.current //todo: read from solution object
         val euclideanDistance = MathUtil.euclideanDistance(aCurrents, bCurrents)
         euclideanDistance
       }
     }
-    new TimestepSubdivisions(1E-7).update(originalState, steppable, dt)
+    new TimestepSubdivisions(1E-7).update(new DynamicState(this, null), steppable, dt)
   }
 
-  def update(dt:Double) = updateCircuit(solvePropagate(dt))
+  def updateWithSubdivisions(dt: Double) = solveWithSubdivisions(dt).circuit
+
+  def update(dt: Double) = updateCircuit(solvePropagate(dt))
 
   //Applies the specified solution to the circuit.
   def updateCircuit(solution: DynamicCircuitSolution) = {
