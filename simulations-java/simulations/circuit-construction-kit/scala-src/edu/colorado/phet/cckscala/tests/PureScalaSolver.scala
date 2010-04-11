@@ -10,33 +10,27 @@ import edu.colorado.phet.circuitconstructionkit.model.components.{Bulb, SeriesAm
 class PureScalaSolver extends CircuitSolver
         with IProguardKeepClass { //loaded with reflection, see CCKModel
   trait Adapter extends Element {
-    def applySolution(sol: CompanionSolution) = {
+    def applySolution(sol: DynamicCircuitSolution) = {
       getComponent.setCurrent(sol.getCurrent(this))
-      getComponent.setVoltageDrop(sol.getVoltage(this))
+      getComponent.setVoltageDrop(sol.getNodeVoltage(node1)-sol.getNodeVoltage(node0))
     }
 
     def getComponent: Branch
   }
 
-  class ResistiveBatteryAdapter(c: CCKCircuit, b: CCKBattery)
-          extends ResistiveBattery(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getVoltageDrop,b.getResistance) with Adapter {
+  class ResistiveBatteryAdapter(c: CCKCircuit, b: CCKBattery) extends Battery(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getVoltageDrop) with Adapter {
     def getComponent = b
 
     //don't set voltage on the battery; that actually changes its nominal voltage
-    override def applySolution(sol: CompanionSolution) = getComponent.setCurrent(sol.getCurrent(this))
+    override def applySolution(sol: DynamicCircuitSolution) = getComponent.setCurrent(sol.getCurrent(this))
   }
-  class ResistorAdapter(c: CCKCircuit, b: Branch)
-          extends Resistor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getResistance) with Adapter {
+  class ResistorAdapter(c: CCKCircuit, b: Branch) extends Resistor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getResistance) with Adapter {
     def getComponent = b
   }
-  class CapacitorAdapter(c: CCKCircuit, b: CCKCapacitor)
-          extends Capacitor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction),
-            b.getCapacitance, b.getVoltageDrop, b.getCurrent) with Adapter {
+  class CapacitorAdapter(c: CCKCircuit, b: CCKCapacitor) extends Capacitor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getCapacitance, b.getVoltageDrop, b.getCurrent) with Adapter {
     def getComponent = b
   }
-  class InductorAdapter(c: CCKCircuit, b: CCKInductor)
-          extends Inductor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction),
-            b.getInductance, b.getVoltageDrop, b.getCurrent) with Adapter {
+  class InductorAdapter(c: CCKCircuit, b: CCKInductor) extends Inductor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getInductance, b.getVoltageDrop, b.getCurrent) with Adapter {
     def getComponent = b
   }
   def apply(circuit: CCKCircuit, dt: Double) = {
@@ -57,8 +51,8 @@ class PureScalaSolver extends CircuitSolver
         case inductor: CCKInductor => inductors += new InductorAdapter(circuit, inductor)
       }
     }
-    val circ = new FullCircuit(batteries, resistors, capacitors, inductors)
-    val solution = circ.solve(dt)
+    val circ = new DynamicCircuit(batteries, resistors, Nil,capacitors, inductors)
+    val solution = circ.solveItWithSubdivisions(dt)
     batteries.foreach(_.applySolution(solution))
     resistors.foreach(_.applySolution(solution))
     capacitors.foreach(_.applySolution(solution))
