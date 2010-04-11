@@ -47,16 +47,22 @@ class PureScalaSolver extends CircuitSolver
         case resistor: Switch => resistors += new ResistorAdapter(circuit, resistor)
         case resistor: Bulb => resistors += new ResistorAdapter(circuit, resistor)
         case resistor: SeriesAmmeter => resistors += new ResistorAdapter(circuit, resistor)
-        case capacitor: CCKCapacitor => {}//capacitors += (new CapacitorAdapter(circuit, capacitor),new CState(capacitor.getVoltageDrop,capacitor.getCurrent))
-        case inductor: CCKInductor => {}//inductors += (new InductorAdapter(circuit, inductor),new CState(inductor.getVoltageDrop,inductor.getCurrent))
+        case capacitor: CCKCapacitor => capacitors += {
+          val mytuple = (new CapacitorAdapter(circuit, capacitor),new CState(capacitor.getVoltageDrop,capacitor.getCurrent))
+          mytuple
+        }
+        case inductor: CCKInductor => inductors += {
+          val mytuple = (new InductorAdapter(circuit, inductor),new CState(inductor.getVoltageDrop,inductor.getCurrent))
+          mytuple //TODO: why is this workaround necessary?
+        }
       }
     }
     val circ = new DynamicCircuit(batteries, resistors, Nil,capacitors, inductors)
     val solution = circ.solveItWithSubdivisions(dt)
     batteries.foreach(_.applySolution(solution))
     resistors.foreach(_.applySolution(solution))
-//    capacitors.foreach(_.applySolution(solution))
-//    inductors.foreach(_.applySolution(solution))
+    capacitors.foreach(_._1.applySolution(solution))
+    inductors.foreach(_._1.applySolution(solution))
     fireCircuitSolved()
   }
 }
