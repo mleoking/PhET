@@ -74,8 +74,13 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
       //in series
       val newNode = max(usedNodes.toList) + 1
       usedNodes += newNode
-      val battery = new Battery(c.node0, newNode, c.voltage - dt / 2.0 / c.capacitance * c.current) //TODO: explain the difference between this sign and the one in TestTheveninCapacitorRC
-      val resistor = new Resistor(newNode, c.node1, dt / 2.0 / c.capacitance)
+
+      val companionResistance = dt / 2.0 / c.capacitance
+      val companionVoltage = c.voltage - companionResistance * c.current//TODO: explain the difference between this sign and the one in TestTheveninCapacitorRC
+//      println("companion resistance = "+companionResistance+", companion voltage = "+companionVoltage)
+
+      val battery = new Battery(c.node0, newNode, companionVoltage)
+      val resistor = new Resistor(newNode, c.node1, companionResistance)
       companionBatteries += battery
       companionResistors += resistor
       //we need to be able to get the current for this component
@@ -113,6 +118,7 @@ object TestMNACompanion {
     println("current through capacitor")
     for (i <- 0 until 10) {
       circuit = circuit.updateWithSubdivisions(0.03)
+//      println("Circuit: "+circuit)
       println(circuit.capacitors(0).current)
     }
   }
