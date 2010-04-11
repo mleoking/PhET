@@ -12,11 +12,15 @@ import flash.text.TextFormat;
 
 public class Rotator extends MovieClip {
 
+    public static var WIDTH : Number = 300;
+    public static var HEIGHT : Number = 200;
+
     private var loaders : Array = new Array();
     private var quantity : Number;
     private var idx : Number = 0;
     private var loadidx : Number = -1;
     private var loaderHolder : MovieClip = new MovieClip();
+    private var offset : Number = 0;
 
     private var debug : TextField = new TextField();
 
@@ -32,6 +36,9 @@ public class Rotator extends MovieClip {
             quantity = 2;
             loaders.push(new Preview("Masses & Springs", "/en/simulation/mass-spring-lab", "mass-spring-lab"));
             loaders.push(new Preview("Circuit Construction Kit (DC Only)", "/en/simulation/circuit-construction-kit/circuit-construction-kit-dc", "circuit-construction-kit-dc"));
+            loaderHolder.addChild(loaders[0]);
+            loaderHolder.addChild(loaders[1]);
+            loaders[1].visible = false;
         }
         else {
             quantity = Number(li.parameters.quantity);
@@ -39,14 +46,20 @@ public class Rotator extends MovieClip {
                 var title : String = li.parameters["title" + String(i)];
                 var url : String = li.parameters["url" + String(i)];
                 var sim : String = li.parameters["sim" + String(i)];
-                loaders.push(new Preview(title, url, sim));
+                var loader:Preview = new Preview(title, url, sim);
+                loaders.push(loader);
+                loaderHolder.addChild(loader);
+                if( i == 1 ) {
+                    loader.visible = true;
+                } else {
+                    loader.visible = false;
+                }
             }
         }
 
         startLoad();
 
         addChild(loaderHolder);
-        loaderHolder.addChild(loaders[0]);
 
         this.useHandCursor = true;
         this.buttonMode = true;
@@ -61,8 +74,7 @@ public class Rotator extends MovieClip {
         nextText.mouseEnabled = false;
         styleText(nextText);
         nextHolder.addChild(nextText);
-//        nextHolder.y = 200 - nextText.height - 1;
-        nextHolder.x = 300 - nextText.width - 1;
+        nextHolder.x = WIDTH - nextText.width - 1;
         addChild(nextHolder);
 
         var prevHolder : Sprite = new Sprite();
@@ -75,41 +87,81 @@ public class Rotator extends MovieClip {
         prevText.mouseEnabled = false;
         styleText(prevText);
         prevHolder.addChild(prevText);
-//        prevHolder.y = 200 - prevText.height - 1;
-        prevHolder.x = 300 - prevText.width - 1 - nextText.width;
+        prevHolder.x = WIDTH - prevText.width - 1 - nextText.width;
         addChild(prevHolder);
 
         nextHolder.addEventListener(MouseEvent.CLICK, function( evt:Event ) {
-            //loaderHolder.visible = false;
             next();
         });
 
         prevHolder.addEventListener(MouseEvent.CLICK, function( evt:Event ) {
-            //loaderHolder.visible = true;
             previous();
         });
 
-        //addChild( debug );
+        //addChild(debug);
+
+        this.addEventListener(Event.ENTER_FRAME, function( evt:Event ) {
+            if ( offset == 0 ) {
+                return;
+            }
+
+            var LOWER : Number = 10;
+
+            var bounce : Number = offset / 5;
+            if( Math.abs(bounce) < LOWER) {
+                bounce = offset > 0 ? LOWER : -LOWER;
+            }
+            if( Math.abs(offset) < LOWER ) {
+                bounce = offset;
+            }
+
+            offset -= bounce;
+
+            var totalWidth : Number = WIDTH * quantity;
+
+            for ( var i : Number = 0; i < quantity; i++ ) {
+                var x : Number = ((i - idx) * WIDTH + offset) % totalWidth;
+                if ( x < 0 ) { x += totalWidth; }
+                if ( totalWidth - x <= WIDTH ) {
+                    x -= totalWidth;
+                }
+                if ( x < WIDTH ) {
+                    loaders[i].x = x;
+                    loaders[i].visible = true;
+                    //debug.text += " " + String(i) + "V";
+                }
+                else {
+                    loaders[i].visible = false;
+                    //debug.text += " " + String(i) + "I";
+                }
+            }
+        });
 
     }
 
     private function next() : void {
-        loaderHolder.removeChild(loaders[idx]);
-        idx++;
-        if ( idx == quantity ) {
-            idx = 0;
+        if ( !nextPreview().isLoaded() ) {
+            return;
         }
-        loaderHolder.addChild(loaders[idx]);
+        idx = nextIdx(idx);
+        offset += WIDTH;
     }
 
     private function previous() : void {
-        loaderHolder.removeChild(loaders[idx]);
-        idx--;
-        if ( idx < 0 ) {
-            idx = quantity - 1;
+        if ( !prevPreview().isLoaded() ) {
+            return;
         }
-        loaderHolder.addChild(loaders[idx]);
+        idx = prevIdx(idx);
+        offset -= WIDTH;
     }
+
+    private function nextIdx( i : Number ) : Number { return (i + 1) < quantity ? i + 1 : 0;}
+
+    private function prevIdx( i : Number ) : Number { return (i - 1) >= 0 ? i - 1 : quantity - 1; }
+
+    private function nextPreview() : Preview { return loaders[nextIdx(idx)]; }
+
+    private function prevPreview() : Preview { return loaders[prevIdx(idx)]; }
 
     private function startLoad() : void {
         loadidx++;
