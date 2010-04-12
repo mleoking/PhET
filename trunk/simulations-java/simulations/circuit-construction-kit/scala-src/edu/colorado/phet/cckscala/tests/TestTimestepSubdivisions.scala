@@ -13,7 +13,7 @@ object TestTimestepSubdivisions {
     var state = originalState
     for (i <- 0 until 10) {
       println("state = " + state)
-      state = new TimestepSubdivisions(1E-7).update(state, steppable, dt)
+      state = new TimestepSubdivisions(1E-7).stepInTime(state, steppable, dt)
     }
   }
 }
