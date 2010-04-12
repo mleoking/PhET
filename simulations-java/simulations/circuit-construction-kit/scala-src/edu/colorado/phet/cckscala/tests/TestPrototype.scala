@@ -41,7 +41,7 @@ object TestPrototype {
 
       def distance(a: CapacitorState, b: CapacitorState) = MathUtil.euclideanDistance(a.current :: Nil, b.current :: Nil) //a.distance(b)//TODO: improve distance metric; just using current euclidean for comparison for TestCompanionModel
     }
-    new TimestepSubdivisions(1E-7).update(capacitorState, steppable, dt)
+    new TimestepSubdivisions(1E-7).stepInTime(capacitorState, steppable, dt)
   }
 
   def update(voltage: Double, resistance: Double, capacitance: Double, state: CapacitorState, dt: Double) = {

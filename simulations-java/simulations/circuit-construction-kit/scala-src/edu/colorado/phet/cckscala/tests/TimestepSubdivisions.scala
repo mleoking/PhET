@@ -1,24 +1,33 @@
 package edu.colorado.phet.cckscala.tests
 
+import _root_.java.util.ArrayList
+import collection.mutable.ArrayBuffer
+
 trait Steppable[A] {
   def distance(a: A, b: A): Double
 
   def update(a: A, dt: Double): A
 }
 
+case class Result[A](states:Seq[(Double,A)],state:A)
+
 class TimestepSubdivisions(errorThreshold: Double) {
-  def update[A](originalState: A, steppable: Steppable[A], dt: Double) = {
+  def stepInTimeWithHistory[A](originalState: A, steppable: Steppable[A], dt: Double) = {
     var state = originalState
     var elapsed = 0.0
+    val states = new ArrayBuffer[(Double,A)]
     while (elapsed < dt) {
       //println("elapsed = "+elapsed +", dt = "+dt)
       var subdivisionDT = getTimestep(state, steppable, dt)
       if (subdivisionDT + elapsed > dt) subdivisionDT = dt - elapsed // don't exceed max allowed dt
       state = steppable.update(state, subdivisionDT)
+      states += ((subdivisionDT,state))
       elapsed = elapsed + subdivisionDT
     }
-    state
+    Result(states.toList,state)
   }
+
+  def stepInTime[A](originalState: A, steppable: Steppable[A], dt: Double) = stepInTimeWithHistory(originalState,steppable,dt).state
 
   def getTimestep[A](state: A, steppable: Steppable[A], dt: Double): Double = {
     //store the previously used DT and try it first, then to increase it when possible.

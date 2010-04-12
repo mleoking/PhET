@@ -2,6 +2,10 @@ package edu.colorado.phet.cckscala.tests
 
 import collection.mutable.{HashSet, HashMap, ArrayBuffer}
 
+class Capacitor(val node0: Int, val node1: Int, val capacitance: Double) extends Element
+class Inductor(val node0: Int, val node1: Int, val inductance: Double) extends Element
+class ResistiveBattery(val node0: Int, val node1: Int, val voltage: Double, val resistance: Double) extends Element //This models a battery with a resistance in series
+
 object MathUtil {
   def euclideanDistance(x: Seq[Double], y: Seq[Double]) = {
     if (x.length != y.length) throw new RuntimeException("Vector length mismatch")
@@ -43,7 +47,7 @@ case class DynamicCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], cur
         euclideanDistance
       }
     }
-    new TimestepSubdivisions(1E-7).update(new DynamicState(this, null), steppable, dt)
+    new TimestepSubdivisions(1E-7).stepInTime(new DynamicState(this, null), steppable, dt)
   }
 
   def updateWithSubdivisions(dt: Double) = solveWithSubdivisions(dt).circuit
@@ -137,7 +141,7 @@ case class DynamicCircuitSolution(circuit: DynamicCircuit, mnaSolution: Solution
   }
 }
 
-object TestMNACompanion {
+object TestDynamicCircuit {
   def main(args: Array[String]) {
     val voltage = 9.0
     //    val resistance = 1E-6
@@ -149,7 +153,10 @@ object TestMNACompanion {
     println("current through capacitor")
     for (i <- 0 until 10) {
       val solution = circuit.solveItWithSubdivisions(0.03)
+      val startTime = System.currentTimeMillis
       circuit = circuit.updateWithSubdivisions(0.03)
+      val endTime = System.currentTimeMillis
+      println("time = " + (endTime-startTime))
       //      println("Circuit: "+circuit)
       println("companions = " + solution.currentCompanions)
       println(circuit.capacitors(0)._2.current + "\t" + solution.getCurrent(c))
