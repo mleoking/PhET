@@ -4,6 +4,7 @@ import flash.display.MovieClip;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.net.LocalConnection;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import flash.text.TextField;
@@ -48,7 +49,8 @@ public class Preview extends MovieClip{
             return;
         }
         started = true;
-        var request : URLRequest = new URLRequest("http://192.168.1.64/files/rotator/" + sim + "-anim.swf");
+        var lc : LocalConnection = new LocalConnection();
+        var request : URLRequest = new URLRequest("http://" + lc.domain + "/files/rotator/" + sim + "-anim.swf");
         loader.load(request);
 
         loader.addEventListener(MouseEvent.CLICK, function( evt : Event ) {
