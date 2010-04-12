@@ -155,7 +155,7 @@ public class Rotator extends MovieClip {
             for ( var i : Number = 0; i < quantity; i++ ) {
                 var x : Number = ((i - idx) * WIDTH + offset) % totalWidth;
                 if ( x < 0 ) { x += totalWidth; }
-                if ( totalWidth - x <= WIDTH ) {
+                if ( totalWidth - x < WIDTH ) {
                     x -= totalWidth;
                 }
                 if ( x < WIDTH ) {
@@ -164,6 +164,7 @@ public class Rotator extends MovieClip {
                     //debug.text += " " + String(i) + "V";
                 }
                 else {
+                    loaders[i].x = -5000;
                     loaders[i].visible = false;
                     //debug.text += " " + String(i) + "I";
                 }
@@ -227,6 +228,7 @@ public class Rotator extends MovieClip {
         tf.borderColor = 0x777777;
         tf.border = true;
         tf.setTextFormat(format);
+        tf.embedFonts = false;
     }
 }
 
