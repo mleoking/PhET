@@ -25,7 +25,7 @@ class WorkshopsPage extends SitePage {
         <h2>Upcoming Workshops</h2>
         <ul>
 	<li><em>Chemistry Modeling using PhET Free Simulations</em>; 21st Biennial Conference on Chemical EducationUniversity of North Texas, Denton, TX <strong>August 4, 2010</strong></li>
-	<li><em>Science Inquiry Using PhET: Free Research-based Simulations: Bring Your Own Laptop</em>;International Society for Technology in Education Convention, Denver, CO <strong>June 27, 2010</strong></li>
+	<li><em>Science Inquiry Using PhET: Free Research-based Simulations: Bring Your Own Laptop</em>; International Society for Technology in Education Convention, Denver, CO <strong>June 27, 2010</strong></li>
         </ul>
 
         <h2>Workshop Materials:</h2>
