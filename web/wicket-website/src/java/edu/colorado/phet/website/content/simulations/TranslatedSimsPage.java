@@ -10,7 +10,6 @@ import org.apache.wicket.model.ResourceModel;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.content.NotFoundPage;
-import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.PageContext;
@@ -41,7 +40,8 @@ public class TranslatedSimsPage extends PhetRegularPage {
                 throw new RestartResponseAtInterceptPageException( NotFoundPage.class );
             }
 
-            initializeLocation( new NavLocation( getNavMenu().getLocationByKey( "simulations.translated" ), "language.names." + localeName, getLinker( locale ) ) );
+            //initializeLocation( new NavLocation( getNavMenu().getLocationByKey( "simulations.translated" ), "language.names." + localeName, getLinker( locale ) ) );
+            initializeLocation( getNavMenu().getLocationByKey( "language.names." + localeName ) );
 
             addTitle( "Temporary title for simulations translated to " + localeName );
 
