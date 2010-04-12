@@ -34,6 +34,9 @@ import edu.colorado.phet.website.util.StringUtils;
 
 public class LuceneTest {
 
+    // TODO: extract into better writing / reading / updating, and add contributions
+    // TODO: improve indexing speed
+
     private static Logger logger = Logger.getLogger( LuceneTest.class.getName() );
 
     public static void addSimulations( Session session, PhetLocalizer localizer, final NavMenu menu ) {
