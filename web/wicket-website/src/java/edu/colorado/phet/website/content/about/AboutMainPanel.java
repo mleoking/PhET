@@ -17,10 +17,7 @@ public class AboutMainPanel extends PhetPanel {
         super( id, context );
 
         add( new LocalizedText( "about-p1", "about.p1", new Object[]{
-                SimulationDisplay.getLinker().getHref( context, getPhetCycle() ),
-                //"href=\"http://phet.colorado.edu/simulations/index.php\"",
                 ResearchPanel.getLinker().getHref( context, getPhetCycle() )
-                //"href=\"http://phet.colorado.edu/research/index.php\""
         } ) );
 
         add( new LocalizedText( "about-p2", "about.p2" ) );
