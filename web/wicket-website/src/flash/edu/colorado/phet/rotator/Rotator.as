@@ -95,6 +95,12 @@ public class Rotator extends MovieClip {
         prevHolder.x = WIDTH - prevText.width - 1 - nextText.width;
         addChild(prevHolder);
 
+//        var featuredText : TextField = new TextField();
+//        featuredText.text = "Featured Sims";
+//        featuredText.mouseEnabled = false;
+//        styleText( featuredText, 14, 0xd36a04 );
+//        addChild( featuredText );
+
         nextHolder.addEventListener(MouseEvent.CLICK, function( evt:Event ) {
             next();
         });
@@ -216,11 +222,12 @@ public class Rotator extends MovieClip {
         startLoad();
     }
 
-    public static function styleText( tf : TextField ) : void {
+    public static function styleText( tf : TextField, size : Number = 12, color : Number = 0x555555 ) : void {
         var format : TextFormat = new TextFormat();
-        format.size = 12;
+        format.size = size;
         format.bold = true;
-        format.color = 0x555555;
+        format.color = color;
+        format.font = "Arial";
 
         tf.autoSize = TextFieldAutoSize.LEFT;
         tf.backgroundColor = 0xFFFFFF;
