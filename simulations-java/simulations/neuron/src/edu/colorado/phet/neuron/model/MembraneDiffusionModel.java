@@ -113,6 +113,30 @@ public class MembraneDiffusionModel implements IParticleCapture {
     }
     
     /**
+     * Inject a particle into either the upper or lower particle chamber.
+     * 
+     * @param particle - Assumed to have its motion strategy and location
+     * already set.
+     * @return true if able to add the particle, false if something prevents
+     * the particle from being added.
+     */
+    public boolean injectParticle(Particle particle){
+    	// Validate that there are not already to many.
+    	// TODO
+    	
+    	// Validate that the particle is in bounds.
+    	if (!PARTICLE_CHAMBER_RECT.contains(particle.getPositionReference())){
+    		return false;
+    	}
+    	
+    	// Add the particle to the list.
+    	particles.add(particle);
+    	
+    	// If we made it to this point, everything went okay.
+    	return true;
+    }
+    
+    /**
      * Starts a particle of the specified type moving through the
      * specified channel.  If one or more particles of the needed type exist
      * within the capture zone for this channel, one will be chosen and set to
