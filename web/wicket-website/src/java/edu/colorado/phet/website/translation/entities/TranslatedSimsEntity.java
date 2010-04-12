@@ -15,6 +15,7 @@ public class TranslatedSimsEntity extends TranslationEntity {
         addString( "simulations.translated.numberofTranslations" );
         addString( "simulations.translated.runNow" );
         addString( "simulations.translated.download" );
+        addString( "simulations.translated.language.title" );
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
