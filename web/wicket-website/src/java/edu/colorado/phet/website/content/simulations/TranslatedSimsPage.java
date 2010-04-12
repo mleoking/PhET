@@ -24,8 +24,6 @@ public class TranslatedSimsPage extends PhetRegularPage {
     public TranslatedSimsPage( PageParameters parameters ) {
         super( parameters );
 
-        // TODO: break into two pages?
-
         boolean hasLocale = parameters.containsKey( "translationlocale" );
 
         if ( hasLocale ) {
