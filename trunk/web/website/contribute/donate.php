@@ -21,7 +21,7 @@ class DonatePage extends SitePage {
 </p>
 
 <p>
-	Donations of any size--$10, $50, $100, or more--help make it possible for us to continue to grow our library of simulations, provide on-going support and assist underserved populations around the world. All donations are tax deductable.
+	Donations of any size--$10, $50, $100, or more--help make it possible for us to continue to grow our library of simulations, provide on-going support and assist underserved populations around the world. All donations are tax deductible.
 </p>
 
 <div style="text-align: center; width: 100%;">
