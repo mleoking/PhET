@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.content.simulations;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
@@ -40,12 +41,12 @@ public class TranslatedSimsPage extends PhetRegularPage {
                 throw new RestartResponseAtInterceptPageException( NotFoundPage.class );
             }
 
-            //initializeLocation( new NavLocation( getNavMenu().getLocationByKey( "simulations.translated" ), "language.names." + localeName, getLinker( locale ) ) );
-            initializeLocation( getNavMenu().getLocationByKey( "language.names." + localeName ) );
+            String localeKey = "language.names." + localeName;
+            initializeLocation( getNavMenu().getLocationByKey( localeKey ) );
 
-            addTitle( "Temporary title for simulations translated to " + localeName );
+            String title = MessageFormat.format( getPhetLocalizer().getString( "simulations.translated.language.title", this ), new Object[]{getPhetLocalizer().getString( localeKey, this )} );
+            addTitle( title );
 
-            //add( new TranslationListPanel( "panel", getPageContext(), locale ) );
             PhetPanel panel = new SimplePanelCacheEntry( TranslationListPanel.class, null, getPageContext().getLocale(), getMyPath() ) {
                 public PhetPanel constructPanel( String id, PageContext context ) {
                     return new TranslationListPanel( id, context, locale );
