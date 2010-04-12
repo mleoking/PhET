@@ -171,8 +171,8 @@ public class ParticleInjectorNode extends PNode {
 
 	private void injectParticle(){
 		Particle particleToInject = Particle.createParticle(particleType);
-//		particleToInject.setMotionStrategy(new InjectionMotionStrategy(injectionPointInModelCoords, 0));
-		particleToInject.setMotionStrategy(new InjectionMotionStrategy(new Point2D.Double(0, 0), 0));
+		particleToInject.setPosition(injectionPointInModelCoords);
+		particleToInject.setMotionStrategy(new InjectionMotionStrategy(injectionPointInModelCoords, 0));
 		model.injectParticle(particleToInject);
 	}
 	
@@ -182,6 +182,14 @@ public class ParticleInjectorNode extends PNode {
 		injectionPointInModelCoords.setLocation(injectionPointX, injectionPointY);
 	}
 	
+	@Override
+	public void setOffset(double x, double y) {
+		super.setOffset(x, y);
+		updateInjectionPoint();
+	}
+
+
+
 	private static class InjectorLabelNode extends PNode {
 		
 		private static final Font LABEL_FONT = new PhetFont(14);

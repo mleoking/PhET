@@ -81,6 +81,14 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         		true);
 
         setBackground( Color.BLACK );
+        
+        // Listen to the model for events that the canvas needs to know about.
+        model.addListener(new MembraneDiffusionModel.Adapter(){
+    		public void particleAdded(Particle particle) {
+    			addParticle(particle);
+    		}
+
+        });
 
         // Create the node that will be the root for all the world children on
         // this canvas.  This is done to make it easier to zoom in and out on

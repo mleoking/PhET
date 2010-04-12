@@ -129,8 +129,9 @@ public class MembraneDiffusionModel implements IParticleCapture {
     		return false;
     	}
     	
-    	// Add the particle to the list.
+    	// Add the particle to the list and send appropriate notification.
     	particles.add(particle);
+    	notifyParticleAdded(particle);
     	
     	// If we made it to this point, everything went okay.
     	return true;

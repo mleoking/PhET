@@ -19,8 +19,8 @@ public class InjectionMotionStrategy extends MotionStrategy {
 	private static final double MIN_TIME_TO_NEXT_JUMP = 0.0001;  // In seconds of sim time, not wall time.
 	private static final double MAX_TIME_TO_NEXT_JUMP = 0.0005;  // In seconds of sim time, not wall time.
 	private static final Random RAND = new Random();
-	private static final double MIN_INITIAL_VELOCITY = 1;
-	private static final double MAX_INITIAL_VELOCITY = 2;
+	private static final double MIN_INITIAL_VELOCITY = 10000;
+	private static final double MAX_INITIAL_VELOCITY = 20000;
 	
 	private final Point2D initialLocation = new Point2D.Double();
 	private double timeUntilNextJump; // In seconds of sim time.
