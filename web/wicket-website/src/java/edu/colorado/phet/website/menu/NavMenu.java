@@ -71,6 +71,10 @@ public class NavMenu {
         NavLocation teacherIdeasGuide = new NavLocation( teacherIdeas, "teacherIdeas.guide", ContributionGuidelinesPanel.getLinker() );
         addLocation( teacherIdeasGuide );
 
+        NavLocation aboutLegend = new NavLocation( teacherIdeas, "about.legend", AboutLegendPanel.getLinker() );
+        addLocation( aboutLegend );
+        teacherIdeas.addChild( aboutLegend );
+
         NavLocation getPhet = new NavLocation( null, "get-phet", RunOurSimulationsPanel.getLinker() );
         addMajorLocation( getPhet );
 
@@ -113,10 +117,6 @@ public class NavMenu {
         NavLocation aboutSourceCode = new NavLocation( about, "about.source-code", AboutSourceCodePanel.getLinker() );
         addLocation( aboutSourceCode );
         about.addChild( aboutSourceCode );
-
-        NavLocation aboutLegend = new NavLocation( about, "about.legend", AboutLegendPanel.getLinker() );
-        addLocation( aboutLegend );
-        about.addChild( aboutLegend );
 
         NavLocation aboutContact = new NavLocation( about, "about.contact", AboutContactPanel.getLinker() );
         addLocation( aboutContact );
