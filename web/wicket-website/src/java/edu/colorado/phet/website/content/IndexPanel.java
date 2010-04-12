@@ -105,6 +105,7 @@ public class IndexPanel extends PhetPanel {
             public boolean run( Session session ) {
                 featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "mass-spring-lab", "mass-spring-lab" ) );
                 featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "circuit-construction-kit", "circuit-construction-kit-dc" ) );
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "soluble-salts", "soluble-salts" ) );
                 return true;
             }
         } );
