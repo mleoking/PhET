@@ -1,26 +1,36 @@
 package edu.colorado.phet.website.content;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.Model;
+import org.hibernate.Session;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.content.contribution.ContributePanel;
-import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
-import edu.colorado.phet.website.content.simulations.SimulationDisplay;
-import edu.colorado.phet.website.content.getphet.FullInstallPanel;
-import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
-import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.content.contribution.ContributePanel;
+import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
+import edu.colorado.phet.website.content.getphet.FullInstallPanel;
+import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
+import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
+import edu.colorado.phet.website.content.simulations.SimulationDisplay;
+import edu.colorado.phet.website.content.simulations.SimulationPage;
+import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.TranslationLinksPanel;
 import edu.colorado.phet.website.translation.TranslationMainPage;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.PhetRequestCycle;
+import edu.colorado.phet.website.util.*;
 
 /**
  * The panel which represents the main content portion of the home (index) page
@@ -87,6 +97,45 @@ public class IndexPanel extends PhetPanel {
         Link miniLink = SimulationDisplay.createLink( "mini-screenshot-link", context );
         add( miniLink );
         miniLink.add( new StaticImage( "mini-screenshot", "/images/geometric-optics-screenshot.png", null ) );
+
+        //String flashvars = "dir=ltr&quantity=2&project1=mass-spring-lab&sim1=mass-spring-lab&title1=Masses+%26+Springs&url1=%2Fen%2Fsimulation%2Fmass-spring-lab&project2=circuit-construction-kit&sim2=circuit-construction-kit-dc&title2=Circuit+Construction+Kit+%28DC+Only%29&url2=%2Fen%2Fsimulation%2Fcircuit-construction-kit%2Fcircuit-construction-kit-dc";
+        final List<LocalizedSimulation> featured = new LinkedList<LocalizedSimulation>();
+
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "mass-spring-lab", "mass-spring-lab" ) );
+                featured.add( HibernateUtils.getBestSimulation( session, getMyLocale(), "circuit-construction-kit", "circuit-construction-kit-dc" ) );
+                return true;
+            }
+        } );
+
+        StringBuffer buf = new StringBuffer();
+        buf.append( "dir=" + StringUtils.getString( getHibernateSession(), "language.dir", getMyLocale() ) + "&" );
+        buf.append( "quantity=" + Integer.toString( featured.size() ) + "&" );
+
+        int idx = 1;
+        for ( LocalizedSimulation lsim : featured ) {
+            String ids = Integer.toString( idx++ );
+            try {
+                buf.append( "sim" + ids + "=" + URLEncoder.encode( lsim.getSimulation().getName(), "UTF-8" ) + "&" );
+                buf.append( "title" + ids + "=" + URLEncoder.encode( lsim.getTitle(), "UTF-8" ) + "&" );
+                buf.append( "url" + ids + "=" + URLEncoder.encode( SimulationPage.getLinker( lsim ).getRawUrl( context, getPhetCycle() ), "UTF-8" ) + "&" );
+            }
+            catch( UnsupportedEncodingException e ) {
+                e.printStackTrace();
+            }
+        }
+
+        Model flashvarsModel = new Model( buf.toString() );
+
+        Label paramLabel = new Label( "flash-param" );
+        paramLabel.add( new AttributeAppender( "value", flashvarsModel, " " ) );
+        add( paramLabel );
+
+        Label embedLabel = new Label( "flash-embed" );
+        embedLabel.add( new AttributeAppender( "FlashVars", flashvarsModel, " " ) );
+        add( embedLabel );
+
     }
 
 }
