@@ -12,19 +12,8 @@
 <body>
 
 <wicket:panel>
-    <div wicket:message="dir:language.dir" class="about-phet">
+    <div wicket:message="dir:language.dir" class="about-phet standard-content">
         <p wicket:id="about-p1">
-            <!--PhET Interactive Simulations is an ongoing effort to provide-->
-            <!--an extensive suite of simulations to improve the way that physics, chemistry,-->
-            <!--biology, earth science and math are taught and learned. The-->
-            <!--<a href="http://phet.colorado.edu/simulations/index.php">simulations</a> are-->
-            <!--interactive tools that enable students to make connections between real life-->
-            <!--phenomena and the underlying science which explains such phenomena. Our team-->
-            <!--of scientists, software engineers and science educators use a-->
-            <!--<a href="http://phet.colorado.edu/research/index.php">research-based approach</a>-->
-            <!--- incorporating findings from prior research and our own testing - to create-->
-            <!--simulations that support student engagement with and understanding of-->
-            <!--scientific concepts.-->
             PhET provides fun, interactive, <a href="#">research-based</a> simulations of physical phenomena for free.
             We believe that our research-based approach– incorporating findings from prior research and our own
             testing– enables students to make connections between real-life phenomena and the underlying science,
@@ -32,15 +21,6 @@
         </p>
 
         <p wicket:id="about-p2">
-            <!--In order to help students visually comprehend thse concepts,-->
-            <!--PhET simulations animate what is invisible to the eye through the use of-->
-            <!--graphics and intuitive controls such as click-and-drag manipulation, sliders-->
-            <!--and radio buttons. In order to further encourage quantitative exploration, the-->
-            <!--simulations also offer measurement instruments including rulers, stop-watchs,-->
-            <!--voltmeters and thermometers. As the user manipulates these interactive tools,-->
-            <!--responses are immediately animated thus effectively illustrating-->
-            <!--cause-and-effects relationships as well as multiple linked representations-->
-            <!--(motion of the objects, graphs, number readouts, etc...).-->
             To help students visually comprehend concepts, PhET simulations animate what is invisible to the eye through
             the use of graphics and intuitive controls such as click-and-drag manipulation, sliders and radio buttons.
             In order to further encourage quantitative exploration, the simulations also offer measurement instruments
@@ -68,6 +48,71 @@
             browser as long as <a href="http://phet.colorado.edu/tech_support/support-flash.php">Flash</a> and
             <a href="http://phet.colorado.edu/tech_support/support-java.php">Java</a> are installed.
         </p>
+
+        <h2><wicket:message key="about.who-we-are.title">Who We Are</wicket:message></h2>
+
+        <div style="width: 520px; overflow: hidden;">
+            <img src="/images/phet-group-8-20-2009.jpg" alt="Image of the PhET Team" width="523"/>
+        </div>
+        <div>
+            <div class="caption" style="text-align: center;">
+                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">
+                    <wicket:message key="about.contact.backRow">
+                        Back Row:
+                    </wicket:message>
+                </span>
+                Linda Wellman, Michael Dubson, Jonathan Olson, Sam Reid, Chris Malley, Robert Parson, John Blanco, Carl
+                Wieman
+            </div>
+
+            <!--<div class="caption" style="text-align: center;">-->
+            <!--<span style="font-weight: bold; text-decoration: underline; font-style: italic;">-->
+            <!--<wicket:message key="about.contact.middleRow">-->
+            <!--Middle Row:-->
+            <!--</wicket:message>-->
+            <!--</span>-->
+            <!---->
+            <!--</div>-->
+
+            <div class="caption" style="text-align: center;">
+                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">
+                    <wicket:message key="about.contact.frontRow">
+                        Front Row:
+                    </wicket:message>
+                </span>
+                Marj Frankel, Kelly Lancaster, Trish Loeblein, Kathy Perkins, Noah Podolefsky, Alex Adams, Wendy Adams,
+                Noah Finkelstein
+            </div>
+
+            <p>&nbsp;</p>
+
+            <h4>
+                <wicket:message key="about.contact.phetTeam">The PhET Team</wicket:message>
+            </h4>
+
+            <ul id="people">
+                <li>Archie Paulson - Research Associate</li>
+                <li>Carl Wieman - Founder and Chairman</li>
+                <li>Chris Malley - Consultant / Software Engineer</li>
+                <li>Dano McKagan - Website Architect</li>
+                <li>John Blanco - Software Engineer</li>
+                <li>Jonathan Olson - Software Engineer</li>
+                <li>Kathy Perkins - Co-Director</li>
+                <li>Linda Wellmann - Administrative Assistant</li>
+                <li>Marj Frankel - Professional Research Assistant</li>
+                <li>Michael Dubson - Science Expert / Software Engineer</li>
+                <li>Mindy Gratny - Professional Research Assistant</li>
+                <li>Nicole Simpson -</li>
+                <li>Noah Finkelstein - Asst. Professor</li>
+                <li>Noah Podolefsky - Research Associate</li>
+                <li>Sam Reid - Software Engineer</li>
+                <li>Sarah McKagan - Research Associate</li>
+                <li>Trish Loeblein - High school science teacher and PhET team member</li>
+                <li>Wendy Adams - Co-Director</li>
+            </ul>
+
+        </div>
+
     </div>
 </wicket:panel>
 

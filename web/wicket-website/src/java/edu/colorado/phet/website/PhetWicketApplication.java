@@ -83,7 +83,6 @@ public class PhetWicketApplication extends WebApplication {
         StaticPage.addPanel( AboutSourceCodePanel.class );
         StaticPage.addPanel( AboutLegendPanel.class );
         StaticPage.addPanel( AboutContactPanel.class );
-        StaticPage.addPanel( AboutWhoWeArePanel.class );
         StaticPage.addPanel( AboutLicensingPanel.class );
         StaticPage.addPanel( AboutSponsorsPanel.class );
         //StaticPage.addPanel( TranslatedSimsPanel.class );
