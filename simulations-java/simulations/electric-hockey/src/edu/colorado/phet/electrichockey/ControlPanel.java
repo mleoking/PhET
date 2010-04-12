@@ -195,8 +195,7 @@ public class ControlPanel extends JPanel {
         panelBottomRight.add( massText );
         panelBottomRight.add( massSlider );
 
-//        panelTop.setLayout( new GridLayout( 1, 3 ) );
-        panelTop.setLayout( new FlowLayout() );
+        panelTop.setLayout(new WrapLayout());//Prevents some control panel items from disappearing, see #2050
 
         panelTop.add( panelLeft );
         panelTop.add( panelMid );
