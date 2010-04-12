@@ -63,7 +63,7 @@ public class NavMenuList extends PhetPanel {
                     item.add( placeholder );
                 }
                 else {
-                    item.add( new NavMenuList( "children", context, location.getChildren(), currentLocations, level + 1 ) );
+                    item.add( new NavMenuList( "children", context, location.getVisibleChildren( currentLocations ), currentLocations, level + 1 ) );
                 }
 
                 link.add( new AttributeAppender( "class", new Model( "nav" + level ), " " ) );

@@ -3,6 +3,7 @@ package edu.colorado.phet.website.menu;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Collection;
 
 import org.apache.wicket.markup.html.link.Link;
 
@@ -16,6 +17,11 @@ public class NavLocation implements Serializable {
     private List<NavLocation> children = new LinkedList<NavLocation>();
     private NavLocation parent;
     private transient Linkable linker;
+
+    /**
+     * Whether the location will be hidden if NOT selected
+     */
+    private boolean hidden = false;
 
     public NavLocation( NavLocation parent, String key, Linkable linker ) {
         this.parent = parent;
@@ -78,6 +84,28 @@ public class NavLocation implements Serializable {
         return children;
     }
 
+    public List<NavLocation> getVisibleChildren( Collection<NavLocation> selectedLocations ) {
+        List<NavLocation> ret = new LinkedList<NavLocation>();
+        for ( NavLocation child : children ) {
+            if ( child.isHidden() ) {
+                boolean skip = true;
+                for ( NavLocation location : selectedLocations ) {
+                    if ( location.isUnderLocation( child ) ) {
+                        skip = false;
+                        break;
+                    }
+                }
+                if ( !skip ) {
+                    ret.add( child );
+                }
+            }
+            else {
+                ret.add( child );
+            }
+        }
+        return ret;
+    }
+
     public NavLocation getParent() {
         return parent;
     }
@@ -94,4 +122,15 @@ public class NavLocation implements Serializable {
         children.add( location );
     }
 
+    public void removeChild( NavLocation location ) {
+        children.remove( location );
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden( boolean hidden ) {
+        this.hidden = hidden;
+    }
 }

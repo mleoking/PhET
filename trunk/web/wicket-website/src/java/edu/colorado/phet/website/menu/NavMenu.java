@@ -3,6 +3,7 @@ package edu.colorado.phet.website.menu;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.link.Link;
@@ -10,15 +11,18 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.common.phetcommon.util.PhetLocales;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.*;
+import edu.colorado.phet.website.content.about.*;
+import edu.colorado.phet.website.content.contribution.*;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
 import edu.colorado.phet.website.content.simulations.SimulationDisplay;
 import edu.colorado.phet.website.content.simulations.TranslatedSimsPage;
-import edu.colorado.phet.website.content.contribution.*;
-import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavascriptPanel;
@@ -186,6 +190,18 @@ public class NavMenu {
             NavLocation translatedSimsLocation = new NavLocation( location, "simulations.translated", TranslatedSimsPage.getLinker() );
             addLocation( translatedSimsLocation );
             location.addChild( translatedSimsLocation );
+
+            PhetLocales phetLocales = PhetWicketApplication.get().getSupportedLocales();
+            for ( String localeName : phetLocales.getSortedNames() ) {
+                Locale locale = phetLocales.getLocale( localeName );
+                NavLocation loc = new NavLocation( translatedSimsLocation, "language.names." + LocaleUtils.localeToString( locale ), TranslatedSimsPage.getLinker( locale ) );
+                addLocation( loc );
+                translatedSimsLocation.addChild( loc );
+
+                // don't show all of the tons of language subcategories unless the one we want is selected
+                loc.setHidden( true );
+            }
+
         }
     }
 
