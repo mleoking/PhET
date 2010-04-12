@@ -50,7 +50,11 @@ public class Preview extends MovieClip{
         }
         started = true;
         var lc : LocalConnection = new LocalConnection();
-        var request : URLRequest = new URLRequest("http://" + lc.domain + "/files/rotator/" + sim + "-anim.swf");
+        var domain : String = lc.domain;
+        if( domain == "localhost" ) {
+            domain = "192.168.1.64";
+        }
+        var request : URLRequest = new URLRequest("http://" + domain + "/files/rotator/" + sim + "-anim.swf");
         loader.load(request);
 
         loader.addEventListener(MouseEvent.CLICK, function( evt : Event ) {

@@ -62,6 +62,8 @@ public class Rotator extends MovieClip {
             }
         }
 
+        loaders[0].alpha = 0;
+
         startLoad();
 
         addChild(loaderHolder);
@@ -95,11 +97,11 @@ public class Rotator extends MovieClip {
         prevHolder.x = WIDTH - prevText.width - 1 - nextText.width;
         addChild(prevHolder);
 
-//        var featuredText : TextField = new TextField();
-//        featuredText.text = "Featured Sims";
-//        featuredText.mouseEnabled = false;
-//        styleText( featuredText, 14, 0xd36a04 );
-//        addChild( featuredText );
+        //        var featuredText : TextField = new TextField();
+        //        featuredText.text = "Featured Sims";
+        //        featuredText.mouseEnabled = false;
+        //        styleText( featuredText, 14, 0xd36a04 );
+        //        addChild( featuredText );
 
         nextHolder.addEventListener(MouseEvent.CLICK, function( evt:Event ) {
             next();
@@ -112,6 +114,12 @@ public class Rotator extends MovieClip {
         //addChild(debug);
 
         this.addEventListener(Event.ENTER_FRAME, function( evt:Event ) {
+            if ( !loaders[0].isLoaded() ) {
+                return;
+            }
+            if ( loaders[0].alpha < 1 ) {
+                loaders[0].alpha += 0.1;
+            }
             timer--;
             if ( timer == 0 ) {
                 next();
@@ -144,13 +152,13 @@ public class Rotator extends MovieClip {
             var slide : Number = 50;
             if ( Math.abs(offset) < slide ) {
                 var frac : Number = Math.abs(offset) / slide;
-//                frac -= 0.15;
-                if( frac < 0 ) { frac = 0; }
-//                bounce = (bounce > 0 ? minv : -minv) * (1 - frac) + frac * bounce;
-//                bounce *= (1 - frac) * bounce;
+                //                frac -= 0.15;
+                if ( frac < 0 ) { frac = 0; }
+                //                bounce = (bounce > 0 ? minv : -minv) * (1 - frac) + frac * bounce;
+                //                bounce *= (1 - frac) * bounce;
                 bounce *= 2 - frac;
             }
-            if( Math.abs( offset ) < minv ) {
+            if ( Math.abs(offset) < minv ) {
                 bounce = -offset;
             }
 
@@ -184,21 +192,21 @@ public class Rotator extends MovieClip {
     }
 
     private function next() : void {
+        resetTimer();
         if ( !nextPreview().isLoaded() ) {
             return;
         }
         idx = nextIdx(idx);
         offset += WIDTH;
-        resetTimer();
     }
 
     private function previous() : void {
+        resetTimer();
         if ( !prevPreview().isLoaded() ) {
             return;
         }
         idx = prevIdx(idx);
         offset -= WIDTH;
-        resetTimer();
     }
 
     private function nextIdx( i : Number ) : Number { return (i + 1) < quantity ? i + 1 : 0;}
