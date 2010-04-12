@@ -60,7 +60,7 @@ public class IndexPanel extends PhetPanel {
         add( WorkshopsPanel.getLinker().getLink( "workshops-link", context, getPhetCycle() ) );
 
         add( ContributePanel.getLinker().getLink( "contribute-link", context, getPhetCycle() ) );
-        add( ContributePanel.getLinker().getLink( "support-phet-link", context, getPhetCycle() ) );
+        add( DonatePanel.getLinker().getLink( "support-phet-link", context, getPhetCycle() ) );
 
         add( SimulationDisplay.createLink( "browse-sims-link", context ) );
 
