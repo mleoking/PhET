@@ -22,6 +22,7 @@ public class IndexEntity extends TranslationEntity {
         addString( "home.submitActivity" );
         addString( "home.supportPhet" );
         addString( "home.translateSimulations" );
+        addString( "home.translateWebsite" );
         addString( "home.browseSims" );
         addString( "home.simulations" );
 
