@@ -58,7 +58,13 @@ class PureScalaSolver extends CircuitSolver
       }
     }
     val circ = new DynamicCircuit(Nil, resistors, Nil, resistiveBatteries, capacitors, inductors)
+    
+    val start = System.currentTimeMillis
     val solution = circ.solveItWithSubdivisions(dt)
+    val end = System.currentTimeMillis
+
+    println("elapsed = "+(end-start))
+
     resistiveBatteries.foreach(_.applySolution(solution))
     resistors.foreach(_.applySolution(solution))
     capacitors.foreach(_._1.applySolution(solution))
