@@ -11,6 +11,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -21,7 +22,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.genenetwork.GeneNetworkResources;
 import edu.colorado.phet.neuron.NeuronStrings;
+import edu.colorado.phet.neuron.model.InjectionMotionStrategy;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
+import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.model.ParticleType;
 import edu.colorado.phet.neuron.model.PotassiumIon;
 import edu.colorado.phet.neuron.model.SodiumIon;
@@ -63,12 +66,13 @@ public class ParticleInjectorNode extends PNode {
     // Instance Data
     //------------------------------------------------------------------------
 
-	private PNode injectorBodyImageNode;
-	private PNode unpressedButtonImageNode;
-	private PNode pressedButtonImageNode;
-	private PNode particleTypeLabel;
-	private MembraneDiffusionModel model;
-	private ModelViewTransform2D mvt;
+	private final ParticleType particleType;
+	private final PNode injectorBodyImageNode;
+	private final PNode unpressedButtonImageNode;
+	private final PNode pressedButtonImageNode;
+	private final PNode particleTypeLabel;
+	private final MembraneDiffusionModel model;
+	private final ModelViewTransform2D mvt;
 	private Dimension2D injectionPointOffset = new PDimension();
 	private Point2D injectionPointInModelCoords = new Point2D.Double();
 	private Vector2D nominalInjectionVelocityVector = new Vector2D.Double(NOMINAL_ION_INJECTION_VELOCITY, 0);
@@ -87,6 +91,7 @@ public class ParticleInjectorNode extends PNode {
 	public ParticleInjectorNode(ParticleType particleType, final MembraneDiffusionModel model,
 			ModelViewTransform2D mvt, double rotationAngle) {
 		
+		this.particleType = particleType;
 		this.model = model;
 		this.mvt = mvt;
 		
@@ -165,7 +170,10 @@ public class ParticleInjectorNode extends PNode {
     //------------------------------------------------------------------------
 
 	private void injectParticle(){
-		// TODO
+		Particle particleToInject = Particle.createParticle(particleType);
+//		particleToInject.setMotionStrategy(new InjectionMotionStrategy(injectionPointInModelCoords, 0));
+		particleToInject.setMotionStrategy(new InjectionMotionStrategy(new Point2D.Double(0, 0), 0));
+		model.injectParticle(particleToInject);
 	}
 	
 	private void updateInjectionPoint(){
