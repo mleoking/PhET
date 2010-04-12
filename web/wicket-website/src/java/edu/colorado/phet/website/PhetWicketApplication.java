@@ -88,6 +88,7 @@ public class PhetWicketApplication extends WebApplication {
         //StaticPage.addPanel( TranslatedSimsPanel.class );
         StaticPage.addPanel( TeacherIdeasPanel.class );
         StaticPage.addPanel( ContributionGuidelinesPanel.class );
+        StaticPage.addPanel( DonatePanel.class );
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();
