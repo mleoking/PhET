@@ -9,7 +9,6 @@ import javax.swing.JMenuItem;
 import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkFrameSetup;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTestMenu;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTrackMenu;
