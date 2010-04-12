@@ -108,6 +108,9 @@ public class NavMenu {
         NavLocation contribute = new NavLocation( null, "contribute", ContributePanel.getLinker() );
         addMajorLocation( contribute );
 
+        NavLocation donate = new NavLocation( null, "donate", DonatePanel.getLinker() );
+        addMajorLocation( donate );
+
         NavLocation research = new NavLocation( null, "research", ResearchPanel.getLinker() );
         addMajorLocation( research );
 
