@@ -53,6 +53,10 @@ public class NavMenu {
         addLocation( teacherIdeasBrowse );
         teacherIdeas.addChild( teacherIdeasBrowse );
 
+        NavLocation workshops = new NavLocation( teacherIdeas, "workshops", WorkshopsPanel.getLinker() );
+        addLocation( workshops );
+        teacherIdeas.addChild( workshops );
+
         NavLocation teacherIdeasSubmit = new NavLocation( teacherIdeas, "teacherIdeas.submit", ContributionCreatePage.getLinker() );
         addLocation( teacherIdeasSubmit );
         teacherIdeas.addChild( teacherIdeasSubmit );
@@ -66,9 +70,6 @@ public class NavMenu {
 
         NavLocation teacherIdeasGuide = new NavLocation( teacherIdeas, "teacherIdeas.guide", ContributionGuidelinesPanel.getLinker() );
         addLocation( teacherIdeasGuide );
-
-        NavLocation workshops = new NavLocation( null, "workshops", WorkshopsPanel.getLinker() );
-        addMajorLocation( workshops );
 
         NavLocation getPhet = new NavLocation( null, "get-phet", RunOurSimulationsPanel.getLinker() );
         addMajorLocation( getPhet );
