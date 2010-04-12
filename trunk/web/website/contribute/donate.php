@@ -17,7 +17,7 @@ class DonatePage extends SitePage {
         print <<<EOT
 
 <p>
-	If you use our simulations, and/or are interested in supporting science education worldwide, please consider donating to the PhET Project.
+	If you use our simulations, and/or are interested in supporting science education worldwide, please consider donating to the PhET Project. While the simulations are free, they are expensive to create, test and maintain.
 </p>
 
 <p>
