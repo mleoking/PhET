@@ -172,7 +172,7 @@ public class ParticleInjectorNode extends PNode {
 	private void injectParticle(){
 		Particle particleToInject = Particle.createParticle(particleType);
 		particleToInject.setPosition(injectionPointInModelCoords);
-		particleToInject.setMotionStrategy(new InjectionMotionStrategy(injectionPointInModelCoords, 0));
+		particleToInject.setMotionStrategy(new InjectionMotionStrategy(injectionPointInModelCoords, model, 0));
 		model.injectParticle(particleToInject);
 	}
 	
