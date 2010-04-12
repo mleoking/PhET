@@ -4,8 +4,12 @@ import java.awt.*;
 
 /**
  * FlowLayout subclass that fully supports wrapping of components.
+ * 
  * Obtained from http://tips4java.wordpress.com/2008/11/06/wrap-layout/
- * No explicit mention of license, but it appears that Rob Carmick posted it as public domain or equivalent and encouraged download and use in several projects.
+ * The license is described at: http://tips4java.wordpress.com/about/  
+ * You are free to use and/or modify any or all code posted on the Java Tips Weblog without restriction. A credit in the code comments would be nice, but not in any way mandatory.
+ *
+ * @author Rob Camick 
  */
 public class WrapLayout extends FlowLayout {
     private Dimension preferredLayoutSize;
