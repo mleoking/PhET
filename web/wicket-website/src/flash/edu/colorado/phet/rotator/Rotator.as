@@ -14,6 +14,7 @@ public class Rotator extends MovieClip {
 
     public static var WIDTH : Number = 300;
     public static var HEIGHT : Number = 200;
+    public static var FRAMES_BETWEEN_SWITCH : Number = 5 * 30;
 
     private var loaders : Array = new Array();
     private var quantity : Number;
@@ -21,6 +22,9 @@ public class Rotator extends MovieClip {
     private var loadidx : Number = -1;
     private var loaderHolder : MovieClip = new MovieClip();
     private var offset : Number = 0;
+    private var timer : Number = FRAMES_BETWEEN_SWITCH;
+
+    private var velocity : Number = 0;
 
     private var debug : TextField = new TextField();
 
@@ -49,9 +53,10 @@ public class Rotator extends MovieClip {
                 var loader:Preview = new Preview(title, url, sim);
                 loaders.push(loader);
                 loaderHolder.addChild(loader);
-                if( i == 1 ) {
+                if ( i == 1 ) {
                     loader.visible = true;
-                } else {
+                }
+                else {
                     loader.visible = false;
                 }
             }
@@ -101,21 +106,49 @@ public class Rotator extends MovieClip {
         //addChild(debug);
 
         this.addEventListener(Event.ENTER_FRAME, function( evt:Event ) {
+            timer--;
+            if ( timer == 0 ) {
+                next();
+            }
+
             if ( offset == 0 ) {
                 return;
             }
 
-            var LOWER : Number = 10;
+            //            var LOWER : Number = 5;
+            //
+            //            var bounce : Number = 3 * Math.sqrt(Math.abs(offset));
+            //            bounce *= (offset > 0 ? 1 : -1);
+            //            if ( Math.abs(bounce) < LOWER ) {
+            //                bounce = offset > 0 ? LOWER : -LOWER;
+            //            }
+            //            if ( Math.abs(offset) < LOWER ) {
+            //                bounce = offset;
+            //            }
+            //
+            //            offset -= bounce;
 
-            var bounce : Number = offset / 5;
-            if( Math.abs(bounce) < LOWER) {
-                bounce = offset > 0 ? LOWER : -LOWER;
+            var c0 : Number = 0.2;
+            var c1 : Number = 0.015;
+            var a : Number = -c0 * velocity - c1 * offset;
+            var bounce : Number = velocity + 0.5 * a;
+            velocity += a;
+
+            var minv : Number = 5;
+            var slide : Number = 50;
+            if ( Math.abs(offset) < slide ) {
+                var frac : Number = Math.abs(offset) / slide;
+//                frac -= 0.15;
+                if( frac < 0 ) { frac = 0; }
+//                bounce = (bounce > 0 ? minv : -minv) * (1 - frac) + frac * bounce;
+//                bounce *= (1 - frac) * bounce;
+                bounce *= 2 - frac;
             }
-            if( Math.abs(offset) < LOWER ) {
-                bounce = offset;
+            if( Math.abs( offset ) < minv ) {
+                bounce = -offset;
             }
 
-            offset -= bounce;
+            offset += bounce;
 
             var totalWidth : Number = WIDTH * quantity;
 
@@ -139,12 +172,17 @@ public class Rotator extends MovieClip {
 
     }
 
+    private function resetTimer() : void {
+        timer = FRAMES_BETWEEN_SWITCH;
+    }
+
     private function next() : void {
         if ( !nextPreview().isLoaded() ) {
             return;
         }
         idx = nextIdx(idx);
         offset += WIDTH;
+        resetTimer();
     }
 
     private function previous() : void {
@@ -153,6 +191,7 @@ public class Rotator extends MovieClip {
         }
         idx = prevIdx(idx);
         offset -= WIDTH;
+        resetTimer();
     }
 
     private function nextIdx( i : Number ) : Number { return (i + 1) < quantity ? i + 1 : 0;}
