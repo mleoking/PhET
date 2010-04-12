@@ -30,7 +30,8 @@
                     <param name="bgcolor" value="#ffffff"/>
                     <param name="SeamlessTabbing" value="false"/>
                     <param wicket:id="flash-param" name="FlashVars"/>
-                    <embed id="x_projectile-motion" src="/files/rotator/home-rotator.swf" quality="high" bgcolor="#ffffff"
+                    <embed id="x_projectile-motion" src="/files/rotator/home-rotator.swf" quality="high"
+                           bgcolor="#ffffff"
                            width="300" height="200" name="rotator" align="middle" allowScriptAccess="always"
                            wicket:id="flash-embed"
                            type="application/x-shockwave-flash"
@@ -161,6 +162,13 @@
                         <wicket:message key="home.supportPhet">Support PhET</wicket:message>
                     </a>
                 </dd>
+                <dd>
+                    <wicket:enclosure>
+                        <a href="#" wicket:id="test-translation">
+                            <wicket:message key="home.translateWebsite">Translate the website</wicket:message>
+                        </a>
+                    </wicket:enclosure>
+                </dd>
             </dl>
 
             <dl class="last">
@@ -190,11 +198,6 @@
         </div>
 
         <div class="index-footer" style="text-align: center; margin-top: 5px;">
-            <wicket:enclosure>
-                <a href="IndexPanel.html#" wicket:id="test-translation" class="langlink">Create or Edit a Translation
-                    &gt;&gt;</a>
-                <br/>
-            </wicket:enclosure>
             <span wicket:id="translation-links">
                 Translation links go here
             </span>
