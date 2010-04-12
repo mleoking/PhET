@@ -1,3 +1,4 @@
+> 4/11/2010 Prevented some control panel items from disappearing, see #2050
 # 1.07.02 (39498) Mar 25, 2010
 > 3/25/2010 Prevented goals from being scored from the back or sides of the net. 
 > 3/22/2010 Resolved a problem that caused the goal to sometimes be incorrectly detected as a barrier.
