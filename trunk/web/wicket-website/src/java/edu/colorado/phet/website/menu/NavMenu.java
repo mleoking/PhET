@@ -118,17 +118,13 @@ public class NavMenu {
         addLocation( aboutSourceCode );
         about.addChild( aboutSourceCode );
 
-        NavLocation aboutContact = new NavLocation( about, "about.contact", AboutContactPanel.getLinker() );
-        addLocation( aboutContact );
-        about.addChild( aboutContact );
-
-        NavLocation aboutWhoWeAre = new NavLocation( about, "about.who-we-are", AboutWhoWeArePanel.getLinker() );
-        addLocation( aboutWhoWeAre );
-        about.addChild( aboutWhoWeAre );
-
         NavLocation aboutLicensing = new NavLocation( about, "about.licensing", AboutLicensingPanel.getLinker() );
         addLocation( aboutLicensing );
         about.addChild( aboutLicensing );
+
+        NavLocation aboutContact = new NavLocation( about, "about.contact", AboutContactPanel.getLinker() );
+        addLocation( aboutContact );
+        about.addChild( aboutContact );
 
         NavLocation aboutSponsors = new NavLocation( about, "sponsors", AboutSponsorsPanel.getLinker() );
         addLocation( aboutSponsors );

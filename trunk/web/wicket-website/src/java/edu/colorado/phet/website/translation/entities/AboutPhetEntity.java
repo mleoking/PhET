@@ -95,12 +95,6 @@ public class AboutPhetEntity extends TranslationEntity {
                 return new AboutLicensingPanel( id, context );
             }
         }, "About (licensing)" );
-
-        addPreview( new PhetPanelFactory() {
-            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
-                return new AboutWhoWeArePanel( id, context );
-            }
-        }, "About (who we are)" );
     }
 
     public String getDisplayName() {

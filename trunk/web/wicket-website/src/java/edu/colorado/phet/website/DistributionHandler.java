@@ -113,7 +113,6 @@ public class DistributionHandler {
             AboutMainPanel.class,
             AboutSourceCodePanel.class,
             AboutSponsorsPanel.class,
-            AboutWhoWeArePanel.class,
             ContributePanel.class,
             FullInstallPanel.class,
             ResearchPanel.class,
