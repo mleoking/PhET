@@ -1,3 +1,4 @@
+Inherited bugfix for Go button handling in #2088
 Removed override that was identical to parent implementation
 # 1.09.00 (38114) Jan 14, 2010
 # 1.08.05 (38112) Jan 14, 2010
