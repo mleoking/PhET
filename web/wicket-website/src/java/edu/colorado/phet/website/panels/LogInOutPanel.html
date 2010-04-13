@@ -12,18 +12,22 @@
 <body>
 
 <wicket:panel>
-    <a wicket:id="sign-in"><wicket:message key="session.loginRegister">Sign in / Register</wicket:message></a>
+    <a wicket:id="sign-in">
+        <wicket:message key="session.loginRegister">Sign in / Register</wicket:message>
+    </a>
     <wicket:enclosure child="sign-out">
         <ul class="loginout-list">
-            <wicket:enclosure child="team-member">
-                <wicket:link>
-                    <li><a href="../admin/AdminMainPage.html">Administration</a><span wicket:id="team-member"></span></li>
-                    <li class="loginout-spacer">|</li>
-                </wicket:link>
+            <wicket:enclosure child="admin-link">
+                <li><a href="#" wicket:id="admin-link">Administration</a></li>
+                <li class="loginout-spacer">|</li>
             </wicket:enclosure>
-            <li><a wicket:id="edit-profile"><wicket:message key="session.editProfile">Edit profile</wicket:message></a></li>
+            <li><a wicket:id="edit-profile">
+                <wicket:message key="session.editProfile">Edit profile</wicket:message>
+            </a></li>
             <li class="loginout-spacer">|</li>
-            <li><a wicket:id="sign-out"><wicket:message key="session.logout">Sign out</wicket:message></a></li>
+            <li><a wicket:id="sign-out">
+                <wicket:message key="session.logout">Sign out</wicket:message>
+            </a></li>
         </ul>
     </wicket:enclosure>
 </wicket:panel>
