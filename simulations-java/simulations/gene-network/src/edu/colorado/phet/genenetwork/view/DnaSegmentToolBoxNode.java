@@ -59,9 +59,6 @@ public abstract class DnaSegmentToolBoxNode extends PNode {
 	// the code for the nodes that are added to the tool box.
 	private static final Font CHECK_BOX_FONT = GeneNetworkFontFactory.getFont(16, Font.PLAIN);
 	
-	// TODO: Take this out when finalized.
-	protected static final boolean SHOW_DIVIDER_LINE = true;
-	PPath dividerLine;
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -82,6 +79,9 @@ public abstract class DnaSegmentToolBoxNode extends PNode {
 	
 	// The check box for controlling lactose meter visibility.
 	protected PSwing lactoseMeterCheckBoxPSwing;
+	
+	// Divider line that goes between the DNA segments and the check boxes.
+	PPath dividerLine;
 	
 	// Reference to the model.
 	protected IGeneNetworkModelControl model;
@@ -155,10 +155,8 @@ public abstract class DnaSegmentToolBoxNode extends PNode {
 		addChild(legendControlCheckBoxPSwing);
 		
 		// Add a divider line between the DNA segments and the controls.
-		if (SHOW_DIVIDER_LINE){
-			dividerLine = new PhetPPath(OUTLINE_STROKE, Color.LIGHT_GRAY);
-			addChild(dividerLine);
-		}
+		dividerLine = new PhetPPath(OUTLINE_STROKE, Color.LIGHT_GRAY);
+		addChild(dividerLine);
 		
 		// Listen to the model for changes to the setting for the legend
 		// visibility.
