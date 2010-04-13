@@ -86,6 +86,8 @@ public class MembraneDiffusionModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
-    	// TODO
+    	
+    	// Reset the model.
+    	model.reset();
     }    
 }
