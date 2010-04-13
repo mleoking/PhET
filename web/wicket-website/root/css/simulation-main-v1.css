@@ -33,9 +33,14 @@ div.rtl .simulation-main-image-panel {
 }
 
 .simulation-main-description {
-    line-height: 150%;
+    /*line-height: 150%;*/
     vertical-align: top;
     padding: 0;
+}
+
+.simulation-main-support-button {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .sim-clear {

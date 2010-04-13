@@ -21,11 +21,13 @@ import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.borders.SmallOrangeButtonBorder;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.content.DonatePanel;
 import edu.colorado.phet.website.content.about.AboutLegendPanel;
 import edu.colorado.phet.website.content.contribution.ContributePanel;
 import edu.colorado.phet.website.content.simulations.SimsByKeywordPage;
@@ -73,6 +75,10 @@ public class SimulationMainPanel extends PhetPanel {
         add( new LocalizedText( "simulation-main-description", simulation.getSimulation().getDescriptionKey() ) );
         add( new Label( "simulationMainPanel.version", new StringResourceModel( "simulationMainPanel.version", this, null, new String[]{simulationVersionString} ) ) );
         add( new Label( "simulationMainPanel.kilobytes", new StringResourceModel( "simulationMainPanel.kilobytes", this, null, new Object[]{simulation.getSimulation().getKilobytes()} ) ) );
+
+        SmallOrangeButtonBorder orangeButton = new SmallOrangeButtonBorder( "orange-button", context );
+        add( orangeButton );
+        orangeButton.add( DonatePanel.getLinker().getLink( "support-link", context, getPhetCycle() ) );
 
         //----------------------------------------------------------------------------
         // rating icons
@@ -439,10 +445,6 @@ public class SimulationMainPanel extends PhetPanel {
             learningGoalsView.setVisible( false );
         }
         add( learningGoalsView );
-
-        //add( ContributePanel.getLinker().getLink( "donate1", context, getPhetCycle() ) );
-        add( ContributePanel.getLinker().getLink( "donate2", context, getPhetCycle() ) );
-        add( ContributePanel.getLinker().getLink( "donate3", context, getPhetCycle() ) );
 
         addDependency( new EventDependency() {
 
