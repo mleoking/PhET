@@ -147,9 +147,18 @@ public abstract class Particle implements IMovable, IFadable {
     }
     
     /**
+     * This is called to remove this particle from the model.  It simply sends
+     * out a notification of removal, and all listeners (including the view)
+     * are expected to act appropriately and to remove all references.
+     */
+    public void removeSelfFromModel(){
+    	notifyRemoved();
+    }
+    
+    /**
      * Inform all listeners that this element has been removed from the model.
      */
-    public void notifyRemoved(){
+    private void notifyRemoved(){
     	// Copy the list to avoid concurrent modification exceptions.
     	ArrayList<Listener> listenersCopy = new ArrayList<Listener>(listeners); 
     	// Notify all listeners that this particle was removed from the model.

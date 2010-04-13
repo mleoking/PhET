@@ -290,8 +290,14 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	// response.
     	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
     	for (Particle particle : particlesCopy){
-    		particle.notifyRemoved();
+    		particle.removeSelfFromModel();
     	}
+    }
+    
+    private void addUserControlledMembraneChannel(MembraneChannel membraneChannel, Point2D initialLocation){
+    	assert membraneChannel != null && initialLocation != null;
+    	userControlledMembraneChannel = membraneChannel;
+    	notifyChannelAdded(membraneChannel);
     }
     
     //----------------------------------------------------------------------------
