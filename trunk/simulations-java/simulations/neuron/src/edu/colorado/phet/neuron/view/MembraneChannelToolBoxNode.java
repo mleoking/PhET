@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class represents the "toolbox" for membrane channels that can be
@@ -26,17 +27,6 @@ public class MembraneChannelToolBoxNode extends PNode {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-	
-	// Defines the width of the tool box as a proportion of the parent window's
-	// width.
-	protected static final double WIDTH_PROPORTION = 0.8;
-	
-	// Aspect ratio, width divided by height, from which the height will be
-	// calculated.  Smaller numbers means a taller box.
-	protected static final double ASPECT_RATIO = 8; 
-	
-	// Offset from the bottom of the window.
-	protected static final double OFFSET_FROM_BOTTOM = 10;
 	
 	// Background color used to fill the box.
 	private static final Color BACKGROUND_COLOR = Color.WHITE; 
@@ -60,29 +50,18 @@ public class MembraneChannelToolBoxNode extends PNode {
 	
 	// Reference to the model-view transform.
 	protected ModelViewTransform2D mvt;
-	
-	// Reference to the canvas upon which we are placed.
-	protected PhetPCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public MembraneChannelToolBoxNode(final PhetPCanvas canvas, final MembraneDiffusionModel model, ModelViewTransform2D mvt) {
+	public MembraneChannelToolBoxNode(PDimension size, final MembraneDiffusionModel model, ModelViewTransform2D mvt) {
 		
-		this.canvas = canvas;
 		this.model = model;
 		this.mvt = mvt;
 		
-		// Register for events indicating that the parent window was resized.
-		canvas.addComponentListener(new ComponentAdapter() {
-		    public void componentResized(ComponentEvent e) {
-		    	updateLayout(canvas);
-		    }
-		});
-		
 		// Create the surrounding box.
-		boxNode = new PhetPPath(new RoundRectangle2D.Double(0, 0, canvas.getWidth(), 100, 15, 15), BACKGROUND_COLOR,
+		boxNode = new PhetPPath(new RoundRectangle2D.Double(0, 0, size.getWidth(), size.getHeight(), 15, 15), BACKGROUND_COLOR,
 				OUTLINE_STROKE, Color.BLACK);
 		addChild(boxNode);
 		
@@ -93,12 +72,4 @@ public class MembraneChannelToolBoxNode extends PNode {
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
-	
-	private void updateLayout(JComponent parent){
-		// Size the overall box.
-    	double width = parent.getWidth() * WIDTH_PROPORTION;
-    	boxNode.setPathTo(new RoundRectangle2D.Double(0, 0, width, width / ASPECT_RATIO, 15, 15));
-    	setOffset(((double)parent.getWidth() - width) / 2,
-    			parent.getHeight() - boxNode.getHeight() - OFFSET_FROM_BOTTOM);
-	}
 }
