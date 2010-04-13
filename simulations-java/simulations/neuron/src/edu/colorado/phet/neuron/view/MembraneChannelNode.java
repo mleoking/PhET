@@ -66,6 +66,9 @@ public class MembraneChannelNode extends PNode{
 			public void inactivationAmtChanged() {
 				updateRepresentation();
 			}
+			public void positionChanged() {
+				updateLocation();
+			}
 		});
 		
 		// Create the channel representation.
@@ -117,8 +120,9 @@ public class MembraneChannelNode extends PNode{
 			channelLayer.addChild(captureZoneNode);
 		}
 
-		// Update the representation.
+		// Update the representation and location.
 		updateRepresentation();
+		updateLocation();
 	}
 	
 	/**
@@ -163,6 +167,11 @@ public class MembraneChannelNode extends PNode{
 		return edgeNode;
 	}
 	
+	private void updateLocation(){
+		channelLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
+		edgeLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
+	}
+	
 	private void updateRepresentation(){
 		
 		// Note that the channel width is a non-linear function openness.
@@ -198,9 +207,6 @@ public class MembraneChannelNode extends PNode{
 		rightEdgeNode.setOffset(
 				transformedChannelSize.getWidth() / 2 + rightEdgeNode.getFullBoundsReference().width / 2, 0);
 
-		channelLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
-		edgeLayer.setOffset(mvt.modelToViewDouble(membraneChannelModel.getCenterLocation()));
-		
 		// If this membrane channel has an inactivation gate, draw it.
 		if (membraneChannelModel.getHasInactivationGate()){
 			

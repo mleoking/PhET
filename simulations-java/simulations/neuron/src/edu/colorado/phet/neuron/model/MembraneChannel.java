@@ -322,8 +322,11 @@ public abstract class MembraneChannel {
 	}
 	
 	public void setCenterLocation(Point2D newCenterLocation) {
-		centerLocation.setLocation(newCenterLocation);
-		captureZone.setOriginPoint(newCenterLocation);
+		if (!newCenterLocation.equals(centerLocation)){
+			centerLocation.setLocation(newCenterLocation);
+			captureZone.setOriginPoint(newCenterLocation);
+			notifyPositionChanged();
+		}
 	}
 
 	public void setRotationalAngle(double rotationalAngle){
@@ -418,16 +421,24 @@ public abstract class MembraneChannel {
 		}
 	}
 	
+	private void notifyPositionChanged(){
+		for (Listener listener : listeners){
+			listener.positionChanged();
+		}
+	}
+	
 	public static interface Listener{
 		void removed();
 		void opennessChanged();
 		void inactivationAmtChanged();
+		void positionChanged();
 	}
 	
 	public static class Adapter implements Listener {
 		public void removed() {}
 		public void opennessChanged() {}
 		public void inactivationAmtChanged() {}
+		public void positionChanged() {}
 	}
 	
 	protected double getMaxInterCaptureTime() {

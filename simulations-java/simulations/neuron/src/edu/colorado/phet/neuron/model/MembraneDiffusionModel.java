@@ -294,8 +294,14 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	}
     }
     
-    private void addUserControlledMembraneChannel(MembraneChannel membraneChannel, Point2D initialLocation){
-    	assert membraneChannel != null && initialLocation != null;
+    /**
+     * Add a membrane channel that is under user control, meaning that the user
+     * is dragging it around.
+     * 
+     * @param membraneChannel
+     */
+    public void addUserControlledMembraneChannel(MembraneChannel membraneChannel){
+    	assert membraneChannel != null;
     	userControlledMembraneChannel = membraneChannel;
     	notifyChannelAdded(membraneChannel);
     }
