@@ -19,7 +19,6 @@ import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
-import edu.colorado.phet.website.content.contribution.ContributePanel;
 import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
@@ -61,6 +60,7 @@ public class IndexPanel extends PhetPanel {
 
         add( TeacherIdeasPanel.getLinker().getLink( "contribute-link", context, getPhetCycle() ) );
         add( DonatePanel.getLinker().getLink( "support-phet-link", context, getPhetCycle() ) );
+        add( TranslationUtilityPanel.getLinker().getLink( "translate-sims-link", context, getPhetCycle() ) );
 
         add( SimulationDisplay.createLink( "browse-sims-link", context ) );
 
