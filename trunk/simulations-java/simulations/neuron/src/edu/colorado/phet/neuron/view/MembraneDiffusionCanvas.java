@@ -161,7 +161,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         // to the membrane.  The multipliers in the following statement set
         // the size of the tool box and can be adjusted as needed.
         membraneChannelToolBoxNode = new MembraneChannelToolBoxNode(
-        		new PDimension(transformedParticleChamberRect.getWidth() * 1.4, transformedParticleChamberRect.getHeight() * 0.4), model, mvt);
+        		new PDimension(transformedParticleChamberRect.getWidth() * 1.4, transformedParticleChamberRect.getHeight() * 0.4), model, mvt, this);
         membraneChannelToolBoxNode.setOffset(
         		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - membraneChannelToolBoxNode.getFullBoundsReference().width / 2,
         		transformedParticleChamberRect.getMaxY() + 20);

@@ -3,21 +3,19 @@ package edu.colorado.phet.neuron.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.RoundRectangle2D;
 
-import javax.swing.JComponent;
-
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * This class represents the "toolbox" for membrane channels that can be
+ * This class represents the "tool box" for membrane channels that can be
  * grabbed by the user and placed on the membrane.
  * 
  * @author John Blanco
@@ -43,7 +41,7 @@ public class MembraneChannelToolBoxNode extends PNode {
 	protected PhetPPath boxNode;
 
 	// The various grabbable things in the box.
-	// TODO
+	private PotassiumLeakChannelToolBoxNode potassiumLeakChannelNode;
 	
 	// Reference to the model.
 	protected MembraneDiffusionModel model;
@@ -55,7 +53,7 @@ public class MembraneChannelToolBoxNode extends PNode {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public MembraneChannelToolBoxNode(PDimension size, final MembraneDiffusionModel model, ModelViewTransform2D mvt) {
+	public MembraneChannelToolBoxNode(PDimension size, final MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		
 		this.model = model;
 		this.mvt = mvt;
@@ -66,7 +64,9 @@ public class MembraneChannelToolBoxNode extends PNode {
 		addChild(boxNode);
 		
 		// Create the grabbable items in the box.
-		// TODO
+		potassiumLeakChannelNode = new PotassiumLeakChannelToolBoxNode(model, mvt, canvas);
+		potassiumLeakChannelNode.setOffset(boxNode.getFullBoundsReference().getCenterX(), boxNode.getFullBoundsReference().getCenterY());
+		addChild(potassiumLeakChannelNode);
 	}
 	
     //----------------------------------------------------------------------------
