@@ -1,5 +1,8 @@
 package edu.colorado.phet.motionseries.graphics
 
+import _root_.edu.colorado.phet.motionseries.MotionSeriesResources
+import _root_.edu.umd.cs.piccolo.nodes.{PImage, PText}
+import _root_.java.awt.geom.{AffineTransform, Point2D}
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.motionseries.model.{AdjustableCoordinateModel, CoordinateFrameModel, MotionSeriesModel}
@@ -25,13 +28,13 @@ class SynchronizedAxisModel(val offset: Double,
         extends AxisModel(offset, length, tail) {
   //adapters for going between local and global models
   coordinateFrameModel.addListenerByName(angle = coordinateFrameModel.angle + offset)
-//  addListenerByName(coordinateFrameModel.angle = angle - offset)
+  //  addListenerByName(coordinateFrameModel.angle = angle - offset)
 
-//  override def dropped() = {
-//    coordinateFrameModel.dropped()
-//  }
-//
-//  def getSnapAngle(angle: Double) = coordinateFrameModel.getSnapAngle(angle)
+  //  override def dropped() = {
+  //    coordinateFrameModel.dropped()
+  //  }
+  //
+  //  def getSnapAngle(angle: Double) = coordinateFrameModel.getSnapAngle(angle)
 
 }
 
@@ -45,7 +48,23 @@ class CoordinateFrameNode(val model: MotionSeriesModel,
   addChild(xAxis)
 
   val yAxisModel = new SynchronizedAxisModel(PI / 2, PI / 2, PI, 7, false, model.coordinateFrameModel)
-  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel)
+  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel) {
+    val bufferedImage = MotionSeriesResources.getImage("handle_1.png")
+    val handleNode = new PImage(bufferedImage)
+    addChild(handleNode)
+    updateTipAndTailLocations()
+    override def setTipAndTailLocations(tip: Point2D, tail: Point2D) = {
+      super.setTipAndTailLocations(tip,tail)
+      if (handleNode!=null){
+        handleNode.setTransform(new AffineTransform)
+        handleNode.setOffset(tip)
+        handleNode.scale(1.6)
+        val angle = Math.atan2(tip.getY-tail.getY,tip.getX-tail.getX)
+        handleNode.rotate(angle)
+        handleNode.translate(-50,-bufferedImage.getHeight)
+      }
+    }
+  }
   addChild(yAxis)
 
   defineInvokeAndPass(adjustableCoordinateModel.addListenerByName) {
