@@ -106,10 +106,17 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	// Reset the HH model.
     	hodgkinHuxleyModel.reset();
     	
-    	// Reset all membrane channels.
-    	for (MembraneChannel membraneChannel : membraneChannels){
-    		membraneChannel.reset();
+    	// Remove all particles.  This is done by telling each particle to
+    	// send out notifications of its removal from the model.  All
+    	// listeners, including this class, should remove their references in
+    	// response.
+    	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
+    	for (Particle particle : particlesCopy){
+    		particle.notifyRemoved();
     	}
+    	
+    	// Remove all membrane channels.
+    	// TODO
     }
     
     /**
@@ -120,7 +127,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
      * @return true if able to add the particle, false if something prevents
      * the particle from being added.
      */
-    public boolean injectParticle(Particle particle){
+    public boolean injectParticle(final Particle particle){
     	// Validate that there are not already to many.
     	// TODO
     	
@@ -132,6 +139,14 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	// Add the particle to the list and send appropriate notification.
     	particles.add(particle);
     	notifyParticleAdded(particle);
+    	
+    	// Listen for notifications from this particle that indicate that it
+    	// is being removed from the model.
+    	particle.addListener(new Particle.Adapter(){
+    		public void removedFromModel() {
+    			particles.remove(particle);
+    		}
+    	});
     	
     	// If we made it to this point, everything went okay.
     	return true;
