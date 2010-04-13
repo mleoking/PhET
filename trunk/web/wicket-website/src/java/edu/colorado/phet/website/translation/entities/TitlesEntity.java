@@ -20,7 +20,6 @@ public class TitlesEntity extends TranslationEntity {
         addString( "about.licensing.title", "Title of the Licensing About page" );
         addString( "sponsors.title", "Title of the PhET Sponsors page" );
         addString( "workshops.title", "Title of the Workshops page" );
-        addString( "contribute.title", "Title of the Contribute page" );
         addString( "get-phet.title", "Title of the 'Run our Simulations' page" );
         addString( "get-phet.one-at-a-time.title", "Title of the 'One at a Time' page" );
         addString( "get-phet.full-install.title", "Title of the 'Full Install' page" );

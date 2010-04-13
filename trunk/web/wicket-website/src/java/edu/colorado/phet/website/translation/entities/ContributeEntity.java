@@ -4,25 +4,20 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.content.contribution.ContributePanel;
-import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
 import edu.colorado.phet.website.content.TeacherIdeasPanel;
+import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
 import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionEditPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionMainPanel;
-import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetPanelFactory;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
-import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.HibernateTask;
 
 public class ContributeEntity extends TranslationEntity {
     public ContributeEntity() {
-        addString( "contribute.financialContributions" );
-        addString( "contribute.main" );
-        addString( "contribute.thanks" );
-
         addString( "teacherIdeas.title" );
         addString( "teacherIdeas.welcome" );
         addString( "teacherIdeas.browseSection" );
@@ -177,13 +172,6 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.edit.validation.mustHaveTypes" );
         addString( "contribution.edit.validation.mustHaveLevels" );
         addString( "contribution.edit.validation.fileType" );
-
-
-        addPreview( new PhetPanelFactory() {
-            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
-                return new ContributePanel( id, context );
-            }
-        }, "Contribute to PhET" );
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {

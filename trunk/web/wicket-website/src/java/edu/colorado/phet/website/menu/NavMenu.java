@@ -105,8 +105,8 @@ public class NavMenu {
         addLocation( troubleshootingJavascript );
         troubleshooting.addChild( troubleshootingJavascript );
 
-        NavLocation contribute = new NavLocation( null, "contribute", ContributePanel.getLinker() );
-        addMajorLocation( contribute );
+        NavLocation forTranslators = new NavLocation( null, "forTranslators", ForTranslatorsPanel.getLinker() );
+        addMajorLocation( forTranslators );
 
         NavLocation donate = new NavLocation( null, "donate", DonatePanel.getLinker() );
         addMajorLocation( donate );

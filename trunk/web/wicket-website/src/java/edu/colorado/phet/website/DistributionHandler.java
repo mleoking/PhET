@@ -6,6 +6,7 @@ import edu.colorado.phet.website.content.contribution.ContributePanel;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.ResearchPanel;
 import edu.colorado.phet.website.content.WorkshopsPanel;
+import edu.colorado.phet.website.content.DonatePanel;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
@@ -113,7 +114,7 @@ public class DistributionHandler {
             AboutMainPanel.class,
             AboutSourceCodePanel.class,
             AboutSponsorsPanel.class,
-            ContributePanel.class,
+            DonatePanel.class,
             FullInstallPanel.class,
             ResearchPanel.class,
             TroubleshootingFlashPanel.class,

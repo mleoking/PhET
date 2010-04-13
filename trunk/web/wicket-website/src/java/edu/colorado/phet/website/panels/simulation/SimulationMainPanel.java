@@ -29,7 +29,6 @@ import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.DonatePanel;
 import edu.colorado.phet.website.content.about.AboutLegendPanel;
-import edu.colorado.phet.website.content.contribution.ContributePanel;
 import edu.colorado.phet.website.content.simulations.SimsByKeywordPage;
 import edu.colorado.phet.website.data.*;
 import edu.colorado.phet.website.data.contribution.Contribution;
