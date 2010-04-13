@@ -1011,7 +1011,7 @@ public class AxonModel implements IParticleCapture {
     	// response.
     	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
     	for (Particle particle : particlesCopy){
-    		particle.notifyRemoved();
+    		particle.removeSelfFromModel();
     	}
     }
     
