@@ -15,35 +15,41 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class InjectionMotionStrategy extends MotionStrategy {
 
-	private static final double MAX_JUMP_DISTANCE = 1; // In nanometers.
-	private static final double MIN_JUMP_DISTANCE = 0.1;  // In nanometers.
-	private static final double MIN_TIME_TO_NEXT_JUMP = 0.0001;  // In seconds of sim time, not wall time.
-	private static final double MAX_TIME_TO_NEXT_JUMP = 0.0005;  // In seconds of sim time, not wall time.
 	private static final Random RAND = new Random();
-	private static final double MIN_INITIAL_VELOCITY = 10000;
-	private static final double MAX_INITIAL_VELOCITY = 20000;
+	
+	// Parameters that control the way that injected particles change course
+	// over time.  These can be adjusted to achieve the desired appearance.
+	private static final double MIN_TIME_TO_FIRST_VELOCITY_UPDATE = 0.0001;  // In seconds of sim time, not wall time.
+	private static final double MAX_TIME_TO_FIRST_VELOCITY_UPDATE = 0.0005;  // In seconds of sim time, not wall time.
+	private static final double MIN_TIME_TO_SUBSEQUENT_VELOCITY_UPDATES = 0.0002;  // In seconds of sim time, not wall time.
+	private static final double MAX_TIME_TO_SUBSEQUENT_VELOCITY_UPDATES = 0.0010;  // In seconds of sim time, not wall time.
+	private static final double MIN_VELOCITY = 12000;
+	private static final double MAX_VELOCITY = 25000;
+	private static final int NUM_UPDATES_BEFORE_ANY_DIRECTION_ALLOWED = 10;
 	
 	private final Point2D initialLocation = new Point2D.Double();
-	private double timeUntilNextJump; // In seconds of sim time.
+	private double timeUntilNextVelocityChange; // In seconds of sim time.
 	private Vector2D velocityVector = new Vector2D.Double();
 	private Point2D currentLocation = new Point2D.Double();
 	private Rectangle2D motionBounds = new Rectangle2D.Double();
 	private MembraneDiffusionModel model;
+	private int velocityChangeCounter = 0;
 	
 	/**
 	 * Constructor.
 	 * 
 	 * @param initialLocation
-	 * @param model - Model in the moveable element is being injected.  TODO:
-	 * consider creating an interface with just the elements of the model that
-	 * are needed here, which is primarily the bounds of the chambers.
-	 * @param angle
+	 * @param model - Model into which the movable element is being injected.
+	 * TODO: Consider creating an interface with just the elements of the
+	 * model that are needed here, which is primarily the bounds of the
+	 * chambers.
+	 * @param angle - Initial injection angle, in radians.
 	 */
 	public InjectionMotionStrategy(Point2D initialLocation, MembraneDiffusionModel model, double angle) {
 		this.initialLocation.setLocation(initialLocation);
 		this.model = model;
-		timeUntilNextJump = generateNewJumpTime();
-		velocityVector.setComponents(MIN_INITIAL_VELOCITY, 0);
+		timeUntilNextVelocityChange = generateNewVelocityChangeTime();
+		velocityVector.setComponents(MAX_VELOCITY, 0);
 		currentLocation.setLocation(initialLocation);
 		
 		// Get the motion bounds set up for this strategy.
@@ -65,33 +71,27 @@ public class InjectionMotionStrategy extends MotionStrategy {
 			velocityVector.setComponents(velocityVector.getX(), -velocityVector.getY());
     	}
 
+		// Update the position of the model element.
 		currentLocation.setLocation(currentLocation.getX() + velocityVector.getX() * dt,
 				currentLocation.getY() + velocityVector.getY() * dt);
 		movableModelElement.setPosition(currentLocation);
 		
-		/*
-		timeUntilNextJump -= dt;
-		if (timeUntilNextJump <= 0){
-			// It is time to jump.
-			if (movableModelElement.getPosition().equals(initialLocation)){
-				// Jump away from this location.
-				double jumpAngle = generateNewJumpAngle();
-				double jumpDistance = generateNewJumpDistance();
-				Point2D currentPos = movableModelElement.getPosition();
-				movableModelElement.setPosition(currentPos.getX() + jumpDistance * Math.cos(jumpAngle),
-						currentPos.getY() + jumpDistance * Math.sin(jumpAngle));
-			}
-			else{
-				// Jump back to initial location.
-				movableModelElement.setPosition(initialLocation);
-			}
+		// Is it time to change direction?
+		timeUntilNextVelocityChange -= dt;
+		if (timeUntilNextVelocityChange <= 0){
+			// Yes it is, so change the velocity vector.
+			changeVelocityVector();
 			
-			// Reset the jump counter time.
-			timeUntilNextJump = generateNewJumpTime();
+			// Reset the countdown.
+			timeUntilNextVelocityChange = generateNewVelocityChangeTime();
 		}
-		*/
 	}
-	
+
+	/**
+	 * Update the motion bounds for this strategy based on whether the model
+	 * element is above or below the membrane that separates the two sub-
+	 * chambers.
+	 */
 	private void updateMotionBounds(){
 		if (currentLocation.getY() > model.getMembraneRect().getMaxY()){
 			// Current location is above the membrane, so use the upper
@@ -114,15 +114,35 @@ public class InjectionMotionStrategy extends MotionStrategy {
 		}
 	}
 	
-	private double generateNewJumpTime(){
-		return MIN_TIME_TO_NEXT_JUMP + RAND.nextDouble() * (MAX_TIME_TO_NEXT_JUMP - MIN_TIME_TO_NEXT_JUMP);
+	private double generateNewVelocityChangeTime(){
+		if (velocityChangeCounter == 0){
+			return MIN_TIME_TO_FIRST_VELOCITY_UPDATE + RAND.nextDouble() * (MAX_TIME_TO_FIRST_VELOCITY_UPDATE - MIN_TIME_TO_FIRST_VELOCITY_UPDATE);
+		}
+		else{
+			return MIN_TIME_TO_SUBSEQUENT_VELOCITY_UPDATES + RAND.nextDouble() * (MAX_TIME_TO_SUBSEQUENT_VELOCITY_UPDATES - MIN_TIME_TO_SUBSEQUENT_VELOCITY_UPDATES);
+		}
 	}
 	
-	private double generateNewJumpDistance(){
-		return MIN_JUMP_DISTANCE + RAND.nextDouble() * (MAX_JUMP_DISTANCE - MIN_JUMP_DISTANCE);
+	/**
+	 * Change the velocity vector in a random way in order to simulate
+	 * collisions with other particles.  In order to enhance spreading out
+	 * through the container, the angle of change is limited for the first
+	 * several changes.
+	 */
+	private void changeVelocityVector(){
+		double angularRange = Math.PI * 2;  // Full range of possible changes.
+		if (velocityChangeCounter < NUM_UPDATES_BEFORE_ANY_DIRECTION_ALLOWED){
+			// Limit the range of possible angles so as not to cause too
+			// radical of a change in direction.
+			angularRange = angularRange * ((double)(velocityChangeCounter + 1) / (double)NUM_UPDATES_BEFORE_ANY_DIRECTION_ALLOWED);
+		}
+		double rotationAngle = (RAND.nextDouble() - 0.5) * angularRange;
+		velocityVector.scale(generateNewVelocityScalar() / velocityVector.getMagnitude());
+		velocityVector.rotate(rotationAngle);
+		velocityChangeCounter++;
 	}
 	
-	private double generateNewJumpAngle(){
-		return RAND.nextDouble() * Math.PI * 2;
+	private double generateNewVelocityScalar(){
+		return MIN_VELOCITY + RAND.nextDouble() * (MAX_VELOCITY - MIN_VELOCITY);
 	}
 }
