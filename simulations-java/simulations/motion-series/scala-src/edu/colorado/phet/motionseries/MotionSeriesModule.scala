@@ -74,7 +74,7 @@ class MotionSeriesModule(frame: PhetFrame,
   })
 
   //pause on start/reset, and unpause (and start recording) when the user applies a force
-  def initPauseValue() =  motionSeriesModel.setPaused(true)
+  def initPauseValue() = motionSeriesModel.setPaused(true)
   initPauseValue()
 
   def resetRampModule(): Unit = {

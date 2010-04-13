@@ -24,7 +24,7 @@ class GoButtonVisibilityModel(model: MotionSeriesModel) extends Observable {
 }
 
 class GoButton(model: GoButtonVisibilityModel, goAction: () => Unit) extends JButton("controls.go".translate) {
-  addActionListener(new ActionListener{
+  addActionListener(new ActionListener {
     def actionPerformed(e: ActionEvent) = goAction()
   })
   defineInvokeAndPass(model.addListenerByName) {
