@@ -6,12 +6,10 @@ import java.awt.Stroke;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -20,7 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * 
  * @author John Blanco
  */
-public class MembraneChannelToolBoxNode extends PNode {
+public class MembraneChannelToolBox extends PNode {
 	
     //----------------------------------------------------------------------------
     // Class Data
@@ -53,7 +51,7 @@ public class MembraneChannelToolBoxNode extends PNode {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public MembraneChannelToolBoxNode(PDimension size, final MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
+	public MembraneChannelToolBox(PDimension size, final MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
 		
 		this.model = model;
 		this.mvt = mvt;
