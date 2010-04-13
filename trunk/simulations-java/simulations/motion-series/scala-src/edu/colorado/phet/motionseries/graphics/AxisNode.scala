@@ -59,8 +59,11 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
         extends AxisNode(transform,
           transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
           transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
-  defineInvokeAndPass(axisModel.addListenerByName) {
+  def updateTipAndTailLocations() {
     setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(axisModel.startPoint))
+  }
+  defineInvokeAndPass(axisModel.addListenerByName) {
+    updateTipAndTailLocations()
     updateTextNodeLocation()
   }
   defineInvokeAndPass(adjustableCoordinateModel.addListenerByName) {
@@ -68,7 +71,7 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
     setChildrenPickable(adjustableCoordinateModel.adjustable)
   }
   hitNode.addInputEventListener(new ToggleListener(new CursorHandler, () => adjustableCoordinateModel.adjustable))
-  hitNode.addInputEventListener(new ToggleListener(new AxisRotator(transform, hitNode, axisModel.coordinateFrameModel,axisModel.getPivot),
+  hitNode.addInputEventListener(new ToggleListener(new AxisRotator(transform, hitNode, axisModel.coordinateFrameModel, axisModel.getPivot),
     () => adjustableCoordinateModel.adjustable))
   hitNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
@@ -79,7 +82,7 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
 class AxisRotator(transform: ModelViewTransform2D,
                   node: PNode,
                   coordinateFrameModel: CoordinateFrameModel,
-                  pivot:Vector2D)
+                  pivot: Vector2D)
         extends PBasicInputEventHandler {
   //TODO: can any more of this be moved to CoordinateFrameModel?
 
