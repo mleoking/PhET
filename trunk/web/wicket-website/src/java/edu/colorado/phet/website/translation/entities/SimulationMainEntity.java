@@ -48,6 +48,8 @@ public class SimulationMainEntity extends TranslationEntity {
         addString( "simulationMainPanel.seeBelow.translatedVersions");
         addString( "simulationMainPanel.seeBelow.credits");
 
+        addString( "simulationMainPanel.supportPhetButton" );
+
         addString( "simulationDisplay.indexView" );
         addString( "simulationDisplay.thumbnailView" );
         addPreview( new PhetPanelFactory() {
