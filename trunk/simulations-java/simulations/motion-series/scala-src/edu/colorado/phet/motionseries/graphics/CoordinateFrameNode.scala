@@ -51,7 +51,18 @@ class CoordinateFrameNode(val model: MotionSeriesModel,
   addChild(xAxis)
 
   val yAxisModel = new SynchronizedAxisModel(PI / 2, PI / 2, PI, 7, false, model.coordinateFrameModel)
-  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel) {
+  val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel) with HandleNode
+  addChild(yAxis)
+
+  defineInvokeAndPass(adjustableCoordinateModel.addListenerByName) {
+    val v = adjustableCoordinateModel.adjustable
+    setVisible(v)
+    setPickable(v)
+    setChildrenPickable(v)
+  }
+}
+
+trait HandleNode extends AxisNodeWithModel{
     val bufferedImage = MotionSeriesResources.getImage("handle_1.png")
     val handleNode = new PImage(bufferedImage)
     addChild(handleNode)
@@ -68,13 +79,4 @@ class CoordinateFrameNode(val model: MotionSeriesModel,
       }
     }
     attachListener(handleNode)
-  }
-  addChild(yAxis)
-
-  defineInvokeAndPass(adjustableCoordinateModel.addListenerByName) {
-    val v = adjustableCoordinateModel.adjustable
-    setVisible(v)
-    setPickable(v)
-    setChildrenPickable(v)
-  }
 }
