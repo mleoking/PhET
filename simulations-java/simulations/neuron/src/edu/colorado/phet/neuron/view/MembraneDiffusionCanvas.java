@@ -64,7 +64,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     private PNode toolBoxLayer;
     
     // Items on the canvas.
-    private MembraneChannelToolBoxNode membraneChannelToolBoxNode;
+    private MembraneChannelToolBox membraneChannelToolBoxNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -160,7 +160,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         // Add the tool box that will allow users to drag membrane channels on
         // to the membrane.  The multipliers in the following statement set
         // the size of the tool box and can be adjusted as needed.
-        membraneChannelToolBoxNode = new MembraneChannelToolBoxNode(
+        membraneChannelToolBoxNode = new MembraneChannelToolBox(
         		new PDimension(transformedParticleChamberRect.getWidth() * 1.4, transformedParticleChamberRect.getHeight() * 0.4), model, mvt, this);
         membraneChannelToolBoxNode.setOffset(
         		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - membraneChannelToolBoxNode.getFullBoundsReference().width / 2,
