@@ -60,6 +60,10 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     private PNode channelLayer;
     private PNode channelEdgeLayer;
     private PNode chartLayer;
+    private PNode toolBoxLayer;
+    
+    // Items on the canvas.
+    private MembraneChannelToolBoxNode membraneChannelToolBoxNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -102,12 +106,14 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         particleLayer = new PNode();
         channelLayer = new PNode();
         channelEdgeLayer = new PNode();
+        toolBoxLayer = new PNode();
 
         myWorldNode.addChild(chamberLayer);
         myWorldNode.addChild(membraneLayer);
         myWorldNode.addChild(channelLayer);
         myWorldNode.addChild(particleLayer);
         myWorldNode.addChild(channelEdgeLayer);
+        myWorldNode.addChild(toolBoxLayer);
 
         chartLayer = new PNode();
         addScreenChild(chartLayer);
@@ -149,6 +155,11 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         		transformedParticleChamberRect.getMinX() - potassiumInjector.getFullBoundsReference().getMaxX() + 20, 
         		transformedParticleChamberRect.getMaxY() - transformedParticleChamberRect.getHeight() * 0.2);
         chamberLayer.addChild(potassiumInjector);
+        
+        // Add the tool box that will allow users to drag membrane channels on
+        // to the membrane.
+        membraneChannelToolBoxNode = new MembraneChannelToolBoxNode(this, model, mvt);
+        toolBoxLayer.addChild(membraneChannelToolBoxNode);
 
         // Update the layout.
         updateLayout();
