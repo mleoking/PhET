@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.genenetwork.model.SimpleModelElement;
+import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -33,7 +34,7 @@ public abstract class ToolBoxItem extends PComposite {
 	// Fixed transform for setting the size of the items in the tool box,
 	// which may not be exactly what it is in the model.
 	protected static final ModelViewTransform2D SCALING_MVT = 
-		new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(0, 0), 12, true);
+		new ModelViewTransform2D(new Point2D.Double(0, 0), new Point2D.Double(0, 0), 10, true);
 	
 	private static final double CAPTION_OFFSET_FROM_SELECTION_NODE = 4;
 	
@@ -45,9 +46,10 @@ public abstract class ToolBoxItem extends PComposite {
     //----------------------------------------------------------------------------
 
 	private final MembraneDiffusionModel model;
+	private final ModelViewTransform2D mvt;
 	private PNode selectionNode = null;
 	private HTMLNode caption = null;
-	private SimpleModelElement modelElement = null;
+	private MembraneChannel membraneChannel = null;
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -56,6 +58,7 @@ public abstract class ToolBoxItem extends PComposite {
 	public ToolBoxItem(final MembraneDiffusionModel model, final ModelViewTransform2D mvt, final PhetPCanvas canvas) {
 		
 		this.model = model;
+		this.mvt = mvt;
 		initializeSelectionNode();
 		updateLayout();
 		
@@ -70,11 +73,10 @@ public abstract class ToolBoxItem extends PComposite {
     			canvas.getPhetRootNode().screenToWorld(mouseWorldPos);
     			Point2D mouseModelPos = mvt.viewToModel(mouseWorldPos);
         		
-        		if (modelElement == null){
+        		if (membraneChannel == null){
         			// Add the new model element to the model.
         			handleAddRequest(mouseCanvasPos);
-        			modelElement.setDragging(true);
-        			modelElement.setPosition(mouseModelPos);
+        			membraneChannel.setCenterLocation(mouseModelPos);
         		}
         		else{
         			// This isn't expected to happen.  If it does, we need to
@@ -92,19 +94,18 @@ public abstract class ToolBoxItem extends PComposite {
     			canvas.getPhetRootNode().screenToWorld(mouseWorldPos);
     			Point2D mouseModelPos = mvt.viewToModel(mouseWorldPos);
         		
-        		if (modelElement == null){
+        		if (membraneChannel == null){
         			// Add the new model element to the model.
         			System.out.println(getClass().getName() + " - Warning: Drag event received but no model element yet, adding it.");
         			handleAddRequest(mouseCanvasPos);
-        			modelElement.setDragging(true);
         		}
         		else{
     				// If a model element was added, it is now being dragged.
         		}
         		
        			// Move the model element (if it exists).
-        		if (modelElement != null){
-        			modelElement.setPosition(mouseModelPos);
+        		if (membraneChannel != null){
+        			membraneChannel.setCenterLocation(mouseModelPos);
         		}
             }
 
@@ -113,11 +114,10 @@ public abstract class ToolBoxItem extends PComposite {
     			Point2D mouseCanvasPos = event.getCanvasPosition();
     			Point2D mouseWorldPos = new Point2D.Double(mouseCanvasPos.getX(), mouseCanvasPos.getY()); 
     			canvas.getPhetRootNode().screenToWorld(mouseWorldPos);
-            	if (modelElement != null){
-            		modelElement.setDragging(false);
+            	if (membraneChannel != null){
             		// Release our reference to the model element so that we will
             		// create a new one if clicked again.
-            		modelElement = null;
+            		membraneChannel = null;
             	}
             }
         });
@@ -126,6 +126,22 @@ public abstract class ToolBoxItem extends PComposite {
 	//----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
+
+	protected MembraneDiffusionModel getModel() {
+		return model;
+	}
+
+	protected ModelViewTransform2D getMvt() {
+		return mvt;
+	}
+	
+	protected void setMembraneChannel(MembraneChannel membraneChannel){
+		this.membraneChannel = membraneChannel;
+	}
+	
+	protected MembraneChannel getMembraneChannel(){
+		return membraneChannel;
+	}
 
 	/**
 	 * Method overridden by subclasses to set up the node that users will

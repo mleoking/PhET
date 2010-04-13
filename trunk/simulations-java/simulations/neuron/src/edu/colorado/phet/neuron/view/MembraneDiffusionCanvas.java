@@ -90,9 +90,11 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         // Listen to the model for events that the canvas needs to know about.
         model.addListener(new MembraneDiffusionModel.Adapter(){
     		public void particleAdded(Particle particle) {
-    			addParticle(particle);
+    			addParticleNode(particle);
     		}
-
+    		public void channelAdded(MembraneChannel channel) {
+    			addChannelNode(channel);
+    		}
         });
 
         // Create the node that will be the root for all the world children on
@@ -105,16 +107,16 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         chamberLayer = new PNode();
         membraneLayer = new PNode();
         particleLayer = new PNode();
+        toolBoxLayer = new PNode();
         channelLayer = new PNode();
         channelEdgeLayer = new PNode();
-        toolBoxLayer = new PNode();
 
         myWorldNode.addChild(chamberLayer);
         myWorldNode.addChild(membraneLayer);
-        myWorldNode.addChild(channelLayer);
-        myWorldNode.addChild(particleLayer);
-        myWorldNode.addChild(channelEdgeLayer);
         myWorldNode.addChild(toolBoxLayer);
+        myWorldNode.addChild(particleLayer);
+        myWorldNode.addChild(channelLayer);
+        myWorldNode.addChild(channelEdgeLayer);
 
         chartLayer = new PNode();
         addScreenChild(chartLayer);
@@ -193,7 +195,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         }
     }
     
-    private void addParticle(Particle particleToBeAdded){
+    private void addParticleNode(Particle particleToBeAdded){
     	final ParticleNode particleNode = new ParticleNode(particleToBeAdded, mvt); 
     	particleLayer.addChild(particleNode);
     	

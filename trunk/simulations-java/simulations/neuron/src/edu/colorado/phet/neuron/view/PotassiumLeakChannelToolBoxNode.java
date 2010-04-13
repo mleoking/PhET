@@ -18,7 +18,9 @@ public class PotassiumLeakChannelToolBoxNode extends ToolBoxItem {
 	@Override
 	protected void handleAddRequest(Point2D position) {
 		setMembraneChannel(new PotassiumLeakageChannel(getModel(), null));
-		getModel().addUserControlledMembraneChannel(getMembraneChannel(), getMvt().viewToModel(getOffset()));
+		getMembraneChannel().setRotationalAngle(-Math.PI / 2);
+		getMembraneChannel().setCenterLocation(getMvt().viewToModel(position));
+		getModel().addUserControlledMembraneChannel(getMembraneChannel());
 	}
 
 	@Override
@@ -30,5 +32,4 @@ public class PotassiumLeakChannelToolBoxNode extends ToolBoxItem {
 		// TODO i18n
 		setCaption("<html><center>Potassium Leak<br>Channel</center></html>");
 	}
-
 }
