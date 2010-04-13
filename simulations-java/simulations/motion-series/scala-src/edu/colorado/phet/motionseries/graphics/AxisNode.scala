@@ -70,12 +70,15 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
     setPickable(adjustableCoordinateModel.adjustable)
     setChildrenPickable(adjustableCoordinateModel.adjustable)
   }
-  hitNode.addInputEventListener(new ToggleListener(new CursorHandler, () => adjustableCoordinateModel.adjustable))
-  hitNode.addInputEventListener(new ToggleListener(new AxisRotator(transform, hitNode, axisModel.coordinateFrameModel, axisModel.getPivot),
-    () => adjustableCoordinateModel.adjustable))
-  hitNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
-    override def mouseReleased(event: PInputEvent) = axisModel.dropped()
-  }, () => adjustableCoordinateModel.adjustable))
+  def attachListener(node: PNode) {
+    node.addInputEventListener(new ToggleListener(new CursorHandler, () => adjustableCoordinateModel.adjustable))
+    node.addInputEventListener(new ToggleListener(new AxisRotator(transform, node, axisModel.coordinateFrameModel, axisModel.getPivot),
+      () => adjustableCoordinateModel.adjustable))
+    node.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
+      override def mouseReleased(event: PInputEvent) = axisModel.dropped()
+    }, () => adjustableCoordinateModel.adjustable))
+  }
+  attachListener(hitNode)
 }
 
 //Todo: duplicates some functionality in RotationHandler
