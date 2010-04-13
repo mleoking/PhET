@@ -1,8 +1,10 @@
 package edu.colorado.phet.website.panels;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.admin.AdminMainPage;
 import edu.colorado.phet.website.authentication.EditProfilePage;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.authentication.SignInPage;
@@ -31,10 +33,11 @@ public class LogInOutPanel extends PhetPanel {
             add( EditProfilePage.getLinker().getLink( "edit-profile", context, getPhetCycle() ) );
             add( new InvisibleComponent( "sign-in" ) );
             if ( PhetSession.get().getUser().isTeamMember() ) {
-                add( new Label( "team-member", "" ) );
+                BookmarkablePageLink link = new BookmarkablePageLink( "admin-link", AdminMainPage.class );
+                add( link );
             }
             else {
-                add( new InvisibleComponent( "team-member" ) );
+                add( new InvisibleComponent( "admin-link" ) );
             }
         }
         else {
