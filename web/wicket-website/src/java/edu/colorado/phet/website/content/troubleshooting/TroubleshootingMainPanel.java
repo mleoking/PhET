@@ -6,6 +6,7 @@ import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.contribution.ContributePanel;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
+import edu.colorado.phet.website.content.ForTranslatorsPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -54,7 +55,7 @@ public class TroubleshootingMainPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q10-answer", "troubleshooting.main.q10.answer", new Object[]{
-                ContributePanel.getLinker().getHref( context, getPhetCycle() )
+                ForTranslatorsPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q11-answer", "troubleshooting.main.q11.answer", new Object[]{
