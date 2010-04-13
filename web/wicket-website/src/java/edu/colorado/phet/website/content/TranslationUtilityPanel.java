@@ -1,46 +1,37 @@
 package edu.colorado.phet.website.content;
 
 import edu.colorado.phet.website.DistributionHandler;
-import edu.colorado.phet.website.borders.SmallOrangeButtonBorder;
+import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.content.about.AboutMainPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
-public class DonatePanel extends PhetPanel {
-    public DonatePanel( String id, PageContext context ) {
+public class TranslationUtilityPanel extends PhetPanel {
+    public TranslationUtilityPanel( String id, PageContext context ) {
 
         // TODO: i18nize
 
         super( id, context );
-
-        add( new SmallOrangeButtonBorder( "small-orange", context ) );
-
-//        add( new LocalizedText( "contribute-main", "contribute.main", new Object[]{
-//                "http://www.cufund.org/giving-opportunities/fund-description/?id=3685"
-//        } ) );
-//
-//        add( new LocalizedText( "contribute-thanks", "contribute.thanks", new Object[]{
-//                AboutSponsorsPanel.getLinker().getHref( context, getPhetCycle() ),
-//                "href=\"http://www.royalinteractive.com/\""
-//        } ) );
     }
 
     public static String getKey() {
-        return "donate";
+        return "forTranslators.translationUtility";
     }
 
     public static String getUrl() {
-        return "donate";
+        return "for-translators/translation-utility";
     }
 
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             @Override
             public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
-                if ( DistributionHandler.redirectPageClassToProduction( cycle, DonatePanel.class ) ) {
-                    return "http://phet.colorado.edu/contribute/donate.php";
+                if ( DistributionHandler.redirectPageClassToProduction( cycle, TranslationUtilityPanel.class ) ) {
+                    return "http://phet.colorado.edu/contribute/translation-utility.php";
                 }
                 else {
                     return super.getRawUrl( context, cycle );
