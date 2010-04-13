@@ -56,6 +56,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     private final ConstantDtClock clock;
     private ArrayList<Particle> particles = new ArrayList<Particle>();
     private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
+    private MembraneChannel userControlledMembraneChannel = null;
     private EventListenerList listeners = new EventListenerList();
     private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
 
@@ -106,14 +107,8 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	// Reset the HH model.
     	hodgkinHuxleyModel.reset();
     	
-    	// Remove all particles.  This is done by telling each particle to
-    	// send out notifications of its removal from the model.  All
-    	// listeners, including this class, should remove their references in
-    	// response.
-    	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
-    	for (Particle particle : particlesCopy){
-    		particle.notifyRemoved();
-    	}
+    	// Remove the particles.
+    	removeAllParticles();
     	
     	// Remove all membrane channels.
     	// TODO
