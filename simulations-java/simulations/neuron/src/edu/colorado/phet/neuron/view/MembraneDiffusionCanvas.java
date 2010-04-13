@@ -22,6 +22,7 @@ import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.model.ParticleType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Canvas on which the neuron simulation is depicted.
@@ -157,8 +158,13 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         chamberLayer.addChild(potassiumInjector);
         
         // Add the tool box that will allow users to drag membrane channels on
-        // to the membrane.
-        membraneChannelToolBoxNode = new MembraneChannelToolBoxNode(this, model, mvt);
+        // to the membrane.  The multipliers in the following statement set
+        // the size of the tool box and can be adjusted as needed.
+        membraneChannelToolBoxNode = new MembraneChannelToolBoxNode(
+        		new PDimension(transformedParticleChamberRect.getWidth() * 1.4, transformedParticleChamberRect.getHeight() * 0.4), model, mvt);
+        membraneChannelToolBoxNode.setOffset(
+        		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - membraneChannelToolBoxNode.getFullBoundsReference().width / 2,
+        		transformedParticleChamberRect.getMaxY() + 20);
         toolBoxLayer.addChild(membraneChannelToolBoxNode);
 
         // Update the layout.
