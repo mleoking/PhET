@@ -17,7 +17,10 @@ import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.*;
 import edu.colorado.phet.website.content.about.*;
-import edu.colorado.phet.website.content.contribution.*;
+import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
+import edu.colorado.phet.website.content.contribution.ContributionCreatePage;
+import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
+import edu.colorado.phet.website.content.contribution.ContributionManagePage;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
@@ -107,6 +110,10 @@ public class NavMenu {
 
         NavLocation forTranslators = new NavLocation( null, "forTranslators", ForTranslatorsPanel.getLinker() );
         addMajorLocation( forTranslators );
+
+        NavLocation translationUtility = new NavLocation( forTranslators, "forTranslators.translationUtility", TranslationUtilityPanel.getLinker() );
+        addLocation( translationUtility );
+        forTranslators.addChild( translationUtility );
 
         NavLocation donate = new NavLocation( null, "donate", DonatePanel.getLinker() );
         addMajorLocation( donate );

@@ -12,6 +12,9 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class ForTranslatorsPanel extends PhetPanel {
     public ForTranslatorsPanel( String id, PageContext context ) {
+
+        // TODO: i18nize
+
         super( id, context );
 
         // TODO: update link

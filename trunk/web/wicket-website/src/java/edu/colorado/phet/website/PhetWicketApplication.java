@@ -84,11 +84,11 @@ public class PhetWicketApplication extends WebApplication {
         StaticPage.addPanel( AboutContactPanel.class );
         StaticPage.addPanel( AboutLicensingPanel.class );
         StaticPage.addPanel( AboutSponsorsPanel.class );
-        //StaticPage.addPanel( TranslatedSimsPanel.class );
         StaticPage.addPanel( TeacherIdeasPanel.class );
         StaticPage.addPanel( ContributionGuidelinesPanel.class );
         StaticPage.addPanel( DonatePanel.class );
         StaticPage.addPanel( ForTranslatorsPanel.class );
+        StaticPage.addPanel( TranslationUtilityPanel.class );
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();
