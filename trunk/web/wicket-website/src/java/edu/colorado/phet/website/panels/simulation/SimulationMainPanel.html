@@ -20,8 +20,6 @@
 <wicket:panel>
 <div class="simulation-main-container" wicket:message="dir:language.dir">
 
-<!--<div class="donate-box1"><a href="#" wicket:id="donate1">Support PhET &gt;</a></div>-->
-
 <h1 wicket:id="simulation-main-title" class="simulation-main-title">
     Simulation Title
 </h1>
@@ -51,12 +49,18 @@
             </div>
         </td>
         <td class="simulation-main-description">
-                    <span wicket:id="simulation-main-description">
-                        Play with one or two pendulums and discover how the period of a simple pendulum depends on the
-                        length of the string, the mass of the pendulum bob, and the amplitude of the swing. It's easy to
-                        measure the period using the photogate timer. You can vary friction and the strength of gravity. Use
-                        the pendulum to find the value of g on planet X. Notice the anharmonic behavior at large amplitude.
-                    </span>
+            <span wicket:id="simulation-main-description">
+                Play with one or two pendulums and discover how the period of a simple pendulum depends on the
+                length of the string, the mass of the pendulum bob, and the amplitude of the swing. It's easy to
+                measure the period using the photogate timer. You can vary friction and the strength of gravity. Use
+                the pendulum to find the value of g on planet X. Notice the anharmonic behavior at large amplitude.
+            </span>
+
+            <div wicket:id="orange-button" class="simulation-main-support-button">
+                <a href="#" wicket:id="support-link" style="font-size: 12px;">
+                    <wicket:message key="simulationMainPanel.supportPhetButton">Support PhET &gt;</wicket:message>
+                </a>
+            </div>
 
             <div class="rating-holder">
                 <a href="SimulationMainPanel.html#" wicket:id="rating-under-construction-link">
@@ -75,8 +79,6 @@
                          wicket:message="title:tooltip.legend.classroomTested">
                 </a>
             </div>
-
-            <div class="donate-box2"><a href="SimulationMainPanel.html#" wicket:id="donate2">Support PhET &gt;</a></div>
 
         </td>
     </tr>
@@ -247,15 +249,15 @@
         </table>
     </wicket:enclosure>
 
-    <h2>Support PhET</h2>
+    <!--<h2>Support PhET</h2>-->
 
-    Your support allows PhET to produce and improve educational simulations. We are funded (predominantly | completely)
-    by donations and grants.
+    <!--Your support allows PhET to produce and improve educational simulations. We are funded (predominantly | completely)-->
+    <!--by donations and grants.-->
 
-    <p>
-        Please see
-        our <a href="SimulationMainPanel.html#" wicket:id="donate3">Donation Page</a>.
-    </p>
+    <!--<p>-->
+        <!--Please see-->
+        <!--our <a href="SimulationMainPanel.html#" wicket:id="donate3">Donation Page</a>.-->
+    <!--</p>-->
 
     <a name="credits"></a>
 
