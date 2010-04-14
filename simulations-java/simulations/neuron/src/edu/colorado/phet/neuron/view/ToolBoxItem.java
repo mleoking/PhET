@@ -39,7 +39,7 @@ public abstract class ToolBoxItem extends PComposite {
 	private static final double CAPTION_OFFSET_FROM_SELECTION_NODE = 4;
 	
 	// Font to use for labels.
-	private static final Font LABEL_FONT = new PhetFont(14, true);
+	private static final Font LABEL_FONT = new PhetFont(20);
 	
     //----------------------------------------------------------------------------
     // Instance Data
