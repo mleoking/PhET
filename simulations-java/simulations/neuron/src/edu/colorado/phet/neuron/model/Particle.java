@@ -151,7 +151,7 @@ public abstract class Particle implements IMovable, IFadable {
      * out a notification of removal, and all listeners (including the view)
      * are expected to act appropriately and to remove all references.
      */
-    public void removeSelfFromModel(){
+    public void removeFromModel(){
     	notifyRemoved();
     }
     
