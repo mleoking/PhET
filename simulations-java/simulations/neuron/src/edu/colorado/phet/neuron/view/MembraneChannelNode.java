@@ -138,13 +138,11 @@ public class MembraneChannelNode extends PNode{
 	public void addToCanvas(PNode channelLayer, PNode edgeLayer){
 		channelLayer.addChild(this.channelLayer);
 		edgeLayer.addChild(this.edgeLayer);
-		edgeLayer.addChild(this.edgeLayer);
 	}
 	
 	public void removeFromCanvas(PNode channelLayer, PNode edgeLayer){
-		channelLayer.removeChild(channel);
-		edgeLayer.removeChild(rightEdgeNode);
-		edgeLayer.removeChild(leftEdgeNode);
+		channelLayer.removeChild(this.channelLayer);
+		edgeLayer.removeChild(this.edgeLayer);
 	}
 	
 	private PPath createEdgeNode(Dimension2D size, Color color){
