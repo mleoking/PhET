@@ -62,6 +62,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     private PNode channelEdgeLayer;
     private PNode chartLayer;
     private PNode toolBoxLayer;
+    private PNode injectorLayer;
     
     // Items on the canvas.
     private MembraneChannelToolBox membraneChannelToolBoxNode;
@@ -108,15 +109,17 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         membraneLayer = new PNode();
         particleLayer = new PNode();
         toolBoxLayer = new PNode();
+        injectorLayer = new PNode();
         channelLayer = new PNode();
         channelEdgeLayer = new PNode();
 
         myWorldNode.addChild(chamberLayer);
         myWorldNode.addChild(membraneLayer);
         myWorldNode.addChild(toolBoxLayer);
-        myWorldNode.addChild(particleLayer);
         myWorldNode.addChild(channelLayer);
+        myWorldNode.addChild(particleLayer);
         myWorldNode.addChild(channelEdgeLayer);
+        myWorldNode.addChild(injectorLayer);
 
         chartLayer = new PNode();
         addScreenChild(chartLayer);
@@ -151,13 +154,13 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         sodiumInjector.setOffset(
         		transformedParticleChamberRect.getMinX() - sodiumInjector.getFullBoundsReference().getMaxX() + 20, 
         		transformedParticleChamberRect.getMinY() + transformedParticleChamberRect.getHeight() * 0.2);
-        chamberLayer.addChild(sodiumInjector);
+        injectorLayer.addChild(sodiumInjector);
         
         ParticleInjectorNode potassiumInjector = new ParticleInjectorNode(ParticleType.POTASSIUM_ION, model, mvt, 0);
         potassiumInjector.setOffset(
         		transformedParticleChamberRect.getMinX() - potassiumInjector.getFullBoundsReference().getMaxX() + 20, 
         		transformedParticleChamberRect.getMaxY() - transformedParticleChamberRect.getHeight() * 0.2);
-        chamberLayer.addChild(potassiumInjector);
+        injectorLayer.addChild(potassiumInjector);
         
         // Add the tool box that will allow users to drag membrane channels on
         // to the membrane.  The multipliers in the following statement set
