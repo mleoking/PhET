@@ -125,7 +125,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	removeAllParticles();
     	
     	// Remove all membrane channels.
-    	// TODO
+    	removeAllChannels();
     }
     
     /**
@@ -289,6 +289,20 @@ public class MembraneDiffusionModel implements IParticleCapture {
     }
     
     /**
+     * Remove all membrane channels from the simulation.
+     */
+    private void removeAllChannels(){
+    	// Remove all membrane channels.  This is done by telling each
+    	// channel to send out notifications of its removal from the model.
+    	// All listeners, including this class, should remove their references
+    	// in response.
+    	ArrayList<MembraneChannel> membraneChannelsCopy = new ArrayList<MembraneChannel>(membraneChannels);
+    	for (MembraneChannel membraneChannel : membraneChannelsCopy){
+    		membraneChannel.removeFromModel();
+    	}
+    }
+    
+    /**
      * Add a membrane channel that is under user control, meaning that the user
      * is dragging it around.
      * 
@@ -361,6 +375,17 @@ public class MembraneDiffusionModel implements IParticleCapture {
     			
     			// Put the channel on the list of active channels.
     			membraneChannels.add(userControlledMembraneChannel);
+    			
+    	    	// Listen for notifications from this channel that indicate that it
+    	    	// is being removed from the model.
+    			final MembraneChannel channelReference = userControlledMembraneChannel;
+    	    	userControlledMembraneChannel.addListener(new MembraneChannel.Adapter(){
+    	    		@Override
+    	    		public void removed() {
+    	    			// Take this channel off of the list of membrane channels.
+    	    			membraneChannels.remove(channelReference);
+    	    		}
+    	    	});
     		}
     	}
     	else{
