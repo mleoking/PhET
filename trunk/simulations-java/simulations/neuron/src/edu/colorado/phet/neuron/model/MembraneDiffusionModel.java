@@ -188,7 +188,20 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	if (czsr.getNumParticlesInZone() != 0){
     		// We found a particle to capture.  Set a motion strategy that
     		// will cause this particle to move across the membrane.
-    		channel.moveParticleThroughNeuronMembrane(particleToCapture, maxVelocity);
+    		Rectangle2D postTraversalMotionBounds = new Rectangle2D.Double();
+    		if (particleToCapture.getPositionReference().getY() > MEMBRANE_RECT.getCenterY()){
+    			// In the upper sub-chamber now, so will be in the lower one
+    			// after traversing.
+    			postTraversalMotionBounds.setFrame(getParticleChamberRect().getMinX(), getParticleChamberRect().getMinY(),
+    					getParticleChamberRect().getWidth(), getMembraneRect().getMinY() - getParticleChamberRect().getMinY());
+    		}
+    		else{
+    			// In the lower sub-chamber now, so will be in the upper one
+    			// after traversing.
+    			postTraversalMotionBounds.setFrame(getParticleChamberRect().getMinX(), getMembraneRect().getMaxY(),
+    					getParticleChamberRect().getWidth(), getParticleChamberRect().getMaxY() - getMembraneRect().getMaxY());
+    		}
+    		channel.moveParticleThroughGenericMembrane(particleToCapture, postTraversalMotionBounds, maxVelocity);
     	}
     }
     
