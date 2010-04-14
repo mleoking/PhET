@@ -22,7 +22,8 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 	private static final double DEFAULT_PARTICLE_VELOCITY = 10000; // In nanometers per sec of sim time.
 	
 	// A scaling factor that is used to normalize the amount of leak channel
-	// current to a value between 0 and 1.
+	// current to a value between 0 and 1.  This value was determined by
+	// testing the Hodgkin-Huxley model.
 	private static final double PEAK_NEGATIVE_CURRENT = 3.44;
 	
     //----------------------------------------------------------------------------
@@ -39,7 +40,7 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 	public PotassiumLeakageChannel(IParticleCapture modelContainingParticles, IHodgkinHuxleyModel hodgkinHuxleyModel) {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 		this.hodgkinHuxleyModel = hodgkinHuxleyModel;
-		
+
 		// Set the speed at which particles will move through the channel.
 		setParticleVelocity(DEFAULT_PARTICLE_VELOCITY);
 		
