@@ -399,7 +399,12 @@ public abstract class MembraneChannel {
 		listeners.remove(listener);
 	}
 	
-	public void remove(){
+    /**
+     * This is called to remove this channel from the model.  It simply sends
+     * out a notification of removal, and all listeners (including the view)
+     * are expected to act appropriately and to remove all references.
+     */
+	public void removeFromModel(){
 		notifyRemoved();
 	}
 	

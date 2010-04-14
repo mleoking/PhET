@@ -61,7 +61,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     private MembraneChannel userControlledMembraneChannel = null;
     private EventListenerList listeners = new EventListenerList();
     private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
-    private Point2D [] allowableChannelLocations = new Point2D[MAX_CHANNELS_ON_MEMBRANE];
+    private final ArrayList<Point2D> allowableChannelLocations = new ArrayList<Point2D>(MAX_CHANNELS_ON_MEMBRANE);
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -80,9 +80,9 @@ public class MembraneDiffusionModel implements IParticleCapture {
         
         // Initialize the set of points where channels can be located.
         double interChannelDistance = MEMBRANE_RECT.getWidth() / (double)MAX_CHANNELS_ON_MEMBRANE;
-        double channelLocationOffset = interChannelDistance / 2;
+        double channelLocationOffset = MEMBRANE_RECT.getMinX() + interChannelDistance / 2;
         for (int i = 0; i < MAX_CHANNELS_ON_MEMBRANE; i++){
-        	allowableChannelLocations[i] = new Point2D.Double(channelLocationOffset + i * interChannelDistance, MEMBRANE_RECT.getCenterY());
+        	allowableChannelLocations.add(new Point2D.Double(channelLocationOffset + i * interChannelDistance, MEMBRANE_RECT.getCenterY()));
         }
     }
     
@@ -209,9 +209,9 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	hodgkinHuxleyModel.stepInTime( dt );
     	
     	// Step the channels.
-    	for (MembraneChannel channel : membraneChannels){
-    		channel.stepInTime( dt );
-    	}
+//    	for (MembraneChannel channel : membraneChannels){
+//    		channel.stepInTime( dt );
+//    	}
     	
     	// Step the particles.  Since particles may remove themselves as a
     	// result of being stepped, we need to copy the list in order to avoid
@@ -266,12 +266,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
 		}
 	}
 	
-	private void notifyChannelRemoved(MembraneChannel channel){
-		for (Listener listener : listeners.getListeners(Listener.class)){
-			listener.channelRemoved(channel);
-		}
-	}
-	
 	private void notifyParticleAdded(Particle particle){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.particleAdded(particle);
@@ -300,7 +294,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	// response.
     	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
     	for (Particle particle : particlesCopy){
-    		particle.removeSelfFromModel();
+    		particle.removeFromModel();
     	}
     }
     
@@ -327,7 +321,57 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	// Error checking.
     	assert userControlledMembraneChannel != null;
     	
-    	// Find 
+    	// Make a list of the open locations on the membrane where the channel
+    	// could be placed.
+    	ArrayList<Point2D> openLocations = new ArrayList<Point2D>(allowableChannelLocations);
+    	for (MembraneChannel membraneChannel : membraneChannels){
+    		Point2D channelLocation = membraneChannel.getCenterLocation();
+    		Point2D matchingLocation = null;
+    		for (Point2D location : openLocations){
+    			if (location.equals(channelLocation)){
+    				// This position is taken.
+    				matchingLocation = location;
+    			}
+    		}
+    		if (matchingLocation != null){
+    			// Remove the matching position from the list.
+    			openLocations.remove(matchingLocation);
+    		}
+    		else{
+    			System.out.println(getClass().getName() + "Error: Membrane channel not in one of the expected locations.");
+    			assert false; // Shouldn't happen, debug if it does.
+    		}
+    	}
+    	
+    	if (openLocations.size() == 0){
+    		// If there are no open locations, the channel can't be added.
+    		// Remove it from the model.
+    		userControlledMembraneChannel.removeFromModel();
+    	}
+    	else{
+    		// Find the closest location.
+    		Point2D closestOpenLocation = null;
+    		for (Point2D openLocation : openLocations){
+    			if (closestOpenLocation == null){
+    				closestOpenLocation = openLocation;
+    			}
+    			else{
+    				if (openLocation.distance(userControlledMembraneChannel.getCenterLocation()) < closestOpenLocation.distance(userControlledMembraneChannel.getCenterLocation())){
+    					closestOpenLocation = openLocation;
+    				}
+    			}
+    		}
+    		
+    		// Move the channel to the open location.
+    		userControlledMembraneChannel.setCenterLocation(closestOpenLocation);
+    		
+    		// Put the channel on the list of active channels.
+    		membraneChannels.add(userControlledMembraneChannel);
+    	}
+    	
+    	// Clear the reference to the membrane channel, since it is no longer
+    	// controled by the user.
+    	userControlledMembraneChannel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -363,13 +407,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	public void channelAdded(MembraneChannel channel);
     	
     	/**
-    	 * Notification that a channel was removed.
-    	 * 
-    	 * @param channel - Channel that was removed.
-    	 */
-    	public void channelRemoved(MembraneChannel channel);
-    	
-    	/**
     	 * Notification that a particle was added.
     	 * 
     	 * @param particle - Particle that was added.
@@ -380,6 +417,5 @@ public class MembraneDiffusionModel implements IParticleCapture {
     public static class Adapter implements Listener{
 		public void channelAdded(MembraneChannel channel) {}
 		public void particleAdded(Particle particle) {}
-		public void channelRemoved(MembraneChannel channel) {}
     }
 }
