@@ -518,7 +518,7 @@ public class AxonModel implements IParticleCapture {
     	
     	// Set a motion strategy that will cause this particle to move across
     	// the membrane.
-    	channel.createAndSetTraversalMotionStrategy(particleToCapture, maxVelocity);
+    	channel.moveParticleThroughNeuronMembrane(particleToCapture, maxVelocity);
     }
     
     private void stepInTime(double dt){

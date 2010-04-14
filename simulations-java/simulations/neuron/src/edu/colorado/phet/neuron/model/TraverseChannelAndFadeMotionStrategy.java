@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  * 
  * @author John Blanco
  */
-public class BasicChannelTraversalMotionStrategy extends MembraneTraversalMotionStrategy {
+public class TraverseChannelAndFadeMotionStrategy extends MembraneTraversalMotionStrategy {
 
 	private static final Random RAND = new Random();
 	private Vector2D velocityVector = new Vector2D.Double();
@@ -22,7 +22,7 @@ public class BasicChannelTraversalMotionStrategy extends MembraneTraversalMotion
 	private double maxVelocity;
 	protected final MembraneChannel channel;
 	
-	public BasicChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation, double maxVelocity) {
+	public TraverseChannelAndFadeMotionStrategy(MembraneChannel channel, Point2D startingLocation, double maxVelocity) {
 		this.channel = channel;
 		this.maxVelocity = maxVelocity;
 		traversalPoints = createTraversalPoints(channel, startingLocation);
@@ -30,7 +30,7 @@ public class BasicChannelTraversalMotionStrategy extends MembraneTraversalMotion
 		setCourseForCurrentTraversalPoint(startingLocation);
 	}
 
-	public BasicChannelTraversalMotionStrategy(MembraneChannel channel, Point2D startingLocation) {
+	public TraverseChannelAndFadeMotionStrategy(MembraneChannel channel, Point2D startingLocation) {
 		this(channel, startingLocation, DEFAULT_MAX_VELOCITY);
 	}
 
