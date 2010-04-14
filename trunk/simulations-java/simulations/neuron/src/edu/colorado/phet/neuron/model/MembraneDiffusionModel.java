@@ -45,8 +45,11 @@ public class MembraneDiffusionModel implements IParticleCapture {
 	// Definition of the rectangle that separates the upper and lower portions
 	// of the chamber.
 	private static final double MEMBRANE_THICKNESS = 4; // In nanometers.
-	private static final Rectangle2D MEBRANE_RECT = new Rectangle2D.Double( -PARTICLE_CHAMBER_WIDTH / 2,
+	private static final Rectangle2D MEMBRANE_RECT = new Rectangle2D.Double( -PARTICLE_CHAMBER_WIDTH / 2,
 			-MEMBRANE_THICKNESS / 2, PARTICLE_CHAMBER_WIDTH, MEMBRANE_THICKNESS );
+	
+	// Maximum number of channels allowed on the membrane.
+	private static int MAX_CHANNELS_ON_MEMBRANE = 8;
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -58,6 +61,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     private MembraneChannel userControlledMembraneChannel = null;
     private EventListenerList listeners = new EventListenerList();
     private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
+    private Point2D [] allowableChannelLocations = new Point2D[MAX_CHANNELS_ON_MEMBRANE];
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,6 +77,13 @@ public class MembraneDiffusionModel implements IParticleCapture {
 				stepInTime( clockEvent.getSimulationTimeChange() );
 			}
         });
+        
+        // Initialize the set of points where channels can be located.
+        double interChannelDistance = MEMBRANE_RECT.getWidth() / (double)MAX_CHANNELS_ON_MEMBRANE;
+        double channelLocationOffset = interChannelDistance / 2;
+        for (int i = 0; i < MAX_CHANNELS_ON_MEMBRANE; i++){
+        	allowableChannelLocations[i] = new Point2D.Double(channelLocationOffset + i * interChannelDistance, MEMBRANE_RECT.getCenterY());
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -85,8 +96,8 @@ public class MembraneDiffusionModel implements IParticleCapture {
     }
     
     public Rectangle2D getMembraneRect(){
-    	return new Rectangle2D.Double(MEBRANE_RECT.getX(), MEBRANE_RECT.getY(),
-    			MEBRANE_RECT.getWidth(), MEBRANE_RECT.getHeight());
+    	return new Rectangle2D.Double(MEMBRANE_RECT.getX(), MEMBRANE_RECT.getY(),
+    			MEMBRANE_RECT.getWidth(), MEMBRANE_RECT.getHeight());
     }
     
     public ConstantDtClock getClock() {
@@ -303,6 +314,20 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	assert membraneChannel != null;
     	userControlledMembraneChannel = membraneChannel;
     	notifyChannelAdded(membraneChannel);
+    }
+    
+    /**
+     * Release the membrane channel that is currently controlled (i.e. being
+     * moved) by the user.  If it is released within the particle chamber and
+     * there is a space on the membrane for it, it is moved to the nearest
+     * open location on the membrane.  If it is released outside of the
+     * particle chamber it is removed from the model. 
+     */
+    public void releaseUserControlledMembraneChannel(){
+    	// Error checking.
+    	assert userControlledMembraneChannel != null;
+    	
+    	// Find 
     }
     
     //----------------------------------------------------------------------------
