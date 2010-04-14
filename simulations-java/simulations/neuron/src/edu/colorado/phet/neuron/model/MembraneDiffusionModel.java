@@ -60,7 +60,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
     private MembraneChannel userControlledMembraneChannel = null;
     private EventListenerList listeners = new EventListenerList();
-    private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
+    private IHodgkinHuxleyModel hodgkinHuxleyModel = new FakeHodgkinHuxleyModel();
     private final ArrayList<Point2D> allowableChannelLocations = new ArrayList<Point2D>(MAX_CHANNELS_ON_MEMBRANE);
 
     //----------------------------------------------------------------------------
@@ -110,6 +110,10 @@ public class MembraneDiffusionModel implements IParticleCapture {
     
     public ArrayList<MembraneChannel> getMembraneChannels(){
     	return new ArrayList<MembraneChannel>(membraneChannels);
+    }
+    
+    public IHodgkinHuxleyModel getHodgkinHuxleyModel(){
+    	return hodgkinHuxleyModel;
     }
     
     public void reset(){
@@ -177,29 +181,15 @@ public class MembraneDiffusionModel implements IParticleCapture {
      */
     public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity){
 
-    	/*
     	// Scan the capture zone for particles of the desired type.
     	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getCaptureZone(), particleType);
     	Particle particleToCapture = czsr.getClosestFreeParticle();
     	
-    	if (czsr.getNumParticlesInZone() == 0){
-    		// No particles available in the zone, so create a new one.
-    		Particle newParticle = createParticle(particleType, channel.getCaptureZone());
-    		newParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005));
-   			particleToCapture = newParticle;
+    	if (czsr.getNumParticlesInZone() != 0){
+    		// We found a particle to capture.  Set a motion strategy that
+    		// will cause this particle to move across the membrane.
+    		channel.createAndSetTraversalMotionStrategy(particleToCapture, maxVelocity);
     	}
-    	else{
-    		// We found a particle to capture, but we should replace it with
-    		// another in the same zone.
-    		Particle replacementParticle = createParticle(particleType, channel.getCaptureZone());
-    		replacementParticle.setMotionStrategy(new SlowBrownianMotionStrategy(replacementParticle.getPositionReference()));
-    		replacementParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005, DEFAULT_OPAQUENESS));
-    	}
-    	
-    	// Set a motion strategy that will cause this particle to move across
-    	// the membrane.
-    	channel.createAndSetTraversalMotionStrategy(particleToCapture, maxVelocity);
-    	*/
     }
     
     private void stepInTime(double dt){
@@ -209,9 +199,9 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	hodgkinHuxleyModel.stepInTime( dt );
     	
     	// Step the channels.
-//    	for (MembraneChannel channel : membraneChannels){
-//    		channel.stepInTime( dt );
-//    	}
+    	for (MembraneChannel channel : membraneChannels){
+    		channel.stepInTime( dt );
+    	}
     	
     	// Step the particles.  Since particles may remove themselves as a
     	// result of being stepped, we need to copy the list in order to avoid
