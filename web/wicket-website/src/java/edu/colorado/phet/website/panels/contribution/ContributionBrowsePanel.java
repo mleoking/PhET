@@ -22,6 +22,7 @@ import edu.colorado.phet.website.data.contribution.ContributionType;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.WicketUtils;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.panels.PhetPanel;
 
@@ -127,6 +128,8 @@ public class ContributionBrowsePanel extends PhetPanel {
 
                 item.add( new Label( "contribution-updated", format.format( contribution.getDateUpdated() ) ) );
                 //logger.debug( "finish item" );
+
+                WicketUtils.highlightListItem( item );
             }
         } );
 
