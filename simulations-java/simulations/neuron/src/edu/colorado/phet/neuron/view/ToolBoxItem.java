@@ -111,9 +111,7 @@ public abstract class ToolBoxItem extends PComposite {
 
             @Override
             public void mouseReleased(PInputEvent event) {
-    			Point2D mouseCanvasPos = event.getCanvasPosition();
-    			Point2D mouseWorldPos = new Point2D.Double(mouseCanvasPos.getX(), mouseCanvasPos.getY()); 
-    			canvas.getPhetRootNode().screenToWorld(mouseWorldPos);
+            	model.releaseUserControlledMembraneChannel();
             	if (membraneChannel != null){
             		// Release our reference to the model element so that we will
             		// create a new one if clicked again.

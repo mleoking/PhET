@@ -888,7 +888,7 @@ public class AxonModel implements IParticleCapture {
     		}
     		// Remove the channel and send any notifications.
     		membraneChannels.remove(channelToRemove);
-    		channelToRemove.remove();
+    		channelToRemove.removeFromModel();
     		notifyChannelRemoved(channelToRemove);
     	}
     }
@@ -1011,7 +1011,7 @@ public class AxonModel implements IParticleCapture {
     	// response.
     	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
     	for (Particle particle : particlesCopy){
-    		particle.removeSelfFromModel();
+    		particle.removeFromModel();
     	}
     }
     
