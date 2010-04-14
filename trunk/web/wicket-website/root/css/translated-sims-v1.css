@@ -13,9 +13,9 @@ div.rtl .translated-sims table {
     right: 10px;
 }
 
-.translated-sims tr.highlight-background {
-    background-color: #eeeeee;
-}
+/*.translated-sims tr.highlight-background {*/
+    /*background-color: #eeeeee;*/
+/*}*/
 
 .translated-sims .t-header td {
     font-weight: bold;

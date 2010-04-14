@@ -3,13 +3,11 @@ package edu.colorado.phet.website.content.simulations;
 import java.util.*;
 
 import org.apache.log4j.Logger;
-import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 import org.hibernate.event.PostUpdateEvent;
 
@@ -91,9 +89,7 @@ public class TranslationListPanel extends PhetPanel implements CacheableUrlStati
                     item.add( new InvisibleComponent( "download-link" ) );
                 }
 
-                if ( item.getIndex() % 2 == 0 ) {
-                    item.add( new AttributeAppender( "class", new Model( "highlight-background" ), " " ) );
-                }
+                WicketUtils.highlightListItem( item );
             }
         } );
 

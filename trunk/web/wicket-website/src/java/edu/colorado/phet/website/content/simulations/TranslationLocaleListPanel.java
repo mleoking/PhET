@@ -24,10 +24,7 @@ import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.data.util.IChangeListener;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.StringUtils;
+import edu.colorado.phet.website.util.*;
 
 public class TranslationLocaleListPanel extends PhetPanel implements CacheableUrlStaticPanel {
 
@@ -101,9 +98,7 @@ public class TranslationLocaleListPanel extends PhetPanel implements CacheableUr
 
                 item.add( new Label( "number-of-translations", String.valueOf( localeMap.get( locale ).size() ) ) );
 
-                if ( item.getIndex() % 2 == 0 ) {
-                    item.add( new AttributeAppender( "class", new Model( "highlight-background" ), " " ) );
-                }
+                WicketUtils.highlightListItem( item );
 
             }
         } );

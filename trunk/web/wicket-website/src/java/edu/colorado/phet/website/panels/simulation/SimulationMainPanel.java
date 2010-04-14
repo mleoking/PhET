@@ -42,6 +42,7 @@ import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import static edu.colorado.phet.website.util.HtmlUtils.encode;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.WicketUtils;
 
 public class SimulationMainPanel extends PhetPanel {
 
@@ -220,6 +221,8 @@ public class SimulationMainPanel extends PhetPanel {
                 }
                 item.add( new Label( "simulation-main-translation-locale-translated-name", simLocale.getDisplayName( simLocale ) ) );
                 item.add( new Label( "simulation-main-translation-title", simulation.getTitle() ) );
+
+                WicketUtils.highlightListItem( item );
             }
         };
         add( simulationList );
