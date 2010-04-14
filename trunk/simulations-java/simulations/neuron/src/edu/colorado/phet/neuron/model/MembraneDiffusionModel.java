@@ -312,61 +312,71 @@ public class MembraneDiffusionModel implements IParticleCapture {
     
     /**
      * Release the membrane channel that is currently controlled (i.e. being
-     * moved) by the user.  If it is released within the particle chamber and
-     * there is a space on the membrane for it, it is moved to the nearest
-     * open location on the membrane.  If it is released outside of the
-     * particle chamber it is removed from the model. 
+     * moved) by the user.  If the user released it within the bounds of the
+     * particle chamber and there is a space on the membrane for it, it is
+     * moved to the nearest open location on the membrane.  If it is released
+     * outside of the particle chamber it is removed from the model. 
      */
     public void releaseUserControlledMembraneChannel(){
     	// Error checking.
     	assert userControlledMembraneChannel != null;
     	
-    	// Make a list of the open locations on the membrane where the channel
-    	// could be placed.
-    	ArrayList<Point2D> openLocations = new ArrayList<Point2D>(allowableChannelLocations);
-    	for (MembraneChannel membraneChannel : membraneChannels){
-    		Point2D channelLocation = membraneChannel.getCenterLocation();
-    		Point2D matchingLocation = null;
-    		for (Point2D location : openLocations){
-    			if (location.equals(channelLocation)){
-    				// This position is taken.
-    				matchingLocation = location;
-    			}
-    		}
-    		if (matchingLocation != null){
-    			// Remove the matching position from the list.
-    			openLocations.remove(matchingLocation);
-    		}
-    		else{
-    			System.out.println(getClass().getName() + "Error: Membrane channel not in one of the expected locations.");
-    			assert false; // Shouldn't happen, debug if it does.
-    		}
-    	}
-    	
-    	if (openLocations.size() == 0){
-    		// If there are no open locations, the channel can't be added.
-    		// Remove it from the model.
-    		userControlledMembraneChannel.removeFromModel();
-    	}
-    	else{
-    		// Find the closest location.
-    		Point2D closestOpenLocation = null;
-    		for (Point2D openLocation : openLocations){
-    			if (closestOpenLocation == null){
-    				closestOpenLocation = openLocation;
-    			}
-    			else{
-    				if (openLocation.distance(userControlledMembraneChannel.getCenterLocation()) < closestOpenLocation.distance(userControlledMembraneChannel.getCenterLocation())){
-    					closestOpenLocation = openLocation;
+    	if (PARTICLE_CHAMBER_RECT.contains(userControlledMembraneChannel.getCenterLocation())){
+    		// The membrane channel was released close enough to the membrane
+    		// that an attempt can be made to place it on the membrane. 
+    		
+    		// Make a list of the open locations on the membrane where the channel
+    		// could be placed.
+    		ArrayList<Point2D> openLocations = new ArrayList<Point2D>(allowableChannelLocations);
+    		for (MembraneChannel membraneChannel : membraneChannels){
+    			Point2D channelLocation = membraneChannel.getCenterLocation();
+    			Point2D matchingLocation = null;
+    			for (Point2D location : openLocations){
+    				if (location.equals(channelLocation)){
+    					// This position is taken.
+    					matchingLocation = location;
     				}
     			}
+    			if (matchingLocation != null){
+    				// Remove the matching position from the list.
+    				openLocations.remove(matchingLocation);
+    			}
+    			else{
+    				System.out.println(getClass().getName() + "Error: Membrane channel not in one of the expected locations.");
+    				assert false; // Shouldn't happen, debug if it does.
+    			}
     		}
     		
-    		// Move the channel to the open location.
-    		userControlledMembraneChannel.setCenterLocation(closestOpenLocation);
-    		
-    		// Put the channel on the list of active channels.
-    		membraneChannels.add(userControlledMembraneChannel);
+    		if (openLocations.size() == 0){
+    			// If there are no open locations, the channel can't be added.
+    			// Remove it from the model.
+    			userControlledMembraneChannel.removeFromModel();
+    		}
+    		else{
+    			// Find the closest location.
+    			Point2D closestOpenLocation = null;
+    			for (Point2D openLocation : openLocations){
+    				if (closestOpenLocation == null){
+    					closestOpenLocation = openLocation;
+    				}
+    				else{
+    					if (openLocation.distance(userControlledMembraneChannel.getCenterLocation()) < closestOpenLocation.distance(userControlledMembraneChannel.getCenterLocation())){
+    						closestOpenLocation = openLocation;
+    					}
+    				}
+    			}
+    			
+    			// Move the channel to the open location.
+    			userControlledMembraneChannel.setCenterLocation(closestOpenLocation);
+    			
+    			// Put the channel on the list of active channels.
+    			membraneChannels.add(userControlledMembraneChannel);
+    		}
+    	}
+    	else{
+    		// The channel was released by the user in some inappropriate
+    		// location, so just remove it from the model.
+			userControlledMembraneChannel.removeFromModel();
     	}
     	
     	// Clear the reference to the membrane channel, since it is no longer
