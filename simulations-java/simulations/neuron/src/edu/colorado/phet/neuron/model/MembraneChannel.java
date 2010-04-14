@@ -263,7 +263,7 @@ public abstract class MembraneChannel {
 	 * @param maxVelocity
 	 */
 	public void moveParticleThroughGenericMembrane(Particle particle, Rectangle2D postTraversalBounds, double maxVelocity){
-		particle.setMotionStrategy(new TraverseChannelAndFadeMotionStrategy(this, particle.getPositionReference(), maxVelocity));
+		particle.setMotionStrategy(new TraverseChannelAndWalkStrategy(this, particle.getPositionReference(), postTraversalBounds, maxVelocity));
 	}
 	
 	protected double getParticleVelocity() {
