@@ -11,9 +11,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -56,11 +54,8 @@ public class ParticleInjectorNode extends PNode {
 	// error and will need to be tweaked if the images change.
 	private static final Point2D BUTTON_OFFSET = new Point2D.Double(-100, -65);
 	
-	// Velocity at which lactose is injected in to the model.
-	private static double NOMINAL_ION_INJECTION_VELOCITY = 20; 
-	
-	// Random number generator.
-	private static final Random RAND = new Random();
+	// Velocity at which particles are injected in to the model.
+	private static double NOMINAL_ION_INJECTION_VELOCITY = 30;
 	
     //------------------------------------------------------------------------
     // Instance Data
