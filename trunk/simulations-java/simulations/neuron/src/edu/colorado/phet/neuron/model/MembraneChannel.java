@@ -244,13 +244,26 @@ public abstract class MembraneChannel {
 	
 	/**
 	 * Set the motion strategy for a particle that will cause the particle to
-	 * traverse the channel.
+	 * traverse the channel.  This version is the one that implements the
+	 * behavior for crossing through the neuron membrane.
 	 * 
 	 * @param particle
 	 * @param maxVelocity
 	 */
-	public void createAndSetTraversalMotionStrategy(Particle particle, double maxVelocity){
-		particle.setMotionStrategy(new BasicChannelTraversalMotionStrategy(this, particle.getPositionReference(), maxVelocity));
+	public void moveParticleThroughNeuronMembrane(Particle particle, double maxVelocity){
+		particle.setMotionStrategy(new TraverseChannelAndFadeMotionStrategy(this, particle.getPositionReference(), maxVelocity));
+	}
+	
+	/**
+	 * Set the motion strategy for a particle that will cause the particle to
+	 * traverse the channel.  This version is the one that implements the
+	 * behavior for crossing through the generic membrane.
+	 * 
+	 * @param particle
+	 * @param maxVelocity
+	 */
+	public void moveParticleThroughGenericMembrane(Particle particle, Rectangle2D postTraversalBounds, double maxVelocity){
+		particle.setMotionStrategy(new TraverseChannelAndFadeMotionStrategy(this, particle.getPositionReference(), maxVelocity));
 	}
 	
 	protected double getParticleVelocity() {

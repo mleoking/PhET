@@ -188,7 +188,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	if (czsr.getNumParticlesInZone() != 0){
     		// We found a particle to capture.  Set a motion strategy that
     		// will cause this particle to move across the membrane.
-    		channel.createAndSetTraversalMotionStrategy(particleToCapture, maxVelocity);
+    		channel.moveParticleThroughNeuronMembrane(particleToCapture, maxVelocity);
     	}
     }
     
