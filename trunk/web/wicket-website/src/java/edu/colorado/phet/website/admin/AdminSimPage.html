@@ -164,6 +164,32 @@
         </table>
     </form>
 </div>
+<div class="categories-holder">
+    <h3>Categories</h3>
+    <form wicket:id="category-form">
+        <table class="admin">
+            <tr>
+                <th>keyword</th>
+                <th/>
+            </tr>
+            <tr wicket:id="categories">
+                <td wicket:id="category-english">Mechanics</td>
+                <td><a href="#" wicket:id="category-remove">remove</a></td>
+            </tr>
+            <tr>
+                <td>
+                    <select wicket:id="all-categories">
+                        <option>This is an option</option>
+                        <option>Another option</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="submit" name="submit" value="add to category"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
 <div class="credits-holder">
     <h3>Credits</h3>
     <table>
