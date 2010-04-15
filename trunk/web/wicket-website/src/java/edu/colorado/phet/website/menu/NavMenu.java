@@ -14,6 +14,7 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.*;
 import edu.colorado.phet.website.content.about.*;
@@ -114,6 +115,10 @@ public class NavMenu {
         NavLocation translationUtility = new NavLocation( forTranslators, "forTranslators.translationUtility", TranslationUtilityPanel.getLinker() );
         addLocation( translationUtility );
         forTranslators.addChild( translationUtility );
+
+        NavLocation translateWebsite = new NavLocation( forTranslators, "forTranslators.website", TranslationMainPage.getLinker() );
+        addLocation( translateWebsite );
+        forTranslators.addChild( translateWebsite );
 
         NavLocation donate = new NavLocation( null, "donate", DonatePanel.getLinker() );
         addMajorLocation( donate );

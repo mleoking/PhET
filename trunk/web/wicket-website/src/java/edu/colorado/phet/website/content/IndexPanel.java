@@ -8,7 +8,6 @@ import java.util.List;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
@@ -67,7 +66,7 @@ public class IndexPanel extends PhetPanel {
         add( SimulationDisplay.createLink( "below-simulations-link", context ) );
 
         if ( context.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) && DistributionHandler.displayTranslationEditLink( (PhetRequestCycle) getRequestCycle() ) ) {
-            add( new BookmarkablePageLink( "test-translation", TranslationMainPage.class ) );
+            add( TranslationMainPage.getLinker().getLink( "test-translation", context, getPhetCycle() ) );
         }
         else {
             add( new InvisibleComponent( "test-translation" ) );

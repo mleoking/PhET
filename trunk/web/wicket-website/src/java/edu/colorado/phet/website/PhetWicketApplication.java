@@ -34,6 +34,7 @@ import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.templates.StaticPage;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.translation.TranslationUrlStrategy;
+import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.util.*;
 
 /**
@@ -108,6 +109,7 @@ public class PhetWicketApplication extends WebApplication {
         ContributionEditPage.addToMapper( mapper );
         ContributionManagePage.addToMapper( mapper );
         TranslatedSimsPage.addToMapper( mapper );
+        TranslationMainPage.addToMapper( mapper );
 
         // set up the custom localizer
         getResourceSettings().setLocalizer( new PhetLocalizer() );

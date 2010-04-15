@@ -51,6 +51,54 @@
 
 <wicket:extend>
     <div class="index-content">
+
+        <h2>Create a Translation</h2>
+
+        <form wicket:id="create-translation-form">
+            Create a translation:
+            <div wicket:id="locales">
+
+            </div>
+            <input type="submit" value="create"/>
+        </form>
+
+        <h2>Editable Translations</h2>
+        <table class="translation-table">
+            <tr class="head">
+                <td>id</td>
+                <td>locale</td>
+                <td># translated strings</td>
+                <td>visible</td>
+                <td>click to preview</td>
+                <td>click to edit</td>
+                <td>click to delete</td>
+            </tr>
+            <tr wicket:id="translation-list">
+                <td wicket:id="id">
+
+                </td>
+                <td wicket:id="locale">
+
+                </td>
+                <td wicket:id="num-strings">
+
+                </td>
+                <td>
+                    <span wicket:id="visible-label">yes</span>
+                    <a href="#" wicket:id="visible-toggle">(toggle)</a>
+                </td>
+                <td>
+                    <a href="TranslationMainPage.html#" wicket:id="preview">preview</a>
+                </td>
+                <td>
+                    <a href="TranslationMainPage.html#" wicket:id="edit">edit</a>
+                </td>
+                <td>
+                    <a href="TranslationMainPage.html#" wicket:id="delete">delete</a>
+                </td>
+            </tr>
+        </table>
+
         <h2>Instructions</h2>
 
         <h3>Introduction</h3>
@@ -172,53 +220,6 @@
         strings on the translation edit page titled "User Access". This should allow you to give other users access to
         any translation that you have access to. Additionally, you can remove another user's access.
 
-        <h2>Editable Translations</h2>
-        <table class="translation-table">
-            <tr class="head">
-                <td>id</td>
-                <td>locale</td>
-                <td># translated strings</td>
-                <td>visible</td>
-                <td>click to preview</td>
-                <td>click to edit</td>
-                <td>click to delete</td>
-            </tr>
-            <tr wicket:id="translation-list">
-                <td wicket:id="id">
-
-                </td>
-                <td wicket:id="locale">
-
-                </td>
-                <td wicket:id="num-strings">
-
-                </td>
-                <td>
-                    <span wicket:id="visible-label">yes</span>
-                    <a href="#" wicket:id="visible-toggle">(toggle)</a>
-                </td>
-                <td>
-                    <a href="TranslationMainPage.html#" wicket:id="preview">preview</a>
-                </td>
-                <td>
-                    <a href="TranslationMainPage.html#" wicket:id="edit">edit</a>
-                </td>
-                <td>
-                    <a href="TranslationMainPage.html#" wicket:id="delete">delete</a>
-                </td>
-            </tr>
-        </table>
-
-        <h2>Create a Translation</h2>
-
-        <form wicket:id="create-translation-form">
-            Create a translation:
-            <div wicket:id="locales">
-
-            </div>
-            <input type="submit" value="create"/>
-        </form>
-        <br/>
     </div>
 </wicket:extend>
 

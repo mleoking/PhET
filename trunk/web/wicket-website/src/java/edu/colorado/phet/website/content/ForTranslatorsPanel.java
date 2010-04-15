@@ -6,6 +6,7 @@ import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.about.AboutMainPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -25,6 +26,8 @@ public class ForTranslatorsPanel extends PhetPanel {
         screenLink.add( new StaticImage( "translation-utility-screenshot", "/images/screenshots/translation-utility-small.png", "Translation Utility Screenshot" ) );
 
         add( AboutMainPanel.getLinker().getLink( "about-phet-link", context, getPhetCycle() ) );
+
+        add( TranslationMainPage.getLinker().getLink( "translate-website", context, getPhetCycle() ) );
     }
 
     public static String getKey() {
