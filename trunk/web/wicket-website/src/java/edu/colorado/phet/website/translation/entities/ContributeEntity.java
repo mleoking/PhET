@@ -199,11 +199,11 @@ public class ContributeEntity extends TranslationEntity {
             }
         }, "Contribution view" );
 
-        addPreview( new PhetPanelFactory() {
-            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
-                return new ContributionEditPanel( id, context, new Contribution() );
-            }
-        }, "Contribution create / edit" );
+//        addPreview( new PhetPanelFactory() {
+//            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+//                return new ContributionEditPanel( id, context, new Contribution() );
+//            }
+//        }, "Contribution create / edit" );
     }
 
     public String getDisplayName() {
