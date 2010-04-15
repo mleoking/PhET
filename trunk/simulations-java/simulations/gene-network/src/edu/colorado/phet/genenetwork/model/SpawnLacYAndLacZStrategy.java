@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 	
-	private static final double PRE_SPAWN_TIME = 2;          // In seconds of sim time.
-	private static final double TIME_BETWEEN_SPAWNINGS = 1.5;  // In seconds of sim time.
+	private static final double PRE_SPAWN_TIME = 1;          // In seconds of sim time.
+	private static final double TIME_BETWEEN_SPAWNINGS = 1.0;  // In seconds of sim time.
 	private static final Random RAND = new Random(2211934);
 
 	private double spawnCountdownTimer = PRE_SPAWN_TIME;
@@ -127,7 +127,7 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 		
 		// Tweak factor - higher values make it more likely that more LacZ & 
 		// LacY will be spawned.  1 is the max value.
-		double makeMoreTweakFactor = 0.75;
+		double makeMoreTweakFactor = 0.85;
 		
 		int spawnCount;
 		if (RAND.nextDouble() > makeMoreTweakFactor){
