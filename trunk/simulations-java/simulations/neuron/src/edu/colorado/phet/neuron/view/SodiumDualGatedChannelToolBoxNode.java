@@ -9,7 +9,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.colorado.phet.neuron.model.SodiumDualGatedChannel;
-import edu.colorado.phet.neuron.model.SodiumGatedChannel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
