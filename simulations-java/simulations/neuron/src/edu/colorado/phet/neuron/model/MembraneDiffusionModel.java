@@ -37,7 +37,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
 	
 	// Definition of the rectangle where the particles can move.  Note that
 	// the center of the chamber is assumed to be at (0,0).
-	private static final double PARTICLE_CHAMBER_WIDTH = 80; // In nanometers.
+	private static final double PARTICLE_CHAMBER_WIDTH = 70; // In nanometers.
 	private static final double PARTICLE_CHAMBER_HEIGHT = 60; // In nanometers.
 	private static final Rectangle2D PARTICLE_CHAMBER_RECT = new Rectangle2D.Double( -PARTICLE_CHAMBER_WIDTH / 2,
 			-PARTICLE_CHAMBER_HEIGHT / 2, PARTICLE_CHAMBER_WIDTH, PARTICLE_CHAMBER_HEIGHT );
@@ -49,7 +49,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
 			-MEMBRANE_THICKNESS / 2, PARTICLE_CHAMBER_WIDTH, MEMBRANE_THICKNESS );
 	
 	// Maximum number of channels allowed on the membrane.
-	private static int MAX_CHANNELS_ON_MEMBRANE = 8;
+	private static int MAX_CHANNELS_ON_MEMBRANE = 10;
 	
     //----------------------------------------------------------------------------
     // Instance Data
