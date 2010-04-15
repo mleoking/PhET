@@ -21,7 +21,7 @@ public class AboutPhetEntity extends TranslationEntity {
         addString( "about.legend.guidance-recommended" );
         addString( "about.legend.under-construction" );
         addString( "about.legend.classroom-tested" );
-        
+
         addString( "tooltip.legend.guidanceRecommended" );
         addString( "tooltip.legend.underConstruction" );
         addString( "tooltip.legend.classroomTested" );

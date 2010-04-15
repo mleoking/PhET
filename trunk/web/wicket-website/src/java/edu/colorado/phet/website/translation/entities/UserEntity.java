@@ -1,8 +1,8 @@
 package edu.colorado.phet.website.translation.entities;
 
+import edu.colorado.phet.website.authentication.panels.EditProfilePanel;
 import edu.colorado.phet.website.authentication.panels.RegisterPanel;
 import edu.colorado.phet.website.authentication.panels.SignInPanel;
-import edu.colorado.phet.website.authentication.panels.EditProfilePanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetPanelFactory;
 import edu.colorado.phet.website.util.PageContext;
@@ -55,7 +55,7 @@ public class UserEntity extends TranslationEntity {
 
         addString( "profile.edit" );
         addString( "profile.edit.submit" );
-        addString( "profile.edit.reset" ); 
+        addString( "profile.edit.reset" );
 
         addString( "signOut.beingSignedOut" );
 
