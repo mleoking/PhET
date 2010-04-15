@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.neuron.view;
 
 import java.awt.geom.Point2D;
@@ -9,6 +11,12 @@ import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.colorado.phet.neuron.model.PotassiumLeakageChannel;
 import edu.umd.cs.piccolo.PNode;
 
+/**
+ * Node that goes in the membrane channel tool box and allows users to add
+ * potassium leak channels to the membrane.
+ * 
+ * @author John Blanco
+ */
 public class PotassiumLeakChannelToolBoxNode extends ToolBoxItem {
 
 	public PotassiumLeakChannelToolBoxNode(MembraneDiffusionModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
