@@ -38,6 +38,23 @@
                 </wicket:enclosure>
             </tr>
         </table>
+        <wicket:enclosure child="untranslated-list">
+            <h3>
+                <wicket:message key="simulations.translated.untranslated">
+                    Untranslated Simulations
+                </wicket:message>
+            </h3>
+            <ul>
+                <li wicket:id="untranslated-list">
+                    <a href="#" wicket:id="untranslated-link">
+                        <span wicket:id="untranslated-title">Some sim title</span>
+                    </a>
+                </li>
+            </ul>
+            <p wicket:id="remaining">
+                The remaining simulations can be translated using the <a href="#">PhET Translation Utility</a>
+            </p>
+        </wicket:enclosure>
     </div>
 </wicket:panel>
 
