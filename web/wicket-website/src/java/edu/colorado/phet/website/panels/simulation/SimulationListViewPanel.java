@@ -5,18 +5,21 @@ import java.util.*;
 import org.apache.log4j.Logger;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.hibernate.Session;
+import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.panels.IndexLetterLinks;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.*;
+import edu.colorado.phet.website.data.util.AbstractChangeListener;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.data.util.IChangeListener;
+import edu.colorado.phet.website.data.util.CategoryChangeHandler;
 import edu.colorado.phet.website.menu.NavLocation;
+import edu.colorado.phet.website.panels.IndexLetterLinks;
+import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
@@ -70,17 +73,31 @@ public class SimulationListViewPanel extends PhetPanel {
             add( new InvisibleComponent( "letter-links" ) );
         }
 
+        final int categoryId = category.getId();
+
         addDependency( new EventDependency() {
 
             private IChangeListener stringListener;
+            private CategoryChangeHandler.Listener categoryListener;
 
             @Override
             protected void addListeners() {
+                logger.debug( " added" );
                 stringListener = createTranslationChangeInvalidator( context.getLocale() );
+                categoryListener = new CategoryChangeHandler.Listener() {
+                    public void categoryUpdated( Category category, Simulation simulation ) {
+                        logger.debug( "noted" );
+                        if( category.getId() == categoryId ) {
+                            logger.debug( "invalidated" );
+                            invalidate();
+                        }
+                    }
+                };
                 HibernateEventListener.addListener( Project.class, getAnyChangeInvalidator() );
                 HibernateEventListener.addListener( TranslatedString.class, stringListener );
                 HibernateEventListener.addListener( Simulation.class, getAnyChangeInvalidator() );
                 HibernateEventListener.addListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
+                CategoryChangeHandler.addListener( categoryListener );
             }
 
             @Override
@@ -89,6 +106,7 @@ public class SimulationListViewPanel extends PhetPanel {
                 HibernateEventListener.removeListener( TranslatedString.class, stringListener );
                 HibernateEventListener.removeListener( Simulation.class, getAnyChangeInvalidator() );
                 HibernateEventListener.removeListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
+                CategoryChangeHandler.removeListener( categoryListener );
             }
         } );
 

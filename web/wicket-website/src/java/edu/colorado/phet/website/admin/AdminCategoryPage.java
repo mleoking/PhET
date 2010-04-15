@@ -15,6 +15,7 @@ import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.util.CategoryChangeHandler;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
@@ -105,6 +106,7 @@ public class AdminCategoryPage extends AdminPage {
                         cat.addSimulation( sim );
                         session.update( cat );
                         session.update( sim );
+                        CategoryChangeHandler.notify( cat, sim );
                         return true;
                     }
                 } );
@@ -120,6 +122,7 @@ public class AdminCategoryPage extends AdminPage {
                         cat.removeSimulation( sim );
                         session.update( cat );
                         session.update( sim );
+                        CategoryChangeHandler.notify( cat, sim );
                         return true;
                     }
                 } );
@@ -133,6 +136,8 @@ public class AdminCategoryPage extends AdminPage {
                         Category cat = (Category) session.load( Category.class, category.getId() );
                         Collections.swap( cat.getSimulations(), aIndex, bIndex );
                         session.update( cat );
+                        CategoryChangeHandler.notify( cat, (Simulation) cat.getSimulations().get( aIndex) );
+                        CategoryChangeHandler.notify( cat, (Simulation) cat.getSimulations().get( bIndex) );
                         return true;
                     }
                 } );

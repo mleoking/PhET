@@ -22,15 +22,15 @@ import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.StringTextField;
-import edu.colorado.phet.website.data.Keyword;
-import edu.colorado.phet.website.data.LocalizedSimulation;
-import edu.colorado.phet.website.data.Simulation;
-import edu.colorado.phet.website.data.TeachersGuide;
+import edu.colorado.phet.website.data.*;
+import edu.colorado.phet.website.data.util.HibernateEventListener;
+import edu.colorado.phet.website.data.util.CategoryChangeHandler;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
@@ -178,6 +178,9 @@ public class AdminSimPage extends AdminPage {
                 }
             }
         } );
+
+        add( new CategoryForm( "category-form" ) );
+
     }
 
     private void sortKeywords( List<Keyword> allKeywords ) {
@@ -208,6 +211,134 @@ public class AdminSimPage extends AdminPage {
         public List getKeywordList( Simulation simulation ) {
             return simulation.getTopics();
         }
+    }
+
+    private class CategoryForm extends Form {
+        private CategoryDropDownChoice dropDownChoice;
+        private List<Category> allCategories = new LinkedList<Category>();
+        private List<Category> myCategories = new LinkedList<Category>();
+
+        public CategoryForm( String id ) {
+            super( id );
+
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Category root = Category.getRootCategory( session );
+                    addCategory( root );
+
+                    myCategories.addAll( simulation.getCategories() );
+
+                    return true;
+                }
+
+                private void addCategory( Category category ) {
+                    if ( !category.isRoot() ) {
+                        allCategories.add( category );
+                    }
+                    for ( Object o : category.getSubcategories() ) {
+                        addCategory( (Category) o );
+                    }
+                }
+            } );
+
+            sortCategories();
+
+            add( new ListView( "categories", myCategories ) {
+                protected void populateItem( ListItem item ) {
+                    final Category category = (Category) item.getModel().getObject();
+                    item.add( new Label( "category-english", new ResourceModel( category.getNavLocation( getNavMenu() ).getLocalizationKey() ) ) );
+                    item.add( new Link( "category-remove" ) {
+                        public void onClick() {
+                            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                                public boolean run( Session session ) {
+                                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                                    Category cat = (Category) session.load( Category.class, category.getId() );
+
+                                    cat.removeSimulation( sim );
+                                    session.update( sim );
+                                    session.update( cat );
+                                    CategoryChangeHandler.notify( category, sim );
+                                    return true;
+                                }
+                            } );
+                            if ( success ) {
+                                myCategories.remove( category );
+                            }
+                        }
+                    } );
+                }
+            } );
+
+            dropDownChoice = new CategoryDropDownChoice( "all-categories", allCategories );
+
+            add( dropDownChoice );
+        }
+
+        private void sortCategories() {
+            Collections.sort( myCategories, new Comparator<Category>() {
+                public int compare( Category a, Category b ) {
+                    for ( Category category : allCategories ) {
+                        if ( category.getId() == a.getId() ) {
+                            return -1;
+                        }
+                        else if ( category.getId() == b.getId() ) {
+                            return 1;
+                        }
+                    }
+                    // bailout, should never happen
+                    throw new RuntimeException( "unknown category with ids " + a.getId() + ", " + b.getId() );
+                }
+            } );
+        }
+
+        @Override
+        protected void onSubmit() {
+            final int catId = Integer.valueOf( dropDownChoice.getModelValue() );
+            final Category category = new Category();
+            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                    session.load( category, catId );
+
+                    boolean ok = true;
+
+                    // make sure the sim doesn't already have the keyword
+                    for ( Object o : sim.getCategories() ) {
+                        ok = ok && ( (Category) o ).getId() != catId;
+                    }
+
+                    if ( ok ) {
+                        category.addSimulation( sim );
+                        session.update( sim );
+                        session.update( category );
+                        CategoryChangeHandler.notify( category, sim );
+                        return true;
+                    }
+                    else {
+                        // category was already in the list, so we don't want to double-add it to the model
+                        return false;
+                    }
+                }
+            } );
+            if ( success ) {
+                myCategories.add( category );
+            }
+        }
+
+        private class CategoryDropDownChoice extends DropDownChoice {
+            public CategoryDropDownChoice( String id, List<Category> allCategories ) {
+                super( id, new Model(), allCategories, new IChoiceRenderer() {
+                    public Object getDisplayValue( Object object ) {
+                        return PhetWicketApplication.get().getResourceSettings().getLocalizer().getString( ( (Category) object ).getNavLocation( getNavMenu() ).getLocalizationKey(), AdminSimPage.this );
+                    }
+
+                    public String getIdValue( Object object, int index ) {
+                        return String.valueOf( ( (Category) object ).getId() );
+                    }
+                } );
+            }
+        }
+
     }
 
     /**

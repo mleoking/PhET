@@ -15,6 +15,15 @@ public class HibernateEventListener implements PostInsertEventListener, PostUpda
 
     private static Map<Class, List<IChangeListener>> listenermap = new HashMap<Class, List<IChangeListener>>();
 
+    private static HibernateEventListener me;
+
+    public HibernateEventListener() {
+        logger.info( "Creating HibernateEventListener" );
+        synchronized( this ) {
+            me = this;
+        }
+    }
+
     public static void addListener( Class eClass, IChangeListener listener ) {
         List<IChangeListener> listeners = listenermap.get( eClass );
         if ( listeners == null ) {
@@ -114,4 +123,7 @@ public class HibernateEventListener implements PostInsertEventListener, PostUpda
         }
     }
 
+    public static synchronized HibernateEventListener get() {
+        return me;
+    }
 }
