@@ -21,11 +21,11 @@ public class InjectionMotionStrategy extends MotionStrategy {
 	// over time.  These can be adjusted to achieve the desired appearance.
 	private static final double MIN_TIME_TO_FIRST_VELOCITY_UPDATE = 0.0001;  // In seconds of sim time, not wall time.
 	private static final double MAX_TIME_TO_FIRST_VELOCITY_UPDATE = 0.0005;  // In seconds of sim time, not wall time.
-	private static final double MIN_TIME_TO_SUBSEQUENT_VELOCITY_UPDATES = 0.0002;  // In seconds of sim time, not wall time.
-	private static final double MAX_TIME_TO_SUBSEQUENT_VELOCITY_UPDATES = 0.0010;  // In seconds of sim time, not wall time.
+	private static final double MIN_TIME_TO_SUBSEQUENT_VELOCITY_UPDATES = 0.0001;  // In seconds of sim time, not wall time.
+	private static final double MAX_TIME_TO_SUBSEQUENT_VELOCITY_UPDATES = 0.0005;  // In seconds of sim time, not wall time.
 	private static final double MIN_VELOCITY = 12000;
-	private static final double MAX_VELOCITY = 25000;
-	private static final int NUM_UPDATES_BEFORE_ANY_DIRECTION_ALLOWED = 5;
+	private static final double MAX_VELOCITY = 18000;
+	private static final int NUM_UPDATES_BEFORE_ANY_DIRECTION_ALLOWED = 10;
 	
 	private final Point2D initialLocation = new Point2D.Double();
 	private double timeUntilNextVelocityChange; // In seconds of sim time.
