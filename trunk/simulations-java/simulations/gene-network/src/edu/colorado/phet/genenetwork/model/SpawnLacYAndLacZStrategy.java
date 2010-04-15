@@ -132,11 +132,11 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 		int spawnCount;
 		if (RAND.nextDouble() > makeMoreTweakFactor){
 			// Spawn 2.
-			spawnCount = 2;
+			spawnCount = 4;
 		}
 		else{
 			// Spawn 4.
-			spawnCount = 4;
+			spawnCount = 6;
 		}
 		
 		return spawnCount;
