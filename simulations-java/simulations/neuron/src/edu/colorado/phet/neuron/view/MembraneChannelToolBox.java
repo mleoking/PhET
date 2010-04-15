@@ -40,6 +40,7 @@ public class MembraneChannelToolBox extends PNode {
 
 	// The various grabbable things in the box.
 	private PotassiumLeakChannelToolBoxNode potassiumLeakChannelNode;
+	private SodiumLeakageChannelToolBoxNode sodiumLeakageChannelToolBoxNode;
 	
 	// Reference to the model.
 	protected MembraneDiffusionModel model;
@@ -63,8 +64,15 @@ public class MembraneChannelToolBox extends PNode {
 		
 		// Create the grabbable items in the box.
 		potassiumLeakChannelNode = new PotassiumLeakChannelToolBoxNode(model, mvt, canvas);
-		potassiumLeakChannelNode.setOffset(boxNode.getFullBoundsReference().getCenterX(), boxNode.getFullBoundsReference().getCenterY());
+		potassiumLeakChannelNode.setOffset(
+				boxNode.getFullBoundsReference().getMinX() + boxNode.getFullBoundsReference().width * 0.3, 
+				boxNode.getFullBoundsReference().getMinY() + boxNode.getFullBoundsReference().height * 0.3);
 		addChild(potassiumLeakChannelNode);
+		sodiumLeakageChannelToolBoxNode = new SodiumLeakageChannelToolBoxNode(model, mvt, canvas);
+		sodiumLeakageChannelToolBoxNode.setOffset(
+				boxNode.getFullBoundsReference().getMinX() + boxNode.getFullBoundsReference().width * 0.6, 
+				boxNode.getFullBoundsReference().getMinY() + boxNode.getFullBoundsReference().height * 0.3);
+		addChild(sodiumLeakageChannelToolBoxNode);
 	}
 	
     //----------------------------------------------------------------------------
