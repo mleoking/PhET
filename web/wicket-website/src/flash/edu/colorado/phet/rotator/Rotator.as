@@ -77,9 +77,9 @@ public class Rotator extends MovieClip {
         nextHolder.buttonMode = true;
 
         var nextText : TextField = new TextField();
+        styleText(nextText);
         nextText.text = " > ";
         nextText.mouseEnabled = false;
-        styleText(nextText);
         nextHolder.addChild(nextText);
         nextHolder.x = WIDTH - nextText.width - 1;
         addChild(nextHolder);
@@ -90,9 +90,9 @@ public class Rotator extends MovieClip {
         prevHolder.buttonMode = true;
 
         var prevText : TextField = new TextField();
+        styleText(prevText);
         prevText.text = " < ";
         prevText.mouseEnabled = false;
-        styleText(prevText);
         prevHolder.addChild(prevText);
         prevHolder.x = WIDTH - prevText.width - 1 - nextText.width;
         addChild(prevHolder);
