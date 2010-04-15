@@ -37,9 +37,9 @@ public class Preview extends MovieClip{
         loader.mouseEnabled = true;
 
         var titleText : TextField = new TextField();
+        Rotator.styleText(titleText);
         titleText.text = title + " >>";
         titleText.mouseEnabled = false;
-        Rotator.styleText(titleText);
         titleText.y = Rotator.HEIGHT - titleText.height - 1;
         addChild(titleText);
     }
