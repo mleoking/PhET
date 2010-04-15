@@ -8,6 +8,7 @@ import flash.net.LocalConnection;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
 
 public class Preview extends MovieClip{
 
@@ -37,9 +38,10 @@ public class Preview extends MovieClip{
         loader.mouseEnabled = true;
 
         var titleText : TextField = new TextField();
-        Rotator.styleText(titleText);
+        titleText.autoSize = TextFieldAutoSize.LEFT;
         titleText.text = title + " >>";
         titleText.mouseEnabled = false;
+        Rotator.styleText(titleText);
         titleText.y = Rotator.HEIGHT - titleText.height - 1;
         addChild(titleText);
     }

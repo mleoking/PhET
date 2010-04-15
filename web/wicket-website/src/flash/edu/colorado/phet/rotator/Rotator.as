@@ -77,9 +77,10 @@ public class Rotator extends MovieClip {
         nextHolder.buttonMode = true;
 
         var nextText : TextField = new TextField();
-        styleText(nextText);
+        nextText.autoSize = TextFieldAutoSize.LEFT;
         nextText.text = " > ";
         nextText.mouseEnabled = false;
+        styleText(nextText);
         nextHolder.addChild(nextText);
         nextHolder.x = WIDTH - nextText.width - 1;
         addChild(nextHolder);
@@ -90,9 +91,10 @@ public class Rotator extends MovieClip {
         prevHolder.buttonMode = true;
 
         var prevText : TextField = new TextField();
-        styleText(prevText);
+        prevText.autoSize = TextFieldAutoSize.LEFT;
         prevText.text = " < ";
         prevText.mouseEnabled = false;
+        styleText(prevText);
         prevHolder.addChild(prevText);
         prevHolder.x = WIDTH - prevText.width - 1 - nextText.width;
         addChild(prevHolder);
@@ -237,7 +239,7 @@ public class Rotator extends MovieClip {
         format.color = color;
         format.font = "Arial";
 
-        tf.autoSize = TextFieldAutoSize.LEFT;
+        //tf.autoSize = TextFieldAutoSize.LEFT;
         tf.backgroundColor = 0xFFFFFF;
         tf.background = true;
         tf.borderColor = 0x777777;
