@@ -78,11 +78,13 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, INITIAL_INTERMEDIATE_DIMENSION));
     	
-    	// Set up the model-canvas transform.
+    	// Set up the model-canvas transform.  The center of the chamber is at
+    	// (0,0) in model space, so this can be adjusted to move the chamber
+    	// to wherever it works best.
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
         		new Point((int)Math.round(INITIAL_INTERMEDIATE_COORD_WIDTH * 0.55 ), // Mult by 0.5 is center.
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.4 )), // Mult by 0.5 is center.
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.35 )), // Mult by 0.5 is center.
         		8,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         		true);
 
@@ -169,7 +171,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         		new PDimension(transformedParticleChamberRect.getWidth() * 1.4, transformedParticleChamberRect.getHeight() * 0.4), model, mvt, this);
         membraneChannelToolBoxNode.setOffset(
         		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - membraneChannelToolBoxNode.getFullBoundsReference().width / 2,
-        		transformedParticleChamberRect.getMaxY() + 20);
+        		transformedParticleChamberRect.getMaxY() + 40);
         toolBoxLayer.addChild(membraneChannelToolBoxNode);
 
         // Update the layout.
