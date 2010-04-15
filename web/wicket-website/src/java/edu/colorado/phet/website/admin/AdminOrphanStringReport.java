@@ -25,6 +25,7 @@ public class AdminOrphanStringReport extends AdminPage {
         final List<TranslationEntity> entities = TranslationEntity.getTranslationEntities();
         final List<TranslatedString> englishStrings = new LinkedList<TranslatedString>();
         final List<TranslatedString> orphanStrings = new LinkedList<TranslatedString>();
+        final List<String> orphanKeys = new LinkedList<String>();
         final HashSet<String> includedKeys = new HashSet<String>();
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
@@ -49,12 +50,33 @@ public class AdminOrphanStringReport extends AdminPage {
             }
         }
 
+        for ( String key : includedKeys ) {
+            boolean found = false;
+            for ( TranslatedString string : englishStrings ) {
+                if ( string.getKey().equals( key ) ) {
+                    found = true;
+                    break;
+                }
+            }
+            if ( !found ) {
+                orphanKeys.add( key );
+            }
+        }
+
         add( new ListView( "string-list", orphanStrings ) {
             protected void populateItem( ListItem item ) {
                 TranslatedString string = (TranslatedString) item.getModel().getObject();
 
                 item.add( new Label( "string-key", string.getKey() ) );
                 item.add( new Label( "string-value", new ResourceModel( string.getKey() ) ) );
+            }
+        } );
+
+        add( new ListView( "key-list", orphanKeys ) {
+            protected void populateItem( ListItem item ) {
+                String key = (String) item.getModel().getObject();
+
+                item.add( new Label( "key", key ) );
             }
         } );
 
