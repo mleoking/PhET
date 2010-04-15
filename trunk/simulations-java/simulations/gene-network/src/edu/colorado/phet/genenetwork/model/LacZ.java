@@ -65,8 +65,12 @@ public class LacZ extends SimpleModelElement {
 	// Constructor(s)
 	//----------------------------------------------------------------------------
 
+	/**
+	 * Main constructor for LacZ.
+	 */
 	public LacZ(IGeneNetworkModelControl model, Point2D initialPosition, boolean fadeIn) {
-		super(model, createShape(), initialPosition, ELEMENT_PAINT, fadeIn, EXISTENCE_TIME);
+		super(model, createShape(), initialPosition, ELEMENT_PAINT, fadeIn, generateExistenceTime(model));
+		
 		if (model != null){
 			setMotionStrategy(new StillnessMotionStrategy());
 			// Set bounds that will prevent the user from dragging this below the
@@ -307,5 +311,35 @@ public class LacZ extends SimpleModelElement {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Generate the existence time for a LacZ.  This was needed as a bit of
+	 * "Hollywooding" - if the lactose level gets really high because LacZ
+	 * production is disabled, when it is turned back on, it remains stable
+	 * but high.  We wanted it to actually come back down to a fairly low
+	 * level.  This makes LacZ stick around longer, and hence break down more
+	 * lactose, when there is more present, and should serve to help reduce
+	 * the level.
+	 * 
+	 * @param model
+	 * @return
+	 */
+	private static double generateExistenceTime(IGeneNetworkModelControl model){
+		
+		// Factors that can be adjusted for different behavior.
+		int lactoseThreshold = 20;
+		double multiplier = 2;
+		
+		// Calculate the existence time.
+		double existenceTime;
+		if (model == null || model.getLactoseLevel() < lactoseThreshold){
+			existenceTime = EXISTENCE_TIME;
+		}
+		else{
+			existenceTime = EXISTENCE_TIME * multiplier;
+		}
+		
+		return existenceTime;
 	}
 }
