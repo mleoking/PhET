@@ -190,7 +190,7 @@ table.credits-table ul {
 }
 
 table.translations-table {
-    margin: 5px 0px 15px;
+    margin: 5px 0 15px;
     position: relative;
     left: 5px;
     width: 505px;
@@ -202,10 +202,9 @@ table.translations-table th {
     padding-bottom: 3px;
 }
 
-table.translations-table td {
-    vertical-align: top;
-    padding-right: 15px;
-}
+/*table.translations-table td {*/
+    /*vertical-align: top;*/
+/*}*/
 
 table.simulation-main-translations-table {
     margin: 5px 10px 15px;

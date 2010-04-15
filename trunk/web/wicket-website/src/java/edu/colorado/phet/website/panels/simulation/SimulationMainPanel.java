@@ -30,6 +30,7 @@ import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.DonatePanel;
 import edu.colorado.phet.website.content.about.AboutLegendPanel;
 import edu.colorado.phet.website.content.simulations.SimsByKeywordPage;
+import edu.colorado.phet.website.content.simulations.TranslatedSimsPage;
 import edu.colorado.phet.website.data.*;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.util.AbstractChangeListener;
@@ -211,7 +212,6 @@ public class SimulationMainPanel extends PhetPanel {
                 PhetLink downloadLink = new PhetLink( "simulation-main-translation-download", simulation.getDownloadUrl() );
                 String defaultLanguageName = simLocale.getDisplayName( context.getLocale() );
                 String languageName = ( (PhetLocalizer) getLocalizer() ).getString( "language.names." + LocaleUtils.localeToString( simLocale ), this, null, defaultLanguageName, false );
-                runLink.add( new Label( "simulation-main-translation-locale-name", languageName ) );
                 item.add( runLink );
                 if ( DistributionHandler.displayJARLink( getPhetCycle(), simulation ) ) {
                     item.add( downloadLink );
@@ -219,8 +219,13 @@ public class SimulationMainPanel extends PhetPanel {
                 else {
                     item.add( new InvisibleComponent( "simulation-main-translation-download" ) );
                 }
-                item.add( new Label( "simulation-main-translation-locale-translated-name", simLocale.getDisplayName( simLocale ) ) );
                 item.add( new Label( "simulation-main-translation-title", simulation.getTitle() ) );
+                Link lang1 = TranslatedSimsPage.getLinker( simLocale ).getLink( "language-link-1", context, getPhetCycle() );
+                item.add( lang1 );
+                Link lang2 = TranslatedSimsPage.getLinker( simLocale ).getLink( "language-link-2", context, getPhetCycle() );
+                item.add( lang2 );
+                lang1.add( new Label( "simulation-main-translation-locale-name", languageName ) );
+                lang2.add( new Label( "simulation-main-translation-locale-translated-name", simLocale.getDisplayName( simLocale ) ) );
 
                 WicketUtils.highlightListItem( item );
             }
