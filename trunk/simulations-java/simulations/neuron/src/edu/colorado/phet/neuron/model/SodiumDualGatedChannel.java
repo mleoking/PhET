@@ -146,7 +146,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 			
 		case OPENING:
 			if (isOpen() && getCaptureCountdownTimer() == Double.POSITIVE_INFINITY){
-				// We are open enought to start capturing particles.
+				// We are open enough to start capturing particles.
 				restartCaptureCountdownTimer();
 			}
 			if (previousNormalizedConductance  > normalizedConductance){
