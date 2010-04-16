@@ -90,7 +90,7 @@ class BeakerNode extends PComposite {
         addChild( pHNode );
         
         reactionEquationNode = new WeakAcidReactionEquationNode();
-        reactionEquationNode.scale( 1.75 );
+        reactionEquationNode.scale( 1.5 );
         addChild( reactionEquationNode );
         
         countsNode = new MoleculeCountsNode(solution, magnifyingGlassNode, dev );
