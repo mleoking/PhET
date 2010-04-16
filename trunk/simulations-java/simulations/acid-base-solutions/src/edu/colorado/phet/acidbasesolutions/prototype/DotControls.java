@@ -3,11 +3,12 @@
 package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.GridBagConstraints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -30,7 +31,6 @@ class DotControls extends JPanel {
     private final DotsNode dotsNode;
     
     private final LinearValueControl maxMoleculesControl, diameterControl, transparencyControl, maxH2OControl, h2oTransparencyControl;
-    private final JCheckBox showH2OCheckBox;
     private final ColorControl colorHAControl, colorAControl, colorH3OControl, colorOHControl, colorH2OControl;
     
     public DotControls( JFrame parentFrame, final DotsNode dotsNode ) {
@@ -103,14 +103,6 @@ class DotControls extends JPanel {
         h2oTransparencyLabelTable.put( new Double( h2oTransparencyControl.getMaximum() ), new JLabel( "opaque" ) );
         h2oTransparencyControl.setTickLabels( h2oTransparencyLabelTable );
         
-        // show H2O checkbox
-        showH2OCheckBox = new JCheckBox( "show H2O dots" );
-        showH2OCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dotsNode.setH2OVisible( showH2OCheckBox.isSelected() );
-            }
-        } );
-        
         // colors
         colorHAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.HA_FRAGMENT ), dotsNode.getColorHA() );
         colorHAControl.addChangeListener( new ChangeListener() {
@@ -182,9 +174,6 @@ class DotControls extends JPanel {
         layout.addComponent( h2oTransparencyControl, row, column++ );
         row++;
         column = 0;
-        layout.addComponent( showH2OCheckBox, row, column++ );
-        row++;
-        column = 0;
         layout.addComponent( colorsPanel, row, column++ );
         
         updateControls();
@@ -196,7 +185,6 @@ class DotControls extends JPanel {
         transparencyControl.setValue( dotsNode.getMoleculeTransparency() );
         maxH2OControl.setValue( dotsNode.getMaxH2O() );
         h2oTransparencyControl.setValue( dotsNode.getH2OTransparency() );
-        showH2OCheckBox.setSelected( dotsNode.isH2OVisible() );
         colorHAControl.setColor( dotsNode.getColorHA() );
         colorAControl.setColor( dotsNode.getColorA() );
         colorH3OControl.setColor( dotsNode.getColorH3O() );

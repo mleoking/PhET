@@ -1,3 +1,4 @@
+4/16/10 prototype: make "show H2O" a global control 
 # 0.00.04 (39765) Apr 9, 2010
 4/9/10 prototype: publish for team discussion
 4/9/10 prototype: located doc for "number of molecules" algorithm, checked into advanced-acid-base-solutions/doc/HA_A-_ratio_model.pdf

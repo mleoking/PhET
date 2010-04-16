@@ -69,8 +69,8 @@ class MGPConstants {
     
     // Strings & HTML fragments
     public static final String UNITS_LITERS = "L";
-    public static final String HA_FRAGMENT = "HA";
-    public static final String A_MINUS_FRAGMENT = "A<sup>-</sup>";
+    public static final String HA_FRAGMENT = "H<i>A</i>";
+    public static final String A_MINUS_FRAGMENT = "<i>A</i><sup>-</sup>";
     public static final String H3O_PLUS_FRAGMENT = "H<sub>3</sub>O<sup>+</sup>";
     public static final String OH_MINUS_FRAGMENT = "OH<sup>-</sup>";
     public static final String H2O_FRAGMENT = "H<sub>2</sub>O";

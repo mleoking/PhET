@@ -3,11 +3,8 @@
 package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.GridBagConstraints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Hashtable;
 
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -30,7 +27,6 @@ class ImageControls extends JPanel {
     
     private final ImagesNode imagesNode;
     private final LinearValueControl maxMoleculesControl, scaleControl, transparencyControl, maxH2OControl, h2oTransparencyControl;
-    private final JCheckBox showH2OCheckBox;
     
     public ImageControls( final ImagesNode imagesNode ) {
         setBorder( new TitledBorder( "Images" ) );
@@ -102,14 +98,6 @@ class ImageControls extends JPanel {
         h2oTransparencyLabelTable.put( new Double( h2oTransparencyControl.getMaximum() ), new JLabel( "opaque" ) );
         h2oTransparencyControl.setTickLabels( h2oTransparencyLabelTable );
         
-        // show H2O checkbox
-        showH2OCheckBox = new JCheckBox( "show H2O images" );
-        showH2OCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                imagesNode.setH2OVisible( showH2OCheckBox.isSelected() );
-            }
-        } );
-        
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -129,9 +117,6 @@ class ImageControls extends JPanel {
         row++;
         column = 0;
         layout.addComponent( h2oTransparencyControl, row, column++ );
-        row++;
-        column = 0;
-        layout.addComponent( showH2OCheckBox, row, column++ );
         
         updateControls();
     }
@@ -142,6 +127,5 @@ class ImageControls extends JPanel {
         scaleControl.setValue( imagesNode.getImageScale() );
         transparencyControl.setValue( imagesNode.getMoleculeTransparency() ); 
         h2oTransparencyControl.setValue( imagesNode.getH2OTransparency() );
-        showH2OCheckBox.setSelected( imagesNode.isH2OVisible() );
     }
 }

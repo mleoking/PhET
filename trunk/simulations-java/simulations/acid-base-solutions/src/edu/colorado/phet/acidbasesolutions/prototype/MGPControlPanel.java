@@ -40,7 +40,7 @@ class MGPControlPanel extends ControlPanel {
         });
         
         weakAcidControls = new WeakAcidControls( parentFrame, model.getSolution() );
-        moleculeControls = new MoleculeControls( model.getMagnifyingGlass() );
+        moleculeControls = new MoleculeControls( model.getMagnifyingGlass(), canvas.getMagnifyingGlassNode() );
         dotControls = new DotControls( parentFrame, canvas.getMagnifyingGlassNode().getDotsNode() );
         imageControls = new ImageControls( canvas.getMagnifyingGlassNode().getImagesNode() );
         beakerControls = new BeakerControls( parentFrame, model.getBeaker() );
