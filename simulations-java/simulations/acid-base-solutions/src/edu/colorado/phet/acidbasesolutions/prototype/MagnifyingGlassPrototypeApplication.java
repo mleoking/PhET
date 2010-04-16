@@ -16,7 +16,7 @@ public class MagnifyingGlassPrototypeApplication extends PiccoloPhetApplication 
 
     public MagnifyingGlassPrototypeApplication( PhetApplicationConfig config ) {
         super( config );
-        addModule( new MGPModule( getPhetFrame() ) );
+        addModule( new MGPModule( getPhetFrame(), isDeveloperControlsEnabled() ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {

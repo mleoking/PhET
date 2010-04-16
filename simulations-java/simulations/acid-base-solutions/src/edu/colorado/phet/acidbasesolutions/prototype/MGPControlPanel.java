@@ -26,11 +26,11 @@ class MGPControlPanel extends ControlPanel {
     private final MoleculeControls moleculeControls;
     private final DotControls dotControls;
     private final ImageControls imageControls;
+    private final ColorControls colorControls;
     private final BeakerControls beakerControls;
     private final MagnifyingGlassControls magnifyingGlassControls;
-    private final CanvasControls canvasControls;
     
-    public MGPControlPanel( JFrame parentFrame, final MGPCanvas canvas, final MGPModel model ) {
+    public MGPControlPanel( JFrame parentFrame, final MGPCanvas canvas, final MGPModel model, boolean dev ) {
         
         this.model = model;
         model.getMagnifyingGlass().addChangeListener( new ChangeListener() {
@@ -43,9 +43,9 @@ class MGPControlPanel extends ControlPanel {
         moleculeControls = new MoleculeControls( model.getMagnifyingGlass(), canvas.getMagnifyingGlassNode() );
         dotControls = new DotControls( parentFrame, canvas.getMagnifyingGlassNode().getDotsNode() );
         imageControls = new ImageControls( canvas.getMagnifyingGlassNode().getImagesNode() );
+        colorControls = new ColorControls( parentFrame, model.getSolution(), canvas.getMagnifyingGlassNode().getDotsNode(), canvas );
         beakerControls = new BeakerControls( parentFrame, model.getBeaker() );
         magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
-        canvasControls = new CanvasControls( parentFrame, canvas );
         
         JPanel innerPanel = new JPanel();
         addControl( innerPanel );
@@ -58,11 +58,13 @@ class MGPControlPanel extends ControlPanel {
         int column = 0;
         layout.addComponent( weakAcidControls, row++, column );
         layout.addComponent( moleculeControls, row++, column );
-        layout.addComponent( dotControls, row++, column );
-        layout.addComponent( imageControls, row++, column );
-        layout.addComponent( beakerControls, row++, column );
-        layout.addComponent( magnifyingGlassControls, row++, column );
-        layout.addComponent( canvasControls, row++, column );
+        if ( dev ) {
+            layout.addComponent( dotControls, row++, column );
+            layout.addComponent( imageControls, row++, column );
+            layout.addComponent( colorControls, row++, column );
+            layout.addComponent( beakerControls, row++, column );
+            layout.addComponent( magnifyingGlassControls, row++, column );
+        }
         
         addControlFullWidth( innerPanel );
         

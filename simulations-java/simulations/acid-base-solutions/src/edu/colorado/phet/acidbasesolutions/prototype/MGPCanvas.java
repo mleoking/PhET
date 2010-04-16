@@ -18,7 +18,7 @@ class MGPCanvas extends PhetPCanvas {
     private final MagnifyingGlassNode magnifyingGlassNode;
     private final BeakerNode beakerNode;
 
-    public MGPCanvas( MGPModel model ) {
+    public MGPCanvas( MGPModel model, boolean dev ) {
         super( MGPConstants.CANVAS_SIZE );
         setBackground( MGPConstants.CANVAS_COLOR );
         
