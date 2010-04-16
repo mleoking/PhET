@@ -24,7 +24,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
@@ -49,7 +48,6 @@ public class ConcentrationGraph extends PhetPNode {
     //------------------------------------------------------------------------
 
 	private static final Dimension2D size = new PDimension(150, 200);
-	private static final PhetFont LABEL_FONT = new PhetFont(14, true);
 	private static final Color MAIN_BACKGROUND_COLOR = Color.WHITE;
 
 	private static float OUTLINE_STROKE_WIDTH = 1f;
@@ -77,14 +75,16 @@ public class ConcentrationGraph extends PhetPNode {
     private JButton closeButton;
     private PSwing closePSwing;
 	private double distanceFromBottomToBars;
+	private boolean upperChamber;
 	
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
 
-	public ConcentrationGraph(final MembraneDiffusionModel model) {
+	public ConcentrationGraph(final MembraneDiffusionModel model, boolean upperChamber) {
 		
 		this.model = model;
+		this.upperChamber = upperChamber;
 		
 		// Listen to the model for events that may matter to us.
 		model.addListener(new MembraneDiffusionModel.Adapter(){
@@ -163,27 +163,19 @@ public class ConcentrationGraph extends PhetPNode {
     //------------------------------------------------------------------------
 
 	private void updateBarSizes(){
-		
-		double sodiumBarHeight = 
-			model.getCountInUpperSubChamber(ParticleType.SODIUM_ION) / (double)MAX_CONCENTRATION_COUNT * maxBarHeight;
-		double potassiumBarHeight =
-			model.getCountInUpperSubChamber(ParticleType.POTASSIUM_ION) / (double)MAX_CONCENTRATION_COUNT * maxBarHeight;
 
-//		if (model.getLactoseLevel() > MAX_VALUE){
-//			barHeight = maxBarHeight;
-//			overflowText.setVisible(true);
-//		}
-//		else{
-//			barHeight = (double)model.getLactoseLevel() / MAX_VALUE * maxBarHeight;
-//			if (overflowText.getVisible()){
-//				overflowText.setVisible(false);
-//			}
-//		}
-//		barShape.setFrame(0, 0, barWidth, barHeight);
-//		bar.setPathTo(barShape);
-//		bar.setOffset(bar.getOffset().getX(),
-//			barBackground.getBoundsReference().getMaxY() - barHeight + barBackground.getOffset().getY());
+		double sodiumBarHeight;
+		double potassiumBarHeight;
 		
+		if (upperChamber){
+			sodiumBarHeight = model.getCountInUpperSubChamber(ParticleType.SODIUM_ION) / (double)MAX_CONCENTRATION_COUNT * maxBarHeight;
+			potassiumBarHeight = model.getCountInUpperSubChamber(ParticleType.POTASSIUM_ION) / (double)MAX_CONCENTRATION_COUNT * maxBarHeight;
+		}
+		else{
+			sodiumBarHeight = model.getCountInLowerSubChamber(ParticleType.SODIUM_ION) / (double)MAX_CONCENTRATION_COUNT * maxBarHeight;
+			potassiumBarHeight = model.getCountInLowerSubChamber(ParticleType.POTASSIUM_ION) / (double)MAX_CONCENTRATION_COUNT * maxBarHeight;
+		}
+
 		sodiumBarShape.setFrame(0, 0, barWidth, sodiumBarHeight);
 		sodiumBar.setPathTo(sodiumBarShape);
 		sodiumBar.setOffset(sodiumBar.getOffset().getX(),

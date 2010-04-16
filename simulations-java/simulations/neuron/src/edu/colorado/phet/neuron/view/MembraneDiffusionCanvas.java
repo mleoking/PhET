@@ -175,12 +175,12 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         toolBoxLayer.addChild(membraneChannelToolBoxNode);
         
         // Add the concentration graphs.
-        ConcentrationGraph upperGraph = new ConcentrationGraph(model);
+        ConcentrationGraph upperGraph = new ConcentrationGraph(model, true);
         upperGraph.setOffset(transformedParticleChamberRect.getMaxX() + 20,
         		transformedParticleChamberRect.getMinY() + 10);
         chartLayer.addChild(upperGraph);
         
-        ConcentrationGraph lowerGraph = new ConcentrationGraph(model);
+        ConcentrationGraph lowerGraph = new ConcentrationGraph(model, false);
         lowerGraph.setOffset(transformedParticleChamberRect.getMaxX() + 20,
         		transformedMembraneRect.getMaxY() + 10);
         chartLayer.addChild(lowerGraph);
