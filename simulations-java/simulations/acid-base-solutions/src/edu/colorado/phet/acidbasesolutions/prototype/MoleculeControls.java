@@ -13,6 +13,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.prototype.MagnifyingGlass.MoleculeRepresentation;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
  * General controls for molecules.
@@ -74,7 +75,8 @@ class MoleculeControls extends JPanel {
         representationPanel.add( dotsRadioButton );
         
         // show H2O checkbox
-        showH2OCheckBox = new JCheckBox( "show H2O molecules" );
+        String label = HTMLUtils.toHTMLString( "show " + MGPConstants.H2O_FRAGMENT + " molecules" );
+        showH2OCheckBox = new JCheckBox( label );
         showH2OCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 magnifyingGlassNode.getImagesNode().setH2OVisible( showH2OCheckBox.isSelected() );
