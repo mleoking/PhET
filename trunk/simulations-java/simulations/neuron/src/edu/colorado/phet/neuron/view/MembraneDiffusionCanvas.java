@@ -137,9 +137,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         // upper and lower portions of the chamber.
         Rectangle2D membraneRect = model.getMembraneRect();
     	Rectangle2D transformedMembraneRect = mvt.createTransformedShape(membraneRect).getBounds2D();
-    	GradientPaint paint = new GradientPaint(0f, (float)transformedMembraneRect.getCenterY(), Color.YELLOW,
-    			0f, (float)transformedMembraneRect.getBounds2D().getMaxY(), new Color(255, 100, 100), true);
-    	PNode membraneNode = new PhetPPath(transformedMembraneRect, paint, new BasicStroke(1f), Color.BLACK);
+    	PNode membraneNode = new PhetPPath(transformedMembraneRect, Color.YELLOW, new BasicStroke(1f), Color.BLACK);
     	// TODO: i18n
         PText membraneLabel = new PText("Membrane");
         membraneLabel.setFont(new PhetFont());
