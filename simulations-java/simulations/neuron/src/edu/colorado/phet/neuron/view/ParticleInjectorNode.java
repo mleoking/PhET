@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.genenetwork.GeneNetworkResources;
+import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.InjectionMotionStrategy;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
@@ -96,16 +96,16 @@ public class ParticleInjectorNode extends PNode {
 		
 		// Load the graphic images for this device.  These are offset in order
 		// to make the center of rotation be the center of the bulb.
-		BufferedImage injectorBodyImage = GeneNetworkResources.getImage( "squeezer_background.png" );
+		BufferedImage injectorBodyImage = NeuronResources.getImage( "squeezer_background.png" );
         injectorBodyImageNode = new PImage( injectorBodyImage );
         Rectangle2D originalBodyBounds = injectorBodyImageNode.getFullBounds();
         injectorBodyImageNode.setOffset(-originalBodyBounds.getWidth() / 2, -originalBodyBounds.getHeight() / 2);
         injectorNode.addChild(injectorBodyImageNode);
-        BufferedImage pressedButtonImage = GeneNetworkResources.getImage( "button_pressed.png" );
+        BufferedImage pressedButtonImage = NeuronResources.getImage( "button_pressed.png" );
         pressedButtonImageNode = new PImage(pressedButtonImage);
         pressedButtonImageNode.setOffset(BUTTON_OFFSET);
         injectorNode.addChild(pressedButtonImageNode);
-        BufferedImage unpressedButtonImage = GeneNetworkResources.getImage( "button_unpressed.png" );
+        BufferedImage unpressedButtonImage = NeuronResources.getImage( "button_unpressed.png" );
         unpressedButtonImageNode = new PImage(unpressedButtonImage);
         unpressedButtonImageNode.setOffset(BUTTON_OFFSET);
         injectorNode.addChild(unpressedButtonImageNode);
