@@ -28,7 +28,7 @@ class MGPCanvas extends PhetPCanvas {
         magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass(), model.getSolution(), dev );
         magnifyingGlassNode.setOffset( model.getMagnifyingGlass().getCenterReference() );
         
-        beakerNode = new BeakerNode( model.getBeaker(), model.getSolution(), magnifyingGlassNode );
+        beakerNode = new BeakerNode( model.getBeaker(), model.getSolution(), magnifyingGlassNode, dev );
         beakerNode.setOffset( model.getBeaker().getCenterReference() );
         
         // draggable only in dev version

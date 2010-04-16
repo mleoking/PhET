@@ -22,9 +22,9 @@ class DotsNode extends MoleculesNode {
     private double dotDiameter;
     private Color colorHA, colorA, colorH3O, colorOH, colorH2O;
     
-    public DotsNode( final WeakAcid solution, PNode containerNode, boolean dev ) {
+    public DotsNode( final WeakAcid solution, PNode containerNode, boolean showOH ) {
         super( solution, containerNode, MGPConstants.MAX_DOTS_RANGE.getDefault(), MGPConstants.MAX_H2O_DOTS_RANGE.getDefault(),
-                (float) MGPConstants.DOT_TRANSPARENCY_RANGE.getDefault(), new ConcentrationMoleculeCountStrategy(), new ConstantMoleculeCountStrategy(), dev );
+                (float) MGPConstants.DOT_TRANSPARENCY_RANGE.getDefault(), new ConcentrationMoleculeCountStrategy(), new ConstantMoleculeCountStrategy(), showOH );
         dotDiameter = MGPConstants.DOT_DIAMETER_RANGE.getDefault();
         colorHA = MGPConstants.COLOR_HA;
         colorA = MGPConstants.COLOR_A_MINUS;
