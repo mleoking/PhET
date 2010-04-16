@@ -51,6 +51,9 @@ public class MembraneDiffusionModel implements IParticleCapture {
 	// Maximum number of channels allowed on the membrane.
 	private static int MAX_CHANNELS_ON_MEMBRANE = 10;
 	
+	// Defaults for configurable parameters.
+	private static boolean SHOW_GRAPHS_DEFAULT = false;
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -62,7 +65,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     private EventListenerList listeners = new EventListenerList();
     private FakeHodgkinHuxleyModel hodgkinHuxleyModel = new FakeHodgkinHuxleyModel();
     private final ArrayList<Point2D> allowableChannelLocations = new ArrayList<Point2D>(MAX_CHANNELS_ON_MEMBRANE);
-    private boolean concentrationGraphsVisible = false;
+    private boolean concentrationGraphsVisible = SHOW_GRAPHS_DEFAULT;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -138,6 +141,9 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	
     	// Remove all membrane channels.
     	removeAllChannels();
+    	
+    	// Set the graphs to their default state.
+    	setConcentrationGraphsVisible(SHOW_GRAPHS_DEFAULT);
     }
     
     public void forceActivationOfSodiumChannels(){
