@@ -41,7 +41,7 @@ class MagnifyingGlassNode extends PComposite {
     private final DotsNode dotsNode;
     private final ImagesNode imagesNode;
     
-    public MagnifyingGlassNode( MagnifyingGlass magnifyingGlass, WeakAcid solution ) {
+    public MagnifyingGlassNode( MagnifyingGlass magnifyingGlass, WeakAcid solution, boolean dev ) {
         super();
         
         this.magnifyingGlass = magnifyingGlass;
@@ -71,10 +71,10 @@ class MagnifyingGlassNode extends PComposite {
         circleNode.setStrokePaint( GLASS_STROKE_COLOR );
         addChild( circleNode );
         
-        dotsNode = new DotsNode( solution, circleNode );
+        dotsNode = new DotsNode( solution, circleNode, dev );
         circleNode.addChild( dotsNode ); // clip dots to circle
         
-        imagesNode = new ImagesNode( solution, circleNode );
+        imagesNode = new ImagesNode( solution, circleNode, dev );
         circleNode.addChild( imagesNode ); // clip images to circle
         
         update();
