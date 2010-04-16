@@ -31,7 +31,7 @@ public class PotassiumGatedChannel extends GatedChannel {
 	// Constant used when calculating how open this gate should be based on
 	// a value that exists within the Hodgkin-Huxley model.  This was
 	// empirically determined.
-	private static final double N4_WHEN_FULLY_OPEN = 0.35; 
+	private static final double N4_WHEN_FULLY_OPEN = 0.35;
 	
     //----------------------------------------------------------------------------
     // Instance Data

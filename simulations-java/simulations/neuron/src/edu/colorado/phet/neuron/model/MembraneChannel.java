@@ -137,18 +137,6 @@ public abstract class MembraneChannel {
 	abstract public ArrayList<Particle> checkTakeControlParticles(final ArrayList<Particle> freeAtoms);
 	*/
 
-	/**
-	 * Add any atoms that this channel no longer wants to control to the
-	 * provided list.
-	 * 
-	 * @param freeAtoms - List of atoms that are "free", meaning that they
-	 * are not controlled by this channel (nor probably any other).  Atoms
-	 * that this membrane no longer wants to control will be added to this
-	 * list.
-	 * @return List of atoms that this channel is releasing.
-	 */
-	abstract public ArrayList<Particle> checkReleaseControlParticles(final ArrayList<Particle> freeAtoms);
-	
 	abstract protected ParticleType getParticleTypeToCapture();
 	
 	/**
