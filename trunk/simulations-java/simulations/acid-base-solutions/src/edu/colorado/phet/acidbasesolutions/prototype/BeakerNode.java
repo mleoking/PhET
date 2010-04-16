@@ -12,6 +12,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -47,6 +49,7 @@ class BeakerNode extends PComposite {
     private final Rectangle2D solutionRectangle;
     private final PComposite ticksNode;
     private final PText pHNode;
+    private final PNode reactionEquationNode;
     private final MoleculeCountsNode countsNode;
     
     public BeakerNode( Beaker beaker, WeakAcid solution, MagnifyingGlassNode magnifyingGlassNode, boolean dev ) {
@@ -86,6 +89,10 @@ class BeakerNode extends PComposite {
         pHNode.scale( 3 );
         addChild( pHNode );
         
+        reactionEquationNode = new WeakAcidReactionEquationNode();
+        reactionEquationNode.scale( 1.75 );
+        addChild( reactionEquationNode );
+        
         countsNode = new MoleculeCountsNode(solution, magnifyingGlassNode, dev );
         countsNode.scale( 1.5 );
         if ( dev ) {
@@ -100,6 +107,7 @@ class BeakerNode extends PComposite {
         updateTicks();
         updateSolution();
         updatePH();
+        updateReactionEquation();
         updateCounts();
     }
     
@@ -171,9 +179,15 @@ class BeakerNode extends PComposite {
         pHNode.setOffset( x, y );
     }
     
+    private void updateReactionEquation() {
+        double x = -reactionEquationNode.getFullBoundsReference().getWidth() / 2;
+        double y = outlineNode.getFullBounds().getMaxY() + 20 - PNodeLayoutUtils.getOriginYOffset( reactionEquationNode );
+        reactionEquationNode.setOffset( x, y );
+    }
+    
     private void updateCounts() {
         double x = -countsNode.getFullBoundsReference().getWidth() / 2;
-        double y = outlineNode.getFullBounds().getMaxY() + 20;
+        double y = reactionEquationNode.getFullBounds().getMaxY() + 20;
         countsNode.setOffset( x, y );
     }
 }
