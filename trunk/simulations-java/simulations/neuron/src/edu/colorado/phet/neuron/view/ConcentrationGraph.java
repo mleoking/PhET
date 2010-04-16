@@ -58,8 +58,8 @@ public class ConcentrationGraph extends PhetPNode {
 	private static final Color SODIUM_BAR_COLOR = new SodiumIon().getRepresentationColor();
 	private static final Color POTASSIUM_BAR_COLOR = new PotassiumIon().getRepresentationColor();
 	private static final double BAR_WIDTH_PROPORTION = 0.20;
-	private static final double BAR_HEIGHT_PROPORTION = 0.55;
-	private static final double MAX_VALUE = 50;
+	private static final double BAR_HEIGHT_PROPORTION = 0.75;
+	private static final double MAX_CONCENTRATION_COUNT = 50;
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -90,6 +90,9 @@ public class ConcentrationGraph extends PhetPNode {
 		model.addListener(new MembraneDiffusionModel.Adapter(){
 			public void concentrationGraphVisibilityChanged() {
 				updateVisibility();
+			}
+			public void concentrationsChanged(){
+				updateBarSizes();
 			}
 		});
 		
@@ -161,8 +164,10 @@ public class ConcentrationGraph extends PhetPNode {
 
 	private void updateBarSizes(){
 		
-		double sodiumBarHeight = 20;
-		double potassiumBarHeight = 40;
+		double sodiumBarHeight = 
+			model.getCountInUpperSubChamber(ParticleType.SODIUM_ION) / (double)MAX_CONCENTRATION_COUNT * maxBarHeight;
+		double potassiumBarHeight =
+			model.getCountInUpperSubChamber(ParticleType.POTASSIUM_ION) / (double)MAX_CONCENTRATION_COUNT * maxBarHeight;
 
 //		if (model.getLactoseLevel() > MAX_VALUE){
 //			barHeight = maxBarHeight;
