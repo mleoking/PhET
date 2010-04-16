@@ -58,6 +58,7 @@ class MGPConstants {
     public static final BufferedImage H3O_PLUS_IMAGE = RESOURCES.getImage( "molecules/H3O_plus.png" );
     public static final BufferedImage OH_MINUS_IMAGE = RESOURCES.getImage( "molecules/OH_minus.png" );
     public static final BufferedImage H2O_IMAGE = RESOURCES.getImage( "molecules/H2O.png" );
+    public static final BufferedImage ARROW_DOUBLE_IMAGE = RESOURCES.getImage( "arrow_double.png" );
     
     // colors
     public static final Color COLOR_HA = new Color( 13, 176, 47 );
