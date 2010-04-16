@@ -1,3 +1,4 @@
+4/16/10 prototype: make H2O molecules invisible by default
 4/16/10 prototype: fix layout of reaction equation
 4/16/10 prototype: add reaction equation (still has layout issues)
 4/16/10 prototype: make molecule counts visible in dev version only, remove molecule icons, make smaller

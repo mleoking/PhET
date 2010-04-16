@@ -84,8 +84,9 @@ abstract class MoleculesNode extends PComposite {
         addChild( parentH3O );
         addChild( parentOH );
         
-        // is OH visible?
+        // default state
         parentOH.setVisible( showOH );
+        parentH2O.setVisible( false );
     }
     
     public boolean isH2OVisible() {
