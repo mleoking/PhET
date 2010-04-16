@@ -55,8 +55,9 @@ public class ConcentrationGraph extends PhetPNode {
 	private static float OUTLINE_STROKE_WIDTH = 1f;
 	private static final Stroke OUTLINE_STROKE = new BasicStroke(OUTLINE_STROKE_WIDTH);
 	private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
-	private static final Color BAR_COLOR = Color.ORANGE;
-	private static final double BAR_WIDTH_PROPORTION = 0.85;
+	private static final Color SODIUM_BAR_COLOR = new SodiumIon().getRepresentationColor();
+	private static final Color POTASSIUM_BAR_COLOR = new PotassiumIon().getRepresentationColor();
+	private static final double BAR_WIDTH_PROPORTION = 0.20;
 	private static final double BAR_HEIGHT_PROPORTION = 0.55;
 	private static final double MAX_VALUE = 50;
 	
@@ -67,14 +68,15 @@ public class ConcentrationGraph extends PhetPNode {
 	private MembraneDiffusionModel model;
 	private PNode background;
 	private PNode graphBaseLine;
-	private PhetPPath bar;
-	private Rectangle2D barShape = new Rectangle2D.Double();
-	private HTMLNode label;
+	private PhetPPath sodiumBar;
+	private PhetPPath potassiumBar;
+	private Rectangle2D sodiumBarShape = new Rectangle2D.Double();
+	private Rectangle2D potassiumBarShape = new Rectangle2D.Double();
 	private double barWidth;
 	private double maxBarHeight;
     private JButton closeButton;
     private PSwing closePSwing;
-    private HTMLNode overflowText;
+	private double distanceFromBottomToBars;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -100,7 +102,6 @@ public class ConcentrationGraph extends PhetPNode {
 		// components that make up this node.
 		barWidth = size.getWidth() * BAR_WIDTH_PROPORTION;
 		maxBarHeight = size.getHeight() * BAR_HEIGHT_PROPORTION;
-		double edgeOffset = (size.getWidth() - barWidth) / 2 + OUTLINE_STROKE_WIDTH / 2;
 		
 		// Add the button that will allow the user to close (actually hide) the meter.
 		ImageIcon imageIcon = new ImageIcon( 
@@ -114,12 +115,11 @@ public class ConcentrationGraph extends PhetPNode {
 		} );
 		
 		closePSwing = new PSwing( closeButton );
-		closePSwing.setOffset(size.getWidth() - closeButton.getBounds().width - edgeOffset, edgeOffset / 2);
+		closePSwing.setOffset(size.getWidth() - closeButton.getBounds().width - 7, 5);
 		closePSwing.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
 		addChild(closePSwing);
 		
-		// Add the line that is the base of the bars.
-		double distanceFromBottomToBars = size.getHeight() * 0.2;
+		distanceFromBottomToBars = size.getHeight() * 0.2;
 		double distanceFromSideToBarBase = size.getWidth() * 0.1;
 		Shape baseLineShape = new Line2D.Double(distanceFromSideToBarBase,
 				size.getHeight() - distanceFromBottomToBars,
@@ -141,13 +141,17 @@ public class ConcentrationGraph extends PhetPNode {
 				size.getHeight() - potassiumLabel.getFullBoundsReference().height - 5);
 		addChild(potassiumLabel);
 		
-		// Add the bar itself.  The shape will be set when updates occur.
-		bar = new PhetPPath( BAR_COLOR );
-		bar.setOffset((size.getWidth() - barWidth) / 2 + OUTLINE_STROKE_WIDTH / 2, 0);
-		addChild(bar);
+		// Add the bars.  The shapes will be set when updates occur.
+		sodiumBar = new PhetPPath( SODIUM_BAR_COLOR );
+		sodiumBar.setOffset(size.getWidth() * 0.25 - barWidth / 2, 0);
+		addChild(sodiumBar);
+		
+		potassiumBar = new PhetPPath( POTASSIUM_BAR_COLOR );
+		potassiumBar.setOffset(size.getWidth() * 0.75 - barWidth / 2, 0);
+		addChild(potassiumBar);
 		
 		// Do the initial updates.
-		updateBarSize();
+		updateBarSizes();
 		updateVisibility();
 	}
 	
@@ -155,8 +159,10 @@ public class ConcentrationGraph extends PhetPNode {
     // Methods
     //------------------------------------------------------------------------
 
-	private void updateBarSize(){
-		double barHeight;
+	private void updateBarSizes(){
+		
+		double sodiumBarHeight = 20;
+		double potassiumBarHeight = 40;
 
 //		if (model.getLactoseLevel() > MAX_VALUE){
 //			barHeight = maxBarHeight;
@@ -172,6 +178,16 @@ public class ConcentrationGraph extends PhetPNode {
 //		bar.setPathTo(barShape);
 //		bar.setOffset(bar.getOffset().getX(),
 //			barBackground.getBoundsReference().getMaxY() - barHeight + barBackground.getOffset().getY());
+		
+		sodiumBarShape.setFrame(0, 0, barWidth, sodiumBarHeight);
+		sodiumBar.setPathTo(sodiumBarShape);
+		sodiumBar.setOffset(sodiumBar.getOffset().getX(),
+				size.getHeight() - distanceFromBottomToBars - sodiumBarShape.getHeight());
+
+		potassiumBarShape.setFrame(0, 0, barWidth, potassiumBarHeight);
+		potassiumBar.setPathTo(potassiumBarShape);
+		potassiumBar.setOffset(potassiumBar.getOffset().getX(),
+				size.getHeight() - distanceFromBottomToBars - potassiumBarShape.getHeight());
 	}
 	
 	private void updateVisibility(){
