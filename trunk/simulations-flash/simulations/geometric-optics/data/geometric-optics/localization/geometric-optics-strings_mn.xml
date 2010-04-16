@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--геометр оптик_mn.xml created Thu Dec 17 11:13:22 ULAT 2009 using: geometric-optics 2.03.00 (32366), translation-utility 2.03.00 (36202) Oct 30, 2009-->
+<!--geometric-optics-strings_mn.xml created Thu Dec 17 11:13:27 ULAT 2009 using: geometric-optics 2.03.00 (32366), translation-utility 2.03.00 (36202) Oct 30, 2009-->
 <SimStrings>
 <string key="draggableScreen" value="дэлгэц"/>
 <string key="draggableLens" value=" линз"/>
