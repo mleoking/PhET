@@ -48,25 +48,6 @@ public abstract class GatedChannel extends MembraneChannel {
 	// Methods
 	//----------------------------------------------------------------------------
 	
-	@Override
-	public ArrayList<Particle> checkReleaseControlParticles(ArrayList<Particle> freeAtoms) {
-		Particle atom = null;
-		ArrayList<Particle> releasedAtoms = null;
-		for (int i = 0; i < getOwnedAtomsRef().size(); i++){
-			atom = getOwnedAtomsRef().get(i);
-			if (atom.getPositionReference().distance(getCenterLocation()) > CAPTURE_DISTANCE * 1.25){
-				// Atom is far enough away that it can be released.
-				getOwnedAtomsRef().remove(atom);
-				releasedAtoms = new ArrayList<Particle>();
-				releasedAtoms.add(atom);
-				recentlyReleaseAtoms.add(new AtomCountdownPair(atom, ATOM_RECAPTURE_COUNTER));
-				break;
-			}
-		}
-		
-		return releasedAtoms;
-	}
-
 	/*
 	 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having
 	 * them controlled by the AxonModel and the channels to having a motion strategy set on
