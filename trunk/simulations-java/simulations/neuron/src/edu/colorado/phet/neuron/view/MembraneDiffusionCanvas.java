@@ -124,7 +124,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         myWorldNode.addChild(injectorLayer);
 
         chartLayer = new PNode();
-        addScreenChild(chartLayer);
+        addWorldChild(chartLayer);
         
         // Add the node the will represent the chamber where the particles can
         // move around.
@@ -173,6 +173,17 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - membraneChannelToolBoxNode.getFullBoundsReference().width / 2,
         		transformedParticleChamberRect.getMaxY() + 40);
         toolBoxLayer.addChild(membraneChannelToolBoxNode);
+        
+        // Add the concentration graphs.
+        ConcentrationGraph upperGraph = new ConcentrationGraph(model);
+        upperGraph.setOffset(transformedParticleChamberRect.getMaxX() + 20,
+        		transformedParticleChamberRect.getMinY() + 10);
+        chartLayer.addChild(upperGraph);
+        
+        ConcentrationGraph lowerGraph = new ConcentrationGraph(model);
+        lowerGraph.setOffset(transformedParticleChamberRect.getMaxX() + 20,
+        		transformedMembraneRect.getMaxY() + 10);
+        chartLayer.addChild(lowerGraph);
 
         // Update the layout.
         updateLayout();
