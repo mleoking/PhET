@@ -6,10 +6,13 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -17,13 +20,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
+import edu.colorado.phet.neuron.model.ParticleType;
+import edu.colorado.phet.neuron.model.PotassiumIon;
+import edu.colorado.phet.neuron.model.SodiumIon;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -57,6 +66,7 @@ public class ConcentrationGraph extends PhetPNode {
 
 	private MembraneDiffusionModel model;
 	private PNode background;
+	private PNode graphBaseLine;
 	private PhetPPath bar;
 	private Rectangle2D barShape = new Rectangle2D.Double();
 	private HTMLNode label;
@@ -108,6 +118,29 @@ public class ConcentrationGraph extends PhetPNode {
 		closePSwing.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
 		addChild(closePSwing);
 		
+		// Add the line that is the base of the bars.
+		double distanceFromBottomToBars = size.getHeight() * 0.2;
+		double distanceFromSideToBarBase = size.getWidth() * 0.1;
+		Shape baseLineShape = new Line2D.Double(distanceFromSideToBarBase,
+				size.getHeight() - distanceFromBottomToBars,
+				size.getWidth() - distanceFromSideToBarBase,
+				size.getHeight() - distanceFromBottomToBars);
+		graphBaseLine = new PhetPPath(baseLineShape, new BasicStroke(2f), Color.BLACK);
+		addChild(graphBaseLine);
+		
+		// Add the labels for the particle types.
+		ParticleTypeLabelNode sodiumLabel = new ParticleTypeLabelNode(distanceFromBottomToBars * 0.6,
+				ParticleType.SODIUM_ION);
+		sodiumLabel.setOffset(size.getWidth() * 0.25 - sodiumLabel.getFullBoundsReference().width / 2,
+				size.getHeight() - sodiumLabel.getFullBoundsReference().height - 5);
+		addChild(sodiumLabel);
+
+		ParticleTypeLabelNode potassiumLabel = new ParticleTypeLabelNode(distanceFromBottomToBars * 0.6,
+				ParticleType.POTASSIUM_ION);
+		potassiumLabel.setOffset(size.getWidth() * 0.75 - potassiumLabel.getFullBoundsReference().width / 2,
+				size.getHeight() - potassiumLabel.getFullBoundsReference().height - 5);
+		addChild(potassiumLabel);
+		
 		// Add the bar itself.  The shape will be set when updates occur.
 		bar = new PhetPPath( BAR_COLOR );
 		bar.setOffset((size.getWidth() - barWidth) / 2 + OUTLINE_STROKE_WIDTH / 2, 0);
@@ -143,5 +176,57 @@ public class ConcentrationGraph extends PhetPNode {
 	
 	private void updateVisibility(){
 		setVisible(model.isConcentrationGraphsVisible());
+	}
+	
+	private static class ParticleTypeLabelNode extends PNode {
+		
+		private static final Font LABEL_FONT = new PhetFont(14);
+		private static final ModelViewTransform2D LABEL_MVT = new ModelViewTransform2D(
+				new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-10, -10, 20, 20));
+		
+		/**
+		 * Constructor.  The height is specified, and the width is then
+		 * determined as a function of the height and the string lengths.
+		 * 
+		 * @param model
+		 * @param height
+		 */
+		public ParticleTypeLabelNode(double height, ParticleType particleType){
+			
+			PText label = new PText();
+			label.setFont(LABEL_FONT);
+			ParticleNode particleNode;
+			
+			switch (particleType){
+			case SODIUM_ION:
+				label.setText(NeuronStrings.SODIUM_CHEMICAL_SYMBOL);
+				particleNode = new ParticleNode(new SodiumIon(), LABEL_MVT);
+				break;
+				
+			case POTASSIUM_ION:
+				label.setText(NeuronStrings.POTASSIUM_CHEMICAL_SYMBOL);
+				particleNode = new ParticleNode(new PotassiumIon(), LABEL_MVT);
+				break;
+				
+			default:
+				// Unhandled case.
+				System.out.println(getClass().getName() + " - Error: Unhandled particle type.");
+				assert false;
+				// Use an arbitrary default.
+				label.setText(NeuronStrings.POTASSIUM_CHEMICAL_SYMBOL);
+				particleNode = new ParticleNode(new PotassiumIon(), LABEL_MVT);
+				break;
+			}
+
+			particleNode.setScale(height / particleNode.getFullBoundsReference().height);
+			particleNode.setOffset(particleNode.getFullBoundsReference().width / 2,
+					particleNode.getFullBoundsReference().height / 2);
+			label.setScale(height / label.getFullBoundsReference().height * 1.1);
+			label.setOffset(
+					particleNode.getFullBoundsReference().getMaxX() + particleNode.getFullBoundsReference().width * 0.05,
+					particleNode.getFullBoundsReference().getCenterY() - label.getFullBoundsReference().height / 2);
+			addChild(particleNode);
+			addChild(label);
+		}
 	}
 }
