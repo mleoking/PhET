@@ -60,7 +60,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
     private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
     private MembraneChannel userControlledMembraneChannel = null;
     private EventListenerList listeners = new EventListenerList();
-    private IHodgkinHuxleyModel hodgkinHuxleyModel = new FakeHodgkinHuxleyModel();
+    private FakeHodgkinHuxleyModel hodgkinHuxleyModel = new FakeHodgkinHuxleyModel();
     private final ArrayList<Point2D> allowableChannelLocations = new ArrayList<Point2D>(MAX_CHANNELS_ON_MEMBRANE);
 
     //----------------------------------------------------------------------------
@@ -126,6 +126,14 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	
     	// Remove all membrane channels.
     	removeAllChannels();
+    }
+    
+    public void forceActivationOfSodiumChannels(){
+    	hodgkinHuxleyModel.forceActivationOfSodiumChannels();
+    }
+    
+    public void forceActivationOfPotassiumChannels(){
+    	hodgkinHuxleyModel.forceActivationOfPotassiumChannels();
     }
     
     /**

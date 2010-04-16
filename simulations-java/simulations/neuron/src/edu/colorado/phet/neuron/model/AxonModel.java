@@ -527,6 +527,7 @@ public class AxonModel implements IParticleCapture {
     	// Hodgkins-Huxley model.
     	hodgkinHuxleyModel.stepInTime( dt );
     	
+    	
     	// Update the alternate model for calculating the conductance values
     	alternativeConductanceModel.stepInTime( dt );
     	

@@ -19,8 +19,8 @@ public class FakeHodgkinHuxleyModel implements IHodgkinHuxleyModel
 
 	// Max durations of the faked-out sodium and potassium channel
 	// activations.
-	private static final double SODIUM_CHANNEL_ACTIVATION_TIME = 1;
-	private static final double POTASSIUM_CHANNEL_ACTIVATION_TIME = 1;
+	private static final double SODIUM_CHANNEL_ACTIVATION_TIME = 0.004;    // In seconds of sim time, not wall time.
+	private static final double POTASSIUM_CHANNEL_ACTIVATION_TIME = 0.004; // In seconds of sim time, not wall time.
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -251,24 +251,24 @@ public class FakeHodgkinHuxleyModel implements IHodgkinHuxleyModel
     	if (timeSinceSodiumChannelsActivated < Double.POSITIVE_INFINITY){
     		timeSinceSodiumChannelsActivated += dt;
     		if (timeSinceSodiumChannelsActivated < SODIUM_CHANNEL_ACTIVATION_TIME){
-        		n4 = 0.35 * Math.exp( -1 / 1.0 * Math.pow(timeSinceSodiumChannelsActivated - 2.0, 2));
+    			m3h = 0.278 * Math.exp( -1 / 0.3 * Math.pow(timeSinceSodiumChannelsActivated * 1000 - 1.0, 2));
     		}
     		else{
     			// Activation is complete, reset the timer.
     			timeSinceSodiumChannelsActivated = Double.POSITIVE_INFINITY;
-    			n4 = 0;
+    			m3h = 0;
     		}
     	}
     	
     	if (timeSincePotassiumChannelsActivated < Double.POSITIVE_INFINITY){
     		timeSincePotassiumChannelsActivated += dt;
-    		if (timeSincePotassiumChannelsActivated > POTASSIUM_CHANNEL_ACTIVATION_TIME){
-        		m3h = 0.278 * Math.exp( -1 / 0.3 * Math.pow(timeSincePotassiumChannelsActivated - 1.0, 2));
+    		if (timeSincePotassiumChannelsActivated < POTASSIUM_CHANNEL_ACTIVATION_TIME){
+    			n4 = 0.35 * Math.exp( -1 / 1.0 * Math.pow(timeSincePotassiumChannelsActivated * 1000 - 2.0, 2));
     		}
     		else{
     			// Activation is complete, reset the timer.
     			timeSincePotassiumChannelsActivated = Double.POSITIVE_INFINITY;
-    			m3h = 0;
+    			n4 = 0;
     		}
     	}
     }

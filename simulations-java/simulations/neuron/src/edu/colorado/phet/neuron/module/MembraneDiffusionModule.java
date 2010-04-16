@@ -50,7 +50,7 @@ public class MembraneDiffusionModule extends PiccoloModule {
         setSimulationPanel( canvas );
 
         // Control Panel
-        controlPanel = new MembraneDiffusionControlPanel( this, parentFrame );
+        controlPanel = new MembraneDiffusionControlPanel( this, model );
         setControlPanel( controlPanel );
         
         // Clock controls
