@@ -1,3 +1,4 @@
+4/16/10 prototype: make magnifying glass and beaker draggable only in dev version
 4/16/10 prototype: make OH dots and images visible only in dev version
 4/16/10 prototype: add dev flag to show/hide controls as requested by Kelly 
 4/16/10 prototype: move all colors to a "Colors" control panel 
