@@ -5,7 +5,6 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 import java.awt.GridBagConstraints;
 import java.util.Hashtable;
 
-import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,7 +14,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -31,7 +29,6 @@ class DotControls extends JPanel {
     private final DotsNode dotsNode;
     
     private final LinearValueControl maxMoleculesControl, diameterControl, transparencyControl, maxH2OControl, h2oTransparencyControl;
-    private final ColorControl colorHAControl, colorAControl, colorH3OControl, colorOHControl, colorH2OControl;
     
     public DotControls( JFrame parentFrame, final DotsNode dotsNode ) {
         setBorder( new TitledBorder( "Dots" ) );
@@ -103,55 +100,6 @@ class DotControls extends JPanel {
         h2oTransparencyLabelTable.put( new Double( h2oTransparencyControl.getMaximum() ), new JLabel( "opaque" ) );
         h2oTransparencyControl.setTickLabels( h2oTransparencyLabelTable );
         
-        // colors
-        colorHAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.HA_FRAGMENT ), dotsNode.getColorHA() );
-        colorHAControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                dotsNode.setColorHA( colorHAControl.getColor() );
-            }
-        } );
-
-        colorAControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.A_MINUS_FRAGMENT ), dotsNode.getColorA() );
-        colorAControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                dotsNode.setColorA( colorAControl.getColor() );
-            }
-        } );
-
-        colorH3OControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.H3O_PLUS_FRAGMENT ), dotsNode.getColorH3O() );
-        colorH3OControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                dotsNode.setColorH3O( colorH3OControl.getColor() );
-            }
-        } );
-
-        colorOHControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.OH_MINUS_FRAGMENT ), dotsNode.getColorOH() );
-        colorOHControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                dotsNode.setColorOH( colorOHControl.getColor() );
-            }
-        } );
-        
-        colorH2OControl = new ColorControl( parentFrame, HTMLUtils.toHTMLString( MGPConstants.H2O_FRAGMENT ), dotsNode.getColorH2O() );
-        colorH2OControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                dotsNode.setColorH2O( colorH2OControl.getColor() );
-            }
-        } );
-
-        JPanel colorsPanel = new JPanel();
-        int spacing = 10;
-        colorsPanel.add( new JLabel( "colors:" ) );
-        colorsPanel.add( Box.createHorizontalStrut( spacing ) );
-        colorsPanel.add( colorHAControl );
-        colorsPanel.add( Box.createHorizontalStrut( spacing ) );
-        colorsPanel.add( colorAControl );
-        colorsPanel.add( Box.createHorizontalStrut( spacing ) );
-        colorsPanel.add( colorH3OControl );
-        colorsPanel.add( Box.createHorizontalStrut( spacing ) );
-        colorsPanel.add( colorOHControl );
-        colorsPanel.add( Box.createHorizontalStrut( spacing ) );
-        colorsPanel.add( colorH2OControl );
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -164,7 +112,6 @@ class DotControls extends JPanel {
         layout.addComponent( transparencyControl, row++, column );
         layout.addComponent( maxH2OControl, row++, column );
         layout.addComponent( h2oTransparencyControl, row++, column );
-        layout.addComponent( colorsPanel, row++, column );
         
         updateControls();
     }
@@ -175,10 +122,5 @@ class DotControls extends JPanel {
         transparencyControl.setValue( dotsNode.getMoleculeTransparency() );
         maxH2OControl.setValue( dotsNode.getMaxH2O() );
         h2oTransparencyControl.setValue( dotsNode.getH2OTransparency() );
-        colorHAControl.setColor( dotsNode.getColorHA() );
-        colorAControl.setColor( dotsNode.getColorA() );
-        colorH3OControl.setColor( dotsNode.getColorH3O() );
-        colorOHControl.setColor( dotsNode.getColorOH() );
-        colorH2OControl.setColor( dotsNode.getColorH2O() );
     }
 }
