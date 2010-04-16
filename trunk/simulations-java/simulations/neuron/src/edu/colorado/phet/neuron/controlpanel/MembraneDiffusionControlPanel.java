@@ -3,7 +3,6 @@
 package edu.colorado.phet.neuron.controlpanel;
 
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -22,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.neuron.NeuronResources;
+import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.colorado.phet.neuron.model.PotassiumGatedChannel;
 import edu.colorado.phet.neuron.model.SodiumDualGatedChannel;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
@@ -55,9 +55,8 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
      * Constructor.
      * 
      * @param module
-     * @param parentFrame parent frame, for creating dialogs
      */
-    public MembraneDiffusionControlPanel( PiccoloModule module, Frame parentFrame ) {
+    public MembraneDiffusionControlPanel( PiccoloModule module, final MembraneDiffusionModel model ) {
 
     	// Set the control panel's minimum width.
         int minimumWidth = NeuronResources.getInt( "int.minControlPanelWidth", 215 );
@@ -73,7 +72,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         final JButton activateSodiumChannelsButton = new JButton("Open Sodium Gates", icon);
         activateSodiumChannelsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: TBD
+				model.forceActivationOfSodiumChannels();
 			}
 		});
         
@@ -84,7 +83,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         final JButton activatePotassiumChannelsButton = new JButton("Open Potassium Gates", icon);
         activatePotassiumChannelsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: TBD
+				model.forceActivationOfPotassiumChannels();
 			}
 		});
         
