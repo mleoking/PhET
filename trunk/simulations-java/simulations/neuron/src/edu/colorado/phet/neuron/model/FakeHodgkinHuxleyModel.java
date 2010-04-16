@@ -17,34 +17,19 @@ public class FakeHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	// Class Data
 	//----------------------------------------------------------------------------
 
-	// Amount of time used for each iteration of the model.  This is fixed,
-	// and when the model is stepped it breaks whether time step is presented
-	// into units of this duration.  This is needed because below a certain
-	// time value the model doesn't work - it becomes unstable.
-	private static final double INTERNAL_TIME_STEP = 0.005; // In milliseconds, not seconds.
+	// Max durations of the faked-out sodium and potassium channel
+	// activations.
+	private static final double SODIUM_CHANNEL_ACTIVATION_TIME = 1;
+	private static final double POTASSIUM_CHANNEL_ACTIVATION_TIME = 1;
 	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
     
-	private double elapsedTime  = 0;
-	private double v;  // membrane voltage
-	private double dv;
-	private double cm;  // membrane Capacitance
-	private double gk, gna, gl;  //constant leak permeabilties
-	private double n, m, h;  // voltage-dependent gating paramaters
-	private double dn, dm, dh;  //corresponding deltas
-	private double an, bn, am, bm, ah, bh; // rate constants
-	private double vk, vna, vl;  // Ek-Er, Ena - Er, Eleak - Er
+	private double n4, m3h;
 	
-	private double n4, m3h, na_current, k_current, l_current;
-	
-	private double timeRemainder;
-	
-	public float perNaChannels = 100f;
-	public float perKChannels = 100f;
-	
-	private double timeSinceActionPotential = Double.POSITIVE_INFINITY;
+	private double timeSinceSodiumChannelsActivated = Double.POSITIVE_INFINITY;
+	private double timeSincePotassiumChannelsActivated = Double.POSITIVE_INFINITY;
 	
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -64,36 +49,33 @@ public class FakeHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	 */
 	public void reset()
 	{
-		cm = 1;
-		v = 0;
-		vna = -115;
-		vk = 12;
-		vl = 0; // TODO: Modified from -10.613 by jblanco on 3/12/2010 in order to make potential stay steady
-		        // at the desired resting potential.  Need to determine if this is OK long term.
-		gna = perNaChannels * 120 / 100;
-		gk = perKChannels * 36 / 100;
-		gl = 0.3;
-		
-		bh = 1 / (Math.exp((v + 30)/10) + 1) ;
-		ah = 0.07 * Math.exp( v / 20);
-		bm = 4 * Math.exp( v / 18);
-		am = 0.1 * (v + 25) / (Math.exp( (v+25)/10  ) -1);
-		bn = 0.125 * Math.exp(v/80);
-		an = 0.01 * (v + 10) / (Math.exp( (v+10)/10 ) -1);
+		timeSinceSodiumChannelsActivated = Double.POSITIVE_INFINITY;
+		n4 = 0;
+		timeSincePotassiumChannelsActivated = Double.POSITIVE_INFINITY;
+		m3h = 0;
+	}
+	
+	/**
+	 * Force the sodium channels to be activated, but do it in isolation so
+	 * that it doesn't affect any other flows, such as the potassium channels.
+	 */
+	public void forceActivationOfSodiumChannels(){
+		timeSinceSodiumChannelsActivated = 0;
+	}
 
-		// start these parameters in steady state
-		n = an / (an + bn);
-		m = am / (am + bm);
-		h = ah / (ah + bh);
-		
-		// Time values.
-		timeSinceActionPotential = Double.POSITIVE_INFINITY;
+	/**
+	 * Force the potassium channels to be activated, but do it in isolation so
+	 * that it doesn't affect any other flows, such as the sodium channels.
+	 */
+	public void forceActivationOfPotassiumChannels(){
+		timeSincePotassiumChannelsActivated = 0;
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_n4()
 	 */
 	public double get_n4() { return n4; }
+	
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_m3h()
 	 */
@@ -101,36 +83,41 @@ public class FakeHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	
 	public float getEna()
 	{
-		return (float) (-1 * (vna + resting_v));
+		// Stubbed in this faked out version.
+		return 0;
 	}
 	
 	public float getEk()
 	{
-		return (float) (-1 * (vk + resting_v));
+		// Stubbed in this faked out version.
+		return 0;
 	}
 	
 	public void setEna( float Ena)
 	{
-		vna = -1*Ena - resting_v;
+		// Stubbed in this faked out version.
 	}
 	
 	public void setEk( float Ek )
 	{
-		vk = -1*Ek - resting_v;
+		// Stubbed in this faked out version.
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_na_current()
 	 */
-	public double get_na_current() { 
-		//The -1 is to correct for the fact that in the H & H paper, the currents are reversed.	
-		return -1 * na_current;
+	public double get_na_current() {
+		// Stubbed in this faked out version.
+		return 0;
 	}
 	
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_k_current()
 	 */
-	public double get_k_current() { return -1 * k_current; }
+	public double get_k_current() {
+		// Stubbed in this faked out version.
+		return 0;
+	}
 	
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_l_current()
@@ -146,188 +133,159 @@ public class FakeHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	// negative values set to zero	
 	public void setPerNaChannels( float perNaChannels )
 	{
-		if (perNaChannels < 0 )
-		{
-			perNaChannels = 0;
-		}
-		this.perNaChannels = perNaChannels;
-		gna = 120 * perNaChannels / 100;
+		// Stubbed in this faked out version.
 	}
 	
 	public float getPerNaChannels() 
 	{
-		return perNaChannels;
+		// Stubbed in this faked out version.
+		return 0;
 	}
 	
 	public void setPerKChannels( float perKChannels )
 	{
-		if (perKChannels < 0 )
-		{
-			perKChannels = 0;
-		}
-		this.perKChannels = perKChannels;
-		gk = 36 * perKChannels / 100;
+		// Stubbed in this faked out version.
 	}
 	
 	public float getPerKChannels() 
 	{
-		return perKChannels;
+		// Stubbed in this faked out version.
+		return 0;
 	}
 	
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_gk()
 	 */
 	public double get_gk() {
-		return gk;
+		// Stubbed in this faked out version.
+		return 0;
 	}
 
 	public void set_gk(double gk) {
-		this.gk = gk;
+		// Stubbed in this faked out version.
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_gna()
 	 */
 	public double get_gna() {
-		return gna;
+		// Stubbed in this faked out version.
+		return 0;
 	}
 
 	public void set_gna(double gna) {
-		this.gna = gna;
+		// Stubbed in this faked out version.
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#get_gl()
 	 */
 	public double get_gl() {
-		return gl;
+		// Stubbed in this faked out version.
+		return 0;
 	}
 
 	public void set_gl(double gl) {
-		this.gl = gl;
+		// Stubbed in this faked out version.
 	}
 
-	final private double resting_v = 65;  
-	// remember that H&H voltages are -1 * present convention
-	// TODO: should eventually calculate this instead of setting it
-    
 	// convert between internal use of V and the user's expectations
 	// the V will be membrane voltage using present day conventions
 	// see p. 505 of Hodgkin & Huxley, J Physiol. 1952, 117:500-544
-	public void setV(double inV) { v = -1*inV - resting_v; }
-	public double getV() { return -1*(v + resting_v); }
+	public void setV(double inV) { 
+		// Stubbed in this faked out version.
+	}
+	public double getV() { 
+		// Stubbed in this faked out version.
+		return 0;
+	}
 
-	public void setCm(double inCm) { cm = inCm; }
-	public double getCm() {return cm; }
+	public void setCm(double inCm) {
+		// Stubbed in this faked out version.
+	}
+	
+	public double getCm() {
+		// Stubbed in this faked out version.
+		return 0;
+	}
 
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#getElapsedTime()
 	 */
-	public double getElapsedTime() { return elapsedTime; }
-	public void resetElapsedTime() { elapsedTime = 0.0; } 
+	public double getElapsedTime() {
+		// Stubbed in this faked out version.
+		return 0;
+	}
 	
-	public double getN() {return n; }
-	public double getM() {return m; }
-	public double getH() {return h; } 
+	public void resetElapsedTime() {
+		// Stubbed in this faked out version.
+	} 
+	
+	public double getN() {
+		// Stubbed in this faked out version.
+		return 0;
+	}
+	public double getM() {
+		// Stubbed in this faked out version.
+		return 0;
+	}
+	public double getH() {
+		// Stubbed in this faked out version.
+		return 0;
+	} 
 
 	/**
 	 * Converts a voltage from the modern convention to the convention used by the program
 	 */
 	public float convertV(float voltage)
 	{
-		return (float) (-1 * voltage - resting_v);
+		// Stubbed in this faked out version.
+		return 0;
 	}
 
-	private boolean vClampOn = false;
-	public boolean getVClampOn() { return vClampOn; }
-	public void setVClampOn(boolean vClampOn) { this.vClampOn = vClampOn; }
-	
-	float vClampValue = convertV( 0F );
-	
-	float get_vClampValue() { return(float) (-1 * (vClampValue + resting_v)); }
-	void set_vClampValue( float vClampValue ) { this.vClampValue = convertV( vClampValue ); }
-	
     /* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#stepInTime(double)
 	 */
     public void stepInTime(double dt)
     {
-    	int modelIterationsToRun = (int)Math.floor((dt * 1000)/ INTERNAL_TIME_STEP);
-    	timeRemainder += (dt * 1000) % INTERNAL_TIME_STEP;
-    	if (timeRemainder >= INTERNAL_TIME_STEP){
-    		// Add an additional iteration and reset the time remainder
-    		// accumulation.  This is kind of like a leap year.
-    		modelIterationsToRun += 1;
-    		timeRemainder -= INTERNAL_TIME_STEP;
-    	}
-    	
-    	// Step the model the appropriate number of times.
-    	for (int i = 0; i < modelIterationsToRun; i++){
-    		
-    		dh = (ah * (1-h) - bh * h) * INTERNAL_TIME_STEP;
-    		dm = (am * (1-m) - bm* m) * INTERNAL_TIME_STEP;
-    		dn = (an * (1-n) - bn * n) * INTERNAL_TIME_STEP;
-    		
-    		bh = 1 / (Math.exp((v + 30)/10) + 1) ;
-    		ah = 0.07 * Math.exp( v / 20);
-    		dh = (ah * (1-h) - bh * h) * INTERNAL_TIME_STEP;
-    		bm = 4 * Math.exp( v / 18);
-    		am = 0.1 * (v + 25) / (Math.exp( (v+25)/10  ) -1);
-    		bn = 0.125 * Math.exp(v/80);
-    		an = 0.01 * (v + 10) / (Math.exp( (v+10)/10 ) -1);
-    		dm = (am * (1-m) - bm* m) * INTERNAL_TIME_STEP;
-    		dn = (an * (1-n) - bn * n) * INTERNAL_TIME_STEP;
-
-    		// Here is where the main change is that makes this a "modified"
-    		// version of Hodgkin-Huxley.  Note that the multiplier values
-    		// were determined empirically from running the more standard HH
-    		// model.
-    		// which are the mu
-//    		n4 = n*n*n*n;
-//    		m3h = m*m*m*h;
-		
-		// Old values
-//		n4 = 0.35 * Math.exp( -1 / 1.0 * Math.pow(timeSinceActionPotential - 3.0, 2));
-//		m3h = 0.278 * Math.exp( -1 / 0.3 * Math.pow(timeSinceActionPotential - 0.5, 2));
-
-    		// New values tried by NP 3/10/10
-    		n4 = 0.35 * Math.exp( -1 / 1.0 * Math.pow(timeSinceActionPotential - 2.0, 2));
-    		m3h = 0.278 * Math.exp( -1 / 0.3 * Math.pow(timeSinceActionPotential - 1.0, 2));
-
-    		na_current = gna * m3h * (v-vna);
-    		k_current = gk * n4 * (v-vk);
-    		l_current = gl * (v-vl);
-    		
-    		dv = -1 * INTERNAL_TIME_STEP * ( k_current + na_current + l_current ) / cm;
-    		
-    		v += dv;
-    		h += dh;
-    		m += dm;
-    		n += dn;
-    		
-    		elapsedTime += INTERNAL_TIME_STEP;
-    		if (timeSinceActionPotential < Double.POSITIVE_INFINITY){
-    			timeSinceActionPotential += INTERNAL_TIME_STEP;
+    	if (timeSinceSodiumChannelsActivated < Double.POSITIVE_INFINITY){
+    		timeSinceSodiumChannelsActivated += dt;
+    		if (timeSinceSodiumChannelsActivated < SODIUM_CHANNEL_ACTIVATION_TIME){
+        		n4 = 0.35 * Math.exp( -1 / 1.0 * Math.pow(timeSinceSodiumChannelsActivated - 2.0, 2));
+    		}
+    		else{
+    			// Activation is complete, reset the timer.
+    			timeSinceSodiumChannelsActivated = Double.POSITIVE_INFINITY;
+    			n4 = 0;
     		}
     	}
-		
-		if ( vClampOn ) v = vClampValue;
+    	
+    	if (timeSincePotassiumChannelsActivated < Double.POSITIVE_INFINITY){
+    		timeSincePotassiumChannelsActivated += dt;
+    		if (timeSincePotassiumChannelsActivated > POTASSIUM_CHANNEL_ACTIVATION_TIME){
+        		m3h = 0.278 * Math.exp( -1 / 0.3 * Math.pow(timeSincePotassiumChannelsActivated - 1.0, 2));
+    		}
+    		else{
+    			// Activation is complete, reset the timer.
+    			timeSincePotassiumChannelsActivated = Double.POSITIVE_INFINITY;
+    			m3h = 0;
+    		}
+    	}
     }
     
     /* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#getMembraneVoltage()
 	 */
     public double getMembraneVoltage(){
-        // getV() converts the model's v to present day convention
-        return getV() / 1000;
+		// Stubbed in this faked out version.
+		return 0;
     }
     
     /* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IHodgkinHuxleyModel#stimulate()
 	 */
     public void stimulate(){
-    	// Add a fixed amount to the voltage across the membrane.
-    	setV(getV() + 15);
-    	timeSinceActionPotential = 0;
+    	forceActivationOfSodiumChannels();
+    	forceActivationOfPotassiumChannels();
     }
 }
