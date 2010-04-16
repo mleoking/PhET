@@ -66,6 +66,12 @@ public class MembraneDiffusionModel implements IParticleCapture {
     private FakeHodgkinHuxleyModel hodgkinHuxleyModel = new FakeHodgkinHuxleyModel();
     private final ArrayList<Point2D> allowableChannelLocations = new ArrayList<Point2D>(MAX_CHANNELS_ON_MEMBRANE);
     private boolean concentrationGraphsVisible = SHOW_GRAPHS_DEFAULT;
+    
+    // Counts of particles in the subchambers.
+    private int numSodiumInUpperChamber = 0;
+    private int numPotassiumInUpperChamber = 0;
+    private int numSodiumInLowerChamber = 0;
+    private int numPotassiumInLowerChamber = 0;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -130,6 +136,46 @@ public class MembraneDiffusionModel implements IParticleCapture {
     		notifyConcentrationGraphVisibilityChanged();
     	}
 	}
+    
+    public double getCountInUpperSubChamber(ParticleType particleType){
+    	int count = 0;
+    	switch (particleType){
+    	case SODIUM_ION:
+    		count = numSodiumInUpperChamber;
+    		break;
+    		
+    	case POTASSIUM_ION:
+    		count = numPotassiumInUpperChamber;
+    		break;
+    		
+    	default:
+    		System.out.println(getClass().getName() + "Error: Unrecognized particle type.");
+    		assert false;
+    		break;
+    	}
+    	
+    	return count;
+    }
+
+    public double getCountInLowerSubChamber(ParticleType particleType){
+    	int count = 0;
+    	switch (particleType){
+    	case SODIUM_ION:
+    		count = numSodiumInLowerChamber;
+    		break;
+    		
+    	case POTASSIUM_ION:
+    		count = numPotassiumInLowerChamber;
+    		break;
+    		
+    	default:
+    		System.out.println(getClass().getName() + "Error: Unrecognized particle type.");
+    		assert false;
+    		break;
+    	}
+    	
+    	return count;
+    }
 
     public void reset(){
     	
@@ -244,10 +290,56 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	
     	// Step the particles.  Since particles may remove themselves as a
     	// result of being stepped, we need to copy the list in order to avoid
-    	// concurrent modification exceptions.
+    	// concurrent modification exceptions.  Also update the concentration
+    	// counts.
+    	int currentNumSodiumInUpperChamber = 0;
+    	int currentNumPotassiumInUpperChamber = 0;
+    	int currentNumSodiumInLowerChamber = 0;
+    	int currentNumPotassiumInLowerChamber = 0;
     	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
     	for (Particle particle : particlesCopy){
     		particle.stepInTime( dt );
+    		if (particle.getType() == ParticleType.SODIUM_ION){
+    			if (particle.getPositionReference().getY() > MEMBRANE_RECT.getCenterY()){
+    				currentNumSodiumInUpperChamber++;
+    			}
+    			else{
+    				currentNumSodiumInLowerChamber++;
+    			}
+    		}
+    		else if (particle.getType() == ParticleType.POTASSIUM_ION){
+    			if (particle.getPositionReference().getY() > MEMBRANE_RECT.getCenterY()){
+    				currentNumPotassiumInUpperChamber++;
+    			}
+    			else{
+    				currentNumPotassiumInLowerChamber++;
+    			}
+    		}
+    		else{
+    			System.out.println(getClass().getName() + " - Error: Unrecognized particle type.");
+    		}
+    	}
+    	
+    	boolean concentrationsChanged = false;
+    	if (currentNumSodiumInUpperChamber != numSodiumInUpperChamber){
+    		numSodiumInUpperChamber = currentNumSodiumInUpperChamber;
+    		concentrationsChanged = true;
+    	}
+    	if (currentNumSodiumInLowerChamber != numSodiumInLowerChamber){
+    		numSodiumInLowerChamber = currentNumSodiumInLowerChamber;
+    		concentrationsChanged = true;
+    	}
+    	if (currentNumPotassiumInUpperChamber != numPotassiumInUpperChamber){
+    		numPotassiumInUpperChamber = currentNumPotassiumInUpperChamber;
+    		concentrationsChanged = true;
+    	}
+    	if (currentNumPotassiumInLowerChamber != numPotassiumInLowerChamber){
+    		numPotassiumInLowerChamber = currentNumPotassiumInLowerChamber;
+    		concentrationsChanged = true;
+    	}
+    	
+    	if (concentrationsChanged){
+    		notifyConcentrationsChanged();
     	}
     }
     
@@ -304,6 +396,12 @@ public class MembraneDiffusionModel implements IParticleCapture {
 	private void notifyConcentrationGraphVisibilityChanged(){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.concentrationGraphVisibilityChanged();
+		}
+	}
+	
+	private void notifyConcentrationsChanged(){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.concentrationsChanged();
 		}
 	}
 	
@@ -484,6 +582,12 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	public void particleAdded(Particle particle);
     	
     	/**
+    	 * Notification that the concentrations in the sub-chamber have
+    	 * changed.
+    	 */
+    	public void concentrationsChanged();
+    	
+    	/**
     	 * Notification that the setting for the visibility of the
     	 * concentration graphs has changed.
     	 */
@@ -494,5 +598,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
 		public void channelAdded(MembraneChannel channel) {}
 		public void particleAdded(Particle particle) {}
 		public void concentrationGraphVisibilityChanged() {}
+		public void concentrationsChanged() {}
     }
 }
