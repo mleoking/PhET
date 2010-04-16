@@ -46,6 +46,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
 	
 	private JCheckBox showConcentrationsCheckBox;
+	private MembraneDiffusionModel model;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -58,6 +59,15 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
      */
     public MembraneDiffusionControlPanel( PiccoloModule module, final MembraneDiffusionModel model ) {
 
+    	this.model = model;
+    	
+    	// Listen to the model for events that interest this class.
+    	model.addListener(new MembraneDiffusionModel.Adapter(){
+    		public void concentrationGraphVisibilityChanged() {
+    			updateConcentrationsCheckBoxState();
+    		}
+    	});
+    	
     	// Set the control panel's minimum width.
         int minimumWidth = NeuronResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
@@ -106,17 +116,18 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         // Add the check box for hiding/showing the concentration graphs.  It
         // is in its own panel so that it can be centered.
         addControlFullWidth(createVerticalSpacingPanel(30));
-        // TODO: i18n
         JPanel checkBoxPanel = new JPanel();
+        // TODO: i18n
         showConcentrationsCheckBox = new JCheckBox("Show Concentrations");
         showConcentrationsCheckBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				// TODO: TBD
+				model.setConcentrationGraphsVisible(showConcentrationsCheckBox.isSelected());
 			}
 		});
         showConcentrationsCheckBox.setAlignmentX(CENTER_ALIGNMENT);
         checkBoxPanel.add(showConcentrationsCheckBox);
         addControlFullWidth(checkBoxPanel);
+        updateConcentrationsCheckBoxState();
         
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(60));
@@ -132,5 +143,9 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
         spacePanel.add( Box.createVerticalStrut( space ) );
         return spacePanel;
+    }
+    
+    private void updateConcentrationsCheckBoxState(){
+    	showConcentrationsCheckBox.setSelected(model.isConcentrationGraphsVisible());
     }
 }

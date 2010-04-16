@@ -62,12 +62,13 @@ public class MembraneDiffusionModel implements IParticleCapture {
     private EventListenerList listeners = new EventListenerList();
     private FakeHodgkinHuxleyModel hodgkinHuxleyModel = new FakeHodgkinHuxleyModel();
     private final ArrayList<Point2D> allowableChannelLocations = new ArrayList<Point2D>(MAX_CHANNELS_ON_MEMBRANE);
+    private boolean concentrationGraphsVisible = false;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MembraneDiffusionModel( NeuronClock clock ) {
+	public MembraneDiffusionModel( NeuronClock clock ) {
     	
         this.clock = clock;
         
@@ -116,6 +117,17 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	return hodgkinHuxleyModel;
     }
     
+    public boolean isConcentrationGraphsVisible() {
+		return concentrationGraphsVisible;
+	}
+
+    public void setConcentrationGraphsVisible(boolean concentrationGraphsVisible) {
+    	if ( this.concentrationGraphsVisible != concentrationGraphsVisible ){
+    		this.concentrationGraphsVisible = concentrationGraphsVisible;
+    		notifyConcentrationGraphVisibilityChanged();
+    	}
+	}
+
     public void reset(){
     	
     	// Reset the HH model.
@@ -280,6 +292,12 @@ public class MembraneDiffusionModel implements IParticleCapture {
 	private void notifyParticleAdded(Particle particle){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.particleAdded(particle);
+		}
+	}
+	
+	private void notifyConcentrationGraphVisibilityChanged(){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.concentrationGraphVisibilityChanged();
 		}
 	}
 	
@@ -458,10 +476,17 @@ public class MembraneDiffusionModel implements IParticleCapture {
     	 * @param particle - Particle that was added.
     	 */
     	public void particleAdded(Particle particle);
+    	
+    	/**
+    	 * Notification that the setting for the visibility of the
+    	 * concentration graphs has changed.
+    	 */
+    	public void concentrationGraphVisibilityChanged();
     }
     
     public static class Adapter implements Listener{
 		public void channelAdded(MembraneChannel channel) {}
 		public void particleAdded(Particle particle) {}
+		public void concentrationGraphVisibilityChanged() {}
     }
 }
