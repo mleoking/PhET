@@ -25,7 +25,7 @@ class MGPCanvas extends PhetPCanvas {
         parentNode = new PNode();
         addWorldChild( parentNode );
         
-        magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass(), model.getSolution() );
+        magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass(), model.getSolution(), dev );
         magnifyingGlassNode.setOffset( model.getMagnifyingGlass().getCenterReference() );
         magnifyingGlassNode.addInputEventListener( new PDragEventHandler() );
         magnifyingGlassNode.addInputEventListener( new CursorHandler() );

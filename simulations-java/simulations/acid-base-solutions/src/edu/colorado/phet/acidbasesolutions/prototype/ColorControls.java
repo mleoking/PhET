@@ -34,7 +34,7 @@ class ColorControls extends JPanel {
     private final ColorControl colorHAControl, colorAControl, colorH3OControl, colorOHControl, colorH2OControl;
     private final ColorControl canvasColorControl;
     
-    public ColorControls( JFrame parentFrame, final WeakAcid weakAcid, final DotsNode dotsNode, final PCanvas canvas ) {
+    public ColorControls( JFrame parentFrame, final WeakAcid weakAcid, final DotsNode dotsNode, final PCanvas canvas, boolean dev ) {
         setBorder( new TitledBorder( "Colors" ) );
         
         this.weakAcid = weakAcid;
@@ -111,8 +111,10 @@ class ColorControls extends JPanel {
         dotColorsPanel.add( colorAControl );
         dotColorsPanel.add( Box.createHorizontalStrut( spacing ) );
         dotColorsPanel.add( colorH3OControl );
-        dotColorsPanel.add( Box.createHorizontalStrut( spacing ) );
-        dotColorsPanel.add( colorOHControl );
+        if ( dev ) {
+            dotColorsPanel.add( Box.createHorizontalStrut( spacing ) );
+            dotColorsPanel.add( colorOHControl );
+        }
         dotColorsPanel.add( Box.createHorizontalStrut( spacing ) );
         dotColorsPanel.add( colorH2OControl );
         

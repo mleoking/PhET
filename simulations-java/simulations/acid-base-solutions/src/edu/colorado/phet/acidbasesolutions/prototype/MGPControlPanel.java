@@ -43,7 +43,7 @@ class MGPControlPanel extends ControlPanel {
         moleculeControls = new MoleculeControls( model.getMagnifyingGlass(), canvas.getMagnifyingGlassNode() );
         dotControls = new DotControls( parentFrame, canvas.getMagnifyingGlassNode().getDotsNode() );
         imageControls = new ImageControls( canvas.getMagnifyingGlassNode().getImagesNode() );
-        colorControls = new ColorControls( parentFrame, model.getSolution(), canvas.getMagnifyingGlassNode().getDotsNode(), canvas );
+        colorControls = new ColorControls( parentFrame, model.getSolution(), canvas.getMagnifyingGlassNode().getDotsNode(), canvas, dev );
         beakerControls = new BeakerControls( parentFrame, model.getBeaker() );
         magnifyingGlassControls = new MagnifyingGlassControls( model.getMagnifyingGlass() );
         
