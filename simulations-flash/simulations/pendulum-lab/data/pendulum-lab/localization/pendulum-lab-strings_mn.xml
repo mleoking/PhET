@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--математик-дүүжин_mn.xml created Thu Dec 17 11:09:00 ULAT 2009 using: pendulum-lab 2.00.00 (30671), translation-utility 2.03.00 (36202) Oct 30, 2009-->
+<!--pendulum-lab-strings_mn.xml created Thu Dec 17 11:08:49 ULAT 2009 using: pendulum-lab 2.00.00 (30671), translation-utility 2.03.00 (36202) Oct 30, 2009-->
 <SimStrings>
 <string key="resetStopwatch" value="дахин эхлүүлэх"/>
 <string key="earth" value="Дэлхий"/>
