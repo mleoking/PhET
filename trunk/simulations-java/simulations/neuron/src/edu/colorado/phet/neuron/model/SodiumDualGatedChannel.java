@@ -89,7 +89,6 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		// Initialize some internal state.
 		if (hodgkinHuxleyModel != null){
 			previousNormalizedConductance = calculateNormalizedConductance();
-			assert previousNormalizedConductance < ACTIVATION_DECISION_THRESHOLD;
 		}
 	}
 
