@@ -1,11 +1,10 @@
 TODO list for acid-base-solutions
 
 HIGH PRIORITY
-- prototype: discuss desired "look" of H2O images and how to implement
+- prototype: implement H2O molecule view with 3 layers of images
 - prototype: what is the range of Ka?
 - prototype: algorithm for number of molecules displayed doesn't give desired behavior
 - prototype: counts don't add up to MoleculesNode.maxMolecules
-- prototype: hide some controls to make this usable for interviews?
 - prototype: add bar graphs ala advanced-acid-base-solutions?
 
 MEDUIUM PRIORITY
