@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.genenetwork.model.SimpleModelElement;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.umd.cs.piccolo.PNode;
@@ -153,16 +152,6 @@ public abstract class ToolBoxItem extends PComposite {
 	 * by subclasses for implementing the appropriate behavior.
 	 */
 	protected abstract void handleAddRequest(Point2D position);
-	
-	/**
-	 * Called when a new simple model element is added to the model.  This
-	 * method should be overridden for subclass-specific behavior.
-	 * 
-	 * @param modelElement
-	 */
-	protected void handleModelElementAdded(SimpleModelElement modelElement){
-		// Does nothing in base class.
-	}
 	
 	protected void setSelectionNode(PNode selectionNode){
 		assert this.selectionNode == null; // Currently doesn't support setting this multiple times.
