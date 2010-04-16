@@ -13,7 +13,6 @@ import edu.colorado.phet.acidbasesolutions.prototype.NumberNode.IntegerNode;
 import edu.colorado.phet.acidbasesolutions.prototype.NumberNode.ScientificIntegerNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -27,8 +26,6 @@ class MoleculeCountsNode extends PComposite {
     private final WeakAcid solution;
     private final MagnifyingGlassNode magnifyingGlassNode;
     
-    private final PImage imageHA, imageA, imageH3O, imageOH, imageH2O;
-    private final HTMLNode symbolHA, symbolA, symbolH3O, symbolOH, symbolH2O;
     private final IntegerNode dotsHA, dotsA, dotsH3O, dotsOH, dotsH2O;
     private final IntegerNode imagesHA, imagesA, imagesH3O, imagesOH, imagesH2O;
     private final ScientificIntegerNode actualHA, actualA, actualH3O, actualOH, actualH2O;
@@ -48,17 +45,11 @@ class MoleculeCountsNode extends PComposite {
         magnifyingGlassNode.getDotsNode().addChangeListener( changeListener );
         magnifyingGlassNode.getImagesNode().addChangeListener( changeListener );
         
-        imageHA = new PImage( MGPConstants.HA_IMAGE );
-        imageA = new PImage( MGPConstants.A_MINUS_IMAGE );
-        imageH3O = new PImage( MGPConstants.H3O_PLUS_IMAGE );
-        imageOH = new PImage( MGPConstants.OH_MINUS_IMAGE );
-        imageH2O = new PImage( MGPConstants.H2O_IMAGE );
-        
-        symbolHA = new HTMLNode( MGPConstants.HA_FRAGMENT );
-        symbolA = new HTMLNode( MGPConstants.A_MINUS_FRAGMENT );
-        symbolH3O = new HTMLNode( MGPConstants.H3O_PLUS_FRAGMENT );
-        symbolOH = new HTMLNode( MGPConstants.OH_MINUS_FRAGMENT );
-        symbolH2O = new HTMLNode( MGPConstants.H2O_FRAGMENT );
+        HTMLNode symbolHA = new HTMLNode( MGPConstants.HA_FRAGMENT );
+        HTMLNode symbolA = new HTMLNode( MGPConstants.A_MINUS_FRAGMENT );
+        HTMLNode symbolH3O = new HTMLNode( MGPConstants.H3O_PLUS_FRAGMENT );
+        HTMLNode symbolOH = new HTMLNode( MGPConstants.OH_MINUS_FRAGMENT );
+        HTMLNode symbolH2O = new HTMLNode( MGPConstants.H2O_FRAGMENT );
        
         dotsHA = new IntegerNode();
         dotsA = new IntegerNode();
@@ -92,20 +83,6 @@ class MoleculeCountsNode extends PComposite {
         constraints.anchor = GridBagConstraints.EAST;
         constraints.gridx = 1;
         constraints.gridy = 0;
-        layoutNode.addChild( imageHA, constraints );
-        constraints.gridx++;
-        layoutNode.addChild( imageA, constraints );
-        constraints.gridx++;
-        layoutNode.addChild( imageH3O, constraints );
-        if ( showOH ) {
-            constraints.gridx++;
-            layoutNode.addChild( imageOH, constraints );
-        }
-        constraints.gridx++;
-        layoutNode.addChild( imageH2O, constraints );
-        addChild( layoutNode );
-        constraints.gridx = 1;
-        constraints.gridy++;
         layoutNode.addChild( symbolHA, constraints );
         constraints.gridx++;
         layoutNode.addChild( symbolA, constraints );

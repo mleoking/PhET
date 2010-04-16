@@ -1,3 +1,4 @@
+4/16/10 prototype: make molecule counts visible in dev version only, remove molecule icons, make smaller
 4/16/10 prototype: show OH counts only in dev version
 4/16/10 prototype: make magnifying glass and beaker draggable only in dev version
 4/16/10 prototype: make OH dots and images visible only in dev version

@@ -87,8 +87,10 @@ class BeakerNode extends PComposite {
         addChild( pHNode );
         
         countsNode = new MoleculeCountsNode(solution, magnifyingGlassNode, dev );
-        countsNode.scale( 1.75 );
-        addChild( countsNode );
+        countsNode.scale( 1.5 );
+        if ( dev ) {
+            addChild( countsNode );
+        }
         
         update();
     }
