@@ -104,19 +104,11 @@ class ImageControls extends JPanel {
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int column = 0;
-        layout.addComponent( maxMoleculesControl, row, column++ );
-        row++;
-        column = 0;
-        layout.addComponent( scaleControl, row, column++ );
-        row++;
-        column = 0;
-        layout.addComponent( transparencyControl, row, column++ );
-        row++;
-        column = 0;
-        layout.addComponent( maxH2OControl, row, column++ );
-        row++;
-        column = 0;
-        layout.addComponent( h2oTransparencyControl, row, column++ );
+        layout.addComponent( maxMoleculesControl, row++, column );
+        layout.addComponent( scaleControl, row++, column );
+        layout.addComponent( transparencyControl, row++, column );
+        layout.addComponent( maxH2OControl, row++, column );
+        layout.addComponent( h2oTransparencyControl, row++, column );
         
         updateControls();
     }

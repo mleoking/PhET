@@ -1,3 +1,5 @@
+4/16/10 prototype: add dev flag to show/hide controls as requested by Kelly 
+4/16/10 prototype: move all colors to a "Colors" control panel 
 4/16/10 prototype: make "show H2O" a global control 
 # 0.00.04 (39765) Apr 9, 2010
 4/9/10 prototype: publish for team discussion
