@@ -47,9 +47,9 @@ class BeakerNode extends PComposite {
     private final Rectangle2D solutionRectangle;
     private final PComposite ticksNode;
     private final PText pHNode;
-    private final MoleculeCountNode countsNode;
+    private final MoleculeCountsNode countsNode;
     
-    public BeakerNode( Beaker beaker, WeakAcid solution, MagnifyingGlassNode magnifyingGlassNode ) {
+    public BeakerNode( Beaker beaker, WeakAcid solution, MagnifyingGlassNode magnifyingGlassNode, boolean dev ) {
         super();
         
         this.beaker = beaker;
@@ -86,7 +86,7 @@ class BeakerNode extends PComposite {
         pHNode.scale( 3 );
         addChild( pHNode );
         
-        countsNode = new MoleculeCountNode(solution, magnifyingGlassNode );
+        countsNode = new MoleculeCountsNode(solution, magnifyingGlassNode, dev );
         countsNode.scale( 1.75 );
         addChild( countsNode );
         

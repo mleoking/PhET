@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class MoleculeCountNode extends PComposite {
+class MoleculeCountsNode extends PComposite {
     
     private final WeakAcid solution;
     private final MagnifyingGlassNode magnifyingGlassNode;
@@ -33,7 +33,7 @@ class MoleculeCountNode extends PComposite {
     private final IntegerNode imagesHA, imagesA, imagesH3O, imagesOH, imagesH2O;
     private final ScientificIntegerNode actualHA, actualA, actualH3O, actualOH, actualH2O;
 
-    public MoleculeCountNode( WeakAcid solution, MagnifyingGlassNode magnifyingGlassNode ) {
+    public MoleculeCountsNode( WeakAcid solution, MagnifyingGlassNode magnifyingGlassNode, boolean showOH ) {
         super();
         
         this.solution = solution;
@@ -97,8 +97,10 @@ class MoleculeCountNode extends PComposite {
         layoutNode.addChild( imageA, constraints );
         constraints.gridx++;
         layoutNode.addChild( imageH3O, constraints );
-        constraints.gridx++;
-        layoutNode.addChild( imageOH, constraints );
+        if ( showOH ) {
+            constraints.gridx++;
+            layoutNode.addChild( imageOH, constraints );
+        }
         constraints.gridx++;
         layoutNode.addChild( imageH2O, constraints );
         addChild( layoutNode );
@@ -109,8 +111,10 @@ class MoleculeCountNode extends PComposite {
         layoutNode.addChild( symbolA, constraints );
         constraints.gridx++;
         layoutNode.addChild( symbolH3O, constraints );
-        constraints.gridx++;
-        layoutNode.addChild( symbolOH, constraints );
+        if ( showOH ) {
+            constraints.gridx++;
+            layoutNode.addChild( symbolOH, constraints );
+        }
         constraints.gridx++;
         layoutNode.addChild( symbolH2O, constraints );
         constraints.insets = new Insets( 5, 2, 0, 2 ); // top, left, bottom, right
@@ -123,8 +127,10 @@ class MoleculeCountNode extends PComposite {
         layoutNode.addChild( imagesA, constraints );
         constraints.gridx++;
         layoutNode.addChild( imagesH3O, constraints );
-        constraints.gridx++;
-        layoutNode.addChild( imagesOH, constraints );
+        if ( showOH ) {
+            constraints.gridx++;
+            layoutNode.addChild( imagesOH, constraints );
+        }
         constraints.gridx++;
         layoutNode.addChild( imagesH2O, constraints );
         constraints.gridx = 0;
@@ -136,8 +142,10 @@ class MoleculeCountNode extends PComposite {
         layoutNode.addChild( dotsA, constraints );
         constraints.gridx++;
         layoutNode.addChild( dotsH3O, constraints );
-        constraints.gridx++;
-        layoutNode.addChild( dotsOH, constraints );
+        if ( showOH ) {
+            constraints.gridx++;
+            layoutNode.addChild( dotsOH, constraints );
+        }
         constraints.gridx++;
         layoutNode.addChild( dotsH2O, constraints );
         constraints.gridx = 0;
@@ -149,8 +157,10 @@ class MoleculeCountNode extends PComposite {
         layoutNode.addChild( actualA, constraints );
         constraints.gridx++;
         layoutNode.addChild( actualH3O, constraints );
-        constraints.gridx++;
-        layoutNode.addChild( actualOH, constraints );
+        if ( showOH ) {
+            constraints.gridx++;
+            layoutNode.addChild( actualOH, constraints );
+        }
         constraints.gridx++;
         layoutNode.addChild( actualH2O, constraints );
 

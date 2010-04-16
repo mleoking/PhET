@@ -39,7 +39,7 @@ abstract class MoleculesNode extends PComposite {
     private int countHA, countA, countH3O, countOH, countH2O;
     
     public MoleculesNode( WeakAcid solution, PNode containerNode, int maxMolecules, int maxH2O, float moleculeTransparency,
-            IMoleculeCountStrategy moleculeCountStrategy, IMoleculeCountStrategy h2oCountStrategy, boolean dev ) {
+            IMoleculeCountStrategy moleculeCountStrategy, IMoleculeCountStrategy h2oCountStrategy, boolean showOH ) {
         super();
         setPickable( false );
         
@@ -84,8 +84,8 @@ abstract class MoleculesNode extends PComposite {
         addChild( parentH3O );
         addChild( parentOH );
         
-        // OH is visible only for dev version
-        parentOH.setVisible( dev );
+        // is OH visible?
+        parentOH.setVisible( showOH );
     }
     
     public boolean isH2OVisible() {

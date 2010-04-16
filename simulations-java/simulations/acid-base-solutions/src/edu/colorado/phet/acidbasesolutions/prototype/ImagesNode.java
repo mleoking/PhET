@@ -20,9 +20,9 @@ class ImagesNode extends MoleculesNode {
     
     private double imageScale;
     
-    public ImagesNode( final WeakAcid solution, PNode containerNode, boolean dev ) {
+    public ImagesNode( final WeakAcid solution, PNode containerNode, boolean showOH ) {
         super( solution, containerNode, MGPConstants.MAX_IMAGES_RANGE.getDefault(), MGPConstants.MAX_H2O_IMAGES_RANGE.getDefault(), 
-                (float) MGPConstants.IMAGE_TRANSPARENCY_RANGE.getDefault(), new ConcentrationMoleculeCountStrategy(), new ConstantMoleculeCountStrategy(), dev );
+                (float) MGPConstants.IMAGE_TRANSPARENCY_RANGE.getDefault(), new ConcentrationMoleculeCountStrategy(), new ConstantMoleculeCountStrategy(), showOH );
         imageScale = MGPConstants.IMAGE_SCALE_RANGE.getDefault();
         updateNumberOfMolecules(); // call this last
     }
