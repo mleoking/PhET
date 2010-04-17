@@ -77,7 +77,8 @@ public class CCKModel {
             }
         };
         this.circuit = new Circuit( circuitChangeListener );
-//        circuitSolver = new PureScalaSolver();
+        circuitSolver = new PureJavaSolver();
+//        circuitSolver = new PureScalaSolver();//TODO: use reflection during prototype to avoid disturbing the build for java-only developers
 
         particleSet = new ParticleSet( getCircuit() );
         layout = new ConstantDensityLayout( getCircuit(), particleSet );
