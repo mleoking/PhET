@@ -5,18 +5,21 @@ import java.util.*;
 import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.panels.lists.OrderList;
-import edu.colorado.phet.website.panels.lists.SimOrderItem;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.util.CategoryChangeHandler;
+import edu.colorado.phet.website.panels.lists.OrderList;
+import edu.colorado.phet.website.panels.lists.SimOrderItem;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
@@ -28,7 +31,10 @@ public class AdminCategoryPage extends AdminPage {
     private List<SimOrderItem> allItems;
     private Map<Simulation, String> titleMap;
 
+    private Model autoModel;
+
     private static Logger logger = Logger.getLogger( AdminCategoryPage.class.getName() );
+    private Label autoLabel;
 
     public AdminCategoryPage( PageParameters parameters ) {
         super( parameters );
@@ -41,6 +47,7 @@ public class AdminCategoryPage extends AdminPage {
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
                 category = (Category) session.load( Category.class, categoryId );
+                autoModel = new Model( category.isAuto() );
                 for ( Object o : category.getSimulations() ) {
                     simulations.add( (Simulation) o );
                 }
@@ -52,6 +59,29 @@ public class AdminCategoryPage extends AdminPage {
                     }
                 }
                 return true;
+            }
+        } );
+
+        autoLabel = new Label( "toggle-auto-label", autoModel );
+        autoLabel.setOutputMarkupId( true );
+        add( autoLabel );
+
+        add( new AjaxFallbackLink( "toggle-auto-link" ) {
+            public void onClick( AjaxRequestTarget target ) {
+                final Boolean[] ret = new Boolean[1];
+                boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        Category cat = (Category) session.load( Category.class, category.getId() );
+                        cat.setAuto( !cat.isAuto() );
+                        ret[0] = cat.isAuto();
+                        session.update( cat );
+                        return true;
+                    }
+                } );
+                if ( success ) {
+                    autoModel.setObject( ret[0] );
+                }
+                target.addComponent( autoLabel );
             }
         } );
 
@@ -137,8 +167,8 @@ public class AdminCategoryPage extends AdminPage {
                         Category cat = (Category) session.load( Category.class, category.getId() );
                         Collections.swap( cat.getSimulations(), aIndex, bIndex );
                         session.update( cat );
-                        CategoryChangeHandler.notifySimulationChange( cat, (Simulation) cat.getSimulations().get( aIndex) );
-                        CategoryChangeHandler.notifySimulationChange( cat, (Simulation) cat.getSimulations().get( bIndex) );
+                        CategoryChangeHandler.notifySimulationChange( cat, (Simulation) cat.getSimulations().get( aIndex ) );
+                        CategoryChangeHandler.notifySimulationChange( cat, (Simulation) cat.getSimulations().get( bIndex ) );
                         return true;
                     }
                 } );
@@ -151,7 +181,7 @@ public class AdminCategoryPage extends AdminPage {
             }
         } );
 
-        add( new Form("remove-form"){
+        add( new Form( "remove-form" ) {
             @Override
             protected void onSubmit() {
                 boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
@@ -164,12 +194,12 @@ public class AdminCategoryPage extends AdminPage {
                     }
                 } );
 
-                if( success ) {
+                if ( success ) {
                     CategoryChangeHandler.notifyRemoved( category );
                     setResponsePage( AdminCategoriesPage.class );
                 }
             }
-        });
+        } );
     }
 
 }
