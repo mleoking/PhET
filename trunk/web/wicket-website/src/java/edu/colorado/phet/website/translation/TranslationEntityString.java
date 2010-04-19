@@ -30,4 +30,22 @@ public class TranslationEntityString implements Serializable {
     public void setNotes( String notes ) {
         this.notes = notes;
     }
+
+    //----------------------------------------------------------------------------
+    // override equals to be key equality
+    //----------------------------------------------------------------------------
+
+    @Override
+    public int hashCode() {
+        return key.hashCode();
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        if( o instanceof TranslationEntityString ) {
+            return ((TranslationEntityString) o).getKey().equals( key );
+        } else{
+            return false;
+        }
+    }
 }

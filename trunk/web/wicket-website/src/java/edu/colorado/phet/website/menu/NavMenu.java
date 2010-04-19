@@ -10,11 +10,13 @@ import org.apache.wicket.markup.html.link.Link;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.event.PostDeleteEvent;
+import org.hibernate.event.PostInsertEvent;
+import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.*;
 import edu.colorado.phet.website.content.about.*;
@@ -32,6 +34,9 @@ import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPane
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavascriptPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.website.data.Category;
+import edu.colorado.phet.website.data.util.AbstractChangeListener;
+import edu.colorado.phet.website.data.util.HibernateEventListener;
+import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -42,12 +47,13 @@ public class NavMenu {
     private List<NavLocation> locations = new LinkedList<NavLocation>();
 
     private static Logger logger = Logger.getLogger( NavMenu.class.getName() );
+    private NavLocation simulations;
 
     public NavMenu() {
         NavLocation home = new NavLocation( null, "home", IndexPage.getLinker() );
         addMajorLocation( home );
 
-        NavLocation simulations = new NavLocation( null, "simulations", SimulationDisplay.getLinker() );
+        simulations = new NavLocation( null, "simulations", SimulationDisplay.getLinker() );
         addMajorLocation( simulations );
 
         NavLocation teacherIdeas = new NavLocation( null, "teacherIdeas", TeacherIdeasPanel.getLinker() );
@@ -176,16 +182,47 @@ public class NavMenu {
             }
         }
         session.close();
+
+        HibernateEventListener.addListener( Category.class, new AbstractChangeListener() {
+            @Override
+            public void onInsert( Object object, PostInsertEvent event ) {
+                Category cat = (Category) object;
+                // we are assuming that only simulation categories are changed at runtime
+                NavLocation parentLocation = cat.getParent().getNavLocation( NavMenu.this );
+                NavLocation location = createSimLocation( parentLocation, cat.getName(), cat );
+                parentLocation.addChild( location );
+                addLocation( location );
+            }
+
+            @Override
+            public void onUpdate( Object object, PostUpdateEvent event ) {
+                // we are assuming categories can only be added and deleted, not moved. would be very ugly to
+                // do a full tree comparison and update the nav location tree
+            }
+
+            @Override
+            public void onDelete( Object object, PostDeleteEvent event ) {
+                Category cat = (Category) object;
+                NavLocation location = getLocationByKey( cat.getName() );
+                if ( location != null ) {
+                    removeLocation( location );
+                }
+            }
+        } );
+    }
+
+    private NavLocation createSimLocation( NavLocation parent, String name, final Category category ) {
+        return new NavLocation( parent, name, new Linkable() {
+            public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
+                return new PhetLink( id, context.getPrefix() + "simulations/category/" + category.getCategoryPath() );
+            }
+        } );
     }
 
     public void buildCategoryMenu( NavLocation location, Category category ) {
         for ( Object o : category.getSubcategories() ) {
             final Category subCategory = (Category) o;
-            NavLocation subLocation = new NavLocation( location, subCategory.getName(), new Linkable() {
-                public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
-                    return new PhetLink( id, context.getPrefix() + "simulations/category/" + subCategory.getCategoryPath() );
-                }
-            } );
+            NavLocation subLocation = createSimLocation( location, subCategory.getName(), subCategory );
             addLocation( subLocation );
             location.addChild( subLocation );
             buildCategoryMenu( subLocation, subCategory );
@@ -226,11 +263,32 @@ public class NavMenu {
         cache.put( location.getKey(), location );
     }
 
+    /**
+     * Removes the location and all of its children
+     *
+     * @param location
+     */
+    public void removeLocation( NavLocation location ) {
+        if ( locations.contains( location ) ) {
+            locations.remove( location );
+        }
+        cache.remove( location.getKey() );
+        for ( NavLocation child : location.getChildren() ) {
+            removeLocation( child );
+        }
+        NavLocation parent = location.getParent();
+        parent.removeChild( parent );
+    }
+
     public List<NavLocation> getLocations() {
         return locations;
     }
 
     public NavLocation getLocationByKey( String key ) {
         return cache.get( key );
+    }
+
+    public NavLocation getSimulationsLocation() {
+        return simulations;
     }
 }

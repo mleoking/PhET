@@ -38,6 +38,10 @@ public abstract class TranslationEntity implements Serializable {
         strings.add( new TranslationEntityString( key, notes ) );
     }
 
+    protected void removeString( String key ) {
+        strings.remove( new TranslationEntityString( key ) );
+    }
+
     protected void addPreview( final PhetPanelFactory factory, final String name ) {
         previews.add( new PhetPanelPreview() {
             public String getName() {
