@@ -34,6 +34,8 @@ public class TimedFadeInStrategy extends FadeStrategy {
 		fadeCountdownTimer -= dt;
 		if (fadeCountdownTimer < 0){
 			fadeCountdownTimer = 0;
+			// Done with the fade in, so set a null fade strategy.
+			fadableModelElement.setFadeStrategy(new NullFadeStrategy());
 		}
 	}
 }

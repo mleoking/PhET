@@ -505,7 +505,6 @@ public class AxonModel implements IParticleCapture {
     	if (czsr.getNumParticlesInZone() == 0){
     		// No particles available in the zone, so create a new one.
     		Particle newParticle = createParticle(particleType, channel.getCaptureZone());
-    		newParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005));
    			particleToCapture = newParticle;
     	}
     	else{
@@ -516,6 +515,9 @@ public class AxonModel implements IParticleCapture {
     		replacementParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005, DEFAULT_OPAQUENESS));
     	}
     	
+    	// Make the particle to capture fade in.
+		particleToCapture.setFadeStrategy(new TimedFadeInStrategy(0.0005));
+		
     	// Set a motion strategy that will cause this particle to move across
     	// the membrane.
     	channel.moveParticleThroughNeuronMembrane(particleToCapture, maxVelocity);
