@@ -7,4 +7,6 @@ public interface RawLinkable extends Linkable {
     public String getRawUrl( PageContext context, PhetRequestCycle cycle );
 
     public String getHref( PageContext context, PhetRequestCycle cycle );
+
+    public String getDefaultRawUrl();
 }

@@ -22,4 +22,8 @@ public abstract class AbstractLinker implements RawLinkable {
         return new PhetLink( id, getRawUrl( context, cycle ) );
     }
 
+    public String getDefaultRawUrl() {
+        return getRawUrl( PageContext.getNewDefaultContext(), PhetRequestCycle.get() );
+    }
+
 }
