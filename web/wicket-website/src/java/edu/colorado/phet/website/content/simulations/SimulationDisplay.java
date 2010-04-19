@@ -6,6 +6,7 @@ import org.apache.wicket.model.StringResourceModel;
 
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.simulation.SimulationListViewPanel;
@@ -14,7 +15,6 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
-import edu.colorado.phet.website.content.NotFoundPage;
 
 public class SimulationDisplay extends PhetRegularPage {
 
@@ -52,30 +52,7 @@ public class SimulationDisplay extends PhetRegularPage {
         }.instantiate( "view-panel", getPageContext() );
         add( viewPanel );
 
-//        SimulationListViewPanel viewPanel = new SimulationListViewPanel(
-//                "view-panel",
-//                getMyPath(),
-//                parameters.containsKey( "categories" ) ? parameters.getString( "categories" ) : null,
-//                showIndex,
-//                getPageContext()
-//        );
-//        add( viewPanel );
-
-        //Category category = viewPanel.getCategory();
-
-        /*if ( category == null && parameters.containsKey( "categories" ) ) {
-            // didn't find the category
-            throw new RestartResponseAtInterceptPageException( NotFoundPage.class );
-        }*/
-
         NavLocation location = (NavLocation) viewPanel.getCacheParameter( "location" );
-
-//        if ( category == null ) {
-//            location = getNavMenu().getLocationByKey( "all" );
-//        }
-//        else {
-//            location = category.getNavLocation( getNavMenu() );
-//        }
 
         initializeLocation( location );
 
