@@ -36,7 +36,8 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
 	 * @param angle - Initial injection angle, in radians.
 	 */
 	public RandomWalkMotionStrategy(Rectangle2D motionBounds) {
-		this.motionBounds.setFrame(motionBounds);
+		this.motionBounds.setFrame(motionBounds.getMinX(), motionBounds.getMinY(), motionBounds.getWidth(),
+				motionBounds.getHeight());
 		timeUntilNextVelocityChange = generateNewVelocityChangeTime();
 		changeVelocityVector();
 	}
@@ -45,15 +46,16 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
 	public void move(IMovable movableModelElement, IFadable fadableModelElement, double dt) {
 		
 		currentLocation.setLocation(movableModelElement.getPosition());
+		double radius = movableModelElement.getRadius();
 		
 		// Bounce back toward the inside if we are outside of the motion bounds.
-		if ((currentLocation.getX() > motionBounds.getMaxX() && velocityVector.getX() > 0) ||
-			(currentLocation.getX() < motionBounds.getMinX() && velocityVector.getX() < 0))	{
+		if ((currentLocation.getX() + radius > motionBounds.getMaxX() && velocityVector.getX() > 0) ||
+			(currentLocation.getX() - radius < motionBounds.getMinX() && velocityVector.getX() < 0)) {
 			// Reverse direction in the X direction.
 			velocityVector.setComponents(-velocityVector.getX(), velocityVector.getY());
 		}
-		if ((currentLocation.getY() > motionBounds.getMaxY() && velocityVector.getY() > 0) ||
-    		(currentLocation.getY() < motionBounds.getMinY() && velocityVector.getY() < 0))	{
+		if ((currentLocation.getY() + radius > motionBounds.getMaxY() && velocityVector.getY() > 0) ||
+    		(currentLocation.getY() - radius < motionBounds.getMinY() && velocityVector.getY() < 0)) {
     		// Reverse direction in the Y direction.
 			velocityVector.setComponents(velocityVector.getX(), -velocityVector.getY());
     	}

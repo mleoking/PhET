@@ -40,10 +40,10 @@ public class InjectionMotionStrategy extends MotionStrategy {
 	 * 
 	 * @param initialLocation
 	 * @param model - Model into which the movable element is being injected.
+	 * @param angle - Initial injection angle, in radians.
 	 * TODO: Consider creating an interface with just the elements of the
 	 * model that are needed here, which is primarily the bounds of the
 	 * chambers.
-	 * @param angle - Initial injection angle, in radians.
 	 */
 	public InjectionMotionStrategy(Point2D initialLocation, MembraneDiffusionModel model, double angle) {
 		this.initialLocation.setLocation(initialLocation);
@@ -59,14 +59,16 @@ public class InjectionMotionStrategy extends MotionStrategy {
 	@Override
 	public void move(IMovable movableModelElement, IFadable fadableModelElement, double dt) {
 		
+		double radius = movableModelElement.getRadius();
+		
 		// Bounce back toward the inside if we are outside of the motion bounds.
-		if ((currentLocation.getX() > motionBounds.getMaxX() && velocityVector.getX() > 0) ||
-			(currentLocation.getX() < motionBounds.getMinX() && velocityVector.getX() < 0))	{
+		if ((currentLocation.getX() + radius > motionBounds.getMaxX() && velocityVector.getX() > 0) ||
+			(currentLocation.getX() - radius < motionBounds.getMinX() && velocityVector.getX() < 0))	{
 			// Reverse direction in the X direction.
 			velocityVector.setComponents(-velocityVector.getX(), velocityVector.getY());
 		}
-		if ((currentLocation.getY() > motionBounds.getMaxY() && velocityVector.getY() > 0) ||
-    		(currentLocation.getY() < motionBounds.getMinY() && velocityVector.getY() < 0))	{
+		if ((currentLocation.getY() + radius > motionBounds.getMaxY() && velocityVector.getY() > 0) ||
+    		(currentLocation.getY() - radius < motionBounds.getMinY() && velocityVector.getY() < 0))	{
     		// Reverse direction in the Y direction.
 			velocityVector.setComponents(velocityVector.getX(), -velocityVector.getY());
     	}
@@ -96,14 +98,20 @@ public class InjectionMotionStrategy extends MotionStrategy {
 		if (currentLocation.getY() > model.getMembraneRect().getMaxY()){
 			// Current location is above the membrane, so use the upper
 			// portion of the particle chamber as the bounds.
-			motionBounds.setFrame(model.getParticleChamberRect().getMinX(), model.getMembraneRect().getMaxY(),
-					model.getParticleChamberRect().getWidth(), model.getParticleChamberRect().getMaxY() - model.getMembraneRect().getMaxY());
+			motionBounds.setFrame( 
+					model.getParticleChamberRect().getMinX(),
+					model.getMembraneRect().getMaxY(),
+					model.getParticleChamberRect().getWidth(),
+					model.getParticleChamberRect().getMaxY() - model.getMembraneRect().getMaxY());
 		}
 		else if (currentLocation.getY() < model.getMembraneRect().getMinY()){
-			// Current location is above the membrane, so use the upper
+			// Current location is below the membrane, so use the lower
 			// portion of the particle chamber as the bounds.
-			motionBounds.setFrame(model.getParticleChamberRect().getMinX(), model.getParticleChamberRect().getMinY(),
-					model.getParticleChamberRect().getWidth(), model.getMembraneRect().getMinY() - model.getParticleChamberRect().getMinY());
+			motionBounds.setFrame(
+					model.getParticleChamberRect().getMinX(),
+					model.getParticleChamberRect().getMinY(),
+					model.getParticleChamberRect().getWidth(),
+					model.getMembraneRect().getMinY() - model.getParticleChamberRect().getMinY());
 		}
 		else {
 			// The most likely case for encountering this clause is if the
