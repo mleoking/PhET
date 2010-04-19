@@ -77,4 +77,9 @@ public class PhetRequestCycle extends WebRequestCycle {
     public boolean isYoungAndFreedmanRipperRequest() {
         return getUserAgent().equals( YOUNG_AND_FREEDMAN_USER_AGENT );
     }
+
+    public static PhetRequestCycle get() {
+        // TODO: verify
+        return (PhetRequestCycle) WebRequestCycle.get();
+    }
 }
