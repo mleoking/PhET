@@ -244,7 +244,7 @@ public class PhetWicketApplication extends WebApplication {
         return ret;
     }
 
-    public NavMenu getMenu() {
+    public synchronized NavMenu getMenu() {
         return menu;
     }
 

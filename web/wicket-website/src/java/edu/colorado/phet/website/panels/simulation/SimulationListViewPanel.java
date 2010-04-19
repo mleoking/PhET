@@ -5,7 +5,6 @@ import java.util.*;
 import org.apache.log4j.Logger;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.hibernate.Session;
-import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.cache.EventDependency;
@@ -13,10 +12,10 @@ import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.*;
-import edu.colorado.phet.website.data.util.AbstractChangeListener;
+import edu.colorado.phet.website.data.util.AbstractCategoryListener;
+import edu.colorado.phet.website.data.util.CategoryChangeHandler;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.data.util.IChangeListener;
-import edu.colorado.phet.website.data.util.CategoryChangeHandler;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.IndexLetterLinks;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -73,7 +72,7 @@ public class SimulationListViewPanel extends PhetPanel {
             add( new InvisibleComponent( "letter-links" ) );
         }
 
-        final int categoryId = category.getId();
+        final int categoryId = category == null ? 0 : category.getId();
 
         addDependency( new EventDependency() {
 
@@ -84,10 +83,10 @@ public class SimulationListViewPanel extends PhetPanel {
             protected void addListeners() {
                 logger.debug( " added" );
                 stringListener = createTranslationChangeInvalidator( context.getLocale() );
-                categoryListener = new CategoryChangeHandler.Listener() {
-                    public void categoryUpdated( Category category, Simulation simulation ) {
-                        logger.debug( "noted" );
-                        if( category.getId() == categoryId ) {
+                categoryListener = new AbstractCategoryListener() {
+                    @Override
+                    public void anyChange( Category category ) {
+                        if ( category.getId() == categoryId || categoryId == 0 ) {
                             logger.debug( "invalidated" );
                             invalidate();
                         }

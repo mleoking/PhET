@@ -45,6 +45,35 @@
                 </td>
             </tr>
         </table>
+
+        <h2>Add a Category</h2>
+
+        <form wicket:id="new-category-form">
+            <table class="admin">
+                <tr>
+                    <td>Display Name (shown in navigation)</td>
+                    <td colspan="2"><input type="text" wicket:id="name"/></td>
+                </tr>
+                <tr>
+                    <td>Translation Key (used for identification of the new translatable string. prefer lowercase and no
+                        special symbols)
+                    </td>
+                    <td colspan="2"><input type="text" wicket:id="key"/></td>
+                </tr>
+                <tr>
+                    <td>Parent</td>
+                    <td>
+                        <select wicket:id="all-categories">
+                            <option>This is an option</option>
+                            <option>Another option</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" name="submit" value="create category"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
 </wicket:extend>
 
