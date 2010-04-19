@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.website.PhetWicketApplication;
 
 public class PageContext implements Serializable {
     private Locale locale;
@@ -14,6 +15,10 @@ public class PageContext implements Serializable {
         this.prefix = prefix;
         this.path = path;
         this.locale = locale;
+    }
+
+    public static PageContext getNewDefaultContext() {
+        return new PageContext( "/en/", "", PhetWicketApplication.getDefaultLocale() );
     }
 
     public PageContext withNewLocale( Locale newLocale ) {
