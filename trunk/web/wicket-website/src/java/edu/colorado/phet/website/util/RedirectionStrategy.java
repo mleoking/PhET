@@ -69,7 +69,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
                         if ( contribution != null ) {
 
                             // TODO: improve default linker to give convenience function that gives "default" redirectable result to English
-                            ret[0] = ContributionPage.getLinker( contribution ).getRawUrl( PageContext.getNewDefaultContext(), PhetRequestCycle.get() );
+                            ret[0] = ContributionPage.getLinker( contribution ).getDefaultRawUrl();
                             return true;
                         }
                         else {return false;}
