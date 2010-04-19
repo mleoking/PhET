@@ -1,13 +1,15 @@
 package edu.colorado.phet.website.cache;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
 /**
  * Storage for cached panel versions. Should be a singleton, and is thread-safe with a hidden static lock so deadlock
  * shouldn't be an accidental risk.
- *
+ * <p/>
  * TODO: store metadata in the cache like timestamp created / expiring / memory footprint / value in previous render and setup time
  */
 public class PanelCache {
@@ -97,6 +99,19 @@ public class PanelCache {
             cache.remove( entry );
             entry.onExitCache();
         }
+    }
+
+    /**
+     * A quick cache dump
+     */
+    public Set<IPanelCacheEntry> getEntries() {
+        Set<IPanelCacheEntry> ret = new HashSet<IPanelCacheEntry>();
+        synchronized( lock ) {
+            for ( IPanelCacheEntry entry : cache.keySet() ) {
+                ret.add( entry );
+            }
+        }
+        return ret;
     }
 
 }

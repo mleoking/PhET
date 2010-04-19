@@ -1,12 +1,12 @@
 package edu.colorado.phet.website.menu;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Collection;
+import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.link.Link;
 
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.Linkable;
@@ -22,6 +22,8 @@ public class NavLocation implements Serializable {
      * Whether the location will be hidden if NOT selected
      */
     private boolean hidden = false;
+
+    private static Logger logger = Logger.getLogger( NavLocation.class.getName() );
 
     public NavLocation( NavLocation parent, String key, Linkable linker ) {
         this.parent = parent;
@@ -132,5 +134,27 @@ public class NavLocation implements Serializable {
 
     public void setHidden( boolean hidden ) {
         this.hidden = hidden;
+    }
+
+    public void organizeSimulationLocations() {
+        if ( !key.equals( "simulations" ) ) {
+            logger.warn( "attempting to organize non-simulations category" );
+            return;
+        }
+        final List<NavLocation> lowLocations = PhetWicketApplication.get().getMenu().getLocationsBelowCategories();
+        Collections.sort( children, new Comparator<NavLocation>() {
+            public int compare( NavLocation a, NavLocation b ) {
+                boolean ax = lowLocations.contains( a );
+                boolean bx = lowLocations.contains( b );
+                if( ax == bx ) {
+                    return 0;
+                }
+                if( ax ) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        } );
     }
 }

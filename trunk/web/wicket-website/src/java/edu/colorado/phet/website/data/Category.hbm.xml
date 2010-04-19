@@ -20,6 +20,6 @@
             <list-index column="idx"/>
             <many-to-many class="edu.colorado.phet.website.data.Simulation" column="simulation_id"/>
         </list>
-        <many-to-one name="parent" column="parent_id" not-null="false"/>
+        <many-to-one name="parent" column="parent_id" not-null="false" lazy="false"/>
     </class>
 </hibernate-mapping>

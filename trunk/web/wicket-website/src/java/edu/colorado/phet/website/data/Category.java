@@ -96,6 +96,10 @@ public class Category implements Serializable, IntId {
         return menu.getLocationByKey( getName() );
     }
 
+    /**
+     * Note: parent should be loaded
+     * @return
+     */
     public String getCategoryPath() {
         if ( isRoot() ) {
             return "";

@@ -10,9 +10,6 @@ import org.apache.wicket.markup.html.link.Link;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.event.PostDeleteEvent;
-import org.hibernate.event.PostInsertEvent;
-import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
@@ -34,8 +31,8 @@ import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPane
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavascriptPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.website.data.Category;
-import edu.colorado.phet.website.data.util.AbstractChangeListener;
-import edu.colorado.phet.website.data.util.HibernateEventListener;
+import edu.colorado.phet.website.data.util.AbstractCategoryListener;
+import edu.colorado.phet.website.data.util.CategoryChangeHandler;
 import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
@@ -45,6 +42,8 @@ import edu.colorado.phet.website.util.links.Linkable;
 public class NavMenu {
     private HashMap<String, NavLocation> cache = new HashMap<String, NavLocation>();
     private List<NavLocation> locations = new LinkedList<NavLocation>();
+
+    private List<NavLocation> locationsBelowCategories = new LinkedList<NavLocation>();
 
     private static Logger logger = Logger.getLogger( NavMenu.class.getName() );
     private NavLocation simulations;
@@ -183,32 +182,40 @@ public class NavMenu {
         }
         session.close();
 
-        HibernateEventListener.addListener( Category.class, new AbstractChangeListener() {
+        CategoryChangeHandler.addListener( new AbstractCategoryListener() {
             @Override
-            public void onInsert( Object object, PostInsertEvent event ) {
-                Category cat = (Category) object;
+            public void categoryAdded( Category cat ) {
                 // we are assuming that only simulation categories are changed at runtime
+                logger.info( "Category " + cat.getName() + " added, adding nav location" );
                 NavLocation parentLocation = cat.getParent().getNavLocation( NavMenu.this );
+                if ( parentLocation == null ) {
+                    parentLocation = simulations;
+                }
                 NavLocation location = createSimLocation( parentLocation, cat.getName(), cat );
                 parentLocation.addChild( location );
+                if ( parentLocation == simulations ) {
+                    simulations.organizeSimulationLocations();
+                }
                 addLocation( location );
             }
 
             @Override
-            public void onUpdate( Object object, PostUpdateEvent event ) {
-                // we are assuming categories can only be added and deleted, not moved. would be very ugly to
-                // do a full tree comparison and update the nav location tree
-            }
-
-            @Override
-            public void onDelete( Object object, PostDeleteEvent event ) {
-                Category cat = (Category) object;
+            public void categoryRemoved( Category cat ) {
+                logger.info( "Category " + cat.getName() + " removed, removing nav location" );
                 NavLocation location = getLocationByKey( cat.getName() );
                 if ( location != null ) {
                     removeLocation( location );
                 }
+                else {
+                    logger.warn( "trying to remove nonexistant category?" );
+                }
+            }
+
+            @Override
+            public void categoryChildrenReordered( Category category ) {
             }
         } );
+
     }
 
     private NavLocation createSimLocation( NavLocation parent, String name, final Category category ) {
@@ -235,10 +242,12 @@ public class NavMenu {
             } );
             addLocation( allLocation );
             location.addChild( allLocation );
+            locationsBelowCategories.add( allLocation );
 
             NavLocation translatedSimsLocation = new NavLocation( location, "simulations.translated", TranslatedSimsPage.getLinker() );
             addLocation( translatedSimsLocation );
             location.addChild( translatedSimsLocation );
+            locationsBelowCategories.add( translatedSimsLocation );
 
             PhetLocales phetLocales = PhetWicketApplication.get().getSupportedLocales();
             for ( String localeName : phetLocales.getSortedNames() ) {
@@ -260,6 +269,7 @@ public class NavMenu {
     }
 
     public void addLocation( NavLocation location ) {
+        logger.debug( "adding location " + location.getKey() );
         cache.put( location.getKey(), location );
     }
 
@@ -269,15 +279,16 @@ public class NavMenu {
      * @param location
      */
     public void removeLocation( NavLocation location ) {
-        if ( locations.contains( location ) ) {
-            locations.remove( location );
-        }
+        logger.debug( "removing location " + location.getKey() );
+        locations.remove( location );
         cache.remove( location.getKey() );
+        NavLocation parent = location.getParent();
+        if ( parent != null ) {
+            parent.removeChild( location );
+        }
         for ( NavLocation child : location.getChildren() ) {
             removeLocation( child );
         }
-        NavLocation parent = location.getParent();
-        parent.removeChild( parent );
     }
 
     public List<NavLocation> getLocations() {
@@ -290,5 +301,9 @@ public class NavMenu {
 
     public NavLocation getSimulationsLocation() {
         return simulations;
+    }
+
+    public List<NavLocation> getLocationsBelowCategories() {
+        return locationsBelowCategories;
     }
 }

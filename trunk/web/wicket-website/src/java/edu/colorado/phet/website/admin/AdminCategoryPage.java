@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
@@ -106,7 +107,7 @@ public class AdminCategoryPage extends AdminPage {
                         cat.addSimulation( sim );
                         session.update( cat );
                         session.update( sim );
-                        CategoryChangeHandler.notify( cat, sim );
+                        CategoryChangeHandler.notifySimulationChange( cat, sim );
                         return true;
                     }
                 } );
@@ -122,7 +123,7 @@ public class AdminCategoryPage extends AdminPage {
                         cat.removeSimulation( sim );
                         session.update( cat );
                         session.update( sim );
-                        CategoryChangeHandler.notify( cat, sim );
+                        CategoryChangeHandler.notifySimulationChange( cat, sim );
                         return true;
                     }
                 } );
@@ -136,8 +137,8 @@ public class AdminCategoryPage extends AdminPage {
                         Category cat = (Category) session.load( Category.class, category.getId() );
                         Collections.swap( cat.getSimulations(), aIndex, bIndex );
                         session.update( cat );
-                        CategoryChangeHandler.notify( cat, (Simulation) cat.getSimulations().get( aIndex) );
-                        CategoryChangeHandler.notify( cat, (Simulation) cat.getSimulations().get( bIndex) );
+                        CategoryChangeHandler.notifySimulationChange( cat, (Simulation) cat.getSimulations().get( aIndex) );
+                        CategoryChangeHandler.notifySimulationChange( cat, (Simulation) cat.getSimulations().get( bIndex) );
                         return true;
                     }
                 } );
@@ -149,6 +150,26 @@ public class AdminCategoryPage extends AdminPage {
                 return new Label( id, "Simulations" );
             }
         } );
+
+        add( new Form("remove-form"){
+            @Override
+            protected void onSubmit() {
+                boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        Category cat = (Category) session.load( Category.class, category.getId() );
+                        cat.getParent().getSubcategories().remove( cat );
+                        session.update( cat.getParent() );
+                        session.delete( cat );
+                        return true;
+                    }
+                } );
+
+                if( success ) {
+                    CategoryChangeHandler.notifyRemoved( category );
+                    setResponsePage( AdminCategoriesPage.class );
+                }
+            }
+        });
     }
 
 }

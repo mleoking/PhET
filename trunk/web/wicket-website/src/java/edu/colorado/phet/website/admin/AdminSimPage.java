@@ -257,7 +257,7 @@ public class AdminSimPage extends AdminPage {
                                     cat.removeSimulation( sim );
                                     session.update( sim );
                                     session.update( cat );
-                                    CategoryChangeHandler.notify( category, sim );
+                                    CategoryChangeHandler.notifySimulationChange( category, sim );
                                     return true;
                                 }
                             } );
@@ -311,7 +311,7 @@ public class AdminSimPage extends AdminPage {
                         category.addSimulation( sim );
                         session.update( sim );
                         session.update( category );
-                        CategoryChangeHandler.notify( category, sim );
+                        CategoryChangeHandler.notifySimulationChange( category, sim );
                         return true;
                     }
                     else {
