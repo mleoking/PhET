@@ -41,9 +41,9 @@ public class AdminCategoriesPage extends AdminPage {
             }
 
             private void addCategory( Category category ) {
-                if ( !category.isRoot() ) {
-                    categories.add( category );
-                }
+                //if ( !category.isRoot() ) {
+                categories.add( category );
+                //}
                 for ( Object o : category.getSubcategories() ) {
                     addCategory( (Category) o );
                 }
@@ -55,7 +55,12 @@ public class AdminCategoriesPage extends AdminPage {
                 final Category category = (Category) item.getModel().getObject();
 
                 Component titleComponent;
-                titleComponent = new LocalizedText( "title", category.getNavLocation( getNavMenu() ).getLocalizationKey() );
+                if ( category.isRoot() ) {
+                    titleComponent = new Label( "title", "Root" );
+                }
+                else {
+                    titleComponent = new LocalizedText( "title", category.getNavLocation( getNavMenu() ).getLocalizationKey() );
+                }
 
                 Link categoryLink = new Link( "category-link" ) {
                     public void onClick() {

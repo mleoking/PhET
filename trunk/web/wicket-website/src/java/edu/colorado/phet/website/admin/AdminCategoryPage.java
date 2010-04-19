@@ -18,10 +18,13 @@ import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.util.CategoryChangeHandler;
+import edu.colorado.phet.website.panels.lists.CategoryOrderItem;
+import edu.colorado.phet.website.panels.lists.JustOrderList;
 import edu.colorado.phet.website.panels.lists.OrderList;
 import edu.colorado.phet.website.panels.lists.SimOrderItem;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.StringUtils;
 
 public class AdminCategoryPage extends AdminPage {
     private Category category;
@@ -29,6 +32,7 @@ public class AdminCategoryPage extends AdminPage {
     private List<Simulation> allSimulations;
     private List<SimOrderItem> items;
     private List<SimOrderItem> allItems;
+    private List<Category> categories = new LinkedList<Category>();
     private Map<Simulation, String> titleMap;
 
     private Model autoModel;
@@ -57,6 +61,10 @@ public class AdminCategoryPage extends AdminPage {
                     if ( simulation.isVisible() ) {
                         allSimulations.add( simulation );
                     }
+                }
+                for ( Object o : category.getSubcategories() ) {
+                    Category cat = (Category) o;
+                    categories.add( cat );
                 }
                 return true;
             }
@@ -110,7 +118,12 @@ public class AdminCategoryPage extends AdminPage {
             }
         } );
 
-        add( new LocalizedText( "category-title", category.getNavLocation( getNavMenu() ).getLocalizationKey() ) );
+        if ( category.isRoot() ) {
+            add( new Label( "category-title", "Root" ) );
+        }
+        else {
+            add( new LocalizedText( "category-title", category.getNavLocation( getNavMenu() ).getLocalizationKey() ) );
+        }
 
         items = new LinkedList<SimOrderItem>();
         allItems = new LinkedList<SimOrderItem>();
@@ -122,6 +135,43 @@ public class AdminCategoryPage extends AdminPage {
         for ( Simulation simulation : allSimulations ) {
             allItems.add( new SimOrderItem( simulation, titleMap.get( simulation ) ) );
         }
+
+        final List<CategoryOrderItem> catItems = new LinkedList<CategoryOrderItem>();
+
+        for ( Category cat : categories ) {
+            catItems.add( new CategoryOrderItem( cat, StringUtils.getString( getHibernateSession(), cat.getNavLocation( getNavMenu() ).getLocalizationKey() ) ) );
+        }
+
+        add( new JustOrderList<CategoryOrderItem>( "categories", getPageContext(), catItems ) {
+            public boolean onSwap( final CategoryOrderItem a, final CategoryOrderItem b, final int aIndex, final int bIndex ) {
+                boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        Category cat = (Category) session.load( Category.class, categoryId );
+                        if ( ( (Category) cat.getSubcategories().get( aIndex ) ).getId() != a.getId() ) {
+                            logger.warn( "invalid match for changing order" );
+                            return false;
+                        }
+                        if ( ( (Category) cat.getSubcategories().get( bIndex ) ).getId() != b.getId() ) {
+                            logger.warn( "invalid match for changing order" );
+                            return false;
+                        }
+                        Collections.swap( cat.getSubcategories(), aIndex, bIndex );
+                        session.update( cat );
+                        return true;
+                    }
+                } );
+                if ( success ) {
+                    CategoryChangeHandler.notifyChildrenReordered( category );
+                    Collections.swap( categories, aIndex, bIndex );
+                }
+                logger.debug( "swap succeeded: " + success );
+                return success;
+            }
+
+            public Component getHeaderComponent( String id ) {
+                return new Label( id, "Categories" );
+            }
+        } );
 
         add( new OrderList<SimOrderItem>( "simulations", getPageContext(), items, allItems ) {
             public boolean onAdd( final SimOrderItem item ) {

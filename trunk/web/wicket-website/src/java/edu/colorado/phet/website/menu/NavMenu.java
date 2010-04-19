@@ -1,9 +1,6 @@
 package edu.colorado.phet.website.menu;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.link.Link;
@@ -34,6 +31,7 @@ import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.util.AbstractCategoryListener;
 import edu.colorado.phet.website.data.util.CategoryChangeHandler;
 import edu.colorado.phet.website.translation.TranslationMainPage;
+import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -216,7 +214,36 @@ public class NavMenu {
             }
 
             @Override
-            public void categoryChildrenReordered( Category category ) {
+            public void categoryChildrenReordered( final Category cat ) {
+                NavLocation location = getLocationByKey( cat.getName() );
+                if ( location == null ) {
+                    location = simulations;
+                }
+                final List<NavLocation> clocs = new LinkedList<NavLocation>();
+                // TODO: warning, can this not be lazy?
+                final NavLocation location1 = location;
+                HibernateUtils.wrapTransaction( PhetRequestCycle.get().getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        Category catty = (Category) session.load( Category.class, cat.getId() );
+                        for ( Object o : catty.getSubcategories() ) {
+                            Category subcat = (Category) o;
+                            NavLocation chloc = getLocationByKey( subcat.getName() );
+                            clocs.add( chloc );
+                        }
+                        Collections.sort( location1.getChildren(), new Comparator<NavLocation>() {
+                            public int compare( NavLocation a, NavLocation b ) {
+                                // slowsort
+                                Integer ai = new Integer( clocs.indexOf( a ) );
+                                Integer bi = new Integer( clocs.indexOf( b ) );
+                                if ( ai == -1 ) { ai = 1000000; }
+                                if ( bi == -1 ) { bi = 1000000; }
+                                return ai.compareTo( bi );
+                            }
+                        } );
+                        return true;
+                    }
+                } );
+
             }
         } );
 
