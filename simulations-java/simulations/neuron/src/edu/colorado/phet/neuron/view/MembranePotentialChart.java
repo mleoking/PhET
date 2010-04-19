@@ -58,7 +58,7 @@ public class MembranePotentialChart extends PNode {
 	
 	// This value sets the frequency of chart updates, which helps to reduce
 	// the processor consumption.
-	private static final double UPDATE_PERIOD = 1 * NeuronDefaults.CLOCK_DT; // In seconds
+	private static final double UPDATE_PERIOD = 1 * NeuronDefaults.ACTION_POTENTIAL_CLOCK_DT; // In seconds
 	
     //----------------------------------------------------------------------------
     // Instance Data

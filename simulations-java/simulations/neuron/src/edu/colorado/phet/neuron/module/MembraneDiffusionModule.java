@@ -39,7 +39,7 @@ public class MembraneDiffusionModule extends PiccoloModule {
 
     public MembraneDiffusionModule( Frame parentFrame ) {
         super( NeuronStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
-        		NeuronDefaults.CLOCK_DT ) );
+        		NeuronDefaults.MEMBRANE_DIFFUSION_CLOCK_DT ) );
 
         // Model
         NeuronClock clock = (NeuronClock) getClock();
@@ -55,8 +55,8 @@ public class MembraneDiffusionModule extends PiccoloModule {
         
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(NeuronDefaults.CLOCK_DT / 10, 
-    			NeuronDefaults.CLOCK_DT, "0.00", (ConstantDtClock)getClock(), null);
+    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(NeuronDefaults.MEMBRANE_DIFFUSION_CLOCK_DT / 10, 
+    			NeuronDefaults.MEMBRANE_DIFFUSION_CLOCK_DT * 2, "0.00", (ConstantDtClock)getClock(), null);
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
