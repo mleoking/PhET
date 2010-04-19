@@ -20,6 +20,8 @@ public abstract class Particle implements IMovable, IFadable {
     // Class data
     //------------------------------------------------------------------------
 	
+	private double DEFAULT_PARTICLE_RADIUS = 0.75;  // In nanometers.
+	
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
@@ -177,7 +179,11 @@ public abstract class Particle implements IMovable, IFadable {
      * assumes a round particle.
      */
     public double getDiameter(){
-    	return 1.5;  // Default value, override if needed to support other particles.
+    	return getRadius() * 2;
+    }
+
+    public double getRadius(){
+    	return DEFAULT_PARTICLE_RADIUS;   // Default value, override if needed to support other particles.
     }
     
 	/**

@@ -49,8 +49,8 @@ public class TraverseChannelAndWalkStrategy extends MembraneTraversalMotionStrat
 		}
 		
 		if (channel.isOpen() || channelHasBeenEntered){
-			// The channel is open, or we are inside it or have gone all the
-			// way through, so keep executing this motion strategy.
+			// The channel is open, or we are inside it, so keep executing
+			// this motion strategy.
 			if ( currentDestinationIndex >= traversalPoints.size() || maxVelocity * dt < currentPosition.distance(traversalPoints.get(currentDestinationIndex))){
 				// Move according to the current velocity.
 				movableModelElement.setPosition(currentPosition.getX() + velocityVector.getX() * dt,
