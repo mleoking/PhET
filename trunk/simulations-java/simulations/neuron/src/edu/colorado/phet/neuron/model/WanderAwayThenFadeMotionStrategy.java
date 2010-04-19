@@ -18,8 +18,8 @@ public class WanderAwayThenFadeMotionStrategy extends MotionStrategy {
 	private static final Random RAND = new Random();
 	private static final int CLOCK_TICKS_BEFORE_MOTION_UPDATE = 5;
 	private static final int CLOCK_TICKS_BEFORE_VELOCITY_UPDATE = CLOCK_TICKS_BEFORE_MOTION_UPDATE * 10;
-	private static final double MOTION_UPDATE_PERIOD = NeuronDefaults.CLOCK_DT * CLOCK_TICKS_BEFORE_MOTION_UPDATE;
-	private static final double VELOCITY_UPDATE_PERIOD = NeuronDefaults.CLOCK_DT * CLOCK_TICKS_BEFORE_VELOCITY_UPDATE;
+	private static final double MOTION_UPDATE_PERIOD = NeuronDefaults.ACTION_POTENTIAL_CLOCK_DT * CLOCK_TICKS_BEFORE_MOTION_UPDATE;
+	private static final double VELOCITY_UPDATE_PERIOD = NeuronDefaults.ACTION_POTENTIAL_CLOCK_DT * CLOCK_TICKS_BEFORE_VELOCITY_UPDATE;
 	private static final double MIN_VELOCITY = 500;  // In nanometers per second of sim time.
 	private static final double MAX_VELOCITY = 5000; // In nanometers per second of sim time.
 	
@@ -48,8 +48,8 @@ public class WanderAwayThenFadeMotionStrategy extends MotionStrategy {
 		
 		// Set up random offsets so that all the particles using this motion
 		// strategy don't all get updated at the same time.
-		motionUpdateCountdownTimer = RAND.nextInt(CLOCK_TICKS_BEFORE_MOTION_UPDATE) * NeuronDefaults.CLOCK_DT;
-		velocityUpdateCountdownTimer = RAND.nextInt(CLOCK_TICKS_BEFORE_VELOCITY_UPDATE) * NeuronDefaults.CLOCK_DT;
+		motionUpdateCountdownTimer = RAND.nextInt(CLOCK_TICKS_BEFORE_MOTION_UPDATE) * NeuronDefaults.ACTION_POTENTIAL_CLOCK_DT;
+		velocityUpdateCountdownTimer = RAND.nextInt(CLOCK_TICKS_BEFORE_VELOCITY_UPDATE) * NeuronDefaults.ACTION_POTENTIAL_CLOCK_DT;
 		
 		// Set an initial velocity and direction.
 		updateVelocity(currentLocation);

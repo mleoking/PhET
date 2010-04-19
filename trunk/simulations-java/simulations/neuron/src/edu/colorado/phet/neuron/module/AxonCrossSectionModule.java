@@ -40,7 +40,7 @@ public class AxonCrossSectionModule extends PiccoloModule {
 
     public AxonCrossSectionModule( Frame parentFrame ) {
         super( NeuronStrings.TITLE_AXON_CROSS_SECTION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
-        		NeuronDefaults.CLOCK_DT ) );
+        		NeuronDefaults.ACTION_POTENTIAL_CLOCK_DT ) );
 
         // Model
         NeuronClock clock = (NeuronClock) getClock();
@@ -56,8 +56,8 @@ public class AxonCrossSectionModule extends PiccoloModule {
         
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(NeuronDefaults.CLOCK_DT / 10, 
-    			NeuronDefaults.CLOCK_DT, "0.00", (ConstantDtClock)getClock(), null);
+    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(NeuronDefaults.ACTION_POTENTIAL_CLOCK_DT / 10, 
+    			NeuronDefaults.ACTION_POTENTIAL_CLOCK_DT * 2, "0.00", (ConstantDtClock)getClock(), null);
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
