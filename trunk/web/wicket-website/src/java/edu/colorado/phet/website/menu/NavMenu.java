@@ -39,6 +39,10 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.Linkable;
 
+/**
+ * Initializes and handles the navigation locations (NavLocation)s. Builds from the database during startup, and then
+ * uses events to keep the locations synchronized with any possible category changes.
+ */
 public class NavMenu {
     private HashMap<String, NavLocation> cache = new HashMap<String, NavLocation>();
     private List<NavLocation> locations = new LinkedList<NavLocation>();

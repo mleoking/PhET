@@ -11,11 +11,35 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.Linkable;
 
+/**
+ * A nav location represents an entry on the left-hand-side navigation bar (the nav bar). Additionally, it can be used
+ * for other purposes like the breadcrumbs titles, etc.
+ * <p/>
+ * Most nav locations are created during website startup, but they can be modified during runtime. Since the website
+ * keeps only one instance of the NavMenu around, nav locations should be uniquely identified by their key. In rare
+ * situations it is acceptable to create nav locations that are destroyed after a page is displayed.
+ */
 public class NavLocation implements Serializable {
 
+    /**
+     * Identification key. 'nav.' + key is generally (but not always) the localization key, so getLocalizationKey()
+     * should be used
+     */
     private String key;
+
+    /**
+     * List of children (shown when this navigation item is selected)
+     */
     private List<NavLocation> children = new LinkedList<NavLocation>();
+
+    /**
+     * Parent navigation location. Will be 'null' if it is at the base level
+     */
     private NavLocation parent;
+
+    /**
+     * What should be done if a user clicks on the navigation entry!
+     */
     private transient Linkable linker;
 
     /**
@@ -146,12 +170,13 @@ public class NavLocation implements Serializable {
             public int compare( NavLocation a, NavLocation b ) {
                 boolean ax = lowLocations.contains( a );
                 boolean bx = lowLocations.contains( b );
-                if( ax == bx ) {
+                if ( ax == bx ) {
                     return 0;
                 }
-                if( ax ) {
+                if ( ax ) {
                     return 1;
-                } else {
+                }
+                else {
                     return -1;
                 }
             }
