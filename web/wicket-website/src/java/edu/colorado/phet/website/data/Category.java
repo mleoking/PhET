@@ -12,13 +12,45 @@ import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.data.util.IntId;
 
+/**
+ * A simulation category. 'All Sims' and 'Translated Sims' are not stored in these categories.
+ *
+ * An undisplayed 'root' category is the parent of all others, and is important for its childrens' ordering.
+ */
 public class Category implements Serializable, IntId {
     private int id;
+
+    /**
+     * Used for the nav location key AND URL
+     */
     private String name;
+
+    /**
+     * Whether the category should include all simulations from children (true), or just simulations assigned to the
+     * exact category (false). It is helpful for base categories to be set to auto, so if a sim is added to
+     * 'Light &amp; Radiation', it would be auto-added to 'Physics';
+     */
     private boolean auto;
+
+    /**
+     * Whether this is the root category. Consider it immutable! BAD THINGS will happen if this goes haywire, and checks
+     * require there is only 1 root category.
+     */
     private boolean root;
+
+    /**
+     * Ordered list of subcategories
+     */
     private List subcategories = new LinkedList();
+
+    /**
+     * Ordered list of simulations
+     */
     private List simulations = new LinkedList();
+
+    /**
+     * Parent category (root category will have this be null)
+     */
     private Category parent;
 
     private static Logger logger = Logger.getLogger( Category.class.getName() );
