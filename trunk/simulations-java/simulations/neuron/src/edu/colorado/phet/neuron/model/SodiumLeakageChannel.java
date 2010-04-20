@@ -16,7 +16,7 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	private static final double CHANNEL_HEIGHT = AxonMembrane.MEMBRANE_THICKNESS * 1.2; // In nanometers.
 	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.50; // In nanometers.
 	
-	private static final Color BASE_COLOR = ColorUtils.interpolateRBGA(NeuronConstants.SODIUM_COLOR, new Color(00, 200, 255), 0.5);
+	private static final Color BASE_COLOR = ColorUtils.interpolateRBGA(NeuronConstants.SODIUM_COLOR, Color.ORANGE, 0.6);
 	
 	// Constants that control the rate at which this channel will capture ions
 	// when it is open.  Smaller numbers here will increase the capture rate
@@ -62,7 +62,7 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	
 	@Override
 	public Color getChannelColor() {
-		return ColorUtils.darkerColor(BASE_COLOR, 0.2);
+		return ColorUtils.darkerColor(BASE_COLOR, 0.15);
 	}
 
 	@Override
