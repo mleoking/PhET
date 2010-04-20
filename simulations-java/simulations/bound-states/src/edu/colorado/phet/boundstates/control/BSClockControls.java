@@ -54,6 +54,7 @@ public class BSClockControls extends PiccoloClockControlPanel {
         setRewindButtonTooltip( BSResources.getString( "button.restart" ) );
 
         // Time display
+        setTimeDisplayVisible( true );
         setUnits( BSResources.getString( "units.time" ) );
         setTimeFormat( BSConstants.DEFAULT_CLOCK_FORMAT );
         setTimeColumns( 6 );
