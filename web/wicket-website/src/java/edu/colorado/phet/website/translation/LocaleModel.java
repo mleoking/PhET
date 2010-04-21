@@ -37,8 +37,11 @@ class LocaleModel implements IModel {
         else if ( object instanceof LocaleModel ) {
             locale = (Locale) ( (LocaleModel) object ).getObject();
         }
+        else if ( object == null ) {
+            locale = null;
+        }
         else {
-            throw new RuntimeException( "Bad LocaleModel!" );
+            throw new RuntimeException( "Bad LocaleModel! : " + object.getClass().getCanonicalName() );
         }
     }
 
