@@ -78,7 +78,7 @@ public class NotificationHandler {
             Message message = new MimeMessage( session );
             message.setFrom( new InternetAddress( "phetnoreply@phetsims.colorado.edu" ) );
             message.addRecipient( Message.RecipientType.TO, new InternetAddress( "jonathan.olson@colorado.edu" ) );
-            message.setSubject( "This is a test subject" );
+            message.setSubject( "[PhET Website] Events" );
 
             BodyPart messageBodyPart = new MimeBodyPart();
             String body = "<p>The following events occurred in the last week:</p>";
