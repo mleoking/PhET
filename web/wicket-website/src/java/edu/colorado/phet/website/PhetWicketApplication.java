@@ -19,24 +19,27 @@ import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.admin.AdminMainPage;
 import edu.colorado.phet.website.authentication.*;
 import edu.colorado.phet.website.content.*;
+import edu.colorado.phet.website.content.about.*;
+import edu.colorado.phet.website.content.contribution.*;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
-import edu.colorado.phet.website.content.simulations.*;
-import edu.colorado.phet.website.content.contribution.*;
-import edu.colorado.phet.website.content.about.*;
+import edu.colorado.phet.website.content.simulations.SimsByKeywordPage;
+import edu.colorado.phet.website.content.simulations.SimulationDisplay;
+import edu.colorado.phet.website.content.simulations.SimulationPage;
+import edu.colorado.phet.website.content.simulations.TranslatedSimsPage;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavascriptPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.menu.NavMenu;
+import edu.colorado.phet.website.notification.NotificationHandler;
 import edu.colorado.phet.website.templates.StaticPage;
 import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 import edu.colorado.phet.website.translation.TranslationMainPage;
+import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 import edu.colorado.phet.website.util.*;
-import edu.colorado.phet.website.notification.NotificationHandler;
 
 /**
  * Main entry and configuration point for the Wicket-based PhET website. Initializes pages (and the mappings), along

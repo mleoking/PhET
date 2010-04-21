@@ -9,7 +9,6 @@ import org.hibernate.event.PostUpdateEvent;
  */
 public abstract class AbstractChangeListener implements IChangeListener {
 
-    
 
     //----------------------------------------------------------------------------
     // default implementations

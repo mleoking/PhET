@@ -3,8 +3,6 @@ package edu.colorado.phet.website.panels.lists;
 import java.io.Serializable;
 import java.util.*;
 
-import org.apache.wicket.Component;
-import org.apache.wicket.markup.html.basic.Label;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.Simulation;

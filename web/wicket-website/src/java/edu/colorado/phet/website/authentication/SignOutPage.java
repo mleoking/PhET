@@ -5,7 +5,6 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 
-import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
@@ -19,7 +18,7 @@ public class SignOutPage extends PhetPage {
     public SignOutPage( PageParameters parameters ) {
         super( parameters, true );
 
-        addTitle( new ResourceModel( "signOut.title"));
+        addTitle( new ResourceModel( "signOut.title" ) );
 
         AuthenticatedPage.checkSignedIn();
 

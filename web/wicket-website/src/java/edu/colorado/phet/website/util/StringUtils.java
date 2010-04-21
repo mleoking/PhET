@@ -304,9 +304,10 @@ public class StringUtils {
 
     /**
      * A string representing the name of one locale translated to another locale
-     * @param locale The locale that is the subject we want to display
+     *
+     * @param locale       The locale that is the subject we want to display
      * @param targetLocale The locale that the subject should be translated into if possible
-     * @param localizer A reference to the localizer. getPhetLocalizer() should work in most places
+     * @param localizer    A reference to the localizer. getPhetLocalizer() should work in most places
      * @return
      */
     public static String getLocaleTitle( Locale locale, Locale targetLocale, PhetLocalizer localizer ) {

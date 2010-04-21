@@ -10,10 +10,10 @@ import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.panels.PhetPanel;
 
 public class ContributionManagePanel extends PhetPanel {
 

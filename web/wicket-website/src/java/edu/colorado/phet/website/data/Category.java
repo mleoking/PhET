@@ -7,14 +7,14 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.data.util.IntId;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.data.util.IntId;
 
 /**
  * A simulation category. 'All Sims' and 'Translated Sims' are not stored in these categories.
- *
+ * <p/>
  * An undisplayed 'root' category is the parent of all others, and is important for its childrens' ordering.
  */
 public class Category implements Serializable, IntId {
@@ -130,6 +130,7 @@ public class Category implements Serializable, IntId {
 
     /**
      * Note: parent should be loaded
+     *
      * @return
      */
     public String getCategoryPath() {

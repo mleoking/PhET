@@ -5,6 +5,7 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.contribution.ContributionMainPanel;
@@ -15,7 +16,6 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
-import edu.colorado.phet.website.content.NotFoundPage;
 
 /**
  * Holder page for showing a single contribution

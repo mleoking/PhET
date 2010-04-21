@@ -22,14 +22,12 @@ import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.*;
-import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.data.util.CategoryChangeHandler;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateTask;

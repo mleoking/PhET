@@ -10,20 +10,20 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.menu.NavLocation;
-import edu.colorado.phet.website.panels.simulation.SimulationMainPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.panels.simulation.SimulationMainPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
-import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
-import edu.colorado.phet.website.content.NotFoundPage;
 
 public class SimulationPage extends PhetMenuPage {
 

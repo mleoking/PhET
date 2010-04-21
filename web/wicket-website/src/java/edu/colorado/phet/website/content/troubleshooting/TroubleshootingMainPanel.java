@@ -4,9 +4,8 @@ import org.apache.wicket.behavior.HeaderContributor;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
-import edu.colorado.phet.website.content.contribution.ContributePanel;
-import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.ForTranslatorsPanel;
+import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;

@@ -10,9 +10,9 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
+import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.panels.PhetPanel;
 
 public class SimulationIndexPanel extends PhetPanel {
     private List<String> letters;

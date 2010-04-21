@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import edu.colorado.phet.website.data.contribution.Level;
 import edu.colorado.phet.website.data.util.IntId;
 
 public class ContributionLevel implements Serializable, IntId {
@@ -17,7 +16,7 @@ public class ContributionLevel implements Serializable, IntId {
 
     private static Logger logger = Logger.getLogger( ContributionLevel.class.getName() );
 
-    
+
     public ContributionLevel() {
 
     }
