@@ -76,6 +76,11 @@ div.rtl .contribute-standard-label {
     padding-left: 0;
 }
 
+div.rtl .contribution-comments-holder {
+    margin-right: 0;
+    padding-right: 0;
+}
+
 .contribution-comments-holder li {
     list-style: none;
     display: block;
@@ -88,16 +93,28 @@ div.rtl .contribute-standard-label {
     padding-bottom: 5px;
 }
 
+div.rtl .contribution-comment-text {
+    text-align: right;
+}
+
 .contribution-comment-author {
     display: block;
     float: right;
     font-weight: bold;
 }
 
+div.rtl .contribution-comment-author {
+    float: left;
+}
+
 .contribution-comment-date {
     display: block;
     float: left;
     color: #888888;
+}
+
+div.rtl .contribution-comment-date {
+    float: right;
 }
 
 .comment-clear {
