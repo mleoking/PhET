@@ -848,7 +848,7 @@ public class AdminSimPage extends AdminPage {
                         if ( !old ) {
                             guide.setSimulation( simulation );
                             guide.setFilename( TeachersGuide.createFilename( simulation ) );
-                            guide.setLocation( guide.getFileLocation().getAbsolutePath() );
+                            //guide.setLocation( guide.getFileLocation().getAbsolutePath() );
                         }
 
                         File file = guide.getFileLocation();

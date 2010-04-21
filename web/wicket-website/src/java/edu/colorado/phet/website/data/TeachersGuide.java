@@ -22,7 +22,6 @@ public class TeachersGuide implements Serializable, IntId {
     private int id;
     private Simulation simulation;
     private String filename;
-    private String location;
     private int size;
 
     // in the future it would be possible to add the locale. not done now, since it should be doable later with
@@ -94,14 +93,6 @@ public class TeachersGuide implements Serializable, IntId {
 
     public void setFilename( String filename ) {
         this.filename = filename;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation( String location ) {
-        this.location = location;
     }
 
     public int getSize() {
