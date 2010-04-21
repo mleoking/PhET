@@ -36,6 +36,7 @@ import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.notification.NotificationHandler;
 
 /**
  * Main entry and configuration point for the Wicket-based PhET website. Initializes pages (and the mappings), along
@@ -149,6 +150,8 @@ public class PhetWicketApplication extends WebApplication {
             Logger baseLogger = Logger.getLogger( "edu.colorado.phet.website" );
             baseLogger.setLevel( loggerLevel );
         }
+
+        NotificationHandler.initialize();
 
     }
 
