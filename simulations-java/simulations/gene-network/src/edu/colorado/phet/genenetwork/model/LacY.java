@@ -146,12 +146,6 @@ public class LacY extends SimpleModelElement {
 		}
 	}
 	
-	@Override
-	protected void setMotionStrategy(AbstractMotionStrategy motionStrategy) {
-		// TODO Auto-generated method stub
-		super.setMotionStrategy(motionStrategy);
-	}
-
 	private void getEngagedToLactose(){
 		
 		if (glucoseAttachmentPartner != null){
