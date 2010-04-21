@@ -1,5 +1,8 @@
 package edu.colorado.phet.website.authentication;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
@@ -9,8 +12,12 @@ import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
-import edu.colorado.phet.website.util.links.Linkable;
+import edu.colorado.phet.website.util.links.RawLinkable;
 
+/**
+ * The page to send people to if they need to sign in. Specify a destination that they will be taken to after signing
+ * in (even after registering)
+ */
 public class SignInPage extends PhetPage {
 
     // TODO: add translation links at the bottom?
@@ -33,11 +40,18 @@ public class SignInPage extends PhetPage {
     }
 
 
-    public static Linkable getLinker( final String destination ) {
+    public static RawLinkable getLinker( final String destination ) {
         return new AbstractLinker() {
             @Override
             public String getSubUrl( PageContext context ) {
-                return "sign-in?dest=" + destination;
+                try {
+                    // always encode the destination because special characters might be hidden
+                    return "sign-in?dest=" + URLEncoder.encode( destination, "UTF-8" );
+                }
+                catch( UnsupportedEncodingException e ) {
+                    e.printStackTrace();
+                    throw new RuntimeException( e );
+                }
             }
         };
     }

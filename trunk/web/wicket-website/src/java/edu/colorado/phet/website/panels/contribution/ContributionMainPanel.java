@@ -5,12 +5,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.WebComponent;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.PhetSession;
@@ -18,6 +21,7 @@ import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.SearchResultsPage;
+import edu.colorado.phet.website.content.contribution.AddContributionCommentPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.PhetUser;
@@ -196,6 +200,14 @@ public class ContributionMainPanel extends PhetPanel {
             add( new InvisibleComponent( "contribution-comment" ) );
         }
 
+        // here we manually build up an HTML form so we can send it directly to our custom adding comment page
+        WebMarkupContainer commentForm = new WebMarkupContainer( "add-comment-form" );
+        add( commentForm );
+        commentForm.add( new AttributeAppender( "action", new Model( AddContributionCommentPage.getBaseLinker().getDefaultRawUrl() ), "" ) );
+        Label commentContrib = new Label( "contrib-id-holder", "" );
+        commentForm.add( commentContrib );
+        commentContrib.add( new AttributeAppender( "value", new Model( Integer.toString( contribution.getId() ) ), "" ) );
+
     }
 
     private void handleCheck( String id, boolean value ) {
@@ -278,5 +290,23 @@ public class ContributionMainPanel extends PhetPanel {
         }
         return StringUtils.combineStringsIntoList( this, strings, StringUtils.getSeparator( this ) );
     }
+
+//    private class AddCommentForm extends StatelessForm {
+//        private TextArea textArea;
+//        private int contributionId;
+//
+//        public AddCommentForm( String id, int contributionId ) {
+//            super( id );
+//            this.contributionId = contributionId;
+//
+//            textArea = new TextArea( "value", new Model( "" ) );
+//            add( textArea );
+//        }
+//
+//        @Override
+//        protected void onSubmit() {
+//            setResponsePage( new RedirectPage( AddContributionCommentPage.getLinker( contributionId, textArea.getModelObjectAsString() ).getDefaultRawUrl() ) );
+//        }
+//    }
 
 }

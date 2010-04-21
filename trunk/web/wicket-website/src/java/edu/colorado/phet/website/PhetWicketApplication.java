@@ -114,6 +114,7 @@ public class PhetWicketApplication extends WebApplication {
         ContributionManagePage.addToMapper( mapper );
         TranslatedSimsPage.addToMapper( mapper );
         TranslationMainPage.addToMapper( mapper );
+        AddContributionCommentPage.addToMapper( mapper );
 
         // set up the custom localizer
         getResourceSettings().setLocalizer( new PhetLocalizer() );
