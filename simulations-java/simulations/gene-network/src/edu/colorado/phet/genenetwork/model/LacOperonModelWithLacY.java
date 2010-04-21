@@ -104,23 +104,53 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 	public Point2D getOpenSpotForLacY() {
 		double yPos = CELL_MEMBRANE_RECT.getCenterY();
 		double xPos = 0;
-		double xMin = CELL_MEMBRANE_RECT.getCenterX() - 20;
-		double xRange = getInteriorMotionBounds().getMaxX() - 20 - xMin;
+		double xMin = CELL_MEMBRANE_RECT.getCenterX() - 30;
+		double xRange = getInteriorMotionBounds().getMaxX() - 10 - xMin;
 		boolean openSpotFound = false;
-		for (int i = 0; i < 100 && !openSpotFound; i++){
-			xPos = xMin + xRange * RAND.nextDouble();
-			openSpotFound = true;
-			for (LacY lacY : getLacYList()){
-				if (Math.abs(lacY.getMembraneDestinationRef().getX() - xPos) < MIN_DISTANCE_BETWEEN_LAC_Y){
-					openSpotFound = false;
-					break;
+		double minDistanceBetweenLacYs = MIN_DISTANCE_BETWEEN_LAC_Y;
+		for (int attempts = 0; attempts < 10; attempts++){
+			for (int i = 0; i < 100 && !openSpotFound; i++){
+				xPos = xMin + xRange * RAND.nextDouble();
+				openSpotFound = true;
+				for (LacY lacY : getLacYList()){
+					if (Math.abs(lacY.getMembraneDestinationRef().getX() - xPos) < minDistanceBetweenLacYs){
+						openSpotFound = false;
+						break;
+					}
 				}
 			}
 		}
 		
 		if (!openSpotFound){
-			System.err.println(getClass().getName() + " - Warning: No open spots found, choosing arbitrarily.");
-			// Use the last value chosen in the loop.
+			System.err.println(getClass().getName() + " - Warning: No open spots found with random approach, switching to methodical approach.");
+
+			// No open spots were found using the random approach, so now use
+			// a methodical approach the steps down the membrane and finds the
+			// location in this set that is furthest from other LacYs.
+			double posIncrement = (new LacY()).getShape().getBounds2D().getWidth() / 2;
+			double bestXPos = 0;
+			double greatestDistanceToNearestLacY = -1;
+			for (double xPosOffset = 0; xPosOffset < xRange; xPosOffset += posIncrement){
+				xPos = xMin + xPosOffset;
+				double distanceToNearestLacY = Double.POSITIVE_INFINITY;
+				for (LacY lacY : getLacYList()){
+					double distanceToThisLacY = Math.abs(lacY.getMembraneDestinationRef().getX() - xPos);
+					if (distanceToThisLacY < distanceToNearestLacY){
+						// Found a new nearest neighbor.
+						distanceToNearestLacY = distanceToThisLacY; 
+					}
+				}
+				System.out.println("xPosOffset = " + xPosOffset);
+				System.out.println("distanceToNearestLacY = " + distanceToNearestLacY);
+				System.out.println("greatestDistanceToNearestLacY = " + greatestDistanceToNearestLacY);
+				if (distanceToNearestLacY > greatestDistanceToNearestLacY){
+					// This location is the best one found so far in the sense
+					// that it is furthest from other LacYs.
+					bestXPos = xPos;
+					greatestDistanceToNearestLacY = distanceToNearestLacY;
+				}
+			}
+			xPos = bestXPos;
 		}
 		
 		return new Point2D.Double(xPos, yPos);
