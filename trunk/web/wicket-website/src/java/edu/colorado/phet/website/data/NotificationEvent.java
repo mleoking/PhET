@@ -21,6 +21,11 @@ public class NotificationEvent implements Serializable, IntId {
         return ( o instanceof NotificationEvent ) && id == ( (NotificationEvent) o ).id;
     }
 
+    @Override
+    public String toString() {
+        return getType().toString( getData() );
+    }
+
     public NotificationEvent() {
     }
 

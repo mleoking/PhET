@@ -1,7 +1,6 @@
 package edu.colorado.phet.website.notification;
 
-import java.util.Date;
-import java.util.Properties;
+import java.util.*;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -9,14 +8,52 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.hibernate.event.PostInsertEvent;
+import org.hibernate.event.PostUpdateEvent;
+
 import edu.colorado.phet.website.data.NotificationEvent;
 import edu.colorado.phet.website.data.NotificationEventType;
 import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.data.util.AbstractChangeListener;
+import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
 public class NotificationHandler {
-    public static void main( String[] args ) {
+
+    public static void initialize() {
+        // TODO: load cron4j
+
+        HibernateEventListener.addListener( Contribution.class, new AbstractChangeListener() {
+            @Override
+            public void onInsert( Object object, PostInsertEvent event ) {
+                onNewContribution( (Contribution) object );
+            }
+
+            @Override
+            public void onUpdate( Object object, PostUpdateEvent event ) {
+                onUpdatedContribution( (Contribution) object );
+            }
+        } );
+    }
+
+    public static void sendNotifications() {
+
+        final List<NotificationEvent> events = new LinkedList<NotificationEvent>();
+
+        HibernateUtils.wrapSession( new HibernateTask() {
+            public boolean run( org.hibernate.Session session ) {
+                Calendar cal = Calendar.getInstance();
+                cal.add( Calendar.HOUR, 24 * 7 );
+                List list = session.createQuery( "select ne from NotificationEvent as ne where ne.createdAt <= :date" )
+                        .setDate( "date", cal.getTime() ).list();
+                for ( Object o : list ) {
+                    events.add( (NotificationEvent) o );
+                }
+                return true;
+            }
+        } );
+
         try {
             Properties props = System.getProperties();
             props.put( "mail.smtp.host", "mx.colorado.edu" );
@@ -29,12 +66,21 @@ public class NotificationHandler {
             message.setSubject( "This is a test subject" );
 
             BodyPart messageBodyPart = new MimeBodyPart();
-            String body = "This is the message of the test email.<br/><br/>";
+            String body = "<p>The following events occurred in the last week:</p>";
 
-            body += "<strong>Bold test</strong>";
+            body += "<ul>";
 
+            for ( NotificationEvent event : events ) {
+                body += "<li>";
+                body += event.toString();
+                body += "</li>";
+            }
 
-            body += "<br/><br/>Mailed automatically by the PhET website";
+            body += "</ul>";
+
+            body += "<p>There were " + events.size() + " events.</p>";
+
+            body += "<br/><p>Mailed automatically by the PhET website</p>";
 
             messageBodyPart.setContent( body, "text/html; charset=ISO-8859-1" );
 
@@ -64,4 +110,18 @@ public class NotificationHandler {
             }
         } );
     }
+
+    public static void onUpdatedContribution( final Contribution contribution ) {
+        HibernateUtils.wrapSession( new HibernateTask() {
+            public boolean run( org.hibernate.Session session ) {
+                NotificationEvent event = new NotificationEvent();
+                event.setCreatedAt( new Date() );
+                event.setType( NotificationEventType.UPDATED_CONTRIBUTION );
+                event.setData( "contribution_id=" + contribution.getId() );
+                session.save( event );
+                return true;
+            }
+        } );
+    }
+
 }
