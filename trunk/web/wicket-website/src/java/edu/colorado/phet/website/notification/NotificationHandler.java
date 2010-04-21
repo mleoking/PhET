@@ -55,6 +55,10 @@ public class NotificationHandler {
         } );
     }
 
+    public static synchronized void destroy() {
+        notificationScheduler.stop();
+    }
+
     public static void sendNotifications() {
 
         final List<NotificationEvent> events = new LinkedList<NotificationEvent>();
