@@ -3,6 +3,7 @@ package edu.colorado.phet.website.panels.lists;
 import java.io.Serializable;
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.basic.Label;
 import org.hibernate.Session;
@@ -14,7 +15,7 @@ import edu.colorado.phet.website.util.StringUtils;
 
 /**
  * Handles the selection of a set of enumeration values. The user can add / remove values.
- *
+ * <p/>
  * Can use getComponent() to return the necessary component.
  */
 public abstract class EnumSetManager<E extends Enum> implements Serializable {
@@ -43,6 +44,8 @@ public abstract class EnumSetManager<E extends Enum> implements Serializable {
      * List of all possible items
      */
     private List<ListItem<E>> allItems;
+
+    private static Logger logger = Logger.getLogger( EnumSetManager.class.getName() );
 
     /**
      * NOTE: already in transaction, so throw all exceptions!
@@ -150,6 +153,20 @@ public abstract class EnumSetManager<E extends Enum> implements Serializable {
         }
 
         public int compareTo( SortableListItem item, Locale locale ) {
+            if ( item == null || getDisplayValue() == null ) {
+                logger.warn( "item comparison failure, null detected" );
+                logger.warn( "my class: " + this.getClass().getCanonicalName() );
+                logger.warn( "my id: " + getId() );
+                logger.warn( "my value: " + getValue() );
+                logger.warn( "my display value: " + getDisplayValue() );
+                if ( item == null ) {
+                    logger.warn( "item == null" );
+                }
+                else {
+                    logger.warn( "item id: " + item.getId() );
+                    logger.warn( "item display value: " + item.getDisplayValue() );
+                }
+            }
             return getDisplayValue().compareToIgnoreCase( item.getDisplayValue() );
         }
 
