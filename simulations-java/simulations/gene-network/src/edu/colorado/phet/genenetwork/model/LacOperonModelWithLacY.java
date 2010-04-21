@@ -124,33 +124,69 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 		if (!openSpotFound){
 			System.err.println(getClass().getName() + " - Warning: No open spots found with random approach, switching to methodical approach.");
 
-			// No open spots were found using the random approach, so now use
-			// a methodical approach the steps down the membrane and finds the
-			// location in this set that is furthest from other LacYs.
-			double posIncrement = (new LacY()).getShape().getBounds2D().getWidth() / 2;
-			double bestXPos = 0;
-			double greatestDistanceToNearestLacY = -1;
-			for (double xPosOffset = 0; xPosOffset < xRange; xPosOffset += posIncrement){
-				xPos = xMin + xPosOffset;
-				double distanceToNearestLacY = Double.POSITIVE_INFINITY;
-				for (LacY lacY : getLacYList()){
-					double distanceToThisLacY = Math.abs(lacY.getMembraneDestinationRef().getX() - xPos);
-					if (distanceToThisLacY < distanceToNearestLacY){
-						// Found a new nearest neighbor.
-						distanceToNearestLacY = distanceToThisLacY; 
-					}
-				}
-				System.out.println("xPosOffset = " + xPosOffset);
-				System.out.println("distanceToNearestLacY = " + distanceToNearestLacY);
-				System.out.println("greatestDistanceToNearestLacY = " + greatestDistanceToNearestLacY);
-				if (distanceToNearestLacY > greatestDistanceToNearestLacY){
-					// This location is the best one found so far in the sense
-					// that it is furthest from other LacYs.
-					bestXPos = xPos;
-					greatestDistanceToNearestLacY = distanceToNearestLacY;
+			// No free spots were found using the random method, so now locate
+			// the largest free segment and put the LacY in the center of it.
+			double bestSegmentLeftXPos = xMin;
+			double bestSegmentRightXPos = xMin;
+			// Find the length of the segment that starts at offset = 0.
+			double distanceToNearestLacY = Double.POSITIVE_INFINITY;
+			for (LacY lacY : getLacYList()){
+				double distanceToThisLacY = Math.abs(lacY.getMembraneDestinationRef().getX() - bestSegmentLeftXPos);
+				if (distanceToThisLacY < distanceToNearestLacY){
+					// Found a new nearest neighbor.
+					distanceToNearestLacY = distanceToThisLacY;
+					bestSegmentRightXPos = bestSegmentLeftXPos + distanceToNearestLacY;
 				}
 			}
-			xPos = bestXPos;
+			// Now, for each LacY, find its nearest neighbor to the right and
+			// see if the distance between them is greater than the best
+			// segment found so far.
+			for (LacY lacY : getLacYList()){
+				LacY closestNeighborToRight = null;
+				for (LacY lacY2 : getLacYList()){
+					if (lacY2 == lacY){
+						// Pointless to compare to ourself.
+						continue;
+					}
+					if (lacY2.getMembraneDestinationRef().getX() > lacY.getMembraneDestinationRef().getX()){
+						// This neighbor is to the right.  Is it the closest one so far?
+						if (closestNeighborToRight == null || lacY2.getMembraneDestinationRef().getX() < closestNeighborToRight.getMembraneDestinationRef().getX()){
+							// Yes it is.
+							closestNeighborToRight = lacY2;
+						}
+					}
+				}
+				
+				// Figure out the end points of the segment between these two
+				// LacYs.
+				double segmentLeftXPos = lacY.getPositionRef().getX();
+				double segmentRightXPos;
+				if (closestNeighborToRight != null){
+					segmentRightXPos = closestNeighborToRight.getMembraneDestinationRef().getX();
+				}
+				else{
+					// If no neighbors were found to the right, this is
+					// the rightmost LacY.
+					segmentRightXPos = xMin + xRange;
+				}
+				
+				// See if this segment is the largest one so far.
+				if (segmentRightXPos - segmentLeftXPos > bestSegmentRightXPos - bestSegmentLeftXPos){
+					// Indeed it is, so keep track of it.
+					bestSegmentLeftXPos = segmentLeftXPos;
+					bestSegmentRightXPos = segmentRightXPos;
+				}
+			}
+			
+			if (bestSegmentLeftXPos == 0 && bestSegmentRightXPos == 0){
+				// Something went terribly wrong, so log an error and choose a spot.
+				System.err.println(getClass().getName() + " - Error: Algorithm for finding largest free segment failed.");
+				assert false;
+				bestSegmentRightXPos = xMin + xRange;
+			}
+
+			// Make the chosen position be in the center of the largest segment.
+			xPos = bestSegmentLeftXPos + ((bestSegmentRightXPos - bestSegmentLeftXPos) / 2);
 		}
 		
 		return new Point2D.Double(xPos, yPos);
