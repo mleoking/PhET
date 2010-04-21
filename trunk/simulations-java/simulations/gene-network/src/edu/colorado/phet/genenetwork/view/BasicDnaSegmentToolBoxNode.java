@@ -14,10 +14,8 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 public class BasicDnaSegmentToolBoxNode extends DnaSegmentToolBoxNode {
 
-	public BasicDnaSegmentToolBoxNode(PhetPCanvas canvas,
-			IGeneNetworkModelControl model, ModelViewTransform2D mvt) {
+	public BasicDnaSegmentToolBoxNode(PhetPCanvas canvas, IGeneNetworkModelControl model, ModelViewTransform2D mvt) {
 		super(canvas, model, mvt);
-		// TODO Auto-generated constructor stub
 	}
 
 	protected void updateLayout(JComponent parent){
