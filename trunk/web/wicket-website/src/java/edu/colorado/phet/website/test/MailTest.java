@@ -17,8 +17,8 @@ public class MailTest {
             Session session = Session.getDefaultInstance( props, null );
 
             Message message = new MimeMessage( session );
-            message.setFrom( new InternetAddress( "phetnoreply@phet.colorado.edu" ) );
-            message.addRecipient( Message.RecipientType.TO, new InternetAddress( "olsonsjc@gmail.com" ) );
+            message.setFrom( new InternetAddress( "phetnoreply@phetsims.colorado.edu" ) );
+            message.addRecipient( Message.RecipientType.TO, new InternetAddress( "jonathan.olson@colorado.edu" ) );
             message.setSubject( "This is a test subject" );
 
             BodyPart messageBodyPart = new MimeBodyPart();
