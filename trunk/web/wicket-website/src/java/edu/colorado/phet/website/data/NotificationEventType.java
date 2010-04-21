@@ -39,16 +39,4 @@ public enum NotificationEventType {
         }
     }
 
-    public static void onNewContribution( final Contribution contribution ) {
-        HibernateUtils.wrapSession( new HibernateTask() {
-            public boolean run( Session session ) {
-                NotificationEvent event = new NotificationEvent();
-                event.setCreatedAt( new Date() );
-                event.setType( NEW_CONTRIBUTION );
-                event.setData( "contribution_id=" + contribution.getId() );
-                session.save( event );
-                return true;
-            }
-        } );
-    }
 }
