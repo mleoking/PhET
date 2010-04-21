@@ -31,7 +31,7 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.StringUtils;
 
 /**
- * Translatable panel for showing a single contribution
+ * Panel for showing a single contribution (most information about it), and then comments below
  */
 public class ContributionMainPanel extends PhetPanel {
 
@@ -161,6 +161,40 @@ public class ContributionMainPanel extends PhetPanel {
         handleCheck( "stdK4G", contribution.isStandardK4G() );
         handleCheck( "std58G", contribution.isStandard58G() );
         handleCheck( "std912G", contribution.isStandard912G() );
+
+        final List<ContributionComment> comments = new LinkedList<ContributionComment>();
+
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                List list = session.createQuery( "select cc from ContributionComment as cc where cc.contribution = :contribution order by cc.dateCreated " )
+                        .setEntity( "contribution", contribution ).list();
+                for ( Object o : list ) {
+                    ContributionComment comment = (ContributionComment) o;
+
+                    // load the user
+                    comment.getPhetUser();
+                    comments.add( comment );
+                }
+                return true;
+            }
+        } );
+
+        if ( !comments.isEmpty() ) {
+
+            final DateFormat dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, getMyLocale() );
+
+            add( new ListView( "contribution-comment", comments ) {
+                protected void populateItem( ListItem item ) {
+                    ContributionComment comment = (ContributionComment) item.getModel().getObject();
+                    item.add( new Label( "text", comment.getText() ) );
+                    item.add( new Label( "date", dateFormat.format( comment.getDateUpdated() ) ) );
+                    item.add( new Label( "author", comment.getPhetUser().getName() ) );
+                }
+            } );
+        }
+        else {
+            add( new InvisibleComponent( "contribution-comment" ) );
+        }
 
     }
 

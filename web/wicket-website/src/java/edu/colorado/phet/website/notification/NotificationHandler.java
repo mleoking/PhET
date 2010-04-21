@@ -21,6 +21,9 @@ import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
+/**
+ * Handles email notification of events that should be reviewed by the PhET team
+ */
 public class NotificationHandler {
     private static Scheduler notificationScheduler;
 
@@ -31,7 +34,7 @@ public class NotificationHandler {
         }
 
         notificationScheduler = new Scheduler();
-        notificationScheduler.schedule( "59 11 * fri *", new Runnable() {
+        notificationScheduler.schedule( "59 11 * * fri", new Runnable() {
             public void run() {
                 sendNotifications();
             }
