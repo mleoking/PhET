@@ -2,6 +2,7 @@ package edu.colorado.phet.website.content.contribution;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
@@ -14,6 +15,7 @@ import edu.colorado.phet.website.authentication.SignInPage;
 import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.data.contribution.ContributionComment;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
@@ -37,14 +39,14 @@ public class AddContributionCommentPage extends PhetRegularPage {
         super( parameters );
 
         contributionId = parameters.getInt( "contribution_id" );
-        String text = parameters.getString( "text" );
+        final String text = parameters.getString( "text" );
 
         if ( !PhetSession.get().isSignedIn() ) {
             setResponsePage( new RedirectPage( SignInPage.getLinker( getLinker( contributionId, text ).getDefaultRawUrl() ).getDefaultRawUrl() ) );
             return;
         }
 
-        PhetUser user = PhetSession.get().getUser();
+        final PhetUser user = PhetSession.get().getUser();
 
         boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
@@ -59,6 +61,20 @@ public class AddContributionCommentPage extends PhetRegularPage {
         }
 
         logger.debug( "adding comment to contribution " + contribution.getId() + " with user " + user.getEmail() + " and text " + text );
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                Contribution contrib = (Contribution) session.load( Contribution.class, contribution.getId() );
+                PhetUser phetuser = (PhetUser) session.load( PhetUser.class, user.getId() );
+                ContributionComment comment = new ContributionComment();
+                comment.setText( text );
+                comment.setDateCreated( new Date() );
+                comment.setDateUpdated( new Date() );
+                comment.setContribution( contrib );
+                comment.setPhetUser( phetuser );
+                session.save( comment );
+                return true;
+            }
+        } );
 
         // redirect back to contribution page
         setResponsePage( new RedirectPage( ContributionPage.getLinker( contributionId ).getDefaultRawUrl() ) );
