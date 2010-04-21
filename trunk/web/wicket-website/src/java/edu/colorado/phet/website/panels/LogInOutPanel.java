@@ -32,6 +32,7 @@ public class LogInOutPanel extends PhetPanel {
             add( SignOutPage.getLinker().getLink( "sign-out", context, getPhetCycle() ) );
             add( EditProfilePage.getLinker().getLink( "edit-profile", context, getPhetCycle() ) );
             add( new InvisibleComponent( "sign-in" ) );
+            add( new Label( "current-email", psession.getUser().getEmail() ) );
             if ( PhetSession.get().getUser().isTeamMember() ) {
                 BookmarkablePageLink link = new BookmarkablePageLink( "admin-link", AdminMainPage.class );
                 add( link );
@@ -43,6 +44,7 @@ public class LogInOutPanel extends PhetPanel {
         else {
             // user is not signed in
 
+            add( new InvisibleComponent( "current-email" ) );
             add( new InvisibleComponent( "edit-profile" ) );
             add( new InvisibleComponent( "sign-out" ) );
             if ( DistributionHandler.displayLogin( getPhetCycle() ) ) {

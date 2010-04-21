@@ -78,7 +78,7 @@ div.rtl #page-header-title {
     top: 0;
     right: 0;
     color: white;
-    padding: 1em;
+    padding: 0.5em;
 }
 
 body.rtl .log-in-out {
