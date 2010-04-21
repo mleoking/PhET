@@ -1,3 +1,5 @@
+# 0.00.18 (40008) Apr 21, 2010
+4/21/10 2nd candidate for review with UBC folks, fixes issue with placement of LacY on the cell membrane.
 # 0.00.17 (40005) Apr 21, 2010
 4/21/10 Candidate for review with UBC folks, includes adjustments to params that should keep lactose levels more stable.
 # 0.00.16 (39752) Apr 8, 2010
