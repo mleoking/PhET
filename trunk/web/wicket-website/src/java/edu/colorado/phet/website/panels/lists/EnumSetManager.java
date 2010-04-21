@@ -92,7 +92,15 @@ public abstract class EnumSetManager<E extends Enum> implements Serializable {
         HibernateUtils.wrapTransaction( session, new HibernateTask() {
             public boolean run( Session session ) {
                 for ( E type : allValues ) {
-                    titleMap.put( type, StringUtils.getString( session, getTranslationKey( type ), locale ) );
+                    String translatedString = StringUtils.getString( session, getTranslationKey( type ), locale );
+                    if ( translatedString == null ) {
+                        // if the string isn't translated yet, use the English version? hrmm...
+                        translatedString = StringUtils.getString( session, getTranslationKey( type ) );
+                    }
+                    if ( translatedString == null ) {
+                        logger.warn( "failure to get a good string for translation key " + getTranslationKey( type ) + " for val " + type );
+                    }
+                    titleMap.put( type, translatedString );
                 }
                 return true;
             }
