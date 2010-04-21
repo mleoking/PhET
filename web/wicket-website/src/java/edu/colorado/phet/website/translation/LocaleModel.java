@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.apache.wicket.model.IModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.website.PhetWicketApplication;
 
 /**
  * Wicket model of a locale that makes it easy to use within locale drop-down boxes
@@ -38,7 +39,7 @@ class LocaleModel implements IModel {
             locale = (Locale) ( (LocaleModel) object ).getObject();
         }
         else if ( object == null ) {
-            locale = null;
+            locale = PhetWicketApplication.getDefaultLocale();
         }
         else {
             throw new RuntimeException( "Bad LocaleModel! : " + object.getClass().getCanonicalName() );
