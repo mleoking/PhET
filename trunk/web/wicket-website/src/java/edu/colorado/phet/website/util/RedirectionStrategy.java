@@ -24,16 +24,20 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static Map<String, String> map = new HashMap<String, String>();
 
     private static Map<String, String> categoryMap = new HashMap<String, String>();
+    private static Map<String, String> badCategoryMap = new HashMap<String, String>(); // for those ugly variations that aren't immediately caught
 
     private static final String VIEW_CONTRIBUTION = "/teacher_ideas/view-contribution.php";
     private static final String VIEW_CATEGORY = "/simulations/index.php";
+    private static final String VIEW_SIM = "/simulations/sims.php";
 
     static {
-        // initialize redirection mapping
+        // initialize redirection mapping. value of null indicates that it will be handled by custom code, usually for query parameters
         map.put( "/about/index.php", "/en/about" );
         map.put( "/contribute/index.php", "/en/contribute" );
         map.put( "/index.php", "/" );
         map.put( "/research/index.php", "/en/research" );
+        map.put( "/simulations", "/en/simulations/category/featured" );
+        map.put( "/simulations/", "/en/simulations/category/featured" );
         map.put( "/simulations/translations.php", "/en/simulations/translated" );
         map.put( "/tech_support/index.php", "/en/troubleshooting" );
         map.put( "/tech_support/support-flash.php", "/en/troubleshooting/flash" );
@@ -44,6 +48,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
         map.put( VIEW_CONTRIBUTION, null );
         map.put( VIEW_CATEGORY, null );
+        map.put( VIEW_SIM, null );
 
 
         categoryMap.put( "Featured_Sims", "featured" );
@@ -70,7 +75,16 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         categoryMap.put( "High_School_", "by-level/high-school" );
         categoryMap.put( "University_", "by-level/university" );
         categoryMap.put( "Cutting_Edge_Research", "cutting-edge-research" );
-        
+
+        // grandfathered because they are still linked. all_sims is handled lower, to handle without the 'category' prefix
+        categoryMap.put( "Top_Simulations", "featured" );
+        categoryMap.put( "Top_Simulation", "featured" );
+        categoryMap.put( "", "featured" ); // yes, somehow there are a number with this blank
+
+        for ( String key : categoryMap.keySet() ) {
+            badCategoryMap.put( processCategoryName( key ), categoryMap.get( key ) );
+        }
+
 
         // TODO: add all URLs
     }
@@ -123,13 +137,30 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
                 return prefix + "featured";
             }
             String cat = ( (String[]) parameters.get( "cat" ) )[0];
+            if ( cat.equals( "All_Sims" ) ) {
+                return "/en/simulations/index";
+            }
             String newcat = categoryMap.get( cat );
+            if ( newcat == null ) {
+                logger.debug( "didn't match category yet, trying badcat: " + processCategoryName( cat ) );
+                // run it through the bad matcher
+                newcat = badCategoryMap.get( processCategoryName( cat ) );
+                if ( newcat != null ) {
+                    logger.debug( "matched category " + cat + " only with bad cat " + processCategoryName( cat ) );
+                }
+            }
+            else {
+                logger.debug( "matched category " + cat + " directly" );
+            }
             if ( newcat != null ) {
                 return prefix + newcat;
             }
 
-            // ignore old categories?
+            // ignore VERY unsupported categories by redirecting to 'featured'
             return prefix + "featured";
+        }
+        else if ( path.startsWith( VIEW_SIM ) ) {
+
         }
         return null;
     }
@@ -181,5 +212,15 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         // TODO: add in more complicated redirection matching here?
 
         return false;
+    }
+
+    /**
+     * Hack away at a possible category name so we can get a generous match to handle old (bad) URLs
+     *
+     * @param name The presented name
+     * @return The "cleaned" version
+     */
+    private static String processCategoryName( String name ) {
+        return name.replace( "_", "" ).replace( " ", "" ).toLowerCase();
     }
 }
