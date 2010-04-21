@@ -200,7 +200,8 @@ public interface IGeneNetworkModelControl {
 	 * moving towards some other model element).
 	 * 
 	 * @param pt - Location of the requester.
-	 * @param positionWrtCell TODO
+	 * @param positionWrtCell - Position with respect to the cell, meaning
+	 * whether it should be outside or inside.
 	 * @param freeOnly - Only return free lactose molecules, i.e. ones that
 	 * are not attached to something else or heading towards such an
 	 * attachment.
