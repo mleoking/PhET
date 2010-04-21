@@ -10,21 +10,22 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
+import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
-import edu.colorado.phet.website.data.*;
-import edu.colorado.phet.website.data.util.HibernateEventListener;
+import edu.colorado.phet.website.data.LocalizedSimulation;
+import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionLevel;
 import edu.colorado.phet.website.data.contribution.ContributionType;
+import edu.colorado.phet.website.data.util.HibernateEventListener;
+import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.WicketUtils;
-import edu.colorado.phet.website.cache.EventDependency;
-import edu.colorado.phet.website.panels.PhetPanel;
 
 public class ContributionBrowsePanel extends PhetPanel {
 

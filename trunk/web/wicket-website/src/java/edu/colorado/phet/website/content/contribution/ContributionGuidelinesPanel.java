@@ -2,7 +2,6 @@ package edu.colorado.phet.website.content.contribution;
 
 import org.apache.wicket.behavior.HeaderContributor;
 
-import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;

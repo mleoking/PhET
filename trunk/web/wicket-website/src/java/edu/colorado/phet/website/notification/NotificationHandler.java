@@ -1,5 +1,7 @@
 package edu.colorado.phet.website.notification;
 
+import it.sauronsoftware.cron4j.Scheduler;
+
 import java.util.*;
 
 import javax.mail.*;
@@ -20,9 +22,22 @@ import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
 public class NotificationHandler {
+    private static Scheduler notificationScheduler;
 
-    public static void initialize() {
-        // TODO: load cron4j
+    public static synchronized void initialize() {
+        if ( notificationScheduler != null ) {
+            // don't initialize first
+            return;
+        }
+
+        notificationScheduler = new Scheduler();
+        notificationScheduler.schedule( "59 11 * fri *", new Runnable() {
+            public void run() {
+                sendNotifications();
+            }
+        } );
+
+        notificationScheduler.start();
 
         HibernateEventListener.addListener( Contribution.class, new AbstractChangeListener() {
             @Override

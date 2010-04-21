@@ -5,10 +5,8 @@ import java.util.Locale;
 
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.data.contribution.ContributionType;
-import edu.colorado.phet.website.data.contribution.Type;
-import edu.colorado.phet.website.data.contribution.Level;
 import edu.colorado.phet.website.data.contribution.ContributionLevel;
+import edu.colorado.phet.website.data.contribution.Level;
 
 /**
  * Handles selection of a subset of levels

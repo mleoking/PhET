@@ -42,9 +42,10 @@ public class TranslationEntityString implements Serializable {
 
     @Override
     public boolean equals( Object o ) {
-        if( o instanceof TranslationEntityString ) {
-            return ((TranslationEntityString) o).getKey().equals( key );
-        } else{
+        if ( o instanceof TranslationEntityString ) {
+            return ( (TranslationEntityString) o ).getKey().equals( key );
+        }
+        else {
             return false;
         }
     }

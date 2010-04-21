@@ -1,23 +1,23 @@
 package edu.colorado.phet.website.authentication.panels;
 
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
+import org.apache.log4j.Logger;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.CheckBox;
-import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.StringTextField;
+import edu.colorado.phet.website.data.PhetUser;
+import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.PageContext;
 
 public class EditProfilePanel extends PhetPanel {
 
@@ -163,7 +163,8 @@ public class EditProfilePanel extends PhetPanel {
                 logger.error( "Reason: " + errorString );
                 errorString = getPhetLocalizer().getString( "validation.user.problems", this, "Please fix the following problems with the form:" ) + "<br/>" + errorString;
                 errorModel.setObject( errorString );
-            } else {
+            }
+            else {
                 errorModel.setObject( "" );
             }
         }

@@ -10,8 +10,8 @@ import org.apache.wicket.markup.html.list.ListView;
 import edu.colorado.phet.website.content.contribution.ContributionEditPage;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.data.contribution.Contribution;
-import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.PageContext;
 
 /**
  * Shows a list of contributions, their authors, and a list of actions that can be taken

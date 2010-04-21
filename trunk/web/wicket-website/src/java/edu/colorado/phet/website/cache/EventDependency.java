@@ -8,8 +8,8 @@ import org.hibernate.event.PostDeleteEvent;
 import org.hibernate.event.PostInsertEvent;
 import org.hibernate.event.PostUpdateEvent;
 
-import edu.colorado.phet.website.data.util.IChangeListener;
 import edu.colorado.phet.website.data.TranslatedString;
+import edu.colorado.phet.website.data.util.IChangeListener;
 
 /**
  * A dependency for a particular cached panel. Should set up listeners to detect when this dependency is invalidated,

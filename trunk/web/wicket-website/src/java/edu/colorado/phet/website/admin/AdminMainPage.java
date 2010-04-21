@@ -10,8 +10,8 @@ import org.apache.wicket.util.value.ValueMap;
 
 import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.transfer.TransferData;
-import edu.colorado.phet.website.test.LuceneTest;
 import edu.colorado.phet.website.notification.NotificationHandler;
+import edu.colorado.phet.website.test.LuceneTest;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.StringUtils;
 

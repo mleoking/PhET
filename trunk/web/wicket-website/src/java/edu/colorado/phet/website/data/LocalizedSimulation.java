@@ -5,8 +5,8 @@ import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.components.PhetLink;
-import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.data.util.IntId;
+import edu.colorado.phet.website.util.HibernateUtils;
 
 public class LocalizedSimulation implements Serializable, IntId {
     private int id;

@@ -3,7 +3,6 @@ package edu.colorado.phet.website.content.about;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.ResearchPanel;
-import edu.colorado.phet.website.content.simulations.SimulationDisplay;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
