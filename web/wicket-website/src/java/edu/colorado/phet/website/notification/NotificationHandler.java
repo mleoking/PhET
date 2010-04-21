@@ -1,4 +1,4 @@
-package edu.colorado.phet.website.test;
+package edu.colorado.phet.website.notification;
 
 import java.util.Properties;
 
@@ -8,7 +8,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-public class MailTest {
+public class NotificationHandler {
     public static void main( String[] args ) {
         try {
             Properties props = System.getProperties();
