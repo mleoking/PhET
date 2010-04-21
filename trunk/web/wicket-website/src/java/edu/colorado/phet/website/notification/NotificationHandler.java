@@ -1,22 +1,19 @@
 package edu.colorado.phet.website.notification;
 
-import java.util.Properties;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.mail.*;
-import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.hibernate.*;
-
-import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.NotificationEvent;
 import edu.colorado.phet.website.data.NotificationEventType;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.util.HibernateTask;
+import edu.colorado.phet.website.util.HibernateUtils;
 
 public class NotificationHandler {
     public static void main( String[] args ) {
@@ -32,7 +29,14 @@ public class NotificationHandler {
             message.setSubject( "This is a test subject" );
 
             BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText( "This is the message of the test email" );
+            String body = "This is the message of the test email.<br/><br/>";
+
+            body += "<strong>Bold test</strong>";
+
+
+            body += "<br/><br/>Mailed automatically by the PhET website";
+
+            messageBodyPart.setContent( body, "text/html; charset=ISO-8859-1" );
 
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart( messageBodyPart );
