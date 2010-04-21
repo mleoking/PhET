@@ -8,11 +8,12 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
 
+import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.transfer.TransferData;
 import edu.colorado.phet.website.test.LuceneTest;
+import edu.colorado.phet.website.test.MailTest;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.StringUtils;
-import edu.colorado.phet.website.components.StringTextField;
 
 public class AdminMainPage extends AdminPage {
 
@@ -54,6 +55,12 @@ public class AdminMainPage extends AdminPage {
             public void onClick() {
                 // DO NOT REMOVE for future everything
                 LuceneTest.addSimulations( getHibernateSession(), (PhetLocalizer) getLocalizer(), getNavMenu() );
+            }
+        } );
+
+        add( new Link( "debug-email" ) {
+            public void onClick() {
+                MailTest.main( new String[]{} );
             }
         } );
     }
