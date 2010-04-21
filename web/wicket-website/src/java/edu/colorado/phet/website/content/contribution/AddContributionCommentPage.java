@@ -42,7 +42,7 @@ public class AddContributionCommentPage extends PhetRegularPage {
         final String text = parameters.getString( "text" );
 
         if ( !PhetSession.get().isSignedIn() ) {
-            setResponsePage( new RedirectPage( SignInPage.getLinker( getLinker( contributionId, text ).getDefaultRawUrl() ).getDefaultRawUrl() ) );
+            setResponsePage( new RedirectPage( SignInPage.getLinker( getLinker( contributionId, text ).getRawUrl( getPageContext(), getPhetCycle() ) ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
             return;
         }
 
@@ -77,7 +77,7 @@ public class AddContributionCommentPage extends PhetRegularPage {
         } );
 
         // redirect back to contribution page
-        setResponsePage( new RedirectPage( ContributionPage.getLinker( contributionId ).getDefaultRawUrl() ) );
+        setResponsePage( new RedirectPage( ContributionPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
 
     }
 
