@@ -310,4 +310,8 @@ public class PhetWicketApplication extends WebApplication {
         return (PhetWicketApplication) WebApplication.get();
     }
 
+    @Override
+    protected void onDestroy() {
+        NotificationHandler.destroy();
+    }
 }
