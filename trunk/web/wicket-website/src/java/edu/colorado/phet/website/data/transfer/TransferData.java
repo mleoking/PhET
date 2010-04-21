@@ -84,7 +84,7 @@ public class TransferData {
                         }
                         guide.setSimulation( simulation );
                         guide.setFilename( simulation.getName() + "-guide.pdf" );
-                        guide.setLocation( guide.getFileLocation().getAbsolutePath() );
+                        //guide.setLocation( guide.getFileLocation().getAbsolutePath() );
 
                         Blob blob = result.getBlob( "teachers_guide_contents" );
                         File file = guide.getFileLocation();
