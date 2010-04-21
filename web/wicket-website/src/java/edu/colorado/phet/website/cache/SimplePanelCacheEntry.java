@@ -2,6 +2,7 @@ package edu.colorado.phet.website.cache;
 
 import java.util.Locale;
 import java.util.Map;
+import java.io.Serializable;
 
 import org.apache.log4j.Logger;
 
@@ -28,7 +29,7 @@ import edu.colorado.phet.website.util.PageContext;
  * <p/>
  * Additionally, parameters can be stored within the map to be used later.
  */
-public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry {
+public abstract class SimplePanelCacheEntry extends AbstractPanelCacheEntry implements Serializable {
 
     /**
      * Represents the cached header string (everything inserted into the head tag)
