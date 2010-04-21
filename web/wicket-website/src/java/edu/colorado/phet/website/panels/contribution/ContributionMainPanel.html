@@ -280,6 +280,11 @@
 
         <h3><wicket:message key="contribution.view.comments">Comments</wicket:message></h3>
 
+        <p><wicket:message key="contribution.view.commentsHeader">
+            What do you think about this activity? How did you use it or change it for your class? Professionally
+            constructive comments welcome. 
+        </wicket:message></p>
+
         <wicket:enclosure child="contribution-comment">
             <ul class="contribution-comments-holder">
                 <li wicket:id="contribution-comment">
@@ -298,6 +303,23 @@
                 </li>
             </ul>
         </wicket:enclosure>
+
+        <!--<form wicket:id="add-comment-form">-->
+            <!--<div class="add-comment-holder">-->
+                <!--<textarea rows="7" cols="50" wicket:id="value"></textarea>-->
+                <!--<br/>-->
+                <!--<input type="submit" name="submit" wicket:message="value:contribution.view.addComment"/>-->
+            <!--</div>-->
+        <!--</form>-->
+
+        <form wicket:id="add-comment-form" method="get">
+            <div class="add-comment-holder">
+                <input type="hidden" name="contribution_id" wicket:id="contrib-id-holder"/>
+                <textarea rows="7" cols="50" name="text"></textarea>
+                <br/>
+                <input type="submit" name="submit" wicket:message="value:contribution.view.addComment"/>
+            </div>
+        </form>
 
     </div>
 </wicket:panel>

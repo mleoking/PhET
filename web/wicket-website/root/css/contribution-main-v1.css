@@ -122,3 +122,12 @@ div.rtl .contribution-comment-date {
     clear: both;
 }
 
+.add-comment-holder {
+    /*margin: 0 50px;*/
+    text-align: right;
+}
+
+.add-comment-text {
+    
+}
+
