@@ -203,7 +203,7 @@ public class ContributionMainPanel extends PhetPanel {
         // here we manually build up an HTML form so we can send it directly to our custom adding comment page
         WebMarkupContainer commentForm = new WebMarkupContainer( "add-comment-form" );
         add( commentForm );
-        commentForm.add( new AttributeAppender( "action", new Model( AddContributionCommentPage.getBaseLinker().getDefaultRawUrl() ), "" ) );
+        commentForm.add( new AttributeAppender( "action", new Model( AddContributionCommentPage.getBaseLinker().getRawUrl( context, getPhetCycle() ) ), "" ) );
         Label commentContrib = new Label( "contrib-id-holder", "" );
         commentForm.add( commentContrib );
         commentContrib.add( new AttributeAppender( "value", new Model( Integer.toString( contribution.getId() ) ), "" ) );
@@ -290,23 +290,5 @@ public class ContributionMainPanel extends PhetPanel {
         }
         return StringUtils.combineStringsIntoList( this, strings, StringUtils.getSeparator( this ) );
     }
-
-//    private class AddCommentForm extends StatelessForm {
-//        private TextArea textArea;
-//        private int contributionId;
-//
-//        public AddCommentForm( String id, int contributionId ) {
-//            super( id );
-//            this.contributionId = contributionId;
-//
-//            textArea = new TextArea( "value", new Model( "" ) );
-//            add( textArea );
-//        }
-//
-//        @Override
-//        protected void onSubmit() {
-//            setResponsePage( new RedirectPage( AddContributionCommentPage.getLinker( contributionId, textArea.getModelObjectAsString() ).getDefaultRawUrl() ) );
-//        }
-//    }
 
 }
