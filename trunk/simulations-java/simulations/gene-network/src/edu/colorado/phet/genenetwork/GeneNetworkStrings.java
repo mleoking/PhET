@@ -15,8 +15,6 @@ public class GeneNetworkStrings {
     public static final String TITLE_LACTOSE_REGULATION = GeneNetworkResources.getString( "ModuleTitle.LactoseRegulation" );
     public static final String TITLE_LACTOSE_TRANSPORT = GeneNetworkResources.getString( "ModuleTitle.LactoseTransport" );
 
-    public static final String UNITS_TIME = GeneNetworkResources.getString( "units.time" );
-    
     // Labels for the model elements that have them.
     public static final String LAC_Z_GENE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.LacZGene" );
     public static final String LAC_I_GENE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.LacIGene" );
@@ -43,7 +41,6 @@ public class GeneNetworkStrings {
     public static final String LEGEND_VISIBILITY_CONTROL_CAPTION = GeneNetworkResources.getString("LegendVisibilityControlCaption");
     public static final String LACTOSE_METER_VISIBILITY_CONTROL_CAPTION = GeneNetworkResources.getString("LactoseMeterVisibilityControlCaption");
     public static final String LACTOSE_METER_CAPTION = GeneNetworkResources.getString("LactoseMeterCaption");
-    public static final String RESET = GeneNetworkResources.getString("Reset");
     public static final String LACTOSE_INJECTOR_LABEL = GeneNetworkResources.getString("LactoseInjectorLabel");
     public static final String MANUAL_LACTOSE_INJECTION_LABEL = GeneNetworkResources.getString("ManualLactoseInjection");
     public static final String AUTO_LACTOSE_INJECTION_LABEL = GeneNetworkResources.getString("AutoLactoseInjection");
