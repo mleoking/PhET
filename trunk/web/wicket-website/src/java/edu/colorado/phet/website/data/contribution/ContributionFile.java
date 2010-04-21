@@ -25,7 +25,6 @@ public class ContributionFile implements Serializable, IntId {
     private int id;
     private Contribution contribution;
     private String filename;
-    private String location;
     private int size; // bytes
 
     private static Logger logger = Logger.getLogger( ContributionFile.class.getName() );
@@ -130,14 +129,6 @@ public class ContributionFile implements Serializable, IntId {
 
     public void setFilename( String filename ) {
         this.filename = filename;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation( String location ) {
-        this.location = location;
     }
 
     public int getSize() {
