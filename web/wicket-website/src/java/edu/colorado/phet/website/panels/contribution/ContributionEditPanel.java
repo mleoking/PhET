@@ -576,7 +576,7 @@ public class ContributionEditPanel extends PhetPanel {
                         cfile.setSize( (int) upload.getSize() );
 
                         // remember to contribution.addFile before this, otherwise it will fail
-                        cfile.setLocation( cfile.getFileLocation().getAbsolutePath() );
+                        //cfile.setLocation( cfile.getFileLocation().getAbsolutePath() ); TODO: remove this line after confirming transferdata works
                         File file = cfile.getFileLocation();
                         file.getParentFile().mkdirs();
                         try {

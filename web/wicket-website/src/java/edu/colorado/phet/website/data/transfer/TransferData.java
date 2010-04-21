@@ -304,7 +304,7 @@ public class TransferData {
                             logger.error( e );
                             return false;
                         }
-                        cfile.setLocation( String.valueOf( result.getInt( "contribution_id" ) ) );
+                        //cfile.setLocation( String.valueOf( result.getInt( "contribution_id" ) ) );
                         cfile.setSize( (int) file.length() );
 
                         return true;
@@ -477,12 +477,12 @@ public class TransferData {
                     List cfiles = session.createQuery( "select f from ContributionFile as f" ).list();
                     for ( Object o : cfiles ) {
                         ContributionFile cfile = (ContributionFile) o;
-                        File oldFile = cfile.getTmpFileLocation( cfile.getLocation() );
+                        File oldFile = cfile.getTmpFileLocation( Integer.toString( cfile.getContribution().getOldId() ) );
                         File newFile = cfile.getFileLocation();
                         newFile.getParentFile().mkdirs();
                         oldFile.renameTo( newFile );
                         oldFile.getParentFile().delete();
-                        cfile.setLocation( cfile.getFileLocation().getAbsolutePath() );
+                        //cfile.setLocation( cfile.getFileLocation().getAbsolutePath() );
                         session.update( cfile );
                     }
 
