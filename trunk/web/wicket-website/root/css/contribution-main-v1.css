@@ -70,3 +70,38 @@ div.rtl .contribute-standard-label {
     font-weight: bold;
     font-size: 120%;
 }
+
+.contribution-comments-holder {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.contribution-comments-holder li {
+    list-style: none;
+    display: block;
+    padding: 1em;
+}
+
+.contribution-comment-text {
+    display: block;
+    text-align: left;
+    padding-bottom: 5px;
+}
+
+.contribution-comment-author {
+    display: block;
+    float: right;
+    font-weight: bold;
+}
+
+.contribution-comment-date {
+    display: block;
+    float: left;
+    color: #888888;
+}
+
+.comment-clear {
+    display: block;
+    clear: both;
+}
+
