@@ -60,7 +60,7 @@ public class AdminMainPage extends AdminPage {
 
         add( new Link( "debug-email" ) {
             public void onClick() {
-                NotificationHandler.main( new String[]{} );
+                NotificationHandler.sendNotifications();
             }
         } );
     }
