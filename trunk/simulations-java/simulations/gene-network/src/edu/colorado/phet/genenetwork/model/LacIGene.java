@@ -42,30 +42,6 @@ public class LacIGene extends SimpleModelElement {
     // Methods
     //------------------------------------------------------------------------
 	
-	/*
-	 * TODO: This was removed when we changed the sim so that the lac I gene
-	 * is transcribed by RNA polymerase, instead of spontaneously generating
-	 * the mRNA.  This was done Dec 28, 2009, and should be permanently
-	 * removed once we are sure that it is what is desired.
-	@Override
-	public void stepInTime(double dt) {
-		super.stepInTime(dt);
-		if (!isUserControlled()){
-			mRnaGenCountdownTimer -= dt;
-			if (mRnaGenCountdownTimer <= 0){
-				// Time to generate the next strand of messenger RNA.  This is
-				// done by creating a transformation arrow that will lead to the
-				// creation of the actual mRNA.
-				MessengerRna mRna = new LacIMessengerRna(getModel(), 20);
-				MessengerRnaTransformationArrow arrow = new MessengerRnaTransformationArrow(getModel(), mRna);
-				arrow.setPosition(getPositionRef().getX(), getPositionRef().getY() + 7);
-				getModel().addTransformationArrow(arrow);
-				mRnaGenCountdownTimer = PERIOD_OF_MRNA_GENERATION;
-			}
-		}
-	}
-	 */
-
 	@Override
 	public String getHtmlLabel() {
 		return GeneNetworkStrings.LAC_I_GENE_LABEL;
