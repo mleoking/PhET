@@ -78,11 +78,11 @@ public class SodiumDualGatedChannel extends GatedChannel {
     // Constructor
     //----------------------------------------------------------------------------
 	
-	public SodiumDualGatedChannel(IHodgkinHuxleyModel hodgkinHuxleyModel, IParticleCapture modelContainingParticles) {
+	public SodiumDualGatedChannel(IParticleCapture modelContainingParticles, IHodgkinHuxleyModel hodgkinHuxleyModel) {
 		
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 		this.hodgkinHuxleyModel = hodgkinHuxleyModel;
-		setInteriorCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, Math.PI * 0.8));
+		setExteriorCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, Math.PI * 0.8));
 		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
 		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
 		
@@ -278,7 +278,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 			}
 		};
 		final IHodgkinHuxleyModel hhModel = new ModifiedHodgkinHuxleyModel();
-        final SodiumDualGatedChannel sodiumDualGatedChannel = new SodiumDualGatedChannel(hhModel, particleCapture);
+        final SodiumDualGatedChannel sodiumDualGatedChannel = new SodiumDualGatedChannel(particleCapture, hhModel);
         sodiumDualGatedChannel.setRotationalAngle(Math.PI / 2);
         MembraneChannelNode channelNode = new MembraneChannelNode(sodiumDualGatedChannel, mvt);
         
