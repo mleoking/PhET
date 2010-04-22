@@ -31,7 +31,6 @@ public abstract class GatedChannel extends MembraneChannel {
 	// Instance Data
 	//----------------------------------------------------------------------------
 	
-	private MembraneChannelFlowDirection flowDirection = MembraneChannelFlowDirection.NONE;
 	private int atomMotionUpdateCounter = 0;
 	private ArrayList<AtomCountdownPair> recentlyReleaseAtoms = new ArrayList<AtomCountdownPair>();
 	
