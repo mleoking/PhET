@@ -156,7 +156,9 @@ public double distance(Solution s) {
         }
     }
 
-    //Subclasses should have proper equals and hashcode for hashmapping
+    //This class represents an Element in a circuit, such as a Battery, Resistor, Capacitor, etc.
+    //Comparisons must be made based on the identity of the object, not based on the content of the object, since, e.g.,
+    //two identical resistors may connect the same nodes, and they should not be treated as the same resistor.
     public static abstract class Element {
         int node0;
 
@@ -181,34 +183,6 @@ public double distance(Solution s) {
             else {
                 throw new RuntimeException( "node not found" );
             }
-        }
-
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-
-            Element element = (Element) o;
-
-            if ( node0 != element.node0 ) {
-                return false;
-            }
-            if ( node1 != element.node1 ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = node0;
-            result = 31 * result + node1;
-            return result;
         }
 
         @Override
