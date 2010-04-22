@@ -25,7 +25,7 @@ public class SodiumLeakageChannelToolBoxNode extends ToolBoxItem {
 
 	@Override
 	protected void handleAddRequest(Point2D position) {
-		setMembraneChannel(new SodiumLeakageChannel(getModel()));
+		setMembraneChannel(new SodiumLeakageChannel(getModel(), null));
 		getMembraneChannel().setRotationalAngle(Math.PI / 2);
 		getMembraneChannel().setCenterLocation(getMvt().viewToModel(position));
 		getModel().addUserControlledMembraneChannel(getMembraneChannel());
