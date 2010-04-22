@@ -100,4 +100,9 @@ public class PotassiumGatedChannel extends GatedChannel {
 	protected ParticleType getParticleTypeToCapture() {
 		return ParticleType.POTASSIUM_ION;
 	}
+
+	@Override
+	protected MembraneCrossingDirection chooseCrossingDirection() {
+		return MembraneCrossingDirection.IN_TO_OUT;
+	}
 }

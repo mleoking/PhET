@@ -135,4 +135,9 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
 			}
 		}
 	}
+
+	@Override
+	protected MembraneCrossingDirection chooseCrossingDirection() {
+		return MembraneCrossingDirection.IN_TO_OUT;
+	}
 }

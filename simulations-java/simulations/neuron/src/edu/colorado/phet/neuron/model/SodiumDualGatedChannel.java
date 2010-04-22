@@ -315,4 +315,9 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		
 		clock.start();
 	}
+
+	@Override
+	protected MembraneCrossingDirection chooseCrossingDirection() {
+		return MembraneCrossingDirection.OUT_TO_IN;
+	}
 }
