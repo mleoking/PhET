@@ -121,6 +121,7 @@ public class PureJavaSolver extends CircuitSolver {
         //See #1813 and TestTheveninCapacitorRC
 
         boolean useWorkaround = true;
+
         void applySolution(CompanionMNA.CompanionSolution sol) {
             long elapsedSinceWorkaround = System.currentTimeMillis() - lastTimeWorkaroundApplied;
 
