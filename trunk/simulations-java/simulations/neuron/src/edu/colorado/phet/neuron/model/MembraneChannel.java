@@ -105,11 +105,11 @@ public abstract class MembraneChannel {
 		
     	switch (channelType){
     	case SODIUM_LEAKAGE_CHANNEL:
-    		membraneChannel = new SodiumLeakageChannel(particleModel);
+    		membraneChannel = new SodiumLeakageChannel(particleModel, hodgkinHuxleyModel);
     		break;
     		
     	case SODIUM_GATED_CHANNEL:
-    		membraneChannel = new SodiumDualGatedChannel(hodgkinHuxleyModel, particleModel);
+    		membraneChannel = new SodiumDualGatedChannel(particleModel, hodgkinHuxleyModel);
     		break;
     		
     	case POTASSIUM_LEAKAGE_CHANNEL:
@@ -117,7 +117,7 @@ public abstract class MembraneChannel {
     		break;
     		
 		case POTASSIUM_GATED_CHANNEL:
-			membraneChannel = new PotassiumGatedChannel(hodgkinHuxleyModel, particleModel);
+			membraneChannel = new PotassiumGatedChannel(particleModel, hodgkinHuxleyModel);
 			break;
     	}
     	
