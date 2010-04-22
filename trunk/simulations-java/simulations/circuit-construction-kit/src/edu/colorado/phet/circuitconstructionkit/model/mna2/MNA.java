@@ -210,37 +210,6 @@ public double distance(Solution s) {
             return node1;
         }
 
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-            if ( !super.equals( o ) ) {
-                return false;
-            }
-
-            Battery battery = (Battery) o;
-
-            if ( Double.compare( battery.voltage, voltage ) != 0 ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = super.hashCode();
-            long temp;
-            temp = voltage != +0.0d ? Double.doubleToLongBits( voltage ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            return result;
-        }
-
-        @Override
         public String toString() {
             return "Battery{" +
                    "[" + node0 + "->" + node1 + "], " +
@@ -257,37 +226,6 @@ public double distance(Solution s) {
             this.resistance = resistance;
         }
 
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-            if ( !super.equals( o ) ) {
-                return false;
-            }
-
-            Resistor resistor = (Resistor) o;
-
-            if ( Double.compare( resistor.resistance, resistance ) != 0 ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = super.hashCode();
-            long temp;
-            temp = resistance != +0.0d ? Double.doubleToLongBits( resistance ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            return result;
-        }
-
-        @Override
         public String toString() {
             return "Resistor{" +
                    "[" + node0 + "->" + node1 + "], " +
@@ -304,37 +242,6 @@ public double distance(Solution s) {
             this.current = current;
         }
 
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-            if ( !super.equals( o ) ) {
-                return false;
-            }
-
-            CurrentSource that = (CurrentSource) o;
-
-            if ( Double.compare( that.current, current ) != 0 ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = super.hashCode();
-            long temp;
-            temp = current != +0.0d ? Double.doubleToLongBits( current ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            return result;
-        }
-
-        @Override
         public String toString() {
             return "CurrentSource{" +
                    "current=" + current +
@@ -368,42 +275,6 @@ public double distance(Solution s) {
             this.batteries = batteries;
             this.resistors = resistors;
             this.currentSources = currentSources;
-        }
-
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-
-            Circuit circuit = (Circuit) o;
-
-            if ( debug != circuit.debug ) {
-                return false;
-            }
-            if ( !batteries.equals( circuit.batteries ) ) {
-                return false;
-            }
-            if ( !currentSources.equals( circuit.currentSources ) ) {
-                return false;
-            }
-            if ( !resistors.equals( circuit.resistors ) ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = batteries.hashCode();
-            result = 31 * result + resistors.hashCode();
-            result = 31 * result + currentSources.hashCode();
-            result = 31 * result + ( debug ? 1 : 0 );
-            return result;
         }
 
         @Override

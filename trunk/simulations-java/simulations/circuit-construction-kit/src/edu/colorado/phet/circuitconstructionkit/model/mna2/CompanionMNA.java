@@ -20,39 +20,6 @@ public class CompanionMNA {
 
         abstract double getVoltage( MNA.Solution solution );
 
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-
-            CompanionModel that = (CompanionModel) o;
-
-            if ( !batteries.equals( that.batteries ) ) {
-                return false;
-            }
-            if ( !currentSources.equals( that.currentSources ) ) {
-                return false;
-            }
-            if ( !resistors.equals( that.resistors ) ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = batteries.hashCode();
-            result = 31 * result + resistors.hashCode();
-            result = 31 * result + currentSources.hashCode();
-            return result;
-        }
-
-        @Override
         public String toString() {
             return "CompanionModel{" +
                    "batteries=" + batteries +
@@ -111,47 +78,6 @@ public class CompanionMNA {
             };
         }
 
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-            if ( !super.equals( o ) ) {
-                return false;
-            }
-
-            Capacitor capacitor = (Capacitor) o;
-
-            if ( Double.compare( capacitor.capacitance, capacitance ) != 0 ) {
-                return false;
-            }
-            if ( Double.compare( capacitor.current, current ) != 0 ) {
-                return false;
-            }
-            if ( Double.compare( capacitor.voltage, voltage ) != 0 ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = super.hashCode();
-            long temp;
-            temp = capacitance != +0.0d ? Double.doubleToLongBits( capacitance ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            temp = voltage != +0.0d ? Double.doubleToLongBits( voltage ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            temp = current != +0.0d ? Double.doubleToLongBits( current ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            return result;
-        }
-
-        @Override
         public String toString() {
             return "Capacitor{" +
                    "capacitance=" + capacitance +
@@ -191,47 +117,6 @@ public class CompanionMNA {
             };
         }
 
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-            if ( !super.equals( o ) ) {
-                return false;
-            }
-
-            Inductor inductor = (Inductor) o;
-
-            if ( Double.compare( inductor.current, current ) != 0 ) {
-                return false;
-            }
-            if ( Double.compare( inductor.inductance, inductance ) != 0 ) {
-                return false;
-            }
-            if ( Double.compare( inductor.voltage, voltage ) != 0 ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = super.hashCode();
-            long temp;
-            temp = inductance != +0.0d ? Double.doubleToLongBits( inductance ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            temp = voltage != +0.0d ? Double.doubleToLongBits( voltage ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            temp = current != +0.0d ? Double.doubleToLongBits( current ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            return result;
-        }
-
-        @Override
         public String toString() {
             return "Inductor{" +
                    "inductance=" + inductance +
@@ -270,41 +155,6 @@ public class CompanionMNA {
         }
 
         @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-            if ( !super.equals( o ) ) {
-                return false;
-            }
-
-            ResistiveBattery that = (ResistiveBattery) o;
-
-            if ( Double.compare( that.resistance, resistance ) != 0 ) {
-                return false;
-            }
-            if ( Double.compare( that.voltage, voltage ) != 0 ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = super.hashCode();
-            long temp;
-            temp = voltage != +0.0d ? Double.doubleToLongBits( voltage ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            temp = resistance != +0.0d ? Double.doubleToLongBits( resistance ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            return result;
-        }
-
-        @Override
         public String toString() {
             return "ResistiveBattery{" +
                    "voltage=" + voltage +
@@ -320,38 +170,6 @@ public class CompanionMNA {
         InitialCondition( double voltage, double current ) {
             this.voltage = voltage;
             this.current = current;
-        }
-
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-
-            InitialCondition that = (InitialCondition) o;
-
-            if ( Double.compare( that.current, current ) != 0 ) {
-                return false;
-            }
-            if ( Double.compare( that.voltage, voltage ) != 0 ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result;
-            long temp;
-            temp = voltage != +0.0d ? Double.doubleToLongBits( voltage ) : 0L;
-            result = (int) ( temp ^ ( temp >>> 32 ) );
-            temp = current != +0.0d ? Double.doubleToLongBits( current ) : 0L;
-            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-            return result;
         }
 
         @Override
@@ -454,34 +272,6 @@ public class CompanionMNA {
             }
 
             @Override
-            public boolean equals( Object o ) {
-                if ( this == o ) {
-                    return true;
-                }
-                if ( o == null || getClass() != o.getClass() ) {
-                    return false;
-                }
-
-                InitialConditionSet that = (InitialConditionSet) o;
-
-                if ( !capacitorMap.equals( that.capacitorMap ) ) {
-                    return false;
-                }
-                if ( !inductorMap.equals( that.inductorMap ) ) {
-                    return false;
-                }
-
-                return true;
-            }
-
-            @Override
-            public int hashCode() {
-                int result = capacitorMap.hashCode();
-                result = 31 * result + inductorMap.hashCode();
-                return result;
-            }
-
-            @Override
             public String toString() {
                 return "InitialConditionSet{" +
                        "capacitorMap=" + capacitorMap +
@@ -555,42 +345,6 @@ public class CompanionMNA {
         }
 
         @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-
-            FullCircuit that = (FullCircuit) o;
-
-            if ( !batteries.equals( that.batteries ) ) {
-                return false;
-            }
-            if ( !capacitors.equals( that.capacitors ) ) {
-                return false;
-            }
-            if ( !inductors.equals( that.inductors ) ) {
-                return false;
-            }
-            if ( !resistors.equals( that.resistors ) ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = batteries.hashCode();
-            result = 31 * result + resistors.hashCode();
-            result = 31 * result + capacitors.hashCode();
-            result = 31 * result + inductors.hashCode();
-            return result;
-        }
-
-        @Override
         public String toString() {
             return "FullCircuit{" +
                    "batteries=" + batteries +
@@ -618,35 +372,6 @@ public class CompanionMNA {
             return elementMap.get( c ).getVoltage( solution );
         }
 
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-
-            CompanionCircuit that = (CompanionCircuit) o;
-
-            if ( !circuit.equals( that.circuit ) ) {
-                return false;
-            }
-            if ( !elementMap.equals( that.elementMap ) ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = circuit.hashCode();
-            result = 31 * result + elementMap.hashCode();
-            return result;
-        }
-
-        @Override
         public String toString() {
             return "CompanionCircuit{" +
                    "circuit=" + circuit +
