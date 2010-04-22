@@ -61,17 +61,19 @@ public class SimulationDisplay extends PhetRegularPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        //mapper.addMap( "^simulations$", SimulationDisplay.class );
+        // WARNING: don't change without also changing the old URL redirection
         mapper.addMap( "^simulations(/index)?$", SimulationDisplay.class, new String[]{"query-string"} );
         mapper.addMap( "^simulations/category/(.+?)(/index)?$", SimulationDisplay.class, new String[]{"categories", "query-string"} );
     }
 
     public static PhetLink createLink( String id, PageContext context ) {
+        // WARNING: don't change without also changing the old URL redirection
         String str = context.getPrefix() + "simulations/category/featured";
         return new PhetLink( id, str );
     }
 
     public static RawLinkable getLinker() {
+        // WARNING: don't change without also changing the old URL redirection
         return new AbstractLinker() {
             public String getSubUrl( PageContext context ) {
                 return "simulations/category/featured";
