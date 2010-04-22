@@ -218,7 +218,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
      * @return null if no direction is needed, otherwise the path to redirect to
      */
     private static String checkRedirect( String path, Map parameters ) {
-        //http://phet.colorado.edu/teacher_ideas/view-contribution.php?contribution_id=690
+        if ( path.startsWith( "/phet-dist/workshops" ) ) {
+            return path.substring( ( "/phet-dist" ).length() );
+        }
         if ( map.containsKey( path ) ) {
             String ret = map.get( path );
             if ( ret != null ) {
@@ -332,6 +334,10 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     }
 
     public boolean matches( String path ) {
+        if ( path.startsWith( "phet-dist/workshops/" ) ) {
+            return true;
+        }
+
         boolean inMap = map.containsKey( morphPath( path ) );
 
         logger.debug( "testing: " + path );
