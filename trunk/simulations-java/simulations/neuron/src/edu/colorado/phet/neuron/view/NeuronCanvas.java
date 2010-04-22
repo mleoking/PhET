@@ -57,6 +57,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
     private static final boolean SHOW_CENTER_CROSS_HAIR = false;
     private static final boolean SHOW_CHANNEL_LOCATIONS = false;
+    private static final boolean SHOW_CAPTURE_ZONES = true;
 
     // List of registered listeners for canvas events.
     private EventListenerList listeners = new EventListenerList();
@@ -321,6 +322,12 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	if (SHOW_CHANNEL_LOCATIONS){
     		PhetPPath channelTestShape = new PhetPPath(mvt.createTransformedShape(channelToBeAdded.getChannelTestShape()), Color.ORANGE);
     		channelEdgeLayer.addChild(channelTestShape);
+    	}
+    	
+    	// If enabled, show the capture zones.
+    	if (SHOW_CAPTURE_ZONES){
+    		channelLayer.addChild(new CaptureZoneNode(channelToBeAdded.getInteriorCaptureZone(), mvt, Color.GREEN));
+    		channelLayer.addChild(new CaptureZoneNode(channelToBeAdded.getExteriorCaptureZone(), mvt, Color.RED));
     	}
     }
     

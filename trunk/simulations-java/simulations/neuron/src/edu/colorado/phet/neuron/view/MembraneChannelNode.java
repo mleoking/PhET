@@ -29,7 +29,6 @@ public class MembraneChannelNode extends PNode{
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-	private static final boolean SHOW_CAPTURE_ZONE = false;
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -41,7 +40,6 @@ public class MembraneChannelNode extends PNode{
 	private PPath channel;
 	private PPath leftEdgeNode;
 	private PPath rightEdgeNode;
-	private CaptureZoneNode captureZoneNode;
 	private PNode inactivationGateBallNode;
 	private PPath inactivationGateString;
 	
@@ -110,16 +108,8 @@ public class MembraneChannelNode extends PNode{
 					new BasicStroke(1f), 
 					ColorUtils.darkerColor(membraneChannelModel.getEdgeColor(), 0.3));
 			channelLayer.addChild(inactivationGateBallNode);
-			
 		}
 		
-		// Add the capture zone, which is only used for debug.
-		if (SHOW_CAPTURE_ZONE){
-			captureZoneNode = new CaptureZoneNode(membraneChannelModel.getCaptureZone(), mvt);
-			captureZoneNode.setVisible(false);
-			channelLayer.addChild(captureZoneNode);
-		}
-
 		// Update the representation and location.
 		updateRepresentation();
 		updateLocation();
@@ -127,7 +117,7 @@ public class MembraneChannelNode extends PNode{
 	
 	/**
 	 * Add this node to the two specified parent nodes.  This is done in order
-	 * to achieve a better layering effect that allows the particles to look
+	 * to achieve a better layering effect that allows particles to look
 	 * more like they are moving through the channel.  It is not absolutely
 	 * necessary to use this method for this node - it can be added to the
 	 * canvas like any other PNode, it just won't have the layering.
@@ -244,21 +234,5 @@ public class MembraneChannelNode extends PNode{
 		// Rotate based on the model element's orientation.
 		channelLayer.setRotation(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
 		edgeLayer.setRotation(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
-		
-		// If enabled, show/update the capture zone for this channel.
-		if (SHOW_CAPTURE_ZONE){
-			if (membraneChannelModel.getOpenness() > 0.1){
-				// Show the capture node.
-				captureZoneNode.setVisible(true);
-				// Set the offset to the inverse of this node's offset, since
-				// the capture zone maintains its own positioning info.
-				captureZoneNode.setOffset(-channelLayer.getOffset().getX(), -channelLayer.getOffset().getY());
-				captureZoneNode.setRotation(-channelLayer.getRotation());
-			}
-			if (membraneChannelModel.getOpenness() < 0.1){
-				// Hide the capture zone node.
-				captureZoneNode.setVisible(false);
-			}
-		}
 	}	
 }
