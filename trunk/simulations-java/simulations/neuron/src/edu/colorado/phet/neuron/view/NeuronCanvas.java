@@ -57,7 +57,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
     private static final boolean SHOW_CENTER_CROSS_HAIR = false;
     private static final boolean SHOW_CHANNEL_LOCATIONS = false;
-    private static final boolean SHOW_CAPTURE_ZONES = true;
+    private static final boolean SHOW_CAPTURE_ZONES = false;
 
     // List of registered listeners for canvas events.
     private EventListenerList listeners = new EventListenerList();
