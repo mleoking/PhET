@@ -61,8 +61,13 @@ public abstract class MembraneChannel {
 	// Array of listeners.
 	private ArrayList<Listener> listeners = new ArrayList<Listener>();
 	
-	// Capture zone, which is where particles can be captured by this channel.
-	private CaptureZone captureZone = new NullCaptureZone();
+	// Capture zones, which is where particles can be captured by this
+	// channel.  There are two, one for inside the cell and one for outside.
+	// There is generally no enforcement of which is which, so it is the
+	// developer's responsibility to position the channel appropriately on the
+	// cell membrane.
+	private CaptureZone interiorCaptureZone = new NullCaptureZone();
+	private CaptureZone exteriorCaptureZone = new NullCaptureZone();
 	
 	// Time values that control how often this channel requests an ion to move
 	// through it.  These are initialized here to values that will cause the
@@ -282,16 +287,24 @@ public abstract class MembraneChannel {
 	abstract public MembraneChannelTypes getChannelType();
 	
 	/**
-	 * Get the "capture zone", which is a shape that represents the space
+	 * Set the "capture zone", which is a shape that represents the space
 	 * from which particles may be captured.  If null is returned, this
 	 * channel has no capture zone.
 	 */
-	public CaptureZone getCaptureZone(){
-		return captureZone;
+	public CaptureZone getInteriorCaptureZone(){
+		return interiorCaptureZone;
 	}
 	
-	protected void setCaptureZone(CaptureZone captureZone){
-		this.captureZone = captureZone;
+	protected void setInteriorCaptureZone(CaptureZone captureZone){
+		this.interiorCaptureZone = captureZone;
+	}
+	
+	public CaptureZone getExteriorCaptureZone(){
+		return exteriorCaptureZone;
+	}
+	
+	protected void setExteriorCaptureZone(CaptureZone captureZone){
+		this.exteriorCaptureZone = captureZone;
 	}
 	
 	/**
@@ -325,14 +338,16 @@ public abstract class MembraneChannel {
 	public void setCenterLocation(Point2D newCenterLocation) {
 		if (!newCenterLocation.equals(centerLocation)){
 			centerLocation.setLocation(newCenterLocation);
-			captureZone.setOriginPoint(newCenterLocation);
+			interiorCaptureZone.setOriginPoint(newCenterLocation);
+			exteriorCaptureZone.setOriginPoint(newCenterLocation);
 			notifyPositionChanged();
 		}
 	}
 
 	public void setRotationalAngle(double rotationalAngle){
 		this.rotationalAngle = rotationalAngle;
-		captureZone.setRotationalAngle(rotationalAngle);
+		interiorCaptureZone.setRotationalAngle(rotationalAngle);
+		exteriorCaptureZone.setRotationalAngle(rotationalAngle);
 	}
 	
 	public double getRotationalAngle(){

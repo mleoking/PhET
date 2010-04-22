@@ -499,18 +499,18 @@ public class AxonModel implements IParticleCapture {
     public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity){
 
     	// Scan the capture zone for particles of the desired type.
-    	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getCaptureZone(), particleType);
+    	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getInteriorCaptureZone(), particleType);
     	Particle particleToCapture = czsr.getClosestFreeParticle();
     	
     	if (czsr.getNumParticlesInZone() == 0){
     		// No particles available in the zone, so create a new one.
-    		Particle newParticle = createParticle(particleType, channel.getCaptureZone());
+    		Particle newParticle = createParticle(particleType, channel.getInteriorCaptureZone());
    			particleToCapture = newParticle;
     	}
     	else{
     		// We found a particle to capture, but we should replace it with
     		// another in the same zone.
-    		Particle replacementParticle = createParticle(particleType, channel.getCaptureZone());
+    		Particle replacementParticle = createParticle(particleType, channel.getInteriorCaptureZone());
     		replacementParticle.setMotionStrategy(new SlowBrownianMotionStrategy(replacementParticle.getPositionReference()));
     		replacementParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005, DEFAULT_OPAQUENESS));
     	}
@@ -988,7 +988,7 @@ public class AxonModel implements IParticleCapture {
     	// zone, add some.
     	for (MembraneChannel membraneChannel : membraneChannels){
     		if (membraneChannel instanceof SodiumDualGatedChannel){
-    			CaptureZone captureZone = membraneChannel.getCaptureZone();
+    			CaptureZone captureZone = membraneChannel.getInteriorCaptureZone();
     			CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(captureZone, ParticleType.SODIUM_ION);
     			if (czsr.numParticlesInZone == 0){
     				addParticles(ParticleType.SODIUM_ION, captureZone, RAND.nextInt(2) + 1);

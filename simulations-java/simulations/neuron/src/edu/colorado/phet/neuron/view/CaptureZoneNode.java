@@ -5,9 +5,9 @@ import java.awt.Color;
 import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.CaptureZone;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Class that represents a capture zone in the view, which is essentially the
@@ -17,12 +17,25 @@ import edu.umd.cs.piccolo.PNode;
 public class CaptureZoneNode extends PNode {
 	
 	private static final float STROKE_WIDTH = 3;
-	private static final Color STROKE_COLOR = Color.PINK;
 	private static final Stroke STROKE = new BasicStroke(STROKE_WIDTH);
 	
-    public CaptureZoneNode( CaptureZone captureZone, ModelViewTransform2D mvt ) {
+	private CaptureZone captureZone;
+	private ModelViewTransform2D mvt;
+	private PPath representation;
+	
+    public CaptureZoneNode( CaptureZone captureZone, ModelViewTransform2D mvt, Color color ) {
+    	this.captureZone = captureZone;
+    	this.mvt = mvt;
+    	
         // Create the shape that represents this capture zone.
-        PhetPPath representation = new PhetPPath(mvt.createTransformedShape(captureZone.getShape()), STROKE, STROKE_COLOR);
+        representation = new PPath();
+        representation.setStroke(STROKE);
+        representation.setStrokePaint(color);
+        updateRepresentation();
 		addChild( representation );
 	}
+    
+    public void updateRepresentation(){
+    	representation.setPathTo(mvt.createTransformedShape(captureZone.getShape()));
+    }
 }
