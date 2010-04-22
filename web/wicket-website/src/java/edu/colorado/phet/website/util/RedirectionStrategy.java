@@ -42,13 +42,30 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         //----------------------------------------------------------------------------
 
         // initialize redirection mapping. value of null indicates that it will be handled by custom code, usually for query parameters
+        map.put( "/about/contact.php", "/en/about/contact" );
         map.put( "/about/index.php", "/en/about" );
-        map.put( "/contribute/index.php", "/en/contribute" );
+        map.put( "/about/legend.php", "/en/about/legend" );
+        map.put( "/about/licensing.php", "/en/about/licensing" );
+        map.put( "/about/source-code.php", "/en/about/source-code" );
+        map.put( "/about/who-we-are.php", "/en/about" );
+        // TODO: add news redirect
+        map.put( "/contribute/donate.php", "/en/donate" );
+        map.put( "/contribute/index.php", "/en/for-translators" );
+        map.put( "/contribute/translation-utility.php", "/en/for-translators/translation-utility" );
+        map.put( "/get_phet/full_install.php", "/en/get-phet/full-install" );
+        map.put( "/get_phet/index.php", "/en/get-phet" );
+        map.put( "/get_phet/simlauncher.php", "/en/get-phet/one-at-a-time" );
         map.put( "/index.php", "/" );
         map.put( "/research/index.php", "/en/research" );
         map.put( "/simulations", "/en/simulations/category/featured" );
         map.put( "/simulations/", "/en/simulations/category/featured" );
         map.put( "/simulations/translations.php", "/en/simulations/translated" );
+        map.put( "/teacher_ideas/browse.php", "/en/contributions/browse" );
+        map.put( "/teacher_ideas/contribute.php", "/en/contributions/submit" );
+        map.put( "/teacher_ideas/user-edit-profile.php", "/en/edit-profile" );
+        map.put( "/teacher_ideas/index.php", "/en/contributions" );
+        map.put( "/teacher_ideas/manage-contributions.php", "/en/contributions/manage" );
+        map.put( "/teacher_ideas/workshops.php", "/en/workshops" );
         map.put( "/tech_support/index.php", "/en/troubleshooting" );
         map.put( "/tech_support/support-flash.php", "/en/troubleshooting/flash" );
         map.put( "/tech_support/support-java.php", "/en/troubleshooting/java" );
