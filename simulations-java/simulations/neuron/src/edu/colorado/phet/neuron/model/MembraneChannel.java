@@ -221,7 +221,7 @@ public abstract class MembraneChannel {
 			if (isOpen()){
 				captureCountdownTimer -= dt;
 				if (captureCountdownTimer <= 0){
-					modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this, particleVelocity);
+					modelContainingParticles.requestParticleThroughChannel(getParticleTypeToCapture(), this, particleVelocity, chooseCrossingDirection());
 					restartCaptureCountdownTimer();
 				}
 			}

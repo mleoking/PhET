@@ -273,7 +273,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
         // Create the channel node.
         IParticleCapture particleCapture = new IParticleCapture() {
 			public void requestParticleThroughChannel(ParticleType particleType,
-					MembraneChannel membraneChannel, double maxVelocity) {
+					MembraneChannel membraneChannel, double maxVelocity, MembraneCrossingDirection direction) {
 				// Do nothing.
 			}
 		};

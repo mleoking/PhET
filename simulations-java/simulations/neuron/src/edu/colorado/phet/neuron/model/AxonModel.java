@@ -496,10 +496,19 @@ public class AxonModel implements IParticleCapture {
      * @param channel
      * @return
      */
-    public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity){
+    public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity, MembraneCrossingDirection direction){
 
+    	CaptureZone captureZone;
+    	
+    	if (direction == MembraneCrossingDirection.IN_TO_OUT){
+    		captureZone = channel.getInteriorCaptureZone();
+    	}
+    	else{
+    		captureZone = channel.getExteriorCaptureZone();
+    	}
+    		
     	// Scan the capture zone for particles of the desired type.
-    	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getInteriorCaptureZone(), particleType);
+    	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(captureZone, particleType);
     	Particle particleToCapture = czsr.getClosestFreeParticle();
     	
     	if (czsr.getNumParticlesInZone() == 0){
