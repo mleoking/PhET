@@ -251,7 +251,7 @@ public class MembraneDiffusionModel implements IParticleCapture {
      * @param channel
      * @return
      */
-    public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity){
+    public void requestParticleThroughChannel(ParticleType particleType, MembraneChannel channel, double maxVelocity, MembraneCrossingDirection direction){
 
     	// Scan the capture zone for particles of the desired type.
     	CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(channel.getInteriorCaptureZone(), particleType);
