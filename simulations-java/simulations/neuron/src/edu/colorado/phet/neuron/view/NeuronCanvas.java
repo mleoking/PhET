@@ -326,8 +326,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	
     	// If enabled, show the capture zones.
     	if (SHOW_CAPTURE_ZONES){
-    		channelLayer.addChild(new CaptureZoneNode(channelToBeAdded.getInteriorCaptureZone(), mvt, Color.GREEN));
-    		channelLayer.addChild(new CaptureZoneNode(channelToBeAdded.getExteriorCaptureZone(), mvt, Color.RED));
+    		channelLayer.addChild(new CaptureZoneNode(channelToBeAdded.getInteriorCaptureZone(), mvt, Color.RED));
+    		channelLayer.addChild(new CaptureZoneNode(channelToBeAdded.getExteriorCaptureZone(), mvt, Color.GREEN));
     	}
     }
     
