@@ -513,13 +513,13 @@ public class AxonModel implements IParticleCapture {
     	
     	if (czsr.getNumParticlesInZone() == 0){
     		// No particles available in the zone, so create a new one.
-    		Particle newParticle = createParticle(particleType, channel.getInteriorCaptureZone());
+    		Particle newParticle = createParticle(particleType, captureZone);
    			particleToCapture = newParticle;
     	}
     	else{
     		// We found a particle to capture, but we should replace it with
     		// another in the same zone.
-    		Particle replacementParticle = createParticle(particleType, channel.getInteriorCaptureZone());
+    		Particle replacementParticle = createParticle(particleType, captureZone);
     		replacementParticle.setMotionStrategy(new SlowBrownianMotionStrategy(replacementParticle.getPositionReference()));
     		replacementParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005, DEFAULT_OPAQUENESS));
     	}
