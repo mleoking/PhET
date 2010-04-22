@@ -25,7 +25,7 @@ public class SodiumDualGatedChannelToolBoxNode extends ToolBoxItem {
 
 	@Override
 	protected void handleAddRequest(Point2D position) {
-		setMembraneChannel(new SodiumDualGatedChannel(getModel().getHodgkinHuxleyModel(), getModel()));
+		setMembraneChannel(new SodiumDualGatedChannel(getModel(), getModel().getHodgkinHuxleyModel()));
 		getMembraneChannel().setRotationalAngle(Math.PI / 2);
 		getMembraneChannel().setCenterLocation(getMvt().viewToModel(position));
 		getModel().addUserControlledMembraneChannel(getMembraneChannel());
