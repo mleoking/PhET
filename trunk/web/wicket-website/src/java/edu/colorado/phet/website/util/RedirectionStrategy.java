@@ -26,11 +26,21 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static Map<String, String> categoryMap = new HashMap<String, String>();
     private static Map<String, String> badCategoryMap = new HashMap<String, String>(); // for those ugly variations that aren't immediately caught
 
+    private static Map<String, String> simMap = new HashMap<String, String>();
+    private static Map<String, String> badSimMap = new HashMap<String, String>();
+
     private static final String VIEW_CONTRIBUTION = "/teacher_ideas/view-contribution.php";
     private static final String VIEW_CATEGORY = "/simulations/index.php";
     private static final String VIEW_SIM = "/simulations/sims.php";
 
+    private static final String NOT_FOUND = "/error/404";
+
     static {
+
+        //----------------------------------------------------------------------------
+        // general page map
+        //----------------------------------------------------------------------------
+
         // initialize redirection mapping. value of null indicates that it will be handled by custom code, usually for query parameters
         map.put( "/about/index.php", "/en/about" );
         map.put( "/contribute/index.php", "/en/contribute" );
@@ -50,6 +60,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( VIEW_CATEGORY, null );
         map.put( VIEW_SIM, null );
 
+        //----------------------------------------------------------------------------
+        // category map
+        //----------------------------------------------------------------------------
 
         categoryMap.put( "Featured_Sims", "featured" );
         categoryMap.put( "New_Sims", "new" );
@@ -85,6 +98,99 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             badCategoryMap.put( processCategoryName( key ), categoryMap.get( key ) );
         }
 
+        //----------------------------------------------------------------------------
+        // simulation map
+        //----------------------------------------------------------------------------
+
+        simMap.put( "Alpha_Decay", "nuclear-physics/alpha-decay" );
+        simMap.put( "Arithmetic", "arithmetic" );
+        simMap.put( "Atomic_Interactions", "states-of-matter/atomic-interactions" );
+        simMap.put( "Balloons_and_Buoyancy", "ideal-gas/balloons-and-buoyancy" );
+        simMap.put( "Balloons_and_Static_Electricity", "balloons" );
+        simMap.put( "Band_Structure", "bound-states/band-structure" );
+        simMap.put( "Battery_Voltage", "battery-voltage" );
+        simMap.put( "BatteryResistor_Circuit", "battery-resistor-circuit" );
+        simMap.put( "Beta_Decay", "nuclear-physics/beta-decay" );
+        simMap.put( "Blackbody_Spectrum", "blackbody-spectrum" );
+        simMap.put( "Calculus_Grapher", "calculus-grapher" );
+        simMap.put( "Charges_and_Fields", "charges-and-fields" );
+        simMap.put( "Circuit_Construction_Kit_ACDC", "circuit-construction-kit/circuit-construction-kit-ac" );
+        simMap.put( "Circuit_Construction_Kit_DC_Only", "circuit-construction-kit/circuit-construction-kit-dc" );
+        simMap.put( "Color_Vision", "color-vision" );
+        simMap.put( "Conductivity", "conductivity" );
+        simMap.put( "Curve_Fitting", "curve-fitting" );
+        simMap.put( "DavissonGermer_Electron_Diffraction", "quantum-wave-interference/davisson-germer" );
+        simMap.put( "Double_Wells_and_Covalent_Bonds", "bound-states/covalent-bonds" );
+        simMap.put( "Eating_and_Exercise", "eating-and-exercise" );
+        simMap.put( "Electric_Field_Hockey", "electric-hockey" );
+        simMap.put( "Electric_Field_of_Dreams", "efield" );
+        simMap.put( "Energy_Skate_Park", "energy-skate-park" );
+        simMap.put( "Equation_Grapher", "equation-grapher" );
+        simMap.put( "Estimation", "estimation" );
+        simMap.put( "Faradays_Electromagnetic_Lab", "faraday" );
+        simMap.put( "Faradays_Law", "faradays-law" );
+        simMap.put( "Forces_in_1_Dimension", "forces-1d" );
+        simMap.put( "Fourier_Making_Waves", "fourier" );
+        simMap.put( "Friction", "friction" );
+        simMap.put( "Gas_Properties", "ideal-gas/gas-properties" );
+        simMap.put( "Generator", "faraday/generator" );
+        simMap.put( "Geometric_Optics", "geometric-optics" );
+        simMap.put( "Glaciers", "glaciers" );
+        simMap.put( "Gravity_Force_Lab", "force-law-lab/gravity-force-lab" );
+        simMap.put( "The_Greenhouse_Effect", "greenhouse" );
+        simMap.put( "John_Travoltage", "travoltage" );
+        simMap.put( "Ladybug_Motion_2D", "ladybug-motion-2d" );
+        simMap.put( "Ladybug_Revolution", "rotation" );
+        simMap.put( "Lasers", "lasers" );
+        simMap.put( "Lunar_Lander", "lunar-lander" );
+        simMap.put( "Magnet_and_Compass", "faraday/magnet-and-compass" );
+        simMap.put( "Magnets_and_Electromagnets", "faraday/magnets-and-electromagnets" );
+        simMap.put( "Masses_and_Springs", "mass-spring-lab" );
+        simMap.put( "Maze_Game", "maze-game" );
+        simMap.put( "Microwaves", "microwaves" );
+        simMap.put( "Models_of_the_Hydrogen_Atom", "hydrogen-atom" );
+        simMap.put( "Molecular_Motors", "optical-tweezers/molecular-motors" );
+        simMap.put( "Motion_in_2D", "motion-2d" );
+        simMap.put( "The_Moving_Man", "moving-man" );
+        simMap.put( "My_Solar_System", "my-solar-system" );
+        simMap.put( "Natural_Selection", "natural-selection" );
+        simMap.put( "Neon_Lights_and_Other_Discharge_Lamps", "discharge-lamps" );
+        simMap.put( "Nuclear_Fission", "nuclear-physics/nuclear-fission" );
+        simMap.put( "Ohms_Law", "ohms-law" );
+        simMap.put( "Optical_Quantum_Control", "optical-quantum-control" );
+        simMap.put( "Optical_Tweezers_and_Applications", "optical-tweezers" );
+        simMap.put( "Pendulum_Lab", "pendulum-lab" );
+        simMap.put( "pH_Scale", "ph-scale" );
+        simMap.put( "Photoelectric_Effect", "photoelectric" );
+        simMap.put( "Plinko_Probability", "plinko-probability" );
+        simMap.put( "Projectile_Motion", "projectile-motion" );
+        simMap.put( "Quantum_Bound_States", "bound-states" );
+        simMap.put( "Quantum_Tunneling_and_Wave_Packets", "quantum-tunneling" );
+        simMap.put( "Quantum_Wave_Interference", "quantum-wave-interference" );
+        simMap.put( "Radio_Waves_and_Electromagnetic_Fields", "radio-waves" );
+        simMap.put( "Radioactive_Dating_Game", "nuclear-physics/radioactive-dating-game" );
+        simMap.put( "The_Ramp", "the-ramp" );
+        simMap.put( "Reactions_and_Rates", "reactions-and-rates" );
+        simMap.put( "Resistance_in_a_Wire", "resistance-in-a-wire" );
+        simMap.put( "Reversible_Reactions", "ideal-gas/reversible-reactions" );
+        simMap.put( "Rutherford_Scattering", "rutherford-scattering" );
+        simMap.put( "Salts_and_Solubility", "soluble-salts" );
+        simMap.put( "SelfDriven_Particle_Model", "self-driven-particle-model" );
+        simMap.put( "Semiconductors", "semiconductor" );
+        simMap.put( "Signal_Circuit", "signal-circuit" );
+        simMap.put( "Simplified_MRI", "mri" );
+        simMap.put( "Sound", "sound" );
+        simMap.put( "States_of_Matter", "states-of-matter" );
+        simMap.put( "SternGerlach_Experiment", "stern-gerlach" );
+        simMap.put( "Stretching_DNA", "optical-tweezers/stretching-dna" );
+        simMap.put( "Torque", "rotation/torque" );
+        simMap.put( "Vector_Addition", "vector-addition" );
+        simMap.put( "Wave_Interference", "wave-interference" );
+        simMap.put( "Wave_on_a_String", "wave-on-a-string" );
+
+        for ( String key : simMap.keySet() ) {
+            badSimMap.put( processSimName( key ), simMap.get( key ) );
+        }
 
         // TODO: add all URLs
     }
@@ -156,11 +262,23 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
                 return prefix + newcat;
             }
 
-            // ignore VERY unsupported categories by redirecting to 'featured'
-            return prefix + "featured";
+            return NOT_FOUND;
         }
         else if ( path.startsWith( VIEW_SIM ) ) {
+            String prefix = "/en/simulation/";
+            if ( parameters.get( "sim" ) == null ) {
+                return NOT_FOUND;
+            }
+            String sim = ( (String[]) parameters.get( "sim" ) )[0];
+            String newsim = simMap.get( sim );
+            if ( newsim == null ) {
+                newsim = badSimMap.get( processSimName( sim ) );
+            }
+            if ( newsim != null ) {
+                return prefix + newsim;
+            }
 
+            return NOT_FOUND;
         }
         return null;
     }
@@ -221,6 +339,10 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
      * @return The "cleaned" version
      */
     private static String processCategoryName( String name ) {
+        return name.replace( "_", "" ).replace( " ", "" ).toLowerCase();
+    }
+
+    private static String processSimName( String name ) {
         return name.replace( "_", "" ).replace( " ", "" ).toLowerCase();
     }
 }

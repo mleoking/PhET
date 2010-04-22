@@ -103,6 +103,7 @@ public class SimulationPage extends PhetMenuPage {
     }
 
     public static AbstractLinker getLinker( final String projectName, final String simulationName ) {
+        // WARNING: don't change without also changing the old URL redirection
         return new AbstractLinker() {
             @Override
             public String getSubUrl( PageContext context ) {
