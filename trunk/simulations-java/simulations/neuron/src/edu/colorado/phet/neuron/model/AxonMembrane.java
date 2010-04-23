@@ -359,14 +359,15 @@ public class AxonMembrane {
     			shape = new CubicCurve2D.Double(startPoint.getX(), startPoint.getY(), ctrlPoint1.getX(), ctrlPoint1.getY(), ctrlPoint2.getX(), ctrlPoint2.getY(), endPoint.getX(), endPoint.getY());
     		}
     		else{
-    			// Define the shape as a circle that changes shape a bit.
-    			// This is done when the action potential has essentially
-    			// reached the point of the cross section.
+    			// The action potential is "lingering" at the point of the
+    			// cross section.  Define the shape as a circle that changes
+    			// shape a bit. This is done when the action potential has
+    			//essentially reached the point of the cross section.
     			Ellipse2D crossSectionEllipse = axonMembrane.getCrossSectionEllipseShape();
     			// Make the shape a little bigger than the cross section so
     			// that it can be seen behind it, and have it grow while it
     			// is there.
-    			double growthFactor = (1 - Math.abs(lingerCountdownTimer / LINGER_AT_CROSS_SECTION_TIME - 0.5) * 2) * 0.03 + 1.01;
+    			double growthFactor = (1 - Math.abs(lingerCountdownTimer / LINGER_AT_CROSS_SECTION_TIME - 0.5) * 2) * 0.04 + 1;
     			double newWidth = crossSectionEllipse.getWidth() * growthFactor;
     			double newHeight = crossSectionEllipse.getHeight() * growthFactor;
     			shape = new Ellipse2D.Double( -newWidth / 2, -newHeight / 2, newWidth, newHeight );
