@@ -58,6 +58,11 @@ public class PhetWicketApplication extends WebApplication {
     public static final String PHET_DOWNLOAD_ROOT = "phet-download-root";
     public static final String PHET_DOWNLOAD_LOCATION = "phet-download-location";
 
+    /**
+     * Wicket likes to hardwire the home page in
+     *
+     * @return The home page class
+     */
     public Class getHomePage() {
         return IndexPage.class;
     }
@@ -159,6 +164,10 @@ public class PhetWicketApplication extends WebApplication {
 
     }
 
+    //----------------------------------------------------------------------------
+    // server-specific configuration locations
+    //----------------------------------------------------------------------------
+
     public File getPhetDocumentRoot() {
         return getFileFromLocation( getServletContext().getInitParameter( PHET_DOCUMENT_ROOT ) );
     }
@@ -187,16 +196,9 @@ public class PhetWicketApplication extends WebApplication {
         return getPhetDownloadLocation() + "/teachers-guide";
     }
 
-    public static File getFileFromLocation( String location ) {
-        if ( location == null ) {
-            return null;
-        }
-        File file = new File( location );
-        if ( !file.exists() ) {
-            return null;
-        }
-        return file;
-    }
+    //----------------------------------------------------------------------------
+    // supported locales and translations
+    //----------------------------------------------------------------------------
 
     private PhetLocales supportedLocales = null;
 
@@ -313,5 +315,16 @@ public class PhetWicketApplication extends WebApplication {
     @Override
     protected void onDestroy() {
         NotificationHandler.destroy();
+    }
+
+    private static File getFileFromLocation( String location ) {
+        if ( location == null ) {
+            return null;
+        }
+        File file = new File( location );
+        if ( !file.exists() ) {
+            return null;
+        }
+        return file;
     }
 }

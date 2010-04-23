@@ -233,79 +233,114 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return path + "/";
         }
         if ( path.startsWith( VIEW_CONTRIBUTION ) ) {
-            try {
-                String idstr = ( (String[]) parameters.get( "contribution_id" ) )[0];
-                final int id = Integer.parseInt( idstr );
-                final String[] ret = new String[1];
-                HibernateUtils.wrapSession( new HibernateTask() {
-                    public boolean run( Session session ) {
-                        Contribution contribution = (Contribution) session.createQuery( "select c from Contribution as c where c.oldId = :id" )
-                                .setInteger( "id", id ).uniqueResult();
-                        if ( contribution != null ) {
-
-                            // TODO: improve default linker to give convenience function that gives "default" redirectable result to English
-                            ret[0] = ContributionPage.getLinker( contribution ).getDefaultRawUrl();
-                            return true;
-                        }
-                        else {return false;}
-                    }
-                } );
-                return ret[0];
-            }
-            catch( RuntimeException e ) {
-                logger.warn( "bad number X", e );
-            }
+            return redirectContributions( parameters );
         }
         else if ( path.startsWith( VIEW_CATEGORY ) ) {
-            String prefix = "/en/simulations/category/";
-            if ( parameters.get( "cat" ) == null ) {
-                return prefix + "featured";
-            }
-            String cat = ( (String[]) parameters.get( "cat" ) )[0];
-            if ( cat.equals( "All_Sims" ) ) {
-                return "/en/simulations/index";
-            }
-            String newcat = categoryMap.get( cat );
-            if ( newcat == null ) {
-                logger.debug( "didn't match category yet, trying badcat: " + processCategoryName( cat ) );
-                // run it through the bad matcher
-                newcat = badCategoryMap.get( processCategoryName( cat ) );
-                if ( newcat != null ) {
-                    logger.debug( "matched category " + cat + " only with bad cat " + processCategoryName( cat ) );
-                }
-            }
-            else {
-                logger.debug( "matched category " + cat + " directly" );
-            }
-            if ( newcat != null ) {
-                return prefix + newcat;
-            }
-
-            return NOT_FOUND;
+            return redirectCategories( parameters );
         }
         else if ( path.startsWith( VIEW_SIM ) ) {
-            String prefix = "/en/simulation/";
-            if ( parameters.get( "sim" ) == null ) {
-                return NOT_FOUND;
-            }
-            String sim = ( (String[]) parameters.get( "sim" ) )[0];
-            String newsim = simMap.get( sim );
-            if ( newsim == null ) {
-                newsim = badSimMap.get( processSimName( sim ) );
-            }
-            if ( newsim != null ) {
-                return prefix + newsim;
-            }
-
-            return NOT_FOUND;
+            return redirectSimulations( parameters );
         }
         return null;
+    }
+
+    /**
+     * Decide which contribution to redirect to, depending on the parameters
+     *
+     * @param parameters Query string parameters
+     * @return URL (relative) to redirect to
+     */
+    private static String redirectContributions( Map parameters ) {
+        try {
+            String idstr = ( (String[]) parameters.get( "contribution_id" ) )[0];
+            final int id = Integer.parseInt( idstr );
+            final String[] ret = new String[1];
+            HibernateUtils.wrapSession( new HibernateTask() {
+                public boolean run( Session session ) {
+                    Contribution contribution = (Contribution) session.createQuery( "select c from Contribution as c where c.oldId = :id" )
+                            .setInteger( "id", id ).uniqueResult();
+                    if ( contribution != null ) {
+
+                        // TODO: improve default linker to give convenience function that gives "default" redirectable result to English
+                        ret[0] = ContributionPage.getLinker( contribution ).getDefaultRawUrl();
+                        return true;
+                    }
+                    else {return false;}
+                }
+            } );
+            return ret[0];
+        }
+        catch( RuntimeException e ) {
+            logger.warn( "bad number X", e );
+            return NOT_FOUND;
+        }
+    }
+
+    /**
+     * Decide which category to redirect to, depending on the parameters
+     *
+     * @param parameters Query string parameters
+     * @return URL (relative) to redirect to
+     */
+    private static String redirectCategories( Map parameters ) {
+        String prefix = "/en/simulations/category/";
+        if ( parameters.get( "cat" ) == null ) {
+            return prefix + "featured";
+        }
+        String cat = ( (String[]) parameters.get( "cat" ) )[0];
+        if ( cat.equals( "All_Sims" ) ) {
+            return "/en/simulations/index";
+        }
+        String newcat = categoryMap.get( cat );
+        if ( newcat == null ) {
+            logger.debug( "didn't match category yet, trying badcat: " + processCategoryName( cat ) );
+            // run it through the bad matcher
+            newcat = badCategoryMap.get( processCategoryName( cat ) );
+            if ( newcat != null ) {
+                logger.debug( "matched category " + cat + " only with bad cat " + processCategoryName( cat ) );
+            }
+        }
+        else {
+            logger.debug( "matched category " + cat + " directly" );
+        }
+        if ( newcat != null ) {
+            return prefix + newcat;
+        }
+
+        return NOT_FOUND;
+    }
+
+    /**
+     * Decide which simulation to redirect to, depending on the parameters
+     *
+     * @param parameters Query string parameters
+     * @return URL (relative) to redirect to
+     */
+    private static String redirectSimulations( Map parameters ) {
+        String prefix = "/en/simulation/";
+        if ( parameters.get( "sim" ) == null ) {
+            return NOT_FOUND;
+        }
+        String sim = ( (String[]) parameters.get( "sim" ) )[0];
+        String newsim = simMap.get( sim );
+        if ( newsim == null ) {
+            newsim = badSimMap.get( processSimName( sim ) );
+        }
+        if ( newsim != null ) {
+            return prefix + newsim;
+        }
+
+        return NOT_FOUND;
     }
 
     private static String morphPath( String str ) {
         return "/" + str;
     }
 
+    /**
+     * @return Returns the prefix that these urls can be considered to be 'mounted' at. Since we want to be able to
+     *         redirect ANY url, we effectively mount it at the root.
+     */
     public String getMountPath() {
         return "";
     }
@@ -315,6 +350,15 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         return null;
     }
 
+    /**
+     * Called by wicket to turn a request into the applicable request target (way of handling the request).
+     * Here we use this to compute the URL it should be redirected to, and pass the PermanentRedirectRequestTarget.
+     * <p/>
+     * NOTE: this is only called when RedirectionStrategy.matches( String path ) returns true.
+     *
+     * @param requestParameters The request's parameters
+     * @return Our redirection
+     */
     public IRequestTarget decode( RequestParameters requestParameters ) {
         String requestPath = requestParameters.getPath();
         String path = morphPath( requestPath );
@@ -333,6 +377,12 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         return requestTarget instanceof RedirectRequestTarget;
     }
 
+    /**
+     * Called by Wicket to initially test whether this URL strategy handles the particular path.
+     *
+     * @param path Path (without query strings, without leading slash)
+     * @return Whether this URL should be redirected
+     */
     public boolean matches( String path ) {
         if ( path.startsWith( "phet-dist/workshops/" ) ) {
             return true;
@@ -365,6 +415,12 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         return name.replace( "_", "" ).replace( " ", "" ).toLowerCase();
     }
 
+    /**
+     * Hack away at a possible simulation name so we can get a generous match to handle old (bad) URLs
+     *
+     * @param name The presented name
+     * @return The "cleaned" version
+     */
     private static String processSimName( String name ) {
         return name.replace( "_", "" ).replace( " ", "" ).toLowerCase();
     }
