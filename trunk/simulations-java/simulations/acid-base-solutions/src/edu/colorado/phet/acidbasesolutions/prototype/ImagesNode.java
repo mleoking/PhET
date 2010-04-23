@@ -3,13 +3,12 @@
 package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.Image;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConcentrationMoleculeCountStrategy;
 import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConstantMoleculeCountStrategy;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Represents concentration ratios (HA/A, H3O/OH) as images.
@@ -19,11 +18,18 @@ import edu.umd.cs.piccolo.util.PBounds;
 class ImagesNode extends MoleculesNode {
     
     private double imageScale;
+    private final PNode h2oParentBack, h2oParentMiddle, h2oParentFront;
     
-    public ImagesNode( final WeakAcid solution, PNode containerNode, boolean showOH ) {
-        super( solution, containerNode, MGPConstants.MAX_IMAGES_RANGE.getDefault(), MGPConstants.MAX_H2O_IMAGES_RANGE.getDefault(), 
+    public ImagesNode( final WeakAcid solution, MagnifyingGlass magnifyingGlass, boolean showOH ) {
+        super( solution, magnifyingGlass, MGPConstants.MAX_IMAGES_RANGE.getDefault(), MGPConstants.MAX_H2O_IMAGES_RANGE.getDefault(), 
                 (float) MGPConstants.IMAGE_TRANSPARENCY_RANGE.getDefault(), new ConcentrationMoleculeCountStrategy(), new ConstantMoleculeCountStrategy(), showOH );
         imageScale = MGPConstants.IMAGE_SCALE_RANGE.getDefault();
+        
+        // add parents for H2O layers
+        h2oParentBack = new PComposite();
+        h2oParentMiddle = new PComposite();
+        h2oParentFront = new PComposite();
+        
         updateNumberOfMolecules(); // call this last
     }
     
@@ -56,10 +62,17 @@ class ImagesNode extends MoleculesNode {
     
     // Updates the transparency of existing ImageNodes that are children of parent.
     protected void updateTransparency( PNode parent, float transparency ) {
-        for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
-            PNode child = parent.getChild( i );
-            if ( child instanceof ImageNode ) {
-                ( (ImageNode) child ).setTransparency( transparency );
+        if ( parent == getParentH2O() ) {
+            updateTransparency( h2oParentBack, getTransparencyBack() );
+            updateTransparency( h2oParentMiddle, getTransparencyMiddle() );
+            updateTransparency( h2oParentFront, getTransparencyFront() );
+        }
+        else {
+            for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
+                PNode child = parent.getChild( i );
+                if ( child instanceof ImageNode ) {
+                    ( (ImageNode) child ).setTransparency( transparency );
+                }
             }
         }
     }
@@ -73,28 +86,57 @@ class ImagesNode extends MoleculesNode {
         updateNumberOfMoleculeNodes( getParentA(), getCountA(), imageScale, getMoleculeTransparency(), MGPConstants.A_MINUS_IMAGE );
         updateNumberOfMoleculeNodes( getParentH3O(), getCountH3O(), imageScale, getMoleculeTransparency(), MGPConstants.H3O_PLUS_IMAGE );
         updateNumberOfMoleculeNodes( getParentOH(), getCountOH(), imageScale, getMoleculeTransparency(), MGPConstants.OH_MINUS_IMAGE );
-        updateNumberOfMoleculeNodes( getParentH2O(), getCountH2O(), imageScale, getH2OTransparency(), MGPConstants.H2O_IMAGE );
+        updateNumberOfH2ONodes();
     }
     
     // Adjusts the number of images, creates images at random locations.
     private void updateNumberOfMoleculeNodes( PNode parent, int count, double scale, float transparency, Image image ) {
 
+        //HACK: add these because they are removed by super.deleteAllMolecules
+        getParentH2O().addChild( h2oParentBack );
+        getParentH2O().addChild( h2oParentMiddle );
+        getParentH2O().addChild( h2oParentFront );
+        
         // remove nodes
         while ( count < parent.getChildrenCount() && count >= 0 ) {
             parent.removeChild( parent.getChildrenCount() - 1 );
         }
 
         // add nodes
-        Point2D pOffset = new Point2D.Double();
-        PBounds bounds = getContainerBounds( count );
         while ( count > parent.getChildrenCount() ) {
-            getRandomPoint( bounds, pOffset );
-            ImageNode p = new ImageNode( image, scale, transparency );
-            p.setOffset( pOffset );
-            parent.addChild( p );
+            ImageNode node = new ImageNode( image, scale, transparency );
+            node.setOffset( getRandomPoint() );
+            parent.addChild( node );
         }
-        
+
         assert( count == parent.getChildrenCount() );
+    }
+    
+    // Adjusts the number of H2O images, which are represented as 3 layers.
+    private void updateNumberOfH2ONodes() {
+       
+        // counts
+        int count = getCountH2O();
+        int countBack = (int)( 0.75 * count );  // most of the molecules are in back layer
+        int countMiddle = (int)( 0.75 * ( count - countBack ) );  // most of remaining molecules are in middle layer
+        int countFront = count - countBack - countMiddle; // whatever is left over goes in front layer
+        
+        // update images
+        updateNumberOfMoleculeNodes( h2oParentBack, countBack, imageScale, getTransparencyBack(), MGPConstants.H2O_IMAGE );
+        updateNumberOfMoleculeNodes( h2oParentMiddle, countMiddle, imageScale, getTransparencyMiddle(), MGPConstants.H2O_IMAGE );
+        updateNumberOfMoleculeNodes( h2oParentFront, countFront, imageScale, getTransparencyFront(), MGPConstants.H2O_IMAGE );
+    }
+    
+    private float getTransparencyBack() {
+        return 0.2f * getH2OTransparency();
+    }
+    
+    private float getTransparencyMiddle() {
+        return 0.5f * getH2OTransparency();
+    }
+    
+    private float getTransparencyFront() {
+        return getH2OTransparency();
     }
     
     // Molecule image node

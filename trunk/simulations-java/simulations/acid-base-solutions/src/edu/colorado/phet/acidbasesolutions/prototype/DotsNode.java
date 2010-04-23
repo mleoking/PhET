@@ -4,13 +4,11 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConcentrationMoleculeCountStrategy;
 import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConstantMoleculeCountStrategy;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Represents concentration ratios (HA/A, H3O/OH) as a set of "dots".
@@ -22,8 +20,8 @@ class DotsNode extends MoleculesNode {
     private double dotDiameter;
     private Color colorHA, colorA, colorH3O, colorOH, colorH2O;
     
-    public DotsNode( final WeakAcid solution, PNode containerNode, boolean showOH ) {
-        super( solution, containerNode, MGPConstants.MAX_DOTS_RANGE.getDefault(), MGPConstants.MAX_H2O_DOTS_RANGE.getDefault(),
+    public DotsNode( final WeakAcid solution, MagnifyingGlass magnifyingGlass, boolean showOH ) {
+        super( solution, magnifyingGlass, MGPConstants.MAX_DOTS_RANGE.getDefault(), MGPConstants.MAX_H2O_DOTS_RANGE.getDefault(),
                 (float) MGPConstants.DOT_TRANSPARENCY_RANGE.getDefault(), new ConcentrationMoleculeCountStrategy(), new ConstantMoleculeCountStrategy(), showOH );
         dotDiameter = MGPConstants.DOT_DIAMETER_RANGE.getDefault();
         colorHA = MGPConstants.COLOR_HA;
@@ -162,12 +160,9 @@ class DotsNode extends MoleculesNode {
         }
 
         // add nodes
-        Point2D pOffset = new Point2D.Double();
-        PBounds bounds = getContainerBounds( count );
         while ( count > parent.getChildrenCount() ) {
-            getRandomPoint( bounds, pOffset );
             DotNode p = new DotNode( diameter, color, transparency );
-            p.setOffset( pOffset );
+            p.setOffset( getRandomPoint() );
             parent.addChild( p );
         }
         

@@ -50,7 +50,7 @@ class MGPConstants {
     
     // images
     public static final IntegerRange MAX_IMAGES_RANGE = new IntegerRange( 100, 2000, 200 );;
-    public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 0, 10000, 3000 );;
+    public static final IntegerRange MAX_H2O_IMAGES_RANGE = new IntegerRange( 300, 10000, 2000 );;
     public static final DoubleRange IMAGE_SCALE_RANGE = new DoubleRange( 0.25, 2.5, 1 );
     public static final DoubleRange IMAGE_TRANSPARENCY_RANGE = DOT_TRANSPARENCY_RANGE;
     public static final BufferedImage HA_IMAGE = RESOURCES.getImage( "molecules/HA.png" );
@@ -75,4 +75,7 @@ class MGPConstants {
     public static final String H3O_PLUS_FRAGMENT = "H<sub>3</sub>O<sup>+</sup>";
     public static final String OH_MINUS_FRAGMENT = "OH<sup>-</sup>";
     public static final String H2O_FRAGMENT = "H<sub>2</sub>O";
+    
+    // Default settings
+    public static final boolean DEFAULT_SHOW_H2O = false;
 }

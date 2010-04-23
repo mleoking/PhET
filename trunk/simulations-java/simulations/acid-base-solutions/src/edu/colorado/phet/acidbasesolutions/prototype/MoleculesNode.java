@@ -3,9 +3,6 @@
 package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Random;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -13,7 +10,6 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeLayeringStrategy.WeakAcidLayeringStrategy;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -23,13 +19,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 abstract class MoleculesNode extends PComposite {
 
-    // if we have fewer than this number of dots, cheat them towards the center of the bounds
-    private static final int COUNT_THRESHOLD_FOR_ADJUSTING_BOUNDS = 20;
-    
     private final WeakAcid solution;
-    private final PNode containerNode;
+    private final MagnifyingGlass magnifyingGlass;
     private final MoleculeParentNode parentHA, parentA, parentH3O, parentOH, parentH2O;
-    private final Random randomCoordinate;
     private final EventListenerList listeners;
     private final IMoleculeCountStrategy moleculeCountStrategy, h2oCountStrategy;
     private final IMoleculeLayeringStrategy layeringStrategy;
@@ -38,7 +30,7 @@ abstract class MoleculesNode extends PComposite {
     private float moleculeTransparency, h2oTransparency;
     private int countHA, countA, countH3O, countOH, countH2O;
     
-    public MoleculesNode( WeakAcid solution, PNode containerNode, int maxMolecules, int maxH2O, float moleculeTransparency,
+    public MoleculesNode( WeakAcid solution, MagnifyingGlass magnifyingGlass, int maxMolecules, int maxH2O, float moleculeTransparency,
             IMoleculeCountStrategy moleculeCountStrategy, IMoleculeCountStrategy h2oCountStrategy, boolean showOH ) {
         super();
         setPickable( false );
@@ -49,17 +41,14 @@ abstract class MoleculesNode extends PComposite {
         this.moleculeCountStrategy = moleculeCountStrategy;
         this.h2oCountStrategy = h2oCountStrategy;
         
-        randomCoordinate = new Random();
         listeners = new EventListenerList();
         layeringStrategy = new WeakAcidLayeringStrategy();
         
-        this.containerNode = containerNode;
-        containerNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
-                    deleteAllMolecules();
-                    updateNumberOfMolecules();
-                }
+        this.magnifyingGlass = magnifyingGlass;
+        magnifyingGlass.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                deleteAllMolecules();
+                updateNumberOfMolecules();
             }
         });
         
@@ -86,7 +75,7 @@ abstract class MoleculesNode extends PComposite {
         
         // default state
         parentOH.setVisible( showOH );
-        parentH2O.setVisible( false );
+        parentH2O.setVisible( MGPConstants.DEFAULT_SHOW_H2O );
     }
     
     public boolean isH2OVisible() {
@@ -224,26 +213,17 @@ abstract class MoleculesNode extends PComposite {
         countHA = countA = countH3O = countOH = countH2O = 0;
     }
     
-    /*
-     * Gets the bounds within which a molecule node will be created.
-     * This is typically the container bounds.
-     * But if the number of dots is small, we shrink the container bounds so 
-     * that molecules stay away from the edges, making them easier to see.
+    /* 
+     * Gets a random point inside the magnifying glass.
+     * The distance is *not* picked from a uniform distribution; to do so would cause points to cluster near the center.
      */
-    protected PBounds getContainerBounds( int count ) {
-        PBounds bounds = containerNode.getFullBoundsReference();
-        if ( count < COUNT_THRESHOLD_FOR_ADJUSTING_BOUNDS ) {
-            double margin = 10;
-            bounds = new PBounds( bounds.getX() + margin, bounds.getY() + margin, bounds.getWidth() - ( 2 * margin ), bounds.getHeight() - ( 2 * margin ) );
-        }
-        return bounds;
-    }
-
-    // Gets a random point inside some bounds.
-    protected void getRandomPoint( PBounds bounds, Point2D pOutput ) {
-        double x = bounds.getX() + ( randomCoordinate.nextDouble() * bounds.getWidth() );
-        double y = bounds.getY() + ( randomCoordinate.nextDouble() * bounds.getHeight() );
-        pOutput.setLocation( x, y );
+    protected Point2D getRandomPoint() {
+        double radius = magnifyingGlass.getDiameter() / 2;
+        double distance = radius * Math.sqrt( Math.random() ); 
+        double angle = Math.random() * 2 * Math.PI;
+        double x = distance * Math.cos( angle );
+        double y = distance * Math.sin( angle );
+        return new Point2D.Double( x, y );
     }
     
     // marker class for parents of molecule nodes
