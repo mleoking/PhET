@@ -198,7 +198,10 @@ public class AxonMembrane {
     public void initiateTravelingActionPotential(){
     	travelingActionPotential = new TravelingActionPotential(this);
     	travelingActionPotential.addListener(new TravelingActionPotential.Adapter(){
-			public void travelingCompleted() {
+    		public void crossSectionReached() {
+    			notifyTravelingActionPotentialReachedCrossSection();
+    		}
+			public void lingeringCompleted() {
 				notifyTravelingActionPotentialEnded();
 				travelingActionPotential = null;
 			}
@@ -239,6 +242,12 @@ public class AxonMembrane {
 		}
 	}
     
+	private void notifyTravelingActionPotentialReachedCrossSection(){
+		for (Listener listener : listeners){
+			listener.travelingActionPotentialReachedCrossSection();
+		}
+	}
+    
 	private void notifyTravelingActionPotentialEnded(){
 		for (Listener listener : listeners){
 			listener.travelingActionPotentialEnded();
@@ -251,19 +260,23 @@ public class AxonMembrane {
      */
     public interface Listener {
     	void travelingActionPotentialStarted();
+    	void travelingActionPotentialReachedCrossSection();
     	void travelingActionPotentialEnded();
     }
     
     public static class Adapter implements Listener {
 		public void travelingActionPotentialEnded() {}
+		public void travelingActionPotentialReachedCrossSection() {}
 		public void travelingActionPotentialStarted() {}
     }
     
     /**
-     * Class the defines the behavior of the action potential that travels
+     * Class that defines the behavior of the action potential that travels
      * along the membrane before reaching the location of the transverse cross
      * section.  This is essentially just a shape that is intended to look
-     * like something moving along the outer membrane.
+     * like something moving along the outer membrane.  The shape moves for a
+     * while, then reaches the cross section, and then lingers there for a
+     * bit.
      */
     public static class TravelingActionPotential {
     	
@@ -272,7 +285,7 @@ public class AxonMembrane {
     	
         private ArrayList<Listener> listeners = new ArrayList<Listener>();
     	private double travelTimeCountdownTimer = TRAVELING_TIME;
-    	private double lingerCountdownTimer = LINGER_AT_CROSS_SECTION_TIME;
+    	private double lingerCountdownTimer;
     	private Shape shape;
     	private AxonMembrane axonMembrane;
     	
@@ -293,12 +306,18 @@ public class AxonMembrane {
     			travelTimeCountdownTimer -= dt;
     			updateShape();
     			notifyShapeChanged();
+    			if (travelTimeCountdownTimer <= 0){
+    				// We've reached the cross section and will now linger
+    				// there for a bit.
+    				notifyCrossSectionReached();
+    				lingerCountdownTimer = LINGER_AT_CROSS_SECTION_TIME;
+    			}
     		}
     		else if (lingerCountdownTimer > 0){
     			lingerCountdownTimer -= dt;
     			if (lingerCountdownTimer <= 0){
     				shape = null;
-    				notifyTravelingCompleted();
+    				notifyLingeringCompleted();
     			}
     			else{
     				updateShape();
@@ -366,9 +385,15 @@ public class AxonMembrane {
     		listeners.remove(listener);
     	}
     	
-    	private void notifyTravelingCompleted(){
+    	private void notifyLingeringCompleted(){
     		for (Listener listener : listeners){
-    			listener.travelingCompleted();
+    			listener.lingeringCompleted();
+    		}
+    	}
+        
+    	private void notifyCrossSectionReached(){
+    		for (Listener listener : listeners){
+    			listener.crossSectionReached();
     		}
     	}
         
@@ -387,15 +412,21 @@ public class AxonMembrane {
     		void shapeChanged();
     		
     		/**
-    		 * Notify the listener that this has finished traveling down the
-    		 * membrane and has arrived at the destination.
+    		 * Notify the listener that the cross section has been reached.
     		 */
-    		void travelingCompleted();
+    		void crossSectionReached();
+    		
+    		/**
+    		 * Notify the listener that this has finished traveling down the
+    		 * membrane and lingering at the cross section.
+    		 */
+    		void lingeringCompleted();
     	}
     	
     	public static class Adapter implements Listener {
 			public void shapeChanged() {}
-			public void travelingCompleted() {}
+    		public void crossSectionReached() {}
+    		public void lingeringCompleted() {}
     	}
     }
 }

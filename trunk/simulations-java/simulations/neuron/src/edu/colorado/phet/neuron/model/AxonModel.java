@@ -125,7 +125,7 @@ public class AxonModel implements IParticleCapture {
         // action potential has arrived at the location of the transverse
         // cross section.
         axonMembrane.addListener(new AxonMembrane.Adapter() {
-			public void travelingActionPotentialEnded() {
+			public void travelingActionPotentialReachedCrossSection() {
 				// The action potential has arrived, so stimulate the model
 				// the simulates the action potential voltages and current
 				// flows.
