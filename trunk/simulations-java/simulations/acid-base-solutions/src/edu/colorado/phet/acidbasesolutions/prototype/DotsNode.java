@@ -4,6 +4,7 @@ package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConcentrationMoleculeCountStrategy;
 import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConstantMoleculeCountStrategy;
@@ -161,9 +162,12 @@ class DotsNode extends MoleculesNode {
 
         // add nodes
         while ( count > parent.getChildrenCount() ) {
-            DotNode p = new DotNode( diameter, color, transparency );
-            p.setOffset( getRandomPoint() );
-            parent.addChild( p );
+            DotNode node = new DotNode( diameter, color, transparency );
+            Point2D p = getRandomPoint();
+            double x = p.getX() - ( node.getFullBoundsReference().getWidth() / 2 );
+            double y = p.getY() - ( node.getFullBoundsReference().getHeight() / 2 );
+            node.setOffset( x, y );
+            parent.addChild( node );
         }
         
         assert( count == parent.getChildrenCount() );
