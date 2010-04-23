@@ -139,7 +139,6 @@ public class SodiumDualGatedChannel extends GatedChannel {
 			if (normalizedConductance > ACTIVATION_DECISION_THRESHOLD){
 				// We are opening, change to the appropriate state.
 				gateState = GateState.OPENING;
-				setOpenness(normalizedConductance);
 			}
 			break;
 			
@@ -155,7 +154,11 @@ public class SodiumDualGatedChannel extends GatedChannel {
 				setOpenness(1);
 			}
 			else{
-				setOpenness(normalizedConductance);
+				// Set the openness based on the normalized conductance value.
+				// Note the non-linear mapping.  This was done to make them
+				// appear to be fully open earlier in the action potential,
+				// which was requested by the IPHY folks.
+				setOpenness(1 - Math.pow(normalizedConductance - 1, 2));
 			}
 			break;
 			
