@@ -86,10 +86,21 @@ public class HodgkinHuxleyModel implements IHodgkinHuxleyModel
 	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#get_n4()
 	 */
 	public double get_n4() { return n4; }
+	
+	public double get_delayed_n4(double delayAmount){
+		System.out.println(getClass().getName() + " Warning - Delay not implemented for this class.");
+		return n4;
+	}
+	
 	/* (non-Javadoc)
 	 * @see edu.colorado.phet.neuron.model.IMembranePotentialModel#get_m3h()
 	 */
 	public double get_m3h() { return m3h; }
+	
+	public double get_delayed_m3h(double delayAmount){
+		System.out.println(getClass().getName() + " Warning - Delay not implemented for this class.");
+		return m3h;
+	}
 	
 	public float getEna()
 	{

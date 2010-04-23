@@ -36,9 +36,13 @@ public interface IHodgkinHuxleyModel {
 	public abstract void reset();
 
 	public abstract double get_n4();
+	
+	public abstract double get_delayed_n4(double delayAmount);
 
 	public abstract double get_m3h();
 
+	public abstract double get_delayed_m3h(double delayAmount);
+	
 	public abstract double get_na_current();
 
 	public abstract double get_k_current();
