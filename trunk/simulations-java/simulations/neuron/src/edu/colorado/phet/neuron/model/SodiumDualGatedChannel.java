@@ -259,7 +259,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
      */
 	public static void main(String[] args) {
 		
-    	ConstantDtClock clock = new ConstantDtClock( NeuronDefaults.CLOCK_FRAME_RATE, NeuronDefaults.ACTION_POTENTIAL_CLOCK_DT );
+    	ConstantDtClock clock = new ConstantDtClock( NeuronDefaults.CLOCK_FRAME_RATE, NeuronDefaults.DEFAULT_ACTION_POTENTIAL_CLOCK_DT );
     	
     	// Set up the model-canvas transform.
         ModelViewTransform2D mvt = new ModelViewTransform2D( 
