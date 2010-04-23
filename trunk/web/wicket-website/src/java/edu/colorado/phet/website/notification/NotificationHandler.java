@@ -34,7 +34,7 @@ public class NotificationHandler {
         }
 
         notificationScheduler = new Scheduler();
-        notificationScheduler.schedule( "59 11 * * fri", new Runnable() {
+        notificationScheduler.schedule( "59 23 * * fri", new Runnable() {
             public void run() {
                 sendNotifications();
             }
