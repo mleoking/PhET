@@ -186,9 +186,13 @@ public class SodiumDualGatedChannel extends GatedChannel {
 			stateTransitionTimer -= dt;
 			if (stateTransitionTimer >= 0){
 				// Move the values of openness and activation back towards
-				// their idle (i.e. resting) states.
+				// their idle (i.e. resting) states.  The mapping of the
+				// inactivation amount as a function of time is very non-
+				// linear.  This is because the IPHY people requested that
+				// the "little ball doesn't pop out" until the the gate has
+				// closed up.
 				setOpenness(stateTransitionTimer/RESETTING_TO_IDLE_TIME);
-				setInactivationAmt(stateTransitionTimer/RESETTING_TO_IDLE_TIME);
+				setInactivationAmt(1 - Math.pow(stateTransitionTimer/RESETTING_TO_IDLE_TIME - 1, 12));
 			}
 			else{
 				// Go back to the idle, or resting, state.
