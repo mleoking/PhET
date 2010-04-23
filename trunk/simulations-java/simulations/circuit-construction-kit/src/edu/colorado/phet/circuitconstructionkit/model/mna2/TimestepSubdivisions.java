@@ -77,6 +77,5 @@ public class TimestepSubdivisions<A> {
             return steppable.distance(a, b2) < errorThreshold;
         }
     }
-
 }
 

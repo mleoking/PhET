@@ -1,6 +1,5 @@
 package edu.colorado.phet.cckscala.tests
 
-import _root_.java.util.ArrayList
 import collection.mutable.ArrayBuffer
 
 trait Steppable[A] {
