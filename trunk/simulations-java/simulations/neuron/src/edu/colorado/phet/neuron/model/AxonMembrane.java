@@ -281,7 +281,7 @@ public class AxonMembrane {
     public static class TravelingActionPotential {
     	
     	private static double TRAVELING_TIME = 0.0020; // In seconds of sim time (not wall time).
-    	private static double LINGER_AT_CROSS_SECTION_TIME = 0.0004; // In seconds of sim time (not wall time).
+    	private static double LINGER_AT_CROSS_SECTION_TIME = 0.001; // In seconds of sim time (not wall time).
     	
         private ArrayList<Listener> listeners = new ArrayList<Listener>();
     	private double travelTimeCountdownTimer = TRAVELING_TIME;
