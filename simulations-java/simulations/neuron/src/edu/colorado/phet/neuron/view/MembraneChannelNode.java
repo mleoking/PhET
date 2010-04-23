@@ -195,7 +195,7 @@ public class MembraneChannelNode extends PNode{
 		rightEdgeNode.setOffset(
 				transformedChannelSize.getWidth() / 2 + rightEdgeNode.getFullBoundsReference().width / 2, 0);
 
-		// If this membrane channel has an inactivation gate, draw it.
+		// If this membrane channel has an inactivation gate, update it.
 		if (membraneChannelModel.getHasInactivationGate()){
 			
 			PDimension transformedOverallSize = 
