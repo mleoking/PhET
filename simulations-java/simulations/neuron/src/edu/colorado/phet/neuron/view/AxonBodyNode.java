@@ -54,7 +54,7 @@ public class AxonBodyNode extends PNode {
         
         // Listen to the axon membrane for events that matter to the visual
         // representation.
-        axonMembraneModel.addListener(new AxonMembrane.Listener() {
+        axonMembraneModel.addListener(new AxonMembrane.Adapter() {
 			
 			public void travelingActionPotentialStarted() {
 				addTravelingActionPotentialNode(AxonBodyNode.this.axonMembraneModel.getTravelingActionPotential());
