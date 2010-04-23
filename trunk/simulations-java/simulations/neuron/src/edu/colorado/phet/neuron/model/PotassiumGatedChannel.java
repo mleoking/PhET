@@ -78,8 +78,13 @@ public class PotassiumGatedChannel extends GatedChannel {
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);
 		// Update the openness factor based on the state of the HH model.
-		// This is very specific to the model and the type of channel.
-		double openness = Math.min(Math.abs(hodgkinHuxleyModel.get_n4())/N4_WHEN_FULLY_OPEN, 1);
+		// This is very specific to the model and the type of channel.  Note
+		// the non-linear mapping of conductance to the openness factor for
+		// the channels.  This is to make the gates appear to snap open and
+		// closed more rapidly, which was requested by the IPHY folks after
+		// seeing some demos.
+		double normalizedConductance = Math.min(Math.abs(hodgkinHuxleyModel.get_n4())/N4_WHEN_FULLY_OPEN, 1);
+		double openness = 1 - Math.pow(normalizedConductance - 1, 2);
 		if (openness > 0 && openness < 1){
 			// Trim off some digits, otherwise we are continuously making
 			// tiny changes to this value due to internal gyrations of the
