@@ -63,6 +63,12 @@ public class AxonModel implements IParticleCapture {
 	private static final int NUM_SODIUM_LEAK_CHANNELS = 3;
 	private static final int NUM_POTASSIUM_LEAK_CHANNELS = 7;
 	
+	// Numbers of "bulk" ions in and out of the cell when visible.
+	private static final int NUM_SODIUM_IONS_OUTSIDE_CELL = 250;
+	private static final int NUM_SODIUM_IONS_INSIDE_CELL = 4;
+	private static final int NUM_POTASSIUM_IONS_OUTSIDE_CELL = 20;
+	private static final int NUM_POTASSIUM_IONS_INSIDE_CELL = 100;
+	
 	// Countdown used for preventing the axon from receiving stimuli that
 	// are too close together.
 	private static final double STIM_LOCKOUT_TIME = 0.0075;  // Seconds of sim time.
@@ -912,11 +918,12 @@ public class AxonModel implements IParticleCapture {
     	// Choose any angle.
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	
-    	// Choose a distance which is close to but inside the membrane.
-//    	double distance = crossSectionInnerRadius - particle.getDiameter() * 2 - 
-//    		RAND.nextDouble() * particle.getDiameter() * 2;
-    	double distance = crossSectionInnerRadius - particle.getDiameter() * 2 - 
-     		RAND.nextDouble() * crossSectionInnerRadius * 0.8;
+    	// Choose a distance from the cell center that is within the membrane.
+    	// The multiplier value is created with the intention of weighting the
+    	// positions toward the outside in order to get an even distribution
+    	// per unit area.
+    	double multiplier = Math.max(RAND.nextDouble(), RAND.nextDouble());
+    	double distance = (crossSectionInnerRadius - particle.getDiameter()) * multiplier;
     	
     	/*
     	 * TODO: The code below was used prior to 10/9/2009, which is when it
@@ -942,11 +949,14 @@ public class AxonModel implements IParticleCapture {
     	// Choose any angle.
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	
-    	// Choose a distance which is close to but outside the membrane.
-//    	double distance = crossSectionOuterRadius + particle.getDiameter() * 2 + 
-//    		RAND.nextDouble() * particle.getDiameter() * 2;
+    	// Choose a distance from the cell center that is outside of the
+    	// membrane. The multiplier value is created with the intention of
+    	// weighting the positions toward the outside in order to get an even
+    	// distribution per unit area.
+//    	double multiplier = Math.max(RAND.nextDouble(), RAND.nextDouble());
+    	double multiplier = RAND.nextDouble();
     	double distance = crossSectionOuterRadius + particle.getDiameter() * 2 + 
-			RAND.nextDouble() * crossSectionOuterRadius * 2;
+			multiplier * crossSectionOuterRadius * 2.2;
     	
     	particle.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
@@ -988,16 +998,16 @@ public class AxonModel implements IParticleCapture {
     	ArrayList<Particle> preExistingParticles = new ArrayList<Particle>(particles);
     	
     	// Add the initial particles.
-    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 4);
-    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 250);
-    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 100);
-    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 5);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, NUM_SODIUM_IONS_INSIDE_CELL);
+    	addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, NUM_SODIUM_IONS_OUTSIDE_CELL);
+    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, NUM_POTASSIUM_IONS_INSIDE_CELL);
+    	addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, NUM_POTASSIUM_IONS_OUTSIDE_CELL);
     	
     	// Look at each sodium gate and, if there are no ions in its capture
     	// zone, add some.
     	for (MembraneChannel membraneChannel : membraneChannels){
     		if (membraneChannel instanceof SodiumDualGatedChannel){
-    			CaptureZone captureZone = membraneChannel.getInteriorCaptureZone();
+    			CaptureZone captureZone = membraneChannel.getExteriorCaptureZone();
     			CaptureZoneScanResult czsr = scanCaptureZoneForFreeParticles(captureZone, ParticleType.SODIUM_ION);
     			if (czsr.numParticlesInZone == 0){
     				addParticles(ParticleType.SODIUM_ION, captureZone, RAND.nextInt(2) + 1);
