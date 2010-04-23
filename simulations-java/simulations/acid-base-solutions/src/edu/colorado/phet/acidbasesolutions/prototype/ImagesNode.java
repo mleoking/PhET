@@ -3,6 +3,7 @@
 package edu.colorado.phet.acidbasesolutions.prototype;
 
 import java.awt.Image;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConcentrationMoleculeCountStrategy;
 import edu.colorado.phet.acidbasesolutions.prototype.IMoleculeCountStrategy.ConstantMoleculeCountStrategy;
@@ -105,7 +106,10 @@ class ImagesNode extends MoleculesNode {
         // add nodes
         while ( count > parent.getChildrenCount() ) {
             ImageNode node = new ImageNode( image, scale, transparency );
-            node.setOffset( getRandomPoint() );
+            Point2D p = getRandomPoint();
+            double x = p.getX() - ( node.getFullBoundsReference().getWidth() / 2 );
+            double y = p.getY() - ( node.getFullBoundsReference().getHeight() / 2 );
+            node.setOffset( x, y );
             parent.addChild( node );
         }
 
