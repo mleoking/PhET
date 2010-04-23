@@ -1,3 +1,4 @@
+4/23/10 prototype: implement H2O molecule view with 3 layers of images
 # 0.00.05 (39950) Apr 16, 2010
 4/16/10 prototype: version for interviews
 4/16/10 prototype: make H2O molecules invisible by default

@@ -71,10 +71,10 @@ class MagnifyingGlassNode extends PComposite {
         circleNode.setStrokePaint( GLASS_STROKE_COLOR );
         addChild( circleNode );
         
-        dotsNode = new DotsNode( solution, circleNode, showOH );
+        dotsNode = new DotsNode( solution, magnifyingGlass, showOH );
         circleNode.addChild( dotsNode ); // clip dots to circle
         
-        imagesNode = new ImagesNode( solution, circleNode, showOH );
+        imagesNode = new ImagesNode( solution, magnifyingGlass, showOH );
         circleNode.addChild( imagesNode ); // clip images to circle
         
         update();
