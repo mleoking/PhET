@@ -175,7 +175,6 @@ public class PureJavaSolver extends CircuitSolver {
                 new RuntimeException("Type not found: " + circuit.getBranches()[i]).printStackTrace();
             }
         }
-//        CompanionMNA.FullCircuit circ = new CompanionMNA.FullCircuit(batteries, resistors, capacitors, inductors);
 
         DynamicCircuit dynamicCircuit = new DynamicCircuit(new ArrayList<MNA.Battery>(), new ArrayList<MNA.Resistor>(resistors),
                 new ArrayList<MNA.CurrentSource>(), new ArrayList<DynamicCircuit.ResistiveBattery>(batteries),
