@@ -34,9 +34,9 @@ public class DynamicCircuit {
 
     public static class DynamicCapacitor {
         Capacitor capacitor;
-        CState state;
+        DynamicElementState state;
 
-        public DynamicCapacitor(Capacitor capacitor, CState state) {
+        public DynamicCapacitor(Capacitor capacitor, DynamicElementState state) {
             this.capacitor = capacitor;
             this.state = state;
         }
@@ -55,20 +55,24 @@ public class DynamicCircuit {
     }
 
     public static class DynamicInductor {
-        Inductor inductor;
-        CState state;
+        private Inductor inductor;
+        private DynamicElementState state;
 
-        public DynamicInductor(Inductor inductor, CState state) {
+        public DynamicInductor(Inductor inductor, DynamicElementState state) {
             this.inductor = inductor;
             this.state = state;
         }
 
-        @Override
+        public Inductor getInductor() {
+            return inductor;
+        }
+
+        public DynamicElementState getState() {
+            return state;
+        }
+
         public String toString() {
-            return "DynamicInductor{" +
-                    "inductor=" + inductor +
-                    ", state=" + state +
-                    '}';
+            return "DynamicInductor{" + "inductor=" + inductor + ", state=" + state + '}';
         }
     }
 
@@ -100,12 +104,8 @@ public class DynamicCircuit {
             this.voltage = voltage;
         }
 
-        @Override
         public String toString() {
-            return "ResistiveBattery{" +
-                    "resistance=" + resistance +
-                    ", voltage=" + voltage +
-                    '}';
+            return "ResistiveBattery{" + "resistance=" + resistance + ", voltage=" + voltage + '}';
         }
     }
 
@@ -118,25 +118,21 @@ public class DynamicCircuit {
         return Math.sqrt(sumSqDiffs);
     }
 
-    public static class CState {
-        double voltage;
-        double current;
+    public static class DynamicElementState {
+        private double voltage;
+        private double current;
 
-        public CState(double voltage, double current) {
+        public DynamicElementState(double voltage, double current) {
             this.current = current;
             this.voltage = voltage;
         }
 
-        @Override
         public String toString() {
-            return "CState{" +
-                    "voltage=" + voltage +
-                    ", current=" + current +
-                    '}';
+            return "CState{" + "voltage=" + voltage + ", current=" + current + '}';
         }
     }
 
-    class Result {
+    public class Result {
         MNA.Circuit mnaCircuit;
         HashMap<MNA.Element, SolutionToDouble> currentCompanions;
 
@@ -152,9 +148,9 @@ public class DynamicCircuit {
         return new DynamicCircuitSolution(this, result.mnaCircuit.solve(), result.currentCompanions);
     }
 
-    class DynamicState {
-        DynamicCircuit circuit;
-        DynamicCircuitSolution solution;
+    public class DynamicState {
+        private final DynamicCircuit circuit;
+        private final DynamicCircuitSolution solution;
 
         DynamicState(DynamicCircuit circuit, DynamicCircuitSolution solution) {
             this.circuit = circuit;
@@ -221,7 +217,7 @@ public class DynamicCircuit {
     DynamicCircuit updateCircuit(DynamicCircuitSolution solution) {
         ArrayList<DynamicCapacitor> updatedCapacitors = new ArrayList<DynamicCapacitor>();
         for (DynamicCapacitor c : capacitors) {
-            updatedCapacitors.add(new DynamicCapacitor(c.capacitor, new CState(solution.getNodeVoltage(c.capacitor.node1) - solution.getNodeVoltage(c.capacitor.node0), solution.getCurrent(c.capacitor))));
+            updatedCapacitors.add(new DynamicCapacitor(c.capacitor, new DynamicElementState(solution.getNodeVoltage(c.capacitor.node1) - solution.getNodeVoltage(c.capacitor.node0), solution.getCurrent(c.capacitor))));
         }
         //todo: update inductors
         return new DynamicCircuit(batteries, resistors, currents, resistiveBatteries, updatedCapacitors, inductors);
@@ -316,7 +312,7 @@ public class DynamicCircuit {
         //        double rc = dt / c;
         for (DynamicCapacitor c : capacitors) {
             Capacitor capacitor = c.capacitor;
-            CState cstate = c.state;
+            DynamicElementState cstate = c.state;
             //in series
             int newNode = Collections.max(usedNodes) + 1;
             usedNodes.add(newNode);
@@ -366,7 +362,7 @@ public class DynamicCircuit {
         resistors.add(new MNA.Resistor(1, 2, resistance));
 
         ArrayList<DynamicCapacitor> capacitors = new ArrayList<DynamicCapacitor>();
-        capacitors.add(new DynamicCapacitor(c, new CState(0.0, voltage / resistance)));
+        capacitors.add(new DynamicCapacitor(c, new DynamicElementState(0.0, voltage / resistance)));
         DynamicCircuit circuit = new DynamicCircuit(batteries, resistors, new ArrayList<MNA.CurrentSource>(), new ArrayList<ResistiveBattery>(), capacitors, new ArrayList<DynamicInductor>());
 //    //    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 0, resistance) :: Nil, Nil, Nil, Nil)
         System.out.println("current through capacitor");

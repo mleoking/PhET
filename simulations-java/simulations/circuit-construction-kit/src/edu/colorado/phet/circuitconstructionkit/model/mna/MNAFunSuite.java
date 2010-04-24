@@ -192,7 +192,7 @@ public class MNAFunSuite extends TestCase {
     public void testVRCCircuit(double v, double r, double c) {
         MNA.Resistor resistor = new MNA.Resistor(1, 2, r);
         DynamicCircuit circuit = new DynamicCircuit(new ArrayList<MNA.Battery>(), Arrays.asList(resistor),
-                new ArrayList<MNA.CurrentSource>(), Arrays.asList(new DynamicCircuit.ResistiveBattery(0, 1, v, 0)), Arrays.asList(new DynamicCircuit.DynamicCapacitor(new DynamicCircuit.Capacitor(2, 0, c), new DynamicCircuit.CState(0.0, v / r))),
+                new ArrayList<MNA.CurrentSource>(), Arrays.asList(new DynamicCircuit.ResistiveBattery(0, 1, v, 0)), Arrays.asList(new DynamicCircuit.DynamicCapacitor(new DynamicCircuit.Capacitor(2, 0, c), new DynamicCircuit.DynamicElementState(0.0, v / r))),
                 new ArrayList<DynamicCircuit.DynamicInductor>());
 
         double dt = 1E-4;
@@ -247,7 +247,7 @@ public class MNAFunSuite extends TestCase {
         MNA.Resistor resistor = new MNA.Resistor(1, 2, R);
         DynamicCircuit circuit = new DynamicCircuit(new ArrayList<MNA.Battery>(), Arrays.asList(resistor),
                 new ArrayList<MNA.CurrentSource>(), Arrays.asList(new DynamicCircuit.ResistiveBattery(0, 1, V, 0)), new ArrayList<DynamicCircuit.DynamicCapacitor>(),
-                Arrays.asList(new DynamicCircuit.DynamicInductor(new DynamicCircuit.Inductor(2, 0, L), new DynamicCircuit.CState(V, 0.0))));
+                Arrays.asList(new DynamicCircuit.DynamicInductor(new DynamicCircuit.Inductor(2, 0, L), new DynamicCircuit.DynamicElementState(V, 0.0))));
 
         double dt = 1E-4;
         for (int i = 0; i < 1000; i++) {
