@@ -45,7 +45,7 @@ public class PureJavaSolver extends CircuitSolver {
         Capacitor b;
 
         CapacitorAdapter(Circuit c, Capacitor b) {
-            super(new DynamicCircuit.Capacitor(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getCapacitance()), new DynamicCircuit.CState(b.getVoltageDrop(), b.getCurrent()));
+            super(new DynamicCircuit.Capacitor(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getCapacitance()), new DynamicCircuit.DynamicElementState(b.getVoltageDrop(), b.getCurrent()));
             this.c = c;
             this.b = b;
         }
@@ -61,14 +61,14 @@ public class PureJavaSolver extends CircuitSolver {
         Inductor b;
 
         InductorAdapter(Circuit c, Inductor b) {
-            super(new DynamicCircuit.Inductor(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getInductance()), new DynamicCircuit.CState(b.getVoltageDrop(), b.getCurrent()));
+            super(new DynamicCircuit.Inductor(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getInductance()), new DynamicCircuit.DynamicElementState(b.getVoltageDrop(), b.getCurrent()));
             this.c = c;
             this.b = b;
         }
 
         void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            b.setCurrent(sol.getCurrent(this.inductor));
-            b.setVoltageDrop(sol.getVoltage(this.inductor));
+            b.setCurrent(sol.getCurrent(this.getInductor()));
+            b.setVoltageDrop(sol.getVoltage(this.getInductor()));
         }
     }
 
@@ -114,6 +114,15 @@ public class PureJavaSolver extends CircuitSolver {
         for (ResistorAdapter resistorAdapter : resistors) resistorAdapter.applySolution(result);
         for (CapacitorAdapter capacitorAdapter : capacitors) capacitorAdapter.applySolution(result);
         for (InductorAdapter inductorAdapter : inductors) inductorAdapter.applySolution(result);
+        for (int i = 0; i < circuit.numBranches(); i++) {
+            if (circuit.getBranches()[i] instanceof Switch) {
+                Switch sw = (Switch) circuit.getBranches()[i];
+                if (!sw.isClosed()) {
+                    sw.setCurrent(0.0);
+                    sw.setVoltageDrop(0.0);
+                }
+            }
+        }
         circuit.setSolution(result);
         fireCircuitSolved();
     }
