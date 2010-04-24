@@ -312,13 +312,13 @@ public class DynamicCircuit {
         //        double rc = dt / c;
         for (DynamicCapacitor c : capacitors) {
             Capacitor capacitor = c.capacitor;
-            DynamicElementState cstate = c.state;
+            DynamicElementState state = c.state;
             //in series
             int newNode = Collections.max(usedNodes) + 1;
             usedNodes.add(newNode);
 
             double companionResistance = dt / 2.0 / capacitor.capacitance;
-            double companionVoltage = cstate.voltage - companionResistance * cstate.current; //TODO: explain the difference between this sign and the one in TestTheveninCapacitorRC
+            double companionVoltage = state.voltage - companionResistance * state.current; //TODO: explain the difference between this sign and the one in TestTheveninCapacitorRC
             //      println("companion resistance = "+companionResistance+", companion voltage = "+companionVoltage)
 
             final MNA.Battery battery = new MNA.Battery(capacitor.node0, newNode, companionVoltage);
@@ -333,6 +333,31 @@ public class DynamicCircuit {
                 }
             });
         }
+
+        //see also http://circsimproj.blogspot.com/2009/07/companion-models.html
+        for (DynamicInductor i : inductors) {
+            Inductor inductor = i.getInductor();
+            DynamicElementState state = i.state;
+            //in series
+            int newNode = Collections.max(usedNodes) + 1;
+            usedNodes.add(newNode);
+
+            double companionVoltage = 2 * inductor.inductance * state.current / dt - state.voltage;
+            double companionResistance = 2 * inductor.inductance / dt;
+
+            final MNA.Battery battery = new MNA.Battery(inductor.node0, newNode, companionVoltage);
+            MNA.Resistor resistor = new MNA.Resistor(newNode, inductor.node1, companionResistance);
+            companionBatteries.add(battery);
+            companionResistors.add(resistor);
+
+            //we need to be able to get the current for this component
+            currentCompanions.put(inductor, new SolutionToDouble() {
+                public double getValue(MNA.Solution solution) {
+                    return solution.getCurrent(battery);//in series, so current is same through both companion components
+                }
+            });
+        }
+
         //        println("currentCompanions = " + currentCompanions)
         //    for (i <- inductors) {
         //      mnaBatteries += new Battery

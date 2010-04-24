@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class MNAFunSuite extends TestCase {
+    
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
         MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(new MNA.Resistor(1, 0, 4)));
@@ -256,6 +257,7 @@ public class MNAFunSuite extends TestCase {
             double voltage = solution.getVoltage(resistor);
             double desiredVoltage = -V * (1 - Math.exp(-t * R / L));
             double error = Math.abs(voltage - desiredVoltage);
+            System.out.println("expected voltage = "+desiredVoltage+", obtained = "+voltage);
             assertTrue(error < 1E-6);
             circuit = circuit.updateWithSubdivisions(dt);
         }
