@@ -53,7 +53,7 @@ public class TimestepSubdivisions<A> {
     }
 
     public A stepInTime(A originalState, Steppable<A> steppable, double dt) {
-        return stepInTimeWithHistory(originalState, steppable, dt).getFinalState();//todo: why is this cast needed?
+        return stepInTimeWithHistory(originalState, steppable, dt).getFinalState();
     }
 
     double getTimestep(A state, Steppable<A> steppable, double dt) {

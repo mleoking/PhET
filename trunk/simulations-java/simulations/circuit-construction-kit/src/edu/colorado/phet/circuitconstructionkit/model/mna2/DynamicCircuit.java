@@ -14,6 +14,18 @@ public class DynamicCircuit {
     ArrayList<DynamicCapacitor> capacitors;
     ArrayList<DynamicInductor> inductors;
 
+    @Override
+    public String toString() {
+        return "DynamicCircuit{" +
+                "batteries=" + batteries +
+                ", resistors=" + resistors +
+                ", currents=" + currents +
+                ", resistiveBatteries=" + resistiveBatteries +
+                ", capacitors=" + capacitors +
+                ", inductors=" + inductors +
+                '}';
+    }
+
     public DynamicCircuit(ArrayList<MNA.Battery> batteries, ArrayList<MNA.Resistor> resistors, ArrayList<MNA.CurrentSource> currents, ArrayList<ResistiveBattery> resistiveBatteries, ArrayList<DynamicCapacitor> capacitors, ArrayList<DynamicInductor> inductors) {
         this.batteries = batteries;
         this.capacitors = capacitors;
@@ -35,6 +47,14 @@ public class DynamicCircuit {
         public double getCurrent() {
             return state.current;
         }
+
+        @Override
+        public String toString() {
+            return "DynamicCapacitor{" +
+                    "capacitor=" + capacitor +
+                    ", state=" + state +
+                    '}';
+        }
     }
 
     public static class DynamicInductor {
@@ -44,6 +64,14 @@ public class DynamicCircuit {
         public DynamicInductor(Inductor inductor, CState state) {
             this.inductor = inductor;
             this.state = state;
+        }
+
+        @Override
+        public String toString() {
+            return "DynamicInductor{" +
+                    "inductor=" + inductor +
+                    ", state=" + state +
+                    '}';
         }
     }
 
@@ -89,9 +117,17 @@ public class DynamicCircuit {
         double voltage;
         double current;
 
-        public CState(double current, double voltage) {
+        public CState(double voltage, double current) {
             this.current = current;
             this.voltage = voltage;
+        }
+
+        @Override
+        public String toString() {
+            return "CState{" +
+                    "voltage=" + voltage +
+                    ", current=" + current +
+                    '}';
         }
     }
 
@@ -132,6 +168,11 @@ public class DynamicCircuit {
 
         public DynamicCircuitSolution getSolution() {
             return solution;
+        }
+
+        @Override
+        public String toString() {
+            return "DynamicState{" + "circuit=" + circuit + ", solution=" + solution + '}';
         }
     }
 
@@ -201,6 +242,15 @@ public class DynamicCircuit {
                 return currentCompanions.get(element).getValue(mnaSolution);
             else
                 return mnaSolution.getCurrent(element);
+        }
+
+        @Override
+        public String toString() {
+            return "DynamicCircuitSolution{" +
+                    "circuit=" + circuit +
+                    ", mnaSolution=" + mnaSolution +
+                    ", currentCompanions=" + currentCompanions +
+                    '}';
         }
     }
 
