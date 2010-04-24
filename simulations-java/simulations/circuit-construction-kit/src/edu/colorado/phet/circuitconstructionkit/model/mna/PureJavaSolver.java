@@ -61,14 +61,14 @@ public class PureJavaSolver extends CircuitSolver {
         Inductor b;
 
         InductorAdapter(Circuit c, Inductor b) {
-            super(new DynamicCircuit.Inductor(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getInductance()), new DynamicCircuit.DynamicElementState(b.getVoltageDrop(), b.getCurrent()));
+            super(new DynamicCircuit.Inductor(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getInductance()), new DynamicCircuit.DynamicElementState(b.getVoltageDrop(), -b.getCurrent()));//todo: sign error
             this.c = c;
             this.b = b;
         }
 
         void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            b.setCurrent(sol.getCurrent(this.getInductor()));
-            b.setVoltageDrop(sol.getVoltage(this.getInductor()));
+            b.setCurrent(-sol.getCurrent(getInductor()));//todo: sign error
+            b.setVoltageDrop(sol.getVoltage(getInductor()));
         }
     }
 
@@ -107,7 +107,7 @@ public class PureJavaSolver extends CircuitSolver {
 
         DynamicCircuit dynamicCircuit = new DynamicCircuit(new ArrayList<MNA.Battery>(), new ArrayList<MNA.Resistor>(resistors),
                 new ArrayList<MNA.CurrentSource>(), new ArrayList<DynamicCircuit.ResistiveBattery>(batteries),
-                new ArrayList<DynamicCircuit.DynamicCapacitor>(capacitors), new ArrayList<DynamicCircuit.DynamicInductor>());
+                new ArrayList<DynamicCircuit.DynamicCapacitor>(capacitors), new ArrayList<DynamicCircuit.DynamicInductor>(inductors));
 
         DynamicCircuit.DynamicCircuitSolution result = dynamicCircuit.solveItWithSubdivisions(dt);
         for (ResistiveBatteryAdapter batteryAdapter : batteries) batteryAdapter.applySolution(result);
