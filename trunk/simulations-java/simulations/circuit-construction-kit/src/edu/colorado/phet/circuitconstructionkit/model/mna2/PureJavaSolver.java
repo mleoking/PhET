@@ -44,30 +44,6 @@ public class PureJavaSolver extends CircuitSolver {
         }
     }
 
-    //doesn't appear in the mna physics engine; treated as a missing piece
-    static class OpenAdapter implements Adapter {
-        Circuit c;
-        Branch b;
-
-        OpenAdapter(Circuit c, Branch b) {
-            this.c = c;
-            this.b = b;
-        }
-
-        public Branch getComponent() {
-            return b;
-        }
-
-        public MNA.Element getElement() {
-            return null;
-        }
-
-        void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            getComponent().setCurrent(0.0);
-            getComponent().setVoltageDrop(0.0);//todo: will this cause numerical problems?
-        }
-    }
-
     static class ResistorAdapter extends MNA.Resistor implements Adapter {
         Circuit c;
         Branch b;
@@ -142,7 +118,6 @@ public class PureJavaSolver extends CircuitSolver {
     public void apply(Circuit circuit, double dt) {
         ArrayList<ResistiveBatteryAdapter> batteries = new ArrayList<ResistiveBatteryAdapter>();
         ArrayList<ResistorAdapter> resistors = new ArrayList<ResistorAdapter>();
-        ArrayList<OpenAdapter> openBranches = new ArrayList<OpenAdapter>();
         ArrayList<CapacitorAdapter> capacitors = new ArrayList<CapacitorAdapter>();
         ArrayList<InductorAdapter> inductors = new ArrayList<InductorAdapter>();
         for (int i = 0; i < circuit.numBranches(); i++) {
@@ -161,7 +136,7 @@ public class PureJavaSolver extends CircuitSolver {
                 if (sw.isClosed()) {
                     resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
                 } else {
-                    openBranches.add(new OpenAdapter(circuit, circuit.getBranches()[i]));
+                    //do nothing, since no closed circuit there
                 }
             } else if (circuit.getBranches()[i] instanceof Bulb) {
                 resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
@@ -193,9 +168,6 @@ public class PureJavaSolver extends CircuitSolver {
         }
         for (InductorAdapter inductorAdapter : inductors) {
             inductorAdapter.applySolution(result);
-        }
-        for (OpenAdapter openAdapter : openBranches) {
-            openAdapter.applySolution(result);
         }
         circuit.setSolution(result);
         fireCircuitSolved();
