@@ -63,6 +63,10 @@ public class DynamicCircuit {
             this.state = state;
         }
 
+        public double getCurrent() {
+            return state.current;
+        }
+
         public Inductor getInductor() {
             return inductor;
         }
@@ -107,6 +111,18 @@ public class DynamicCircuit {
         public String toString() {
             return "ResistiveBattery{" + "resistance=" + resistance + ", voltage=" + voltage + '}';
         }
+    }
+
+    public static double euclideanDistance(ArrayList<Double> x, ArrayList<Double> y) {
+        return euclideanDistance(toArray(x), toArray(y));
+    }
+
+    private static double[] toArray(ArrayList<Double> x) {
+        double[] a = new double[x.size()];
+        for (int i = 0; i < a.length; i++) {
+            a[i] = x.get(i);
+        }
+        return a;
     }
 
     public static double euclideanDistance(double[] x, double[] y) {
@@ -185,16 +201,19 @@ public class DynamicCircuit {
             }
 
             public double distance(DynamicState a, DynamicState b) {
-                double[] aCurrents = new double[a.circuit.capacitors.size()];
-                for (int i = 0; i < aCurrents.length; i++) {
-                    aCurrents[i] = a.circuit.capacitors.get(i).getCurrent();
-                }
+                ArrayList<Double> aCurrents = new ArrayList<Double>();
+                for (int i = 0; i < a.circuit.capacitors.size(); i++)
+                    aCurrents.add(a.circuit.capacitors.get(i).getCurrent());
+                for (int i = 0; i < a.circuit.inductors.size(); i++)
+                    aCurrents.add(a.circuit.inductors.get(i).getCurrent());
 
-                double[] bCurrents = new double[b.circuit.capacitors.size()];
-                for (int i = 0; i < bCurrents.length; i++) {
-                    bCurrents[i] = b.circuit.capacitors.get(i).getCurrent();//todo: read from solution object
+                ArrayList<Double> bCurrents = new ArrayList<Double>();
+                for (int i = 0; i < b.circuit.capacitors.size(); i++) {
+                    bCurrents.add(b.circuit.capacitors.get(i).getCurrent());
                 }
-
+                for (int i = 0; i < b.circuit.inductors.size(); i++) {
+                    bCurrents.add(b.circuit.inductors.get(i).getCurrent());//todo: read from companion object
+                }
                 return euclideanDistance(aCurrents, bCurrents);
             }
         };
@@ -219,8 +238,12 @@ public class DynamicCircuit {
         for (DynamicCapacitor c : capacitors) {
             updatedCapacitors.add(new DynamicCapacitor(c.capacitor, new DynamicElementState(solution.getNodeVoltage(c.capacitor.node1) - solution.getNodeVoltage(c.capacitor.node0), solution.getCurrent(c.capacitor))));
         }
-        //todo: update inductors
-        return new DynamicCircuit(batteries, resistors, currents, resistiveBatteries, updatedCapacitors, inductors);
+
+        ArrayList<DynamicInductor> updatedInductors = new ArrayList<DynamicInductor>();
+        for (DynamicInductor i : inductors) {
+            updatedInductors.add(new DynamicInductor(i.inductor, new DynamicElementState(solution.getNodeVoltage(i.inductor.node1) - solution.getNodeVoltage(i.inductor.node0), solution.getCurrent(i.inductor))));
+        }
+        return new DynamicCircuit(batteries, resistors, currents, resistiveBatteries, updatedCapacitors, updatedInductors);
     }
 
     public class DynamicCircuitSolution {
@@ -335,6 +358,8 @@ public class DynamicCircuit {
         }
 
         //see also http://circsimproj.blogspot.com/2009/07/companion-models.html
+        //see najm page 279
+        //pillage p 86
         for (DynamicInductor i : inductors) {
             Inductor inductor = i.getInductor();
             DynamicElementState state = i.state;
@@ -342,7 +367,7 @@ public class DynamicCircuit {
             int newNode = Collections.max(usedNodes) + 1;
             usedNodes.add(newNode);
 
-            double companionVoltage = 2 * inductor.inductance * state.current / dt - state.voltage;
+            double companionVoltage = state.voltage + 2 * inductor.inductance * state.current / dt;
             double companionResistance = 2 * inductor.inductance / dt;
 
             final MNA.Battery battery = new MNA.Battery(inductor.node0, newNode, companionVoltage);
