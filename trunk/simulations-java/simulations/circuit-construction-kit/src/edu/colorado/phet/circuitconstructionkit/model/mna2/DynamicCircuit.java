@@ -1,18 +1,15 @@
 package edu.colorado.phet.circuitconstructionkit.model.mna2;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 ///**This is a rewrite of companion mapping to make it simpler to construct and inspect companion models.*/
 public class DynamicCircuit {
-    ArrayList<MNA.Battery> batteries;
-    ArrayList<MNA.Resistor> resistors;
-    ArrayList<MNA.CurrentSource> currents;
-    ArrayList<ResistiveBattery> resistiveBatteries;
-    ArrayList<DynamicCapacitor> capacitors;
-    ArrayList<DynamicInductor> inductors;
+    List<MNA.Battery> batteries;
+    List<MNA.Resistor> resistors;
+    List<MNA.CurrentSource> currents;
+    List<ResistiveBattery> resistiveBatteries;
+    List<DynamicCapacitor> capacitors;
+    List<DynamicInductor> inductors;
 
     @Override
     public String toString() {
@@ -26,7 +23,7 @@ public class DynamicCircuit {
                 '}';
     }
 
-    public DynamicCircuit(ArrayList<MNA.Battery> batteries, ArrayList<MNA.Resistor> resistors, ArrayList<MNA.CurrentSource> currents, ArrayList<ResistiveBattery> resistiveBatteries, ArrayList<DynamicCapacitor> capacitors, ArrayList<DynamicInductor> inductors) {
+    public DynamicCircuit(List<MNA.Battery> batteries, List<MNA.Resistor> resistors, List<MNA.CurrentSource> currents, List<ResistiveBattery> resistiveBatteries, List<DynamicCapacitor> capacitors, List<DynamicInductor> inductors) {
         this.batteries = batteries;
         this.capacitors = capacitors;
         this.currents = currents;
