@@ -10,7 +10,6 @@ import java.util.Arrays;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.Path;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
-import edu.colorado.phet.circuitconstructionkit.model.mna2.CompanionMNA;
 import edu.colorado.phet.circuitconstructionkit.model.mna2.DynamicCircuit;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
