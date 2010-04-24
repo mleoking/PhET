@@ -3,7 +3,6 @@ package edu.colorado.phet.circuitconstructionkit.model.mna2;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 import java.util.ArrayList;
 
@@ -110,22 +109,18 @@ public class PureJavaSolver extends CircuitSolver {
             return this;
         }
 
-        static boolean signsMatch(double x, double y) {
-            return MathUtil.getSign(x) == MathUtil.getSign(y);
-        }
-
         void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
             getComponent().setCurrent(sol.getCurrent(getElement().capacitor));
             getComponent().setVoltageDrop(sol.getVoltage(getElement().capacitor));
         }
     }
 
-    static class InductorAdapter extends CompanionMNA.Inductor implements Adapter {
+    static class InductorAdapter extends DynamicCircuit.DynamicInductor {
         Circuit c;
         Inductor b;
 
         InductorAdapter(Circuit c, Inductor b) {
-            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getInductance(), b.getVoltageDrop(), b.getCurrent());
+            super(new DynamicCircuit.Inductor(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getInductance()), new DynamicCircuit.CState(b.getVoltageDrop(), b.getCurrent()));
             this.c = c;
             this.b = b;
         }
@@ -134,12 +129,13 @@ public class PureJavaSolver extends CircuitSolver {
             return b;
         }
 
-        public MNA.Element getElement() {
+        public DynamicCircuit.DynamicInductor getElement() {
             return this;
         }
 
         void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            AdapterUtil.applySolution(sol, this);
+            getComponent().setCurrent(sol.getCurrent(getElement().inductor));
+            getComponent().setVoltageDrop(sol.getVoltage(getElement().inductor));
         }
     }
 
