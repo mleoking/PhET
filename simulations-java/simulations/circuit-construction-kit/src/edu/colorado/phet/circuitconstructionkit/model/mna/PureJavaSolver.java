@@ -91,7 +91,7 @@ public class PureJavaSolver extends CircuitSolver {
                 Switch sw = (Switch) branch;
                 if (sw.isClosed()) {
                     resistors.add(new ResistorAdapter(circuit, sw));
-                } //else do nothing, since no closed circuit there //todo: should we ensure resulting current is 0.0?
+                } //else do nothing, since no closed circuit there; see below where current is zeroed out
             } else if (branch instanceof Bulb) {
                 resistors.add(new ResistorAdapter(circuit, branch));
             } else if (branch instanceof SeriesAmmeter) {
@@ -114,6 +114,8 @@ public class PureJavaSolver extends CircuitSolver {
         for (ResistorAdapter resistorAdapter : resistors) resistorAdapter.applySolution(result);
         for (CapacitorAdapter capacitorAdapter : capacitors) capacitorAdapter.applySolution(result);
         for (InductorAdapter inductorAdapter : inductors) inductorAdapter.applySolution(result);
+
+        //zero out currents on open branches
         for (int i = 0; i < circuit.numBranches(); i++) {
             if (circuit.getBranches()[i] instanceof Switch) {
                 Switch sw = (Switch) circuit.getBranches()[i];
