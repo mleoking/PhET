@@ -7,20 +7,8 @@ import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import java.util.ArrayList;
 
 public class PureJavaSolver extends CircuitSolver {
-    static interface Adapter {
-        Branch getComponent();
 
-        MNA.Element getElement();
-    }
-
-    public static class AdapterUtil {
-        public static void applySolution(DynamicCircuit.DynamicCircuitSolution sol, Adapter adapter) {
-            adapter.getComponent().setCurrent(sol.getCurrent(adapter.getElement()));
-            adapter.getComponent().setVoltageDrop(sol.getVoltage(adapter.getElement()));
-        }
-    }
-
-    static class ResistiveBatteryAdapter extends DynamicCircuit.ResistiveBattery implements Adapter {
+    static class ResistiveBatteryAdapter extends DynamicCircuit.ResistiveBattery {
         Circuit c;
         Battery b;
 
@@ -44,7 +32,7 @@ public class PureJavaSolver extends CircuitSolver {
         }
     }
 
-    static class ResistorAdapter extends MNA.Resistor implements Adapter {
+    static class ResistorAdapter extends MNA.Resistor {
         Circuit c;
         Branch b;
 
@@ -63,7 +51,8 @@ public class PureJavaSolver extends CircuitSolver {
         }
 
         void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            AdapterUtil.applySolution(sol, this);
+            getComponent().setCurrent(sol.getCurrent(getElement()));
+            getComponent().setVoltageDrop(sol.getVoltage(getElement()));
         }
     }
 
