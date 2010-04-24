@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-import edu.colorado.phet.circuitconstructionkit.model.mna2.PureJavaSolver;
+import edu.colorado.phet.circuitconstructionkit.model.mna.PureJavaSolver;
 
 /**
  * CCKModel

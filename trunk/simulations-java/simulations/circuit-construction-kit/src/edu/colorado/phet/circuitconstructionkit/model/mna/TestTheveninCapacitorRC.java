@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.model.mna2;
+package edu.colorado.phet.circuitconstructionkit.model.mna;
 
 import java.io.BufferedWriter;
 import java.io.File;
