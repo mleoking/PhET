@@ -256,7 +256,7 @@ public class MNAFunSuite extends TestCase {
             double t = i * dt;
             DynamicCircuit.DynamicCircuitSolution solution = circuit.solveItWithSubdivisions(dt);
             double voltage = solution.getVoltage(resistor);
-            double desiredVoltage = -V * (1 - Math.exp(-t * R / L));
+            double desiredVoltage = -V * (1 - Math.exp(-(t+dt) * R / L));//solution is computed at t+dt
             double error = Math.abs(voltage - desiredVoltage);
             System.out.println("expected voltage = "+desiredVoltage+", obtained = "+voltage);
             assertTrue(error < 1E-4);
