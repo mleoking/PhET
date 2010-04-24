@@ -94,13 +94,21 @@ public class DynamicCircuit {
     }
 
     public static class ResistiveBattery extends MNA.Element {
-        double voltage;
-        double resistance;
+        private double voltage;
+        private double resistance;
 
-        public ResistiveBattery(int node0, int node1, double resistance, double voltage) {
+        public ResistiveBattery(int node0, int node1, double voltage, double resistance) {
             super(node0, node1);
             this.resistance = resistance;
             this.voltage = voltage;
+        }
+
+        @Override
+        public String toString() {
+            return "ResistiveBattery{" +
+                    "resistance=" + resistance +
+                    ", voltage=" + voltage +
+                    '}';
         }
     }
 
