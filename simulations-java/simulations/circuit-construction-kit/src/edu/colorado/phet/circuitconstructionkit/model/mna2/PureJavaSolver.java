@@ -18,17 +18,9 @@ public class PureJavaSolver extends CircuitSolver {
             this.b = b;
         }
 
-        public Branch getComponent() {
-            return b;
-        }
-
-        public MNA.Element getElement() {
-            return this;
-        }
-
         //don't set voltage on the battery; that actually changes its nominal voltage
         void applySolution(DynamicCircuit.DynamicCircuitSolution solution) {
-            getComponent().setCurrent(solution.getCurrent(this));
+            b.setCurrent(solution.getCurrent(this));
         }
     }
 
@@ -42,17 +34,9 @@ public class PureJavaSolver extends CircuitSolver {
             this.b = b;
         }
 
-        public Branch getComponent() {
-            return b;
-        }
-
-        public MNA.Element getElement() {
-            return this;
-        }
-
         void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            getComponent().setCurrent(sol.getCurrent(getElement()));
-            getComponent().setVoltageDrop(sol.getVoltage(getElement()));
+            b.setCurrent(sol.getCurrent(this));
+            b.setVoltageDrop(sol.getVoltage(this));
         }
     }
 
@@ -66,17 +50,9 @@ public class PureJavaSolver extends CircuitSolver {
             this.b = b;
         }
 
-        public Branch getComponent() {
-            return b;
-        }
-
-        public DynamicCircuit.DynamicCapacitor getElement() {
-            return this;
-        }
-
         void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            getComponent().setCurrent(sol.getCurrent(getElement().capacitor));
-            getComponent().setVoltageDrop(sol.getVoltage(getElement().capacitor));
+            b.setCurrent(sol.getCurrent(capacitor));
+            b.setVoltageDrop(sol.getVoltage(capacitor));
         }
     }
 
@@ -90,17 +66,9 @@ public class PureJavaSolver extends CircuitSolver {
             this.b = b;
         }
 
-        public Branch getComponent() {
-            return b;
-        }
-
-        public DynamicCircuit.DynamicInductor getElement() {
-            return this;
-        }
-
         void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            getComponent().setCurrent(sol.getCurrent(getElement().inductor));
-            getComponent().setVoltageDrop(sol.getVoltage(getElement().inductor));
+            b.setCurrent(sol.getCurrent(this.inductor));
+            b.setVoltageDrop(sol.getVoltage(this.inductor));
         }
     }
 
@@ -146,18 +114,10 @@ public class PureJavaSolver extends CircuitSolver {
 
         DynamicCircuit.DynamicCircuitSolution result = dynamicCircuit.solveItWithSubdivisions(dt);
 
-        for (ResistiveBatteryAdapter batteryAdapter : batteries) {
-            batteryAdapter.applySolution(result);
-        }
-        for (ResistorAdapter resistorAdapter : resistors) {
-            resistorAdapter.applySolution(result);
-        }
-        for (CapacitorAdapter capacitorAdapter : capacitors) {
-            capacitorAdapter.applySolution(result);
-        }
-        for (InductorAdapter inductorAdapter : inductors) {
-            inductorAdapter.applySolution(result);
-        }
+        for (ResistiveBatteryAdapter batteryAdapter : batteries) batteryAdapter.applySolution(result);
+        for (ResistorAdapter resistorAdapter : resistors) resistorAdapter.applySolution(result);
+        for (CapacitorAdapter capacitorAdapter : capacitors) capacitorAdapter.applySolution(result);
+        for (InductorAdapter inductorAdapter : inductors) inductorAdapter.applySolution(result);
         circuit.setSolution(result);
         fireCircuitSolved();
     }
