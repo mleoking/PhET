@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.model.mna2;
+package edu.colorado.phet.circuitconstructionkit.model.mna;
 
 import junit.framework.TestCase;
 
