@@ -367,10 +367,10 @@ public class DynamicCircuit {
             int newNode = Collections.max(usedNodes) + 1;
             usedNodes.add(newNode);
 
-            double companionVoltage = -state.voltage - 2 * inductor.inductance * state.current / dt;
+            double companionVoltage = state.voltage + 2 * inductor.inductance * state.current / dt;
             double companionResistance = 2 * inductor.inductance / dt;
 
-            final MNA.Battery battery = new MNA.Battery(inductor.node0, newNode, companionVoltage);
+            final MNA.Battery battery = new MNA.Battery(newNode, inductor.node0, companionVoltage);
             MNA.Resistor resistor = new MNA.Resistor(newNode, inductor.node1, companionResistance);
             companionBatteries.add(battery);
             companionResistors.add(resistor);
@@ -378,7 +378,7 @@ public class DynamicCircuit {
             //we need to be able to get the current for this component
             currentCompanions.put(inductor, new SolutionToDouble() {
                 public double getValue(MNA.Solution solution) {
-                    return -solution.getCurrent(battery);//in series, so current is same through both companion components
+                    return solution.getCurrent(battery);//in series, so current is same through both companion components
                 }
             });
         }
