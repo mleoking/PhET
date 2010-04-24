@@ -191,24 +191,25 @@ public class MNAFunSuite extends TestCase {
 
     public void testVRCCircuit(double v, double r, double c) {
         MNA.Resistor resistor = new MNA.Resistor(1, 2, r);
-        CompanionMNA.FullCircuit circuit = new CompanionMNA.FullCircuit(Arrays.asList(new CompanionMNA.ResistiveBattery(0, 1, v, 0)),
-                Arrays.asList(resistor), Arrays.asList(new CompanionMNA.Capacitor(2, 0, c, 0.0, 0.0)), new ArrayList<CompanionMNA.Inductor>());
+        DynamicCircuit circuit = new DynamicCircuit(new ArrayList<MNA.Battery>(), Arrays.asList(resistor),
+                new ArrayList<MNA.CurrentSource>(), Arrays.asList(new DynamicCircuit.ResistiveBattery(0, 1, v, 0)), Arrays.asList(new DynamicCircuit.DynamicCapacitor(new DynamicCircuit.Capacitor(2, 0, c), new DynamicCircuit.CState(0.0, v / r))),
+                new ArrayList<DynamicCircuit.DynamicInductor>());
 
         double dt = 1E-4;
-        circuit = circuit.getInitializedCircuit();
+//        circuit = circuit.getInitializedCircuit();
 //        System.out.println("dynamicCircuit. = " + dynamicCircuit.);
         System.out.println("voltage");
         System.out.println("");
         for (int i = 0; i < 1000; i++) {//takes 0.3 sec on my machine
             double t = i * dt;
 
-            CompanionMNA.CompanionSolution companionSolution = circuit.solve(dt);
+            DynamicCircuit.DynamicCircuitSolution companionSolution = circuit.solveItWithSubdivisions(dt);
             double voltage = companionSolution.getVoltage(resistor);
             double desiredVoltageAtTPlusDT = -v * Math.exp(-(t + dt) / r / c);
             double error = Math.abs(voltage - desiredVoltageAtTPlusDT);
             System.out.println(-voltage);
             assertTrue(error < 1E-6); //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
-            circuit = circuit.stepInTime(dt);
+            circuit = circuit.updateWithSubdivisions(dt);
         }
     }
 
@@ -246,18 +247,20 @@ public class MNAFunSuite extends TestCase {
 
     public void testVRLCircuit(double V, double R, double L) {
         MNA.Resistor resistor = new MNA.Resistor(1, 2, R);
-        CompanionMNA.FullCircuit circuit = new CompanionMNA.FullCircuit(Arrays.asList(new CompanionMNA.ResistiveBattery(0, 1, V, 0)),
-                Arrays.asList(resistor), new ArrayList<CompanionMNA.Capacitor>(), Arrays.asList(new CompanionMNA.Inductor(2, 0, L, 0, 0)));
+        DynamicCircuit circuit = new DynamicCircuit(new ArrayList<MNA.Battery>(), Arrays.asList(resistor),
+                new ArrayList<MNA.CurrentSource>(), Arrays.asList(new DynamicCircuit.ResistiveBattery(0, 1, V, 0)), new ArrayList<DynamicCircuit.DynamicCapacitor>(),
+                Arrays.asList(new DynamicCircuit.DynamicInductor(new DynamicCircuit.Inductor(2, 0, L), new DynamicCircuit.CState(V, 0.0))));
+
         double dt = 1E-4;
-        CompanionMNA.FullCircuit dynamicCircuit = circuit.getInitializedCircuit();
+//        DynamicCircuit dynamicCircuit = circuit.getInitializedCircuit();
         for (int i = 0; i < 1000; i++) {
             double t = i * dt;
-            CompanionMNA.CompanionSolution solution = dynamicCircuit.solve(dt);
+            DynamicCircuit.DynamicCircuitSolution solution = circuit.solveItWithSubdivisions(dt);
             double voltage = solution.getVoltage(resistor);
             double desiredVoltage = -V * (1 - Math.exp(-t * R / L));
             double error = Math.abs(voltage - desiredVoltage);
             assertTrue(error < 1E-6);
-            dynamicCircuit = dynamicCircuit.stepInTime(dt);
+            circuit = circuit.updateWithSubdivisions(dt);
         }
     }
 }
