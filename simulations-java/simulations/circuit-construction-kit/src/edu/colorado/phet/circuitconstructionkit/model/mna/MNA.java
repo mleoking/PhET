@@ -660,10 +660,11 @@ public class MNA {
 
             Matrix A = new Matrix(equations.size(), getNumVars());
             Matrix z = new Matrix(equations.size(), 1);
+            final ArrayList<Unknown> unknowns = getUnknowns();//store the unknown list for index lookup
             for (int i = 0; i < equations.size(); i++) {
                 equations.get(i).stamp(i, A, z, new IndexMap() {
                     public int getIndex(Unknown unknown) {
-                        return getUnknowns().indexOf(unknown);
+                        return unknowns.indexOf(unknown);//todo: this step could be sped up
                     }
                 });
             }
