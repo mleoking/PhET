@@ -222,22 +222,22 @@ public class DynamicCircuit {
         return new DynamicCircuit(batteries, resistors, currents, resistiveBatteries, updatedCapacitors, inductors);
     }
 
-    class DynamicCircuitSolution {
+    public class DynamicCircuitSolution {
         DynamicCircuit circuit;
         MNA.Solution mnaSolution;
         HashMap<MNA.Element, SolutionToDouble> currentCompanions;
 
-        DynamicCircuitSolution(DynamicCircuit circuit, MNA.Solution mnaSolution, HashMap<MNA.Element, SolutionToDouble> currentCompanions) {
+        public DynamicCircuitSolution(DynamicCircuit circuit, MNA.Solution mnaSolution, HashMap<MNA.Element, SolutionToDouble> currentCompanions) {
             this.circuit = circuit;
             this.mnaSolution = mnaSolution;
             this.currentCompanions = currentCompanions;
         }
 
-        double getNodeVoltage(int node) {
+        public double getNodeVoltage(int node) {
             return mnaSolution.getNodeVoltage(node);
         }
 
-        double getCurrent(MNA.Element element) {
+        public double getCurrent(MNA.Element element) {
             if (currentCompanions.containsKey(element))
                 return currentCompanions.get(element).getValue(mnaSolution);
             else
@@ -251,6 +251,10 @@ public class DynamicCircuit {
                     ", mnaSolution=" + mnaSolution +
                     ", currentCompanions=" + currentCompanions +
                     '}';
+        }
+
+        public double getVoltage(MNA.Element element) {
+            return getNodeVoltage(element.node1) - getNodeVoltage(element.node0);
         }
     }
 

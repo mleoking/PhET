@@ -11,6 +11,7 @@ import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.Path;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.circuitconstructionkit.model.mna2.CompanionMNA;
+import edu.colorado.phet.circuitconstructionkit.model.mna2.DynamicCircuit;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -28,7 +29,7 @@ public class Circuit {
     private CircuitChangeListener circuitChangeListener;
     private boolean fireKirkhoffChanges = true;
     private boolean allowUserEdits = true;
-    private CompanionMNA.CompanionSolution solution;//solution from last update;//todo: should this be dynamic?
+    private DynamicCircuit.DynamicCircuitSolution solution;//solution from last update;//todo: should this be dynamic?
 
     public Circuit() {
         this( new CompositeCircuitChangeListener() );
@@ -191,7 +192,7 @@ public class Circuit {
         return n.toArray( new Branch[n.size()] );
     }
 
-    public void setSolution( CompanionMNA.CompanionSolution solution ) {
+    public void setSolution( DynamicCircuit.DynamicCircuitSolution solution ) {
         this.solution = solution;
     }
 
@@ -460,7 +461,7 @@ public class Circuit {
         else {
             double va = a.getVoltageAddon();
             double vb = -b.getVoltageAddon();//this has to be negative, because on the path VA->A->B->VB, the the VB computation is VB to B.
-            double junctionAnswer = solution.getVoltageDifference( indexOf( a.getJunction() ), indexOf( b.getJunction() ) );
+            double junctionAnswer = solution.getNodeVoltage(indexOf(b.getJunction())) - solution.getNodeVoltage(indexOf(a.getJunction()));
             return junctionAnswer + va + vb;
         }
     }
