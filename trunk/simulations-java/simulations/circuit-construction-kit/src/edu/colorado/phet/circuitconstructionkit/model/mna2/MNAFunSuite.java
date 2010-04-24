@@ -196,8 +196,6 @@ public class MNAFunSuite extends TestCase {
                 new ArrayList<DynamicCircuit.DynamicInductor>());
 
         double dt = 1E-4;
-//        circuit = circuit.getInitializedCircuit();
-//        System.out.println("dynamicCircuit. = " + dynamicCircuit.);
         System.out.println("voltage");
         System.out.println("");
         for (int i = 0; i < 1000; i++) {//takes 0.3 sec on my machine
@@ -252,7 +250,6 @@ public class MNAFunSuite extends TestCase {
                 Arrays.asList(new DynamicCircuit.DynamicInductor(new DynamicCircuit.Inductor(2, 0, L), new DynamicCircuit.CState(V, 0.0))));
 
         double dt = 1E-4;
-//        DynamicCircuit dynamicCircuit = circuit.getInitializedCircuit();
         for (int i = 0; i < 1000; i++) {
             double t = i * dt;
             DynamicCircuit.DynamicCircuitSolution solution = circuit.solveItWithSubdivisions(dt);

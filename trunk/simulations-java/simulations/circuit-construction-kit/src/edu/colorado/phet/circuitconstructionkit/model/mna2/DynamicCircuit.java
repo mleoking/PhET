@@ -4,12 +4,12 @@ import java.util.*;
 
 ///**This is a rewrite of companion mapping to make it simpler to construct and inspect companion models.*/
 public class DynamicCircuit {
-    List<MNA.Battery> batteries;
-    List<MNA.Resistor> resistors;
-    List<MNA.CurrentSource> currents;
-    List<ResistiveBattery> resistiveBatteries;
-    List<DynamicCapacitor> capacitors;
-    List<DynamicInductor> inductors;
+    private List<MNA.Battery> batteries;
+    private List<MNA.Resistor> resistors;
+    private List<MNA.CurrentSource> currents;
+    private List<ResistiveBattery> resistiveBatteries;
+    private List<DynamicCapacitor> capacitors;
+    private List<DynamicInductor> inductors;
 
     @Override
     public String toString() {
