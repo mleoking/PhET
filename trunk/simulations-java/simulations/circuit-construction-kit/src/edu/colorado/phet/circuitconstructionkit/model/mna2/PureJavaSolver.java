@@ -15,14 +15,13 @@ public class PureJavaSolver extends CircuitSolver {
     }
 
     public static class AdapterUtil {
-        public static void applySolution(CompanionMNA.CompanionSolution sol, Adapter adapter) {
+        public static void applySolution(DynamicCircuit.DynamicCircuitSolution sol, Adapter adapter) {
             adapter.getComponent().setCurrent(sol.getCurrent(adapter.getElement()));
             adapter.getComponent().setVoltageDrop(sol.getVoltage(adapter.getElement()));
         }
-
     }
 
-    static class ResistiveBatteryAdapter extends CompanionMNA.ResistiveBattery implements Adapter {
+    static class ResistiveBatteryAdapter extends DynamicCircuit.ResistiveBattery implements Adapter {
         Circuit c;
         Battery b;
 
@@ -41,8 +40,8 @@ public class PureJavaSolver extends CircuitSolver {
         }
 
         //don't set voltage on the battery; that actually changes its nominal voltage
-        void applySolution(CompanionMNA.CompanionSolution sol) {
-            getComponent().setCurrent(sol.getCurrent(this));
+        void applySolution(DynamicCircuit.DynamicCircuitSolution solution) {
+            getComponent().setCurrent(solution.getCurrent(this));
         }
     }
 
@@ -64,7 +63,7 @@ public class PureJavaSolver extends CircuitSolver {
             return null;
         }
 
-        void applySolution(CompanionMNA.CompanionSolution sol) {
+        void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
             getComponent().setCurrent(0.0);
             getComponent().setVoltageDrop(0.0);//todo: will this cause numerical problems?
         }
@@ -88,17 +87,17 @@ public class PureJavaSolver extends CircuitSolver {
             return this;
         }
 
-        void applySolution(CompanionMNA.CompanionSolution sol) {
+        void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
             AdapterUtil.applySolution(sol, this);
         }
     }
 
-    static class CapacitorAdapter extends CompanionMNA.Capacitor implements Adapter {
+    static class CapacitorAdapter extends DynamicCircuit.DynamicCapacitor {
         Circuit c;
         Capacitor b;
 
         CapacitorAdapter(Circuit c, Capacitor b) {
-            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getCapacitance(), b.getVoltageDrop(), b.getCurrent());
+            super(new DynamicCircuit.Capacitor(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getCapacitance()), new DynamicCircuit.CState(b.getVoltageDrop(), b.getCurrent()));
             this.c = c;
             this.b = b;
         }
@@ -107,7 +106,7 @@ public class PureJavaSolver extends CircuitSolver {
             return b;
         }
 
-        public MNA.Element getElement() {
+        public DynamicCircuit.DynamicCapacitor getElement() {
             return this;
         }
 
@@ -121,17 +120,16 @@ public class PureJavaSolver extends CircuitSolver {
         //See #1813 and TestTheveninCapacitorRC
 
         boolean useWorkaround = true;
-
-        void applySolution(CompanionMNA.CompanionSolution sol) {
+        void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
             long elapsedSinceWorkaround = System.currentTimeMillis() - lastTimeWorkaroundApplied;
 
             if (elapsedSinceWorkaround >= 0 && useWorkaround) {
 
                 double oldCurrent = b.getCurrent();
-                double newCurrent = sol.getCurrent(getElement());
+                double newCurrent = sol.getCurrent(getElement().capacitor);
 
                 double oldVoltage = b.getVoltageDrop();
-                double newVoltage = sol.getVoltage(getElement());
+                double newVoltage = sol.getVoltage(getElement().capacitor);
 
                 double avgCurrent = (oldCurrent + newCurrent) / 2.0;
                 double avgVoltage = (oldVoltage + newVoltage) / 2.0;
@@ -146,10 +144,9 @@ public class PureJavaSolver extends CircuitSolver {
                 }
                 lastTimeWorkaroundApplied = System.currentTimeMillis();
             } else {
-                AdapterUtil.applySolution(sol, this);
+                getComponent().setCurrent(sol.getCurrent(getElement().capacitor));
+                getComponent().setVoltageDrop(sol.getVoltage(getElement().capacitor));
             }
-
-
         }
     }
 
@@ -171,7 +168,7 @@ public class PureJavaSolver extends CircuitSolver {
             return this;
         }
 
-        void applySolution(CompanionMNA.CompanionSolution sol) {
+        void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
             AdapterUtil.applySolution(sol, this);
         }
     }
@@ -211,46 +208,31 @@ public class PureJavaSolver extends CircuitSolver {
             } else {
                 new RuntimeException("Type not found: " + circuit.getBranches()[i]).printStackTrace();
             }
-
         }
-        CompanionMNA.FullCircuit circ = new CompanionMNA.FullCircuit(batteries, resistors, capacitors, inductors);
+//        CompanionMNA.FullCircuit circ = new CompanionMNA.FullCircuit(batteries, resistors, capacitors, inductors);
 
-//        double dynamicDT = getDT(circ,dt);
-        double dynamicDT = dt;
-//        System.out.println("dynamicDT = " + dynamicDT);
-//        int numTimeSteps = (int) (dt/dynamicDT);
-//        System.out.println("numTimeSteps = " + numTimeSteps);
-        CompanionMNA.CompanionSolution solution = circ.solve(dynamicDT);
-//        for (int i = 0; i < numTimeSteps; i++) {
-//            solution = solution.fullCircuit.solve(dynamicDT);
-//        }
+        DynamicCircuit dynamicCircuit = new DynamicCircuit(new ArrayList<MNA.Battery>(), new ArrayList<MNA.Resistor>(resistors),
+                new ArrayList<MNA.CurrentSource>(), new ArrayList<DynamicCircuit.ResistiveBattery>(batteries),
+                new ArrayList<DynamicCircuit.DynamicCapacitor>(capacitors), new ArrayList<DynamicCircuit.DynamicInductor>());
+
+        DynamicCircuit.DynamicCircuitSolution result = dynamicCircuit.solveItWithSubdivisions(dt);
+
         for (ResistiveBatteryAdapter batteryAdapter : batteries) {
-            batteryAdapter.applySolution(solution);
+            batteryAdapter.applySolution(result);
         }
         for (ResistorAdapter resistorAdapter : resistors) {
-            resistorAdapter.applySolution(solution);
+            resistorAdapter.applySolution(result);
         }
         for (CapacitorAdapter capacitorAdapter : capacitors) {
-            capacitorAdapter.applySolution(solution);
+            capacitorAdapter.applySolution(result);
         }
         for (InductorAdapter inductorAdapter : inductors) {
-            inductorAdapter.applySolution(solution);
+            inductorAdapter.applySolution(result);
         }
         for (OpenAdapter openAdapter : openBranches) {
-            openAdapter.applySolution(solution);
+            openAdapter.applySolution(result);
         }
-        circuit.setSolution(solution);
+        circuit.setSolution(result);
         fireCircuitSolved();
-    }
-
-    private double getDT(CompanionMNA.FullCircuit circ, double dt) {
-        CompanionMNA.CompanionSolution a = circ.solve(dt);
-        CompanionMNA.CompanionSolution b1 = circ.solve(dt / 2);
-        CompanionMNA.CompanionSolution b2 = b1.fullCircuit.solve(dt / 2);
-
-        double distance = b2.distance(a);
-        System.out.println("dt = " + dt + " => " + distance);
-        if (distance < 1E-2) return dt;
-        else return getDT(circ, dt / 2);
     }
 }
