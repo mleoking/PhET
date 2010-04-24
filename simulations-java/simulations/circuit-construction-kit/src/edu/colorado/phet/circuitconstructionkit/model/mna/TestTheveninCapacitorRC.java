@@ -144,7 +144,6 @@ public class TestTheveninCapacitorRC {
         }
     }
 
-    //TODO: Reuse the computations of update between error checks, and return one of the intermediate states instead of recomputing once dt has been accepted.
     static class ResultCache {
         private double vBattery;
         private double rResistor;

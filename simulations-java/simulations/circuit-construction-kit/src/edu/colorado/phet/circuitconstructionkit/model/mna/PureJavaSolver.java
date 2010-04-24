@@ -87,7 +87,7 @@ public class PureJavaSolver extends CircuitSolver {
                 resistors.add(new ResistorAdapter(circuit, branch));
             } else if (branch instanceof Filament) {
                 resistors.add(new ResistorAdapter(circuit, branch));
-            } else if (branch instanceof Switch) {//todo: how to handle switch here.
+            } else if (branch instanceof Switch) {
                 Switch sw = (Switch) branch;
                 if (sw.isClosed()) {
                     resistors.add(new ResistorAdapter(circuit, sw));
