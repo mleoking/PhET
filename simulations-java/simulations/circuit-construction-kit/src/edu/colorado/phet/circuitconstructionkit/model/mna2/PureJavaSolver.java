@@ -78,33 +78,30 @@ public class PureJavaSolver extends CircuitSolver {
         ArrayList<CapacitorAdapter> capacitors = new ArrayList<CapacitorAdapter>();
         ArrayList<InductorAdapter> inductors = new ArrayList<InductorAdapter>();
         for (int i = 0; i < circuit.numBranches(); i++) {
-            if (circuit.getBranches()[i] instanceof Battery) {
-                batteries.add(new ResistiveBatteryAdapter(circuit, (Battery) circuit.getBranches()[i]));
-            } else if (circuit.getBranches()[i] instanceof Resistor) {
-                resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
-            } else if (circuit.getBranches()[i] instanceof Wire) {
-                resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
-            } else if (circuit.getBranches()[i] instanceof Filament) {
-                resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
-            } else if (circuit.getBranches()[i] instanceof Switch) {//todo: how to handle switch here.
-                //todo: perhaps if it is open; don't add it at all, and just make sure we make its current zero afterwards
-                //todo:
-                Switch sw = (Switch) circuit.getBranches()[i];
+            final Branch branch = circuit.getBranches()[i];
+            if (branch instanceof Battery) {
+                batteries.add(new ResistiveBatteryAdapter(circuit, (Battery) branch));
+            } else if (branch instanceof Resistor) {
+                resistors.add(new ResistorAdapter(circuit, branch));
+            } else if (branch instanceof Wire) {
+                resistors.add(new ResistorAdapter(circuit, branch));
+            } else if (branch instanceof Filament) {
+                resistors.add(new ResistorAdapter(circuit, branch));
+            } else if (branch instanceof Switch) {//todo: how to handle switch here.
+                Switch sw = (Switch) branch;
                 if (sw.isClosed()) {
-                    resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
-                } else {
-                    //do nothing, since no closed circuit there
-                }
-            } else if (circuit.getBranches()[i] instanceof Bulb) {
-                resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
-            } else if (circuit.getBranches()[i] instanceof SeriesAmmeter) {
-                resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
-            } else if (circuit.getBranches()[i] instanceof Capacitor) {
-                capacitors.add(new CapacitorAdapter(circuit, (Capacitor) circuit.getBranches()[i]));
-            } else if (circuit.getBranches()[i] instanceof Inductor) {
-                inductors.add(new InductorAdapter(circuit, (Inductor) circuit.getBranches()[i]));
+                    resistors.add(new ResistorAdapter(circuit, sw));
+                } //else do nothing, since no closed circuit there //todo: should we ensure resulting current is 0.0?
+            } else if (branch instanceof Bulb) {
+                resistors.add(new ResistorAdapter(circuit, branch));
+            } else if (branch instanceof SeriesAmmeter) {
+                resistors.add(new ResistorAdapter(circuit, branch));
+            } else if (branch instanceof Capacitor) {
+                capacitors.add(new CapacitorAdapter(circuit, (Capacitor) branch));
+            } else if (branch instanceof Inductor) {
+                inductors.add(new InductorAdapter(circuit, (Inductor) branch));
             } else {
-                new RuntimeException("Type not found: " + circuit.getBranches()[i]).printStackTrace();
+                new RuntimeException("Type not found: " + branch).printStackTrace();
             }
         }
 
@@ -113,7 +110,6 @@ public class PureJavaSolver extends CircuitSolver {
                 new ArrayList<DynamicCircuit.DynamicCapacitor>(capacitors), new ArrayList<DynamicCircuit.DynamicInductor>());
 
         DynamicCircuit.DynamicCircuitSolution result = dynamicCircuit.solveItWithSubdivisions(dt);
-
         for (ResistiveBatteryAdapter batteryAdapter : batteries) batteryAdapter.applySolution(result);
         for (ResistorAdapter resistorAdapter : resistors) resistorAdapter.applySolution(result);
         for (CapacitorAdapter capacitorAdapter : capacitors) capacitorAdapter.applySolution(result);
