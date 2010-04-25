@@ -9,66 +9,59 @@ import java.util.ArrayList;
 public class PureJavaSolver extends CircuitSolver {
 
     static class ResistiveBatteryAdapter extends DynamicCircuit.ResistiveBattery {
-        Circuit c;
-        Battery b;
+        Battery battery;
 
-        ResistiveBatteryAdapter(Circuit c, Battery b) {
-            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getVoltageDrop(), b.getResistance());
-            this.c = c;
-            this.b = b;
+        ResistiveBatteryAdapter(Circuit c, Battery battery) {
+            super(c.indexOf(battery.getStartJunction()), c.indexOf(battery.getEndJunction()), battery.getVoltageDrop(), battery.getResistance());
+            this.battery = battery;
         }
 
         //don't set voltage on the battery; that actually changes its nominal voltage
         void applySolution(DynamicCircuit.DynamicCircuitSolution solution) {
-            b.setCurrent(solution.getCurrent(this));
+            battery.setCurrent(solution.getCurrent(this));
         }
     }
 
     static class ResistorAdapter extends MNA.Resistor {
-        Circuit c;
-        Branch b;
+        Branch resistor;
 
-        ResistorAdapter(Circuit c, Branch b) {
-            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getResistance());
-            this.c = c;
-            this.b = b;
+        ResistorAdapter(Circuit c, Branch resistor) {
+            super(c.indexOf(resistor.getStartJunction()), c.indexOf(resistor.getEndJunction()), resistor.getResistance());
+            this.resistor = resistor;
         }
 
         void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            b.setCurrent(sol.getCurrent(this));
-            b.setVoltageDrop(sol.getVoltage(this));
+            resistor.setCurrent(sol.getCurrent(this));
+            resistor.setVoltageDrop(sol.getVoltage(this));
         }
     }
 
     static class CapacitorAdapter extends DynamicCircuit.DynamicCapacitor {
-        Circuit c;
-        Capacitor b;
+        private Capacitor _capacitor;
 
-        CapacitorAdapter(Circuit c, Capacitor b) {
-            super(new DynamicCircuit.Capacitor(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getCapacitance()), new DynamicCircuit.DynamicElementState(b.getVoltageDrop(), b.getCurrent()));
-            this.c = c;
-            this.b = b;
+        CapacitorAdapter(Circuit c, Capacitor capacitor) {
+            super(new DynamicCircuit.Capacitor(c.indexOf(capacitor.getStartJunction()), c.indexOf(capacitor.getEndJunction()), capacitor.getCapacitance()), new DynamicCircuit.DynamicElementState(capacitor.getVoltageDrop(), capacitor.getCurrent()));
+            this._capacitor = capacitor;
         }
 
         void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            b.setCurrent(sol.getCurrent(capacitor));
-            b.setVoltageDrop(sol.getVoltage(capacitor));
+            _capacitor.setCurrent(sol.getCurrent(capacitor));
+            _capacitor.setVoltageDrop(sol.getVoltage(capacitor));
         }
     }
 
     static class InductorAdapter extends DynamicCircuit.DynamicInductor {
-        Circuit c;
-        Inductor b;
+        Inductor inductor;
 
-        InductorAdapter(Circuit c, Inductor b) {
-            super(new DynamicCircuit.Inductor(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getInductance()), new DynamicCircuit.DynamicElementState(b.getVoltageDrop(), -b.getCurrent()));//todo: sign error
-            this.c = c;
-            this.b = b;
+        InductorAdapter(Circuit c, Inductor inductor) {
+            super(new DynamicCircuit.Inductor(c.indexOf(inductor.getStartJunction()), c.indexOf(inductor.getEndJunction()), inductor.getInductance()),
+                    new DynamicCircuit.DynamicElementState(inductor.getVoltageDrop(), -inductor.getCurrent()));//todo: sign error
+            this.inductor = inductor;
         }
 
         void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            b.setCurrent(-sol.getCurrent(getInductor()));//todo: sign error
-            b.setVoltageDrop(sol.getVoltage(getInductor()));
+            inductor.setCurrent(-sol.getCurrent(getInductor()));//todo: sign error
+            inductor.setVoltageDrop(sol.getVoltage(getInductor()));
         }
     }
 
