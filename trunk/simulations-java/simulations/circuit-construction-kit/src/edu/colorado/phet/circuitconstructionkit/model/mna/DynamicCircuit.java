@@ -217,7 +217,7 @@ public class DynamicCircuit {
                 return euclideanDistance(aCurrents, bCurrents);
             }
         };
-        return new TimestepSubdivisions<DynamicState>(1E-7).stepInTime(new DynamicState(this, null), steppable, dt);
+        return new TimestepSubdivisions<DynamicState>(1E-3).stepInTime(new DynamicState(this, null), steppable, dt);
     }
 
     public DynamicCircuit updateWithSubdivisions(double dt) {
