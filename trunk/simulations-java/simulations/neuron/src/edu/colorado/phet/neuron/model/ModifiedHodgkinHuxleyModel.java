@@ -47,7 +47,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	
 	private double timeSinceActionPotential = Double.POSITIVE_INFINITY;
 	
-	private static final double MAX_DELAY = 0.01; // In seconds of simulation time.
+	private static final double MAX_DELAY = 0.001; // In seconds of simulation time.
 	private DelayBuffer m3hDelayBuffer = new DelayBuffer(MAX_DELAY, NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT);
 	private DelayBuffer n4DelayBuffer  = new DelayBuffer(MAX_DELAY, NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT);
 	
