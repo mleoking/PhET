@@ -8,6 +8,7 @@ import java.util.*;
  * Conventions:
  * Current is 'conventional current': in a battery positive current flows from the higher (+) potential
  * When traversing a battery with voltage V, the potential increases by +V from node0 to node1 of the battery.
+ * We are using the same conventions as the "flow of positive charge" in http://en.wikipedia.org/wiki/Electric_current
  */
 public class MNA {
 
