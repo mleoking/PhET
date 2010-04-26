@@ -22,6 +22,9 @@ public class MNATestCase extends TestCase {
         MNA.Solution solution = circuit.solve();
 //        System.out.println("solution = " + solution);
         assertTrue(solution.approxEquals(desiredSolution));
+
+        double currentThroughResistor = solution.getCurrent(resistor);
+        assertTrue(currentThroughResistor == 1.0);//should be flowing forward through resistor
     }
 
     boolean approxEquals(double a, double b) {
@@ -262,10 +265,10 @@ public class MNATestCase extends TestCase {
             double t = i * dt;
             DynamicCircuit.DynamicCircuitSolution solution = circuit.solveItWithSubdivisions(dt);
             double current = solution.getCurrent(battery);
-            double expectedCurrent = V / R * (1 - Math.exp(-(t) * R / L));//positive, by definition of MNA.Battery
+            double expectedCurrent = V / R * (1 - Math.exp(-(t+dt) * R / L));//positive, by definition of MNA.Battery
             double error = Math.abs(current - expectedCurrent);
-            System.out.println("expected current = " + expectedCurrent + ", obtained = " + current);
-//            assertTrue(error < 1E-4);
+//            System.out.println("expected current = " + expectedCurrent + ", obtained = " + current);
+            assertTrue(error < 1E-4);
             circuit = circuit.updateWithSubdivisions(dt);
         }
     }
