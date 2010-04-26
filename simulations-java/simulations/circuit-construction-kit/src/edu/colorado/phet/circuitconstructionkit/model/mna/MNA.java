@@ -7,6 +7,7 @@ import java.util.*;
 /**
  * Conventions:
  * Current is 'conventional current': in a battery positive current flows from the higher (+) potential
+ * When traversing a battery with voltage V, the potential increases by +V from node0 to node1 of the battery.
  */
 public class MNA {
 
@@ -14,10 +15,6 @@ public class MNA {
         abstract double getNodeVoltage(int node);
 
         abstract double getCurrent(Element element);
-
-        public double getVoltageDifference(int node0, int node1) {
-            return getNodeVoltage(node1) - getNodeVoltage(node0);
-        }
     }
 
     //sparse solution containing only the solved unknowns in MNA
@@ -193,6 +190,9 @@ public class MNA {
         }
     }
 
+    /**
+     * Battery model for the MNA circuit, with the convention that as you traverse from node0 to node1, the voltage increases by (voltage).
+     */
     public static class Battery extends Element {
         double voltage;
 
