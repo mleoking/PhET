@@ -15,14 +15,16 @@ package edu.colorado.phet.neuron.model;
 public class DelayBuffer {
 
 	private DelayElement[] delayElements;
+	private double value; // TODO: Temp, delete.  Soon.
 	
 	public void addValue(double value, double deltaTime){
 		// Stubbed for now.
+		this.value = value;
 	}
 	
 	public double getDelayedValue(double delayAmount){
 		// Stubbed for now.
-		return 0;
+		return value;
 	}
 	
 	public void clear(){
