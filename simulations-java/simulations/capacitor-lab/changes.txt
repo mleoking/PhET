@@ -1,1 +1,2 @@
+4/26/10 start modeling size attributes
 4/15/10 create project skeleton in SVN
