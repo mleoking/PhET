@@ -1,8 +1,6 @@
-/*  */
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
@@ -12,18 +10,15 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
- * User: Sam Reid
- * Date: Jun 16, 2006
- * Time: 12:50:58 AM
+ * Inductor model for CCK.
+ * @author Sam Reid
  */
-
 public class Inductor extends CircuitComponent implements DynamicBranch {
     //only used in the ComponentMenu for inductor editor, but consolidated here
     public static final double MIN_INDUCTANCE = 10;
     public static final double MAX_INDUCTANCE = 100;
 
     private static final double DEFAULT_INDUCTANCE = 50;//50 henries makes tau=L/R = 5 sec for default resistor; this saturates in about 5 * tau = 25 sec
-    private ArrayList listeners = new ArrayList();
     private double inductance = DEFAULT_INDUCTANCE;
 
     public Inductor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
@@ -51,13 +46,7 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
         this.inductance = inductance;
         notifyObservers();
         fireKirkhoffChange();
-//        notifyChargeChanged();
     }
-
-//    public void setVoltageDrop( double voltageDrop ) {
-//        super.setVoltageDrop( voltageDrop );
-////        notifyChargeChanged();
-//    }
 
     public void stepInTime( double dt ) {
     }
@@ -80,47 +69,4 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
         resetDynamics();
     }
 
-//    public static interface Listener {
-//        public void chargeChanged();
-//    }
-//
-//    public void addListener( Listener listener ) {
-//        listeners.add( listener );
-//    }
-//
-//    public void notifyChargeChanged() {
-//        for( int i = 0; i < listeners.size(); i++ ) {
-//            Listener listener = (Listener)listeners.get( i );
-//            listener.chargeChanged();
-//        }
-//    }
-
-//    ArrayList currentHistory = new ArrayList();
-//
-//    public void setCurrent( double current ) {
-//        currentHistory.add( new Double( current ) );
-//        while( currentHistory.size() > 100 ) {
-//            currentHistory.remove( 0 );
-//        }
-//        System.out.println( "currentHistory = " + currentHistory );
-//        if( currentHistory.size() >= 50 && isHistoryBad() ) {
-//            System.out.println( "Bad = "  );
-//            super.setCurrent( 0.0 );
-//            setVoltageDrop( 0.0 );
-//        }
-//        else {
-//            super.setCurrent( current );
-//        }
-//    }
-//
-//    private boolean isHistoryBad() {
-//        double a = ( (Double)currentHistory.get( 0 ) ).doubleValue();
-//        double b = ( (Double)currentHistory.get( 1 ) ).doubleValue();
-//        double c = ( (Double)currentHistory.get( 2 ) ).doubleValue();
-//        double d = ( (Double)currentHistory.get( 3 ) ).doubleValue();
-//        if( MathUtil.isApproxEqual( a, -c, 0.0001 ) && MathUtil.isApproxEqual( b, -d, 0.0001 ) ) {
-//            return true;
-//        }
-//        return false;
-//    }
 }
