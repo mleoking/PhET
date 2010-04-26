@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
-class TestPrototype {
+public class TestPrototype {
     public static double euclideanDistance(double x, double y) {
         return Math.sqrt((x - y) * (x - y));
     }
