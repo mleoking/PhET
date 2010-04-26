@@ -1,2 +1,3 @@
+4/26/10 check in battery images and assets received from Noah P.
 4/26/10 start modeling size attributes
 4/15/10 create project skeleton in SVN

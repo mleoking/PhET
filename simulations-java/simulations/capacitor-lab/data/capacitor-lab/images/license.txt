@@ -1,1 +1,2 @@
-
+battery_3D_down.png source=PhET author=Noah P
+battery_3D_up.png source=PhET author=Noah P
