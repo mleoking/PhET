@@ -14,6 +14,8 @@ public class CLStrings {
     /* not intended for instantiation */
     private CLStrings() {}
     
+    public static final String FORMAT_VOLTAGE = getString( "format.voltage" );
+    
     public static final String TITLE_INTRODUCTION = getString( "title.introduction" );
     public static final String TITLE_DIELECTRIC = getString( "title.dielectric" );
     

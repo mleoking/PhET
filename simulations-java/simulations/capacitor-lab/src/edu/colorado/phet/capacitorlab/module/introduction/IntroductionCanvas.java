@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.module.introduction;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
@@ -15,7 +16,7 @@ public class IntroductionCanvas extends CLCanvas {
 
     public IntroductionCanvas( CLModel model ) {
         
-        BatteryNode batteryNode = new BatteryNode( model.getBattery() );
+        BatteryNode batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
         addChild( batteryNode );
     }
     

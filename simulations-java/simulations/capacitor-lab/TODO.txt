@@ -1,6 +1,11 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
+- add drag behavior to BatterySliderNode
+- plates and their drag behavior
+- dielectric, its drag behavior, and its resize behavior relative to plates
+- basic framework for main control panel
+- add dielectric constant to model
 
 MEDUIUM PRIORITY
 

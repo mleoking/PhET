@@ -16,10 +16,6 @@ public class Battery {
     private double voltage;
     private final EventListenerList listeners;
     
-    public Battery() {
-        this( 0 );
-    }
-    
     public Battery( double voltage ) {
         this.voltage = voltage;
         listeners = new EventListenerList();
