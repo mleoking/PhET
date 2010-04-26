@@ -74,10 +74,12 @@ public class MNATestCase extends TestCase {
     }
 
     public void test_current_source_should_provide_current() {
-        MNA.Circuit circuit = new MNA.Circuit(new ArrayList<MNA.Battery>(), Arrays.asList(new MNA.Resistor(1, 0, 4)), Arrays.asList(new MNA.CurrentSource(0, 1, 10.0)));
+        MNA.CurrentSource current = new MNA.CurrentSource(0, 1, 10.0);
+        MNA.Resistor resistor = new MNA.Resistor(1, 0, 4);
+        MNA.Circuit circuit = new MNA.Circuit(new ArrayList<MNA.Battery>(), Arrays.asList(resistor), Arrays.asList(current));
         HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
         voltageMap.put(0, 0.0);
-        voltageMap.put(1, -10.0 * 4.0);//todo: is this sign right?
+        voltageMap.put(1, -10.0 * 4.0);//This is negative since traversing across the resistor should yield a negative voltage, see http://en.wikipedia.org/wiki/Current_source 
 
         MNA.Solution desiredSolution = new MNA.Solution(voltageMap, new HashMap<MNA.Element, Double>());
         System.out.println("circuit.solve() = " + circuit.solve());
