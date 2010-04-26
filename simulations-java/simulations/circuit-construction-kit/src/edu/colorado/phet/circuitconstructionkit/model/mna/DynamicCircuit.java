@@ -166,7 +166,7 @@ public class DynamicCircuit {
 
     public class DynamicState {
         private final DynamicCircuit circuit;
-        private final DynamicCircuitSolution solution;
+        private final DynamicCircuitSolution solution;//the last solution obtained by update, if any
 
         DynamicState(DynamicCircuit circuit, DynamicCircuitSolution solution) {
             this.circuit = circuit;
@@ -367,8 +367,8 @@ public class DynamicCircuit {
             int newNode = Collections.max(usedNodes) + 1;
             usedNodes.add(newNode);
 
-            double companionVoltage = state.voltage + 2 * inductor.inductance * state.current / dt;
             double companionResistance = 2 * inductor.inductance / dt;
+            double companionVoltage = state.voltage + companionResistance * state.current;
 
             final MNA.Battery battery = new MNA.Battery(newNode, inductor.node0, companionVoltage);
             MNA.Resistor resistor = new MNA.Resistor(newNode, inductor.node1, companionResistance);

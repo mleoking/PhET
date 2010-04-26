@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class MNATestCase extends TestCase {
-    
+
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
         MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(new MNA.Resistor(1, 0, 4)));
@@ -247,8 +247,9 @@ public class MNATestCase extends TestCase {
 
     public void testVRLCircuit(double V, double R, double L) {
         MNA.Resistor resistor = new MNA.Resistor(1, 2, R);
-        DynamicCircuit circuit = new DynamicCircuit(new ArrayList<MNA.Battery>(), Arrays.asList(resistor),
-                new ArrayList<MNA.CurrentSource>(), Arrays.asList(new DynamicCircuit.ResistiveBattery(0, 1, V, 0)), new ArrayList<DynamicCircuit.DynamicCapacitor>(),
+        MNA.Battery battery = new MNA.Battery(0, 1, V);
+        DynamicCircuit circuit = new DynamicCircuit(Arrays.asList(battery), Arrays.asList(resistor),
+                new ArrayList<MNA.CurrentSource>(), new ArrayList<DynamicCircuit.ResistiveBattery>(), new ArrayList<DynamicCircuit.DynamicCapacitor>(),
                 Arrays.asList(new DynamicCircuit.DynamicInductor(new DynamicCircuit.Inductor(2, 0, L), new DynamicCircuit.DynamicElementState(V, 0.0))));
 
         double dt = 1E-4;
