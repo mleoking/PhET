@@ -2,13 +2,12 @@
 
 package edu.colorado.phet.capacitorlab;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
+import edu.colorado.phet.capacitorlab.module.introduction.IntroductionModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -46,20 +45,12 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
     // Initialization
     //----------------------------------------------------------------------------
 
-    //TODO delete this
-    private static class DummyModule extends Module {
-        public DummyModule() {
-            super( "dummy", new ConstantDtClock( 1000, 1 ) );
-            setSimulationPanel( new PhetPCanvas( CLConstants.CANVAS_RENDERING_SIZE ) );
-        }
-    }
-    
     /*
      * Initializes the modules.
      */
     private void initModules() {
-        //TODO add modules
-        addModule( new DummyModule() ); //TODO remove dummy module
+        addModule( new IntroductionModule() );
+        addModule( new DielectricModule() );
     }
 
     /*

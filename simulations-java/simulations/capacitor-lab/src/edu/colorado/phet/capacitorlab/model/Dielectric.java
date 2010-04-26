@@ -28,6 +28,10 @@ public class Dielectric extends Box {
         }
     }
     
+    public double getOffset() {
+        return offset;
+    }
+    
     public interface DielectricChangeListener extends BoxChangeListener {
         public void offsetChanged( double oldOffset, double newOffset );
     }
