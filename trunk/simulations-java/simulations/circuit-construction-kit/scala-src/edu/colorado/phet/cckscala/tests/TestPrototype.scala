@@ -46,7 +46,7 @@ object TestPrototype {
     val headers = "iteration \t dt \t t \t v(t) \t i(t) \t vTrue \t vNumerical \t error"
     println(headers)
 
-    val bufferedWriter = new BufferedWriter(new FileWriter(new File("C:/Users/Sam/Desktop/cck-out" + System.currentTimeMillis() + ".txt")))
+    val bufferedWriter = new BufferedWriter(new FileWriter(new File("C:/Users/Owner/Desktop/cck-out" + System.currentTimeMillis() + ".txt")))
     bufferedWriter.write(headers + "\n")
 
     for (j <- 0 until 15) {

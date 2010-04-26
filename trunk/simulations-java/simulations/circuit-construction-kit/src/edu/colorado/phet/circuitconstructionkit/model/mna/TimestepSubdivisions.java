@@ -68,7 +68,7 @@ public class TimestepSubdivisions<A> {
     }
 
     boolean errorAcceptable(A state, Steppable<A> steppable, double dt) {
-        if (dt < 1E-4)
+        if (dt < 1E-6)//1E-4 or higher destroys the correct functionality in TestPrototype
             return true;
         else {
             A a = steppable.update(state, dt);
