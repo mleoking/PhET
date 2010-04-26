@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class MNAFunSuite extends TestCase {
+public class MNATestCase extends TestCase {
     
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
