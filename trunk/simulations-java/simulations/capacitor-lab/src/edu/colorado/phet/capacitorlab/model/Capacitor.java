@@ -10,19 +10,15 @@ package edu.colorado.phet.capacitorlab.model;
  */
 public class Capacitor {
     
-    private static final double PLATE_WIDTH = 100;
     private static final double PLATE_HEIGHT = 10;
-    private static final double PLATE_DEPTH = PLATE_WIDTH;
-    private static final double PLATE_SPACING = 50;
-    private static final double DIELECTRIC_OFFSET = 0;
     
     private final Plate topPlate, bottomPlate;
     private final Dielectric dielectric;
     
-    public Capacitor() {
-        this.topPlate = new Plate( PLATE_WIDTH, PLATE_HEIGHT, PLATE_DEPTH );
-        this.bottomPlate = new Plate( PLATE_WIDTH, PLATE_HEIGHT, PLATE_DEPTH );
-        this.dielectric = new Dielectric( PLATE_WIDTH, PLATE_SPACING, PLATE_DEPTH, DIELECTRIC_OFFSET );
+    public Capacitor( double plateWidth, double plateSpacing, double dielectricOffset ) {
+        this.topPlate = new Plate( plateWidth, PLATE_HEIGHT, plateWidth );
+        this.bottomPlate = new Plate( plateWidth, PLATE_HEIGHT, plateWidth );
+        this.dielectric = new Dielectric( plateWidth, plateSpacing, plateWidth, dielectricOffset );
     }
     
     // plates are square
@@ -54,5 +50,13 @@ public class Capacitor {
     
     public double getPlateSpacing() {
         return dielectric.getThickness();
+    }
+
+    public void setDielectricOffset( double offset ) {
+        dielectric.setOffset( offset );
+    }
+    
+    public double getDielectricOffset() {
+        return dielectric.getOffset();
     }
 }

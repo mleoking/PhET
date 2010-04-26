@@ -14,6 +14,9 @@ public class CLStrings {
     /* not intended for instantiation */
     private CLStrings() {}
     
+    public static final String TITLE_INTRODUCTION = getString( "title.introduction" );
+    public static final String TITLE_DIELECTRIC = getString( "title.dielectric" );
+    
     private static final String getString( String key ) {
         return CLResources.getString( key );
     }
