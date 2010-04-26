@@ -45,6 +45,9 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	
 	private double timeSinceActionPotential = Double.POSITIVE_INFINITY;
 	
+	private DelayBuffer m3hDelayBuffer = new DelayBuffer();
+	private DelayBuffer n4DelayBuffer  = new DelayBuffer();
+	
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
@@ -95,8 +98,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	public double get_n4() { return n4; }
 	
 	public double get_delayed_n4(double delayAmount){
-		System.out.println(getClass().getName() + " Warning - Delay not implemented for this class.");
-		return n4;
+		return n4DelayBuffer.getDelayedValue(delayAmount);
 	}
 	
 	/* (non-Javadoc)
@@ -105,8 +107,7 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	public double get_m3h() { return m3h; }
 	
 	public double get_delayed_m3h(double delayAmount){
-		System.out.println(getClass().getName() + " Warning - Delay not implemented for this class.");
-		return m3h;
+		return m3hDelayBuffer.getDelayedValue(delayAmount);
 	}
 	
 	public float getEna()
@@ -310,6 +311,9 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
     			timeSinceActionPotential += INTERNAL_TIME_STEP;
     		}
     	}
+    	
+    	m3hDelayBuffer.addValue(m3h, dt);
+    	n4DelayBuffer.addValue(n4, dt);
 		
 		if ( vClampOn ) v = vClampValue;
     }
