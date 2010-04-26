@@ -69,6 +69,9 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	 */
 	public void reset()
 	{
+		n4DelayBuffer.clear();
+		m3hDelayBuffer.clear();
+		
 		cm = 1;
 		v = 0;
 		vna = -115;
