@@ -33,7 +33,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public abstract class ComponentEditor extends PaintImmediateDialog {
     protected CCKModule module;
     protected CircuitComponent circuitComponent;
-    private Component parent;
     private Circuit circuit;
     protected ModelSlider slider;
     protected JPanel contentPane;
@@ -52,7 +51,6 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         }
         this.module = module;
         this.circuitComponent = element;
-        this.parent = parent;
         this.circuit = circuit;
         DecimalFormat formatter = new DecimalFormat( "0.0#" );
         slider = new ModelSlider( name, units, min, max, startvalue, formatter );
