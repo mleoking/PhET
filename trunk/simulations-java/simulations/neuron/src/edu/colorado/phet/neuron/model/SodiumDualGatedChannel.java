@@ -63,7 +63,11 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	
 	// Values used for timed state transitions.
 	private static final double INACTIVE_TO_RESETTING_TIME = 0.001; // In seconds of sim time. 
-	private static final double RESETTING_TO_IDLE_TIME = 0.001; // In seconds of sim time. 
+	private static final double RESETTING_TO_IDLE_TIME = 0.001; // In seconds of sim time.
+	
+	// Delay range - used to make the timing of the instances of this gate
+	// vary a little bit in terms of when they open and close.
+	private static final double MAX_STAGGER_DELAY = 0.0001; // In seconds of sim time. 
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -73,6 +77,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	private GateState gateState = GateState.IDLE;
 	private double previousNormalizedConductance;
 	private double stateTransitionTimer = 0;
+	private double staggerDelay = RAND.nextDouble() * MAX_STAGGER_DELAY;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -224,7 +229,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	}
 
 	private double calculateNormalizedConductance(){
-		return Math.min(Math.abs(hodgkinHuxleyModel.get_m3h())/M3H_WHEN_FULLY_OPEN, 1);
+		return Math.min(Math.abs(hodgkinHuxleyModel.get_delayed_m3h(staggerDelay))/M3H_WHEN_FULLY_OPEN, 1);
 	}
 
 	@Override

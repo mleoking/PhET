@@ -32,12 +32,17 @@ public class PotassiumGatedChannel extends GatedChannel {
 	// a value that exists within the Hodgkin-Huxley model.  This was
 	// empirically determined.
 	private static final double N4_WHEN_FULLY_OPEN = 0.35;
+
+	// Delay range - used to make the timing of the instances of this gate
+	// vary a little bit in terms of when they open and close.
+	private static final double MAX_STAGGER_DELAY = 0.0001; // In seconds of sim time. 
 	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 	
 	private IHodgkinHuxleyModel hodgkinHuxleyModel;
+	private double staggerDelay = RAND.nextDouble() * MAX_STAGGER_DELAY;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -83,7 +88,8 @@ public class PotassiumGatedChannel extends GatedChannel {
 		// the channels.  This is to make the gates appear to snap open and
 		// closed more rapidly, which was requested by the IPHY folks after
 		// seeing some demos.
-		double normalizedConductance = Math.min(Math.abs(hodgkinHuxleyModel.get_n4())/N4_WHEN_FULLY_OPEN, 1);
+		double normalizedConductance =
+			Math.min(Math.abs(hodgkinHuxleyModel.get_delayed_n4(staggerDelay))/N4_WHEN_FULLY_OPEN, 1);
 		double openness = 1 - Math.pow(normalizedConductance - 1, 2);
 		if (openness > 0 && openness < 1){
 			// Trim off some digits, otherwise we are continuously making
