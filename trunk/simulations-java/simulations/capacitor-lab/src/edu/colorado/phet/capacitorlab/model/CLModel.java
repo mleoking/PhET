@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
+
 
 /**
  * Model for the "Capacitor Lab" simulation.
@@ -10,7 +12,7 @@ package edu.colorado.phet.capacitorlab.model;
  */
 public class CLModel {
     
-    private static final double BATTERY_VOLTAGE = 0;
+    private static final double BATTERY_VOLTAGE = CLConstants.BATTERY_VOLTAGE_RANGE.getDefault();
     private static final double PLATE_WIDTH = 100;
     private static final double PLATE_SPACING = 50;
     private static final double DIELECTRIC_OFFSET = 0;

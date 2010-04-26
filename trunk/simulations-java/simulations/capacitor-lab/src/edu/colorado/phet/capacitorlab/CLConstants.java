@@ -4,6 +4,8 @@ package edu.colorado.phet.capacitorlab;
 
 import java.awt.Dimension;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+
 /**
  * A collection of constants that configure global properties.
  * If you change something here, it will change *everywhere* in this simulation.
@@ -36,4 +38,10 @@ public class CLConstants {
     
     // reference coordinate frame size for world nodes
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
+    
+    //----------------------------------------------------------------------------
+    // Model
+    //----------------------------------------------------------------------------
+    
+    public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -10, 10, 0 );
 }
