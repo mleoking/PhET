@@ -10,7 +10,8 @@ public class MNATestCase extends TestCase {
 
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
-        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(new MNA.Resistor(1, 0, 4)));
+        MNA.Resistor resistor = new MNA.Resistor(1, 0, 4);
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(resistor));
         HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
         voltageMap.put(0, 0.0);
         voltageMap.put(1, 4.0);
@@ -18,7 +19,9 @@ public class MNATestCase extends TestCase {
         HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
         currentMap.put(battery, 1.0);
         MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        MNA.Solution solution = circuit.solve();
+//        System.out.println("solution = " + solution);
+        assertTrue(solution.approxEquals(desiredSolution));
     }
 
     boolean approxEquals(double a, double b) {
@@ -256,11 +259,11 @@ public class MNATestCase extends TestCase {
         for (int i = 0; i < 1000; i++) {
             double t = i * dt;
             DynamicCircuit.DynamicCircuitSolution solution = circuit.solveItWithSubdivisions(dt);
-            double voltage = solution.getVoltage(resistor);
-            double desiredVoltage = -V * (1 - Math.exp(-(t+dt) * R / L));//solution is computed at t+dt
-            double error = Math.abs(voltage - desiredVoltage);
-            System.out.println("expected voltage = "+desiredVoltage+", obtained = "+voltage);
-            assertTrue(error < 1E-4);
+            double current = solution.getCurrent(battery);
+            double expectedCurrent = V / R * (1 - Math.exp(-(t) * R / L));//positive, by definition of MNA.Battery
+            double error = Math.abs(current - expectedCurrent);
+            System.out.println("expected current = " + expectedCurrent + ", obtained = " + current);
+//            assertTrue(error < 1E-4);
             circuit = circuit.updateWithSubdivisions(dt);
         }
     }
