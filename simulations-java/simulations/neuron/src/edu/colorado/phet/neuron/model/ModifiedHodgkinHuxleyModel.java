@@ -1,5 +1,7 @@
 package edu.colorado.phet.neuron.model;
 
+import edu.colorado.phet.neuron.module.NeuronDefaults;
+
 
 /**
  * This class is an implementation of the Hodgkin-Huxley model that started
@@ -45,8 +47,9 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	
 	private double timeSinceActionPotential = Double.POSITIVE_INFINITY;
 	
-	private DelayBuffer m3hDelayBuffer = new DelayBuffer();
-	private DelayBuffer n4DelayBuffer  = new DelayBuffer();
+	private static final double MAX_DELAY = 0.01; // In seconds of simulation time.
+	private DelayBuffer m3hDelayBuffer = new DelayBuffer(MAX_DELAY, NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT);
+	private DelayBuffer n4DelayBuffer  = new DelayBuffer(MAX_DELAY, NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT);
 	
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -98,7 +101,12 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	public double get_n4() { return n4; }
 	
 	public double get_delayed_n4(double delayAmount){
-		return n4DelayBuffer.getDelayedValue(delayAmount);
+		if (delayAmount <= 0){
+			return n4;
+		}
+		else{
+			return n4DelayBuffer.getDelayedValue(delayAmount);
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -107,7 +115,12 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	public double get_m3h() { return m3h; }
 	
 	public double get_delayed_m3h(double delayAmount){
-		return m3hDelayBuffer.getDelayedValue(delayAmount);
+		if (delayAmount <= 0){
+			return m3h;
+		}
+		else{
+			return m3hDelayBuffer.getDelayedValue(delayAmount);
+		}
 	}
 	
 	public float getEna()

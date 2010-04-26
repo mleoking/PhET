@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.neuron.NeuronConstants;
+import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.colorado.phet.neuron.utils.MathUtils;
 
 /**
@@ -35,7 +36,7 @@ public class PotassiumGatedChannel extends GatedChannel {
 
 	// Delay range - used to make the timing of the instances of this gate
 	// vary a little bit in terms of when they open and close.
-	private static final double MAX_STAGGER_DELAY = 0.0001; // In seconds of sim time. 
+	private static final double MAX_STAGGER_DELAY = NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT * 100; // In seconds of sim time. 
 	
     //----------------------------------------------------------------------------
     // Instance Data

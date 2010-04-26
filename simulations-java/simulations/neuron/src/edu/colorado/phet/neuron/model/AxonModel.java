@@ -815,7 +815,7 @@ public class AxonModel implements IParticleCapture {
     	for (int i = 0; i < totalNumChannels - 4; i++){
     		// Calculate the "urgency" for each type of gate.
     		double gatedSodiumUrgency = (double)NUM_GATED_SODIUM_CHANNELS / gatedSodiumChansAdded;
-    		double gatedPotassiumUrgency = (double)NUM_GATED_POTASSIUM_CHANNELS / gatedPotassiumChansAdded;
+    		double gatedPotassiumUrgency = (double)NUM_GATED_POTASSIUM_CHANNELS / gatedPotassiumChansAdded ;
     		double potassiumLeakUrgency = (double)NUM_POTASSIUM_LEAK_CHANNELS / potassiumLeakChansAdded;
     		double sodiumLeakUrgency = (double)NUM_SODIUM_LEAK_CHANNELS / sodiumLeakChansAdded;
     		MembraneChannelTypes channelTypeToAdd = null;
