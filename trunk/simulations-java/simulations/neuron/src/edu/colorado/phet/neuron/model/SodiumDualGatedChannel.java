@@ -67,7 +67,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	
 	// Delay range - used to make the timing of the instances of this gate
 	// vary a little bit in terms of when they open and close.
-	private static final double MAX_STAGGER_DELAY = 0.0001; // In seconds of sim time. 
+	private static final double MAX_STAGGER_DELAY = NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT * 75; // In seconds of sim time. 
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -77,7 +77,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	private GateState gateState = GateState.IDLE;
 	private double previousNormalizedConductance;
 	private double stateTransitionTimer = 0;
-	private double staggerDelay = RAND.nextDouble() * MAX_STAGGER_DELAY;
+	private double staggerDelay;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -95,6 +95,9 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		if (hodgkinHuxleyModel != null){
 			previousNormalizedConductance = calculateNormalizedConductance();
 		}
+		
+		// Initialize the stagger delay.
+		updateStaggerDelay();
 	}
 
 	public SodiumDualGatedChannel(){
@@ -206,6 +209,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 				// Go back to the idle, or resting, state.
 				setOpenness(0);
 				setInactivationAmt(0);
+				updateStaggerDelay();
 				gateState = GateState.IDLE;
 			}
 			break;
@@ -326,6 +330,10 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		});
 		
 		clock.start();
+	}
+	
+	private void updateStaggerDelay(){
+		staggerDelay = RAND.nextDouble() * MAX_STAGGER_DELAY;
 	}
 
 	@Override
