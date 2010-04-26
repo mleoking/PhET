@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.BorderFactory;
@@ -50,8 +51,10 @@ public class IonsAndChannelsLegendPanel extends JPanel {
 	private static final ModelViewTransform2D PARTICLE_MVT = new ModelViewTransform2D(
 			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-8, -8, 16, 16));
 
-	private static final ModelViewTransform2D CHANNEL_MVT = new ModelViewTransform2D(
-			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-6, -6, 12, 12));
+//	private static final ModelViewTransform2D CHANNEL_MVT = new ModelViewTransform2D(
+//			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-5, -5, 10, 10));
+	private static final ModelViewTransform2D CHANNEL_MVT = new ModelViewTransform2D(new Point2D.Double(),
+			new Point2D.Double(), 7, false);
     
     //------------------------------------------------------------------------
     // Constructor
@@ -110,7 +113,7 @@ public class IonsAndChannelsLegendPanel extends JPanel {
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridx = 0;
         constraints.gridy = row;
-        constraints.ipadx = 30;
+        constraints.ipadx = 25;
         constraints.ipady = 10;
         add(new JLabel(icon), constraints);
         constraints.ipadx = 0;
