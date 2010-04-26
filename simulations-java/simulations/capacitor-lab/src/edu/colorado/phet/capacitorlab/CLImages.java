@@ -17,6 +17,8 @@ public class CLImages {
     
     public static final BufferedImage BATTERY_UP = getBufferedImage( "battery_3D_up.png" );
     public static final BufferedImage BATTERY_DOWN = getBufferedImage( "battery_3D_down.png" );
+    public static final BufferedImage SLIDER_KNOB = getBufferedImage( "sliderKnob.png" );
+    public static final BufferedImage SLIDER_KNOB_HIGHLIGHT = getBufferedImage( "sliderKnobHighlight.png" );
     
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return CLResources.getBufferedImage( resourceName );
