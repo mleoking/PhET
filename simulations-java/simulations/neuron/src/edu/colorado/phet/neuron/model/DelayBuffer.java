@@ -69,11 +69,11 @@ public class DelayBuffer {
 				countAtThisDeltaTime = 1;
 			}
 			else{
-				countAtThisDeltaTime++;
 				if (!allDeltaTimesEqual){
 					// The new value is equal to the previous value, but the
 					// flag says that not all values were the same.  Does the
 					// addition of this value make them all equal?
+					countAtThisDeltaTime++;
 					if (countAtThisDeltaTime >= numEntries){
 						// All delta times should now be equal, so set the
 						// flag accordingly.
@@ -81,6 +81,7 @@ public class DelayBuffer {
 					}
 				}
 			}
+			previousDeltaTime = deltaTime;
 		}
 	}
 	
@@ -98,7 +99,6 @@ public class DelayBuffer {
 			if ((filling && offset > head) || offset > numEntries){
 				// The user is asking for data that we don't have yet, so
 				// give them the oldest data available.
-				System.out.println(getClass().getName() + " - Warning: Data requested that is outside of buffer range, supplying oldest available.");
 				delayedValue = delayElements[tail].getValue(); 
 			}
 			else{
@@ -129,7 +129,6 @@ public class DelayBuffer {
 					// We've gone through all the data and there isn't enough
 					// to obtain the requested delay amount, so return the
 					// oldest that is available.
-					System.out.println(getClass().getName() + " - Warning: Requested data is outside of buffer range, supplying oldest available.");
 					delayReached = true;
 				}
 				else{
