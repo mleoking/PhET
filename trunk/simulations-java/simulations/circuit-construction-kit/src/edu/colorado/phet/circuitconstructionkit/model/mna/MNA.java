@@ -201,19 +201,8 @@ public class MNA {
             this.voltage = voltage;
         }
 
-        int node0() {
-            return node0;
-        }
-
-        int node1() {
-            return node1;
-        }
-
         public String toString() {
-            return "Battery{" +
-                    "[" + node0 + "->" + node1 + "], " +
-                    "v=" + voltage +
-                    '}';
+            return "Battery{" + "[" + node0 + "->" + node1 + "], " + "v=" + voltage + '}';
         }
     }
 
@@ -226,10 +215,7 @@ public class MNA {
         }
 
         public String toString() {
-            return "Resistor{" +
-                    "[" + node0 + "->" + node1 + "], " +
-                    "r=" + resistance +
-                    '}';
+            return "Resistor{" + "[" + node0 + "->" + node1 + "], " + "r=" + resistance + '}';
         }
     }
 
@@ -242,9 +228,7 @@ public class MNA {
         }
 
         public String toString() {
-            return "CurrentSource{" +
-                    "current=" + current +
-                    '}';
+            return "CurrentSource{" + "current=" + current + '}';
         }
     }
 
