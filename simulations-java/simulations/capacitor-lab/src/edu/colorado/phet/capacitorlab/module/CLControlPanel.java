@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.module;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 
 /**
@@ -12,7 +11,4 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
  */
 public abstract class CLControlPanel extends ControlPanel {
 
-    public CLControlPanel( Module module ) {
-        addResetAllButton( module );
-    }
 }

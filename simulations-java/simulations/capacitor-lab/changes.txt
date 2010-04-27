@@ -1,3 +1,4 @@
+4/26/10 add control panels for Introduction module (not wired up)
 4/26/10 add various localized strings
 4/26/10 i18n of units in voltage slider
 4/26/10 clean up and rename battery slider
