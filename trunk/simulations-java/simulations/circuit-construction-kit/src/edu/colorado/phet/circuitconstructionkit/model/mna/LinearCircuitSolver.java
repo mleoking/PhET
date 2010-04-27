@@ -49,6 +49,14 @@ public interface LinearCircuitSolver {
             this(batteries, resistors, new ArrayList<CurrentSource>());
         }
 
+        public List<Battery> getBatteries() {
+            return batteries;
+        }
+
+        public Battery getBattery(int i) {
+            return batteries.get(i);
+        }
+
         Circuit(List<Battery> batteries, List<Resistor> resistors, List<CurrentSource> currentSources) {
             this.batteries = batteries;
             this.resistors = resistors;
@@ -89,6 +97,34 @@ public interface LinearCircuitSolver {
             }
             return set;
         }
+
+        public double sumConductances(int nodeIndex) {
+            double sum = 0.0;
+            for (Resistor resistor : resistors) {
+                if (resistor.containsNode(nodeIndex))
+                    sum += resistor.conductance;
+            }
+            return sum;
+        }
+
+        public double getConductance(int node1, int node2) {
+            //conductances sum:
+            double sum = 0.0;
+            for (Resistor resistor : resistors) {
+                if (resistor.containsNode(node1) && resistor.containsNode(node2))
+                    sum += resistor.conductance;
+            }
+            return sum;
+        }
+
+        public double sumIncomingCurrents(int nodeIndex) {
+            double sum = 0.0;
+            for (int i = 0; i < currentSources.size(); i++) {
+                CurrentSource cs = currentSources.get(i);
+                if (cs.node1 == nodeIndex) sum += cs.current;
+            }
+            return sum;
+        }
     }
 
 
@@ -109,11 +145,13 @@ public interface LinearCircuitSolver {
     }
 
     public static class Resistor extends Element {
-        double resistance;
+        final double resistance;
+        final double conductance;
 
         Resistor(int node0, int node1, double resistance) {
             super(node0, node1);
             this.resistance = resistance;
+            this.conductance = 1.0 / resistance;//todo: not all solvers use this
         }
 
         public String toString() {
@@ -151,6 +189,14 @@ public interface LinearCircuitSolver {
 
         boolean containsNode(int n) {
             return n == node0 || n == node1;
+        }
+
+        public int getNode0() {
+            return node0;
+        }
+
+        public int getNode1() {
+            return node1;
         }
 
         int getOpposite(int node) {
