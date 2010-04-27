@@ -13,6 +13,8 @@ import java.util.Set;
  */
 public interface LinearCircuitSolver {
 
+    ISolution solve(Circuit circuit);
+
     public static interface ISolution {
         double getNodeVoltage(int node);
 
@@ -38,7 +40,7 @@ public interface LinearCircuitSolver {
         }
     }
 
-    public static abstract class Circuit {
+    public static class Circuit {
         List<Battery> batteries;
         List<Resistor> resistors;
         List<CurrentSource> currentSources;
@@ -78,8 +80,6 @@ public interface LinearCircuitSolver {
             }
             return batteries.size() + zeroResistors;
         }
-
-        public abstract ISolution solve();
 
         HashSet<Integer> getNodeSet() {
             HashSet<Integer> set = new HashSet<Integer>();

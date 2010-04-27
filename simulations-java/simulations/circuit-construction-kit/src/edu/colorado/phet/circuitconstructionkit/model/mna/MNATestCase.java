@@ -8,6 +8,10 @@ import java.util.HashMap;
 
 public class MNATestCase extends TestCase {
 
+    public LinearCircuitSolver.ISolution solve(LinearCircuitSolver.Circuit circuit) {
+        return new ObjectOrientedMNA().solve(circuit);
+    }
+
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit() {
         LinearCircuitSolver.Battery battery = new LinearCircuitSolver.Battery(0, 1, 4.0);
         LinearCircuitSolver.Resistor resistor = new LinearCircuitSolver.Resistor(1, 0, 4);
@@ -18,8 +22,8 @@ public class MNATestCase extends TestCase {
 
         HashMap<LinearCircuitSolver.Element, Double> currentMap = new HashMap<LinearCircuitSolver.Element, Double>();
         currentMap.put(battery, 1.0);
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, currentMap);
-        LinearCircuitSolver.ISolution solution = circuit.solve();
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+        LinearCircuitSolver.ISolution solution = solve(circuit);
 //        System.out.println("solution = " + solution);
         assertTrue(solution.approxEquals(desiredSolution));
 
@@ -40,8 +44,8 @@ public class MNATestCase extends TestCase {
 
         HashMap<LinearCircuitSolver.Element, Double> currentMap = new HashMap<LinearCircuitSolver.Element, Double>();
         currentMap.put(battery, 2.0);
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, currentMap);
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+        assertTrue(solve(circuit).approxEquals(desiredSolution));
     }
 
     public void test_should_be_able_to_obtain_current_for_a_resistor() {
@@ -54,9 +58,9 @@ public class MNATestCase extends TestCase {
 
         HashMap<LinearCircuitSolver.Element, Double> currentMap = new HashMap<LinearCircuitSolver.Element, Double>();
         currentMap.put(battery, 2.0);
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, currentMap);
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
-        assertTrue(approxEquals(circuit.solve().getCurrent(resistor), 2));//current through resistor should be 2.0 Amps, same magnitude as battery: positive because current flows from node 1 to 0
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+        assertTrue(solve(circuit).approxEquals(desiredSolution));
+        assertTrue(approxEquals(solve(circuit).getCurrent(resistor), 2));//current through resistor should be 2.0 Amps, same magnitude as battery: positive because current flows from node 1 to 0
     }
 
     public void test_disjoint_circuits_should_be_solved_independently() {
@@ -72,8 +76,8 @@ public class MNATestCase extends TestCase {
         HashMap<LinearCircuitSolver.Element, Double> currentMap = new HashMap<LinearCircuitSolver.Element, Double>();
         currentMap.put(battery, 1.0);
         currentMap.put(battery2, 5.0 / 2);
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, currentMap);
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+        assertTrue(solve(circuit).approxEquals(desiredSolution));
     }
 
     public void test_current_source_should_provide_current() {
@@ -84,9 +88,9 @@ public class MNATestCase extends TestCase {
         voltageMap.put(0, 0.0);
         voltageMap.put(1, -10.0 * 4.0);//This is negative since traversing across the resistor should yield a negative voltage, see http://en.wikipedia.org/wiki/Current_source 
 
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, new HashMap<LinearCircuitSolver.Element, Double>());
-        System.out.println("circuit.solve() = " + circuit.solve());
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, new HashMap<LinearCircuitSolver.Element, Double>());
+        System.out.println("solve(circuit) = " + solve(circuit));
+        assertTrue(solve(circuit).approxEquals(desiredSolution));
     }
 
     public void test_current_should_be_reversed_when_voltage_is_reversed() {
@@ -98,8 +102,8 @@ public class MNATestCase extends TestCase {
 
         HashMap<LinearCircuitSolver.Element, Double> currentMap = new HashMap<LinearCircuitSolver.Element, Double>();
         currentMap.put(battery, -2.0);
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, currentMap);
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+        assertTrue(solve(circuit).approxEquals(desiredSolution));
     }
 
     public void test_two_batteries_in_series_should_have_voltage_added() {
@@ -114,8 +118,8 @@ public class MNATestCase extends TestCase {
         HashMap<LinearCircuitSolver.Element, Double> currentMap = new HashMap<LinearCircuitSolver.Element, Double>();
         currentMap.put(battery, -4.0);
         currentMap.put(battery2, -4.0);
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, currentMap);
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+        assertTrue(solve(circuit).approxEquals(desiredSolution));
     }
 
     public void test_two_resistors_in_series_should_have_resistance_added() {
@@ -128,8 +132,8 @@ public class MNATestCase extends TestCase {
 
         HashMap<LinearCircuitSolver.Element, Double> currentMap = new HashMap<LinearCircuitSolver.Element, Double>();
         currentMap.put(battery, 5 / 20.0);
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, currentMap);
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+        assertTrue(solve(circuit).approxEquals(desiredSolution));
     }
 
     public void test_A_resistor_with_one_node_unconnected_shouldnt_cause_problems() {
@@ -142,8 +146,8 @@ public class MNATestCase extends TestCase {
 
         HashMap<LinearCircuitSolver.Element, Double> currentMap = new HashMap<LinearCircuitSolver.Element, Double>();
         currentMap.put(battery, 1.0);
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, currentMap);
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+        assertTrue(solve(circuit).approxEquals(desiredSolution));
     }
 
     public void test_an_unconnected_resistor_shouldnt_cause_problems() {
@@ -157,8 +161,8 @@ public class MNATestCase extends TestCase {
 
         HashMap<LinearCircuitSolver.Element, Double> currentMap = new HashMap<LinearCircuitSolver.Element, Double>();
         currentMap.put(battery, 1.0);
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, currentMap);
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+        assertTrue(solve(circuit).approxEquals(desiredSolution));
     }
 
     public void test_should_handle_resistors_with_no_resistance() {
@@ -173,8 +177,8 @@ public class MNATestCase extends TestCase {
         HashMap<LinearCircuitSolver.Element, Double> currentMap = new HashMap<LinearCircuitSolver.Element, Double>();
         currentMap.put(battery, 5.0 / 10);
         currentMap.put(resistor, 5.0 / 10);
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, currentMap);
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+        assertTrue(solve(circuit).approxEquals(desiredSolution));
     }
 
     public void test_resistors_in_parallel_should_have_harmonic_mean_of_resistance() {
@@ -190,8 +194,8 @@ public class MNATestCase extends TestCase {
 
         HashMap<LinearCircuitSolver.Element, Double> currentMap = new HashMap<LinearCircuitSolver.Element, Double>();
         currentMap.put(battery, V / Req);
-        LinearCircuitSolver.ISolution desiredSolution = new ObjectOrientedMNA.Solution(voltageMap, currentMap);
-        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+        assertTrue(solve(circuit).approxEquals(desiredSolution));
     }
 
     //this is for comparison with TestTheveninCapacitorRC

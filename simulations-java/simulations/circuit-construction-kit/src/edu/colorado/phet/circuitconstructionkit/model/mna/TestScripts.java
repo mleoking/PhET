@@ -39,7 +39,6 @@ public class TestScripts {
 
             new PureJavaSolver().apply(circuit);
         }
-
     }
 
     public static class TestMNACircuit {
@@ -54,7 +53,7 @@ public class TestScripts {
             LinearCircuitSolver.Circuit circuit = new ObjectOrientedMNA.OOCircuit(Arrays.asList(new LinearCircuitSolver.Battery(1, 5, 1.851759060670426E-10), new LinearCircuitSolver.Battery(0, 6, 9.0)),
                     Arrays.asList(new LinearCircuitSolver.Resistor(2, 4, 1E8), new LinearCircuitSolver.Resistor(4, 3, 1.840352680379584E-8),
                             new LinearCircuitSolver.Resistor(5, 2, 0.1499999999999968), new LinearCircuitSolver.Resistor(6, 1, 1E-4)));
-            LinearCircuitSolver.ISolution solution = circuit.solve();
+            LinearCircuitSolver.ISolution solution = new ObjectOrientedMNA().solve(circuit);
             System.out.println("solution = " + solution);
         }
     }
