@@ -112,19 +112,23 @@ public class IndexPanel extends PhetPanel {
         StringBuffer buf = new StringBuffer();
         buf.append( "dir=" + StringUtils.getStringDirect( getHibernateSession(), "language.dir", getMyLocale() ) + "&" );
         buf.append( "quantity=" + Integer.toString( featured.size() ) + "&" );
+        try {
+            buf.append( "next=" + URLEncoder.encode( getPhetLocalizer().getString( "home.rotator.next", this ), "UTF-8" ) + "&" );
+            buf.append( "previous=" + URLEncoder.encode( getPhetLocalizer().getString( "home.rotator.previous", this ), "UTF-8" ) + "&" );
 
-        int idx = 1;
-        for ( LocalizedSimulation lsim : featured ) {
-            String ids = Integer.toString( idx++ );
-            try {
+            int idx = 1;
+            for ( LocalizedSimulation lsim : featured ) {
+                String ids = Integer.toString( idx++ );
                 buf.append( "sim" + ids + "=" + URLEncoder.encode( lsim.getSimulation().getName(), "UTF-8" ) + "&" );
                 buf.append( "title" + ids + "=" + URLEncoder.encode( lsim.getTitle(), "UTF-8" ) + "&" );
                 buf.append( "url" + ids + "=" + URLEncoder.encode( SimulationPage.getLinker( lsim ).getRawUrl( context, getPhetCycle() ), "UTF-8" ) + "&" );
             }
-            catch( UnsupportedEncodingException e ) {
-                e.printStackTrace();
-            }
         }
+        catch( UnsupportedEncodingException e ) {
+            e.printStackTrace();
+        }
+
+        // TODO: separate out rotator panel
 
         Model flashvarsModel = new Model( buf.toString() );
 
