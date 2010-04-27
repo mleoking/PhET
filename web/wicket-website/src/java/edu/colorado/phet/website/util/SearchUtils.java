@@ -35,23 +35,31 @@ public class SearchUtils {
 
     // TODO: extract into better writing / reading / updating, and add contributions
 
+    // TODO: catch index exceptions to try triggering re-building or fail-out?
+
     private static Logger logger = Logger.getLogger( SearchUtils.class.getName() );
 
     private static Directory directory = null;
 
     private static IndexSearcher searcher = null;
+    private static IndexWriter writer = null;
+    private static Thread indexerThread = null;
 
-    public static synchronized void initialize() {
+    /**
+     * Don't call this more than once
+     */
+    public static void initialize() {
         if ( directory != null ) {
             throw new RuntimeException( "attempt to initialize SearchUtils multiple times" );
         }
         try {
+
+            final PhetWicketApplication app = PhetWicketApplication.get();
+            final PhetLocalizer localizer = PhetLocalizer.get();
+
             directory = FSDirectory.open( new File( "/tmp/testindex" ) );
-            if ( IndexReader.indexExists( directory ) ) {
-                removeAllDocuments();
-            }
-            addAllDocuments();
-            searcher = new IndexSearcher( directory, true );
+
+            reindex( app, localizer );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -76,15 +84,44 @@ public class SearchUtils {
         return searcher;
     }
 
-    private static synchronized void addAllDocuments() {
-        HibernateUtils.wrapSession( new HibernateTask() {
-            public boolean run( Session session ) {
-                PhetLocalizer localizer = PhetLocalizer.get();
-                NavMenu menu = PhetWicketApplication.get().getMenu();
-                addSimulations( session, localizer, menu );
-                return true;
+    public static synchronized void reindex( final PhetWicketApplication app, final PhetLocalizer localizer ) {
+        indexerThread = new Thread() {
+            @Override
+            public void run() {
+                logger.info( "starting indexing thread" );
+                addAllDocuments( app, localizer );
+                logger.info( "indexing complete" );
+
+                try {
+                    searcher = new IndexSearcher( directory, true );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
             }
-        } );
+        };
+        indexerThread.setPriority( Thread.MIN_PRIORITY );
+        indexerThread.start();
+    }
+
+    private static synchronized void addAllDocuments( final PhetWicketApplication app, final PhetLocalizer localizer ) {
+        try {
+            Analyzer analyzer = new StandardAnalyzer( Version.LUCENE_CURRENT );
+            writer = new IndexWriter( directory, analyzer, true, new IndexWriter.MaxFieldLength( 25000 ) );
+
+            HibernateUtils.wrapSession( new HibernateTask() {
+                public boolean run( Session session ) {
+                    addSimulations( session, localizer, app.getMenu() );
+                    return true;
+                }
+            } );
+
+            writer.optimize();
+            writer.close();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     private static synchronized void removeAllDocuments() {
@@ -99,48 +136,27 @@ public class SearchUtils {
         }
     }
 
-    public static void addSimulations( Session session, final PhetLocalizer localizer, final NavMenu menu ) {
+    private static void addSimulations( Session session, final PhetLocalizer localizer, final NavMenu menu ) {
         try {
             logger.debug( "adding simulations" );
-            Analyzer analyzer = new StandardAnalyzer( Version.LUCENE_CURRENT );
-            final IndexWriter iwriter = new IndexWriter( directory, analyzer, true, new IndexWriter.MaxFieldLength( 25000 ) );
-            logger.debug( "initialized" );
 
-            HibernateUtils.wrapTransaction( session, new HibernateTask() {
-                public boolean run( Session session ) {
-                    List s = session.createQuery( "select s from Simulation as s" ).list();
-                    for ( Object o : s ) {
-                        try {
-                            Simulation sim = (Simulation) o;
-                            logger.debug( "processing " + sim.getName() );
-                            Document doc = simulationToDocument( session, sim, localizer );
-                            logger.debug( "processed" );
-                            iwriter.addDocument( doc );
-                            logger.debug( "added" );
-                            //logger.debug( "adding document: " + doc );
-                        }
-                        catch( IOException e ) {
-                            e.printStackTrace();
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            } );
-
-            logger.debug( "optimizing" );
-            iwriter.optimize();
-            logger.debug( "optimized" );
-            iwriter.close();
-            logger.debug( "closed" );
+            List s = session.createQuery( "select s from Simulation as s" ).list();
+            for ( Object o : s ) {
+                Simulation sim = (Simulation) o;
+                logger.debug( "processing " + sim.getName() );
+                Document doc = simulationToDocument( session, sim, localizer, menu );
+                logger.debug( "processed" );
+                writer.addDocument( doc );
+                logger.debug( "added" );
+                //logger.debug( "adding document: " + doc );
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
     }
 
-    public static Document simulationToDocument( Session session, Simulation sim, PhetLocalizer localizer ) {
-        NavMenu menu = PhetWicketApplication.get().getMenu();
+    public static Document simulationToDocument( Session session, Simulation sim, PhetLocalizer localizer, NavMenu menu ) {
         Document doc = new Document();
         doc.add( new Field( "droppable", "true", Field.Store.NO, Field.Index.NOT_ANALYZED ) );
         doc.add( new Field( "sim_id", String.valueOf( sim.getId() ), Field.Store.YES, Field.Index.NOT_ANALYZED ) );
