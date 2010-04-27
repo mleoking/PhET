@@ -1,12 +1,24 @@
 package edu.colorado.phet.circuitconstructionkit;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 
-public class CircuitConstructionKitDCVirtualLabApplication {
-    public static void main(String[] args) throws InvocationTargetException, InterruptedException {
-        ArrayList<String> a = new ArrayList<String>();
-        a.add(CCKParameters.VIRTUAL_LAB);
-        CircuitConstructionKitDCApplication.main(a.toArray(new String[0]));
+/**
+ * Author: Sam Reid
+ * Apr 12, 2007, 11:48:01 PM
+ */
+public class CircuitConstructionKitDCVirtualLabApplication extends CircuitConstructionKitApplication {
+    public CircuitConstructionKitDCVirtualLabApplication(PhetApplicationConfig config) {
+        super(config, false, true);
+    }
+
+    public static void main(String[] args) {
+        new PhetApplicationLauncher().launchSim(new CircuitConstructionKitApplicationConfig(args, "circuit-construction-kit", "circuit-construction-kit-dc-virtual-lab"), new ApplicationConstructor() {
+            public PhetApplication getApplication(PhetApplicationConfig config) {
+                return new CircuitConstructionKitDCVirtualLabApplication(config);
+            }
+        });
     }
 }
