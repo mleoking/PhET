@@ -49,7 +49,7 @@ public class VoltageSliderNode extends PhetPNode {
     
     // tick label properties
     private static final Color TICK_LABEL_COLOR = TRACK_COLOR;
-    private static final DecimalFormat TICK_LABEL_FORMAT = new DecimalFormat( "0.0" );
+    private static final DecimalFormat TICK_LABEL_FORMAT = new DecimalFormat( "0" );
     private static final Font TICK_LABEL_FONT = new PhetFont( 14 );
     
     // immutable instance data
