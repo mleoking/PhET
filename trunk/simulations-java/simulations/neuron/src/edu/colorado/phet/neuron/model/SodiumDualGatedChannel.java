@@ -166,7 +166,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 				// Note the non-linear mapping.  This was done to make them
 				// appear to be fully open earlier in the action potential,
 				// which was requested by the IPHY folks.
-				setOpenness(1 - Math.pow(normalizedConductance - 1, 2));
+				setOpenness(1 - Math.pow(normalizedConductance - 1, 8));
 			}
 			break;
 			
@@ -202,8 +202,9 @@ public class SodiumDualGatedChannel extends GatedChannel {
 				// linear.  This is because the IPHY people requested that
 				// the "little ball doesn't pop out" until the the gate has
 				// closed up.
-				setOpenness(stateTransitionTimer/RESETTING_TO_IDLE_TIME);
-				setInactivationAmt(1 - Math.pow(stateTransitionTimer/RESETTING_TO_IDLE_TIME - 1, 12));
+//				setOpenness(stateTransitionTimer/RESETTING_TO_IDLE_TIME);
+				setOpenness(1 - Math.pow(stateTransitionTimer/RESETTING_TO_IDLE_TIME - 1, 10));
+				setInactivationAmt(1 - Math.pow(stateTransitionTimer/RESETTING_TO_IDLE_TIME - 1, 20));
 			}
 			else{
 				// Go back to the idle, or resting, state.
