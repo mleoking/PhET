@@ -21,9 +21,9 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	
 	// Controls the rate of leakage when no action potential is occurring.
 	// Higher values mean more leakage, with 1 as the max.
-	private static final double NOMINAL_LEAK_LEVEL = 0.1;
+	private static final double NOMINAL_LEAK_LEVEL = 0.005;
 	
-	private static final double DEFAULT_PARTICLE_VELOCITY = 5000; // In nanometers per sec of sim time.
+	private static final double DEFAULT_PARTICLE_VELOCITY = 7000; // In nanometers per sec of sim time.
 	
 	// A scaling factor that is used to normalize the amount of leak channel
 	// current to a value between 0 and 1.  This value was determined by
@@ -132,22 +132,20 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	 * minimum capture rate for particles and 1 represents the max.
 	 */
 	private void updateParticleCaptureRate(double normalizedRate){
-		if (normalizedRate <= 0.01){
+		if (normalizedRate <= 0.001){
 			// No captures at this rate.
 			setMinInterCaptureTime(Double.POSITIVE_INFINITY);
 			setMaxInterCaptureTime(Double.POSITIVE_INFINITY);
 			restartCaptureCountdownTimer();
 		}
 		else{
-			// Tweak the following values for different behavior.  Lower
-			// values will yeild more captures per unit time.
-			double smallestAllowableMin = 0.000075;
-			double largestAllowableMin = 0.00075;
-			double smallestAllowableMax = smallestAllowableMin * 3;
-			double largestAllowableMax = largestAllowableMin * 3;
-			
-			setMinInterCaptureTime(smallestAllowableMin + (1 - normalizedRate) * (largestAllowableMin - smallestAllowableMin));
-			setMaxInterCaptureTime(smallestAllowableMax + (1 - normalizedRate) * (largestAllowableMax - smallestAllowableMax));
+			// Tweak the following values for different behavior.
+			double absoluteMinInterCaptureTime = 0.0002;
+			double variableMinInterCaptureTime = 0.002;
+			double captureTimeRange = 0.005;
+			double minInterCaptureTime = absoluteMinInterCaptureTime + (1 - normalizedRate) * (variableMinInterCaptureTime);
+			setMinInterCaptureTime(minInterCaptureTime);
+			setMaxInterCaptureTime(minInterCaptureTime + (1 - normalizedRate) * captureTimeRange);
 			
 			if (getCaptureCountdownTimer() > getMaxInterCaptureTime()){
 				// Only restart the capture countdown if the current values is
