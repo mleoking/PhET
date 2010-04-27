@@ -190,13 +190,8 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
 
         protected void doChange( double value ) {
             super.circuitComponent.setVoltageDrop( value );
-            super.updateDuringDrag();
         }
 
-    }
-
-    protected void updateDuringDrag() {
-        module.getCCKModel().stepInTime(CCKModule.dt);//todo this is a hack to ensure things keep flowing during a drag operation.
     }
 
     public static class ResistorEditor extends ComponentEditor {
@@ -211,7 +206,6 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
                 value = CCKModel.MIN_RESISTANCE;
             }
             super.circuitComponent.setResistance( value );
-            updateDuringDrag();
         }
 
     }
@@ -228,7 +222,6 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
                 value = CCKModel.MIN_RESISTANCE;
             }
             super.circuitComponent.setResistance( value );
-            updateDuringDrag();
         }
 
     }
@@ -250,7 +243,6 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
 //            super.element.setResistance( value );
 //            System.out.println( "set battery internal resistance= " + value );
             battery.setInternalResistance( value );
-            updateDuringDrag();
         }
     }
 
@@ -270,7 +262,6 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
 
         protected void doChange( double value ) {
             branch.setAmplitude( value );
-            updateDuringDrag();
         }
     }
 }
