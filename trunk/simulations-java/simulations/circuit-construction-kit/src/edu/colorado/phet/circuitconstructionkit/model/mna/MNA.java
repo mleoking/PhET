@@ -18,8 +18,9 @@ public class MNA {
         abstract double getCurrent(Element element);
     }
 
-    //sparse solution containing only the solved unknowns in MNA
-
+    /**
+     * This class represents a sparse solution containing only the solved unknowns in MNA.
+     */
     public static class Solution extends ISolution {
         HashMap<Integer, Double> nodeVoltages = new HashMap<Integer, Double>();
         HashMap<Element, Double> branchCurrents = new HashMap<Element, Double>();
@@ -118,9 +119,6 @@ public class MNA {
                     ", branchCurrents=" + branchCurrents +
                     '}';
         }
-//
-//        HashMap<Integer, Double> nodeVoltages = new HashMap<Integer, Double>();
-//        HashMap<Element, Double> branchCurrents = new HashMap<Element, Double>();
 
         public double distance(Solution s) {
             double distanceVoltage = 0;
@@ -131,18 +129,7 @@ public class MNA {
             if (nodeVoltages.size() == 0) {
                 averageVoltDist = 0.0;
             }
-
             return averageVoltDist + Math.abs(getAverageCurrentMags() - s.getAverageCurrentMags());
-//    double distanceCurrent =0 ;
-//    for (Element key : branchCurrents.keySet()){
-//        distanceCurrent = distanceCurrent + Math.abs(getCurrent(key) - s.getCurrent(key));
-//    }
-//    double avgCurDist = distanceCurrent / branchCurrents.size();
-//    if (branchCurrents.size() == 0){
-//        avgCurDist = 0.0;
-//    }
-//
-//    return (averageVoltDist + avgCurDist)/2;
         }
 
         private double getAverageCurrentMags() {
@@ -154,14 +141,15 @@ public class MNA {
         }
     }
 
-    //This class represents an Element in a circuit, such as a Battery, Resistor, Capacitor, etc.
-    //Comparisons must be made based on the identity of the object, not based on the content of the object, since, e.g.,
-    //two identical resistors may connect the same nodes, and they should not be treated as the same resistor.
-
+    /**
+     * This class represents an Element in a circuit, such as a Battery, Resistor, Capacitor, etc.
+     * Comparisons must be made based on the identity of the object, not based on the content of the object, since, e.g.,
+     * two identical resistors may connect the same nodes, and they should not be treated as the same resistor.
+     */
     public static abstract class Element {
-        int node0;
+        public final int node0;
 
-        int node1;
+        public final int node1;
 
         protected Element(int node0, int node1) {
             this.node0 = node0;
@@ -182,12 +170,8 @@ public class MNA {
             }
         }
 
-        @Override
         public String toString() {
-            return "Element{" +
-                    "node0=" + node0 +
-                    ", node1=" + node1 +
-                    '}';
+            return "Element{" + "node0=" + node0 + ", node1=" + node1 + '}';
         }
     }
 
@@ -263,12 +247,7 @@ public class MNA {
 
         @Override
         public String toString() {
-            return "Circuit{" +
-                    "batteries=" + batteries +
-                    ", resistors=" + resistors +
-                    ", currentSources=" + currentSources +
-                    ", debug=" + debug +
-                    '}';
+            return "Circuit{" + "batteries=" + batteries + ", resistors=" + resistors + ", currentSources=" + currentSources + ", debug=" + debug + '}';
         }
 
         List<Element> getElements() {
@@ -297,54 +276,18 @@ public class MNA {
             return getNodeCount() + getCurrentCount();
         }
 
-        class Term {
-            double coefficient;
-            Unknown variable;
+        public class Term {
+            private final double coefficient;
+            private final Unknown variable;
 
-            Term(double coefficient, Unknown variable) {
+            public Term(double coefficient, Unknown variable) {
                 this.coefficient = coefficient;
                 this.variable = variable;
             }
 
-            String toTermString() {
+            public String toTermString() {
                 String prefix = coefficient == 1 ? "" : ((coefficient == -1) ? "-" : coefficient + "*");
                 return prefix + variable.toTermName();
-            }
-
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) {
-                    return true;
-                }
-                if (o == null || getClass() != o.getClass()) {
-                    return false;
-                }
-
-                Term term = (Term) o;
-
-                if (Double.compare(term.coefficient, coefficient) != 0) {
-                    return false;
-                }
-                if (!variable.equals(term.variable)) {
-                    return false;
-                }
-
-                return true;
-            }
-
-            @Override
-            public int hashCode() {
-                int result;
-                long temp;
-                temp = coefficient != +0.0d ? Double.doubleToLongBits(coefficient) : 0L;
-                result = (int) (temp ^ (temp >>> 32));
-                result = 31 * result + variable.hashCode();
-                return result;
-            }
-
-            @Override
-            public String toString() {
-                return super.toString();
             }
         }
 
@@ -411,16 +354,12 @@ public class MNA {
                 return true;
             }
 
-            @Override
             public int hashCode() {
                 return element.hashCode();
             }
 
-            @Override
             public String toString() {
-                return "UnknownCurrent{" +
-                        "element=" + element +
-                        '}';
+                return "UnknownCurrent{" + "element=" + element + '}';
             }
         }
 
@@ -460,9 +399,7 @@ public class MNA {
 
             @Override
             public String toString() {
-                return "UnknownVoltage{" +
-                        "node=" + node +
-                        '}';
+                return "UnknownVoltage{" + "node=" + node + '}';
             }
         }
 
@@ -471,15 +408,14 @@ public class MNA {
             double sum = 0.0;
             for (CurrentSource c : currentSources) {
                 if (c.node1 == node) {
-                    sum = sum - c.current;//current is entering the node//TODO: these signs seem backwards, shouldn't incoming current add?
+                    sum = sum - c.current;//positive current is entering the node//TODO: these signs seem backwards, shouldn't incoming current add?
                 }
                 if (c.node0 == node) {
-                    sum = sum + c.current;//current is going away
+                    sum = sum + c.current;//positive current is leaving the node
                 }
             }
             return sum;
         }
-
 
         //Todo: does this get the signs right in all cases?
         //TODO: maybe signs here should depend on component orientation?
@@ -518,8 +454,8 @@ public class MNA {
                 }
             }
             for (Resistor r : resistors) {
-                if (r.node0 == node && r.resistance == 0)//Treat resistors with R=0 as having unknown current and v1=v2
-                {
+                //Treat resistors with R=0 as having unknown current and v1=v2
+                if (r.node0 == node && r.resistance == 0) {
                     nodeTerms.add(new Term(1, new UnknownCurrent(r)));
                 }
             }
