@@ -15,6 +15,14 @@ import java.util.HashMap;
  * @author Sam Reid
  */
 public class FastMNA implements LinearCircuitSolver {
+    public static void setSubmatrix(Matrix A, int row, int col, Matrix B) {
+        for (int i = 0; i < B.getRowDimension(); i++) {
+            for (int k = 0; k < B.getColumnDimension(); k++) {
+                A.set(row + i, col + k, B.get(i, k));
+            }
+        }
+    }
+
     public ISolution solve(Circuit circuit) {
 
         int n = circuit.getNodeCount() - 1;
@@ -26,19 +34,25 @@ public class FastMNA implements LinearCircuitSolver {
         //See from http://www.swarthmore.edu/NatSci/echeeve1/Ref/mna/MNA3.html
         //G matrix
         Matrix G = getGMatrix(circuit);
-        G.print(4, 4);
         Matrix B = getBMatrix(circuit);
         Matrix C = B.transpose();
 
+//        G.print(4, 4);
+//        B.print(4, 4);
+
         //B matrix
-        A.setMatrix(0, n, 0, n, G);
-        A.setMatrix(n, n + m, 0, n, B);
-        A.setMatrix(0, n, n, n + m, C);
+        setSubmatrix(A, 0, 0, G);
+        setSubmatrix(A, 0, n, B);
+        setSubmatrix(A, n, 0, C);
+        //no D matrix
+//        A.setMatrix(0, n - 1, 0, n - 1, G);
+//        A.setMatrix(n, n + m - 1, 0, n - 1, B);
+//        A.setMatrix(0, n - 1, n, n + m - 1, C);
 
         for (int i = 1; i < n; i++) {
             z.set(i - 1, 0, circuit.sumIncomingCurrents(i));
         }
-        for (int i = n; i < m + 1; i++) {
+        for (int i = n; i < n + m; i++) {
             z.set(i, 0, circuit.getBattery(i - n).voltage);
         }
 //        final ArrayList<Unknown> unknowns = getUnknowns();//store the unknown list for index lookup
@@ -50,6 +64,11 @@ public class FastMNA implements LinearCircuitSolver {
 //            });
 //        }
 
+
+        System.out.println("A = ");
+        A.print(4, 4);
+        System.out.println("Z = ");
+        z.print(4, 4);
         Matrix x = A.solve(z);
 
         //todo: could provide more efficient lookup
@@ -62,21 +81,25 @@ public class FastMNA implements LinearCircuitSolver {
         HashMap<Element, Double> currentMap = new HashMap<Element, Double>();
         for (int i = 0; i < circuit.getBatteries().size(); i++) {
             Battery battery = circuit.getBattery(i);
-            currentMap.put(battery, x.get(circuit.getNodeCount() + i, 0));
+            currentMap.put(battery, -x.get(circuit.getNodeCount() + i - 1, 0));//todo: reconcile this sign error
         }
         return new LinearCircuitSolution(voltageMap, currentMap);
     }
 
     private Matrix getBMatrix(Circuit circuit) {
         int n = circuit.getNodeCount() - 1;
-        int m = circuit.getCurrentCount();
+        int m = circuit.getBatteries().size();
         Matrix B = new Matrix(n, m);
         for (int i = 0; i < n; i++) {
             for (int k = 0; k < m; k++) {
-                if (circuit.getBattery(i).getNode0() == k) B.set(i, k, +1);
-                else if (circuit.getBattery(i).getNode1() == k) B.set(i, k, -1);//todo: check signs
+                double value = 0.0;
+                if (circuit.getBattery(k).getNode0() == i + 1) value = -1;
+                else if (circuit.getBattery(k).getNode1() == i + 1) value = +1;//todo: check signs
+//                System.out.println("i = " + i + ", k = " + k + ", value = " + value);
+                B.set(i, k, value);
             }
         }
+
         return B;
     }
 
@@ -97,12 +120,12 @@ public class FastMNA implements LinearCircuitSolver {
     }
 
     public static void main(String[] args) {
-        //Swarthmore's example:
+        //Swarthmore's example case 1:
         Resistor r1 = new Resistor(0, 1, 2);
         Resistor r2 = new Resistor(2, 3, 4);
         Resistor r3 = new Resistor(0, 2, 8);
         Battery v1 = new Battery(1, 2, 32);
-        Battery v2 = new Battery(3, 0, 20);
+        Battery v2 = new Battery(0, 3, 20);//todo: are these batteries oriented properly?
         Circuit circuit = new Circuit(new ArrayList<Battery>(Arrays.asList(v1, v2)), Arrays.asList(r1, r2, r3));
         ISolution solution = new FastMNA().solve(circuit);
         System.out.println("solution = " + solution);
