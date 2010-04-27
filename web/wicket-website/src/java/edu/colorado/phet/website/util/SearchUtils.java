@@ -170,6 +170,8 @@ public class SearchUtils {
             titleField.setBoost( 4.5f );
             doc.add( titleField );
 
+            // TODO: add checks so that we don't try to do string searches for tons of locales without translations!!!
+
             String description = localizer.getBestStringWithinTransaction( session, sim.getDescriptionKey(), lsim.getLocale() );
             if ( description != null ) {
                 doc.add( new Field( "sim_" + prefix + "_description", description, Field.Store.NO, Field.Index.ANALYZED ) );

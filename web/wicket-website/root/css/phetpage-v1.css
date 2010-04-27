@@ -99,6 +99,10 @@ body.rtl .log-in-out {
     text-decoration: underline;
 }
 
+#main-content .simulation-list-item a:hover {
+    text-decoration: none;
+}
+
 .standard-content h2 {
     font-size: 16px;
     color: #15337f;
