@@ -14,7 +14,7 @@ import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.simulation.SimulationDisplayPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
-import edu.colorado.phet.website.test.LuceneTest;
+import edu.colorado.phet.website.util.SearchUtils;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
@@ -38,7 +38,7 @@ public class SearchResultsPage extends PhetRegularPage {
         // TODO: display query
 
         if ( query != null ) {
-            lsims = LuceneTest.testSearch( getHibernateSession(), query, getPageContext().getLocale() );
+            lsims = SearchUtils.testSearch( getHibernateSession(), query, getPageContext().getLocale() );
         }
 
         add( new SimulationDisplayPanel( "search-results-panel", getPageContext(), lsims ) );

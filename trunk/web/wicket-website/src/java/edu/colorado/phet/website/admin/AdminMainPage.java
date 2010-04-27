@@ -11,7 +11,7 @@ import org.apache.wicket.util.value.ValueMap;
 import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.transfer.TransferData;
 import edu.colorado.phet.website.notification.NotificationHandler;
-import edu.colorado.phet.website.test.LuceneTest;
+import edu.colorado.phet.website.util.SearchUtils;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.StringUtils;
 
@@ -54,7 +54,7 @@ public class AdminMainPage extends AdminPage {
         add( new Link( "debug-index" ) {
             public void onClick() {
                 // DO NOT REMOVE for future everything
-                LuceneTest.addSimulations( getHibernateSession(), (PhetLocalizer) getLocalizer(), getNavMenu() );
+                SearchUtils.addSimulations( getHibernateSession(), (PhetLocalizer) getLocalizer(), getNavMenu() );
             }
         } );
 
