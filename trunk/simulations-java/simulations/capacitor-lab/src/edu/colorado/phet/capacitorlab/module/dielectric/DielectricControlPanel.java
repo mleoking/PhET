@@ -12,6 +12,6 @@ import edu.colorado.phet.capacitorlab.module.CLControlPanel;
 public class DielectricControlPanel extends CLControlPanel {
 
     public DielectricControlPanel( DielectricModule module ) {
-        super( module );
+        addResetAllButton( module );
     }
 }
