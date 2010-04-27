@@ -273,7 +273,7 @@ public abstract class MembraneChannel {
 	 */
 	protected void restartCaptureCountdownTimer(){
 		if (minInterCaptureTime != Double.POSITIVE_INFINITY && maxInterCaptureTime != Double.POSITIVE_INFINITY){
-			assert maxInterCaptureTime > minInterCaptureTime;
+			assert maxInterCaptureTime >= minInterCaptureTime;
 			captureCountdownTimer = minInterCaptureTime + RAND.nextDouble() * (maxInterCaptureTime - minInterCaptureTime);
 		}
 		else{
