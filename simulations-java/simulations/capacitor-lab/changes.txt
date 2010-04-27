@@ -1,3 +1,5 @@
+4/26/10 add various localized strings
+4/26/10 i18n of units in voltage slider
 4/26/10 clean up and rename battery slider
 4/26/10 add interactivity to battery slider
 4/26/10 more work on battery slider (incomplete)
