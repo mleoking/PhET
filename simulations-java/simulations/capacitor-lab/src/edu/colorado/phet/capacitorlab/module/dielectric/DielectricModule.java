@@ -18,7 +18,7 @@ public class DielectricModule extends CLModule {
     private final DielectricControlPanel controlPanel;
 
     public DielectricModule() {
-        super( CLStrings.TITLE_INTRODUCTION );
+        super( CLStrings.TITLE_DIELECTRIC );
         
         model = new CLModel();
         
