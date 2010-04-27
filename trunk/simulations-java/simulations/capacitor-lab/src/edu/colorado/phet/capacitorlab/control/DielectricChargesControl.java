@@ -21,23 +21,23 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 public class DielectricChargesControl extends JPanel {
     
-    private final JRadioButton chargesHiddenRadioButton, showAllChargesRadioButton, showExcessChargesRadioButton;
+    private final JRadioButton hideAllRadioButton, showAllRadioButton, showExcessRadioButton;
 
     public DielectricChargesControl() {
         setBorder( new EtchedBorder() );
         
         JLabel chargesLabel = new JLabel( CLStrings.LABEL_DIELECTRIC_CHARGES );
         
-        chargesHiddenRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_CHARGES_HIDDEN );
+        hideAllRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_HIDE_ALL_CHARGES );
         
-        showAllChargesRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_SHOW_ALL_CHARGES );
+        showAllRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_SHOW_ALL_CHARGES );
         
-        showExcessChargesRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_SHOW_EXCESS_CHARGES );
+        showExcessRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_SHOW_EXCESS_CHARGES );
         
         ButtonGroup group = new ButtonGroup();
-        group.add( chargesHiddenRadioButton );
-        group.add( showAllChargesRadioButton );
-        group.add( showExcessChargesRadioButton );
+        group.add( hideAllRadioButton );
+        group.add( showAllRadioButton );
+        group.add( showExcessRadioButton );
 
         // layout
         JPanel innerPanel = new JPanel();
@@ -47,15 +47,15 @@ public class DielectricChargesControl extends JPanel {
         int row = 0;
         int column = 0;
         layout.addComponent( chargesLabel, row++, column );
-        layout.addComponent( chargesHiddenRadioButton, row++, column );
-        layout.addComponent( showAllChargesRadioButton, row++, column );
-        layout.addComponent( showExcessChargesRadioButton, row++, column );
+        layout.addComponent( hideAllRadioButton, row++, column );
+        layout.addComponent( showAllRadioButton, row++, column );
+        layout.addComponent( showExcessRadioButton, row++, column );
         
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
         // default state
-        chargesHiddenRadioButton.setSelected( true );
+        hideAllRadioButton.setSelected( true );
     }
 }
