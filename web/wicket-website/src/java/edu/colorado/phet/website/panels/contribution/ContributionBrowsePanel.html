@@ -15,13 +15,28 @@
     <div wicket:message="dir:language.dir">
         <table>
             <tr>
-                <th><wicket:message key="contribution.browse.title">Title</wicket:message></th>
-                <th><wicket:message key="contribution.browse.authors">Authors</wicket:message></th>
-                <th><wicket:message key="contribution.browse.level">Level</wicket:message></th>
-                <th><wicket:message key="contribution.browse.type">Type</wicket:message></th>
-                <th><wicket:message key="contribution.browse.simulations">Simulations</wicket:message></th>
-                <th><wicket:message key="contribution.browse.updated">Updated</wicket:message></th>
-                
+                <th>
+                    <wicket:message key="contribution.browse.title">Title</wicket:message>
+                </th>
+                <th>
+                    <wicket:message key="contribution.browse.authors">Authors</wicket:message>
+                </th>
+                <th>
+                    <wicket:message key="contribution.browse.level">Level</wicket:message>
+                </th>
+                <th>
+                    <wicket:message key="contribution.browse.type">Type</wicket:message>
+                </th>
+                <wicket:enclosure>
+                    <th>
+                        <wicket:message key="contribution.browse.simulations">Simulations</wicket:message>
+                        <span wicket:id="sim-col-1"></span>
+                    </th>
+                </wicket:enclosure>
+                <th>
+                    <wicket:message key="contribution.browse.updated">Updated</wicket:message>
+                </th>
+
             </tr>
             <tr wicket:id="contributions">
 
@@ -29,17 +44,21 @@
                     <a href="#" wicket:id="contribution-link">
                         <span wicket:id="contribution-title"></span>
                     </a>
-                    <img wicket:id="phet-contribution" src="../../../../../../../../root/images/contributions/phet-logo-icon-small.jpg"
+                    <img wicket:id="phet-contribution"
+                         src="../../../../../../../../root/images/contributions/phet-logo-icon-small.jpg"
                          alt="Contribution by PhET" wicket:message="title:tooltip.legend.phetDesigned"/>
-                    <img wicket:id="gold-star-contribution" src="../../../../../../../../root/images/contributions/gold-star-small.jpg"
+                    <img wicket:id="gold-star-contribution"
+                         src="../../../../../../../../root/images/contributions/gold-star-small.jpg"
                          alt="Gold Star Contribution" wicket:message="title:tooltip.legend.goldStar"/>
                 </td>
                 <td wicket:id="contribution-authors"></td>
                 <td wicket:id="contribution-level"></td>
                 <td wicket:id="contribution-type"></td>
-                <td><span wicket:id="contribution-simulations">
-                    <a href="#" wicket:id="simulation-link"><span wicket:id="simulation-title"></span><br/></a>
-                </span></td>
+                <td wicket:id="contribution-simulation-list">
+                    <span wicket:id="contribution-simulations">
+                        <a href="#" wicket:id="simulation-link"><span wicket:id="simulation-title"></span><br/></a>
+                    </span>
+                </td>
                 <td wicket:id="contribution-updated"></td>
 
             </tr>

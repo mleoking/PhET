@@ -166,7 +166,7 @@ public class SimulationMainPanel extends PhetPanel {
                     return true;
                 }
             } );
-            add( new ContributionBrowsePanel( "contributions-panel", context, contributions ) );
+            add( new ContributionBrowsePanel( "contributions-panel", context, contributions, false ) );
             Label visLabel = new Label( "teacher-ideas-visible", "" );
             visLabel.setRenderBodyOnly( true ); // don't make anything appear
             add( visLabel );
