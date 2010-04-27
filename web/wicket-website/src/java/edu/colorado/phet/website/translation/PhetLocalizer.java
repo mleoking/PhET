@@ -330,9 +330,9 @@ public class PhetLocalizer extends Localizer {
         return String.valueOf( translationId ) + ":" + key;
     }
 
-    //----------------------------------------------------------------------------
-    // overridden wicket localizer methods
-    //----------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------*
+    * Wicket Localizer Methods
+    *----------------------------------------------------------------------------*/
 
     @Override
     public String getString( String key, Component component ) throws MissingResourceException {
