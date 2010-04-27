@@ -6,23 +6,27 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.border.EtchedBorder;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
- * Controls related to the capacitor's dielectric.
+ * Controls related to the dielectric's charges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ChargesControlPanel extends CLTitledControlPanel {
+public class DielectricChargesControl extends JPanel {
     
     private final JRadioButton chargesHiddenRadioButton, showAllChargesRadioButton, showExcessChargesRadioButton;
 
-    public ChargesControlPanel() {
-        super( CLStrings.TITLE_CHARGES );
+    public DielectricChargesControl() {
+        setBorder( new EtchedBorder() );
+        
+        JLabel chargesLabel = new JLabel( CLStrings.LABEL_DIELECTRIC_CHARGES );
         
         chargesHiddenRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_CHARGES_HIDDEN );
         
@@ -42,6 +46,7 @@ public class ChargesControlPanel extends CLTitledControlPanel {
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int column = 0;
+        layout.addComponent( chargesLabel, row++, column );
         layout.addComponent( chargesHiddenRadioButton, row++, column );
         layout.addComponent( showAllChargesRadioButton, row++, column );
         layout.addComponent( showExcessChargesRadioButton, row++, column );

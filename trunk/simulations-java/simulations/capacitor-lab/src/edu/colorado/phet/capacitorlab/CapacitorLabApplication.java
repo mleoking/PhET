@@ -2,8 +2,11 @@
 
 package edu.colorado.phet.capacitorlab;
 
+import javax.swing.Box;
+
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
 import edu.colorado.phet.capacitorlab.module.introduction.IntroductionModule;
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
@@ -49,8 +52,19 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
+        
+        // add modules
         addModule( new IntroductionModule() );
         addModule( new DielectricModule() );
+        
+        // make all control panels the same width
+        int maxWidth = 0;
+        for ( Module module : getModules() ) {
+            maxWidth = Math.max( maxWidth, module.getControlPanel().getPreferredSize().width );
+        }
+        for ( Module module : getModules() ) {
+            module.getControlPanel().addControlFullWidth( Box.createHorizontalStrut( maxWidth ) );
+        }
     }
 
     /*

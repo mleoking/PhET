@@ -1,4 +1,5 @@
-4/26/10 add Charges control panel to Dielectric module (not wired up)
+4/26/10 add control panel for dielectric properties (not wired up)
+4/26/10 make all control panels the same width
 4/26/10 add control panels for Introduction module (not wired up)
 4/26/10 add various localized strings
 4/26/10 i18n of units in voltage slider
