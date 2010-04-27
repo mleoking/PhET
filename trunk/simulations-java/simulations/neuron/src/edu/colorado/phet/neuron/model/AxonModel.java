@@ -64,9 +64,9 @@ public class AxonModel implements IParticleCapture {
 	private static final int NUM_POTASSIUM_LEAK_CHANNELS = 7;
 	
 	// Numbers of "bulk" ions in and out of the cell when visible.
-	private static final int NUM_SODIUM_IONS_OUTSIDE_CELL = 250;
+	private static final int NUM_SODIUM_IONS_OUTSIDE_CELL = 300;
 	private static final int NUM_SODIUM_IONS_INSIDE_CELL = 4;
-	private static final int NUM_POTASSIUM_IONS_OUTSIDE_CELL = 20;
+	private static final int NUM_POTASSIUM_IONS_OUTSIDE_CELL = 30;
 	private static final int NUM_POTASSIUM_IONS_INSIDE_CELL = 100;
 	
 	// Countdown used for preventing the axon from receiving stimuli that
