@@ -71,6 +71,8 @@ public class Rotator extends MovieClip {
         this.useHandCursor = true;
         this.buttonMode = true;
 
+        var farRight : Boolean = true;
+
         var nextHolder : Sprite = new Sprite();
         nextHolder.mouseEnabled = true;
         nextHolder.useHandCursor = true;
@@ -78,11 +80,12 @@ public class Rotator extends MovieClip {
 
         var nextText : TextField = new TextField();
         nextText.autoSize = TextFieldAutoSize.LEFT;
-        nextText.text = " > ";
+        nextText.text = " " + (li.parameters.next ? li.parameters.next : "next") + " > ";
         nextText.mouseEnabled = false;
-        styleText(nextText);
+        styleText(nextText, 10, 0x444444);
         nextHolder.addChild(nextText);
-        nextHolder.x = WIDTH - nextText.width - 1;
+        nextHolder.x = farRight ? WIDTH - nextText.width - 1 : WIDTH / 2;
+        nextHolder.y = HEIGHT;
         addChild(nextHolder);
 
         var prevHolder : Sprite = new Sprite();
@@ -92,11 +95,12 @@ public class Rotator extends MovieClip {
 
         var prevText : TextField = new TextField();
         prevText.autoSize = TextFieldAutoSize.LEFT;
-        prevText.text = " < ";
+        prevText.text = " < " + (li.parameters.previous ? li.parameters.previous : "previous" ) + " ";
         prevText.mouseEnabled = false;
-        styleText(prevText);
+        styleText(prevText, 10, 0x444444);
         prevHolder.addChild(prevText);
-        prevHolder.x = WIDTH - prevText.width - 1 - nextText.width;
+        prevHolder.x = farRight ? WIDTH - prevText.width - 1 - nextText.width : WIDTH / 2 - prevText.width;
+        prevHolder.y = HEIGHT;
         addChild(prevHolder);
 
         //        var featuredText : TextField = new TextField();
