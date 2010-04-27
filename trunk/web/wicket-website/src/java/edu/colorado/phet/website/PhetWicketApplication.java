@@ -122,7 +122,7 @@ public class PhetWicketApplication extends WebApplication {
         AddContributionCommentPage.addToMapper( mapper );
 
         // set up the custom localizer
-        getResourceSettings().setLocalizer( new PhetLocalizer() );
+        getResourceSettings().setLocalizer( PhetLocalizer.get() );
 
         // set up the locales that will be accessible
         initializeTranslations();

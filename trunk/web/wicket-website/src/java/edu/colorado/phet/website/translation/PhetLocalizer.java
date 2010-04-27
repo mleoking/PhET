@@ -21,7 +21,16 @@ public class PhetLocalizer extends Localizer {
 
     private static Logger logger = Logger.getLogger( PhetLocalizer.class.getName() );
 
-    public PhetLocalizer() {
+    private static PhetLocalizer instance = null;
+
+    public static synchronized PhetLocalizer get() {
+        if ( instance == null ) {
+            instance = new PhetLocalizer();
+        }
+        return instance;
+    }
+
+    private PhetLocalizer() {
     }
 
     @Override
