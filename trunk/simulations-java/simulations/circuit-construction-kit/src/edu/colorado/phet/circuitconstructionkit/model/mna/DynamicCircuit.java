@@ -217,7 +217,7 @@ public class DynamicCircuit {
                 return euclideanDistance(aCurrents, bCurrents);
             }
         };
-        return new TimestepSubdivisions<DynamicState>(1E-6).stepInTime(new DynamicState(this, null), steppable, dt);//turing the threshold too low here can fail the inductor tests in MNATestCase
+        return new TimestepSubdivisions<DynamicState>(1E-6,1E-8).stepInTime(new DynamicState(this, null), steppable, dt);//turing the error threshold too low here can fail the inductor tests in MNATestCase
     }
 
     public DynamicCircuit updateWithSubdivisions(double dt) {
