@@ -15,6 +15,11 @@ import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.StringUtils;
 
+/**
+ * Wrapper over the wicket Localizer so we can properly look up translated strings based on either locale or a specific
+ * translation ID. Additionally correctly handles caching behavior, and seamlessly returning English strings if a
+ * string isn't translated into the desired language.
+ */
 public class PhetLocalizer extends Localizer {
 
     private static final String UNTRANSLATED_VALUE = "<!-- untranslated value -->";
@@ -32,6 +37,308 @@ public class PhetLocalizer extends Localizer {
 
     private PhetLocalizer() {
     }
+
+    /**
+     * Whenever a string is modified or added during runtime, this function should be called
+     *
+     * @param translation The Translation
+     * @param key         The localization key
+     * @param value       The translated string value
+     */
+    public void updateCachedString( Translation translation, String key, String value ) {
+        putIntoCache( mapCacheKey( key, translation.getId() ), value );
+        if ( translation.isVisible() ) {
+            // TODO: assure somewhere that multiple visible translations don't have the same locale?
+            putIntoCache( mapCacheKey( key, translation.getLocale() ), value );
+        }
+    }
+
+    public String getString( String key, Component component, IModel model, String defaultValue, boolean checkDefault ) throws MissingResourceException {
+        //logger.debug( "testing key: " + key );
+        String lookup = null;
+        Integer translationId = null;
+        if ( component.getVariation() != null ) {
+            translationId = Integer.valueOf( component.getVariation() );
+        }
+        Locale locale = component.getLocale();
+
+        // whether we should look up the string by the translation id, or by the locale
+        boolean lookupById = translationId != null;
+
+        if ( lookupById ) {
+            lookup = getTranslationIdString( null, key, translationId, false );
+        }
+        else {
+            lookup = getLocaleString( null, key, locale, false );
+        }
+
+        if ( lookup != null ) {
+            // our string was found, so return it.
+            return lookup;
+        }
+
+        // at this point, we know it is not in the first translation we looked at
+
+        if ( !checkDefault ) {
+            // return either null or the default value, since we won't check the default language
+            logger.info( "Shortcut default value on " + key + ": " + defaultValue );
+            return defaultValue;
+        }
+
+        return getDefaultString( null, key, defaultValue, false );
+    }
+
+    /**
+     * Get the best translated version of a string for a particular locale. Should be in a session, but not within a
+     * transaction. If not translatable, an error string is returned.
+     *
+     * @param session Hibernate session
+     * @param key     Translation key
+     * @param locale  Locale
+     * @return Translated string
+     */
+    public String getBestString( Session session, String key, Locale locale ) {
+        String ret = getLocaleString( session, key, locale, false );
+        if ( ret == null ) {
+            ret = getDefaultString( session, key, null, false );
+        }
+        return ret;
+    }
+
+    /**
+     * Get the best translated version of a string for a particular locale. Should be in a session, but not within a
+     * transaction. If not translatable, an error string is returned.
+     *
+     * @param session       Hibernate session
+     * @param key           Translation key
+     * @param translationId Locale
+     * @return Translated string
+     */
+    public String getBestString( Session session, String key, int translationId ) {
+        String ret = getTranslationIdString( session, key, translationId, false );
+        if ( ret == null ) {
+            ret = getDefaultString( session, key, null, false );
+        }
+        return ret;
+    }
+
+    /**
+     * Get the best translated version of a string for a particular locale. Should be within a transaction. If not
+     * translatable, an error string is returned.
+     * <p/>
+     * (The X denotes that this function should only be called from within the scope of a Hibernate transaction for the
+     * particular session)
+     *
+     * @param session Hibernate session
+     * @param key     Translation key
+     * @param locale  Locale
+     * @return Translated string
+     */
+    public String getBestStringX( Session session, String key, Locale locale ) {
+        String ret = getLocaleString( session, key, locale, true );
+        if ( ret == null ) {
+            ret = getDefaultString( session, key, null, true );
+        }
+        return ret;
+    }
+
+    /**
+     * Get the best translated version of a string for a particular locale. Should be within a transaction. If not
+     * translatable, an error string is returned.
+     * <p/>
+     * (The X denotes that this function should only be called from within the scope of a Hibernate transaction for the
+     * particular session)
+     *
+     * @param session       Hibernate session
+     * @param key           Translation key
+     * @param translationId Locale
+     * @return Translated string
+     */
+    public String getBestStringX( Session session, String key, int translationId ) {
+        String ret = getTranslationIdString( session, key, translationId, true );
+        if ( ret == null ) {
+            ret = getDefaultString( session, key, null, true );
+        }
+        return ret;
+    }
+
+    /**
+     * Checks a specific translation for a translated string. If the string is translated, it is returned, otherwise
+     * null is returned
+     *
+     * @param session       Hibernate session (if null, will be taken from the request cycle)
+     * @param key           Translation key
+     * @param translationId ID for the translation
+     * @param inTransaction Whether or not Hibernate is inside of a transaction
+     * @return Translated String (or null)
+     */
+    private String getTranslationIdString( Session session, String key, int translationId, boolean inTransaction ) {
+        String mainCacheKey = mapCacheKey( key, translationId );
+        String lookup = getFromCache( mainCacheKey );
+
+        if ( lookup != null ) {
+            if ( !lookup.equals( UNTRANSLATED_VALUE ) ) {
+                return lookup;
+            }
+            else {
+                // untranslated for this translation, return null
+                return null;
+            }
+        }
+
+        if ( session == null ) {
+            session = PhetRequestCycle.get().getHibernateSession();
+        }
+
+        // perform the lookup
+        if ( inTransaction ) {
+            lookup = StringUtils.getStringX( session, key, translationId );
+        }
+        else {
+            lookup = StringUtils.getString( session, key, translationId );
+        }
+
+        // if the lookup is found, put it in the cache and return it
+        if ( lookup != null ) {
+            putIntoCache( mainCacheKey, lookup );
+            return lookup;
+        }
+
+        // if it isn't found, then it isn't translated. record this information in the cache so future lookups don't
+        // hammer away at the database
+        putIntoCache( mainCacheKey, UNTRANSLATED_VALUE );
+
+        // untranslated for this translation, return null
+        return null;
+    }
+
+    /**
+     * Checks the translation of a particular locale for a translated string. If the string is translated, it is
+     * returned, otherwise null is returned
+     *
+     * @param session       Hibernate session (if null, will be taken from the request cycle)
+     * @param key           Translation key
+     * @param locale        Locale for the translation
+     * @param inTransaction Whether or not Hibernate is inside of a transaction
+     * @return Translated String (or null)
+     */
+    private String getLocaleString( Session session, String key, Locale locale, boolean inTransaction ) {
+        String mainCacheKey = mapCacheKey( key, locale );
+        String lookup = getFromCache( mainCacheKey );
+
+        if ( lookup != null ) {
+            if ( !lookup.equals( UNTRANSLATED_VALUE ) ) {
+                return lookup;
+            }
+            else {
+                // untranslated for this translation, return null
+                return null;
+            }
+        }
+
+        if ( session == null ) {
+            session = PhetRequestCycle.get().getHibernateSession();
+        }
+
+        // perform the lookup
+        if ( inTransaction ) {
+            lookup = StringUtils.getStringX( session, key, locale );
+        }
+        else {
+            lookup = StringUtils.getString( session, key, locale );
+        }
+
+        // if the lookup is found, put it in the cache and return it
+        if ( lookup != null ) {
+            putIntoCache( mainCacheKey, lookup );
+            return lookup;
+        }
+
+        // if it isn't found, then it isn't translated. record this information in the cache so future lookups don't
+        // hammer away at the database
+        putIntoCache( mainCacheKey, UNTRANSLATED_VALUE );
+
+        // untranslated for this translation, return null
+        return null;
+    }
+
+    /**
+     * Returns the translated string from the default translation (probably English). If the string is not translated
+     * and the defaultValue is non-null, the defaultValue is returned. Otherwise an error string is returned that
+     * contains the key value. (null is NOT returned)
+     * <p/>
+     * NOTE: assumes that we are NOT currently in a hibernate transaction
+     *
+     * @param session       Hibernate session (if set to null, will be recovered from the request cycle)
+     * @param key           Translation string key
+     * @param defaultValue  Default value (set to null if not desired)
+     * @param inTransaction Whether or not Hibernate is inside of a transaction
+     * @return Translated string
+     */
+    public String getDefaultString( Session session, String key, String defaultValue, boolean inTransaction ) {
+        String defaultCacheKey = mapCacheKey( key, PhetWicketApplication.getDefaultLocale() );
+
+        String lookup = getFromCache( defaultCacheKey );
+
+        if ( lookup != null ) {
+            // either hit or miss recorded in cache. handle both possibilities
+            if ( !lookup.equals( UNTRANSLATED_VALUE ) ) {
+                // lookup of the default value succeeded, return the string
+                return lookup;
+            }
+            else {
+                if ( defaultValue != null ) {
+                    return defaultValue;
+                }
+
+                logger.warn( "unable to find default translation for " + key );
+                return getErrorString( key );
+            }
+        }
+
+        if ( session == null ) {
+            session = PhetRequestCycle.get().getHibernateSession();
+        }
+
+        // perform a "default" lookup, which usually should give the English translation, if it exists
+        if ( inTransaction ) {
+            lookup = StringUtils.getStringX( session, key, PhetWicketApplication.getDefaultLocale() );
+        }
+        else {
+            lookup = StringUtils.getString( session, key );
+        }
+
+        if ( lookup != null ) {
+            putIntoCache( defaultCacheKey, lookup );
+            return lookup;
+        }
+        else {
+            putIntoCache( defaultCacheKey, UNTRANSLATED_VALUE );
+
+            if ( defaultValue != null ) {
+                return defaultValue;
+            }
+
+            logger.warn( "unable to find default translation for " + key );
+            return getErrorString( key );
+        }
+    }
+
+    private String getErrorString( String key ) {
+        return "***" + key + "***";
+    }
+
+    protected String mapCacheKey( String key, Locale locale ) {
+        return LocaleUtils.localeToString( locale ) + "::" + key;
+    }
+
+    protected String mapCacheKey( String key, int translationId ) {
+        return String.valueOf( translationId ) + ":" + key;
+    }
+
+    //----------------------------------------------------------------------------
+    // overridden wicket localizer methods
+    //----------------------------------------------------------------------------
 
     @Override
     public String getString( String key, Component component ) throws MissingResourceException {
@@ -53,143 +360,9 @@ public class PhetLocalizer extends Localizer {
         return getString( key, component, model, defaultValue );
     }
 
-    protected String mapCacheKey( String key, Locale locale ) {
-        return LocaleUtils.localeToString( locale ) + "::" + key;
-    }
-
-    protected String mapCacheKey( String key, int translationId ) {
-        return String.valueOf( translationId ) + ":" + key;
-    }
-
-    /**
-     * Whenever a string is modified or added during runtime, this function should be called
-     *
-     * @param translation The Translation
-     * @param key         The localization key
-     * @param value       The translated string value
-     */
-    public void updateCachedString( Translation translation, String key, String value ) {
-        putIntoCache( mapCacheKey( key, translation.getId() ), value );
-        if ( translation.isVisible() ) {
-            // TODO: assure somewhere that multiple visible translations don't have the same locale?
-            putIntoCache( mapCacheKey( key, translation.getLocale() ), value );
-        }
-    }
-
     @Override
     public String getString( String key, Component component, IModel model, String defaultValue ) throws MissingResourceException {
         return getString( key, component, model, defaultValue, true );
-    }
-
-    public String getString( String key, Component component, IModel model, String defaultValue, boolean checkDefault ) throws MissingResourceException {
-        //logger.debug( "testing key: " + key );
-        String lookup = null;
-        Integer translationId = null;
-        if ( component.getVariation() != null ) {
-            translationId = Integer.valueOf( component.getVariation() );
-        }
-        Locale locale = component.getLocale();
-
-        // whether we should look up the string by the translation id, or by the locale
-        boolean lookupById = translationId != null;
-
-        String mainCacheKey;
-
-        if ( lookupById ) {
-            mainCacheKey = mapCacheKey( key, translationId );
-            lookup = getFromCache( mainCacheKey );
-        }
-        else {
-            mainCacheKey = mapCacheKey( key, locale );
-            lookup = getFromCache( mainCacheKey );
-        }
-
-        // if the cache lookup says the value is not translated, we don't want to look it up in the database
-        boolean untranslated = false;
-
-        if ( lookup != null ) {
-            untranslated = lookup.equals( UNTRANSLATED_VALUE );
-            if ( !untranslated ) {
-                // lookup in cache succeeded. return the string
-                return lookup;
-            }
-        }
-
-        Session session = ( (PhetRequestCycle) component.getRequestCycle() ).getHibernateSession();
-
-        // if the value isn't in the cache for the main lookup, request it from the DB
-        if ( !untranslated ) {
-            // perform the lookup
-            if ( translationId != null ) {
-                lookup = StringUtils.getString( session, key, translationId );
-            }
-            else {
-                lookup = StringUtils.getString( session, key, locale );
-            }
-
-            // if the lookup is found, put it in the cache and return it
-            if ( lookup != null ) {
-                putIntoCache( mainCacheKey, lookup );
-                return lookup;
-            }
-
-            // if it isn't found, then it isn't translated. record this information in the cache so future lookups don't
-            // hammer away at the database
-            putIntoCache( mainCacheKey, UNTRANSLATED_VALUE );
-        }
-
-        // at this point, we know it is not in the first translation we looked at
-
-        if ( !checkDefault ) {
-            // return either null or the default value, since we won't check the default language
-            logger.info( "Shortcut default value on " + key + ": " + defaultValue );
-            return defaultValue;
-        }
-
-        Locale defaultLocale = PhetWicketApplication.getDefaultLocale();
-        String defaultCacheKey = mapCacheKey( key, defaultLocale );
-
-        // perform a cache lookup for the default value
-        lookup = getFromCache( defaultCacheKey );
-
-        untranslated = false;
-
-        if ( lookup != null ) {
-            untranslated = lookup.equals( UNTRANSLATED_VALUE );
-            if ( !untranslated ) {
-                // lookup of the default value succeeded, return the string
-                return lookup;
-            }
-        }
-
-        if ( untranslated ) {
-            if ( defaultValue != null ) {
-                return defaultValue;
-            }
-
-            // we can find NO translation for this string?!? throw an error
-            //throw new RuntimeException( "Could not find any translation for the key " + key );
-
-            return "***" + key + "***";
-        }
-
-        // perform a "default" lookup, which usually should give the English translation, if it exists
-        lookup = StringUtils.getString( session, key );
-
-        if ( lookup != null ) {
-            putIntoCache( defaultCacheKey, lookup );
-            return lookup;
-        }
-        else {
-            putIntoCache( defaultCacheKey, UNTRANSLATED_VALUE );
-
-            if ( defaultValue != null ) {
-                return defaultValue;
-            }
-
-            //throw new RuntimeException( "Could not find any translation for the key " + key );
-            return "***" + key + "***";
-        }
     }
 
 }

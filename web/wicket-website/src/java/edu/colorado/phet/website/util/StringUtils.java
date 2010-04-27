@@ -7,7 +7,6 @@ import java.util.Locale;
 import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -46,38 +45,64 @@ public class StringUtils {
      * @param locale  Locale of the string
      * @return Translated String
      */
-    public static String getString( Session session, String key, Locale locale ) {
-        Transaction tx = null;
-        String ret = null;
-        try {
-            tx = session.beginTransaction();
-
-            Query query = session.createQuery( "select ts from TranslatedString as ts, Translation as t where (ts.translation = t and t.visible = true and t.locale = :locale and ts.key = :key)" );
-            query.setLocale( "locale", locale );
-            query.setString( "key", key );
-
-            TranslatedString translatedString = (TranslatedString) query.uniqueResult();
-
-            if ( translatedString != null ) {
-                ret = translatedString.getValue();
-            }
-
-            tx.commit();
-        }
-        catch( RuntimeException e ) {
-            logger.warn( e );
-            if ( tx != null && tx.isActive() ) {
-                try {
-                    tx.rollback();
+    public static String getString( Session session, final String key, final Locale locale ) {
+        final String[] ret = new String[1];
+        ret[0] = null;
+        HibernateUtils.wrapTransaction( session, new HibernateTask() {
+            public boolean run( Session session ) {
+                TranslatedString translatedString = (TranslatedString) session.createQuery( "select ts from TranslatedString as ts, Translation as t where (ts.translation = t and t.visible = true and t.locale = :locale and ts.key = :key)" )
+                        .setLocale( "locale", locale ).setString( "key", key ).uniqueResult();
+                if ( translatedString != null ) {
+                    ret[0] = translatedString.getValue();
                 }
-                catch( HibernateException e1 ) {
-                    logger.error( "ERROR: Error rolling back transaction", e1 );
-                }
-                throw e;
+                return true;
             }
-        }
-        return ret;
+        } );
+        return ret[0];
+    }
 
+    /**
+     * Returns a string from the database for a visible translation (specified by a locale). Run from within the
+     * transaction
+     * <p/>
+     * (The X denotes that this function should only be called from within the scope of a Hibernate transaction for the
+     * particular session)
+     *
+     * @param session Hibernate session (already open)
+     * @param key     Localization key
+     * @param locale  Locale of the string
+     * @return Translated String
+     */
+    public static String getStringX( Session session, final String key, final Locale locale ) {
+        TranslatedString string = getTranslatedString( session, key, locale );
+        if ( string == null ) {
+            return null;
+        }
+        else {
+            return string.getValue();
+        }
+    }
+
+    /**
+     * Returns a translated string instance, assuming one is already inside of a transaction.
+     *
+     * @param session Hibernate session (already open)
+     * @param key     Localization key
+     * @param locale  Locale of the string
+     * @return Translated String
+     */
+    public static TranslatedString getTranslatedString( Session session, final String key, final Locale locale ) {
+        List list = session.createQuery( "select ts from TranslatedString as ts, Translation as t where (ts.translation = t and t.visible = true and t.locale = :locale and ts.key = :key)" )
+                .setLocale( "locale", locale ).setString( "key", key ).list();
+        if ( list.isEmpty() ) {
+            return null;
+        }
+        else {
+            if ( list.size() != 1 ) {
+                logger.warn( "strings for key " + key + ", locale " + locale + " have " + list.size() + " options" );
+            }
+            return (TranslatedString) list.get( 0 );
+        }
     }
 
     /**
@@ -88,38 +113,63 @@ public class StringUtils {
      * @param translationId Translation ID
      * @return Translated String
      */
-    public static String getString( Session session, String key, int translationId ) {
-        Transaction tx = null;
-        String ret = null;
-        try {
-            tx = session.beginTransaction();
-
-            Query query = session.createQuery( "select ts from TranslatedString as ts, Translation as t where (ts.translation = t and t.id = :id and ts.key = :key)" );
-            query.setInteger( "id", translationId );
-            query.setString( "key", key );
-
-            TranslatedString translatedString = (TranslatedString) query.uniqueResult();
-
-            if ( translatedString != null ) {
-                ret = translatedString.getValue();
-            }
-
-            tx.commit();
-        }
-        catch( RuntimeException e ) {
-            logger.warn( e );
-            if ( tx != null && tx.isActive() ) {
-                try {
-                    tx.rollback();
+    public static String getString( Session session, final String key, final int translationId ) {
+        final String[] ret = new String[1];
+        ret[0] = null;
+        HibernateUtils.wrapTransaction( session, new HibernateTask() {
+            public boolean run( Session session ) {
+                TranslatedString translatedString = (TranslatedString) session.createQuery( "select ts from TranslatedString as ts, Translation as t where (ts.translation = t and t.id = :id and ts.key = :key)" )
+                        .setInteger( "id", translationId ).setString( "key", key ).uniqueResult();
+                if ( translatedString != null ) {
+                    ret[0] = translatedString.getValue();
                 }
-                catch( HibernateException e1 ) {
-                    logger.error( "ERROR: Error rolling back transaction", e1 );
-                }
-                throw e;
+                return true;
             }
-        }
-        return ret;
+        } );
+        return ret[0];
+    }
 
+    /**
+     * Returns a string from the database for any translation (by id). Run from within a transaction
+     * <p/>
+     * (The X denotes that this function should only be called from within the scope of a Hibernate transaction for the
+     * particular session)
+     *
+     * @param session       Hibernate Session (already open)
+     * @param key           Localization key
+     * @param translationId Translation ID
+     * @return Translated String
+     */
+    public static String getStringX( Session session, final String key, final int translationId ) {
+        TranslatedString string = getTranslatedString( session, key, translationId );
+        if ( string == null ) {
+            return null;
+        }
+        else {
+            return string.getValue();
+        }
+    }
+
+    /**
+     * Returns a translated string instance, assuming one is already inside of a transaction.
+     *
+     * @param session       Hibernate Session (already open)
+     * @param key           Localization key
+     * @param translationId Translation ID
+     * @return Translated String
+     */
+    public static TranslatedString getTranslatedString( Session session, final String key, final int translationId ) {
+        List list = session.createQuery( "select ts from TranslatedString as ts, Translation as t where (ts.translation = t and t.id = :id and ts.key = :key)" )
+                .setInteger( "id", translationId ).setString( "key", key ).list();
+        if ( list.isEmpty() ) {
+            return null;
+        }
+        else {
+            if ( list.size() != 1 ) {
+                logger.warn( "strings for key " + key + ", translationId " + translationId + " have " + list.size() + " options" );
+            }
+            return (TranslatedString) list.get( 0 );
+        }
     }
 
     public static final int STRING_TRANSLATED = 0;
