@@ -85,82 +85,89 @@ public class ContributionBrowsePanel extends PhetPanel {
             add( new InvisibleComponent( "sim-col-1" ) );
         }
 
-        add( new ListView( "contributions", contributions ) {
-            private HashMap<Simulation, LocalizedSimulation> mapCache = new HashMap<Simulation, LocalizedSimulation>();
+        if ( contributions.isEmpty() ) {
+            add( new InvisibleComponent( "contributions" ) );
+        }
+        else {
 
-            protected void populateItem( ListItem item ) {
-                //logger.debug( "start item" );
-                Contribution contribution = (Contribution) item.getModel().getObject();
-                Link link = ContributionPage.getLinker( contribution ).getLink( "contribution-link", context, getPhetCycle() );
-                link.add( new Label( "contribution-title", contribution.getTitle() ) );
-                item.add( link );
-                item.add( new Label( "contribution-authors", contribution.getAuthors() ) );
+            add( new ListView( "contributions", contributions ) {
+                private HashMap<Simulation, LocalizedSimulation> mapCache = new HashMap<Simulation, LocalizedSimulation>();
 
-                Label levelLabel = new Label( "contribution-level", getLevelString( contribution ) );
-                levelLabel.setEscapeModelStrings( false );
-                item.add( levelLabel );
+                protected void populateItem( ListItem item ) {
+                    //logger.debug( "start item" );
+                    Contribution contribution = (Contribution) item.getModel().getObject();
+                    Link link = ContributionPage.getLinker( contribution ).getLink( "contribution-link", context, getPhetCycle() );
+                    link.add( new Label( "contribution-title", contribution.getTitle() ) );
+                    item.add( link );
+                    item.add( new Label( "contribution-authors", contribution.getAuthors() ) );
 
-                Label typeLabel = new Label( "contribution-type", getTypeString( contribution ) );
-                typeLabel.setEscapeModelStrings( false );
-                item.add( typeLabel );
+                    Label levelLabel = new Label( "contribution-level", getLevelString( contribution ) );
+                    levelLabel.setEscapeModelStrings( false );
+                    item.add( levelLabel );
 
-                // get a sorted (for the locale) list of simulations
-                List<LocalizedSimulation> lsims = new LinkedList<LocalizedSimulation>();
-                for ( Object o : contribution.getSimulations() ) {
-                    Simulation sim = (Simulation) o;
-                    LocalizedSimulation lsim;
-                    if ( mapCache.containsKey( sim ) ) {
-                        lsim = mapCache.get( sim );
+                    Label typeLabel = new Label( "contribution-type", getTypeString( contribution ) );
+                    typeLabel.setEscapeModelStrings( false );
+                    item.add( typeLabel );
+
+                    // get a sorted (for the locale) list of simulations
+                    List<LocalizedSimulation> lsims = new LinkedList<LocalizedSimulation>();
+                    for ( Object o : contribution.getSimulations() ) {
+                        Simulation sim = (Simulation) o;
+                        LocalizedSimulation lsim;
+                        if ( mapCache.containsKey( sim ) ) {
+                            lsim = mapCache.get( sim );
+                        }
+                        else {
+                            lsim = sim.getBestLocalizedSimulation( getLocale() );
+                            mapCache.put( sim, lsim );
+                        }
+                        lsims.add( lsim );
+                    }
+                    HibernateUtils.orderSimulations( lsims, getLocale() );
+
+                    if ( contribution.isFromPhet() ) {
+                        // TODO: localize alt
+                        // TODO: add title?
+                        item.add( new StaticImage( "phet-contribution", "/images/contributions/phet-logo-icon-small.jpg", "Contribution by the PhET team" ) );
                     }
                     else {
-                        lsim = sim.getBestLocalizedSimulation( getLocale() );
-                        mapCache.put( sim, lsim );
+                        item.add( new InvisibleComponent( "phet-contribution" ) );
                     }
-                    lsims.add( lsim );
-                }
-                HibernateUtils.orderSimulations( lsims, getLocale() );
 
-                if ( contribution.isFromPhet() ) {
-                    // TODO: localize alt
-                    // TODO: add title?
-                    item.add( new StaticImage( "phet-contribution", "/images/contributions/phet-logo-icon-small.jpg", "Contribution by the PhET team" ) );
-                }
-                else {
-                    item.add( new InvisibleComponent( "phet-contribution" ) );
-                }
+                    if ( contribution.isGoldStar() ) {
+                        // TODO: localize alt
+                        // TODO: add title?
+                        item.add( new StaticImage( "gold-star-contribution", "/images/contributions/gold-star-small.jpg", "Gold Star Contribution" ) );
+                    }
+                    else {
+                        item.add( new InvisibleComponent( "gold-star-contribution" ) );
+                    }
 
-                if ( contribution.isGoldStar() ) {
-                    // TODO: localize alt
-                    // TODO: add title?
-                    item.add( new StaticImage( "gold-star-contribution", "/images/contributions/gold-star-small.jpg", "Gold Star Contribution" ) );
-                }
-                else {
-                    item.add( new InvisibleComponent( "gold-star-contribution" ) );
-                }
+                    // add the list in
+                    if ( simulationColumnVisible ) {
+                        WebMarkupContainer container = new WebMarkupContainer( "contribution-simulation-list" );
+                        item.add( container );
+                        container.add( new ListView( "contribution-simulations", lsims ) {
+                            protected void populateItem( ListItem item ) {
+                                LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
+                                Link link = SimulationPage.createLink( "simulation-link", context, lsim );
+                                link.add( new Label( "simulation-title", lsim.getTitle() ) );
+                                item.add( link );
+                            }
+                        } );
+                    }
+                    else {
+                        item.add( new InvisibleComponent( "contribution-simulation-list" ) );
+                    }
 
-                // add the list in
-                if ( simulationColumnVisible ) {
-                    WebMarkupContainer container = new WebMarkupContainer( "contribution-simulation-list" );
-                    item.add( container );
-                    container.add( new ListView( "contribution-simulations", lsims ) {
-                        protected void populateItem( ListItem item ) {
-                            LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
-                            Link link = SimulationPage.createLink( "simulation-link", context, lsim );
-                            link.add( new Label( "simulation-title", lsim.getTitle() ) );
-                            item.add( link );
-                        }
-                    } );
-                }
-                else {
-                    item.add( new InvisibleComponent( "contribution-simulation-list" ) );
-                }
+                    item.add( new Label( "contribution-updated", format.format( contribution.getDateUpdated() ) ) );
+                    //logger.debug( "finish item" );
 
-                item.add( new Label( "contribution-updated", format.format( contribution.getDateUpdated() ) ) );
-                //logger.debug( "finish item" );
+                    WicketUtils.highlightListItem( item );
+                }
+            } );
 
-                WicketUtils.highlightListItem( item );
-            }
-        } );
+        }
 
         addDependency( new EventDependency() {
 
