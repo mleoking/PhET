@@ -1,5 +1,7 @@
 package edu.colorado.phet.website.util;
 
+import it.sauronsoftware.cron4j.Scheduler;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -45,6 +47,8 @@ public class SearchUtils {
     private static IndexWriter writer = null;
     private static Thread indexerThread = null;
 
+    private static Scheduler indexScheduler;
+
     /**
      * Don't call this more than once
      */
@@ -60,6 +64,15 @@ public class SearchUtils {
             directory = FSDirectory.open( new File( "/tmp/testindex" ) );
 
             reindex( app, localizer );
+
+            indexScheduler = new Scheduler();
+            indexScheduler.schedule( "59 23 * * *", new Runnable() {
+                public void run() {
+                    reindex( app, localizer );
+                }
+            } );
+
+            indexScheduler.start();
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -73,6 +86,9 @@ public class SearchUtils {
             }
             if ( directory != null ) {
                 directory.close();
+            }
+            if ( indexScheduler != null ) {
+                indexScheduler.stop();
             }
         }
         catch( IOException e ) {
@@ -173,7 +189,7 @@ public class SearchUtils {
     public static Document contributionToDocument( Session session, Contribution contribution, PhetWicketApplication app, PhetLocalizer localizer ) {
 
         // TODO: critical: add sim names
-        
+
         Document doc = new Document();
         doc.add( new Field( "droppable", "true", Field.Store.NO, Field.Index.NOT_ANALYZED ) );
         doc.add( new Field( "contribution_id", String.valueOf( contribution.getId() ), Field.Store.YES, Field.Index.NOT_ANALYZED ) );
