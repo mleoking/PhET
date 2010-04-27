@@ -5,6 +5,7 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -37,11 +38,24 @@ public class ContributionBrowsePanel extends PhetPanel {
      * NOTE: ALWAYS preload the levels, types, simulations, and those simulations' localizedSimulations. They are all
      * lazy fields, and will throw errors if that isn't done.
      *
-     * @param id
-     * @param context
+     * @param id            Wicket id
+     * @param context       Page context
      * @param contributions List of contributions
      */
     public ContributionBrowsePanel( String id, final PageContext context, final List<Contribution> contributions ) {
+        this( id, context, contributions, true );
+    }
+
+    /**
+     * NOTE: ALWAYS preload the levels, types, simulations, and those simulations' localizedSimulations. They are all
+     * lazy fields, and will throw errors if that isn't done.
+     *
+     * @param id                      Wicket id
+     * @param context                 Page context
+     * @param contributions           List of contributions
+     * @param simulationColumnVisible Whether the simulations column should be displayed
+     */
+    public ContributionBrowsePanel( String id, final PageContext context, final List<Contribution> contributions, final boolean simulationColumnVisible ) {
         super( id, context );
 
         logger.debug( System.currentTimeMillis() + " start" );
@@ -63,6 +77,13 @@ public class ContributionBrowsePanel extends PhetPanel {
         } );
 
         logger.debug( System.currentTimeMillis() + " B" );
+
+        if ( simulationColumnVisible ) {
+            add( new Label( "sim-col-1", "" ) );
+        }
+        else {
+            add( new InvisibleComponent( "sim-col-1" ) );
+        }
 
         add( new ListView( "contributions", contributions ) {
             private HashMap<Simulation, LocalizedSimulation> mapCache = new HashMap<Simulation, LocalizedSimulation>();
@@ -118,14 +139,21 @@ public class ContributionBrowsePanel extends PhetPanel {
                 }
 
                 // add the list in
-                item.add( new ListView( "contribution-simulations", lsims ) {
-                    protected void populateItem( ListItem item ) {
-                        LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
-                        Link link = SimulationPage.createLink( "simulation-link", context, lsim );
-                        link.add( new Label( "simulation-title", lsim.getTitle() ) );
-                        item.add( link );
-                    }
-                } );
+                if ( simulationColumnVisible ) {
+                    WebMarkupContainer container = new WebMarkupContainer( "contribution-simulation-list" );
+                    item.add( container );
+                    container.add( new ListView( "contribution-simulations", lsims ) {
+                        protected void populateItem( ListItem item ) {
+                            LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
+                            Link link = SimulationPage.createLink( "simulation-link", context, lsim );
+                            link.add( new Label( "simulation-title", lsim.getTitle() ) );
+                            item.add( link );
+                        }
+                    } );
+                }
+                else {
+                    item.add( new InvisibleComponent( "contribution-simulation-list" ) );
+                }
 
                 item.add( new Label( "contribution-updated", format.format( contribution.getDateUpdated() ) ) );
                 //logger.debug( "finish item" );
