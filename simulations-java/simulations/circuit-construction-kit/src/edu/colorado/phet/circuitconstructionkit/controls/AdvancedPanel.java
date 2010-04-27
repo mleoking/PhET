@@ -11,14 +11,13 @@
 package edu.colorado.phet.circuitconstructionkit.controls;
 
 
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.*;
-
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 /**
  * Has an expand and collapse button.
@@ -34,7 +33,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
      * Create an AdvancedPanel with text Advanced >> and Hide <<.
      */
     public AdvancedPanel() {
-        this( "Advanced >>", "Hide <<" );
+        this("Advanced >>", "Hide <<");
     }
 
     /**
@@ -43,33 +42,33 @@ public class AdvancedPanel extends VerticalLayoutPanel {
      * @param show
      * @param hide
      */
-    public AdvancedPanel( String show, String hide ) {
+    public AdvancedPanel(String show, String hide) {
 //        addFullWidth( new JButton("a"));
 //        addFullWidth( new JButton("b"));
         controls = new VerticalLayoutPanel();
         controls.setFillNone();
 
-        showButton = new JButton( show );
-        showButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        showButton = new JButton(show);
+        showButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 showAdvanced();
             }
-        } );
+        });
 
-        hideButton = new JButton( hide );
-        hideButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        hideButton = new JButton(hide);
+        hideButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 hideAdvanced();
             }
-        } );
+        });
         setFillNone();
-        add( showButton );
-        add( hideButton );
+        add(showButton);
+        add(hideButton);
         setFillHorizontal();
-        add( controls );
+        add(controls);
 //
-        controls.setVisible( false );
-        hideButton.setVisible( false );
+        controls.setVisible(false);
+        hideButton.setVisible(false);
     }
 
     /**
@@ -77,8 +76,8 @@ public class AdvancedPanel extends VerticalLayoutPanel {
      *
      * @param control
      */
-    public void addControl( JComponent control ) {
-        controls.add( control );
+    public void addControl(JComponent control) {
+        controls.add(control);
     }
 
     /**
@@ -86,18 +85,18 @@ public class AdvancedPanel extends VerticalLayoutPanel {
      *
      * @param control
      */
-    public void addControlFullWidth( JComponent control ) {
-        controls.addFullWidth( control );
+    public void addControlFullWidth(JComponent control) {
+        controls.addFullWidth(control);
     }
 
     private void showAdvanced() {
-        showButton.setVisible( false );
-        controls.setVisible( true );
-        hideButton.setVisible( true );
+        showButton.setVisible(false);
+        controls.setVisible(true);
+        hideButton.setVisible(true);
         validateAll();
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
-            listener.advancedPanelShown( this );
+        for (int i = 0; i < listeners.size(); i++) {
+            Listener listener = (Listener) listeners.get(i);
+            listener.advancedPanelShown(this);
         }
 //        setBorder( BorderFactory.createRaisedBevelBorder() );
         validateAll();
@@ -107,27 +106,27 @@ public class AdvancedPanel extends VerticalLayoutPanel {
     private void validateAll() {
         invalidate();
         controls.invalidate();
-        if ( getParent() != null ) {
+        if (getParent() != null) {
             getParent().invalidate();
-            if ( getParent().getParent() != null ) {
+            if (getParent().getParent() != null) {
                 getParent().getParent().invalidate();
                 getParent().getParent().validate();
             }
         }
-        Window parent = SwingUtilities.getWindowAncestor( this );
+        Window parent = SwingUtilities.getWindowAncestor(this);
         parent.invalidate();
         parent.validate();
         parent.repaint();
     }
 
     private void hideAdvanced() {
-        hideButton.setVisible( false );
-        controls.setVisible( false );
-        showButton.setVisible( true );
+        hideButton.setVisible(false);
+        controls.setVisible(false);
+        showButton.setVisible(true);
         validateAll();
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
-            listener.advancedPanelHidden( this );
+        for (int i = 0; i < listeners.size(); i++) {
+            Listener listener = (Listener) listeners.get(i);
+            listener.advancedPanelHidden(this);
         }
 //        setBorder( null );
         validateAll();
@@ -136,14 +135,14 @@ public class AdvancedPanel extends VerticalLayoutPanel {
 
     ArrayList listeners = new ArrayList();
 
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
+    public void addListener(Listener listener) {
+        listeners.add(listener);
     }
 
     public interface Listener {
-        void advancedPanelHidden( AdvancedPanel advancedPanel );
+        void advancedPanelHidden(AdvancedPanel advancedPanel);
 
-        void advancedPanelShown( AdvancedPanel advancedPanel );
+        void advancedPanelShown(AdvancedPanel advancedPanel);
     }
 
     public VerticalLayoutPanel getControls() {

@@ -10,7 +10,7 @@ import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 public class PiccoloVoltageCalculation {
     private Circuit circuit;
 
-    public PiccoloVoltageCalculation( Circuit circuit ) {
+    public PiccoloVoltageCalculation(Circuit circuit) {
         this.circuit = circuit;
     }
 
