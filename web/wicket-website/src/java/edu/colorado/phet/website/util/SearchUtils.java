@@ -28,7 +28,6 @@ import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.Keyword;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
-import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 
 public class SearchUtils {
@@ -111,7 +110,7 @@ public class SearchUtils {
 
             HibernateUtils.wrapSession( new HibernateTask() {
                 public boolean run( Session session ) {
-                    addSimulations( session, localizer, app.getMenu() );
+                    addSimulations( session, app, localizer );
                     return true;
                 }
             } );
@@ -136,7 +135,7 @@ public class SearchUtils {
         }
     }
 
-    private static void addSimulations( Session session, final PhetLocalizer localizer, final NavMenu menu ) {
+    private static void addSimulations( Session session, final PhetWicketApplication app, final PhetLocalizer localizer ) {
         try {
             logger.debug( "adding simulations" );
 
@@ -144,7 +143,7 @@ public class SearchUtils {
             for ( Object o : s ) {
                 Simulation sim = (Simulation) o;
                 logger.debug( "processing " + sim.getName() );
-                Document doc = simulationToDocument( session, sim, localizer, menu );
+                Document doc = simulationToDocument( session, sim, app, localizer );
                 logger.debug( "processed" );
                 writer.addDocument( doc );
                 logger.debug( "added" );
@@ -156,7 +155,7 @@ public class SearchUtils {
         }
     }
 
-    public static Document simulationToDocument( Session session, Simulation sim, PhetLocalizer localizer, NavMenu menu ) {
+    public static Document simulationToDocument( Session session, Simulation sim, PhetWicketApplication app, PhetLocalizer localizer ) {
         Document doc = new Document();
         doc.add( new Field( "droppable", "true", Field.Store.NO, Field.Index.NOT_ANALYZED ) );
         doc.add( new Field( "sim_id", String.valueOf( sim.getId() ), Field.Store.YES, Field.Index.NOT_ANALYZED ) );
@@ -170,52 +169,54 @@ public class SearchUtils {
             titleField.setBoost( 4.5f );
             doc.add( titleField );
 
-            // TODO: add checks so that we don't try to do string searches for tons of locales without translations!!!
+            // don't endlessly slaughter the localizer for locales without website translations.
+            if ( app.isVisibleLocale( lsim.getLocale() ) ) {
 
-            String description = localizer.getBestStringWithinTransaction( session, sim.getDescriptionKey(), lsim.getLocale() );
-            if ( description != null ) {
-                doc.add( new Field( "sim_" + prefix + "_description", description, Field.Store.NO, Field.Index.ANALYZED ) );
-            }
-
-            String goals = localizer.getBestStringWithinTransaction( session, sim.getLearningGoalsKey(), lsim.getLocale() );
-            if ( goals != null ) {
-                doc.add( new Field( "sim_" + prefix + "_goals", goals, Field.Store.NO, Field.Index.ANALYZED ) );
-            }
-
-            String keywords = "";
-            for ( Object o2 : sim.getKeywords() ) {
-                Keyword keyword = (Keyword) o2;
-                String key = localizer.getBestStringWithinTransaction( session, keyword.getLocalizationKey(), lsim.getLocale() );
-                if ( key != null ) {
-                    keywords += key + " ";
+                String description = localizer.getBestStringWithinTransaction( session, sim.getDescriptionKey(), lsim.getLocale() );
+                if ( description != null ) {
+                    doc.add( new Field( "sim_" + prefix + "_description", description, Field.Store.NO, Field.Index.ANALYZED ) );
                 }
-            }
-            if ( keywords.length() > 0 ) {
-                doc.add( new Field( "sim_" + prefix + "_keywords", keywords, Field.Store.NO, Field.Index.ANALYZED ) );
-            }
 
-            String topics = "";
-            for ( Object o2 : sim.getTopics() ) {
-                Keyword keyword = (Keyword) o2;
-                String key = localizer.getBestStringWithinTransaction( session, keyword.getLocalizationKey(), lsim.getLocale() );
-                if ( key != null ) {
-                    topics += key + " ";
+                String goals = localizer.getBestStringWithinTransaction( session, sim.getLearningGoalsKey(), lsim.getLocale() );
+                if ( goals != null ) {
+                    doc.add( new Field( "sim_" + prefix + "_goals", goals, Field.Store.NO, Field.Index.ANALYZED ) );
                 }
-            }
-            if ( topics.length() > 0 ) {
-                doc.add( new Field( "sim_" + prefix + "_topics", topics, Field.Store.NO, Field.Index.ANALYZED ) );
-            }
 
-            String categories = "";
-            for ( Object o2 : sim.getCategories() ) {
-                Category category = (Category) o2;
-                String key = localizer.getBestStringWithinTransaction( session, category.getNavLocation( menu ).getLocalizationKey(), lsim.getLocale() );
-                if ( key != null ) {
-                    categories += key + " ";
+                String keywords = "";
+                for ( Object o2 : sim.getKeywords() ) {
+                    Keyword keyword = (Keyword) o2;
+                    String key = localizer.getBestStringWithinTransaction( session, keyword.getLocalizationKey(), lsim.getLocale() );
+                    if ( key != null ) {
+                        keywords += key + " ";
+                    }
                 }
-            }
-            if ( categories.length() > 0 ) {
-                doc.add( new Field( "sim_" + prefix + "_categories", categories, Field.Store.NO, Field.Index.ANALYZED ) );
+                if ( keywords.length() > 0 ) {
+                    doc.add( new Field( "sim_" + prefix + "_keywords", keywords, Field.Store.NO, Field.Index.ANALYZED ) );
+                }
+
+                String topics = "";
+                for ( Object o2 : sim.getTopics() ) {
+                    Keyword keyword = (Keyword) o2;
+                    String key = localizer.getBestStringWithinTransaction( session, keyword.getLocalizationKey(), lsim.getLocale() );
+                    if ( key != null ) {
+                        topics += key + " ";
+                    }
+                }
+                if ( topics.length() > 0 ) {
+                    doc.add( new Field( "sim_" + prefix + "_topics", topics, Field.Store.NO, Field.Index.ANALYZED ) );
+                }
+
+                String categories = "";
+                for ( Object o2 : sim.getCategories() ) {
+                    Category category = (Category) o2;
+                    String key = localizer.getBestStringWithinTransaction( session, category.getNavLocation( app.getMenu() ).getLocalizationKey(), lsim.getLocale() );
+                    if ( key != null ) {
+                        categories += key + " ";
+                    }
+                }
+                if ( categories.length() > 0 ) {
+                    doc.add( new Field( "sim_" + prefix + "_categories", categories, Field.Store.NO, Field.Index.ANALYZED ) );
+                }
             }
         }
         return doc;
