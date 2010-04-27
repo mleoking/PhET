@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BasicStroke;
@@ -33,45 +35,51 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BatterySliderNode extends PhetPNode {
+public class VoltageSliderNode extends PhetPNode {
     
+    // track properties
     private static final double TRACK_LENGTH = 125;
     private static final Color TRACK_COLOR = Color.BLACK;
     private static final Stroke TRACK_STROKE = new BasicStroke( 2f );
     
-    private static final double TICK_LENGTH = 10;
-    private static final Color TICK_COLOR = TRACK_COLOR;
-    private static final Stroke TICK_STROKE = new BasicStroke( 2f );
+    // tick mark properties
+    private static final double TICK_MARK_LENGTH = 10;
+    private static final Color TICK_MARK_COLOR = TRACK_COLOR;
+    private static final Stroke TICK_MARK_STROKE = TRACK_STROKE;
     
-    private static final Color LABEL_COLOR = TRACK_COLOR;
-    private static final DecimalFormat LABEL_FORMAT = new DecimalFormat( "0.0" );
-    private static final Font LABEL_FONT = new PhetFont( 14 );
+    // tick label properties
+    private static final Color TICK_LABEL_COLOR = TRACK_COLOR;
+    private static final DecimalFormat TICK_LABEL_FORMAT = new DecimalFormat( "0.0" );
+    private static final Font TICK_LABEL_FONT = new PhetFont( 14 );
     
+    // immutable instance data
     private final DoubleRange voltageRange;
-    private final KnobNode knobNode;
-    private final TrackNode trackNode;
     private final EventListenerList listeners;
+    private final TrackNode trackNode;
+    private final KnobNode knobNode;
     
+    // mutable instance data
     private double voltage;
     
-    public BatterySliderNode( DoubleRange voltageRange ) {
-        assert( voltageRange.getMax() > 0 && voltageRange.getMin() < 0 );
+    public VoltageSliderNode( DoubleRange voltageRange ) {
         
         this.voltageRange = new DoubleRange( voltageRange );
         listeners = new EventListenerList();
         
+        // track
         trackNode = new TrackNode( TRACK_LENGTH );
         addChild( trackNode );
         
-        TickNode maxTickNode = new TickNode( TICK_LENGTH, voltageRange.getMax() );
+        // ticks
+        assert( voltageRange.getMax() > 0 && voltageRange.getMin() < 0 );
+        TickNode maxTickNode = new TickNode( TICK_MARK_LENGTH, voltageRange.getMax() );
         addChild( maxTickNode );
-        
-        TickNode zeroTickNode = new TickNode( TICK_LENGTH, 0 );
+        TickNode zeroTickNode = new TickNode( TICK_MARK_LENGTH, 0 );
         addChild( zeroTickNode );
-        
-        TickNode minTickNode = new TickNode( TICK_LENGTH, voltageRange.getMin() );
+        TickNode minTickNode = new TickNode( TICK_MARK_LENGTH, voltageRange.getMin() );
         addChild( minTickNode );
         
+        // knob
         knobNode = new KnobNode();
         addChild( knobNode );
         
@@ -94,6 +102,10 @@ public class BatterySliderNode extends PhetPNode {
         setVoltage( voltageRange.getDefault() );
     }
     
+    /**
+     * Sets the voltage value and moves the knob to the proper position.
+     * @param voltage
+     */
     public void setVoltage( double voltage ) {
         if ( !voltageRange.contains( voltage ) ) {
             throw new IllegalArgumentException( "voltage is out of range: " + voltage );
@@ -107,6 +119,10 @@ public class BatterySliderNode extends PhetPNode {
         }
     }
     
+    /**
+     * Gets the voltage value.
+     * @return
+     */
     public double getVoltage() {
         return voltage;
     }
@@ -127,19 +143,19 @@ public class BatterySliderNode extends PhetPNode {
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
                 // note the offset between the mouse click and the knob's origin
-                Point2D pMouseLocal = event.getPositionRelativeTo( BatterySliderNode.this );
-                Point2D pMouseGlobal = BatterySliderNode.this.localToGlobal( pMouseLocal );
-                Point2D pKnobGlobal = BatterySliderNode.this.localToGlobal( knobNode.getOffset() );
+                Point2D pMouseLocal = event.getPositionRelativeTo( VoltageSliderNode.this );
+                Point2D pMouseGlobal = VoltageSliderNode.this.localToGlobal( pMouseLocal );
+                Point2D pKnobGlobal = VoltageSliderNode.this.localToGlobal( knobNode.getOffset() );
                 globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
             }
 
             protected void drag(PInputEvent event) {
                 
                 // determine the knob's new offset
-                Point2D pMouseLocal = event.getPositionRelativeTo( BatterySliderNode.this );
-                Point2D pMouseGlobal = BatterySliderNode.this.localToGlobal( pMouseLocal );
+                Point2D pMouseLocal = event.getPositionRelativeTo( VoltageSliderNode.this );
+                Point2D pMouseGlobal = VoltageSliderNode.this.localToGlobal( pMouseLocal );
                 Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
-                Point2D pKnobLocal = BatterySliderNode.this.globalToLocal( pKnobGlobal );
+                Point2D pKnobLocal = VoltageSliderNode.this.globalToLocal( pKnobGlobal );
                 
                 // convert the offset to a voltage value
                 double yOffset = pKnobLocal.getY();
@@ -222,27 +238,38 @@ public class BatterySliderNode extends PhetPNode {
     }
     
     /*
-     * A tick mark, horizontal line + label, use to indicate a specific value on the slider track.
-     * Origin is at upper left corner of horizontal line.
+     * A tick, horizontal line (mark) + value label, use to indicate a specific value on the slider track.
+     * Origin is at upper left corner of the horizontal line.
      */
     private static class TickNode extends PComposite {
         
         public TickNode( double length, double value ) {
             
-            PPath lineNode = new PPath( new Line2D.Double( 0, 0, length, 0 ) );
-            lineNode.setStroke( TICK_STROKE );
-            lineNode.setStrokePaint( TICK_COLOR );
-            addChild( lineNode );
+            TickMarkNode markNode = new TickMarkNode( length );
+            addChild( markNode );
             
             TickLabelNode labelNode = new TickLabelNode( value );
             addChild( labelNode );
             
             double x = 0;
             double y = 0;
-            lineNode.setOffset( x, y );
-            x = lineNode.getFullBoundsReference().getWidth() + 10;
-            y = ( lineNode.getFullBoundsReference().getHeight() - labelNode.getFullBoundsReference().getHeight() ) / 2;
+            markNode.setOffset( x, y );
+            x = markNode.getFullBoundsReference().getWidth() + 10;
+            y = ( markNode.getFullBoundsReference().getHeight() - labelNode.getFullBoundsReference().getHeight() ) / 2;
             labelNode.setOffset( x, y );
+        }
+    }
+    
+    /*
+     * A tick mark.
+     * Origin is at upper left of bounding rectangle.
+     */
+    private static class TickMarkNode extends PPath {
+        
+        public TickMarkNode( double length ) {
+            super( new Line2D.Double( 0, 0, length, 0 ) );
+            setStroke( TICK_MARK_STROKE );
+            setStrokePaint( TICK_MARK_COLOR );
         }
     }
     
@@ -257,13 +284,13 @@ public class BatterySliderNode extends PhetPNode {
         }
         
         public TickLabelNode( double value ) {
-            this( MessageFormat.format( CLStrings.FORMAT_VOLTAGE, LABEL_FORMAT.format( value ) ) );
+            this( MessageFormat.format( CLStrings.FORMAT_VOLTAGE, TICK_LABEL_FORMAT.format( value ) ) );
         }
         
         public TickLabelNode( String value ) {
             super( value );
-            setFont( LABEL_FONT );
-            setTextPaint( LABEL_COLOR );
+            setFont( TICK_LABEL_FONT );
+            setTextPaint( TICK_LABEL_COLOR );
         }
     }
     
