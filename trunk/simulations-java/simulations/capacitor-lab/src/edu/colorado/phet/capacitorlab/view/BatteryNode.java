@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.control.BatterySliderNode;
 import edu.colorado.phet.capacitorlab.model.Battery;
@@ -19,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class BatteryNode extends PhetPNode {
     
     private final Battery battery;
-    private final PImage image;
+    private final PImage imageNode;
     private final BatterySliderNode sliderNode;
     
     public BatteryNode( Battery battery, DoubleRange voltageRange ) {
@@ -31,26 +34,35 @@ public class BatteryNode extends PhetPNode {
             }
         });
         
-        image = new PImage( CLImages.BATTERY_UP );
-        addChild( image );
+        imageNode = new PImage( CLImages.BATTERY_UP );
+        addChild( imageNode );
         
         sliderNode = new BatterySliderNode( voltageRange );
         addChild( sliderNode );
+        sliderNode.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updateModel();
+            }
+        });
+        
+        // layout
+        imageNode.setOffset( 0, 0 );
+        sliderNode.setOffset( 17, 60 ); // set by visual inspection, depends on images
         
         updateNode();
     }
     
     private void updateNode() {
         if ( battery.getVoltage() >= 0 ) {
-            image.setImage( CLImages.BATTERY_UP );
+            imageNode.setImage( CLImages.BATTERY_UP );
         }
         else {
-            image.setImage( CLImages.BATTERY_DOWN );
+            imageNode.setImage( CLImages.BATTERY_DOWN );
         }
     }
     
     private void updateModel() {
-        
+        battery.setVoltage( sliderNode.getVoltage() );
     }
 
 }
