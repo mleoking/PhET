@@ -32,7 +32,7 @@ public class CLStrings {
     public static final String LABEL_DIELECTRIC_CHARGES = getString( "label.dielectricCharges" );
     public static final String LABEL_DIELECTRIC_CONSTANT = getString( "label.dielectricConstant" );
     
-    public static final String RADIOBUTTON_CHARGES_HIDDEN = getString( "radioButton.charges.hidden" );
+    public static final String RADIOBUTTON_HIDE_ALL_CHARGES = getString( "radioButton.charges.hideAll" );
     public static final String RADIOBUTTON_SHOW_ALL_CHARGES= getString( "radioButton.charges.showAll" );
     public static final String RADIOBUTTON_SHOW_EXCESS_CHARGES = getString( "radioButton.charges.showExcess" );
     
