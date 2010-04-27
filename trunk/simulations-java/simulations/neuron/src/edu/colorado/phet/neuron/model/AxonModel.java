@@ -71,7 +71,7 @@ public class AxonModel implements IParticleCapture {
 	
 	// Countdown used for preventing the axon from receiving stimuli that
 	// are too close together.
-	private static final double STIM_LOCKOUT_TIME = 0.0075;  // Seconds of sim time.
+	private static final double STIM_LOCKOUT_TIME = 0.01;  // Seconds of sim time.
 	
 	// Default value of opaqueness for newly created particles.
 	private static final double DEFAULT_OPAQUENESS = 0.20;
