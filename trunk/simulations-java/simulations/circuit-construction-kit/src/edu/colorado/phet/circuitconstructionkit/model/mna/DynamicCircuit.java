@@ -161,7 +161,8 @@ public class DynamicCircuit {
     //Solving the companion model is the same as propagating forward in time by dt.
     public DynamicCircuitSolution solvePropagate(double dt) {
         Result result = toMNACircuit(dt);
-        return new DynamicCircuitSolution(this, result.mnaCircuit.solve(), result.currentCompanions);
+        LinearCircuitSolver solver = new ObjectOrientedMNA();
+        return new DynamicCircuitSolution(this, solver.solve(result.mnaCircuit), result.currentCompanions);
     }
 
     public class DynamicState {
@@ -395,7 +396,7 @@ public class DynamicCircuit {
         ArrayList<LinearCircuitSolver.CurrentSource> newCurrentList = new ArrayList<LinearCircuitSolver.CurrentSource>(currents);
         newCurrentList.addAll(companionCurrents);
 
-        return new Result(new ObjectOrientedMNA.OOCircuit(newBatteryList, newResistorList, newCurrentList), currentCompanions);
+        return new Result(new LinearCircuitSolver.Circuit(newBatteryList, newResistorList, newCurrentList), currentCompanions);
     }
 
     public static void main(String[] args) {
