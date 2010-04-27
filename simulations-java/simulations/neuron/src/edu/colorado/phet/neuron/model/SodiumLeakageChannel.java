@@ -141,8 +141,8 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 		else{
 			// Tweak the following values for different behavior.  Lower
 			// values will yeild more captures per unit time.
-			double smallestAllowableMin = 0.0002;
-			double largestAllowableMin = 0.002;
+			double smallestAllowableMin = 0.000075;
+			double largestAllowableMin = 0.00075;
 			double smallestAllowableMax = smallestAllowableMin * 3;
 			double largestAllowableMax = largestAllowableMin * 3;
 			
