@@ -33,8 +33,8 @@ public class StringUtils {
      * @param key     Localization key
      * @return Translated String (probably not translated though!)
      */
-    public static String getString( Session session, String key ) {
-        return getString( session, key, PhetWicketApplication.getDefaultLocale() );
+    public static String getDefaultStringDirect( Session session, String key ) {
+        return getStringDirect( session, key, PhetWicketApplication.getDefaultLocale() );
     }
 
     /**
@@ -45,7 +45,8 @@ public class StringUtils {
      * @param locale  Locale of the string
      * @return Translated String
      */
-    public static String getString( Session session, final String key, final Locale locale ) {
+    public static String getStringDirect( Session session, final String key, final Locale locale ) {
+        // TODO: go through usages, filter for correct usage
         final String[] ret = new String[1];
         ret[0] = null;
         HibernateUtils.wrapTransaction( session, new HibernateTask() {
@@ -73,7 +74,7 @@ public class StringUtils {
      * @param locale  Locale of the string
      * @return Translated String
      */
-    public static String getStringX( Session session, final String key, final Locale locale ) {
+    public static String getStringDirectWithinTransaction( Session session, final String key, final Locale locale ) {
         TranslatedString string = getTranslatedString( session, key, locale );
         if ( string == null ) {
             return null;
@@ -113,7 +114,7 @@ public class StringUtils {
      * @param translationId Translation ID
      * @return Translated String
      */
-    public static String getString( Session session, final String key, final int translationId ) {
+    public static String getStringDirect( Session session, final String key, final int translationId ) {
         final String[] ret = new String[1];
         ret[0] = null;
         HibernateUtils.wrapTransaction( session, new HibernateTask() {
@@ -140,7 +141,7 @@ public class StringUtils {
      * @param translationId Translation ID
      * @return Translated String
      */
-    public static String getStringX( Session session, final String key, final int translationId ) {
+    public static String getStringDirectWithinTransaction( Session session, final String key, final int translationId ) {
         TranslatedString string = getTranslatedString( session, key, translationId );
         if ( string == null ) {
             return null;

@@ -139,7 +139,7 @@ public class AdminCategoryPage extends AdminPage {
         final List<CategoryOrderItem> catItems = new LinkedList<CategoryOrderItem>();
 
         for ( Category cat : categories ) {
-            catItems.add( new CategoryOrderItem( cat, StringUtils.getString( getHibernateSession(), cat.getNavLocation( getNavMenu() ).getLocalizationKey() ) ) );
+            catItems.add( new CategoryOrderItem( cat, StringUtils.getDefaultStringDirect( getHibernateSession(), cat.getNavLocation( getNavMenu() ).getLocalizationKey() ) ) );
         }
 
         add( new JustOrderList<CategoryOrderItem>( "categories", getPageContext(), catItems ) {
