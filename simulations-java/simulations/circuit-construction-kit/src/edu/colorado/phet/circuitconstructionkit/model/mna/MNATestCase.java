@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class MNATestCase extends TestCase {
+public abstract class MNATestCase extends TestCase {
 
     public LinearCircuitSolver.ISolution solve(LinearCircuitSolver.Circuit circuit) {
-        return new ObjectOrientedMNA().solve(circuit);
+        return getSolver().solve(circuit);
     }
+
+    public abstract LinearCircuitSolver getSolver();
 
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit() {
         LinearCircuitSolver.Battery battery = new LinearCircuitSolver.Battery(0, 1, 4.0);
@@ -207,7 +209,7 @@ public class MNATestCase extends TestCase {
         LinearCircuitSolver.Resistor resistor = new LinearCircuitSolver.Resistor(1, 2, r);
         DynamicCircuit circuit = new DynamicCircuit(new ArrayList<LinearCircuitSolver.Battery>(), Arrays.asList(resistor),
                 new ArrayList<LinearCircuitSolver.CurrentSource>(), Arrays.asList(new DynamicCircuit.ResistiveBattery(0, 1, v, 0)), Arrays.asList(new DynamicCircuit.DynamicCapacitor(new DynamicCircuit.Capacitor(2, 0, c), new DynamicCircuit.DynamicElementState(0.0, v / r))),
-                new ArrayList<DynamicCircuit.DynamicInductor>());
+                new ArrayList<DynamicCircuit.DynamicInductor>(), getSolver());
 
         double dt = 1E-4;
         System.out.println("voltage");
@@ -262,7 +264,7 @@ public class MNATestCase extends TestCase {
         LinearCircuitSolver.Battery battery = new LinearCircuitSolver.Battery(0, 1, V);
         DynamicCircuit circuit = new DynamicCircuit(Arrays.asList(battery), Arrays.asList(resistor),
                 new ArrayList<LinearCircuitSolver.CurrentSource>(), new ArrayList<DynamicCircuit.ResistiveBattery>(), new ArrayList<DynamicCircuit.DynamicCapacitor>(),
-                Arrays.asList(new DynamicCircuit.DynamicInductor(new DynamicCircuit.Inductor(2, 0, L), new DynamicCircuit.DynamicElementState(V, 0.0))));
+                Arrays.asList(new DynamicCircuit.DynamicInductor(new DynamicCircuit.Inductor(2, 0, L), new DynamicCircuit.DynamicElementState(V, 0.0))), getSolver());
 
         double dt = 1E-4;
         for (int i = 0; i < 1000; i++) {

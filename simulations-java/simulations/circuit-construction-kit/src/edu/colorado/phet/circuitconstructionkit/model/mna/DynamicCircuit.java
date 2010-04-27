@@ -10,26 +10,21 @@ public class DynamicCircuit {
     private List<ResistiveBattery> resistiveBatteries;
     private List<DynamicCapacitor> capacitors;
     private List<DynamicInductor> inductors;
+    private LinearCircuitSolver solver;
 
     @Override
     public String toString() {
-        return "DynamicCircuit{" +
-                "batteries=" + batteries +
-                ", resistors=" + resistors +
-                ", currents=" + currents +
-                ", resistiveBatteries=" + resistiveBatteries +
-                ", capacitors=" + capacitors +
-                ", inductors=" + inductors +
-                '}';
+        return "DynamicCircuit{" + "batteries=" + batteries + ", resistors=" + resistors + ", currents=" + currents + ", resistiveBatteries=" + resistiveBatteries + ", capacitors=" + capacitors + ", inductors=" + inductors + '}';
     }
 
-    public DynamicCircuit(List<LinearCircuitSolver.Battery> batteries, List<LinearCircuitSolver.Resistor> resistors, List<LinearCircuitSolver.CurrentSource> currents, List<ResistiveBattery> resistiveBatteries, List<DynamicCapacitor> capacitors, List<DynamicInductor> inductors) {
+    public DynamicCircuit(List<LinearCircuitSolver.Battery> batteries, List<LinearCircuitSolver.Resistor> resistors, List<LinearCircuitSolver.CurrentSource> currents, List<ResistiveBattery> resistiveBatteries, List<DynamicCapacitor> capacitors, List<DynamicInductor> inductors, LinearCircuitSolver solver) {
         this.batteries = batteries;
         this.capacitors = capacitors;
         this.currents = currents;
         this.inductors = inductors;
         this.resistiveBatteries = resistiveBatteries;
         this.resistors = resistors;
+        this.solver = solver;
     }
 
     public static class DynamicCapacitor {
@@ -161,7 +156,6 @@ public class DynamicCircuit {
     //Solving the companion model is the same as propagating forward in time by dt.
     public DynamicCircuitSolution solvePropagate(double dt) {
         Result result = toMNACircuit(dt);
-        LinearCircuitSolver solver = new ObjectOrientedMNA();
         return new DynamicCircuitSolution(this, solver.solve(result.mnaCircuit), result.currentCompanions);
     }
 
@@ -244,7 +238,7 @@ public class DynamicCircuit {
         for (DynamicInductor i : inductors) {
             updatedInductors.add(new DynamicInductor(i.inductor, new DynamicElementState(solution.getNodeVoltage(i.inductor.node1) - solution.getNodeVoltage(i.inductor.node0), solution.getCurrent(i.inductor))));
         }
-        return new DynamicCircuit(batteries, resistors, currents, resistiveBatteries, updatedCapacitors, updatedInductors);
+        return new DynamicCircuit(batteries, resistors, currents, resistiveBatteries, updatedCapacitors, updatedInductors, solver);
     }
 
     public class DynamicCircuitSolution {
@@ -414,7 +408,7 @@ public class DynamicCircuit {
 
         ArrayList<DynamicCapacitor> capacitors = new ArrayList<DynamicCapacitor>();
         capacitors.add(new DynamicCapacitor(c, new DynamicElementState(0.0, voltage / resistance)));
-        DynamicCircuit circuit = new DynamicCircuit(batteries, resistors, new ArrayList<LinearCircuitSolver.CurrentSource>(), new ArrayList<ResistiveBattery>(), capacitors, new ArrayList<DynamicInductor>());
+        DynamicCircuit circuit = new DynamicCircuit(batteries, resistors, new ArrayList<LinearCircuitSolver.CurrentSource>(), new ArrayList<ResistiveBattery>(), capacitors, new ArrayList<DynamicInductor>(), new ObjectOrientedMNA());
 //    //    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 0, resistance) :: Nil, Nil, Nil, Nil)
         System.out.println("current through capacitor");
         for (int i = 0; i < 10; i++) {
