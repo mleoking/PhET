@@ -30,10 +30,17 @@ public class CLStrings {
     public static final String LABEL_SEPARATION = getString( "label.separation" );
     public static final String LABEL_PLATE_AREA = getString( "label.plateArea" );
     
-    public static final String TITLE_INTRODUCTION = getString( "title.introduction" );
+    public static final String RADIOBUTTON_CHARGES_HIDDEN = getString( "radioButton.charges.hidden" );
+    public static final String RADIOBUTTON_SHOW_ALL_CHARGES= getString( "radioButton.charges.showAll" );
+    public static final String RADIOBUTTON_SHOW_EXCESS_CHARGES = getString( "radioButton.charges.showExcess" );
+    
+    public static final String TAB_INTRODUCTION = getString( "tab.introduction" );
+    public static final String TAB_DIELECTRIC = getString( "tab.dielectric" );
+    
     public static final String TITLE_DIELECTRIC = getString( "title.dielectric" );
     public static final String TITLE_VIEW = getString( "title.view" );
     public static final String TITLE_METERS = getString( "title.meters" );
+    public static final String TITLE_CHARGES = getString( "title.charges" );
     
     public static final String UNITS_VOLTS = getString( "units.volts" );
     public static final String UNITS_MILLIMETERS = getString( "units.millimeters" );

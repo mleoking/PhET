@@ -40,5 +40,8 @@ public class ViewControlPanel extends CLTitledControlPanel {
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
+        
+        // default state
+        //XXX
     }
 }

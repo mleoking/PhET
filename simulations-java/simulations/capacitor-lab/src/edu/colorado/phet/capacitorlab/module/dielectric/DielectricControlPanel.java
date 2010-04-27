@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
+import edu.colorado.phet.capacitorlab.control.ChargesControlPanel;
+import edu.colorado.phet.capacitorlab.control.MetersControlPanel;
+import edu.colorado.phet.capacitorlab.control.ViewControlPanel;
 import edu.colorado.phet.capacitorlab.module.CLControlPanel;
 
 /**
@@ -12,6 +15,9 @@ import edu.colorado.phet.capacitorlab.module.CLControlPanel;
 public class DielectricControlPanel extends CLControlPanel {
 
     public DielectricControlPanel( DielectricModule module ) {
+        addControlFullWidth( new ViewControlPanel() );
+        addControlFullWidth( new MetersControlPanel() );
+        addControlFullWidth( new ChargesControlPanel() );
         addResetAllButton( module );
     }
 }
