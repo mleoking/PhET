@@ -284,7 +284,7 @@ public class VoltageSliderNode extends PhetPNode {
         }
         
         public TickLabelNode( double value ) {
-            this( MessageFormat.format( CLStrings.FORMAT_VOLTAGE, TICK_LABEL_FORMAT.format( value ) ) );
+            this( MessageFormat.format( CLStrings.FORMAT_VOLTAGE, TICK_LABEL_FORMAT.format( value ), CLStrings.UNITS_VOLTS ) );
         }
         
         public TickLabelNode( String value ) {
