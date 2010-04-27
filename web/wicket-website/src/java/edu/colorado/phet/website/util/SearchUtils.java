@@ -12,6 +12,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
@@ -36,11 +37,76 @@ public class SearchUtils {
 
     private static Logger logger = Logger.getLogger( SearchUtils.class.getName() );
 
+    private static Directory directory = null;
+
+    private static IndexSearcher searcher = null;
+
+    public static synchronized void initialize() {
+        if ( directory != null ) {
+            throw new RuntimeException( "attempt to initialize SearchUtils multiple times" );
+        }
+        try {
+            directory = FSDirectory.open( new File( "/tmp/testindex" ) );
+            if ( IndexReader.indexExists( directory ) ) {
+                removeAllDocuments();
+            }
+            addAllDocuments();
+            searcher = new IndexSearcher( directory, true );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    public static synchronized void destroy() {
+        try {
+            if ( searcher != null ) {
+                searcher.close();
+            }
+            if ( directory != null ) {
+                directory.close();
+            }
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    public static synchronized IndexSearcher getSearcher() {
+        return searcher;
+    }
+
+    private static synchronized void addAllDocuments() {
+        HibernateUtils.wrapSession( new HibernateTask() {
+            public boolean run( Session session ) {
+                PhetLocalizer localizer = PhetLocalizer.get();
+                NavMenu menu = PhetWicketApplication.get().getMenu();
+                addSimulations( session, localizer, menu );
+                return true;
+            }
+        } );
+    }
+
+    private static synchronized void removeAllDocuments() {
+        try {
+            final IndexReader reader = IndexReader.open( directory, false );
+            int dropped = reader.deleteDocuments( new Term( "droppable", "true" ) );
+            logger.info( "dropped " + dropped + " documents" );
+            reader.close();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private static Directory getDirectory() throws IOException {
+        return FSDirectory.open( new File( "/tmp/testindex" ) );
+    }
+
     public static void addSimulations( Session session, final PhetLocalizer localizer, final NavMenu menu ) {
         try {
-            logger.debug( "initializing" );
+            logger.debug( "adding simulations" );
             Analyzer analyzer = new StandardAnalyzer( Version.LUCENE_CURRENT );
-            Directory directory = FSDirectory.open( new File( "/tmp/testindex" ) );
             final IndexWriter iwriter = new IndexWriter( directory, analyzer, true, new IndexWriter.MaxFieldLength( 25000 ) );
             logger.debug( "initialized" );
 
@@ -70,7 +136,6 @@ public class SearchUtils {
             iwriter.optimize();
             logger.debug( "optimized" );
             iwriter.close();
-            directory.close();
             logger.debug( "closed" );
         }
         catch( IOException e ) {
@@ -81,6 +146,7 @@ public class SearchUtils {
     public static Document simulationToDocument( Session session, Simulation sim, PhetLocalizer localizer ) {
         NavMenu menu = PhetWicketApplication.get().getMenu();
         Document doc = new Document();
+        doc.add( new Field( "droppable", "true", Field.Store.NO, Field.Index.NOT_ANALYZED ) );
         doc.add( new Field( "sim_id", String.valueOf( sim.getId() ), Field.Store.YES, Field.Index.NOT_ANALYZED ) );
         Field nameField = new Field( "sim_name", sim.getName(), Field.Store.YES, Field.Index.NOT_ANALYZED );
         nameField.setBoost( 0.3f );
@@ -150,12 +216,9 @@ public class SearchUtils {
     public static List<LocalizedSimulation> testSearch( Session session, String queryString, final Locale locale ) {
         final List<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
 
+        final IndexSearcher isearcher = getSearcher();
+
         try {
-            Analyzer analyzer = new StandardAnalyzer( Version.LUCENE_CURRENT );
-            Directory directory = FSDirectory.open( new File( "/tmp/testindex" ) );
-
-            final IndexSearcher isearcher = new IndexSearcher( directory, true );
-
             StringTokenizer tokenizer = new StringTokenizer( queryString );
             BooleanQuery query = new BooleanQuery();
 
@@ -205,10 +268,6 @@ public class SearchUtils {
                     return true;
                 }
             } );
-
-            isearcher.close();
-            directory.close();
-
         }
         catch( IOException e ) {
             e.printStackTrace();

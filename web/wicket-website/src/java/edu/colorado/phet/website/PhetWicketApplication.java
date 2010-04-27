@@ -162,6 +162,8 @@ public class PhetWicketApplication extends WebApplication {
 
         NotificationHandler.initialize();
 
+        SearchUtils.initialize();
+
     }
 
     //----------------------------------------------------------------------------
@@ -314,7 +316,9 @@ public class PhetWicketApplication extends WebApplication {
 
     @Override
     protected void onDestroy() {
+        logger.info( "Shutting down PhetWicketApplication" );
         NotificationHandler.destroy();
+        SearchUtils.destroy();
     }
 
     private static File getFileFromLocation( String location ) {
