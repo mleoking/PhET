@@ -110,7 +110,7 @@ public class IndexPanel extends PhetPanel {
         } );
 
         StringBuffer buf = new StringBuffer();
-        buf.append( "dir=" + StringUtils.getString( getHibernateSession(), "language.dir", getMyLocale() ) + "&" );
+        buf.append( "dir=" + StringUtils.getStringDirect( getHibernateSession(), "language.dir", getMyLocale() ) + "&" );
         buf.append( "quantity=" + Integer.toString( featured.size() ) + "&" );
 
         int idx = 1;

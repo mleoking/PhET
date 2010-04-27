@@ -125,16 +125,13 @@ public class PhetLocalizer extends Localizer {
     /**
      * Get the best translated version of a string for a particular locale. Should be within a transaction. If not
      * translatable, an error string is returned.
-     * <p/>
-     * (The X denotes that this function should only be called from within the scope of a Hibernate transaction for the
-     * particular session)
      *
      * @param session Hibernate session
      * @param key     Translation key
      * @param locale  Locale
      * @return Translated string
      */
-    public String getBestStringX( Session session, String key, Locale locale ) {
+    public String getBestStringWithinTransaction( Session session, String key, Locale locale ) {
         String ret = getLocaleString( session, key, locale, true );
         if ( ret == null ) {
             ret = getDefaultString( session, key, null, true );
@@ -145,16 +142,13 @@ public class PhetLocalizer extends Localizer {
     /**
      * Get the best translated version of a string for a particular locale. Should be within a transaction. If not
      * translatable, an error string is returned.
-     * <p/>
-     * (The X denotes that this function should only be called from within the scope of a Hibernate transaction for the
-     * particular session)
      *
      * @param session       Hibernate session
      * @param key           Translation key
      * @param translationId Locale
      * @return Translated string
      */
-    public String getBestStringX( Session session, String key, int translationId ) {
+    public String getBestStringWithinTransaction( Session session, String key, int translationId ) {
         String ret = getTranslationIdString( session, key, translationId, true );
         if ( ret == null ) {
             ret = getDefaultString( session, key, null, true );
@@ -192,10 +186,10 @@ public class PhetLocalizer extends Localizer {
 
         // perform the lookup
         if ( inTransaction ) {
-            lookup = StringUtils.getStringX( session, key, translationId );
+            lookup = StringUtils.getStringDirectWithinTransaction( session, key, translationId );
         }
         else {
-            lookup = StringUtils.getString( session, key, translationId );
+            lookup = StringUtils.getStringDirect( session, key, translationId );
         }
 
         // if the lookup is found, put it in the cache and return it
@@ -242,10 +236,10 @@ public class PhetLocalizer extends Localizer {
 
         // perform the lookup
         if ( inTransaction ) {
-            lookup = StringUtils.getStringX( session, key, locale );
+            lookup = StringUtils.getStringDirectWithinTransaction( session, key, locale );
         }
         else {
-            lookup = StringUtils.getString( session, key, locale );
+            lookup = StringUtils.getStringDirect( session, key, locale );
         }
 
         // if the lookup is found, put it in the cache and return it
@@ -302,10 +296,10 @@ public class PhetLocalizer extends Localizer {
 
         // perform a "default" lookup, which usually should give the English translation, if it exists
         if ( inTransaction ) {
-            lookup = StringUtils.getStringX( session, key, PhetWicketApplication.getDefaultLocale() );
+            lookup = StringUtils.getStringDirectWithinTransaction( session, key, PhetWicketApplication.getDefaultLocale() );
         }
         else {
-            lookup = StringUtils.getString( session, key );
+            lookup = StringUtils.getDefaultStringDirect( session, key );
         }
 
         if ( lookup != null ) {

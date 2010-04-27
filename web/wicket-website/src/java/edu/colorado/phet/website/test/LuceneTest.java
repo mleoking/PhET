@@ -64,12 +64,12 @@ public class LuceneTest {
                                 titleField.setBoost( 4.5f );
                                 doc.add( titleField );
 
-                                String description = StringUtils.getString( session, sim.getDescriptionKey(), lsim.getLocale() );
+                                String description = StringUtils.getStringDirect( session, sim.getDescriptionKey(), lsim.getLocale() );
                                 if ( description != null ) {
                                     doc.add( new Field( "sim_" + prefix + "_description", description, Field.Store.NO, Field.Index.ANALYZED ) );
                                 }
 
-                                String goals = StringUtils.getString( session, sim.getLearningGoalsKey(), lsim.getLocale() );
+                                String goals = StringUtils.getStringDirect( session, sim.getLearningGoalsKey(), lsim.getLocale() );
                                 if ( goals != null ) {
                                     doc.add( new Field( "sim_" + prefix + "_goals", goals, Field.Store.NO, Field.Index.ANALYZED ) );
                                 }
@@ -77,7 +77,7 @@ public class LuceneTest {
                                 String keywords = "";
                                 for ( Object o2 : sim.getKeywords() ) {
                                     Keyword keyword = (Keyword) o2;
-                                    String key = StringUtils.getString( session, keyword.getLocalizationKey(), lsim.getLocale() );
+                                    String key = StringUtils.getStringDirect( session, keyword.getLocalizationKey(), lsim.getLocale() );
                                     if ( key != null ) {
                                         keywords += key + " ";
                                     }
@@ -89,7 +89,7 @@ public class LuceneTest {
                                 String topics = "";
                                 for ( Object o2 : sim.getTopics() ) {
                                     Keyword keyword = (Keyword) o2;
-                                    String key = StringUtils.getString( session, keyword.getLocalizationKey(), lsim.getLocale() );
+                                    String key = StringUtils.getStringDirect( session, keyword.getLocalizationKey(), lsim.getLocale() );
                                     if ( key != null ) {
                                         topics += key + " ";
                                     }
@@ -101,7 +101,7 @@ public class LuceneTest {
                                 String categories = "";
                                 for ( Object o2 : sim.getCategories() ) {
                                     Category category = (Category) o2;
-                                    String key = StringUtils.getString( session, category.getNavLocation( menu ).getLocalizationKey(), lsim.getLocale() );
+                                    String key = StringUtils.getStringDirect( session, category.getNavLocation( menu ).getLocalizationKey(), lsim.getLocale() );
                                     if ( key != null ) {
                                         categories += key + " ";
                                     }
