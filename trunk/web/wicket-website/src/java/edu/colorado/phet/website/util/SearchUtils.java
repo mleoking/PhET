@@ -28,6 +28,7 @@ import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.Keyword;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 
 public class SearchUtils {
@@ -110,7 +111,41 @@ public class SearchUtils {
 
             HibernateUtils.wrapSession( new HibernateTask() {
                 public boolean run( Session session ) {
-                    addSimulations( session, app, localizer );
+                    try {
+                        logger.debug( "adding simulations" );
+
+                        List s = session.createQuery( "select s from Simulation as s" ).list();
+                        for ( Object o : s ) {
+                            Simulation sim = (Simulation) o;
+                            if ( !sim.isVisible() ) {
+                                continue;
+                            }
+                            logger.debug( "processing " + sim.getName() );
+                            Document doc = simulationToDocument( session, sim, app, localizer );
+                            logger.debug( "processed" );
+                            writer.addDocument( doc );
+                            logger.debug( "added" );
+                            //logger.debug( "adding document: " + doc );
+                        }
+
+                        logger.debug( "adding contributions" );
+
+                        List l = session.createQuery( "select c from Contribution as c" ).list();
+                        for ( Object o : l ) {
+                            Contribution contribution = (Contribution) o;
+                            if ( !contribution.isVisible() ) {
+                                continue;
+                            }
+
+                            logger.debug( "processing contribution " + contribution.getTitle() );
+                            Document doc = contributionToDocument( session, contribution, app, localizer );
+                            writer.addDocument( doc );
+                            logger.debug( "doc: " + doc );
+                        }
+                    }
+                    catch( IOException e ) {
+                        e.printStackTrace();
+                    }
                     return true;
                 }
             } );
@@ -135,24 +170,21 @@ public class SearchUtils {
         }
     }
 
-    private static void addSimulations( Session session, final PhetWicketApplication app, final PhetLocalizer localizer ) {
-        try {
-            logger.debug( "adding simulations" );
+    public static Document contributionToDocument( Session session, Contribution contribution, PhetWicketApplication app, PhetLocalizer localizer ) {
 
-            List s = session.createQuery( "select s from Simulation as s" ).list();
-            for ( Object o : s ) {
-                Simulation sim = (Simulation) o;
-                logger.debug( "processing " + sim.getName() );
-                Document doc = simulationToDocument( session, sim, app, localizer );
-                logger.debug( "processed" );
-                writer.addDocument( doc );
-                logger.debug( "added" );
-                //logger.debug( "adding document: " + doc );
-            }
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        // TODO: critical: add sim names
+        
+        Document doc = new Document();
+        doc.add( new Field( "droppable", "true", Field.Store.NO, Field.Index.NOT_ANALYZED ) );
+        doc.add( new Field( "contribution_id", String.valueOf( contribution.getId() ), Field.Store.YES, Field.Index.NOT_ANALYZED ) );
+        doc.add( new Field( "contribution_title", contribution.getTitle(), Field.Store.YES, Field.Index.ANALYZED ) );
+        doc.add( new Field( "contribution_authors", contribution.getAuthors(), Field.Store.NO, Field.Index.ANALYZED ) );
+        doc.add( new Field( "contribution_organization", contribution.getAuthorOrganization(), Field.Store.NO, Field.Index.ANALYZED ) );
+        doc.add( new Field( "contribution_keywords", contribution.getKeywords(), Field.Store.NO, Field.Index.ANALYZED ) );
+        doc.add( new Field( "contribution_description", contribution.getDescription(), Field.Store.NO, Field.Index.ANALYZED ) );
+        doc.add( new Field( "contribution_locale", contribution.getLocale().toString(), Field.Store.NO, Field.Index.NOT_ANALYZED ) );
+        doc.setBoost( ( contribution.isGoldStar() ? 2.5f : 1.0f ) * ( contribution.isFromPhet() ? 1.5f : 1.0f ) );
+        return doc;
     }
 
     public static Document simulationToDocument( Session session, Simulation sim, PhetWicketApplication app, PhetLocalizer localizer ) {
@@ -228,7 +260,54 @@ public class SearchUtils {
         query.add( tquery, BooleanClause.Occur.SHOULD );
     }
 
-    public static List<LocalizedSimulation> testSearch( Session session, String queryString, final Locale locale ) {
+    public static List<Contribution> contributionSearch( Session session, String queryString, final Locale locale ) {
+        final List<Contribution> ret = new LinkedList<Contribution>();
+        final IndexSearcher isearcher = getSearcher();
+
+        try {
+            StringTokenizer tokenizer = new StringTokenizer( queryString );
+            BooleanQuery query = new BooleanQuery();
+
+            while ( tokenizer.hasMoreTokens() ) {
+                String term = tokenizer.nextToken();
+                addBoostedTermQuery( query, "contribution_title", term, 1.0f );
+                addBoostedTermQuery( query, "contribution_authors", term, 1.0f );
+                addBoostedTermQuery( query, "contribution_organization", term, 1.0f );
+                addBoostedTermQuery( query, "contribution_keywords", term, 1.0f );
+                addBoostedTermQuery( query, "contribution_description", term, 1.0f );
+                addBoostedTermQuery( query, "contribution_locale", term, 1.0f );
+            }
+
+            logger.debug( "query: " + query );
+
+            final ScoreDoc[] hits = isearcher.search( query, null, 1000 ).scoreDocs;
+
+            HibernateUtils.wrapTransaction( session, new HibernateTask() {
+                public boolean run( Session session ) {
+                    for ( ScoreDoc hit : hits ) {
+                        try {
+                            float score = hit.score;
+                            Document doc = isearcher.doc( hit.doc );
+                            Contribution contribution = (Contribution) session.load( Contribution.class, Integer.parseInt( doc.get( "contribution_id" ) ) );
+                            logger.debug( score + ": " + contribution.getTitle() + " " + doc.get( "contribution_title" ) );
+                            ret.add( contribution );
+                        }
+                        catch( IOException e ) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    return true;
+                }
+            } );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public static List<LocalizedSimulation> simulationSearch( Session session, String queryString, final Locale locale ) {
         final List<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
 
         final IndexSearcher isearcher = getSearcher();

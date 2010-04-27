@@ -4,7 +4,7 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title wicket:id="page-title">[PREVIEW] SearchPage</title>
+    <title wicket:id="page-title">[PREVIEW] SearchResultsPage</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
     </wicket:remove>
@@ -12,8 +12,25 @@
 <body>
 
 <wicket:extend>
-    <h3 wicket:id="search-query">Search query: testing</h3>
-    <div wicket:id="search-results-panel" wicket:message="dir:language.dir">
+    <div class="standard-content">
+        <h2 wicket:id="search-query">Search query: testing</h2>
+
+        <h3>
+            <wicket:message key="search.simulations">Simulations</wicket:message>
+        </h3>
+        <ul>
+            <li wicket:id="sims"><a href="#" wicket:id="sim-link"><span wicket:id="sim-title">
+                Simulation Title
+            </span></a></li>
+        </ul>
+        <h3>
+            <wicket:message key="search.activities">Activities</wicket:message>
+        </h3>
+        <ul>
+            <li wicket:id="contribs"><a href="#" wicket:id="contrib-link"><span wicket:id="contrib-title">
+                Contribution Title
+            </span></a></li>
+        </ul>
     </div>
 </wicket:extend>
 

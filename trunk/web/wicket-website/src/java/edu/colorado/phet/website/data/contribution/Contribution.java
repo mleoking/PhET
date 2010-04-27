@@ -92,6 +92,10 @@ public class Contribution implements Serializable, DataListener, IntId {
     // public instance functions
     //----------------------------------------------------------------------------
 
+    public boolean isVisible() {
+        return isApproved();
+    }
+
     public boolean hasStandards() {
         return standard58A || standard58B || standard58C || standard58D || standard58E || standard58F || standard58G ||
                standard912A || standard912B || standard912C || standard912D || standard912E || standard912F || standard912G ||
