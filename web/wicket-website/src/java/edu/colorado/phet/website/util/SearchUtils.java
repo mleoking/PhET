@@ -81,14 +81,17 @@ public class SearchUtils {
 
     public static synchronized void destroy() {
         try {
+            if ( indexScheduler != null ) {
+                indexScheduler.stop();
+            }
+            if ( indexerThread != null ) {
+                indexerThread.interrupt();
+            }
             if ( searcher != null ) {
                 searcher.close();
             }
             if ( directory != null ) {
                 directory.close();
-            }
-            if ( indexScheduler != null ) {
-                indexScheduler.stop();
             }
         }
         catch( IOException e ) {
