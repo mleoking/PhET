@@ -72,6 +72,9 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.view.duration" );
         addString( "contribution.view.answers" );
         addString( "contribution.view.language" );
+        addString( "contribution.view.comments" );
+        addString( "contribution.view.addComment" );
+        addString( "contribution.view.commentsHeader" );
 
         addString( "contribution.standards.header" );
         addString( "contribution.standards.contentLevel" );

@@ -25,6 +25,8 @@ public class IndexEntity extends TranslationEntity {
         addString( "home.translateWebsite" );
         addString( "home.browseSims" );
         addString( "home.simulations" );
+        addString( "home.rotator.next" );
+        addString( "home.rotator.previous" );
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
