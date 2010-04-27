@@ -23,12 +23,12 @@ public class CCKParameters {
     private boolean dynamics = false;
     public static final String VIRTUAL_LAB = "-virtuallab";
 
-    public CCKParameters(CCKModule module, String[] args) {
+    public CCKParameters(CCKModule module, String[] args, boolean ac, boolean virtualLab) {
         this.args = args;
-        if (containsArg("-dynamics")) {
+        if (ac) {
             dynamics = true;
         }
-        if (containsArg(VIRTUAL_LAB)) {
+        if (virtualLab) {
             virtualLab = true;
         }
         if (containsArg("-grabbag")) {
