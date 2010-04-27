@@ -8,6 +8,6 @@ package edu.colorado.phet.circuitconstructionkit.model.mna;
  */
 public class FastMNA implements LinearCircuitSolver {
     public ISolution solve(Circuit circuit) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 }

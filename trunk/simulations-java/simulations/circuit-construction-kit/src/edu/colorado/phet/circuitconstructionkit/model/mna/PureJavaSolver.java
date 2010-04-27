@@ -100,7 +100,7 @@ public class PureJavaSolver extends CircuitSolver {
 
         DynamicCircuit dynamicCircuit = new DynamicCircuit(new ArrayList<LinearCircuitSolver.Battery>(), new ArrayList<LinearCircuitSolver.Resistor>(resistors),
                 new ArrayList<LinearCircuitSolver.CurrentSource>(), new ArrayList<DynamicCircuit.ResistiveBattery>(batteries),
-                new ArrayList<DynamicCircuit.DynamicCapacitor>(capacitors), new ArrayList<DynamicCircuit.DynamicInductor>(inductors));
+                new ArrayList<DynamicCircuit.DynamicCapacitor>(capacitors), new ArrayList<DynamicCircuit.DynamicInductor>(inductors), new ObjectOrientedMNA());
 
         DynamicCircuit.DynamicCircuitSolution result = dynamicCircuit.solveItWithSubdivisions(dt);
         for (ResistiveBatteryAdapter batteryAdapter : batteries) batteryAdapter.applySolution(result);
