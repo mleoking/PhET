@@ -6,13 +6,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public abstract class MNATestCase extends TestCase {
+public class MNATestCase extends TestCase {
 
     public LinearCircuitSolver.ISolution solve(LinearCircuitSolver.Circuit circuit) {
         return getSolver().solve(circuit);
     }
 
-    public abstract LinearCircuitSolver getSolver();
+    //Use OOMNA by default, but allow override for testing other solvers.
+    public LinearCircuitSolver getSolver() {
+        return new ObjectOrientedMNA();
+    }
 
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit() {
         LinearCircuitSolver.Battery battery = new LinearCircuitSolver.Battery(0, 1, 4.0);
@@ -26,7 +29,8 @@ public abstract class MNATestCase extends TestCase {
         currentMap.put(battery, 1.0);
         LinearCircuitSolver.ISolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
         LinearCircuitSolver.ISolution solution = solve(circuit);
-//        System.out.println("solution = " + solution);
+        System.out.println("solution = " + solution);
+        System.out.println("desiredSolution = " + desiredSolution);
         assertTrue(solution.approxEquals(desiredSolution));
 
         double currentThroughResistor = solution.getCurrent(resistor);
@@ -260,6 +264,7 @@ public abstract class MNATestCase extends TestCase {
     }
 
     public void testVRLCircuit(double V, double R, double L) {
+        long start = System.currentTimeMillis();
         LinearCircuitSolver.Resistor resistor = new LinearCircuitSolver.Resistor(1, 2, R);
         LinearCircuitSolver.Battery battery = new LinearCircuitSolver.Battery(0, 1, V);
         DynamicCircuit circuit = new DynamicCircuit(Arrays.asList(battery), Arrays.asList(resistor),
@@ -277,5 +282,8 @@ public abstract class MNATestCase extends TestCase {
             assertTrue(error < 1E-4);
             circuit = circuit.updateWithSubdivisions(dt);
         }
+        long end = System.currentTimeMillis();
+        double elapsed = (end - start) / 1000.0;
+        System.out.println("elapsed = " + elapsed);
     }
 }

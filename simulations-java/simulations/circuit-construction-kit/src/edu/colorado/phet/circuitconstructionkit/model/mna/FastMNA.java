@@ -11,6 +11,16 @@ import java.util.HashMap;
  * (at the expense of readability), while providing the same functionality.
  * <p/>
  * See Najm and http://www.swarthmore.edu/NatSci/echeeve1/Ref/mna/MNA3.html
+ * <p/>
+ * Note: The new implementation is revealing some difficulty. First, it looks like we will have to preprocess circuits
+ * so that each is connected,  with one ground (instead of being able to solve multiple circuits simultaneously).
+ * Second, there is a sign discrepancy between our implementation and the one at
+ * http://www.swarthmore.edu/NatSci/echeeve1/Ref/mna/MNA3.html#Generating%20the%20MNA%20matrices
+ * I'm not sure if it's our problem or theirs. Third, the speed savings for the passing tests (including inductor
+ * tests which reach time step too small) are minimal, only about a 25% savings in either case.
+ * Therefore, this may not solve the entire problem. However, the construction of the matrices is not by inspection,
+ * it still involves extraneous iteration, but converting to construction by inspection may only yield a small speedup.
+ * See #2272 for more details.
  *
  * @author Sam Reid
  */
@@ -65,10 +75,10 @@ public class FastMNA implements LinearCircuitSolver {
 //        }
 
 
-        System.out.println("A = ");
-        A.print(4, 4);
-        System.out.println("Z = ");
-        z.print(4, 4);
+//        System.out.println("A = ");
+//        A.print(4, 4);
+//        System.out.println("Z = ");
+//        z.print(4, 4);
         Matrix x = A.solve(z);
 
         //todo: could provide more efficient lookup
