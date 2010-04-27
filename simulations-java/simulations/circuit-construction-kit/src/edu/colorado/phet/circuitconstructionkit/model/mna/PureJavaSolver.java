@@ -22,7 +22,7 @@ public class PureJavaSolver extends CircuitSolver {
         }
     }
 
-    static class ResistorAdapter extends MNA.Resistor {
+    static class ResistorAdapter extends LinearCircuitSolver.Resistor {
         Branch resistor;
 
         ResistorAdapter(Circuit c, Branch resistor) {
@@ -98,8 +98,8 @@ public class PureJavaSolver extends CircuitSolver {
             }
         }
 
-        DynamicCircuit dynamicCircuit = new DynamicCircuit(new ArrayList<MNA.Battery>(), new ArrayList<MNA.Resistor>(resistors),
-                new ArrayList<MNA.CurrentSource>(), new ArrayList<DynamicCircuit.ResistiveBattery>(batteries),
+        DynamicCircuit dynamicCircuit = new DynamicCircuit(new ArrayList<LinearCircuitSolver.Battery>(), new ArrayList<LinearCircuitSolver.Resistor>(resistors),
+                new ArrayList<LinearCircuitSolver.CurrentSource>(), new ArrayList<DynamicCircuit.ResistiveBattery>(batteries),
                 new ArrayList<DynamicCircuit.DynamicCapacitor>(capacitors), new ArrayList<DynamicCircuit.DynamicInductor>(inductors));
 
         DynamicCircuit.DynamicCircuitSolution result = dynamicCircuit.solveItWithSubdivisions(dt);
