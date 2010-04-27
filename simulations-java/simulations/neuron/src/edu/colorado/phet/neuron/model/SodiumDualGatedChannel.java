@@ -67,7 +67,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	
 	// Delay range - used to make the timing of the instances of this gate
 	// vary a little bit in terms of when they open and close.
-	private static final double MAX_STAGGER_DELAY = NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT * 75; // In seconds of sim time. 
+	private static final double MAX_STAGGER_DELAY = NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT * 15; // In seconds of sim time. 
 	
     //----------------------------------------------------------------------------
     // Instance Data
