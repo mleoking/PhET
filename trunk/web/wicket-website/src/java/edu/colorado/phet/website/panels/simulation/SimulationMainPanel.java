@@ -36,6 +36,7 @@ import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.util.AbstractChangeListener;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.data.util.IChangeListener;
+import edu.colorado.phet.website.panels.PearsonSponsorPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionBrowsePanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
@@ -482,6 +483,13 @@ public class SimulationMainPanel extends PhetPanel {
                 HibernateEventListener.removeListener( LocalizedSimulation.class, getAnyChangeInvalidator() );
             }
         } );
+
+        if ( simulation.getSimulation().getName().equals( "mass-spring-lab" ) ) {
+            add( new PearsonSponsorPanel( "pearson-sponsor", context ) );
+        }
+        else {
+            add( new InvisibleComponent( "pearson-sponsor" ) );
+        }
     }
 
     public String getTitle() {
