@@ -249,7 +249,7 @@ public class MNATestCase extends TestCase {
         testVRLCircuit(7, 13, 1E4);
     }
 
-    public void test_RL_Circuit_should_have_correct_behavior_for_V_7_R_13_L_1Eminus4() {//todo: currently fails
+    public void test_RL_Circuit_should_have_correct_behavior_for_V_7_R_13_L_1Eminus4() {
         testVRLCircuit(7, 13, 1E-4);
     }
 

@@ -2,11 +2,22 @@ package edu.colorado.phet.circuitconstructionkit.model.mna;
 
 import java.util.ArrayList;
 
+/**
+ * TimestepSubdivisions updates a state over an interval dt by (potentially) subdividing it into smaller regions, potentially with different lengths.
+ * To select the (sub) time step for each iteration, the difference between an update of h and two updates of h/2 are performed.
+ * If the error between the h vs. 2x(h/2) states is within the tolerated threshold, the time step is accepted.
+ * See #2241
+ *
+ * @author Sam Reid
+ * @param <A> the state type that is being updated
+ */
 public class TimestepSubdivisions<A> {
-    double errorThreshold;
+    private double errorThreshold;//threshold for determining whether 2 states are similar enough; any error less than errorThreshold will be tolerated.
+    private double minDT;//lowest possible value for DT, independent of how the error scales with reduced time step
 
-    public TimestepSubdivisions(double errorThreshold) {
+    public TimestepSubdivisions(double errorThreshold, double minDT) {
         this.errorThreshold = errorThreshold;
+        this.minDT = minDT;
     }
 
     public static interface Steppable<A> {
@@ -44,6 +55,7 @@ public class TimestepSubdivisions<A> {
         while (elapsed < dt) {
             double seedValue = states.size() > 0 ? states.get(states.size() - 1).dt : dt;//use the last obtained dt as a starting value, if possible
             double subdivisionDT = getTimestep(state, steppable, seedValue);
+            System.out.println("selected subdivisionDT = " + subdivisionDT);
             if (subdivisionDT + elapsed > dt) subdivisionDT = dt - elapsed; // don't exceed max allowed dt
             state = steppable.update(state, subdivisionDT);
             states.add(new State<A>(subdivisionDT, state));
@@ -56,26 +68,22 @@ public class TimestepSubdivisions<A> {
         return stepInTimeWithHistory(originalState, steppable, dt).getFinalState();
     }
 
-    double getTimestep(A state, Steppable<A> steppable, double dt) {
+    protected double getTimestep(A state, Steppable<A> steppable, double dt) {
         //store the previously used DT and try it first, then to increase it when possible.
-        if (dt < 1E-8) {
+        if (dt < minDT) {
             System.out.println("Time step too small");
-            return dt;
+            return minDT;
         } else if (errorAcceptable(state, steppable, dt * 2))
             return dt * 2; //only increase by one factor if this exceeds the totalDT, it will be cropped later
         else if (errorAcceptable(state, steppable, dt)) return dt * 2;
         else return getTimestep(state, steppable, dt / 2);
     }
 
-    boolean errorAcceptable(A state, Steppable<A> steppable, double dt) {
-        if (dt < 1E-6)//1E-4 or higher destroys the correct functionality in TestPrototype
-            return true;
-        else {
-            A a = steppable.update(state, dt);
-            A b1 = steppable.update(state, dt / 2);
-            A b2 = steppable.update(b1, dt / 2);
-            return steppable.distance(a, b2) < errorThreshold;
-        }
+    protected boolean errorAcceptable(A state, Steppable<A> steppable, double dt) {
+        A a = steppable.update(state, dt);
+        A b1 = steppable.update(state, dt / 2);
+        A b2 = steppable.update(b1, dt / 2);
+        return steppable.distance(a, b2) < errorThreshold;
     }
 }
 
