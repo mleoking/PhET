@@ -18,7 +18,7 @@ public class IntroductionModule extends CLModule {
     private final IntroductionControlPanel controlPanel;
 
     public IntroductionModule() {
-        super( CLStrings.TITLE_INTRODUCTION );
+        super( CLStrings.TAB_INTRODUCTION );
         
         model = new CLModel();
         
