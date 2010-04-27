@@ -1,7 +1,5 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
@@ -9,8 +7,11 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
+import java.awt.geom.Point2D;
+
 /**
  * Inductor model for CCK.
+ *
  * @author Sam Reid
  */
 public class Inductor extends CircuitComponent implements DynamicBranch {
@@ -21,44 +22,44 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
     private static final double DEFAULT_INDUCTANCE = 50;//50 henries makes tau=L/R = 5 sec for default resistor; this saturates in about 5 * tau = 25 sec
     private double inductance = DEFAULT_INDUCTANCE;
 
-    public Inductor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
-        super( kl, start, dir, length, height );
-        setKirkhoffEnabled( false );
-        setResistance( CCKModel.MIN_RESISTANCE );
-        setKirkhoffEnabled( true );
+    public Inductor(Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl) {
+        super(kl, start, dir, length, height);
+        setKirkhoffEnabled(false);
+        setResistance(CCKModel.MIN_RESISTANCE);
+        setKirkhoffEnabled(true);
     }
 
-    public Inductor( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {
-        super( kl, startJunction, endjJunction, length, height );
+    public Inductor(CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height) {
+        super(kl, startJunction, endjJunction, length, height);
     }
 
-    public Inductor( double resistance ) {
-        this( new Point2D.Double(), new Vector2D.Double(), 1, 1, new CircuitChangeListener() {
+    public Inductor(double resistance) {
+        this(new Point2D.Double(), new Vector2D.Double(), 1, 1, new CircuitChangeListener() {
             public void circuitChanged() {
             }
-        } );
-        setKirkhoffEnabled( false );
-        setResistance( resistance );
-        setKirkhoffEnabled( true );
+        });
+        setKirkhoffEnabled(false);
+        setResistance(resistance);
+        setKirkhoffEnabled(true);
     }
 
-    public void setInductance( double inductance ) {
+    public void setInductance(double inductance) {
         this.inductance = inductance;
         notifyObservers();
         fireKirkhoffChange();
     }
 
-    public void stepInTime( double dt ) {
+    public void stepInTime(double dt) {
     }
 
     public void resetDynamics() {
-        setKirkhoffEnabled( false );
-        setVoltageDrop( 0.0 );
-        setCurrent( 0.0 );
-        setKirkhoffEnabled( true );
+        setKirkhoffEnabled(false);
+        setVoltageDrop(0.0);
+        setCurrent(0.0);
+        setKirkhoffEnabled(true);
     }
 
-    public void setTime( double time ) {
+    public void setTime(double time) {
     }
 
     public double getInductance() {

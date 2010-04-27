@@ -1,11 +1,5 @@
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic;
 
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
-
-import javax.swing.*;
-
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
@@ -15,6 +9,11 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -31,9 +30,9 @@ public class SchematicPlatedNode extends ComponentNode {
     private PhetPPath path;
     private Shape clipShape;
 
-    public SchematicPlatedNode( CCKModel cckModel, CircuitComponent circuitComponent, JComponent component, CCKModule module, double wireThickness, double fracDistToPlate,
-                                double scaleHeightLeft, double scaleHeightRight ) {
-        super( cckModel, circuitComponent, component, module );
+    public SchematicPlatedNode(CCKModel cckModel, CircuitComponent circuitComponent, JComponent component, CCKModule module, double wireThickness, double fracDistToPlate,
+                               double scaleHeightLeft, double scaleHeightRight) {
+        super(cckModel, circuitComponent, component, module);
         this.fracDistToPlate = fracDistToPlate;
         this.scaleHeightLeft = scaleHeightLeft;
         this.scaleHeightRight = scaleHeightRight;
@@ -43,11 +42,11 @@ public class SchematicPlatedNode extends ComponentNode {
                 SchematicPlatedNode.this.update();
             }
         };
-        path = new PhetPPath( Color.black );
-        addChild( path );
-        circuitComponent.addObserver( simpleObserver );
+        path = new PhetPPath(Color.black);
+        addChild(path);
+        circuitComponent.addObserver(simpleObserver);
         update();
-        setVisible( true );
+        setVisible(true);
     }
 
     protected void update() {
@@ -56,33 +55,33 @@ public class SchematicPlatedNode extends ComponentNode {
         Point2D dst = getBranch().getEndJunction().getPosition();
         double viewThickness = wireThickness;
 
-        ImmutableVector2D vector = new ImmutableVector2D.Double( src, dst );
-        Point2D cat = vector.getScaledInstance( fracDistToPlate ).getDestination( src );
-        Point2D ano = vector.getScaledInstance( 1 - fracDistToPlate ).getDestination( src );
-        AbstractVector2D east = vector.getInstanceOfMagnitude( 1 );
+        ImmutableVector2D vector = new ImmutableVector2D.Double(src, dst);
+        Point2D cat = vector.getScaledInstance(fracDistToPlate).getDestination(src);
+        Point2D ano = vector.getScaledInstance(1 - fracDistToPlate).getDestination(src);
+        AbstractVector2D east = vector.getInstanceOfMagnitude(1);
         AbstractVector2D north = east.getNormalVector();
         double catHeight = viewThickness * this.scaleHeightLeft;
         double anoHeight = viewThickness * this.scaleHeightRight;
-        Point2D catHat = north.getInstanceOfMagnitude( catHeight ).getDestination( cat );
-        Point2D cattail = north.getInstanceOfMagnitude( catHeight ).getScaledInstance( -1 ).getDestination( cat );
+        Point2D catHat = north.getInstanceOfMagnitude(catHeight).getDestination(cat);
+        Point2D cattail = north.getInstanceOfMagnitude(catHeight).getScaledInstance(-1).getDestination(cat);
 
-        Point2D anoHat = north.getInstanceOfMagnitude( anoHeight ).getDestination( ano );
-        Point2D anotail = north.getInstanceOfMagnitude( anoHeight ).getScaledInstance( -1 ).getDestination( ano );
+        Point2D anoHat = north.getInstanceOfMagnitude(anoHeight).getDestination(ano);
+        Point2D anotail = north.getInstanceOfMagnitude(anoHeight).getScaledInstance(-1).getDestination(ano);
 
         double thickness = viewThickness / 2;
         Area area = new Area();
-        area.add( new Area( LineSegment.getSegment( src, cat, viewThickness ) ) );
-        area.add( new Area( LineSegment.getSegment( ano, dst, viewThickness ) ) );
-        area.add( new Area( LineSegment.getSegment( catHat, cattail, thickness ) ) );
-        area.add( new Area( LineSegment.getSegment( anoHat, anotail, thickness ) ) );
+        area.add(new Area(LineSegment.getSegment(src, cat, viewThickness)));
+        area.add(new Area(LineSegment.getSegment(ano, dst, viewThickness)));
+        area.add(new Area(LineSegment.getSegment(catHat, cattail, thickness)));
+        area.add(new Area(LineSegment.getSegment(anoHat, anotail, thickness)));
 
-        clipShape = LineSegment.getSegment( cat, ano, viewThickness * 10 );
+        clipShape = LineSegment.getSegment(cat, ano, viewThickness * 10);
 
-        mouseArea = new Area( area );
-        mouseArea.add( new Area( LineSegment.getSegment( src, dst, viewThickness ) ) );
-        path.setPathTo( area );
-        getHighlightNode().setStroke( new BasicStroke( 0.1f ) );
-        getHighlightNode().setPathTo( area );
+        mouseArea = new Area(area);
+        mouseArea.add(new Area(LineSegment.getSegment(src, dst, viewThickness)));
+        path.setPathTo(area);
+        getHighlightNode().setStroke(new BasicStroke(0.1f));
+        getHighlightNode().setPathTo(area);
 //        notifyChanged();
     }
 
@@ -97,7 +96,7 @@ public class SchematicPlatedNode extends ComponentNode {
 
     public void delete() {
         super.delete();
-        getBranch().removeObserver( simpleObserver );
+        getBranch().removeObserver(simpleObserver);
     }
 
 //    private ArrayList listeners = new ArrayList();

@@ -21,7 +21,7 @@ public class TestPrototype {
                 return TestPrototype.updateIt(voltage, resistance, capacitance, a, dt);
             }
         };
-        return new TimestepSubdivisions<CapacitorState>(1E-7,1E-8).stepInTime(capacitorState, steppable, dt);
+        return new TimestepSubdivisions<CapacitorState>(1E-7, 1E-8).stepInTime(capacitorState, steppable, dt);
     }
 
     public static CapacitorState updateIt(double voltage, double resistance, double capacitance, CapacitorState state, double dt) {

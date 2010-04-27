@@ -23,23 +23,23 @@ public class CCKParameters {
     private boolean dynamics = false;
     public static final String VIRTUAL_LAB = "-virtuallab";
 
-    public CCKParameters( CCKModule module, String[] args ) {
+    public CCKParameters(CCKModule module, String[] args) {
         this.args = args;
-        if ( containsArg( "-dynamics" ) ) {
+        if (containsArg("-dynamics")) {
             dynamics = true;
         }
-        if ( containsArg(VIRTUAL_LAB) ) {
+        if (containsArg(VIRTUAL_LAB)) {
             virtualLab = true;
         }
-        if ( containsArg( "-grabbag" ) ) {
+        if (containsArg("-grabbag")) {
             grabBagMode = true;
         }
-        if ( containsArg( "-noElectrons" ) ) {
-            module.setElectronsVisible( false );
+        if (containsArg("-noElectrons")) {
+            module.setElectronsVisible(false);
             hideAllElectrons = true;
         }
-        if ( containsArg( "-exp1" ) ) {
-            module.setElectronsVisible( true );
+        if (containsArg("-exp1")) {
+            module.setElectronsVisible(true);
             hideAllElectrons = false;
             allowSchematicMode = false;
             useNonContactAmmeter = false;
@@ -48,9 +48,8 @@ public class CCKParameters {
             allowPlainResistors = true;
             useAdvancedControlPanel = false;
             useVisualControlPanel = false;
-        }
-        else if ( containsArg( "-exp2" ) ) {
-            module.setElectronsVisible( false );
+        } else if (containsArg("-exp2")) {
+            module.setElectronsVisible(false);
             hideAllElectrons = true;
             allowSchematicMode = false;
             useNonContactAmmeter = false;
@@ -60,12 +59,12 @@ public class CCKParameters {
             useAdvancedControlPanel = false;
             useVisualControlPanel = false;
         }
-        if ( virtualLab ) {
+        if (virtualLab) {
             allowShowReadouts = false;
             allowSchematicMode = false;
             useNonContactAmmeter = false;
         }
-        if ( grabBagMode ) {
+        if (grabBagMode) {
             grabBag = true;
             hugeBatteries = true;
             allowPlainResistors = false;
@@ -81,8 +80,8 @@ public class CCKParameters {
         return useVisualControlPanel;
     }
 
-    private boolean containsArg( String s ) {
-        return Arrays.asList( args ).contains( s );
+    private boolean containsArg(String s) {
+        return Arrays.asList(args).contains(s);
     }
 
     public boolean hideAllElectrons() {

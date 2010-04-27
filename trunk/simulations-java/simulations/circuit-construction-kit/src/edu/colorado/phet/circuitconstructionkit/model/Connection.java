@@ -15,14 +15,14 @@ public abstract class Connection {
     public static class JunctionConnection extends Connection {
         Junction junction;
 
-        public JunctionConnection( Junction junction ) {
+        public JunctionConnection(Junction junction) {
             this.junction = junction;
         }
 
-        public boolean equals( Object o ) {
-            if ( o instanceof JunctionConnection ) {
+        public boolean equals(Object o) {
+            if (o instanceof JunctionConnection) {
                 JunctionConnection jc = (JunctionConnection) o;
-                if ( jc.junction == junction ) {
+                if (jc.junction == junction) {
                     return true;
                 }
             }
@@ -42,7 +42,7 @@ public abstract class Connection {
         Branch branch;
         double dist;
 
-        public BranchConnection( Branch branch, double dist ) {
+        public BranchConnection(Branch branch, double dist) {
             this.branch = branch;
             this.dist = dist;
         }

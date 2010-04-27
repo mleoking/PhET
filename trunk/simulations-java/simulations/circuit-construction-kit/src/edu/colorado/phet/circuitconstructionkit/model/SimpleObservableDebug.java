@@ -21,9 +21,9 @@ public class SimpleObservableDebug extends SimpleObservable {
 //            System.out.println( "toString() = " + super.toString() );
 //            new Exception( "Too many observers." ).printStackTrace();
 //        }
-        if ( numObservers() > 200 ) {
+        if (numObservers() > 200) {
 //            System.out.println( "true = " + true );
-            System.out.println( "Debug> " + getClass().getName() + " now has " + numObservers() + " observers." );
+            System.out.println("Debug> " + getClass().getName() + " now has " + numObservers() + " observers.");
         }
     }
 
@@ -31,8 +31,8 @@ public class SimpleObservableDebug extends SimpleObservable {
         return super.numObservers();
     }
 
-    public void addObserver( SimpleObserver so ) {
-        super.addObserver( so );
+    public void addObserver(SimpleObserver so) {
+        super.addObserver(so);
         debug();
     }
 
@@ -41,8 +41,8 @@ public class SimpleObservableDebug extends SimpleObservable {
         debug();
     }
 
-    public void removeObserver( SimpleObserver obs ) {
-        super.removeObserver( obs );
+    public void removeObserver(SimpleObserver obs) {
+        super.removeObserver(obs);
         debug();
     }
 

@@ -24,7 +24,7 @@ public class WarningMessageNode extends PNode {
         shadowPText.setShadowOffset(1, 1);
         addChild(shadowPText);
 
-        circuit.addCircuitListener(new CircuitListenerAdapter(){
+        circuit.addCircuitListener(new CircuitListenerAdapter() {
             public void editingChanged() {
                 updateVisibility();
             }
@@ -32,6 +32,7 @@ public class WarningMessageNode extends PNode {
             public void junctionsConnected(Junction a, Junction b, Junction newTarget) {
                 updateVisibility();
             }
+
             public void branchRemoved(Branch branch) {
                 updateVisibility();
             }

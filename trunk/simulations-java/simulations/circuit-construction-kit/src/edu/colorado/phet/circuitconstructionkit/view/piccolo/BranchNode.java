@@ -1,10 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.*;
-
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
+
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -16,7 +16,7 @@ public abstract class BranchNode extends PhetPNode {
 
     public abstract void delete();
 
-    public Shape getClipShape( PNode parent ) {
+    public Shape getClipShape(PNode parent) {
         return null;
     }
 }
