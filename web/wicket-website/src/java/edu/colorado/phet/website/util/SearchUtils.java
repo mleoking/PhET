@@ -117,7 +117,7 @@ public class SearchUtils {
                             logger.debug( "processed" );
                             iwriter.addDocument( doc );
                             logger.debug( "added" );
-                            logger.debug( "adding document: " + doc );
+                            //logger.debug( "adding document: " + doc );
                         }
                         catch( IOException e ) {
                             e.printStackTrace();
