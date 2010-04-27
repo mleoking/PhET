@@ -9,6 +9,8 @@ public class SearchEntity extends TranslationEntity {
         addString( "search.go" );
         addString( "search.enterText" );
         addString( "search.clickSearch" );
+        addString( "search.simulations" );
+        addString( "search.activities" );
     }
 
     public String getDisplayName() {
