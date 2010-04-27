@@ -6,7 +6,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLImages;
-import edu.colorado.phet.capacitorlab.control.BatterySliderNode;
+import edu.colorado.phet.capacitorlab.control.VoltageSliderNode;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeListener;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -23,7 +23,7 @@ public class BatteryNode extends PhetPNode {
     
     private final Battery battery;
     private final PImage imageNode;
-    private final BatterySliderNode sliderNode;
+    private final VoltageSliderNode sliderNode;
     
     public BatteryNode( Battery battery, DoubleRange voltageRange ) {
         
@@ -37,7 +37,7 @@ public class BatteryNode extends PhetPNode {
         imageNode = new PImage( CLImages.BATTERY_UP );
         addChild( imageNode );
         
-        sliderNode = new BatterySliderNode( voltageRange );
+        sliderNode = new VoltageSliderNode( voltageRange );
         addChild( sliderNode );
         sliderNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
