@@ -53,41 +53,6 @@ public class PhetLocalizer extends Localizer {
         }
     }
 
-    public String getString( String key, Component component, IModel model, String defaultValue, boolean checkDefault ) throws MissingResourceException {
-        //logger.debug( "testing key: " + key );
-        String lookup = null;
-        Integer translationId = null;
-        if ( component.getVariation() != null ) {
-            translationId = Integer.valueOf( component.getVariation() );
-        }
-        Locale locale = component.getLocale();
-
-        // whether we should look up the string by the translation id, or by the locale
-        boolean lookupById = translationId != null;
-
-        if ( lookupById ) {
-            lookup = getTranslationIdString( null, key, translationId, false );
-        }
-        else {
-            lookup = getLocaleString( null, key, locale, false );
-        }
-
-        if ( lookup != null ) {
-            // our string was found, so return it.
-            return lookup;
-        }
-
-        // at this point, we know it is not in the first translation we looked at
-
-        if ( !checkDefault ) {
-            // return either null or the default value, since we won't check the default language
-            logger.info( "Shortcut default value on " + key + ": " + defaultValue );
-            return defaultValue;
-        }
-
-        return getDefaultString( null, key, defaultValue, false );
-    }
-
     /**
      * Get the best translated version of a string for a particular locale. Should be in a session, but not within a
      * transaction. If not translatable, an error string is returned.
@@ -154,6 +119,107 @@ public class PhetLocalizer extends Localizer {
             ret = getDefaultString( session, key, null, true );
         }
         return ret;
+    }
+
+    /**
+     * Returns the translated string from the default translation (probably English). If the string is not translated
+     * and the defaultValue is non-null, the defaultValue is returned. Otherwise an error string is returned that
+     * contains the key value. (null is NOT returned)
+     * <p/>
+     * NOTE: assumes that we are NOT currently in a hibernate transaction
+     *
+     * @param session       Hibernate session (if set to null, will be recovered from the request cycle)
+     * @param key           Translation string key
+     * @param defaultValue  Default value (set to null if not desired)
+     * @param inTransaction Whether or not Hibernate is inside of a transaction
+     * @return Translated string
+     */
+    public String getDefaultString( Session session, String key, String defaultValue, boolean inTransaction ) {
+        String defaultCacheKey = mapCacheKey( key, PhetWicketApplication.getDefaultLocale() );
+
+        String lookup = getFromCache( defaultCacheKey );
+
+        if ( lookup != null ) {
+            // either hit or miss recorded in cache. handle both possibilities
+            if ( !lookup.equals( UNTRANSLATED_VALUE ) ) {
+                // lookup of the default value succeeded, return the string
+                return lookup;
+            }
+            else {
+                if ( defaultValue != null ) {
+                    return defaultValue;
+                }
+
+                logger.warn( "unable to find default translation for " + key );
+                return getErrorString( key );
+            }
+        }
+
+        if ( session == null ) {
+            session = PhetRequestCycle.get().getHibernateSession();
+        }
+
+        // perform a "default" lookup, which usually should give the English translation, if it exists
+        if ( inTransaction ) {
+            lookup = StringUtils.getStringDirectWithinTransaction( session, key, PhetWicketApplication.getDefaultLocale() );
+        }
+        else {
+            lookup = StringUtils.getDefaultStringDirect( session, key );
+        }
+
+        if ( lookup != null ) {
+            putIntoCache( defaultCacheKey, lookup );
+            return lookup;
+        }
+        else {
+            putIntoCache( defaultCacheKey, UNTRANSLATED_VALUE );
+
+            if ( defaultValue != null ) {
+                return defaultValue;
+            }
+
+            logger.warn( "unable to find default translation for " + key );
+            return getErrorString( key );
+        }
+    }
+
+    /*---------------------------------------------------------------------------*
+    * Implementation handling caching
+    *----------------------------------------------------------------------------*/
+
+    public String getString( String key, Component component, IModel model, String defaultValue, boolean checkDefault ) throws MissingResourceException {
+        //logger.debug( "testing key: " + key );
+        String lookup = null;
+        Integer translationId = null;
+        if ( component.getVariation() != null ) {
+            translationId = Integer.valueOf( component.getVariation() );
+        }
+        Locale locale = component.getLocale();
+
+        // whether we should look up the string by the translation id, or by the locale
+        boolean lookupById = translationId != null;
+
+        if ( lookupById ) {
+            lookup = getTranslationIdString( null, key, translationId, false );
+        }
+        else {
+            lookup = getLocaleString( null, key, locale, false );
+        }
+
+        if ( lookup != null ) {
+            // our string was found, so return it.
+            return lookup;
+        }
+
+        // at this point, we know it is not in the first translation we looked at
+
+        if ( !checkDefault ) {
+            // return either null or the default value, since we won't check the default language
+            logger.info( "Shortcut default value on " + key + ": " + defaultValue );
+            return defaultValue;
+        }
+
+        return getDefaultString( null, key, defaultValue, false );
     }
 
     /**
@@ -254,68 +320,6 @@ public class PhetLocalizer extends Localizer {
 
         // untranslated for this translation, return null
         return null;
-    }
-
-    /**
-     * Returns the translated string from the default translation (probably English). If the string is not translated
-     * and the defaultValue is non-null, the defaultValue is returned. Otherwise an error string is returned that
-     * contains the key value. (null is NOT returned)
-     * <p/>
-     * NOTE: assumes that we are NOT currently in a hibernate transaction
-     *
-     * @param session       Hibernate session (if set to null, will be recovered from the request cycle)
-     * @param key           Translation string key
-     * @param defaultValue  Default value (set to null if not desired)
-     * @param inTransaction Whether or not Hibernate is inside of a transaction
-     * @return Translated string
-     */
-    public String getDefaultString( Session session, String key, String defaultValue, boolean inTransaction ) {
-        String defaultCacheKey = mapCacheKey( key, PhetWicketApplication.getDefaultLocale() );
-
-        String lookup = getFromCache( defaultCacheKey );
-
-        if ( lookup != null ) {
-            // either hit or miss recorded in cache. handle both possibilities
-            if ( !lookup.equals( UNTRANSLATED_VALUE ) ) {
-                // lookup of the default value succeeded, return the string
-                return lookup;
-            }
-            else {
-                if ( defaultValue != null ) {
-                    return defaultValue;
-                }
-
-                logger.warn( "unable to find default translation for " + key );
-                return getErrorString( key );
-            }
-        }
-
-        if ( session == null ) {
-            session = PhetRequestCycle.get().getHibernateSession();
-        }
-
-        // perform a "default" lookup, which usually should give the English translation, if it exists
-        if ( inTransaction ) {
-            lookup = StringUtils.getStringDirectWithinTransaction( session, key, PhetWicketApplication.getDefaultLocale() );
-        }
-        else {
-            lookup = StringUtils.getDefaultStringDirect( session, key );
-        }
-
-        if ( lookup != null ) {
-            putIntoCache( defaultCacheKey, lookup );
-            return lookup;
-        }
-        else {
-            putIntoCache( defaultCacheKey, UNTRANSLATED_VALUE );
-
-            if ( defaultValue != null ) {
-                return defaultValue;
-            }
-
-            logger.warn( "unable to find default translation for " + key );
-            return getErrorString( key );
-        }
     }
 
     private String getErrorString( String key ) {
