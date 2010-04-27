@@ -99,10 +99,6 @@ public class SearchUtils {
         }
     }
 
-    private static Directory getDirectory() throws IOException {
-        return FSDirectory.open( new File( "/tmp/testindex" ) );
-    }
-
     public static void addSimulations( Session session, final PhetLocalizer localizer, final NavMenu menu ) {
         try {
             logger.debug( "adding simulations" );
@@ -121,7 +117,7 @@ public class SearchUtils {
                             logger.debug( "processed" );
                             iwriter.addDocument( doc );
                             logger.debug( "added" );
-                            //logger.debug( "adding document: " + doc );
+                            logger.debug( "adding document: " + doc );
                         }
                         catch( IOException e ) {
                             e.printStackTrace();
@@ -158,12 +154,12 @@ public class SearchUtils {
             titleField.setBoost( 4.5f );
             doc.add( titleField );
 
-            String description = localizer.getBestString( session, sim.getDescriptionKey(), lsim.getLocale() );
+            String description = localizer.getBestStringWithinTransaction( session, sim.getDescriptionKey(), lsim.getLocale() );
             if ( description != null ) {
                 doc.add( new Field( "sim_" + prefix + "_description", description, Field.Store.NO, Field.Index.ANALYZED ) );
             }
 
-            String goals = localizer.getBestString( session, sim.getLearningGoalsKey(), lsim.getLocale() );
+            String goals = localizer.getBestStringWithinTransaction( session, sim.getLearningGoalsKey(), lsim.getLocale() );
             if ( goals != null ) {
                 doc.add( new Field( "sim_" + prefix + "_goals", goals, Field.Store.NO, Field.Index.ANALYZED ) );
             }
@@ -171,7 +167,7 @@ public class SearchUtils {
             String keywords = "";
             for ( Object o2 : sim.getKeywords() ) {
                 Keyword keyword = (Keyword) o2;
-                String key = localizer.getBestString( session, keyword.getLocalizationKey(), lsim.getLocale() );
+                String key = localizer.getBestStringWithinTransaction( session, keyword.getLocalizationKey(), lsim.getLocale() );
                 if ( key != null ) {
                     keywords += key + " ";
                 }
@@ -183,7 +179,7 @@ public class SearchUtils {
             String topics = "";
             for ( Object o2 : sim.getTopics() ) {
                 Keyword keyword = (Keyword) o2;
-                String key = localizer.getBestString( session, keyword.getLocalizationKey(), lsim.getLocale() );
+                String key = localizer.getBestStringWithinTransaction( session, keyword.getLocalizationKey(), lsim.getLocale() );
                 if ( key != null ) {
                     topics += key + " ";
                 }
@@ -195,7 +191,7 @@ public class SearchUtils {
             String categories = "";
             for ( Object o2 : sim.getCategories() ) {
                 Category category = (Category) o2;
-                String key = localizer.getBestString( session, category.getNavLocation( menu ).getLocalizationKey(), lsim.getLocale() );
+                String key = localizer.getBestStringWithinTransaction( session, category.getNavLocation( menu ).getLocalizationKey(), lsim.getLocale() );
                 if ( key != null ) {
                     categories += key + " ";
                 }
