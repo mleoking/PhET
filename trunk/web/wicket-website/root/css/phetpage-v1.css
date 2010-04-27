@@ -103,6 +103,10 @@ body.rtl .log-in-out {
     text-decoration: none;
 }
 
+#main-content .breadcrumbs a:hover {
+    text-decoration: none;
+}
+
 .standard-content h2 {
     font-size: 16px;
     color: #15337f;
