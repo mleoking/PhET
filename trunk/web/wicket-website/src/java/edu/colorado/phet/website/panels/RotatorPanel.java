@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.content.simulations.SimulationDisplay;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -20,6 +21,9 @@ import edu.colorado.phet.website.util.StringUtils;
 public class RotatorPanel extends PhetPanel {
     public RotatorPanel( String id, PageContext context ) {
         super( id, context );
+
+//        setMarkupId( "rotator-holder-id" );
+//        setOutputMarkupId( true );
 
         //String flashvars = "dir=ltr&quantity=2&project1=mass-spring-lab&sim1=mass-spring-lab&title1=Masses+%26+Springs&url1=%2Fen%2Fsimulation%2Fmass-spring-lab&project2=circuit-construction-kit&sim2=circuit-construction-kit-dc&title2=Circuit+Construction+Kit+%28DC+Only%29&url2=%2Fen%2Fsimulation%2Fcircuit-construction-kit%2Fcircuit-construction-kit-dc";
         final List<LocalizedSimulation> featured = new LinkedList<LocalizedSimulation>();
@@ -63,5 +67,7 @@ public class RotatorPanel extends PhetPanel {
         Label embedLabel = new Label( "flash-embed" );
         embedLabel.add( new AttributeAppender( "FlashVars", flashvarsModel, " " ) );
         add( embedLabel );
+
+        add( SimulationDisplay.getLinker().getLink( "fallback-link", context, getPhetCycle() ) );
     }
 }
