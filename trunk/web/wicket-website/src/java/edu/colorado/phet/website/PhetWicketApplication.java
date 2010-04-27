@@ -50,6 +50,7 @@ public class PhetWicketApplication extends WebApplication {
     private PhetUrlMapper mapper;
     private NavMenu menu;
 
+    // TODO: flesh out and improve thread-safeness of translations part
     private List<Translation> translations = new LinkedList<Translation>();
 
     private static Logger logger = Logger.getLogger( PhetWicketApplication.class.getName() );
@@ -253,6 +254,18 @@ public class PhetWicketApplication extends WebApplication {
             ret.add( LocaleUtils.localeToString( translation.getLocale() ) );
         }
         return ret;
+    }
+
+    public boolean isVisibleLocale( Locale locale ) {
+        if ( locale.equals( getDefaultLocale() ) ) {
+            return true;
+        }
+        for ( Translation translation : translations ) {
+            if ( translation.getLocale().equals( locale ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public synchronized NavMenu getMenu() {
