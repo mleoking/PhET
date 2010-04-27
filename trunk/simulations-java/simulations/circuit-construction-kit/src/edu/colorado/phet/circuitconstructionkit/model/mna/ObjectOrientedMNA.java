@@ -5,23 +5,17 @@ import Jama.Matrix;
 import java.util.*;
 
 /**
- * Conventions:
- * Current is 'conventional current': in a battery positive current flows from the higher (+) potential
- * When traversing a battery with voltage V, the potential increases by +V from node0 to node1 of the battery.
- * We are using the same conventions as the "flow of positive charge" in http://en.wikipedia.org/wiki/Electric_current
+ * This implementation of the LinearCircuitSolver is based on an object-oriented design that is easy to understand,
+ * maintain and debug, but which performs slowly at runtime.
+ *
+ * @author Sam Reid
  */
-public class MNA {
-
-    public static abstract class ISolution {
-        abstract double getNodeVoltage(int node);
-
-        abstract double getCurrent(Element element);
-    }
+public class ObjectOrientedMNA implements LinearCircuitSolver {
 
     /**
      * This class represents a sparse solution containing only the solved unknowns in MNA.
      */
-    public static class Solution extends ISolution {
+    public static class Solution implements ISolution {
         HashMap<Integer, Double> nodeVoltages = new HashMap<Integer, Double>();
         HashMap<Element, Double> branchCurrents = new HashMap<Element, Double>();
 
@@ -30,11 +24,11 @@ public class MNA {
             this.branchCurrents = branchCurrents;
         }
 
-        double getNodeVoltage(int node) {
+        public double getNodeVoltage(int node) {
             return nodeVoltages.get(node);
         }
 
-        boolean approxEquals(Solution s) {
+        public boolean approxEquals(ISolution s) {
             return approxEquals(s, 1E-6);
         }
 
@@ -42,19 +36,27 @@ public class MNA {
             return Math.abs(a - b) < delta;
         }
 
-        boolean approxEquals(Solution s, double delta) {
-            if (!nodeVoltages.keySet().equals(s.nodeVoltages.keySet()) || !branchCurrents.keySet().equals(s.branchCurrents.keySet())) {
+        public Set<Integer> getNodes() {
+            return nodeVoltages.keySet();
+        }
+
+        public Set<Element> getBranches() {
+            return branchCurrents.keySet();
+        }
+
+        boolean approxEquals(ISolution solution, double delta) {
+            if (!getNodes().equals(solution.getNodes()) || !getBranches().equals(solution.getBranches())) {
                 return false;
             } else {
                 boolean sameVoltages = true;
                 for (Integer key : nodeVoltages.keySet()) {
-                    if (!approxEquals(nodeVoltages.get(key), s.nodeVoltages.get(key), delta)) {
+                    if (!approxEquals(nodeVoltages.get(key), solution.getNodeVoltage(key), delta)) {
                         sameVoltages = false;
                     }
                 }
                 boolean sameCurrents = true;
                 for (Element key : branchCurrents.keySet()) {
-                    if (Math.abs(branchCurrents.get(key) - s.branchCurrents.get(key)) > delta) {
+                    if (Math.abs(branchCurrents.get(key) - solution.getCurrent(key)) > delta) {
                         sameCurrents = false;
                     }
                 }
@@ -67,7 +69,7 @@ public class MNA {
             return nodeVoltages.get(e.node1) - nodeVoltages.get(e.node0);
         }
 
-        double getCurrent(Element e) {
+        public double getCurrent(Element e) {
             //if it was a battery or resistor (of R=0), look up the answer
             if (branchCurrents.containsKey(e)) {
                 return branchCurrents.get(e);
@@ -84,35 +86,6 @@ public class MNA {
 
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-
-            Solution solution = (Solution) o;
-
-            if (!branchCurrents.equals(solution.branchCurrents)) {
-                return false;
-            }
-            if (!nodeVoltages.equals(solution.nodeVoltages)) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = nodeVoltages.hashCode();
-            result = 31 * result + branchCurrents.hashCode();
-            return result;
-        }
-
-        @Override
         public String toString() {
             return "Solution{" +
                     "nodeVoltages=" + nodeVoltages +
@@ -141,135 +114,13 @@ public class MNA {
         }
     }
 
-    /**
-     * This class represents an Element in a circuit, such as a Battery, Resistor, Capacitor, etc.
-     * Comparisons must be made based on the identity of the object, not based on the content of the object, since, e.g.,
-     * two identical resistors may connect the same nodes, and they should not be treated as the same resistor.
-     */
-    public static abstract class Element {
-        public final int node0;
-
-        public final int node1;
-
-        protected Element(int node0, int node1) {
-            this.node0 = node0;
-            this.node1 = node1;
+    public static class OOCircuit extends Circuit {
+        OOCircuit(List<Battery> batteries, List<Resistor> resistors) {
+            super(batteries, resistors);
         }
 
-        boolean containsNode(int n) {
-            return n == node0 || n == node1;
-        }
-
-        int getOpposite(int node) {
-            if (node == node0) {
-                return node1;
-            } else if (node == node1) {
-                return node0;
-            } else {
-                throw new RuntimeException("node not found");
-            }
-        }
-
-        public String toString() {
-            return "Element{" + "node0=" + node0 + ", node1=" + node1 + '}';
-        }
-    }
-
-    /**
-     * Battery model for the MNA circuit, with the convention that as you traverse from node0 to node1, the voltage increases by (voltage).
-     */
-    public static class Battery extends Element {
-        double voltage;
-
-        Battery(int node0, int node1, double voltage) {
-            super(node0, node1);
-            this.voltage = voltage;
-        }
-
-        public String toString() {
-            return "Battery{" + "[" + node0 + "->" + node1 + "], " + "v=" + voltage + '}';
-        }
-    }
-
-    public static class Resistor extends Element {
-        double resistance;
-
-        Resistor(int node0, int node1, double resistance) {
-            super(node0, node1);
-            this.resistance = resistance;
-        }
-
-        public String toString() {
-            return "Resistor{" + "[" + node0 + "->" + node1 + "], " + "r=" + resistance + '}';
-        }
-    }
-
-    public static class CurrentSource extends Element {
-        double current;
-
-        public CurrentSource(int node0, int node1, double current) {
-            super(node0, node1);
-            this.current = current;
-        }
-
-        public String toString() {
-            return "CurrentSource{" + "current=" + current + '}';
-        }
-    }
-
-    public static abstract class AbstractCircuit {
-        HashSet<Integer> getNodeSet() {
-            HashSet<Integer> set = new HashSet<Integer>();
-            for (Element element : getElements()) {
-                set.add(element.node0);
-                set.add(element.node1);
-            }
-            return set;
-        }
-
-        abstract List<Element> getElements();
-    }
-
-    public static class Circuit extends AbstractCircuit {
-        List<Battery> batteries;
-        List<Resistor> resistors;
-        List<CurrentSource> currentSources;
-
-        Circuit(List<Battery> batteries, List<Resistor> resistors) {
-            this(batteries, resistors, new ArrayList<CurrentSource>());
-        }
-
-        Circuit(List<Battery> batteries, List<Resistor> resistors, List<CurrentSource> currentSources) {
-            this.batteries = batteries;
-            this.resistors = resistors;
-            this.currentSources = currentSources;
-        }
-
-        @Override
-        public String toString() {
-            return "Circuit{" + "batteries=" + batteries + ", resistors=" + resistors + ", currentSources=" + currentSources + ", debug=" + debug + '}';
-        }
-
-        List<Element> getElements() {
-            List<Element> list = new ArrayList<Element>();
-            list.addAll(batteries);
-            list.addAll(resistors);
-            list.addAll(currentSources);
-            return list;
-        }
-
-        int getNodeCount() {
-            return getNodeSet().size();
-        }
-
-        int getCurrentCount() {
-            int zeroResistors = 0;
-            for (Resistor resistor : resistors) {
-                if (resistor.resistance == 0) {
-                    zeroResistors++;
-                }
-            }
-            return batteries.size() + zeroResistors;
+        OOCircuit(List<Battery> batteries, List<Resistor> resistors, List<CurrentSource> currentSources) {
+            super(batteries, resistors, currentSources);
         }
 
         int getNumVars() {
@@ -576,7 +427,7 @@ public class MNA {
             return all;
         }
 
-        Solution solve() {
+        public ISolution solve() {
             ArrayList<Equation> equations = getEquations();
 
             Matrix A = new Matrix(equations.size(), getNumVars());
@@ -616,24 +467,10 @@ public class MNA {
                 x.print(4, 2);
             }
 
-            return new Solution(voltageMap, currentMap);
+            return new ObjectOrientedMNA.Solution(voltageMap, currentMap);
         }
 
-        boolean debug = false;
-
-    }
-
-    public static class Util {
-        public static String mkString(List list, String separator) {
-            String out = "";
-            for (int i = 0; i < list.size(); i++) {
-                out += list.get(i);
-                if (i < list.size() - 1) {
-                    out += separator;
-                }
-            }
-            return out;
-        }
+        public boolean debug = false;
     }
 
     public static class TestMNA {
@@ -645,7 +482,7 @@ public class MNA {
             resistorArrayList.add(new Resistor(1, 2, 4.0));
             Resistor resistor2 = new Resistor(2, 0, 0.0);
             resistorArrayList.add(resistor2);
-            Circuit circuit = new Circuit(batteryArrayList, resistorArrayList);
+            OOCircuit circuit = new OOCircuit(batteryArrayList, resistorArrayList);
             HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
             voltageMap.put(0, 0.0);
             voltageMap.put(1, 4.0);

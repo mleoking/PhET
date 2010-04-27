@@ -4,9 +4,9 @@ import java.util.*;
 
 ///**This is a rewrite of companion mapping to make it simpler to construct and inspect companion models.*/
 public class DynamicCircuit {
-    private List<MNA.Battery> batteries;
-    private List<MNA.Resistor> resistors;
-    private List<MNA.CurrentSource> currents;
+    private List<LinearCircuitSolver.Battery> batteries;
+    private List<LinearCircuitSolver.Resistor> resistors;
+    private List<LinearCircuitSolver.CurrentSource> currents;
     private List<ResistiveBattery> resistiveBatteries;
     private List<DynamicCapacitor> capacitors;
     private List<DynamicInductor> inductors;
@@ -23,7 +23,7 @@ public class DynamicCircuit {
                 '}';
     }
 
-    public DynamicCircuit(List<MNA.Battery> batteries, List<MNA.Resistor> resistors, List<MNA.CurrentSource> currents, List<ResistiveBattery> resistiveBatteries, List<DynamicCapacitor> capacitors, List<DynamicInductor> inductors) {
+    public DynamicCircuit(List<LinearCircuitSolver.Battery> batteries, List<LinearCircuitSolver.Resistor> resistors, List<LinearCircuitSolver.CurrentSource> currents, List<ResistiveBattery> resistiveBatteries, List<DynamicCapacitor> capacitors, List<DynamicInductor> inductors) {
         this.batteries = batteries;
         this.capacitors = capacitors;
         this.currents = currents;
@@ -80,7 +80,7 @@ public class DynamicCircuit {
         }
     }
 
-    public static class Capacitor extends MNA.Element {
+    public static class Capacitor extends LinearCircuitSolver.Element {
         double capacitance;
 
         public Capacitor(int node0, int node1, double capacitance) {
@@ -89,7 +89,7 @@ public class DynamicCircuit {
         }
     }
 
-    public static class Inductor extends MNA.Element {
+    public static class Inductor extends LinearCircuitSolver.Element {
         double inductance;
 
         public Inductor(int node0, int node1, double inductance) {
@@ -98,7 +98,7 @@ public class DynamicCircuit {
         }
     }
 
-    public static class ResistiveBattery extends MNA.Element {
+    public static class ResistiveBattery extends LinearCircuitSolver.Element {
         private double voltage;
         private double resistance;
 
@@ -149,10 +149,10 @@ public class DynamicCircuit {
     }
 
     public class Result {
-        MNA.Circuit mnaCircuit;
-        HashMap<MNA.Element, SolutionToDouble> currentCompanions;
+        LinearCircuitSolver.Circuit mnaCircuit;
+        HashMap<LinearCircuitSolver.Element, SolutionToDouble> currentCompanions;
 
-        Result(MNA.Circuit mnaCircuit, HashMap<MNA.Element, SolutionToDouble> currentCompanions) {
+        Result(LinearCircuitSolver.Circuit mnaCircuit, HashMap<LinearCircuitSolver.Element, SolutionToDouble> currentCompanions) {
             this.mnaCircuit = mnaCircuit;
             this.currentCompanions = currentCompanions;
         }
@@ -248,10 +248,10 @@ public class DynamicCircuit {
 
     public class DynamicCircuitSolution {
         DynamicCircuit circuit;
-        MNA.Solution mnaSolution;
-        HashMap<MNA.Element, SolutionToDouble> currentCompanions;
+        LinearCircuitSolver.ISolution mnaSolution;
+        HashMap<LinearCircuitSolver.Element, SolutionToDouble> currentCompanions;
 
-        public DynamicCircuitSolution(DynamicCircuit circuit, MNA.Solution mnaSolution, HashMap<MNA.Element, SolutionToDouble> currentCompanions) {
+        public DynamicCircuitSolution(DynamicCircuit circuit, LinearCircuitSolver.ISolution mnaSolution, HashMap<LinearCircuitSolver.Element, SolutionToDouble> currentCompanions) {
             this.circuit = circuit;
             this.mnaSolution = mnaSolution;
             this.currentCompanions = currentCompanions;
@@ -261,7 +261,7 @@ public class DynamicCircuit {
             return mnaSolution.getNodeVoltage(node);
         }
 
-        public double getCurrent(MNA.Element element) {
+        public double getCurrent(LinearCircuitSolver.Element element) {
             if (currentCompanions.containsKey(element))
                 return currentCompanions.get(element).getValue(mnaSolution);
             else
@@ -277,32 +277,32 @@ public class DynamicCircuit {
                     '}';
         }
 
-        public double getVoltage(MNA.Element element) {
+        public double getVoltage(LinearCircuitSolver.Element element) {
             return getNodeVoltage(element.node1) - getNodeVoltage(element.node0);
         }
     }
 
     interface SolutionToDouble {
-        double getValue(MNA.Solution solution);
+        double getValue(LinearCircuitSolver.ISolution solution);
     }
 
     //TODO: why not give every component a companion in the MNACircuit?
     Result toMNACircuit(double dt) {
 
-        ArrayList<MNA.Battery> companionBatteries = new ArrayList<MNA.Battery>();
-        ArrayList<MNA.Resistor> companionResistors = new ArrayList<MNA.Resistor>();
-        ArrayList<MNA.CurrentSource> companionCurrents = new ArrayList<MNA.CurrentSource>();
+        ArrayList<LinearCircuitSolver.Battery> companionBatteries = new ArrayList<LinearCircuitSolver.Battery>();
+        ArrayList<LinearCircuitSolver.Resistor> companionResistors = new ArrayList<LinearCircuitSolver.Resistor>();
+        ArrayList<LinearCircuitSolver.CurrentSource> companionCurrents = new ArrayList<LinearCircuitSolver.CurrentSource>();
 
-        HashMap<MNA.Element, SolutionToDouble> currentCompanions = new HashMap<MNA.Element, SolutionToDouble>();
+        HashMap<LinearCircuitSolver.Element, SolutionToDouble> currentCompanions = new HashMap<LinearCircuitSolver.Element, SolutionToDouble>();
         HashSet<Integer> usedNodes = new HashSet<Integer>();
-        ArrayList<MNA.Element> elements = new ArrayList<MNA.Element>();
+        ArrayList<LinearCircuitSolver.Element> elements = new ArrayList<LinearCircuitSolver.Element>();
         elements.addAll(batteries);
         elements.addAll(resistors);
         elements.addAll(resistiveBatteries);
         elements.addAll(currents);
         for (DynamicCapacitor c : capacitors) elements.add(c.capacitor);
         for (DynamicInductor i : inductors) elements.add(i.inductor);
-        for (MNA.Element e : elements) {
+        for (LinearCircuitSolver.Element e : elements) {
             usedNodes.add(e.node0);
             usedNodes.add(e.node1);
         }
@@ -311,13 +311,13 @@ public class DynamicCircuit {
         for (ResistiveBattery b : resistiveBatteries) {
             int newNode = Collections.max(usedNodes) + 1;
             usedNodes.add(newNode);
-            final MNA.Battery idealBattery = new MNA.Battery(b.node0, newNode, b.voltage);
-            MNA.Resistor idealResistor = new MNA.Resistor(newNode, b.node1, b.resistance);
+            final LinearCircuitSolver.Battery idealBattery = new LinearCircuitSolver.Battery(b.node0, newNode, b.voltage);
+            LinearCircuitSolver.Resistor idealResistor = new LinearCircuitSolver.Resistor(newNode, b.node1, b.resistance);
             companionBatteries.add(idealBattery);
             companionResistors.add(idealResistor);
             //we need to be able to get the current for this component
             currentCompanions.put(b, new SolutionToDouble() {
-                public double getValue(MNA.Solution solution) {
+                public double getValue(LinearCircuitSolver.ISolution solution) {
                     return solution.getCurrent(idealBattery);
                 }
             });
@@ -344,14 +344,14 @@ public class DynamicCircuit {
             double companionVoltage = state.voltage - companionResistance * state.current; //TODO: explain the difference between this sign and the one in TestTheveninCapacitorRC
             //      println("companion resistance = "+companionResistance+", companion voltage = "+companionVoltage)
 
-            final MNA.Battery battery = new MNA.Battery(capacitor.node0, newNode, companionVoltage);
-            MNA.Resistor resistor = new MNA.Resistor(newNode, capacitor.node1, companionResistance);
+            final LinearCircuitSolver.Battery battery = new LinearCircuitSolver.Battery(capacitor.node0, newNode, companionVoltage);
+            LinearCircuitSolver.Resistor resistor = new LinearCircuitSolver.Resistor(newNode, capacitor.node1, companionResistance);
             companionBatteries.add(battery);
             companionResistors.add(resistor);
 
             //we need to be able to get the current for this component
             currentCompanions.put(capacitor, new SolutionToDouble() {
-                public double getValue(MNA.Solution solution) {
+                public double getValue(LinearCircuitSolver.ISolution solution) {
                     return solution.getCurrent(battery);//in series, so current is same through both companion components
                 }
             });
@@ -370,14 +370,14 @@ public class DynamicCircuit {
             double companionResistance = 2 * inductor.inductance / dt;
             double companionVoltage = state.voltage + companionResistance * state.current;
 
-            final MNA.Battery battery = new MNA.Battery(newNode, inductor.node0, companionVoltage);
-            MNA.Resistor resistor = new MNA.Resistor(newNode, inductor.node1, companionResistance);
+            final LinearCircuitSolver.Battery battery = new LinearCircuitSolver.Battery(newNode, inductor.node0, companionVoltage);
+            LinearCircuitSolver.Resistor resistor = new LinearCircuitSolver.Resistor(newNode, inductor.node1, companionResistance);
             companionBatteries.add(battery);
             companionResistors.add(resistor);
 
             //we need to be able to get the current for this component
             currentCompanions.put(inductor, new SolutionToDouble() {
-                public double getValue(MNA.Solution solution) {
+                public double getValue(LinearCircuitSolver.ISolution solution) {
                     return solution.getCurrent(battery);//in series, so current is same through both companion components
                 }
             });
@@ -388,14 +388,14 @@ public class DynamicCircuit {
         //      mnaBatteries += new Battery
         //      mnaCurrents += new CurrentSource
         //    }
-        ArrayList<MNA.Battery> newBatteryList = new ArrayList<MNA.Battery>(batteries);
+        ArrayList<LinearCircuitSolver.Battery> newBatteryList = new ArrayList<LinearCircuitSolver.Battery>(batteries);
         newBatteryList.addAll(companionBatteries);
-        ArrayList<MNA.Resistor> newResistorList = new ArrayList<MNA.Resistor>(resistors);
+        ArrayList<LinearCircuitSolver.Resistor> newResistorList = new ArrayList<LinearCircuitSolver.Resistor>(resistors);
         newResistorList.addAll(companionResistors);
-        ArrayList<MNA.CurrentSource> newCurrentList = new ArrayList<MNA.CurrentSource>(currents);
+        ArrayList<LinearCircuitSolver.CurrentSource> newCurrentList = new ArrayList<LinearCircuitSolver.CurrentSource>(currents);
         newCurrentList.addAll(companionCurrents);
 
-        return new Result(new MNA.Circuit(newBatteryList, newResistorList, newCurrentList), currentCompanions);
+        return new Result(new ObjectOrientedMNA.OOCircuit(newBatteryList, newResistorList, newCurrentList), currentCompanions);
     }
 
     public static void main(String[] args) {
@@ -403,17 +403,17 @@ public class DynamicCircuit {
         //    double resistance = 1E-6
         double resistance = 1;
         Capacitor c = new Capacitor(2, 0, 0.1);
-        MNA.Battery battery = new MNA.Battery(0, 1, voltage);
+        LinearCircuitSolver.Battery battery = new LinearCircuitSolver.Battery(0, 1, voltage);
 
-        ArrayList<MNA.Battery> batteries = new ArrayList<MNA.Battery>();
+        ArrayList<LinearCircuitSolver.Battery> batteries = new ArrayList<LinearCircuitSolver.Battery>();
         batteries.add(battery);
 
-        ArrayList<MNA.Resistor> resistors = new ArrayList<MNA.Resistor>();
-        resistors.add(new MNA.Resistor(1, 2, resistance));
+        ArrayList<LinearCircuitSolver.Resistor> resistors = new ArrayList<LinearCircuitSolver.Resistor>();
+        resistors.add(new LinearCircuitSolver.Resistor(1, 2, resistance));
 
         ArrayList<DynamicCapacitor> capacitors = new ArrayList<DynamicCapacitor>();
         capacitors.add(new DynamicCapacitor(c, new DynamicElementState(0.0, voltage / resistance)));
-        DynamicCircuit circuit = new DynamicCircuit(batteries, resistors, new ArrayList<MNA.CurrentSource>(), new ArrayList<ResistiveBattery>(), capacitors, new ArrayList<DynamicInductor>());
+        DynamicCircuit circuit = new DynamicCircuit(batteries, resistors, new ArrayList<LinearCircuitSolver.CurrentSource>(), new ArrayList<ResistiveBattery>(), capacitors, new ArrayList<DynamicInductor>());
 //    //    var circuit = new CompanionCircuit(battery :: Nil, new Resistor(1, 0, resistance) :: Nil, Nil, Nil, Nil)
         System.out.println("current through capacitor");
         for (int i = 0; i < 10; i++) {
