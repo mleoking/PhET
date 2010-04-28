@@ -77,9 +77,6 @@ public abstract class Particle implements IMovable, IFadable {
 		case SODIUM_ION:
         	newParticle = new SodiumIon();
         	break;
-		case PROTEIN_ION:
-        	newParticle = new ProteinIon();
-        	break;
 		default:
 			System.err.println("Error: Unrecognized particle type.");
 			assert false;
