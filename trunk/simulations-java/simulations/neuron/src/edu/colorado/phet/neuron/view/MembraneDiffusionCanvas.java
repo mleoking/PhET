@@ -5,10 +5,7 @@ package edu.colorado.phet.neuron.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GradientPaint;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -47,9 +44,6 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    // Model
-    private MembraneDiffusionModel model;
-    
     // Model-view transform.
     private ModelViewTransform2D mvt;
     
@@ -73,8 +67,6 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     
     public MembraneDiffusionCanvas(MembraneDiffusionModel model  ) {
     	
-    	this.model = model;
-
     	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, INITIAL_INTERMEDIATE_DIMENSION));
     	
@@ -190,24 +182,6 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the layout of stuff on the canvas.
-     */
-    protected void updateLayout() {
-
-        Dimension2D worldSize = getWorldSize();
-        Dimension2D screenSize = getScreenSize();
-        Rectangle bounds = getBounds();
-        Dimension size = getSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
-        else {
-            // TODO
-        }
-    }
     
     private void addParticleNode(Particle particleToBeAdded){
     	final ParticleNode particleNode = new ParticleNode(particleToBeAdded, mvt); 

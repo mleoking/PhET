@@ -6,7 +6,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -238,14 +237,11 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 
         Dimension2D worldSize = getWorldSize();
         Dimension2D screenSize = getScreenSize();
-        Rectangle bounds = getBounds();
-        Dimension size = getSize();
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
         }
         else {
-            double rightEdgeX = (INITIAL_INTERMEDIATE_COORD_WIDTH + worldSize.getWidth()) / 2;
             double centerX = getScreenSize().getWidth() / 2;
             
             // Set the membrane potential chart such that it is centered in
