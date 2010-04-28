@@ -11,6 +11,7 @@ import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.gui.panels.*;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.buildtools.java.projects.WebsiteProject;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 
 /**
@@ -59,6 +60,10 @@ public class PhetBuildGUIPanel extends JSplitPane {
                 }
                 else if ( project instanceof StatisticsProject ) {
                     projectPanel = new StatisticsPanel( trunk, (StatisticsProject) project );
+                    setRightComponent( projectPanel );
+                }
+                else if( project instanceof WebsiteProject ) {
+                    projectPanel = new WebsitePanel( trunk, (WebsiteProject) project );
                     setRightComponent( projectPanel );
                 }
                 else if ( project instanceof JavaProject ) {
