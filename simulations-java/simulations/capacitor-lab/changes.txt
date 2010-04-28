@@ -1,10 +1,11 @@
-4/26/10 add control panel for dielectric properties (not wired up)
-4/26/10 make all control panels the same width
-4/26/10 add control panels for Introduction module (not wired up)
-4/26/10 add various localized strings
-4/26/10 i18n of units in voltage slider
-4/26/10 clean up and rename battery slider
-4/26/10 add interactivity to battery slider
+4/28/10 add control for selecting specific dielectric materials
+4/27/10 add control panel for dielectric properties (not wired up)
+4/27/10 make all control panels the same width
+4/27/10 add control panels for Introduction module (not wired up)
+4/27/10 add various localized strings
+4/27/10 i18n of units in voltage slider
+4/27/10 clean up and rename battery slider
+4/27/10 add interactivity to battery slider
 4/26/10 more work on battery slider (incomplete)
 4/26/10 check in battery slider knob images, copied from faraday
 4/26/10 framework for modules, canvases, control panels, etc.

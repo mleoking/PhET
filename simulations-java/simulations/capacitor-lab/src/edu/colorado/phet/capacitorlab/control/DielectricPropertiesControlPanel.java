@@ -6,7 +6,10 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -17,13 +20,21 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 public class DielectricPropertiesControlPanel extends CLTitledControlPanel {
     
-    private final DielectricConstantControl dielectricConstantControl;
+    private final DielectricMaterialControl materialControl;
+    private final DielectricConstantControl constantControl;
     private final DielectricChargesControl chargesControl;
 
     public DielectricPropertiesControlPanel() {
         super( CLStrings.TITLE_DIELECTRIC );
         
-        dielectricConstantControl = new DielectricConstantControl();
+        materialControl = new DielectricMaterialControl();
+        materialControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                updateDielectricConstantControl();
+            }
+        });
+        
+        constantControl = new DielectricConstantControl( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         
         chargesControl = new DielectricChargesControl();
         
@@ -35,7 +46,8 @@ public class DielectricPropertiesControlPanel extends CLTitledControlPanel {
         layout.setFill( GridBagConstraints.HORIZONTAL );
         int row = 0;
         int column = 0;
-        layout.addComponent( dielectricConstantControl, row++, column );
+        layout.addComponent( materialControl, row++, column );
+        layout.addComponent( constantControl, row++, column );
         layout.addComponent( chargesControl, row++, column );
         
         // make everything left justify when put in the main control panel
@@ -43,6 +55,11 @@ public class DielectricPropertiesControlPanel extends CLTitledControlPanel {
         add( innerPanel, BorderLayout.WEST );
         
         // default state
-        //XXX
+        updateDielectricConstantControl();
+    }
+    
+    private void updateDielectricConstantControl() {
+        constantControl.setEnabled( materialControl.isCustomMaterial() );
+        constantControl.setValue( materialControl.getMaterial().getDielectricConstant() );
     }
 }
