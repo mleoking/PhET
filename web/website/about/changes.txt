@@ -1,3 +1,6 @@
+4-29-2010: Quantum Bound States (1.07) - restore time display
+4-29-2010: Band Structure (1.07) - restore time display
+4-29-2010: Double Wells and Covalent Bonds (1.07) - restore time display
 3-18-2010: Reactants, Products and Leftovers (1.00) - new sim 
 2-5-2010: Gas Properties (3.12) - fixed Energy histogram
 1-14-2010: Torque (1.09) - Many user interface improvements and bug fixes.
