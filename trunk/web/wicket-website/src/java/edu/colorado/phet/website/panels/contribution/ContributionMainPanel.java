@@ -13,6 +13,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.pages.RedirectPage;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
@@ -22,6 +23,7 @@ import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.SearchResultsPage;
 import edu.colorado.phet.website.content.contribution.AddContributionCommentPage;
+import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.PhetUser;
@@ -50,7 +52,7 @@ public class ContributionMainPanel extends PhetPanel {
 
         add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
 
-        PhetUser user = PhetSession.get().getUser();
+        final PhetUser user = PhetSession.get().getUser();
 
         if ( user != null && user.isTeamMember() ) {
             add( new AdminContributionPanel( "admin-contrib-panel", context, contribution ) );
@@ -189,10 +191,27 @@ public class ContributionMainPanel extends PhetPanel {
 
             add( new ListView( "contribution-comment", comments ) {
                 protected void populateItem( ListItem item ) {
-                    ContributionComment comment = (ContributionComment) item.getModel().getObject();
+                    final ContributionComment comment = (ContributionComment) item.getModel().getObject();
                     item.add( new Label( "text", comment.getText() ) );
                     item.add( new Label( "date", dateFormat.format( comment.getDateUpdated() ) ) );
                     item.add( new Label( "author", comment.getPhetUser().getName() ) );
+                    if ( user != null && user.isTeamMember() ) {
+                        item.add( new Link( "contribution-admin-delete" ) {
+                            public void onClick() {
+                                HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                                    public boolean run( Session session ) {
+                                        ContributionComment comm = (ContributionComment) session.load( ContributionComment.class, comment.getId() );
+                                        session.delete( comm );
+                                        return true;
+                                    }
+                                } );
+                                setResponsePage( new RedirectPage( ContributionPage.getLinker( contribution.getId() ).getRawUrl( context, getPhetCycle() ) ) );
+                            }
+                        } );
+                    }
+                    else {
+                        item.add( new InvisibleComponent( "contribution-admin-delete" ) );
+                    }
                 }
             } );
         }
