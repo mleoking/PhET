@@ -117,21 +117,8 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	 */
 	public double get_m3h() { return m3h; }
 	
-	double peakM3h = 0;
-	double biggestDeltaGoingIn = 0;
-	double peakDelayedM3h = 0;
-	double biggestDeltaComingOut = 0;
-	
 	public double get_delayed_m3h(double delayAmount){
 		double delayedM3h = 0;
-//		if (m3h > peakM3h){
-//			System.out.println("Peak m3h updated = " + m3h);
-//			if (Math.abs(m3h - peakM3h) > biggestDeltaGoingIn){
-//				biggestDeltaGoingIn = Math.abs(m3h - peakM3h);
-//				System.out.println("Biggest delta going in updated = " + biggestDeltaGoingIn);
-//			}
-//			peakM3h = m3h;
-//		}
 		
 		if (delayAmount <= 0){
 			delayedM3h = m3h;
@@ -139,19 +126,6 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
 		else{
 			delayedM3h = m3hDelayBuffer.getDelayedValue(delayAmount);
 		}
-		
-//		if (delayedM3h > peakDelayedM3h){
-//			System.out.println("Peak delayed m3h updated = " + peakDelayedM3h);
-//			if (Math.abs(delayedM3h - peakDelayedM3h) > biggestDeltaComingOut){
-//				biggestDeltaComingOut = Math.abs(delayedM3h - peakDelayedM3h);
-//				System.out.println("Biggest delta coming out updated = " + biggestDeltaComingOut);
-//			}
-//			peakDelayedM3h = delayedM3h;
-//		}
-//		
-//		if (biggestDeltaComingOut > biggestDeltaGoingIn){
-//			System.out.println("Surprise! Impossible situation.");
-//		}
 		
 		return delayedM3h;
 	}
