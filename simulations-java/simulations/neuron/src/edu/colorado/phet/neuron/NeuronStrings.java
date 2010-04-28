@@ -21,7 +21,6 @@ public class NeuronStrings {
 
     public static final String POTASSIUM_CHEMICAL_SYMBOL = getString( "PotassiumChemicalSymbol" );
     public static final String SODIUM_CHEMICAL_SYMBOL = getString( "SodiumChemicalSymbol" );
-    public static final String PROTEIN_LABEL = getString( "ProteinLabel" );
     public static final String POSITIVE_ION_SYMBOL = getString( "PositiveIonSymbol" );
     public static final String NEGATIVE_ION_SYMBOL = getString( "NegativeIonSymbol" );
     
