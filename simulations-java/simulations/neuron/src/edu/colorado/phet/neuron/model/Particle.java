@@ -6,8 +6,6 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.neuron.NeuronStrings;
-
 /**
  * Abstract base class for a simulated particle.  It is intended that this be subclassed
  * for each specific particle type used in the simulation.
@@ -194,56 +192,6 @@ public abstract class Particle implements IMovable, IFadable {
      */
     abstract public Color getRepresentationColor();
 
-    /**
-     * Get the color to be used for the textual labels of this particle.
-     */
-    public Color getLabelColor(){
-    	return Color.BLACK;
-    }
-    
-    /**
-     * Ionic charge for this particle, in terms of electrons.
-     * 
-     * @return 0 for neutral particle, 1 for a 1-electron deficit, -1 for a
-     * one-electron surplus, etc.
-     * 
-     * Note: At the time of this writing, there is no requirement for a particle
-     * to ever change its charge within the sim, so it is assumed that for our
-     * purposes, this is essentially a permanent characteristic.  This is
-     * obviously not true in nature, and will need to change if the
-     * requirements of the simulation change.  
-     */
-    public int getCharge(){
-    	// Assume uncharged unless overridden.
-    	return 0;
-    }
-    
-    /**
-     * Get the string representation for this particle's charge.
-     */
-    public String getChargeString(){
-    	
-    	String retVal = null;
-    	
-    	if (getCharge() == 0){
-    		retVal = "";
-    	}
-    	else if (getCharge() > 0){
-    		retVal = NeuronStrings.POSITIVE_ION_SYMBOL;
-    		if (getCharge() > 1){
-    			retVal += Integer.toString(getCharge());
-    		}
-    	}
-    	else if (getCharge() < 0){
-    		retVal = NeuronStrings.NEGATIVE_ION_SYMBOL;
-			if (getCharge() < -1){
-				retVal += Integer.toString(Math.abs(getCharge()));
-			}
-    	}
-    	
-    	return retVal;
-    }
-    
     //------------------------------------------------------------------------
     // Behavior methods
     //------------------------------------------------------------------------
