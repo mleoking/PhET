@@ -34,4 +34,8 @@ public class NeuronStrings {
     public static final String LEGEND_POTASSIUM_GATED_CHANNEL = getString( "Legend.potassiumGatedChannel" );
     public static final String LEGEND_SODIUM_LEAK_CHANNEL = getString( "Legend.sodiumLeakChannel" );
     public static final String LEGEND_POTASSIUM_LEAK_CHANNEL = getString( "Legend.potassiumLeakChannel" );
+
+    public static final String MEMBRANE_POTENTIAL_CHART_TITLE = getString( "Chart.title" );
+    public static final String MEMBRANE_POTENTIAL_Y_AXIS_LABEL = getString( "Chart.yAxisLabel" );
+    public static final String MEMBRANE_POTENTIAL_X_AXIS_LABEL = getString( "Chart.xAxisLabel" );
 }

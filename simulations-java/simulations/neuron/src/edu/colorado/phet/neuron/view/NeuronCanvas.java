@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
+import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.Particle;
@@ -185,8 +186,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         }
         
         // Add the membrane potential chart.
-        // TODO: i18n
-        membranePotentialChart = new MembranePotentialChart(POTENTIAL_CHART_SIZE, "Membrane Potential vs. Time", model, "ms");
+        membranePotentialChart = new MembranePotentialChart(POTENTIAL_CHART_SIZE, 
+        		NeuronStrings.MEMBRANE_POTENTIAL_CHART_TITLE, model);
         membranePotentialChart.setVisible(false);
         chartLayer.addChild(membranePotentialChart);
         

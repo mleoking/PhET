@@ -30,6 +30,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
@@ -81,7 +82,7 @@ public class MembranePotentialChart extends PNode {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-    public MembranePotentialChart( Dimension2D size, String title, final AxonModel axonModel, String distanceUnits ) {
+    public MembranePotentialChart( Dimension2D size, String title, final AxonModel axonModel ) {
     	
         this.axonModel = axonModel;
         
@@ -122,15 +123,15 @@ public class MembranePotentialChart extends PNode {
         
         // Create the chart.
         XYDataset dataset = new XYSeriesCollection( dataSeries );
-        // TODO: i18n.
-        chart = createXYLineChart( title, "Time (ms)", "Membrane Potential (mv)", dataset, PlotOrientation.VERTICAL);
+        chart = createXYLineChart( title, NeuronStrings.MEMBRANE_POTENTIAL_X_AXIS_LABEL,
+        		NeuronStrings.MEMBRANE_POTENTIAL_Y_AXIS_LABEL, dataset, PlotOrientation.VERTICAL);
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
         chart.getXYPlot().getRangeAxis().setRange( -100, 100 );
         jFreeChartNode = new JFreeChartNode( chart, false );
         jFreeChartNode.setBounds( 0, 0, size.getWidth(), size.getHeight() );
 
         // TODO: i18n
-        chart.getXYPlot().getDomainAxis().setLabel( "Time (ms)" );
+//        chart.getXYPlot().getDomainAxis().setLabel( "Time (ms)" );
         chart.getXYPlot().getDomainAxis().setRange( 0, TIME_SPAN );
 
         jFreeChartNode.updateChartRenderingInfo();
@@ -309,7 +310,7 @@ public class MembranePotentialChart extends PNode {
 
         // Create the chart.
         final MembranePotentialChart membranePotentialChart = 
-        	new MembranePotentialChart(size, "Test Chart", null, "mV");
+        	new MembranePotentialChart(size, "Test Chart", null);
 
         // Create the canvas and add the chart to it.
         PhetPCanvas phetPCanvas = new PhetPCanvas();
