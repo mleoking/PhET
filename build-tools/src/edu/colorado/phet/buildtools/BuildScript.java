@@ -314,7 +314,7 @@ public class BuildScript {
     private boolean sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
         String remotePathDir = server.getServerDeployPath( project );
         // if the directory does not exist on the server, it will be created.
-        boolean success = SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, server, authenticationInfo );
+        boolean success = SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, server.getHost(), authenticationInfo );
         if ( !success ) {
             System.out.println( "Warning: failed to create or verify the existence of the deploy directory" );
             return false;
@@ -565,7 +565,7 @@ public class BuildScript {
         return SshUtils.executeCommands( new String[]{
                 "mkdir -p -m 775 " + server.getStagingArea() + "/" + project.getName(),
                 "rm -f " + server.getStagingArea() + "/" + project.getName() + "/*"
-        }, server, authenticationInfo );
+        }, server.getHost(), authenticationInfo );
     }
 
     /*
@@ -574,7 +574,7 @@ public class BuildScript {
         > b. mv phet/staging/sims/<project> phet/sims/<project>
      */
     private void copyFromStagingAreaToSimDir( PhetServer server, AuthenticationInfo authenticationInfo ) {
-        SshUtils.executeCommand( BuildToolsPaths.TIGERCAT_STAGING_SWAP_SCRIPT + " " + project.getName(), server, authenticationInfo );
+        SshUtils.executeCommand( BuildToolsPaths.TIGERCAT_STAGING_SWAP_SCRIPT + " " + project.getName(), server.getHost(), authenticationInfo );
     }
 
     private void sendCopyToDev( AuthenticationInfo devAuth ) {
@@ -595,7 +595,7 @@ public class BuildScript {
         boolean projectWantsJARs = project instanceof JavaProject && ( (JavaProject) project ).getSignJar();
         if ( projectWantsJARs && generateJARs ) {
             try {
-                SshUtils.executeCommand( getJARGenerationCommand( (JavaProject) project, server ), server, authenticationInfo );
+                SshUtils.executeCommand( getJARGenerationCommand( (JavaProject) project, server ), server.getHost(), authenticationInfo );
             }
             catch( IOException e ) {
                 e.printStackTrace();

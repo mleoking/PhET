@@ -5,9 +5,14 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Locale;
 
+import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.WebsiteBuildCommand;
+import edu.colorado.phet.buildtools.util.ScpTo;
+import edu.colorado.phet.buildtools.util.SshUtils;
+
+import com.jcraft.jsch.JSchException;
 
 /**
  * Project meant to compile the Wicket website
@@ -58,7 +63,7 @@ public class WebsiteProject extends JavaProject {
 
     @Override
     public void runSim( Locale locale, String simulationName ) {
-        
+
     }
 
     @Override
@@ -66,5 +71,35 @@ public class WebsiteProject extends JavaProject {
         File file = new File( getAntOutputDir(), "jars/ROOT.war" );
         file.getParentFile().mkdirs();
         return file;
+    }
+
+    public File getBuildWarFile() {
+        return new File( getDeployDir(), "ROOT.war" );
+    }
+
+    public boolean deploy( String host, String protocol, AuthenticationInfo userInfo, AuthenticationInfo managerInfo, boolean dev ) {
+        boolean success = false;
+        try {
+            System.out.println( "Starting website deployment" );
+
+            System.out.println( "Uploading WAR" );
+            ScpTo.uploadFile( getBuildWarFile(), userInfo.getUsername(), host, "/tmp/", userInfo.getPassword() );
+
+            System.out.println( "Finished uploading, executing undeploy and deploy on Tomcat" );
+            success = SshUtils.executeCommands( new String[]{
+                    "curl -k -u " + managerInfo.getUsername() + ":" + managerInfo.getPassword() + " '" + protocol + "://" + host + "/manager/undeploy?path=/'",
+                    "curl -k -u " + managerInfo.getUsername() + ":" + managerInfo.getPassword() + " '" + protocol + "://" + host + "/manager/deploy?war=/tmp/ROOT.war&path=/'"
+            }, host, userInfo );
+
+            System.out.println( "Finished running Tomcat commands. Should have stated 'OK - Deployed application at context path'" );
+
+        }
+        catch( JSchException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        return success;
     }
 }

@@ -10,12 +10,14 @@ import javax.swing.*;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildScript;
 import edu.colorado.phet.buildtools.PhetServer;
-import edu.colorado.phet.buildtools.VersionIncrement;
 import edu.colorado.phet.buildtools.gui.ChangesPanel;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.java.projects.WebsiteProject;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
+/**
+ * Panel that gives GUI options for the wicket-based website
+ */
 public class WebsitePanel extends JPanel {
     private File trunk;
 
@@ -52,9 +54,9 @@ public class WebsitePanel extends JPanel {
         } );
 
         JPanel deployLocalPanel = new VerticalLayoutPanel();
-        deployLocalPanel.setBorder( BorderFactory.createTitledBorder( "Local Deploy" ) );
+        deployLocalPanel.setBorder( BorderFactory.createTitledBorder( "Dev Deploy" ) );
 
-        JButton testButton = new JButton( "Deploy Locally" );
+        JButton testButton = new JButton( "Deploy Dev" );
         deployLocalPanel.add( testButton );
 
         controlPanel.add( deployLocalPanel );
@@ -75,7 +77,7 @@ public class WebsitePanel extends JPanel {
         deployProdPanel.add( incrementMinor );
         deployProdPanel.add( incrementMajor );
         incrementMinor.setSelected( true );
-        JButton deployProdButton = new JButton( "Deploy Production" );
+        JButton deployProdButton = new JButton( "Deploy Prod" );
         deployProdPanel.add( deployProdButton );
 
         controlPanel.add( deployProdPanel );
@@ -102,7 +104,7 @@ public class WebsitePanel extends JPanel {
     }
 
     private void doDeployLocal() {
-        BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
+        BuildLocalProperties props = BuildLocalProperties.getInstance();
 
         getBuildScript().clean();
 
@@ -111,26 +113,33 @@ public class WebsitePanel extends JPanel {
         if ( !success ) {
             System.out.println( "Errors on build" );
             return;
+        }
+
+        success = project.deploy( props.getWebsiteDevHost(), props.getWebsiteDevProtocol(), props.getWebsiteDevAuthenticationInfo(), props.getWebsiteDevManagerAuthenticationInfo(), true );
+
+        if ( !success ) {
+            System.out.println( "Errors on deploy" );
         }
     }
 
     private void doDeployProd() {
-        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
+//        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
+//
+//        if ( !confirm ) {
+//            System.out.println( "Cancelled" );
+//            return;
+//        }
 
-        if ( !confirm ) {
-            System.out.println( "Cancelled" );
-            return;
-        }
+        BuildLocalProperties props = BuildLocalProperties.getInstance();
 
-        BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
-
-        VersionIncrement versionIncrement = null;
-        if ( incrementMinor.isSelected() ) {
-            versionIncrement = new VersionIncrement.UpdateProdMinor();
-        }
-        else if ( incrementMajor.isSelected() ) {
-            versionIncrement = new VersionIncrement.UpdateProdMajor();
-        }
+        // TODO: once in production, start incrementing version numbers
+//        VersionIncrement versionIncrement = null;
+//        if ( incrementMinor.isSelected() ) {
+//            versionIncrement = new VersionIncrement.UpdateProdMinor();
+//        }
+//        else if ( incrementMajor.isSelected() ) {
+//            versionIncrement = new VersionIncrement.UpdateProdMajor();
+//        }
 
         getBuildScript().clean();
 
@@ -141,7 +150,11 @@ public class WebsitePanel extends JPanel {
             return;
         }
 
+        success = project.deploy( props.getWebsiteProdHost(), props.getWebsiteProdProtocol(), props.getWebsiteProdAuthenticationInfo(), props.getWebsiteProdManagerAuthenticationInfo(), true );
 
+        if ( !success ) {
+            System.out.println( "Errors on deploy" );
+        }
     }
 
 }

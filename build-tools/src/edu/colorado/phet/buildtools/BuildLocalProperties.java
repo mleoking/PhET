@@ -141,6 +141,34 @@ public class BuildLocalProperties {
     }
 
     /**
+     * @return Authentication for the user/ssh account of the website development server (possibly local)
+     */
+    public AuthenticationInfo getWebsiteDevAuthenticationInfo() {
+        return new AuthenticationInfo( getWebsiteDevUsername(), getWebsiteDevPassword() );
+    }
+
+    /**
+     * @return Authentication for the Tomcat manager account of the website development server (possibly local)
+     */
+    public AuthenticationInfo getWebsiteDevManagerAuthenticationInfo() {
+        return new AuthenticationInfo( getWebsiteDevManagerUsername(), getWebsiteDevManagerPassword() );
+    }
+    
+    /**
+     * @return Authentication for the user/ssh account of the website production server
+     */
+    public AuthenticationInfo getWebsiteProdAuthenticationInfo() {
+        return new AuthenticationInfo( getWebsiteProdUsername(), getWebsiteProdPassword() );
+    }
+
+    /**
+     * @return Authentication for the Tomcat manager account of the website production server
+     */
+    public AuthenticationInfo getWebsiteProdManagerAuthenticationInfo() {
+        return new AuthenticationInfo( getWebsiteProdManagerUsername(), getWebsiteProdManagerPassword() );
+    }
+
+    /**
      * Gets information needed to sign jars.
      *
      * @return
@@ -151,13 +179,14 @@ public class BuildLocalProperties {
 
     /**
      * Determine whether the Jarsigner credentials are specified in the properties file; if not, signing will be disabled for test functionality, see #1838.
+     *
      * @return true if the Jarsigner credentials are specified in the properties file
      */
     public boolean isJarsignerCredentialsSpecified() {
-        return properties.getProperty(JARSIGNER_ALIAS_KEY) != null &&
-                properties.getProperty(JARSIGNER_KEYSTORE_KEY) != null &&
-                properties.getProperty(JARSIGNER_PASSWORD_KEY) != null &&
-                properties.getProperty(JARSIGNER_TSA_URL_KEY) != null;
+        return properties.getProperty( JARSIGNER_ALIAS_KEY ) != null &&
+               properties.getProperty( JARSIGNER_KEYSTORE_KEY ) != null &&
+               properties.getProperty( JARSIGNER_PASSWORD_KEY ) != null &&
+               properties.getProperty( JARSIGNER_TSA_URL_KEY ) != null;
     }
 
     /**
@@ -280,6 +309,24 @@ public class BuildLocalProperties {
         return getRequiredString( "mac.trunk.volume", "name of the volume where your trunk directory resides (Mac)" );
     }
 
+    public String getWebsiteDevHost() {
+        return getRequiredString( "website.dev.host", "hostname of the dev (local or remote) website" );
+    }
+
+    public String getWebsiteProdHost() {
+        // separate for now, since tigercat is the other production server
+        return getRequiredString( "website.prod.host", "hostname of the production (figaro) website" );
+    }
+
+    public String getWebsiteDevProtocol() {
+        return getRequiredString( "website.dev.protocol", "protocol (http or https) for the dev website" );
+    }
+
+    public String getWebsiteProdProtocol() {
+        // separate for now, since tigercat is the other production server
+        return getRequiredString( "website.prod.protocol", "protocol (http or https) for the production (figaro) website" );
+    }
+
     private String getDevUsername() {
         return getRequiredString( "dev.username", "Development server username" );
     }
@@ -304,21 +351,65 @@ public class BuildLocalProperties {
         return getRequiredString( "repository.password", "SVN password" );
     }
 
+    /*---------------------------------------------------------------------------*
+    * Wicket website authentication
+    *----------------------------------------------------------------------------*/
+
+    private String getWebsiteDevUsername() {
+        return getRequiredString( "website.dev.username", "Website dev (local or remote) server user/ssh username" );
+    }
+
+    private String getWebsiteDevPassword() {
+        return getRequiredString( "website.dev.password", "Website dev (local or remote) server user/ssh password" );
+    }
+
+    private String getWebsiteDevManagerUsername() {
+        return getRequiredString( "website.dev.manager.username", "Website dev (local or remote) server Tomcat manager username" );
+    }
+
+    private String getWebsiteDevManagerPassword() {
+        return getRequiredString( "website.dev.manager.password", "Website dev (local or remote) server Tomcat manager password" );
+    }
+
+    private String getWebsiteProdUsername() {
+        // separate for now, since tigercat is the other production server
+        return getRequiredString( "website.prod.username", "Website production (figaro) server user/ssh username" );
+    }
+
+    private String getWebsiteProdPassword() {
+        // separate for now, since tigercat is the other production server
+        return getRequiredString( "website.prod.password", "Website production (figaro) server user/ssh password" );
+    }
+
+    private String getWebsiteProdManagerUsername() {
+        return getRequiredString( "website.prod.manager.username", "Website production (figaro) server Tomcat manager username" );
+    }
+
+    private String getWebsiteProdManagerPassword() {
+        return getRequiredString( "website.prod.manager.password", "Website production (figaro) server Tomcat manager password" );
+    }
+
+
+    /*---------------------------------------------------------------------------*
+    * Jarsigner authentication
+    *----------------------------------------------------------------------------*/
+
     private String getJarSignerKeystore() {
-        return getRequiredString(JARSIGNER_KEYSTORE_KEY, "jarsigner keystore location" );
+        return getRequiredString( JARSIGNER_KEYSTORE_KEY, "jarsigner keystore location" );
     }
 
     private String getJarSignerPassword() {
-        return getRequiredString(JARSIGNER_PASSWORD_KEY, "jarsigner password" );
+        return getRequiredString( JARSIGNER_PASSWORD_KEY, "jarsigner password" );
     }
 
     private String getJarSignerAlias() {
-        return getRequiredString(JARSIGNER_ALIAS_KEY, "jarsigner alias" );
+        return getRequiredString( JARSIGNER_ALIAS_KEY, "jarsigner alias" );
     }
 
     private String getJarSignerTsaUrl() {
-        return getRequiredString(JARSIGNER_TSA_URL_KEY, "jarsigner TSA URL" );
+        return getRequiredString( JARSIGNER_TSA_URL_KEY, "jarsigner TSA URL" );
     }
+
 
     /*
     * Gets a boolean value.

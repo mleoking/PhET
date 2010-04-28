@@ -281,7 +281,7 @@ public class TranslationDeployClient {
             String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployServer.class.getName() + " " +
                              jarCmd + " " + pathToBuildLocalProperties + " " + BuildToolsPaths.TIGERCAT_SIMS_DIR + " " + translationDir;
 
-            boolean sshSuccess = SshUtils.executeCommand( command, server, authenticationInfo );
+            boolean sshSuccess = SshUtils.executeCommand( command, server.getHost(), authenticationInfo );
             if ( !sshSuccess ) {
                 System.out.println( "Errors were encountered when trying to invoke the translation deploy server" );
                 success = false;
@@ -333,7 +333,7 @@ public class TranslationDeployClient {
             String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployPublisher.class.getName() + " " +
                              BuildToolsPaths.TIGERCAT_SIMS_DIR + " " + translationDir;
 
-            boolean success = SshUtils.executeCommand( command, server, authenticationInfo );
+            boolean success = SshUtils.executeCommand( command, server.getHost(), authenticationInfo );
             if ( !success ) {
                 System.out.println( "Errors were encountered while publishing! Please contact the developers responsible for the translation deploy process!" );
             }
@@ -356,7 +356,7 @@ public class TranslationDeployClient {
     }
 
     public static boolean mkdir( PhetServer server, AuthenticationInfo authenticationInfo, String serverDir ) {
-        return SshUtils.executeCommand( "mkdir -p -m 775 " + serverDir, server, authenticationInfo );
+        return SshUtils.executeCommand( "mkdir -p -m 775 " + serverDir, server.getHost(), authenticationInfo );
     }
 
     public static void transfer( PhetServer server, AuthenticationInfo authenticationInfo, File srcDir, String remotePathDir ) {

@@ -8,7 +8,6 @@ import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
 
 import edu.colorado.phet.buildtools.AuthenticationInfo;
-import edu.colorado.phet.buildtools.PhetServer;
 
 /**
  * Commands to make executing SSH commands with exit code checking and output easy
@@ -18,12 +17,12 @@ public class SshUtils {
      * Opens a SSH connection to the server, and executes the specified command
      *
      * @param command            The command to execute
-     * @param server             The PhetServer to run the command on
+     * @param host               The host to run the command on
      * @param authenticationInfo ---
      * @return Success (whether the command was executed successfully)
      */
-    public static boolean executeCommand( String command, PhetServer server, AuthenticationInfo authenticationInfo ) {
-        return executeCommands( new String[]{command}, server, authenticationInfo );
+    public static boolean executeCommand( String command, String host, AuthenticationInfo authenticationInfo ) {
+        return executeCommands( new String[]{command}, host, authenticationInfo );
     }
 
     /**
@@ -31,17 +30,17 @@ public class SshUtils {
      * of them have been executed
      *
      * @param commands           The array of commands to be executed
-     * @param server             The PhetServer to run the commands on
+     * @param host               The host to run the commands on
      * @param authenticationInfo AuthenticationInfo!!!!!
      * @return Success (whether all of the commands were run successfully)
      */
-    public static boolean executeCommands( String[] commands, PhetServer server, AuthenticationInfo authenticationInfo ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
+    public static boolean executeCommands( String[] commands, String host, AuthenticationInfo authenticationInfo ) {
+        SshConnection sshConnection = new SshConnection( host, authenticationInfo.getUsername(), authenticationInfo.getPassword() );
         boolean success = true;
         try {
             sshConnection.connect();
             for ( String command : commands ) {
-                success = executeCommandOnConnection( sshConnection, command, server );
+                success = executeCommandOnConnection( sshConnection, command, host );
                 if ( !success ) {
                     break;
                 }
@@ -50,7 +49,7 @@ public class SshUtils {
         catch( SshException e ) {
             if ( e.toString().toLowerCase().indexOf( "auth fail" ) != -1 ) {
                 // on tigercat, 3 (9?) unsuccessful login attepts will lock you out
-                System.out.println( "Authentication on '" + server.getHost() + "' has failed, is your username and password correct?  Exiting..." );
+                System.out.println( "Authentication on '" + host + "' has failed, is your username and password correct?  Exiting..." );
                 System.exit( 0 );
             }
             e.printStackTrace();
@@ -66,12 +65,12 @@ public class SshUtils {
         return success;
     }
 
-    private static boolean executeCommandOnConnection( SshConnection sshConnection, String command, PhetServer server ) throws SshException {
+    private static boolean executeCommandOnConnection( SshConnection sshConnection, String command, String host ) throws SshException {
         final String EXIT_STRING = "EXITCODE=";
         final String END_DELIMITER = "]";
 
         StringStore store = new StringStore();
-        System.out.println( "Executing remote SSH command on " + server.getHost() + " = " + command );
+        System.out.println( "Executing remote SSH command on " + host + " = " + command );
         SshCommand sshCommand = new SshCommand( command + " 2>&1; echo \"[" + EXIT_STRING + "$?]\"", store );
         sshConnection.executeTask( sshCommand );
         String str = store.toString();
