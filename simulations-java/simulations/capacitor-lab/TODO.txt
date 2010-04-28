@@ -3,8 +3,9 @@ TODO list for capacitor-lab
 HIGH PRIORITY
 - plates and their drag behavior
 - dielectric, its drag behavior, and its resize behavior relative to plates
-- basic framework for main control panel
+- menu for selecting specific dielectric materials
 - add dielectric constant to model
+- add locations to model?
 
 MEDUIUM PRIORITY
 
