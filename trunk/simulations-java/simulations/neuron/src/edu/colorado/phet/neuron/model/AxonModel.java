@@ -42,9 +42,6 @@ public class AxonModel implements IParticleCapture {
 	private static final Rectangle2D PARTICLE_BOUNDS = new Rectangle2D.Double(-MODEL_WIDTH / 2, -MODEL_HEIGHT / 2,
 			MODEL_WIDTH, MODEL_HEIGHT);
 	
-	// Center of the model.
-	private static final Point2D CENTER_POS = new Point2D.Double(0, 0);
-	
 	// Numbers of the various types of channels that are present on the
 	// membrane.
 	private static final int NUM_GATED_SODIUM_CHANNELS = 20;
@@ -149,23 +146,6 @@ public class AxonModel implements IParticleCapture {
     
     public ArrayList<MembraneChannel> getMembraneChannels(){
     	return new ArrayList<MembraneChannel>(membraneChannels);
-    }
-    
-    public int getNumMembraneChannels(MembraneChannelTypes channelType){
-    	
-    	int numChannels = 0;
-    	
-    	for (MembraneChannel channel : membraneChannels){
-    		if (channel.getChannelType() == channelType){
-    			numChannels++;
-    		}
-    	}
-    	
-    	return numChannels;
-    }
-    
-    public int getNumMembraneChannels(){
-    	return membraneChannels.size();
     }
     
     /**
@@ -309,70 +289,11 @@ public class AxonModel implements IParticleCapture {
     }
     
     /**
-     * Get the proportion of particles of a given type that are inside the
-     * axon membrane.  A value of 1 indicates that all particles are inside, 0
-     * means that none are inside.
-     */
-    public double getProportionOfParticlesInside(ParticleType particleType){
-    	return concentrationTracker.getProportion(particleType, ParticlePosition.INSIDE_MEMBRANE);
-    }
-    
-    /**
      * 
      * @return
      */
     public Rectangle2D getParticleMotionBounds(){
     	return PARTICLE_BOUNDS;
-    }
-    
-    /**
-     * Set the proportion of particles inside the axon membrane.  A value of 0
-     * indicates that all particles of this type should be outside, a value of 1
-     * indicates that the should all be inside, and value between...well, you
-     * get the idea.
-     */
-    public void setConcentration(ParticleType particleType, double targetProportion){
-    	
-    	if (targetProportion > 1 || targetProportion < 0){
-    		System.err.println(getClass().getName() + " - Error: Invalid target proportion value = " + targetProportion);
-    		assert false;
-    		return; 
-    	}
-
-    	int targetNumInside = (int)Math.round(targetProportion * 
-    			(double)(concentrationTracker.getTotalNumParticles(particleType)));
-    	
-    	if (targetNumInside > concentrationTracker.getNumParticlesInPosition(particleType, 
-    			ParticlePosition.INSIDE_MEMBRANE)){
-    		// Move some particles from outside to inside.
-    		for (Particle particle : particles){
-    			if (particle.getType() == particleType && !isParticleInside(particle)){
-    				// Move this guy in.
-    				positionParticleInsideMembrane(particle);
-    				concentrationTracker.updateParticleCount(particleType, ParticlePosition.INSIDE_MEMBRANE, 1);
-    				concentrationTracker.updateParticleCount(particleType, ParticlePosition.OUTSIDE_MEMBRANE, -1);
-    				if (concentrationTracker.getNumParticlesInPosition(particleType, ParticlePosition.INSIDE_MEMBRANE) == targetNumInside){
-    					break;
-    				}
-    			}
-    		}
-    		notifyConcentrationGradientChanged(particleType);
-    	}
-    	else if (targetNumInside < concentrationTracker.getNumParticlesInPosition(particleType, ParticlePosition.INSIDE_MEMBRANE)){
-    		// Move some particles from inside to outside.
-    		for (Particle particle : particles){
-    			if (particle.getType() == particleType && isParticleInside(particle)){
-    				// Move this guy out.
-    				positionParticleOutsideMembrane(particle);
-    				concentrationTracker.updateParticleCount(particleType, ParticlePosition.INSIDE_MEMBRANE, -1);
-    				concentrationTracker.updateParticleCount(particleType, ParticlePosition.OUTSIDE_MEMBRANE, 1);
-    				if (concentrationTracker.getNumParticlesInPosition(particleType, ParticlePosition.INSIDE_MEMBRANE) == targetNumInside){
-    					break;
-    				}
-    			}
-    		}
-    		notifyConcentrationGradientChanged(particleType);
-    	}
     }
     
     public void initiateStimulusPulse(){
@@ -394,10 +315,6 @@ public class AxonModel implements IParticleCapture {
      */
     public boolean isStimulusInitiationLockedOut(){
     	return (stimLockoutCountdownTime > 0);
-    }
-    
-    public Shape getTravelingActionPotentialShape(){
-    	return new Rectangle2D.Double(0, 0, 10, 10);
     }
     
     /**
@@ -577,12 +494,6 @@ public class AxonModel implements IParticleCapture {
 		}
 	}
 	
-	private void notifyConcentrationGradientChanged(ParticleType particleType){
-		for (Listener listener : listeners.getListeners(Listener.class)){
-			listener.concentrationRatioChanged(particleType);
-		}
-	}
-	
 	private void notifyStimulusPulseInitiated(){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.stimulusPulseInitiated();
@@ -747,32 +658,6 @@ public class AxonModel implements IParticleCapture {
     }
     
     /**
-     * Determine whether the given particle is considered to be inside or outside
-     * of the axon.  IMPORTANT NOTE - If an particle is in a channel, it is
-     * considered to be inside the membrane.
-     * 
-     * @param particle
-     * @return
-     */
-    private boolean isParticleInside(Particle particle){
-
-    	boolean inside = false;
-    	
-		for (MembraneChannel channel : membraneChannels){
-			if (channel.getOwnedParticles().contains(particle)){
-				inside = true;
-				break;
-			}
-		}
-		
-		if (!inside){
-			inside = particle.getPositionReference().distance(CENTER_POS) < crossSectionOuterRadius;
-		}
-    	
-    	return inside;
-    }
-    
-    /**
      * Add the "bulk particles", which are particles that are inside and
      * outside of the membrane and, except in cases where they happen to end
      * up positioned close to the membrane, they generally stay where
@@ -933,15 +818,6 @@ public class AxonModel implements IParticleCapture {
     	public void particleAdded(Particle particle);
     	
     	/**
-    	 * Notification that the concentration gradient for the given particle
-    	 * type had changed.
-    	 * 
-    	 * @param particleType - Particle for which the concentration gradient has
-    	 * changed.
-    	 */
-    	public void concentrationRatioChanged(ParticleType particleType);
-    	
-    	/**
     	 * Notification that a stimulus pulse has been initiated.
     	 */
     	public void stimulusPulseInitiated();
@@ -968,7 +844,6 @@ public class AxonModel implements IParticleCapture {
     public static class Adapter implements Listener{
 		public void channelAdded(MembraneChannel channel) {}
 		public void particleAdded(Particle particle) {}
-		public void concentrationRatioChanged(ParticleType particleType) {}
 		public void stimulusPulseInitiated() {}
 		public void potentialChartVisibilityChanged() {}
 		public void stimulationLockoutStateChanged() {}
