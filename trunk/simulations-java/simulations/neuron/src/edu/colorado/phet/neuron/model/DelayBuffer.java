@@ -93,8 +93,8 @@ public class DelayBuffer {
 		}
 		else if (allDeltaTimesEqual){
 			// All times in the buffer are equal, so we should be able to
-			// simply index to the appropriate value.  The offset must be at
-			// least 1, since this buffer doesn't hold a non-delayed value.
+			// simply index to the appropriate location.  The offset must be
+			// at least 1, since this buffer doesn't hold a non-delayed value.
 			int offset = (int)Math.max(Math.round(delayAmount / previousDeltaTime), 1);
 			if ((filling && offset > head) || offset > numEntries){
 				// The user is asking for data that we don't have yet, so
@@ -104,7 +104,8 @@ public class DelayBuffer {
 			else{
 				int index = head - offset;
 				if (index < 0){
-					index = numEntries - offset;
+					// Handle wraparound.
+					index = numEntries + index;
 				}
 				delayedValue = delayElements[index].getValue();
 			}
