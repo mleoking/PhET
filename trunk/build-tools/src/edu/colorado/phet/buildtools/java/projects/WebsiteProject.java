@@ -50,7 +50,7 @@ public class WebsiteProject extends JavaProject {
         new WebsiteBuildCommand( this, new MyAntTaskRunner(), isShrink(), this.getDefaultDeployJar() ).execute();
         File[] f = getDeployDir().listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
-                return pathname.getName().toLowerCase().endsWith( ".jar" );
+                return pathname.getName().toLowerCase().endsWith( ".war" );
             }
         } );
         return f.length == 1;//success if there is exactly one jar
