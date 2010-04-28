@@ -172,10 +172,6 @@ public class DelayBuffer {
 			return value;
 		}
 
-		protected void setValue(double value) {
-			this.value = value;
-		}
-		
 		protected void setValueAndTime(double value, double deltaTime){
 			this.value = value;
 			this.deltaTime = deltaTime;
@@ -183,10 +179,6 @@ public class DelayBuffer {
 
 		protected double getDeltaTime() {
 			return deltaTime;
-		}
-
-		protected void setDeltaTime(double deltaTime) {
-			this.deltaTime = deltaTime;
 		}
 	}
 }
