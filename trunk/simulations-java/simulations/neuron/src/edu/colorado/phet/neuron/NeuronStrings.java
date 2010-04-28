@@ -24,5 +24,4 @@ public class NeuronStrings {
     
     public static final String SHOW_ALL_IONS = getString( "ShowAllIons" );
     public static final String SHOW_POTENTIAL_CHART = getString( "ShowPotentialChart" );
-    public static final String STIMULUS_PULSE = getString( "StimulusPulse" );
 }
