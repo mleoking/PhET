@@ -39,12 +39,6 @@ public abstract class MembraneChannel {
 	// through this channel.
 	private IParticleCapture modelContainingParticles;
 	
-	/**
-	 * List of the atoms "owned" (meaning that their motion is controlled by)
-	 * this channel.
-	 */
-	private ArrayList<Particle> ownedAtoms = new ArrayList<Particle>();
-	
 	// Member variables that control the size and position of the channel.
 	private Point2D centerLocation = new Point2D.Double();
 	private double rotationalAngle = 0; // In radians.
@@ -305,26 +299,6 @@ public abstract class MembraneChannel {
 		this.exteriorCaptureZone = captureZone;
 	}
 	
-	/**
-	 * Return a list of the atoms "owned" (meaning that their motion is
-	 * controlled by) this channel.  Getting this list does NOT cause the
-	 * atoms to be released by the channel.
-	 * 
-	 * @return a copy of the list of owned atoms.
-	 */
-	public ArrayList<Particle> getOwnedParticles(){
-		return new ArrayList<Particle>(ownedAtoms);
-	}
-	
-	public ArrayList<Particle> forceReleaseAllParticles(final ArrayList<Particle> freeAtoms){
-		ArrayList<Particle> releasedAtoms = null;
-		if (ownedAtoms.size() > 0){
-			releasedAtoms = new ArrayList<Particle>(ownedAtoms);
-		}
-		ownedAtoms.clear();
-		return releasedAtoms;
-	}
-	
 	public Dimension2D getChannelSize(){
 		return new PDimension(channelSize);
 	}
@@ -362,11 +336,6 @@ public abstract class MembraneChannel {
 		return overallSize;
 	}
 	
-	public void setDimensions( Dimension2D overallSize, Dimension2D channelSize ){
-		this.overallSize.setSize(overallSize);
-		this.channelSize.setSize(channelSize);
-	}
-	
 	public double getOpenness() {
 		return openness;
 	}
@@ -395,14 +364,6 @@ public abstract class MembraneChannel {
 	
 	public Color getEdgeColor(){
 		return Color.RED;
-	}
-	
-	/**
-	 * Get a reference to the list of owned atoms.
-	 * @return
-	 */
-	protected ArrayList<Particle> getOwnedAtomsRef(){
-		return ownedAtoms;
 	}
 	
 	public void addListener(Listener listener){
