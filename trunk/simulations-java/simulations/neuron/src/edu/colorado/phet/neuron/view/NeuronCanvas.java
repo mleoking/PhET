@@ -154,9 +154,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         addScreenChild(chartLayer);
         
         // Add the button for stimulating the neuron.
-        // TODO: i18n.
-        stimulateNeuronButton2 = new DisableableGradientButtonNode(
-        		"<html><center>Stimulate<br>Neuron</center></html>", 12, CANVAS_BUTTON_COLOR);
+        stimulateNeuronButton2 = new DisableableGradientButtonNode(NeuronStrings.STIMULATE_BUTTON_CAPTION, 12,
+        		CANVAS_BUTTON_COLOR);
         stimulateNeuronButton2.scale(2);
         stimulateNeuronButton2.setOffset(10, 10);
         addScreenChild(stimulateNeuronButton2);
