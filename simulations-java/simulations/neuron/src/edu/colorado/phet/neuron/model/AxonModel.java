@@ -745,7 +745,6 @@ public class AxonModel implements IParticleCapture {
     	// membrane. The multiplier value is created with the intention of
     	// weighting the positions toward the outside in order to get an even
     	// distribution per unit area.
-//    	double multiplier = Math.max(RAND.nextDouble(), RAND.nextDouble());
     	double multiplier = RAND.nextDouble();
     	double distance = crossSectionOuterRadius + particle.getDiameter() * 2 + 
 			multiplier * crossSectionOuterRadius * 2.2;

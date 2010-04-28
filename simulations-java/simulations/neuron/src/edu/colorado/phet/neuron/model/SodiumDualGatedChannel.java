@@ -193,7 +193,6 @@ public class SodiumDualGatedChannel extends GatedChannel {
 				// linear.  This is because the IPHY people requested that
 				// the "little ball doesn't pop out" until the the gate has
 				// closed up.
-//				setOpenness(stateTransitionTimer/RESETTING_TO_IDLE_TIME);
 				setOpenness(1 - Math.pow(stateTransitionTimer/RESETTING_TO_IDLE_TIME - 1, 10));
 				setInactivationAmt(1 - Math.pow(stateTransitionTimer/RESETTING_TO_IDLE_TIME - 1, 20));
 			}

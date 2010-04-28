@@ -52,8 +52,6 @@ public class IonsAndChannelsLegendPanel extends JPanel {
 	private static final ModelViewTransform2D PARTICLE_MVT = new ModelViewTransform2D(
 			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-8, -8, 16, 16));
 
-//	private static final ModelViewTransform2D CHANNEL_MVT = new ModelViewTransform2D(
-//			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-5, -5, 10, 10));
 	private static final ModelViewTransform2D CHANNEL_MVT = new ModelViewTransform2D(new Point2D.Double(),
 			new Point2D.Double(), 7, false);
     
