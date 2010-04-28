@@ -170,9 +170,8 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         
         JPanel checkBoxPanel = new VerticalLayoutPanel();
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-    	// TODO: i18n
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                "Control",
+                NeuronStrings.CONTROL,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),
