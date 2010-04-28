@@ -38,4 +38,5 @@ public class NeuronStrings {
     public static final String MEMBRANE_POTENTIAL_CHART_TITLE = getString( "Chart.title" );
     public static final String MEMBRANE_POTENTIAL_Y_AXIS_LABEL = getString( "Chart.yAxisLabel" );
     public static final String MEMBRANE_POTENTIAL_X_AXIS_LABEL = getString( "Chart.xAxisLabel" );
+    public static final String MEMBRANE_POTENTIAL_CLEAR_CHART = getString( "Chart.clear" );
 }
