@@ -285,39 +285,6 @@ public class AxonModel implements IParticleCapture {
     }
     
     /**
-     * Get the potential between the outside and the inside of the membrane in
-     * terms of quantized charge.
-     * 
-     * @return
-     */
-    public int getQuantizedMembranePotential(){
-    	
-    	int quantizedInsideCharge = 0;
-    	int quantizedOutsideCharge = 0;
-    	
-    	for (Particle particle : particles){
-    		if (isParticleInside(particle)){
-    			quantizedInsideCharge += particle.getCharge();
-    		}
-    		else{
-    			quantizedOutsideCharge += particle.getCharge();
-    		}
-    	}
-    	
-    	// Add in the charges from any particles that are in channels.  Note
-    	// that particles that are in channels are assumed to be inside the
-    	// membrane.
-    	for (MembraneChannel channel : membraneChannels){
-    		ArrayList<Particle> particlesInChannel = channel.getOwnedAtomsRef();
-        	for (Particle particle : particlesInChannel){
-       			quantizedInsideCharge += particle.getCharge();
-        	}
-    	}
-    	
-    	return quantizedInsideCharge - quantizedOutsideCharge;
-    }
-    
-    /**
      * Add the specified particles to the model.
      * 
      * @param particleType
@@ -557,13 +524,6 @@ public class AxonModel implements IParticleCapture {
     	
     	// Step the membrane in time.
     	axonMembrane.stepInTime( dt );
-    	
-    	// If it is time, update the value of the membrane potential that is
-    	// used for internal calculations.
-    	if (membranePotentialUpdateCounter++ >= MEMBRANE_POTENTIAL_UPDATE_COUNT){
-    		membranePotentialSnapshot = getQuantizedMembranePotential();
-    		membranePotentialUpdateCounter = 0;
-    	}
     	
     	// Update the stimulus lockout timer.
     	if (stimLockoutCountdownTime >= 0){

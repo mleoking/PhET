@@ -21,14 +21,4 @@ public class SodiumIon extends Particle {
 	public Color getRepresentationColor() {
 		return NeuronConstants.SODIUM_COLOR;
 	}
-
-	@Override
-	public Color getLabelColor() {
-		return Color.WHITE;
-	}
-
-	@Override
-	public int getCharge() {
-		return 1;
-	}
 }

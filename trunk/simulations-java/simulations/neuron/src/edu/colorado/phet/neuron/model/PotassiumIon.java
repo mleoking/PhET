@@ -21,14 +21,4 @@ public class PotassiumIon extends Particle {
 	public Color getRepresentationColor() {
 		return NeuronConstants.POTASSIUM_COLOR;
 	}
-	
-	@Override
-	public Color getLabelColor() {
-		return Color.BLACK;
-	}
-
-	@Override
-	public int getCharge() {
-		return 1;
-	}
 }
