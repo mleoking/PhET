@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EventListener;
-import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
@@ -25,15 +24,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-	
-	private static final Random RAND = new Random();
-	
-	// The following constants define the overall size of the model, which
-	// means the boundaries within which any model element is allowed to
-	// exist.  This does NOT define the size of the chamber where the
-	// particles reside.
-	private static final double OVERALL_MODEL_HEIGHT = 130; // In nanometers.
-	private static final double OVERALL_MODEL_WIDTH = 180; // In nanometers.
 	
 	// Definition of the rectangle where the particles can move.  Note that
 	// the center of the chamber is assumed to be at (0,0).
@@ -405,18 +395,6 @@ public class MembraneDiffusionModel implements IParticleCapture {
 		}
 	}
 	
-	/**
-	 * Add the provided channel at the specified rotational location.
-	 * Locations are specified in terms of where on the circle of the membrane
-	 * they are, with a value of 0 being on the far right, PI/2 on the top,
-	 * PI on the far left, etc.
-	 */
-    private void addChannel(MembraneChannelTypes membraneChannelType, double angle){
-    	
-    	// TODO
-    	
-    }
-    
     /**
      * Remove all particles (i.e. ions) from the simulation.
      */
