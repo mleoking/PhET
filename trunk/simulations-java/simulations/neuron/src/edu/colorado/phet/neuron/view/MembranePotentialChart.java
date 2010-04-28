@@ -130,8 +130,6 @@ public class MembranePotentialChart extends PNode {
         jFreeChartNode = new JFreeChartNode( chart, false );
         jFreeChartNode.setBounds( 0, 0, size.getWidth(), size.getHeight() );
 
-        // TODO: i18n
-//        chart.getXYPlot().getDomainAxis().setLabel( "Time (ms)" );
         chart.getXYPlot().getDomainAxis().setRange( 0, TIME_SPAN );
 
         jFreeChartNode.updateChartRenderingInfo();
@@ -156,8 +154,7 @@ public class MembranePotentialChart extends PNode {
 		addChild(closePSwing);
 		
         // Create a button for clearing the chart.
-        // TODO: i18n
-        JButton clearButton = new JButton("Clear Chart");
+        JButton clearButton = new JButton(NeuronStrings.MEMBRANE_POTENTIAL_CLEAR_CHART);
         clearButton.setFont(new PhetFont(14));
         clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
