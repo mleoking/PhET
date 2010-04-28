@@ -19,6 +19,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.PotassiumGatedChannel;
 import edu.colorado.phet.neuron.model.PotassiumIon;
 import edu.colorado.phet.neuron.model.PotassiumLeakageChannel;
@@ -62,11 +63,10 @@ public class IonsAndChannelsLegendPanel extends JPanel {
     
     public IonsAndChannelsLegendPanel() {
         
-    	// TODO: i18n
         // Add the border around the legend.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                "Legend",
+                NeuronStrings.LEGEND_TITLE,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),
@@ -78,29 +78,28 @@ public class IonsAndChannelsLegendPanel extends JPanel {
         setLayout( new GridBagLayout() );
 
         // Add the images and labels for the ions.
-        // TODO: i18n.
         int row = 0;
    		PNode imageNode = new ParticleNode(new SodiumIon(), PARTICLE_MVT);
-   		addLegendItem( imageNode.toImage(), "Sodium Ion (Na+)", row++ );
+   		addLegendItem( imageNode.toImage(), NeuronStrings.LEGEND_SODIUM_ION, row++ );
         		
    		imageNode = new ParticleNode(new PotassiumIon(), PARTICLE_MVT);
-   		addLegendItem( imageNode.toImage(), "Potassium Ion (K+)", row++ );
+   		addLegendItem( imageNode.toImage(), NeuronStrings.LEGEND_POTASSIUM_ION, row++ );
 
    		imageNode = new MembraneChannelNode(new SodiumDualGatedChannel(), CHANNEL_MVT);
    		imageNode.rotate(-Math.PI / 2);
-   		addLegendItem( imageNode.toImage(), "Sodium Gated Channel", row++ );
+   		addLegendItem( imageNode.toImage(), NeuronStrings.LEGEND_SODIUM_GATED_CHANNEL, row++ );
 
    		imageNode = new MembraneChannelNode(new PotassiumGatedChannel(), CHANNEL_MVT);
    		imageNode.rotate(-Math.PI / 2);
-   		addLegendItem( imageNode.toImage(), "Potassium Gated Channel", row++ );
+   		addLegendItem( imageNode.toImage(), NeuronStrings.LEGEND_POTASSIUM_GATED_CHANNEL, row++ );
 
    		imageNode = new MembraneChannelNode(new SodiumLeakageChannel(), CHANNEL_MVT);
    		imageNode.rotate(-Math.PI / 2);
-   		addLegendItem( imageNode.toImage(), "Sodium Leak Channel", row++ );
+   		addLegendItem( imageNode.toImage(), NeuronStrings.LEGEND_SODIUM_LEAK_CHANNEL, row++ );
 
    		imageNode = new MembraneChannelNode(new PotassiumLeakageChannel(), CHANNEL_MVT);
    		imageNode.rotate(-Math.PI / 2);
-   		addLegendItem( imageNode.toImage(), "Potassium Leak Channel", row++ );
+   		addLegendItem( imageNode.toImage(), NeuronStrings.LEGEND_POTASSIUM_LEAK_CHANNEL, row++ );
     }
     
     /**

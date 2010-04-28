@@ -24,4 +24,14 @@ public class NeuronStrings {
     
     public static final String SHOW_ALL_IONS = getString( "ShowAllIons" );
     public static final String SHOW_POTENTIAL_CHART = getString( "ShowPotentialChart" );
+
+    public static final String CONTROL = getString( "Control.title" );
+
+    public static final String LEGEND_TITLE = getString( "Legend.title" );
+    public static final String LEGEND_SODIUM_ION = getString( "Legend.sodiumIon" );
+    public static final String LEGEND_POTASSIUM_ION = getString( "Legend.potassiumIon" );
+    public static final String LEGEND_SODIUM_GATED_CHANNEL = getString( "Legend.sodiumGatedChannel" );
+    public static final String LEGEND_POTASSIUM_GATED_CHANNEL = getString( "Legend.potassiumGatedChannel" );
+    public static final String LEGEND_SODIUM_LEAK_CHANNEL = getString( "Legend.sodiumLeakChannel" );
+    public static final String LEGEND_POTASSIUM_LEAK_CHANNEL = getString( "Legend.potassiumLeakChannel" );
 }
