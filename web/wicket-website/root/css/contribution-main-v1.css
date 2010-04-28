@@ -119,7 +119,11 @@ div.rtl .contribution-comment-date {
 
 .comment-clear {
     display: block;
-    clear: both;
+    clear: right;
+}
+
+div.rtl .comment-clear {
+    clear: left;
 }
 
 .add-comment-holder {
