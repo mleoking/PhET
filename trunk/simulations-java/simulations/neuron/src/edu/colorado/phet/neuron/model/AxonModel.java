@@ -32,13 +32,6 @@ public class AxonModel implements IParticleCapture {
 	
 	private static final Random RAND = new Random();
 	
-	private static final double MAX_PARTICLE_VELOCITY = 500; // In nano meters per second.
-	
-	// The following constant defines how frequently particle motion is updated.
-	// A value of 1 means every clock tick for every particle, 2 means every other
-	// particle on each tick, etc.
-	private static final int PARTICLE_UPDATE_INCREMENT = 4;
-	
 	// The following constants define the boundaries for the motion of the
 	// particles.  These boundaries are intended to be outside the view port,
 	// so that it is not apparent to the user that they exist.  We may at some
@@ -51,10 +44,6 @@ public class AxonModel implements IParticleCapture {
 	
 	// Center of the model.
 	private static final Point2D CENTER_POS = new Point2D.Double(0, 0);
-	
-	// Constant that controls how often we calculate the membrane potential
-	// for internal use, i.e. particle motion calculations.
-	private static final int MEMBRANE_POTENTIAL_UPDATE_COUNT = 10;
 	
 	// Numbers of the various types of channels that are present on the
 	// membrane.
@@ -92,11 +81,8 @@ public class AxonModel implements IParticleCapture {
     private ArrayList<MembraneChannel> membraneChannels = new ArrayList<MembraneChannel>();
     private final double crossSectionInnerRadius;
     private final double crossSectionOuterRadius;
-    private int particleUpdateOffset = 0;
     private EventListenerList listeners = new EventListenerList();
     private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
-    private int membranePotentialUpdateCounter = 0;
-    private int membranePotentialSnapshot;
     private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
     private AlternativeConductanceModel alternativeConductanceModel = new AlternativeConductanceModel();
     private boolean potentialChartVisible = DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY;
@@ -533,27 +519,6 @@ public class AxonModel implements IParticleCapture {
     		}
     	}
     	
-    	/*
-    	 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having
-    	 * them controlled by the AxonModel and the channels to having a motion strategy set on
-    	 * them and have them move themselves.  This code is being removed as part of that
-    	 * effort, and should be deleted or reinstated at some point in time.
-
-    	
-    	// Update the velocity of the particles.  For efficiency and because
-    	// it looks better, not all particles are updated every time.
-    	for (int i = particleUpdateOffset; i < particles.size(); i += PARTICLE_UPDATE_INCREMENT){
-    		updateParticleVelocity(particles.get(i));
-    	}
-    	particleUpdateOffset = (particleUpdateOffset + 1) % PARTICLE_UPDATE_INCREMENT;
-    	
-    	// Update the particle positions.
-    	for (Particle particle : particles){
-    		particle.stepInTime(clockEvent.getSimulationTimeChange());
-    	}
-
-    	 */
-    	
     	// Step the channels.
     	for (MembraneChannel channel : membraneChannels){
     		channel.stepInTime( dt );
@@ -612,12 +577,6 @@ public class AxonModel implements IParticleCapture {
 		}
 	}
 	
-	private void notifyChannelRemoved(MembraneChannel channel){
-		for (Listener listener : listeners.getListeners(Listener.class)){
-			listener.channelRemoved(channel);
-		}
-	}
-	
 	private void notifyParticleAdded(Particle particle){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.particleAdded(particle);
@@ -653,90 +612,6 @@ public class AxonModel implements IParticleCapture {
 			listener.stimulationLockoutStateChanged();
 		}
 	}
-	
-	/*
-	 * TODO: Feb 12 2010 - The paradigm for moving particles around is changing from having
-	 * them controlled by the AxonModel and the channels to having a motion strategy set on
-	 * them and have them move themselves.  This routine is being removed as part of that
-	 * effort, and should be deleted or reinstated at some point in time.
-
-    private void updateParticleVelocity(Particle particle){
-    	
-    	// Convert the position to polar coordinates.
-    	double r = Math.sqrt(particle.getX() * particle.getX() + particle.getY() * particle.getY());
-    	double theta = Math.atan2(particle.getY(), particle.getX());
-    	
-    	// Determine the current angle of travel.
-    	double previousAngleOfTravel = Math.atan2( particle.getPositionReference().y, particle.getPositionReference().x );
-    	
-    	double angle = 0;
-    	double velocity;
-
-    	// Generate the new angle of travel for the particle.
-    	if (r < axonMembrane.getCrossSectionDiameter() / 2){
-    		// Particle is inside the membrane.
-    		if (crossSectionInnerRadius - r <= particle.getDiameter()){
-    			// This particle is near the membrane wall, so should be repelled.
-    	    	angle = theta + Math.PI + ((RAND.nextDouble() - 0.5) * Math.PI / 2);
-    		}
-    		else{
-    			// Particle should just do a random walk.
-				angle = Math.PI * 2 * RAND.nextDouble();
-    		}
-    	}
-    	else{
-    		// Particle is outside the membrane.
-    		if (r - crossSectionOuterRadius <= particle.getDiameter()){
-    			// This particle is near the membrane wall, so should be repelled.
-				angle = Math.PI * RAND.nextDouble() - Math.PI / 2 + theta;
-    		}
-    		else if (!PARTICLE_BOUNDS.contains(particle.getPositionReference())){
-    			// Particle is moving out of bounds, so move it back towards
-    			// the center.
-    	    	angle = theta + Math.PI + ((RAND.nextDouble() - 0.5) * Math.PI / 2);
-    	    	angle = theta + Math.PI;
-    		}
-    		else{
-    			// The particle should do a random walk with some tendency to
-    			// move toward or away from the membrane based on its current
-    			// potential.
-    			// NOTE: This algorithm was empirically determined, so tweak
-    			// as needed.
-    			double gradientThreshold;
-    			if (particle.getCharge() == 0 || membranePotentialSnapshot == 0){
-    				// No gradient should exist, so just do a random walk.
-    				angle = Math.PI * 2 * RAND.nextDouble();
-    			}
-    			else{
-    				gradientThreshold = 1 - Math.min((double)Math.abs(membranePotentialSnapshot) / 500, 1);
-    				double offsetAngle;
-    				if (Math.signum(particle.getCharge()) == Math.signum(membranePotentialSnapshot)){
-    					// Signs match, which should cause repulsion.
-    					offsetAngle = 0;
-    				}
-    				else{
-    					// Attraction, so offset angle is 0.
-    					offsetAngle = Math.PI;
-    				}
-    				if (RAND.nextDouble() > gradientThreshold){
-    					// Move in the gradient direction.
-    	    	    	angle = theta + ((RAND.nextDouble() - 0.5) * Math.PI / 2) + offsetAngle;
-    				}
-    				else{
-    					// Just do a random walk.
-    					angle = Math.PI * 2 * RAND.nextDouble();
-    				}
-    			}
-    		}
-    	}
-    	
-    	// Generate the new overall velocity.
-		velocity = MAX_PARTICLE_VELOCITY * RAND.nextDouble();
-		
-		// Set the particle's new velocity. 
-    	particle.setVelocity(velocity * Math.cos(angle), velocity * Math.sin(angle));
-    }
-    */
 	
 	private void addInitialChannels(){
 		
@@ -842,42 +717,6 @@ public class AxonModel implements IParticleCapture {
     	notifyChannelAdded(membraneChannel);
     }
     
-    private void removeChannel(MembraneChannelTypes channelType){
-    	// Make sure there is at least one to remove.
-    	if (getNumMembraneChannels(channelType) < 1 ){
-    		System.err.println(getClass().getName() + ": Error - No channel of this type to remove, type = " + channelType);
-    		return;
-    	}
-    	
-    	MembraneChannel channelToRemove = null;
-    	// Work backwards through the array so that the most recently added
-    	// channel is removed first.  This just looks better visually and
-    	// makes the positioning of channels work better.
-    	for (int i = membraneChannels.size() - 1; i >= 0; i--){
-    		if (membraneChannels.get(i).getChannelType() == channelType){
-    			channelToRemove = membraneChannels.get(i);
-    			break;
-    		}
-    	}
-    	
-    	if (channelToRemove != null){
-    		ArrayList<Particle> releasedParticle = channelToRemove.forceReleaseAllParticles(particles);
-    		// Since particles in a channel are considered to be inside the
-    		// membrane, force any particle that was in the channel when it was
-    		// removed to go safely into the interior.
-    		if (releasedParticle != null){
-    			for (Particle particle : releasedParticle){
-    				particles.add(particle);
-    				positionParticleInsideMembrane(particle);
-    			}
-    		}
-    		// Remove the channel and send any notifications.
-    		membraneChannels.remove(channelToRemove);
-    		channelToRemove.removeFromModel();
-    		notifyChannelRemoved(channelToRemove);
-    	}
-    }
-    
     /**
      * Place a particle at a random location inside the axon membrane.
      */
@@ -892,20 +731,6 @@ public class AxonModel implements IParticleCapture {
     	double multiplier = Math.max(RAND.nextDouble(), RAND.nextDouble());
     	double distance = (crossSectionInnerRadius - particle.getDiameter()) * multiplier;
     	
-    	/*
-    	 * TODO: The code below was used prior to 10/9/2009, which is when it
-    	 * was decided that the atoms should be evenly distributed within the
-    	 * membrane, not tending towards the outside.  Keep it until we're
-    	 * sure we don't need it, then blow it away.
-    	double multiplier = 0;
-    	if (RAND.nextDouble() < 0.8){
-    		multiplier = 1 - (RAND.nextDouble() * 0.25);
-    	}
-    	else{
-    		multiplier = RAND.nextDouble();
-    	}
-    	double distance = multiplier * (crossSectionInnerRadius - atom.getDiameter());
-    	*/
     	particle.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
 
@@ -1108,13 +933,6 @@ public class AxonModel implements IParticleCapture {
     	public void channelAdded(MembraneChannel channel);
     	
     	/**
-    	 * Notification that a channel was removed.
-    	 * 
-    	 * @param channel - Channel that was removed.
-    	 */
-    	public void channelRemoved(MembraneChannel channel);
-    	
-    	/**
     	 * Notification that a particle was added.
     	 * 
     	 * @param particle - Particle that was added.
@@ -1152,13 +970,11 @@ public class AxonModel implements IParticleCapture {
     	 * stimuli from being initiated too close together, has changed.
     	 */
     	public void stimulationLockoutStateChanged();
-    	
     }
     
     public static class Adapter implements Listener{
 		public void channelAdded(MembraneChannel channel) {}
 		public void particleAdded(Particle particle) {}
-		public void channelRemoved(MembraneChannel channel) {}
 		public void concentrationRatioChanged(ParticleType particleType) {}
 		public void stimulusPulseInitiated() {}
 		public void potentialChartVisibilityChanged() {}
