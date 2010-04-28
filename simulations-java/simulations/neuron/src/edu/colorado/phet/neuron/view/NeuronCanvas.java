@@ -310,10 +310,9 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 			}
 		});
     	
-    	/* TODO: The code below adds nodes that make it clear exactly where
-    	 * the channel is for the various membrane channels.  This is useful
-    	 * for debugging, but should be removed once channel traversal is
-    	 * fully worked out.
+    	/* The code below adds nodes that make it clear exactly where the
+    	 * channel is for the various membrane channels.  This is useful for
+    	 * debugging.
     	 */
     	if (SHOW_CHANNEL_LOCATIONS){
     		PhetPPath channelTestShape = new PhetPPath(mvt.createTransformedShape(channelToBeAdded.getChannelTestShape()), Color.ORANGE);
