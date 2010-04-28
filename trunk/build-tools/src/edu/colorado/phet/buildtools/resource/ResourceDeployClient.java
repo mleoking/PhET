@@ -206,7 +206,7 @@ public class ResourceDeployClient {
         System.out.println( "# " + command );
         PhetServer server = PhetServer.PRODUCTION;
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
-        return SshUtils.executeCommand( command, server, authenticationInfo );
+        return SshUtils.executeCommand( command, server.getHost(), authenticationInfo );
     }
 
     /**

@@ -19,7 +19,7 @@ import com.jcraft.jsch.JSchException;
 public class TestSshCommand {
     private static void sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
         String remotePathDir = server.getServerDeployPath() + "/test-permissions/0.00.03";
-        SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, server, authenticationInfo );
+        SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, server.getHost(), authenticationInfo );
 
         try {
             File tmpFile = File.createTempFile( "prefix", ".suffix" );

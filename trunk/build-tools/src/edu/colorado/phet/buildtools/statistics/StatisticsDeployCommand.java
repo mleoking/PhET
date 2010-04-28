@@ -112,7 +112,7 @@ public class StatisticsDeployCommand {
         }
 
         // set the permissions of the server-side files
-        success = success && SshUtils.executeCommand( "cd " + remoteDeployDir + "; chmod ug+x set_permissions; ./set_permissions", server, authenticationInfo );
+        success = success && SshUtils.executeCommand( "cd " + remoteDeployDir + "; chmod ug+x set_permissions; ./set_permissions", server.getHost(), authenticationInfo );
 
         return success;
     }
