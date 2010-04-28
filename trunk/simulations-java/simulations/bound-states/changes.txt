@@ -1,3 +1,5 @@
+# 1.07.00 (40180) Apr 28, 2010
+4/28/10 > restore the time value display
 # 1.06.01 (40144) Apr 27, 2010
 4/20/10 #2264, restore the time value display that was removed somewhere between versions 1.03 and 1.04
 # 1.06.00 (37972) Jan 8, 2010
