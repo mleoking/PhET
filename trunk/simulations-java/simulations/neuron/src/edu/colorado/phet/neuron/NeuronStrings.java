@@ -21,17 +21,6 @@ public class NeuronStrings {
 
     public static final String POTASSIUM_CHEMICAL_SYMBOL = getString( "PotassiumChemicalSymbol" );
     public static final String SODIUM_CHEMICAL_SYMBOL = getString( "SodiumChemicalSymbol" );
-    public static final String POSITIVE_ION_SYMBOL = getString( "PositiveIonSymbol" );
-    public static final String NEGATIVE_ION_SYMBOL = getString( "NegativeIonSymbol" );
-    
-    public static final String SODIUM_LEAK_CHANNELS = getString( "SodiumLeakChannels" );
-    public static final String POTASSIUM_LEAK_CHANNELS = getString( "PotassiumLeakChannels" );
-    public static final String POTASSIUM_CONCENTRATION = getString( "PotassiumConcentration" );
-    public static final String SODIUM_CONCENTRATION = getString( "SodiumConcentration" );
-    public static final String OUTSIDE = getString( "Outside" );
-    public static final String INSIDE = getString( "Inside" );
-    public static final String NONE = getString( "None" );
-    public static final String LOTS = getString( "Lots" );
     
     public static final String SHOW_ALL_IONS = getString( "ShowAllIons" );
     public static final String SHOW_POTENTIAL_CHART = getString( "ShowPotentialChart" );
