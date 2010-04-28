@@ -202,7 +202,7 @@ public abstract class PhetServer {
             super.deployFinished();
             if ( PhetServer.showReminder ) {
                 JOptionPane.showMessageDialog( null, "Reminder:\n" +
-                                                     "Document this release in trunk/website/about/changes.txt.\n" +
+                                                     "Document this release in trunk/web/website/about/changes.txt.\n" +
                                                      "Copy to tigercat:/web/htdocs/phet/about/changes.txt." );
             }
         }
