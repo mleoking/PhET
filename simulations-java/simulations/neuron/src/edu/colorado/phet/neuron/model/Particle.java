@@ -229,14 +229,6 @@ public abstract class Particle implements IMovable, IFadable {
     	listeners.remove(listener);
     }
 
-    public double getX() {
-        return position.x;
-    }
-
-    public double getY(){
-        return position.y;
-    }
-
     public interface Listener {
         void positionChanged();
         void opaquenessChanged();
