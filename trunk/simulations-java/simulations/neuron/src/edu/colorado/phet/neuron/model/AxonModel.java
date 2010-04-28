@@ -84,7 +84,6 @@ public class AxonModel implements IParticleCapture {
     private EventListenerList listeners = new EventListenerList();
     private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
     private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
-    private AlternativeConductanceModel alternativeConductanceModel = new AlternativeConductanceModel();
     private boolean potentialChartVisible = DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY;
     private boolean allIonsSimulated = DEFAULT_FOR_SHOW_ALL_IONS; // Controls whether all ions, or just those near membrane, are simulated.
     private double stimLockoutCountdownTime;
@@ -116,7 +115,6 @@ public class AxonModel implements IParticleCapture {
 				// the simulates the action potential voltages and current
 				// flows.
 				hodgkinHuxleyModel.stimulate();
-				alternativeConductanceModel.initiateActionPotential();
 			}
 		});
         
@@ -503,10 +501,6 @@ public class AxonModel implements IParticleCapture {
     	// Update the value of the membrane potential by stepping the
     	// Hodgkins-Huxley model.
     	hodgkinHuxleyModel.stepInTime( dt );
-    	
-    	
-    	// Update the alternate model for calculating the conductance values
-    	alternativeConductanceModel.stepInTime( dt );
     	
     	// Step the membrane in time.
     	axonMembrane.stepInTime( dt );
