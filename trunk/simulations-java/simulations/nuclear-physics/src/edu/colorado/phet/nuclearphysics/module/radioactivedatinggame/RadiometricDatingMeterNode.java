@@ -614,8 +614,6 @@ public class RadiometricDatingMeterNode extends PNode {
 			
 			setBackground(BODY_COLOR);
 			
-			// TODO - JPB TBD: Need to make strings into resources once finalized.
-			
             // Add the border around the panel.
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
