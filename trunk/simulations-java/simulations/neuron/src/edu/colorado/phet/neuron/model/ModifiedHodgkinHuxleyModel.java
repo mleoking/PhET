@@ -303,15 +303,12 @@ public class ModifiedHodgkinHuxleyModel implements IHodgkinHuxleyModel
     		// version of Hodgkin-Huxley.  Note that the multiplier values
     		// were determined empirically from running the more standard HH
     		// model.
-    		// which are the mu
-//    		n4 = n*n*n*n;
-//    		m3h = m*m*m*h;
-		
-		// Old values
-//		n4 = 0.35 * Math.exp( -1 / 1.0 * Math.pow(timeSinceActionPotential - 3.0, 2));
-//		m3h = 0.278 * Math.exp( -1 / 0.3 * Math.pow(timeSinceActionPotential - 0.5, 2));
+    		
+    		// Below, commented out, is the code that a real HH model would use.
+    		// n4 = n*n*n*n;
+    		// m3h = m*m*m*h;
 
-    		// New values tried by NP 3/10/10
+    		// New values tried by Noah P on 3/10/10
     		n4 = 0.55 * Math.exp( -1 / 0.55 * Math.pow(timeSinceActionPotential - 1.75, 2));
     		m3h = 0.3 * Math.exp( -1 / 0.2 * Math.pow(timeSinceActionPotential - 1.0, 2));
 
