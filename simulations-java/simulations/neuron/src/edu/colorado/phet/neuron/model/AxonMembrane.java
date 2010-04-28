@@ -217,6 +217,14 @@ public class AxonMembrane {
     	return travelingActionPotential;
     }
     
+    public void reset(){
+    	if (travelingActionPotential != null){
+    		// Force premature termination of the action potential.
+    		travelingActionPotential = null;
+    		notifyTravelingActionPotentialEnded();
+    	}
+    }
+    
     /**
      * Step this model element forward in time by the specified delta.
      * 

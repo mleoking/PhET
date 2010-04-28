@@ -53,8 +53,7 @@ public class PotassiumGatedChannel extends GatedChannel {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 		this.hodgkinHuxleyModel = hodgkinHuxleyModel;
 		setInteriorCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, Math.PI, Math.PI * 0.5));
-		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
-		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
+		reset();
 	}
 	
 	public PotassiumGatedChannel(){
@@ -80,6 +79,16 @@ public class PotassiumGatedChannel extends GatedChannel {
 		return MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
 	}
 	
+	@Override
+	public void reset() {
+		super.reset();
+		
+		// Set up the capture time range, which will be used to control the
+		// rate of particle capture when this gate is open.
+		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
+		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
+	}
+
 	@Override
 	public void stepInTime(double dt) {
 		super.stepInTime(dt);

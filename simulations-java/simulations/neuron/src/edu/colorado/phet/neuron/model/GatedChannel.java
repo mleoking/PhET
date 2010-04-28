@@ -173,6 +173,8 @@ public abstract class GatedChannel extends MembraneChannel {
 	}
 	 */
 	
+	
+	
 	private boolean recentlyCaptured(Particle atom){
 		boolean recentlyCaptured = false;
 		for (AtomCountdownPair atomCountdownPair : recentlyReleaseAtoms){
@@ -233,6 +235,24 @@ public abstract class GatedChannel extends MembraneChannel {
 	}
 	*/
 	
+	@Override
+	protected MembraneCrossingDirection chooseCrossingDirection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected ParticleType getParticleTypeToCapture() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void reset() {
+		setOpenness(0);
+		setInactivationAmt(0);
+	}
+
 	private static class AtomCountdownPair{
 		
 		Particle atom = null;

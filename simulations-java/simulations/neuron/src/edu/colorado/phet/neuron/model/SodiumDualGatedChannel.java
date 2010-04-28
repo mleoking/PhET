@@ -88,16 +88,7 @@ public class SodiumDualGatedChannel extends GatedChannel {
 		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, modelContainingParticles);
 		this.hodgkinHuxleyModel = hodgkinHuxleyModel;
 		setExteriorCaptureZone(new PieSliceShapedCaptureZone(getCenterLocation(), CHANNEL_WIDTH * 5, 0, Math.PI * 0.7));
-		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
-		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
-		
-		// Initialize some internal state.
-		if (hodgkinHuxleyModel != null){
-			previousNormalizedConductance = calculateNormalizedConductance();
-		}
-		
-		// Initialize the stagger delay.
-		updateStaggerDelay();
+		reset();
 	}
 
 	public SodiumDualGatedChannel(){
@@ -244,11 +235,22 @@ public class SodiumDualGatedChannel extends GatedChannel {
 	
 	@Override
 	public void reset() {
+		super.reset();
+		
+		// Set up the capture time range, which will be used to control the
+		// rate of particle capture when this gate is open.
+		setMinInterCaptureTime(MIN_INTER_CAPTURE_TIME);
+		setMaxInterCaptureTime(MAX_INTER_CAPTURE_TIME);
+		
+		// Initialize some internal state.
 		gateState = GateState.IDLE;
 		stateTransitionTimer = 0;
-		previousNormalizedConductance = calculateNormalizedConductance();
-		setOpenness(0);
-		setInactivationAmt(0);
+		if (hodgkinHuxleyModel != null){
+			previousNormalizedConductance = calculateNormalizedConductance();
+		}
+		
+		// Initialize the stagger delay.
+		updateStaggerDelay();
 	}
 
     //----------------------------------------------------------------------------

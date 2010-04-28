@@ -17,10 +17,15 @@ public abstract class AbstractLeakChannel extends MembraneChannel {
 
 	public AbstractLeakChannel(double channelWidth, double channelHeight, IParticleCapture modelContainingParticles) {
 		super(channelWidth, channelHeight, modelContainingParticles);
-		setOpenness(1);  // Leak channels are always fully open.
+		reset();
 	}
 	
 	//----------------------------------------------------------------------------
 	// Methods
 	//----------------------------------------------------------------------------
+	
+	@Override
+	public void reset() {
+		setOpenness(1);  // Leak channels are always fully open.
+	}
 }
