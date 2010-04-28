@@ -5,16 +5,13 @@ import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Class that represents atoms in the view.
@@ -27,7 +24,6 @@ public class ParticleNode extends PNode {
 	private Particle particle;
     private ModelViewTransform2D modelViewTransform;
     private PNode representation;
-    private PText label;
 
     public ParticleNode( Particle particle, ModelViewTransform2D modelViewTransform ) {
     	
@@ -48,30 +44,6 @@ public class ParticleNode extends PNode {
 		addChild( representation );
         updateOffset();
         updateOpaqueness();
-        
-        // Create the label.
-        String labelText = MessageFormat.format("{0}{1}", particle.getLabelText(), particle.getChargeString());
-        label = new PText(labelText);
-        label.setFont(new PhetFont(12, true));
-        label.setTextPaint(particle.getLabelColor());
-        // TODO: On 10/12/2009, I (jblanco) talked with Noah P and we decided
-        // to try removing the labels, since they are small and hard to see
-        // already and we want to try to put more smaller particles in place.
-        // If this decision sticks, the label should be permanently removed.
-        //addChild(label);
-        
-        // Scale the label to fit within the sphere.
-        double maxLabelDimension = Math.max(label.getFullBoundsReference().width, label.getFullBoundsReference().height);
-        PNode tempRepresentation = createRepresentation();
-        tempRepresentation.rotate(Math.PI / 4);
-        double minShapeDimension = Math.min(representation.getFullBoundsReference().width,
-        		tempRepresentation.getFullBoundsReference().height);
-        double scale = ( minShapeDimension * 1.1 / maxLabelDimension ) * 0.9;
-        label.setScale(scale);
-        
-        // Center the label both vertically and horizontally.  This assumes
-        // that the sphere is centered at 0,0.
-        label.setOffset(-label.getFullBoundsReference().width / 2, -label.getFullBoundsReference().height / 2);
 	}
     
     private void updateOffset() {
