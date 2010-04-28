@@ -51,7 +51,7 @@ public class AxonCrossSectionModule extends PiccoloModule {
         setSimulationPanel( canvas );
 
         // Control Panel
-        controlPanel = new AxonCrossSectionControlPanel( this, parentFrame, model, canvas );
+        controlPanel = new AxonCrossSectionControlPanel( this, parentFrame, model );
         setControlPanel( controlPanel );
         
         // Clock controls
