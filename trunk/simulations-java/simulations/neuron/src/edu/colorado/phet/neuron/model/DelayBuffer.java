@@ -17,10 +17,10 @@ public class DelayBuffer {
 	// This value is used to tell if two numbers are different.  It was needed
 	// due to some floating point resolution problems that were occurring.
 	private static final double DIFFERENCE_RESOLUTION = 1E-15;
-
+	
 	private DelayElement[] delayElements;
 	private int numEntries;
-	private boolean filling = true;
+	private boolean filling;
 	private boolean allDeltaTimesEqual = true;
 	private double previousDeltaTime = -1;
 	private int countAtThisDeltaTime = 0;
@@ -28,8 +28,8 @@ public class DelayBuffer {
 	// Head and tail pointers for FIFO-type behavior.  FIFO management is
 	// done explicitly rather than using the Queue class in order to do some
 	// optimizations for performance.
-	int head = 0;
-	int tail = 0;
+	int head;
+	int tail;
 	
 	public DelayBuffer(double maxDelay, double minTimeStep){
 		numEntries = (int)Math.ceil(maxDelay / minTimeStep);
@@ -39,6 +39,9 @@ public class DelayBuffer {
 		for (int i = 0; i < numEntries; i++){
 			delayElements[i] = new DelayElement();
 		}
+		
+		// Set the initial conditions.
+		clear();
 	}
 	
 	public void addValue(double value, double deltaTime){
@@ -146,6 +149,8 @@ public class DelayBuffer {
 	public void clear(){
 		head = 0;
 		tail = 0;
+		previousDeltaTime = -1;
+		filling = true;
 	}
 	
 	private class DelayElement{

@@ -254,6 +254,18 @@ public class AxonModel implements IParticleCapture {
     
     public void reset(){
     	
+    	// Reset the axon membrane.
+    	axonMembrane.reset();
+    	
+    	// Remove all existing particles.
+    	removeAllParticles();
+    	allIonsSimulated = false;
+    	
+    	// Reset all membrane channels.
+    	for (MembraneChannel membraneChannel : membraneChannels){
+    		membraneChannel.reset();
+    	}
+    	
     	// Reset the HH model.
     	hodgkinHuxleyModel.reset();
     	
@@ -270,11 +282,6 @@ public class AxonModel implements IParticleCapture {
     	// Set the boolean that controls whether all ions are simulated to its
     	// original state.
     	setAllIonsSimulated(DEFAULT_FOR_SHOW_ALL_IONS);
-    	
-    	// Reset all membrane channels.
-    	for (MembraneChannel membraneChannel : membraneChannels){
-    		membraneChannel.reset();
-    	}
     }
     
     /**

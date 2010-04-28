@@ -145,12 +145,10 @@ public abstract class MembraneChannel {
 	abstract protected ParticleType getParticleTypeToCapture();
 	
 	/**
-	 * Reset the channel.  If the channel doesn't open or close, or if there
-	 * is no internal state, nothings needs to be done, so this defaults to
-	 * doing nothing.  Override in descendant classes as needed.
+	 * Reset the channel.
 	 */
 	public void reset(){
-		return;
+		captureCountdownTimer = Double.POSITIVE_INFINITY;
 	}
 	
 	/**
