@@ -181,12 +181,6 @@ public abstract class Particle implements IMovable, IFadable {
     	return DEFAULT_PARTICLE_RADIUS;   // Default value, override if needed to support other particles.
     }
     
-	/**
-     * Text to use for labeling this particle.  Often this will be a chemical
-     * symbol, but this is not always the case.
-     */
-    abstract public String getLabelText();
-    
     /**
      * Get the base color to be used when representing this particle.
      */
