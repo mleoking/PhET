@@ -7,6 +7,8 @@ import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import java.util.ArrayList;
 
 public class PureJavaSolver extends CircuitSolver {
+    private double errorThreshold = 1E-6;
+    private double minDT = 1E-8;
 
     static class ResistiveBatteryAdapter extends DynamicCircuit.ResistiveBattery {
         Battery battery;
@@ -102,7 +104,8 @@ public class PureJavaSolver extends CircuitSolver {
                 new ArrayList<LinearCircuitSolver.CurrentSource>(), new ArrayList<DynamicCircuit.ResistiveBattery>(batteries),
                 new ArrayList<DynamicCircuit.DynamicCapacitor>(capacitors), new ArrayList<DynamicCircuit.DynamicInductor>(inductors), new ObjectOrientedMNA());
 
-        DynamicCircuit.DynamicCircuitSolution result = dynamicCircuit.solveItWithSubdivisions(dt);
+        System.out.println("errorThreshold = " + errorThreshold + ", minDT = " + minDT);
+        DynamicCircuit.DynamicCircuitSolution result = dynamicCircuit.solveItWithSubdivisions(new TimestepSubdivisions<DynamicCircuit.DynamicState>(errorThreshold, minDT), dt);
         for (ResistiveBatteryAdapter batteryAdapter : batteries) batteryAdapter.applySolution(result);
         for (ResistorAdapter resistorAdapter : resistors) resistorAdapter.applySolution(result);
         for (CapacitorAdapter capacitorAdapter : capacitors) capacitorAdapter.applySolution(result);
@@ -120,5 +123,21 @@ public class PureJavaSolver extends CircuitSolver {
         }
         circuit.setSolution(result);
         fireCircuitSolved();
+    }
+
+    public double getErrorThreshold() {
+        return errorThreshold;
+    }
+
+    public double getMinDT() {
+        return minDT;
+    }
+
+    public void setErrorThreshold(double errorThreshold) {
+        this.errorThreshold = errorThreshold;
+    }
+
+    public void setMinDT(double minDT) {
+        this.minDT = minDT;
     }
 }

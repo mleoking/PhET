@@ -7,8 +7,11 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+
 /**
- * Circuit Construction Kit Application
+ * Circuit Construction Kit Application; this root class is used to launch all flavors.
  *
  * @author Sam Reid
  */
@@ -25,6 +28,13 @@ public class CircuitConstructionKitApplication extends PiccoloPhetApplication {
             getPhetFrame().getTabbedModulePane().setLogoVisible(false);
         }
         getPhetFrame().addMenu(new OptionsMenu(this, cckPiccoloModule));//todo options menu
+        JMenu developerMenu = getPhetFrame().getDeveloperMenu();
+        developerMenu.addSeparator();
+        developerMenu.add(new JMenuItem(new AbstractAction("CCK Options") {
+            public void actionPerformed(ActionEvent e) {
+                new CCKDeveloperDialog(getPhetFrame(), cckPiccoloModule).setVisible(true);
+            }
+        }));
     }
 
     protected PhetFrame createPhetFrame() {
