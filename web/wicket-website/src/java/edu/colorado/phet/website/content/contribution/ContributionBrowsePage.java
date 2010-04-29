@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.model.ResourceModel;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
@@ -37,7 +38,8 @@ public class ContributionBrowsePage extends PhetRegularPage {
         setContentWidth( 900 );
 
         // TODO: localize
-        addTitle( "Browse PhET contributions" );
+
+        addTitle( new ResourceModel( "contribution.browse.title" ) );
 
         add( new ContributionSearchPanel( "contribution-search-panel", getPageContext(), parameters ) );
 

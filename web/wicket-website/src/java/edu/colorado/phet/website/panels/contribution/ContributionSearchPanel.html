@@ -21,42 +21,58 @@
         <form action="" method="get">
             <table>
                 <tr>
-                    <th style="text-align: left">Simulations</th>
-                    <th style="text-align: left">Types</th>
-                    <th style="text-align: left">Levels</th>
-                    <th style="text-align: left">Languages</th>
+                    <th class="contribution-search-header">
+                        <wicket:message key="contribution.search.simulations">
+                            Simulations
+                        </wicket:message>
+                    </th>
+                    <th class="contribution-search-header">
+                        <wicket:message key="contribution.search.types">
+                            Types
+                        </wicket:message>
+                    </th>
+                    <th class="contribution-search-header">
+                        <wicket:message key="contribution.search.levels">
+                            Levels
+                        </wicket:message>
+                    </th>
+                    <th class="contribution-search-header">
+                        <wicket:message key="contribution.search.languages">
+                            Languages
+                        </wicket:message>
+                    </th>
                 </tr>
                 <tr>
                     <td>
-                        <select class="simulations" name="sims" multiple="multiple" size="8" id="Simulations_uid">
+                        <select class="simulations" name="sims" multiple="multiple" size="8">
                             <option wicket:id="simulations"><span wicket:id="simulation-title"></span></option>
                         </select>
                     </td>
                     <td>
-                        <select class="types" name="types" multiple="multiple" size="8" id="Types_uid">
+                        <select class="types" name="types" multiple="multiple" size="8">
                             <option wicket:id="types"><span wicket:id="type"></span></option>
                         </select>
                     </td>
 
                     <td>
 
-                        <select class="levels" name="levels" multiple="multiple" size="8" id="Levels_uid">
+                        <select class="levels" name="levels" multiple="multiple" size="8">
                             <option wicket:id="levels"><span wicket:id="level"></span></option>
                         </select>
                     </td>
 
                     <td>
-                        <select class="locales" name="locales" multiple="multiple" size="8" id="Locales_uid">
+                        <select class="locales" name="locales" multiple="multiple" size="8">
                             <option wicket:id="locales"><span wicket:id="locale"></span></option>
                         </select>
                     </td>
                 </tr>
             </table>
-            <div style="text-align: right;">
-                Optional text search
+            <div class="contribution-text-submit-row">
+                <wicket:message key="contribution.search.text">Optional text search</wicket:message>
                 <input type="text" name="query" value="" wicket:id="query-text"/>
                 <span style="padding-left: 10px;"></span>
-                <input type="submit" value="browse"/>
+                <input type="submit" wicket:message="value:contribution.search.browse"/>
             </div>
         </form>
     </div>
