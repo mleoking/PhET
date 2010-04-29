@@ -38,6 +38,8 @@ public class ContributionSearchPanel extends PhetPanel {
 
         // TODO: localize
 
+        // TODO: improve performance (significantly)
+
         final String[] simStrings = params.getStringArray( "sims" );
         final String[] typeStrings = params.getStringArray( "types" );
         final String[] levelStrings = params.getStringArray( "levels" );
