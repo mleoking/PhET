@@ -1,8 +1,7 @@
 package edu.colorado.phet.website.panels.contribution;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.AttributeModifier;
@@ -15,16 +14,20 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.hibernate.Session;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.common.phetcommon.util.PhetLocales;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.LocalizedSimulation;
-import edu.colorado.phet.website.data.contribution.ContributionType;
-import edu.colorado.phet.website.data.contribution.Type;
-import edu.colorado.phet.website.data.contribution.Level;
 import edu.colorado.phet.website.data.contribution.ContributionLevel;
+import edu.colorado.phet.website.data.contribution.ContributionType;
+import edu.colorado.phet.website.data.contribution.Level;
+import edu.colorado.phet.website.data.contribution.Type;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.StringUtils;
 
 public class ContributionSearchPanel extends PhetPanel {
 
@@ -36,6 +39,7 @@ public class ContributionSearchPanel extends PhetPanel {
         final String[] simStrings = params.getStringArray( "sims" );
         final String[] typeStrings = params.getStringArray( "types" );
         final String[] levelStrings = params.getStringArray( "levels" );
+        final String[] localeStrings = params.getStringArray( "locales" );
 
         final LinkedList<LocalizedSimulation> simulations = new LinkedList<LocalizedSimulation>();
 
@@ -113,6 +117,43 @@ public class ContributionSearchPanel extends PhetPanel {
                     value = level.getValue().toString();
                 }
                 setValueAndSelection( item, value, levelStrings );
+            }
+        } );
+
+        final PhetLocales phetLocales = ( (PhetWicketApplication) getApplication() ).getSupportedLocales();
+
+        List<Locale> locales = new LinkedList<Locale>();
+        final Map<Locale, String> names = new HashMap<Locale, String>();
+
+        for ( String name : phetLocales.getSortedNames() ) {
+            Locale locale = phetLocales.getLocale( name );
+            locales.add( locale );
+            names.put( locale, StringUtils.getLocaleTitle( locale, getLocale(), getPhetLocalizer() ) );
+        }
+
+        Collections.sort( locales, new Comparator<Locale>() {
+            public int compare( Locale a, Locale b ) {
+                return names.get( a ).compareTo( names.get( b ) );
+            }
+        } );
+
+        locales.add( 0, null );
+
+        add( new ListView( "locales", locales ) {
+            protected void populateItem( ListItem item ) {
+                Locale locale = (Locale) item.getModel().getObject();
+                String value;
+                if ( locale == null ) {
+                    item.add( new LocalizedText( "locale", "contribution.search.allLocales" ) );
+                    value = "all";
+                }
+                else {
+                    String localeTitle = names.get( locale );
+                    item.add( new Label( "locale", localeTitle ) );
+                    item.add( new AttributeModifier( "title", true, new Model( localeTitle ) ) );
+                    value = LocaleUtils.localeToString( locale );
+                }
+                setValueAndSelection( item, value, localeStrings );
             }
         } );
 
