@@ -37,7 +37,7 @@ public class ContributionBrowsePage extends PhetRegularPage {
 
         setContentWidth( 900 );
 
-        addTitle( new ResourceModel( "contributions.search.title" ) );
+        addTitle( new ResourceModel( "contribution.search.title" ) );
 
         add( new ContributionSearchPanel( "contribution-search-panel", getPageContext(), parameters ) );
 
