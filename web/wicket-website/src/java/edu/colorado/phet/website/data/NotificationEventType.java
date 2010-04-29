@@ -12,6 +12,8 @@ public enum NotificationEventType {
     NEW_CONTRIBUTION,
     UPDATED_CONTRIBUTION;
 
+    // TODO: add nomination event
+
     public String toString( String data ) {
         // store params as "a=1&b=1" etc.
         PageParameters params = new PageParameters( data );

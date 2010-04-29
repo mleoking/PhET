@@ -278,6 +278,33 @@
             <span wicket:id="standards"></span>
         </wicket:enclosure>
 
+        <h3><wicket:message key="contribution.view.nominateHeader">Nominations for Gold Star</wicket:message></h3>
+
+        <p wicket:id="contribution-nominate-text">
+             Gold Star contributions are high quality inquiry-based activities that follow the PhET design guidelines
+            (PDF) and that teachers find useful.
+        </p>
+
+        <form wicket:id="nominate-form" method="get">
+            <input type="hidden" name="contribution_id" wicket:id="contrib-id-holder"/>
+            <table class="nominate-table">
+                <tr>
+                    <th>
+                        <wicket:message key="contribution.view.nominationReason">Reason for nomination:</wicket:message>
+                    </th>
+                </tr><tr>
+                    <td>
+                        <textarea rows="3" cols="30" name="reason"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nominate-submit-row">
+                        <input type="submit" name="submit" wicket:message="value:contribution.view.nominateButton"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
         <h3><wicket:message key="contribution.view.comments">Comments</wicket:message></h3>
 
         <p><wicket:message key="contribution.view.commentsHeader">
