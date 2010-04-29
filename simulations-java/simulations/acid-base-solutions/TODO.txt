@@ -1,5 +1,9 @@
 TODO list for acid-base-solutions
 
+MILESTONES
+- 5/15/10, design completed
+- 8/1/10, sim "showable"
+
 HIGH PRIORITY
 - prototype: what is the range of Ka?
 - prototype: algorithm for number of molecules displayed doesn't give desired behavior
