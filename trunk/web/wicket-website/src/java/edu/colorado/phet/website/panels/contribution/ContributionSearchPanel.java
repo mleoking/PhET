@@ -30,16 +30,17 @@ import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.StringUtils;
 
+/**
+ * Displays 4 multiple-choices boxes to select from simulations, types, levels, and languages, and has a text box to
+ * search (browse) for contributions. Mainly based on the query string parameters that it passes to itself (retrieved
+ * through the PageParameters variable), and automatically selects the correct items after searches.
+ */
 public class ContributionSearchPanel extends PhetPanel {
 
     private static Logger logger = Logger.getLogger( ContributionSearchPanel.class.getName() );
 
     public ContributionSearchPanel( String id, final PageContext context, final PageParameters params ) {
         super( id, context );
-
-        // TODO: localize
-
-        // TODO: improve performance (significantly)
 
         final String[] simStrings = params.getStringArray( "sims" );
         final String[] typeStrings = params.getStringArray( "types" );
@@ -182,6 +183,14 @@ public class ContributionSearchPanel extends PhetPanel {
 
     }
 
+    /**
+     * Set the value (sent in the query string), and if applicable select the element depending on the currently
+     * selected items
+     *
+     * @param item           ListView item
+     * @param value          Value
+     * @param selectedValues Selected values
+     */
     private void setValueAndSelection( ListItem item, String value, String[] selectedValues ) {
         item.add( new AttributeModifier( "value", true, new Model( value ) ) );
         if ( selectedValues == null || selectedValues.length == 0 ) {
