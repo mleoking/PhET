@@ -236,6 +236,7 @@ public class ContributionMainPanel extends PhetPanel {
         commentContrib2.add( new AttributeAppender( "value", new Model( Integer.toString( contribution.getId() ) ), "" ) );
 
         // TODO: hook up contribution guidelines page (after creation)
+        // TODO: add gold star symbol
         add( new LocalizedText( "contribution-nominate-text", "contribution.view.nominateText", new Object[]{ "#", "/publications/contribution-guidelines.pdf"}));
     }
 
