@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.response.StringResponse;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.templates.Stylable;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.cache.PanelCache;
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
@@ -26,7 +27,7 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
  * Standard panel that almost all panels in the website should inherit from. Allows it to be translated, pulls the
  * correct locale out of the page context automatically, has enough convenience functions, and organizes stylesheets.
  */
-public class PhetPanel extends Panel {
+public class PhetPanel extends Panel implements Stylable {
 
     private Locale myLocale;
     private List<EventDependency> dependencies = new LinkedList<EventDependency>();
@@ -266,5 +267,9 @@ public class PhetPanel extends Panel {
             return null;
         }
         return cacheMap.get( key );
+    }
+
+    public String getStyle( String key ) {
+        return "";
     }
 }

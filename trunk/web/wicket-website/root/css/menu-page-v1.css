@@ -32,7 +32,7 @@ div.other-languages {
 }
 
 div.menu-page-content {
-    width: 765px;
+    /* width specified in element style attribute during runtime */
     margin: 0 auto;
 }
 
