@@ -17,6 +17,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.cache.SimulationCache;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.contribution.ContributionLevel;
@@ -50,13 +51,21 @@ public class ContributionSearchPanel extends PhetPanel {
 
         add( HeaderContributor.forCss( "/css/contribution-browse-v1.css" ) );
 
+        logger.debug( "A" );
+
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
-                HibernateUtils.addPreferredFullSimulationList( simulations, getHibernateSession(), context.getLocale() );
-                HibernateUtils.orderSimulations( simulations, context.getLocale() );
+                logger.debug( "X" );
+                //HibernateUtils.addPreferredFullSimulationList( simulations, getHibernateSession(), context.getLocale() );
+                //logger.debug( "Y" );
+                //HibernateUtils.orderSimulations( simulations, context.getLocale() );
+                SimulationCache.addSortedLocalizedSimulations( simulations, session, context.getLocale() );
+                logger.debug( "Z" );
                 return true;
             }
         } );
+
+        logger.debug( "B" );
 
         simulations.add( 0, null ); // will indicate all simulations in the selection panel
 
@@ -125,6 +134,8 @@ public class ContributionSearchPanel extends PhetPanel {
             }
         } );
 
+        logger.debug( "C" );
+
         final PhetLocales phetLocales = ( (PhetWicketApplication) getApplication() ).getSupportedLocales();
 
         List<Locale> locales = new LinkedList<Locale>();
@@ -161,6 +172,8 @@ public class ContributionSearchPanel extends PhetPanel {
                 setValueAndSelection( item, value, localeStrings );
             }
         } );
+
+        logger.debug( "D" );
 
         String textValue = queryString != null && queryString.length() > 0 ? queryString : "";
         Label queryLabel = new Label( "query-text", "" );
