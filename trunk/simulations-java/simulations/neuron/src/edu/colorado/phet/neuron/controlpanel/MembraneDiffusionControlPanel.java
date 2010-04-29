@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.colorado.phet.neuron.model.PotassiumGatedChannel;
@@ -119,6 +120,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         JPanel checkBoxPanel = new JPanel();
         // TODO: i18n
         showConcentrationsCheckBox = new JCheckBox("Show Concentrations");
+        showConcentrationsCheckBox.setFont(NeuronConstants.CONTROL_PANEL_CONTROL_FONT);
         showConcentrationsCheckBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				model.setConcentrationGraphsVisible(showConcentrationsCheckBox.isSelected());
