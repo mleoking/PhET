@@ -77,7 +77,8 @@ public class FakeHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	public double get_n4() { return n4; }
 	
 	public double get_delayed_n4(double delayAmount){
-		System.out.println(getClass().getName() + " Warning - Delay not implemented for this class.");
+		// Delayed values are not supported from this class, so just provide
+		// the current value.
 		return n4;
 	}
 	
@@ -87,7 +88,8 @@ public class FakeHodgkinHuxleyModel implements IHodgkinHuxleyModel
 	public double get_m3h() { return m3h; }
 	
 	public double get_delayed_m3h(double delayAmount){
-		System.out.println(getClass().getName() + " Warning - Delay not implemented for this class.");
+		// Delayed values are not supported from this class, so just provide
+		// the current value.
 		return m3h;
 	}
 	
