@@ -36,6 +36,8 @@ public class ContributionSearchPanel extends PhetPanel {
     public ContributionSearchPanel( String id, final PageContext context, final PageParameters params ) {
         super( id, context );
 
+        // TODO: localize
+
         final String[] simStrings = params.getStringArray( "sims" );
         final String[] typeStrings = params.getStringArray( "types" );
         final String[] levelStrings = params.getStringArray( "levels" );
