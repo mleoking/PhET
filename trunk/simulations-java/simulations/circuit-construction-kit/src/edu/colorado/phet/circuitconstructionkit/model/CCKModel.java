@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.circuitconstructionkit.model;
 
-import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.mna.PureJavaSolver;
 
@@ -26,7 +25,7 @@ import java.util.Arrays;
  */
 public class CCKModel {
     private Circuit circuit;
-    private CircuitSolver circuitSolver;
+    private PureJavaSolver pureJavaSolver;
     private ResistivityManager resistivityManager;
 
     private ParticleSet particleSet;
@@ -77,7 +76,7 @@ public class CCKModel {
             }
         };
         this.circuit = new Circuit(circuitChangeListener);
-        circuitSolver = new PureJavaSolver();
+        pureJavaSolver = new PureJavaSolver();
 //        circuitSolver = new PureScalaSolver();//TODO: use reflection during prototype to avoid disturbing the build for java-only developers
 
         particleSet = new ParticleSet(getCircuit());
@@ -99,7 +98,7 @@ public class CCKModel {
         if ((getCircuit().isDynamic() || modelChanged) && stepCount % frameSolveCount == 0) {
             getCircuit().stepInTime(dt);
             for (int i = 0; i < N; i++) {
-                circuitSolver.apply(getCircuit(), dt / (double) N * (double) frameSolveCount);
+                pureJavaSolver.apply(getCircuit(), dt / (double) N * (double) frameSolveCount);
             }
             modelChanged = false;
         }
@@ -118,8 +117,8 @@ public class CCKModel {
         layout.layoutElectrons(branches);
     }
 
-    public CircuitSolver getCircuitSolver() {
-        return circuitSolver;
+    public PureJavaSolver getCircuitSolver() {
+        return pureJavaSolver;
     }
 
     public ParticleSet getParticleSet() {
