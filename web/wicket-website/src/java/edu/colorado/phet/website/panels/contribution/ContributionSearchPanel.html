@@ -165,6 +165,8 @@
 
                     <td>
                         <select class="locales" name="locales" multiple="multiple" size="8" id="Locales_uid">
+                            <option wicket:id="locales"><span wicket:id="locale"></span></option>
+                            <wicket:remove>
                             <option selected="selected" value="all">All Languages</option>
                             <option value="0">Abkhazian  ( ab )</option>
                             <option value="1">Afar  ( aa )</option>
@@ -378,7 +380,7 @@
                             <option value="188">Yoruba  ( yo )</option>
                             <option value="189">Zhuang  ( za )</option>
                             <option value="190">Zulu  ( zu )</option>
-
+                            </wicket:remove>
                         </select>
                     </td>
                 </tr>

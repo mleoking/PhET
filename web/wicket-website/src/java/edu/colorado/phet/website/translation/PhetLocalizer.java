@@ -13,7 +13,6 @@ import org.hibernate.Session;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.Translation;
-import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.templates.Stylable;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.StringUtils;
@@ -348,6 +347,16 @@ public class PhetLocalizer extends Localizer {
     }
 
     private String getErrorString( String key ) {
+        if ( key.startsWith( "language.names." ) ) {
+            Locale locale = LocaleUtils.stringToLocale( key.substring( "language.names.".length() ) );
+            if ( locale != null ) {
+                String name = PhetWicketApplication.get().getSupportedLocales().getName( locale );
+                if ( name == null ) {
+                    name = locale.getDisplayName();
+                }
+                return name;
+            }
+        }
         return "***" + key + "***";
     }
 
