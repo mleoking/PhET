@@ -2,6 +2,7 @@ package edu.colorado.phet.website.panels;
 
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.Link;
@@ -19,10 +20,13 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class TranslationLinksPanel extends PhetPanel {
+
+    private static Logger logger = Logger.getLogger( TranslationLinksPanel.class.getName() );
+
     public TranslationLinksPanel( String id, final PageContext context ) {
         super( id, context );
 
-        // TODO: missing query strings
+        final String queryString = getPhetCycle().getQueryString() == null ? "" : "?" + getPhetCycle().getQueryString();
 
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );
         PageContext englishContext = context.withNewLocale( englishLocale );
@@ -33,6 +37,7 @@ public class TranslationLinksPanel extends PhetPanel {
         if ( DistributionHandler.redirectEnglishLinkToPhetMain( (PhetRequestCycle) getRequestCycle() ) ) {
             linkTo = "http://phet.colorado.edu";
         }
+        linkTo += queryString;
         Link englishLink = new PhetLink( "translation-link", linkTo );
         LocalizedLabel englishLabel = new LocalizedLabel( "translation-label", englishLocale, new ResourceModel( "language.name" ) );
         englishLink.add( englishLabel );
@@ -46,7 +51,8 @@ public class TranslationLinksPanel extends PhetPanel {
                 String localeString = (String) item.getModel().getObject();
                 Locale locale = LocaleUtils.stringToLocale( localeString );
                 PageContext newContext = context.withNewLocale( locale );
-                Link link = new PhetLink( "translation-link", newContext.getPrefix() + newContext.getPath() );
+                String path = newContext.getPrefix() + newContext.getPath() + queryString;
+                Link link = new PhetLink( "translation-link", path );
                 LocalizedLabel label = new LocalizedLabel( "translation-label", locale, new ResourceModel( "language.name" ) );
                 link.add( label );
                 if ( context.getLocale().equals( locale ) ) {
