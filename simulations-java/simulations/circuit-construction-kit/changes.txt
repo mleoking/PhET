@@ -1,3 +1,9 @@
+Integrated improved time stepping algorithm into CCK, see #2242
+Includes performance improvements that efficiently re-use dt values within each iteration
+Added developer controls for timestep subdivisions parameters.
+Fixed #2274: Flavors need to be untangled from one another, and not encoded and decoded from strings
+Fixed #2068: Simulation speed doubles while dragging a voltage or resistance slider.
+Many improvements for modified nodal analysis and companion models
 # 3.18.04 (38771) Feb 18, 2010
 2/18/10 Deploy to dev
 > Added a warning error message for potentially problematic circuits.
