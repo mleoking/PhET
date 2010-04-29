@@ -29,6 +29,8 @@
                 <tr>
                     <td>
                         <select class="simulations" name="simulations" multiple="multiple" size="8" id="Simulations_uid">
+                            <option wicket:id="simulations"><span wicket:id="simulation-title"></span></option>
+                            <wicket:remove>
                             <option value="all" selected="selected">All Simulations</option>
                             <option value="Alpha Decay">Alpha Decay</option>
                             <option value="Arithmetic">Arithmetic</option>
@@ -127,6 +129,7 @@
                             <option value="Vector Addition">Vector Addition</option>
                             <option value="Wave Interference">Wave Interference</option>
                             <option value="Wave on a String">Wave on a String</option>
+                            </wicket:remove>
                         </select>
                     </td>
                     <td>
