@@ -39,7 +39,7 @@ public class ContributionBrowsePage extends PhetRegularPage {
 
         // TODO: localize
 
-        addTitle( new ResourceModel( "contribution.browse.title" ) );
+        addTitle( new ResourceModel( "contribution.search.title" ) );
 
         add( new ContributionSearchPanel( "contribution-search-panel", getPageContext(), parameters ) );
 
