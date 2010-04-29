@@ -28,7 +28,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <select class="simulations" name="simulations" multiple="multiple" size="8" id="Simulations_uid">
+                        <select class="simulations" name="sims" multiple="multiple" size="8" id="Simulations_uid">
                             <option wicket:id="simulations"><span wicket:id="simulation-title"></span></option>
                             <wicket:remove>
                             <option value="all" selected="selected">All Simulations</option>
@@ -134,19 +134,24 @@
                     </td>
                     <td>
                         <select class="types" name="types" multiple="multiple" size="8" id="Types_uid">
-                        <option value="all" selected="selected">All Types</option>
+                            <option wicket:id="types"><span wicket:id="type"></span></option>
+                            <wicket:remove>
+                            <option value="all" selected="selected">All Types</option>
                             <option value="Lab">Lab</option>
                             <option value="Homework">HW</option>
                             <option value="Concept Questions" title="Concept Questions">CQs</option>
                             <option value="Demonstration">Demo</option>
                             <option value="Other">Other</option>
+                            </wicket:remove>
                         </select>
                     </td>
 
                     <td>
 
                         <select class="levels" name="levels" multiple="multiple" size="8" id="Levels_uid">
-                        <option value="all" selected="selected">All Levels</option>
+                            <option wicket:id="levels"><span wicket:id="level"></span></option>
+                            <wicket:remove>
+                            <option value="all" selected="selected">All Levels</option>
                             <option value="K-5">K-5</option>
                             <option value="Middle School">MS</option>
                             <option value="High School">HS</option>
@@ -154,6 +159,7 @@
                             <option value="Undergraduate - Advanced">UG-Adv</option>
                             <option value="Graduate">Grad</option>
                             <option value="Other">Other</option>
+                            </wicket:remove>
                         </select>
                     </td>
 
