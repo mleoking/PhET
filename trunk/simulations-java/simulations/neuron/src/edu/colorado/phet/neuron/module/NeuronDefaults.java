@@ -11,13 +11,11 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author John Blanco
  */
 public class NeuronDefaults {
-    public static final double CROSS_SECTION_RADIUS = 20;//micrometers
 
     /* Not intended for instantiation */
     private NeuronDefaults() {}
     
     // Clock
-    public static final boolean CLOCK_RUNNING = true;
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
     
     // Set up the clock ranges for the various modules.  Note that for this
@@ -34,9 +32,7 @@ public class NeuronDefaults {
     public static final double DEFAULT_MEMBRANE_DIFFUSION_CLOCK_DT = 
     	(MIN_ACTION_POTENTIAL_CLOCK_DT + MAX_MEMBRANE_DIFFUSION_CLOCK_DT) / 2; 
     
-    public static final int CLOCK_TIME_COLUMNS = 10;
-
     // Model-view transform
-    public static final PDimension INTERMEDIATE_RENDERING_SIZE = new PDimension( 600,600);
+    public static final PDimension INTERMEDIATE_RENDERING_SIZE = new PDimension( 786, 786 );
 
 }
