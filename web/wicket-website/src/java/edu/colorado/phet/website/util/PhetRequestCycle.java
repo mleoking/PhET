@@ -61,6 +61,10 @@ public class PhetRequestCycle extends WebRequestCycle {
         return session;
     }
 
+    public String getQueryString() {
+        return getWebRequest().getHttpServletRequest().getQueryString();
+    }
+
     public String getUserAgent() {
         String userAgent = ( (WebClientInfo) getClientInfo() ).getUserAgent();
         return userAgent == null ? "" : userAgent;
