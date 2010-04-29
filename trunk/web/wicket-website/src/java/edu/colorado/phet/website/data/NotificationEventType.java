@@ -10,9 +10,8 @@ import edu.colorado.phet.website.util.HibernateUtils;
 
 public enum NotificationEventType {
     NEW_CONTRIBUTION,
-    UPDATED_CONTRIBUTION;
-
-    // TODO: add nomination event
+    UPDATED_CONTRIBUTION,
+    NOMINATED_CONTRIBUTION;
 
     public String toString( String data ) {
         // store params as "a=1&b=1" etc.
@@ -22,6 +21,8 @@ public enum NotificationEventType {
                 return "Contribution created: " + getContributionString( params.getInt( "contribution_id" ) );
             case UPDATED_CONTRIBUTION:
                 return "Contribution updated: " + getContributionString( params.getInt( "contribution_id" ) );
+            case NOMINATED_CONTRIBUTION:
+                return "Contribution nominated by " + params.getString( "email" ) +  ": " + getContributionString( params.getInt( "contribution_id" ) );
             default:
                 return "Unidentified event";
         }
