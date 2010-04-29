@@ -3,7 +3,6 @@
 package edu.colorado.phet.neuron.controlpanel;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -18,7 +17,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.PotassiumGatedChannel;
 import edu.colorado.phet.neuron.model.PotassiumIon;
@@ -44,8 +43,6 @@ public class IonsAndChannelsLegendPanel extends JPanel {
     // Class Data
     //------------------------------------------------------------------------
 	
-	private static final Font LABEL_FONT = new PhetFont(14);
-	
 	// The model-view transforms below are used to make nodes that usually
 	// reside on the canvas be of an appropriate size for inclusion on the
 	// control panel.
@@ -67,7 +64,7 @@ public class IonsAndChannelsLegendPanel extends JPanel {
                 NeuronStrings.LEGEND_TITLE,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
-                new PhetFont( Font.BOLD, 14 ),
+                NeuronConstants.CONTROL_PANEL_TITLE_FONT,
                 Color.GRAY );
         
         setBorder( titledBorder );
@@ -116,7 +113,7 @@ public class IonsAndChannelsLegendPanel extends JPanel {
         constraints.ipadx = 0;
         constraints.gridx = 1;
         JLabel textualLabel = new JLabel( label );
-        textualLabel.setFont(LABEL_FONT);
+        textualLabel.setFont(NeuronConstants.CONTROL_PANEL_CONTROL_FONT);
         add(textualLabel, constraints);
     }
 }

@@ -3,7 +3,6 @@
 package edu.colorado.phet.neuron.controlpanel;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -18,8 +17,8 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
@@ -40,7 +39,7 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
 	private AxonModel axonModel;
 	
-	private JCheckBox showAllIons;
+	private JCheckBox showAllIonsCheckBox;
 	private JCheckBox chartControlCheckbox;
     
     //----------------------------------------------------------------------------
@@ -76,7 +75,7 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         		// ability to change the "All Ions Simulated" state, since
         		// otherwise ions would have to disappear during an action potential,
         		// which would be tricky.
-        		showAllIons.setEnabled(!model.isStimulusInitiationLockedOut());
+        		showAllIonsCheckBox.setEnabled(!model.isStimulusInitiationLockedOut());
         	}
         });
         
@@ -94,25 +93,27 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
                 NeuronStrings.CONTROL,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
-                new PhetFont( Font.BOLD, 14 ),
+                NeuronConstants.CONTROL_PANEL_TITLE_FONT,
                 Color.GRAY );
         checkBoxPanel.setBorder(titledBorder);
 
         // Add the check box for hiding/showing all ions.
-        showAllIons = new JCheckBox(NeuronStrings.SHOW_ALL_IONS);
-        showAllIons.addItemListener(new ItemListener() {
+        showAllIonsCheckBox = new JCheckBox(NeuronStrings.SHOW_ALL_IONS);
+        showAllIonsCheckBox.setFont(NeuronConstants.CONTROL_PANEL_CONTROL_FONT);
+        showAllIonsCheckBox.addItemListener(new ItemListener() {
 			
 			public void itemStateChanged(ItemEvent e) {
-				axonModel.setAllIonsSimulated(showAllIons.isSelected());
+				axonModel.setAllIonsSimulated(showAllIonsCheckBox.isSelected());
 			}
 		});
-        showAllIons.setAlignmentX(CENTER_ALIGNMENT);
-        checkBoxPanel.add(showAllIons);
+        showAllIonsCheckBox.setAlignmentX(CENTER_ALIGNMENT);
+        checkBoxPanel.add(showAllIonsCheckBox);
         updateShowAllIonsCheckBox();
         
         // Add the check box for hiding/showing the potential chart.
         addControlFullWidth(createVerticalSpacingPanel(5));
         chartControlCheckbox = new JCheckBox(NeuronStrings.SHOW_POTENTIAL_CHART);
+        chartControlCheckbox.setFont(NeuronConstants.CONTROL_PANEL_CONTROL_FONT);
         chartControlCheckbox.addItemListener(new ItemListener() {
 			
 			public void itemStateChanged(ItemEvent e) {
@@ -146,6 +147,6 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
     }
     
     private void updateShowAllIonsCheckBox(){
-		showAllIons.setSelected(axonModel.isAllIonsSimulated());
+		showAllIonsCheckBox.setSelected(axonModel.isAllIonsSimulated());
     }
 }
