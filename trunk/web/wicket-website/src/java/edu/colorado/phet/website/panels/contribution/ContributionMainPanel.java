@@ -237,7 +237,7 @@ public class ContributionMainPanel extends PhetPanel {
 
         // TODO: hook up contribution guidelines page (after creation)
         add( new StaticImage( "gold-star-nominate", "/images/contributions/gold-star.jpg", "Gold Star Contribution" ) );
-        add( new LocalizedText( "contribution-nominate-text", "contribution.view.nominateText", new Object[]{ "#", "/publications/contribution-guidelines.pdf"}));
+        add( new LocalizedText( "contribution-nominate-text", "contribution.view.nominateText", new Object[]{ "href=\"#\"", "href=\"/publications/activities-guide/contribution-guidelines.pdf\""}));
     }
 
     private void handleCheck( String id, boolean value ) {
