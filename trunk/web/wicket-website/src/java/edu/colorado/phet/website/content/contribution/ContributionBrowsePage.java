@@ -118,10 +118,9 @@ public class ContributionBrowsePage extends PhetRegularPage {
                             contributions.add( (Contribution) o );
                         }
 
+                        // NOTE: KEEP FOR NOW. localized sims should be loaded already in memory by the search panel!
                         // preload localized simulations for each simulation
-                        logger.debug( "X" );
-                        List unusedList = session.createCriteria( Simulation.class ).setFetchMode( "localizedSimulations", FetchMode.JOIN ).list();
-                        logger.debug( "Y" );
+                        //List unusedList = session.createCriteria( Simulation.class ).setFetchMode( "localizedSimulations", FetchMode.JOIN ).list();
 
                         return true;
                     }

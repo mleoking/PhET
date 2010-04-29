@@ -24,7 +24,7 @@ public class HibernateEventListener implements PostInsertEventListener, PostUpda
         }
     }
 
-    public static void addListener( Class eClass, IChangeListener listener ) {
+    public static synchronized void addListener( Class eClass, IChangeListener listener ) {
         List<IChangeListener> listeners = listenermap.get( eClass );
         if ( listeners == null ) {
             listeners = new LinkedList<IChangeListener>();
@@ -33,7 +33,7 @@ public class HibernateEventListener implements PostInsertEventListener, PostUpda
         listeners.add( listener );
     }
 
-    public static void removeListener( Class eClass, IChangeListener listener ) {
+    public static synchronized void removeListener( Class eClass, IChangeListener listener ) {
         List<IChangeListener> listeners = listenermap.get( eClass );
         if ( listeners == null ) {
             throw new RuntimeException( "No listeners registered for that class" );
@@ -43,10 +43,11 @@ public class HibernateEventListener implements PostInsertEventListener, PostUpda
         }
     }
 
-    public void onPostInsert( PostInsertEvent event ) {
+    public synchronized void onPostInsert( PostInsertEvent event ) {
         Object entity = event.getEntity();
         Class eClass = entity.getClass();
         List<IChangeListener> listeners = listenermap.get( eClass );
+        logger.debug( "post-insert on " + eClass.getSimpleName() + ", notifying " + ( listeners == null ? 0 : listeners.size() ) );
         if ( listeners != null ) {
             List<IChangeListener> copy = new LinkedList<IChangeListener>( listeners );
             for ( IChangeListener listener : copy ) {
@@ -55,11 +56,12 @@ public class HibernateEventListener implements PostInsertEventListener, PostUpda
         }
     }
 
-    public void onPostUpdate( PostUpdateEvent event ) {
+    public synchronized void onPostUpdate( PostUpdateEvent event ) {
         Object entity = event.getEntity();
         Class eClass = entity.getClass();
 
         List<IChangeListener> listeners = listenermap.get( eClass );
+        logger.debug( "post-update on " + eClass.getSimpleName() + ", notifying " + ( listeners == null ? 0 : listeners.size() ) );
         if ( listeners != null ) {
             List<IChangeListener> copy = new LinkedList<IChangeListener>( listeners );
             for ( IChangeListener listener : copy ) {
@@ -82,10 +84,11 @@ public class HibernateEventListener implements PostInsertEventListener, PostUpda
 
     }
 
-    public void onPostDelete( PostDeleteEvent event ) {
+    public synchronized void onPostDelete( PostDeleteEvent event ) {
         Object entity = event.getEntity();
         Class eClass = entity.getClass();
         List<IChangeListener> listeners = listenermap.get( eClass );
+        logger.debug( "post-delete on " + eClass.getSimpleName() + ", notifying " + ( listeners == null ? 0 : listeners.size() ) );
         if ( listeners != null ) {
             List<IChangeListener> copy = new LinkedList<IChangeListener>( listeners );
             for ( IChangeListener listener : copy ) {

@@ -362,6 +362,7 @@ public class StringUtils {
      * @return
      */
     public static String getLocaleTitle( Locale locale, Locale targetLocale, PhetLocalizer localizer ) {
+        // TODO: let's make this efficient
         String defaultLanguageName = locale.getDisplayName( targetLocale );
         String languageName = localizer.getString( "language.names." + LocaleUtils.localeToString( locale ), new LocalizedLabel( "toss", targetLocale, "toss" ), null, defaultLanguageName, false );
         return languageName;

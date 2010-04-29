@@ -5,6 +5,7 @@ import java.util.*;
 import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
@@ -343,11 +344,19 @@ public class HibernateUtils {
     }
 
     public static void addPreferredFullSimulationList( List<LocalizedSimulation> lsims, Session session, Locale locale ) {
-        List sims = session.createQuery( "select s from Simulation as s where s.project.visible = true and s.simulationVisible = true" ).list();
+        logger.debug( "1" );
+        Criteria criteria = session.createCriteria( Simulation.class )
+                .setFetchMode( "localizedSimulations", FetchMode.SELECT )
+                .add( Restrictions.eq( "simulationVisible", new Boolean( true ) ) );
+        criteria.createCriteria( "project" ).add( Restrictions.eq( "visible", new Boolean( true ) ) );
+        //List sims = session.createQuery( "select s from Simulation as s where s.project.visible = true and s.simulationVisible = true" ).list();
+        List sims = criteria.list();
+        logger.debug( "2" );
         for ( Object sim : sims ) {
             Simulation simulation = (Simulation) sim;
             lsims.add( pickBestTranslation( simulation, locale ) );
         }
+        logger.debug( "3" );
     }
 
     public static List<LocalizedSimulation> preferredFullSimulationList( Session session, Locale locale ) {
