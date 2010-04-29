@@ -1,3 +1,4 @@
+# 3.18.05 (40245) Apr 29, 2010
 Integrated improved time stepping algorithm into CCK, see #2242
 Includes performance improvements that efficiently re-use dt values within each iteration
 Added developer controls for timestep subdivisions parameters.
