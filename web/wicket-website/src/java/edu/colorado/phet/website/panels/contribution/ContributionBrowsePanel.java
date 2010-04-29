@@ -68,6 +68,12 @@ public class ContributionBrowsePanel extends PhetPanel {
 
         // TODO: localize
 
+        // TODO: sort things like level and type, and maybe simulations (if not done already)
+
+        // TODO: add sortability of columns
+
+        // TODO: add locale (language) for main page
+
         final DateFormat format = DateFormat.getDateInstance( DateFormat.SHORT, getLocale() );
 
         Collections.sort( contributions, new Comparator<Contribution>() {
@@ -78,17 +84,17 @@ public class ContributionBrowsePanel extends PhetPanel {
 
         logger.debug( System.currentTimeMillis() + " B" );
 
-        if ( simulationColumnVisible ) {
-            add( new Label( "sim-col-1", "" ) );
-        }
-        else {
-            add( new InvisibleComponent( "sim-col-1" ) );
-        }
-
         if ( contributions.isEmpty() ) {
             add( new InvisibleComponent( "contributions" ) );
         }
         else {
+
+            if ( simulationColumnVisible ) {
+                add( new Label( "sim-col-1", "" ) );
+            }
+            else {
+                add( new InvisibleComponent( "sim-col-1" ) );
+            }
 
             add( new ListView( "contributions", contributions ) {
                 private HashMap<Simulation, LocalizedSimulation> mapCache = new HashMap<Simulation, LocalizedSimulation>();
