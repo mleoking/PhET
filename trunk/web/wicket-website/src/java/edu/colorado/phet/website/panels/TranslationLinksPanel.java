@@ -19,6 +19,10 @@ import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
+/**
+ * Shows a list of the available website translations with the currently viewed one grayed. Clicking the links to
+ * other translations will take one to the exact same page, but for the other translation.
+ */
 public class TranslationLinksPanel extends PhetPanel {
 
     private static Logger logger = Logger.getLogger( TranslationLinksPanel.class.getName() );
