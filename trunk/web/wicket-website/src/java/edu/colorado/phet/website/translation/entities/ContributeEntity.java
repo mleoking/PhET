@@ -2,6 +2,7 @@ package edu.colorado.phet.website.translation.entities;
 
 import java.util.List;
 
+import org.apache.wicket.PageParameters;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.content.TeacherIdeasPanel;
@@ -10,6 +11,7 @@ import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionEditPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionMainPanel;
+import edu.colorado.phet.website.panels.contribution.ContributionSearchPanel;
 import edu.colorado.phet.website.translation.PhetPanelFactory;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
@@ -120,6 +122,17 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.browse.simulations" );
         addString( "contribution.browse.updated" );
 
+        addString( "contribution.search.simulations" );
+        addString( "contribution.search.types" );
+        addString( "contribution.search.levels" );
+        addString( "contribution.search.languages" );
+        addString( "contribution.search.allSimulations" );
+        addString( "contribution.search.allTypes" );
+        addString( "contribution.search.allLevels" );
+        addString( "contribution.search.allLocales" );
+        addString( "contribution.search.text" );
+        addString( "contribution.search.browse" );
+
         addString( "contribution.level.k5" );
         addString( "contribution.level.middleSchool" );
         addString( "contribution.level.highSchool" );
@@ -201,6 +214,12 @@ public class ContributeEntity extends TranslationEntity {
                 return new ContributionMainPanel( id, contribution[0], context );
             }
         }, "Contribution view" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new ContributionSearchPanel( id, context, new PageParameters() );
+            }
+        }, "Contribution search / browse" );
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
