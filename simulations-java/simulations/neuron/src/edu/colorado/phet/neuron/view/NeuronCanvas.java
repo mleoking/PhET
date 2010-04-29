@@ -4,7 +4,6 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -24,6 +23,7 @@ import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.Particle;
+import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -38,17 +38,10 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     // Class Data
     //----------------------------------------------------------------------------
 
-	// Initial size of the reference coordinates that are used when setting up
-	// the canvas transform strategy.  These were empirically determined to
-	// roughly match the expected initial size of the canvas.
-    private static final int INITIAL_INTERMEDIATE_COORD_WIDTH = 786;
-    private static final int INITIAL_INTERMEDIATE_COORD_HEIGHT = 786;
-    private static final Dimension INITIAL_INTERMEDIATE_DIMENSION = new Dimension( INITIAL_INTERMEDIATE_COORD_WIDTH,
-    		INITIAL_INTERMEDIATE_COORD_HEIGHT );
-    
     // Size of the chart the depicts the membrane potential.
-    private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH * 0.95,
-    		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.3);
+    private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(
+    		NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.95,
+    		NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.3);
     
     // Color of button for stimulating the neuron.
     private static final Color CANVAS_BUTTON_COLOR = new Color(255, 144, 0);
@@ -102,13 +95,13 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	this.model = model;
 
     	// Set up the canvas-screen transform.
-    	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, INITIAL_INTERMEDIATE_DIMENSION));
+    	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, NeuronDefaults.INTERMEDIATE_RENDERING_SIZE));
     	
     	// Set up the model-canvas transform.
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
-        		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.5 )),
+        		new Point((int)Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.5), 
+        				(int)Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 )),
         		4,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         		true);
 
@@ -271,10 +264,13 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	if (this.zoomFactor != zoomFactor){
     		myWorldNode.setTransform(new AffineTransform());
     		if (zoomFactor > 2){
-    			myWorldNode.scaleAboutPoint(zoomFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2, (zoomFactor - 2) * model.getAxonMembrane().getCrossSectionDiameter() * 0.1);
+    			myWorldNode.scaleAboutPoint(zoomFactor, 
+    					(int)(Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.width / 2)),
+    					(zoomFactor - 2) * model.getAxonMembrane().getCrossSectionDiameter() * 0.1);
     		}
     		else{
-    			myWorldNode.scaleAboutPoint(zoomFactor, INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 0);
+    			myWorldNode.scaleAboutPoint(zoomFactor, 
+    					(int)(Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.width / 2)), 0);
     		}
     		this.zoomFactor = zoomFactor;
     		notifyZoomChanged();

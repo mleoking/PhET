@@ -4,7 +4,6 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -17,6 +16,7 @@ import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.MembraneDiffusionModel;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.model.ParticleType;
+import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -32,14 +32,6 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     // Class Data
     //----------------------------------------------------------------------------
 
-	// Initial size of the reference coordinates that are used when setting up
-	// the canvas transform strategy.  These were empirically determined to
-	// roughly match the expected initial size of the canvas.
-    private static final int INITIAL_INTERMEDIATE_COORD_WIDTH = 786;
-    private static final int INITIAL_INTERMEDIATE_COORD_HEIGHT = 786;
-    private static final Dimension INITIAL_INTERMEDIATE_DIMENSION = new Dimension( INITIAL_INTERMEDIATE_COORD_WIDTH,
-    		INITIAL_INTERMEDIATE_COORD_HEIGHT );
-    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -68,15 +60,15 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
     public MembraneDiffusionCanvas(MembraneDiffusionModel model  ) {
     	
     	// Set up the canvas-screen transform.
-    	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, INITIAL_INTERMEDIATE_DIMENSION));
+    	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, NeuronDefaults.INTERMEDIATE_RENDERING_SIZE));
     	
     	// Set up the model-canvas transform.  The center of the chamber is at
     	// (0,0) in model space, so this can be adjusted to move the chamber
     	// to wherever it works best.
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
-        		new Point((int)Math.round(INITIAL_INTERMEDIATE_COORD_WIDTH * 0.55 ), // Mult by 0.5 is center.
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.35 )), // Mult by 0.5 is center.
+        		new Point((int)Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.55 ), // Mult by 0.5 is center.
+        				(int)Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.35 )), // Mult by 0.5 is center.
         		8,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         		true);
 
@@ -160,7 +152,7 @@ public class MembraneDiffusionCanvas extends PhetPCanvas {
         membraneChannelToolBoxNode = new MembraneChannelToolBox(
         		new PDimension(transformedParticleChamberRect.getWidth() * 1.4, transformedParticleChamberRect.getHeight() * 0.4), model, mvt, this);
         membraneChannelToolBoxNode.setOffset(
-        		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - membraneChannelToolBoxNode.getFullBoundsReference().width / 2,
+        		NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.width / 2 - membraneChannelToolBoxNode.getFullBoundsReference().width / 2,
         		transformedParticleChamberRect.getMaxY() + 40);
         toolBoxLayer.addChild(membraneChannelToolBoxNode);
         
