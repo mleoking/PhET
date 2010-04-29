@@ -42,6 +42,7 @@ public class ContributionSearchPanel extends PhetPanel {
         final String[] typeStrings = params.getStringArray( "types" );
         final String[] levelStrings = params.getStringArray( "levels" );
         final String[] localeStrings = params.getStringArray( "locales" );
+        final String queryString = params.getString( "query" );
 
         final LinkedList<LocalizedSimulation> simulations = new LinkedList<LocalizedSimulation>();
 
@@ -158,6 +159,11 @@ public class ContributionSearchPanel extends PhetPanel {
                 setValueAndSelection( item, value, localeStrings );
             }
         } );
+
+        String textValue = queryString != null && queryString.length() > 0 ? queryString : "";
+        Label queryLabel = new Label( "query-text", "" );
+        queryLabel.add( new AttributeModifier( "value", true, new Model( textValue ) ) );
+        add( queryLabel );
 
     }
 
