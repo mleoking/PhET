@@ -22,6 +22,8 @@ public class TranslationLinksPanel extends PhetPanel {
     public TranslationLinksPanel( String id, final PageContext context ) {
         super( id, context );
 
+        // TODO: missing query strings
+
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );
         PageContext englishContext = context.withNewLocale( englishLocale );
         String linkTo = englishContext.getPrefix() + englishContext.getPath();
