@@ -23,6 +23,7 @@ import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.SearchResultsPage;
 import edu.colorado.phet.website.content.contribution.AddContributionCommentPage;
+import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.contribution.NominateContributionPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
@@ -235,9 +236,8 @@ public class ContributionMainPanel extends PhetPanel {
         nominateForm.add( commentContrib2 );
         commentContrib2.add( new AttributeAppender( "value", new Model( Integer.toString( contribution.getId() ) ), "" ) );
 
-        // TODO: hook up contribution guidelines page (after creation)
         add( new StaticImage( "gold-star-nominate", "/images/contributions/gold-star.jpg", "Gold Star Contribution" ) );
-        add( new LocalizedText( "contribution-nominate-text", "contribution.view.nominateText", new Object[]{ "href=\"#\"", "href=\"/publications/activities-guide/contribution-guidelines.pdf\""}));
+        add( new LocalizedText( "contribution-nominate-text", "contribution.view.nominateText", new Object[]{ContributionGuidelinesPanel.getLinker().getHref( context, getPhetCycle() ), "href=\"/publications/activities-guide/contribution-guidelines.pdf\""} ) );
     }
 
     private void handleCheck( String id, boolean value ) {
