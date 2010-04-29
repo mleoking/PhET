@@ -50,17 +50,22 @@ public class AxonModel implements IParticleCapture {
 	private static final int NUM_POTASSIUM_LEAK_CHANNELS = 7;
 	
 	// Numbers of "bulk" ions in and out of the cell when visible.
-	private static final int NUM_SODIUM_IONS_OUTSIDE_CELL = 300;
-	private static final int NUM_SODIUM_IONS_INSIDE_CELL = 4;
-	private static final int NUM_POTASSIUM_IONS_OUTSIDE_CELL = 30;
-	private static final int NUM_POTASSIUM_IONS_INSIDE_CELL = 100;
+//	private static final int NUM_SODIUM_IONS_OUTSIDE_CELL = 300;
+//	private static final int NUM_SODIUM_IONS_INSIDE_CELL = 4;
+//	private static final int NUM_POTASSIUM_IONS_OUTSIDE_CELL = 30;
+//	private static final int NUM_POTASSIUM_IONS_INSIDE_CELL = 100;
+	private static final int NUM_SODIUM_IONS_OUTSIDE_CELL = 600;
+	private static final int NUM_SODIUM_IONS_INSIDE_CELL = 8;
+	private static final int NUM_POTASSIUM_IONS_OUTSIDE_CELL = 60;
+	private static final int NUM_POTASSIUM_IONS_INSIDE_CELL = 200;
 	
 	// Countdown used for preventing the axon from receiving stimuli that
 	// are too close together.
 	private static final double STIM_LOCKOUT_TIME = 0.01;  // Seconds of sim time.
 	
-	// Default value of opaqueness for newly created particles.
-	private static final double DEFAULT_OPAQUENESS = 0.20;
+	// Default values of opaqueness for newly created particles.
+	private static final double FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS = 0.30;
+	private static final double BACKGROUND_PARTICLE_DEFAULT_OPAQUENESS = 0.10;
 	
 	// Default for whether all ions are shown.
 	private static final boolean DEFAULT_FOR_SHOW_ALL_IONS = true;
@@ -265,7 +270,15 @@ public class AxonModel implements IParticleCapture {
     		else{
     			positionParticleOutsideMembrane(newParticle);
     		}
-    		newParticle.setOpaqueness(DEFAULT_OPAQUENESS);
+    		
+    		// Set the opaqueness.
+    		if (RAND.nextBoolean()){
+    			newParticle.setOpaqueness(FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS);
+    		}
+    		else {
+    			newParticle.setOpaqueness(BACKGROUND_PARTICLE_DEFAULT_OPAQUENESS);
+    		}
+    		
         	concentrationTracker.updateParticleCount(newParticle.getType(), position, 1);
     	}
     }
@@ -282,7 +295,7 @@ public class AxonModel implements IParticleCapture {
     	for (int i = 0; i < numberToAdd; i++){
     		newParticle = createParticle(particleType);
     		
-    		newParticle.setOpaqueness(DEFAULT_OPAQUENESS);
+    		newParticle.setOpaqueness(FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS);
     		Point2D position = captureZone.getSuggestedNewParticleLocation();
     		newParticle.setPosition(position);
     	}
@@ -402,7 +415,7 @@ public class AxonModel implements IParticleCapture {
     		// another in the same zone.
     		Particle replacementParticle = createParticle(particleType, captureZone);
     		replacementParticle.setMotionStrategy(new SlowBrownianMotionStrategy(replacementParticle.getPositionReference()));
-    		replacementParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005, DEFAULT_OPAQUENESS));
+    		replacementParticle.setFadeStrategy(new TimedFadeInStrategy(0.0005, FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS));
     	}
     	
     	// Make the particle to capture fade in.
