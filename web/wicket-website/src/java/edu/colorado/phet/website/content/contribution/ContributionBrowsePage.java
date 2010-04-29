@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.panels.contribution.ContributionBrowsePanel;
+import edu.colorado.phet.website.panels.contribution.ContributionSearchPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
@@ -31,42 +32,46 @@ public class ContributionBrowsePage extends PhetRegularPage {
 
         initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.browse" ) );
 
+        setContentWidth( 900 );
+
         // TODO: localize
         addTitle( "Browse PhET contributions" );
 
-        // TODO: for now, only showing all contributions
-        final List<Contribution> contributions = new LinkedList<Contribution>();
+        add( new ContributionSearchPanel( "contribution-search-panel", getPageContext(), parameters ) );
 
-        logger.debug( System.currentTimeMillis() + " A" );
-
-        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
-            public boolean run( Session session ) {
-                logger.debug( "V" );
-                List list = session.createCriteria( Contribution.class )
-                        .setFetchMode( "levels", FetchMode.SELECT )
-                        .setFetchMode( "types", FetchMode.SELECT )
-                        .setFetchMode( "simulations", FetchMode.SELECT )
-                        .add( Restrictions.eq( "approved", new Boolean( true ) ) )
-                        .list();
-                logger.debug( "W" );
-                for ( Object o : list ) {
-                    contributions.add( (Contribution) o );
-                }
-
-                // preload localized simulations for each simulation
-                logger.debug( "X" );
-                List unusedList = session.createCriteria( Simulation.class ).setFetchMode( "localizedSimulations", FetchMode.JOIN ).list();
-                logger.debug( "Y" );
-
-                return true;
-            }
-        } );
-
-        logger.debug( System.currentTimeMillis() + " B" );
-
-        add( new ContributionBrowsePanel( "contribution-browse-panel", getPageContext(), contributions ) );
-
-        logger.debug( System.currentTimeMillis() + " finish init" );
+//        // TODO: for now, only showing all contributions
+//        final List<Contribution> contributions = new LinkedList<Contribution>();
+//
+//        logger.debug( System.currentTimeMillis() + " A" );
+//
+//        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+//            public boolean run( Session session ) {
+//                logger.debug( "V" );
+//                List list = session.createCriteria( Contribution.class )
+//                        .setFetchMode( "levels", FetchMode.SELECT )
+//                        .setFetchMode( "types", FetchMode.SELECT )
+//                        .setFetchMode( "simulations", FetchMode.SELECT )
+//                        .add( Restrictions.eq( "approved", new Boolean( true ) ) )
+//                        .list();
+//                logger.debug( "W" );
+//                for ( Object o : list ) {
+//                    contributions.add( (Contribution) o );
+//                }
+//
+//                // preload localized simulations for each simulation
+//                logger.debug( "X" );
+//                List unusedList = session.createCriteria( Simulation.class ).setFetchMode( "localizedSimulations", FetchMode.JOIN ).list();
+//                logger.debug( "Y" );
+//
+//                return true;
+//            }
+//        } );
+//
+//        logger.debug( System.currentTimeMillis() + " B" );
+//
+//        add( new ContributionBrowsePanel( "contribution-browse-panel", getPageContext(), contributions ) );
+//
+//        logger.debug( System.currentTimeMillis() + " finish init" );
 
     }
 

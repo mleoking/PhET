@@ -37,7 +37,7 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
  * <p/>
  * For now, all direct subclasses should call addTitle exactly once
  */
-public abstract class PhetPage extends WebPage {
+public abstract class PhetPage extends WebPage implements Stylable {
 
     private Locale myLocale;
     private String prefix;
@@ -212,5 +212,9 @@ public abstract class PhetPage extends WebPage {
 
     public ServletContext getServletContext() {
         return ( (PhetWicketApplication) getApplication() ).getServletContext();
+    }
+
+    public String getStyle( String key ) {
+        return "";
     }
 }

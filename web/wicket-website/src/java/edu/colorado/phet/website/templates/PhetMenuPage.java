@@ -22,6 +22,9 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
  * This is a page with a menu on the left, and the PhET header and footer
  */
 public abstract class PhetMenuPage extends PhetPage {
+
+    private int contentWidth = 765;
+
     public PhetMenuPage( PageParameters parameters ) {
         super( parameters, true );
 
@@ -51,5 +54,23 @@ public abstract class PhetMenuPage extends PhetPage {
 
     public void initializeLocationWithSet( Set<NavLocation> currentLocations ) {
         add( new SideNavMenu( "side-navigation", getPageContext(), currentLocations ) );
+    }
+
+    public int getContentWidth() {
+        return contentWidth;
+    }
+
+    public void setContentWidth( int contentWidth ) {
+        this.contentWidth = contentWidth;
+    }
+
+    @Override
+    public String getStyle( String key ) {
+        // be able to override the width so we can increase it for specific pages
+        if ( key.equals( "style.menu-page-content" ) ) {
+            return "width: " + contentWidth + "px;";
+        }
+
+        return super.getStyle( key );
     }
 }

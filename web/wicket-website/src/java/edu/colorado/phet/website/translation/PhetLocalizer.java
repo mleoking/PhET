@@ -6,12 +6,15 @@ import java.util.MissingResourceException;
 import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
 import org.apache.wicket.Localizer;
+import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.model.IModel;
 import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.Translation;
+import edu.colorado.phet.website.templates.PhetPage;
+import edu.colorado.phet.website.templates.Stylable;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.StringUtils;
 
@@ -188,7 +191,14 @@ public class PhetLocalizer extends Localizer {
     *----------------------------------------------------------------------------*/
 
     public String getString( String key, Component component, IModel model, String defaultValue, boolean checkDefault ) throws MissingResourceException {
-        //logger.debug( "testing key: " + key );
+        if ( key.startsWith( "style." ) ) {
+            Stylable cmp = closestStylableComponent( component );
+            if ( cmp != null ) {
+                return cmp.getStyle( key );
+            }
+            logger.warn( "missed style: " + key + " with component of " + component, new RuntimeException() );
+        }
+
         String lookup = null;
         Integer translationId = null;
         if ( component.getVariation() != null ) {
@@ -220,6 +230,21 @@ public class PhetLocalizer extends Localizer {
         }
 
         return getDefaultString( null, key, defaultValue, false );
+    }
+
+    private Stylable closestStylableComponent( Component component ) {
+        if ( component instanceof Stylable ) {
+            return (Stylable) component;
+        }
+        else {
+            MarkupContainer container = component.getParent();
+            if ( container == null ) {
+                return null;
+            }
+            else {
+                return closestStylableComponent( container );
+            }
+        }
     }
 
     /**
