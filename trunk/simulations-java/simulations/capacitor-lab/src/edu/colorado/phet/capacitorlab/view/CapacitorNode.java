@@ -13,6 +13,7 @@ public class CapacitorNode extends PhetPNode {
     private final DielectricNode dielectricNode;
     
     public CapacitorNode( Capacitor capacitor ) {
+        
         this.capacitor = capacitor;
         
         topPlateNode = new PlateNode( capacitor.getTopPlate() );

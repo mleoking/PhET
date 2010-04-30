@@ -54,8 +54,8 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
     private void initModules() {
         
         // add modules
+        addModule( new DielectricModule() ); //XXX move this after Intro
         addModule( new IntroductionModule() );
-        addModule( new DielectricModule() );
         
         // make all control panels the same width
         int maxWidth = 0;
