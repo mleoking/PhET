@@ -107,7 +107,7 @@ public class MembraneChannelNode extends PNode{
 					ColorUtils.darkerColor(membraneChannelModel.getEdgeColor(), 0.3),
 					new BasicStroke(1f), 
 					ColorUtils.darkerColor(membraneChannelModel.getEdgeColor(), 0.3));
-			channelLayer.addChild(inactivationGateBallNode);
+			edgeLayer.addChild(inactivationGateBallNode);
 		}
 		
 		// Update the representation and location.
