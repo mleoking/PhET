@@ -20,7 +20,6 @@ public class ModelViewTransform {
     private final AffineTransform modelToViewTransform;
     private final AffineTransform viewToModelTransform;
     private final boolean flipSignX, flipSignY;
-    private final Point2D distanceInputPoint, distanceOutputPoint;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -46,9 +45,6 @@ public class ModelViewTransform {
         viewToModelTransform = new AffineTransform();
         viewToModelTransform.translate( -offset.getX(), -offset.getY() );
         viewToModelTransform.scale( 1d / scale, 1d / scale );
-        
-        distanceInputPoint = new Point2D.Double();
-        distanceOutputPoint = new Point2D.Double();
     }
     
     public ModelViewTransform( double scale, Point2D offset ) {
@@ -64,9 +60,7 @@ public class ModelViewTransform {
      * @param distance
      */
     public double modelToView( double distance ) {
-        distanceInputPoint.setLocation( distance, distance );
-        modelToView( new Point2D.Double( distance, distance ), distanceOutputPoint );
-        return distanceOutputPoint.getX();
+        return distance * modelToViewTransform.getScaleX();
     }
     
     /**
@@ -126,9 +120,7 @@ public class ModelViewTransform {
      * @param distance
      */
     public double viewToModel( double distance ) {
-        distanceInputPoint.setLocation( distance, distance );
-        viewToModel( new Point2D.Double( distance, distance ), distanceOutputPoint );
-        return distanceOutputPoint.getX();
+        return distance * viewToModelTransform.getScaleX();
     }
     
     /**

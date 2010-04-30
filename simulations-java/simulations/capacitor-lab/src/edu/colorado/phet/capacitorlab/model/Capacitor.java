@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.geom.Point2D;
+
 
 /**
  * Model of a capacitor.
@@ -12,13 +14,19 @@ public class Capacitor {
     
     private static final double PLATE_HEIGHT = 5;
     
+    private final Point2D location;
     private final Plate topPlate, bottomPlate;
     private final Dielectric dielectric;
     
-    public Capacitor( double plateWidth, double plateSpacing, double dielectricOffset ) {
+    public Capacitor( Point2D location, double plateWidth, double plateSpacing, double dielectricOffset ) {
+        this.location = new Point2D.Double( location.getX(), location.getY() );
         this.topPlate = new Plate( plateWidth, PLATE_HEIGHT, plateWidth );
         this.bottomPlate = new Plate( plateWidth, PLATE_HEIGHT, plateWidth );
         this.dielectric = new Dielectric( plateWidth, plateSpacing, plateWidth, dielectricOffset );
+    }
+    
+    public Point2D getLocationReference() {
+        return location;
     }
     
     public Plate getTopPlate() {

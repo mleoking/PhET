@@ -31,8 +31,6 @@ public class CLConstants {
     
     public static final String PROJECT_NAME = "capacitor-lab";
     
-    public static final String FLAVOR_MAGNIFYING_GLASS_PROTOTYPE = "magnifying-glass-prototype";
-
     //----------------------------------------------------------------------------
     // Model
     //----------------------------------------------------------------------------
@@ -46,7 +44,7 @@ public class CLConstants {
     
     // model-view transform
     public static final double MVT_SCALE = 3;
-    public static final Point2D MVT_OFFSET = new Point2D.Double( 0, 0 );
+    public static final Point2D MVT_OFFSET = new Point2D.Double( 150, 125 ); // mm
     
     //----------------------------------------------------------------------------
     // View

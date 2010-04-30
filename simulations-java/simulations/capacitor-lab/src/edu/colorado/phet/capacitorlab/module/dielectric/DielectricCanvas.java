@@ -2,12 +2,15 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
+import edu.colorado.phet.capacitorlab.view.CrossNode;
 
 /**
  * Canvas for the "Dielectric" module.
@@ -16,11 +19,16 @@ import edu.colorado.phet.capacitorlab.view.CapacitorNode;
  */
 public class DielectricCanvas extends CLCanvas {
     
-    private final BatteryNode batteryNode;
-    private final CapacitorNode capacitorNode;
+    private final CLModel model;
     private final ModelViewTransform mvt;
     
-    public DielectricCanvas( CLModel model ) {
+    private final CapacitorNode capacitorNode;
+    private final BatteryNode batteryNode;
+    private final CrossNode originNode;
+    
+    public DielectricCanvas( CLModel model, boolean dev ) {
+        
+        this.model = model;
         
         mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.MVT_OFFSET );
         
@@ -29,10 +37,37 @@ public class DielectricCanvas extends CLCanvas {
         
         capacitorNode = new CapacitorNode( model.getCapacitor(), mvt );
         addChild( capacitorNode );
-        capacitorNode.setOffset( 300, 0 );//XXX
+        
+        originNode = new CrossNode();
+        if ( dev ) {
+            addChild( originNode );
+        }
     }
     
     public void reset() {
         //XXX
+    }
+    
+    @Override
+    public void updateLayout() {
+        super.updateLayout();
+        
+        Point2D pModel = new Point2D.Double();
+        Point2D pView = new Point2D.Double();
+        
+        // capacitor
+        pModel.setLocation( model.getBattery().getLocationReference().getX(), model.getBattery().getLocationReference().getY() );
+        mvt.modelToView( pModel, pView );
+        batteryNode.setOffset( pView.getX(), pView.getY() );
+        
+        // battery
+        pModel.setLocation( model.getCapacitor().getLocationReference().getX(), model.getCapacitor().getLocationReference().getY() );
+        mvt.modelToView( pModel, pView );
+        capacitorNode.setOffset( pView.getX(), pView.getY() );
+        
+        // origin marker
+        pModel.setLocation( 0, 0 );
+        mvt.modelToView( pModel, pView );
+        originNode.setOffset( pView.getX(), pView.getY() );
     }
 }
