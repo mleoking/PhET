@@ -11,6 +11,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
@@ -30,11 +32,16 @@ public class DielectricPropertiesControlPanel extends CLTitledControlPanel {
         materialControl = new DielectricMaterialControl();
         materialControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                updateDielectricConstantControl();
+                updateConstantControl();
             }
         });
         
         constantControl = new DielectricConstantControl( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
+        constantControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updateMaterialControl();
+            }
+        });
         
         chargesControl = new DielectricChargesControl();
         
@@ -55,10 +62,17 @@ public class DielectricPropertiesControlPanel extends CLTitledControlPanel {
         add( innerPanel, BorderLayout.WEST );
         
         // default state
-        updateDielectricConstantControl();
+        updateConstantControl();
     }
     
-    private void updateDielectricConstantControl() {
+    private void updateMaterialControl() {
+        DielectricMaterial material = materialControl.getMaterial();
+        if ( material instanceof CustomDielectricMaterial ) {
+            ( (CustomDielectricMaterial) material ).setDielectricConstant( constantControl.getValue() );
+        }
+    }
+    
+    private void updateConstantControl() {
         constantControl.setEnabled( materialControl.isCustomMaterial() );
         constantControl.setValue( materialControl.getMaterial().getDielectricConstant() );
     }

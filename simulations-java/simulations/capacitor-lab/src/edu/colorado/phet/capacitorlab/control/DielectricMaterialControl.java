@@ -38,11 +38,11 @@ public class DielectricMaterialControl extends JPanel {
         
         JLabel label = new JLabel( CLStrings.LABEL_DIELECTRIC_MATERIAL );
         
+        DielectricMaterial custom = new CustomDielectricMaterial();
         DielectricMaterial teflon = new Teflon();
         DielectricMaterial polystyrene = new Polystyrene();
         DielectricMaterial paper = new Paper();
-        DielectricMaterial custom = new CustomDielectricMaterial();
-        DielectricMaterial[] materials = { teflon, polystyrene, paper, custom };
+        DielectricMaterial[] materials = { custom, teflon, polystyrene, paper };
         comboBox = new JComboBox( materials );
         comboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent event ) {
@@ -70,17 +70,17 @@ public class DielectricMaterialControl extends JPanel {
         //XXX
     }
     
-    public void setMaterial( DielectricMaterial material ) {
+    public void setMaterial( Class<DielectricMaterial> materialClass ) {
         boolean found = false;
         for ( int i = 0; i < comboBox.getItemCount(); i++ ) {
-            if ( comboBox.getItemAt( i ).equals( material ) ) {
+            if ( comboBox.getItemAt( i ).getClass().equals( materialClass ) ) {
                 comboBox.setSelectedIndex( i );
                 found = true;
                 break;
             }
         }
         if ( !found ) {
-            throw new IllegalArgumentException( "material is not one of the combo box items: " + material.toString() );
+            throw new IllegalArgumentException( "material is not one of the combo box items: " + materialClass.getName() );
         }
     }
     

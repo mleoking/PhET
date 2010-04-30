@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.Color;
+import java.awt.Paint;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
@@ -10,11 +12,13 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 public abstract class DielectricMaterial {
     
     private final String name;
-    private final double dielectricConstant;
+    private double dielectricConstant;
+    private final Paint paint;
     
-    public DielectricMaterial( String name, double dielectricConstant ) {
+    public DielectricMaterial( String name, double dielectricConstant, Paint paint ) {
         this.name = name;
         this.dielectricConstant = dielectricConstant;
+        this.paint = paint;
     }
     
     public String getName() {
@@ -25,6 +29,10 @@ public abstract class DielectricMaterial {
         return dielectricConstant;
     }
     
+    public Paint getPaint() {
+        return paint;
+    }
+    
     @Override
     public String toString() {
         return MessageFormat.format( CLStrings.FORMAT_DIELECTRIC_MATERIAL, name, dielectricConstant );
@@ -32,41 +40,55 @@ public abstract class DielectricMaterial {
     
     @Override
     /**
-     * Two materials are equal if their names and dielectric constants are the same.
+     * Two materials are equal if their properties are the same.
      */
     public boolean equals( Object object ) {
         boolean equals = false;
         if ( object != null && object instanceof DielectricMaterial ) {
             DielectricMaterial material = (DielectricMaterial) object;
-            equals = ( getName().equals( material.getName() ) && getDielectricConstant() == material.getDielectricConstant() );
+            equals = ( getName().equals( material.getName() ) && getDielectricConstant() == material.getDielectricConstant() && getPaint().equals( material.getPaint() ) );
         }
         return equals;
     }
     
     public static class Teflon extends DielectricMaterial {
         public Teflon() {
-            super( "teflon", 2.1 );
+            super( CLStrings.MATERIAL_TEFLON, 2.1, Color.RED );
         }
     }
     
     public static class Polystyrene extends DielectricMaterial {
         public Polystyrene() {
-            super( "polystyrene", 2.5 );
+            super( CLStrings.MATERIAL_POLYSTYRENE, 2.5, Color.GREEN );
         }
     }
     
     public static class Paper extends DielectricMaterial {
         public Paper() {
-            super( "paper", 3.5 );
+            super( CLStrings.MATERIAL_PAPER, 3.5, Color.BLUE );
         }
     }
     
     public static class CustomDielectricMaterial extends DielectricMaterial {
         
         public CustomDielectricMaterial() {
-            super( "CUSTOM", 1 );
+            super( CLStrings.MATERIAL_CUSTOM, 2, Color.YELLOW );
         }
         
+        /**
+         * Dielectric constant is mutable for our custom material.
+         * @param dielectricConstant
+         */
+        public void setDielectricConstant( double dielectricConstant ) {
+            if ( dielectricConstant != super.dielectricConstant ) {
+                super.dielectricConstant = dielectricConstant;
+                //XXX fireStateChanged
+            }
+        }
+        
+        /**
+         * Show only the custom material's name, not its mutable constant.
+         */
         @Override
         public String toString() {
             return getName();

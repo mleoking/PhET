@@ -25,6 +25,11 @@ public class CLStrings {
     public static final String CHECKBOX_METER_VOLTMETER = getString( "checkBox.meter.voltmeter" );
     public static final String CHECKBOX_METER_FIELD_DETECTOR = getString( "checkBox.meter.fieldDetector" );
     
+    public static final String MATERIAL_CUSTOM = getString( "material.custom" );
+    public static final String MATERIAL_TEFLON = getString( "material.teflon" );
+    public static final String MATERIAL_POLYSTYRENE = getString( "material.polystyrene" );
+    public static final String MATERIAL_PAPER = getString( "material.paper" );
+    
     public static final String FORMAT_VOLTAGE = getString( "format.voltage.0value.1units" );
     public static final String FORMAT_DIELECTRIC_MATERIAL = getString( "format.dielectricMaterial.0name.1constant" );
 
