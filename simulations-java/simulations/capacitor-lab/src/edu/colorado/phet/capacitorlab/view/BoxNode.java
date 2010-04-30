@@ -8,6 +8,7 @@ import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.Box;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Box.BoxChangeListener;
@@ -22,8 +23,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public abstract class BoxNode extends PhetPNode {
     
-    private static final double PARALLELOGRAM_ANGLE = Math.toRadians( 35 ); // radians
-    private static final double FORESHORTENING_FACTOR = 0.5; // how much lines going away from the viewer should be shortened
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
 
@@ -115,8 +114,8 @@ public abstract class BoxNode extends PhetPNode {
         
         // parallelogram, origin at lower-left point
         public void setWidthAndDepth( double width, double depth ) {
-            double xOffset = FORESHORTENING_FACTOR * depth * Math.cos( PARALLELOGRAM_ANGLE );
-            double yOffset = FORESHORTENING_FACTOR * depth * Math.sin( PARALLELOGRAM_ANGLE );
+            double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.VIEWING_ANGLE );
+            double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.VIEWING_ANGLE );
             GeneralPath path = getPath();
             path.moveTo( 0, 0 );
             path.lineTo( xOffset, -yOffset );
@@ -153,8 +152,9 @@ public abstract class BoxNode extends PhetPNode {
         
         // original at upper-left point
         public void setDepthAndHeight( double depth, double height ) {
-            double xOffset = FORESHORTENING_FACTOR * depth * Math.cos( PARALLELOGRAM_ANGLE );
-            double yOffset = FORESHORTENING_FACTOR * depth * Math.sin( PARALLELOGRAM_ANGLE );
+            //XXX refactor, duplicate of code in TopNode.setWidthAndDepth
+            double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.VIEWING_ANGLE ); 
+            double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.VIEWING_ANGLE );
             GeneralPath path = getPath();
             path.moveTo( 0, 0 );
             path.lineTo( xOffset, -yOffset );
