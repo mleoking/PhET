@@ -23,7 +23,7 @@ public abstract class Box {
         listeners = new EventListenerList();
     }
     
-    protected void setShape( double width, double height, double depth ) {
+    private void setShape( double width, double height, double depth ) {
         if ( width != this.width || height != this.height || depth != this.depth ) {
             double oldWidth = this.width;
             double oldHeight = this.height;
@@ -35,45 +35,35 @@ public abstract class Box {
         }
     }
    
-    protected void setWidth( double width ) {
+    public void setWidth( double width ) {
         setShape( width, height, depth );
     }
     
-    protected double getWidth() {
+    public double getWidth() {
         return width;
     }
     
-    protected void setHeight( double height ) {
+    public void setHeight( double height ) {
         setShape( width, height, depth );
     }
    
-    protected double getHeight() {
+    public double getHeight() {
         return height;
     }
     
-    // thickness is a synonym for height.
-    protected void setThickness( double height ) {
-        setHeight( height );
-    }
-    
-    // thickness is a synonym for height.
-    protected double getThickness() {
-        return getHeight();
-    }
-    
-    protected void setDepth( double depth ) {
+    public void setDepth( double depth ) {
         setShape( width, height, depth );
     }
     
-    protected double getDepth() {
+    public double getDepth() {
         return depth;
     }
     
-    protected void setWidthAndDepth( double width, double depth ) {
+    public void setWidthAndDepth( double width, double depth ) {
         setShape( width, getHeight(), depth );
     }
     
-    protected double getVolume() {
+    public double getVolume() {
         return width * height * depth;
     }
     

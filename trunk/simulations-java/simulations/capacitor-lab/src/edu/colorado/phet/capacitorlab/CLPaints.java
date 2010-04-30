@@ -15,4 +15,15 @@ public class CLPaints {
     private CLPaints() {}
 
     public static final Color CANVAS_BACKGROUND = new Color( 167, 222, 243 );
+    
+    // capacitor plates
+    public static final Color PLATE_TOP = Color.LIGHT_GRAY;
+    public static final Color PLATE_FRONT = PLATE_TOP.darker();
+    public static final Color PLATE_SIDE = PLATE_FRONT.darker();
+    
+    //XXX should these be part of dielectric material model?
+    // dielectric
+    public static final Color DIELECTRIC_TOP = Color.GREEN;
+    public static final Color DIELECTRIC_FRONT = DIELECTRIC_TOP.darker();
+    public static final Color DIELECTRIC_SIDE = DIELECTRIC_FRONT.darker();
 }
