@@ -2,7 +2,8 @@ TODO list for acid-base-solutions
 
 MILESTONES
 - 5/15/10, design completed
-- 8/1/10, sim "showable"
+- 6/1/10-7/2/10, interviews for BCCE
+- 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
 - prototype: revert to single-layer H2O representation used in 0.00.05
