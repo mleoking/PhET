@@ -21,17 +21,12 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  */
 public class CapacitorLabApplication extends PiccoloPhetApplication {
 
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager persistenceManager;
 
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-
+    private IntroductionModule introductionModule;
+    private DielectricModule dielectricModule;
+    
     /**
      * Sole constructor.
      *
@@ -44,18 +39,16 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
         initMenubar( config.getCommandLineArgs() );
     }
 
-    //----------------------------------------------------------------------------
-    // Initialization
-    //----------------------------------------------------------------------------
-
     /*
      * Initializes the modules.
      */
     private void initModules() {
         
         // add modules
-        addModule( new DielectricModule() ); //XXX move this after Intro
-        addModule( new IntroductionModule() );
+        introductionModule = new IntroductionModule();
+        addModule( introductionModule );
+        dielectricModule = new DielectricModule();
+        addModule( dielectricModule );
         
         // make all control panels the same width
         int maxWidth = 0;
@@ -65,6 +58,8 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
         for ( Module module : getModules() ) {
             module.getControlPanel().addControlFullWidth( Box.createHorizontalStrut( maxWidth ) );
         }
+        
+        setStartModule( dielectricModule );
     }
 
     /*
