@@ -15,8 +15,8 @@ public class SlowBrownianMotionStrategy extends MotionStrategy {
 
 	private static final double MAX_JUMP_DISTANCE = 1; // In nanometers.
 	private static final double MIN_JUMP_DISTANCE = 0.1;  // In nanometers.
-	private static final double MIN_TIME_TO_NEXT_JUMP = 0.0001;  // In seconds of sim time, not wall time.
-	private static final double MAX_TIME_TO_NEXT_JUMP = 0.0005;  // In seconds of sim time, not wall time.
+	private static final double MIN_TIME_TO_NEXT_JUMP = 0.0009;  // In seconds of sim time, not wall time.
+	private static final double MAX_TIME_TO_NEXT_JUMP = 0.0015;  // In seconds of sim time, not wall time.
 	private static final Random RAND = new Random();
 	
 	private final Point2D initialLocation = new Point2D.Double();
