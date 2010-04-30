@@ -5,6 +5,7 @@ MILESTONES
 - 8/1/10, sim "showable"
 
 HIGH PRIORITY
+- prototype: revert to single-layer H2O representation used in 0.00.05
 - prototype: what is the range of Ka?
 - prototype: algorithm for number of molecules displayed doesn't give desired behavior
 - prototype: counts don't add up to MoleculesNode.maxMolecules
