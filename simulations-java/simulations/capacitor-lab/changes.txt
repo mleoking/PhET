@@ -1,3 +1,4 @@
+4/30/10 utilities for find the area and centroid of a polygon
 4/30/10 make custom dielectric material mutable
 4/30/10 i18n of dielectric material names
 4/29/10 quick-and-dirty first pass at pseudo-3D representation of plates and dielectric
