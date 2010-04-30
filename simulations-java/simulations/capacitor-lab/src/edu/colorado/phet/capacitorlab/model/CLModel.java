@@ -13,8 +13,8 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 public class CLModel {
     
     private static final double BATTERY_VOLTAGE = CLConstants.BATTERY_VOLTAGE_RANGE.getDefault();
-    private static final double PLATE_WIDTH = 100;
-    private static final double PLATE_SPACING = 50;
+    private static final double PLATE_WIDTH = 200;
+    private static final double PLATE_SPACING = 150;
     private static final double DIELECTRIC_OFFSET = 0;
     
     public final Battery battery;
