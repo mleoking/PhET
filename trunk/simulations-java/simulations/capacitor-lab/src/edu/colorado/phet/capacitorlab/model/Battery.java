@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.geom.Point2D;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
@@ -13,12 +14,18 @@ import javax.swing.event.EventListenerList;
  */
 public class Battery {
 
+    private final Point2D location;
     private double voltage;
     private final EventListenerList listeners;
     
-    public Battery( double voltage ) {
+    public Battery( Point2D location, double voltage ) {
+        this.location = new Point2D.Double( location.getX(), location.getY() );
         this.voltage = voltage;
         listeners = new EventListenerList();
+    }
+    
+    public Point2D getLocationReference() {
+        return location;
     }
     
     public void setVoltage( double voltage ) {

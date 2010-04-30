@@ -16,6 +16,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 /**
  * Visual representation of a DC battery, with a control for setting its voltage.
  * Image flips when the polarity of the voltage changes.
+ * Origin is at center of this node's bounding rectangle.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -46,12 +47,12 @@ public class BatteryNode extends PhetPNode {
         });
         
         // layout
-        double x = 0;
-        double y = 0;
-        imageNode.setOffset( 0, 0 );
+        double x = -imageNode.getFullBoundsReference().getWidth() / 2;
+        double y = -imageNode.getFullBoundsReference().getHeight() / 2;
+        imageNode.setOffset( x, y );
         x = imageNode.getXOffset() + ( imageNode.getFullBoundsReference().getWidth() - sliderNode.getFullBoundsReference().getWidth() ) / 2; // horizontally centered
-        y = 60; // set by visual inspection, depends on images
-        sliderNode.setOffset( x, y ); 
+        y = imageNode.getYOffset() + 60; // set by visual inspection, depends on images
+        sliderNode.setOffset( x, y );
         
         updateNode();
     }

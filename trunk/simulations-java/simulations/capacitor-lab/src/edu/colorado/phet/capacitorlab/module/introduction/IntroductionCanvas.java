@@ -12,7 +12,7 @@ import edu.colorado.phet.capacitorlab.module.CLCanvas;
  */
 public class IntroductionCanvas extends CLCanvas {
 
-    public IntroductionCanvas( CLModel model ) {
+    public IntroductionCanvas( CLModel model, boolean dev ) {
         //XXX
     }
     

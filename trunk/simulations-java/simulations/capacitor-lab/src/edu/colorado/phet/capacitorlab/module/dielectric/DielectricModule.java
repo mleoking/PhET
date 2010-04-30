@@ -17,12 +17,12 @@ public class DielectricModule extends CLModule {
     private final DielectricCanvas canvas;
     private final DielectricControlPanel controlPanel;
 
-    public DielectricModule() {
+    public DielectricModule( boolean dev ) {
         super( CLStrings.TAB_DIELECTRIC );
         
         model = new CLModel();
         
-        canvas = new DielectricCanvas( model );
+        canvas = new DielectricCanvas( model, dev );
         setSimulationPanel( canvas );
         
         controlPanel = new DielectricControlPanel( this );

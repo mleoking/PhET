@@ -6,7 +6,6 @@ HIGH PRIORITY
 - dielectric, its drag behavior, and its resize behavior relative to plates
 - add dielectric constant to model
 - pattern for dielectric material (relationship between model and control)
-- add locations to model?
 
 MEDUIUM PRIORITY
 

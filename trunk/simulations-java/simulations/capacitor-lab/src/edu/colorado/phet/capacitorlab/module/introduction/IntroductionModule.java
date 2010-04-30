@@ -17,12 +17,12 @@ public class IntroductionModule extends CLModule {
     private final IntroductionCanvas canvas;
     private final IntroductionControlPanel controlPanel;
 
-    public IntroductionModule() {
+    public IntroductionModule( boolean dev ) {
         super( CLStrings.TAB_INTRODUCTION );
         
         model = new CLModel();
         
-        canvas = new IntroductionCanvas( model );
+        canvas = new IntroductionCanvas( model, dev );
         setSimulationPanel( canvas );
         
         controlPanel = new IntroductionControlPanel( this );
