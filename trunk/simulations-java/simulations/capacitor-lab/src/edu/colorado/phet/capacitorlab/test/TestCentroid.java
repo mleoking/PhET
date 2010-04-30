@@ -64,8 +64,7 @@ public class TestCentroid extends JFrame {
         double y = centroid.getY() - ( diameter / 2 );
         Ellipse2D centroidPath = new Ellipse2D.Double( x, y, diameter, diameter );
         PPath centroidNode = new PPath( centroidPath );
-        centroidNode.setPaint( Color.GREEN );
-        centroidNode.setStroke( null );
+        centroidNode.setStrokePaint( Color.GREEN );
         
         PComposite parentNode = new PComposite();
         parentNode.addChild( polygonNode );
