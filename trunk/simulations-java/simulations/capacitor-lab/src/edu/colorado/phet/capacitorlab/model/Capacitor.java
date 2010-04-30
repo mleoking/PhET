@@ -56,11 +56,11 @@ public class Capacitor {
         return topPlate.getArea();
     }
     
-    public void setPlateSpacing( double distance ) {
+    public void setPlateSeparation( double distance ) {
         dielectric.setHeight( distance );
     }
     
-    public double getPlateSpacing() {
+    public double getPlateSeparation() {
         return dielectric.getHeight();
     }
 

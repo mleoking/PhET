@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.capacitorlab.model.Box;
+import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Box.BoxChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -27,11 +28,12 @@ public abstract class BoxNode extends PhetPNode {
     private static final Color STROKE_COLOR = Color.BLACK;
 
     private final Box box;
+    private final ModelViewTransform mvt;
     private final TopNode topNode;
     private final FrontNode frontNode;
     private final SideNode sideNode;
     
-    public BoxNode( Box box, Paint topPaint, Paint frontPaint, Paint sidePaint ) {
+    public BoxNode( Box box, ModelViewTransform mvt, Paint topPaint, Paint frontPaint, Paint sidePaint ) {
         
         this.box = box;
         box.addBoxChangeListener( new BoxChangeListener() {
@@ -39,6 +41,8 @@ public abstract class BoxNode extends PhetPNode {
                 updateNode();
             }
         } );
+        
+        this.mvt = mvt;
         
         topNode = new TopNode( topPaint );
         frontNode = new FrontNode( frontPaint );
@@ -53,10 +57,15 @@ public abstract class BoxNode extends PhetPNode {
     
     private void updateNode() {
         
+        // model-view transform
+        double width =  mvt.modelToView( box.getWidth() );
+        double depth = mvt.modelToView( box.getDepth() );
+        double height = mvt.modelToView( box.getHeight() );
+        
         // geometry
-        topNode.setWidthAndDepth( box.getWidth(), box.getDepth() );
-        frontNode.setWidthAndHeight( box.getWidth(), box.getHeight() );
-        sideNode.setDepthAndHeight( box.getDepth(), box.getHeight() );
+        topNode.setWidthAndDepth( width, depth );
+        frontNode.setWidthAndHeight( width, height );
+        sideNode.setDepthAndHeight( depth, height );
         
         // layout
         double x = 0;
