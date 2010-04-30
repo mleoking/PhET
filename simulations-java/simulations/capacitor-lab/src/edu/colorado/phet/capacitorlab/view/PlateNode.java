@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
+import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Plate;
 
 /**
@@ -14,8 +15,8 @@ public class PlateNode extends BoxNode {
 
     private final Plate plate;
     
-    public PlateNode( Plate plate ) {
-        super( plate, CLPaints.PLATE_TOP, CLPaints.PLATE_FRONT, CLPaints.PLATE_SIDE );
+    public PlateNode( Plate plate, ModelViewTransform mvt ) {
+        super( plate, mvt, CLPaints.PLATE_TOP, CLPaints.PLATE_FRONT, CLPaints.PLATE_SIDE );
         this.plate = plate;
     }
 }

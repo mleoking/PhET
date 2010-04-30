@@ -13,8 +13,8 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 public class CLModel {
     
     private static final double BATTERY_VOLTAGE = CLConstants.BATTERY_VOLTAGE_RANGE.getDefault();
-    private static final double PLATE_WIDTH = 200;
-    private static final double PLATE_SPACING = 150;
+    private static final double PLATE_WIDTH = CLConstants.PLATE_SIZE_RANGE.getDefault();
+    private static final double PLATE_SEPARATION = CLConstants.PLATE_SEPARATION_RANGE.getDefault();
     private static final double DIELECTRIC_OFFSET = 0;
     
     public final Battery battery;
@@ -22,7 +22,7 @@ public class CLModel {
 
     public CLModel() {
         battery = new Battery( BATTERY_VOLTAGE );
-        capacitor = new Capacitor( PLATE_WIDTH, PLATE_SPACING, DIELECTRIC_OFFSET );
+        capacitor = new Capacitor( PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_OFFSET );
     }
     
     public Battery getBattery() {
@@ -36,7 +36,7 @@ public class CLModel {
     public void reset() {
         battery.setVoltage( BATTERY_VOLTAGE );
         capacitor.setPlateWidth( PLATE_WIDTH );
-        capacitor.setPlateSpacing( PLATE_SPACING );
+        capacitor.setPlateSeparation( PLATE_SEPARATION );
         capacitor.setDielectricOffset( DIELECTRIC_OFFSET );
     }
 }

@@ -3,22 +3,25 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 
 public class CapacitorNode extends PhetPNode {
 
     private final Capacitor capacitor;
+    private final ModelViewTransform mvt;
     private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
     
-    public CapacitorNode( Capacitor capacitor ) {
+    public CapacitorNode( Capacitor capacitor, ModelViewTransform mvt ) {
         
         this.capacitor = capacitor;
+        this.mvt = mvt;
         
-        topPlateNode = new PlateNode( capacitor.getTopPlate() );
-        bottomPlateNode = new PlateNode( capacitor.getBottomPlate() );
-        dielectricNode = new DielectricNode( capacitor.getDielectric() );
+        topPlateNode = new PlateNode( capacitor.getTopPlate(), mvt );
+        bottomPlateNode = new PlateNode( capacitor.getBottomPlate(), mvt );
+        dielectricNode = new DielectricNode( capacitor.getDielectric(), mvt );
         
         // rendering order
         addChild( bottomPlateNode );
@@ -29,9 +32,9 @@ public class CapacitorNode extends PhetPNode {
         double x = 0;
         double y = 0;
         topPlateNode.setOffset( x, y );
-        y = topPlateNode.getYOffset() + capacitor.getTopPlate().getHeight();
+        y = topPlateNode.getFullBoundsReference().getMaxY();
         dielectricNode.setOffset( x, y );
-        y = dielectricNode.getYOffset() + capacitor.getDielectric().getHeight();
+        y = dielectricNode.getFullBoundsReference().getMaxY();
         bottomPlateNode.setOffset( x, y );
     }
 }
