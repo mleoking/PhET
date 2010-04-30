@@ -20,6 +20,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Tests utilities for finding the centroid (geometric center) of a closed polygon.
+ * Draws a parallelogram and its diagonals, then draws the centroid.
+ * You should visually verify that the centroid is at the intersection of the diagonals.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
