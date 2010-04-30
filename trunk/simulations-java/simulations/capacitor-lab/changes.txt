@@ -1,3 +1,4 @@
+4/30/10 change viewing angle to match design document
 4/30/10 adjust mvt offsets
 4/30/10 add model origin marker to scenegraph
 4/30/10 add location to battery and capacitor models
