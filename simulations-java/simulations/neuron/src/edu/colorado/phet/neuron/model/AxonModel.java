@@ -50,10 +50,6 @@ public class AxonModel implements IParticleCapture {
 	private static final int NUM_POTASSIUM_LEAK_CHANNELS = 7;
 	
 	// Numbers of "bulk" ions in and out of the cell when visible.
-//	private static final int NUM_SODIUM_IONS_OUTSIDE_CELL = 300;
-//	private static final int NUM_SODIUM_IONS_INSIDE_CELL = 4;
-//	private static final int NUM_POTASSIUM_IONS_OUTSIDE_CELL = 30;
-//	private static final int NUM_POTASSIUM_IONS_INSIDE_CELL = 100;
 	private static final int NUM_SODIUM_IONS_OUTSIDE_CELL = 600;
 	private static final int NUM_SODIUM_IONS_INSIDE_CELL = 8;
 	private static final int NUM_POTASSIUM_IONS_OUTSIDE_CELL = 60;
@@ -64,8 +60,8 @@ public class AxonModel implements IParticleCapture {
 	private static final double STIM_LOCKOUT_TIME = 0.01;  // Seconds of sim time.
 	
 	// Default values of opaqueness for newly created particles.
-	private static final double FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS = 0.30;
-	private static final double BACKGROUND_PARTICLE_DEFAULT_OPAQUENESS = 0.10;
+	private static final double FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS = 0.20;
+	private static final double BACKGROUND_PARTICLE_DEFAULT_OPAQUENESS = 0.05;
 	
 	// Default for whether all ions are shown.
 	private static final boolean DEFAULT_FOR_SHOW_ALL_IONS = true;
