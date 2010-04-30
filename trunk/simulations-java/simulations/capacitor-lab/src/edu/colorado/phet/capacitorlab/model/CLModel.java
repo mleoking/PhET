@@ -14,12 +14,12 @@ import edu.colorado.phet.capacitorlab.CLConstants;
  */
 public class CLModel {
     
-    private static final Point2D BATTERY_LOCATION = new Point2D.Double( -100, 0 ); // mm
-    private static final Point2D CAPACITOR_LOCATION = new Point2D.Double( 0, 0 ); // mm
-    private static final double BATTERY_VOLTAGE = CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(); // volts
-    private static final double PLATE_WIDTH = CLConstants.PLATE_SIZE_RANGE.getDefault(); // mm
-    private static final double PLATE_SEPARATION = CLConstants.PLATE_SEPARATION_RANGE.getDefault(); // mm
-    private static final double DIELECTRIC_OFFSET = 0; // mm
+    private static final Point2D BATTERY_LOCATION = CLConstants.BATTERY_LOCATION;
+    private static final Point2D CAPACITOR_LOCATION = CLConstants.CAPACITOR_LOCATION;
+    private static final double BATTERY_VOLTAGE = CLConstants.BATTERY_VOLTAGE_RANGE.getDefault();
+    private static final double PLATE_WIDTH = CLConstants.PLATE_SIZE_RANGE.getDefault();
+    private static final double PLATE_SEPARATION = CLConstants.PLATE_SEPARATION_RANGE.getDefault();
+    private static final double DIELECTRIC_OFFSET = CLConstants.DIELECTRIC_OFFSET;
     
     public final Battery battery;
     public final Capacitor capacitor;
