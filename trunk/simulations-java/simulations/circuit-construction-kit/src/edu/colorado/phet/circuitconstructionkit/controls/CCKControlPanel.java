@@ -534,14 +534,6 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
                 }
             });
 
-            JButton printKirkhoffsLaws = new JButton(CCKResources.getString("CCK3ControlPanel.ShowEquationsButton"));
-            printKirkhoffsLaws.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    printEm(module);
-                }
-            });
-            addControl(printKirkhoffsLaws);
-
             hideElectrons = new JCheckBox(CCKResources.getString("CCK3ControlPanel.HideElectronsCheckBox"),
                     !module.isElectronsVisible());
             hideElectrons.addActionListener(new ActionListener() {
