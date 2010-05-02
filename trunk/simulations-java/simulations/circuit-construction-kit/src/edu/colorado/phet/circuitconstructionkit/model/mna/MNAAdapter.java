@@ -6,7 +6,13 @@ import edu.colorado.phet.circuitconstructionkit.model.components.*;
 
 import java.util.ArrayList;
 
-public class PureJavaSolver extends CircuitSolver {
+/**
+ * This adapter class converts the CCK branch classes to the corresponding MNA variants,
+ * solves the MNA system and applies the solution back to the original CCK components.
+ *
+ * @author Sam Reid
+ */
+public class MNAAdapter extends CircuitSolver {
     private double errorThreshold = 1E-6;
     private double minDT = 1E-8;
 
@@ -19,6 +25,7 @@ public class PureJavaSolver extends CircuitSolver {
         }
 
         //don't set voltage on the battery; that actually changes its nominal voltage
+
         void applySolution(DynamicCircuit.DynamicCircuitSolution solution) {
             battery.setCurrent(solution.getCurrent(this));
         }

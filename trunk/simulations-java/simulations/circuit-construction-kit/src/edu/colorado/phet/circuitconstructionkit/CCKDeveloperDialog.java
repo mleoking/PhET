@@ -1,6 +1,6 @@
 package edu.colorado.phet.circuitconstructionkit;
 
-import edu.colorado.phet.circuitconstructionkit.model.mna.PureJavaSolver;
+import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -23,7 +23,7 @@ public class CCKDeveloperDialog extends JDialog {
                 "a circuit which requires timestep subdivisions. Model parameters are are 10^ slider values.  See #2241</html>");
         contentPane.add(textArea);
         contentPane.add(new JSeparator());
-        final PureJavaSolver solver = cckModule.getCCKModel().getCircuitSolver();
+        final MNAAdapter solver = cckModule.getCCKModel().getCircuitSolver();
 
         contentPane.add(new JTextArea("threshold for determining whether 2 states are similar enough;\n" +
                 "any error less than errorThreshold will be tolerated"));

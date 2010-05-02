@@ -11,7 +11,7 @@
 package edu.colorado.phet.circuitconstructionkit.model;
 
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-import edu.colorado.phet.circuitconstructionkit.model.mna.PureJavaSolver;
+import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import java.util.Arrays;
  */
 public class CCKModel {
     private Circuit circuit;
-    private PureJavaSolver pureJavaSolver;
+    private MNAAdapter pureJavaSolver;
     private ResistivityManager resistivityManager;
 
     private ParticleSet particleSet;
@@ -76,7 +76,7 @@ public class CCKModel {
             }
         };
         this.circuit = new Circuit(circuitChangeListener);
-        pureJavaSolver = new PureJavaSolver();
+        pureJavaSolver = new MNAAdapter();
 //        circuitSolver = new PureScalaSolver();//TODO: use reflection during prototype to avoid disturbing the build for java-only developers
 
         particleSet = new ParticleSet(getCircuit());
@@ -117,7 +117,7 @@ public class CCKModel {
         layout.layoutElectrons(branches);
     }
 
-    public PureJavaSolver getCircuitSolver() {
+    public MNAAdapter getCircuitSolver() {
         return pureJavaSolver;
     }
 

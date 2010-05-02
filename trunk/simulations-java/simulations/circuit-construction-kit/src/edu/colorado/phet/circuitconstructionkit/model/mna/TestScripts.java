@@ -37,7 +37,7 @@ public class TestScripts {
             circuit.addBranch(myswitch);
             circuit.addBranch(wire);
 
-            new PureJavaSolver().apply(circuit);
+            new MNAAdapter().apply(circuit);
         }
     }
 
