@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class ConstantDensityPropagator implements ModelElement {
     public static double FIRE_CURRENT = 10;
-    private ParticleSet particleSet;
+    private ElectronSet particleSet;
     private Circuit circuit;
     private double speedScale = .01 / 0.03;
     private double MIN_CURRENT = Math.pow(10, -10);
@@ -25,7 +25,7 @@ public class ConstantDensityPropagator implements ModelElement {
     private String percent = "100";
     private DecimalFormat decimalFormat = new DecimalFormat("##");
 
-    public ConstantDensityPropagator(ParticleSet particleSet, Circuit circuit) {
+    public ConstantDensityPropagator(ElectronSet particleSet, Circuit circuit) {
         this.particleSet = particleSet;
         this.circuit = circuit;
     }
