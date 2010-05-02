@@ -28,7 +28,7 @@ public class CCKModel {
     private MNAAdapter solver;
     private ResistivityManager resistivityManager;
 
-    private ParticleSet particleSet;
+    private ElectronSet particleSet;
     private ConstantDensityLayout layout;
 
     private boolean modelChanged = false;
@@ -79,7 +79,7 @@ public class CCKModel {
         solver = new MNAAdapter();
 //        circuitSolver = new PureScalaSolver();//TODO: use reflection during prototype to avoid disturbing the build for java-only developers
 
-        particleSet = new ParticleSet(getCircuit());
+        particleSet = new ElectronSet(getCircuit());
         layout = new ConstantDensityLayout(getCircuit(), particleSet);
         getCircuit().addCircuitListener(layout);
 
@@ -121,7 +121,7 @@ public class CCKModel {
         return solver;
     }
 
-    public ParticleSet getParticleSet() {
+    public ElectronSet getParticleSet() {
         return particleSet;
     }
 

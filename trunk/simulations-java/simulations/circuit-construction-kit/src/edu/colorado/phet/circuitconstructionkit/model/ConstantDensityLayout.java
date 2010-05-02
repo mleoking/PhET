@@ -10,10 +10,10 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 public class ConstantDensityLayout extends CircuitListenerAdapter {
     private boolean dolayout = true;
     private Circuit circuit;
-    private ParticleSet particleSet;
+    private ElectronSet particleSet;
     private boolean electronsVisible = true;
 
-    public ConstantDensityLayout(Circuit circuit, ParticleSet particleSet) {
+    public ConstantDensityLayout(Circuit circuit, ElectronSet particleSet) {
         this.circuit = circuit;
         this.particleSet = particleSet;
     }

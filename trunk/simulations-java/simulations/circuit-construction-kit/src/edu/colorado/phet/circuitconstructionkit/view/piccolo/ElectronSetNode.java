@@ -2,7 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Electron;
-import edu.colorado.phet.circuitconstructionkit.model.ParticleSet;
+import edu.colorado.phet.circuitconstructionkit.model.ElectronSet;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -18,7 +18,7 @@ public class ElectronSetNode extends PNode {
     public ElectronSetNode(final CircuitNode circuitNode, CCKModel model) {
         this.circuitNode = circuitNode;
         this.model = model;
-        model.getParticleSet().addListener(new ParticleSet.Listener() {
+        model.getParticleSet().addListener(new ElectronSet.Listener() {
             public void particlesRemoved(Electron[] electrons) {
                 for (int k = 0; k < electrons.length; k++) {
                     Electron electron = electrons[k];
