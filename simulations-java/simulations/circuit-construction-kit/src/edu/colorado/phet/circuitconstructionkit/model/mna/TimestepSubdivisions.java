@@ -26,32 +26,10 @@ public class TimestepSubdivisions<A> {
         A update(A a, double dt);
     }
 
-    public static class State<A> {
-        double dt;
-        A state;
-
-        public State(double dt, A state) {
-            this.state = state;
-            this.dt = dt;
-        }
-    }
-
-    public static class Result<A> {
-        ArrayList<State<A>> states;
-
-        public Result(ArrayList<State<A>> states) {
-            this.states = states;
-        }
-
-        public A getFinalState() {
-            return states.get(states.size() - 1).state;
-        }
-    }
-
-    public Result<A> stepInTimeWithHistory(A originalState, Steppable<A> steppable, double dt) {
+    public ResultSet<A> stepInTimeWithHistory(A originalState, Steppable<A> steppable, double dt) {
         A state = originalState;
         double elapsed = 0.0;
-        ArrayList<State<A>> states = new ArrayList<State<A>>();
+        ArrayList<ResultSet.State<A>> states = new ArrayList<ResultSet.State<A>>();
         while (elapsed < dt) {
             double seedValue = states.size() > 0 ? states.get(states.size() - 1).dt : dt;//use the last obtained dt as a starting value, if possible
 
@@ -62,10 +40,10 @@ public class TimestepSubdivisions<A> {
 //            System.out.println("selected subdivisionDT = " + subdivisionDT);
             if (subdivisionDT + elapsed > dt) subdivisionDT = dt - elapsed; // don't exceed max allowed dt
             state = steppable.update(state, subdivisionDT);
-            states.add(new State<A>(subdivisionDT, state));
+            states.add(new ResultSet.State<A>(subdivisionDT, state));
             elapsed = elapsed + subdivisionDT;
         }
-        return new Result<A>(states);
+        return new ResultSet<A>(states);
     }
 
     public A stepInTime(A originalState, Steppable<A> steppable, double dt) {

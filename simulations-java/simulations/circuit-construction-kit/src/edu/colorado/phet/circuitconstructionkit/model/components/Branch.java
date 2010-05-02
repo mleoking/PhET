@@ -31,6 +31,7 @@ public abstract class Branch extends SimpleObservableDebug {
     private String name;/*For purposes of debugging.*/
 
     private static int indexCounter = 0;
+    private double mnaCurrent;//current for the MNA model (i.e. may differ from aggregate current which is displayed on screen)
 
     protected Branch(CircuitChangeListener listener) {
         name = toLabel(indexCounter++);
@@ -348,5 +349,13 @@ public abstract class Branch extends SimpleObservableDebug {
 
     public boolean isEditable() {
         return true;
+    }
+
+    public void setMNACurrent(double mnaCurrent) {
+        this.mnaCurrent = mnaCurrent;
+    }
+
+    public double getMNACurrent() {
+        return mnaCurrent;
     }
 }

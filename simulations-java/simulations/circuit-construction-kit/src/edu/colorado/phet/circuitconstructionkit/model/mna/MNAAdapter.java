@@ -24,10 +24,10 @@ public class MNAAdapter extends CircuitSolver {
             this.battery = battery;
         }
 
-        //don't set voltage on the battery; that actually changes its nominal voltage
-
-        void applySolution(DynamicCircuit.DynamicCircuitSolution solution) {
-            battery.setCurrent(solution.getCurrent(this));
+        void applySolution(CircuitResult result) {
+            //don't set voltage on the battery; that actually changes its nominal voltage
+            battery.setMNACurrent(result.getInstantaneousCurrent(this));
+            battery.setCurrent(result.getTimeAverageCurrent(this));
         }
     }
 
@@ -39,9 +39,10 @@ public class MNAAdapter extends CircuitSolver {
             this.resistor = resistor;
         }
 
-        void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            resistor.setCurrent(sol.getCurrent(this));
-            resistor.setVoltageDrop(sol.getVoltage(this));
+        void applySolution(CircuitResult solution) {
+            resistor.setCurrent(solution.getTimeAverageCurrent(this));
+            resistor.setVoltageDrop(solution.getVoltage(this));
+            resistor.setMNACurrent(solution.getInstantaneousCurrent(this));
         }
     }
 
@@ -49,13 +50,15 @@ public class MNAAdapter extends CircuitSolver {
         private Capacitor _capacitor;
 
         CapacitorAdapter(Circuit c, Capacitor capacitor) {
-            super(new DynamicCircuit.Capacitor(c.indexOf(capacitor.getStartJunction()), c.indexOf(capacitor.getEndJunction()), capacitor.getCapacitance()), new DynamicCircuit.DynamicElementState(capacitor.getVoltageDrop(), capacitor.getCurrent()));
+            super(new DynamicCircuit.Capacitor(c.indexOf(capacitor.getStartJunction()), c.indexOf(capacitor.getEndJunction()), capacitor.getCapacitance()),
+                    new DynamicCircuit.DynamicElementState(capacitor.getVoltageDrop(), capacitor.getMNACurrent()));
             this._capacitor = capacitor;
         }
 
-        void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            _capacitor.setCurrent(sol.getCurrent(capacitor));
-            _capacitor.setVoltageDrop(sol.getVoltage(capacitor));
+        void applySolution(CircuitResult solution) {
+            _capacitor.setCurrent(solution.getTimeAverageCurrent(capacitor));
+            _capacitor.setMNACurrent(solution.getInstantaneousCurrent(capacitor));
+            _capacitor.setVoltageDrop(solution.getVoltage(capacitor));
         }
     }
 
@@ -64,12 +67,13 @@ public class MNAAdapter extends CircuitSolver {
 
         InductorAdapter(Circuit c, Inductor inductor) {
             super(new DynamicCircuit.Inductor(c.indexOf(inductor.getStartJunction()), c.indexOf(inductor.getEndJunction()), inductor.getInductance()),
-                    new DynamicCircuit.DynamicElementState(inductor.getVoltageDrop(), -inductor.getCurrent()));//todo: sign error
+                    new DynamicCircuit.DynamicElementState(inductor.getVoltageDrop(), -inductor.getMNACurrent()));//todo: sign error
             this.inductor = inductor;
         }
 
-        void applySolution(DynamicCircuit.DynamicCircuitSolution sol) {
-            inductor.setCurrent(-sol.getCurrent(getInductor()));//todo: sign error
+        void applySolution(CircuitResult sol) {
+            inductor.setCurrent(-sol.getTimeAverageCurrent(getInductor()));//todo: sign error
+            inductor.setMNACurrent(-sol.getInstantaneousCurrent(getInductor()));
             inductor.setVoltageDrop(sol.getVoltage(getInductor()));
         }
     }
@@ -112,11 +116,11 @@ public class MNAAdapter extends CircuitSolver {
                 new ArrayList<DynamicCircuit.DynamicCapacitor>(capacitors), new ArrayList<DynamicCircuit.DynamicInductor>(inductors), new ObjectOrientedMNA());
 
         System.out.println("errorThreshold = " + errorThreshold + ", minDT = " + minDT);
-        DynamicCircuit.DynamicCircuitSolution result = dynamicCircuit.solveItWithSubdivisions(new TimestepSubdivisions<DynamicCircuit.DynamicState>(errorThreshold, minDT), dt);
-        for (ResistiveBatteryAdapter batteryAdapter : batteries) batteryAdapter.applySolution(result);
-        for (ResistorAdapter resistorAdapter : resistors) resistorAdapter.applySolution(result);
-        for (CapacitorAdapter capacitorAdapter : capacitors) capacitorAdapter.applySolution(result);
-        for (InductorAdapter inductorAdapter : inductors) inductorAdapter.applySolution(result);
+        CircuitResult results = dynamicCircuit.solveWithSudbivisions(new TimestepSubdivisions<DynamicCircuit.DynamicState>(errorThreshold, minDT), dt);
+        for (ResistiveBatteryAdapter batteryAdapter : batteries) batteryAdapter.applySolution(results);
+        for (ResistorAdapter resistorAdapter : resistors) resistorAdapter.applySolution(results);
+        for (CapacitorAdapter capacitorAdapter : capacitors) capacitorAdapter.applySolution(results);
+        for (InductorAdapter inductorAdapter : inductors) inductorAdapter.applySolution(results);
 
         //zero out currents on open branches
         for (int i = 0; i < circuit.numBranches(); i++) {
@@ -128,7 +132,7 @@ public class MNAAdapter extends CircuitSolver {
                 }
             }
         }
-        circuit.setSolution(result);
+        circuit.setSolution(results);
         fireCircuitSolved();
     }
 
@@ -146,5 +150,37 @@ public class MNAAdapter extends CircuitSolver {
 
     public void setMinDT(double minDT) {
         this.minDT = minDT;
+    }
+
+    public static class CircuitResult {
+        private ResultSet<DynamicCircuit.DynamicState> resultSet;
+
+        public CircuitResult(ResultSet<DynamicCircuit.DynamicState> resultSet) {
+            this.resultSet = resultSet;
+        }
+
+        public double getTimeAverageCurrent(LinearCircuitSolver.Element element) {
+            double weightedSum = 0.0;
+            for (ResultSet.State<DynamicCircuit.DynamicState> state : resultSet) {
+                weightedSum += state.state.getSolution().getCurrent(element) * state.dt;//todo: make sure this is right
+            }
+            return weightedSum / resultSet.getTotalTime();
+        }
+
+        public double getInstantaneousCurrent(LinearCircuitSolver.Element element) {
+            return getFinalState().getSolution().getCurrent(element);
+        }
+
+        public double getVoltage(LinearCircuitSolver.Element element) {
+            return getFinalState().getSolution().getVoltage(element);
+        }
+
+        public DynamicCircuit.DynamicState getFinalState() {
+            return resultSet.getFinalState();
+        }
+
+        public double getNodeVoltage(int node) {
+            return getFinalState().getSolution().getNodeVoltage(node);
+        }
     }
 }
