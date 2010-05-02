@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class MNAAdapter extends CircuitSolver {
     private double errorThreshold = 1E-6;
-    private double minDT = 1E-8;
+    private double minDT = 1E-6;
 
     static class ResistiveBatteryAdapter extends DynamicCircuit.ResistiveBattery {
         Battery battery;
