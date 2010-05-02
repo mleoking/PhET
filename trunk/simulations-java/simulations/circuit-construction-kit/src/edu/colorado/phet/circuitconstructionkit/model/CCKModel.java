@@ -25,7 +25,7 @@ import java.util.Arrays;
  */
 public class CCKModel {
     private Circuit circuit;
-    private MNAAdapter pureJavaSolver;
+    private MNAAdapter solver;
     private ResistivityManager resistivityManager;
 
     private ParticleSet particleSet;
@@ -76,7 +76,7 @@ public class CCKModel {
             }
         };
         this.circuit = new Circuit(circuitChangeListener);
-        pureJavaSolver = new MNAAdapter();
+        solver = new MNAAdapter();
 //        circuitSolver = new PureScalaSolver();//TODO: use reflection during prototype to avoid disturbing the build for java-only developers
 
         particleSet = new ParticleSet(getCircuit());
@@ -98,7 +98,7 @@ public class CCKModel {
         if ((getCircuit().isDynamic() || modelChanged) && stepCount % frameSolveCount == 0) {
             getCircuit().stepInTime(dt);
             for (int i = 0; i < N; i++) {
-                pureJavaSolver.apply(getCircuit(), dt / (double) N * (double) frameSolveCount);
+                solver.apply(getCircuit(), dt / (double) N * (double) frameSolveCount);
             }
             modelChanged = false;
         }
@@ -118,7 +118,7 @@ public class CCKModel {
     }
 
     public MNAAdapter getCircuitSolver() {
-        return pureJavaSolver;
+        return solver;
     }
 
     public ParticleSet getParticleSet() {
