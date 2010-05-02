@@ -154,6 +154,11 @@ public class MNAAdapter extends CircuitSolver {
         this.minDT = minDT;
     }
 
+    /**
+     * This class represents the solution obtained by a timestep-subdivision-oriented MNA solve with companion models.
+     * The distinction between instantaneous and average currents/voltages is made because we need to maintain the correct dynamics
+     * (using instantantaneous solutions) but also to show intermediate states (using the average results), see #2270.
+     */
     public static class CircuitResult {
         private ResultSet<DynamicCircuit.DynamicState> resultSet;
 

@@ -20,27 +20,19 @@ public abstract class Branch extends SimpleObservableDebug {
     private Junction startJunction;
     private Junction endJunction;
     private CompositeCircuitChangeListener circuitChangeListeners = new CompositeCircuitChangeListener();
-    private ArrayList ivListeners = new ArrayList();
+    private ArrayList<CurrentVoltListener> ivListeners = new ArrayList<CurrentVoltListener>();
     private boolean isSelected = false;
     private boolean kirkhoffEnabled = true;
-    private ArrayList flameListeners = new ArrayList();
+    private ArrayList<FlameListener> flameListeners = new ArrayList<FlameListener>();
     private boolean isOnFire = false;
     private boolean editing = false;
     private String name;/*For purposes of debugging.*/
 
-    private double current;
-    private double mnaCurrent;//current for the MNA model (i.e. may differ from aggregate current which is displayed on screen), see #2270
+    private double current; //average current (averaged over timestep subdivisions for one subdivided stepInTime) for display in an ammeter or chart
+    private double mnaCurrent;//instantaneous current for the MNA model (i.e. may differ from aggregate current which is displayed on screen), see #2270
 
-    private double voltageDrop;
-    private double mnaVoltageDrop;//again, see #2270
-
-    public void setMNAVoltageDrop(double mnaVoltageDrop) {
-        this.mnaVoltageDrop = mnaVoltageDrop;
-    }
-
-    public double getMNAVoltageDrop() {
-        return mnaVoltageDrop;
-    }
+    private double voltageDrop;//average voltage drop (averaged over timestep subdivisions for one subdivided stepInTime) for display in voltmeter or chart
+    private double mnaVoltageDrop;//see notes above for mnaCurrent
 
     private static int indexCounter = 0;
 
@@ -65,7 +57,7 @@ public abstract class Branch extends SimpleObservableDebug {
     /**
      * Sets a name which could be used for debugging.
      *
-     * @param label
+     * @param label the name to assign to this Branch.
      */
     public void setName(String label) {
         this.name = label;
@@ -171,8 +163,7 @@ public abstract class Branch extends SimpleObservableDebug {
             this.current = current;
             notifyObservers();
             for (int i = 0; i < ivListeners.size(); i++) {
-                CurrentVoltListener listener = (CurrentVoltListener) ivListeners.get(i);
-                listener.currentOrVoltageChanged(this);
+                ivListeners.get(i).currentOrVoltageChanged(this);
             }
         }
         boolean shouldBeOnFire = Math.abs(current) > 10.0;
@@ -180,13 +171,11 @@ public abstract class Branch extends SimpleObservableDebug {
             this.isOnFire = shouldBeOnFire;
             if (isOnFire) {
                 for (int i = 0; i < flameListeners.size(); i++) {
-                    FlameListener flameListener = (FlameListener) flameListeners.get(i);
-                    flameListener.flameFinished();
+                    flameListeners.get(i).flameFinished();
                 }
             } else {
                 for (int i = 0; i < flameListeners.size(); i++) {
-                    FlameListener flameListener = (FlameListener) flameListeners.get(i);
-                    flameListener.flameStarted();
+                    flameListeners.get(i).flameStarted();
                 }
             }
         }
@@ -198,8 +187,7 @@ public abstract class Branch extends SimpleObservableDebug {
             this.voltageDrop = voltageDrop;
             notifyObservers();
             for (int i = 0; i < ivListeners.size(); i++) {
-                CurrentVoltListener currentVoltListener = (CurrentVoltListener) ivListeners.get(i);
-                currentVoltListener.currentOrVoltageChanged(this);
+                ivListeners.get(i).currentOrVoltageChanged(this);
             }
         }
     }
@@ -309,9 +297,6 @@ public abstract class Branch extends SimpleObservableDebug {
         } else {
             out = "" + ch + "_" + val;
         }
-        if (out == null) {
-            throw new RuntimeException("Null string.");
-        }
         return out;
     }
 
@@ -368,5 +353,13 @@ public abstract class Branch extends SimpleObservableDebug {
 
     public double getMNACurrent() {
         return mnaCurrent;
+    }
+
+    public void setMNAVoltageDrop(double mnaVoltageDrop) {
+        this.mnaVoltageDrop = mnaVoltageDrop;
+    }
+
+    public double getMNAVoltageDrop() {
+        return mnaVoltageDrop;
     }
 }
