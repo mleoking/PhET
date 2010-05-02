@@ -149,7 +149,7 @@ public abstract class Branch extends SimpleObservableDebug {
         for (int i = 0; i < so.length; i++) {
             SimpleObserver simpleObserver = so[i];
             if (simpleObserver instanceof Electron.Observer) {
-                Electron.Observer e = (Electron.Observer) simpleObserver;
+                Electron.Observer e = (Electron.Observer) simpleObserver;//todo: why need for casting?
                 if (e.isDeleted()) {
                     removeObserver(simpleObserver);
                 }
@@ -162,20 +162,20 @@ public abstract class Branch extends SimpleObservableDebug {
         if (this.current != current) {
             this.current = current;
             notifyObservers();
-            for (int i = 0; i < ivListeners.size(); i++) {
-                ivListeners.get(i).currentOrVoltageChanged(this);
+            for (CurrentVoltListener ivListener : ivListeners) {
+                ivListener.currentOrVoltageChanged(this);
             }
         }
         boolean shouldBeOnFire = Math.abs(current) > 10.0;
         if (shouldBeOnFire != isOnFire) {
             this.isOnFire = shouldBeOnFire;
             if (isOnFire) {
-                for (int i = 0; i < flameListeners.size(); i++) {
-                    flameListeners.get(i).flameFinished();
+                for (FlameListener flameListener : flameListeners) {
+                    flameListener.flameFinished();
                 }
             } else {
-                for (int i = 0; i < flameListeners.size(); i++) {
-                    flameListeners.get(i).flameStarted();
+                for (FlameListener flameListener : flameListeners) {
+                    flameListener.flameStarted();
                 }
             }
         }
