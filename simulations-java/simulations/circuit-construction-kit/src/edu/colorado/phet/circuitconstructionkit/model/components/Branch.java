@@ -17,8 +17,6 @@ import java.util.ArrayList;
  */
 public abstract class Branch extends SimpleObservableDebug {
     private double resistance = CCKModel.MIN_RESISTANCE;
-    private double current;
-    private double voltageDrop;
     private Junction startJunction;
     private Junction endJunction;
     private CompositeCircuitChangeListener circuitChangeListeners = new CompositeCircuitChangeListener();
@@ -30,8 +28,21 @@ public abstract class Branch extends SimpleObservableDebug {
     private boolean editing = false;
     private String name;/*For purposes of debugging.*/
 
+    private double current;
+    private double mnaCurrent;//current for the MNA model (i.e. may differ from aggregate current which is displayed on screen), see #2270
+
+    private double voltageDrop;
+    private double mnaVoltageDrop;//again, see #2270
+
+    public void setMNAVoltageDrop(double mnaVoltageDrop) {
+        this.mnaVoltageDrop = mnaVoltageDrop;
+    }
+
+    public double getMNAVoltageDrop() {
+        return mnaVoltageDrop;
+    }
+
     private static int indexCounter = 0;
-    private double mnaCurrent;//current for the MNA model (i.e. may differ from aggregate current which is displayed on screen)
 
     protected Branch(CircuitChangeListener listener) {
         name = toLabel(indexCounter++);
