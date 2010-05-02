@@ -1,5 +1,8 @@
-package edu.colorado.phet.circuitconstructionkit.model;
+package edu.colorado.phet.circuitconstructionkit.model.tests;
 
+import edu.colorado.phet.circuitconstructionkit.model.Circuit;
+import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
+import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.Path;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 
