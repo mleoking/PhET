@@ -2,7 +2,10 @@ package edu.colorado.phet.circuitconstructionkit.model;
 
 import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.Path;
-import edu.colorado.phet.circuitconstructionkit.model.components.*;
+import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
+import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
+import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -26,8 +29,6 @@ public class Circuit {
     private ArrayList<Junction> junctions = new ArrayList<Junction>();
     private ArrayList<CircuitListener> listeners = new ArrayList<CircuitListener>();
     private CircuitChangeListener circuitChangeListener;
-    private boolean fireKirkhoffChanges = true;
-    private boolean allowUserEdits = true;
     private MNAAdapter.CircuitResult solution;//solution from last update;//todo: should this be dynamic?
 
     public Circuit() {
@@ -40,10 +41,6 @@ public class Circuit {
 
     public void addCircuitListener(CircuitListener listener) {
         listeners.add(listener);
-    }
-
-    public int numCircuitListeners() {
-        return listeners.size();
     }
 
     public void removeCircuitListener(CircuitListener listener) {
@@ -151,9 +148,7 @@ public class Circuit {
 
         addJunction(component.getStartJunction());
         addJunction(component.getEndJunction());
-        if (allowUserEdits) {
-            component.addObserver(editingObserver);
-        }
+        component.addObserver(editingObserver);
         circuitChangeListener.circuitChanged();
     }
 
@@ -167,10 +162,6 @@ public class Circuit {
             }
         }
         return count;
-    }
-
-    public void setAllowUserEdits(boolean allowUserEdits) {
-        this.allowUserEdits = allowUserEdits;
     }
 
     public Branch[] getNeighbors(Branch branch) {
@@ -364,10 +355,6 @@ public class Circuit {
         }
     }
 
-    public void setFireKirkhoffChanges(boolean fireKirkhoffChanges) {
-        this.fireKirkhoffChanges = fireKirkhoffChanges;
-    }
-
     private void fireBranchAdded(Branch branch) {
         for (CircuitListener circuitListener : listeners) {
             circuitListener.branchAdded(branch);
@@ -381,9 +368,7 @@ public class Circuit {
     }
 
     public void fireKirkhoffChanged() {
-        if (fireKirkhoffChanges) {
-            circuitChangeListener.circuitChanged();
-        }
+        circuitChangeListener.circuitChanged();
     }
 
     public Branch[] getBranches() {
@@ -428,10 +413,6 @@ public class Circuit {
         }
     }
 
-    public boolean hasJunction(Junction junction) {
-        return junctions.contains(junction);
-    }
-
     public double getVoltage(Shape leftTip, Shape rightTip) {
         Area tipIntersection = new Area(leftTip);
         tipIntersection.intersect(new Area(rightTip));
@@ -455,7 +436,8 @@ public class Circuit {
         } else {
             double va = a.getVoltageAddon();
             double vb = -b.getVoltageAddon();//this has to be negative, because on the path VA->A->B->VB, the the VB computation is VB to B.
-            double junctionAnswer = solution.getNodeVoltage(indexOf(b.getJunction())) - solution.getNodeVoltage(indexOf(a.getJunction()));
+            //used for displaying values e.g. in voltmeter and charts, so use average node voltages instead of instantaneous, see #2270 
+            double junctionAnswer = solution.getAverageNodeVoltage(indexOf(b.getJunction())) - solution.getAverageNodeVoltage(indexOf(a.getJunction()));
             return junctionAnswer + va + vb;
         }
     }
@@ -533,19 +515,6 @@ public class Circuit {
         }
     }
 
-    public CircuitListener[] getCircuitListeners() {
-        return listeners.toArray(new CircuitListener[listeners.size()]);
-    }
-
-    public void moveToFirst(Junction junction) {
-        junctions.remove(junction);
-        junctions.add(0, junction);
-    }
-
-    public CircuitChangeListener getKirkhoffListener() {
-        return circuitChangeListener;
-    }
-
     public boolean isDynamic() {
         for (int i = 0; i < numBranches(); i++) {
             if (branchAt(i) instanceof DynamicBranch) {
@@ -580,36 +549,6 @@ public class Circuit {
                 b.setTime(time);
             }
         }
-    }
-
-    public int getInductorCount() {
-        int sum = 0;
-        for (Branch branch : branches) {
-            if (branch instanceof Inductor) {
-                sum++;
-            }
-        }
-        return sum;
-    }
-
-    public Inductor getInductor(int index) {
-        ArrayList<Inductor> inductors = new ArrayList<Inductor>();
-        for (Branch branch : branches) {
-            if (branch instanceof Inductor) {
-                inductors.add((Inductor) branch);
-            }
-        }
-        return inductors.get(index);
-    }
-
-    public int getCapacitorCount() {
-        int sum = 0;
-        for (int i = 0; i < numBranches(); i++) {
-            if (branchAt(i) instanceof Capacitor) {
-                sum++;
-            }
-        }
-        return sum;
     }
 
     public void setState(Circuit newCircuit) {

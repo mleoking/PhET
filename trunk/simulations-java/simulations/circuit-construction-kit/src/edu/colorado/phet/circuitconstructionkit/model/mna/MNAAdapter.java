@@ -41,7 +41,7 @@ public class MNAAdapter extends CircuitSolver {
 
         void applySolution(CircuitResult solution) {
             resistor.setCurrent(solution.getTimeAverageCurrent(this));
-            resistor.setVoltageDrop(solution.getVoltage(this));
+            resistor.setVoltageDrop(solution.getTimeAverageVoltage(this));//use average since it doesn't feed back in to the MNA solution
             resistor.setMNACurrent(solution.getInstantaneousCurrent(this));
         }
     }
@@ -51,14 +51,15 @@ public class MNAAdapter extends CircuitSolver {
 
         CapacitorAdapter(Circuit c, Capacitor capacitor) {
             super(new DynamicCircuit.Capacitor(c.indexOf(capacitor.getStartJunction()), c.indexOf(capacitor.getEndJunction()), capacitor.getCapacitance()),
-                    new DynamicCircuit.DynamicElementState(capacitor.getVoltageDrop(), capacitor.getMNACurrent()));
+                    new DynamicCircuit.DynamicElementState(capacitor.getMNAVoltageDrop(), capacitor.getMNACurrent()));
             this._capacitor = capacitor;
         }
 
         void applySolution(CircuitResult solution) {
             _capacitor.setCurrent(solution.getTimeAverageCurrent(capacitor));
             _capacitor.setMNACurrent(solution.getInstantaneousCurrent(capacitor));
-            _capacitor.setVoltageDrop(solution.getVoltage(capacitor));
+            _capacitor.setVoltageDrop(solution.getTimeAverageVoltage(capacitor));
+            _capacitor.setMNAVoltageDrop(solution.getInstantaneousVoltage(capacitor));
         }
     }
 
@@ -67,14 +68,15 @@ public class MNAAdapter extends CircuitSolver {
 
         InductorAdapter(Circuit c, Inductor inductor) {
             super(new DynamicCircuit.Inductor(c.indexOf(inductor.getStartJunction()), c.indexOf(inductor.getEndJunction()), inductor.getInductance()),
-                    new DynamicCircuit.DynamicElementState(inductor.getVoltageDrop(), -inductor.getMNACurrent()));//todo: sign error
+                    new DynamicCircuit.DynamicElementState(inductor.getMNAVoltageDrop(), -inductor.getMNACurrent()));//todo: sign error
             this.inductor = inductor;
         }
 
         void applySolution(CircuitResult sol) {
             inductor.setCurrent(-sol.getTimeAverageCurrent(getInductor()));//todo: sign error
             inductor.setMNACurrent(-sol.getInstantaneousCurrent(getInductor()));
-            inductor.setVoltageDrop(sol.getVoltage(getInductor()));
+            inductor.setVoltageDrop(sol.getTimeAverageVoltage(getInductor()));
+            inductor.setMNAVoltageDrop(sol.getInstantaneousVoltage(getInductor()));
         }
     }
 
@@ -171,7 +173,15 @@ public class MNAAdapter extends CircuitSolver {
             return getFinalState().getSolution().getCurrent(element);
         }
 
-        public double getVoltage(LinearCircuitSolver.Element element) {
+        public double getTimeAverageVoltage(LinearCircuitSolver.Element element) {
+            double weightedSum = 0.0;
+            for (ResultSet.State<DynamicCircuit.DynamicState> state : resultSet) {
+                weightedSum += state.state.getSolution().getVoltage(element) * state.dt;//todo: make sure this is right
+            }
+            return weightedSum / resultSet.getTotalTime();
+        }
+
+        public double getInstantaneousVoltage(LinearCircuitSolver.Element element) {
             return getFinalState().getSolution().getVoltage(element);
         }
 
@@ -179,8 +189,16 @@ public class MNAAdapter extends CircuitSolver {
             return resultSet.getFinalState();
         }
 
-        public double getNodeVoltage(int node) {
+        public double getInstantaneousNodeVoltage(int node) {
             return getFinalState().getSolution().getNodeVoltage(node);
+        }
+
+        public double getAverageNodeVoltage(int node) {
+            double weightedSum = 0.0;
+            for (ResultSet.State<DynamicCircuit.DynamicState> state : resultSet) {
+                weightedSum += state.state.getSolution().getNodeVoltage(node) * state.dt;//todo: make sure this is right too
+            }
+            return weightedSum / resultSet.getTotalTime();
         }
     }
 }
