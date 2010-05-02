@@ -78,6 +78,9 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
     public void resetDynamics() {
         setKirkhoffEnabled(false);
         setVoltageDrop(0.0);
+        setCurrent(0.0);
+        setMNACurrent(0.0);
+        setMNAVoltageDrop(0.0);
         setKirkhoffEnabled(true);
     }
 
