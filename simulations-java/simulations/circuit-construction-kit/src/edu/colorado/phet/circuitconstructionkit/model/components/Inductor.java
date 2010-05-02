@@ -52,10 +52,12 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
     public void stepInTime(double dt) {
     }
 
-    public void resetDynamics() {
+    public void resetDynamics() {//Todo: this is duplicated in Capacitor
         setKirkhoffEnabled(false);
         setVoltageDrop(0.0);
         setCurrent(0.0);
+        setMNACurrent(0.0);
+        setMNAVoltageDrop(0.0);
         setKirkhoffEnabled(true);
     }
 
