@@ -189,7 +189,7 @@ public class DynamicCircuit {
     }
 
     //TODO: generalize distance criterion, will be simpler if solutions are incorporated
-    public DynamicState solveWithSudbivisions(TimestepSubdivisions<DynamicState> timestepSubdivisions, double dt) {
+    public MNAAdapter.CircuitResult solveWithSudbivisions(TimestepSubdivisions<DynamicState> timestepSubdivisions, double dt) {
         TimestepSubdivisions.Steppable<DynamicState> steppable = new TimestepSubdivisions.Steppable<DynamicState>() {
             public DynamicState update(DynamicState a, double dt) {
                 return a.update(dt);
@@ -212,23 +212,23 @@ public class DynamicCircuit {
                 return euclideanDistance(aCurrents, bCurrents);
             }
         };
-        return timestepSubdivisions.stepInTime(new DynamicState(this, null), steppable, dt);//turing the error threshold too low here can fail the inductor tests in MNATestCase
+        return new MNAAdapter.CircuitResult(timestepSubdivisions.stepInTimeWithHistory(new DynamicState(this, null), steppable, dt));//turing the error threshold too low here can fail the inductor tests in MNATestCase
     }
 
-    public DynamicState solveWithSudbivisions(double dt) {
+    public MNAAdapter.CircuitResult solveWithSudbivisions(double dt) {
         return solveWithSudbivisions(new TimestepSubdivisions<DynamicState>(1E-6, 1E-8), dt);
     }
 
     public DynamicCircuit updateWithSubdivisions(double dt) {
-        return solveWithSudbivisions(dt).getCircuit();
+        return solveWithSudbivisions(dt).getFinalState().getCircuit();
     }
 
     public DynamicCircuitSolution solveItWithSubdivisions(double dt) {
-        return solveWithSudbivisions(dt).getSolution();
+        return solveWithSudbivisions(dt).getFinalState().getSolution();
     }
 
     public DynamicCircuitSolution solveItWithSubdivisions(TimestepSubdivisions<DynamicState> timestepSubdivisions, double dt) {
-        return solveWithSudbivisions(timestepSubdivisions, dt).getSolution();
+        return solveWithSudbivisions(timestepSubdivisions, dt).getFinalState().getSolution();
     }
 
     public DynamicCircuit update(double dt) {

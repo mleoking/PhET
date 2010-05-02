@@ -3,7 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.model;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.Path;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
-import edu.colorado.phet.circuitconstructionkit.model.mna.DynamicCircuit;
+import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -28,7 +28,7 @@ public class Circuit {
     private CircuitChangeListener circuitChangeListener;
     private boolean fireKirkhoffChanges = true;
     private boolean allowUserEdits = true;
-    private DynamicCircuit.DynamicCircuitSolution solution;//solution from last update;//todo: should this be dynamic?
+    private MNAAdapter.CircuitResult solution;//solution from last update;//todo: should this be dynamic?
 
     public Circuit() {
         this(new CompositeCircuitChangeListener());
@@ -191,7 +191,7 @@ public class Circuit {
         return n.toArray(new Branch[n.size()]);
     }
 
-    public void setSolution(DynamicCircuit.DynamicCircuitSolution solution) {
+    public void setSolution(MNAAdapter.CircuitResult solution) {
         this.solution = solution;
     }
 
