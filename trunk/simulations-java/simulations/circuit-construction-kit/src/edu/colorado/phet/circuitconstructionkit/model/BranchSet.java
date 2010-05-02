@@ -12,8 +12,8 @@ import java.util.ArrayList;
  * Time: 2:46:47 PM
  */
 public class BranchSet {
-    private ArrayList branches = new ArrayList();
-    private ArrayList junctions = new ArrayList();
+    private ArrayList<Branch> branches = new ArrayList<Branch>();
+    private ArrayList<Junction> junctions = new ArrayList<Junction>();
     private Circuit circuit;
 
     public BranchSet(Circuit circuit, Branch[] branchs) {
@@ -39,10 +39,10 @@ public class BranchSet {
      * This makes sure the right components get the notification event.
      */
     public void translate(AbstractVector2D vector) {
-        ArrayList junctionSet = new ArrayList();
+        ArrayList<Junction> junctionSet = new ArrayList<Junction>();
         junctionSet.addAll(junctions);
         for (int i = 0; i < branches.size(); i++) {
-            Branch branch = (Branch) branches.get(i);
+            Branch branch = branches.get(i);
             if (!junctionSet.contains(branch.getStartJunction())) {
                 junctionSet.add(branch.getStartJunction());
             }
@@ -50,10 +50,10 @@ public class BranchSet {
                 junctionSet.add(branch.getEndJunction());
             }
         }
-        ArrayList branchesToNotify = new ArrayList();
+        ArrayList<Branch> branchesToNotify = new ArrayList<Branch>();
         branchesToNotify.addAll(branches);
         for (int i = 0; i < junctionSet.size(); i++) {
-            Junction junction = (Junction) junctionSet.get(i);
+            Junction junction = junctionSet.get(i);
             junction.translateNoNotify(vector.getX(), vector.getY());//can't do one-at-a-time, because intermediate notifications get inconsistent data.
             Branch[] neighbors = circuit.getAdjacentBranches(junction);
             for (int j = 0; j < neighbors.length; j++) {
@@ -64,14 +64,14 @@ public class BranchSet {
             }
         }
         for (int i = 0; i < junctionSet.size(); i++) {
-            Junction junction = (Junction) junctionSet.get(i);
+            Junction junction = junctionSet.get(i);
             junction.notifyChanged();
         }
         for (int i = 0; i < branchesToNotify.size(); i++) {
-            Branch branch = (Branch) branchesToNotify.get(i);
+            Branch branch = branchesToNotify.get(i);
             branch.notifyObservers();
         }
-        Branch[] moved = (Branch[]) branchesToNotify.toArray(new Branch[0]);
+        Branch[] moved = branchesToNotify.toArray(new Branch[0]);
         circuit.fireJunctionsMoved();
         circuit.fireBranchesMoved(moved);
     }
@@ -85,6 +85,6 @@ public class BranchSet {
     }
 
     public Branch[] getBranches() {
-        return (Branch[]) branches.toArray(new Branch[0]);
+        return branches.toArray(new Branch[0]);
     }
 }
