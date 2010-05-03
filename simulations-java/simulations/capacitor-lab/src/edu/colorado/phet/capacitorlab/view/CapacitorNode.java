@@ -21,19 +21,19 @@ public class CapacitorNode extends PhetPNode {
         this.capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
 
             public void dielectricMaterialChanged() {
-                update();
+                updateDielectricColor();
             }
 
             public void dielectricOffsetChanged() {
-                update();
+                updateDielectricOffset();
             }
 
             public void plateSeparationChanged() {
-                update();
+                updateGeometry();
             }
 
             public void plateSizeChanged() {
-                update();
+                updateGeometry();
             }
         });
         
@@ -41,7 +41,7 @@ public class CapacitorNode extends PhetPNode {
         
         topPlateNode = new PlateNode();
         bottomPlateNode = new PlateNode();
-        dielectricNode = new DielectricNode();
+        dielectricNode = new DielectricNode( capacitor.getDielectricMaterial().getColor() );
         
         // rendering order
         addChild( bottomPlateNode );
@@ -49,35 +49,41 @@ public class CapacitorNode extends PhetPNode {
         addChild( topPlateNode );
         
         // default state
-        update();
+        updateGeometry();
+        updateDielectricColor();
     }
     
-    private void update() {
+    private void updateGeometry() {
         
         // model-to-view transform
         double plateSize = mvt.modelToView( capacitor.getPlateSize() );
         double plateThickness = mvt.modelToView( capacitor.getPlateThickness() );
         double plateSeparation = mvt.modelToView( capacitor.getPlateSeparation() );
-        double dielectricOffset = mvt.modelToView( capacitor.getDielectricOffset() );
         
         // geometry
         topPlateNode.setShape( plateSize, plateSize, plateThickness );
         bottomPlateNode.setShape( plateSize, plateSize, plateThickness );
         dielectricNode.setShape( plateSize, plateSize, plateSeparation );
         
-        // dielectric paints
-        dielectricNode.setTopPaint( capacitor.getDielectricMaterial().getPaint() );
-        //XXX sides?
-        
         // layout
         double x = 0;
         double y = 0;
         topPlateNode.setOffset( x, y );
-        x = topPlateNode.getXOffset() + dielectricOffset;
-        y = topPlateNode.getYOffset() + plateThickness;
-        dielectricNode.setOffset( x, y );
         x = topPlateNode.getXOffset();
         y = topPlateNode.getYOffset() + plateThickness + plateSeparation;
         bottomPlateNode.setOffset( x, y );
+        updateDielectricOffset();
+    }
+    
+    private void updateDielectricOffset() {
+        double dielectricOffset = mvt.modelToView( capacitor.getDielectricOffset() );
+        double plateThickness = mvt.modelToView( capacitor.getPlateThickness() );
+        double x = topPlateNode.getXOffset() + dielectricOffset;
+        double y = topPlateNode.getYOffset() + plateThickness;
+        dielectricNode.setOffset( x, y );
+    }
+    
+    private void updateDielectricColor() {
+        dielectricNode.setColor( capacitor.getDielectricMaterial().getColor() );
     }
 }
