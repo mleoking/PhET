@@ -6,12 +6,15 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.umd.cs.piccolo.PNode;
 
 
 public class CapacitorNode extends PhetPNode {
 
     private final Capacitor capacitor;
     private final ModelViewTransform mvt;
+    private final PNode parentNode;
     private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
     
@@ -44,9 +47,11 @@ public class CapacitorNode extends PhetPNode {
         dielectricNode = new DielectricNode( capacitor.getDielectricMaterial().getColor() );
         
         // rendering order
-        addChild( bottomPlateNode );
-        addChild( dielectricNode ); // dielectric between the plates
-        addChild( topPlateNode );
+        parentNode = new PNode();
+        addChild( parentNode );
+        parentNode.addChild( bottomPlateNode );
+        parentNode.addChild( dielectricNode ); // dielectric between the plates
+        parentNode.addChild( topPlateNode );
         
         // default state
         updateGeometry();
@@ -65,13 +70,23 @@ public class CapacitorNode extends PhetPNode {
         bottomPlateNode.setShape( plateSize, plateSize, plateThickness );
         dielectricNode.setShape( plateSize, plateSize, plateSeparation );
         
-        // layout
+        // layout nodes with zero dielectric offset
         double x = 0;
         double y = 0;
         topPlateNode.setOffset( x, y );
         x = topPlateNode.getXOffset();
         y = topPlateNode.getYOffset() + plateThickness + plateSeparation;
         bottomPlateNode.setOffset( x, y );
+        x = topPlateNode.getXOffset();
+        y = topPlateNode.getYOffset() + plateThickness;
+        dielectricNode.setOffset( x, y );
+        
+        // move the origin to the geometric center
+        x = -( parentNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( parentNode );
+        y = -( parentNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( parentNode );
+        parentNode.setOffset( x, y );
+        
+        // adjust the dielectric offset
         updateDielectricOffset();
     }
     
