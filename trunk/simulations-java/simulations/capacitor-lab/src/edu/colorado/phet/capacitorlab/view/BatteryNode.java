@@ -8,7 +8,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.control.VoltageSliderNode;
 import edu.colorado.phet.capacitorlab.model.Battery;
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeListener;
+import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -29,8 +29,9 @@ public class BatteryNode extends PhetPNode {
     public BatteryNode( Battery battery, DoubleRange voltageRange ) {
         
         this.battery = battery;
-        battery.addBatteryChangeListener( new BatteryChangeListener() {
-            public void voltageChanged( double oldVoltage, double newVoltage ) {
+        battery.addBatteryChangeListener( new BatteryChangeAdapter() {
+            @Override
+            public void voltageChanged() {
                 updateNode();
             }
         });

@@ -3,9 +3,11 @@
 package edu.colorado.phet.capacitorlab;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * A collection of constants that configure global properties.
@@ -37,6 +39,7 @@ public class CLConstants {
     
     public static final Point2D BATTERY_LOCATION = new Point2D.Double( -100, 0 ); // mm
     public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -10, 10, 0 ); // volts
+    public static final boolean BATTERY_CONNECTED = true;
     
     public static final Point2D CAPACITOR_LOCATION = new Point2D.Double( 0, 0 ); // mm
     public static final DoubleRange PLATE_SIZE_RANGE = new DoubleRange( 10, 100, 50 ); // mm
@@ -48,7 +51,7 @@ public class CLConstants {
     
     // model-view transform
     public static final double MVT_SCALE = 3;
-    public static final Point2D MVT_OFFSET = new Point2D.Double( 150, 125 ); // mm
+    public static final Point2D MVT_OFFSET = new Point2D.Double( 160, 125 ); // mm
     
     //----------------------------------------------------------------------------
     // View
@@ -59,6 +62,8 @@ public class CLConstants {
     
     public static final double VIEWING_ANGLE = Math.toRadians( 45 ); // radians
     public static final double FORESHORTENING_FACTOR = 0.5; // how much lines going away from the viewer should be shortened
+    
+    public static final Font PSWING_FONT = new PhetFont( 18 );
     
     //----------------------------------------------------------------------------
     // Control

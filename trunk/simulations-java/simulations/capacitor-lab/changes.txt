@@ -1,3 +1,5 @@
+5/3/10 add connect/disconnect button
+5/3/10 add battery connectivity to model
 5/3/10 add wires, no model, purely visual representation
 5/3/10 change origin marker to a bullseye, so it won't be confused with a positive charge
 5/3/10 align capacitor's geometric center with the origin of the model coordinate system
