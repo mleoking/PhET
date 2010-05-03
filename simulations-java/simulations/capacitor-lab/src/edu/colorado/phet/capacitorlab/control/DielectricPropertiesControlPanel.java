@@ -11,7 +11,10 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.model.CLModel;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -22,26 +25,37 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 public class DielectricPropertiesControlPanel extends CLTitledControlPanel {
     
+    private final Capacitor capacitor;
     private final DielectricMaterialControl materialControl;
     private final DielectricConstantControl constantControl;
     private final DielectricChargesControl chargesControl;
 
-    public DielectricPropertiesControlPanel() {
+    public DielectricPropertiesControlPanel( CLModel model ) {
         super( CLStrings.TITLE_DIELECTRIC );
         
-        materialControl = new DielectricMaterialControl();
+        this.capacitor = model.getCapacitor();
+        capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
+            @Override
+            public void dielectricMaterialChanged() {
+                updateControls();
+            }
+        });
+        
+        materialControl = new DielectricMaterialControl( model.getDielectricMaterials(), model.getCapacitor().getDielectricMaterial() );
         materialControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                updateConstantControl();
+                capacitor.setDielectricMaterial( materialControl.getMaterial() );
             }
         });
         
         constantControl = new DielectricConstantControl( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         constantControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateMaterialControl();
+                if ( capacitor.getDielectricMaterial() instanceof CustomDielectricMaterial ) {
+                    ( (CustomDielectricMaterial) capacitor.getDielectricMaterial() ).setDielectricConstant( constantControl.getValue() );
+                }
             }
-        });
+        } );
         
         chargesControl = new DielectricChargesControl();
         
@@ -62,18 +76,14 @@ public class DielectricPropertiesControlPanel extends CLTitledControlPanel {
         add( innerPanel, BorderLayout.WEST );
         
         // default state
-        updateConstantControl();
+        updateControls();
+        //XXX chargesControl?
     }
     
-    private void updateMaterialControl() {
-        DielectricMaterial material = materialControl.getMaterial();
-        if ( material instanceof CustomDielectricMaterial ) {
-            ( (CustomDielectricMaterial) material ).setDielectricConstant( constantControl.getValue() );
-        }
-    }
-    
-    private void updateConstantControl() {
-        constantControl.setEnabled( materialControl.isCustomMaterial() );
-        constantControl.setValue( materialControl.getMaterial().getDielectricConstant() );
+    private void updateControls() {
+        DielectricMaterial material = capacitor.getDielectricMaterial();
+        materialControl.setMaterial( material );
+        constantControl.setValue( material.getDielectricConstant() );
+        constantControl.setEnabled( material instanceof CustomDielectricMaterial );
     }
 }

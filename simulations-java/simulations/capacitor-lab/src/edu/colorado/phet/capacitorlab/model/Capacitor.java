@@ -73,7 +73,7 @@ public class Capacitor {
     }
     
     public void setDielectricMaterial( DielectricMaterial dielectricMaterial ) {
-        if ( ( dielectricMaterial == null &&  this.dielectricMaterial != null ) || dielectricMaterial.equals( this.dielectricMaterial ) ) {
+        if ( dielectricMaterial != this.dielectricMaterial ) { /* yes, referential equality */
             this.dielectricMaterial = dielectricMaterial;
             fireDielectricMaterialChanged();
         }

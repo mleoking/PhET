@@ -6,6 +6,9 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Polystyrene;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
 
 
 /**
@@ -21,15 +24,25 @@ public class CLModel {
     private static final Point2D CAPACITOR_LOCATION = CLConstants.CAPACITOR_LOCATION;
     private static final double PLATE_SIZE = CLConstants.PLATE_SIZE_RANGE.getDefault();
     private static final double PLATE_SEPARATION = CLConstants.PLATE_SEPARATION_RANGE.getDefault();
-    private static final DielectricMaterial DIELECTRIC_MATERIAL = new CustomDielectricMaterial(); //XXX
     private static final double DIELECTRIC_OFFSET = CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault();
     
-    public final Battery battery;
-    public final Capacitor capacitor;
+    private final Battery battery;
+    private final Capacitor capacitor;
+    private final DielectricMaterial[] dielectricMaterials;
+    private final DielectricMaterial defaultDielectricMaterial;
 
     public CLModel() {
+        
+        DielectricMaterial custom = new CustomDielectricMaterial();
+        DielectricMaterial teflon = new Teflon();
+        DielectricMaterial polystyrene = new Polystyrene();
+        DielectricMaterial paper = new Paper();
+        dielectricMaterials = new DielectricMaterial[] { custom, teflon, polystyrene, paper };
+        defaultDielectricMaterial = custom;
+        
         battery = new Battery( BATTERY_LOCATION, BATTERY_VOLTAGE );
-        capacitor = new Capacitor( CAPACITOR_LOCATION, PLATE_SIZE, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET );
+        
+        capacitor = new Capacitor( CAPACITOR_LOCATION, PLATE_SIZE, PLATE_SEPARATION, defaultDielectricMaterial, DIELECTRIC_OFFSET );
     }
     
     public Battery getBattery() {
@@ -40,11 +53,15 @@ public class CLModel {
         return capacitor;
     }
     
+    public DielectricMaterial[] getDielectricMaterials() {
+        return dielectricMaterials;
+    }
+    
     public void reset() {
         battery.setVoltage( BATTERY_VOLTAGE );
         capacitor.setPlateSize( PLATE_SIZE );
         capacitor.setPlateSeparation( PLATE_SEPARATION );
-        capacitor.setDielectricMaterial( DIELECTRIC_MATERIAL );
+        capacitor.setDielectricMaterial( defaultDielectricMaterial );
         capacitor.setDielectricOffset( DIELECTRIC_OFFSET );
     }
 }

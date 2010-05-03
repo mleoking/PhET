@@ -4,6 +4,9 @@ package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Color;
 import java.text.MessageFormat;
+import java.util.EventListener;
+
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 
@@ -37,19 +40,6 @@ public abstract class DielectricMaterial {
         return MessageFormat.format( CLStrings.FORMAT_DIELECTRIC_MATERIAL, name, dielectricConstant );
     }
     
-    @Override
-    /**
-     * Two materials are equal if their properties are the same.
-     */
-    public boolean equals( Object object ) {
-        boolean equals = false;
-        if ( object != null && object instanceof DielectricMaterial ) {
-            DielectricMaterial material = (DielectricMaterial) object;
-            equals = ( getName().equals( material.getName() ) && getDielectricConstant() == material.getDielectricConstant() && getColor().equals( material.getColor() ) );
-        }
-        return equals;
-    }
-    
     public static class Teflon extends DielectricMaterial {
         public Teflon() {
             super( CLStrings.MATERIAL_TEFLON, 2.1, Color.RED );
@@ -70,8 +60,11 @@ public abstract class DielectricMaterial {
     
     public static class CustomDielectricMaterial extends DielectricMaterial {
         
+        private final EventListenerList listeners;
+        
         public CustomDielectricMaterial() {
             super( CLStrings.MATERIAL_CUSTOM, 2, Color.YELLOW );
+            listeners = new EventListenerList();
         }
         
         /**
@@ -81,7 +74,7 @@ public abstract class DielectricMaterial {
         public void setDielectricConstant( double dielectricConstant ) {
             if ( dielectricConstant != super.dielectricConstant ) {
                 super.dielectricConstant = dielectricConstant;
-                //XXX fireStateChanged
+                fireDielectricConstantChanged();
             }
         }
         
@@ -91,6 +84,24 @@ public abstract class DielectricMaterial {
         @Override
         public String toString() {
             return getName();
+        }
+        
+        public interface CustomDielectricChangeListener extends EventListener {
+            public void dielectricConstantChanged();
+        }
+        
+        public void addCustomDielectricChangeListener( CustomDielectricChangeListener listener ) {
+            listeners.add( CustomDielectricChangeListener.class, listener );
+        }
+        
+        public void removeCustomDielectricChangeListener( CustomDielectricChangeListener listener ) {
+            listeners.remove( CustomDielectricChangeListener.class, listener );
+        }
+        
+        private void fireDielectricConstantChanged() {
+            for ( CustomDielectricChangeListener listener : listeners.getListeners( CustomDielectricChangeListener.class ) ) {
+                listener.dielectricConstantChanged();
+            }
         }
     }
 }

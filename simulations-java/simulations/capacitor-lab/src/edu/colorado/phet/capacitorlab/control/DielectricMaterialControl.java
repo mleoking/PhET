@@ -16,10 +16,6 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Polystyrene;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
@@ -32,18 +28,14 @@ public class DielectricMaterialControl extends JPanel {
     private final JComboBox comboBox;
     private final EventListenerList listeners;
     
-    public DielectricMaterialControl() {
+    public DielectricMaterialControl( DielectricMaterial[] materials, DielectricMaterial selectedMaterial ) {
         
         listeners = new EventListenerList();
         
         JLabel label = new JLabel( CLStrings.LABEL_DIELECTRIC_MATERIAL );
         
-        DielectricMaterial custom = new CustomDielectricMaterial();
-        DielectricMaterial teflon = new Teflon();
-        DielectricMaterial polystyrene = new Polystyrene();
-        DielectricMaterial paper = new Paper();
-        DielectricMaterial[] materials = { custom, teflon, polystyrene, paper };
         comboBox = new JComboBox( materials );
+        comboBox.setSelectedItem( selectedMaterial );
         comboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent event ) {
                 if ( event.getStateChange() == ItemEvent.SELECTED ) {
@@ -65,31 +57,24 @@ public class DielectricMaterialControl extends JPanel {
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
-        
-        // default state
-        //XXX
     }
     
-    public void setMaterial( Class<DielectricMaterial> materialClass ) {
+    public void setMaterial( DielectricMaterial material ) {
         boolean found = false;
         for ( int i = 0; i < comboBox.getItemCount(); i++ ) {
-            if ( comboBox.getItemAt( i ).getClass().equals( materialClass ) ) {
+            if ( comboBox.getItemAt( i ) == material ) { /* yes, referential equality */
                 comboBox.setSelectedIndex( i );
                 found = true;
                 break;
             }
         }
         if ( !found ) {
-            throw new IllegalArgumentException( "material is not one of the combo box items: " + materialClass.getName() );
+            throw new IllegalArgumentException( "material is not one of the combo box items: " + material.getName() );
         }
     }
     
     public DielectricMaterial getMaterial() {
         return (DielectricMaterial) comboBox.getSelectedItem();
-    }
-    
-    public boolean isCustomMaterial() {
-        return getMaterial() instanceof CustomDielectricMaterial;
     }
     
     public void addChangeListener ( ChangeListener listener ) {
