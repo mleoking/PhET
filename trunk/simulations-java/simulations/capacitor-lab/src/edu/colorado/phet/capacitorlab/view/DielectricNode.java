@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import edu.colorado.phet.capacitorlab.CLPaints;
+import java.awt.Color;
 
 /**
  * Visual pseudo-3D representation of a capacitor dielectric.
@@ -11,7 +11,13 @@ import edu.colorado.phet.capacitorlab.CLPaints;
  */
 public class DielectricNode extends BoxNode {
     
-    public DielectricNode() {
-        super( CLPaints.DIELECTRIC_TOP, CLPaints.DIELECTRIC_FRONT, CLPaints.DIELECTRIC_SIDE );
+    public DielectricNode( Color color ) {
+        super( color );
+    }
+    
+    public void setColor( Color color ) {
+        setTopPaint( color );
+        setFrontPaint( color.darker() );
+        setSidePaint( color.darker().darker() );
     }
 }

@@ -3,7 +3,6 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Color;
-import java.awt.Paint;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
@@ -13,12 +12,12 @@ public abstract class DielectricMaterial {
     
     private final String name;
     private double dielectricConstant;
-    private final Paint paint;
+    private final Color color;
     
-    public DielectricMaterial( String name, double dielectricConstant, Paint paint ) {
+    public DielectricMaterial( String name, double dielectricConstant, Color color ) {
         this.name = name;
         this.dielectricConstant = dielectricConstant;
-        this.paint = paint;
+        this.color = color;
     }
     
     public String getName() {
@@ -29,8 +28,8 @@ public abstract class DielectricMaterial {
         return dielectricConstant;
     }
     
-    public Paint getPaint() {
-        return paint;
+    public Color getColor() {
+        return color;
     }
     
     @Override
@@ -46,7 +45,7 @@ public abstract class DielectricMaterial {
         boolean equals = false;
         if ( object != null && object instanceof DielectricMaterial ) {
             DielectricMaterial material = (DielectricMaterial) object;
-            equals = ( getName().equals( material.getName() ) && getDielectricConstant() == material.getDielectricConstant() && getPaint().equals( material.getPaint() ) );
+            equals = ( getName().equals( material.getName() ) && getDielectricConstant() == material.getDielectricConstant() && getColor().equals( material.getColor() ) );
         }
         return equals;
     }

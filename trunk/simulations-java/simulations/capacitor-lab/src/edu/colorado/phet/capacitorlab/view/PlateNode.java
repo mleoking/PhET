@@ -12,6 +12,6 @@ import edu.colorado.phet.capacitorlab.CLPaints;
 public class PlateNode extends BoxNode {
 
     public PlateNode() {
-        super( CLPaints.PLATE_TOP, CLPaints.PLATE_FRONT, CLPaints.PLATE_SIDE );
+        super( CLPaints.PLATE );
     }
 }

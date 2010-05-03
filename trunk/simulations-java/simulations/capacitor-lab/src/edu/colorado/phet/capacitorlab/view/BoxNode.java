@@ -29,6 +29,10 @@ public abstract class BoxNode extends PhetPNode {
     
     private double width, depth, height;
     
+    public BoxNode( Color color ) {
+        this( color, color.darker(), color.darker().darker() );
+    }
+    
     public BoxNode( Paint topPaint, Paint frontPaint, Paint sidePaint ) {
         this( 1, 1, 1, topPaint, frontPaint, sidePaint );
     }
@@ -57,6 +61,12 @@ public abstract class BoxNode extends PhetPNode {
             this.height = height;
             update();
         }
+    }
+    
+    public void setColor( Color color ) {
+        setTopPaint( color );
+        setFrontPaint( color.darker() );
+        setSidePaint( color.darker().darker() );
     }
     
     public void setTopPaint( Paint paint ) {
