@@ -15,35 +15,28 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 	
 	private static final double PRE_SPAWN_TIME = 1;          // In seconds of sim time.
 	private static final double TIME_BETWEEN_SPAWNINGS = 1.0;  // In seconds of sim time.
-	private static final Random RAND = new Random(2211934);
+	
+	private static final Random RAND = new Random();
 
 	private double spawnCountdownTimer = PRE_SPAWN_TIME;
-	private int spawnCount = Integer.MAX_VALUE;
+	private int spawnLacZCount;
+	private int spawnLacYCount;
 	private boolean spawnLacZNext = true;
-	
-	/**
-	 * Constructor where the number of elements to spawn is specified.
-	 * 
-	 * @param numberToSpawn
-	 */
-	public SpawnLacYAndLacZStrategy(int numberToSpawn) {
-		super();
-		spawnCount = numberToSpawn;
-	}
 	
 	/**
 	 * Constructor that will choose the number to spawn.
 	 */
 	public SpawnLacYAndLacZStrategy(){
-		// Choose a random number of spawns.  This choses only even numbers
-		// so that equal amounts of LacZ and LacY are spawned.
-		this(autoGenSpawnCount());
+		// Initialize the spawn counts.  Based on feedback from George
+		// Spiegelman of UBC, there should be more LacZ created than LacY.
+		spawnLacZCount = RAND.nextInt(3) + 2;
+		spawnLacYCount = spawnLacZCount / 2;
 	}
 
 	@Override
 	public boolean isSpawningComplete() {
 		// True if all the progeny has been created.
-		return spawnCount == 0;
+		return (spawnLacZCount == 0 && spawnLacYCount == 0);
 	}
 
 	@Override
@@ -52,17 +45,20 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 			spawnCountdownTimer -= dt;
 			if (spawnCountdownTimer <= 0){
 				// Time to spawn.
-				assert spawnCount > 0;
+				assert spawnLacZCount > 0 || spawnLacYCount > 0;
 				if (spawnLacZNext){
 					spawnLacZ(parentModelElement);
-					spawnLacZNext = false;
+					spawnLacZCount--;
+					if (spawnLacYCount > 0){
+						spawnLacZNext = false;
+					}
 				}
 				else{
 					spawnLacY(parentModelElement);
+					spawnLacYCount--;
 					spawnLacZNext = true;
 				}
-				spawnCount--;
-				if (spawnCount > 0){
+				if (spawnLacZCount > 0 || spawnLacYCount > 0){
 					// Set the timer for the next spawning.
 					spawnCountdownTimer = TIME_BETWEEN_SPAWNINGS;
 				}
@@ -70,7 +66,6 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 					// No more spawning to be done.
 					spawnCountdownTimer = Double.POSITIVE_INFINITY;
 				}
-				
 			}
 		}
 	}
@@ -103,42 +98,5 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 				parentModelElement.getModel().getInteriorMotionBoundsAboveDna(), transformationArrowPos,
 				new Vector2D.Double(parentModelElement.getVelocityRef()), 5.0));
 		parentModelElement.getModel().addTransformationArrow(transformationArrow);
-	}
-	
-	/**
-	 * Automatically generate a pseudo-random number of items to spawn.
-	 * 
-	 * @return
-	 */
-	private static int autoGenSpawnCount(){
-		// Notes: This version will only generate even numbers, since my
-		// (jblanco) thinking as of April 8 2010 is that this is how it works
-		// in real life - the mRNA is fully transcribed, and each time both
-		// LacZ and LacY are produced.  I am not certain if this is the case,
-		// it just stands to reason.
-		//
-		// Second, this function includes a "tweak factor" the influences the
-		// probability of spawning 2 items (1 transcription) or 4 items (2
-		// transcriptions).  This can be used to make there be on average more
-		// or less LacZ and LacY present in the sim.  Right now this is only
-		// adjustable at compile time, but could be hooked into the reading of
-		// the lactose level if desired (and if we're sure it won't mislead
-		// users).
-		
-		// Tweak factor - higher values make it more likely that more LacZ & 
-		// LacY will be spawned.  1 is the max value.
-		double makeMoreTweakFactor = 0.85;
-		
-		int spawnCount;
-		if (RAND.nextDouble() > makeMoreTweakFactor){
-			// Spawn 2.
-			spawnCount = 4;
-		}
-		else{
-			// Spawn 4.
-			spawnCount = 6;
-		}
-		
-		return spawnCount;
-	}
+	}	
 }
