@@ -3,6 +3,9 @@ TODO list for capacitor-lab
 HIGH PRIORITY
 - utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
 - direct manipulation of plate size, plate separation, dielectric offset
+- wires
+- Disconnect/Connect button for battery
+- blue arrow and glowing sphere to represent current flow
 
 MEDUIUM PRIORITY
 

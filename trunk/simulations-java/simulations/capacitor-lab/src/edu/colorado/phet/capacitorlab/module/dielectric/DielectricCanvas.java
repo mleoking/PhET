@@ -10,7 +10,7 @@ import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
-import edu.colorado.phet.capacitorlab.view.CrossNode;
+import edu.colorado.phet.capacitorlab.view.BullseyeNode;
 
 /**
  * Canvas for the "Dielectric" module.
@@ -24,7 +24,7 @@ public class DielectricCanvas extends CLCanvas {
     
     private final CapacitorNode capacitorNode;
     private final BatteryNode batteryNode;
-    private final CrossNode originNode;
+    private final BullseyeNode originNode;
     
     public DielectricCanvas( CLModel model, boolean dev ) {
         
@@ -38,7 +38,7 @@ public class DielectricCanvas extends CLCanvas {
         capacitorNode = new CapacitorNode( model.getCapacitor(), mvt );
         addChild( capacitorNode );
         
-        originNode = new CrossNode();
+        originNode = new BullseyeNode();
         if ( dev ) {
             addChild( originNode );
         }
