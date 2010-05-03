@@ -132,27 +132,30 @@ public class SimulationListViewPanel extends PhetPanel {
             if ( !sim.isVisible() ) {
                 continue;
             }
-            LocalizedSimulation englishSim = null;
-            boolean added = false;
-            for ( Object p : sim.getLocalizedSimulations() ) {
-                LocalizedSimulation lsim = (LocalizedSimulation) p;
-                if ( lsim.getLocale().equals( locale ) ) {
-                    added = true;
-                    if ( !used.contains( lsim.getId() ) ) {
-                        simulations.add( lsim );
-                        used.add( lsim.getId() );
-                    }
-
-                    break;
-                }
-                else if ( lsim.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) {
-                    englishSim = lsim;
-                }
-            }
-            if ( !added && englishSim != null ) {
-                simulations.add( englishSim );
-                used.add( englishSim.getId() );
-            }
+            LocalizedSimulation lsim = HibernateUtils.pickBestTranslation( sim, locale );
+            simulations.add( lsim );
+            used.add( lsim.getId() );
+//            LocalizedSimulation englishSim = null;
+//            boolean added = false;
+//            for ( Object p : sim.getLocalizedSimulations() ) {
+//                LocalizedSimulation lsim = (LocalizedSimulation) p;
+//                if ( lsim.getLocale().equals( locale ) ) {
+//                    added = true;
+//                    if ( !used.contains( lsim.getId() ) ) {
+//                        simulations.add( lsim );
+//                        used.add( lsim.getId() );
+//                    }
+//
+//                    break;
+//                }
+//                else if ( lsim.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) {
+//                    englishSim = lsim;
+//                }
+//            }
+//            if ( !added && englishSim != null ) {
+//                simulations.add( englishSim );
+//                used.add( englishSim.getId() );
+//            }
         }
         if ( category.isAuto() ) {
             for ( Object o : category.getSubcategories() ) {
