@@ -17,5 +17,5 @@ public class CLPaints {
     public static final Color CANVAS_BACKGROUND = new Color( 167, 222, 243 );
     
     // capacitor plates
-    public static final Color PLATE = Color.LIGHT_GRAY;
+    public static final Color PLATE =  new Color( 245, 245, 245 );
 }

@@ -18,12 +18,12 @@ public class DisconnectButtonNode extends PhetPNode {
     
     public DisconnectButtonNode( final Battery battery ) {
         JButton button = new JButton( CLStrings.BUTTON_DISCONNECT );
-        button.setFont( CLConstants.PSWING_FONT );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 battery.setConnected( false );
             }
         });
         addChild( new PSwing( button ) );
+        scale( CLConstants.PSWING_SCALE );
     }
 }

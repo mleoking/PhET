@@ -18,12 +18,12 @@ public class ConnectButtonNode extends PhetPNode {
     
     public ConnectButtonNode( final Battery battery ) {
         JButton button = new JButton( CLStrings.BUTTON_CONNECT );
-        button.setFont( CLConstants.PSWING_FONT );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 battery.setConnected( true );
             }
         });
         addChild( new PSwing( button ) );
+        scale( CLConstants.PSWING_SCALE );
     }
 }
