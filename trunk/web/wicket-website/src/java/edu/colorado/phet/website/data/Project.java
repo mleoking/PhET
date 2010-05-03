@@ -3,6 +3,8 @@ package edu.colorado.phet.website.data;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -65,7 +67,11 @@ public class Project implements Serializable, IntId {
     }
 
     public ProjectPropertiesFile getProjectPropertiesFile( File docRoot ) {
-        return new ProjectPropertiesFile( new File( docRoot, "sims/" + name + "/" + name + ".properties" ) );
+        return getProjectPropertiesFile( docRoot, name );
+    }
+
+    public static ProjectPropertiesFile getProjectPropertiesFile( File docRoot, String projectName ) {
+        return new ProjectPropertiesFile( new File( docRoot, "sims/" + projectName + "/" + projectName + ".properties" ) );
     }
 
     public File getProjectRoot( File docRoot ) {
@@ -78,6 +84,39 @@ public class Project implements Serializable, IntId {
 
     private void appendWarning( StringBuilder builder, String message ) {
         builder.append( "<br/><font color='#FF0000'>WARNING: " + message + "</font>" );
+    }
+
+    /**
+     * Back up the project files to an external directory
+     *
+     * @param docRoot     Apache document root
+     * @param projectName Project name
+     * @return Success (true or false)
+     */
+    public static boolean backupProject( final File docRoot, final String projectName ) {
+        File projectRoot = new File( docRoot, "sims/" + projectName );
+        if ( !projectRoot.exists() ) {
+            logger.warn( "Unable to backup project with name: " + projectName + ", cannot find project root" );
+            return false;
+        }
+
+        ProjectPropertiesFile props = getProjectPropertiesFile( docRoot, projectName );
+
+        String versionString = props.getMajorVersionString() + "." + props.getMinorVersionString() + "." + props.getDevVersionString() + "-r" + props.getSVNVersion();
+        DateFormat format = new SimpleDateFormat( "yyMMdd" );
+        File backupDir = new File( docRoot, "website-backup/sims/" + projectName + "-" + versionString + "-" + format.format( new Date() ) );
+
+        backupDir.mkdirs();
+
+        try {
+            FileUtils.copyRecursive( projectRoot, backupDir );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     /**

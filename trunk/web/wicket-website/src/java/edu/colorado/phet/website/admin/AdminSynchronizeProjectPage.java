@@ -1,5 +1,7 @@
 package edu.colorado.phet.website.admin;
 
+import java.io.File;
+
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.pages.RedirectPage;
@@ -35,7 +37,11 @@ public class AdminSynchronizeProjectPage extends PhetRegularPage {
 
             logger.info( "synchronizing project: " + projectName );
 
-            Project.synchronizeProject( PhetWicketApplication.get().getPhetDocumentRoot(), getHibernateSession(), projectName );
+            File docRoot = PhetWicketApplication.get().getPhetDocumentRoot();
+
+            Project.synchronizeProject( docRoot, getHibernateSession(), projectName );
+
+            Project.backupProject( docRoot, projectName );
         }
 
         // redirect back to contribution page
