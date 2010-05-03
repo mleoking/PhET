@@ -1,3 +1,4 @@
+5/3/10 align capacitor's geometric center with the origin of the model coordinate system
 5/3/10 wire up more controls to model
 5/3/10 wired up developer controls to model
 5/3/10 added developer controls for direct-manipulation properties that aren't implemented yet
