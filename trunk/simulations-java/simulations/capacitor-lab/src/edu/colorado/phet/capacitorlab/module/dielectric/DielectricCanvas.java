@@ -9,8 +9,10 @@ import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
-import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.capacitorlab.view.BullseyeNode;
+import edu.colorado.phet.capacitorlab.view.CapacitorNode;
+import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
+import edu.colorado.phet.capacitorlab.view.WireNode.TopWireNode;
 
 /**
  * Canvas for the "Dielectric" module.
@@ -25,20 +27,25 @@ public class DielectricCanvas extends CLCanvas {
     private final CapacitorNode capacitorNode;
     private final BatteryNode batteryNode;
     private final BullseyeNode originNode;
+    private final TopWireNode topWireNode;
+    private final BottomWireNode bottomWireNode;
     
     public DielectricCanvas( CLModel model, boolean dev ) {
         
         this.model = model;
-        
         mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.MVT_OFFSET );
         
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
-        addChild( batteryNode );
-        
         capacitorNode = new CapacitorNode( model.getCapacitor(), mvt );
-        addChild( capacitorNode );
-        
+        topWireNode = new TopWireNode( model, mvt );
+        bottomWireNode = new BottomWireNode( model, mvt );
         originNode = new BullseyeNode();
+        
+        // rendering order
+        addChild( bottomWireNode );
+        addChild( batteryNode );
+        addChild( capacitorNode );
+        addChild( topWireNode );
         if ( dev ) {
             addChild( originNode );
         }
