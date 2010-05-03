@@ -2,10 +2,7 @@ TODO list for capacitor-lab
 
 HIGH PRIORITY
 - utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
-- plates and their drag behavior
-- dielectric, its drag behavior, and its resize behavior relative to plates
-- add dielectric constant to model
-- pattern for dielectric material (relationship between model and control)
+- direct manipulation of plate size, plate separation, dielectric offset
 
 MEDUIUM PRIORITY
 
