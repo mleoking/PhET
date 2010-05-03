@@ -3,6 +3,11 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.geom.Point2D;
+import java.util.EventListener;
+
+import javax.swing.event.EventListenerList;
+
+import edu.colorado.phet.capacitorlab.CLConstants;
 
 
 /**
@@ -12,71 +17,126 @@ import java.awt.geom.Point2D;
  */
 public class Capacitor {
     
-    private static final double PLATE_HEIGHT = 5;
+    private final EventListenerList listeners;
     
+    // immutable properties
     private final Point2D location;
-    private final Plate topPlate, bottomPlate;
-    private final Dielectric dielectric;
+    private final double plateThickness;
     
-    public Capacitor( Point2D location, double plateWidth, double plateSpacing, double dielectricOffset ) {
+    // mutable properties
+    private double plateSize;
+    private double plateSeparation;
+    private DielectricMaterial dielectricMaterial;
+    private double dielectricOffset;
+
+    public Capacitor( Point2D location, double plateSize, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
+        
+        listeners = new EventListenerList();
+        
         this.location = new Point2D.Double( location.getX(), location.getY() );
-        this.topPlate = new Plate( plateWidth, PLATE_HEIGHT, plateWidth );
-        this.bottomPlate = new Plate( plateWidth, PLATE_HEIGHT, plateWidth );
-        this.dielectric = new Dielectric( plateWidth, plateSpacing, plateWidth, dielectricOffset );
+        this.plateThickness = CLConstants.PLATE_THICKNESS;
+        
+        this.plateSize = plateSize;
+        this.plateSeparation = plateSeparation;
+        this.dielectricMaterial = dielectricMaterial;
+        this.dielectricOffset = dielectricOffset;
     }
     
     public Point2D getLocationReference() {
         return location;
     }
     
-    public Plate getTopPlate() {
-        return topPlate;
+    public double getPlateThickness() {
+        return plateThickness;
     }
     
-    public Plate getBottomPlate() {
-        return bottomPlate;
+    public void setPlateSize( double plateSize ) {
+        if ( plateSize != this.plateSize ) {
+            this.plateSize = plateSize;
+            firePlateSizeChanged();
+        }
     }
     
-    public Dielectric getDielectric() {
-        return dielectric;
+    public double getPlateSize() {
+        return plateSize;
     }
     
-    // plates are square
-    public void setPlateWidth( double width ) {
-        topPlate.setWidthAndDepth( width, width );
-        bottomPlate.setWidthAndDepth( width, width );
-        dielectric.setWidthAndDepth( width, width );
-    }
-    
-    public double getPlateWidth() {
-        return topPlate.getWidth();
-    }
-    
-    public double getPlateDepth() {
-        return topPlate.getDepth();
-    }
-    
-    public double getPlateHeight() {
-        return topPlate.getHeight();
-    }
-    
-    public double getPlateArea() {
-        return topPlate.getArea();
-    }
-    
-    public void setPlateSeparation( double distance ) {
-        dielectric.setHeight( distance );
+    public void setPlateSeparation( double plateSeparation ) {
+        if ( plateSeparation != this.plateSeparation ) {
+            this.plateSeparation = plateSeparation;
+            firePlateSeparationChanged();
+        }
     }
     
     public double getPlateSeparation() {
-        return dielectric.getHeight();
+        return plateSeparation;
     }
-
-    public void setDielectricOffset( double offset ) {
-        dielectric.setOffset( offset );
+    
+    public void setDielectricMaterial( DielectricMaterial dielectricMaterial ) {
+        if ( ( dielectricMaterial == null &&  this.dielectricMaterial != null ) || dielectricMaterial.equals( this.dielectricMaterial ) ) {
+            this.dielectricMaterial = dielectricMaterial;
+            fireDielectricMaterialChanged();
+        }
+    }
+    
+    public DielectricMaterial getDielectricMaterial() {
+        return dielectricMaterial;
+    }
+    
+    public void setDielectricOffset( double dielectricOffset ) {
+        if ( dielectricOffset != this.dielectricOffset ) {
+            this.dielectricOffset = dielectricOffset;
+            fireDielectricOffsetChanged();
+        }
     }
     
     public double getDielectricOffset() {
-        return dielectric.getOffset();
+        return dielectricOffset;
+    }
+    
+    public interface CapacitorChangeListener extends EventListener {
+        public void plateSizeChanged();
+        public void plateSeparationChanged();
+        public void dielectricMaterialChanged();
+        public void dielectricOffsetChanged();
+    }
+    
+    public static class CapacitorChangeAdapter implements CapacitorChangeListener {
+        public void plateSizeChanged() {}
+        public void plateSeparationChanged() {}
+        public void dielectricMaterialChanged() {}
+        public void dielectricOffsetChanged() {}
+    }
+    
+    public void addCapacitorChangeListener( CapacitorChangeListener listener ) {
+        listeners.add( CapacitorChangeListener.class, listener );
+    }
+    
+    public void removeCapacitorChangeListener( CapacitorChangeListener listener ) {
+        listeners.remove( CapacitorChangeListener.class, listener );
+    }
+    
+    private void firePlateSizeChanged() {
+        for ( CapacitorChangeListener listener : listeners.getListeners( CapacitorChangeListener.class ) ) {
+            listener.plateSizeChanged();
+        }
+    }
+    
+    private void firePlateSeparationChanged() {
+        for ( CapacitorChangeListener listener : listeners.getListeners( CapacitorChangeListener.class ) ) {
+            listener.plateSeparationChanged();
+        }
+    }
+    
+    private void fireDielectricMaterialChanged() {
+        for ( CapacitorChangeListener listener : listeners.getListeners( CapacitorChangeListener.class ) ) {
+            listener.dielectricMaterialChanged();
+        }
+    }
+    
+    private void fireDielectricOffsetChanged() {
+        for ( CapacitorChangeListener listener : listeners.getListeners( CapacitorChangeListener.class ) ) {
+            listener.dielectricOffsetChanged();
+        }
     }
 }
