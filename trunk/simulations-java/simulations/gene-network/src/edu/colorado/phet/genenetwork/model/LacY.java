@@ -248,7 +248,7 @@ public class LacY extends SimpleModelElement {
 		// Set a motion strategy that will move this LacY to a spot on the
 		// membrane.
 		setMembraneDestination(getModel().getOpenSpotForLacY());
-		setMotionStrategy(new LinearMotionStrategy(motionBounds, getPositionRef(), getMembraneDestinationRef(), 10));
+		setMotionStrategy(new LinearMotionStrategy(motionBounds, getPositionRef(), getMembraneDestinationRef(), 14));
 	}
 	
 	/**
