@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeListener;
+import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -51,11 +51,10 @@ public abstract class WireNode extends PComposite {
             }
             
         });
-        model.getBattery().addBatteryChangeListener( new BatteryChangeListener() {
-            public void voltageChanged( double oldVoltage, double newVoltage ) {
-                if ( ( oldVoltage < 0 && newVoltage >= 0 ) ||  ( oldVoltage >= 0 && newVoltage < 0 ) ) {
-                    update();
-                }
+        model.getBattery().addBatteryChangeListener( new BatteryChangeAdapter() {
+            @Override
+            public void polarityChanged() {
+                update();
             }
         });
         
