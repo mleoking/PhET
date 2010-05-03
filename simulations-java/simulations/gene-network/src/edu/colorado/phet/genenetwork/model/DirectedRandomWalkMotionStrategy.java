@@ -21,7 +21,7 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	private static final double DIRECTED_PROPORTION = 0.90; // Proportion of motion updates that move towards
 	                                                        // the destination point.
 	private static final int MOTION_UPDATE_PERIOD = 20;  // Number of update calls before changing direction.
-	protected static double MAX_VELOCITY = 10;  // In nanometers per second
+	protected static double MAX_VELOCITY = 15;  // In nanometers per second
 	protected static double MIN_VELOCITY = 5;  // In nanometers per second
 	
 	// Range within which the moving item should not exhibit any random
