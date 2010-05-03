@@ -38,7 +38,7 @@ public class SimulationDisplayPanel extends PhetPanel {
                 LocalizedSimulation simulation = (LocalizedSimulation) item.getModelObject();
                 PhetLink link = SimulationPage.createLink( "simulation-link", context, simulation );
                 link.add( new Label( "title", simulation.getTitle() ) );
-                if ( !simulation.getLocale().equals( context.getLocale() ) ) {
+                if ( !simulation.getLocale().getLanguage().equals( context.getLocale().getLanguage() ) ) {
                     // sim isn't translated
                     link.add( new AttributeAppender( "class", new Model( "untranslated-sim" ), " " ) );
                 }

@@ -151,11 +151,16 @@ public class HibernateUtils {
 
     public static LocalizedSimulation getBestSimulation( Session session, Locale locale, String project, String flavor ) {
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );
+        Locale languageLocale = LocaleUtils.stringToLocale( locale.getLanguage() );
+        boolean useLanguage = !languageLocale.equals( locale );
 
-        Query query = session.createQuery( "select l from LocalizedSimulation as l, Simulation as s, Project as p where (l.simulation = s AND s.project = p AND p.name = :project AND s.name = :flavor AND (l.locale = :english OR l.locale = :locale))" );
+        Query query = session.createQuery( "select l from LocalizedSimulation as l, Simulation as s, Project as p where (l.simulation = s AND s.project = p AND p.name = :project AND s.name = :flavor AND (l.locale = :english OR l.locale = :locale" + ( useLanguage ? " OR l.locale = :lang" : "" ) + "))" );
         query.setString( "project", project );
         query.setString( "flavor", flavor );
         query.setLocale( "locale", locale );
+        if ( useLanguage ) {
+            query.setLocale( "lang", languageLocale );
+        }
         query.setLocale( "english", englishLocale );
         List simulations = query.list();
 
@@ -167,17 +172,23 @@ public class HibernateUtils {
             return (LocalizedSimulation) simulations.get( 0 );
         }
 
-        if ( simulations.size() == 2 ) {
-            LocalizedSimulation firstSim = (LocalizedSimulation) simulations.get( 0 );
-            if ( firstSim.getLocale().equals( locale ) ) {
-                return firstSim;
+        if ( simulations.size() <= 3 ) {
+            for ( Object o : simulations ) {
+                if ( ( (LocalizedSimulation) o ).getLocale().equals( locale ) ) {
+                    return (LocalizedSimulation) o;
+                }
             }
-            else {
-                return (LocalizedSimulation) simulations.get( 1 );
+            if ( useLanguage ) {
+                for ( Object o : simulations ) {
+                    if ( ( (LocalizedSimulation) o ).getLocale().equals( languageLocale ) ) {
+                        return (LocalizedSimulation) o;
+                    }
+                }
             }
+            return (LocalizedSimulation) simulations.get( 0 );
         }
 
-        throw new RuntimeException( "WARNING: matches more than 2 simulations!" );
+        throw new RuntimeException( "WARNING: matches more than 3 simulations!" );
     }
 
     public static final String[] SIM_TITLE_IGNORE_WORDS = {"The", "La", "El"};
@@ -331,6 +342,7 @@ public class HibernateUtils {
 
     public static LocalizedSimulation pickBestTranslation( Simulation sim, Locale locale ) {
         LocalizedSimulation defaultSim = null;
+        LocalizedSimulation languageDefaultSim = null;
         for ( Object o : sim.getLocalizedSimulations() ) {
             LocalizedSimulation lsim = (LocalizedSimulation) o;
             if ( lsim.getLocale().equals( locale ) ) {
@@ -339,8 +351,11 @@ public class HibernateUtils {
             else if ( lsim.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) {
                 defaultSim = lsim;
             }
+            else if ( lsim.getLocale().getLanguage().equals( locale.getLanguage() ) ) {
+                languageDefaultSim = lsim;
+            }
         }
-        return defaultSim;
+        return languageDefaultSim == null ? defaultSim : languageDefaultSim;
     }
 
     public static void addPreferredFullSimulationList( List<LocalizedSimulation> lsims, Session session, Locale locale ) {
