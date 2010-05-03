@@ -25,7 +25,7 @@ public class DielectricModule extends CLModule {
         canvas = new DielectricCanvas( model, dev );
         setSimulationPanel( canvas );
         
-        controlPanel = new DielectricControlPanel( this );
+        controlPanel = new DielectricControlPanel( this, dev );
         setControlPanel( controlPanel );
     }
     
