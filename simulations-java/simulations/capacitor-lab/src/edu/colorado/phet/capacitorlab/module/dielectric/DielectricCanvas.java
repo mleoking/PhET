@@ -6,10 +6,13 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.control.ConnectButtonNode;
+import edu.colorado.phet.capacitorlab.control.DielectricOffsetDragHandleNode;
 import edu.colorado.phet.capacitorlab.control.DisconnectButtonNode;
 import edu.colorado.phet.capacitorlab.model.CLModel;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
 import edu.colorado.phet.capacitorlab.view.BullseyeNode;
@@ -34,6 +37,7 @@ public class DielectricCanvas extends CLCanvas {
     private final BottomWireNode bottomWireNode;
     private final ConnectButtonNode connectButtonNode;
     private final DisconnectButtonNode disconnectButtonNode;
+    private final DielectricOffsetDragHandleNode dielectricOffsetDragHandleNode;
     
     public DielectricCanvas( final CLModel model, boolean dev ) {
         
@@ -42,6 +46,25 @@ public class DielectricCanvas extends CLCanvas {
             @Override
             public void connectedChanged() {
                 updateConnectivity();
+            }
+           
+        });
+        model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeAdapter() {
+            
+            @Override
+            public void dielectricOffsetChanged() {
+                updateDielectricOffsetDragHandle();
+            }
+
+            @Override
+            public void plateSeparationChanged() {
+                updateDielectricOffsetDragHandle();
+                
+            }
+
+            @Override
+            public void plateSizeChanged() {
+                updateDielectricOffsetDragHandle();
             }
         });
         
@@ -56,11 +79,14 @@ public class DielectricCanvas extends CLCanvas {
         connectButtonNode = new ConnectButtonNode( model.getBattery() );
         disconnectButtonNode = new DisconnectButtonNode( model.getBattery() );
         
+        dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( model.getCapacitor() );
+        
         // rendering order
         addChild( bottomWireNode );
         addChild( batteryNode );
         addChild( capacitorNode );
         addChild( topWireNode );
+        addChild( dielectricOffsetDragHandleNode );
         addChild( connectButtonNode );
         addChild( disconnectButtonNode );
         if ( dev ) {
@@ -101,6 +127,7 @@ public class DielectricCanvas extends CLCanvas {
         
         // default state
         updateConnectivity();
+        updateDielectricOffsetDragHandle();
     }
     
     public void reset() {
@@ -113,5 +140,15 @@ public class DielectricCanvas extends CLCanvas {
         bottomWireNode.setVisible( isConnected );
         connectButtonNode.setVisible( !isConnected );
         disconnectButtonNode.setVisible( isConnected );
+    }
+    
+    private void updateDielectricOffsetDragHandle() {
+        Capacitor capacitor = model.getCapacitor();
+        Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
+        double plateSize = mvt.modelToView( capacitor.getPlateSize() );
+        double dielectricOffset = mvt.modelToView( capacitor.getDielectricOffset() );
+        double x = capacitorLocation.getX() + ( plateSize / 2 ) + dielectricOffset;
+        double y = capacitorLocation.getY();
+        dielectricOffsetDragHandleNode.setOffset( x, y );
     }
 }
