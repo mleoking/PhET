@@ -165,14 +165,14 @@ public abstract class WireNode extends PComposite {
             
             // geometry
             wirePath.reset();
-            wirePath.moveTo( (float) ( pBattery.getX() - ( wireThickness / 2 ) ), (float) pBattery.getY() );
+            wirePath.moveTo( (float) ( pBattery.getX() - ( wireThickness / 2 ) ), (float) ( pBattery.getY() ) );
             wirePath.lineTo( (float) ( pBattery.getX() - ( wireThickness / 2 ) ), (float) ( pBattery.getY() + wireHeight ) );
             wirePath.lineTo( (float) ( pCapacitor.getX() + ( wireThickness / 2 ) ), (float) ( pBattery.getY() + wireHeight ) );
             wirePath.lineTo( (float) ( pCapacitor.getX() + ( wireThickness / 2 ) ), (float) ( pCapacitor.getY() + ( plateSeparation / 2 ) + plateThickness ) );
             wirePath.lineTo( (float) ( pCapacitor.getX() - ( wireThickness / 2 ) ), (float) ( pCapacitor.getY() + ( plateSeparation / 2 ) + plateThickness ) );
             wirePath.lineTo( (float) ( pCapacitor.getX() - ( wireThickness / 2 ) ), (float) ( pBattery.getY() + wireHeight - wireThickness ) );
             wirePath.lineTo( (float) ( pBattery.getX() + ( wireThickness / 2 ) ), (float) ( pBattery.getY() + wireHeight - wireThickness ) );
-            wirePath.lineTo( (float) ( pBattery.getX() + ( wireThickness / 2 ) ), (float) pBattery.getY() );
+            wirePath.lineTo( (float) ( pBattery.getX() + ( wireThickness / 2 ) ), (float) ( pBattery.getY() ) );
             wirePath.closePath();
             wireNode.setPathTo( wirePath );
         }
