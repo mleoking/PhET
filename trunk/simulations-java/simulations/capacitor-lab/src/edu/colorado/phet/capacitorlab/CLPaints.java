@@ -18,10 +18,4 @@ public class CLPaints {
     
     // capacitor plates
     public static final Color PLATE = Color.LIGHT_GRAY;
-    
-    //XXX should these be part of dielectric material model?
-    // dielectric
-    public static final Color DIELECTRIC_TOP = Color.GREEN;
-    public static final Color DIELECTRIC_FRONT = DIELECTRIC_TOP.darker();
-    public static final Color DIELECTRIC_SIDE = DIELECTRIC_FRONT.darker();
 }
