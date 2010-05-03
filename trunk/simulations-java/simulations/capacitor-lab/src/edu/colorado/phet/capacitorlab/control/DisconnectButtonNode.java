@@ -13,7 +13,11 @@ import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * Button that disconnects the battery from the circuit.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class DisconnectButtonNode extends PhetPNode {
     
     public DisconnectButtonNode( final Battery battery ) {
