@@ -16,6 +16,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.Timer;
 
@@ -311,6 +312,11 @@ public class LactoseInjectorNode extends PNode {
 					model.setAutomaticLactoseInjectionEnabled(true);
 				}
 			});
+			
+			// Create a button group.
+			ButtonGroup buttonGroup = new ButtonGroup();
+			buttonGroup.add(manualButton);
+			buttonGroup.add(autoButton);
 			
 			// Set the initial state of the radio buttons.
 			updateButtonState();
