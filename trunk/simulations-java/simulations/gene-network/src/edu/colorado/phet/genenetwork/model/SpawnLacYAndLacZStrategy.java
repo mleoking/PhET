@@ -72,7 +72,7 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 
 	protected void spawnLacY(SimpleModelElement parentModelElement) {
 		// Create and position the transformation arrow, which will in turn
-		// create the LacI.
+		// create the LacY.
 		Rectangle2D bounds = parentModelElement.getShape().getBounds2D();
 		Point2D transformationArrowPos = new Point2D.Double(
 				bounds.getX() + parentModelElement.getPositionRef().getX() + bounds.getWidth() * 0.7 + 3,
@@ -87,7 +87,7 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 	
 	protected void spawnLacZ(SimpleModelElement parentModelElement) {
 		// Create and position the transformation arrow, which will in turn
-		// create the LacI.
+		// create the LacZ.
 		Rectangle2D bounds = parentModelElement.getShape().getBounds2D();
 		Point2D transformationArrowPos = new Point2D.Double(
 				bounds.getX() + parentModelElement.getPositionRef().getX() + bounds.getWidth() / 3 + 3,
