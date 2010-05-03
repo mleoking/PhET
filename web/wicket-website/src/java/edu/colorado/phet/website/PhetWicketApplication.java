@@ -14,6 +14,7 @@ import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.admin.AdminMainPage;
@@ -50,15 +51,12 @@ public class PhetWicketApplication extends WebApplication {
 
     private PhetUrlMapper mapper;
     private NavMenu menu;
+    private WebsiteProperties websiteProperties;
 
     // TODO: flesh out and improve thread-safeness of translations part
     private List<Translation> translations = new LinkedList<Translation>();
 
     private static Logger logger = Logger.getLogger( PhetWicketApplication.class.getName() );
-
-    public static final String PHET_DOCUMENT_ROOT = "phet-document-root";
-    public static final String PHET_DOWNLOAD_ROOT = "phet-download-root";
-    public static final String PHET_DOWNLOAD_LOCATION = "phet-download-location";
 
     /**
      * Wicket likes to hardwire the home page in
@@ -72,6 +70,8 @@ public class PhetWicketApplication extends WebApplication {
     @Override
     protected void init() {
         super.init();
+
+        websiteProperties = new WebsiteProperties( getServletContext() );
 
         // set up error pages
         getApplicationSettings().setPageExpiredErrorPage( ErrorPage.class );
@@ -155,7 +155,7 @@ public class PhetWicketApplication extends WebApplication {
         mount( new HybridUrlCodingStrategy( "/activities", BlankPage.class ) );
 
         logger.info( "Running as: " + getConfigurationType() );
-        logger.info( "Detected phet-document-root: " + getServletContext().getInitParameter( PHET_DOCUMENT_ROOT ) );
+        logger.debug( "Detected phet-document-root: " + getWebsiteProperties().getPhetDocumentRoot().getAbsolutePath() );
 
         if ( getConfigurationType().equals( Application.DEPLOYMENT ) ) {
             Level loggerLevel = Level.WARN;
@@ -168,38 +168,32 @@ public class PhetWicketApplication extends WebApplication {
 
         SearchUtils.initialize();
 
+        BuildLocalProperties.initFromPropertiesFile( getWebsiteProperties().getBuildLocalPropertiesFile() );
+
     }
 
     //----------------------------------------------------------------------------
     // server-specific configuration locations
     //----------------------------------------------------------------------------
 
-    public File getPhetDocumentRoot() {
-        return getFileFromLocation( getServletContext().getInitParameter( PHET_DOCUMENT_ROOT ) );
-    }
-
-    public File getPhetDownloadRoot() {
-        return getFileFromLocation( getServletContext().getInitParameter( PHET_DOWNLOAD_ROOT ) );
-    }
-
     public File getActivitiesRoot() {
-        return new File( getPhetDownloadRoot(), "activities" );
+        return new File( getWebsiteProperties().getPhetDownloadRoot(), "activities" );
     }
 
     public File getTeachersGuideRoot() {
-        return new File( getPhetDownloadRoot(), "teachers-guide" );
-    }
-
-    public String getPhetDownloadLocation() {
-        return getServletContext().getInitParameter( PHET_DOWNLOAD_LOCATION );
+        return new File( getWebsiteProperties().getPhetDownloadRoot(), "teachers-guide" );
     }
 
     public String getActivitiesLocation() {
-        return getPhetDownloadLocation() + "/activities";
+        return getWebsiteProperties().getPhetDownloadLocation() + "/activities";
     }
 
     public String getTeachersGuideLocation() {
-        return getPhetDownloadLocation() + "/teachers-guide";
+        return getWebsiteProperties().getPhetDownloadLocation() + "/teachers-guide";
+    }
+
+    public WebsiteProperties getWebsiteProperties() {
+        return websiteProperties;
     }
 
     //----------------------------------------------------------------------------
@@ -337,14 +331,4 @@ public class PhetWicketApplication extends WebApplication {
         SearchUtils.destroy();
     }
 
-    private static File getFileFromLocation( String location ) {
-        if ( location == null ) {
-            return null;
-        }
-        File file = new File( location );
-        if ( !file.exists() ) {
-            return null;
-        }
-        return file;
-    }
 }

@@ -45,6 +45,17 @@ public abstract class PhetServer {
                     "/web/htdocs/phet/phet-dist/build-tools-config/build-local.properties",
                     "/web/chroot/phet/usr/local/apache/htdocs/staging/sims"
             );
+    public static PhetServer FIGARO = new PhetProdServer(
+            "figaro.colorado.edu",
+            "phetsims.colorado.edu",
+            "/data/web/htdocs/phetsims/staging/sims",
+            "/sims",
+            null,
+            null,
+            null,
+            "/usr/local/tomcat/conf/build-local.properties",
+            "/data/web/htdocs/phetsims/staging/sims"
+    );
     /* Dano's test machine
     public static PhetServer DEVELOPMENT = 
         new PhetDevServer( 

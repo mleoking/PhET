@@ -54,7 +54,7 @@ public class AdminProjectPage extends AdminPage {
 
         add( new AddSimulationForm( "simulations-form" ) );
 
-        ProjectPropertiesFile projectPropertiesFile = project.getProjectPropertiesFile( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot() );
+        ProjectPropertiesFile projectPropertiesFile = project.getProjectPropertiesFile( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot() );
 
         Label projectChecks = null;
         if ( projectPropertiesFile.exists() ) {
@@ -79,7 +79,7 @@ public class AdminProjectPage extends AdminPage {
 
         add( new Link( "synchronize-link" ) {
             public void onClick() {
-                Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot(), getHibernateSession(), project.getName() );
+                Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot(), getHibernateSession(), project.getName() );
                 // TODO: get rid of this ugly way of updating everything on the page
                 simulations.clear();
                 HibernateUtils.wrapTransaction( getHibernateSession(), new StartTask() );
@@ -211,7 +211,7 @@ public class AdminProjectPage extends AdminPage {
             for ( Object o : project.getSimulations() ) {
                 simulations.add( (Simulation) o );
             }
-            statusString = project.consistencyCheck( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot() );
+            statusString = project.consistencyCheck( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot() );
             return true;
         }
     }
