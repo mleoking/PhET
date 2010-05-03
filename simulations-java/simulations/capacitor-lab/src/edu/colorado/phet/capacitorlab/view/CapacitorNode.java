@@ -42,12 +42,12 @@ public class CapacitorNode extends PhetPNode {
         
         this.mvt = mvt;
         
+        parentNode = new PNode();
         topPlateNode = new PlateNode();
         bottomPlateNode = new PlateNode();
         dielectricNode = new DielectricNode( capacitor.getDielectricMaterial().getColor() );
         
         // rendering order
-        parentNode = new PNode();
         addChild( parentNode );
         parentNode.addChild( bottomPlateNode );
         parentNode.addChild( dielectricNode ); // dielectric between the plates
