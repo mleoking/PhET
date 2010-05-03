@@ -35,7 +35,7 @@ public class CLConstants {
     // Model
     //----------------------------------------------------------------------------
     
-    public static final Point2D BATTERY_LOCATION = new Point2D.Double( -100, 0 ); // mm
+    public static final Point2D BATTERY_LOCATION = new Point2D.Double( -125, 0 ); // mm
     public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -10, 10, 0 ); // volts
     public static final boolean BATTERY_CONNECTED = true;
     
@@ -49,7 +49,7 @@ public class CLConstants {
     
     // model-view transform
     public static final double MVT_SCALE = 3;
-    public static final Point2D MVT_OFFSET = new Point2D.Double( 160, 125 ); // mm
+    public static final Point2D MVT_OFFSET = new Point2D.Double( 185, 125 ); // mm
     
     //----------------------------------------------------------------------------
     // View
