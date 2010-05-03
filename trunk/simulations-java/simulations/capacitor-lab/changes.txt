@@ -1,3 +1,4 @@
+5/3/10 first pass at drag handle for dielectric offset
 5/3/10 add more horizontal space between battery and capacitor
 5/3/10 add connect/disconnect button
 5/3/10 add battery connectivity to model
