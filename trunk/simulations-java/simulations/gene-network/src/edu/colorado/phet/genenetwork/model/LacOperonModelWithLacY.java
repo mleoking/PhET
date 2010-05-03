@@ -97,8 +97,8 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see edu.colorado.phet.genenetwork.model.IGeneNetworkModelControl#getOpenSpotForLacY()
+	/**
+	 * Find an open spot on the membrane where a new LacY can be placed.
 	 */
 	@Override
 	public Point2D getOpenSpotForLacY() {
@@ -110,7 +110,7 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 		double minDistanceBetweenLacYs = MIN_DISTANCE_BETWEEN_LAC_Y;
 		for (int attempts = 0; attempts < 10; attempts++){
 			for (int i = 0; i < 100 && !openSpotFound; i++){
-				xPos = xMin + xRange * RAND.nextDouble();
+				xPos = xMin + ( xRange / 2 ) * (createBoundedGaussian() + 1); 
 				openSpotFound = true;
 				for (LacY lacY : getLacYList()){
 					if (Math.abs(lacY.getMembraneDestinationRef().getX() - xPos) < minDistanceBetweenLacYs){
@@ -190,5 +190,22 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 		}
 		
 		return new Point2D.Double(xPos, yPos);
+	}
+	
+	/**
+	 * Create a bounded value between -1 and 1 that is essentially a Gaussian
+	 * distribution.  This was created in order to have a preference for the
+	 * LacY to be in the center of its position range so that it will be able
+	 * to move the most lactose.
+	 * @return
+	 */
+	private double createBoundedGaussian(){
+		double boundedGaussian = Double.POSITIVE_INFINITY;
+		int count = 0;
+		while (boundedGaussian < -1 || boundedGaussian > 1){
+			boundedGaussian = RAND.nextGaussian() / 2;
+			count++;
+		}
+		return boundedGaussian;
 	}
 }
