@@ -31,7 +31,7 @@ public class LacY extends SimpleModelElement {
 	private static final double SIZE = 8; // In nanometers.
 	private static final Paint ELEMENT_PAINT = new GradientPaint(new Point2D.Double(-SIZE, 0), 
 			new Color(0, 200, 0), new Point2D.Double(SIZE * 5, 0), Color.WHITE);
-	private static final double EXISTENCE_TIME = 35; // Seconds.
+	private static final double EXISTENCE_TIME = 40; // Seconds.
 	
 	// Attachment point for glucose.  Note that glucose generally only
 	// attaches when it is bound up in lactose, so this is essentially the
