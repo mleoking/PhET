@@ -8,8 +8,12 @@ import java.awt.GridBagConstraints;
 
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.model.CLModel;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -21,31 +25,80 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 public class DeveloperControlPanel extends CLTitledControlPanel {
     
-    private final LinearValueControl sizeControl, separationControl;
+    private final CLModel model;
+    private final LinearValueControl plateSizeControl, plateSeparationControl, dielectricOffsetControl;
 
-    public DeveloperControlPanel() {
+    public DeveloperControlPanel( final CLModel model ) {
         super( "Developer", Color.RED );
         
-        // size
+        this.model = model;
+        this.model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeAdapter() {
+            
+            @Override
+            public void plateSizeChanged() {
+                plateSizeControl.setValue( model.getCapacitor().getPlateSize() );
+            }
+            
+            @Override
+            public void plateSeparationChanged() {
+                plateSeparationControl.setValue( model.getCapacitor().getPlateSeparation() );
+            }
+            
+            @Override
+            public void dielectricOffsetChanged() {
+                dielectricOffsetControl.setValue( model.getCapacitor().getDielectricOffset() );
+            }
+        });
+        
+        // plate size
         {
             double min = CLConstants.PLATE_SIZE_RANGE.getMin();
             double max = CLConstants.PLATE_SIZE_RANGE.getMax();
             String label = "Plate size:";
             String textFieldPattern = "##0";
             String units = "mm";
-            sizeControl = new LinearValueControl( min, max, label, textFieldPattern, units );
-            sizeControl.setBorder( new EtchedBorder() );
+            plateSizeControl = new LinearValueControl( min, max, label, textFieldPattern, units );
+            plateSizeControl.setValue( model.getCapacitor().getPlateSize() );
+            plateSizeControl.setBorder( new EtchedBorder() );
+            plateSizeControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    model.getCapacitor().setPlateSize( plateSizeControl.getValue() );
+                }
+            } );
         }
         
-        // separation
+        // plate separation
         {
             double min = CLConstants.PLATE_SEPARATION_RANGE.getMin();
             double max = CLConstants.PLATE_SEPARATION_RANGE.getMax();
             String label = "Plate separation:";
             String textFieldPattern = "##0";
             String units = "mm";
-            separationControl = new LinearValueControl( min, max, label, textFieldPattern, units );
-            separationControl.setBorder( new EtchedBorder() );
+            plateSeparationControl = new LinearValueControl( min, max, label, textFieldPattern, units );
+            plateSeparationControl.setValue( model.getCapacitor().getPlateSeparation() );
+            plateSeparationControl.setBorder( new EtchedBorder() );
+            plateSeparationControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    model.getCapacitor().setPlateSeparation( plateSeparationControl.getValue() );
+                }
+            } );
+        }
+        
+        // dielectric offset
+        {
+            double min = CLConstants.DIELECTRIC_OFFSET_RANGE.getMin();
+            double max = CLConstants.DIELECTRIC_OFFSET_RANGE.getMax();
+            String label = "Dielectric offset:";
+            String textFieldPattern = "##0";
+            String units = "mm";
+            dielectricOffsetControl = new LinearValueControl( min, max, label, textFieldPattern, units );
+            dielectricOffsetControl.setValue( model.getCapacitor().getDielectricOffset() );
+            dielectricOffsetControl.setBorder( new EtchedBorder() );
+            dielectricOffsetControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    model.getCapacitor().setDielectricOffset( dielectricOffsetControl.getValue() );
+                }
+            } );
         }
         
         // layout
@@ -55,16 +108,12 @@ public class DeveloperControlPanel extends CLTitledControlPanel {
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int column = 0;
-        layout.addComponent( sizeControl, row++, column );
-        layout.addComponent( separationControl, row++, column );
+        layout.addComponent( plateSizeControl, row++, column );
+        layout.addComponent( plateSeparationControl, row++, column );
+        layout.addComponent( dielectricOffsetControl, row++, column );
         
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
-        
-        // default state
-//        sizeControl.setValue( CapacitorNode.getPlateWidth() ); //XXX
-//        separationControl.setValue( capacitor.getSeparation() ); //XXX
     }
-    
 }

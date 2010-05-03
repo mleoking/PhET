@@ -1,3 +1,6 @@
+5/3/10 wired up developer controls to model
+5/3/10 added developer controls for direct-manipulation properties that aren't implemented yet
+5/3/10 simplified the model, deleted Plate and Dielectric classes
 4/30/10 change viewing angle to match design document
 4/30/10 adjust mvt offsets
 4/30/10 add model origin marker to scenegraph

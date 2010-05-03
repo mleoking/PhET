@@ -9,9 +9,6 @@ import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.model.Box;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Box.BoxChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -26,22 +23,17 @@ public abstract class BoxNode extends PhetPNode {
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
 
-    private final Box box;
-    private final ModelViewTransform mvt;
     private final TopNode topNode;
     private final FrontNode frontNode;
     private final SideNode sideNode;
     
-    public BoxNode( Box box, ModelViewTransform mvt, Paint topPaint, Paint frontPaint, Paint sidePaint ) {
-        
-        this.box = box;
-        box.addBoxChangeListener( new BoxChangeListener() {
-            public void shapeChanged( double oldWidth, double oldHeight, double oldDepth, double newWidth, double newHeight, double newDepth ) {
-                updateNode();
-            }
-        } );
-        
-        this.mvt = mvt;
+    private double width, depth, height;
+    
+    public BoxNode( Paint topPaint, Paint frontPaint, Paint sidePaint ) {
+        this( 1, 1, 1, topPaint, frontPaint, sidePaint );
+    }
+    
+    public BoxNode( double width, double depth, double height, Paint topPaint, Paint frontPaint, Paint sidePaint ) {
         
         topNode = new TopNode( topPaint );
         frontNode = new FrontNode( frontPaint );
@@ -51,31 +43,20 @@ public abstract class BoxNode extends PhetPNode {
         addChild( frontNode );
         addChild( sideNode );
         
-        updateNode();
+        // force an update
+        this.width = -1;
+        this.depth = -1;
+        this.height = -1;
+        setShape( width, depth, height );
     }
     
-    private void updateNode() {
-        
-        // model-view transform
-        double width =  mvt.modelToView( box.getWidth() );
-        double depth = mvt.modelToView( box.getDepth() );
-        double height = mvt.modelToView( box.getHeight() );
-        
-        // geometry
-        topNode.setWidthAndDepth( width, depth );
-        frontNode.setWidthAndHeight( width, height );
-        sideNode.setDepthAndHeight( depth, height );
-        
-        // layout
-        double x = 0;
-        double y = 0;
-        frontNode.setOffset( x, y );
-        x = frontNode.getFullBoundsReference().getWidth();
-        y = frontNode.getYOffset();
-        sideNode.setOffset( x, y );
-        x = frontNode.getXOffset();
-        y = frontNode.getYOffset();
-        topNode.setOffset( x, y );
+    public void setShape( double width, double depth, double height ) {
+        if ( width != this.width || depth != this.depth || height != this.height ) {
+            this.width = width;
+            this.depth = depth;
+            this.height = height;
+            update();
+        }
     }
     
     public void setTopPaint( Paint paint ) {
@@ -88,6 +69,25 @@ public abstract class BoxNode extends PhetPNode {
     
     public void setSidePaint( Paint paint ) {
         sideNode.setPaint( paint );
+    }
+    
+    private void update() {
+        // geometry
+        topNode.setWidthAndDepth( width, depth );
+        frontNode.setWidthAndHeight( width, height );
+        sideNode.setDepthAndHeight( depth, height );
+
+        // layout
+        double x = 0;
+        double y = 0;
+        frontNode.setOffset( x, y );
+        x = frontNode.getFullBoundsReference().getWidth();
+        y = frontNode.getYOffset();
+        sideNode.setOffset( x, y );
+        x = frontNode.getXOffset();
+        y = frontNode.getYOffset();
+        topNode.setOffset( x, y );
+
     }
     
     private abstract static class FaceNode extends PPath {
@@ -117,6 +117,7 @@ public abstract class BoxNode extends PhetPNode {
             double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.VIEWING_ANGLE );
             double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.VIEWING_ANGLE );
             GeneralPath path = getPath();
+            path.reset();
             path.moveTo( 0, 0 );
             path.lineTo( (float) xOffset, (float) -yOffset );
             path.lineTo( (float) ( width + xOffset ), (float) -yOffset );
@@ -135,6 +136,7 @@ public abstract class BoxNode extends PhetPNode {
         // rectangle, origin at upper-left point
         public void setWidthAndHeight( double width, double height ) {
             GeneralPath path = getPath();
+            path.reset();
             path.moveTo( 0, 0 );
             path.lineTo( (float) width, 0 );
             path.lineTo( (float) width, (float) height );
@@ -156,6 +158,7 @@ public abstract class BoxNode extends PhetPNode {
             double xOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.cos( CLConstants.VIEWING_ANGLE ); 
             double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.VIEWING_ANGLE );
             GeneralPath path = getPath();
+            path.reset();
             path.moveTo( 0, 0 );
             path.lineTo( (float) xOffset, (float) -yOffset );
             path.lineTo( (float) xOffset, (float) ( -yOffset + height ) );
