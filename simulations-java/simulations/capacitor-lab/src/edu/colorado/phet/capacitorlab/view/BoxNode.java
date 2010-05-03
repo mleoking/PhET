@@ -118,9 +118,9 @@ public abstract class BoxNode extends PhetPNode {
             double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.VIEWING_ANGLE );
             GeneralPath path = getPath();
             path.moveTo( 0, 0 );
-            path.lineTo( (float)xOffset, (float)-yOffset );
-            path.lineTo( (float)(width + xOffset), (float)-yOffset );
-            path.lineTo( (float)width, 0 );
+            path.lineTo( (float) xOffset, (float) -yOffset );
+            path.lineTo( (float) ( width + xOffset ), (float) -yOffset );
+            path.lineTo( (float) width, 0 );
             path.closePath();
             setPathTo( path );
         }
@@ -136,9 +136,9 @@ public abstract class BoxNode extends PhetPNode {
         public void setWidthAndHeight( double width, double height ) {
             GeneralPath path = getPath();
             path.moveTo( 0, 0 );
-            path.lineTo( (float)width, 0 );
-            path.lineTo( (float)width, (float)height );
-            path.lineTo( 0, (float)height );
+            path.lineTo( (float) width, 0 );
+            path.lineTo( (float) width, (float) height );
+            path.lineTo( 0, (float) height );
             path.closePath();
             setPathTo( path );
         }
@@ -157,9 +157,9 @@ public abstract class BoxNode extends PhetPNode {
             double yOffset = CLConstants.FORESHORTENING_FACTOR * depth * Math.sin( CLConstants.VIEWING_ANGLE );
             GeneralPath path = getPath();
             path.moveTo( 0, 0 );
-            path.lineTo( (float)xOffset, (float)-yOffset );
-            path.lineTo( (float)xOffset, (float)(-yOffset + height) );
-            path.lineTo( 0, (float)height );
+            path.lineTo( (float) xOffset, (float) -yOffset );
+            path.lineTo( (float) xOffset, (float) ( -yOffset + height ) );
+            path.lineTo( 0, (float) height );
             path.closePath();
             setPathTo( path );
         }
