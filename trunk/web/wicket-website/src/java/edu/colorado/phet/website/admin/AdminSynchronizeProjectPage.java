@@ -37,7 +37,7 @@ public class AdminSynchronizeProjectPage extends PhetRegularPage {
 
             logger.info( "synchronizing project: " + projectName );
 
-            File docRoot = PhetWicketApplication.get().getPhetDocumentRoot();
+            File docRoot = PhetWicketApplication.get().getWebsiteProperties().getPhetDocumentRoot();
 
             Project.synchronizeProject( docRoot, getHibernateSession(), projectName );
 

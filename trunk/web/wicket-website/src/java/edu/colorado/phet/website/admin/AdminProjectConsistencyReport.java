@@ -22,7 +22,7 @@ public class AdminProjectConsistencyReport extends AdminPage {
                 List list = session.createQuery( "select p from Project as p where p.visible = true" ).list();
                 for ( Object o : list ) {
                     Project project = (Project) o;
-                    builder.append( project.consistencyCheck( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot() ) );
+                    builder.append( project.consistencyCheck( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot() ) );
                 }
                 return true;
             }

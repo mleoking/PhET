@@ -87,7 +87,7 @@ public class AdminProjectsPage extends AdminPage {
             @Override
             protected void onSubmit() {
                 for ( Project project : projects ) {
-                    Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot(), getHibernateSession(), project.getName() );
+                    Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot(), getHibernateSession(), project.getName() );
                 }
             }
         } );
@@ -118,7 +118,7 @@ public class AdminProjectsPage extends AdminPage {
         public final void onSubmit() {
             String projectName = projectText.getModelObjectAsString();
 
-            Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getPhetDocumentRoot(), getHibernateSession(), projectName );
+            Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot(), getHibernateSession(), projectName );
         }
     }
 
