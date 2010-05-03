@@ -13,7 +13,11 @@ import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * Button that connects the battery to the circuit.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ConnectButtonNode extends PhetPNode {
     
     public ConnectButtonNode( final Battery battery ) {
