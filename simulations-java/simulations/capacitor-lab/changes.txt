@@ -1,3 +1,4 @@
+5/3/10 change origin marker to a bullseye, so it won't be confused with a positive charge
 5/3/10 align capacitor's geometric center with the origin of the model coordinate system
 5/3/10 wire up more controls to model
 5/3/10 wired up developer controls to model
