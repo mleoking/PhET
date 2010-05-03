@@ -22,7 +22,7 @@ public class DielectricControlPanel extends CLControlPanel {
         }
         addControlFullWidth( new ViewControlPanel() );
         addControlFullWidth( new MetersControlPanel() );
-        addControlFullWidth( new DielectricPropertiesControlPanel() );
+        addControlFullWidth( new DielectricPropertiesControlPanel( model ) );
         addResetAllButton( module );
     }
 }
