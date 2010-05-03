@@ -30,7 +30,7 @@ public class SpawnLacYAndLacZStrategy extends MessengerRnaSpawningStrategy {
 		// Initialize the spawn counts.  Based on feedback from George
 		// Spiegelman of UBC, there should be more LacZ created than LacY.
 		spawnLacZCount = RAND.nextInt(3) + 2;
-		spawnLacYCount = spawnLacZCount / 2;
+		spawnLacYCount = Math.max(spawnLacZCount / 2, 2);
 	}
 
 	@Override
