@@ -26,6 +26,7 @@ public class PhetRequestCycle extends WebRequestCycle {
     public static final String KSU_RIPPER_USER_AGENT = "httrack-web-mirror-ar";
     public static final String YOUNG_AND_FREEDMAN_USER_AGENT = "httrack-web-mirror-yf";
     public static final String RIPPER_USER_AGENT_SUBSTRING = "httrack-web";
+    public static final String OFFLINE_USER_AGENT = "httrack-web-offline";
 
     private static Logger logger = Logger.getLogger( PhetRequestCycle.class.getName() );
 
@@ -72,6 +73,10 @@ public class PhetRequestCycle extends WebRequestCycle {
 
     public boolean isInstaller() {
         return getUserAgent().startsWith( RIPPER_USER_AGENT_SUBSTRING );
+    }
+
+    public boolean isOfflineInstaller() {
+        return getUserAgent().equals( OFFLINE_USER_AGENT );
     }
 
     public boolean isKsuRipperRequest() {
