@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.util;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -10,7 +11,11 @@ import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
 import org.hibernate.Session;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
+import edu.colorado.phet.website.data.LocalizedSimulation;
+import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.Contribution;
 
 /**
@@ -32,6 +37,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static final String VIEW_CONTRIBUTION = "/teacher_ideas/view-contribution.php";
     private static final String VIEW_CATEGORY = "/simulations/index.php";
     private static final String VIEW_SIM = "/simulations/sims.php";
+    private static final String RUN_OFFLINE = "/admin/get-run-offline.php";
 
     private static final String NOT_FOUND = "/error/404";
 
@@ -79,6 +85,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( VIEW_CONTRIBUTION, null );
         map.put( VIEW_CATEGORY, null );
         map.put( VIEW_SIM, null );
+        map.put( RUN_OFFLINE, null );
 
         //----------------------------------------------------------------------------
         // category map
@@ -244,6 +251,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         else if ( path.startsWith( VIEW_SIM ) ) {
             return redirectSimulations( parameters );
         }
+        else if ( path.startsWith( RUN_OFFLINE ) ) {
+            return redirectRunOffline( parameters );
+        }
         return null;
     }
 
@@ -331,6 +341,40 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
         if ( newsim != null ) {
             return prefix + newsim;
+        }
+
+        return NOT_FOUND;
+    }
+
+    /**
+     * Map indirect-links to the translated JARs
+     *
+     * @param parameters Query string parameters
+     * @return URL (relative) to redirect to
+     */
+    private static String redirectRunOffline( Map parameters ) {
+        // http://phet.colorado.edu/admin/get-run-offline.php?sim_id=84&locale=en
+
+        if ( !parameters.containsKey( "sim_id" ) ) {
+            return NOT_FOUND;
+        }
+
+        final int simId = Integer.parseInt( ( (String[]) parameters.get( "sim_id" ) )[0] );
+
+        final Locale locale = parameters.get( "locale" ) == null ? PhetWicketApplication.getDefaultLocale() :
+                              LocaleUtils.stringToLocale( ( (String[]) parameters.get( "locale" ) )[0] );
+        final StringBuffer ret = new StringBuffer();
+        boolean success = HibernateUtils.wrapSession( new HibernateTask() {
+            public boolean run( Session session ) {
+                Simulation simulation = (Simulation) session.load( Simulation.class, simId );
+                LocalizedSimulation lsim = simulation.getBestLocalizedSimulation( locale );
+                ret.append( lsim.getDownloadUrl() );
+                return true;
+            }
+        } );
+
+        if ( success ) {
+            return ret.toString();
         }
 
         return NOT_FOUND;
