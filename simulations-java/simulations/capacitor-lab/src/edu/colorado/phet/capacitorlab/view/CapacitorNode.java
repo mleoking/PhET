@@ -64,11 +64,12 @@ public class CapacitorNode extends PhetPNode {
         double plateSize = mvt.modelToView( capacitor.getPlateSize() );
         double plateThickness = mvt.modelToView( capacitor.getPlateThickness() );
         double plateSeparation = mvt.modelToView( capacitor.getPlateSeparation() );
+        double dielectricGap = mvt.modelToView( capacitor.getDielectricGap() );
         
         // geometry
         topPlateNode.setShape( plateSize, plateSize, plateThickness );
         bottomPlateNode.setShape( plateSize, plateSize, plateThickness );
-        dielectricNode.setShape( plateSize, plateSize, plateSeparation );
+        dielectricNode.setShape( plateSize, plateSize, plateSeparation - ( 2 * dielectricGap ) );
         
         // layout nodes with zero dielectric offset
         double x = 0;
@@ -78,7 +79,7 @@ public class CapacitorNode extends PhetPNode {
         y = topPlateNode.getYOffset() + plateThickness + plateSeparation;
         bottomPlateNode.setOffset( x, y );
         x = topPlateNode.getXOffset();
-        y = topPlateNode.getYOffset() + plateThickness;
+        y = topPlateNode.getYOffset() + plateThickness + dielectricGap;
         dielectricNode.setOffset( x, y );
         
         // move the origin to the geometric center
@@ -91,10 +92,15 @@ public class CapacitorNode extends PhetPNode {
     }
     
     private void updateDielectricOffset() {
+        
+        // model-to-view transform
         double dielectricOffset = mvt.modelToView( capacitor.getDielectricOffset() );
         double plateThickness = mvt.modelToView( capacitor.getPlateThickness() );
+        double dielectricGap = mvt.modelToView( capacitor.getDielectricGap() );
+        
+        // layout
         double x = topPlateNode.getXOffset() + dielectricOffset;
-        double y = topPlateNode.getYOffset() + plateThickness;
+        double y = topPlateNode.getYOffset() + plateThickness + dielectricGap;
         dielectricNode.setOffset( x, y );
     }
     
