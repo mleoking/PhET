@@ -51,6 +51,7 @@ public class SVNStatusChecker {
                 boolean acceptableToken = token.startsWith( "Status against revision:" ) || token.contains( "libgssapi_krb5.so.2" );
                 int tokenLength = token.trim().length();
                 if ( tokenLength > 0 && !acceptableToken ) {
+                    System.out.println( "Failure on token: \"" + token.trim() + "\"" );
                     ok = false;
                     break;
                 }
