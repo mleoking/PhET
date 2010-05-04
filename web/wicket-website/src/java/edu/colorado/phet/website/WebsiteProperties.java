@@ -38,6 +38,10 @@ public class WebsiteProperties {
         return servletContext.getInitParameter( PATH_TO_JAR_UTILITY );
     }
 
+    /**
+     * @return Returns the directory where simulations being deployed should be located. By convention, it should contain
+     *         subdirectories named after their respective projects
+     */
     public File getSimStagingArea() {
         return new File( servletContext.getInitParameter( SIM_STAGING_AREA ) );
     }
