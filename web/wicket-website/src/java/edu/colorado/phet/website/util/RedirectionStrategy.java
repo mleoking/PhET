@@ -35,11 +35,15 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static Map<String, String> simMap = new HashMap<String, String>();
     private static Map<String, String> badSimMap = new HashMap<String, String>();
 
+    /*---------------------------------------------------------------------------*
+    * scripts that we have to redirect to multiple locations
+    *----------------------------------------------------------------------------*/
     private static final String VIEW_CONTRIBUTION = "/teacher_ideas/view-contribution.php";
     private static final String VIEW_CATEGORY = "/simulations/index.php";
     private static final String VIEW_SIM = "/simulations/sims.php";
     private static final String RUN_OFFLINE = "/admin/get-run-offline.php";
     private static final String DOWNLOAD_CONTRIBUTION_FILE = "/admin/get-contribution-file.php";
+    private static final String DOWNLOAD_CONTRIBUTION_ARCHIVE = "/admin/download-archive.php";
 
     private static final String NOT_FOUND = "/error/404";
 
@@ -89,6 +93,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( VIEW_SIM, null );
         map.put( RUN_OFFLINE, null );
         map.put( DOWNLOAD_CONTRIBUTION_FILE, null );
+        map.put( DOWNLOAD_CONTRIBUTION_ARCHIVE, null );
 
         //----------------------------------------------------------------------------
         // category map
@@ -256,8 +261,12 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
         else if ( path.startsWith( RUN_OFFLINE ) ) {
             return redirectRunOffline( parameters );
-        } else if( path.startsWith( DOWNLOAD_CONTRIBUTION_FILE ) ) {
+        }
+        else if ( path.startsWith( DOWNLOAD_CONTRIBUTION_FILE ) ) {
             return redirectDownloadContributionFile( parameters );
+        }
+        else if ( path.startsWith( DOWNLOAD_CONTRIBUTION_ARCHIVE ) ) {
+            return redirectDownloadContributionArchive( parameters );
         }
         return null;
     }
@@ -371,7 +380,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         final StringBuffer ret = new StringBuffer();
         boolean success = HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {
-                Simulation simulation = (Simulation) session.createQuery( "select s from Simulation as s where s.oldId = :oldid").setInteger( "oldid", simId ).uniqueResult();
+                Simulation simulation = (Simulation) session.createQuery( "select s from Simulation as s where s.oldId = :oldid" ).setInteger( "oldid", simId ).uniqueResult();
                 LocalizedSimulation lsim = simulation.getBestLocalizedSimulation( locale );
                 ret.append( lsim.getDownloadUrl() );
                 return true;
@@ -385,7 +394,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         return NOT_FOUND;
     }
 
-    private static String redirectDownloadContributionFile ( Map parameters ) {
+    private static String redirectDownloadContributionFile( Map parameters ) {
         // http://phet.colorado.edu/admin/get-contribution-file.php?contribution_file_id=555
 
         if ( !parameters.containsKey( "contribution_file_id" ) ) {
@@ -397,8 +406,33 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         final StringBuffer ret = new StringBuffer();
         boolean success = HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {
-                ContributionFile file = (ContributionFile) session.createQuery( "select cf from ContributionFile as cf where cf.oldId = :oldid").setInteger("oldid", contributionFileId ).uniqueResult();
+                ContributionFile file = (ContributionFile) session.createQuery( "select cf from ContributionFile as cf where cf.oldId = :oldid" ).setInteger( "oldid", contributionFileId ).uniqueResult();
                 ret.append( file.getLinker().getDefaultRawUrl() );
+                return true;
+            }
+        } );
+
+        if ( success ) {
+            return ret.toString();
+        }
+
+        return NOT_FOUND;
+    }
+
+    private static String redirectDownloadContributionArchive( Map parameters ) {
+        // http://phet.colorado.edu/admin/download-archive.php?contribution_id=627
+
+        if ( !parameters.containsKey( "contribution_id" ) ) {
+            return NOT_FOUND;
+        }
+
+        final int contributionId = Integer.parseInt( ( (String[]) parameters.get( "contribution_id" ) )[0] );
+
+        final StringBuffer ret = new StringBuffer();
+        boolean success = HibernateUtils.wrapSession( new HibernateTask() {
+            public boolean run( Session session ) {
+                Contribution contribution = (Contribution) session.createQuery( "select c from Contribution as c where c.oldId = :oldid" ).setInteger( "oldid", contributionId ).uniqueResult();
+                ret.append( contribution.getZipLocation() );
                 return true;
             }
         } );
