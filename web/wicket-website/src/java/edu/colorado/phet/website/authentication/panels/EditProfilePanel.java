@@ -12,6 +12,7 @@ import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.PhetSession;
+import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -57,6 +58,7 @@ public class EditProfilePanel extends PhetPanel {
         private TextField fax;
 
         private CheckBox receiveEmail;
+        private CheckBox receiveWebsiteNotifications;
 
         private final ValueMap properties = new ValueMap();
 
@@ -93,7 +95,16 @@ public class EditProfilePanel extends PhetPanel {
             add( phone2 = new StringTextField( "phone2", new PropertyModel( properties, "phone2" ) ) );
             add( fax = new StringTextField( "fax", new PropertyModel( properties, "fax" ) ) );
             add( receiveEmail = new CheckBox( "receiveEmail", new Model( new Boolean( user.isReceiveEmail() ) ) ) );
-
+            add( receiveWebsiteNotifications = new CheckBox( "receiveWebsiteNotifications", new Model( new Boolean( user.isReceiveWebsiteNotifications() ) ) ) );
+            if ( user.isTeamMember() ) {
+                Label label = new Label( "rwn-phet", "" );
+                add( label );
+                // make it effectively invisible
+                label.setRenderBodyOnly( true );
+            }
+            else {
+                add( new InvisibleComponent( "rwn-phet" ) );
+            }
 
         }
 
@@ -134,6 +145,7 @@ public class EditProfilePanel extends PhetPanel {
                         user.setPhone2( phone2.getModelObjectAsString() );
                         user.setFax( fax.getModelObjectAsString() );
                         user.setReceiveEmail( (Boolean) receiveEmail.getModelObject() );
+                        user.setReceiveWebsiteNotifications( (Boolean) receiveWebsiteNotifications.getModelObject() );
                         session.update( user );
                         return true;
                     }
@@ -155,6 +167,7 @@ public class EditProfilePanel extends PhetPanel {
                     user.setPhone2( phone2.getModelObjectAsString() );
                     user.setFax( fax.getModelObjectAsString() );
                     user.setReceiveEmail( (Boolean) receiveEmail.getModelObject() );
+                    user.setReceiveWebsiteNotifications( (Boolean) receiveWebsiteNotifications.getModelObject() );
                 }
                 error = !success;
             }
