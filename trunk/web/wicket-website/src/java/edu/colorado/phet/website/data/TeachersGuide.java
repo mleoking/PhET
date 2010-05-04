@@ -24,6 +24,8 @@ public class TeachersGuide implements Serializable, IntId {
     private String filename;
     private int size;
 
+    private int oldId;
+
     // in the future it would be possible to add the locale. not done now, since it should be doable later with
     // minimal effort
 
@@ -101,5 +103,13 @@ public class TeachersGuide implements Serializable, IntId {
 
     public void setSize( int size ) {
         this.size = size;
+    }
+
+    public int getOldId() {
+        return oldId;
+    }
+
+    public void setOldId( int oldId ) {
+        this.oldId = oldId;
     }
 }

@@ -16,6 +16,7 @@ import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
+import edu.colorado.phet.website.data.TeachersGuide;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionFile;
 
@@ -44,6 +45,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static final String RUN_OFFLINE = "/admin/get-run-offline.php";
     private static final String DOWNLOAD_CONTRIBUTION_FILE = "/admin/get-contribution-file.php";
     private static final String DOWNLOAD_CONTRIBUTION_ARCHIVE = "/admin/download-archive.php";
+    private static final String DOWNLOAD_TEACHERS_GUIDE = "/admin/get-teachers-guide.php";
 
     private static final String NOT_FOUND = "/error/404";
 
@@ -94,6 +96,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( RUN_OFFLINE, null );
         map.put( DOWNLOAD_CONTRIBUTION_FILE, null );
         map.put( DOWNLOAD_CONTRIBUTION_ARCHIVE, null );
+        map.put( DOWNLOAD_TEACHERS_GUIDE, null );
 
         //----------------------------------------------------------------------------
         // category map
@@ -268,6 +271,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         else if ( path.startsWith( DOWNLOAD_CONTRIBUTION_ARCHIVE ) ) {
             return redirectDownloadContributionArchive( parameters );
         }
+        else if ( path.startsWith( DOWNLOAD_TEACHERS_GUIDE ) ) {
+            return redirectDownloadTeachersGuide( parameters );
+        }
         return null;
     }
 
@@ -433,6 +439,31 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             public boolean run( Session session ) {
                 Contribution contribution = (Contribution) session.createQuery( "select c from Contribution as c where c.oldId = :oldid" ).setInteger( "oldid", contributionId ).uniqueResult();
                 ret.append( contribution.getZipLocation() );
+                return true;
+            }
+        } );
+
+        if ( success ) {
+            return ret.toString();
+        }
+
+        return NOT_FOUND;
+    }
+
+    private static String redirectDownloadTeachersGuide( Map parameters ) {
+        // http://phet.colorado.edu/admin/get-teachers-guide.php?teachers_guide_id=67
+
+        if ( !parameters.containsKey( "teachers_guide_id" ) ) {
+            return NOT_FOUND;
+        }
+
+        final int id = Integer.parseInt( ( (String[]) parameters.get( "teachers_guide_id" ) )[0] );
+
+        final StringBuffer ret = new StringBuffer();
+        boolean success = HibernateUtils.wrapSession( new HibernateTask() {
+            public boolean run( Session session ) {
+                TeachersGuide guide = (TeachersGuide) session.createQuery( "select tg from TeachersGuide as tg where tg.oldId = :oldid" ).setInteger( "oldid", id ).uniqueResult();
+                ret.append( guide.getLinker().getDefaultRawUrl() );
                 return true;
             }
         } );
