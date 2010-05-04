@@ -12,6 +12,7 @@
                      lazy="false"/>
         <property name="filename"/>
         <property name="size"/>
+        <property name="oldId"/>
 
     </class>
 </hibernate-mapping>

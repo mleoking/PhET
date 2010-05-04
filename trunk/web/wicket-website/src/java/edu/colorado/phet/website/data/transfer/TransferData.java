@@ -293,6 +293,7 @@ public class TransferData {
                         contribution.addFile( cfile );
                         String filename = result.getString( "contribution_file_name" );
                         cfile.setFilename( filename );
+                        cfile.setOldId( result.getInt( "contribution_file_id" ) );
                         Blob blob = result.getBlob( "contribution_file_contents" );
                         File file = cfile.getTmpFileLocation( String.valueOf( result.getInt( "contribution_id" ) ) );
                         try {
