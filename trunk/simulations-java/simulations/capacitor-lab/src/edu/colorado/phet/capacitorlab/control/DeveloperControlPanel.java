@@ -55,7 +55,7 @@ public class DeveloperControlPanel extends CLTitledControlPanel {
             double min = CLConstants.PLATE_SIZE_RANGE.getMin();
             double max = CLConstants.PLATE_SIZE_RANGE.getMax();
             String label = "Plate size:";
-            String textFieldPattern = "##0";
+            String textFieldPattern = "##0.0";
             String units = "mm";
             plateSizeControl = new LinearValueControl( min, max, label, textFieldPattern, units );
             plateSizeControl.setValue( model.getCapacitor().getPlateSize() );
@@ -72,7 +72,7 @@ public class DeveloperControlPanel extends CLTitledControlPanel {
             double min = CLConstants.PLATE_SEPARATION_RANGE.getMin();
             double max = CLConstants.PLATE_SEPARATION_RANGE.getMax();
             String label = "Plate separation:";
-            String textFieldPattern = "##0";
+            String textFieldPattern = "##0.0";
             String units = "mm";
             plateSeparationControl = new LinearValueControl( min, max, label, textFieldPattern, units );
             plateSeparationControl.setValue( model.getCapacitor().getPlateSeparation() );
@@ -89,7 +89,7 @@ public class DeveloperControlPanel extends CLTitledControlPanel {
             double min = CLConstants.DIELECTRIC_OFFSET_RANGE.getMin();
             double max = CLConstants.DIELECTRIC_OFFSET_RANGE.getMax();
             String label = "Dielectric offset:";
-            String textFieldPattern = "##0";
+            String textFieldPattern = "##0.0";
             String units = "mm";
             dielectricOffsetControl = new LinearValueControl( min, max, label, textFieldPattern, units );
             dielectricOffsetControl.setValue( model.getCapacitor().getDielectricOffset() );
