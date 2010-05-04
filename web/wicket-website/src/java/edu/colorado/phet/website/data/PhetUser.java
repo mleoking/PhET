@@ -35,6 +35,7 @@ public class PhetUser implements Serializable, IntId {
     private String fax;
 
     private boolean receiveEmail = true;
+    private boolean receiveWebsiteNotifications = false;
 
     public static List<String> getDescriptionOptions() {
         return Arrays.asList(
@@ -218,5 +219,13 @@ public class PhetUser implements Serializable, IntId {
 
     public void setReceiveEmail( boolean receiveEmail ) {
         this.receiveEmail = receiveEmail;
+    }
+
+    public boolean isReceiveWebsiteNotifications() {
+        return receiveWebsiteNotifications;
+    }
+
+    public void setReceiveWebsiteNotifications( boolean receiveWebsiteNotifications ) {
+        this.receiveWebsiteNotifications = receiveWebsiteNotifications;
     }
 }
