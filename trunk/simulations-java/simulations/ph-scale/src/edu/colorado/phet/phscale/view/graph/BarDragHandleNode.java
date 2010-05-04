@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2010, University of Colorado */
 
 package edu.colorado.phet.phscale.view.graph;
 
@@ -10,8 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 
@@ -64,7 +63,7 @@ public class BarDragHandleNode extends PPath {
         addInputEventListener( new CursorHandler() );
 
         // Make drag handle highlight when the mouse is over it or it's being dragged.
-        addInputEventListener( new HighlightHandler() );
+        addInputEventListener( new PaintHighlightHandler( this, _normalColor, _hiliteColor ) );
     }
     
     //----------------------------------------------------------------------------
@@ -102,47 +101,5 @@ public class BarDragHandleNode extends PPath {
         Shape shape = transform.createTransformedShape( path );
         
         return shape;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Highlights the handle while dragging the handle, 
-     * or while the mouse is inside the handle.
-     */
-    private class HighlightHandler extends PBasicInputEventHandler {
-        
-        private boolean _mouseIsPressed;
-        private boolean _mouseIsInside;
-
-        public HighlightHandler() {
-            super();
-        }
-        
-        public void mousePressed( PInputEvent event ) {
-            _mouseIsPressed = true;
-            setPaint( _hiliteColor );
-        }
-
-        public void mouseReleased( PInputEvent event ) {
-            _mouseIsPressed = false;
-            if ( !_mouseIsInside ) {
-                setPaint( _normalColor );
-            }
-        }
-
-        public void mouseEntered( PInputEvent event ) {
-            _mouseIsInside = true;
-            setPaint( _hiliteColor );
-        }
-
-        public void mouseExited( PInputEvent event ) {
-            _mouseIsInside = false;
-            if ( !_mouseIsPressed ) {
-                setPaint( _normalColor );
-            }
-        }
     }
 }
