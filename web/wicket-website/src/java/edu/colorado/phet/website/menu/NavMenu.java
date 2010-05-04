@@ -140,6 +140,10 @@ public class NavMenu {
         addLocation( aboutSourceCode );
         about.addChild( aboutSourceCode );
 
+        NavLocation aboutNews = new NavLocation( about, "about.news", AboutNewsPanel.getLinker() );
+        addLocation( aboutNews );
+        about.addChild( aboutNews );
+
         NavLocation aboutLicensing = new NavLocation( about, "about.licensing", AboutLicensingPanel.getLinker() );
         addLocation( aboutLicensing );
         about.addChild( aboutLicensing );

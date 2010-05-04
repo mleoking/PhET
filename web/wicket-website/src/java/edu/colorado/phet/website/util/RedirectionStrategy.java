@@ -46,6 +46,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/about/index.php", "/en/about" );
         map.put( "/about/legend.php", "/en/about/legend" );
         map.put( "/about/licensing.php", "/en/about/licensing" );
+        map.put( "/about/news.php", "/en/about/news" );
         map.put( "/about/source-code.php", "/en/about/source-code" );
         map.put( "/about/who-we-are.php", "/en/about" );
         // TODO: add news redirect
