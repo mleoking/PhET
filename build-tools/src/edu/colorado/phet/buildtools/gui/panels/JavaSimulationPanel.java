@@ -92,6 +92,12 @@ public class JavaSimulationPanel extends JPanel {
 
         controlPanel.add( deployProdPanel );
 
+        JPanel testProdPanel = new VerticalLayoutPanel();
+        testProdPanel.setBorder( BorderFactory.createTitledBorder( "Wicket production" ) );
+        JButton testProdButton = new JButton( "Test Wicket Deploy" );
+        testProdPanel.add( testProdButton );
+        controlPanel.add( testProdPanel );
+
         add( controlPanel, BorderLayout.SOUTH );
 
 
@@ -110,6 +116,12 @@ public class JavaSimulationPanel extends JPanel {
         deployProdButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 doDeployProd();
+            }
+        } );
+
+        testProdButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                doWicketTest();
             }
         } );
     }
@@ -156,6 +168,27 @@ public class JavaSimulationPanel extends JPanel {
         }
 
         new BuildScript( trunk, project ).deployProd( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getProdAuthenticationInfo(), versionIncrement );
+    }
+
+    private void doWicketTest() {
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
+
+        if ( !confirm ) {
+            System.out.println( "Cancelled" );
+            return;
+        }
+
+        BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
+
+        VersionIncrement versionIncrement = null;
+        if ( incrementMinor.isSelected() ) {
+            versionIncrement = new VersionIncrement.UpdateProdMinor();
+        }
+        else if ( incrementMajor.isSelected() ) {
+            versionIncrement = new VersionIncrement.UpdateProdMajor();
+        }
+
+        new BuildScript( trunk, project ).deployTestProd( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getWebsiteProdAuthenticationInfo(), versionIncrement );
     }
 
 }

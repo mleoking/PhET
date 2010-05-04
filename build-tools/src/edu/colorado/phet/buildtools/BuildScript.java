@@ -465,7 +465,7 @@ public class BuildScript {
     }
 
     private String getSimListHTML( PhetProject project, boolean dev ) {
-       
+
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
             String title = project.getSimulations()[i].getTitle();
@@ -475,12 +475,12 @@ public class BuildScript {
                 launchFile = project.getSimulationNames()[i] + "." + project.getLaunchFileSuffix();
                 prodLaunchFile = launchFile; //TODO: why is this different for Flex, and is this addition for #2142 correct?
             }
-            
+
             /* 
-             * See #2142, dev servers can launch with and without developer features, so create links for both.
-             * On developer servers, the -dev flag is added to the standard JNLP files, and an additional
-             * "production" JNLP file is created without the -dev flag.
-             */
+            * See #2142, dev servers can launch with and without developer features, so create links for both.
+            * On developer servers, the -dev flag is added to the standard JNLP files, and an additional
+            * "production" JNLP file is created without the -dev flag.
+            */
             if ( dev ) {
                 // <li>@title@ : <a href="@prodLaunchFile@">production</a> : <a href="@devLaunchFile@">dev</a></li>
                 s += "<li>";
@@ -499,7 +499,7 @@ public class BuildScript {
         }
         return s;
     }
-    
+
     private String getNewSummary() {
         String output = "<ul>\n";
         String changes = project.getChangesText();
@@ -549,6 +549,29 @@ public class BuildScript {
                         }
                         copyFromStagingAreaToSimDir( PhetServer.PRODUCTION, prodAuth );
                         clearWebCaches();
+
+                        return true;
+                    }
+                } );
+    }
+
+    public void deployTestProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth, VersionIncrement versionIncrement ) {
+        deploy(
+                //send a copy to dev
+                new Task() {
+                    public boolean invoke() {
+                        //generate files for dev
+                        sendCopyToDev( devAuth );
+                        boolean success = prepareStagingArea( PhetServer.FIGARO, prodAuth );
+                        return success;
+                    }
+                }, PhetServer.FIGARO, prodAuth, versionIncrement, new Task() {
+                    public boolean invoke() {
+                        System.out.println( "Executing website post-upload deployment process" );
+
+                        boolean genjars = project instanceof JavaProject && ( (JavaProject) project ).getSignJar() && generateJARs;
+
+                        SshUtils.executeCommand( "curl http://phetsims.colorado.edu/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars, PhetServer.FIGARO.getHost(), prodAuth );
 
                         return true;
                     }
