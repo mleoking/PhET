@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.genenetwork.module.LacOperonDefaults;
 
 /**
  * Motion strategy that moves things around in a way that emulates the "random
@@ -20,18 +21,17 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	private static final Random RAND = new Random();
 	private static final double DIRECTED_PROPORTION = 0.90; // Proportion of motion updates that move towards
 	                                                        // the destination point.
-	private static final int MOTION_UPDATE_PERIOD = 20;  // Number of update calls before changing direction.
-	protected static double MAX_DIRECTED_VELOCITY = 15;  // In nanometers per second
-	protected static double MIN_DIRECTED_VELOCITY = 5;  // In nanometers per second
-	protected static double MAX_WANDERING_VELOCITY = 8;  // In nanometers per second
-	protected static double MIN_WANDERING_VELOCITY = 3;  // In nanometers per second
+	private static final double MOTION_UPDATE_PERIOD = 20 * LacOperonDefaults.CLOCK_DT;  // Time before changing direction.
+	protected static final double MAX_DIRECTED_VELOCITY = 15;  // In nanometers per second
+	protected static final double MIN_DIRECTED_VELOCITY = 5;  // In nanometers per second
+	protected static final double MAX_WANDERING_VELOCITY = 8;  // In nanometers per second
+	protected static final double MIN_WANDERING_VELOCITY = 3;  // In nanometers per second
 	
 	// Range within which the moving item should not exhibit any random
 	// motion and should just head toward the destination.
 	protected static double DIRECT_MOVEMENT_RANGE = 13; // In nanometers.
 
-	private int myUpdateValue;  // Used to stagger updates, for a better look and more even computational load.
-	private int updateCount = 0;
+	private double updateCountdownTimer = 0;
 	
 	public DirectedRandomWalkMotionStrategy(Rectangle2D bounds, Point2D destination) {
 		super(bounds);
@@ -39,8 +39,11 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 			setDestination(destination.getX(),	destination.getY());
 		}
 		
-		// Initialize the bin that is used to stagger updates to the motion.
-		myUpdateValue = RAND.nextInt(MOTION_UPDATE_PERIOD);
+		// Initialize the countdown timer with a random value so that the
+		// users of this strategy end up updating at different times.  This
+		// creates a more realistic look and keeps the computation load more
+		// even.
+		updateCountdownTimer = RAND.nextDouble() * MOTION_UPDATE_PERIOD;
 	}
 
 	public DirectedRandomWalkMotionStrategy(Rectangle2D bounds) {
@@ -71,7 +74,8 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
         }
 		
 		// See if it is time to change the motion and, if so, do it.
-		if (updateCount == myUpdateValue){
+        updateCountdownTimer -= dt;
+		if (updateCountdownTimer <= 0){
 	    	double angle = 0;
 	    	double scalarVelocity;
 	    	if (getDestinationRef() != null){
@@ -92,9 +96,9 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 			
 			// Set the particle's new velocity. 
 	    	modelElement.setVelocity(scalarVelocity * Math.cos(angle), scalarVelocity * Math.sin(angle));
+	    	
+	    	// Update the countdown timer value.
+	    	updateCountdownTimer = MOTION_UPDATE_PERIOD;
 		}
-		
-		// Update current bin.
-		updateCount = (updateCount + 1) % MOTION_UPDATE_PERIOD;
 	}
 }
