@@ -73,13 +73,7 @@ public class NotificationHandler {
 
         HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( org.hibernate.Session session ) {
-                Calendar cal = Calendar.getInstance();
-                cal.add( Calendar.HOUR, 24 * 7 );
-                List list = session.createQuery( "select ne from NotificationEvent as ne where ne.createdAt <= :date" )
-                        .setDate( "date", cal.getTime() ).list();
-                for ( Object o : list ) {
-                    events.add( (NotificationEvent) o );
-                }
+                addEventsToList( session, events );
                 return true;
             }
         } );
@@ -96,21 +90,7 @@ public class NotificationHandler {
             message.setSubject( "[PhET Website] Events" );
 
             BodyPart messageBodyPart = new MimeBodyPart();
-            String body = "<p>The following events occurred in the last week:</p>";
-
-            body += "<ul>";
-
-            for ( NotificationEvent event : events ) {
-                body += "<li>";
-                body += event.toString();
-                body += "</li>";
-            }
-
-            body += "</ul>";
-
-            body += "<p>There were " + events.size() + " events.</p>";
-
-            body += "<br/><p>Mailed automatically by the PhET website</p>";
+            String body = eventsToString( events );
 
             messageBodyPart.setContent( body, "text/html; charset=ISO-8859-1" );
 
@@ -126,6 +106,51 @@ public class NotificationHandler {
         catch( MessagingException e ) {
             e.printStackTrace();
         }
+    }
+
+    public static String getEventsString( org.hibernate.Session session ) {
+        final List<NotificationEvent> events = new LinkedList<NotificationEvent>();
+        boolean success = HibernateUtils.wrapTransaction( session, new HibernateTask() {
+            public boolean run( org.hibernate.Session session ) {
+                addEventsToList( session, events );
+                return true;
+            }
+        } );
+        if ( success ) {
+            return eventsToString( events );
+        }
+        else {
+            return "Error encountered in retrieving events";
+        }
+    }
+
+    private static void addEventsToList( org.hibernate.Session session, List<NotificationEvent> events ) {
+        Calendar cal = Calendar.getInstance();
+        cal.add( Calendar.HOUR, 24 * 7 );
+        List list = session.createQuery( "select ne from NotificationEvent as ne where ne.createdAt <= :date" )
+                .setDate( "date", cal.getTime() ).list();
+        for ( Object o : list ) {
+            events.add( (NotificationEvent) o );
+        }
+    }
+
+    private static String eventsToString( List<NotificationEvent> events ) {
+        String body = "<p>The following events occurred in the last week:</p>";
+
+        body += "<ul>";
+
+        for ( NotificationEvent event : events ) {
+            body += "<li>";
+            body += event.toString();
+            body += "</li>";
+        }
+
+        body += "</ul>";
+
+        body += "<p>There were " + events.size() + " events.</p>";
+
+        body += "<br/><p>Mailed automatically by the PhET website</p>";
+        return body;
     }
 
     public static void onNewContribution( final Contribution contribution ) {

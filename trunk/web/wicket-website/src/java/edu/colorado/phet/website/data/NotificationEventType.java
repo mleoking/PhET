@@ -1,5 +1,8 @@
 package edu.colorado.phet.website.data;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import org.apache.wicket.PageParameters;
 import org.hibernate.Session;
 
@@ -22,7 +25,13 @@ public enum NotificationEventType {
             case UPDATED_CONTRIBUTION:
                 return "Contribution updated: " + getContributionString( params.getInt( "contribution_id" ) );
             case NOMINATED_CONTRIBUTION:
-                return "Contribution nominated by " + params.getString( "email" ) +  ": " + getContributionString( params.getInt( "contribution_id" ) );
+                try {
+                    return "Contribution nominated by " + URLDecoder.decode( params.getString( "email" ), "UTF-8" ) + ": " + getContributionString( params.getInt( "contribution_id" ) );
+                }
+                catch( UnsupportedEncodingException e ) {
+                    e.printStackTrace();
+                    return "Contribution nominated by Error decoding email: " + getContributionString( params.getInt( "contribution_id" ) );
+                }
             default:
                 return "Unidentified event";
         }
