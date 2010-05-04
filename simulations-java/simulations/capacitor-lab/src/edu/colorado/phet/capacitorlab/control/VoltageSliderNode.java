@@ -17,11 +17,11 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.util.HighlightHandler.ImageHighlightHandler;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.HighlightHandler.ImageHighlightHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
