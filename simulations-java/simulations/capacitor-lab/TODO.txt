@@ -1,6 +1,7 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
+- fix position of plate area drag handle in DielectricCanvas.updatePlateAreaDragHandle
 - utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
 - direct manipulation of plate size, plate separation, dielectric offset
 - blue arrow and glowing sphere to represent current flow

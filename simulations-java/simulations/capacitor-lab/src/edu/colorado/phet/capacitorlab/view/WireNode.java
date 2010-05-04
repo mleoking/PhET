@@ -26,7 +26,7 @@ public abstract class WireNode extends PComposite {
     private static final Color WIRE_STROKE_COLOR = Color.BLACK;
     private static final Color WIRE_FILL_COLOR = Color.LIGHT_GRAY;
     private static final double WIRE_THICKNESS = 3; // mm
-    private static final double WIRE_HEIGHT = 75; // mm
+    private static final double WIRE_HEIGHT = 85; // mm
     
     private final CLModel model;
     private final ModelViewTransform mvt;

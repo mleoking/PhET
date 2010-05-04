@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 public class DragHandleValueNode extends HTMLNode {
 
     private static final DecimalFormat DEFAULT_FORMAT = new DecimalFormat( "0.0" );
-    private static final Font DEFAULT_FONT = new PhetFont( 20 );
+    private static final Font DEFAULT_FONT = new PhetFont( 18 );
     
     private final String pattern;
     private final String units;

@@ -37,7 +37,7 @@ public abstract class DielectricMaterial {
     
     @Override
     public String toString() {
-        return MessageFormat.format( CLStrings.FORMAT_DIELECTRIC_MATERIAL, name, dielectricConstant );
+        return MessageFormat.format( CLStrings.PATTERN_DIELECTRIC_MATERIAL, name, dielectricConstant );
     }
     
     public static class Teflon extends DielectricMaterial {
