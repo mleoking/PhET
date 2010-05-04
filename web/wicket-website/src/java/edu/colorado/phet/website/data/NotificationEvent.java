@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import edu.colorado.phet.website.data.util.IntId;
+import edu.colorado.phet.website.notification.NotificationEventType;
 
 public class NotificationEvent implements Serializable, IntId {
     private int id;
