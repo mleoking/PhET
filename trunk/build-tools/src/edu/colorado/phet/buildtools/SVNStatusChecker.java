@@ -47,8 +47,7 @@ public class SVNStatusChecker {
             boolean ok = true;
             while ( t.hasMoreTokens() ) {
                 String token = t.nextToken();
-                // patched because SVN seems to be having some problems with this. Still looking for the workaround
-                boolean acceptableToken = token.startsWith( "Status against revision:" ) || token.contains( "libgssapi_krb5.so.2" );
+                boolean acceptableToken = token.startsWith( "Status against revision:" );
                 int tokenLength = token.trim().length();
                 if ( tokenLength > 0 && !acceptableToken ) {
                     System.out.println( "Failure on token: \"" + token.trim() + "\"" );
@@ -56,7 +55,19 @@ public class SVNStatusChecker {
                     break;
                 }
             }
-            if ( ok && err.trim().length() == 0 ) {
+            t = new StringTokenizer( err, "\n" );
+            while ( t.hasMoreTokens() ) {
+                String token = t.nextToken();
+                // patched because SVN seems to be having some problems with this. Still looking for the workaround
+                boolean acceptableToken = token.contains( "libgssapi_krb5.so.2" );
+                int tokenLength = token.trim().length();
+                if ( tokenLength > 0 && !acceptableToken ) {
+                    System.out.println( "Failure on error: \"" + token.trim() + "\"" );
+                    ok = false;
+                    break;
+                }
+            }
+            if ( ok ) {
                 return true;
             }
             else {
