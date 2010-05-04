@@ -9,12 +9,13 @@ import org.apache.wicket.PageParameters;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.content.contribution.ContributionPage;
-import edu.colorado.phet.website.data.contribution.Contribution;
-import edu.colorado.phet.website.data.contribution.ContributionNomination;
-import edu.colorado.phet.website.data.contribution.ContributionComment;
 import edu.colorado.phet.website.data.NotificationEvent;
+import edu.colorado.phet.website.data.contribution.Contribution;
+import edu.colorado.phet.website.data.contribution.ContributionComment;
+import edu.colorado.phet.website.data.contribution.ContributionNomination;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.HtmlUtils;
 
 public enum NotificationEventType {
     NEW_CONTRIBUTION,
@@ -31,25 +32,26 @@ public enum NotificationEventType {
             case UPDATED_CONTRIBUTION:
                 return "Contribution updated: " + getContributionString( params.getInt( "contribution_id" ) );
             case NOMINATED_CONTRIBUTION:
-                try {
-                    return "Contribution nominated by " + URLDecoder.decode( params.getString( "email" ), "UTF-8" ) + ": " + getContributionString( params.getInt( "contribution_id" ) ) +
-                           " with reason " + URLDecoder.decode( params.getString( "reason" ) == null ? "" : params.getString( "reason" ), "UTF-8" );
-                }
-                catch( UnsupportedEncodingException e ) {
-                    e.printStackTrace();
-                    return "Contribution nominated by Error decoding email: " + getContributionString( params.getInt( "contribution_id" ) );
-                }
+                return "Contribution nominated by " + decodeToDisplay( params.getString( "email" ) ) + ": " + getContributionString( params.getInt( "contribution_id" ) ) +
+                       " with reason " + decodeToDisplay( params.getString( "reason" ) );
             case CONTRIBUTION_COMMENT:
-                try {
-                    return "User " + URLDecoder.decode( params.getString( "email" ), "UTF-8" ) + " commented on " + getContributionString( params.getInt( "contribution_id" ) ) + ": "
-                           + URLDecoder.decode( params.getString( "text" ), "UTF-8" );
-                }
-                catch( UnsupportedEncodingException e ) {
-                    e.printStackTrace();
-                    return "Error encountered decoding comment";
-                }
+                return "User " + decodeToDisplay( params.getString( "email" ) ) + " commented on " + getContributionString( params.getInt( "contribution_id" ) ) + ": "
+                       + decodeToDisplay( params.getString( "text" ) );
             default:
                 return "Unidentified event";
+        }
+    }
+
+    private static String decodeToDisplay( String string ) {
+        if ( string == null ) {
+            return "";
+        }
+        try {
+            return HtmlUtils.encode( URLDecoder.decode( string, "UTF-8" ) );
+        }
+        catch( UnsupportedEncodingException e ) {
+            e.printStackTrace();
+            return string;
         }
     }
 
