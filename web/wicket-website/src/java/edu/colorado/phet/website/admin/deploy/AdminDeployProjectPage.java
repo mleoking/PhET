@@ -40,6 +40,8 @@ public class AdminDeployProjectPage extends PhetRegularPage {
             deploy( parameters );
         }
 
+        addTitle(" deployment" );
+
         // TODO: return information to PBG?
     }
 
