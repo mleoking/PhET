@@ -168,10 +168,6 @@ public abstract class ToolBoxItemNode extends PComposite {
 		this.modelElement = modelElement;
 	}
 	
-	protected SimpleModelElement getModelElement(){
-		return modelElement;
-	}
-	
 	protected SimpleModelElementNode getSelectionNode(){
 		return selectionNode;
 	}

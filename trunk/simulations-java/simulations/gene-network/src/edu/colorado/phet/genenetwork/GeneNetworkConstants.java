@@ -35,13 +35,6 @@ public class GeneNetworkConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    // Default font properties
-    public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
-    public static final int DEFAULT_FONT_SIZE = 16;
-    
-    public static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( Font.BOLD, 12 );
-    public static final Font CONTROL_PANEL_CONTROL_FONT = new PhetFont( Font.PLAIN, 12 );
-    
     //----------------------------------------------------------------------------
     // Strokes
     //----------------------------------------------------------------------------
