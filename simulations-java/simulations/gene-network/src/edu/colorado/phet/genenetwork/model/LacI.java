@@ -304,7 +304,7 @@ public class LacI extends SimpleModelElement {
 			// have to go too far in order to attach to it.  See if we are in
 			// that phase of our existence and, if so, make any updates that
 			// are needed.
-			Point2D currentDestination = getMotionStrategyRef().getDestination();
+			Point2D currentDestination = getMotionStrategyRef().getDestinationRef();
 			if ( currentDestination != null && 
 				 currentDestination.getX() == INITIAL_DESTINATION_POINT.getX() && 
 				 currentDestination.getY() == INITIAL_DESTINATION_POINT.getY() ) {
