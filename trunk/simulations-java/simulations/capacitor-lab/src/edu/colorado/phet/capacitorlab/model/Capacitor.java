@@ -20,14 +20,15 @@ public class Capacitor {
     private final EventListenerList listeners;
     
     // immutable properties
-    private final Point2D location;
-    private final double plateThickness;
+    private final Point2D location; // location of the capacitor's geometric center in the 2D plane of the camera (mm)
+    private final double plateThickness; // thickness of the plates (mm)
+    private final double dielectricGap; // gap between the dielectric and the plates (mm)
     
     // mutable properties
-    private double plateSize;
-    private double plateSeparation;
-    private DielectricMaterial dielectricMaterial;
-    private double dielectricOffset;
+    private double plateSize; // length of one edge of a plate (mm)
+    private double plateSeparation; // distance between the plates (mm)
+    private DielectricMaterial dielectricMaterial; // insulator between the plates
+    private double dielectricOffset; // offset of dielectric's center from the axis that goes through the center of the 2 plates (mm)
 
     public Capacitor( Point2D location, double plateSize, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
         
@@ -35,6 +36,7 @@ public class Capacitor {
         
         this.location = new Point2D.Double( location.getX(), location.getY() );
         this.plateThickness = CLConstants.PLATE_THICKNESS;
+        this.dielectricGap = CLConstants.DIELECTRIC_GAP;
         
         this.plateSize = plateSize;
         this.plateSeparation = plateSeparation;
@@ -83,6 +85,10 @@ public class Capacitor {
         return dielectricMaterial;
     }
     
+    public double getDielectricGap() {
+        return dielectricGap;
+    }
+    
     public void setDielectricOffset( double dielectricOffset ) {
         if ( dielectricOffset != this.dielectricOffset ) {
             this.dielectricOffset = dielectricOffset;
@@ -92,6 +98,10 @@ public class Capacitor {
     
     public double getDielectricOffset() {
         return dielectricOffset;
+    }
+    
+    public double getPlateArea() {
+        return plateSize * plateSize;
     }
     
     public interface CapacitorChangeListener extends EventListener {
