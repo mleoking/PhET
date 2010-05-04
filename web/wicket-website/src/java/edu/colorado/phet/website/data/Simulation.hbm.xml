@@ -39,5 +39,6 @@
             <key column="simulation_id"/>
             <many-to-many class="edu.colorado.phet.website.data.contribution.Contribution" column="contribution_id"/>
         </set>
+        <property name="oldId"/>
     </class>
 </hibernate-mapping>
