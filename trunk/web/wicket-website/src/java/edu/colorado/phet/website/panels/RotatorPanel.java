@@ -16,7 +16,6 @@ import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.StringUtils;
 
 public class RotatorPanel extends PhetPanel {
     public RotatorPanel( String id, PageContext context ) {
@@ -38,7 +37,7 @@ public class RotatorPanel extends PhetPanel {
         } );
 
         StringBuffer buf = new StringBuffer();
-        buf.append( "dir=" + StringUtils.getStringDirect( getHibernateSession(), "language.dir", getMyLocale() ) + "&" );
+        buf.append( "dir=" + getPhetLocalizer().getBestString( getHibernateSession(), "language.dir", getMyLocale() ) + "&" );
         buf.append( "quantity=" + Integer.toString( featured.size() ) + "&" );
         try {
             buf.append( "next=" + URLEncoder.encode( getPhetLocalizer().getString( "home.rotator.next", this ), "UTF-8" ) + "&" );
