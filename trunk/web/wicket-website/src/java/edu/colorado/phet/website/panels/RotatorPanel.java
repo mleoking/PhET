@@ -16,6 +16,7 @@ import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.StringUtils;
 
 public class RotatorPanel extends PhetPanel {
     public RotatorPanel( String id, PageContext context ) {
