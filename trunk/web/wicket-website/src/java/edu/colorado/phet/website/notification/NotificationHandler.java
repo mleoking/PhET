@@ -2,8 +2,6 @@ package edu.colorado.phet.website.notification;
 
 import it.sauronsoftware.cron4j.Scheduler;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.*;
 
 import javax.mail.*;
@@ -16,9 +14,10 @@ import org.hibernate.event.PostInsertEvent;
 import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.website.data.NotificationEvent;
-import edu.colorado.phet.website.data.NotificationEventType;
+import edu.colorado.phet.website.notification.NotificationEventType;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionNomination;
+import edu.colorado.phet.website.data.contribution.ContributionComment;
 import edu.colorado.phet.website.data.util.AbstractChangeListener;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -48,19 +47,26 @@ public class NotificationHandler {
         HibernateEventListener.addListener( ContributionNomination.class, new AbstractChangeListener() {
             @Override
             public void onInsert( Object object, PostInsertEvent event ) {
-                onNominatedContribution( (ContributionNomination) object );
+                NotificationEventType.onNominatedContribution( (ContributionNomination) object );
             }
         } );
 
         HibernateEventListener.addListener( Contribution.class, new AbstractChangeListener() {
             @Override
             public void onInsert( Object object, PostInsertEvent event ) {
-                onNewContribution( (Contribution) object );
+                NotificationEventType.onNewContribution( (Contribution) object );
             }
 
             @Override
             public void onUpdate( Object object, PostUpdateEvent event ) {
-                onUpdatedContribution( (Contribution) object );
+                NotificationEventType.onUpdatedContribution( (Contribution) object );
+            }
+        } );
+
+        HibernateEventListener.addListener( ContributionComment.class, new AbstractChangeListener() {
+            @Override
+            public void onInsert( Object object, PostInsertEvent event ) {
+                NotificationEventType.onContributionComment( (ContributionComment) object );
             }
         } );
     }
@@ -153,52 +159,6 @@ public class NotificationHandler {
 
         body += "<br/><p>Mailed automatically by the PhET website</p>";
         return body;
-    }
-
-    public static void onNewContribution( final Contribution contribution ) {
-        HibernateUtils.wrapSession( new HibernateTask() {
-            public boolean run( org.hibernate.Session session ) {
-                NotificationEvent event = new NotificationEvent();
-                event.setCreatedAt( new Date() );
-                event.setType( NotificationEventType.NEW_CONTRIBUTION );
-                event.setData( "contribution_id=" + contribution.getId() );
-                session.save( event );
-                return true;
-            }
-        } );
-    }
-
-    public static void onUpdatedContribution( final Contribution contribution ) {
-        HibernateUtils.wrapSession( new HibernateTask() {
-            public boolean run( org.hibernate.Session session ) {
-                NotificationEvent event = new NotificationEvent();
-                event.setCreatedAt( new Date() );
-                event.setType( NotificationEventType.UPDATED_CONTRIBUTION );
-                event.setData( "contribution_id=" + contribution.getId() );
-                session.save( event );
-                return true;
-            }
-        } );
-    }
-
-    public static void onNominatedContribution( final ContributionNomination nomination ) {
-        HibernateUtils.wrapSession( new HibernateTask() {
-            public boolean run( org.hibernate.Session session ) {
-                NotificationEvent event = new NotificationEvent();
-                event.setCreatedAt( new Date() );
-                event.setType( NotificationEventType.NOMINATED_CONTRIBUTION );
-                try {
-                    event.setData( "contribution_id=" + nomination.getContribution().getId() + ",email=" + URLEncoder.encode( nomination.getPhetUser().getEmail(), "UTF-8" )
-                                   + ",reason=" + URLEncoder.encode( nomination.getReason(), "UTF-8" ) );
-                }
-                catch( UnsupportedEncodingException e ) {
-                    e.printStackTrace();
-                    return false;
-                }
-                session.save( event );
-                return true;
-            }
-        } );
     }
 
 }
