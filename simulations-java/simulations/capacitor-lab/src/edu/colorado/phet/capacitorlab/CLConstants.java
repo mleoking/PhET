@@ -40,11 +40,11 @@ public class CLConstants {
     public static final boolean BATTERY_CONNECTED = true;
     
     public static final Point2D CAPACITOR_LOCATION = new Point2D.Double( 0, 0 ); // mm
-    public static final DoubleRange PLATE_SIZE_RANGE = new DoubleRange( 10, 100, 50 ); // mm
+    public static final DoubleRange PLATE_SIZE_RANGE = new DoubleRange( 50, 100, 75 ); // mm
     public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( 10, 50, 20 ); // mm
     public static final double PLATE_THICKNESS = 1.5; // mm
     
-    public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 0, 5, 1 ); // dimensionless
+    public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 5, 1 ); // dimensionless
     public static final DoubleRange DIELECTRIC_OFFSET_RANGE = new DoubleRange( 0, PLATE_SIZE_RANGE.getMax(), 0 ); // mm
     public static final double DIELECTRIC_GAP = 1.0; // mm
     

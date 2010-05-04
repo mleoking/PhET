@@ -42,19 +42,19 @@ public abstract class DielectricMaterial {
     
     public static class Teflon extends DielectricMaterial {
         public Teflon() {
-            super( CLStrings.MATERIAL_TEFLON, 2.1, Color.RED );
+            super( CLStrings.MATERIAL_TEFLON, 2.1, Color.GREEN );
         }
     }
     
     public static class Polystyrene extends DielectricMaterial {
         public Polystyrene() {
-            super( CLStrings.MATERIAL_POLYSTYRENE, 2.5, Color.GREEN );
+            super( CLStrings.MATERIAL_POLYSTYRENE, 2.5, new Color( 189, 132, 141 ) /* pink */ );
         }
     }
     
     public static class Paper extends DielectricMaterial {
         public Paper() {
-            super( CLStrings.MATERIAL_PAPER, 3.5, Color.BLUE );
+            super( CLStrings.MATERIAL_PAPER, 3.5, new Color( 226, 255, 155 ) /* light yellow */ );
         }
     }
     
@@ -63,7 +63,7 @@ public abstract class DielectricMaterial {
         private final EventListenerList listeners;
         
         public CustomDielectricMaterial() {
-            super( CLStrings.MATERIAL_CUSTOM, 2, Color.YELLOW );
+            super( CLStrings.MATERIAL_CUSTOM, 2, new Color( 255, 161, 23 ) /* orange */ );
             listeners = new EventListenerList();
         }
         
