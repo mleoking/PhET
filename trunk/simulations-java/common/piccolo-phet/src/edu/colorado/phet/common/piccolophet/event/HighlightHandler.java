@@ -64,7 +64,7 @@ public abstract class HighlightHandler extends PBasicInputEventHandler {
     public static class PaintHighlightHandler extends HighlightHandler {
 
         private final PNode node;
-        private final Paint normal, highlight;
+        private Paint normal, highlight;
 
         public PaintHighlightHandler( PNode node, Paint normal, Paint highlight ) {
             this.node = node;
@@ -75,6 +75,14 @@ public abstract class HighlightHandler extends PBasicInputEventHandler {
         protected void setHighlighted( boolean b ) {
             node.setPaint( b ? highlight : normal );
         }
+        
+        public void setNormal( Paint normal ) {
+            this.normal = normal;
+        }
+        
+        public void setHighlight( Paint highlight ) {
+            this.highlight = highlight;
+        }
     }
     
     /**
@@ -83,7 +91,7 @@ public abstract class HighlightHandler extends PBasicInputEventHandler {
     public static class ImageHighlightHandler extends HighlightHandler {
 
         private final PImage node;
-        private final Image normal, highlight;
+        private Image normal, highlight;
 
         public ImageHighlightHandler( PImage node, Image normal, Image highlight ) {
             this.node = node;
@@ -93,6 +101,14 @@ public abstract class HighlightHandler extends PBasicInputEventHandler {
         
         protected void setHighlighted( boolean b ) {
             node.setImage( b ? highlight : normal );
+        }
+        
+        public void setNormal( Image normal ) {
+            this.normal = normal;
+        }
+        
+        public void setHighlight( Image highlight ) {
+            this.highlight = highlight;
         }
     }
 }
