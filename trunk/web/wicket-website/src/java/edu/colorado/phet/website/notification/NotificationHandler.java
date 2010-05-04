@@ -14,6 +14,7 @@ import org.hibernate.event.PostInsertEvent;
 import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.website.data.NotificationEvent;
+import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.notification.NotificationEventType;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionNomination;
@@ -78,10 +79,15 @@ public class NotificationHandler {
     public static void sendNotifications() {
 
         final List<NotificationEvent> events = new LinkedList<NotificationEvent>();
+        final List<PhetUser> usersToNotify = new LinkedList<PhetUser>();
 
         HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( org.hibernate.Session session ) {
                 addEventsToList( session, events );
+                List list = session.createQuery( "select u from PhetUser as u where u.teamMember = true and u.receiveWebsiteNotifications = true").list();
+                for ( Object o : list ) {
+                    usersToNotify.add( (PhetUser) o );
+                }
                 return true;
             }
         } );
@@ -94,7 +100,10 @@ public class NotificationHandler {
 
             Message message = new MimeMessage( session );
             message.setFrom( new InternetAddress( "phetnoreply@phetsims.colorado.edu" ) );
-            message.addRecipient( Message.RecipientType.TO, new InternetAddress( "jonathan.olson@colorado.edu" ) );
+            //message.addRecipient( Message.RecipientType.TO, new InternetAddress( "jonathan.olson@colorado.edu" ) );
+            for ( PhetUser user : usersToNotify ) {
+                message.addRecipient( Message.RecipientType.TO, new InternetAddress( user.getEmail() ) );
+            }
             message.setSubject( "[PhET Website] Events" );
 
             BodyPart messageBodyPart = new MimeBodyPart();
@@ -131,6 +140,8 @@ public class NotificationHandler {
             return "Error encountered in retrieving events";
         }
     }
+
+    
 
     private static void addEventsToList( org.hibernate.Session session, List<NotificationEvent> events ) {
         Calendar cal = Calendar.getInstance();
