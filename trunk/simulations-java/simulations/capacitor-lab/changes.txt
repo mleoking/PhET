@@ -1,3 +1,4 @@
+5/4/10 migrate HighlightHandler to piccolo-phet
 5/4/10 generalize the handler for highlight nodes, see HighlightHandler
 5/4/10 add offset value display to drag handle
 5/4/10 doc capacitor properties
