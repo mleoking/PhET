@@ -33,10 +33,10 @@ public enum NotificationEventType {
                 return "Contribution updated: " + getContributionString( params.getInt( "contribution_id" ) );
             case NOMINATED_CONTRIBUTION:
                 return "Contribution nominated by " + decodeToDisplay( params.getString( "email" ) ) + ": " + getContributionString( params.getInt( "contribution_id" ) ) +
-                       " with reason " + decodeToDisplay( params.getString( "reason" ) );
+                       " with reason: <em>" + decodeToDisplay( params.getString( "reason" ) + "</em>" );
             case CONTRIBUTION_COMMENT:
-                return "User " + decodeToDisplay( params.getString( "email" ) ) + " commented on " + getContributionString( params.getInt( "contribution_id" ) ) + ": "
-                       + decodeToDisplay( params.getString( "text" ) );
+                return "User " + decodeToDisplay( params.getString( "email" ) ) + " commented on " + getContributionString( params.getInt( "contribution_id" ) ) + ": <em>"
+                       + decodeToDisplay( params.getString( "text" ) + "</em>" );
             default:
                 return "Unidentified event";
         }
