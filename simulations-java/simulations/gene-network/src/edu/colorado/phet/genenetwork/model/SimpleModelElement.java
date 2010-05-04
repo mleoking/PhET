@@ -24,9 +24,6 @@ public abstract class SimpleModelElement implements IModelElement{
     // Class Data
     //------------------------------------------------------------------------
 
-	// Range within with bonding can occur.
-	protected static final double ATTACHMENT_INITIATION_RANGE = 150;  // In nanometers.
-	
 	// Range at which a bond forms when two binding partners are moving
 	// towards each other.
 	protected static final double ATTACHMENT_FORMING_DISTANCE = 1; // In nanometers.

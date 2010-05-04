@@ -16,7 +16,6 @@ public interface IModelElement {
     void setVelocity(Vector2D newVelocity);
     void setVelocity(double xVel, double yVel);
     void stepInTime(double dt);
-    boolean releaseAttachmentWith(IModelElement modelElement);
 	boolean isPartOfDnaStrand();
     boolean isUserControlled();
     

@@ -130,10 +130,6 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
 		return mvt;
 	}
 	
-    protected DnaSegmentToolBoxNode getToolBox() {
-		return toolBox;
-	}
-
 	protected void setToolBox(DnaSegmentToolBoxNode toolBox) {
 		if (this.toolBox != null){
 			// Remove the old one.
@@ -165,10 +161,6 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
 		cellularFluidLayer.addChild(extraCellularFluid);
 	}
 
-    protected MacroMoleculeLegend getLegend() {
-		return legend;
-	}
-
 	protected void setLegend(MacroMoleculeLegend legend) {
 		if (this.legend != null){
 			// Remove the old one.
@@ -177,10 +169,6 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
 		// Add this to the canvas and keep a reference.
 		legendLayer.addChild(legend);
 		this.legend = legend;
-	}
-
-	protected LactoseMeter getLactoseMeter() {
-		return lactoseMeter;
 	}
 
 	protected void setLactoseMeter(LactoseMeter lactoseMeter) {
@@ -193,10 +181,6 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
 		this.lactoseMeter = lactoseMeter;
 	}
 
-	protected LactoseInjectorNode getLactoseInjector() {
-		return lactoseInjector;
-	}
-
 	protected void setLactoseInjector(LactoseInjectorNode lactoseInjector) {
 		if (this.lactoseInjector != null){
 			// Remove the old one.
@@ -205,10 +189,6 @@ public abstract class GeneNetworkCanvas extends PhetPCanvas {
 		// Add this to the canvas and keep a reference.
 		lactoseInjectorLayer.addChild(lactoseInjector);
 		this.lactoseInjector = lactoseInjector;
-	}
-
-	protected DnaStrandNode getDnaStrand() {
-		return dnaStrand;
 	}
 
 	protected void setDnaStrand(DnaStrandNode dnaStrand) {
