@@ -29,6 +29,11 @@ public class Simulation implements Serializable, IntId {
     private boolean classroomTested;
     private boolean simulationVisible;
 
+    /**
+     * What the simulation ID was on the old PHP site. Kept for redirections, etc.
+     */
+    private int oldId;
+
     public Simulation() {
     }
 
@@ -231,5 +236,13 @@ public class Simulation implements Serializable, IntId {
 
     public void setContributions( Set contributions ) {
         this.contributions = contributions;
+    }
+
+    public int getOldId() {
+        return oldId;
+    }
+
+    public void setOldId( int oldId ) {
+        this.oldId = oldId;
     }
 }
