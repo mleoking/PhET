@@ -28,5 +28,6 @@
         <property name="phone2"/>
         <property name="fax"/>
         <property name="receiveEmail"/>
+        <property name="receiveWebsiteNotifications"/>
     </class>
 </hibernate-mapping>
