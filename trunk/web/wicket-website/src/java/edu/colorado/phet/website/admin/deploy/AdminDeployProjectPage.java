@@ -59,11 +59,13 @@ public class AdminDeployProjectPage extends PhetRegularPage {
         success = Project.backupProject( docRoot, projectName );
         if ( !success ) {
             logger.error( "error backing up project " + projectName + ", aborting deployment" );
+            return;
         }
 
         File stagingDir = new File( websiteProperties.getSimStagingArea(), projectName );
         if ( !stagingDir.exists() ) {
             logger.error( "staging directory does not exist, aborting deployment" );
+            return;
         }
 
         if ( generateJARs ) {
