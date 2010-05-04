@@ -18,7 +18,7 @@ import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.admin.AdminMainPage;
-import edu.colorado.phet.website.admin.AdminSynchronizeProjectPage;
+import edu.colorado.phet.website.admin.deploy.AdminDeployProjectPage;
 import edu.colorado.phet.website.authentication.*;
 import edu.colorado.phet.website.content.*;
 import edu.colorado.phet.website.content.about.*;
@@ -136,7 +136,7 @@ public class PhetWicketApplication extends WebApplication {
         mount( new TranslationUrlStrategy( "translation", mapper ) );
 
         mountBookmarkablePage( "admin", AdminMainPage.class );
-        mountBookmarkablePage( "admin/synchronize", AdminSynchronizeProjectPage.class );
+        mountBookmarkablePage( "admin/deploy", AdminDeployProjectPage.class );
 
         // this will remove the default string resource loader. essentially this new one has better locale-handling,
         // so that if a string is not found for a more specific locale (es_MX), it would try "es", then the default
