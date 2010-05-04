@@ -1,3 +1,4 @@
+5/4/10 add drag handles for plate area and separation (not wired up)
 5/4/10 generalize components of drag handles
 5/4/10 migrate HighlightHandler to piccolo-phet
 5/4/10 generalize the handler for highlight nodes, see HighlightHandler

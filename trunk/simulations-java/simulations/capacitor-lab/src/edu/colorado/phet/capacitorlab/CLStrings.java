@@ -24,12 +24,6 @@ public class CLStrings {
     public static final String CHECKBOX_METER_ENERGY = getString( "checkBox.meter.energy" );
     public static final String CHECKBOX_METER_VOLTMETER = getString( "checkBox.meter.voltmeter" );
     public static final String CHECKBOX_METER_FIELD_DETECTOR = getString( "checkBox.meter.fieldDetector" );
-    
-    public static final String FORMAT_VOLTAGE = getString( "format.voltage.0value.1units" );
-    public static final String FORMAT_DIELECTRIC_MATERIAL = getString( "format.dielectricMaterial.0name.1constant" );
-    public static final String FORMAT_DIELECTRIC_OFFSET = getString( "format.dielectricOffset.0value.1units" );
-    public static final String FORMAT_PLATE_AREA = getString( "format.plateArea.0value.1units" );
-    public static final String FORMAT_PLATE_SEPARATION = getString( "format.plateSeparation.0value.1units" );
 
     public static final String LABEL_SEPARATION = getString( "label.separation" );
     public static final String LABEL_PLATE_AREA = getString( "label.plateArea" );
@@ -41,6 +35,12 @@ public class CLStrings {
     public static final String MATERIAL_TEFLON = getString( "material.teflon" );
     public static final String MATERIAL_POLYSTYRENE = getString( "material.polystyrene" );
     public static final String MATERIAL_PAPER = getString( "material.paper" );
+    
+    public static final String PATTERN_VOLTAGE = getString( "pattern.voltage.0value.1units" );
+    public static final String PATTERN_DIELECTRIC_MATERIAL = getString( "pattern.dielectricMaterial.0name.1constant" );
+    public static final String PATTERN_DIELECTRIC_OFFSET = getString( "pattern.dielectricOffset.0value.1units" );
+    public static final String PATTERN_PLATE_AREA = getString( "pattern.plateArea.0value.1units" );
+    public static final String PATTERN_PLATE_SEPARATION = getString( "pattern.plateSeparation.0value.1units" );
     
     public static final String RADIOBUTTON_HIDE_ALL_CHARGES = getString( "radioButton.charges.hideAll" );
     public static final String RADIOBUTTON_SHOW_ALL_CHARGES= getString( "radioButton.charges.showAll" );
@@ -55,7 +55,7 @@ public class CLStrings {
     
     public static final String UNITS_VOLTS = getString( "units.volts" );
     public static final String UNITS_MILLIMETERS = getString( "units.millimeters" );
-    public static final String UNITS_SQUARE_CENTIMETERS = getString( "units.squareCentimeters" );
+    public static final String UNITS_MILLIMETERS_SQUARED = getString( "units.millimetersSquared" );
     
     private static final String getString( String key ) {
         return CLResources.getString( key );
