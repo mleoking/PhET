@@ -366,7 +366,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         final StringBuffer ret = new StringBuffer();
         boolean success = HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {
-                Simulation simulation = (Simulation) session.load( Simulation.class, simId );
+                Simulation simulation = (Simulation) session.createQuery( "select s from Simulation as s where s.oldId = :oldid").setInteger( "oldid", simId ).uniqueResult();
                 LocalizedSimulation lsim = simulation.getBestLocalizedSimulation( locale );
                 ret.append( lsim.getDownloadUrl() );
                 return true;
