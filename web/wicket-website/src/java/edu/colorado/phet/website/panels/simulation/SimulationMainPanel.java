@@ -17,6 +17,8 @@ import org.apache.wicket.model.StringResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.event.PostDeleteEvent;
+import org.hibernate.event.PostInsertEvent;
 import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
@@ -458,12 +460,38 @@ public class SimulationMainPanel extends PhetPanel {
 
             private IChangeListener projectListener;
             private IChangeListener stringListener;
+            private IChangeListener teacherGuideListener;
 
             @Override
             protected void addListeners() {
                 projectListener = new AbstractChangeListener() {
                     public void onUpdate( Object object, PostUpdateEvent event ) {
                         if ( HibernateEventListener.getSafeHasChanged( event, "visible" ) ) {
+                            invalidate();
+                        }
+                    }
+                };
+                teacherGuideListener = new AbstractChangeListener() {
+                    @Override
+                    public void onInsert( Object object, PostInsertEvent event ) {
+                        TeachersGuide guide = (TeachersGuide) object;
+                        if ( guide.getSimulation().getId() == simulation.getSimulation().getId() ) {
+                            invalidate();
+                        }
+                    }
+
+                    @Override
+                    public void onUpdate( Object object, PostUpdateEvent event ) {
+                        TeachersGuide guide = (TeachersGuide) object;
+                        if ( guide.getSimulation().getId() == simulation.getSimulation().getId() ) {
+                            invalidate();
+                        }
+                    }
+
+                    @Override
+                    public void onDelete( Object object, PostDeleteEvent event ) {
+                        TeachersGuide guide = (TeachersGuide) object;
+                        if ( guide.getSimulation().getId() == simulation.getSimulation().getId() ) {
                             invalidate();
                         }
                     }
