@@ -23,6 +23,8 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	private static final int MOTION_UPDATE_PERIOD = 20;  // Number of update calls before changing direction.
 	protected static double MAX_DIRECTED_VELOCITY = 15;  // In nanometers per second
 	protected static double MIN_DIRECTED_VELOCITY = 5;  // In nanometers per second
+	protected static double MAX_WANDERING_VELOCITY = 8;  // In nanometers per second
+	protected static double MIN_WANDERING_VELOCITY = 3;  // In nanometers per second
 	
 	// Range within which the moving item should not exhibit any random
 	// motion and should just head toward the destination.
@@ -71,8 +73,13 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 		// See if it is time to change the motion and, if so, do it.
 		if (updateCount == myUpdateValue){
 	    	double angle = 0;
-	    	double scalerVelocity;
-	    	scalerVelocity = MIN_DIRECTED_VELOCITY + (MAX_DIRECTED_VELOCITY - MIN_DIRECTED_VELOCITY) * RAND.nextDouble();
+	    	double scalarVelocity;
+	    	if (getDestinationRef() != null){
+	    		scalarVelocity = MIN_DIRECTED_VELOCITY + (MAX_DIRECTED_VELOCITY - MIN_DIRECTED_VELOCITY) * RAND.nextDouble();
+	    	}
+	    	else{
+	    		scalarVelocity = MIN_WANDERING_VELOCITY + (MAX_WANDERING_VELOCITY - MIN_WANDERING_VELOCITY) * RAND.nextDouble();
+	    	}
 	    	if (getDestinationRef() != null && (getDestinationRef().distance(modelElement.getPositionRef()) < DIRECT_MOVEMENT_RANGE || RAND.nextDouble() < DIRECTED_PROPORTION)){
 	    		// Move towards the destination.
 	        	angle = Math.atan2(getDestinationRef().getY() - modelElement.getPositionRef().getY(), 
@@ -84,7 +91,7 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	    	}
 			
 			// Set the particle's new velocity. 
-	    	modelElement.setVelocity(scalerVelocity * Math.cos(angle), scalerVelocity * Math.sin(angle));
+	    	modelElement.setVelocity(scalarVelocity * Math.cos(angle), scalarVelocity * Math.sin(angle));
 		}
 		
 		// Update current bin.
