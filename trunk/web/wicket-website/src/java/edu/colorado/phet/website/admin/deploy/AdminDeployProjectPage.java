@@ -6,9 +6,9 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 
-import edu.colorado.phet.buildtools.util.FileUtils;
-import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.JARGenerator;
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.WebsiteProperties;
 import edu.colorado.phet.website.data.Project;
@@ -50,6 +50,7 @@ public class AdminDeployProjectPage extends PhetRegularPage {
         boolean success = true;
 
         String projectName = parameters.getString( "project" );
+        boolean generateJARs = parameters.getBoolean( "generate-jars" );
 
         logger.info( "backing up project " + projectName );
 
@@ -63,21 +64,23 @@ public class AdminDeployProjectPage extends PhetRegularPage {
             logger.error( "staging directory does not exist, aborting deployment" );
         }
 
-        File allJAR = new File( stagingDir, projectName + "_all.jar" );
-        if( !allJAR.exists() ) {
-            logger.error( "_all.jar does not exist, aborting deployment" );
-        }
+        if ( generateJARs ) {
+            File allJAR = new File( stagingDir, projectName + "_all.jar" );
+            if ( !allJAR.exists() ) {
+                logger.error( "_all.jar does not exist, aborting deployment" );
+            }
 
-        try {
-            (new JARGenerator()).generateOfflineJARs( allJAR, websiteProperties.getPathToJarUtility(), BuildLocalProperties.getInstance() );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            return;
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-            return;
+            try {
+                ( new JARGenerator() ).generateOfflineJARs( allJAR, websiteProperties.getPathToJarUtility(), BuildLocalProperties.getInstance() );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+                return;
+            }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+                return;
+            }
         }
 
         File projectDir = new File( websiteProperties.getPhetDocumentRoot(), "sims/" + projectName );
@@ -105,17 +108,17 @@ public class AdminDeployProjectPage extends PhetRegularPage {
         FileUtils.delete( stagingDir );
     }
 
-    public static RawLinkable getLinker( final String projectName ) {
+    public static RawLinkable getLinker( final String projectName, final boolean generateJars ) {
         return new AbstractLinker() {
             @Override
             public String getSubUrl( PageContext context ) {
-                return "admin/deploy?project=" + projectName;
+                return "admin/deploy?project=" + projectName + "&generate-jars=" + generateJars;
             }
         };
     }
 
-    public static RawLinkable getLinker( Project project ) {
-        return getLinker( project.getName() );
+    public static RawLinkable getLinker( Project project, final boolean generateJars ) {
+        return getLinker( project.getName(), generateJars );
     }
 
 }
