@@ -55,7 +55,9 @@ public class Simulation implements Serializable, IntId {
      */
     public LocalizedSimulation getBestLocalizedSimulation( Locale bestLocale ) {
         LocalizedSimulation englishSimulation = null;
+        LocalizedSimulation languageSimulation = null;
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );
+        Locale languageLocale = LocaleUtils.stringToLocale( bestLocale.getLanguage() );
         for ( Object localizedSimulation : localizedSimulations ) {
             LocalizedSimulation sim = (LocalizedSimulation) localizedSimulation;
             if ( sim.getLocale().equals( bestLocale ) ) {
@@ -63,9 +65,11 @@ public class Simulation implements Serializable, IntId {
             }
             else if ( sim.getLocale().equals( englishLocale ) ) {
                 englishSimulation = sim;
+            } else if( sim.getLocale().equals( languageLocale ) ) {
+                languageSimulation = sim;
             }
         }
-        return englishSimulation;
+        return languageSimulation != null ? languageSimulation : englishSimulation;
     }
 
     public LocalizedSimulation getEnglishSimulation() {
