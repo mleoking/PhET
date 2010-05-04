@@ -25,8 +25,8 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 	public LinearMotionStrategy(Rectangle2D bounds, Point2D initialLocation, Point2D destination, double velocityScaler) {
 		super(bounds);
 		setDestination(destination.getX(),	destination.getY());
-		double angleOfTravel = Math.atan2(getDestination().getY() - initialLocation.getY(), 
-    			getDestination().getX() - initialLocation.getX());
+		double angleOfTravel = Math.atan2(getDestinationRef().getY() - initialLocation.getY(), 
+    			getDestinationRef().getX() - initialLocation.getX());
 		initialVelocity.setComponents(velocityScaler * Math.cos(angleOfTravel), velocityScaler * Math.sin(angleOfTravel));
 	}
 	
@@ -44,13 +44,13 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
 		
 		Point2D position = modelElement.getPositionRef();
 		Vector2D velocity = modelElement.getVelocityRef();
-		double distanceToDestination = getDestination().distance(modelElement.getPositionRef());
+		double distanceToDestination = getDestinationRef().distance(modelElement.getPositionRef());
 		double distanceToTravelThisTimeStep = velocity.getMagnitude() * dt;
 		
 		if (distanceToDestination > 0 && distanceToTravelThisTimeStep > distanceToDestination){
 			// We have pretty much arrived at the destination, so set the
 			// position to be exactly at the destination.
-			modelElement.setPosition(getDestination());
+			modelElement.setPosition(getDestinationRef());
 			modelElement.setVelocity(0, 0);
 			isDestinationReached = true;
 		}

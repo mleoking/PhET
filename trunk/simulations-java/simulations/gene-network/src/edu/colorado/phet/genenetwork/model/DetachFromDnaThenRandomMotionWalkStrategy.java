@@ -39,7 +39,7 @@ public class DetachFromDnaThenRandomMotionWalkStrategy extends RandomWalkMotionS
 		}
 		else{
 			// Create an initial somewhat random velocity that is generally up.
-			double initialTotalVelocity = RAND.nextDouble() * (MAX_VELOCITY - MIN_VELOCITY) + MIN_VELOCITY;
+			double initialTotalVelocity = RAND.nextDouble() * (MAX_DIRECTED_VELOCITY - MIN_DIRECTED_VELOCITY) + MIN_DIRECTED_VELOCITY;
 			double initialAngle = Math.PI / 4.0 + (RAND.nextDouble() * (Math.PI / 2.0));
 			this.initialVelocity.setX(initialTotalVelocity * Math.cos(initialAngle));
 			this.initialVelocity.setY(initialTotalVelocity * Math.sin(initialAngle));

@@ -66,7 +66,7 @@ public abstract class AbstractMotionStrategy {
 	 */
 	public void setDestination(Point2D destination){
 		if (destination == null){
-			this.destination = destination;
+			this.destination = null;
 		}
 		else{
 			setDestination(destination.getX(), destination.getY());
@@ -84,7 +84,12 @@ public abstract class AbstractMotionStrategy {
 		// Does nothing in base class.
 	}
 	
-	protected Point2D getDestination(){
+	/**
+	 * Get the current destination.
+	 * 
+	 * @return The current destination or null if no destination is set.
+	 */
+	protected Point2D getDestinationRef(){
 		return destination;
 	}
 }
