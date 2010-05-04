@@ -100,10 +100,10 @@ public class NotificationHandler {
 
             Message message = new MimeMessage( session );
             message.setFrom( new InternetAddress( "phetnoreply@phetsims.colorado.edu" ) );
-            //message.addRecipient( Message.RecipientType.TO, new InternetAddress( "jonathan.olson@colorado.edu" ) );
             for ( PhetUser user : usersToNotify ) {
                 message.addRecipient( Message.RecipientType.TO, new InternetAddress( user.getEmail() ) );
             }
+            message.addRecipient( Message.RecipientType.TO, new InternetAddress( "phetadmin@gmail.com" ) );
             message.setSubject( "[PhET Website] Events" );
 
             BodyPart messageBodyPart = new MimeBodyPart();
