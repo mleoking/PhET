@@ -11,6 +11,7 @@
         <many-to-one name="simulation" class="edu.colorado.phet.website.data.Simulation" not-null="true" lazy="false"/>
         <property name="filename"/>
         <property name="size"/>
+        <property name="oldId"/>
 
     </class>
 </hibernate-mapping>
