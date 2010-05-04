@@ -2,6 +2,8 @@ package edu.colorado.phet.website.notification;
 
 import it.sauronsoftware.cron4j.Scheduler;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 
 import javax.mail.*;
@@ -185,7 +187,14 @@ public class NotificationHandler {
                 NotificationEvent event = new NotificationEvent();
                 event.setCreatedAt( new Date() );
                 event.setType( NotificationEventType.NOMINATED_CONTRIBUTION );
-                event.setData( "contribution_id=" + nomination.getContribution().getId() + ",email=" + nomination.getPhetUser().getEmail() );
+                try {
+                    event.setData( "contribution_id=" + nomination.getContribution().getId() + ",email=" + URLEncoder.encode( nomination.getPhetUser().getEmail(), "UTF-8" )
+                                   + ",reason=" + URLEncoder.encode( nomination.getReason(), "UTF-8" ) );
+                }
+                catch( UnsupportedEncodingException e ) {
+                    e.printStackTrace();
+                    return false;
+                }
                 session.save( event );
                 return true;
             }
