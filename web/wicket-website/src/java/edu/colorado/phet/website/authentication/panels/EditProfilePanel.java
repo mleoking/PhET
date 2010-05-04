@@ -31,6 +31,8 @@ public class EditProfilePanel extends PhetPanel {
     public EditProfilePanel( String id, PageContext context ) {
         super( id, context );
 
+        // TODO: separate out into separable user so we can edit others' profiles
+
         errorModel = new Model( "" );
         Label errorLabel = new Label( "profile-errors", errorModel );
         add( errorLabel );
