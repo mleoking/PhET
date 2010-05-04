@@ -118,6 +118,9 @@ public class AdminSimPage extends AdminPage {
         add( new LibrariesForm( "libraries" ) );
         add( new ThanksForm( "thanks-to" ) );
 
+        add( new DescriptionForm( "description" ) );
+        add( new LearningGoalsForm( "learning-goals" ) );
+
         add( new UnderConstructionForm( "under-construction" ) );
         add( new GuidanceRecommendedForm( "guidance-recommended" ) );
         add( new ClassroomTestedForm( "classroom-tested" ) );
@@ -569,6 +572,36 @@ public class AdminSimPage extends AdminPage {
 
         public String getCurrentValue() {
             return simulation.getThanksTo();
+        }
+    }
+
+    private class DescriptionForm extends TextSetForm {
+
+        public DescriptionForm( String id ) {
+            super( id );
+        }
+
+        public void handleString( final String str ) {
+            StringUtils.setEnglishString( getHibernateSession(), simulation.getDescriptionKey(), str );
+        }
+
+        public String getCurrentValue() {
+            return StringUtils.getDefaultStringDirect( getHibernateSession(), simulation.getDescriptionKey() );
+        }
+    }
+
+    public class LearningGoalsForm extends TextSetForm {
+
+        public LearningGoalsForm( String id ) {
+            super( id );
+        }
+
+        public void handleString( final String str ) {
+            StringUtils.setEnglishString( getHibernateSession(), simulation.getLearningGoalsKey(), str );
+        }
+
+        public String getCurrentValue() {
+            return StringUtils.getDefaultStringDirect( getHibernateSession(), simulation.getLearningGoalsKey() );
         }
     }
 
