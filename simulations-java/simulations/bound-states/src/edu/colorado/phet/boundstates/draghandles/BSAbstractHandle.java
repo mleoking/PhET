@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2010, University of Colorado */
 
 package edu.colorado.phet.boundstates.draghandles;
 
@@ -27,6 +18,7 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.common.piccolophet.event.ConstrainedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -44,7 +36,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * the right of the handle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public abstract class BSAbstractHandle extends PPath implements PropertyChangeListener {
 
@@ -86,6 +77,7 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
     
     private Color _normalColor;
     private Color _hiliteColor;
+    private final PaintHighlightHandler _highlightHandler;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -154,7 +146,8 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
         addInputEventListener( new ShowValueHandler() );
         
         // Make drag handle hilite when the mouse is over it or it's being dragged.
-        addInputEventListener( new HiliteHandler() );
+        _highlightHandler = new PaintHighlightHandler( this, _normalColor, _hiliteColor );
+        addInputEventListener( _highlightHandler );
     }
     
     //----------------------------------------------------------------------------
@@ -276,6 +269,7 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
      */
     public void setNormalColor( Color color ) {
         _normalColor = color;
+        _highlightHandler.setNormal( color );
         setPaint( _normalColor );
     }
     
@@ -286,6 +280,7 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
      */
     public void setHiliteColor( Color color ) { 
         _hiliteColor = color;
+        _highlightHandler.setHighlight( color );
     }
     
     //----------------------------------------------------------------------------
@@ -433,44 +428,6 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
         public void mouseExited( PInputEvent event ) {
             _mouseIsInside = false;
             setValueVisible( false || _mouseIsPressed );
-        }
-    }
-    
-    /*
-     * Hilites the handle while dragging the handle, 
-     * or while the mouse is inside the handle.
-     */
-    private class HiliteHandler extends PBasicInputEventHandler {
-        
-        private boolean _mouseIsPressed;
-        private boolean _mouseIsInside;
-
-        public HiliteHandler() {
-            super();
-        }
-        
-        public void mousePressed( PInputEvent event ) {
-            _mouseIsPressed = true;
-            setPaint( _hiliteColor );
-        }
-
-        public void mouseReleased( PInputEvent event ) {
-            _mouseIsPressed = false;
-            if ( !_mouseIsInside ) {
-                setPaint( _normalColor );
-            }
-        }
-
-        public void mouseEntered( PInputEvent event ) {
-            _mouseIsInside = true;
-            setPaint( _hiliteColor );
-        }
-
-        public void mouseExited( PInputEvent event ) {
-            _mouseIsInside = false;
-            if ( !_mouseIsPressed ) {
-                setPaint( _normalColor );
-            }
         }
     }
 }
