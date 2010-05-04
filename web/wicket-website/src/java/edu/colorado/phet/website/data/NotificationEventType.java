@@ -26,7 +26,8 @@ public enum NotificationEventType {
                 return "Contribution updated: " + getContributionString( params.getInt( "contribution_id" ) );
             case NOMINATED_CONTRIBUTION:
                 try {
-                    return "Contribution nominated by " + URLDecoder.decode( params.getString( "email" ), "UTF-8" ) + ": " + getContributionString( params.getInt( "contribution_id" ) );
+                    return "Contribution nominated by " + URLDecoder.decode( params.getString( "email" ), "UTF-8" ) + ": " + getContributionString( params.getInt( "contribution_id" ) ) +
+                           " with reason " + URLDecoder.decode( params.getString( "reason" ) == null ? "" : params.getString( "reason" ), "UTF-8" );
                 }
                 catch( UnsupportedEncodingException e ) {
                     e.printStackTrace();
