@@ -21,8 +21,8 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 	private static final double DIRECTED_PROPORTION = 0.90; // Proportion of motion updates that move towards
 	                                                        // the destination point.
 	private static final int MOTION_UPDATE_PERIOD = 20;  // Number of update calls before changing direction.
-	protected static double MAX_VELOCITY = 15;  // In nanometers per second
-	protected static double MIN_VELOCITY = 5;  // In nanometers per second
+	protected static double MAX_DIRECTED_VELOCITY = 15;  // In nanometers per second
+	protected static double MIN_DIRECTED_VELOCITY = 5;  // In nanometers per second
 	
 	// Range within which the moving item should not exhibit any random
 	// motion and should just head toward the destination.
@@ -72,11 +72,11 @@ public class DirectedRandomWalkMotionStrategy extends AbstractMotionStrategy {
 		if (updateCount == myUpdateValue){
 	    	double angle = 0;
 	    	double scalerVelocity;
-	    	scalerVelocity = MIN_VELOCITY + (MAX_VELOCITY - MIN_VELOCITY) * RAND.nextDouble();
-	    	if (getDestination() != null && (getDestination().distance(modelElement.getPositionRef()) < DIRECT_MOVEMENT_RANGE || RAND.nextDouble() < DIRECTED_PROPORTION)){
+	    	scalerVelocity = MIN_DIRECTED_VELOCITY + (MAX_DIRECTED_VELOCITY - MIN_DIRECTED_VELOCITY) * RAND.nextDouble();
+	    	if (getDestinationRef() != null && (getDestinationRef().distance(modelElement.getPositionRef()) < DIRECT_MOVEMENT_RANGE || RAND.nextDouble() < DIRECTED_PROPORTION)){
 	    		// Move towards the destination.
-	        	angle = Math.atan2(getDestination().getY() - modelElement.getPositionRef().getY(), 
-	        			getDestination().getX() - modelElement.getPositionRef().getX());
+	        	angle = Math.atan2(getDestinationRef().getY() - modelElement.getPositionRef().getY(), 
+	        			getDestinationRef().getX() - modelElement.getPositionRef().getX());
 	    	}
 	    	else{
 	    		// Do the random walk thing.
