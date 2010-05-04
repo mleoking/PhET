@@ -36,7 +36,7 @@ public class AdminDeployProjectPage extends PhetRegularPage {
         logger.debug( "host: " + host );
         logger.debug( "localhost: " + localhost );
 
-        if ( localhost.equals( host ) ) {
+        if ( localhost.equals( host ) || localhost.equals( "phetsims.colorado.edu" ) || localhost.equals( "phet.colorado.edu" ) ) {
             deploy( parameters );
         }
 
