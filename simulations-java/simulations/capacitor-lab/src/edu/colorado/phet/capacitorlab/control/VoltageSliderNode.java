@@ -17,12 +17,12 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.util.HighlightHandler.ImageHighlightHandler;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -180,47 +180,14 @@ public class VoltageSliderNode extends PhetPNode {
      */
     private static class KnobNode extends PNode {
         
-        private boolean mousePressed;
-        private boolean mouseInside;
-        
         public KnobNode() {
-            
             // image, origin moved to center
-            final PImage imageNode = new PImage( CLImages.SLIDER_KNOB );
+            PImage imageNode = new PImage( CLImages.SLIDER_KNOB );
             addChild( imageNode );
             double x = -( imageNode.getFullBoundsReference().getWidth() / 2 );
             double y = -( imageNode.getFullBoundsReference().getHeight() / 2 );
             imageNode.setOffset( x, y );
-            
-            addInputEventListener( new PBasicInputEventHandler() {
-                
-                @Override
-                public void mousePressed( PInputEvent event ) {
-                    mousePressed = true;
-                }
-
-                @Override
-                public void mouseReleased( PInputEvent event ) {
-                    mousePressed = false;
-                    if ( !mouseInside ) {
-                        imageNode.setImage( CLImages.SLIDER_KNOB );
-                    }
-                }
-
-                @Override
-                public void mouseEntered( PInputEvent event ) {
-                    mouseInside = true;
-                    imageNode.setImage( CLImages.SLIDER_KNOB_HIGHLIGHT );
-                }
-
-                @Override
-                public void mouseExited( PInputEvent event ) {
-                    mouseInside = false;
-                    if ( !mousePressed ) {
-                        imageNode.setImage( CLImages.SLIDER_KNOB );
-                    }
-                }
-            } );
+            addInputEventListener( new ImageHighlightHandler( imageNode, CLImages.SLIDER_KNOB, CLImages.SLIDER_KNOB_HIGHLIGHT ) );
         }
     }
     
