@@ -47,7 +47,8 @@ public class SVNStatusChecker {
             boolean ok = true;
             while ( t.hasMoreTokens() ) {
                 String token = t.nextToken();
-                boolean acceptableToken = token.startsWith( "Status against revision:" );
+                // patched because SVN seems to be having some problems with this. Still looking for the workaround
+                boolean acceptableToken = token.startsWith( "Status against revision:" ) || token.contains( "libgssapi_krb5.so.2" );
                 int tokenLength = token.trim().length();
                 if ( tokenLength > 0 && !acceptableToken ) {
                     ok = false;
