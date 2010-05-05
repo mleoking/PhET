@@ -1,3 +1,9 @@
+5/4/10 Made LacI hold on to lactose longer.
+5/4/10 Fixed issue where motion was being adjusted based on number of steps and not amount of time that had passed.
+5/4/10 LacI binds more quickly to Lac Operator.
+5/3/10 Changed to produce less LacI.
+5/3/10 Changed to make fewer LacYs than LacZs per strand of mRNA.  This was requested by UBC team.
+5/3/10 Fixed issue where the presence of LacI was affecting LacZ-LacY production even if the lac operator wasn't present.
 # 0.00.18 (40008) Apr 21, 2010
 4/21/10 2nd candidate for review with UBC folks, fixes issue with placement of LacY on the cell membrane.
 # 0.00.17 (40005) Apr 21, 2010
