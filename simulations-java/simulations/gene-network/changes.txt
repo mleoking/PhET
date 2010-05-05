@@ -1,3 +1,5 @@
+# 0.00.19 (40403) May 5, 2010
+5/5/10 Version with several modifications based on feedback from GS and JT of UBC.
 5/4/10 Made LacI hold on to lactose longer.
 5/4/10 Fixed issue where motion was being adjusted based on number of steps and not amount of time that had passed.
 5/4/10 LacI binds more quickly to Lac Operator.
