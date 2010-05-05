@@ -108,8 +108,8 @@ public abstract class SimpleModelElement implements IModelElement{
 	 * fadeout could be awkward or troublesome.
 	 * 
 	 * Note that this does NOT pause the existence clock, so it is very
-	 * possible that when clearing this flag after having had it set for a
-	 * while that the object will start fading right away.
+	 * possible that clearing this flag will cause this model element to
+	 * start fading away.
 	 * 
 	 * @param okayToFade
 	 */
@@ -339,6 +339,15 @@ public abstract class SimpleModelElement implements IModelElement{
 			this.motionStrategy.cleanup();
 		}
 		this.motionStrategy = motionStrategy;
+	}
+	
+	/**
+	 * Get the amount of existence time remaining.  This will return zero for
+	 * the state where it is used up all its existence time but is not allowed
+	 * to fade out.
+	 */
+	protected double getExistenceTimeCountdown(){
+		return existenceTimeCountdown;
 	}
 	
 	/**
