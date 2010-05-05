@@ -36,7 +36,7 @@ public class PlateSeparationDragHandleNode extends PhetPNode {
         // value
         final DragHandleValueNode valueNode = new DragHandleValueNode( CLStrings.PATTERN_PLATE_SEPARATION, capacitor.getPlateSeparation(), CLStrings.UNITS_MILLIMETERS );
         
-        // update value when offset changes
+        // update value when plate separation changes
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
             @Override
             public void plateSeparationChanged() {
