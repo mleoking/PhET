@@ -24,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author John Blanco
  */
-public class AxonModel implements IParticleCapture {
+public class AxonModel implements IParticleCapture, IMembranePotential {
     
     //----------------------------------------------------------------------------
     // Class Data
@@ -153,11 +153,9 @@ public class AxonModel implements IParticleCapture {
     	return new ArrayList<MembraneChannel>(membraneChannels);
     }
     
-    /**
-     * Get the membrane potential in volts.
-     * 
-     * @return
-     */
+    /* (non-Javadoc)
+	 * @see edu.colorado.phet.neuron.model.IMembranePotential#getMembranePotential()
+	 */
     public double getMembranePotential(){
     	return hodgkinHuxleyModel.getMembraneVoltage();
     }
