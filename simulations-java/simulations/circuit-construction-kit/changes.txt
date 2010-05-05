@@ -1,3 +1,5 @@
+Added developer controls for trading off accuracy and speed in the physics engine
+Added timestep subdivision algorithm for improving the physics engine, see #2241
 > Removed show equations feature, see #1913
 # 3.18.04 (38771) Feb 18, 2010
 2/18/10 Deploy to dev
