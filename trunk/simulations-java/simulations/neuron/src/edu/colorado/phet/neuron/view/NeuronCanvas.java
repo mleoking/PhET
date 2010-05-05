@@ -75,6 +75,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private PNode channelLayer;
     private PNode channelEdgeLayer;
     private PNode chartLayer;
+    private PNode chargeSymbolLayer;
     
     // Chart for showing membrane potential.
     private MembranePotentialChart membranePotentialChart;
@@ -116,6 +117,9 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 			public void potentialChartVisibilityChanged(){
 				membranePotentialChart.setVisible(model.isPotentialChartVisible());
 			}
+			public void chargesShownChanged() {
+				updateChargeSymbolsShown();
+			}
 			public void stimulationLockoutStateChanged() {
 				updateStimButtonState();
 			}
@@ -135,12 +139,14 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         particleLayer = new PNode();
         channelLayer = new PNode();
         channelEdgeLayer = new PNode();
+        chargeSymbolLayer = new PNode();
 
         myWorldNode.addChild(axonBodyLayer);
         myWorldNode.addChild(axonCrossSectionLayer);
         myWorldNode.addChild(channelLayer);
         myWorldNode.addChild(particleLayer);
         myWorldNode.addChild(channelEdgeLayer);
+        myWorldNode.addChild(chargeSymbolLayer);
 
         chartLayer = new PNode();
         addScreenChild(chartLayer);
@@ -247,6 +253,25 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     
     private void updateStimButtonState(){
     	stimulateNeuronButton2.setEnabled(!model.isStimulusInitiationLockedOut());
+    }
+    
+    private void updateChargeSymbolsShown(){
+    	// The assumption here is that the charge symbol layer is empty if
+    	// the charges were previously not shown.
+    	if (model.isChargesShown() && chargeSymbolLayer.getChildrenCount() == 0){
+    		addChargeSymbols();
+    	}
+    	else if (!model.isChargesShown() && chargeSymbolLayer.getChildrenCount() > 0){
+    		removeChargeSymbols();
+    	}
+    }
+    
+    private void addChargeSymbols(){
+    	System.out.println("addChargeSymbols stubbed");
+    }
+    
+    private void removeChargeSymbols(){
+    	System.out.println("removeChargeSymbols stubbed");
     }
     
 	public void addZoomListener(ZoomListener neuronCanvasZoomListener){
