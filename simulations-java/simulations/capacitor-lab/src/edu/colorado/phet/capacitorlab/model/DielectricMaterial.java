@@ -3,7 +3,6 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Color;
-import java.text.MessageFormat;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
@@ -39,11 +38,6 @@ public abstract class DielectricMaterial {
     
     public Color getColor() {
         return color;
-    }
-    
-    @Override
-    public String toString() {
-        return MessageFormat.format( CLStrings.PATTERN_DIELECTRIC_MATERIAL, name, dielectricConstant );
     }
     
     public static class Teflon extends DielectricMaterial {

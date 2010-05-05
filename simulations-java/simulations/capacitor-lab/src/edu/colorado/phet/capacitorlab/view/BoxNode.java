@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.view.IBoxColorStrategy.ThreeColorStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -28,22 +29,21 @@ public abstract class BoxNode extends PhetPNode {
     private final TopNode topNode;
     private final FrontNode frontNode;
     private final SideNode sideNode;
+    private final IBoxColorStrategy colorStrategy;
     
     private double width, depth, height;
     
     public BoxNode( Color color ) {
-        this( color, color.darker(), color.darker().darker() );
+        this( 1, 1, 1, color );
     }
     
-    public BoxNode( Paint topPaint, Paint frontPaint, Paint sidePaint ) {
-        this( 1, 1, 1, topPaint, frontPaint, sidePaint );
-    }
-    
-    public BoxNode( double width, double depth, double height, Paint topPaint, Paint frontPaint, Paint sidePaint ) {
+    public BoxNode( double width, double depth, double height, Color color ) {
         
-        topNode = new TopNode( topPaint );
-        frontNode = new FrontNode( frontPaint );
-        sideNode = new SideNode( sidePaint );
+        colorStrategy = new ThreeColorStrategy();
+        
+        topNode = new TopNode( colorStrategy.getTopColor( color ) );
+        frontNode = new FrontNode( colorStrategy.getFrontColor( color ) );
+        sideNode = new SideNode( colorStrategy.getSideColor( color ) );
         
         addChild( topNode );
         addChild( frontNode );
@@ -66,24 +66,13 @@ public abstract class BoxNode extends PhetPNode {
     }
     
     public void setColor( Color color ) {
-        setTopPaint( color );
-        setFrontPaint( color.darker() );
-        setSidePaint( color.darker().darker() );
-    }
-    
-    public void setTopPaint( Paint paint ) {
-        topNode.setPaint( paint );
-    }
-    
-    public void setFrontPaint( Paint paint ) {
-        frontNode.setPaint( paint );
-    }
-    
-    public void setSidePaint( Paint paint ) {
-        sideNode.setPaint( paint );
+        topNode.setPaint( colorStrategy.getTopColor( color ) );
+        frontNode.setPaint( colorStrategy.getFrontColor( color ) );
+        sideNode.setPaint( colorStrategy.getSideColor( color ) );
     }
     
     private void update() {
+        
         // geometry
         topNode.setWidthAndDepth( width, depth );
         frontNode.setWidthAndHeight( width, height );
@@ -99,7 +88,6 @@ public abstract class BoxNode extends PhetPNode {
         x = frontNode.getXOffset();
         y = frontNode.getYOffset();
         topNode.setOffset( x, y );
-
     }
     
     private abstract static class FaceNode extends PPath {
