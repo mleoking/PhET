@@ -512,16 +512,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         public AdvancedControlPanel(final CCKModule module) {
             super(CCKResources.getString("CCK3ControlPanel.Enable"), CCKResources.getString("CCK3ControlPanel.Disable"));
             this.module = module;
-//            resistivitySlider = new PhetSlider( CCKResources.getString( "CCK3ControlPanel.WireResistivitySlider" ),
-//                                                CCKResources.getString( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
-//                                                ResistivityManager.DEFAULT_RESISTIVITY, 1, module.getResistivityManager().getResistivity(),
-//                                                new DecimalFormat( "0.0000000" ) );
-//            resistivitySlider.setBorder( null );
-//            resistivitySlider.getTitleLabel().setFont( CCKLookAndFeel.getFont() );
-//            resistivitySlider.setNumMajorTicks( 5 );
-//            resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
             resistivitySlider = new ResistivitySlider();
-
 
             addControl(resistivitySlider);
             resistivitySlider.addChangeListener(new ChangeListener() {
