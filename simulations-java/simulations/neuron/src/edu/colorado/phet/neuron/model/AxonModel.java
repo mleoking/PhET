@@ -69,6 +69,9 @@ public class AxonModel implements IParticleCapture {
 	// Default for whether the membrane potential chart is visible.
 	private static final boolean DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY = false;
 	
+	// Default for whether charges are shown.
+	private static final boolean DEFAULT_FOR_CHARGES_SHOWN = false;
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -84,6 +87,7 @@ public class AxonModel implements IParticleCapture {
     private IHodgkinHuxleyModel hodgkinHuxleyModel = new ModifiedHodgkinHuxleyModel();
     private boolean potentialChartVisible = DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY;
     private boolean allIonsSimulated = DEFAULT_FOR_SHOW_ALL_IONS; // Controls whether all ions, or just those near membrane, are simulated.
+    private boolean chargesShown = DEFAULT_FOR_CHARGES_SHOWN; // Controls whether charges are depicted.
     private double stimLockoutCountdownTime;
 
     //----------------------------------------------------------------------------
@@ -178,6 +182,23 @@ public class AxonModel implements IParticleCapture {
     }
     
     /**
+     * For consistency with convention, "is" is used instead of "are".  I know
+     * the grammar is bad.  Get over it.
+     * 
+     * @return
+     */
+    public boolean isChargesShown(){
+    	return isChargesShown();
+    }
+    
+    public void setChargesShown(boolean chargesShown){
+    	if (this.chargesShown != chargesShown){
+    		this.chargesShown = chargesShown;
+    		notifyChargesShownChanged();
+    	}
+    }
+    
+    /**
      * Return a value indicating whether simulation of all ions is currently
      * turned on in the simulation.  And yes, it would be more grammatically
      * correct to set "areAllIonsSimulated", but we are sticking with the
@@ -212,6 +233,8 @@ public class AxonModel implements IParticleCapture {
     		}
     	}
     }
+    
+    
     
     //----------------------------------------------------------------------------
     // Other Methods
@@ -512,6 +535,12 @@ public class AxonModel implements IParticleCapture {
 	private void notifyPotentialChartVisibilityChanged(){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.potentialChartVisibilityChanged();
+		}
+	}
+	
+	private void notifyChargesShownChanged(){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.chargesShownChanged();
 		}
 	}
 	
@@ -838,6 +867,12 @@ public class AxonModel implements IParticleCapture {
     	public void potentialChartVisibilityChanged();
     	
     	/**
+    	 * Notification that the setting for whether or not the charges are
+    	 * shown has changed.
+    	 */
+    	public void chargesShownChanged();
+    	
+    	/**
     	 * Notification that the setting for whether or not all ions are
     	 * included in the simulation has changed.
     	 */
@@ -857,5 +892,6 @@ public class AxonModel implements IParticleCapture {
 		public void potentialChartVisibilityChanged() {}
 		public void stimulationLockoutStateChanged() {}
 		public void allIonsSimulatedChanged() {}
+		public void chargesShownChanged() {}
     }
 }
