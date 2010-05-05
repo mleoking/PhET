@@ -8,8 +8,7 @@ import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.capacitorlab.model.CLModel;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -25,20 +24,21 @@ public abstract class WireNode extends PComposite {
     private static final Stroke WIRE_STROKE = new BasicStroke( 1f );
     private static final Color WIRE_STROKE_COLOR = Color.BLACK;
     private static final Color WIRE_FILL_COLOR = Color.LIGHT_GRAY;
-    private static final double WIRE_THICKNESS = 3; // mm
-    private static final double WIRE_HEIGHT = 85; // mm
     
-    private final CLModel model;
+    private final Wire wire;
+    private final Capacitor capacitor;
+    private final Battery battery;
     private final ModelViewTransform mvt;
-    private final double wireHeight, wireThickness;
     
     private final GeneralPath wirePath;
     private final PPath wireNode;
 
-    public WireNode( CLModel model, ModelViewTransform mvt, double wireHeight, double wireThickness ) {
+    public WireNode( Wire wire, Capacitor capacitor, Battery battery, ModelViewTransform mvt ) {
         
-        this.model = model;
-        model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeAdapter() {
+        this.wire = wire;
+        
+        this.capacitor = capacitor;
+        capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
 
             @Override
             public void plateSeparationChanged() {
@@ -51,7 +51,9 @@ public abstract class WireNode extends PComposite {
             }
             
         });
-        model.getBattery().addBatteryChangeListener( new BatteryChangeAdapter() {
+        
+        this.battery = battery;
+        battery.addBatteryChangeListener( new BatteryChangeAdapter() {
             @Override
             public void polarityChanged() {
                 update();
@@ -59,8 +61,6 @@ public abstract class WireNode extends PComposite {
         });
         
         this.mvt = mvt;
-        this.wireHeight = wireHeight;
-        this.wireThickness = wireThickness;
         
         wirePath = new GeneralPath();
         wireNode = new PPath( wirePath );
@@ -74,20 +74,20 @@ public abstract class WireNode extends PComposite {
     
     protected abstract void update();
     
-    protected CLModel getModel() {
-        return model;
+    protected Wire getWire() {
+        return wire;
+    }
+    
+    protected Capacitor getCapacitor() {
+        return capacitor;
+    }
+    
+    protected Battery getBattery() {
+        return battery;
     }
     
     protected ModelViewTransform getModelViewTransform() {
         return mvt;
-    }
-    
-    protected double getWireHeight() {
-        return wireHeight;
-    }
-    
-    protected double getWireThickness() {
-        return wireThickness;
     }
     
     protected GeneralPath getWirePath() {
@@ -103,26 +103,28 @@ public abstract class WireNode extends PComposite {
      */
     public static class TopWireNode extends WireNode {
         public TopWireNode( CLModel model, ModelViewTransform mvt ) {
-            super( model, mvt, -Math.abs( WIRE_HEIGHT ), WIRE_THICKNESS );
+            super( model.getTopWire(), model.getCapacitor(), model.getBattery(), mvt );
         }
         
         protected void update() {
             
-            CLModel model = getModel();
+            Wire wire = getWire();
+            Capacitor capacitor = getCapacitor();
+            Battery battery = getBattery();
             ModelViewTransform mvt = getModelViewTransform();
             GeneralPath wirePath = getWirePath();
             PPath wireNode = getWireNode();
             
             // model-to-view transforms
-            Point2D pBattery = mvt.modelToView( model.getBattery().getLocationReference() );
-            Point2D pCapacitor = mvt.modelToView( model.getCapacitor().getLocationReference() );
-            double wireHeight = mvt.modelToView( getWireHeight() );
-            double wireThickness = mvt.modelToView( getWireThickness() );
-            double plateSeparation = mvt.modelToView( model.getCapacitor().getPlateSeparation() );
-            double plateThickness = mvt.modelToView( model.getCapacitor().getPlateThickness() );
+            Point2D pBattery = mvt.modelToView( battery.getLocationReference() );
+            Point2D pCapacitor = mvt.modelToView( capacitor.getLocationReference() );
+            double wireHeight = -Math.abs( mvt.modelToView( wire.getExtent() ) );
+            double wireThickness = mvt.modelToView( wire.getThickness() );
+            double plateSeparation = mvt.modelToView( capacitor.getPlateSeparation() );
+            double plateThickness = mvt.modelToView( capacitor.getPlateThickness() );
             
             // HACK: alignment with plus and minus terminals of battery, values chosen by visual inspection
-            double yOffsetToBatteryTerminal = ( model.getBattery().getVoltage() >= 0 ) ? 102 : 92;
+            double yOffsetToBatteryTerminal = ( battery.getVoltage() >= 0 ) ? 102 : 92;
             
             // geometry
             wirePath.reset();
@@ -145,23 +147,25 @@ public abstract class WireNode extends PComposite {
     public static class BottomWireNode extends WireNode {
         
         public BottomWireNode( CLModel model, ModelViewTransform mvt ) {
-            super( model, mvt, Math.abs( WIRE_HEIGHT ), WIRE_THICKNESS );
+            super( model.getBottomWire(), model.getCapacitor(), model.getBattery(), mvt );
         }
         
         protected void update() {
             
-            CLModel model = getModel();
+            Wire wire = getWire();
+            Capacitor capacitor = getCapacitor();
+            Battery battery = getBattery();
             ModelViewTransform mvt = getModelViewTransform();
             GeneralPath wirePath = getWirePath();
             PPath wireNode = getWireNode();
             
             // model-to-view transforms
-            Point2D pBattery = mvt.modelToView( model.getBattery().getLocationReference() );
-            Point2D pCapacitor = mvt.modelToView( model.getCapacitor().getLocationReference() );
-            double wireHeight = mvt.modelToView( getWireHeight() );
-            double wireThickness = mvt.modelToView( getWireThickness() );
-            double plateSeparation = mvt.modelToView( model.getCapacitor().getPlateSeparation() );
-            double plateThickness = mvt.modelToView( model.getCapacitor().getPlateThickness() );
+            Point2D pBattery = mvt.modelToView( battery.getLocationReference() );
+            Point2D pCapacitor = mvt.modelToView( capacitor.getLocationReference() );
+            double wireHeight = Math.abs( mvt.modelToView( wire.getExtent() ) );
+            double wireThickness = mvt.modelToView( wire.getThickness() );
+            double plateSeparation = mvt.modelToView( capacitor.getPlateSeparation() );
+            double plateThickness = mvt.modelToView( capacitor.getPlateThickness() );
             
             // geometry
             wirePath.reset();
