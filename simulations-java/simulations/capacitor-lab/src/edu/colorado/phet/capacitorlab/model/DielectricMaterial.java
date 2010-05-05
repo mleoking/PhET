@@ -10,7 +10,13 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 
-
+/**
+ * Base class and subclasses for dielectric materials.
+ * All subclasses for "real" materials are immutable.
+ * The subclass for a "custom" material has a mutable dielectric constant.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public abstract class DielectricMaterial {
     
     private final String name;
@@ -58,6 +64,10 @@ public abstract class DielectricMaterial {
         }
     }
     
+    /**
+     * A custom dielectric material with mutable dielectric constant.
+     * Listeners are notified when this material changes.
+     */
     public static class CustomDielectricMaterial extends DielectricMaterial {
         
         private final EventListenerList listeners;
