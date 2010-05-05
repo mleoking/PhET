@@ -21,26 +21,31 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( 0, CLConstants.DRAG_HANDLE_ARROW_LENGTH );
     
-    private static final double LINE_LENGTH = 60;
+    private static final double LINE_LENGTH = 20;
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( 0, LINE_LENGTH );
+    
+    private final DragHandleArrowNode arrowNode;
+    private final DragHandleLineNode lineNode;
+    private final DragHandleValueNode valueNode;
     
     public PlateAreaDragHandleNode( final Capacitor capacitor ) {
         
         // arrow
-        DragHandleArrowNode arrowNode = new DragHandleArrowNode( ARROW_TIP_LOCATION, ARROW_TAIL_LOCATION );
+        arrowNode = new DragHandleArrowNode( ARROW_TIP_LOCATION, ARROW_TAIL_LOCATION );
         
         // line
-        DragHandleLineNode lineNode = new DragHandleLineNode( LINE_START_LOCATION, LINE_END_LOCATION );
+        lineNode = new DragHandleLineNode( LINE_START_LOCATION, LINE_END_LOCATION );
         
         // value
-        final DragHandleValueNode valueNode = new DragHandleValueNode( CLStrings.PATTERN_PLATE_AREA, capacitor.getPlateArea(), CLStrings.UNITS_MILLIMETERS_SQUARED );
+        valueNode = new DragHandleValueNode( CLStrings.PATTERN_PLATE_AREA, capacitor.getPlateArea(), CLStrings.UNITS_MILLIMETERS_SQUARED );
         
-        // update value when offset changes
+        // update value and layout when plate size changes
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
             @Override
             public void plateSizeChanged() {
                 valueNode.setValue( capacitor.getPlateArea() );
+                updateLayout();
             }
         });
         
@@ -50,14 +55,21 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         addChild( valueNode );
         
         // layout
+        updateLayout();
+    }
+    
+    private void updateLayout() {
+        double angle = ( ( Math.PI / 2) - CLConstants.VIEWING_ANGLE ) + ( CLConstants.VIEWING_ANGLE / 2 ); // aligned with diagonal of plate surface
         double x = 0;
         double y = 0;
         lineNode.setOffset( x, y );
-        x = 0;
+        lineNode.setRotation( angle );
+        x = lineNode.getFullBoundsReference().getMinX();
         y = lineNode.getFullBoundsReference().getMaxY() + 2;
         arrowNode.setOffset( x, y );
-        x = arrowNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth();
-        y = arrowNode.getFullBoundsReference().getMaxY() + 2;
+        arrowNode.setRotation( angle );
+        x = lineNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth();
+        y = lineNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight();
         valueNode.setOffset( x, y );
     }
 }
