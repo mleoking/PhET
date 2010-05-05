@@ -1,5 +1,6 @@
-5/4/10 fix positioning of plate area drag handle
-5/4/10 change layout of plate area drag handle to line up with plate surface diagonal
+5/5/10 add wire to model
+5/5/10 fix positioning of plate area drag handle
+5/5/10 change layout of plate area drag handle to line up with plate surface diagonal
 5/4/10 add drag handles for plate area and separation (not wired up)
 5/4/10 generalize components of drag handles
 5/4/10 migrate HighlightHandler to piccolo-phet

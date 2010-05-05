@@ -27,10 +27,11 @@ public class CLModel {
     private static final double PLATE_SEPARATION = CLConstants.PLATE_SEPARATION_RANGE.getDefault();
     private static final double DIELECTRIC_OFFSET = CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault();
     
-    private final Battery battery;
-    private final Capacitor capacitor;
     private final DielectricMaterial[] dielectricMaterials;
     private final DielectricMaterial defaultDielectricMaterial;
+    private final Battery battery;
+    private final Capacitor capacitor;
+    private final Wire topWire, bottomWire;
 
     public CLModel() {
         
@@ -44,6 +45,13 @@ public class CLModel {
         battery = new Battery( BATTERY_LOCATION, BATTERY_VOLTAGE, BATTERY_CONNECTED );
         
         capacitor = new Capacitor( CAPACITOR_LOCATION, PLATE_SIZE, PLATE_SEPARATION, defaultDielectricMaterial, DIELECTRIC_OFFSET );
+        
+        topWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.TOP_WIRE_EXTENT );
+        bottomWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.BOTTOM_WIRE_EXTENT );
+    }
+    
+    public DielectricMaterial[] getDielectricMaterials() {
+        return dielectricMaterials;
     }
     
     public Battery getBattery() {
@@ -54,8 +62,12 @@ public class CLModel {
         return capacitor;
     }
     
-    public DielectricMaterial[] getDielectricMaterials() {
-        return dielectricMaterials;
+    public Wire getTopWire() {
+        return topWire;
+    }
+    
+    public Wire getBottomWire() {
+        return bottomWire;
     }
     
     public void reset() {

@@ -48,6 +48,10 @@ public class CLConstants {
     public static final DoubleRange DIELECTRIC_OFFSET_RANGE = new DoubleRange( 0, PLATE_SIZE_RANGE.getMax(), 0 ); // mm
     public static final double DIELECTRIC_GAP = 1.0; // mm
     
+    public static final double WIRE_THICKNESS = 3; // mm
+    public static final double TOP_WIRE_EXTENT = Math.abs( 85 ); // how far the top wire extends above the capactor's origin, absolute value (mm)
+    public static final double BOTTOM_WIRE_EXTENT = TOP_WIRE_EXTENT; // how far the bottom wire extends below the capactor's origin, absolute value (mm)
+    
     // model-view transform
     public static final double MVT_SCALE = 3;
     public static final Point2D MVT_OFFSET = new Point2D.Double( Math.abs( BATTERY_LOCATION.getX() ) + 60, 125 ); // mm
@@ -64,7 +68,7 @@ public class CLConstants {
     
     public static final double PSWING_SCALE = 1.5;
     
-    public static final double DRAG_HANDLE_ARROW_LENGTH = 35;
+    public static final double DRAG_HANDLE_ARROW_LENGTH = 35; // pixels
     
     //----------------------------------------------------------------------------
     // Control
