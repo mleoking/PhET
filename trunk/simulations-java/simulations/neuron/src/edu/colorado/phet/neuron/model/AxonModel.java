@@ -188,7 +188,7 @@ public class AxonModel implements IParticleCapture {
      * @return
      */
     public boolean isChargesShown(){
-    	return isChargesShown();
+    	return chargesShown;
     }
     
     public void setChargesShown(boolean chargesShown){
