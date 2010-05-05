@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
@@ -17,6 +19,7 @@ public class CapacitorNode extends PhetPNode {
     private final PNode parentNode;
     private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
+    private final Point2D plateSizeDragPointOffset;
     
     public CapacitorNode( Capacitor capacitor, ModelViewTransform mvt ) {
         
@@ -41,6 +44,8 @@ public class CapacitorNode extends PhetPNode {
         });
         
         this.mvt = mvt;
+        
+        plateSizeDragPointOffset = new Point2D.Double();
         
         parentNode = new PNode();
         topPlateNode = new PlateNode();
@@ -86,9 +91,14 @@ public class CapacitorNode extends PhetPNode {
         x = -( parentNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( parentNode );
         y = -( parentNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( parentNode );
         parentNode.setOffset( x, y );
+        plateSizeDragPointOffset.setLocation( x, y );
         
         // adjust the dielectric offset
         updateDielectricOffset();
+    }
+    
+    public Point2D getPlateSizeDragPointOffsetReference() {
+        return plateSizeDragPointOffset;
     }
     
     private void updateDielectricOffset() {

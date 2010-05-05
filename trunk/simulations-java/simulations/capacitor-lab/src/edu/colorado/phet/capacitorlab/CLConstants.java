@@ -35,7 +35,7 @@ public class CLConstants {
     // Model
     //----------------------------------------------------------------------------
     
-    public static final Point2D BATTERY_LOCATION = new Point2D.Double( -115, 0 ); // mm
+    public static final Point2D BATTERY_LOCATION = new Point2D.Double( -130, 0 ); // mm
     public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -10, 10, 0 ); // volts
     public static final boolean BATTERY_CONNECTED = true;
     
@@ -50,7 +50,7 @@ public class CLConstants {
     
     // model-view transform
     public static final double MVT_SCALE = 3;
-    public static final Point2D MVT_OFFSET = new Point2D.Double( 175, 125 ); // mm
+    public static final Point2D MVT_OFFSET = new Point2D.Double( Math.abs( BATTERY_LOCATION.getX() ) + 60, 125 ); // mm
     
     //----------------------------------------------------------------------------
     // View
@@ -59,8 +59,8 @@ public class CLConstants {
     // reference coordinate frame size for world nodes
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
     
-    public static final double VIEWING_ANGLE = Math.toRadians( 45 ); // radians
-    public static final double FORESHORTENING_FACTOR = 0.5; // how much lines going away from the viewer should be shortened
+    public static final double VIEWING_ANGLE = Math.toRadians( 45 ); // angle of the bottom left corner in the top plate's parallelogram (radians)
+    public static final double FORESHORTENING_FACTOR = 0.5; // how much lines going away from the viewer should be shortened (dimensionless)
     
     public static final double PSWING_SCALE = 1.5;
     
