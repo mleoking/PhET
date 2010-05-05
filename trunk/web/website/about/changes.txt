@@ -27,8 +27,7 @@
 1-23-2009: Nuclear Fission (3.08) - Added the ability to reset the chain reaction, improved reset of the reactor, modified the ray gun to have no text on it.
 1-12-2009: Glaciers (2.00) - many new features, minor bug fixes
 11-17-2008: Balloons and Static Electricity (1.07) - use PhET common code framework
-11-17-2008: Radio Waves and Electromagnetic Fields (1.06) - minor bug fixes,
-use PhET common code framework
+11-17-2008: Radio Waves and Electromagnetic Fields (1.06) - minor bug fixes, use PhET common code framework
 11-5-2008: Forces in 1 Dimension (1.19) - Minor user interface improvements
 11-5-2008: Wave Interference (1.06) - Waves are now in phase after using a single pulse
 11-4-2008: Circuit Construction Kit (3.15) - Added help for right clicking
