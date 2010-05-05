@@ -81,9 +81,9 @@ public class DielectricCanvas extends CLCanvas {
         connectButtonNode = new ConnectButtonNode( model.getBattery() );
         disconnectButtonNode = new DisconnectButtonNode( model.getBattery() );
         
-        dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( model.getCapacitor() );
-        plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor() );
-        plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor() );
+        dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
+        plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
+        plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SIZE_RANGE );
         
         // rendering order
         addChild( bottomWireNode );

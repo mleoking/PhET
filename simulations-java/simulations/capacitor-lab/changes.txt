@@ -1,3 +1,5 @@
+5/5/10 remove developer control panel from Dielectric module control panel
+5/5/10 implement handlers for drag handles (still has some coordinate frame conversion issues)
 5/5/10 use strategy pattern for determining how to color the faces of a box
 5/5/10 custom renderer for combo box that provides choice of dielectric materials
 5/5/10 add wire to model
