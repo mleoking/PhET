@@ -41,6 +41,7 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
 	
 	private JCheckBox showAllIonsCheckBox;
 	private JCheckBox chartControlCheckbox;
+	private JCheckBox showChargesCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -65,10 +66,15 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
     		}
 
         	@Override
-    		public void allIonsSimulatedChanged() {
-    			updateShowAllIonsCheckBox();
+    		public void chargesShownChanged() {
+    			updateShowChargesCheckBox();
     		}
 
+        	@Override
+        	public void allIonsSimulatedChanged() {
+        		updateShowAllIonsCheckBox();
+        	}
+        	
         	@Override
     		public void stimulationLockoutStateChanged() {
         		// When stimulation is locked out, we also lock out the
@@ -101,7 +107,6 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         showAllIonsCheckBox = new JCheckBox(NeuronStrings.SHOW_ALL_IONS);
         showAllIonsCheckBox.setFont(NeuronConstants.CONTROL_PANEL_CONTROL_FONT);
         showAllIonsCheckBox.addItemListener(new ItemListener() {
-			
 			public void itemStateChanged(ItemEvent e) {
 				axonModel.setAllIonsSimulated(showAllIonsCheckBox.isSelected());
 			}
@@ -115,7 +120,6 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
         chartControlCheckbox = new JCheckBox(NeuronStrings.SHOW_POTENTIAL_CHART);
         chartControlCheckbox.setFont(NeuronConstants.CONTROL_PANEL_CONTROL_FONT);
         chartControlCheckbox.addItemListener(new ItemListener() {
-			
 			public void itemStateChanged(ItemEvent e) {
 				axonModel.setPotentialChartVisible(chartControlCheckbox.isSelected());
 				
@@ -123,8 +127,23 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
 		});
         chartControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
         checkBoxPanel.add(chartControlCheckbox);
-        addControlFullWidth(checkBoxPanel);
         updateChartVisibilityCheckBox();
+        
+        // Add the check box for controlling whether charge symbols are shown.
+        addControlFullWidth(createVerticalSpacingPanel(5));
+        showChargesCheckBox = new JCheckBox(NeuronStrings.SHOW_CHARGES);
+        showChargesCheckBox.setFont(NeuronConstants.CONTROL_PANEL_CONTROL_FONT);
+        showChargesCheckBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				axonModel.setChargesShown(showChargesCheckBox.isSelected());
+			}
+		});
+        showChargesCheckBox.setAlignmentX(CENTER_ALIGNMENT);
+        addControlFullWidth(checkBoxPanel);
+        updateShowChargesCheckBox();
+        
+        // Add the panel containing the check boxes.
+        checkBoxPanel.add(showChargesCheckBox);
         
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(30));
@@ -148,5 +167,9 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
     
     private void updateShowAllIonsCheckBox(){
 		showAllIonsCheckBox.setSelected(axonModel.isAllIonsSimulated());
+    }
+    
+    private void updateShowChargesCheckBox(){
+		showChargesCheckBox.setSelected(axonModel.isChargesShown());
     }
 }

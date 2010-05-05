@@ -24,6 +24,7 @@ public class NeuronStrings {
     
     public static final String SHOW_ALL_IONS = getString( "ShowAllIons" );
     public static final String SHOW_POTENTIAL_CHART = getString( "ShowPotentialChart" );
+    public static final String SHOW_CHARGES = getString( "ShowCharges" );
 
     public static final String CONTROL = getString( "Control.title" );
 
