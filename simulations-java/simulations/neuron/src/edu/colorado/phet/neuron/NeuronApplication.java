@@ -20,7 +20,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalDynamicsDlg;
 import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalParamsDlg;
 import edu.colorado.phet.neuron.module.AxonCrossSectionModule;
-import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 
 /**
  * NeuronApplication is the main application for this simulation.
@@ -34,7 +33,6 @@ public class NeuronApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     private AxonCrossSectionModule neuronModule;
-    private MembraneDiffusionModule membraneDiffusionModule;
     
     // Developer window(s) and things for controlling them.
     private HodgkinHuxleyInternalDynamicsDlg hhInternalDynamicsDlg = null;
@@ -69,23 +67,12 @@ public class NeuronApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        membraneDiffusionModule = new MembraneDiffusionModule(parentFrame);
-        addModule(membraneDiffusionModule);
-
         neuronModule = new AxonCrossSectionModule( parentFrame );
         addModule( neuronModule );
-        
-        /*
-         * TODO: Removed this tab for now, since we are not doing the resting
-         * membrane potential any more.  Replace it with something else or
-         * remove entirely once the details are worked out.
-        restingPotentialModule = new RestingPotentialModule(parentFrame);
-        addModule( restingPotentialModule );
-         */
     }
 
     /**
-     * Initializes the menubar.
+     * Initializes the menu bar.
      */
     private void initMenubar( String[] args ) {
 
