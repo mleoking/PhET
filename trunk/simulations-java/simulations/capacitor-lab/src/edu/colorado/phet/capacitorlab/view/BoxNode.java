@@ -14,8 +14,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Pseudo-3D representation of a box, using parallelograms.
- * The top and side faces are foreshortened to give the illusion of distance between front and back planes.
- *
+ * Three sides are visible: front, right side, top.
+ * The top and right-side faces are foreshortened to give the illusion of distance between front and back planes.
+ * Origin is at the upper-left corner of the front face.
+ * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class BoxNode extends PhetPNode {
