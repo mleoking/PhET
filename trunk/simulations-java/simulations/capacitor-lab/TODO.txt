@@ -1,13 +1,15 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
+- solve coordinate frame conversion issues for drag handles
+- fix behavior of plate size drag handle, whose axis is on the diagonal of the top plate
 - utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
-- direct manipulation of plate size, plate separation, dielectric offset
 - blue arrow and glowing sphere to represent current flow
 
 MEDUIUM PRIORITY
 
 LOW PRIORITY
+- delete DeveloperControlPanel if it's no longer used
 
 MIGRATE TO PHETCOMMON
 - PolygonUtils
