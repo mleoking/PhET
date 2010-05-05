@@ -14,10 +14,4 @@ public class DielectricNode extends BoxNode {
     public DielectricNode( Color color ) {
         super( color );
     }
-    
-    public void setColor( Color color ) {
-        setTopPaint( color );
-        setFrontPaint( color.darker() );
-        setSidePaint( color.darker().darker() );
-    }
 }
