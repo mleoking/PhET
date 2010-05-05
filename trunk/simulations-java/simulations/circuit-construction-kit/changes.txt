@@ -1,3 +1,5 @@
+Changed default timestep parameters from (1E-6,1E-6) to (1E-5,1E-5)
+Changed default resistivity from 1E-8 to 1E-4
 # 3.18.06 (40396) May 4, 2010
 Added developer controls for trading off accuracy and speed in the physics engine
 Added timestep subdivision algorithm for improving the physics engine, see #2241

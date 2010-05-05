@@ -10,7 +10,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
  */
 public class ResistivityManager extends CircuitListenerAdapter {
     private Circuit circuit;
-    public static final double DEFAULT_RESISTIVITY = CCKModel.MIN_RESISTANCE;
+    public static final double DEFAULT_RESISTIVITY = 1E-4;//previously 1E-8, see #2241
     private double resistivity = DEFAULT_RESISTIVITY;
     private boolean enabled = true;
 

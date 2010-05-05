@@ -15,7 +15,7 @@ import java.awt.*;
  * Date: Jun 11, 2008
  * Time: 9:55:32 AM
  */
-public class ResistivitySlider extends JPanel {
+public class ResistivitySlider extends JPanel {//TODO: this should probably be on a log scale, since it ranges from around 1E-4 to 1
     private LinearValueControl control;
 
     public ResistivitySlider() {
