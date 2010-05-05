@@ -48,9 +48,8 @@ public class LacI extends SimpleModelElement {
 	// Time of existence.
 	private static final double EXISTENCE_TIME = 30; // Seconds.
 	
-	// Amount of time that this element and the lactose it bonds with
-	// continues to exist after the bond has occurred.
-	private static final double LACTOSE_BOND_TIME = 11;
+	// Amount of time that this element attaches to lactose.
+	private static final double LACTOSE_ATTACHMENT_TIME = 15;
 	
 	// Point where the lacI heads towards when it is first created.  This was
 	// needed due to a tendency for it to hang around the general area where
@@ -321,9 +320,9 @@ public class LacI extends SimpleModelElement {
 
 	private void updateAttachements(double dt) {
 		// Update any attachment state related to lac operator first.  Note
-		// that it is up to the lac operator to initiate and teminate the
+		// that it is up to the lac operator to initiate and terminate the
 		// attachment, so most of the effort for this relationship happens
-		// in that class.
+		// in that class, not here.
 		if (lacOperatorAttachmentState == AttachmentState.UNATTACHED_BUT_UNAVALABLE){
 			if (recoveryFromLacOperatorAttachmentCountdown != Double.POSITIVE_INFINITY){
 				recoveryFromLacOperatorAttachmentCountdown -= dt;
@@ -385,6 +384,28 @@ public class LacI extends SimpleModelElement {
 				break;
 				
 			case ATTACHED:
+				// See if conditions are right to detach from the lactose.
+				// This only occurs when there is no other free lactose or
+				// when this LacI is ready to fade out.
+				glucoseAttachmentTimeCountdown -= dt;
+				if (glucoseAttachmentTimeCountdown <= 0 && 
+					(getExistenceTimeCountdown() == 0 || 
+					 getModel().getNearestLactose(getPositionRef(), PositionWrtCell.INSIDE_CELL, true) == null)){
+					
+					// Time to release the lactose.
+					glucoseAttachmentPartner.detach(this);
+					glucoseAttachmentPartner = null;
+					glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
+					recoveryFromLactoseAttachmentCountdown = RECOVERY_TIME_FOR_LACTOSE_ATTACHMENT;
+					
+					// When the lactose is gone, LacI reverts to its active shape.
+					setShape(createActiveConformationShape());
+					
+					// It is now okay for the LacI to fade out of existence.
+					setOkayToFade(true);
+				}
+				
+				/*
 				// See if it's time to end the attachment to glucose.
 				glucoseAttachmentTimeCountdown -= dt;
 				if (glucoseAttachmentTimeCountdown <= 0){
@@ -400,6 +421,7 @@ public class LacI extends SimpleModelElement {
 					// It is now okay for the LacI to fade out of existence.
 					setOkayToFade(true);
 				}
+				*/
 				break;
 				
 			case UNATTACHED_BUT_UNAVALABLE:
@@ -539,7 +561,7 @@ public class LacI extends SimpleModelElement {
 		setOkayToFade(false);
 		
 		// Set the bond time.
-		glucoseAttachmentTimeCountdown = LACTOSE_BOND_TIME;
+		glucoseAttachmentTimeCountdown = LACTOSE_ATTACHMENT_TIME;
 	}
 	
 	/**
