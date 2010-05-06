@@ -47,7 +47,11 @@ public class SignInPage extends PhetPage {
             public String getSubUrl( PageContext context ) {
                 try {
                     // always encode the destination because special characters might be hidden
-                    return "sign-in?dest=" + URLEncoder.encode( destination, "UTF-8" );
+                    String finalDestination = destination;
+                    if( finalDestination.equals( "/en/" ) ) {
+                        finalDestination = "/";
+                    }
+                    return "sign-in?dest=" + URLEncoder.encode( finalDestination, "UTF-8" );
                 }
                 catch( UnsupportedEncodingException e ) {
                     e.printStackTrace();
