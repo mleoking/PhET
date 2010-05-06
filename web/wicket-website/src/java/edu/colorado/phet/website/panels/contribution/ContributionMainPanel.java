@@ -37,6 +37,7 @@ import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.StringUtils;
+import edu.colorado.phet.website.constants.Images;
 
 /**
  * Panel for showing a single contribution (most information about it), and then comments below
@@ -70,7 +71,7 @@ public class ContributionMainPanel extends PhetPanel {
             // TODO: localize
             // TODO: link to legend?
             // TODO: add title
-            add( new StaticImage( "gold-star-contribution", "/images/contributions/gold-star.jpg", "Gold Star Contribution" ) );
+            add( new StaticImage( "gold-star-contribution", Images.GOLD_STAR, "Gold Star Contribution" ) );
         }
         else {
             add( new InvisibleComponent( "gold-star-contribution" ) );
@@ -236,7 +237,7 @@ public class ContributionMainPanel extends PhetPanel {
         nominateForm.add( commentContrib2 );
         commentContrib2.add( new AttributeAppender( "value", new Model( Integer.toString( contribution.getId() ) ), "" ) );
 
-        add( new StaticImage( "gold-star-nominate", "/images/contributions/gold-star.jpg", "Gold Star Contribution" ) );
+        add( new StaticImage( "gold-star-nominate", Images.GOLD_STAR, "Gold Star Contribution" ) );
         add( new LocalizedText( "contribution-nominate-text", "contribution.view.nominateText", new Object[]{ContributionGuidelinesPanel.getLinker().getHref( context, getPhetCycle() ), "href=\"/publications/activities-guide/contribution-guidelines.pdf\""} ) );
     }
 

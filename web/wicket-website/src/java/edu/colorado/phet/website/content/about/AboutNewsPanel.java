@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.content.about;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -12,7 +13,7 @@ public class AboutNewsPanel extends PhetPanel {
     public AboutNewsPanel( String id, PageContext context ) {
         super( id, context );
 
-        add( new StaticImage( "newsletter-screenshot", "/images/phet_newsletter_summer_09_thumbnail.png", "Screenshot of the 2009 PhET newsletter" ) );
+        add( new StaticImage( "newsletter-screenshot", Images.NEWSLETTER_SUMMER_09, "Screenshot of the 2009 PhET newsletter" ) );
     }
 
     public static String getKey() {
