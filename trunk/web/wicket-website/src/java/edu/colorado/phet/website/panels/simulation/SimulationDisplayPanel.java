@@ -7,13 +7,13 @@ import java.util.List;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.GridView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -36,7 +36,7 @@ public class SimulationDisplayPanel extends PhetPanel {
             @Override
             protected void populateItem( Item item ) {
                 LocalizedSimulation simulation = (LocalizedSimulation) item.getModelObject();
-                PhetLink link = SimulationPage.createLink( "simulation-link", context, simulation );
+                Link link = SimulationPage.getLinker( simulation ).getLink( "simulation-link", context, getPhetCycle() );
                 link.add( new Label( "title", simulation.getTitle() ) );
                 if ( !simulation.getLocale().getLanguage().equals( context.getLocale().getLanguage() ) ) {
                     // sim isn't translated

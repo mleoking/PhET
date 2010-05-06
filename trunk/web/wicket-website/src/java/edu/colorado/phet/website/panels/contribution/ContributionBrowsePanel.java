@@ -157,7 +157,7 @@ public class ContributionBrowsePanel extends PhetPanel {
                         container.add( new ListView( "contribution-simulations", lsims ) {
                             protected void populateItem( ListItem item ) {
                                 LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
-                                Link link = SimulationPage.createLink( "simulation-link", context, lsim );
+                                Link link = SimulationPage.getLinker( lsim ).getLink( "simulation-link", context, getPhetCycle() );
                                 link.add( new Label( "simulation-title", lsim.getTitle() ) );
                                 item.add( link );
                             }
