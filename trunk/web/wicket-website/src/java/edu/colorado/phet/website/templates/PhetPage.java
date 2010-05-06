@@ -17,6 +17,7 @@ import org.apache.wicket.model.IModel;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
@@ -102,8 +103,8 @@ public abstract class PhetPage extends WebPage implements Stylable {
                 link = new PhetLink( "page-header-home-link", "http://phet.colorado.edu" );
             }
             add( link );
-            link.add( new StaticImage( "page-header-logo-image", "/images/phet-logo.gif", null ) );
-            add( new StaticImage( "page-header-title-image", "/images/logo-title.jpg", null ) );
+            link.add( new StaticImage( "page-header-logo-image", Images.PHET_LOGO, null ) );
+            add( new StaticImage( "page-header-title-image", Images.LOGO_TITLE, null ) );
 
             add( HeaderContributor.forCss( "/css/phetpage-v1.css" ) );
 

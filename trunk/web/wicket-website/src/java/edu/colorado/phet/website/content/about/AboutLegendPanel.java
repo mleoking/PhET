@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.content.about;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -13,10 +14,9 @@ public class AboutLegendPanel extends PhetPanel {
     public AboutLegendPanel( String id, PageContext context ) {
         super( id, context );
 
-        // TODO: consolidate image names
-        add( new StaticImage( "guidance-recommended-image", "/images/ratings/guidance-recommended.png", null ) );
-        add( new StaticImage( "under-construction-image", "/images/ratings/under-construction.png", null ) );
-        add( new StaticImage( "classroom-tested-image", "/images/ratings/classroom-tested.png", null ) );
+        add( new StaticImage( "guidance-recommended-image", Images.GUIDANCE_RECOMMENDED, null ) );
+        add( new StaticImage( "under-construction-image", Images.UNDER_CONSTRUCTION, null ) );
+        add( new StaticImage( "classroom-tested-image", Images.CLASSROOM_TESTED, null ) );
 
         add( new LocalizedText( "about-legend-guidance-recommended", "about.legend.guidance-recommended" ) );
         add( new LocalizedText( "about-legend-under-construction", "about.legend.under-construction" ) );

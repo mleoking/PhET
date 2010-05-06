@@ -17,7 +17,6 @@ public class StaticImage extends WebComponent {
     }
 
     public StaticImage( String id, String url, String alt, IModel altModel ) {
-        // TODO: improve calls to this
         super( id );
         this.url = url;
         this.alt = alt;

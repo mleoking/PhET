@@ -3,6 +3,7 @@ package edu.colorado.phet.website.content;
 import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.about.AboutMainPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -23,7 +24,7 @@ public class ForTranslatorsPanel extends PhetPanel {
         Link screenLink = TranslationUtilityPanel.getLinker().getLink( "translation-utility-link-2", context, getPhetCycle() );
         add( screenLink );
 
-        screenLink.add( new StaticImage( "translation-utility-screenshot", "/images/screenshots/translation-utility-small.png", "Translation Utility Screenshot" ) );
+        screenLink.add( new StaticImage( "translation-utility-screenshot", Images.TRANSLATION_UTILITY_SMALL, "Translation Utility Screenshot" ) );
 
         add( AboutMainPanel.getLinker().getLink( "about-phet-link", context, getPhetCycle() ) );
 

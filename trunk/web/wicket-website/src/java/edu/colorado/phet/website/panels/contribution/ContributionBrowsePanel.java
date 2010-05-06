@@ -27,6 +27,7 @@ import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.WicketUtils;
+import edu.colorado.phet.website.constants.Images;
 
 public class ContributionBrowsePanel extends PhetPanel {
 
@@ -134,7 +135,7 @@ public class ContributionBrowsePanel extends PhetPanel {
                     if ( contribution.isFromPhet() ) {
                         // TODO: localize alt
                         // TODO: add title?
-                        item.add( new StaticImage( "phet-contribution", "/images/contributions/phet-logo-icon-small.jpg", "Contribution by the PhET team" ) );
+                        item.add( new StaticImage( "phet-contribution", Images.PHET_LOGO_ICON_SMALL, "Contribution by the PhET team" ) );
                     }
                     else {
                         item.add( new InvisibleComponent( "phet-contribution" ) );
@@ -143,7 +144,7 @@ public class ContributionBrowsePanel extends PhetPanel {
                     if ( contribution.isGoldStar() ) {
                         // TODO: localize alt
                         // TODO: add title?
-                        item.add( new StaticImage( "gold-star-contribution", "/images/contributions/gold-star-small.jpg", "Gold Star Contribution" ) );
+                        item.add( new StaticImage( "gold-star-contribution", Images.GOLD_STAR_SMALL, "Gold Star Contribution" ) );
                     }
                     else {
                         item.add( new InvisibleComponent( "gold-star-contribution" ) );

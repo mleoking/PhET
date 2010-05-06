@@ -23,6 +23,7 @@ import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.borders.SmallOrangeButtonBorder;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
@@ -90,7 +91,7 @@ public class SimulationMainPanel extends PhetPanel {
 
         if ( simulation.getSimulation().isUnderConstruction() ) {
             Link uclink = AboutLegendPanel.getLinker().getLink( "rating-under-construction-link", context, getPhetCycle() );
-            uclink.add( new StaticImage( "rating-under-construction-image", "/images/ratings/under-construction-small.png", null ) );
+            uclink.add( new StaticImage( "rating-under-construction-image", Images.UNDER_CONSTRUCTION_SMALL, null ) );
             add( uclink );
         }
         else {
@@ -99,7 +100,7 @@ public class SimulationMainPanel extends PhetPanel {
 
         if ( simulation.getSimulation().isGuidanceRecommended() ) {
             Link uclink = AboutLegendPanel.getLinker().getLink( "rating-guidance-recommended-link", context, getPhetCycle() );
-            uclink.add( new StaticImage( "rating-guidance-recommended-image", "/images/ratings/guidance-recommended-small.png", null ) );
+            uclink.add( new StaticImage( "rating-guidance-recommended-image", Images.GUIDANCE_RECOMMENDED_SMALL, null ) );
             add( uclink );
         }
         else {
@@ -108,7 +109,7 @@ public class SimulationMainPanel extends PhetPanel {
 
         if ( simulation.getSimulation().isClassroomTested() ) {
             Link uclink = AboutLegendPanel.getLinker().getLink( "rating-classroom-tested-link", context, getPhetCycle() );
-            uclink.add( new StaticImage( "rating-classroom-tested-image", "/images/ratings/classroom-tested-small.png", null ) );
+            uclink.add( new StaticImage( "rating-classroom-tested-image", Images.CLASSROOM_TESTED_SMALL, null ) );
             add( uclink );
         }
         else {
