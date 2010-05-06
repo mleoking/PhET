@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
+import edu.colorado.phet.website.cache.CacheItem;
 import edu.colorado.phet.website.cache.IPanelCacheEntry;
 import edu.colorado.phet.website.cache.PanelCache;
 
@@ -18,22 +19,22 @@ public class AdminDebugCachePage extends AdminPage {
     public AdminDebugCachePage( PageParameters parameters ) {
         super( parameters );
 
-        // TODO: add ability to view cached content
+        // TODO: (low) add ability to view cached content
 
-        Set<IPanelCacheEntry> entrySet = PanelCache.get().getEntries();
-        List<IPanelCacheEntry> entries = new LinkedList<IPanelCacheEntry>();
+        Set<CacheItem> entrySet = PanelCache.get().getEntries();
+        List<CacheItem> entries = new LinkedList<CacheItem>();
 
         entries.addAll( entrySet );
 
-        Collections.sort( entries, new Comparator<IPanelCacheEntry>() {
-            public int compare( IPanelCacheEntry a, IPanelCacheEntry b ) {
-                int x = a.getPanelClass().getCanonicalName().compareTo( b.getPanelClass().getCanonicalName() );
+        Collections.sort( entries, new Comparator<CacheItem>() {
+            public int compare( CacheItem a, CacheItem b ) {
+                int x = a.getEntry().getPanelClass().getCanonicalName().compareTo( b.getEntry().getPanelClass().getCanonicalName() );
                 if ( x == 0 ) {
-                    if ( a.getParentClass() != null && b.getParentClass() != null ) {
-                        x = a.getParentClass().getCanonicalName().compareTo( b.getParentClass().getCanonicalName() );
+                    if ( a.getEntry().getParentClass() != null && b.getEntry().getParentClass() != null ) {
+                        x = a.getEntry().getParentClass().getCanonicalName().compareTo( b.getEntry().getParentClass().getCanonicalName() );
                     }
                     if ( x == 0 ) {
-                        x = a.getCacheId().compareTo( b.getCacheId() );
+                        x = a.getEntry().getCacheId().compareTo( b.getEntry().getCacheId() );
                     }
                 }
                 return x;
@@ -42,16 +43,18 @@ public class AdminDebugCachePage extends AdminPage {
 
         add( new ListView( "entries", entries ) {
             protected void populateItem( ListItem item ) {
-                IPanelCacheEntry entry = (IPanelCacheEntry) item.getModel().getObject();
-                item.add( new Label( "panel", entry.getPanelClass().getCanonicalName() ) );
-                Class parentClass = entry.getParentClass();
+                CacheItem entry = (CacheItem) item.getModel().getObject();
+                IPanelCacheEntry panelEntry = entry.getEntry();
+                item.add( new Label( "panel", entry.getEntry().getPanelClass().getCanonicalName() ) );
+                Class parentClass = entry.getEntry().getParentClass();
                 if ( parentClass == null ) {
                     item.add( new Label( "parent", "" ) );
                 }
                 else {
                     item.add( new Label( "parent", parentClass.getCanonicalName() ) );
                 }
-                item.add( new Label( "id", entry.getCacheId() ) );
+                item.add( new Label( "id", entry.getEntry().getCacheId() ) );
+                item.add( new Label( "date", entry.getAddDate().toString() ) );
             }
         } );
 

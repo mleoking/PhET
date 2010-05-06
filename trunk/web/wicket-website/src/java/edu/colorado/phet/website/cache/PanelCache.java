@@ -25,7 +25,7 @@ public class PanelCache {
      * Stores cached entries. Should be an entry, entry pair where the entries are identical, so that we can look up
      * corresponding entries with filled in cached values.
      */
-    private HashMap<IPanelCacheEntry, IPanelCacheEntry> cache = new HashMap<IPanelCacheEntry, IPanelCacheEntry>();
+    private HashMap<IPanelCacheEntry, CacheItem> cache = new HashMap<IPanelCacheEntry, CacheItem>();
 
     private static Logger logger = Logger.getLogger( PanelCache.class.getName() );
 
@@ -62,7 +62,8 @@ public class PanelCache {
      */
     public IPanelCacheEntry getMatching( IPanelCacheEntry entry ) {
         synchronized( lock ) {
-            return cache.get( entry );
+            CacheItem item = cache.get( entry );
+            return item == null ? null : item.getEntry();
         }
     }
 
@@ -78,7 +79,7 @@ public class PanelCache {
         synchronized( lock ) {
             adding = !cache.containsKey( entry );
             if ( adding ) {
-                cache.put( entry, entry );
+                cache.put( entry, new CacheItem( entry ) );
                 entry.onEnterCache( this );
             }
         }
@@ -104,12 +105,10 @@ public class PanelCache {
     /**
      * A quick cache dump
      */
-    public Set<IPanelCacheEntry> getEntries() {
-        Set<IPanelCacheEntry> ret = new HashSet<IPanelCacheEntry>();
+    public Set<CacheItem> getEntries() {
+        Set<CacheItem> ret = new HashSet<CacheItem>();
         synchronized( lock ) {
-            for ( IPanelCacheEntry entry : cache.keySet() ) {
-                ret.add( entry );
-            }
+            ret.addAll( cache.values() );
         }
         return ret;
     }

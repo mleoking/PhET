@@ -160,7 +160,7 @@ public abstract class EventDependency {
 
             private void process( final TranslatedString object, Session session ) {
                 //logger.debug( "checking string change on " + object.getKey() + " with panel locale " + locale + " for event: " + EventDependency.this + " this: " + this.toString() );
-                // TODO: assuming getTranslation() works! careful....
+                // assuming getTranslation() works! careful....
                 if ( object.getTranslation().getLocale().equals( locale ) ) {
                     invalidate();
                 }
