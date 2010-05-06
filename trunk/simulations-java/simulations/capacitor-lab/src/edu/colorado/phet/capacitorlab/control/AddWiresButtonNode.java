@@ -15,14 +15,14 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Button that connects the battery to the circuit.
+ * Button that adds the wires that connect the battery to the capacitor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ConnectButtonNode extends PhetPNode {
+public class AddWiresButtonNode extends PhetPNode {
     
-    public ConnectButtonNode( final Battery battery ) {
-        JButton button = new JButton( CLStrings.BUTTON_CONNECT );
+    public AddWiresButtonNode( final Battery battery ) {
+        JButton button = new JButton( CLStrings.BUTTON_ADD_WIRES );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 battery.setConnected( true );

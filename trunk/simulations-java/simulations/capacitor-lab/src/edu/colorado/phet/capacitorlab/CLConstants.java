@@ -54,7 +54,7 @@ public class CLConstants {
     
     // model-view transform
     public static final double MVT_SCALE = 3;
-    public static final Point2D MVT_OFFSET = new Point2D.Double( Math.abs( BATTERY_LOCATION.getX() ) + 60, 125 ); // mm
+    public static final Point2D MVT_OFFSET = new Point2D.Double( Math.abs( BATTERY_LOCATION.getX() ) + 30, 125 ); // mm
     
     //----------------------------------------------------------------------------
     // View

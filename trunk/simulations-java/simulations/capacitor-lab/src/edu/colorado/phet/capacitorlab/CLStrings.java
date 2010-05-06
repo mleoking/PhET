@@ -14,8 +14,8 @@ public class CLStrings {
     /* not intended for instantiation */
     private CLStrings() {}
     
-    public static final String BUTTON_CONNECT = getString( "button.connect" );
-    public static final String BUTTON_DISCONNECT = getString( "button.disconnect" );
+    public static final String BUTTON_ADD_WIRES = getString( "button.addWires" );
+    public static final String BUTTON_REMOVE_WIRES = getString( "button.removeWires" );
     
     public static final String CHECKBOX_PLATE_CHARGES = getString( "checkBox.plateCharges" );
     public static final String CHECKBOX_ELECTRIC_FIELD_LINES = getString( "checkBox.electricFieldLines" );

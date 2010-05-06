@@ -33,8 +33,8 @@ public class DielectricCanvas extends CLCanvas {
     private final BullseyeNode originNode;
     private final TopWireNode topWireNode;
     private final BottomWireNode bottomWireNode;
-    private final ConnectButtonNode connectButtonNode;
-    private final DisconnectButtonNode disconnectButtonNode;
+    private final AddWiresButtonNode addWiresButtonNode;
+    private final RemoveWiresButtonNode removeWiresButtonNode;
     private final DielectricOffsetDragHandleNode dielectricOffsetDragHandleNode;
     private final PlateSeparationDragHandleNode plateSeparationDragHandleNode;
     private final PlateAreaDragHandleNode plateAreaDragHandleNode;
@@ -78,8 +78,8 @@ public class DielectricCanvas extends CLCanvas {
         bottomWireNode = new BottomWireNode( model, mvt );
         originNode = new BullseyeNode();
         
-        connectButtonNode = new ConnectButtonNode( model.getBattery() );
-        disconnectButtonNode = new DisconnectButtonNode( model.getBattery() );
+        addWiresButtonNode = new AddWiresButtonNode( model.getBattery() );
+        removeWiresButtonNode = new RemoveWiresButtonNode( model.getBattery() );
         
         dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
@@ -93,8 +93,8 @@ public class DielectricCanvas extends CLCanvas {
         addChild( dielectricOffsetDragHandleNode );
         addChild( plateSeparationDragHandleNode );
         addChild( plateAreaDragHandleNode );
-        addChild( connectButtonNode );
-        addChild( disconnectButtonNode );
+        addChild( addWiresButtonNode );
+        addChild( removeWiresButtonNode );
         if ( dev ) {
             addChild( originNode );
         }
@@ -115,15 +115,15 @@ public class DielectricCanvas extends CLCanvas {
             mvt.modelToView( pModel, pView );
             capacitorNode.setOffset( pView.getX(), pView.getY() );
             
-            // connect button
-            x = batteryNode.getFullBoundsReference().getMinX() - connectButtonNode.getFullBoundsReference().getWidth() + 35;
-            y = batteryNode.getFullBoundsReference().getMinY() - connectButtonNode.getFullBoundsReference().getHeight() - 10;
-            connectButtonNode.setOffset( x, y );
+            // "Add Wires" button
+            x = topWireNode.getFullBoundsReference().getCenterX() - ( addWiresButtonNode.getFullBoundsReference().getWidth() / 2 );
+            y = topWireNode.getFullBoundsReference().getMinY() - addWiresButtonNode.getFullBoundsReference().getHeight() - 10;
+            addWiresButtonNode.setOffset( x, y );
             
-            // disconnect button
-            x = batteryNode.getFullBoundsReference().getMinX() - disconnectButtonNode.getFullBoundsReference().getWidth() + 35;
-            y = batteryNode.getFullBoundsReference().getMinY() - disconnectButtonNode.getFullBoundsReference().getHeight() - 10;
-            disconnectButtonNode.setOffset( x, y );
+            // "Remove Wires" button
+            x = topWireNode.getFullBoundsReference().getCenterX() - ( removeWiresButtonNode.getFullBoundsReference().getWidth() / 2 );
+            y = topWireNode.getFullBoundsReference().getMinY() - removeWiresButtonNode.getFullBoundsReference().getHeight() - 10;
+            removeWiresButtonNode.setOffset( x, y );
             
             // origin marker
             pModel.setLocation( 0, 0 );
@@ -146,8 +146,8 @@ public class DielectricCanvas extends CLCanvas {
         boolean isConnected = model.getBattery().isConnected();
         topWireNode.setVisible( isConnected );
         bottomWireNode.setVisible( isConnected );
-        connectButtonNode.setVisible( !isConnected );
-        disconnectButtonNode.setVisible( isConnected );
+        addWiresButtonNode.setVisible( !isConnected );
+        removeWiresButtonNode.setVisible( isConnected );
     }
     
     private void updateDielectricOffsetDragHandle() {

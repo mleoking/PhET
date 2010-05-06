@@ -1,3 +1,4 @@
+5/6/10 change "Disconnect/Connect" button to "Add/Remove Wires" button, center above top wire
 5/5/10 add cursor handler to disconnect/connect button
 5/5/10 make voltage slider knob larger, use same colors as drag handles
 5/5/10 remove developer control panel from Dielectric module control panel
