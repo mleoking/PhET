@@ -11,6 +11,7 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -29,5 +30,6 @@ public class ConnectButtonNode extends PhetPNode {
         });
         addChild( new PSwing( button ) );
         scale( CLConstants.PSWING_SCALE );
+        addInputEventListener( new CursorHandler() );
     }
 }
