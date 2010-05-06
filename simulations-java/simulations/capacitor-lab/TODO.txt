@@ -10,6 +10,8 @@ HIGH PRIORITY
 - charge and excess charge on dielectric (see notes)
 
 MEDUIUM PRIORITY
+- round the end of the wire that connects to the top plate
+- use a gradient paint for wires to give them a 3D look
 
 LOW PRIORITY
 - delete DeveloperControlPanel if it's no longer used
