@@ -2,12 +2,12 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.umd.cs.piccolo.PNode;
@@ -55,6 +55,27 @@ public class ParticleNode extends PNode {
     }
     
     /**
+     * This override is here as a workaround for an issue where the edges of
+     * the representation were being cut off when converted to an image.  This
+     * is a known bug with PPath.getBounds.  This might need to be removed if
+     * the bug in PPath is ever fixed.
+     */
+    @Override
+	public Image toImage() {
+   		PPath parentNode = new PPath();
+   		parentNode.addChild(this);
+   		parentNode.setPaint(new Color(0, 0, 0, 0));
+   		parentNode.setStroke(null);
+   		double pad = 2;
+   		parentNode.setPathTo(new Rectangle2D.Double(this.getFullBoundsReference().x - pad,
+   				this.getFullBoundsReference().y - pad,
+   				this.getFullBoundsReference().width + pad * 2 + STROKE_WIDTH / 2,
+   				this.getFullBoundsReference().height + pad * 2 + STROKE_WIDTH / 2));
+   		
+   		return parentNode.toImage();
+	}
+
+	/**
      * Create the shape that will be used to represent this particular .
      * This was created when we realized that many textbooks use different
      * shapes for different s, rather than always a sphere.
@@ -67,30 +88,11 @@ public class ParticleNode extends PNode {
 
     	switch (particle.getType()){
     	case SODIUM_ION:
-    		/* The following code is what the code SHOULD be, but it ends up
-    		 * getting the edges cut off because of, I think, some bug in
-    		 * piccolo where the 'toImage' call doesn't properly account for
-    		 * the stroke.  So, below this is a workaround.
     		SphericalNode sphereRepresentation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter()), 
     				particle.getRepresentationColor(), false);
     		sphereRepresentation.setStroke(PARTICLE_EDGE_STROKE);
     		sphereRepresentation.setStrokePaint(Color.BLACK);
     		representation = sphereRepresentation;
-    		 */
-    		// Workaround code - instead of having a stroke, have a larger
-    		// black image behind the main one.
-    		double diameter = modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter());
-    		PNode compositeCircleNode = new PNode();
-    		PhetPPath sphereRepresentation = new PhetPPath( 
-    				new Ellipse2D.Double(-diameter/2 + STROKE_WIDTH, -diameter/2 + STROKE_WIDTH, 
-    						diameter - STROKE_WIDTH * 2, diameter - STROKE_WIDTH * 2), 
-    				particle.getRepresentationColor());
-    				
-    		PhetPPath sphereBackground = new PhetPPath( 
-    				new Ellipse2D.Double(-diameter/2, -diameter/2, diameter, diameter), Color.BLACK);
-    		compositeCircleNode.addChild(sphereBackground);
-    		compositeCircleNode.addChild(sphereRepresentation);
-    		representation = compositeCircleNode;
     		break;
     		
     	case POTASSIUM_ION:
