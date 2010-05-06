@@ -12,7 +12,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
@@ -333,10 +332,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	// Convert to cartesian coordinates
     	outerPoint.setLocation(outsideRadius * Math.cos(angle), outsideRadius * Math.sin(angle));
     	innerPoint.setLocation(insideRadius * Math.cos(angle), insideRadius * Math.sin(angle));
-    }
-    
-    private void removeChargeSymbols(){
-    	System.out.println("removeChargeSymbols stubbed");
     }
     
 	public void addZoomListener(ZoomListener neuronCanvasZoomListener){
