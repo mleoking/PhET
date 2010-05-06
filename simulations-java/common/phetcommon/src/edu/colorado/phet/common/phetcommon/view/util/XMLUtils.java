@@ -15,6 +15,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 
@@ -24,18 +25,18 @@ public class XMLUtils {
     private XMLUtils() {}
 
     /**
-     * Converts a Document to an XML String.
-     * @param document
+     * Converts an XML node (or document) to an XML String.
+     * @param node
      * @return
      * @throws TransformerException
      */
-    public static String toString( Document document ) throws TransformerException {
+    public static String toString( Node node ) throws TransformerException {
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
 
-        // Document source
-        DOMSource source = new DOMSource( document );
+        // Node source
+        DOMSource source = new DOMSource( node );
         
         // StringWriter result
         StringWriter stringWriter = new StringWriter();
