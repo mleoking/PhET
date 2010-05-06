@@ -54,7 +54,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private static final boolean SHOW_CAPTURE_ZONES = false;
 
     // Max size of the charge symbols, tweak as needed.
-    private static final double MAX_CHARGE_SYMBOL_SIZE = 10; 
+    private static final double MAX_CHARGE_SYMBOL_SIZE = 11; 
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -220,6 +220,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         
         // Update other initial state.
         updateStimButtonState();
+        updateChargeSymbolsShown();
     }
     
     //----------------------------------------------------------------------------
@@ -324,10 +325,10 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	double angle = Math.atan2(center.getY() - neuronCenter.getY(), center.getX() - neuronCenter.getX());
     	
     	// Add some distance to the radius to make the charge outside the cell.
-    	double outsideRadius = radius + 5; // Tweak as needed to position outer charge symbol.
+    	double outsideRadius = radius + 4; // Tweak as needed to position outer charge symbol.
     	
     	// Subtract some distance from the radius to make the charge inside the cell.
-    	double insideRadius = radius - 5; // Tweak as needed to position outer charge symbol.
+    	double insideRadius = radius - 3; // Tweak as needed to position outer charge symbol.
     	
     	// Convert to cartesian coordinates
     	outerPoint.setLocation(outsideRadius * Math.cos(angle), outsideRadius * Math.sin(angle));
