@@ -57,7 +57,6 @@ public class NominateContributionPage extends PhetRegularPage {
             throw new RestartResponseAtInterceptPageException( NotFoundPage.class );
         }
 
-        // TODO: ask or consider whether to prevent multiple nominations.
         logger.debug( "adding nomination to contribution " + contribution.getId() + " with user " + user.getEmail() + " and reason " + reason );
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {

@@ -2,6 +2,7 @@ package edu.colorado.phet.website.content.contribution;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.model.ResourceModel;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
@@ -29,8 +30,7 @@ public class ContributionEditPage extends PhetRegularPage {
         String contributionIdString = parameters.getString( "contributionId" );
         final int contributionId = Integer.parseInt( contributionIdString );
 
-        // TODO: localize
-        addTitle( "Edit a Contribution" );
+        addTitle( new ResourceModel( "contribution.edit.pageTitle") );
 
         initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.edit" ) );
 
