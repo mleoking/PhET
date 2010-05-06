@@ -78,7 +78,6 @@ public class PhetSession extends WebSession {
     }
 
     public static String hashPassword( final String password ) {
-        // TODO: possibly move hashPassword elsewhere?
         byte[] bytes;
         try {
             MessageDigest digest = MessageDigest.getInstance( "SHA-1" );
@@ -99,7 +98,6 @@ public class PhetSession extends WebSession {
     }
 
     public static String compatibleHashPassword( final String password ) {
-        // TODO: possibly move hashPassword elsewhere?
         byte[] bytes;
         try {
             MessageDigest digest = MessageDigest.getInstance( "MD5" );
