@@ -29,6 +29,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static Logger logger = Logger.getLogger( RedirectionStrategy.class.getName() );
 
     private static Map<String, String> map = new HashMap<String, String>();
+    private static Map<String, String> oldMap = new HashMap<String, String>();
 
     private static Map<String, String> categoryMap = new HashMap<String, String>();
     private static Map<String, String> badCategoryMap = new HashMap<String, String>(); // for those ugly variations that aren't immediately caught
@@ -46,13 +47,14 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static final String DOWNLOAD_CONTRIBUTION_FILE = "/admin/get-contribution-file.php";
     private static final String DOWNLOAD_CONTRIBUTION_ARCHIVE = "/admin/download-archive.php";
     private static final String DOWNLOAD_TEACHERS_GUIDE = "/admin/get-teachers-guide.php";
+    private static final String OLD_WEBSITE_PREFIX = "/web-pages";
 
     private static final String NOT_FOUND = "/error/404";
 
     static {
 
         //----------------------------------------------------------------------------
-        // general page map
+        // general page mappings
         //----------------------------------------------------------------------------
 
         // initialize redirection mapping. value of null indicates that it will be handled by custom code, usually for query parameters
@@ -83,13 +85,13 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/teacher_ideas/user-edit-profile.php", "/en/edit-profile" );
         map.put( "/teacher_ideas/index.php", "/en/contributions" );
         map.put( "/teacher_ideas/manage-contributions.php", "/en/contributions/manage" );
+        map.put( "/teacher_ideas/user-logout.php", "/en/sign-out" );
+        map.put( "/teacher_ideas/user-edit-profile.php", "/en/edit-profile" );
         map.put( "/teacher_ideas/workshops.php", "/en/workshops" );
         map.put( "/tech_support/index.php", "/en/troubleshooting" );
         map.put( "/tech_support/support-flash.php", "/en/troubleshooting/flash" );
         map.put( "/tech_support/support-java.php", "/en/troubleshooting/java" );
         map.put( "/tech_support/support-javascript.php", "/en/troubleshooting/javascript" );
-
-//        map.put( "/simulations/sims.php?sim=Circuit_Construction_Kit_DC_Only", "/en/simulation/circuit-construction-kit/circuit-construction-kit-dc" );
 
         map.put( VIEW_CONTRIBUTION, null );
         map.put( VIEW_CATEGORY, null );
@@ -99,9 +101,50 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( DOWNLOAD_CONTRIBUTION_ARCHIVE, null );
         map.put( DOWNLOAD_TEACHERS_GUIDE, null );
 
-        //----------------------------------------------------------------------------
-        // category map
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * really old page mappings
+        *----------------------------------------------------------------------------*/
+
+        oldMap.put( "/web-pages/about-phet.html", "/en/about" );
+        oldMap.put( "/web-pages/contribute.htm", "/en/for-translators" );
+        oldMap.put( "/web-pages/db", "/" );
+        oldMap.put( "/web-pages/educator-resources.html", "/en/contributions" );
+        oldMap.put( "/web-pages/javasupport.html", "/en/troubleshooting/java" );
+        oldMap.put( "/web-pages/license.html", "/en/about/licensing" );
+        oldMap.put( "/web-pages/misc-pages/publications.html", "/en/research" );
+        //oldMap.put( "/web-pages/misc-pages/flash_detect_v7.html", "/tech_support/flash_detect_v7.html" );
+        oldMap.put( "/web-pages/misc-pages/ratings-explanation.html", "/en/about/legend" );
+        oldMap.put( "/web-pages/publications/index.html", "/en/research" );
+        oldMap.put( "/web-pages/publications/phet-translation.htm", "/en/for-translators/translation-utility" );
+        oldMap.put( "/web-pages/publications/phet-translation-deployment.htm", "/en/for-translators/translation-utility" );
+        oldMap.put( "/web-pages/publications", "/publications" );
+        oldMap.put( "/web-pages/misc-pages/ratings-explanation.html", "/en/about/legend" );
+        oldMap.put( "/web-pages/research.html", "/en/research" );
+        oldMap.put( "/web-pages/simulation-header.htm", "/en/simulations/category/featured" );
+        oldMap.put( "/web-pages/simulation-header_es.htm", "/en/simulations/translated/es" );
+        oldMap.put( "/web-pages/simulation-pages/chemistry-simulations.htm", "/en/simulations/category/chemistry" );
+        oldMap.put( "/web-pages/simulation-pages/cuttingedge-simulations.htm", "/en/simulations/category/cutting-edge-research" );
+        oldMap.put( "/web-pages/simulation-pages/electricity-simulations.htm", "/en/simulations/category/physics/electricity-magnets-and-circuits" );
+        oldMap.put( "/web-pages/simulation-pages/heat-thermo-simulations.htm", "/en/simulations/category/physics/heat-and-thermodynamics" );
+        oldMap.put( "/web-pages/simulation-pages/index.html", "/en/simulations/category/featured" );
+        oldMap.put( "/web-pages/simulation-pages/light-radiation-simulations.htm", "/en/simulations/category/physics/light-and-radiation" );
+        oldMap.put( "/web-pages/simulation-pages/math-tools.htm", "/en/simulations/category/math" );
+        oldMap.put( "/web-pages/simulation-pages/motion-simulations.htm", "/en/simulations/category/physics/motion" );
+        oldMap.put( "/web-pages/simulation-pages/new-simulations.htm", "/en/simulations/category/new" );
+        oldMap.put( "/web-pages/simulation-pages/quantum-phenomena-simulations.htm", "/en/simulations/category/physics/quantum-phenomena" );
+        oldMap.put( "/web-pages/simulation-pages/simulation-index.htm", "/en/simulations/index" );
+        oldMap.put( "/web-pages/simulation-pages/sound-simulations.htm", "/en/simulations/category/physics/sound-and-waves" );
+        oldMap.put( "/web-pages/simulation-pages/top-simulations.htm", "/en/simulations/category/featured" );
+        oldMap.put( "/web-pages/simulation-pages/work-energy-simulations.htm", "/en/simulations/category/physics/work-energy-and-power" );
+        oldMap.put( "/web-pages/simulations-base.html", "/en/simulations/category/featured" );
+        oldMap.put( "/web-pages/simulations-base_es.html", "/en/simulations/translated/es" );
+        oldMap.put( "/web-pages/support.html", "/en/troubleshooting" );
+        oldMap.put( "/web-pages/whatsnew-archive.htm", "/en/about/news" );
+        oldMap.put( "/web-pages/whatsnew.htm", "/en/about/news" );
+
+        /*---------------------------------------------------------------------------*
+        * category map
+        *----------------------------------------------------------------------------*/
 
         categoryMap.put( "Featured_Sims", "featured" );
         categoryMap.put( "New_Sims", "new" );
@@ -274,6 +317,14 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
         else if ( path.startsWith( DOWNLOAD_TEACHERS_GUIDE ) ) {
             return redirectDownloadTeachersGuide( parameters );
+        }
+        else if ( path.startsWith( OLD_WEBSITE_PREFIX ) ) {
+            if ( oldMap.containsKey( path ) ) {
+                return oldMap.get( path );
+            }
+            else {
+                return NOT_FOUND;
+            }
         }
         return null;
     }
@@ -531,7 +582,8 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return true;
         }
 
-        boolean inMap = map.containsKey( morphPath( path ) );
+        String morphedPath = morphPath( path );
+        boolean inMap = map.containsKey( morphedPath );
 
         logger.debug( "testing: " + path );
 
@@ -540,6 +592,10 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
 
         if ( path.length() == 2 && path.indexOf( "." ) == -1 ) {
+            return true;
+        }
+
+        if ( morphedPath.startsWith( OLD_WEBSITE_PREFIX ) ) {
             return true;
         }
 
