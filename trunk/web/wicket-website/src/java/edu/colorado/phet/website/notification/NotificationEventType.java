@@ -5,7 +5,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
 
-import org.apache.wicket.PageParameters;
+import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.content.contribution.ContributionPage;
@@ -24,9 +24,8 @@ public enum NotificationEventType {
     CONTRIBUTION_COMMENT;
 
     public String toString( String data ) {
-        // store params as "a=1&b=1" etc.
-        // TODO: this sets the cycle's page parameters. BEWARE AND FIX THIS
-        PageParameters params = new PageParameters( data );
+        // store params as "a=1,b=1" etc.
+        ValueMap params = new ValueMap( data );
         switch( this ) {
             case NEW_CONTRIBUTION:
                 return "Contribution created: " + getContributionString( params.getInt( "contribution_id" ) );
