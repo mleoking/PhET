@@ -14,7 +14,6 @@ public class TitlesEntity extends TranslationEntity {
         addString( "simulations.translated.title", "Title of the Translated Sims page." );
         addString( "simulationPage.title", "Title for a particular simulation. {0} will be replaced by the simulation title, and {1} {2} and {3} will be replaced by keywords." );
         addString( "simulationDisplay.title", "Title for a category of simulations. {0} will be replaced by the translated category name (like nav.motion)." );
-        addString( "about.title", "Title of the About page" );
         addString( "about.source-code.title", "Title of the Source Code About page" );
         addString( "about.legend.title", "Title of the Legend About page" );
         addString( "about.contact.title", "Title of the Contact About page" );

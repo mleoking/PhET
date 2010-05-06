@@ -10,6 +10,11 @@ public class DonateEntity extends TranslationEntity {
     public DonateEntity() {
         addString( "donate.title" );
         addString( "donate.header" );
+        addString( "donate.ifUseSimulations" );
+        addString( "donate.anySize" );
+        addString( "donate.donateNow" );
+        addString( "donate.questions" );
+        addString( "donate.note" );
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
