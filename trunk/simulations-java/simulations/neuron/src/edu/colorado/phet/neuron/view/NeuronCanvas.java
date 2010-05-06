@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
 
@@ -182,6 +183,12 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         	addChannelNode(channel);
         }
         
+        // Add the charge symbols.  These are added by going through the list
+        // of channels and placing two symbols - one intended to be out of the
+        // membrane one one inside of it - between each pair of gates.
+        ArrayList<MembraneChannel> membraneChannels = model.getMembraneChannels();
+        sortMembraneChannelList(membraneChannels);
+        
         // Add the membrane potential chart.
         membranePotentialChart = new MembranePotentialChart(POTENTIAL_CHART_SIZE, 
         		NeuronStrings.MEMBRANE_POTENTIAL_CHART_TITLE, model);
@@ -344,6 +351,32 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	if (SHOW_CAPTURE_ZONES){
     		channelLayer.addChild(new CaptureZoneNode(channelToBeAdded.getInteriorCaptureZone(), mvt, Color.RED));
     		channelLayer.addChild(new CaptureZoneNode(channelToBeAdded.getExteriorCaptureZone(), mvt, Color.GREEN));
+    	}
+    }
+    
+    /**
+     * Sort the provided list of membrane channels such that they proceed in
+     * clockwise order around the membrane.
+     * 
+     * @param membraneChannels
+     */
+    private void sortMembraneChannelList(ArrayList<MembraneChannel> membraneChannels){
+    	boolean orderChanged = true;
+    	while (orderChanged){
+    		orderChanged = false;
+    		for (int i = 0; i < membraneChannels.size() - 1; i++){
+    			Point2D p1 = membraneChannels.get(i).getCenterLocation();
+    			Point2D p2 = membraneChannels.get(i + 1).getCenterLocation();
+    			double a1 = Math.atan2(p1.getY(), p1.getX()); 
+    			double a2 = Math.atan2(p2.getY(), p2.getX());
+    			if (a1 > a2){
+    				// These two need to be swapped.
+    				MembraneChannel tempChannel = membraneChannels.get(i);
+    				membraneChannels.set(i, membraneChannels.get(i + 1));
+    				membraneChannels.set(i + 1, tempChannel);
+    				orderChanged = true;
+    			}
+    		}
     	}
     }
     
