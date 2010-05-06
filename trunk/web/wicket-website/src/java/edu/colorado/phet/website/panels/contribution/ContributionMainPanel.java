@@ -38,6 +38,7 @@ import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.constants.Images;
+import edu.colorado.phet.website.constants.CSS;
 
 /**
  * Panel for showing a single contribution (most information about it), and then comments below
@@ -53,7 +54,7 @@ public class ContributionMainPanel extends PhetPanel {
 
         add( new Label( "contribution-title", contribution.getTitle() ) );
 
-        add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.CONTRIBUTION_MAIN ) );
 
         final PhetUser user = PhetSession.get().getUser();
 

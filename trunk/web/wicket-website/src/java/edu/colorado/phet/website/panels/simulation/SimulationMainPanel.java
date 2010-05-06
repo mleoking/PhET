@@ -24,6 +24,7 @@ import org.hibernate.event.PostUpdateEvent;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.constants.Images;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.borders.SmallOrangeButtonBorder;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
@@ -62,7 +63,7 @@ public class SimulationMainPanel extends PhetPanel {
 
         add( new Label( "simulation-main-title", simulation.getTitle() ) );
 
-        add( HeaderContributor.forCss( "/css/simulation-main-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.SIMULATION_MAIN ) );
 
         if ( simulation.getLocale().equals( context.getLocale() ) ) {
             add( new InvisibleComponent( "untranslated-sim-text" ) );

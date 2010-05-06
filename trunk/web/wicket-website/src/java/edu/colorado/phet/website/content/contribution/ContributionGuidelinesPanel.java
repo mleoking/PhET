@@ -6,12 +6,13 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
+import edu.colorado.phet.website.constants.CSS;
 
 public class ContributionGuidelinesPanel extends PhetPanel {
     public ContributionGuidelinesPanel( String id, PageContext context ) {
         super( id, context );
 
-        add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.CONTRIBUTION_MAIN ) );
 
     }
 

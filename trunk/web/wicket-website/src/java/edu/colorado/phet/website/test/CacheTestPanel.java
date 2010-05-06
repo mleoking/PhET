@@ -7,6 +7,7 @@ import org.apache.wicket.response.StringResponse;
 
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.constants.CSS;
 
 public class CacheTestPanel extends PhetPanel {
 
@@ -18,7 +19,7 @@ public class CacheTestPanel extends PhetPanel {
         super( id, context );
         //logger.debug( "*(after) public CacheTestPanel( String id, PageContext context )" );
 
-        add( HeaderContributor.forCss( "/css/warning-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.WARNING ) );
 
         add( new Label( "locale", getLocale().toString() ) );
     }

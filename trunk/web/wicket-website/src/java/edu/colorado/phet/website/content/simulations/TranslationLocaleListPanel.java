@@ -23,6 +23,7 @@ import edu.colorado.phet.website.data.util.IChangeListener;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.constants.CSS;
 
 public class TranslationLocaleListPanel extends PhetPanel implements CacheableUrlStaticPanel {
 
@@ -33,7 +34,7 @@ public class TranslationLocaleListPanel extends PhetPanel implements CacheableUr
 
         // TODO: remove unnecessary steps
 
-        add( HeaderContributor.forCss( "/css/translated-sims-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.TRANSLATED_SIMS ) );
 
         final List<LocalizedSimulation> localizedSimulations = new LinkedList<LocalizedSimulation>();
         final Map<Locale, List<LocalizedSimulation>> localeMap = new HashMap<Locale, List<LocalizedSimulation>>();

@@ -12,6 +12,7 @@ import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.constants.CSS;
 
 public class NavBreadCrumbs extends PhetPanel {
     public NavBreadCrumbs( String id, final PageContext context, NavLocation location ) {
@@ -48,7 +49,7 @@ public class NavBreadCrumbs extends PhetPanel {
             };
             add( listView );
 
-            add( HeaderContributor.forCss( "/css/nav-breadcrumbs-v1.css" ) );
+            add( HeaderContributor.forCss( CSS.NAV_BREADCRUMBS ) );
         }
     }
 }

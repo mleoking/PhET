@@ -3,6 +3,7 @@ package edu.colorado.phet.website.content.about;
 import org.apache.wicket.behavior.HeaderContributor;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -13,7 +14,7 @@ public class AboutSponsorsPanel extends PhetPanel {
     public AboutSponsorsPanel( String id, PageContext context ) {
         super( id, context );
 
-        add( HeaderContributor.forCss( "/css/sponsors-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.SPONSORS ) );
     }
 
     public static String getKey() {

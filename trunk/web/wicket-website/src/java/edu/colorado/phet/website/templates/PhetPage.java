@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.constants.Images;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
@@ -106,7 +107,7 @@ public abstract class PhetPage extends WebPage implements Stylable {
             link.add( new StaticImage( "page-header-logo-image", Images.PHET_LOGO, null ) );
             add( new StaticImage( "page-header-title-image", Images.LOGO_TITLE, null ) );
 
-            add( HeaderContributor.forCss( "/css/phetpage-v1.css" ) );
+            add( HeaderContributor.forCss( CSS.PHET_PAGE ) );
 
             add( new SearchPanel( "search-panel", getPageContext() ) );
 

@@ -25,6 +25,7 @@ import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
@@ -64,7 +65,7 @@ public class ContributionEditPanel extends PhetPanel {
 
         this.context = context;
 
-        add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.CONTRIBUTION_MAIN ) );
 
         contribution = preContribution;
 

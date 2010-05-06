@@ -20,6 +20,7 @@ import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import static edu.colorado.phet.website.util.HtmlUtils.encode;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.constants.CSS;
 
 public class SimulationDisplayPanel extends PhetPanel {
 
@@ -57,7 +58,7 @@ public class SimulationDisplayPanel extends PhetPanel {
         gridView.setColumns( 3 );
         add( gridView );
 
-        add( HeaderContributor.forCss( "/css/simulation-display-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.SIMULATION_DISPLAY ) );
 
     }
 

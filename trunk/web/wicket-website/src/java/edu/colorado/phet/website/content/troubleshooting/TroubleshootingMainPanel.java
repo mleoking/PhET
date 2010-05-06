@@ -3,6 +3,7 @@ package edu.colorado.phet.website.content.troubleshooting;
 import org.apache.wicket.behavior.HeaderContributor;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.ForTranslatorsPanel;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
@@ -65,7 +66,7 @@ public class TroubleshootingMainPanel extends PhetPanel {
 
         add( new LocalizedText( "troubleshooting-main-q13-answer", "troubleshooting.main.q13.answer" ) );
 
-        add( HeaderContributor.forCss( "/css/troubleshooting-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.TROUBLESHOOTING ) );
 
     }
 

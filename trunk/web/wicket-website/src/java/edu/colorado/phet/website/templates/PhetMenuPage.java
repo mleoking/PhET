@@ -7,6 +7,7 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.behavior.HeaderContributor;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.content.about.AboutLicensingPanel;
@@ -40,7 +41,7 @@ public abstract class PhetMenuPage extends PhetPage {
         else {
             add( new InvisibleComponent( "translation-links" ) );
         }
-        add( HeaderContributor.forCss( "/css/menu-page-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.MENU_PAGE ) );
 
         add( AboutLicensingPanel.getLinker().getLink( "some-rights-link", getPageContext(), getPhetCycle() ) );
 

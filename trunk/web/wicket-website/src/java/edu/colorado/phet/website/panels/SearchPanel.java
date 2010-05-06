@@ -10,8 +10,6 @@ public class SearchPanel extends PhetPanel {
     public SearchPanel( String id, PageContext context ) {
         super( id, context );
 
-        //add( HeaderContributor.forCss( "/css/sponsors-v1.css" ) );
-
         //add( AboutSponsorsPanel.getLinker().getLink( "sponsors-link", context, getPhetCycle() ) );
 
         WebMarkupContainerWithAssociatedMarkup form = new WebMarkupContainerWithAssociatedMarkup( "search-form" );

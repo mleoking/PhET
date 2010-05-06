@@ -16,6 +16,7 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.constants.CSS;
 
 public class AdminContributionPanel extends PhetPanel {
 
@@ -28,7 +29,7 @@ public class AdminContributionPanel extends PhetPanel {
 
         setOutputMarkupId( true );
 
-        add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.CONTRIBUTION_MAIN ) );
 
         approvedLabelModel = new Model();
         colorModel = new Model();
