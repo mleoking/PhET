@@ -25,6 +25,7 @@ public enum NotificationEventType {
 
     public String toString( String data ) {
         // store params as "a=1&b=1" etc.
+        // TODO: this sets the cycle's page parameters. BEWARE AND FIX THIS
         PageParameters params = new PageParameters( data );
         switch( this ) {
             case NEW_CONTRIBUTION:
