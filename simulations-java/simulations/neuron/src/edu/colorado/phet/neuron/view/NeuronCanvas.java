@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
@@ -53,11 +54,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private static final boolean SHOW_CHANNEL_LOCATIONS = false;
     private static final boolean SHOW_CAPTURE_ZONES = false;
 
-    // List of registered listeners for canvas events.
-    private EventListenerList listeners = new EventListenerList();
-    
-    // Amount of zooming applied to the root world node.
-    private double zoomFactor = 1;
+    // Max size of the charge symbols, tweak as needed.
+    private static final double MAX_CHARGE_SYMBOL_SIZE = 10; 
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -83,6 +81,12 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     
     // Button for stimulating the neuron.
     DisableableGradientButtonNode stimulateNeuronButton2;
+    
+    // List of registered listeners for canvas events.
+    private EventListenerList listeners = new EventListenerList();
+    
+    // Amount of zooming applied to the root world node.
+    private double zoomFactor = 1;
     
     // For debug: Shows center of zoom.
     private CrossHairNode crossHairNode;
@@ -183,11 +187,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         	addChannelNode(channel);
         }
         
-        // Add the charge symbols.  These are added by going through the list
-        // of channels and placing two symbols - one intended to be out of the
-        // membrane one one inside of it - between each pair of gates.
-        ArrayList<MembraneChannel> membraneChannels = model.getMembraneChannels();
-        sortMembraneChannelList(membraneChannels);
+        // Add the charge symbols.
+        addChargeSymbols();
         
         // Add the membrane potential chart.
         membranePotentialChart = new MembranePotentialChart(POTENTIAL_CHART_SIZE, 
@@ -263,18 +264,75 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     }
     
     private void updateChargeSymbolsShown(){
-    	// The assumption here is that the charge symbol layer is empty if
-    	// the charges were previously not shown.
-    	if (model.isChargesShown() && chargeSymbolLayer.getChildrenCount() == 0){
-    		addChargeSymbols();
-    	}
-    	else if (!model.isChargesShown() && chargeSymbolLayer.getChildrenCount() > 0){
-    		removeChargeSymbols();
-    	}
+    	chargeSymbolLayer.setVisible(model.isChargesShown());
     }
     
+    /**
+     * Add the change symbols to the canvas.  These are added by going through
+     * the list of channels and placing two symbols - one intended to be out
+     * of the membrane one one inside of it - between each pair of gates.
+     */
     private void addChargeSymbols(){
-    	System.out.println("addChargeSymbols stubbed");
+    	
+    	// Create a sorted list of the membrane channels in the model.
+        ArrayList<MembraneChannel> membraneChannels = model.getMembraneChannels();
+        sortMembraneChannelList(membraneChannels);
+        
+        // Go through the list and put charge symbols between each pair of channels.
+        for (int i = 0; i < membraneChannels.size(); i++){
+        	addChargeSymbolPair(membraneChannels.get(i), membraneChannels.get((i + 1) % membraneChannels.size()));
+        }
+    }
+    
+    private void addChargeSymbolPair(MembraneChannel channel1, MembraneChannel channel2){
+
+    	PNode outerChargeSymbol;
+    	PNode innerChargeSymbol;
+        Point2D innerSymbolLocation = new Point2D.Double();
+        Point2D outerSymbolLocation = new Point2D.Double();
+        Point2D neuronCenterPoint = new Point2D.Double(0, 0);  // Assumes center of neuron at (0, 0).
+        
+        calcChargeSymbolLocations(
+        		channel1.getCenterLocation(),
+        		channel2.getCenterLocation(), 
+        		neuronCenterPoint, 
+        		outerSymbolLocation,
+        		innerSymbolLocation);
+        outerChargeSymbol = new ChargeSymbolNode(model, MAX_CHARGE_SYMBOL_SIZE, 0.1, false);
+        outerChargeSymbol.setOffset(mvt.modelToViewDouble(innerSymbolLocation));
+        chargeSymbolLayer.addChild(outerChargeSymbol);
+        innerChargeSymbol = new ChargeSymbolNode(model, MAX_CHARGE_SYMBOL_SIZE, 0.1, true);
+        innerChargeSymbol.setOffset(mvt.modelToViewDouble(outerSymbolLocation));
+        chargeSymbolLayer.addChild(innerChargeSymbol);
+    }
+    
+    /**
+     * Calculate the locations of the charge symbols and set the two provided
+     * points accordingly.
+     * 
+     * @param p1
+     * @param p2
+     * @param center
+     * @param outerPoint
+     * @param innerPoint
+     */
+    private void calcChargeSymbolLocations(Point2D p1, Point2D p2, Point2D neuronCenter, Point2D outerPoint, Point2D innerPoint){
+    	// Find the center point between the given points.
+    	Point2D center = new Point2D.Double((p1.getX() + p2.getX()) / 2, (p1.getY() + p2.getY()) / 2);
+    	
+    	// Convert to polar coordinates.
+    	double radius = Math.sqrt(Math.pow(center.getX() - neuronCenter.getX(), 2) + Math.pow(center.getY() - neuronCenter.getY(), 2));
+    	double angle = Math.atan2(center.getY() - neuronCenter.getY(), center.getX() - neuronCenter.getX());
+    	
+    	// Add some distance to the radius to make the charge outside the cell.
+    	double outsideRadius = radius + 5; // Tweak as needed to position outer charge symbol.
+    	
+    	// Subtract some distance from the radius to make the charge inside the cell.
+    	double insideRadius = radius - 5; // Tweak as needed to position outer charge symbol.
+    	
+    	// Convert to cartesian coordinates
+    	outerPoint.setLocation(outsideRadius * Math.cos(angle), outsideRadius * Math.sin(angle));
+    	innerPoint.setLocation(insideRadius * Math.cos(angle), insideRadius * Math.sin(angle));
     }
     
     private void removeChargeSymbols(){
