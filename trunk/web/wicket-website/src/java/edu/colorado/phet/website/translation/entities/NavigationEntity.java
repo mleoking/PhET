@@ -23,25 +23,6 @@ public class NavigationEntity extends TranslationEntity {
     public NavigationEntity() {
         addString( "nav.home" );
         addString( "nav.simulations" );
-        /*
-        addString( "nav.featured" );
-        addString( "nav.new" );
-        addString( "nav.physics" );
-        addString( "nav.motion" );
-        addString( "nav.sound-and-waves" );
-        addString( "nav.work-energy-and-power" );
-        addString( "nav.heat-and-thermodynamics" );
-        addString( "nav.quantum-phenomena" );
-        addString( "nav.light-and-radiation" );
-        addString( "nav.electricity-magnets-and-circuits" );
-        addString( "nav.biology" );
-        addString( "nav.chemistry" );
-        addString( "nav.earth-science" );
-        addString( "nav.math" );
-        addString( "nav.tools" );
-        addString( "nav.applications" );
-        addString( "nav.cutting-edge-research" );
-        */
         HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {
                 Category root = Category.getRootCategory( session );
@@ -58,6 +39,7 @@ public class NavigationEntity extends TranslationEntity {
         addString( "nav.teacherIdeas.edit" );
         addString( "nav.teacherIdeas.manage" );
         addString( "nav.teacherIdeas.guide" );
+        addString( "nav.for-teachers.classroom-use" );
         addString( "nav.workshops" );
         addString( "nav.get-phet" );
         addString( "nav.get-phet.on-line" );
@@ -74,6 +56,7 @@ public class NavigationEntity extends TranslationEntity {
         addString( "nav.forTranslators.website" );
         addString( "nav.about" );
         addString( "nav.about.source-code" );
+        addString( "nav.about.news" );
         addString( "nav.about.legend" );
         addString( "nav.about.contact" );
         addString( "nav.about.who-we-are" );

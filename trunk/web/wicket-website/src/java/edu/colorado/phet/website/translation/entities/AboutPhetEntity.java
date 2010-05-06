@@ -8,6 +8,8 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class AboutPhetEntity extends TranslationEntity {
     public AboutPhetEntity() {
+        addString( "about.title", "Title of the main About page" );
+
         addString( "about.p1", "The text surrounded with <a {0}> and </a> will be linked to the main PhET site, and the text surrounded with <a {1}> and </a> will be linked to the research page on the PhET site." );
         addString( "about.p2" );
         addString( "about.p3", "The text surrounded with <a {0}> and </a> will be linked to a page about PhET's rating system." );
@@ -65,6 +67,11 @@ public class AboutPhetEntity extends TranslationEntity {
         addString( "about.contact.middleRow" );
         addString( "about.contact.frontRow" );
         addString( "about.contact.phetTeam" );
+
+        addString( "about.news.title" );
+        addString( "about.news.currentNewsletter" );
+        addString( "about.news.pastNewsletters" );
+        addString( "about.news.updates" );
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {

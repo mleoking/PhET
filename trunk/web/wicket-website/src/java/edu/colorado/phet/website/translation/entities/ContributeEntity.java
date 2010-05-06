@@ -96,6 +96,7 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.standards.F" );
         addString( "contribution.standards.G" );
 
+        addString( "contribution.edit.pageTitle" );
         addString( "contribution.edit.requiredInformation" );
         addString( "contribution.edit.authors" );
         addString( "contribution.edit.authors.tip" );
@@ -116,6 +117,9 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.edit.duration" );
         addString( "contribution.edit.answers" );
         addString( "contribution.edit.language" );
+
+        addString( "contribution.create.pageTitle" );
+        addString( "contribution.manage.pageTitle" );
 
         addString( "list.add" );
 
