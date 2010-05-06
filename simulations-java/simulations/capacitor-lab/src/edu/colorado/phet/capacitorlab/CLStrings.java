@@ -20,7 +20,7 @@ public class CLStrings {
     public static final String CHECKBOX_PLATE_CHARGES = getString( "checkBox.plateCharges" );
     public static final String CHECKBOX_ELECTRIC_FIELD_LINES = getString( "checkBox.electricFieldLines" );
     public static final String CHECKBOX_METER_CAPACITANCE = getString( "checkBox.meter.capacitance" );
-    public static final String CHECKBOX_METER_CHARGE = getString( "checkBox.meter.charge" );
+    public static final String CHECKBOX_METER_PLATE_CHARGE = getString( "checkBox.meter.plateCharge" );
     public static final String CHECKBOX_METER_ENERGY = getString( "checkBox.meter.energy" );
     public static final String CHECKBOX_METER_VOLTMETER = getString( "checkBox.meter.voltmeter" );
     public static final String CHECKBOX_METER_FIELD_DETECTOR = getString( "checkBox.meter.fieldDetector" );

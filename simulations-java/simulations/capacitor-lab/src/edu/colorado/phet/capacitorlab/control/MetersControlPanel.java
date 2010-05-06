@@ -18,14 +18,14 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 public class MetersControlPanel extends CLTitledControlPanel {
     
-    private final JCheckBox capacitanceCheckBox, chargeCheckBox, energyCheckBox, voltmeterCheckBox, fieldDetectorCheckBox;
+    private final JCheckBox capacitanceCheckBox, plateChargeCheckBox, energyCheckBox, voltmeterCheckBox, fieldDetectorCheckBox;
 
     public MetersControlPanel() {
         super( CLStrings.TITLE_METERS );
         
         capacitanceCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CAPACITANCE );
         
-        chargeCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CHARGE );
+        plateChargeCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_PLATE_CHARGE );
         
         energyCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_ENERGY );
         
@@ -41,7 +41,7 @@ public class MetersControlPanel extends CLTitledControlPanel {
         int row = 0;
         int column = 0;
         layout.addComponent( capacitanceCheckBox, row++, column );
-        layout.addComponent( chargeCheckBox, row++, column );
+        layout.addComponent( plateChargeCheckBox, row++, column );
         layout.addComponent( energyCheckBox, row++, column );
         layout.addComponent( voltmeterCheckBox, row++, column );
         layout.addComponent( fieldDetectorCheckBox, row++, column );

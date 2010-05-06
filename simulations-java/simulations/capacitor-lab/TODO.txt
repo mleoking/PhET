@@ -1,10 +1,13 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
+- make dielectric draggable by grabbing it
 - solve coordinate frame conversion issues for drag handles
 - fix behavior of plate size drag handle, whose axis is on the diagonal of the top plate (should drag point be on a line perpendicular to this axis?)
 - utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
 - blue arrow and glowing sphere to represent current flow
+- charge and excess charge on plates (see notes)
+- charge and excess charge on dielectric (see notes)
 
 MEDUIUM PRIORITY
 
