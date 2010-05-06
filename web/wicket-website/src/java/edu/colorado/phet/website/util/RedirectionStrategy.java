@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
+import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.TeachersGuide;
@@ -23,6 +24,8 @@ import edu.colorado.phet.website.data.contribution.ContributionFile;
 /**
  * Handles redirecting all of the old-site URLs to the new URLs. They will then be sent out with 301 (permanent)
  * redirections.
+ * <p/>
+ * It also handles current sim redirections for /services/sim-website-redirect queries
  */
 public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
@@ -48,6 +51,8 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static final String DOWNLOAD_CONTRIBUTION_ARCHIVE = "/admin/download-archive.php";
     private static final String DOWNLOAD_TEACHERS_GUIDE = "/admin/get-teachers-guide.php";
     private static final String OLD_WEBSITE_PREFIX = "/web-pages";
+    private static final String SIM_REDIRECTION = "/services/sim-website-redirect";
+    private static final String SIM_REDIRECTION_PHP = "/services/sim-website-redirect.php";
 
     private static final String NOT_FOUND = "/error/404";
 
@@ -99,6 +104,8 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( DOWNLOAD_CONTRIBUTION_FILE, null );
         map.put( DOWNLOAD_CONTRIBUTION_ARCHIVE, null );
         map.put( DOWNLOAD_TEACHERS_GUIDE, null );
+        map.put( SIM_REDIRECTION, null );
+        map.put( SIM_REDIRECTION_PHP, null );
 
         /*---------------------------------------------------------------------------*
         * really old page mappings
@@ -282,6 +289,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
      * @return null if no direction is needed, otherwise the path to redirect to
      */
     private static String checkRedirect( String path, Map parameters ) {
+        // TODO: for performance, we could require equality on the path later
         if ( path.startsWith( "/phet-dist/workshops" ) ) {
             return path.substring( ( "/phet-dist" ).length() );
         }
@@ -307,6 +315,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
         else if ( path.startsWith( RUN_OFFLINE ) ) {
             return redirectRunOffline( parameters );
+        }
+        else if ( path.startsWith( SIM_REDIRECTION ) ) {
+            return redirectSims( parameters );
         }
         else if ( path.startsWith( DOWNLOAD_CONTRIBUTION_FILE ) ) {
             return redirectDownloadContributionFile( parameters );
@@ -519,6 +530,25 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
 
         return NOT_FOUND;
+    }
+
+    /**
+     * Replaces the sim-website-redirect service. Nice and quick!
+     */
+    private static String redirectSims( Map parameters ) {
+        if ( !parameters.containsKey( "request_version" ) || !( (String[]) parameters.get( "request_version" ) )[0].equals( "1" ) ) {
+            logger.warn( "invalid request version for sim-website-redirect" );
+        }
+
+        if ( !parameters.containsKey( "project" ) ) {
+            return NOT_FOUND;
+        }
+
+        String project = ( (String[]) parameters.get( "project" ) )[0];
+
+        String sim = parameters.containsKey( "sim" ) ? ( (String[]) parameters.get( "sim" ) )[0] : project;
+
+        return SimulationPage.getLinker( project, sim ).getDefaultRawUrl();
     }
 
     private static String redirectOldWeb( String path ) {
