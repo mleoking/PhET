@@ -72,6 +72,10 @@ public class AxonModel implements IParticleCapture {
 	// Default for whether charges are shown.
 	private static final boolean DEFAULT_FOR_CHARGES_SHOWN = false;
 	
+	// Value that controls how much of a change of the membrane potential must
+	// occur before a notification is sent out.
+	private static final double MEMBRANE_POTENTIAL_CHANGE_THRESHOLD = 0.01;
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -89,6 +93,7 @@ public class AxonModel implements IParticleCapture {
     private boolean allIonsSimulated = DEFAULT_FOR_SHOW_ALL_IONS; // Controls whether all ions, or just those near membrane, are simulated.
     private boolean chargesShown = DEFAULT_FOR_CHARGES_SHOWN; // Controls whether charges are depicted.
     private double stimLockoutCountdownTime;
+    private double previousMembranePotential = 0;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -448,6 +453,10 @@ public class AxonModel implements IParticleCapture {
     	// Update the value of the membrane potential by stepping the
     	// Hodgkins-Huxley model.
     	hodgkinHuxleyModel.stepInTime( dt );
+    	if (Math.abs(previousMembranePotential - hodgkinHuxleyModel.getMembraneVoltage()) > MEMBRANE_POTENTIAL_CHANGE_THRESHOLD){
+    		previousMembranePotential = hodgkinHuxleyModel.getMembraneVoltage();
+    		notifyMembranePotentialChanged();
+    	}
     	
     	// Step the membrane in time.
     	axonMembrane.stepInTime( dt );
@@ -527,6 +536,12 @@ public class AxonModel implements IParticleCapture {
 	private void notifyStimulusPulseInitiated(){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.stimulusPulseInitiated();
+		}
+	}
+	
+	private void notifyMembranePotentialChanged(){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.membranePotentialChanged();
 		}
 	}
 	
@@ -859,6 +874,11 @@ public class AxonModel implements IParticleCapture {
     	public void stimulusPulseInitiated();
     	
     	/**
+    	 * Notification that the membrane potential has changed.
+    	 */
+    	public void membranePotentialChanged();
+    	
+    	/**
     	 * Notification that the setting for the visibility of the membrane
     	 * potential chart has changed.
     	 */
@@ -891,5 +911,6 @@ public class AxonModel implements IParticleCapture {
 		public void stimulationLockoutStateChanged() {}
 		public void allIonsSimulatedChanged() {}
 		public void chargesShownChanged() {}
+		public void membranePotentialChanged() {}
     }
 }
