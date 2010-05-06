@@ -74,7 +74,7 @@ public class AxonModel implements IParticleCapture {
 	
 	// Value that controls how much of a change of the membrane potential must
 	// occur before a notification is sent out.
-	private static final double MEMBRANE_POTENTIAL_CHANGE_THRESHOLD = 0.01;
+	private static final double MEMBRANE_POTENTIAL_CHANGE_THRESHOLD = 0.005;
 	
     //----------------------------------------------------------------------------
     // Instance Data
