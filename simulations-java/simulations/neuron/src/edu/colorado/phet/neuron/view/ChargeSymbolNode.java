@@ -23,7 +23,7 @@ public class ChargeSymbolNode extends PNode {
 	
 	private static final float STROKE_WIDTH = 0.75f;
 	private static final Stroke EDGE_STROKE = new BasicStroke(STROKE_WIDTH);
-	private static final Color EDGE_COLOR = Color.ORANGE;
+	private static final Color EDGE_COLOR = new Color(255, 102, 0);
 	private static final Color FILL_COLOR = Color.WHITE;
 	
 	// Factor that controls the thickness of the plus and minus sign, must be
