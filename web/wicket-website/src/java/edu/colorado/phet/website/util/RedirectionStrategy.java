@@ -318,12 +318,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return redirectDownloadTeachersGuide( parameters );
         }
         else if ( path.startsWith( OLD_WEBSITE_PREFIX ) ) {
-            if ( oldMap.containsKey( path ) ) {
-                return oldMap.get( path );
-            }
-            else {
-                return NOT_FOUND;
-            }
+            return redirectOldWeb( path );
         }
         return null;
     }
@@ -524,6 +519,21 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
 
         return NOT_FOUND;
+    }
+
+    private static String redirectOldWeb( String path ) {
+        if ( oldMap.containsKey( path ) ) {
+            return oldMap.get( path );
+        }
+        else if ( path.startsWith( "/web-pages/publications" ) ) {
+            return path.substring( "/web-pages/publications".length() );
+        }
+        else if ( path.startsWith( "/web-pages/simulation-pages" ) ) {
+            return path.substring( "/web-pages/simulation-pages".length() );
+        }
+        else {
+            return NOT_FOUND;
+        }
     }
 
     private static String morphPath( String str ) {
