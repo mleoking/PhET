@@ -24,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author John Blanco
  */
-public class AxonModel implements IParticleCapture, IMembranePotential {
+public class AxonModel implements IParticleCapture {
     
     //----------------------------------------------------------------------------
     // Class Data
