@@ -8,10 +8,13 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.ResourceModel;
 
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.cache.CacheableUrlStaticPanel;
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
+import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -78,6 +81,16 @@ public class StaticPage extends PhetRegularPage {
                 logger.warn( "nav location == null for " + panelClass.getCanonicalName() );
             }
             initializeLocation( navLocation );
+
+            if ( PhetWicketApplication.get().isDevelopment() ) {
+                Label debugClassLabel = new Label( "debug-static-page-class", "<!-- static page " + panelClass.getCanonicalName() + " -->" );
+                add( debugClassLabel );
+                debugClassLabel.setRenderBodyOnly( true );
+                debugClassLabel.setEscapeModelStrings( false );
+            }
+            else {
+                add( new InvisibleComponent( "debug-page-class" ) );
+            }
 
         }
         catch( RuntimeException e ) {
