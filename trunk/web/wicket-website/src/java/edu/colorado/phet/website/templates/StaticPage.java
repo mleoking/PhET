@@ -89,7 +89,7 @@ public class StaticPage extends PhetRegularPage {
                 debugClassLabel.setEscapeModelStrings( false );
             }
             else {
-                add( new InvisibleComponent( "debug-page-class" ) );
+                add( new InvisibleComponent( "debug-static-page-class" ) );
             }
 
         }
