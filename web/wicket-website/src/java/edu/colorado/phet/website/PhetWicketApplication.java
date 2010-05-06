@@ -186,6 +186,14 @@ public class PhetWicketApplication extends WebApplication {
 
     }
 
+    public boolean isDeployment() {
+        return getConfigurationType().equals( Application.DEPLOYMENT );
+    }
+
+    public boolean isDevelopment() {
+        return getConfigurationType().equals( Application.DEVELOPMENT );
+    }
+
     //----------------------------------------------------------------------------
     // server-specific configuration locations
     //----------------------------------------------------------------------------

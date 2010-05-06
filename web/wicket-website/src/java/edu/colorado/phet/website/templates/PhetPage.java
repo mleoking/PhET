@@ -132,6 +132,16 @@ public abstract class PhetPage extends WebPage implements Stylable {
         }
 
         logger.debug( "request cycle is a : " + getRequestCycle().getClass().getSimpleName() );
+
+        if ( PhetWicketApplication.get().isDevelopment() ) {
+            Label debugClassLabel = new Label( "debug-page-class", "<!-- class " + getClass().getCanonicalName() + " -->" );
+            add( debugClassLabel );
+            debugClassLabel.setRenderBodyOnly( true );
+            debugClassLabel.setEscapeModelStrings( false );
+        }
+        else {
+            add( new InvisibleComponent( "debug-page-class" ) );
+        }
     }
 
     public Locale getMyLocale() {
