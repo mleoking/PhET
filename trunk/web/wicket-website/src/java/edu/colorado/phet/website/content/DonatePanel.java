@@ -2,6 +2,7 @@ package edu.colorado.phet.website.content;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.borders.SmallOrangeButtonBorder;
+import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -17,14 +18,8 @@ public class DonatePanel extends PhetPanel {
 
         add( new SmallOrangeButtonBorder( "small-orange", context ) );
 
-//        add( new LocalizedText( "contribute-main", "contribute.main", new Object[]{
-//                "http://www.cufund.org/giving-opportunities/fund-description/?id=3685"
-//        } ) );
-//
-//        add( new LocalizedText( "contribute-thanks", "contribute.thanks", new Object[]{
-//                AboutSponsorsPanel.getLinker().getHref( context, getPhetCycle() ),
-//                "href=\"http://www.royalinteractive.com/\""
-//        } ) );
+        add( new LocalizedText( "donate-questions", "donate.questions", new Object[]{"<a href=\"mailto:Kathryn.Dessau@colorado.edu\">Kathryn.Dessau@colorado.edu</a>"} ) );
+
     }
 
     public static String getKey() {
