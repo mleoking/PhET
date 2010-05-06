@@ -42,6 +42,7 @@ import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.test.PreventXSSTest;
 
 /**
  * Main entry and configuration point for the Wicket-based PhET website. Initializes pages (and the mappings), along
@@ -138,6 +139,9 @@ public class PhetWicketApplication extends WebApplication {
 
         mountBookmarkablePage( "admin", AdminMainPage.class );
         mountBookmarkablePage( "admin/deploy", AdminDeployProjectPage.class );
+
+        // FOR XSS TESTING TODO: remove after dev
+        //mountBookmarkablePage( "xsstest", PreventXSSTest.class );
 
         // this will remove the default string resource loader. essentially this new one has better locale-handling,
         // so that if a string is not found for a more specific locale (es_MX), it would try "es", then the default
