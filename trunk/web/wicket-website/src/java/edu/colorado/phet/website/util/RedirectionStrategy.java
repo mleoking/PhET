@@ -31,13 +31,35 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
     private static Logger logger = Logger.getLogger( RedirectionStrategy.class.getName() );
 
+    /**
+     * Maps relative URLs (minus query strings) to either a specific relative URL (string), or null. If null, the case
+     * will have to be handled within checkRedirect()
+     */
     private static Map<String, String> map = new HashMap<String, String>();
+
+    /**
+     * Direct map of older redirections with the /web-pages/ prefix
+     */
     private static Map<String, String> oldMap = new HashMap<String, String>();
 
+    /**
+     * Mapping of category name redirections. Maps from category names to new category names
+     */
     private static Map<String, String> categoryMap = new HashMap<String, String>();
+
+    /**
+     * Maps evil permutations of the expected category names that were linked in the past
+     */
     private static Map<String, String> badCategoryMap = new HashMap<String, String>(); // for those ugly variations that aren't immediately caught
 
+    /**
+     * Mapping of escaped simulation names to partial URLs. see the prefix in redirectSimulations
+     */
     private static Map<String, String> simMap = new HashMap<String, String>();
+
+    /**
+     * Maps evil permutations of the expected simulation names that were linked in the past
+     */
     private static Map<String, String> badSimMap = new HashMap<String, String>();
 
     /*---------------------------------------------------------------------------*
@@ -58,9 +80,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
     static {
 
-        //----------------------------------------------------------------------------
-        // general page mappings
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * general page mappings
+        *----------------------------------------------------------------------------*/
 
         // initialize redirection mapping. value of null indicates that it will be handled by custom code, usually for query parameters
         map.put( "/about/contact.php", "/en/about/contact" );
@@ -186,9 +208,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             badCategoryMap.put( processCategoryName( key ), categoryMap.get( key ) );
         }
 
-        //----------------------------------------------------------------------------
-        // simulation map
-        //----------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------*
+        * simulation mappings
+        *----------------------------------------------------------------------------*/
 
         simMap.put( "Alpha_Decay", "nuclear-physics/alpha-decay" );
         simMap.put( "Arithmetic", "arithmetic" );
@@ -280,12 +302,12 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             badSimMap.put( processSimName( key ), simMap.get( key ) );
         }
 
-        // TODO: add all URLs
+        // TODO: add all URLs (pretty much everything useful on tigercat has been mapped)
     }
 
     /**
      * @param path       A path to check redirections with
-     * @param parameters
+     * @param parameters Page parameters, which is basically a useful form of the query string.
      * @return null if no direction is needed, otherwise the path to redirect to
      */
     private static String checkRedirect( String path, Map parameters ) {
