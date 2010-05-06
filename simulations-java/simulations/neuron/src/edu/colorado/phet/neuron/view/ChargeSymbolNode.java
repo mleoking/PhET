@@ -4,9 +4,13 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.umd.cs.piccolo.PNode;
@@ -17,14 +21,19 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class ChargeSymbolNode extends PNode {
 	
-	private static final float STROKE_WIDTH = 1;
+	private static final float STROKE_WIDTH = 0.75f;
 	private static final Stroke EDGE_STROKE = new BasicStroke(STROKE_WIDTH);
 	private static final Color EDGE_COLOR = Color.ORANGE;
 	private static final Color FILL_COLOR = Color.WHITE;
 	
+	// Factor that controls the thickness of the plus and minus sign, must be
+	// less than 1.
+	private static final double THICKNESS_FACTOR = 0.4;
+	
 	private final AxonModel axonModel;
 	private final double maxPotential;
 	private final double maxWidth;
+	private final boolean polarityReversed;
     private final PPath representation;
 
     /**
@@ -39,6 +48,7 @@ public class ChargeSymbolNode extends PNode {
     	
 		this.axonModel = axonModel;
 		this.maxWidth = maxWidth;
+		this.polarityReversed = polarityReversed;
 		this.maxPotential = maxPotential;
 
         axonModel.addListener(new AxonModel.Adapter(){
@@ -54,15 +64,43 @@ public class ChargeSymbolNode extends PNode {
 	}
     
     private void updateRepresentation() {
-    	System.out.println("Warning: updateRepresentation faked.");
+    	
     	double width = maxWidth * Math.abs((axonModel.getMembranePotential() / maxPotential));
-    	representation.setPathTo(new Ellipse2D.Double(-width / 2, -width / 2, 
-    			width, width));
-    	if (axonModel.getMembranePotential() < 0){
-    		representation.setPaint(Color.BLACK);
+    	
+    	boolean drawPlusSymbol = (axonModel.getMembranePotential() > 0 && !polarityReversed) ||
+    	                         (axonModel.getMembranePotential() < 0 && polarityReversed);
+    	
+    	if (drawPlusSymbol){
+    		representation.setPathTo(drawPlusSign(width));
     	}
     	else{
-    		representation.setPaint(FILL_COLOR);
+    		representation.setPathTo(drawMinusSign(width));
     	}
+    }
+    
+    private Shape drawPlusSign(double width){
+    	DoubleGeneralPath path = new DoubleGeneralPath();
+    	double thickness = width * THICKNESS_FACTOR;
+    	double halfThickness = thickness / 2;
+    	double halfWidth = width / 2;
+    	path.moveTo(-halfWidth, -halfThickness);
+    	path.lineTo(-halfWidth, halfThickness);
+    	path.lineTo(-halfThickness, halfThickness);
+    	path.lineTo(-halfThickness, halfWidth);
+    	path.lineTo(halfThickness, halfWidth);
+    	path.lineTo(halfThickness, halfThickness);
+    	path.lineTo(halfWidth, halfThickness);
+    	path.lineTo(halfWidth, -halfThickness);
+    	path.lineTo(halfThickness, -halfThickness);
+    	path.lineTo(halfThickness, -halfWidth);
+    	path.lineTo(-halfThickness, -halfWidth);
+    	path.lineTo(-halfThickness, -halfThickness);
+    	path.closePath();
+    	return path.getGeneralPath();
+    }
+    
+    private Shape drawMinusSign(double width){
+    	double height = width * THICKNESS_FACTOR;
+    	return new Rectangle2D.Double(-width / 2, -height / 2 , width, height);
     }
 }
