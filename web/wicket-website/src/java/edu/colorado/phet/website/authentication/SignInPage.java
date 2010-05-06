@@ -8,6 +8,7 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.authentication.panels.SignInPanel;
+import edu.colorado.phet.website.panels.TranslationLinksPanel;
 import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
@@ -19,8 +20,6 @@ import edu.colorado.phet.website.util.links.RawLinkable;
  * in (even after registering)
  */
 public class SignInPage extends PhetPage {
-
-    // TODO: add translation links at the bottom?
 
     private static Logger logger = Logger.getLogger( SignInPage.class.getName() );
 
@@ -36,6 +35,8 @@ public class SignInPage extends PhetPage {
         addTitle( new ResourceModel( "signIn.title" ) );
 
         add( new SignInPanel( "sign-in-panel", getPageContext(), destination ) );
+
+        add( new TranslationLinksPanel( "translation-links-panel", getPageContext() ) );
 
     }
 
