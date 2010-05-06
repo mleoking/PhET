@@ -39,7 +39,7 @@ public class TeacherIdeasPanel extends PhetPanel {
     }
 
     public static String getUrl() {
-        return "contributions";
+        return "for-teachers";
     }
 
     public static RawLinkable getLinker() {

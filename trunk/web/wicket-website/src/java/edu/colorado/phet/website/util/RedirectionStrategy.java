@@ -87,7 +87,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         // initialize redirection mapping. value of null indicates that it will be handled by custom code, usually for query parameters
         map.put( "/about/contact.php", "/en/about/contact" );
         map.put( "/about/index.php", "/en/about" );
-        map.put( "/about/legend.php", "/en/about/legend" );
+        map.put( "/about/legend.php", "/en/for-teachers/legend" );
         map.put( "/about/licensing.php", "/en/about/licensing" );
         map.put( "/about/news.php", "/en/about/news" );
         map.put( "/about/source-code.php", "/en/about/source-code" );
@@ -104,13 +104,13 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/simulations/", "/en/simulations/category/featured" );
         map.put( "/simulations/translations.php", "/en/simulations/translated" );
         map.put( "/sponsors/index.php", "/en/about/sponsors" );
-        map.put( "/teacher_ideas/browse.php", "/en/contributions/browse" );
+        map.put( "/teacher_ideas/browse.php", "/en/for-teachers/browse-activities" );
         map.put( "/teacher_ideas/classroom-use.php", "/en/for-teachers/classroom-use" );
-        map.put( "/teacher_ideas/contribute.php", "/en/contributions/submit" );
-        map.put( "/teacher_ideas/contribution-guidelines.php", "/en/contributions/guide" );
+        map.put( "/teacher_ideas/contribute.php", "/en/for-teachers/submit-activity" );
+        map.put( "/teacher_ideas/contribution-guidelines.php", "/en/for-teachers/activity-guide" );
         map.put( "/teacher_ideas/user-edit-profile.php", "/en/edit-profile" );
-        map.put( "/teacher_ideas/index.php", "/en/contributions" );
-        map.put( "/teacher_ideas/manage-contributions.php", "/en/contributions/manage" );
+        map.put( "/teacher_ideas/index.php", "/en/for-teachers" );
+        map.put( "/teacher_ideas/manage-contributions.php", "/en/for-teachers/manage-activities" );
         map.put( "/teacher_ideas/user-logout.php", "/en/sign-out" );
         map.put( "/teacher_ideas/user-edit-profile.php", "/en/edit-profile" );
         map.put( "/teacher_ideas/workshops.php", "/en/workshops" );
@@ -136,17 +136,17 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         oldMap.put( "/web-pages/about-phet.html", "/en/about" );
         oldMap.put( "/web-pages/contribute.htm", "/en/for-translators" );
         oldMap.put( "/web-pages/db", "/" );
-        oldMap.put( "/web-pages/educator-resources.html", "/en/contributions" );
+        oldMap.put( "/web-pages/educator-resources.html", "/en/for-teachers" );
         oldMap.put( "/web-pages/javasupport.html", "/en/troubleshooting/java" );
         oldMap.put( "/web-pages/license.html", "/en/about/licensing" );
         oldMap.put( "/web-pages/misc-pages/publications.html", "/en/research" );
         //oldMap.put( "/web-pages/misc-pages/flash_detect_v7.html", "/tech_support/flash_detect_v7.html" );
-        oldMap.put( "/web-pages/misc-pages/ratings-explanation.html", "/en/about/legend" );
+        oldMap.put( "/web-pages/misc-pages/ratings-explanation.html", "/en/for-teachers/legend" );
         oldMap.put( "/web-pages/publications/index.html", "/en/research" );
         oldMap.put( "/web-pages/publications/phet-translation.htm", "/en/for-translators/translation-utility" );
         oldMap.put( "/web-pages/publications/phet-translation-deployment.htm", "/en/for-translators/translation-utility" );
         oldMap.put( "/web-pages/publications", "/publications" );
-        oldMap.put( "/web-pages/misc-pages/ratings-explanation.html", "/en/about/legend" );
+        oldMap.put( "/web-pages/misc-pages/ratings-explanation.html", "/en/for-teachers/legend" );
         oldMap.put( "/web-pages/research.html", "/en/research" );
         oldMap.put( "/web-pages/simulation-header.htm", "/en/simulations/category/featured" );
         oldMap.put( "/web-pages/simulation-header_es.htm", "/en/simulations/translated/es" );

@@ -29,7 +29,7 @@ public class AboutLegendPanel extends PhetPanel {
     }
 
     public static String getUrl() {
-        return "about/legend";
+        return "for-teachers/legend";
     }
 
     public static RawLinkable getLinker() {

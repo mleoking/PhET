@@ -29,13 +29,13 @@ public class ContributionManagePage extends PhetRegularPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^contributions/manage$", ContributionManagePage.class );
+        mapper.addMap( "^for-teachers/manage-activities$", ContributionManagePage.class );
     }
 
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             public String getSubUrl( PageContext context ) {
-                return "contributions/manage";
+                return "for-teachers/manage-activities";
             }
         };
     }
