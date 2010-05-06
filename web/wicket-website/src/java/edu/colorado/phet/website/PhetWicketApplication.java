@@ -43,6 +43,7 @@ import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 import edu.colorado.phet.website.util.*;
 import edu.colorado.phet.website.test.PreventXSSTest;
+import edu.colorado.phet.website.services.PhetInfoServicePage;
 
 /**
  * Main entry and configuration point for the Wicket-based PhET website. Initializes pages (and the mappings), along
@@ -140,6 +141,10 @@ public class PhetWicketApplication extends WebApplication {
 
         mountBookmarkablePage( "admin", AdminMainPage.class );
         mountBookmarkablePage( "admin/deploy", AdminDeployProjectPage.class );
+
+        // services
+        mountBookmarkablePage( "services/phet-info", PhetInfoServicePage.class );
+        mountBookmarkablePage( "services/phet-info.php", PhetInfoServicePage.class );
 
         // FOR XSS TESTING TODO: remove after dev
         //mountBookmarkablePage( "xsstest", PreventXSSTest.class );

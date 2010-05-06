@@ -14,6 +14,11 @@
     </resource-ref>
 
     <filter>
+        <filter-name>PreFilter</filter-name>
+        <filter-class>edu.colorado.phet.website.services.PreFilter</filter-class>
+    </filter>
+
+    <filter>
         <filter-name>WicketWebsite</filter-name>
         <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
         <init-param>
@@ -21,6 +26,11 @@
             <param-value>edu.colorado.phet.website.PhetWicketApplication</param-value>
         </init-param>
     </filter>
+
+    <filter-mapping>
+        <filter-name>PreFilter</filter-name>
+        <url-pattern>/services/*</url-pattern>
+    </filter-mapping>
 
     <filter-mapping>
         <filter-name>WicketWebsite</filter-name>
