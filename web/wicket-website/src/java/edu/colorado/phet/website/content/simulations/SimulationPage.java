@@ -88,20 +88,6 @@ public class SimulationPage extends PhetMenuPage {
         mapper.addMap( "^simulation/([^/]+)(/([^/]+))?$", SimulationPage.class, new String[]{"project", null, "flavor"} );
     }
 
-    // TODO: convert usage to getlinker
-    public static PhetLink createLink( String id, PageContext context, LocalizedSimulation simulation ) {
-        return createLink( id, context, simulation.getSimulation().getProject().getName(), simulation.getSimulation().getName() );
-    }
-
-    // TODO: convert usage to getlinker
-    public static PhetLink createLink( String id, PageContext context, String projectName, String simulationName ) {
-        String str = context.getPrefix() + "simulation/" + projectName;
-        if ( !projectName.equals( simulationName ) ) {
-            str += "/" + simulationName;
-        }
-        return new PhetLink( id, str );
-    }
-
     public static AbstractLinker getLinker( final String projectName, final String simulationName ) {
         // WARNING: don't change without also changing the old URL redirection
         return new AbstractLinker() {

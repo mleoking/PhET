@@ -53,7 +53,7 @@ public class SimulationIndexPanel extends PhetPanel {
                 item.add( new ListView( "sim-entry", lettermap.get( letter ) ) {
                     protected void populateItem( ListItem subItem ) {
                         LocalizedSimulation simulation = (LocalizedSimulation) subItem.getModel().getObject();
-                        Link link = SimulationPage.createLink( "sim-link", context, simulation );
+                        Link link = SimulationPage.getLinker( simulation ).getLink( "sim-link", context, getPhetCycle() );
                         link.add( new Label( "sim-title", simulation.getTitle() ) );
                         subItem.add( link );
                     }

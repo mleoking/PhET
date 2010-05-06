@@ -98,7 +98,7 @@ public class TranslationListPanel extends PhetPanel implements CacheableUrlStati
             protected void populateItem( ListItem item ) {
                 LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
 
-                Link simLink = SimulationPage.createLink( "sim-link", context, lsim );
+                Link simLink = SimulationPage.getLinker( lsim ).getLink( "sim-link", context, getPhetCycle() );
                 simLink.add( new Label( "title-translated", lsim.getTitle() ) );
                 item.add( simLink );
 
