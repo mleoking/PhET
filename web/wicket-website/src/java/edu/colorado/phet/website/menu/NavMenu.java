@@ -86,6 +86,10 @@ public class NavMenu {
         addLocation( aboutLegend );
         teacherIdeas.addChild( aboutLegend );
 
+        // orphan!
+        NavLocation classroomUse = new NavLocation( teacherIdeas, "for-teachers.classroom-use", ClassroomUsePanel.getLinker() );
+        addLocation( classroomUse );
+
         NavLocation getPhet = new NavLocation( null, "get-phet", RunOurSimulationsPanel.getLinker() );
         addMajorLocation( getPhet );
 
