@@ -65,7 +65,8 @@ public class Simulation implements Serializable, IntId {
             }
             else if ( sim.getLocale().equals( englishLocale ) ) {
                 englishSimulation = sim;
-            } else if( sim.getLocale().equals( languageLocale ) ) {
+            }
+            else if ( sim.getLocale().equals( languageLocale ) ) {
                 languageSimulation = sim;
             }
         }
@@ -94,6 +95,14 @@ public class Simulation implements Serializable, IntId {
             default:
                 throw new RuntimeException( "Simulation type not handled? type = " + getType() );
         }
+    }
+
+    public static File getAllJar( File docRoot, String project ) {
+        return new File( docRoot, "sims/" + project + "/" + project + "_all.jar" );
+    }
+
+    public static File getLocalizedJar( File docRoot, String project, String sim, Locale locale ) {
+        return new File( docRoot, "sims/" + project + "/" + sim + "_" + LocaleUtils.localeToString( locale ) + ".jar" );
     }
 
     public boolean isJava() {

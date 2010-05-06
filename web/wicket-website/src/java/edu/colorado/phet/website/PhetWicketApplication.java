@@ -44,6 +44,7 @@ import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 import edu.colorado.phet.website.util.*;
 import edu.colorado.phet.website.test.PreventXSSTest;
 import edu.colorado.phet.website.services.PhetInfoServicePage;
+import edu.colorado.phet.website.services.SimJarRedirectPage;
 
 /**
  * Main entry and configuration point for the Wicket-based PhET website. Initializes pages (and the mappings), along
@@ -145,6 +146,8 @@ public class PhetWicketApplication extends WebApplication {
         // services
         mountBookmarkablePage( "services/phet-info", PhetInfoServicePage.class );
         mountBookmarkablePage( "services/phet-info.php", PhetInfoServicePage.class );
+        mountBookmarkablePage( "services/sim-jar-redirect", SimJarRedirectPage.class );
+        mountBookmarkablePage( "services/sim-jar-redirect.php", SimJarRedirectPage.class );
 
         // FOR XSS TESTING TODO: remove after dev
         //mountBookmarkablePage( "xsstest", PreventXSSTest.class );
