@@ -108,23 +108,31 @@ public class TranslateEntityPanel extends PhetPanel {
                     protected void onSubmit( AjaxRequestTarget target ) {
                         super.onSubmit( target );
                         int status = StringUtils.stringStatus( getHibernateSession(), tString.getKey(), translationId );
-                        StringUtils.setString( getHibernateSession(), tString.getKey(), (String) model.getObject(), translationId );
-                        //target.addComponent( TranslateEntityPanel.this );
+                        String value = (String) model.getObject();
+                        if ( !stringHasXSS( value ) ) {
+                            StringUtils.setString( getHibernateSession(), tString.getKey(), value, translationId );
+                            if ( status == StringUtils.STRING_OUT_OF_DATE ) {
+                                Map<Integer, Integer> map = entity.getOutOfDateMap();
+                                Integer old = map.get( translationId );
+                                map.put( translationId, old - 1 );
+                            }
+                            else if ( status == StringUtils.STRING_UNTRANSLATED ) {
+                                Map<Integer, Integer> map = entity.getUntranslatedMap();
+                                Integer old = map.get( translationId );
+                                map.put( translationId, old - 1 );
+                            }
+                            add( new AttributeModifier( "class", new Model( "string-value" ) ) );
+                        } else {
+                            // mostly preventative measure to prevent attacks
+                            String oldValue = StringUtils.getStringDirect( getHibernateSession(), tString.getKey(), translationId );
+                            if( oldValue == null ) {
+                                oldValue = StringUtils.getDefaultStringDirect( getHibernateSession(), tString.getKey() );
+                            }
+                            model.setObject( oldValue );
+                        }
                         target.addComponent( panel );
                         target.addComponent( item );
-                        //page.getEntityListPanel().updateEntity( entity );
-                        if ( status == StringUtils.STRING_OUT_OF_DATE ) {
-                            Map<Integer, Integer> map = entity.getOutOfDateMap();
-                            Integer old = map.get( translationId );
-                            map.put( translationId, old - 1 );
-                        }
-                        else if ( status == StringUtils.STRING_UNTRANSLATED ) {
-                            Map<Integer, Integer> map = entity.getUntranslatedMap();
-                            Integer old = map.get( translationId );
-                            map.put( translationId, old - 1 );
-                        }
                         target.addComponent( page.getEntityListPanel() );
-                        add( new AttributeModifier( "class", new Model( "string-value" ) ) );
                     }
                 };
                 editableLabel.setCols( 80 );
@@ -196,6 +204,18 @@ public class TranslateEntityPanel extends PhetPanel {
             }
         } );
         return success;
+    }
+
+    private static final String[] allowedTags = new String[]{"p", "strong", "em", "br", "ul", "ol", "li", "a", "span", "table", "tbody", "thead", "tr", "td"};
+    private static final String[] blacklistedStrings = new String[]{"<scr" + "ipt", "<SC" + "RIPT", "<fo" + "rm", "<FO" + "RM", "expres" + "sion(", "docu" + "ment.coo" + "kie"};
+
+    public static boolean stringHasXSS( String str ) {
+        for ( String blacklistedString : blacklistedStrings ) {
+            if ( str.contains( blacklistedString ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isStringSet( String key ) {
