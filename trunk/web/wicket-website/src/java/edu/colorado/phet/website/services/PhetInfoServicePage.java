@@ -1,14 +1,13 @@
 package edu.colorado.phet.website.services;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,93 +26,56 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
  */
 public class PhetInfoServicePage extends WebPage {
 
-    private static Logger logger = Logger.getLogger( PhetInfoServicePage.class.getName() );
-    private StringBuilder response;
-
+    // TODO: allow changing during runtime
     public static final int INSTALL_RECOMMEND_UPDATE_DAYS = 60;
     public static final int SIM_ASK_ME_LATER_DAYS = 1;
     public static final int INSTALLER_ASK_ME_LATER_DAYS = 30;
 
-    // TODO: fix this!!! (when we have a system to identify which is the latest installer timestamp)
+    public static final String SIM_VERSION_RESPONSE_TAG = "sim_version_response";
+    public static final String INSTALLER_UPDATE_RESPONSE_TAG = "phet_installer_update_response";
+
+    // TODO: fix when we have a system to identify which is the latest installer timestamp
     public static final int TIMESTAMP = 1255450853;
 
+    private static Logger logger = Logger.getLogger( PhetInfoServicePage.class.getName() );
+
+
     public PhetInfoServicePage() {
+
+        // snag the raw POST data from the PreFilter
         HttpServletRequest request = ( (PhetRequestCycle) getRequestCycle() ).getWebRequest().getHttpServletRequest();
         String rawData = (String) request.getAttribute( "raw-data" );
 
-        logger.warn( "rawData: " + rawData );
-
-        response = new StringBuilder();
-
         boolean overallSuccess = true;
 
+        Document outDocument = null;
         try {
-            Document document = XMLUtils.toDocument( rawData );
+            outDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        }
+        catch( ParserConfigurationException e ) {
+            logger.warn( "unable to create a document" );
+            e.printStackTrace();
+            return;
+        }
 
-            NodeList simVersions = document.getElementsByTagName( "sim_version" );
+        Element root = outDocument.createElement( "phet_info_response" );
+        outDocument.appendChild( root );
 
+        try {
+            Document inDocument = XMLUtils.toDocument( rawData );
+
+            // handle all sim version queries
+            NodeList simVersions = inDocument.getElementsByTagName( "sim_version" );
             for ( int i = 0; i < simVersions.getLength(); i++ ) {
                 Element element = (Element) simVersions.item( 0 );
-                final String project = element.getAttribute( "project" );
-                final String sim = element.hasAttribute( "sim" ) ? element.getAttribute( "sim" ) : project;
-                final String version = element.getAttribute( "request_version" );
-                if ( version == null || !version.equals( "1" ) ) {
-                    response.append( "<sim_version_response success=\"false\" project=\"" + quoteEscape( project ) + "\" sim=\"" + quoteEscape( sim ) + "\"><error>" );
-                    response.append( "Unsupported sim_version request_version: " + quoteEscape( version ) );
-                    response.append( "</error></sim_version_response>" );
-                    continue;
-                }
-                final Simulation[] sims = new Simulation[1];
-                boolean success = HibernateUtils.wrapSession( new HibernateTask() {
-                    public boolean run( Session session ) {
-                        Simulation simulation = (Simulation) session.createQuery( "select s from Simulation as s where s.name = :sim and s.project.name = :project" )
-                                .setString( "project", project ).setString( "sim", sim ).uniqueResult();
-                        sims[0] = simulation;
-                        return true;
-                    }
-                } );
-                Project proj = sims[0].getProject();
-                if ( success ) {
-                    response.append( "<sim_version_response success=\"true\"" );
-                    response.append( " project=\"" + quoteEscape( project ) + "\"" );
-                    response.append( " sim=\"" + quoteEscape( sim ) + "\"" );
-                    response.append( " version_major=\"" + proj.getVersionMajor() + "\"" );
-                    response.append( " version_minor=\"" + doublePadNumber( proj.getVersionMinor() ) + "\"" );
-                    response.append( " version_dev=\"" + doublePadNumber( proj.getVersionDev() ) + "\"" );
-                    response.append( " version_revision=\"" + proj.getVersionRevision() + "\"" );
-                    response.append( " version_timestamp=\"" + proj.getVersionTimestamp() + "\"" );
-                    response.append( " ask_me_later_duration_days=\"" + SIM_ASK_ME_LATER_DAYS + "\"" );
-                    response.append( "/>" );
-                }
-                else {
-                    response.append( "<sim_version_response success=\"false\" project=\"" + quoteEscape( project ) + "\" sim=\"" + quoteEscape( sim ) + "\"><error>" );
-                    response.append( "Unable to find a simulation matching project:sim of " + quoteEscape( project ) + ":" + quoteEscape( sim ) );
-                    response.append( "</error></sim_version_response>" );
-                }
+                writeSimVersionResponse( outDocument, root, element );
             }
 
-            NodeList installerUpdates = document.getElementsByTagName( "phet_installer_update" );
-
+            // handle all installer update queries
+            NodeList installerUpdates = inDocument.getElementsByTagName( "phet_installer_update" );
             for ( int i = 0; i < installerUpdates.getLength(); i++ ) {
                 Element element = (Element) installerUpdates.item( i );
-                final String version = element.getAttribute( "request_version" );
-                if ( version == null || !version.equals( "1" ) ) {
-                    response.append( "<phet_installer_update_response success=\"false\"><error>" );
-                    response.append( "Unsupported phet_installer_update request_version: " + quoteEscape( version ) );
-                    response.append( "</error></phet_installer_update_response>" );
-                    continue;
-                }
-                String timestampInSeconds = element.getAttribute( "timestamp_seconds" );
-                int timestamp = Integer.valueOf( timestampInSeconds );
-
-                boolean recommendUpdate = timestamp + INSTALL_RECOMMEND_UPDATE_DAYS * 60 * 60 * 24 < TIMESTAMP;
-
-                response.append( "<phet_installer_update_response success=\"true\"" );
-                response.append( " recommend_update=\"" + recommendUpdate + "\"" );
-                response.append( " timestamp_seconds=\"" + TIMESTAMP + "\"" );
-                response.append( " ask_me_later_duration_days=\"" + INSTALLER_ASK_ME_LATER_DAYS + "\"" );
-                response.append( "/>" );
-
+                writeInstallerUpdateResponse( outDocument, root, element );
             }
         }
         catch( TransformerException e ) {
@@ -125,22 +87,100 @@ public class PhetInfoServicePage extends WebPage {
             overallSuccess = false;
         }
 
-        if ( overallSuccess == false ) {
-            Label label = new Label( "response", "<error>Unable to </error>" );
-            add( label );
-            label.add( new AttributeModifier( "success", true, new Model( "false" ) ) );
+        // set success based on parsing
+        root.setAttribute( "success", String.valueOf( overallSuccess ) );
+
+        try {
+            Label xml = new Label( "response", XMLUtils.toString( outDocument ) );
+            xml.setEscapeModelStrings( false );
+            xml.setRenderBodyOnly( true );
+            add( xml );
+        }
+        catch( TransformerException e ) {
+            logger.error( "error converting XML into a string" );
+            e.printStackTrace();
+        }
+
+    }
+
+    private void writeSimVersionResponse( Document document, Element root, Element queryElement ) {
+        final String project = queryElement.getAttribute( "project" );
+        final String sim = queryElement.hasAttribute( "sim" ) ? queryElement.getAttribute( "sim" ) : project;
+        final String version = queryElement.getAttribute( "request_version" );
+        if ( version == null || !version.equals( "1" ) ) {
+            Element simVersionResponse = document.createElement( SIM_VERSION_RESPONSE_TAG );
+            simVersionResponse.setAttribute( "success", "false" );
+            simVersionResponse.setAttribute( "project", project );
+            simVersionResponse.setAttribute( "sim", sim );
+            Element errorElement = document.createElement( "error" );
+            simVersionResponse.appendChild( errorElement );
+            errorElement.setTextContent( "Unsupported sim_version request_version: " + quoteEscape( version ) );
+
+            root.appendChild( simVersionResponse );
+            return;
+        }
+        final Simulation[] sims = new Simulation[1];
+        boolean foundSim = HibernateUtils.wrapSession( new HibernateTask() {
+            public boolean run( Session session ) {
+                Simulation simulation = (Simulation) session.createQuery( "select s from Simulation as s where s.name = :sim and s.project.name = :project" )
+                        .setString( "project", project ).setString( "sim", sim ).uniqueResult();
+                sims[0] = simulation;
+                return true;
+            }
+        } );
+        Project proj = sims[0].getProject();
+        if ( foundSim ) {
+            Element simVersionResponse = document.createElement( SIM_VERSION_RESPONSE_TAG );
+            simVersionResponse.setAttribute( "success", "true" );
+            simVersionResponse.setAttribute( "project", project );
+            simVersionResponse.setAttribute( "sim", sim );
+
+            simVersionResponse.setAttribute( "version_major", String.valueOf( proj.getVersionMajor() ) );
+            simVersionResponse.setAttribute( "version_minor", doublePadNumber( proj.getVersionMinor() ) );
+            simVersionResponse.setAttribute( "version_dev", doublePadNumber( proj.getVersionDev() ) );
+            simVersionResponse.setAttribute( "version_revision", String.valueOf( proj.getVersionRevision() ) );
+            simVersionResponse.setAttribute( "version_timestamp", String.valueOf( proj.getVersionTimestamp() ) );
+            simVersionResponse.setAttribute( "ask_me_later_duration_days", String.valueOf( SIM_ASK_ME_LATER_DAYS ) );
+
+            root.appendChild( simVersionResponse );
         }
         else {
-            Label label = new Label( "response", response.toString() );
-            add( label );
-            label.setEscapeModelStrings( false );
-            label.add( new AttributeModifier( "success", true, new Model( "true" ) ) );
+            Element simVersionResponse = document.createElement( SIM_VERSION_RESPONSE_TAG );
+            simVersionResponse.setAttribute( "success", "false" );
+            simVersionResponse.setAttribute( "project", project );
+            simVersionResponse.setAttribute( "sim", sim );
+            Element errorElement = document.createElement( "error" );
+            simVersionResponse.appendChild( errorElement );
+            errorElement.setTextContent( "Unable to find a simulation matching project:sim of " + quoteEscape( project ) + ":" + quoteEscape( sim ) );
+
+            root.appendChild( simVersionResponse );
+        }
+    }
+
+    private void writeInstallerUpdateResponse( Document document, Element root, Element queryElement ) {
+        final String version = queryElement.getAttribute( "request_version" );
+        if ( version == null || !version.equals( "1" ) ) {
+            Element installerResponse = document.createElement( INSTALLER_UPDATE_RESPONSE_TAG );
+            installerResponse.setAttribute( "success", "false" );
+            Element errorElement = document.createElement( "error" );
+            installerResponse.appendChild( errorElement );
+            errorElement.setTextContent( "Unsupported phet_installer_update request_version: " + quoteEscape( version ) );
+
+            root.appendChild( installerResponse );
+            return;
         }
 
-        // don't save anything
-        response = null;
+        int clientInstallerTimestamp = Integer.valueOf( queryElement.getAttribute( "timestamp_seconds" ) );
 
+        boolean recommendUpdate = clientInstallerTimestamp + INSTALL_RECOMMEND_UPDATE_DAYS * 60 * 60 * 24 < TIMESTAMP;
 
+        Element installerResponse = document.createElement( INSTALLER_UPDATE_RESPONSE_TAG );
+        installerResponse.setAttribute( "success", "true" );
+        installerResponse.setAttribute( "recommend_update", String.valueOf( recommendUpdate ) );
+        installerResponse.setAttribute( "timestamp_seconds", String.valueOf( TIMESTAMP ) );
+        installerResponse.setAttribute( "ask_me_later_duration_days", String.valueOf( INSTALLER_ASK_ME_LATER_DAYS ) );
+
+        root.appendChild( installerResponse );
     }
 
     private String doublePadNumber( int num ) {
