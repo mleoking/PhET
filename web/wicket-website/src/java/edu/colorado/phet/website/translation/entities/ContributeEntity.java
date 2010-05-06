@@ -20,41 +20,6 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class ContributeEntity extends TranslationEntity {
     public ContributeEntity() {
-        addString( "teacherIdeas.title" );
-        addString( "teacherIdeas.welcome" );
-        addString( "teacherIdeas.browseSection" );
-        addString( "teacherIdeas.start" );
-        addString( "teacherIdeas.contributeSection" );
-        addString( "teacherIdeas.contribute" );
-        addString( "teacherIdeas.adviceSection" );
-        addString( "teacherIdeas.guidelinesSection" );
-        addString( "teacherIdeas.guidelines" );
-        addString( "teacherIdeas.exampleSection" );
-        addString( "teacherIdeas.examples.highSchool" );
-        addString( "teacherIdeas.examples.modernPhysics" );
-        addString( "teacherIdeas.examples.everydayPhysics" );
-
-        addString( "teacherIdeas.guide.title" );
-        addString( "teacherIdeas.guide.authors" );
-        addString( "teacherIdeas.guide.date" );
-        addString( "teacherIdeas.guide.integration" );
-        addString( "teacherIdeas.guide.specificLearningGoals.title" );
-        addString( "teacherIdeas.guide.specificLearningGoals" );
-        addString( "teacherIdeas.guide.encourageReasoning.title" );
-        addString( "teacherIdeas.guide.encourageReasoning" );
-        addString( "teacherIdeas.guide.priorKnowledge.title" );
-        addString( "teacherIdeas.guide.priorKnowledge" );
-        addString( "teacherIdeas.guide.worldExperiences.title" );
-        addString( "teacherIdeas.guide.worldExperiences" );
-        addString( "teacherIdeas.guide.collaborativeActivities.title" );
-        addString( "teacherIdeas.guide.collaborativeActivities" );
-        addString( "teacherIdeas.guide.minimalDirections.title" );
-        addString( "teacherIdeas.guide.minimalDirections" );
-        addString( "teacherIdeas.guide.diagramReasoning.title" );
-        addString( "teacherIdeas.guide.diagramReasoning" );
-        addString( "teacherIdeas.guide.monitorUnderstanding.title" );
-        addString( "teacherIdeas.guide.monitorUnderstanding" );
-
         addString( "contribution.view.downloadableFiles" );
         addString( "contribution.view.zipDownload" );
         addString( "contribution.view.submissionInformation" );
@@ -196,18 +161,6 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.edit.validation.mustHaveTypes" );
         addString( "contribution.edit.validation.mustHaveLevels" );
         addString( "contribution.edit.validation.fileType" );
-
-        addPreview( new PhetPanelFactory() {
-            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
-                return new TeacherIdeasPanel( id, context );
-            }
-        }, "Teacher Ideas" );
-
-        addPreview( new PhetPanelFactory() {
-            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
-                return new ContributionGuidelinesPanel( id, context );
-            }
-        }, "Contribution guidelines" );
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
