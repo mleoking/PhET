@@ -30,13 +30,13 @@ public class ContributionCreatePage extends PhetRegularPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^contributions/submit$", ContributionCreatePage.class );
+        mapper.addMap( "^for-teachers/submit-activity$", ContributionCreatePage.class );
     }
 
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             public String getSubUrl( PageContext context ) {
-                return "contributions/submit";
+                return "for-teachers/submit-activity";
             }
         };
     }

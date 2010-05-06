@@ -297,13 +297,13 @@ public class ContributionBrowsePage extends PhetRegularPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^contributions/browse$", ContributionBrowsePage.class );
+        mapper.addMap( "^for-teachers/browse-activities$", ContributionBrowsePage.class );
     }
 
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             public String getSubUrl( PageContext context ) {
-                return "contributions/browse";
+                return "for-teachers/browse-activities";
             }
         };
     }

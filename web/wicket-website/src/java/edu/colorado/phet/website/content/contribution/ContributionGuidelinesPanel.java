@@ -22,7 +22,7 @@ public class ContributionGuidelinesPanel extends PhetPanel {
     }
 
     public static String getUrl() {
-        return "contributions/guide";
+        return "for-teachers/activity-guide";
     }
 
     public static RawLinkable getLinker() {
