@@ -13,6 +13,7 @@ import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.constants.CSS;
 
 public class SimulationIndexPanel extends PhetPanel {
     private List<String> letters;
@@ -61,7 +62,7 @@ public class SimulationIndexPanel extends PhetPanel {
             }
         } );
 
-        add( HeaderContributor.forCss( "/css/simulation-index-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.SIMULATION_INDEX ) );
 
     }
 

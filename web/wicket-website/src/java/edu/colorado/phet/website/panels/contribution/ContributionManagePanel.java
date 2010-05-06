@@ -14,6 +14,7 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.constants.CSS;
 
 public class ContributionManagePanel extends PhetPanel {
 
@@ -24,7 +25,7 @@ public class ContributionManagePanel extends PhetPanel {
     public ContributionManagePanel( String id, final PageContext context ) {
         super( id, context );
 
-        add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.CONTRIBUTION_MAIN ) );
 
         myContributions = new LinkedList<Contribution>();
         unapprovedContributions = new LinkedList<Contribution>();

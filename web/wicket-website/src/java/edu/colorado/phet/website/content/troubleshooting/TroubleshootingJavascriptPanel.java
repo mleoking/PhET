@@ -4,6 +4,7 @@ import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -15,7 +16,7 @@ public class TroubleshootingJavascriptPanel extends PhetPanel {
     public TroubleshootingJavascriptPanel( String id, PageContext context ) {
         super( id, context );
 
-        add( HeaderContributor.forCss( "/css/troubleshooting-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.TROUBLESHOOTING ) );
 
         add( new LocalizedText( "troubleshooting-javascript-notJava", "troubleshooting.javascript.notJava", new Object[]{
                 TroubleshootingJavaPanel.getLinker().getHref( context, getPhetCycle() )

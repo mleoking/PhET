@@ -13,6 +13,7 @@ import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.cache.CacheableUrlStaticPanel;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
@@ -36,7 +37,7 @@ public class TranslationListPanel extends PhetPanel implements CacheableUrlStati
     public TranslationListPanel( String id, final PageContext context, final Locale locale ) {
         super( id, context );
 
-        add( HeaderContributor.forCss( "/css/translated-sims-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.TRANSLATED_SIMS ) );
 
         final List<LocalizedSimulation> localizedSimulations = new LinkedList<LocalizedSimulation>();
         final List<LocalizedSimulation> untranslatedSimulations = new LinkedList<LocalizedSimulation>();

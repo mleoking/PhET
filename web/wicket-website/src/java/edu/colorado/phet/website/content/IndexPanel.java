@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
@@ -82,7 +83,7 @@ public class IndexPanel extends PhetPanel {
             add( TeacherIdeasPanel.getLinker().getLink( "submit-activity-link", context, getPhetCycle() ) );
         }
 
-        add( HeaderContributor.forCss( "/css/home-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.HOME ) );
 
         Link miniLink = SimulationDisplay.createLink( "mini-screenshot-link", context );
         add( miniLink );

@@ -3,6 +3,7 @@ package edu.colorado.phet.website.content;
 import org.apache.wicket.behavior.HeaderContributor;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -36,7 +37,7 @@ public class ResearchPanel extends PhetPanel {
         add( new LocalizedText( "research-interest-homework", "research.interest.homework" ) );
         add( new LocalizedText( "research-interest-chemistry", "research.interest.chemistry" ) );
 
-        add( HeaderContributor.forCss( "/css/research-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.RESEARCH ) );
 
     }
 

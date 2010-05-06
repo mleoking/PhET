@@ -17,6 +17,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.cache.SimulationCache;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -50,7 +51,7 @@ public class ContributionSearchPanel extends PhetPanel {
 
         final LinkedList<LocalizedSimulation> simulations = new LinkedList<LocalizedSimulation>();
 
-        add( HeaderContributor.forCss( "/css/contribution-browse-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.CONTRIBUTION_BROWSE ) );
 
         logger.debug( "A" );
 

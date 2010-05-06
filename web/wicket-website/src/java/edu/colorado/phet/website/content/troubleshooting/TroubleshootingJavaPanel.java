@@ -3,6 +3,7 @@ package edu.colorado.phet.website.content.troubleshooting;
 import org.apache.wicket.behavior.HeaderContributor;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -14,7 +15,7 @@ public class TroubleshootingJavaPanel extends PhetPanel {
     public TroubleshootingJavaPanel( String id, PageContext context ) {
         super( id, context );
 
-        add( HeaderContributor.forCss( "/css/troubleshooting-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.TROUBLESHOOTING ) );
 
 
         add( new LocalizedText( "intro", "troubleshooting.java.intro", new Object[]{

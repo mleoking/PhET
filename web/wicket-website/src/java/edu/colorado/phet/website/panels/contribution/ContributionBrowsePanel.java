@@ -28,6 +28,7 @@ import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.WicketUtils;
 import edu.colorado.phet.website.constants.Images;
+import edu.colorado.phet.website.constants.CSS;
 
 public class ContributionBrowsePanel extends PhetPanel {
 
@@ -61,7 +62,7 @@ public class ContributionBrowsePanel extends PhetPanel {
 
         logger.debug( System.currentTimeMillis() + " start" );
 
-        add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.CONTRIBUTION_MAIN ) );
 
         newContributions = new LinkedList<Contribution>();
 

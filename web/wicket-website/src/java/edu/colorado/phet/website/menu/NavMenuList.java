@@ -13,6 +13,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -72,6 +73,6 @@ public class NavMenuList extends PhetPanel {
         };
         add( listView );
 
-        add( HeaderContributor.forCss( "/css/navmenu-v1.css" ) );
+        add( HeaderContributor.forCss( CSS.NAV_MENU ) );
     }
 }
