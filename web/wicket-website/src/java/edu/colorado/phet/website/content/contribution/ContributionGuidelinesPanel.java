@@ -13,8 +13,6 @@ public class ContributionGuidelinesPanel extends PhetPanel {
 
         add( HeaderContributor.forCss( "/css/contribution-main-v1.css" ) );
 
-        // TODO: localize
-
     }
 
     public static String getKey() {
