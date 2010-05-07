@@ -1,3 +1,4 @@
+5/7/10 Added ability for LacY to be produced even if LacZ gene isn't present (2nd tab only).
 # 0.00.19 (40403) May 5, 2010
 5/5/10 Version with several modifications based on feedback from GS and JT of UBC.
 5/4/10 Made LacI hold on to lactose longer.
