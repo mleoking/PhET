@@ -131,7 +131,7 @@ public class LacY extends SimpleModelElement {
 					// it - it should now be inside the cell.
 					glucoseAttachmentPartner.detach(this);
 					glucoseAttachmentPartner.setMotionStrategy( new InjectionMotionStrategy(
-							MotionBoundsTrimmer.trim(getModel().getInteriorMotionBounds(), glucoseAttachmentPartner),
+							MotionBoundsTrimmer.trim(getModel().getInteriorMotionBoundsAboveDna(), glucoseAttachmentPartner),
 							new Vector2D.Double(0, -15)));
 					glucoseAttachmentPartner.setUpDraggableBounds(PositionWrtCell.INSIDE_CELL);
 					glucoseAttachmentPartner = null;
