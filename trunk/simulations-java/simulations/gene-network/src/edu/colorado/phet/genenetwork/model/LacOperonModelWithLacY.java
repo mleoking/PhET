@@ -122,8 +122,6 @@ public class LacOperonModelWithLacY extends LacOperonModel {
 		}
 		
 		if (!openSpotFound){
-			System.err.println(getClass().getName() + " - Warning: No open spots found with random approach, switching to methodical approach.");
-
 			// No free spots were found using the random method, so now locate
 			// the largest free segment and put the LacY in the center of it.
 			double bestSegmentLeftXPos = xMin;
