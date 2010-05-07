@@ -130,13 +130,18 @@ public class RnaPolymerase extends SimpleModelElement {
 							// We have fully traversed the LacY gene.  Time to
 							// tell the mRNA what to spawn, detach the mRNA,
 							// and then detach ourself from the DNA.
-							mRna.setSpawningStrategy(new SpawnLacYAndLacZStrategy());
+							if (touchedLacZGene){
+								mRna.setSpawningStrategy(new SpawnLacYAndLacZStrategy());
+							}
+							else{
+								mRna.setSpawningStrategy(new SpawnLacYStrategy());
+							}
 							freeMessengerRna();
 							detachFromDna(0.25, new Vector2D.Double(2, 2));
 						}
 						else if ((dnaStrand.isOnLacIGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacIGeneInPlace()) ||
-								 (dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacZGeneInPlace()) ||
-								 (dnaStrand.isOnLacYGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacZGeneInPlace())){
+								 (touchedLacZGene && dnaStrand.isOnLacZGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacZGeneInPlace()) ||
+								 (touchedLacYGene && dnaStrand.isOnLacYGeneSpace(getLeftEdgePoint()) && !dnaStrand.isLacYGeneInPlace())){
 							// This polymerase was traversing a gene but the
 							// gene is no longer there, most likely because it
 							// was removed by the user.  This is a rare
@@ -195,9 +200,32 @@ public class RnaPolymerase extends SimpleModelElement {
 								transcribing = true;
 								touchedLacZGene = true;
 							}
-							else{
+							else if (!dnaStrand.isLacYGeneInPlace()){
 								// We are over the lac Z gene location, but
-								// the gene isn't there, so float away.
+								// the gene isn't there, and there isn't a
+								// LacY either, so just float away.
+								detachFromDna(0);
+							}
+							else{
+								// Keep traversing.  This was a specific
+								// request from the UBC folks, i.e. that the
+								// polymerase can trascribe LacY even if LacZ
+								// isn't present.
+							}
+						}
+						else if (dnaStrand.isOnLacYGeneSpace(getLeftEdgePoint())){
+							if (dnaStrand.isLacYGeneInPlace()){
+								// We have moved into contact with the LacY gene, so
+								// it is time to start transcribing.
+								mRna = new MessengerRna(getModel(), 0, false);
+								mRna.setPosition(getLeftEdgePoint().getX(), getLeftEdgePoint().getY());
+								getModel().addMessengerRna(mRna);					
+								transcribing = true;
+								touchedLacYGene = true;
+							}
+							else {
+								// We are over the lac Y gene location, but
+								// the gene isn't there, so just float away.
 								detachFromDna(0);
 							}
 						}
