@@ -130,7 +130,9 @@ public class LacY extends SimpleModelElement {
 					// The lactose has fully traversed the membrane.  Release
 					// it - it should now be inside the cell.
 					glucoseAttachmentPartner.detach(this);
-					glucoseAttachmentPartner.setMotionStrategy( new InjectionMotionStrategy(getModel().getInteriorMotionBounds(), new Vector2D.Double(0, -15)));
+					glucoseAttachmentPartner.setMotionStrategy( new InjectionMotionStrategy(
+							MotionBoundsTrimmer.trim(getModel().getInteriorMotionBounds(), glucoseAttachmentPartner),
+							new Vector2D.Double(0, -15)));
 					glucoseAttachmentPartner.setUpDraggableBounds(PositionWrtCell.INSIDE_CELL);
 					glucoseAttachmentPartner = null;
 					glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVALABLE;
