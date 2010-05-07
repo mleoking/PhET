@@ -44,7 +44,7 @@ public class LactoseMeter extends PhetPNode {
     // Class Data
     //------------------------------------------------------------------------
 
-	private static final Dimension2D size = new PDimension(80, 230);
+	private static final Dimension2D size = new PDimension(80, 245);
 	private static final PhetFont LABEL_FONT = new PhetFont(14, true);
 	private static final Color MAIN_BACKGROUND_COLOR = new Color(255, 255, 204);
 
@@ -54,7 +54,7 @@ public class LactoseMeter extends PhetPNode {
 	private static final Color BAR_BACKGROUND_COLOR = Color.BLACK;
 	private static final Color BAR_COLOR = Color.ORANGE;
 	private static final double BAR_WIDTH_PROPORTION = 0.85;
-	private static final double BAR_HEIGHT_PROPORTION = 0.55;
+	private static final double BAR_HEIGHT_PROPORTION = 0.50;
 	private static final double MAX_VALUE = 50;
 	
     //------------------------------------------------------------------------
