@@ -7,7 +7,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
- * Spawning strategy that creates LacI.
+ * Spawning strategy that creates LacZ.
  * 
  * @author John Blanco
  */
@@ -69,7 +69,7 @@ public class SpawnLacZStrategy extends MessengerRnaSpawningStrategy {
 
 	protected void spawnLacZ(SimpleModelElement parentModelElement) {
 		// Create and position the transformation arrow, which will in turn
-		// create the LacI.
+		// create the LacZ.
 		Rectangle2D bounds = parentModelElement.getShape().getBounds2D();
 		Point2D transformationArrowPos = new Point2D.Double(bounds.getCenterX() + 
 				parentModelElement.getPositionRef().getX() + 3, bounds.getMaxY() + 
