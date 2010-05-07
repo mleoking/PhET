@@ -26,7 +26,7 @@ public class GeneNetworkConstants {
     //----------------------------------------------------------------------------
     
     public static final String PROJECT_NAME = "gene-network";
-    public static final String FLAVOR_NAME_LAC_OPERON = "lac-operon";
+    public static final String FLAVOR_NAME_LAC_OPERON = "gene-machine-lac-operon";
 
     //----------------------------------------------------------------------------
     // Fonts
