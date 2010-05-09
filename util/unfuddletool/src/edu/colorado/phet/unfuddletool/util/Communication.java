@@ -226,12 +226,12 @@ public class Communication {
 
     public static String rawHTTPRequest( String xml, String location, String auth ) {
         StringBuffer buf = new StringBuffer();
-
+        Socket socket = null;
         try {
             InetAddress addr = InetAddress.getByName( Configuration.getAccountName() + ".unfuddle.com" );
             SocketAddress sockAddr = new InetSocketAddress( addr, 80 );
 
-            Socket socket = new Socket();
+            socket = new Socket();
             socket.connect( sockAddr, 30000 );
 
             PrintWriter out = new PrintWriter( socket.getOutputStream() );
@@ -279,6 +279,16 @@ public class Communication {
         }
         catch( IOException e ) {
             e.printStackTrace();
+        }
+        finally {
+            if ( socket != null && !socket.isClosed() ) {
+                try {
+                    socket.close();
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return buf.toString();
