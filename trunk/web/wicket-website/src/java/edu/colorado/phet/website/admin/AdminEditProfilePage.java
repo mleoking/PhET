@@ -37,24 +37,36 @@ public class AdminEditProfilePage extends AdminPage {
 
         add( new Label( "user-email", user.getEmail() ) );
 
-        // don't try to serialize this
-        user = null;
+    }
 
+    @Override
+    protected void onDetach() {
+        super.onDetach();
+        user = null;
     }
 
     public static Linkable getLinker( final PhetUser user ) {
+        final int userId = user.getId();
         return new Linkable() {
             public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
-                return new Link( id ) {
-                    @Override
-                    public void onClick() {
-                        PageParameters params = new PageParameters();
-                        params.add( "userId", String.valueOf( user.getId() ) );
-                        setResponsePage( AdminEditProfilePage.class, params );
-                    }
-                };
+                return new QuickLink( id, userId );
             }
         };
+    }
+
+    private static class QuickLink extends Link {
+        private int userId;
+
+        public QuickLink( String id, int userId ) {
+            super( id );
+            this.userId = userId;
+        }
+
+        public void onClick() {
+            PageParameters params = new PageParameters();
+            params.add( "userId", String.valueOf( userId ) );
+            setResponsePage( AdminEditProfilePage.class, params );
+        }
     }
 
 }
