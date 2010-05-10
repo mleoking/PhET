@@ -570,7 +570,7 @@ public class BuildScript {
                         System.out.println( "Executing website post-upload deployment process" );
 
                         boolean genjars = project instanceof JavaProject && ( (JavaProject) project ).getSignJar() && generateJARs;
-
+                        SshUtils.executeCommand( "chmod -R a+rw " + PhetServer.FIGARO.getStagingArea() + "/" + project.getName(), PhetServer.FIGARO.getHost(), prodAuth );
                         SshUtils.executeCommand( "curl http://phetsims.colorado.edu/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars, PhetServer.FIGARO.getHost(), prodAuth );
 
                         return true;
