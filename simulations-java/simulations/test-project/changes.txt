@@ -1,3 +1,5 @@
+# 2.11.00 (40520) May 10, 2010
+5/10/10 Testing bug fix for curl + bash
 # 2.10.00 (40518) May 10, 2010
 5/10/10 Testing Wicket JAR generation
 # 2.09.00 (40514) May 10, 2010
