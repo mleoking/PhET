@@ -53,6 +53,9 @@ public class Capacitor {
     }
     
     public void setPlateSize( double plateSize ) {
+        if ( plateSize <= 0 ) {
+            throw new IllegalArgumentException( "plateSize must be > 0: " + plateSize );
+        }
         if ( plateSize != this.plateSize ) {
             this.plateSize = plateSize;
             firePlateSizeChanged();
@@ -64,6 +67,9 @@ public class Capacitor {
     }
     
     public void setPlateSeparation( double plateSeparation ) {
+        if ( plateSeparation < 0 ) {
+            throw new IllegalArgumentException( "plateSeparation must be >= 0: " + plateSeparation );
+        }
         if ( plateSeparation != this.plateSeparation ) {
             this.plateSeparation = plateSeparation;
             firePlateSeparationChanged();
@@ -75,6 +81,9 @@ public class Capacitor {
     }
     
     public void setDielectricMaterial( DielectricMaterial dielectricMaterial ) {
+        if ( dielectricMaterial == null ) {
+            throw new IllegalArgumentException( "dielectricMaterial must be non-null" );
+        }
         if ( dielectricMaterial != this.dielectricMaterial ) { /* yes, referential equality */
             this.dielectricMaterial = dielectricMaterial;
             fireDielectricMaterialChanged();
@@ -90,6 +99,9 @@ public class Capacitor {
     }
     
     public void setDielectricOffset( double dielectricOffset ) {
+        if ( dielectricOffset < 0 ) {
+            throw new IllegalArgumentException( "dielectricOffset must be >= 0: " + dielectricOffset );
+        }
         if ( dielectricOffset != this.dielectricOffset ) {
             this.dielectricOffset = dielectricOffset;
             fireDielectricOffsetChanged();
@@ -100,8 +112,28 @@ public class Capacitor {
         return dielectricOffset;
     }
     
+    /**
+     * Gets the area of a capacitor plate.
+     * @return area in mm
+     */
     public double getPlateArea() {
         return plateSize * plateSize;
+    }
+    
+    /**
+     * Gets the area of the dielectric that is inside (between) the plates.
+     * @return area in mm
+     */
+    public double getDielectricInsideArea() {
+        return getPlateArea() - getDielectricOutsideArea();
+    }
+    
+    /*
+     * Gets the area of the dielectric that is outside the plates.
+     * @return area in mm
+     */
+    private double getDielectricOutsideArea() {
+        return Math.max( getPlateSize(), getPlateSize() * getDielectricOffset() );
     }
     
     public interface CapacitorChangeListener extends EventListener {

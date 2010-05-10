@@ -1,3 +1,6 @@
+5/10/10 implement battery-capacitor circuit model
+5/10/10 add dielectric inside/outside area to capacitor model
+5/10/10 add arg checks to capacitor model
 5/6/10 change meter name from "Charge" to "Plate Charge"
 5/6/10 change "Disconnect/Connect" button to "Add/Remove Wires" button, center above top wire
 5/5/10 add cursor handler to disconnect/connect button

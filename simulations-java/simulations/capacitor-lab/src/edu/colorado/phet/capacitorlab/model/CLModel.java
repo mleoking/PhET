@@ -29,8 +29,7 @@ public class CLModel {
     
     private final DielectricMaterial[] dielectricMaterials;
     private final DielectricMaterial defaultDielectricMaterial;
-    private final Battery battery;
-    private final Capacitor capacitor;
+    private final BatteryCapacitorCircuit circuit;
     private final Wire topWire, bottomWire;
 
     public CLModel() {
@@ -42,9 +41,9 @@ public class CLModel {
         dielectricMaterials = new DielectricMaterial[] { custom, teflon, polystyrene, paper };
         defaultDielectricMaterial = custom;
         
-        battery = new Battery( BATTERY_LOCATION, BATTERY_VOLTAGE, BATTERY_CONNECTED );
-        
-        capacitor = new Capacitor( CAPACITOR_LOCATION, PLATE_SIZE, PLATE_SEPARATION, defaultDielectricMaterial, DIELECTRIC_OFFSET );
+        Battery battery = new Battery( BATTERY_LOCATION, BATTERY_VOLTAGE, BATTERY_CONNECTED );
+        Capacitor capacitor = new Capacitor( CAPACITOR_LOCATION, PLATE_SIZE, PLATE_SEPARATION, defaultDielectricMaterial, DIELECTRIC_OFFSET );
+        circuit = new BatteryCapacitorCircuit( battery, capacitor );
         
         topWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.TOP_WIRE_EXTENT );
         bottomWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.BOTTOM_WIRE_EXTENT );
@@ -54,12 +53,16 @@ public class CLModel {
         return dielectricMaterials;
     }
     
+    public BatteryCapacitorCircuit getCircuit() {
+        return circuit;
+    }
+    
     public Battery getBattery() {
-        return battery;
+        return circuit.getBattery();
     }
     
     public Capacitor getCapacitor() {
-        return capacitor;
+        return circuit.getCapacitor();
     }
     
     public Wire getTopWire() {
@@ -71,11 +74,11 @@ public class CLModel {
     }
     
     public void reset() {
-        battery.setVoltage( BATTERY_VOLTAGE );
-        battery.setConnected( BATTERY_CONNECTED );
-        capacitor.setPlateSize( PLATE_SIZE );
-        capacitor.setPlateSeparation( PLATE_SEPARATION );
-        capacitor.setDielectricMaterial( defaultDielectricMaterial );
-        capacitor.setDielectricOffset( DIELECTRIC_OFFSET );
+        getBattery().setVoltage( BATTERY_VOLTAGE );
+        getBattery().setConnected( BATTERY_CONNECTED );
+        getCapacitor().setPlateSize( PLATE_SIZE );
+        getCapacitor().setPlateSeparation( PLATE_SEPARATION );
+        getCapacitor().setDielectricMaterial( defaultDielectricMaterial );
+        getCapacitor().setDielectricOffset( DIELECTRIC_OFFSET );
     }
 }
