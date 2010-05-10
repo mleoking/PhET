@@ -18,4 +18,6 @@ public class CLPaints {
     
     // capacitor plates
     public static final Color PLATE =  new Color( 245, 245, 245 );
+    
+    public static final Color INVISIBLE = new Color( 0, 0, 0, 0 );
 }
