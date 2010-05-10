@@ -20,15 +20,15 @@ public class Capacitor {
     private final EventListenerList listeners;
     
     // immutable properties
-    private final Point2D location; // location of the capacitor's geometric center in the 2D plane of the camera (mm)
-    private final double plateThickness; // thickness of the plates (mm)
-    private final double dielectricGap; // gap between the dielectric and the plates (mm)
+    private final Point2D location; // location of the capacitor's geometric center in the 2D plane of the camera (meters)
+    private final double plateThickness; // thickness of the plates (meters)
+    private final double dielectricGap; // gap between the dielectric and the plates (meters)
     
     // mutable properties
-    private double plateSize; // length of one edge of a plate (mm)
-    private double plateSeparation; // distance between the plates (mm)
+    private double plateSize; // length of one edge of a plate (meters)
+    private double plateSeparation; // distance between the plates (meters)
     private DielectricMaterial dielectricMaterial; // insulator between the plates
-    private double dielectricOffset; // offset of dielectric's center from the axis that goes through the center of the 2 plates (mm)
+    private double dielectricOffset; // offset of dielectric's center from the axis that goes through the center of the 2 plates (meters)
 
     public Capacitor( Point2D location, double plateSize, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
         
@@ -114,7 +114,7 @@ public class Capacitor {
     
     /**
      * Gets the area of a capacitor plate.
-     * @return area in mm
+     * @return area in meters^2
      */
     public double getPlateArea() {
         return plateSize * plateSize;
@@ -122,7 +122,7 @@ public class Capacitor {
     
     /**
      * Gets the area of the dielectric that is inside (between) the plates.
-     * @return area in mm
+     * @return area in meters^2
      */
     public double getDielectricInsideArea() {
         return getPlateArea() - getDielectricOutsideArea();
@@ -130,7 +130,7 @@ public class Capacitor {
     
     /*
      * Gets the area of the dielectric that is outside the plates.
-     * @return area in mm
+     * @return area in meters^2
      */
     private double getDielectricOutsideArea() {
         return Math.max( getPlateSize(), getPlateSize() * getDielectricOffset() );

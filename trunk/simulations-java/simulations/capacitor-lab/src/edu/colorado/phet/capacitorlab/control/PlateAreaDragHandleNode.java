@@ -9,6 +9,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
+import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -45,13 +46,15 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         lineNode = new DragHandleLineNode( LINE_START_LOCATION, LINE_END_LOCATION );
         
         // value
-        valueNode = new DragHandleValueNode( CLStrings.PATTERN_PLATE_AREA, capacitor.getPlateArea(), CLStrings.UNITS_MILLIMETERS_SQUARED );
+        double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
+        valueNode = new DragHandleValueNode( CLStrings.PATTERN_PLATE_AREA, millimetersSquared, CLStrings.UNITS_MILLIMETERS_SQUARED );
         
         // update value and layout when plate size changes
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
             @Override
             public void plateSizeChanged() {
-                valueNode.setValue( capacitor.getPlateArea() );
+                double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
+                valueNode.setValue( millimetersSquared );
                 updateLayout();
             }
         });
