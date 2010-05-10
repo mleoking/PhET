@@ -1,3 +1,5 @@
+# 2.10.00 (40518) May 10, 2010
+5/10/10 Testing Wicket JAR generation
 # 2.09.00 (40514) May 10, 2010
 5/10/10 Testing wicket deploy
 # 2.08.00 (40341) May 3, 2010
