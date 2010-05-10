@@ -57,6 +57,7 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
         for ( Module module : getModules() ) {
             maxWidth = Math.max( maxWidth, module.getControlPanel().getPreferredSize().width );
         }
+        System.out.println( "control panel width = " + maxWidth );//XXX
         for ( Module module : getModules() ) {
             module.getControlPanel().addControlFullWidth( Box.createHorizontalStrut( maxWidth ) );
         }
