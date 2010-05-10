@@ -42,6 +42,8 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
             baseDir.mkdirs();
             File classesDir = new File( baseDir, "WEB-INF/classes" );
             classesDir.mkdirs();
+            File libDir = new File( baseDir, "WEB-INF/lib" );
+            libDir.mkdirs();
 
             // copy the classes over
             FileUtils.copyRecursive( project.getClassesDirectory(), classesDir );
@@ -55,6 +57,15 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
                 else {
                     FileUtils.copyRecursive( file, classesDir );
                 }
+            }
+
+            for ( File file : project.getAllJarFiles() ) {
+                if ( file.getName().equals( "scala-compiler.jar" ) || file.getName().equals( "scala-library.jar" ) ) {
+                    System.out.println( "skipping " + file.getAbsolutePath() + " for file size." );
+                    continue;
+                }
+                System.out.println( "Adding (or overwriting) lib with: " + file.getAbsolutePath() );
+                FileUtils.copyToDir( file, libDir );
             }
 
             // we then need to copy the other files in the source root that are depended on.
