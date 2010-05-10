@@ -159,6 +159,7 @@ public class TransferData {
                         user.setAddress1( result.getString( "contributor_address" ) );
                         user.setAddress2( result.getString( "contributor_office" ) );
                         user.setCity( result.getString( "contributor_city" ) );
+                        user.setJobTitle( result.getString( "contributor_title" ) );
                         user.setState( result.getString( "contributor_state" ) );
                         user.setCountry( result.getString( "contributor_country" ) );
                         user.setZipcode( result.getString( "contributor_postal_code" ) );
