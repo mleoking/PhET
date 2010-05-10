@@ -156,6 +156,7 @@ public class TransferData {
                         user.setTeamMember( result.getBoolean( "contributor_is_team_member" ) );
                         user.setName( result.getString( "contributor_name" ) );
                         user.setOrganization( result.getString( "contributor_organization" ) );
+                        user.setDescription( result.getString( "contributor_desc" ) );
                         user.setAddress1( result.getString( "contributor_address" ) );
                         user.setAddress2( result.getString( "contributor_office" ) );
                         user.setCity( result.getString( "contributor_city" ) );
