@@ -10,7 +10,7 @@ HIGH PRIORITY
 - charge and excess charge on dielectric (see notes)
 
 MEDUIUM PRIORITY
-- add air as a dielectric material, use it in Introduction module
+- use air as the dielectric material in Introduction module
 - make air dielectric invisible
 - round the end of the wire that connects to the top plate
 - use a gradient paint for wires to give them a 3D look

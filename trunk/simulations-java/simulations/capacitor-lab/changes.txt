@@ -1,3 +1,4 @@
+5/10/10 add air as a dielectric material
 5/10/10 convert model from millimeters to meters throughout, to match the specification
 5/10/10 utilities for converting between model and view units
 5/10/10 implement battery-capacitor circuit model

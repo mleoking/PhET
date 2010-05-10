@@ -7,6 +7,8 @@ import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
 
 /**
@@ -38,6 +40,12 @@ public abstract class DielectricMaterial {
     
     public Color getColor() {
         return color;
+    }
+    
+    public static class Air extends DielectricMaterial {
+        public Air() {
+            super( CLStrings.MATERIAL_AIR, CLConstants.AIR_DIELECTRIC_CONSTANT, CLPaints.INVISIBLE );
+        }
     }
     
     public static class Teflon extends DielectricMaterial {

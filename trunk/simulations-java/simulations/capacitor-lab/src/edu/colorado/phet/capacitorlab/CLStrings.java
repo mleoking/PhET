@@ -35,6 +35,7 @@ public class CLStrings {
     public static final String MATERIAL_TEFLON = getString( "material.teflon" );
     public static final String MATERIAL_POLYSTYRENE = getString( "material.polystyrene" );
     public static final String MATERIAL_PAPER = getString( "material.paper" );
+    public static final String MATERIAL_AIR = getString( "material.air" );
     
     public static final String PATTERN_VOLTAGE = getString( "pattern.voltage.0value.1units" );
     public static final String PATTERN_DIELECTRIC_MATERIAL = getString( "pattern.dielectricMaterial.0name.1constant" );

@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
+
 /**
  * Physical model of a circuit with a battery connected to a capacitor.
  *
@@ -10,7 +12,7 @@ package edu.colorado.phet.capacitorlab.model;
 public class BatteryCapacitorCircuit {
     
     private static final double E0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
-    private static final double E_AIR = 1.0;
+    private static final double E_AIR = CLConstants.AIR_DIELECTRIC_CONSTANT;
     
     private final Battery battery;
     private final Capacitor capacitor;
