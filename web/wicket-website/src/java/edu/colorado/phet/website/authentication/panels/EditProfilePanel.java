@@ -29,6 +29,10 @@ public class EditProfilePanel extends PhetPanel {
     private static Logger logger = Logger.getLogger( EditProfilePanel.class.getName() );
 
     public EditProfilePanel( String id, PageContext context ) {
+        this( id, context, PhetSession.get().getUser() );
+    }
+
+    public EditProfilePanel( String id, PageContext context, PhetUser user ) {
         super( id, context );
 
         // TODO: separate out into separable user so we can edit others' profiles
@@ -38,10 +42,22 @@ public class EditProfilePanel extends PhetPanel {
         add( errorLabel );
         errorLabel.setEscapeModelStrings( false );
 
-        add( new EditProfileForm( "edit-profile-form" ) );
+        add( new EditProfileForm( "edit-profile-form", user ) );
+
+        if ( PhetSession.get().getUser().getId() == user.getId() ) {
+            Label signal = new Label( "edit-self-profile", "" );
+            add( signal );
+            signal.setRenderBodyOnly( true );
+        }
+        else {
+            add( new InvisibleComponent( "edit-self-profile" ) );
+        }
     }
 
     private final class EditProfileForm extends Form {
+
+        private int userId;
+        private int currentUserId;
 
         private TextField name;
         private TextField organization;
@@ -61,13 +77,16 @@ public class EditProfilePanel extends PhetPanel {
 
         private CheckBox receiveEmail;
         private CheckBox receiveWebsiteNotifications;
+        private CheckBox teamMember;
 
         private final ValueMap properties = new ValueMap();
 
-        public EditProfileForm( String id ) {
+        public EditProfileForm( String id, final PhetUser user ) {
             super( id );
 
-            PhetUser user = PhetSession.get().getUser();
+            userId = user.getId();
+
+            PhetUser currentUser = PhetSession.get().getUser();
 
             properties.add( "name", user.getName() );
             properties.add( "organization", user.getOrganization() );
@@ -98,7 +117,8 @@ public class EditProfilePanel extends PhetPanel {
             add( fax = new StringTextField( "fax", new PropertyModel( properties, "fax" ) ) );
             add( receiveEmail = new CheckBox( "receiveEmail", new Model( new Boolean( user.isReceiveEmail() ) ) ) );
             add( receiveWebsiteNotifications = new CheckBox( "receiveWebsiteNotifications", new Model( new Boolean( user.isReceiveWebsiteNotifications() ) ) ) );
-            if ( user.isTeamMember() ) {
+            add( teamMember = new CheckBox( "phetTeamMember", new Model( new Boolean( user.isTeamMember() ) ) ) );
+            if ( currentUser.isTeamMember() ) {
                 Label label = new Label( "rwn-phet", "" );
                 add( label );
                 // make it effectively invisible
@@ -106,6 +126,7 @@ public class EditProfilePanel extends PhetPanel {
             }
             else {
                 add( new InvisibleComponent( "rwn-phet" ) );
+                add( new InvisibleComponent( "phetTeamMember" ) );
             }
 
         }
@@ -132,7 +153,7 @@ public class EditProfilePanel extends PhetPanel {
             if ( !error ) {
                 boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                     public boolean run( Session session ) {
-                        PhetUser user = (PhetUser) session.load( PhetUser.class, PhetSession.get().getUser().getId() );
+                        PhetUser user = (PhetUser) session.load( PhetUser.class, userId );
                         user.setName( name.getModelObjectAsString() );
                         user.setOrganization( organization.getModelObjectAsString() );
                         user.setDescription( description.getModelObjectAsString() );
@@ -147,12 +168,17 @@ public class EditProfilePanel extends PhetPanel {
                         user.setPhone2( phone2.getModelObjectAsString() );
                         user.setFax( fax.getModelObjectAsString() );
                         user.setReceiveEmail( (Boolean) receiveEmail.getModelObject() );
-                        user.setReceiveWebsiteNotifications( (Boolean) receiveWebsiteNotifications.getModelObject() );
+                        if ( PhetSession.get().getUser().isTeamMember() ) {
+                            user.setReceiveWebsiteNotifications( (Boolean) receiveWebsiteNotifications.getModelObject() );
+                            user.setTeamMember( (Boolean) teamMember.getModelObject() );
+                        }
                         session.update( user );
                         return true;
                     }
                 } );
-                if ( success ) {
+
+                int currentUserId = PhetSession.get().getUser().getId();
+                if ( success && currentUserId == PhetSession.get().getUser().getId() ) {
                     // synchronize the user data for the session instance
                     PhetUser user = PhetSession.get().getUser();
                     user.setName( name.getModelObjectAsString() );
@@ -169,7 +195,10 @@ public class EditProfilePanel extends PhetPanel {
                     user.setPhone2( phone2.getModelObjectAsString() );
                     user.setFax( fax.getModelObjectAsString() );
                     user.setReceiveEmail( (Boolean) receiveEmail.getModelObject() );
-                    user.setReceiveWebsiteNotifications( (Boolean) receiveWebsiteNotifications.getModelObject() );
+                    if ( PhetSession.get().getUser().isTeamMember() ) {
+                        user.setReceiveWebsiteNotifications( (Boolean) receiveWebsiteNotifications.getModelObject() );
+                        user.setTeamMember( (Boolean) teamMember.getModelObject() );
+                    }
                 }
                 error = !success;
             }
