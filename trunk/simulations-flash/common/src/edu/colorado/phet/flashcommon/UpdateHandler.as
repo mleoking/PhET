@@ -110,7 +110,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 		// make sure we can access phet.colorado.edu and all files under that domain
 		// this is more of a sanity-check than anything else, this should be included
 		// under FlashCommon.as
-		System.security.allowDomain("phet.colorado.edu");
+		System.security.allowDomain( FlashCommon.getMainServer() );
 		
 		// create XML that will be filled in with the response
 		var xml : XML = new XML();
@@ -207,7 +207,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 		//xml.load("http://localhost/jolson/deploy/fake-sim-startup-query.php?request=" + escape(query));
 		var queryXML = new XML(query);
 		queryXML.addRequestHeader("Content-type", "text/xml");
-		queryXML.sendAndLoad("http://phet.colorado.edu/services/phet-info", xml);
+		queryXML.sendAndLoad("http://" + FlashCommon.getMainServer() + "/services/phet-info", xml);
 	}
 	
 	public function manualCheckSim() {
@@ -310,7 +310,7 @@ class edu.colorado.phet.flashcommon.UpdateHandler {
 		if(!manual) { return; }
 		var str : String = "";
 		str += common.strings.get("VersionError1", "An error was encountered while trying to obtain version information.") + "\n";
-		str += common.strings.get("VersionError2", "Please try again later, or visit <a href='{0}'>http://phet.colorado.edu</a>", ["asfunction:_level0.common.openExternalLink,http://phet.colorado.edu"]);
+		str += common.strings.get("VersionError2", "Please try again later, or visit <a href='{0}'>http://" + FlashCommon.getMainServer() + "</a>", ["asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + ""]);
 		CommonDialog.openMessageDialog( common.strings.get("Error", "Error"), str, false );
 	}
 	

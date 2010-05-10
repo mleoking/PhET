@@ -107,7 +107,7 @@ class edu.colorado.phet.flashcommon.PreferencesDialog extends edu.colorado.phet.
 		var defaultStr : String = "<a href='{0}'>PhET</a> is made freely available through grants which ";
 		defaultStr += "require us to collect a minimal amount of anonymous information to help document the amount of use ";
 		defaultStr += "of PhET sims and to better serve our users' update needs.";
-		str += common.strings.get("PrivacyRequirement", defaultStr, ["asfunction:_level0.common.openExternalLink,http://phet.colorado.edu"]);
+		str += common.strings.get("PrivacyRequirement", defaultStr, ["asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + ""]);
 
 		var textArea = new JTextArea(str, 0, 20);
 		textArea.setHtml(true);

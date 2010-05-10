@@ -103,7 +103,7 @@ class edu.colorado.phet.flashcommon.UpdateInstallationDialog extends edu.colorad
 	}
 	
 	public function yesClicked(src : JButton) {
-		common.openExternalLink( "http://phet.colorado.edu/get_phet/full_install.php" );
+		common.openExternalLink( "http://" + FlashCommon.getMainServer() + "/get_phet/full_install.php" );
 	}
 	
 	public function askLaterClicked(src : JButton) {
