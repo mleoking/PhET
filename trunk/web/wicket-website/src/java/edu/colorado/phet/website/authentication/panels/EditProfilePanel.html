@@ -25,9 +25,12 @@
 
 <wicket:panel>
     <div class="edit-profile-holder" wicket:message="dir:language.dir">
-        <h1>
-            <wicket:message key="profile.edit">Edit your profile</wicket:message>
-        </h1>
+        <wicket:enclosure>
+            <h1>
+                <wicket:message key="profile.edit">Edit your profile</wicket:message>
+            </h1>
+            <span wicket:id="edit-self-profile"></span>
+        </wicket:enclosure>
 
         <p wicket:id="profile-errors" class="register-errors"> | Errors go here</p>
 
@@ -151,6 +154,12 @@
                         <td>
                             <input wicket:id="receiveWebsiteNotifications" type="checkbox"/>
                             <span wicket:id="rwn-phet"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">PhET team member:</td>
+                        <td>
+                            <input wicket:id="phetTeamMember" type="checkbox"/>
                         </td>
                     </tr>
                 </wicket:enclosure>
