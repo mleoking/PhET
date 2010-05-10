@@ -245,8 +245,7 @@ class edu.colorado.phet.flashcommon.Statistics {
 		}
 		
 		// send it to the URL, will store result in reply
-		// TODO: Change this to the permanent location!!!
-		xml.sendAndLoad("http://phet.colorado.edu/statistics/submit_message.php", reply);
+		xml.sendAndLoad("http://" + FlashCommon.getMainServer() + "/statistics/submit_message.php", reply);
 		// DEVELOPMENT: send statistics message to localhost
 		//xml.sendAndLoad("http://localhost/statistics/submit_message.php", reply);
 	}

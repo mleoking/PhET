@@ -97,7 +97,7 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		_level0.common = this;
 		
 		if( !hasFlashVars() && fromPhetWebsite() && _level0.backupSimName ) {
-			redirect( "http://phet.colorado.edu/sims/" + _level0.backupSimName + "/" + _level0.backupSimName + "_en.html" );
+			redirect( "http://" + getMainServer() + "/sims/" + _level0.backupSimName + "/" + _level0.backupSimName + "_en.html" );
 		}
 		
 		// DEVELOPMENT: catch key events to this object
@@ -113,7 +113,7 @@ class edu.colorado.phet.flashcommon.FlashCommon {
         _level0.highContrast = false;
 		
 		// TODO: Possibly extend this to run from other domains?
-		System.security.allowDomain("phet.colorado.edu");
+		System.security.allowDomain( getMainServer() );
 		
 		debug("Debugging information:\n");
 		debug("FlashCommon initializing\n");
@@ -162,10 +162,10 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 	// returns whether the sim was run from the phet website
 	public function fromPhetWebsite() : Boolean {
 		var domain : String = (new LocalConnection()).domain();
-		var actually : Boolean = (domain == "phet.colorado.edu" || domain == "phet.colorado.edu." || domain == "phet.colorado" || domain == "phet");
+		var actually : Boolean = (domain == getMainServer() || domain == getMainServer() + "." || domain == "phet.colorado" || domain == "phet");
 		
 		return actually || fromDevWebsite();
-		//return (new LocalConnection()).domain() == "phet.colorado.edu";
+		//return (new LocalConnection()).domain() == getMainServer();
 	}
 	
 	// returns whether the sim was run from a development site
@@ -248,10 +248,14 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 	public function getFullVersionString() : String {
 		return getVersionString() + " (" + String(getVersionRevision()) + ")";
 	}
+
+    public static function getMainServer() : String {
+        return "phet.colorado.edu";
+    }
 	
 	// get the URL of the simulation on the website
 	public function simWebsiteURL() : String {
-		return "http://phet.colorado.edu/services/sim-website-redirect.php?project=" + getSimProject() + "&sim=" + getSimName() + "&request_version=1";
+		return "http://" + getMainServer() + "/services/sim-website-redirect.php?project=" + getSimProject() + "&sim=" + getSimName() + "&request_version=1";
 	}
 	
 	// will return the full locale string: for example 'en', 'en_CA', 'es_MX' etc.

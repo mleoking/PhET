@@ -62,7 +62,7 @@ class edu.colorado.phet.flashcommon.UpdateSimDialog extends edu.colorado.phet.fl
 			var defaultStr = "To download a new installation containing the latest simulation, ";
 			defaultStr += "please visit the <a href='{0}'>PhET installation page</a> for more information.";
 				
-			str += common.strings.get("PhETInstallation", defaultStr, ["asfunction:_level0.common.openExternalLink,http://phet.colorado.edu/get_phet/full_install.php"]);
+			str += common.strings.get("PhETInstallation", defaultStr, ["asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + "/get_phet/full_install.php"]);
 			
 			str += "\n";
 		} else {

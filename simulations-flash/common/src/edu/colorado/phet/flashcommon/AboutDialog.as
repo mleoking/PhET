@@ -28,7 +28,7 @@ class edu.colorado.phet.flashcommon.AboutDialog extends edu.colorado.phet.flashc
 		str += "<b>PhET Interactive Simulations</b>\n";
 		str += "Copyright \u00A9 2004-2010 University of Colorado.\n";
 		str += "Some rights reserved.\n";
-		str += "Visit <a href='asfunction:_level0.common.openExternalLink,http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
+		str += "Visit <a href='asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + "'>http://" + FlashCommon.getMainServer() + "</a>\n\n";
 
 		str += "<b><font size='16'>" + common.getSimTitle() + "</font></b>\n";
 		str += common.strings.get("Version", "Version") + ": " + common.getFullVersionString() + "\n";
