@@ -1,3 +1,4 @@
+5/10/10 remove obsolete developer controls so I don't have to convert them from mm to meters
 5/10/10 reduce width of Dielectric Constant text field
 5/10/10 add air as a dielectric material
 5/10/10 convert model from millimeters to meters throughout, to match the specification
