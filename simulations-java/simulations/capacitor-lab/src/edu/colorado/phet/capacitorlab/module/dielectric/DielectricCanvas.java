@@ -15,6 +15,7 @@ import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
 import edu.colorado.phet.capacitorlab.view.BullseyeNode;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
+import edu.colorado.phet.capacitorlab.view.DevModelDisplayNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.TopWireNode;
 
@@ -38,6 +39,7 @@ public class DielectricCanvas extends CLCanvas {
     private final DielectricOffsetDragHandleNode dielectricOffsetDragHandleNode;
     private final PlateSeparationDragHandleNode plateSeparationDragHandleNode;
     private final PlateAreaDragHandleNode plateAreaDragHandleNode;
+    private final DevModelDisplayNode modelDisplayNode;
     
     public DielectricCanvas( final CLModel model, boolean dev ) {
         
@@ -85,6 +87,9 @@ public class DielectricCanvas extends CLCanvas {
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
         plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SIZE_RANGE );
         
+        modelDisplayNode = new DevModelDisplayNode( model );
+        modelDisplayNode.scale( 1.5 );
+        
         // rendering order
         addChild( bottomWireNode );
         addChild( batteryNode );
@@ -97,6 +102,7 @@ public class DielectricCanvas extends CLCanvas {
         addChild( removeWiresButtonNode );
         if ( dev ) {
             addChild( originNode );
+            addChild( modelDisplayNode );
         }
         
         // static layout
@@ -129,6 +135,9 @@ public class DielectricCanvas extends CLCanvas {
             pModel.setLocation( 0, 0 );
             mvt.modelToView( pModel, pView );
             originNode.setOffset( pView.getX(), pView.getY() );
+            
+            // model display
+            modelDisplayNode.setOffset( 600, 50 );
         }
         
         // default state
