@@ -34,6 +34,8 @@ public class GreenhouseApplication extends PiccoloPhetApplication {
         super( config );
 
         // modules
+        Frame parentFrame = getPhetFrame();
+        addModule( new PhotonAbsorptionModule(parentFrame));
         addModule( new GreenhouseModule() );
         addModule( new GlassPaneModule() );
 
