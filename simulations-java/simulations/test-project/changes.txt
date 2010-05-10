@@ -1,3 +1,5 @@
+# 2.12.00 (40526) May 10, 2010
+5/10/10 Test Wicket JAR generation (now with ant libs)
 # 2.11.00 (40520) May 10, 2010
 5/10/10 Testing bug fix for curl + bash
 # 2.10.00 (40518) May 10, 2010
