@@ -9,6 +9,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
+import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -39,13 +40,15 @@ public class PlateSeparationDragHandleNode extends PhetPNode {
         DragHandleLineNode lineNode = new DragHandleLineNode( LINE_START_LOCATION, LINE_END_LOCATION );
         
         // value
-        final DragHandleValueNode valueNode = new DragHandleValueNode( CLStrings.PATTERN_PLATE_SEPARATION, capacitor.getPlateSeparation(), CLStrings.UNITS_MILLIMETERS );
+        double millimeters = UnitsUtils.metersToMillimeters( capacitor.getPlateSeparation() );
+        final DragHandleValueNode valueNode = new DragHandleValueNode( CLStrings.PATTERN_PLATE_SEPARATION, millimeters, CLStrings.UNITS_MILLIMETERS );
         
         // update value when plate separation changes
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
             @Override
             public void plateSeparationChanged() {
-                valueNode.setValue( capacitor.getPlateSeparation() );
+                double millimeters = UnitsUtils.metersToMillimeters( capacitor.getPlateSeparation() );
+                valueNode.setValue( millimeters );
             }
         });
         

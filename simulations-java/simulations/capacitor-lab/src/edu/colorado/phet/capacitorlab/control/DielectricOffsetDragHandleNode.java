@@ -9,6 +9,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
+import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -39,13 +40,15 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
         DragHandleLineNode lineNode = new DragHandleLineNode( LINE_START_LOCATION, LINE_END_LOCATION );
         
         // value
-        final DragHandleValueNode valueNode = new DragHandleValueNode( CLStrings.PATTERN_DIELECTRIC_OFFSET, capacitor.getDielectricOffset(), CLStrings.UNITS_MILLIMETERS );
+        double millimeters = UnitsUtils.metersToMillimeters( capacitor.getDielectricOffset() );
+        final DragHandleValueNode valueNode = new DragHandleValueNode( CLStrings.PATTERN_DIELECTRIC_OFFSET, millimeters, CLStrings.UNITS_MILLIMETERS );
         
         // update value when offset changes
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
             @Override
             public void dielectricOffsetChanged() {
-                valueNode.setValue( capacitor.getDielectricOffset() );
+                double millimeters = UnitsUtils.metersToMillimeters( capacitor.getDielectricOffset() );
+                valueNode.setValue( millimeters );
             }
         });
         

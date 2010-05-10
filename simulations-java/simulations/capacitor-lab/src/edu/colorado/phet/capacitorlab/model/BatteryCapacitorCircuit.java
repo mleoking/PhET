@@ -9,8 +9,7 @@ package edu.colorado.phet.capacitorlab.model;
  */
 public class BatteryCapacitorCircuit {
     
-    private static final int MILLIMETERS_PER_METER = 1000;
-    private static final double E0 = 8.854E-12 / MILLIMETERS_PER_METER ; // vacuum permittivity, aka electric constant (F/mm)
+    private static final double E0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
     private static final double E_AIR = 1.0;
     
     private final Battery battery;
@@ -36,9 +35,9 @@ public class BatteryCapacitorCircuit {
      */
     public double getCapacitance() {
         // ( Ad * Er ) + E_AIR - Ad
-        double Ad = capacitor.getDielectricInsideArea(); // mm
+        double Ad = capacitor.getDielectricInsideArea(); // meters
         double Er = capacitor.getDielectricMaterial().getDielectricConstant(); // dimensionless
-        double C = ( Ad * Er ) + E_AIR - Ad; // F
+        double C = ( Ad * Er ) + E_AIR - Ad; // Farads
         return C;
     }
     
@@ -47,49 +46,49 @@ public class BatteryCapacitorCircuit {
      * @return charge, in Coulombs (C)
      */
     public double getPlateCharge() {
-        double C = getCapacitance(); // F
-        double V = battery.getVoltage(); // V
+        double C = getCapacitance(); // Farads
+        double V = battery.getVoltage(); // volts
         double Q = C * V; // Coulombs (1C = 1F * 1V)
         return Q;
     }
     
     /**
      * Gets the effective E-field.
-     * @return
+     * @return volts/meter
      */
     public double getEffectiveEfield() {
-        double sigma = getSurfaceDensityCharge(); // Coulombs/mm^2
+        double sigma = getSurfaceDensityCharge(); // Coulombs/meters^2
         double Er = capacitor.getDielectricMaterial().getDielectricConstant(); // dimensionless
-        double E = sigma / ( Er * E0 ); //XXX units?
-        return E; //XXX units?
+        double E = sigma / ( Er * E0 ); // volts/meter
+        return E;
     }
     
     /**
      * Gets the E-field due to the plates.
-     * @return
+     * @return volts/meter
      */
     public double getPlatesEField() {
-        double sigma = getSurfaceDensityCharge(); // Coulombs/mm^2
-        double Eplates = sigma / E0; //XXX units?
-        return Eplates; //XXX units?
+        double sigma = getSurfaceDensityCharge(); // Coulombs/meters^2
+        double Eplates = sigma / E0; // volts/meter
+        return Eplates;
     }
     
     /**
      * Gets the E-field due to the dielectric.
-     * @return
+     * @return volts/meter
      */
     public double getDielectricEField() {
-        return getPlatesEField() - getEffectiveEfield(); //XXX units?
+        return getPlatesEField() - getEffectiveEfield();
     }
     
     /*
      * Gets the surface density charge on the plates.
-     * @return Coulombs/mm^2
+     * @return Coulombs/meters^2
      */
     private double getSurfaceDensityCharge() {
         double Q = getPlateCharge(); // Coulombs
-        double A = capacitor.getPlateArea(); // mm^2
-        double sigma = Q / A; // Colulombs/mm^2
+        double A = capacitor.getPlateArea(); // meters^2
+        double sigma = Q / A; // Colulombs/meters^2
         return sigma;
     }
     
