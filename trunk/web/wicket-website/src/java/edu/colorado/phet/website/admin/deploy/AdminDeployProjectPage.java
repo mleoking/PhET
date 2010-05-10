@@ -12,7 +12,7 @@ import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.WebsiteProperties;
 import edu.colorado.phet.website.data.Project;
-import edu.colorado.phet.website.templates.PhetRegularPage;
+import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
@@ -20,39 +20,48 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 /**
  * Called during the deployment process from within the server, meant to synchronize a particular project
  */
-public class AdminDeployProjectPage extends PhetRegularPage {
+public class AdminDeployProjectPage extends PhetPage {
 
     private static Logger logger = Logger.getLogger( AdminDeployProjectPage.class.getName() );
+
+    private static final Object lock = new Object();
 
 
     public AdminDeployProjectPage( PageParameters parameters ) {
         super( parameters );
 
-        String addr = getPhetCycle().getWebRequest().getHttpServletRequest().getRemoteAddr();
-        String host = getPhetCycle().getWebRequest().getHttpServletRequest().getRemoteHost();
-        String localhost = getPhetCycle().getWebRequest().getHttpServletRequest().getServerName();
+        synchronized( lock ) {
 
-        logger.debug( "addr: " + addr );
-        logger.debug( "host: " + host );
-        logger.debug( "localhost: " + localhost );
+            String addr = getPhetCycle().getWebRequest().getHttpServletRequest().getRemoteAddr();
+            String host = getPhetCycle().getWebRequest().getHttpServletRequest().getRemoteHost();
+            String localhost = getPhetCycle().getWebRequest().getHttpServletRequest().getServerName();
 
-        if ( localhost.equals( host ) || localhost.equals( "phetsims.colorado.edu" ) || localhost.equals( "phet.colorado.edu" ) ) {
-            deploy( parameters );
+            logger.debug( "addr: " + addr );
+            logger.debug( "host: " + host );
+            logger.debug( "localhost: " + localhost );
+
+            if ( localhost.equals( host ) || localhost.equals( "phetsims.colorado.edu" ) || localhost.equals( "phet.colorado.edu" ) ) {
+                deploy( parameters );
+            }
+
+            addTitle( " deployment" );
+
+            // TODO: return information to PBG?
+
         }
 
-        addTitle(" deployment" );
-
-        // TODO: return information to PBG?
     }
 
     private void deploy( PageParameters parameters ) {
         WebsiteProperties websiteProperties = PhetWicketApplication.get().getWebsiteProperties();
         File docRoot = websiteProperties.getPhetDocumentRoot();
 
-        boolean success = true;
+        boolean success;
 
         String projectName = parameters.getString( "project" );
-        boolean generateJARs = parameters.getBoolean( "generate-jars" );
+        boolean generateJARs = parameters.getString( "generate-jars" ).equals( "true" );
+
+        logger.info( "generateJARs set as: " + generateJARs );
 
         logger.info( "backing up project " + projectName );
 
