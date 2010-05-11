@@ -25,7 +25,7 @@ class DonatePage extends SitePage {
 </p>
 
 <div style="text-align: center; width: 100%;">
-	<a href="http://www.cufund.org/giving-opportunities/fund-description/?id=3685" onclick="javascript:window.open('http://www.cufund.org/giving-opportunities/fund-description/?id=3685', 'cufund', 'resizable=yes,status=yes,toolbar=yes,location=yes,menubar=yes,directories=yes,scrollbars=yes'); return false;">
+	<a href="http://www.cufund.org/giving-opportunities/fund-description/?id=7397" onclick="javascript:window.open('http://www.cufund.org/giving-opportunities/fund-description/?id=7397', 'cufund', 'resizable=yes,status=yes,toolbar=yes,location=yes,menubar=yes,directories=yes,scrollbars=yes'); return false;">
 		<img src="../images/donate-now.gif" alt="Click here to go to the donation page for PhET"/>
 	</a>
 </div>
