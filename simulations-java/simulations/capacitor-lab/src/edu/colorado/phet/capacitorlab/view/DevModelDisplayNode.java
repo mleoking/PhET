@@ -23,7 +23,7 @@ public class DevModelDisplayNode extends PhetPNode {
     private final CLModel model;
     private final ValueNode voltageNode;
     private final ValueNode plateSize;
-    private final ValueNode plateAreaNode, dielectricInsideAreaNode;
+    private final ValueNode plateAreaNode, dielectricContactAreaNode;
     private final ValueNode plateSeparationNode;
     private final ValueNode capacitanceNode;
     private final ValueNode plateChargeNode, excessPlateChargeNode;
@@ -85,8 +85,8 @@ public class DevModelDisplayNode extends PhetPNode {
         addChild( new PText( "----------" ) );
         plateAreaNode = new ValueNode( "A (plate area)", "m<sup>2</sup>" );
         addChild( plateAreaNode );
-        dielectricInsideAreaNode = new ValueNode( "Ad (dielectric area inside)", "m<sup>2</sup>" );
-        addChild( dielectricInsideAreaNode );
+        dielectricContactAreaNode = new ValueNode( "A<sub>dielectric</sub> (dielectric contact area)", "m<sup>2</sup>" );
+        addChild( dielectricContactAreaNode );
         addChild( new PText( "----------" ) );
         capacitanceNode = new ValueNode( "C (capacitance)", "F" );
         addChild( capacitanceNode );
@@ -113,7 +113,7 @@ public class DevModelDisplayNode extends PhetPNode {
         voltageNode.setValue( model.getBattery().getVoltage() );
         plateSize.setValue( model.getCapacitor().getPlateSize() );
         plateAreaNode.setValue( model.getCapacitor().getPlateArea() );
-        dielectricInsideAreaNode.setValue( model.getCapacitor().getDielectricInsideArea() );
+        dielectricContactAreaNode.setValue( model.getCapacitor().getDielectricContactArea() );
         plateSeparationNode.setValue( model.getCapacitor().getPlateSeparation() );
         capacitanceNode.setValue( model.getCircuit().getCapacitance() );
         plateChargeNode.setValue( model.getCircuit().getPlateCharge() );

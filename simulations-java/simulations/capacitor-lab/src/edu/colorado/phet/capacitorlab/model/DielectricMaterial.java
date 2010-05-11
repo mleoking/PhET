@@ -44,7 +44,7 @@ public abstract class DielectricMaterial {
     
     public static class Air extends DielectricMaterial {
         public Air() {
-            super( CLStrings.MATERIAL_AIR, CLConstants.AIR_DIELECTRIC_CONSTANT, CLPaints.INVISIBLE );
+            super( CLStrings.MATERIAL_AIR, 1.00058986, CLPaints.INVISIBLE );
         }
     }
     

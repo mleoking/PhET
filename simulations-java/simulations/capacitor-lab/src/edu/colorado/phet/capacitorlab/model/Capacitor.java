@@ -113,7 +113,7 @@ public class Capacitor {
     }
     
     /**
-     * Gets the area of a capacitor plate.
+     * Gets the area of a plate bottom surface.
      * @return area in meters^2
      */
     public double getPlateArea() {
@@ -121,10 +121,10 @@ public class Capacitor {
     }
     
     /**
-     * Gets the area of the dielectric that is inside (between) the plates.
+     * Gets the area of the plate's bottom surface that is contacting the dielectric.
      * @return area in meters^2
      */
-    public double getDielectricInsideArea() {
+    public double getDielectricContactArea() {
         double area = 0;
         if ( getDielectricOffset() < getPlateSize() ) {
             area = ( getPlateSize() - getDielectricOffset() ) * getPlateSize(); // front * side

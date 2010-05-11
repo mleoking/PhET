@@ -1,3 +1,5 @@
+5/11/10 implement questionable model for Qexcess
+5/11/10 move dielectric constant for air to Air class
 # 0.00.01 (40556) May 10, 2010
 5/10/10 dev version for verifying physical model specification
 5/10/10 implement Qexcess, but the specification appears to be wrong
