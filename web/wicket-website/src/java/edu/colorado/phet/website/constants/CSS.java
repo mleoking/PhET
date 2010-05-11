@@ -7,7 +7,7 @@ public class CSS {
     public static final String BUTTONS = "/css/buttons-v1.css";
     public static final String CONTRIBUTION_BROWSE = "/css/contribution-browse-v1.css";
     public static final String CONTRIBUTION_MAIN = "/css/contribution-main-v1.css";
-    public static final String HOME = "/css/home-v1.css";
+    public static final String HOME = "/css/home-v2.css";
     public static final String MENU_PAGE = "/css/menu-page-v1.css";
     public static final String NAV_BREADCRUMBS = "/css/nav-breadcrumbs-v1.css";
     public static final String NAV_MENU = "/css/navmenu-v1.css";

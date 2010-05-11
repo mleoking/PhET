@@ -1,15 +1,18 @@
 package edu.colorado.phet.website.content;
 
 import org.apache.wicket.behavior.HeaderContributor;
-import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.constants.CSS;
+import edu.colorado.phet.website.content.about.AboutContactPanel;
+import edu.colorado.phet.website.content.about.AboutMainPanel;
+import edu.colorado.phet.website.content.about.AboutNewsPanel;
+import edu.colorado.phet.website.content.about.AboutSponsorsPanel;
 import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
@@ -34,10 +37,6 @@ public class IndexPanel extends PhetPanel {
         add( new StaticImage( "nsf-logo", "/images/sponsors/nsf-logo-small.gif", null ) );
         add( new StaticImage( "hewlett-logo", "/images/sponsors/hewlett-logo-small.jpg", null ) );
 
-        //PhetLink imageLink = SimulationDisplay.createLink( "image-link", context );
-        //add( imageLink );
-        //imageLink.add( new StaticImage( "index-animated-screenshot", "/images/mass-spring-lab-animated-screenshot.gif", null ) );
-
         add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{"href=\"" + ResearchPanel.getLinker().getRawUrl( context, getPhetCycle() ) + "\""} ) );
 
         add( SimulationDisplay.createLink( "play-sims-link", context ) );
@@ -53,9 +52,17 @@ public class IndexPanel extends PhetPanel {
         add( DonatePanel.getLinker().getLink( "support-phet-link", context, getPhetCycle() ) );
         add( TranslationUtilityPanel.getLinker().getLink( "translate-sims-link", context, getPhetCycle() ) );
 
-        add( SimulationDisplay.createLink( "browse-sims-link", context ) );
+        add( AboutMainPanel.getLinker().getLink( "about-general", context, getPhetCycle() ) );
+        add( AboutMainPanel.getLinker().getLink( "about-phet", context, getPhetCycle() ) );
+        add( AboutNewsPanel.getLinker().getLink( "about-news", context, getPhetCycle() ) );
+        add( AboutContactPanel.getLinker().getLink( "about-contact", context, getPhetCycle() ) );
+        add( AboutSponsorsPanel.getLinker().getLink( "about-sponsors", context, getPhetCycle() ) );
 
-        add( SimulationDisplay.createLink( "below-simulations-link", context ) );
+        //add( SimulationDisplay.createLink( "browse-sims-link", context ) );
+
+        //add( SimulationDisplay.createLink( "below-simulations-link", context ) );
+
+        //add( AboutMainPanel.getLinker().getLink( "home-about-phet-link", context, getPhetCycle() ) );
 
         if ( context.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) && DistributionHandler.displayTranslationEditLink( (PhetRequestCycle) getRequestCycle() ) ) {
             add( TranslationMainPage.getLinker().getLink( "test-translation", context, getPhetCycle() ) );
@@ -85,9 +92,9 @@ public class IndexPanel extends PhetPanel {
 
         add( HeaderContributor.forCss( CSS.HOME ) );
 
-        Link miniLink = SimulationDisplay.createLink( "mini-screenshot-link", context );
-        add( miniLink );
-        miniLink.add( new StaticImage( "mini-screenshot", "/images/geometric-optics-screenshot.png", null ) );
+        //Link miniLink = SimulationDisplay.createLink( "mini-screenshot-link", context );
+        //add( miniLink );
+        //miniLink.add( new StaticImage( "mini-screenshot", "/images/geometric-optics-screenshot.png", null ) );
 
         add( new RotatorPanel( "rotator-panel", context ) );
     }

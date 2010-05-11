@@ -120,7 +120,6 @@ div.index-holder {
 }
 
 #sponsors {
-    /*border: 1px solid red;*/
     position: absolute;
     height: 70px;
     width: 425px;
@@ -187,11 +186,11 @@ div.practices dl.last {
 }
 
 div.practices dl.last dd {
-    text-align: right;
+    /*text-align: right;*/
 }
 
 div.rtl div.practices dl.last dd {
-    text-align: inherit;
+    /*text-align: inherit;*/
 }
 
 div.practices dl dt {
@@ -265,4 +264,22 @@ div.practices dd a:hover {
 
 .clear {
     clear: both;
+}
+
+.home-about-phet {
+    text-align: center;
+    position: absolute;
+    top: 199px;
+    height: 23px;
+    left: 0px;
+    width: 425px;
+    font-size: 12px;
+}
+
+.home-about-phet a {
+    text-decoration: none;
+}
+
+.home-about-phet a:hover {
+    text-decoration: underline;
 }
