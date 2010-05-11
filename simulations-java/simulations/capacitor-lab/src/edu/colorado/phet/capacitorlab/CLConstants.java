@@ -41,7 +41,7 @@ public class CLConstants {
     
     public static final Point2D CAPACITOR_LOCATION = new Point2D.Double( 0, 0 ); // meters
     public static final DoubleRange PLATE_SIZE_RANGE = new DoubleRange( .01, .02 ); // meters
-    public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( .005, .01 ); // meters
+    public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( .005, .01, .01 ); // meters
     public static final double PLATE_THICKNESS = .0005; // meters
     
     public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 10 ); // dimensionless
