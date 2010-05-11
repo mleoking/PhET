@@ -6,6 +6,7 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.templates.PhetPage;
 
@@ -13,7 +14,7 @@ public class PreventXSSTest extends PhetPage {
     public PreventXSSTest( PageParameters parameters ) {
         super( parameters );
 
-        addTitle( "XSS Prevention Testing" );
+        addTitle( new ResourceModel( "style.title" ) );
 
         WebMarkupContainer container = new WebMarkupContainer( "container" );
         add( container );
@@ -30,6 +31,9 @@ public class PreventXSSTest extends PhetPage {
         }
         if ( key.equals( "style.mess" ) ) {
             return "<script>alert('XSS')</script>&amp;<b>Test</b>";
+        }
+        if ( key.equals( "style.title" ) ) {
+            return "XSS Prevention Testing &amp; Other things";
         }
         return super.getStyle( key );
     }
