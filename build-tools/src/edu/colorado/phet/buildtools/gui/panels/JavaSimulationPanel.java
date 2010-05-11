@@ -96,7 +96,8 @@ public class JavaSimulationPanel extends JPanel {
         testProdPanel.setBorder( BorderFactory.createTitledBorder( "Wicket production" ) );
         JButton testProdButton = new JButton( "Test Wicket Deploy" );
         testProdPanel.add( testProdButton );
-//see #2290       controlPanel.add( testProdPanel );
+//see #2290
+        //controlPanel.add( testProdPanel );
 
         add( controlPanel, BorderLayout.SOUTH );
 
