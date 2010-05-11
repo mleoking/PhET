@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -24,9 +25,9 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MetersControlPanel extends CLTitledControlPanel {
     
-    private final JCheckBox capacitanceCheckBox, plateChargeCheckBox, energyCheckBox, voltmeterCheckBox, fieldDetectorCheckBox;
+    private final JCheckBox capacitanceCheckBox, plateChargeCheckBox, energyCheckBox, voltmeterCheckBox, fieldDetectorCheckBox, devMeterCheckBox;
 
-    public MetersControlPanel( final DielectricCanvas canvas ) {
+    public MetersControlPanel( final DielectricCanvas canvas, boolean dev ) {
         super( CLStrings.TITLE_METERS );
         
         capacitanceCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CAPACITANCE );
@@ -41,7 +42,7 @@ public class MetersControlPanel extends CLTitledControlPanel {
         canvas.getPlateChargeMeterNode().addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                    plateChargeCheckBox.setSelected(canvas.getPlateChargeMeterNode().isVisible() );
+                    plateChargeCheckBox.setSelected( canvas.getPlateChargeMeterNode().isVisible() );
                 }
             }
         });
@@ -51,6 +52,22 @@ public class MetersControlPanel extends CLTitledControlPanel {
         voltmeterCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_VOLTMETER );
         
         fieldDetectorCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_FIELD_DETECTOR );
+        
+        devMeterCheckBox = new JCheckBox( "Developer Meter" );
+        devMeterCheckBox.setForeground( Color.RED );
+        devMeterCheckBox.setSelected( canvas.getDeveloperMeterNode().isVisible() );
+        devMeterCheckBox.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                canvas.getDeveloperMeterNode().setVisible( devMeterCheckBox.isSelected() );
+            }
+        });
+        canvas.getDeveloperMeterNode().addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
+                    devMeterCheckBox.setSelected( canvas.getDeveloperMeterNode().isVisible() );
+                }
+            }
+        });
         
         // layout
         JPanel innerPanel = new JPanel();
@@ -64,6 +81,9 @@ public class MetersControlPanel extends CLTitledControlPanel {
         layout.addComponent( energyCheckBox, row++, column );
         layout.addComponent( voltmeterCheckBox, row++, column );
         layout.addComponent( fieldDetectorCheckBox, row++, column );
+        if ( dev ) {
+            layout.addComponent( devMeterCheckBox, row++, column );
+        }
         
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );

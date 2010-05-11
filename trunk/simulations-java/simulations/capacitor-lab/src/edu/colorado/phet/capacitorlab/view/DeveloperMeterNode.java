@@ -2,6 +2,13 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
+import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeListener;
@@ -10,17 +17,33 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricM
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Developer node for displaying various model values.
+ * Developer "meter" for displaying various model values.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DevModelDisplayNode extends PhetPNode {
+public class DeveloperMeterNode extends PhetPNode {
+    
+    private static final Color BACKGROUND_FILL_COLOR = new Color( 255, 255, 255, 125 );
+    private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
+    private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
+    private static final double BACKGROUND_MARGIN = 3;
     
     private final CLModel model;
+    
+    private final PComposite parentNode;
     private final ValueNode voltageNode;
     private final ValueNode plateSize;
     private final ValueNode plateAreaNode, dielectricContactAreaNode;
@@ -29,11 +52,14 @@ public class DevModelDisplayNode extends PhetPNode {
     private final ValueNode plateChargeNode, excessPlateChargeNode;
     private final ValueNode effectiveFieldNode, plateFieldNode, dielectricFieldNode;
     private final ValueNode energyStoredNode;
+    
+    private final Rectangle2D backgroundRect;
+    private final PPath backgroundPath;
 
     private CustomDielectricMaterial customDielectric;
     private CustomDielectricChangeListener customDielectricChangeListener;
 
-    public DevModelDisplayNode( CLModel model ) {
+    public DeveloperMeterNode( CLModel model, PNode dragBoundsNode ) {
         
         this.model = model;
         model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeListener() {
@@ -76,32 +102,65 @@ public class DevModelDisplayNode extends PhetPNode {
             }
         };
         
+        // background
+        backgroundRect = new Rectangle2D.Double();
+        backgroundPath = new PPath( backgroundRect );
+        backgroundPath.setPaint( BACKGROUND_FILL_COLOR );
+        backgroundPath.setStrokePaint( BACKGROUND_STROKE_COLOR );
+        backgroundPath.setStroke( BACKGROUND_STROKE );
+        addChild( backgroundPath );
+        
+        // fields
+        parentNode = new PComposite();
+        addChild( parentNode );
+        PText titleNode = new PText( "Developer Meter" );
+        titleNode.setFont( new PhetFont( Font.BOLD, 14 ) );
+        titleNode.setTextPaint( Color.RED );
+        parentNode.addChild( titleNode );
+        parentNode.addChild( new PText( "----------" ) );
         voltageNode = new ValueNode( "V (voltage)", "V" );
-        addChild( voltageNode );
+        parentNode.addChild( voltageNode );
         plateSize = new ValueNode( "L (plate side length)", "m" );
-        addChild( plateSize );
+        parentNode.addChild( plateSize );
         plateSeparationNode = new ValueNode( "d (plate separation)", "m" );
-        addChild( plateSeparationNode );
-        addChild( new PText( "----------" ) );
+        parentNode.addChild( plateSeparationNode );
+        parentNode.addChild( new PText( "----------" ) );
         plateAreaNode = new ValueNode( "A (plate area)", "m<sup>2</sup>" );
-        addChild( plateAreaNode );
+        parentNode.addChild( plateAreaNode );
         dielectricContactAreaNode = new ValueNode( "A<sub>dielectric</sub> (dielectric contact area)", "m<sup>2</sup>" );
-        addChild( dielectricContactAreaNode );
-        addChild( new PText( "----------" ) );
+        parentNode.addChild( dielectricContactAreaNode );
+        parentNode.addChild( new PText( "----------" ) );
         capacitanceNode = new ValueNode( "C (capacitance)", "F" );
-        addChild( capacitanceNode );
+        parentNode.addChild( capacitanceNode );
         plateChargeNode = new ValueNode( "Q (plate charge)", "C" );
-        addChild( plateChargeNode );
+        parentNode.addChild( plateChargeNode );
         excessPlateChargeNode = new ValueNode( "Q<sub>excess</sub> (excess plate charge)", "C" );
-        addChild( excessPlateChargeNode );
+        parentNode.addChild( excessPlateChargeNode );
         effectiveFieldNode = new ValueNode( "E<sub>effective</sub>", "V/m" );
-        addChild( effectiveFieldNode );
+        parentNode.addChild( effectiveFieldNode );
         plateFieldNode = new ValueNode( "E<sub>plate</sub>", "V/m" );
-        addChild( plateFieldNode );
+        parentNode.addChild( plateFieldNode );
         dielectricFieldNode = new ValueNode( "E<sub>dielectric</sub>", "V/m" );
-        addChild( dielectricFieldNode );
+        parentNode.addChild( dielectricFieldNode );
         energyStoredNode = new ValueNode( "U (energy stored)", "J" );
-        addChild( energyStoredNode );
+        parentNode.addChild( energyStoredNode );
+        
+        // close button
+        PImage closeButton = new PImage( CLImages.CLOSE_BUTTON );
+        double x = parentNode.getFullBoundsReference().getMinX() - closeButton.getFullBoundsReference().getWidth() - 5;
+        double y = parentNode.getFullBoundsReference().getMinY();
+        closeButton.setOffset( x, y );
+        closeButton.addInputEventListener( new PBasicInputEventHandler() {
+            @Override
+            public void mouseReleased( PInputEvent event ) {
+                DeveloperMeterNode.this.setVisible( false );
+            }
+        });
+        addChild( closeButton );
+        
+        // interactivity
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new BoundedDragHandler( this, dragBoundsNode ) );
         
         updateDielectricListener();
         updateValues();
@@ -124,7 +183,12 @@ public class DevModelDisplayNode extends PhetPNode {
         energyStoredNode.setValue( model.getCircuit().getStoredEnergy() );
         
         // layout
-        layoutColumnLeftAlign();
+        layoutColumnLeftAlign( parentNode );
+        
+        // background
+        PBounds bounds = parentNode.getFullBoundsReference();
+        backgroundRect.setRect( bounds.getX() - BACKGROUND_MARGIN, bounds.getY() - BACKGROUND_MARGIN, bounds.getWidth() + ( 2 * BACKGROUND_MARGIN ), bounds.getHeight() + ( 2 * BACKGROUND_MARGIN ));
+        backgroundPath.setPathTo( backgroundRect );
     }
     
     private void updateDielectricListener() {
@@ -143,17 +207,17 @@ public class DevModelDisplayNode extends PhetPNode {
      * Layouts out children of this node in one column, left aligned.
      * They will appear in the order that they were added as children.
      */
-    private void layoutColumnLeftAlign() {
+    private void layoutColumnLeftAlign( PNode parentNode ) {
         double ySpacing = 2;
         double x = 0;
         double y = 0;
-        for ( int i = 0; i < getChildrenCount(); i++ ) {
+        for ( int i = 0; i < parentNode.getChildrenCount(); i++ ) {
             if ( i == 0 ) {
-                getChild( i ).setOffset( x, y );
+                parentNode.getChild( i ).setOffset( x, y );
             }
             else {
-                y = getChild( i - 1 ).getFullBoundsReference().getMaxY() + ySpacing;
-                getChild( i ).setOffset( x, y );
+                y = parentNode.getChild( i - 1 ).getFullBoundsReference().getMaxY() + ySpacing;
+                parentNode.getChild( i ).setOffset( x, y );
             }
         }
     }

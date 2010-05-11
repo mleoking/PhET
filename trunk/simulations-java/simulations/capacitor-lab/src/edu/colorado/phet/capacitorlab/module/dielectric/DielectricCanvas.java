@@ -17,8 +17,6 @@ import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.*;
 import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.TopWireNode;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -44,7 +42,7 @@ public class DielectricCanvas extends CLCanvas {
     private final DielectricOffsetDragHandleNode dielectricOffsetDragHandleNode;
     private final PlateSeparationDragHandleNode plateSeparationDragHandleNode;
     private final PlateAreaDragHandleNode plateAreaDragHandleNode;
-    private final DevModelDisplayNode modelDisplayNode;
+    private final DeveloperMeterNode developerMeterNode;
     
     // meters
     private final PlateChargeMeterNode plateChargeMeterNode;
@@ -106,7 +104,7 @@ public class DielectricCanvas extends CLCanvas {
         
         plateChargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), dragBoundsNode );
         
-        modelDisplayNode = new DevModelDisplayNode( model );
+        developerMeterNode = new DeveloperMeterNode( model, dragBoundsNode );
         
         // rendering order
         addChild( bottomWireNode );
@@ -121,7 +119,7 @@ public class DielectricCanvas extends CLCanvas {
         addChild( plateChargeMeterNode );
         if ( dev ) {
             addChild( originNode );
-            addChild( modelDisplayNode );
+            addChild( developerMeterNode );
         }
         
         // static layout
@@ -160,8 +158,8 @@ public class DielectricCanvas extends CLCanvas {
             mvt.modelToView( pModel, pView );
             originNode.setOffset( pView.getX(), pView.getY() );
             
-            // model display
-            modelDisplayNode.setOffset( 600, 10 ); //XXX
+            // developer meter
+            developerMeterNode.setOffset( 600, 10 ); //XXX
         }
         
         // default state
@@ -169,6 +167,8 @@ public class DielectricCanvas extends CLCanvas {
         updateDielectricOffsetDragHandle();
         updatePlateSeparationDragHandle();
         updatePlateAreaDragHandle();
+        plateChargeMeterNode.setVisible( false );
+        developerMeterNode.setVisible( false );
     }
     
     public void reset() {
@@ -177,6 +177,10 @@ public class DielectricCanvas extends CLCanvas {
     
     public PlateChargeMeterNode getPlateChargeMeterNode() {
         return plateChargeMeterNode;
+    }
+    
+    public DeveloperMeterNode getDeveloperMeterNode() {
+        return developerMeterNode;
     }
     
     private void updateConnectivity() {
@@ -233,5 +237,6 @@ public class DielectricCanvas extends CLCanvas {
         
         // If anything draggable is outside the canvas, move it inside.
         keepInsideCanvas( plateChargeMeterNode );
+        keepInsideCanvas( developerMeterNode );
     }
 }
