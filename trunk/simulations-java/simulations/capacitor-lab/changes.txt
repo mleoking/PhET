@@ -1,3 +1,5 @@
+5/10/10 update DevModelDisplayNode when custom dielectric constant is modified
+5/10/10 show full precision of values in DevModelDisplayNode, so we can see which digits are changing
 5/10/10 change plate separation range to 5-10mm, so that dielectric has a substantial thickness
 5/10/10 use ranges specified by Noah P, recalibrate locations and model-view transform
 5/10/10 developer node for displaying various model values
