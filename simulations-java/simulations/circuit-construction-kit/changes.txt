@@ -1,3 +1,4 @@
+# 3.18.08 (40572) May 11, 2010
 > Prevent electrons from bunching up in pairs, see #1828
 # 3.18.07 (40398) May 4, 2010
 Changed default timestep parameters from (1E-6,1E-6) to (1E-5,1E-5)
