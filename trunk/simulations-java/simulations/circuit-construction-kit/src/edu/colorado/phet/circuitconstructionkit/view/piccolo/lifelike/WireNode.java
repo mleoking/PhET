@@ -24,7 +24,6 @@ import java.awt.*;
  */
 
 public class WireNode extends BranchNode {
-    private CCKModel cckModel;
     private Wire wire;
     private PPath wirePPath;
     private PPath wireHighlightPPath;
@@ -38,7 +37,6 @@ public class WireNode extends BranchNode {
     };
 
     public WireNode(final CCKModel cckModel, final Wire wire, Component component) {
-        this.cckModel = cckModel;
         this.wire = wire;
         this.circuitInteractionModel = new CircuitInteractionModel(cckModel);
 

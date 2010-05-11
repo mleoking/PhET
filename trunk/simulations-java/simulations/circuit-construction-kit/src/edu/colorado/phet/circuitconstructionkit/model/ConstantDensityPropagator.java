@@ -105,27 +105,24 @@ public class ConstantDensityPropagator implements ModelElement {
     }
 
     private void equalize(double dt) {
-        ArrayList indices = new ArrayList();
+        ArrayList<Integer> indices = new ArrayList<Integer>();
         for (int i = 0; i < particleSet.numParticles(); i++) {
-            indices.add(new Integer(i));
+            indices.add(i);
         }
         Collections.shuffle(indices);
         for (int i = 0; i < particleSet.numParticles(); i++) {
-            Integer index = (Integer) indices.get(i);
-            int ind = index.intValue();
-            Electron e = particleSet.particleAt(ind);
-            equalize(e, dt);
+            equalize(particleSet.particleAt(indices.get(i)), dt);
         }
     }
 
     static double highestSoFar = 0;
 
     private void equalize(Electron e, double dt) {
-        //if it has a lower and upper neighbor, try to get the distance to each to be half of
-        //ELECTRON_DX
+        //if it has a lower and upper neighbor, try to get the distance to each to be half of ELECTRON_DX
         Electron upper = particleSet.getUpperNeighborInBranch(e);
         Electron lower = particleSet.getLowerNeighborInBranch(e);
         if (upper == null || lower == null) {
+            //System.out.println("returning since lower or upper was null in branch: "+e.getBranch()+" lower ==null: "+(lower==null)+", upper==null: "+(upper==null));
             return;
         }
         double sep = upper.getDistAlongWire() - lower.getDistAlongWire();
