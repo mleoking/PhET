@@ -29,6 +29,7 @@ public class NavMenuList extends PhetPanel {
                 Link link = location.getLink( "link", context, (PhetRequestCycle) getRequestCycle() );
 
                 Label label = new Label( "link-label", new ResourceModel( location.getLocalizationKey() ) );
+                label.setEscapeModelStrings( false );
 
                 boolean open = false;
 
