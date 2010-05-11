@@ -88,7 +88,6 @@ public class DielectricCanvas extends CLCanvas {
         plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SIZE_RANGE );
         
         modelDisplayNode = new DevModelDisplayNode( model );
-        modelDisplayNode.scale( 1.25 );
         
         // rendering order
         addChild( bottomWireNode );
