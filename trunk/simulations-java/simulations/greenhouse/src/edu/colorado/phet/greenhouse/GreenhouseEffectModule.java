@@ -5,7 +5,10 @@ package edu.colorado.phet.greenhouse;
 import java.awt.Frame;
 
 import javax.swing.JComponent;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -21,9 +24,15 @@ import edu.colorado.phet.greenhouse.view.GreenhouseEffectCanvas;
  * @author John Blanco
  */
 public class GreenhouseEffectModule extends PiccoloModule {
-    
+	
     //----------------------------------------------------------------------------
-    // Instance data
+    // Class Data
+    //----------------------------------------------------------------------------
+
+	private static final double MAX_TIME_BETWEEN_TICKS = (double)GreenhouseClock.DEFAULT_DELAY_BETWEEN_TICKS * 5;
+
+    //----------------------------------------------------------------------------
+    // Instance Data
     //----------------------------------------------------------------------------
 
     private PhetPCanvas canvas;
@@ -34,7 +43,6 @@ public class GreenhouseEffectModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public GreenhouseEffectModule( Frame parentFrame ) {
-    	// TODO: i18n
         super( GreenhouseResources.getString("ModuleTitle.GreenHouseModule"), new GreenhouseClock());
         
         // Physical model
@@ -43,6 +51,19 @@ public class GreenhouseEffectModule extends PiccoloModule {
         // Canvas
         canvas = new GreenhouseEffectCanvas();
         setSimulationPanel( canvas );
+        
+        // Clock controls.
+    	// Create the clock control panel, including slider.
+        final ConstantDtClock clock = (ConstantDtClock)getClock();
+    	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
+    	final ClockDelaySlider timeSpeedSlider = new ClockDelaySlider(150, 30, "0.00", clock, null);
+        timeSpeedSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                clock.setDelay((int)Math.round(MAX_TIME_BETWEEN_TICKS/timeSpeedSlider.getValue()));
+            }
+        } );
+    	clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
+        setClockControlPanel( clockControlPanel );
         
         // Help
         if ( hasHelp() ) {
