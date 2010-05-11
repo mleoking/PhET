@@ -14,7 +14,8 @@ public class PreventXSSTest extends PhetPage {
     public PreventXSSTest( PageParameters parameters ) {
         super( parameters );
 
-        addTitle( new ResourceModel( "style.title" ) );
+        //addTitle( new ResourceModel( "style.title" ) );
+        addTitle( "XSS Prevention Testing &amp; Other Things" );
 
         WebMarkupContainer container = new WebMarkupContainer( "container" );
         add( container );
