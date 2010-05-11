@@ -23,12 +23,19 @@ public class AdminEditProfilePage extends AdminPage {
     public AdminEditProfilePage( PageParameters parameters ) {
         super( parameters );
 
-        String userParam = parameters.getString( "userId" );
-        final int id = Integer.parseInt( userParam );
+        final String userParam = parameters.getString( "userId" );
+        final String userEmail = parameters.getString( "userEmail" );
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
-                user = (PhetUser) session.load( PhetUser.class, id );
+                if ( userParam == null && userEmail != null ) {
+                    user = (PhetUser) session.createQuery( "select u from PhetUser as u where u.email = :email" )
+                            .setString( "email", userEmail ).uniqueResult();
+                }
+                else {
+                    int id = Integer.parseInt( userParam );
+                    user = (PhetUser) session.load( PhetUser.class, id );
+                }
                 return true;
             }
         } );
@@ -54,17 +61,36 @@ public class AdminEditProfilePage extends AdminPage {
         };
     }
 
+    public static Linkable getLinker( final String userEmail ) {
+        return new Linkable() {
+            public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
+                return new QuickLink( id, userEmail );
+            }
+        };
+    }
+
     private static class QuickLink extends Link {
         private int userId;
+        private String userEmail = null;
 
         public QuickLink( String id, int userId ) {
             super( id );
             this.userId = userId;
         }
 
+        public QuickLink( String id, String userEmail ) {
+            super( id );
+            this.userEmail = userEmail;
+        }
+
         public void onClick() {
             PageParameters params = new PageParameters();
-            params.add( "userId", String.valueOf( userId ) );
+            if ( userEmail == null ) {
+                params.add( "userId", String.valueOf( userId ) );
+            }
+            else {
+                params.add( "userEmail", userEmail );
+            }
             setResponsePage( AdminEditProfilePage.class, params );
         }
     }

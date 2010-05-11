@@ -6,9 +6,12 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.PhetUser;
@@ -43,5 +46,26 @@ public class AdminUsersPage extends AdminPage {
             }
         } );
 
+        add( new EmailForm( "email-form" ) );
+
+    }
+
+    private static class EmailForm extends Form {
+
+        private TextField emailField;
+
+        public EmailForm( String id ) {
+            super( id );
+
+            emailField = new TextField( "email", new Model( "" ) );
+            add( emailField );
+        }
+
+        @Override
+        protected void onSubmit() {
+            PageParameters params = new PageParameters();
+            params.add( "userEmail", emailField.getModelObjectAsString() );
+            setResponsePage( AdminEditProfilePage.class, params );
+        }
     }
 }
