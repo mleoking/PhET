@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.control.*;
@@ -15,8 +17,9 @@ import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.*;
 import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.TopWireNode;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Canvas for the "Dielectric" module.
@@ -45,6 +48,10 @@ public class DielectricCanvas extends CLCanvas {
     
     // meters
     private final PlateChargeMeterNode plateChargeMeterNode;
+    
+    // drag bound
+    private final Rectangle2D dragBoundsRectangle;
+    private final PPath dragBoundsNode;
     
     public DielectricCanvas( final CLModel model, boolean dev ) {
         
@@ -92,9 +99,12 @@ public class DielectricCanvas extends CLCanvas {
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
         plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SIZE_RANGE );
         
-        plateChargeMeterNode = new PlateChargeMeterNode( model.getCircuit() );
-        plateChargeMeterNode.addInputEventListener( new CursorHandler() );
-        plateChargeMeterNode.addInputEventListener( new PDragEventHandler() ); //XXX constrain to play area
+        dragBoundsRectangle = new Rectangle2D.Double();
+        dragBoundsNode = new PPath( dragBoundsRectangle );
+        dragBoundsNode.setStroke( null );
+        addChild( dragBoundsNode );
+        
+        plateChargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), dragBoundsNode );
         
         modelDisplayNode = new DevModelDisplayNode( model );
         
@@ -204,5 +214,24 @@ public class DielectricCanvas extends CLCanvas {
         double x = capacitorLocation.getX() + dragPointOffset.getX();
         double y = capacitorLocation.getY() + dragPointOffset.getY();
         plateAreaDragHandleNode.setOffset( x, y );
+    }
+    
+    @Override
+    protected void updateLayout() {
+        super.updateLayout();
+        
+        Dimension2D worldSize = getWorldSize();
+        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
+            // canvas hasn't been sized, blow off layout
+            return;
+        }
+        
+        // Adjust drag bounds so that things aren't dragged off the canvas.
+        double margin = 0;
+        dragBoundsRectangle.setRect( margin, margin, worldSize.getWidth() - ( 2 * margin ), worldSize.getHeight() - ( 2 * margin ) );
+        dragBoundsNode.setPathTo( dragBoundsRectangle );
+        
+        // If anything draggable is outside the canvas, move it inside.
+        keepInsideCanvas( plateChargeMeterNode );
     }
 }
