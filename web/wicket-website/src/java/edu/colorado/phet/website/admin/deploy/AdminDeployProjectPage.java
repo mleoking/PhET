@@ -32,6 +32,7 @@ public class AdminDeployProjectPage extends PhetPage {
 
         synchronized( lock ) {
 
+
             String addr = getPhetCycle().getWebRequest().getHttpServletRequest().getRemoteAddr();
             String host = getPhetCycle().getWebRequest().getHttpServletRequest().getRemoteHost();
             String localhost = getPhetCycle().getWebRequest().getHttpServletRequest().getServerName();
@@ -40,7 +41,7 @@ public class AdminDeployProjectPage extends PhetPage {
             logger.debug( "host: " + host );
             logger.debug( "localhost: " + localhost );
 
-            if ( localhost.equals( host ) || localhost.equals( "phetsims.colorado.edu" ) || localhost.equals( "phet.colorado.edu" ) ) {
+            if ( getPhetCycle().isLocalRequest() ) {
                 deploy( parameters );
             }
 

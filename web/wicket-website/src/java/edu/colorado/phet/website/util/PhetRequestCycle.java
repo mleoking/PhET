@@ -87,8 +87,22 @@ public class PhetRequestCycle extends WebRequestCycle {
         return getUserAgent().equals( YOUNG_AND_FREEDMAN_USER_AGENT );
     }
 
+    public boolean isLocalRequest() {
+        String addr = getWebRequest().getHttpServletRequest().getRemoteAddr();
+        String host = getWebRequest().getHttpServletRequest().getRemoteHost();
+        String localhost = getWebRequest().getHttpServletRequest().getServerName();
+
+        if ( localhost.equals( host ) || localhost.equals( "phetsims.colorado.edu" ) || localhost.equals( "phet.colorado.edu" ) ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public static PhetRequestCycle get() {
         // TODO: verify
         return (PhetRequestCycle) WebRequestCycle.get();
     }
+
 }
