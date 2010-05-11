@@ -18,7 +18,10 @@ import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -79,7 +82,7 @@ public class PlateChargeMeterNode extends PhetPNode {
     private final TitleNode titleNode;
     private final ValueNode valueNode;
     
-    public PlateChargeMeterNode( BatteryCapacitorCircuit circuit ) {
+    public PlateChargeMeterNode( BatteryCapacitorCircuit circuit, PNode dragBoundsNode ) {
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new  BatteryCapacitorCircuitChangeAdapter() {
@@ -146,11 +149,15 @@ public class PlateChargeMeterNode extends PhetPNode {
         closeButton.setOffset( x, y );
         closeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override
-            public void mousePressed( PInputEvent event ) {
+            public void mouseReleased( PInputEvent event ) {
                 PlateChargeMeterNode.this.setVisible( false );
             }
         });
         addChild( closeButton );
+        
+        // interactivity
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new BoundedDragHandler( this, dragBoundsNode ) );
         
         update();
     }

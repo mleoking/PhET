@@ -1,3 +1,4 @@
+5/11/10 fix dragging of Plate Charge meter, constrain to canvas, keep visible when canvas is resized
 5/11/10 first pass at Plate Charge meter, meter works, close button works, drag behavior is broken
 5/11/10 implement questionable model for Qexcess
 5/11/10 move dielectric constant for air to Air class
