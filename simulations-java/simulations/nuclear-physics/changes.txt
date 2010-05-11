@@ -1,3 +1,5 @@
+# 3.22.01 (40586) May 11, 2010
+5/11/10 > Changed the wording in the game from "Guess" to "Estimate".
 # 3.22.00 (38666) Feb 16, 2010
 2/16/10 Deployment to production server.
 # 3.21.01 (38614) Feb 12, 2010
