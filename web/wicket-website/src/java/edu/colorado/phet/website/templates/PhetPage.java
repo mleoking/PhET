@@ -17,11 +17,11 @@ import org.apache.wicket.model.IModel;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.constants.Images;
-import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.constants.CSS;
+import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.menu.NavMenu;
@@ -171,11 +171,15 @@ public abstract class PhetPage extends WebPage implements Stylable {
     }
 
     public void addTitle( String title ) {
-        add( new Label( "page-title", title ) );
+        Label titleLabel = new Label( "page-title", title );
+        titleLabel.setEscapeModelStrings( false );
+        add( titleLabel );
     }
 
-    public void addTitle( IModel title ) {
-        add( new Label( "page-title", title ) );
+    public void addTitle( IModel titleModel ) {
+        Label titleLabel = new Label( "page-title", titleModel );
+        titleLabel.setEscapeModelStrings( false );
+        add( titleLabel );
     }
 
     public org.hibernate.Session getHibernateSession() {
