@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.util;
 
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -351,6 +352,34 @@ public class StringUtils {
             return false;
         }
         return true;
+    }
+
+    private static String messageFormatFilter( String str ) {
+        StringBuilder ret = new StringBuilder();
+        for ( int i = 0; i < str.length(); i++ ) {
+            ret.append( str.charAt( i ) );
+            if ( str.charAt( i ) == '\'' ) {
+                boolean escapeBrace = (
+                        i + 2 < str.length()
+                        && (
+                                str.charAt( i + 1 ) == '{' || str.charAt( i + 1 ) == '}'
+                        ) && str.charAt( i + 2 ) == '\''
+                );
+                if ( escapeBrace ) {
+                    ret.append( str.charAt( i + 1 ) );
+                    ret.append( '\'' );
+                    i += 2;
+                }
+                else {
+                    ret.append( '\'' );
+                }
+            }
+        }
+        return ret.toString();
+    }
+
+    public static String stringMessageFormat( String str, Object[] objs ) {
+        return MessageFormat.format( messageFormatFilter( str ), objs );
     }
 
     /**
