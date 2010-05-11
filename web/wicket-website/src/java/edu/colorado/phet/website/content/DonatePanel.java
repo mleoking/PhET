@@ -12,8 +12,6 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 public class DonatePanel extends PhetPanel {
     public DonatePanel( String id, PageContext context ) {
 
-        // TODO: i18nize
-
         super( id, context );
 
         add( new SmallOrangeButtonBorder( "small-orange", context ) );
