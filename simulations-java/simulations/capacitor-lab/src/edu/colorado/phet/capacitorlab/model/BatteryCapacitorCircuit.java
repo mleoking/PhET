@@ -39,7 +39,8 @@ public class BatteryCapacitorCircuit {
         // ( Ad * Er ) + E_AIR - Ad
         double Ad = capacitor.getDielectricInsideArea(); // meters
         double Er = capacitor.getDielectricMaterial().getDielectricConstant(); // dimensionless
-        double C = ( Ad * Er ) + E_AIR - Ad; // Farads
+        double d = capacitor.getPlateSeparation(); // meters
+        double C = ( ( Ad * Er ) + E_AIR - Ad ) * ( E0 / d ); // Farads
         return C;
     }
     
