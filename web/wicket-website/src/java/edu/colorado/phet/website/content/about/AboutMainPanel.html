@@ -49,7 +49,9 @@
             <a href="http://phet.colorado.edu/tech_support/support-java.php">Java</a> are installed.
         </p>
 
-        <h2><wicket:message key="about.who-we-are.title">Who We Are</wicket:message></h2>
+        <h2>
+            <wicket:message key="about.who-we-are.title">Who We Are</wicket:message>
+        </h2>
 
         <div style="width: 520px; overflow: hidden;">
             <img src="/images/phet-group-8-20-2009.jpg" alt="Image of the PhET Team" width="523"/>
@@ -91,24 +93,22 @@
             </h4>
 
             <ul id="people">
-                <li>Archie Paulson - Research Associate</li>
-                <li>Carl Wieman - Founder and Chairman</li>
-                <li>Chris Malley - Consultant / Software Engineer</li>
-                <li>Dano McKagan - Website Architect</li>
-                <li>John Blanco - Software Engineer</li>
-                <li>Jonathan Olson - Software Engineer</li>
-                <li>Kathy Perkins - Co-Director</li>
-                <li>Linda Wellmann - Administrative Assistant</li>
-                <li>Marj Frankel - Professional Research Assistant</li>
-                <li>Michael Dubson - Science Expert / Software Engineer</li>
-                <li>Mindy Gratny - Professional Research Assistant</li>
-                <li>Nicole Simpson -</li>
-                <li>Noah Finkelstein - Asst. Professor</li>
-                <li>Noah Podolefsky - Research Associate</li>
-                <li>Sam Reid - Software Engineer</li>
-                <li>Sarah McKagan - Research Associate</li>
-                <li>Trish Loeblein - High school science teacher and PhET team member</li>
-                <li>Wendy Adams - Co-Director</li>
+                <li wicket:id="person">
+                    <span wicket:id="name"></span> - <span wicket:id="title"></span>
+                    <wicket:enclosure child="show-admin">
+                        <table style="width: 100%; margin-left: 15px;">
+                            <tr>
+                                <td style="width: 30%;">Primary phone: </td>
+                                <td wicket:id="primary-phone"></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 30%;">Secondary phone: </td>
+                                <td wicket:id="secondary-phone"></td>
+                            </tr>
+                        </table>
+                        <span wicket:id="show-admin"></span>
+                    </wicket:enclosure>
+                </li>
             </ul>
 
         </div>
