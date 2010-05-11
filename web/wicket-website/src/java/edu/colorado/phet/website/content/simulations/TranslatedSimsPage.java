@@ -15,6 +15,7 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class TranslatedSimsPage extends PhetRegularPage {
@@ -42,7 +43,7 @@ public class TranslatedSimsPage extends PhetRegularPage {
             String localeKey = "language.names." + localeName;
             initializeLocation( getNavMenu().getLocationByKey( localeKey ) );
 
-            String title = MessageFormat.format( getPhetLocalizer().getString( "simulations.translated.language.title", this ), new Object[]{getPhetLocalizer().getString( localeKey, this )} );
+            String title = StringUtils.messageFormat( getPhetLocalizer().getString( "simulations.translated.language.title", this ), new Object[]{getPhetLocalizer().getString( localeKey, this )} );
             addTitle( title );
 
             PhetPanel panel = new SimplePanelCacheEntry( TranslationListPanel.class, null, getPageContext().getLocale(), getMyPath() ) {

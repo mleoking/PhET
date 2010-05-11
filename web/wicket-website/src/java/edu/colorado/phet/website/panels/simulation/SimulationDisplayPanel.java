@@ -20,6 +20,7 @@ import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import static edu.colorado.phet.website.util.HtmlUtils.encode;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.constants.CSS;
 
 public class SimulationDisplayPanel extends PhetPanel {
@@ -45,7 +46,7 @@ public class SimulationDisplayPanel extends PhetPanel {
                 }
                 String alt;
                 try {
-                    alt = MessageFormat.format( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) );
+                    alt = StringUtils.messageFormat( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) );
                 }
                 catch( RuntimeException e ) {
                     e.printStackTrace();
