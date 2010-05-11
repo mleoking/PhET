@@ -378,8 +378,17 @@ public class StringUtils {
         return ret.toString();
     }
 
-    public static String stringMessageFormat( String str, Object[] objs ) {
+    public static String messageFormat( String str, String obj ) {
+        return MessageFormat.format( messageFormatFilter( str ), obj );
+    }
+
+    public static String messageFormat( String str, Object[] objs ) {
         return MessageFormat.format( messageFormatFilter( str ), objs );
+    }
+
+    public static String messageFormat( String str, Object[] objs, Locale locale ) {
+        MessageFormat format = new MessageFormat( messageFormatFilter( str ), locale );
+        return format.format( objs, new StringBuffer(), null ).toString();
     }
 
     /**

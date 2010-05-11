@@ -10,6 +10,8 @@ import org.apache.wicket.markup.parser.XmlTag;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
+import edu.colorado.phet.website.util.StringUtils;
+
 public class LocalizedText extends WebComponent {
 
     private Object[] args = null;
@@ -38,8 +40,9 @@ public class LocalizedText extends WebComponent {
         String body = getLocalizer().getString( key, this );
         if ( args != null ) {
             try {
-                MessageFormat format = new MessageFormat( body, getLocale() );
-                body = format.format( args, new StringBuffer(), null ).toString();
+                //MessageFormat format = new MessageFormat( body, getLocale() );
+                //body = format.format( args, new StringBuffer(), null ).toString();
+                body = StringUtils.messageFormat( body, args, getLocale() );
             }
             catch( RuntimeException e ) {
                 logger.warn( "message-format error" );

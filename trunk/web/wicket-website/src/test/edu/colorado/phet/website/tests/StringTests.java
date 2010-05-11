@@ -9,15 +9,15 @@ public class StringTests {
     @Test
     public void testStringMessageFormat() {
         String ax = "Apostrophe's {0} Test";
-        String ay = StringUtils.stringMessageFormat( ax, new Object[]{"Easy"} );
+        String ay = StringUtils.messageFormat( ax, new Object[]{"Easy"} );
         assertTrue( ay, ay.equals( "Apostrophe's Easy Test" ) );
 
         String bx = "Double '' {0}";
-        String by = StringUtils.stringMessageFormat( bx, new Object[]{"Test"} );
+        String by = StringUtils.messageFormat( bx, new Object[]{"Test"} );
         assertTrue( by, by.equals( "Double '' Test" ) );
 
         String cx = "Tests for escaping '{' {0} '}'";
-        String cy = StringUtils.stringMessageFormat( cx, new Object[]{"and"} );
+        String cy = StringUtils.messageFormat( cx, new Object[]{"and"} );
         assertTrue( cy, cy.equals( "Tests for escaping { and }" ) );
     }
 }

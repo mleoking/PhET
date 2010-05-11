@@ -44,11 +44,8 @@ import edu.colorado.phet.website.panels.PearsonSponsorPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionBrowsePanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
 import static edu.colorado.phet.website.util.HtmlUtils.encode;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.WicketUtils;
+import edu.colorado.phet.website.util.*;
 
 public class SimulationMainPanel extends PhetPanel {
 
@@ -358,7 +355,7 @@ public class SimulationMainPanel extends PhetPanel {
         }
         else {
             try {
-                title = MessageFormat.format( localizer.getString( "simulationPage.title", this ), (Object[]) titleParams.toArray() );
+                title = StringUtils.messageFormat( localizer.getString( "simulationPage.title", this ), (Object[]) titleParams.toArray() );
             }
             catch( RuntimeException e ) {
                 e.printStackTrace();

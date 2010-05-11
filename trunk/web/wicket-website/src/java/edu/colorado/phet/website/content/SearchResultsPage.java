@@ -24,6 +24,7 @@ import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.SearchUtils;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -71,11 +72,11 @@ public class SearchResultsPage extends PhetRegularPage {
 
 
         if ( query != null ) {
-            addTitle( MessageFormat.format( localizer.getString( "search.title", this ), query ) );
+            addTitle( StringUtils.messageFormat( localizer.getString( "search.title", this ), query ) );
             add( new LocalizedText( "search-query", "search.query", new Object[]{query} ) );
         }
         else {
-            addTitle( MessageFormat.format( localizer.getString( "search.title", this ), "-" ) );
+            addTitle( StringUtils.messageFormat( localizer.getString( "search.title", this ), "-" ) );
             add( new InvisibleComponent( "search-query" ) );
         }
 
