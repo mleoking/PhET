@@ -345,7 +345,7 @@ public class SimulationMainPanel extends PhetPanel {
         // we initialize the title in the panel. then whatever page that wants to adopt this panel's "title" as the page
         // title can
         List<String> titleParams = new LinkedList<String>();
-        titleParams.add( simulation.getTitle() );
+        titleParams.add( simulation.getEncodedTitle() );
         for ( Keyword keyword : keywords ) {
             titleParams.add( localizer.getString( keyword.getKey(), this ) );
         }
