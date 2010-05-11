@@ -1,6 +1,8 @@
 package edu.colorado.phet.website;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
 
 import org.apache.log4j.Level;
@@ -18,8 +20,10 @@ import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.admin.AdminMainPage;
+import edu.colorado.phet.website.admin.AdminNewInstallerPage;
 import edu.colorado.phet.website.admin.deploy.AdminDeployProjectPage;
 import edu.colorado.phet.website.authentication.*;
+import edu.colorado.phet.website.cache.InstallerCache;
 import edu.colorado.phet.website.content.*;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.contribution.*;
@@ -37,14 +41,13 @@ import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPane
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.notification.NotificationHandler;
+import edu.colorado.phet.website.services.PhetInfoServicePage;
+import edu.colorado.phet.website.services.SimJarRedirectPage;
 import edu.colorado.phet.website.templates.StaticPage;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 import edu.colorado.phet.website.util.*;
-import edu.colorado.phet.website.test.PreventXSSTest;
-import edu.colorado.phet.website.services.PhetInfoServicePage;
-import edu.colorado.phet.website.services.SimJarRedirectPage;
 
 /**
  * Main entry and configuration point for the Wicket-based PhET website. Initializes pages (and the mappings), along
@@ -142,6 +145,7 @@ public class PhetWicketApplication extends WebApplication {
 
         mountBookmarkablePage( "admin", AdminMainPage.class );
         mountBookmarkablePage( "admin/deploy", AdminDeployProjectPage.class );
+        mountBookmarkablePage( "admin/new-installer", AdminNewInstallerPage.class );
 
         // services
         mountBookmarkablePage( "services/phet-info", PhetInfoServicePage.class );
@@ -184,6 +188,27 @@ public class PhetWicketApplication extends WebApplication {
 
         BuildLocalProperties.initFromPropertiesFile( getWebsiteProperties().getBuildLocalPropertiesFile() );
 
+        setInstallerTimestampFromFile();
+
+    }
+
+    private void setInstallerTimestampFromFile() {
+        InstallerCache.setDefault();
+        try {
+            File propsFile = new File( getWebsiteProperties().getPhetDocumentRoot(), "installer/version.properties" );
+            Properties props = new Properties();
+            FileInputStream stream = new FileInputStream( propsFile );
+            props.load( stream );
+            long ver = Long.valueOf( props.getProperty( "timestamp" ) );
+            InstallerCache.setTimestamp( ver );
+            stream.close();
+        }
+        catch( RuntimeException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isDeployment() {

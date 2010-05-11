@@ -233,4 +233,5 @@ public abstract class PhetPage extends WebPage implements Stylable {
     public String getStyle( String key ) {
         return "";
     }
+
 }
