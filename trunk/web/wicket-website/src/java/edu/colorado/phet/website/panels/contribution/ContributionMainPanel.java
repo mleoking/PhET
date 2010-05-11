@@ -33,10 +33,7 @@ import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.*;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.StringUtils;
+import edu.colorado.phet.website.util.*;
 import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.constants.CSS;
 
@@ -66,7 +63,7 @@ public class ContributionMainPanel extends PhetPanel {
         }
 
         // TODO: localize
-        title = "PhET contribution: " + contribution.getTitle();
+        title = "PhET contribution: " + HtmlUtils.encode( contribution.getTitle() );
 
         if ( contribution.isGoldStar() ) {
             // TODO: localize

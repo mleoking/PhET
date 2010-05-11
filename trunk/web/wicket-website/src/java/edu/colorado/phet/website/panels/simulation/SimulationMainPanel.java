@@ -351,7 +351,7 @@ public class SimulationMainPanel extends PhetPanel {
         }
 
         if ( keywords.size() < 3 ) {
-            title = simulation.getTitle();
+            title = simulation.getEncodedTitle();
         }
         else {
             try {
@@ -359,7 +359,7 @@ public class SimulationMainPanel extends PhetPanel {
             }
             catch( RuntimeException e ) {
                 e.printStackTrace();
-                title = simulation.getTitle();
+                title = simulation.getEncodedTitle();
             }
         }
 
