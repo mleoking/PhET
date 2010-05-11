@@ -26,7 +26,7 @@ public class DevModelDisplayNode extends PhetPNode {
     private final ValueNode plateAreaNode, dielectricInsideAreaNode;
     private final ValueNode plateSeparationNode;
     private final ValueNode capacitanceNode;
-    private final ValueNode plateChargeNode;
+    private final ValueNode plateChargeNode, excessPlateChargeNode;
     private final ValueNode effectiveFieldNode, plateFieldNode, dielectricFieldNode;
     private final ValueNode energyStoredNode;
 
@@ -92,6 +92,8 @@ public class DevModelDisplayNode extends PhetPNode {
         addChild( capacitanceNode );
         plateChargeNode = new ValueNode( "Q (plate charge)", "C" );
         addChild( plateChargeNode );
+        excessPlateChargeNode = new ValueNode( "Q<sub>excess</sub> (excess plate charge)", "C" );
+        addChild( excessPlateChargeNode );
         effectiveFieldNode = new ValueNode( "E<sub>effective</sub>", "V/m" );
         addChild( effectiveFieldNode );
         plateFieldNode = new ValueNode( "E<sub>plate</sub>", "V/m" );
@@ -115,6 +117,7 @@ public class DevModelDisplayNode extends PhetPNode {
         plateSeparationNode.setValue( model.getCapacitor().getPlateSeparation() );
         capacitanceNode.setValue( model.getCircuit().getCapacitance() );
         plateChargeNode.setValue( model.getCircuit().getPlateCharge() );
+        excessPlateChargeNode.setValue( model.getCircuit().getExcessPlateCharge() );
         effectiveFieldNode.setValue( model.getCircuit().getEffectiveEfield() );
         plateFieldNode.setValue( model.getCircuit().getPlatesEField() );
         dielectricFieldNode.setValue( model.getCircuit().getDielectricEField() );
