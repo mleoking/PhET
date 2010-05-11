@@ -129,9 +129,15 @@ public class Contribution implements Serializable, DataListener, IntId {
 
         String zipName = getZipName();
 
+        Set<String> usedNames = new HashSet<String>();
+
         for ( Object o : getFiles() ) {
             ContributionFile cfile = (ContributionFile) o;
             File file = cfile.getFileLocation();
+            if ( usedNames.equals( file.getName() ) ) {
+                logger.warn( "duplicate file of name " + file.getName() + " for contribution " + getId() );
+                continue;
+            }
 
             zout.putNextEntry( new ZipEntry( zipName + "/" + cfile.getFilename() ) );
 
