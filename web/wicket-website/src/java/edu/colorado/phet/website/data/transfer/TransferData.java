@@ -119,9 +119,47 @@ public class TransferData {
         return success;
     }
 
+    private static class TPair {
+        private int translationId;
+        private String email;
+
+        private TPair( int translationId, String email ) {
+            this.translationId = translationId;
+            this.email = email;
+        }
+
+        public int getTranslationId() {
+            return translationId;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+    }
+
     public static boolean transferUsersContributions( Session session, final ServletContext servletContext ) {
 
         final List<ContributionFile> files = new LinkedList<ContributionFile>();
+        final List<TPair> pairs = new LinkedList<TPair>();
+
+        boolean startsuccess = HibernateUtils.wrapTransaction( session, new HibernateTask() {
+            public boolean run( Session session ) {
+                List list = session.createQuery( "select t from Translation as t" ).list();
+                for ( Object o : list ) {
+                    Translation translation = (Translation) o;
+                    for ( Object o1 : translation.getAuthorizedUsers() ) {
+                        PhetUser user = (PhetUser) o1;
+                        pairs.add( new TPair( translation.getId(), user.getEmail() ) );
+                    }
+                }
+                return true;
+            }
+        } );
+
+        if ( !startsuccess ) {
+            logger.error( "wasn't able to construct the translation-user email mapping" );
+            return false;
+        }
 
         boolean oversuccess = HibernateUtils.wrapTransaction( session, new HibernateTask() {
             public boolean run( final Session session ) {
@@ -447,7 +485,8 @@ public class TransferData {
 
                 List currentContributions = session.createQuery( "select c from Contribution as c" ).list();
                 for ( Object o : currentContributions ) {
-                    session.delete( o );
+                    //session.delete( o );
+                    ( (Contribution) o ).deleteMe( session );
                 }
 
                 List currentUsers = session.createQuery( "select u from PhetUser as u" ).list();
@@ -500,6 +539,21 @@ public class TransferData {
                         e.printStackTrace();
                         logger.warn( "contribution zipping", e );
                         return false;
+                    }
+
+                    for ( TPair pair : pairs ) {
+                        Translation translation = (Translation) session.load( Translation.class, pair.getTranslationId() );
+                        List list = session.createQuery( "select u from PhetUser as u where u.email = :email" )
+                                .setString( "email", pair.getEmail() ).list();
+                        if ( list.isEmpty() ) {
+                            logger.warn( "wasn't able to manually re-add user email " + pair.getEmail() + " to translation " + pair.getTranslationId() );
+                        }
+                        else {
+                            PhetUser user = (PhetUser) list.get( 0 );
+                            translation.addUser( user );
+                            session.update( user );
+                            session.update( translation );
+                        }
                     }
 
                     return true;
