@@ -1,3 +1,4 @@
+5/11/10 first pass at Plate Charge meter, meter works, close button works, drag behavior is broken
 5/11/10 implement questionable model for Qexcess
 5/11/10 move dielectric constant for air to Air class
 # 0.00.01 (40556) May 10, 2010

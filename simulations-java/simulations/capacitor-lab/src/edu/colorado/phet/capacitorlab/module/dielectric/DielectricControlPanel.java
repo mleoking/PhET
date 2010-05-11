@@ -15,9 +15,9 @@ import edu.colorado.phet.capacitorlab.module.CLControlPanel;
  */
 public class DielectricControlPanel extends CLControlPanel {
 
-    public DielectricControlPanel( CLModel model, DielectricModule module, boolean dev ) {
+    public DielectricControlPanel( DielectricModule module, CLModel model, DielectricCanvas canvas, boolean dev ) {
         addControlFullWidth( new ViewControlPanel() );
-        addControlFullWidth( new MetersControlPanel() );
+        addControlFullWidth( new MetersControlPanel( canvas ) );
         addControlFullWidth( new DielectricPropertiesControlPanel( model ) );
         addResetAllButton( module );
     }

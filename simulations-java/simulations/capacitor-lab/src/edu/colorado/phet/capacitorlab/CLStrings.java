@@ -37,7 +37,7 @@ public class CLStrings {
     public static final String MATERIAL_PAPER = getString( "material.paper" );
     public static final String MATERIAL_AIR = getString( "material.air" );
     
-    public static final String PATTERN_VOLTAGE = getString( "pattern.voltage.0value.1units" );
+    public static final String PATTERN_VALUE = getString( "pattern.value.0value.1units" );
     public static final String PATTERN_DIELECTRIC_MATERIAL = getString( "pattern.dielectricMaterial.0name.1constant" );
     public static final String PATTERN_DIELECTRIC_OFFSET = getString( "pattern.dielectricOffset.0value.1units" );
     public static final String PATTERN_PLATE_AREA = getString( "pattern.plateArea.0value.1units" );
@@ -57,6 +57,8 @@ public class CLStrings {
     public static final String UNITS_VOLTS = getString( "units.volts" );
     public static final String UNITS_MILLIMETERS = getString( "units.millimeters" );
     public static final String UNITS_MILLIMETERS_SQUARED = getString( "units.millimetersSquared" );
+    public static final String UNITS_COULOMBS = getString( "units.coulombs" );
+    public static final String UNITS_PICOFARADS = getString( "units.picofarads" );
     
     private static final String getString( String key ) {
         return CLResources.getString( key );
