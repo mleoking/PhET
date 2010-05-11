@@ -8,7 +8,9 @@ import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeListener;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -74,28 +76,29 @@ public class DevModelDisplayNode extends PhetPNode {
             }
         };
         
-        voltageNode = new ValueNode( "voltage", "V" );
+        voltageNode = new ValueNode( "V (voltage)", "V" );
         addChild( voltageNode );
-        plateSize = new ValueNode( "plate size", "m" );
+        plateSize = new ValueNode( "L (plate side length)", "m" );
         addChild( plateSize );
-        plateSeparationNode = new ValueNode( "plate separation", "m" );
+        plateSeparationNode = new ValueNode( "d (plate separation)", "m" );
         addChild( plateSeparationNode );
         addChild( new PText( "----------" ) );
-        plateAreaNode = new ValueNode( "plate area", "m^2" );
+        plateAreaNode = new ValueNode( "A (plate area)", "m<sup>2</sup>" );
         addChild( plateAreaNode );
-        dielectricInsideAreaNode = new ValueNode( "dielectric inside area", "m^2" );
+        dielectricInsideAreaNode = new ValueNode( "Ad (dielectric area inside)", "m<sup>2</sup>" );
         addChild( dielectricInsideAreaNode );
-        capacitanceNode = new ValueNode( "capacitance", "F" );
+        addChild( new PText( "----------" ) );
+        capacitanceNode = new ValueNode( "C (capacitance)", "F" );
         addChild( capacitanceNode );
-        plateChargeNode = new ValueNode( "plate charge", "C" );
+        plateChargeNode = new ValueNode( "Q (plate charge)", "C" );
         addChild( plateChargeNode );
-        effectiveFieldNode = new ValueNode( "E-effective", "V/m" );
+        effectiveFieldNode = new ValueNode( "E<sub>effective</sub>", "V/m" );
         addChild( effectiveFieldNode );
-        plateFieldNode = new ValueNode( "E-plate", "V/m" );
+        plateFieldNode = new ValueNode( "E<sub>plate</sub>", "V/m" );
         addChild( plateFieldNode );
-        dielectricFieldNode = new ValueNode( "E-dielectric", "V/m" );
+        dielectricFieldNode = new ValueNode( "E<sub>dielectric</sub>", "V/m" );
         addChild( dielectricFieldNode );
-        energyStoredNode = new ValueNode( "energy stored", "J" );
+        energyStoredNode = new ValueNode( "U (energy stored)", "J" );
         addChild( energyStoredNode );
         
         updateDielectricListener();
@@ -152,13 +155,14 @@ public class DevModelDisplayNode extends PhetPNode {
         }
     }
     
-    private static class ValueNode extends PText {
+    private static class ValueNode extends HTMLNode {
         
         private final String label;
         private final String units;
         
         public ValueNode( String label, String units ) {
             this( label, units, 0 );
+            setFont( new PhetFont() );
         }
         
         public ValueNode( String label, String units, double value ) {
@@ -168,7 +172,7 @@ public class DevModelDisplayNode extends PhetPNode {
         }
         
         public void setValue( double value ) {
-            setText( label + " = " + value + " " + units );
+            setHTML( label + " = " + value + " " + units );
         }
     }
 }
