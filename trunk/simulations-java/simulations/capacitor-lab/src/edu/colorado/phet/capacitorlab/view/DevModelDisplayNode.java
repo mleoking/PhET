@@ -9,6 +9,7 @@ import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -19,6 +20,9 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class DevModelDisplayNode extends PhetPNode {
     
     private final CLModel model;
+    private final ValueNode voltageNode;
+    private final ValueNode plateAreaNode, dielectricInsideAreaNode;
+    private final ValueNode plateSeparationNode;
     private final ValueNode capacitanceNode;
     private final ValueNode plateChargeNode;
     private final ValueNode effectiveFieldNode, plateFieldNode, dielectricFieldNode;
@@ -70,6 +74,14 @@ public class DevModelDisplayNode extends PhetPNode {
             }
         };
         
+        voltageNode = new ValueNode( "voltage", "v" );
+        addChild( voltageNode );
+        plateAreaNode = new ValueNode( "plate area", "meters" );
+        addChild( plateAreaNode );
+        dielectricInsideAreaNode = new ValueNode( "dielectric inside area", "meters" );
+        addChild( dielectricInsideAreaNode );
+        plateSeparationNode = new ValueNode( "plate separation", "meters" );
+        addChild( plateSeparationNode );
         capacitanceNode = new ValueNode( "capacitance", "F" );
         addChild( capacitanceNode );
         plateChargeNode = new ValueNode( "plate charge", "C" );
@@ -90,6 +102,10 @@ public class DevModelDisplayNode extends PhetPNode {
     private void updateValues() {
         
         // set values
+        voltageNode.setValue( model.getBattery().getVoltage() );
+        plateAreaNode.setValue( model.getCapacitor().getPlateArea() );
+        dielectricInsideAreaNode.setValue( model.getCapacitor().getDielectricInsideArea() );
+        plateSeparationNode.setValue( model.getCapacitor().getPlateSeparation() );
         capacitanceNode.setValue( model.getCircuit().getCapacitance() );
         plateChargeNode.setValue( model.getCircuit().getPlateCharge() );
         effectiveFieldNode.setValue( model.getCircuit().getEffectiveEfield() );
@@ -98,20 +114,7 @@ public class DevModelDisplayNode extends PhetPNode {
         energyStoredNode.setValue( model.getCircuit().getEnergyStored() );
         
         // layout
-        double ySpacing = 2;
-        double x = 0;
-        double y = 0;
-        capacitanceNode.setOffset( x, y );
-        y = capacitanceNode.getFullBoundsReference().getMaxY() + ySpacing;
-        plateChargeNode.setOffset( x, y );
-        y = plateChargeNode.getFullBoundsReference().getMaxY() + ySpacing;
-        effectiveFieldNode.setOffset( x, y );
-        y = effectiveFieldNode.getFullBoundsReference().getMaxY() + ySpacing;
-        plateFieldNode.setOffset( x, y );
-        y = plateFieldNode.getFullBoundsReference().getMaxY() + ySpacing;
-        dielectricFieldNode.setOffset( x, y );
-        y = dielectricFieldNode.getFullBoundsReference().getMaxY() + ySpacing;
-        energyStoredNode.setOffset( x, y );
+        layoutColumnLeftAlign();
     }
     
     private void updateDielectricListener() {
@@ -123,6 +126,25 @@ public class DevModelDisplayNode extends PhetPNode {
         if ( material instanceof CustomDielectricMaterial ) {
             customDielectric = (CustomDielectricMaterial) material;
             customDielectric.addCustomDielectricChangeListener( customDielectricChangeListener );
+        }
+    }
+    
+    /*
+     * Layouts out children of this node in one column, left aligned.
+     * They will appear in the order that they were added as children.
+     */
+    private void layoutColumnLeftAlign() {
+        double ySpacing = 2;
+        double x = 0;
+        double y = 0;
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            if ( i == 0 ) {
+                getChild( i ).setOffset( x, y );
+            }
+            else {
+                y = getChild( i - 1 ).getFullBoundsReference().getMaxY() + ySpacing;
+                getChild( i ).setOffset( x, y );
+            }
         }
     }
     

@@ -1,3 +1,6 @@
+5/10/10 bug fix in capacitance model
+5/10/10 set all default values to mins
+5/10/10 don't show dielectric constant in combo box for custom dielectric material, since it's mutable
 5/10/10 update DevModelDisplayNode when custom dielectric constant is modified
 5/10/10 show full precision of values in DevModelDisplayNode, so we can see which digits are changing
 5/10/10 change plate separation range to 5-10mm, so that dielectric has a substantial thickness
