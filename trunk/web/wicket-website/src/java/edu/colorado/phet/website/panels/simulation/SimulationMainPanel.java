@@ -447,7 +447,9 @@ public class SimulationMainPanel extends PhetPanel {
         ListView learningGoalsView = new ListView( "learning-goals", learningGoals ) {
             protected void populateItem( ListItem item ) {
                 String str = item.getModelObjectAsString();
-                item.add( new Label( "goal", str ) );
+                Label goalLabel = new Label( "goal", str );
+                goalLabel.setEscapeModelStrings( false );
+                item.add( goalLabel );
             }
         };
         if ( learningGoals.isEmpty() ) {
