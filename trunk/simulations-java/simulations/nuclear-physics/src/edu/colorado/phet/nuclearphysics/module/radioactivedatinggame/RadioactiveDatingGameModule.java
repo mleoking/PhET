@@ -43,6 +43,7 @@ public class RadioactiveDatingGameModule extends PiccoloModule {
                new NuclearPhysicsClock( RadiometricDecayDefaults.CLOCK_FRAME_RATE, RadiometricDecayDefaults.CLOCK_DT ));
         
         // Add a check box for sound to the clock control panel.
+        _soundState.setEnabled(true);  // Set sound to be on by default.
         final JCheckBox soundControlCheckBox = new JCheckBox(NuclearPhysicsStrings.SOUND_ENABLED,
         		_soundState.isEnabled());
         soundControlCheckBox.setOpaque(false);
