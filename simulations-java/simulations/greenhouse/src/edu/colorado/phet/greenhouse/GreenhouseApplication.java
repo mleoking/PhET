@@ -6,11 +6,13 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -37,6 +39,7 @@ public class GreenhouseApplication extends PiccoloPhetApplication {
         Frame parentFrame = getPhetFrame();
         addModule( new PhotonAbsorptionModule(parentFrame));
         addModule( new GreenhouseModule() );
+        addModule( new GreenhouseEffectModule(parentFrame) );
         addModule( new GlassPaneModule() );
 
         paintContentImmediately();
