@@ -12,12 +12,11 @@ import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
-import edu.colorado.phet.capacitorlab.view.BatteryNode;
-import edu.colorado.phet.capacitorlab.view.BullseyeNode;
-import edu.colorado.phet.capacitorlab.view.CapacitorNode;
-import edu.colorado.phet.capacitorlab.view.DevModelDisplayNode;
+import edu.colorado.phet.capacitorlab.view.*;
 import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.TopWireNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 
 /**
  * Canvas for the "Dielectric" module.
@@ -29,6 +28,7 @@ public class DielectricCanvas extends CLCanvas {
     private final CLModel model;
     private final ModelViewTransform mvt;
     
+    // circuit
     private final CapacitorNode capacitorNode;
     private final BatteryNode batteryNode;
     private final BullseyeNode originNode;
@@ -36,10 +36,15 @@ public class DielectricCanvas extends CLCanvas {
     private final BottomWireNode bottomWireNode;
     private final AddWiresButtonNode addWiresButtonNode;
     private final RemoveWiresButtonNode removeWiresButtonNode;
+    
+    // drag handles
     private final DielectricOffsetDragHandleNode dielectricOffsetDragHandleNode;
     private final PlateSeparationDragHandleNode plateSeparationDragHandleNode;
     private final PlateAreaDragHandleNode plateAreaDragHandleNode;
     private final DevModelDisplayNode modelDisplayNode;
+    
+    // meters
+    private final PlateChargeMeterNode plateChargeMeterNode;
     
     public DielectricCanvas( final CLModel model, boolean dev ) {
         
@@ -87,6 +92,10 @@ public class DielectricCanvas extends CLCanvas {
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
         plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SIZE_RANGE );
         
+        plateChargeMeterNode = new PlateChargeMeterNode( model.getCircuit() );
+        plateChargeMeterNode.addInputEventListener( new CursorHandler() );
+        plateChargeMeterNode.addInputEventListener( new PDragEventHandler() ); //XXX constrain to play area
+        
         modelDisplayNode = new DevModelDisplayNode( model );
         
         // rendering order
@@ -99,6 +108,7 @@ public class DielectricCanvas extends CLCanvas {
         addChild( plateAreaDragHandleNode );
         addChild( addWiresButtonNode );
         addChild( removeWiresButtonNode );
+        addChild( plateChargeMeterNode );
         if ( dev ) {
             addChild( originNode );
             addChild( modelDisplayNode );
@@ -130,13 +140,18 @@ public class DielectricCanvas extends CLCanvas {
             y = topWireNode.getFullBoundsReference().getMinY() - removeWiresButtonNode.getFullBoundsReference().getHeight() - 10;
             removeWiresButtonNode.setOffset( x, y );
             
+            // Charge meter
+            x = 700; //XXX
+            y = 400; //XXX
+            plateChargeMeterNode.setOffset( x, y );
+            
             // origin marker
             pModel.setLocation( 0, 0 );
             mvt.modelToView( pModel, pView );
             originNode.setOffset( pView.getX(), pView.getY() );
             
             // model display
-            modelDisplayNode.setOffset( 600, 10 );
+            modelDisplayNode.setOffset( 600, 10 ); //XXX
         }
         
         // default state
@@ -148,6 +163,10 @@ public class DielectricCanvas extends CLCanvas {
     
     public void reset() {
         //XXX
+    }
+    
+    public PlateChargeMeterNode getPlateChargeMeterNode() {
+        return plateChargeMeterNode;
     }
     
     private void updateConnectivity() {

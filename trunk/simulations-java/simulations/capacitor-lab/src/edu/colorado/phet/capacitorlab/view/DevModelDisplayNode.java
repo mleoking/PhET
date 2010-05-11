@@ -121,7 +121,7 @@ public class DevModelDisplayNode extends PhetPNode {
         effectiveFieldNode.setValue( model.getCircuit().getEffectiveEfield() );
         plateFieldNode.setValue( model.getCircuit().getPlatesEField() );
         dielectricFieldNode.setValue( model.getCircuit().getDielectricEField() );
-        energyStoredNode.setValue( model.getCircuit().getEnergyStored() );
+        energyStoredNode.setValue( model.getCircuit().getStoredEnergy() );
         
         // layout
         layoutColumnLeftAlign();

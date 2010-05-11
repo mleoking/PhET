@@ -4,6 +4,8 @@ package edu.colorado.phet.capacitorlab;
 
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+
 /**
  * Images used throughout the simulation.
  * Loaded statically to make it easy to debug missing images.
@@ -20,7 +22,13 @@ public class CLImages {
     public static final BufferedImage SLIDER_KNOB = getBufferedImage( "sliderKnob.png" );
     public static final BufferedImage SLIDER_KNOB_HIGHLIGHT = getBufferedImage( "sliderKnobHighlight.png" );
     
+    public static final BufferedImage CLOSE_BUTTON = getCommonBufferedImage( PhetCommonResources.IMAGE_CLOSE_BUTTON );
+    
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return CLResources.getBufferedImage( resourceName );
+    }
+    
+    private static final BufferedImage getCommonBufferedImage( String resourceName ) {
+        return PhetCommonResources.getImage( resourceName );
     }
 }

@@ -4,12 +4,18 @@ package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Control panel for meter settings.
@@ -20,12 +26,25 @@ public class MetersControlPanel extends CLTitledControlPanel {
     
     private final JCheckBox capacitanceCheckBox, plateChargeCheckBox, energyCheckBox, voltmeterCheckBox, fieldDetectorCheckBox;
 
-    public MetersControlPanel() {
+    public MetersControlPanel( final DielectricCanvas canvas ) {
         super( CLStrings.TITLE_METERS );
         
         capacitanceCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CAPACITANCE );
         
         plateChargeCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_PLATE_CHARGE );
+        plateChargeCheckBox.setSelected( canvas.getPlateChargeMeterNode().isVisible() );
+        plateChargeCheckBox.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                canvas.getPlateChargeMeterNode().setVisible( plateChargeCheckBox.isSelected() );
+            }
+        });
+        canvas.getPlateChargeMeterNode().addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
+                    plateChargeCheckBox.setSelected(canvas.getPlateChargeMeterNode().isVisible() );
+                }
+            }
+        });
         
         energyCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_ENERGY );
         
