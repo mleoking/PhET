@@ -93,8 +93,8 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/about/source-code.php", "/en/about/source-code" );
         map.put( "/about/who-we-are.php", "/en/about" );
         map.put( "/contribute/donate.php", "/en/donate" );
-        map.put( "/contribute/get-flash-common-strings.php", "/sims/flash-common-strings/flash-common-strings_en.jar");
-        map.put( "/contribute/get-java-common-strings.php", "/sims/java-common-strings/java-common-strings_en.jar");
+        map.put( "/contribute/get-flash-common-strings.php", "/sims/flash-common-strings/flash-common-strings_en.jar" );
+        map.put( "/contribute/get-java-common-strings.php", "/sims/java-common-strings/java-common-strings_en.jar" );
         map.put( "/contribute/index.php", "/en/for-translators" );
         map.put( "/contribute/translation-utility.php", "/en/for-translators/translation-utility" );
         map.put( "/get_phet/full_install.php", "/en/get-phet/full-install" );
@@ -130,6 +130,14 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( DOWNLOAD_TEACHERS_GUIDE, null );
         map.put( SIM_REDIRECTION, null );
         map.put( SIM_REDIRECTION_PHP, null );
+
+        /*---------------------------------------------------------------------------*
+        * file page mappings
+        *----------------------------------------------------------------------------*/
+
+        map.put( "/phet-dist/phet-updater/phet-updater.jar", "/files/phet-updater/phet-updater.jar" );
+        map.put( "/phet-dist/newsletters/phet_newsletter_july16_2008.pdf", "/newsletters/phet_newsletter_july16_2008.pdf" );
+        map.put( "/phet-dist/newsletters/phet_newsletter_sum09.pdf", "/newsletters/phet_newsletter_sum09.pdf" );
 
         /*---------------------------------------------------------------------------*
         * really old page mappings
