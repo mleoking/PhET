@@ -44,8 +44,7 @@ public class ElectronSet implements ModelElement {
 
     public Electron[] getParticles(Branch branch) {
         ArrayList<Electron> all = new ArrayList<Electron>();
-        for (int i = 0; i < particles.size(); i++) {
-            Electron electron = particles.get(i);
+        for (Electron electron : particles) {
             if (electron.getBranch() == branch) {
                 all.add(electron);
             }
@@ -92,25 +91,11 @@ public class ElectronSet implements ModelElement {
         propagator.stepInTime(dt);
     }
 
-    public double distanceToClosestElectron(Branch branch, double x) {
-        Electron[] e = getParticles(branch);
-        double bestMatch = Double.POSITIVE_INFINITY;
-        for (int i = 0; i < e.length; i++) {
-            Electron electron = e[i];
-            double dist = Math.abs(x - electron.getDistAlongWire());
-            if (dist < bestMatch) {
-                bestMatch = dist;
-            }
-        }
-        return bestMatch;
-    }
-
     public Electron getUpperNeighborInBranch(Electron myelectron) {
-        Electron[] e = getParticles(myelectron.getBranch());
+        Electron[] branchElectrons = getParticles(myelectron.getBranch());
         Electron upper = null;
         double dist = Double.POSITIVE_INFINITY;
-        for (int i = 0; i < e.length; i++) {
-            Electron electron = e[i];
+        for (Electron electron : branchElectrons) {
             if (electron != myelectron) {
                 double yourDist = electron.getDistAlongWire();
                 double myDist = myelectron.getDistAlongWire();
@@ -127,11 +112,10 @@ public class ElectronSet implements ModelElement {
     }
 
     public Electron getLowerNeighborInBranch(Electron myelectron) {
-        Electron[] e = getParticles(myelectron.getBranch());
+        Electron[] branchElectrons = getParticles(myelectron.getBranch());
         Electron lower = null;
         double dist = Double.POSITIVE_INFINITY;
-        for (int i = 0; i < e.length; i++) {
-            Electron electron = e[i];
+        for (Electron electron : branchElectrons) {
             if (electron != myelectron) {
                 double yourDist = electron.getDistAlongWire();
                 double myDist = myelectron.getDistAlongWire();
