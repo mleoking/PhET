@@ -264,7 +264,7 @@ public class BuildScript {
 
     private void addMessagesToChangeFile() {
         String message = batchMessage;
-        if ( message == null ) {
+        if (message == null && buildLocalProperties.isPromptUserForChangeMessage()) {
             message = JOptionPane.showInputDialog( "Enter a message to add to the change log\n(or Cancel or Enter a blank line if change log is up to date)" );
         }
         if ( message != null && message.trim().length() > 0 ) {
