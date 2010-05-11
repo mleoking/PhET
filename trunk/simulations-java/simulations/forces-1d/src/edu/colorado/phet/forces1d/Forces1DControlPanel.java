@@ -90,7 +90,7 @@ public class Forces1DControlPanel extends IForceControl {
         ObjectSelectionPanel osp = new ObjectSelectionPanel( module.getForce1dObjects(), this );
         addControl( osp );
 
-        setPositionControl = createControl( model.getBlock().getPosition(), -10, 10, "Initial Position", "m", new SpinnerHandler() {
+        setPositionControl = createControl( model.getBlock().getPosition(), -10, 10, Force1DResources.get( "Force1dControlPanel.initial-position" ), Force1DResources.get( "Force1DPanel.positionUnits" ), new SpinnerHandler() {
             public void changed( double value, boolean onFocusLost ) {
                 model.getBlock().setPosition( value );
             }
