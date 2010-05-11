@@ -139,7 +139,7 @@ public class ConstantDensityPropagator implements ModelElement {
         double myscale = 1000.0 / 30.0;//to have same scale as 3.17.00
         double correctionSpeed = .055 / numEqualize * myscale;
         if (!sameDirAsCurrent) {
-            correctionSpeed = .01 / numEqualize;
+            correctionSpeed = .01 / numEqualize * myscale;
         }
         double maxDX = Math.abs(correctionSpeed * dt);
 
