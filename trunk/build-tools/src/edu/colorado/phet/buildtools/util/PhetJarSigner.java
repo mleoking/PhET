@@ -60,8 +60,14 @@ public class PhetJarSigner {
         try {
             antTaskRunner.runTask( signer );
         }
-        catch( Exception e ) {
-            System.err.println( "Exception caught while attempting to sign jar." );
+        catch (Exception e) {
+            //Show how to construct the equivalent command line call for debugging purposes
+            //because failure explanations during antTaskRunner.runTask are poorly explained
+            //Keep this commented out except during debugging so that our private data doesn't inadvertently end up in a public log file somewhere
+            //maybe not too much of a problem.
+//            String commandLine = "jarsigner -keystore "+jarsignerInfo.getKeystore()+" -storetype "+"pkcs12"+" -storepass "+jarsignerInfo.getPassword()+" -tsa "+jarsignerInfo.getTsaUrl()+" "+jarFile.getAbsolutePath()+" "+jarsignerInfo.getAlias();
+//            System.err.println( "Exception caught while attempting to sign jar, command line is:\n "+commandLine);
+
             e.printStackTrace();
             return false;
         }
