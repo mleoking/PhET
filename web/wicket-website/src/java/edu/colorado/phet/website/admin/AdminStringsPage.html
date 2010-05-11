@@ -4,7 +4,7 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title wicket:id="page-title">[PREVIEW] AdminUsersPage</title>
+    <title wicket:id="page-title">[PREVIEW] AdminStringsPage</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
     </wicket:remove>
@@ -17,17 +17,17 @@
 
 <wicket:extend>
     <div>
-        <h2>Team Members</h2>
-        <ul>
-            <li wicket:id="member"><a href="#" wicket:id="member-link"><span wicket:id="email"></span></a></li>
-        </ul>
-        <h2>Edit another user profile</h2>
-
-        <form wicket:id="email-form">
-            Email:
-            <input wicket:id="email" type="text" value="" size="40"/>
-            <input type="submit" name="submit" value="Edit user"/>
-        </form>
+        <h2>Current English strings</h2>
+        <table>
+            <tr>
+                <th>Key</th>
+                <th>English value</th>
+            </tr>
+            <tr wicket:id="string">
+                <td wicket:id="key"></td>
+                <td wicket:id="value"></td>
+            </tr>
+        </table>
     </div>
 </wicket:extend>
 
