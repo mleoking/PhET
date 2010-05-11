@@ -125,15 +125,11 @@ public class Capacitor {
      * @return area in meters^2
      */
     public double getDielectricInsideArea() {
-        return getPlateArea() - getDielectricOutsideArea();
-    }
-    
-    /*
-     * Gets the area of the dielectric that is outside the plates.
-     * @return area in meters^2
-     */
-    private double getDielectricOutsideArea() {
-        return Math.max( getPlateSize(), getPlateSize() * getDielectricOffset() );
+        double area = 0;
+        if ( getDielectricOffset() < getPlateSize() ) {
+            area = ( getPlateSize() - getDielectricOffset() ) * getPlateSize(); // front * side
+        }
+        return area;
     }
     
     public interface CapacitorChangeListener extends EventListener {

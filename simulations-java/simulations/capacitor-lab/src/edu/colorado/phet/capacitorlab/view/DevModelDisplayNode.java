@@ -2,12 +2,12 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 import edu.colorado.phet.capacitorlab.model.CLModel;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeListener;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -23,42 +23,52 @@ public class DevModelDisplayNode extends PhetPNode {
     private final ValueNode plateChargeNode;
     private final ValueNode effectiveFieldNode, plateFieldNode, dielectricFieldNode;
     private final ValueNode energyStoredNode;
-    
+
+    private CustomDielectricMaterial customDielectric;
+    private CustomDielectricChangeListener customDielectricChangeListener;
+
     public DevModelDisplayNode( CLModel model ) {
         
         this.model = model;
         model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeListener() {
 
             public void dielectricMaterialChanged() {
-                update();
+                updateDielectricListener();
+                updateValues();
             }
 
             public void dielectricOffsetChanged() {
-                update();
+                updateValues();
             }
 
             public void plateSeparationChanged() {
-                update();
+                updateValues();
             }
 
             public void plateSizeChanged() {
-                update();
+                updateValues();
             }
         });
         model.getBattery().addBatteryChangeListener( new BatteryChangeListener() {
 
             public void connectedChanged() {
-                update();
+                updateValues();
             }
 
             public void polarityChanged() {
-                update();
+                updateValues();
             }
 
             public void voltageChanged() {
-                update();
+                updateValues();
             }
         });
+        
+        customDielectricChangeListener = new CustomDielectricChangeListener() {
+            public void dielectricConstantChanged() {
+                updateValues();
+            }
+        };
         
         capacitanceNode = new ValueNode( "capacitance", "F" );
         addChild( capacitanceNode );
@@ -73,10 +83,11 @@ public class DevModelDisplayNode extends PhetPNode {
         energyStoredNode = new ValueNode( "energy stored", "J" );
         addChild( energyStoredNode );
         
-        update();
+        updateDielectricListener();
+        updateValues();
     }
     
-    private void update() {
+    private void updateValues() {
         
         // set values
         capacitanceNode.setValue( model.getCircuit().getCapacitance() );
@@ -103,25 +114,35 @@ public class DevModelDisplayNode extends PhetPNode {
         energyStoredNode.setOffset( x, y );
     }
     
+    private void updateDielectricListener() {
+        if ( customDielectric != null ) {
+            customDielectric.removeCustomDielectricChangeListener( customDielectricChangeListener );
+            customDielectric = null;
+        }
+        DielectricMaterial material = model.getCapacitor().getDielectricMaterial();
+        if ( material instanceof CustomDielectricMaterial ) {
+            customDielectric = (CustomDielectricMaterial) material;
+            customDielectric.addCustomDielectricChangeListener( customDielectricChangeListener );
+        }
+    }
+    
     private static class ValueNode extends PText {
         
         private final String label;
-        private final NumberFormat format;
         private final String units;
         
         public ValueNode( String label, String units ) {
-            this( label, units, "0.000E0", 0 );
+            this( label, units, 0 );
         }
         
-        public ValueNode( String label, String units, String pattern, double value ) {
+        public ValueNode( String label, String units, double value ) {
             this.label = label;
-            this.format = new DecimalFormat( pattern );
             this.units = units;
             setValue( value );
         }
         
         public void setValue( double value ) {
-            setText( label + " = " + format.format( value ) + " " + units );
+            setText( label + " = " + value + " " + units );
         }
     }
 }
