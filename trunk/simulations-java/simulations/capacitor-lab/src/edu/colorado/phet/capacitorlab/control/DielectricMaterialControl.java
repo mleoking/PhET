@@ -17,6 +17,7 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -129,7 +130,14 @@ public class DielectricMaterialControl extends JPanel {
         }
         
         public String getText( DielectricMaterial material ) {
-            return MessageFormat.format( CLStrings.PATTERN_DIELECTRIC_MATERIAL, material.getName(), material.getDielectricConstant() );
+            String s = null;
+            if ( material instanceof CustomDielectricMaterial ) {
+                s = material.getName();
+            }
+            else {
+                s = MessageFormat.format( CLStrings.PATTERN_DIELECTRIC_MATERIAL, material.getName(), material.getDielectricConstant() );
+            }
+            return s;
         }
         
         public Icon getIcon( DielectricMaterial material ) {
