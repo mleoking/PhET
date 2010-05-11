@@ -46,7 +46,7 @@ public class CLConstants {
     
     public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 10 ); // dimensionless
     public static final DoubleRange DIELECTRIC_OFFSET_RANGE = new DoubleRange( 0, PLATE_SIZE_RANGE.getMax() ); // meters
-    public static final double DIELECTRIC_GAP = 0.0002; // meters
+    public static final double DIELECTRIC_GAP = 0.0002; // gap between dielectric and plates, meters
     
     public static final double WIRE_THICKNESS = .0005; // meters
     public static final double TOP_WIRE_EXTENT = Math.abs( .016 ); // how far the top wire extends above the capactor's origin, absolute value (meters)
