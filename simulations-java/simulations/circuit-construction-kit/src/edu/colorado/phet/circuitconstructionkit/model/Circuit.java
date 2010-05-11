@@ -20,16 +20,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * User: Sam Reid
- * Date: May 24, 2004
- * Time: 1:31:24 AM
+ * This is the main class for the CCK model, providing a representation of all the branches and junctions, and a way of updating the physics.
+ *
+ * @author Sam Reid
  */
 public class Circuit {
     private ArrayList<Branch> branches = new ArrayList<Branch>();
     private ArrayList<Junction> junctions = new ArrayList<Junction>();
     private ArrayList<CircuitListener> listeners = new ArrayList<CircuitListener>();
     private CircuitChangeListener circuitChangeListener;
-    private MNAAdapter.CircuitResult solution;//solution from last update;//todo: should this be dynamic?
+    private MNAAdapter.CircuitResult solution;//solution from last update, used to look up dynamic circuit properties.
 
     public Circuit() {
         this(new CompositeCircuitChangeListener());
@@ -56,12 +56,20 @@ public class Circuit {
             junctions.add(junction);
             fireJunctionAdded(junction);
         }
+//        System.out.println("added: junctions.size() = " + junctions.size());
     }
 
     private void fireJunctionAdded(Junction junction) {
-        for (int i = 0; i < listeners.size(); i++) {//using java 1.5 iterator causes concurrentmodification exception here
+        for (int i = 0; i < listeners.size(); i++) {//using java 1.5 iterator causes concurrentmodification exception here, since some junnction added listeners add listeners to this list
             listeners.get(i).junctionAdded(junction);
         }
+    }
+
+    public void removeJunction(Junction junction) {
+        junctions.remove(junction);
+        junction.delete();
+        fireJunctionRemoved(junction);
+//        System.out.println("removed: junctions.size() = " + junctions.size());
     }
 
     public Branch[] getAdjacentBranches(Junction junction) {
@@ -213,41 +221,39 @@ public class Circuit {
     }
 
     public Junction[] split(Junction junction) {
-        Branch[] b = getAdjacentBranches(junction);
-        Junction[] newJunctions = new Junction[b.length];
-        for (int i = 0; i < b.length; i++) {
-            Branch branch = b[i];
+        Branch[] adjacentBranches = getAdjacentBranches(junction);
+        Junction[] newJunctions = new Junction[adjacentBranches.length];
+        for (int i = 0; i < adjacentBranches.length; i++) {
+            Branch branch = adjacentBranches[i];
             Junction opposite = branch.opposite(junction);
             AbstractVector2D vec = new Vector2D.Double(opposite.getPosition(), junction.getPosition());
             double curLength = vec.getMagnitude();
             double newLength = Math.abs(curLength - CCKModel.JUNCTION_RADIUS * 1.5);
             vec = vec.getInstanceOfMagnitude(newLength);
             Point2D desiredDst = vec.getDestination(opposite.getPosition());
-            Point2D dst = desiredDst;
+            Point2D destination = desiredDst;
             if (branch instanceof CircuitComponent) {
-                dst = junction.getPosition();
+                destination = junction.getPosition();
             }
 
-            Junction newJ = new Junction(dst.getX(), dst.getY());
-            branch.replaceJunction(junction, newJ);
-            addJunction(newJ);
-            newJunctions[i] = newJ;
+            Junction newJunction = new Junction(destination.getX(), destination.getY());
+            branch.replaceJunction(junction, newJunction);
+            addJunction(newJunction);
+            newJunctions[i] = newJunction;
 
             if (branch instanceof CircuitComponent) {
                 AbstractVector2D tx = new ImmutableVector2D.Double(junction.getPosition(), desiredDst);
-                Branch[] stronglyConnected = getStrongConnections(newJ);
+                Branch[] stronglyConnected = getStrongConnections(newJunction);
                 BranchSet bs = new BranchSet(this, stronglyConnected);
                 bs.translate(tx);
             } else {
-                updateNeighbors(newJ);
+                updateNeighbors(newJunction);
             }
         }
         removeJunction(junction);
         fireJunctionsMoved();
         circuitChangeListener.circuitChanged();
         fireJunctionsSplit(junction, newJunctions);
-
-
         return newJunctions;
     }
 
@@ -255,12 +261,6 @@ public class Circuit {
         for (CircuitListener circuitListener : listeners) {
             circuitListener.junctionsSplit(junction, newJunctions);
         }
-    }
-
-    public void removeJunction(Junction junction) {
-        junctions.remove(junction);
-        junction.delete();
-        fireJunctionRemoved(junction);
     }
 
     public Branch[] getStrongConnections(Junction junction) {
@@ -407,9 +407,8 @@ public class Circuit {
     }
 
     public void fireBranchesMoved(Branch[] moved) {
-        for (Object listener : listeners) {
-            CircuitListener circuitListener = (CircuitListener) listener;
-            circuitListener.branchesMoved(moved);
+        for (CircuitListener listener : listeners) {
+            listener.branchesMoved(moved);
         }
     }
 

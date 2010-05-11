@@ -105,7 +105,7 @@ public class JunctionNode extends PhetPNode {
     private Stroke createStroke(double strokeWidth) {
         float scale = (float) 80.0;
         float[] dash = new float[]{3 / scale, 6 / scale};
-        return (Stroke) new BasicStroke((float) strokeWidth, BasicStroke.CAP_SQUARE, BasicStroke.CAP_BUTT, 3, dash, 0);
+        return new BasicStroke((float) strokeWidth, BasicStroke.CAP_SQUARE, BasicStroke.CAP_BUTT, 3, dash, 0);
     }
 
     private void update() {

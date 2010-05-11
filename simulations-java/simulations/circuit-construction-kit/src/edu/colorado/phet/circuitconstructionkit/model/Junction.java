@@ -106,5 +106,4 @@ public class Junction extends SimpleObservableDebug {
         circle.setFrameFromCenter(getX(), getY(), getX() + radius, getY() + radius);
         return circle;
     }
-
 }
