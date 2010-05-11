@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.data.util.IntId;
 import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.HtmlUtils;
 
 public class LocalizedSimulation implements Serializable, IntId {
     private int id;
@@ -66,6 +67,10 @@ public class LocalizedSimulation implements Serializable, IntId {
             }
         }
         return ret;
+    }
+
+    public String getEncodedTitle() {
+        return HtmlUtils.encode( title );
     }
 
     // getters and setters
