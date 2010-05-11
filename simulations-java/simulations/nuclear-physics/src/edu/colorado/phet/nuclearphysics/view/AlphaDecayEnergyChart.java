@@ -286,7 +286,7 @@ public class AlphaDecayEnergyChart extends PNode implements SubatomicParticle.Li
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
                 draggedNode.localToParent(d);
                 double newEnergyValue = 
-                	_totalEnergy + (d.height * _totalEnergyHandle.getScale() * NUM_Y_AXIS_UNITS / _usableHeight);
+                	_totalEnergy + (-d.height * _totalEnergyHandle.getScale() * NUM_Y_AXIS_UNITS / _usableHeight);
                 if ((newEnergyValue >= _energyWellBottom * 0.67) && 
                 	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH))){
                 	_totalEnergy = newEnergyValue;
@@ -315,7 +315,7 @@ public class AlphaDecayEnergyChart extends PNode implements SubatomicParticle.Li
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
                 draggedNode.localToParent(d);
                 double newEnergyValue = _potentialEnergyPeak 
-                	+ (d.height * _potentialEnergyPeakHandle.getScale() * NUM_Y_AXIS_UNITS / _usableHeight);
+                	+ (-d.height * _potentialEnergyPeakHandle.getScale() * NUM_Y_AXIS_UNITS / _usableHeight);
                 if ((newEnergyValue >= POLONIUM_INITIAL_MINIUMIM_POTENTIAL_ENERGY) && 
                 	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH))){
                 	_potentialEnergyPeak = newEnergyValue;
