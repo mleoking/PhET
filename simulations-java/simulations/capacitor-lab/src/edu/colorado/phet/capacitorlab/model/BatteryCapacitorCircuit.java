@@ -36,11 +36,11 @@ public class BatteryCapacitorCircuit {
      * @return capacitance, in Farads (F)
      */
     public double getCapacitance() {
-        // ( Ad * Er ) + E_AIR - Ad
-        double Ad = capacitor.getDielectricInsideArea(); // meters
         double Er = capacitor.getDielectricMaterial().getDielectricConstant(); // dimensionless
+        double A = capacitor.getPlateArea(); // meters^2
+        double Ad = capacitor.getDielectricInsideArea(); // meters^2
         double d = capacitor.getPlateSeparation(); // meters
-        double C = ( ( Ad * Er ) + E_AIR - Ad ) * ( E0 / d ); // Farads
+        double C = ( ( Ad * Er / A ) + ( ( A - Ad ) * E_AIR / A ) ) * ( E0 * A / d ); // Farads
         return C;
     }
     
