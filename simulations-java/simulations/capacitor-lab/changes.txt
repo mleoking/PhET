@@ -1,3 +1,5 @@
+# 0.00.02 (40610) May 11, 2010
+5/11/10 dev version to demonstrate a couple of meters
 5/11/10 format numbers in developer meter
 5/11/10 add check box, background and close button for developer meter
 5/11/10 make meters invisible by default
