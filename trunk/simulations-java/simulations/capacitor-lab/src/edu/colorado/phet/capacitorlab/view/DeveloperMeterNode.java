@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.model.CLModel;
@@ -39,7 +41,7 @@ public class DeveloperMeterNode extends PhetPNode {
     private static final Color BACKGROUND_FILL_COLOR = new Color( 255, 255, 255, 125 );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
-    private static final double BACKGROUND_MARGIN = 3;
+    private static final double BACKGROUND_MARGIN = 5;
     
     private final CLModel model;
     
@@ -55,6 +57,9 @@ public class DeveloperMeterNode extends PhetPNode {
     
     private final Rectangle2D backgroundRect;
     private final PPath backgroundPath;
+    private double maxBackgroundWidth; // this minimizes distracting growing/shrinking of the background
+    
+    private final PImage closeButton;
 
     private CustomDielectricMaterial customDielectric;
     private CustomDielectricChangeListener customDielectricChangeListener;
@@ -103,6 +108,7 @@ public class DeveloperMeterNode extends PhetPNode {
         };
         
         // background
+        maxBackgroundWidth = 0;
         backgroundRect = new Rectangle2D.Double();
         backgroundPath = new PPath( backgroundRect );
         backgroundPath.setPaint( BACKGROUND_FILL_COLOR );
@@ -117,39 +123,36 @@ public class DeveloperMeterNode extends PhetPNode {
         titleNode.setFont( new PhetFont( Font.BOLD, 14 ) );
         titleNode.setTextPaint( Color.RED );
         parentNode.addChild( titleNode );
-        parentNode.addChild( new PText( "----------" ) );
-        voltageNode = new ValueNode( "V (voltage)", "V" );
+        parentNode.addChild( new PText( "....................................................." ) );
+        voltageNode = new ValueNode( "V (voltage)", "V", "0.0" );
         parentNode.addChild( voltageNode );
-        plateSize = new ValueNode( "L (plate side length)", "m" );
+        plateSize = new ValueNode( "L (plate side length)", "m", "0.0000" );
         parentNode.addChild( plateSize );
-        plateSeparationNode = new ValueNode( "d (plate separation)", "m" );
+        plateSeparationNode = new ValueNode( "d (plate separation)", "m", "0.0000" );
         parentNode.addChild( plateSeparationNode );
-        parentNode.addChild( new PText( "----------" ) );
-        plateAreaNode = new ValueNode( "A (plate area)", "m<sup>2</sup>" );
+        parentNode.addChild( new PText( "....................................................." ) );
+        plateAreaNode = new ValueNode( "A (plate area)", "m<sup>2</sup>", "0.0E00" );
         parentNode.addChild( plateAreaNode );
-        dielectricContactAreaNode = new ValueNode( "A<sub>dielectric</sub> (dielectric contact area)", "m<sup>2</sup>" );
+        dielectricContactAreaNode = new ValueNode( "A<sub>d</sub> (dielectric contact area)", "m<sup>2</sup>", "0.0E00" );
         parentNode.addChild( dielectricContactAreaNode );
-        parentNode.addChild( new PText( "----------" ) );
-        capacitanceNode = new ValueNode( "C (capacitance)", "F" );
+        parentNode.addChild( new PText( "....................................................." ) );
+        capacitanceNode = new ValueNode( "C (capacitance)", "F", "0.00E00" );
         parentNode.addChild( capacitanceNode );
-        plateChargeNode = new ValueNode( "Q (plate charge)", "C" );
+        plateChargeNode = new ValueNode( "Q (plate charge)", "C", "0.00E00" );
         parentNode.addChild( plateChargeNode );
-        excessPlateChargeNode = new ValueNode( "Q<sub>excess</sub> (excess plate charge)", "C" );
+        excessPlateChargeNode = new ValueNode( "Q<sub>excess</sub> (excess plate charge)", "C", "0.00E00" );
         parentNode.addChild( excessPlateChargeNode );
-        effectiveFieldNode = new ValueNode( "E<sub>effective</sub>", "V/m" );
+        effectiveFieldNode = new ValueNode( "E<sub>effective</sub>", "V/m", "0" );
         parentNode.addChild( effectiveFieldNode );
-        plateFieldNode = new ValueNode( "E<sub>plate</sub>", "V/m" );
+        plateFieldNode = new ValueNode( "E<sub>plate</sub>", "V/m", "0" );
         parentNode.addChild( plateFieldNode );
-        dielectricFieldNode = new ValueNode( "E<sub>dielectric</sub>", "V/m" );
+        dielectricFieldNode = new ValueNode( "E<sub>dielectric</sub>", "V/m", "0" );
         parentNode.addChild( dielectricFieldNode );
-        energyStoredNode = new ValueNode( "U (energy stored)", "J" );
+        energyStoredNode = new ValueNode( "U (energy stored)", "J", "0.00E00" );
         parentNode.addChild( energyStoredNode );
         
         // close button
-        PImage closeButton = new PImage( CLImages.CLOSE_BUTTON );
-        double x = parentNode.getFullBoundsReference().getMinX() - closeButton.getFullBoundsReference().getWidth() - 5;
-        double y = parentNode.getFullBoundsReference().getMinY();
-        closeButton.setOffset( x, y );
+        closeButton = new PImage( CLImages.CLOSE_BUTTON );
         closeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
@@ -187,8 +190,18 @@ public class DeveloperMeterNode extends PhetPNode {
         
         // background
         PBounds bounds = parentNode.getFullBoundsReference();
-        backgroundRect.setRect( bounds.getX() - BACKGROUND_MARGIN, bounds.getY() - BACKGROUND_MARGIN, bounds.getWidth() + ( 2 * BACKGROUND_MARGIN ), bounds.getHeight() + ( 2 * BACKGROUND_MARGIN ));
+        double x = bounds.getX() - BACKGROUND_MARGIN;
+        double y = bounds.getY() - BACKGROUND_MARGIN;
+        double w = Math.max( bounds.getWidth() + ( 2 * BACKGROUND_MARGIN ), maxBackgroundWidth );
+        double h = bounds.getHeight() + ( 2 * BACKGROUND_MARGIN );
+        backgroundRect.setRect( x, y, w, h );
         backgroundPath.setPathTo( backgroundRect );
+        maxBackgroundWidth = w;
+        
+        // close button
+        x = backgroundPath.getFullBoundsReference().getMaxX() - closeButton.getFullBoundsReference().getWidth() - 4;
+        y = backgroundPath.getFullBoundsReference().getMinY() + 4;
+        closeButton.setOffset( x, y );
     }
     
     private void updateDielectricListener() {
@@ -226,20 +239,18 @@ public class DeveloperMeterNode extends PhetPNode {
         
         private final String label;
         private final String units;
+        private final NumberFormat format;
         
-        public ValueNode( String label, String units ) {
-            this( label, units, 0 );
+        public ValueNode( String label, String units, String pattern ) {
             setFont( new PhetFont() );
-        }
-        
-        public ValueNode( String label, String units, double value ) {
             this.label = label;
             this.units = units;
-            setValue( value );
+            this.format = new DecimalFormat( pattern );
         }
         
         public void setValue( double value ) {
-            setHTML( label + " = " + value + " " + units );
+            String valueString = ( value == 0 ) ? String.valueOf( value ) : format.format( value  );
+            setHTML( label + " = " +  valueString + " " + units );
         }
     }
 }
