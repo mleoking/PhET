@@ -18,10 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
-
 public class Forces1DApplication extends PhetApplication {
-    //todo: convert to proper use of PhetApplicationConfig for getting version
-    static final String VERSION = new PhetResources( "forces-1d" ).getVersion().formatForTitleBar();
     public static Color FORCES_1D_BACKGROUND_COLOR = new Color( 200, 240, 200 );
 
     public Forces1DApplication( Forces1DPhetApplicationConfig config ) {
