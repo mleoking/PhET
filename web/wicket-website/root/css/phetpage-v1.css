@@ -116,10 +116,6 @@ body.rtl .log-in-out {
     text-decoration: line-through;
 }
 
-a:hover {
-    cursor: hand;
-}
-
 .float-classic-left {
     float: left;
 }
