@@ -9,7 +9,6 @@ import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -21,6 +20,7 @@ public class DevModelDisplayNode extends PhetPNode {
     
     private final CLModel model;
     private final ValueNode voltageNode;
+    private final ValueNode plateSize;
     private final ValueNode plateAreaNode, dielectricInsideAreaNode;
     private final ValueNode plateSeparationNode;
     private final ValueNode capacitanceNode;
@@ -74,14 +74,17 @@ public class DevModelDisplayNode extends PhetPNode {
             }
         };
         
-        voltageNode = new ValueNode( "voltage", "v" );
+        voltageNode = new ValueNode( "voltage", "V" );
         addChild( voltageNode );
-        plateAreaNode = new ValueNode( "plate area", "meters" );
-        addChild( plateAreaNode );
-        dielectricInsideAreaNode = new ValueNode( "dielectric inside area", "meters" );
-        addChild( dielectricInsideAreaNode );
-        plateSeparationNode = new ValueNode( "plate separation", "meters" );
+        plateSize = new ValueNode( "plate size", "m" );
+        addChild( plateSize );
+        plateSeparationNode = new ValueNode( "plate separation", "m" );
         addChild( plateSeparationNode );
+        addChild( new PText( "----------" ) );
+        plateAreaNode = new ValueNode( "plate area", "m^2" );
+        addChild( plateAreaNode );
+        dielectricInsideAreaNode = new ValueNode( "dielectric inside area", "m^2" );
+        addChild( dielectricInsideAreaNode );
         capacitanceNode = new ValueNode( "capacitance", "F" );
         addChild( capacitanceNode );
         plateChargeNode = new ValueNode( "plate charge", "C" );
@@ -103,6 +106,7 @@ public class DevModelDisplayNode extends PhetPNode {
         
         // set values
         voltageNode.setValue( model.getBattery().getVoltage() );
+        plateSize.setValue( model.getCapacitor().getPlateSize() );
         plateAreaNode.setValue( model.getCapacitor().getPlateArea() );
         dielectricInsideAreaNode.setValue( model.getCapacitor().getDielectricInsideArea() );
         plateSeparationNode.setValue( model.getCapacitor().getPlateSeparation() );

@@ -1,3 +1,5 @@
+5/10/10 add some things to DevModelDisplayNode
+5/10/10 use max plate separate for default, so that we have min model values
 5/10/10 bug fix in capacitance model
 5/10/10 set all default values to mins
 5/10/10 don't show dielectric constant in combo box for custom dielectric material, since it's mutable
