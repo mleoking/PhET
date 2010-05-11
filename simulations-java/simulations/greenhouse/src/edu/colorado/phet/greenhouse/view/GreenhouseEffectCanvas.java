@@ -4,9 +4,12 @@ package edu.colorado.phet.greenhouse.view;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -41,6 +44,9 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
     // Layers for the canvas.
     private PNode imageLayer;
     
+    // Nodes on the canvas.
+    private PNode background;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -66,6 +72,13 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
         myWorldNode = new PNode();
         addWorldChild(myWorldNode);
         
+        // Add the background image.  Scale the image so that it fits the
+        // height of the intermediate coordinates.
+        background = new PImage(GreenhouseResources.getImage("today-2.gif"));
+        background.setScale(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height / background.getFullBoundsReference().height);
+        background.setOffset(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width / 2 - background.getFullBoundsReference().width / 2, 0);
+        myWorldNode.addChild(background);
+        
         // Update the layout.
         updateLayout();
         
@@ -84,12 +97,12 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
 
         Dimension2D worldSize = getWorldSize();
         Dimension2D screenSize = getScreenSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
+        if ( getWidth() <= 0 || getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
         }
         else {
-        	// TODO: TBD
+        	// TBD
         }
     }
 }
