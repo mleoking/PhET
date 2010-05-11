@@ -56,6 +56,19 @@ public class BatteryCapacitorCircuit {
     }
     
     /**
+     * Gets the excess plate charge.
+     * @return charge, in Coulombs (C)
+     */
+    public double getExcessPlateCharge() {
+        double Er = capacitor.getDielectricMaterial().getDielectricConstant(); // dimensionless
+        double A = capacitor.getPlateArea(); // meters^2
+        double d = capacitor.getPlateSeparation(); // meters
+        double V = battery.getVoltage(); // volts
+        double Qexcess = ( Er - E_AIR ) * E0 * ( A / d ) * V; // Coulombs (1C = 1F * 1V)
+        return Qexcess;
+    }
+    
+    /**
      * Gets the effective E-field.
      * @return volts/meter
      */

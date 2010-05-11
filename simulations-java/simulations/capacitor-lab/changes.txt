@@ -1,3 +1,4 @@
+5/10/10 implement Qexcess, but the specification appears to be wrong
 5/10/10 identified bugs in physical model specification, fixed in code
 5/10/10 add some things to DevModelDisplayNode
 5/10/10 use max plate separate for default, so that we have min model values
