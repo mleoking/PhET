@@ -25,6 +25,7 @@ public class BuildLocalProperties {
     private static final String JARSIGNER_PASSWORD_KEY = "jarsigner.password";
     private static final String JARSIGNER_ALIAS_KEY = "jarsigner.alias";
     private static final String JARSIGNER_TSA_URL_KEY = "jarsigner.tsa-url";
+    private static final String GUI_PROMPT_USER_FOR_CHANGE_MESSAGE = "gui.prompt-user-for-change-message";//see BuildLocalProperties.isPromptUserForChangeMessage
 
     /* singleton */
     private static BuildLocalProperties instance;
@@ -153,7 +154,7 @@ public class BuildLocalProperties {
     public AuthenticationInfo getWebsiteDevManagerAuthenticationInfo() {
         return new AuthenticationInfo( getWebsiteDevManagerUsername(), getWebsiteDevManagerPassword() );
     }
-    
+
     /**
      * @return Authentication for the user/ssh account of the website production server
      */
@@ -462,5 +463,14 @@ public class BuildLocalProperties {
      */
     public static BuildLocalProperties getProperties( File propertiesFile ) {
         return new BuildLocalProperties( propertiesFile );
+    }
+
+    /**
+     * Determine whether the user should be prompted to enter a change message, see #2326
+     *
+     * @return true if the user should be prompted for a change message; defaults to true
+     */
+    public boolean isPromptUserForChangeMessage() {
+        return getBoolean(GUI_PROMPT_USER_FOR_CHANGE_MESSAGE, true);
     }
 }
