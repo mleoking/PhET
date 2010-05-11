@@ -1,3 +1,5 @@
+# 0.00.01 (40556) May 10, 2010
+5/10/10 dev version for verifying physical model specification
 5/10/10 implement Qexcess, but the specification appears to be wrong
 5/10/10 identified bugs in physical model specification, fixed in code
 5/10/10 add some things to DevModelDisplayNode
