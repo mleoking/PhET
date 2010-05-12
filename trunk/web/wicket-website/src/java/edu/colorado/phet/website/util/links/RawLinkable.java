@@ -3,9 +3,12 @@ package edu.colorado.phet.website.util.links;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
+/**
+ * Something that can be linked to directly by a URL.
+ */
 public interface RawLinkable extends Linkable {
     /**
-     * @return A string that represents either an external URL or a relative URL to within the site.
+     * @return A string that represents either an external URL or a relative URL to the site root.
      */
     public String getRawUrl( PageContext context, PhetRequestCycle cycle );
 
