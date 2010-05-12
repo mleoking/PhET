@@ -272,13 +272,14 @@ public class RedirectionTester {
 
         System.err.flush();
 
-        System.out.println( "summary: " + cOK + " OK, " + c404 + " 404, " + cERR + " others" );
 
         Collections.sort( ok );
         Collections.sort( notfound );
         Collections.sort( err );
 
         PrintStream out = new PrintStream( new FileOutputStream( new File( "/home/jon/tmp/output" ) ) );
+
+        out.println( "summary: " + cOK + " OK, " + c404 + " not found, " + cERR + " others" );
 
         printReport( ok, out );
         printReport( notfound, out );
