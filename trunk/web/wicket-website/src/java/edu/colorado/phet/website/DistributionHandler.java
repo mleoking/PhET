@@ -165,4 +165,13 @@ public class DistributionHandler {
     public static boolean redirectHeaderToProduction( PhetRequestCycle cycle ) {
         return cycle.isYoungAndFreedmanRipperRequest();
     }
+
+    /**
+     * Whether or not to show anything related to website translations on the website
+     * @param cycle
+     * @return
+     */
+    public static boolean displayWebsiteTranslations( PhetRequestCycle cycle ) {
+        return true;
+    }
 }
