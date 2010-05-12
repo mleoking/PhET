@@ -487,7 +487,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static String redirectRunOffline( Map parameters ) {
         // http://phet.colorado.edu/admin/get-run-offline.php?sim_id=84&locale=en
 
-        if ( !parameters.containsKey( "sim_id" ) ) {
+        if ( !parameters.containsKey( "sim_id" ) || !parameters.containsKey( "locale" ) ) {
             return NOT_FOUND;
         }
 
