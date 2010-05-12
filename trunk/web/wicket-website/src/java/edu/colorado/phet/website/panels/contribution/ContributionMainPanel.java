@@ -92,7 +92,9 @@ public class ContributionMainPanel extends PhetPanel {
             }
         } );
 
-        add( new LocalizedText( "zip-link", "contribution.view.zipDownload", new Object[]{"href=\"" + contribution.getZipLocation() + "\""} ) );
+        add( new LocalizedText( "zip-link", "contribution.view.zipDownload", new Object[]{
+                "href=\"" + contribution.getZipLocation() + "\""
+        } ) );
 
         add( new Label( "authors", contribution.getAuthors() ) );
         add( new Label( "contact-email", contribution.getContactEmail() ) );
@@ -127,7 +129,9 @@ public class ContributionMainPanel extends PhetPanel {
         }
 
         if ( contribution.getDuration() != 0 ) {
-            add( new LocalizedText( "duration", "contribution.duration", new Object[]{contribution.getDuration()} ) );
+            add( new LocalizedText( "duration", "contribution.duration", new Object[]{
+                    contribution.getDuration()
+            } ) );
         }
         else {
             add( new InvisibleComponent( "duration" ) );
@@ -236,7 +240,10 @@ public class ContributionMainPanel extends PhetPanel {
         commentContrib2.add( new AttributeAppender( "value", new Model( Integer.toString( contribution.getId() ) ), "" ) );
 
         add( new StaticImage( "gold-star-nominate", Images.GOLD_STAR, "Gold Star Contribution" ) );
-        add( new LocalizedText( "contribution-nominate-text", "contribution.view.nominateText", new Object[]{ContributionGuidelinesPanel.getLinker().getHref( context, getPhetCycle() ), "href=\"/publications/activities-guide/contribution-guidelines.pdf\""} ) );
+        add( new LocalizedText( "contribution-nominate-text", "contribution.view.nominateText", new Object[]{
+                ContributionGuidelinesPanel.getLinker().getHref( context, getPhetCycle() ),
+                "href=\"/publications/activities-guide/contribution-guidelines.pdf\""
+        } ) );
     }
 
     private void handleCheck( String id, boolean value ) {

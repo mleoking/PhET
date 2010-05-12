@@ -37,7 +37,9 @@ public class IndexPanel extends PhetPanel {
         add( new StaticImage( "nsf-logo", "/images/sponsors/nsf-logo-small.gif", null ) );
         add( new StaticImage( "hewlett-logo", "/images/sponsors/hewlett-logo-small.jpg", null ) );
 
-        add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{"href=\"" + ResearchPanel.getLinker().getRawUrl( context, getPhetCycle() ) + "\""} ) );
+        add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{
+                ResearchPanel.getLinker().getHref( context, getPhetCycle() )
+        } ) );
 
         add( SimulationDisplay.createLink( "play-sims-link", context ) );
 

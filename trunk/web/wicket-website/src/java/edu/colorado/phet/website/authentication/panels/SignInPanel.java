@@ -41,7 +41,9 @@ public class SignInPanel extends PhetPanel {
 
         add( new SignInForm( "sign-in-form" ) );
 
-        add( new LocalizedText( "to-register", "signIn.toRegister", new Object[]{RegisterPage.getLinker( destination == null ? "/" : destination ).getHref( context, getPhetCycle() )} ) );
+        add( new LocalizedText( "to-register", "signIn.toRegister", new Object[]{
+                RegisterPage.getLinker( destination == null ? "/" : destination ).getHref( context, getPhetCycle() )
+        } ) );
     }
 
     public final class SignInForm extends Form {
