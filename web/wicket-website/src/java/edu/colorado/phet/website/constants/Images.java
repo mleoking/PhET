@@ -1,7 +1,7 @@
 package edu.colorado.phet.website.constants;
 
 /**
- * All dynamically inserted images. Does NOT include background images used in CSS
+ * All (hopefully all) dynamically inserted images. Does NOT include background images used in CSS
  */
 public class Images {
     public static final String PHET_LOGO = "/images/phet-logo.gif";
