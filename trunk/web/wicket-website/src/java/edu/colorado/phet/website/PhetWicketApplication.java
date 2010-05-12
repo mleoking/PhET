@@ -25,12 +25,12 @@ import edu.colorado.phet.website.admin.deploy.AdminDeployProjectPage;
 import edu.colorado.phet.website.authentication.*;
 import edu.colorado.phet.website.cache.InstallerCache;
 import edu.colorado.phet.website.content.*;
-import edu.colorado.phet.website.content.search.SearchResultsPage;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.contribution.*;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
+import edu.colorado.phet.website.content.search.SearchResultsPage;
 import edu.colorado.phet.website.content.simulations.SimsByKeywordPage;
 import edu.colorado.phet.website.content.simulations.SimulationDisplay;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
@@ -39,6 +39,9 @@ import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPan
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavascriptPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
+import edu.colorado.phet.website.content.workshops.UgandaWorkshopPhotosPanel;
+import edu.colorado.phet.website.content.workshops.UgandaWorkshopsPanel;
+import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.notification.NotificationHandler;
@@ -110,6 +113,8 @@ public class PhetWicketApplication extends WebApplication {
         StaticPage.addPanel( TranslationUtilityPanel.class );
         StaticPage.addPanel( AboutNewsPanel.class );
         StaticPage.addPanel( ClassroomUsePanel.class );
+        StaticPage.addPanel( UgandaWorkshopsPanel.class );
+        StaticPage.addPanel( UgandaWorkshopPhotosPanel.class );
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();
@@ -205,10 +210,12 @@ public class PhetWicketApplication extends WebApplication {
             stream.close();
         }
         catch( RuntimeException e ) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            logger.warn( "setInstallerTimestamp runtime exception" );
         }
         catch( IOException e ) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            logger.warn( "setInstallerTimestamp IO exception" );
         }
     }
 
