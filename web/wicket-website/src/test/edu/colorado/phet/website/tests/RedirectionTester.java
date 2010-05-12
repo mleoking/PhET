@@ -4,9 +4,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class RedirectionTester {
 
@@ -172,6 +170,33 @@ public class RedirectionTester {
         }
     }
 
+    private static class Entry implements Comparable {
+        private Request request;
+        private Hits hits;
+
+        private Entry( Request request, Hits hits ) {
+            this.request = request;
+            this.hits = hits;
+        }
+
+        public Request getRequest() {
+            return request;
+        }
+
+        public Hits getHits() {
+            return hits;
+        }
+
+        public int compareTo( Object o ) {
+            if ( o instanceof Entry ) {
+                return -( new Integer( hits.getCount() ).compareTo( ( (Entry) o ).getHits().getCount() ) );
+            }
+            else {
+                return -1;
+            }
+        }
+    }
+
     public static Map<Request, Hits> runProcessedLog( File logFile ) {
         Map<Request, Hits> map = new HashMap<Request, Hits>();
         try {
@@ -181,12 +206,12 @@ public class RedirectionTester {
             while ( ( line = in.readLine() ) != null ) {
                 StringTokenizer tokenizer = new StringTokenizer( line, " " );
                 if ( tokenizer.countTokens() < 4 ) {
-                    System.out.println( "Untokenizable line: " + line );
+                    //System.out.println( "Untokenizable line: " + line );
                     continue;
                 }
                 String method = tokenizer.nextToken();
                 if ( !method.equals( "GET" ) ) {
-                    System.out.println( "Skipping method: " + method );
+                    //System.out.println( "Skipping method: " + method );
                     continue;
                 }
                 String addr = tokenizer.nextToken();
@@ -200,7 +225,7 @@ public class RedirectionTester {
                 else {
                     Hit hit = getHit( addr );
                     map.put( request, new Hits( hit ) );
-                    System.out.println( addr + " (" + status + ":" + ( hit.isOk() ? "OK" : "ERR" ) + ") " + hit );
+                    System.err.println( addr + " (" + status + ":" + ( hit.isOk() ? "OK" : "ERR" ) + ") " + hit );
                 }
 
 
@@ -218,11 +243,52 @@ public class RedirectionTester {
     public static void main( String[] args ) {
         Map<Request, Hits> map = runProcessedLog( new File( "/home/jon/tmp/filtered_log" ) );
 
-        System.out.println( "\n\n\n\n" );
+        System.err.println( "\n\n\n\n" );
+
+        int cOK = 0;
+        int c404 = 0;
+        int cERR = 0;
+
+        List<Entry> ok = new LinkedList<Entry>();
+        List<Entry> notfound = new LinkedList<Entry>();
+        List<Entry> err = new LinkedList<Entry>();
 
         for ( Request request : map.keySet() ) {
             Hits hits = map.get( request );
-            System.out.println( request.getAddr() + " #" + hits.getCount() + " (" + request.getStatus() + ":" + ( hits.getHit().isOk() ? "OK" : "ERR" ) + ") " + hits.getHit() );
+
+            if ( hits.getHit().isOk() ) {
+                cOK += hits.getCount();
+                ok.add( new Entry( request, hits ) );
+            }
+            else if ( hits.getHit().is404() ) {
+                c404 += hits.getCount();
+                notfound.add( new Entry( request, hits ) );
+            }
+            else {
+                cERR += hits.getCount();
+                err.add( new Entry( request, hits ) );
+            }
         }
+
+        System.err.flush();
+
+        System.out.println( "summary: " + cOK + " OK, " + c404 + " 404, " + cERR + " others" );
+
+        Collections.sort( ok );
+        Collections.sort( notfound );
+        Collections.sort( err );
+
+        printReport( ok );
+        printReport( notfound );
+        printReport( err );
+
+    }
+
+    private static void printReport( List<Entry> entries ) {
+        for ( Entry entry : entries ) {
+            // TODO: map into toString()s?
+            System.out.println( entry.getHits().getCount() + " " + entry.getRequest().getAddr() + " (" + entry.getRequest().getStatus() + ":" + ( entry.getHits().getHit().isOk() ? "OK" : "ERR" ) + ") " + entry.getHits().getHit() );
+        }
+        System.out.println();
     }
 }
