@@ -20,6 +20,7 @@ import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.HtmlUtils;
 import edu.colorado.phet.website.util.PhetRequestCycle;
+import edu.colorado.phet.website.components.RawLabel;
 
 /**
  * Replacement phet-info service
@@ -91,8 +92,7 @@ public class PhetInfoServicePage extends WebPage {
         root.setAttribute( "success", String.valueOf( overallSuccess ) );
 
         try {
-            Label xml = new Label( "response", XMLUtils.toString( outDocument ) );
-            xml.setEscapeModelStrings( false );
+            RawLabel xml = new RawLabel( "response", XMLUtils.toString( outDocument ) );
             xml.setRenderBodyOnly( true );
             add( xml );
         }

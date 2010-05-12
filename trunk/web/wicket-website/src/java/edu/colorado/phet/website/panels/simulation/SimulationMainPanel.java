@@ -24,10 +24,7 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.borders.SmallOrangeButtonBorder;
 import edu.colorado.phet.website.cache.EventDependency;
-import edu.colorado.phet.website.components.InvisibleComponent;
-import edu.colorado.phet.website.components.LocalizedText;
-import edu.colorado.phet.website.components.PhetLink;
-import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.components.*;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.DonatePanel;
@@ -449,9 +446,7 @@ public class SimulationMainPanel extends PhetPanel {
         ListView learningGoalsView = new ListView( "learning-goals", learningGoals ) {
             protected void populateItem( ListItem item ) {
                 String str = item.getModelObjectAsString();
-                Label goalLabel = new Label( "goal", str );
-                goalLabel.setEscapeModelStrings( false );
-                item.add( goalLabel );
+                item.add( new RawLabel( "goal", str ) );
             }
         };
         if ( learningGoals.isEmpty() ) {

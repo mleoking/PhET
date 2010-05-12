@@ -4,6 +4,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
 /**
@@ -25,9 +26,8 @@ public class RobotsTxtPage extends WebPage {
             response = "User-agent: *\nDisallow: /";
         }
 
-        Label text = new Label( "text", response );
+        RawLabel text = new RawLabel( "text", response );
         text.setRenderBodyOnly( true );
-        text.setEscapeModelStrings( false );
         add( text );
     }
 

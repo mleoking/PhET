@@ -20,6 +20,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.buildtools.util.ProjectPropertiesFile;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.StringTextField;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -56,18 +57,17 @@ public class AdminProjectPage extends AdminPage {
 
         ProjectPropertiesFile projectPropertiesFile = project.getProjectPropertiesFile( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot() );
 
-        Label projectChecks = null;
+        RawLabel projectChecks = null;
         if ( projectPropertiesFile.exists() ) {
             String str = "Detected project properties: " + projectPropertiesFile.getFullVersionString();
             if ( statusString != null ) {
                 str += "<br/>" + statusString;
             }
-            projectChecks = new Label( "project-properties", str );
+            projectChecks = new RawLabel( "project-properties", str );
         }
         else {
-            projectChecks = new Label( "project-properties", "No project properties detected" );
+            projectChecks = new RawLabel( "project-properties", "No project properties detected" );
         }
-        projectChecks.setEscapeModelStrings( false );
         add( projectChecks );
 
         add( new ListView( "simulation", simulations ) {

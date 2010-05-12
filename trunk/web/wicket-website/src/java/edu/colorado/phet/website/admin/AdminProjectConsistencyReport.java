@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
@@ -28,9 +29,7 @@ public class AdminProjectConsistencyReport extends AdminPage {
             }
         } );
 
-        Label text = new Label( "text", builder.toString() );
-        text.setEscapeModelStrings( false );
-        add( text );
+        add( new RawLabel( "text", builder.toString() ) );
 
     }
 }

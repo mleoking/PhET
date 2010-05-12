@@ -21,6 +21,7 @@ import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.content.search.SearchResultsPage;
 import edu.colorado.phet.website.content.contribution.AddContributionCommentPage;
 import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
@@ -272,9 +273,7 @@ public class ContributionMainPanel extends PhetPanel {
             }
         } );
         String str = StringUtils.combineStringsIntoList( this, simStrings, StringUtils.getSeparator( this ) );
-        Label simLabel = new Label( "simulations", str );
-        simLabel.setEscapeModelStrings( false );
-        add( simLabel );
+        add( new RawLabel( "simulations", str ) );
     }
 
     private void initKeywordList( Contribution contribution, PageContext context ) {
@@ -285,9 +284,7 @@ public class ContributionMainPanel extends PhetPanel {
             keyStrings.add( "<a " + SearchResultsPage.getLinker( keyword ).getHref( context, getPhetCycle() ) + ">" + keyword + "</a>" );
         }
         String str = StringUtils.combineStringsIntoList( this, keyStrings, StringUtils.getSeparator( this ) );
-        Label keyLabel = new Label( "keywords", str );
-        keyLabel.setEscapeModelStrings( false );
-        add( keyLabel );
+        add( new RawLabel( "keywords", str ) );
     }
 
     public String getTitle() {
