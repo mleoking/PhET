@@ -9,6 +9,9 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 /**
  * The common base for RawLinkable. This class assumes that the object that can be linked to is in a locale or context
  * specific area. The page that creates the link can then specify what prefix to add to the sub URL.
+ * <p/>
+ * For example, an object of this class could represent a sub URL of 'about/test'. Then separate other objects can
+ * create links to '/en/about/test', '/ar_SA/about/test', or '/translation/5/about/test', with different page contexts
  */
 public abstract class AbstractLinker implements RawLinkable {
 
