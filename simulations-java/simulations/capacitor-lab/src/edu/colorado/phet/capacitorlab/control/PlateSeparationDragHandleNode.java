@@ -98,7 +98,7 @@ public class PlateSeparationDragHandleNode extends PhetPNode {
             // calculate the new model value, clamped to the range
             Point2D mousePosition = getGlobalMousePosition( event );
             double deltaY = mousePosition.getY() - startDragPosition.getY();
-            double deltaValue = mvt.viewToModel( -deltaY );
+            double deltaValue = 2 * mvt.viewToModel( -deltaY );
             double newValue =  startDragValue + deltaValue;
             if ( newValue > valueRange.getMax() ) {
                 newValue = valueRange.getMax();
