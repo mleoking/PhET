@@ -156,6 +156,7 @@ public class PhetWicketApplication extends WebApplication {
         mountBookmarkablePage( "services/phet-info.php", PhetInfoServicePage.class );
         mountBookmarkablePage( "services/sim-jar-redirect", SimJarRedirectPage.class );
         mountBookmarkablePage( "services/sim-jar-redirect.php", SimJarRedirectPage.class );
+        mountBookmarkablePage( "robots.txt", RobotsTxtPage.class );
 
         // FOR XSS TESTING TODO: remove after dev
         //mountBookmarkablePage( "xsstest", PreventXSSTest.class );
@@ -382,6 +383,10 @@ public class PhetWicketApplication extends WebApplication {
         logger.info( "Shutting down PhetWicketApplication" );
         NotificationHandler.destroy();
         SearchUtils.destroy();
+    }
+
+    public static String getProductionServerName() {
+        return "phet.colorado.edu";
     }
 
 }
