@@ -64,7 +64,7 @@ public class NeuronConstants {
     
     // Colors to use when representing various atoms.
     public static final Color SODIUM_COLOR = new Color( 240, 0, 0);
-    public static final Color POTASSIUM_COLOR = new Color(0, 240, 0);
+    public static final Color POTASSIUM_COLOR = new Color(0, 240, 100);
     
     //----------------------------------------------------------------------------
     // Images
