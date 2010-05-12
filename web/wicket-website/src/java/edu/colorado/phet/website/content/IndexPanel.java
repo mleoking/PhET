@@ -18,6 +18,7 @@ import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
 import edu.colorado.phet.website.content.simulations.SimulationDisplay;
+import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.RotatorPanel;
 import edu.colorado.phet.website.panels.TranslationLinksPanel;

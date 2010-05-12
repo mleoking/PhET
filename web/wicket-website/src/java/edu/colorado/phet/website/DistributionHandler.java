@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.content.DonatePanel;
 import edu.colorado.phet.website.content.ResearchPanel;
-import edu.colorado.phet.website.content.WorkshopsPanel;
+import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;

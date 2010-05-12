@@ -15,10 +15,10 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
+import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.TeachersGuide;
-import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionFile;
 
@@ -79,6 +79,8 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
     private static final String NOT_FOUND = "/error/404";
 
+    // TODO: map all of these paths so if they are changed, the redirections are changed with them
+
     static {
 
         /*---------------------------------------------------------------------------*
@@ -117,6 +119,8 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/teacher_ideas/user-logout.php", "/en/sign-out" );
         map.put( "/teacher_ideas/user-edit-profile.php", "/en/edit-profile" );
         map.put( "/teacher_ideas/workshops.php", "/en/workshops" );
+        map.put( "/teacher_ideas/workshop_uganda.php", "/en/for-teachers/workshops/uganda" );
+        map.put( "/teacher_ideas/workshop_uganda_photos.php", "/en/for-teachers/workshops/uganda-photos" );
         map.put( "/tech_support/index.php", "/en/troubleshooting" );
         map.put( "/tech_support/support-flash.php", "/en/troubleshooting/flash" );
         map.put( "/tech_support/support-java.php", "/en/troubleshooting/java" );

@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.*;
-import edu.colorado.phet.website.content.search.SearchResultsPage;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
 import edu.colorado.phet.website.content.contribution.ContributionCreatePage;
@@ -22,12 +21,16 @@ import edu.colorado.phet.website.content.contribution.ContributionManagePage;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
+import edu.colorado.phet.website.content.search.SearchResultsPage;
 import edu.colorado.phet.website.content.simulations.SimulationDisplay;
 import edu.colorado.phet.website.content.simulations.TranslatedSimsPage;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavascriptPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
+import edu.colorado.phet.website.content.workshops.UgandaWorkshopPhotosPanel;
+import edu.colorado.phet.website.content.workshops.UgandaWorkshopsPanel;
+import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.util.AbstractCategoryListener;
 import edu.colorado.phet.website.data.util.CategoryChangeHandler;
@@ -168,6 +171,12 @@ public class NavMenu {
 
         NavLocation searchResults = new NavLocation( null, "search.results", SearchResultsPage.getLinker( null ) );
         addLocation( searchResults );
+
+        NavLocation uganda = new NavLocation( null, "workshops.uganda", UgandaWorkshopsPanel.getLinker() );
+        addLocation( uganda );
+
+        NavLocation ugandaPhotos = new NavLocation( null, "workshops.uganda-photos", UgandaWorkshopPhotosPanel.getLinker() );
+        addLocation( ugandaPhotos );
 
         Session session = HibernateUtils.getInstance().openSession();
         Transaction tx = null;
