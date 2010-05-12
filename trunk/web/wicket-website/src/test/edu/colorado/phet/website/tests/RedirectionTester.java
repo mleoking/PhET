@@ -240,8 +240,8 @@ public class RedirectionTester {
         return map;
     }
 
-    public static void main( String[] args ) {
-        Map<Request, Hits> map = runProcessedLog( new File( "/home/jon/tmp/filtered_log" ) );
+    public static void main( String[] args ) throws FileNotFoundException {
+        Map<Request, Hits> map = runProcessedLog( new File( "/home/jon/tmp/filtered_access_log" ) );
 
         System.err.println( "\n\n\n\n" );
 
@@ -278,17 +278,21 @@ public class RedirectionTester {
         Collections.sort( notfound );
         Collections.sort( err );
 
-        printReport( ok );
-        printReport( notfound );
-        printReport( err );
+        PrintStream out = new PrintStream( new FileOutputStream( new File( "/home/jon/tmp/output" ) ) );
+
+        printReport( ok, out );
+        printReport( notfound, out );
+        printReport( err, out );
+
+        out.close();
 
     }
 
-    private static void printReport( List<Entry> entries ) {
+    private static void printReport( List<Entry> entries, PrintStream out ) {
         for ( Entry entry : entries ) {
             // TODO: map into toString()s?
-            System.out.println( entry.getHits().getCount() + " " + entry.getRequest().getAddr() + " (" + entry.getRequest().getStatus() + ":" + ( entry.getHits().getHit().isOk() ? "OK" : "ERR" ) + ") " + entry.getHits().getHit() );
+            out.println( entry.getHits().getCount() + " " + entry.getRequest().getAddr() + " (" + entry.getRequest().getStatus() + ":" + ( entry.getHits().getHit().isOk() ? "OK" : "ERR" ) + ") " + entry.getHits().getHit() );
         }
-        System.out.println();
+        out.println();
     }
 }
