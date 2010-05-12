@@ -246,7 +246,7 @@ public class StringUtils {
     }
 
     public static boolean setString( Session session, String key, String value, Locale locale ) {
-        // TODO: read in lines in different ways OR test in Mac?
+        // Tested on Mac, Safari 4.0.5, Firefox 3.6.3
         value = value.replaceAll( "\r", "" );
         value = value.replaceAll( "\n", "<br/>" );
 
