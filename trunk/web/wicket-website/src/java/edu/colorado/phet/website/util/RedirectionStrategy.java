@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
+import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -76,6 +77,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static final String OLD_WEBSITE_PREFIX = "/web-pages";
     private static final String SIM_REDIRECTION = "/services/sim-website-redirect";
     private static final String SIM_REDIRECTION_PHP = "/services/sim-website-redirect.php";
+    private static final String GET_MEMBER_FILE = "/admin/get-member-file.php";
 
     /*---------------------------------------------------------------------------*
     * base locations that should have everything underneath redirected
@@ -141,6 +143,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( DOWNLOAD_TEACHERS_GUIDE, null );
         map.put( SIM_REDIRECTION, null );
         map.put( SIM_REDIRECTION_PHP, null );
+        map.put( GET_MEMBER_FILE, null );
 
         /*---------------------------------------------------------------------------*
         * file page mappings
@@ -380,6 +383,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         else if ( path.startsWith( OLD_WORKSHOPS ) ) {
             return path.substring( "/phet-dist".length() );
         }
+        else if ( path.startsWith( GET_MEMBER_FILE ) ) {
+            return redirectGetMemberFile( parameters );
+        }
         return null;
     }
 
@@ -598,6 +604,22 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         String sim = parameters.containsKey( "sim" ) ? ( (String[]) parameters.get( "sim" ) )[0] : project;
 
         return SimulationPage.getLinker( project, sim ).getDefaultRawUrl();
+    }
+
+    /**
+     * Handle an old way of linking to the windows installer
+     */
+    private static String redirectGetMemberFile( Map parameters ) {
+        if ( !parameters.containsKey( "file" ) ) {
+            return NOT_FOUND;
+        }
+        String filename = ( (String[]) parameters.get( "file" ) )[0];
+        if ( filename.equals( "../phet-dist/installers/PhET-Installer_windows.exe" ) ) {
+            return FullInstallPanel.WINDOWS_INSTALLER_LOCATION;
+        }
+        else {
+            return NOT_FOUND;
+        }
     }
 
     private static String redirectOldWeb( String path ) {

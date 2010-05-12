@@ -2,6 +2,7 @@ package edu.colorado.phet.website.content.getphet;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.about.AboutContactPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -11,6 +12,12 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class FullInstallPanel extends PhetPanel {
+
+    public static final String WINDOWS_INSTALLER_LOCATION = "/installer/PhET-Installer_windows.exe";
+    public static final String MAC_INSTALLER_LOCATION = "/installer/PhET-Installer_osx.zip";
+    public static final String LINUX_INSTALLER_LOCATION = "/installer/PhET-Installer_linux.bin";
+    public static final String CD_INSTALLER_LOCATION = "/installer/PhET-Installer_cdrom.zip";
+
     public FullInstallPanel( String id, PageContext context ) {
         super( id, context );
 
@@ -42,9 +49,13 @@ public class FullInstallPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "step1", "get-phet.full-install.creatingInstallationCD.step1", new Object[]{
-                "href=\"/installer/PhET-Installer_cdrom.zip\"",
+                "href=\"" + CD_INSTALLER_LOCATION + "\"",
                 "246"
         } ) );
+
+        add( new PhetLink( "win-link", WINDOWS_INSTALLER_LOCATION ) );
+        add( new PhetLink( "mac-link", MAC_INSTALLER_LOCATION ) );
+        add( new PhetLink( "linux-link", LINUX_INSTALLER_LOCATION ) );
 
     }
 
