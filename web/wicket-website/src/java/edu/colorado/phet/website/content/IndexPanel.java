@@ -6,7 +6,7 @@ import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
-import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.content.about.AboutContactPanel;
@@ -82,9 +82,9 @@ public class IndexPanel extends PhetPanel {
         }
 
         if ( DistributionHandler.redirectActivities( (PhetRequestCycle) getRequestCycle() ) ) {
-            add( new PhetLink( "activities-link", "http://phet.colorado.edu/teacher_ideas/index.php" ) );
-            add( new PhetLink( "browse-activities-link", "http://phet.colorado.edu/teacher_ideas/browse.php" ) );
-            add( new PhetLink( "submit-activity-link", "http://phet.colorado.edu/teacher_ideas/index.php" ) );
+            add( new RawLink( "activities-link", "http://phet.colorado.edu/teacher_ideas/index.php" ) );
+            add( new RawLink( "browse-activities-link", "http://phet.colorado.edu/teacher_ideas/browse.php" ) );
+            add( new RawLink( "submit-activity-link", "http://phet.colorado.edu/teacher_ideas/index.php" ) );
         }
         else {
             // TODO: what to do when we use a distribution that doesn't want this link?

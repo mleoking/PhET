@@ -10,7 +10,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.components.LocalizedText;
-import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -40,7 +40,7 @@ public class OneAtATimePanel extends PhetPanel {
         add( new ListView( "simulation-list", simulations ) {
             protected void populateItem( ListItem item ) {
                 LocalizedSimulation simulation = (LocalizedSimulation) item.getModel().getObject();
-                Link link = new PhetLink( "download-link", simulation.getDownloadUrl() );
+                Link link = new RawLink( "download-link", simulation.getDownloadUrl() );
                 link.add( new Label( "simulation-title", simulation.getTitle() ) );
                 item.add( link );
             }

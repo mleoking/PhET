@@ -11,7 +11,7 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.content.*;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
@@ -270,7 +270,7 @@ public class NavMenu {
     private NavLocation createSimLocation( NavLocation parent, String name, final Category category ) {
         return new NavLocation( parent, name, new Linkable() {
             public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
-                return new PhetLink( id, context.getPrefix() + "simulations/category/" + category.getCategoryPath() );
+                return new RawLink( id, context.getPrefix() + "simulations/category/" + category.getCategoryPath() );
             }
         } );
     }
@@ -286,7 +286,7 @@ public class NavMenu {
         if ( category.isRoot() ) {
             NavLocation allLocation = new NavLocation( location, "all", new Linkable() {
                 public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
-                    return new PhetLink( id, context.getPrefix() + "simulations/index" );
+                    return new RawLink( id, context.getPrefix() + "simulations/index" );
                 }
             } );
             addLocation( allLocation );

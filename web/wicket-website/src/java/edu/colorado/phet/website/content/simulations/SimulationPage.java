@@ -11,7 +11,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
-import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;

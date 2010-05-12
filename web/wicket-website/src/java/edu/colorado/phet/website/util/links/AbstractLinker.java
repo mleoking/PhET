@@ -2,7 +2,7 @@ package edu.colorado.phet.website.util.links;
 
 import org.apache.wicket.markup.html.link.Link;
 
-import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
@@ -33,7 +33,7 @@ public abstract class AbstractLinker implements RawLinkable {
     }
 
     public Link getLink( String id, PageContext context, PhetRequestCycle cycle ) {
-        return new PhetLink( id, getRawUrl( context, cycle ) );
+        return new RawLink( id, getRawUrl( context, cycle ) );
     }
 
     public String getDefaultRawUrl() {

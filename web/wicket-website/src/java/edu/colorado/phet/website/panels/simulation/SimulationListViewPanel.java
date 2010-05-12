@@ -6,10 +6,9 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
-import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.*;
 import edu.colorado.phet.website.data.util.AbstractCategoryListener;
@@ -61,13 +60,13 @@ public class SimulationListViewPanel extends PhetPanel {
             add( indexPanel );
 
             add( new InvisibleComponent( "to-index-view" ) );
-            add( new PhetLink( "to-thumbnail-view", context.getPrefix() + pagePath.substring( 0, pagePath.length() - 6 ) ) );
+            add( new RawLink( "to-thumbnail-view", context.getPrefix() + pagePath.substring( 0, pagePath.length() - 6 ) ) );
             add( new IndexLetterLinks( "letter-links", context, indexPanel.getLetters() ) );
         }
         else {
             add( new SimulationDisplayPanel( "simulation-display-panel", context, simulations ) );
 
-            add( new PhetLink( "to-index-view", context.getPrefix() + pagePath + "/index" ) );
+            add( new RawLink( "to-index-view", context.getPrefix() + pagePath + "/index" ) );
             add( new InvisibleComponent( "to-thumbnail-view" ) );
             add( new InvisibleComponent( "letter-links" ) );
         }
