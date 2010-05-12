@@ -21,6 +21,8 @@ public class SimulationDisplay extends PhetRegularPage {
 
     private static Logger logger = Logger.getLogger( SimulationDisplay.class.getName() );
 
+    // TODO: decide on rename
+
     public SimulationDisplay( final PageParameters parameters ) {
         super( parameters );
 
