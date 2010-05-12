@@ -17,7 +17,7 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	private static final double CHANNEL_HEIGHT = AxonMembrane.MEMBRANE_THICKNESS * 1.2; // In nanometers.
 	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.50; // In nanometers.
 	
-	private static final Color BASE_COLOR = ColorUtils.interpolateRBGA(NeuronConstants.SODIUM_COLOR, Color.ORANGE, 0.6);
+	private static final Color BASE_COLOR = ColorUtils.interpolateRBGA(NeuronConstants.SODIUM_COLOR, Color.YELLOW, 0.5);
 	
 	// Controls the rate of leakage when no action potential is occurring.
 	// Higher values mean more leakage, with 1 as the max.
