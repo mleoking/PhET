@@ -2,32 +2,34 @@ package edu.colorado.phet.website.content.simulations;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.StringResourceModel;
 
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
-import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.content.NotFoundPage;
+import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.simulation.SimulationListViewPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
-import edu.colorado.phet.website.data.Category;
 
+/**
+ * Displays thumbnails of simulations within a single category, or an alphabetical list of simulations, depending on
+ * whether in index mode.
+ */
 public class CategoryPage extends PhetRegularPage {
 
     private static Logger logger = Logger.getLogger( CategoryPage.class.getName() );
-
-    // TODO: decide on rename
 
     public CategoryPage( final PageParameters parameters ) {
         super( parameters );
 
         boolean showIndex = false;
 
+        // we need to check the "query string" part to see if we will show in "index" mode
         if ( parameters.containsKey( "query-string" ) ) {
             logger.debug( "Query string: " + parameters.getString( "query-string" ) );
             if ( parameters.getString( "query-string" ).equals( "/index" ) ) {
@@ -42,6 +44,8 @@ public class CategoryPage extends PhetRegularPage {
         }
 
         final boolean index = showIndex;
+
+        // create a cacheable panel for the simulation list
         PhetPanel viewPanel = new SimplePanelCacheEntry( SimulationListViewPanel.class, this.getClass(), getPageContext().getLocale(), getMyPath() ) {
             public PhetPanel constructPanel( String id, PageContext context ) {
                 return new SimulationListViewPanel(
@@ -56,10 +60,11 @@ public class CategoryPage extends PhetRegularPage {
         add( viewPanel );
 
         NavLocation location = (NavLocation) viewPanel.getCacheParameter( "location" );
-
         initializeLocation( location );
 
-        addTitle( new StringResourceModel( "simulationDisplay.title", this, null, new Object[]{new StringResourceModel( location.getLocalizationKey(), this, null )} ) );
+        addTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "simulationDisplay.title", this ), new Object[]{
+                getPhetLocalizer().getString( location.getLocalizationKey(), this )
+        } ) );
 
     }
 
@@ -67,13 +72,6 @@ public class CategoryPage extends PhetRegularPage {
         // WARNING: don't change without also changing the old URL redirection
         mapper.addMap( "^simulations(/index)?$", CategoryPage.class, new String[]{"query-string"} );
         mapper.addMap( "^simulations/category/(.+?)(/index)?$", CategoryPage.class, new String[]{"categories", "query-string"} );
-    }
-
-    public static PhetLink createLink( String id, PageContext context ) {
-        // TODO: get rid of this old-style link call!
-        // WARNING: don't change without also changing the old URL redirection
-        String str = context.getPrefix() + "simulations/category/" + Category.getDefaultCategoryKey();
-        return new PhetLink( id, str );
     }
 
     public static RawLinkable getLinker() {

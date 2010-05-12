@@ -42,10 +42,10 @@ public class IndexPanel extends PhetPanel {
                 ResearchPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
-        add( CategoryPage.createLink( "play-sims-link", context ) );
+        add( CategoryPage.getLinker().getLink( "play-sims-link", context, getPhetCycle() ) );
 
         add( RunOurSimulationsPanel.getLinker().getLink( "run-our-sims-link", context, getPhetCycle() ) );
-        add( CategoryPage.createLink( "on-line-link", context ) );
+        add( CategoryPage.getLinker().getLink( "on-line-link", context, getPhetCycle() ) );
         add( FullInstallPanel.getLinker().getLink( "full-install-link", context, getPhetCycle() ) );
         add( OneAtATimePanel.getLinker().getLink( "one-at-a-time-link", context, getPhetCycle() ) );
 
