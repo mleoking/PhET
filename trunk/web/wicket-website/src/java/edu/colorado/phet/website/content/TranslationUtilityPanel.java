@@ -1,6 +1,9 @@
 package edu.colorado.phet.website.content;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.content.simulations.SimulationPage;
+import edu.colorado.phet.website.content.simulations.TranslatedSimsPage;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -13,6 +16,33 @@ public class TranslationUtilityPanel extends PhetPanel {
         // TODO: i18nize
 
         super( id, context );
+
+        // TODO: separate out paths for files that need to be in apache's htdocs
+
+        add( new LocalizedText( "checkAlreadyTranslated", "translationUtility.checkAlreadyTranslated", new Object[]{
+                TranslatedSimsPage.getLinker().getHref( context, getPhetCycle() )
+        } ) );
+
+        add( new LocalizedText( "step-download", "translationUtility.general.download", new Object[]{
+                "href=\"/files/translation-utility/translation-utility.jar\""
+        } ) );
+
+        add( new LocalizedText( "step-selectLanguage", "translationUtility.general.selectLanguage", new Object[]{
+                "<a href=\"mailto:phethelp@colorado.edu?subject=Translation%20Utility\"><span class=\"red\">phethelp@colorado.edu</span></a>"
+        } ) );
+
+        add( new LocalizedText( "example-hydrogen", "translationUtility.example.downloadHydrogen", new Object[]{
+                SimulationPage.getLinker( "hydrogen-atom", "hydrogen-atom" ).getHref( context, getPhetCycle() )
+        } ) );
+
+        add( new LocalizedText( "common-howTo", "translationUtility.common.howTo", new Object[]{
+                "href=\"/sims/java-common-strings/java-common-strings_en.jar\"",
+                "href=\"/sims/flash-common-strings/flash-common-strings_en.jar\""
+        } ) );
+
+        add( new LocalizedText( "bug-reports", "translationUtility.bugReports.whatToDo", new Object[]{
+                "<a href=\"mailto:phethelp@colorado.edu?subject=Translation%20Utility\"><span class=\"red\">phethelp@colorado.edu</span></a>"
+        }));
     }
 
     public static String getKey() {
