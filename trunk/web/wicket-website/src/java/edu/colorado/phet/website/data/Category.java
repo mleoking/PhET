@@ -79,6 +79,10 @@ public class Category implements Serializable, IntId {
         }
     }
 
+    public static String getDefaultCategoryKey() {
+        return "new";
+    }
+
     public void addSimulation( Simulation simulation ) {
         simulation.getCategories().add( this );
         getSimulations().add( simulation );
