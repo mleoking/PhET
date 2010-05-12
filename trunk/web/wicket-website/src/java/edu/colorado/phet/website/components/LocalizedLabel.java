@@ -5,6 +5,9 @@ import java.util.Locale;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 
+/**
+ * A simple Wicket label, except that its locale can be overridden. This label IS escaped by default.
+ */
 public class LocalizedLabel extends Label {
     private Locale locale = null;
 

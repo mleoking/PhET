@@ -1,7 +1,5 @@
 package edu.colorado.phet.website.components;
 
-import java.text.MessageFormat;
-
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
@@ -12,22 +10,35 @@ import org.apache.wicket.model.Model;
 
 import edu.colorado.phet.website.util.StringUtils;
 
+/**
+ * A block of unescaped text that looks up a translated string, and that can be passed MessageFormat-like arguments.
+ */
 public class LocalizedText extends WebComponent {
 
     private Object[] args = null;
 
     private static Logger logger = Logger.getLogger( LocalizedText.class.getName() );
 
-    public LocalizedText( String id ) {
-        super( id );
+    /**
+     * Create a block of unescaped text with the specified Wicket ID and translatable string key
+     *
+     * @param id  Wicket ID
+     * @param key Translatable string key
+     */
+    public LocalizedText( String id, String key ) {
+        this( id, new Model( key ) );
     }
 
-    public LocalizedText( String id, String text ) {
-        this( id, new Model( text ) );
-    }
-
-    public LocalizedText( String id, String text, Object[] args ) {
-        this( id, new Model( text ) );
+    /**
+     * Create a block of unescaped text with the specified Wicket ID, translatable string key and a list of
+     * MessageFormat arguments
+     *
+     * @param id   Wicket ID
+     * @param key  Translatable string key
+     * @param args MessageFormat arguments
+     */
+    public LocalizedText( String id, String key, Object[] args ) {
+        this( id, new Model( key ) );
         this.args = args;
     }
 
@@ -35,13 +46,15 @@ public class LocalizedText extends WebComponent {
         super( id, model );
     }
 
+    /*---------------------------------------------------------------------------*
+    * implementation
+    *----------------------------------------------------------------------------*/
+
     protected void onComponentTagBody( final MarkupStream markupStream, final ComponentTag openTag ) {
         String key = getModelObjectAsString();
         String body = getLocalizer().getString( key, this );
         if ( args != null ) {
             try {
-                //MessageFormat format = new MessageFormat( body, getLocale() );
-                //body = format.format( args, new StringBuffer(), null ).toString();
                 body = StringUtils.messageFormat( body, args, getLocale() );
             }
             catch( RuntimeException e ) {
