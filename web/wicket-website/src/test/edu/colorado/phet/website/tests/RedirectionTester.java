@@ -148,7 +148,7 @@ public class RedirectionTester {
 
         private Request( String addr, int status ) {
             this.addr = addr;
-            this.status = status;
+            this.status = ( status == 304 || status == 200 ) ? 1 : status;
         }
 
         public String getAddr() {
@@ -167,6 +167,16 @@ public class RedirectionTester {
         @Override
         public boolean equals( Object o ) {
             return ( o instanceof Request && ( (Request) o ).getAddr().equals( getAddr() ) && ( (Request) o ).getStatus() == getStatus() );
+        }
+
+        @Override
+        public String toString() {
+            if ( status == 1 ) {
+                return "OK";
+            }
+            else {
+                return String.valueOf( status );
+            }
         }
     }
 
@@ -225,7 +235,7 @@ public class RedirectionTester {
                 else {
                     Hit hit = getHit( addr );
                     map.put( request, new Hits( hit ) );
-                    System.err.println( addr + " (" + status + ":" + ( hit.isOk() ? "OK" : "ERR" ) + ") " + hit );
+                    System.err.println( addr + " (" + request.toString() + ":" + ( hit.isOk() ? "OK" : "ERR" ) + ") " + hit );
                 }
 
 
@@ -292,7 +302,7 @@ public class RedirectionTester {
     private static void printReport( List<Entry> entries, PrintStream out ) {
         for ( Entry entry : entries ) {
             // TODO: map into toString()s?
-            out.println( entry.getHits().getCount() + " " + entry.getRequest().getAddr() + " (" + entry.getRequest().getStatus() + ":" + ( entry.getHits().getHit().isOk() ? "OK" : "ERR" ) + ") " + entry.getHits().getHit() );
+            out.println( entry.getHits().getCount() + " " + entry.getRequest().getAddr() + " (" + entry.getRequest().toString() + ":" + ( entry.getHits().getHit().isOk() ? "OK" : "ERR" ) + ") " + entry.getHits().getHit() );
         }
         out.println();
     }
