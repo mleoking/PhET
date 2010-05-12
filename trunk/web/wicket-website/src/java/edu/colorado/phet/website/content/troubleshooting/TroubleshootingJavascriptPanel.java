@@ -7,6 +7,7 @@ import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.HtmlUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -26,11 +27,10 @@ public class TroubleshootingJavascriptPanel extends PhetPanel {
                 "<a href=\"mailto:phethelp@colorado.edu\"><span class=\"red\">phethelp@colorado.edu</span></a>"
         } ) );
 
-        // TODO: improve. you know why
         add( new RawLabel( "troubleshooting-javascript-q1-yes",
                            "\n/* <![CDATA[ */\n" +
                            "document.getElementById( \"javascript-ok\" ).style.display = \"block\";\n" +
-                           "document.getElementById( \"javascript-ok\" ).innerHTML = \"" + getLocalizer().getString( "troubleshooting.javascript.q1.yes", this ) + "\";\n"
+                           "document.getElementById( \"javascript-ok\" ).innerHTML = \"" + HtmlUtils.encode( getLocalizer().getString( "troubleshooting.javascript.q1.yes", this ) ).replace( "\"", "&quot;" ) + "\";\n"
                            + "\n/* ]]> */\n" ) );
 
         add( new LocalizedText( "troubleshooting-javascript-q2-answer", "troubleshooting.javascript.q2.answer" ) );
