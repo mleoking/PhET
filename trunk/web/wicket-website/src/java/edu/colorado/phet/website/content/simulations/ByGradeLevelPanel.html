@@ -7,13 +7,78 @@
     <title>[PREVIEW] ByGradeLevelPanel</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../../../../../../root/css/preview.css"/>
+        <style type="text/css">
+            body {
+                width: 525px;
+            }
+        </style>
     </wicket:remove>
+    <wicket:head>
+        <style type="text/css">
+            .by-grade-level img {
+                border: none;
+            }
+            .by-grade-level a {
+                text-decoration: none;
+                color: #990000;
+            }
+            #main-content .by-grade-level a:hover {
+                text-decoration: none;
+            }
+            #main-content .by-grade-level a:hover span {
+                text-decoration: underline;
+            }
+            .by-grade-level td {
+                text-align: center;
+                padding-top: 30px;
+            }
+            .by-grade-level table {
+                width: 100%;
+            }
+            .by-grade-level span {
+                padding-top: 5px;
+            }
+        </style>
+    </wicket:head>
 </head>
 <body wicket:message="dir:language.dir">
 
 <wicket:panel>
-    <div wicket:message="dir:language.dir">
-        <p>It worked</p>
+    <div wicket:message="dir:language.dir" class="by-grade-level standard-content">
+        <table>
+            <tr>
+                <td>
+                    <a href="#" wicket:id="elementary-school-link">
+                        <img src="/sims/arithmetic/arithmetic-thumbnail.jpg"
+                             alt="Arithmetic simulation screenshot"/><br/>
+                        <span><wicket:message key="nav.elementary-school">Elementary School</wicket:message></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" wicket:id="middle-school-link">
+                        <img src="/sims/ohms-law/ohms-law-thumbnail.jpg"
+                             alt="Ohm's Law simulation screenshot"/><br/>
+                        <span><wicket:message key="nav.middle-school">Middle School</wicket:message></span>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="#" wicket:id="high-school-link">
+                        <img src="/sims/states-of-matter/atomic-interactions-thumbnail.jpg"
+                             alt="Atomic Interactions simulation screenshot"/><br/>
+                        <span><wicket:message key="nav.high-school">High School</wicket:message></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" wicket:id="university-link">
+                        <img src="/sims/bound-states/covalent-bonds-thumbnail.jpg"
+                             alt="Double Wells and Covalent Bonds simulation screenshot"/><br/>
+                        <span><wicket:message key="nav.university">University</wicket:message></span>
+                    </a>
+                </td>
+            </tr>
+        </table>
     </div>
 </wicket:panel>
 
