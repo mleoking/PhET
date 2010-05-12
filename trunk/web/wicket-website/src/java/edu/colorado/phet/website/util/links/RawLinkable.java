@@ -4,6 +4,9 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public interface RawLinkable extends Linkable {
+    /**
+     * @return A string that represents either an external URL or a relative URL to within the site.
+     */
     public String getRawUrl( PageContext context, PhetRequestCycle cycle );
 
     /**
@@ -18,5 +21,8 @@ public interface RawLinkable extends Linkable {
      */
     public String getHref( PageContext context, PhetRequestCycle cycle );
 
+    /**
+     * @return A string like getRawUrl(), but with the '/en/' prefix as an English default
+     */
     public String getDefaultRawUrl();
 }
