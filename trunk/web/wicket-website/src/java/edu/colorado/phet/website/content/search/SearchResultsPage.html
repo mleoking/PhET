@@ -12,26 +12,7 @@
 <body>
 
 <wicket:extend>
-    <div class="standard-content">
-        <h2 wicket:id="search-query">Search query: testing</h2>
-
-        <h3>
-            <wicket:message key="search.simulations">Simulations</wicket:message>
-        </h3>
-        <ul>
-            <li wicket:id="sims"><a href="#" wicket:id="sim-link"><span wicket:id="sim-title">
-                Simulation Title
-            </span></a></li>
-        </ul>
-        <h3>
-            <wicket:message key="search.activities">Activities</wicket:message>
-        </h3>
-        <ul>
-            <li wicket:id="contribs"><a href="#" wicket:id="contrib-link"><span wicket:id="contrib-title">
-                Contribution Title
-            </span></a></li>
-        </ul>
-    </div>
+    <div wicket:id="search-results-panel"></div>
 </wicket:extend>
 
 </body>
