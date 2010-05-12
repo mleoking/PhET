@@ -31,10 +31,7 @@ import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
 import edu.colorado.phet.website.content.search.SearchResultsPage;
-import edu.colorado.phet.website.content.simulations.SimsByKeywordPage;
-import edu.colorado.phet.website.content.simulations.SimulationDisplay;
-import edu.colorado.phet.website.content.simulations.SimulationPage;
-import edu.colorado.phet.website.content.simulations.TranslatedSimsPage;
+import edu.colorado.phet.website.content.simulations.*;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavascriptPanel;
@@ -118,6 +115,7 @@ public class PhetWicketApplication extends WebApplication {
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();
+        ByGradeLevelPage.addToMapper( mapper ); // always add this before SimulationDisplay so it can display the icons
         SimulationDisplay.addToMapper( mapper );
         SimulationPage.addToMapper( mapper );
         StaticPage.addToMapper( mapper );
