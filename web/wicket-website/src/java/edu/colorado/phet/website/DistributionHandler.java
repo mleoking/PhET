@@ -4,13 +4,13 @@ import org.apache.log4j.Logger;
 
 import edu.colorado.phet.website.content.DonatePanel;
 import edu.colorado.phet.website.content.ResearchPanel;
-import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavascriptPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
+import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
@@ -168,10 +168,11 @@ public class DistributionHandler {
 
     /**
      * Whether or not to show anything related to website translations on the website
+     *
      * @param cycle
      * @return
      */
     public static boolean displayWebsiteTranslations( PhetRequestCycle cycle ) {
-        return true;
+        return !cycle.getWebRequest().getHttpServletRequest().getServerName().equals( PhetWicketApplication.getProductionServerName() );
     }
 }
