@@ -1,9 +1,10 @@
 package edu.colorado.phet.website.tests;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.StringTokenizer;
 
 public class RedirectionTester {
 
@@ -120,7 +121,39 @@ public class RedirectionTester {
         }
     }
 
+    public static void runProcessedLog( File logFile ) {
+        try {
+            BufferedReader in = new BufferedReader( new FileReader( logFile ) );
+
+            String line;
+            while ( ( line = in.readLine() ) != null ) {
+                StringTokenizer tokenizer = new StringTokenizer( line, " " );
+                if ( tokenizer.countTokens() < 4 ) {
+                    System.out.println( "Untokenizable line: " + line );
+                    continue;
+                }
+                String method = tokenizer.nextToken();
+                if ( !method.equals( "GET" ) ) {
+                    System.out.println( "Skipping method: " + method );
+                    continue;
+                }
+                String addr = tokenizer.nextToken();
+                int status = Integer.valueOf( tokenizer.nextToken() );
+                String redir = tokenizer.nextToken();
+                Hit hit = getHit( addr );
+                System.out.println( addr + " (" + status + ":" + ( hit.isOk() ? "OK" : "ERR" ) + ") " + hit );
+            }
+        }
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main( String[] args ) {
-        System.out.println( getHit( "/index.php" ) );
+        //System.out.println( getHit( "/index.php" ) );
+        runProcessedLog( new File( "/home/jon/tmp/filtered_log" ) );
     }
 }
