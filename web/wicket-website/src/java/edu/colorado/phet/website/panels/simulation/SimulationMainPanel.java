@@ -130,7 +130,9 @@ public class SimulationMainPanel extends PhetPanel {
             }
         } );
         if ( !guides.isEmpty() ) {
-            add( new LocalizedText( "guide-text", "simulationMainPanel.teachersGuide", new Object[]{guides.get( 0 ).getLinker().getHref( context, getPhetCycle() )} ) );
+            add( new LocalizedText( "guide-text", "simulationMainPanel.teachersGuide", new Object[]{
+                    guides.get( 0 ).getLinker().getHref( context, getPhetCycle() )
+            } ) );
         }
         else {
             // make the teachers guide text (and whole section) invisible

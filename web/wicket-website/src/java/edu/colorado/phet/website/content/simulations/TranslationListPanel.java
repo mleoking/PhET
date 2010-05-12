@@ -135,7 +135,9 @@ public class TranslationListPanel extends PhetPanel implements CacheableUrlStati
             } );
         }
 
-        add( new LocalizedText( "remaining", "simulations.translated.toTranslate", new Object[]{TranslationUtilityPanel.getLinker().getHref( context, getPhetCycle() )} ) );
+        add( new LocalizedText( "remaining", "simulations.translated.toTranslate", new Object[]{
+                TranslationUtilityPanel.getLinker().getHref( context, getPhetCycle() )
+        } ) );
 
         // TODO: update dependencies to narrow
         addDependency( new EventDependency() {
