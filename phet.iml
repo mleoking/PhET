@@ -6,12 +6,12 @@
         <option name="takeFromSettings" value="true" />
         <option name="myScalaCompilerJarPaths">
           <array>
-            <option value="C:/install/scala-2.8.0.RC2/lib/scala-compiler.jar" />
+            <option value="$MODULE_DIR$/build-tools/contrib/scala/scala-compiler.jar" />
           </array>
         </option>
         <option name="myScalaSdkJarPaths">
           <array>
-            <option value="C:/install/scala-2.8.0.RC2/lib/scala-library.jar" />
+            <option value="$MODULE_DIR$/build-tools/contrib/scala/scala-library.jar" />
           </array>
         </option>
       </configuration>
