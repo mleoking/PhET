@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 public class RedirectionTester {
@@ -121,7 +123,57 @@ public class RedirectionTester {
         }
     }
 
-    public static void runProcessedLog( File logFile ) {
+    private static class Hits {
+        private Hit hit;
+        private int count = 1;
+
+        private Hits( Hit hit ) {
+            this.hit = hit;
+        }
+
+        public Hit getHit() {
+            return hit;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public void increment() {
+            count++;
+        }
+    }
+
+    private static class Request {
+        private final String addr;
+        private final int status;
+
+        private Request( String addr, int status ) {
+            this.addr = addr;
+            this.status = status;
+        }
+
+        public String getAddr() {
+            return addr;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        @Override
+        public int hashCode() {
+            return new Integer( status ).hashCode() + addr.hashCode();
+        }
+
+        @Override
+        public boolean equals( Object o ) {
+            return ( o instanceof Request && ( (Request) o ).getAddr().equals( getAddr() ) && ( (Request) o ).getStatus() == getStatus() );
+        }
+    }
+
+    public static Map<Request, Hits> runProcessedLog( File logFile ) {
+        Map<Request, Hits> map = new HashMap<Request, Hits>();
         try {
             BufferedReader in = new BufferedReader( new FileReader( logFile ) );
 
@@ -140,8 +192,18 @@ public class RedirectionTester {
                 String addr = tokenizer.nextToken();
                 int status = Integer.valueOf( tokenizer.nextToken() );
                 String redir = tokenizer.nextToken();
-                Hit hit = getHit( addr );
-                System.out.println( addr + " (" + status + ":" + ( hit.isOk() ? "OK" : "ERR" ) + ") " + hit );
+
+                Request request = new Request( addr, status );
+                if ( map.containsKey( request ) ) {
+                    map.get( request ).increment();
+                }
+                else {
+                    Hit hit = getHit( addr );
+                    map.put( request, new Hits( hit ) );
+                    System.out.println( addr + " (" + status + ":" + ( hit.isOk() ? "OK" : "ERR" ) + ") " + hit );
+                }
+
+
             }
         }
         catch( FileNotFoundException e ) {
@@ -150,10 +212,17 @@ public class RedirectionTester {
         catch( IOException e ) {
             e.printStackTrace();
         }
+        return map;
     }
 
     public static void main( String[] args ) {
-        //System.out.println( getHit( "/index.php" ) );
-        runProcessedLog( new File( "/home/jon/tmp/filtered_log" ) );
+        Map<Request, Hits> map = runProcessedLog( new File( "/home/jon/tmp/filtered_log" ) );
+
+        System.out.println( "\n\n\n\n" );
+
+        for ( Request request : map.keySet() ) {
+            Hits hits = map.get( request );
+            System.out.println( request.getAddr() + " #" + hits.getCount() + " (" + request.getStatus() + ":" + ( hits.getHit().isOk() ? "OK" : "ERR" ) + ") " + hits.getHit() );
+        }
     }
 }
