@@ -1,3 +1,4 @@
+# 1.03.64 (40652) May 12, 2010
 Made coordinate frame graphic handle grabbable
 Added a handle to the coordinate frame graphic
 Improved fonts and shadowing for force arrow labels.
