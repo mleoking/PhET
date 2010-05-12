@@ -4,8 +4,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Arrays;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildScript;
@@ -14,6 +17,7 @@ import edu.colorado.phet.buildtools.VersionIncrement;
 import edu.colorado.phet.buildtools.gui.ChangesPanel;
 import edu.colorado.phet.buildtools.gui.LocaleListPanel;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
+import edu.colorado.phet.buildtools.gui.PhetBuildGUIProperties;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
@@ -27,7 +31,7 @@ public class JavaSimulationPanel extends JPanel {
     private JRadioButton incrementMinor;
     private JRadioButton incrementMajor;
 
-    public JavaSimulationPanel( File trunk, JavaSimulationProject project ) {
+    public JavaSimulationPanel( File trunk, JavaSimulationProject project, final PhetBuildGUIProperties properties) {
         super( new BorderLayout() );
 
         this.trunk = trunk;
@@ -41,7 +45,18 @@ public class JavaSimulationPanel extends JPanel {
 
         simulationList = new JList( project.getSimulationNames() );
         simulationList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        simulationList.setSelectedIndex( 0 );
+
+        //Provide support for saving/loading the selected sim, see #2336
+        int selected = Arrays.asList(project.getSimulationNames()).indexOf(properties.getSimSelected());
+        if (selected < 0) selected = 0;//just choose the first item if no item was selected or if the name was not found
+        simulationList.setSelectedIndex(selected);
+        simulationList.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                properties.setSimSelected(simulationList.getSelectedValue().toString());
+                System.out.println("Saved sim selection: " + properties.getSimSelected());
+            }
+        });
+        
         JScrollPane simulationScrollPane = new JScrollPane( simulationList );
         simulationScrollPane.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
         simulationScrollPane.setMinimumSize( new Dimension( 150, 0 ) );

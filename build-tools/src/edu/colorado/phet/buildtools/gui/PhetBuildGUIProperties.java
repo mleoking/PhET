@@ -17,6 +17,7 @@ public class PhetBuildGUIProperties extends AbstractPropertiesFile {
     
     // property names
     private static final String PROPERTY_PROJECT_SELECTED = "project.selected";
+    private static final String PROPERTY_SIM_SELECTED = "sim.selected"; //the last sim that the user selected in the list, see #2336
     private static final String PROPERTY_FRAME_X = "frame.x";
     private static final String PROPERTY_FRAME_Y = "frame.y";
     private static final String PROPERTY_FRAME_WIDTH = "frame.width";
@@ -46,6 +47,14 @@ public class PhetBuildGUIProperties extends AbstractPropertiesFile {
     
     public void setProjectSelected( String value ) {
         setProperty( PROPERTY_PROJECT_SELECTED, value );
+    }
+
+    public String getSimSelected() {
+        return getProperty( PROPERTY_SIM_SELECTED );
+    }
+
+    public void setSimSelected( String value ) {
+        setProperty( PROPERTY_SIM_SELECTED, value );
     }
     
     public Point getFrameLocation() {
