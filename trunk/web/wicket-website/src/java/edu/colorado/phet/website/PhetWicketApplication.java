@@ -115,8 +115,8 @@ public class PhetWicketApplication extends WebApplication {
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();
-        ByGradeLevelPage.addToMapper( mapper ); // always add this before SimulationDisplay so it can display the icons
-        SimulationDisplay.addToMapper( mapper );
+        ByGradeLevelPage.addToMapper( mapper ); // always add this before CategoryPage so it can display the icons
+        CategoryPage.addToMapper( mapper );
         SimulationPage.addToMapper( mapper );
         StaticPage.addToMapper( mapper );
         IndexPage.addToMapper( mapper );

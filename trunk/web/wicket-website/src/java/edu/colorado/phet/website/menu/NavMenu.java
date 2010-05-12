@@ -22,7 +22,7 @@ import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
 import edu.colorado.phet.website.content.search.SearchResultsPage;
-import edu.colorado.phet.website.content.simulations.SimulationDisplay;
+import edu.colorado.phet.website.content.simulations.CategoryPage;
 import edu.colorado.phet.website.content.simulations.TranslatedSimsPage;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavaPanel;
@@ -58,7 +58,7 @@ public class NavMenu {
         NavLocation home = new NavLocation( null, "home", IndexPage.getLinker() );
         addMajorLocation( home );
 
-        simulations = new NavLocation( null, "simulations", SimulationDisplay.getLinker() );
+        simulations = new NavLocation( null, "simulations", CategoryPage.getLinker() );
         addMajorLocation( simulations );
 
         NavLocation teacherIdeas = new NavLocation( null, "teacherIdeas", TeacherIdeasPanel.getLinker() );
@@ -97,7 +97,7 @@ public class NavMenu {
         NavLocation getPhet = new NavLocation( null, "get-phet", RunOurSimulationsPanel.getLinker() );
         addMajorLocation( getPhet );
 
-        NavLocation online = new NavLocation( getPhet, "get-phet.on-line", SimulationDisplay.getLinker() );
+        NavLocation online = new NavLocation( getPhet, "get-phet.on-line", CategoryPage.getLinker() );
         addLocation( online );
         getPhet.addChild( online );
 
@@ -166,7 +166,7 @@ public class NavMenu {
 
         // unconnected locations
 
-        NavLocation byKeyword = new NavLocation( null, "simulations.by-keyword", SimulationDisplay.getLinker() );
+        NavLocation byKeyword = new NavLocation( null, "simulations.by-keyword", CategoryPage.getLinker() );
         addLocation( byKeyword );
 
         NavLocation searchResults = new NavLocation( null, "search.results", SearchResultsPage.getLinker( null ) );

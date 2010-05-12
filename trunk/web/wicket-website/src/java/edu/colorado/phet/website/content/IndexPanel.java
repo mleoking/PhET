@@ -17,7 +17,7 @@ import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
-import edu.colorado.phet.website.content.simulations.SimulationDisplay;
+import edu.colorado.phet.website.content.simulations.CategoryPage;
 import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.RotatorPanel;
@@ -42,10 +42,10 @@ public class IndexPanel extends PhetPanel {
                 ResearchPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
-        add( SimulationDisplay.createLink( "play-sims-link", context ) );
+        add( CategoryPage.createLink( "play-sims-link", context ) );
 
         add( RunOurSimulationsPanel.getLinker().getLink( "run-our-sims-link", context, getPhetCycle() ) );
-        add( SimulationDisplay.createLink( "on-line-link", context ) );
+        add( CategoryPage.createLink( "on-line-link", context ) );
         add( FullInstallPanel.getLinker().getLink( "full-install-link", context, getPhetCycle() ) );
         add( OneAtATimePanel.getLinker().getLink( "one-at-a-time-link", context, getPhetCycle() ) );
 
@@ -61,9 +61,9 @@ public class IndexPanel extends PhetPanel {
         add( AboutContactPanel.getLinker().getLink( "about-contact", context, getPhetCycle() ) );
         add( AboutSponsorsPanel.getLinker().getLink( "about-sponsors", context, getPhetCycle() ) );
 
-        //add( SimulationDisplay.createLink( "browse-sims-link", context ) );
+        //add( CategoryPage.createLink( "browse-sims-link", context ) );
 
-        //add( SimulationDisplay.createLink( "below-simulations-link", context ) );
+        //add( CategoryPage.createLink( "below-simulations-link", context ) );
 
         //add( AboutMainPanel.getLinker().getLink( "home-about-phet-link", context, getPhetCycle() ) );
 
@@ -95,7 +95,7 @@ public class IndexPanel extends PhetPanel {
 
         add( HeaderContributor.forCss( CSS.HOME ) );
 
-        //Link miniLink = SimulationDisplay.createLink( "mini-screenshot-link", context );
+        //Link miniLink = CategoryPage.createLink( "mini-screenshot-link", context );
         //add( miniLink );
         //miniLink.add( new StaticImage( "mini-screenshot", "/images/geometric-optics-screenshot.png", null ) );
 

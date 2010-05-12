@@ -10,13 +10,12 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.content.simulations.SimulationDisplay;
+import edu.colorado.phet.website.content.simulations.CategoryPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.StringUtils;
 
 public class RotatorPanel extends PhetPanel {
     public RotatorPanel( String id, PageContext context ) {
@@ -68,6 +67,6 @@ public class RotatorPanel extends PhetPanel {
         embedLabel.add( new AttributeAppender( "FlashVars", flashvarsModel, " " ) );
         add( embedLabel );
 
-        add( SimulationDisplay.getLinker().getLink( "fallback-link", context, getPhetCycle() ) );
+        add( CategoryPage.getLinker().getLink( "fallback-link", context, getPhetCycle() ) );
     }
 }

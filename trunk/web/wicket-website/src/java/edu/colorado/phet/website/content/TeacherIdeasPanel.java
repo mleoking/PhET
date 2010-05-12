@@ -4,7 +4,7 @@ import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.contribution.ContributionBrowsePage;
 import edu.colorado.phet.website.content.contribution.ContributionCreatePage;
 import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
-import edu.colorado.phet.website.content.simulations.SimulationDisplay;
+import edu.colorado.phet.website.content.simulations.CategoryPage;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -15,12 +15,12 @@ public class TeacherIdeasPanel extends PhetPanel {
         super( id, context );
 
         add( new LocalizedText( "welcome", "teacherIdeas.welcome", new Object[]{
-                SimulationDisplay.getLinker().getHref( context, getPhetCycle() )
+                CategoryPage.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "start", "teacherIdeas.start", new Object[]{
                 ContributionBrowsePage.getLinker().getHref( context, getPhetCycle() ),
-                SimulationDisplay.getLinker().getHref( context, getPhetCycle() )
+                CategoryPage.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
         add( new LocalizedText( "contribute", "teacherIdeas.contribute", new Object[]{

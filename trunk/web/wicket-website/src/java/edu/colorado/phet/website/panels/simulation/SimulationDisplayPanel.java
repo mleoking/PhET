@@ -1,6 +1,5 @@
 package edu.colorado.phet.website.panels.simulation;
 
-import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -59,7 +58,7 @@ public class SimulationDisplayPanel extends PhetPanel {
         gridView.setColumns( 3 );
         add( gridView );
 
-        add( HeaderContributor.forCss( CSS.SIMULATION_DISPLAY ) );
+        add( HeaderContributor.forCss( CSS.CATEGORY_PAGE ) );
 
     }
 

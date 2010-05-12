@@ -17,13 +17,13 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 import edu.colorado.phet.website.data.Category;
 
-public class SimulationDisplay extends PhetRegularPage {
+public class CategoryPage extends PhetRegularPage {
 
-    private static Logger logger = Logger.getLogger( SimulationDisplay.class.getName() );
+    private static Logger logger = Logger.getLogger( CategoryPage.class.getName() );
 
     // TODO: decide on rename
 
-    public SimulationDisplay( final PageParameters parameters ) {
+    public CategoryPage( final PageParameters parameters ) {
         super( parameters );
 
         boolean showIndex = false;
@@ -46,7 +46,7 @@ public class SimulationDisplay extends PhetRegularPage {
             public PhetPanel constructPanel( String id, PageContext context ) {
                 return new SimulationListViewPanel(
                         id,
-                        SimulationDisplay.this.getMyPath(),
+                        CategoryPage.this.getMyPath(),
                         parameters.containsKey( "categories" ) ? parameters.getString( "categories" ) : null,
                         index,
                         context
@@ -65,8 +65,8 @@ public class SimulationDisplay extends PhetRegularPage {
 
     public static void addToMapper( PhetUrlMapper mapper ) {
         // WARNING: don't change without also changing the old URL redirection
-        mapper.addMap( "^simulations(/index)?$", SimulationDisplay.class, new String[]{"query-string"} );
-        mapper.addMap( "^simulations/category/(.+?)(/index)?$", SimulationDisplay.class, new String[]{"categories", "query-string"} );
+        mapper.addMap( "^simulations(/index)?$", CategoryPage.class, new String[]{"query-string"} );
+        mapper.addMap( "^simulations/category/(.+?)(/index)?$", CategoryPage.class, new String[]{"categories", "query-string"} );
     }
 
     public static PhetLink createLink( String id, PageContext context ) {
