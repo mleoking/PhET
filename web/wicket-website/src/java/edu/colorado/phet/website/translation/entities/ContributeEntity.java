@@ -84,6 +84,8 @@ public class ContributeEntity extends TranslationEntity {
         addString( "contribution.edit.language" );
 
         addString( "contribution.create.pageTitle" );
+        addString( "contribution.create.checkGuidelines" );
+        
         addString( "contribution.manage.pageTitle" );
 
         addString( "list.add" );

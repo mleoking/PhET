@@ -1,6 +1,5 @@
 package edu.colorado.phet.website.panels.simulation;
 
-import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -23,16 +22,17 @@ import org.hibernate.event.PostUpdateEvent;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
-import edu.colorado.phet.website.constants.Images;
-import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.borders.SmallOrangeButtonBorder;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.constants.CSS;
+import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.DonatePanel;
 import edu.colorado.phet.website.content.about.AboutLegendPanel;
+import edu.colorado.phet.website.content.contribution.ContributionCreatePage;
 import edu.colorado.phet.website.content.simulations.SimsByKeywordPage;
 import edu.colorado.phet.website.content.simulations.TranslatedSimsPage;
 import edu.colorado.phet.website.data.*;
@@ -44,8 +44,8 @@ import edu.colorado.phet.website.panels.PearsonSponsorPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionBrowsePanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
-import static edu.colorado.phet.website.util.HtmlUtils.encode;
 import edu.colorado.phet.website.util.*;
+import static edu.colorado.phet.website.util.HtmlUtils.encode;
 
 public class SimulationMainPanel extends PhetPanel {
 
@@ -522,6 +522,10 @@ public class SimulationMainPanel extends PhetPanel {
         else {
             add( new InvisibleComponent( "pearson-sponsor" ) );
         }
+
+        add( new LocalizedText( "submit-a", "simulationMainPanel.submitActivities", new Object[]{
+                ContributionCreatePage.getLinker().getHref( context, getPhetCycle() )
+        } ) );
     }
 
     public String getTitle() {
