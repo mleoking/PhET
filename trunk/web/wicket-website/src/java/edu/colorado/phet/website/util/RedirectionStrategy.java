@@ -397,6 +397,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
      */
     private static String redirectContributions( Map parameters ) {
         try {
+            if ( !parameters.containsKey( "contribution_id" ) ) {
+                return NOT_FOUND;
+            }
             String idstr = ( (String[]) parameters.get( "contribution_id" ) )[0];
             final int id = Integer.parseInt( idstr );
             final String[] ret = new String[1];
