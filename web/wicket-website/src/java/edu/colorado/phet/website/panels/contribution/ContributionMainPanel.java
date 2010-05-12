@@ -21,7 +21,7 @@ import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.StaticImage;
-import edu.colorado.phet.website.content.SearchResultsPage;
+import edu.colorado.phet.website.content.search.SearchResultsPage;
 import edu.colorado.phet.website.content.contribution.AddContributionCommentPage;
 import edu.colorado.phet.website.content.contribution.ContributionGuidelinesPanel;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
