@@ -13,8 +13,6 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 public class TranslationUtilityPanel extends PhetPanel {
     public TranslationUtilityPanel( String id, PageContext context ) {
 
-        // TODO: i18nize
-
         super( id, context );
 
         // TODO: separate out paths for files that need to be in apache's htdocs
