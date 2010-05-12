@@ -3,7 +3,7 @@ package edu.colorado.phet.website.content.getphet;
 import org.apache.wicket.behavior.HeaderContributor;
 
 import edu.colorado.phet.website.components.LocalizedText;
-import edu.colorado.phet.website.content.simulations.SimulationDisplay;
+import edu.colorado.phet.website.content.simulations.CategoryPage;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -16,7 +16,7 @@ public class RunOurSimulationsPanel extends PhetPanel {
 
         add( HeaderContributor.forCss( CSS.RUN_OUR_SIMULATIONS ) );
 
-        add( SimulationDisplay.createLink( "online-link", context ) );
+        add( CategoryPage.createLink( "online-link", context ) );
         add( FullInstallPanel.getLinker().getLink( "install-link", context, getPhetCycle() ) );
         add( OneAtATimePanel.getLinker().getLink( "offline-link", context, getPhetCycle() ) );
 
