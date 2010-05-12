@@ -1,8 +1,7 @@
-package edu.colorado.phet.website.content;
+package edu.colorado.phet.website.content.search;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 

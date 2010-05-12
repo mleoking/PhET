@@ -25,6 +25,7 @@ import edu.colorado.phet.website.admin.deploy.AdminDeployProjectPage;
 import edu.colorado.phet.website.authentication.*;
 import edu.colorado.phet.website.cache.InstallerCache;
 import edu.colorado.phet.website.content.*;
+import edu.colorado.phet.website.content.search.SearchResultsPage;
 import edu.colorado.phet.website.content.about.*;
 import edu.colorado.phet.website.content.contribution.*;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
