@@ -27,6 +27,10 @@
     text-decoration: none;
 }
 
+a.simulation-link:hover .simulation-list-title {
+    text-decoration: underline;
+}
+
 .simulation-link img {
     border: none;
     font-size: 2px;
