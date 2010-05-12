@@ -77,6 +77,12 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static final String SIM_REDIRECTION = "/services/sim-website-redirect";
     private static final String SIM_REDIRECTION_PHP = "/services/sim-website-redirect.php";
 
+    /*---------------------------------------------------------------------------*
+    * base locations that should have everything underneath redirected
+    *----------------------------------------------------------------------------*/
+    private static final String OLD_PUBLICATIONS = "/phet-dist/publications/";
+    private static final String OLD_WORKSHOPS = "/phet-dist/workshops/";
+
     private static final String NOT_FOUND = "/error/404";
 
     // TODO: map all of these paths so if they are changed, the redirections are changed with them
@@ -367,6 +373,12 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
         else if ( path.startsWith( OLD_WEBSITE_PREFIX ) ) {
             return redirectOldWeb( path );
+        }
+        else if ( path.startsWith( OLD_PUBLICATIONS ) ) {
+            return path.substring( "/phet-dist".length() );
+        }
+        else if ( path.startsWith( OLD_WORKSHOPS ) ) {
+            return path.substring( "/phet-dist".length() );
         }
         return null;
     }
@@ -672,6 +684,12 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
 
         if ( morphedPath.startsWith( OLD_WEBSITE_PREFIX ) ) {
+            return true;
+        }
+        else if ( morphedPath.startsWith( OLD_PUBLICATIONS ) ) {
+            return true;
+        }
+        else if ( morphedPath.startsWith( OLD_WORKSHOPS ) ) {
             return true;
         }
 
