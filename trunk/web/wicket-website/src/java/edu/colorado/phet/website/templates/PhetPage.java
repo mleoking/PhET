@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.InvisibleComponent;
-import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.constants.CSS;
@@ -102,7 +102,7 @@ public abstract class PhetPage extends WebPage implements Stylable {
             // TODO: refactor static images to a single location, so paths / names can be quickly changed
             Link link = IndexPage.createLink( "page-header-home-link", getPageContext() );
             if ( DistributionHandler.redirectHeaderToProduction( (PhetRequestCycle) getRequestCycle() ) ) {
-                link = new PhetLink( "page-header-home-link", "http://phet.colorado.edu" );
+                link = new RawLink( "page-header-home-link", "http://phet.colorado.edu" );
             }
             add( link );
             link.add( new StaticImage( "page-header-logo-image", Images.PHET_LOGO, null ) );

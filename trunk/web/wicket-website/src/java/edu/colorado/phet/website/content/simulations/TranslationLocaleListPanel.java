@@ -90,7 +90,7 @@ public class TranslationLocaleListPanel extends PhetPanel implements CacheableUr
                 // TODO: override with language.name when possible
                 item.add( new Label( "locale-title-translated", locale.getDisplayName( locale ) ) );
 
-                //PhetLink link = new PhetLink( "locale-link", "#" + LocaleUtils.localeToString( locale ) );
+                //RawLink link = new RawLink( "locale-link", "#" + LocaleUtils.localeToString( locale ) );
                 Link link = TranslatedSimsPage.getLinker( locale ).getLink( "locale-link", context, getPhetCycle() );
                 link.add( new Label( "locale-title", localeNames.get( locale ) ) );
                 item.add( link );

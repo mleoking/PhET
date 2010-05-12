@@ -2,7 +2,7 @@ package edu.colorado.phet.website.content.getphet;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.components.LocalizedText;
-import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.content.about.AboutContactPanel;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -53,9 +53,9 @@ public class FullInstallPanel extends PhetPanel {
                 "246"
         } ) );
 
-        add( new PhetLink( "win-link", WINDOWS_INSTALLER_LOCATION ) );
-        add( new PhetLink( "mac-link", MAC_INSTALLER_LOCATION ) );
-        add( new PhetLink( "linux-link", LINUX_INSTALLER_LOCATION ) );
+        add( new RawLink( "win-link", WINDOWS_INSTALLER_LOCATION ) );
+        add( new RawLink( "mac-link", MAC_INSTALLER_LOCATION ) );
+        add( new RawLink( "linux-link", LINUX_INSTALLER_LOCATION ) );
 
     }
 

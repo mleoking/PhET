@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.wicket.PageParameters;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.menu.NavLocation;
@@ -62,9 +62,9 @@ public class SimsByKeywordPage extends PhetRegularPage {
         };
     }
 
-    public static PhetLink createLink( String id, PageContext context, String keyword ) {
+    public static RawLink createLink( String id, PageContext context, String keyword ) {
         String str = context.getPrefix() + "simulations/keyword/" + keyword;
-        return new PhetLink( id, str );
+        return new RawLink( id, str );
     }
 
 }

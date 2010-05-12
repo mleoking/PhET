@@ -66,7 +66,7 @@ public class SimulationMainPanel extends PhetPanel {
             add( new LocalizedText( "untranslated-sim-text", "simulationMainPanel.untranslatedMessage" ) );
         }
 
-        PhetLink link = new PhetLink( "simulation-main-link-run-main", simulation.getRunUrl() );
+        RawLink link = new RawLink( "simulation-main-link-run-main", simulation.getRunUrl() );
         // TODO: localize
         link.add( new StaticImage( "simulation-main-screenshot", simulation.getSimulation().getImageUrl(), null, new StringResourceModel( "simulationMainPanel.screenshot.alt", this, null, new String[]{encode( simulation.getTitle() )} ) ) );
         add( link );
@@ -209,8 +209,8 @@ public class SimulationMainPanel extends PhetPanel {
             protected void populateItem( ListItem item ) {
                 LocalizedSimulation simulation = (LocalizedSimulation) ( ( (IModel) ( item.getModel().getObject() ) ).getObject() );
                 Locale simLocale = simulation.getLocale();
-                PhetLink runLink = new PhetLink( "simulation-main-translation-link", simulation.getRunUrl() );
-                PhetLink downloadLink = new PhetLink( "simulation-main-translation-download", simulation.getDownloadUrl() );
+                RawLink runLink = new RawLink( "simulation-main-translation-link", simulation.getRunUrl() );
+                RawLink downloadLink = new RawLink( "simulation-main-translation-download", simulation.getDownloadUrl() );
                 String defaultLanguageName = simLocale.getDisplayName( context.getLocale() );
                 String languageName = ( (PhetLocalizer) getLocalizer() ).getString( "language.names." + LocaleUtils.localeToString( simLocale ), this, null, defaultLanguageName, false );
                 item.add( runLink );
@@ -238,8 +238,8 @@ public class SimulationMainPanel extends PhetPanel {
         //----------------------------------------------------------------------------
 
         // TODO: move from direct links to page redirections, so bookmarkables will be minimized
-        add( new PhetLink( "run-online-link", simulation.getRunUrl() ) );
-        add( new PhetLink( "run-offline-link", simulation.getDownloadUrl() ) );
+        add( new RawLink( "run-online-link", simulation.getRunUrl() ) );
+        add( new RawLink( "run-offline-link", simulation.getDownloadUrl() ) );
 
         //----------------------------------------------------------------------------
         // keywords / topics

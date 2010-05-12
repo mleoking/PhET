@@ -4,7 +4,7 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.ResourceModel;
 
-import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -25,12 +25,12 @@ public class IndexPage extends PhetPage {
         mapper.addMap( "^$", IndexPage.class );
     }
 
-    public static PhetLink createLink( String id, PageContext context ) {
+    public static RawLink createLink( String id, PageContext context ) {
         if ( context.getPrefix().equals( "/en/" ) ) {
-            return new PhetLink( id, "/" );
+            return new RawLink( id, "/" );
         }
         else {
-            return new PhetLink( id, context.getPrefix() );
+            return new RawLink( id, context.getPrefix() );
         }
     }
 

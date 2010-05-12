@@ -7,7 +7,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
-import edu.colorado.phet.website.components.PhetLink;
+import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 
@@ -18,7 +18,7 @@ public class IndexLetterLinks extends PhetPanel {
         add( new ListView( "letter-links", letters ) {
             protected void populateItem( ListItem item ) {
                 String letter = item.getModelObjectAsString();
-                Link link = new PhetLink( "letter-link", "#" + HibernateUtils.encodeCharacterId( letter ) );
+                Link link = new RawLink( "letter-link", "#" + HibernateUtils.encodeCharacterId( letter ) );
                 link.add( new Label( "letter", letter ) );
                 item.add( link );
             }
