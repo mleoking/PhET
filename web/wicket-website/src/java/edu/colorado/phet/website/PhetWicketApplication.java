@@ -158,7 +158,7 @@ public class PhetWicketApplication extends WebApplication {
         mountBookmarkablePage( "services/sim-jar-redirect.php", SimJarRedirectPage.class );
         mountBookmarkablePage( "robots.txt", RobotsTxtPage.class );
 
-        // FOR XSS TESTING TODO: remove after dev
+        // FOR XSS TESTING
         //mountBookmarkablePage( "xsstest", PreventXSSTest.class );
 
         // this will remove the default string resource loader. essentially this new one has better locale-handling,

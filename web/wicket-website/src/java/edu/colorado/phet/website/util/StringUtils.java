@@ -47,7 +47,6 @@ public class StringUtils {
      * @return Translated String
      */
     public static String getStringDirect( Session session, final String key, final Locale locale ) {
-        // TODO: go through usages, filter for correct usage
         final String[] ret = new String[1];
         ret[0] = null;
         HibernateUtils.wrapTransaction( session, new HibernateTask() {
