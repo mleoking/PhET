@@ -73,7 +73,7 @@ class IntroModule(frame: PhetFrame,
                   clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate,
           -6, false, MotionSeriesDefaults.movingManIntroViewport, MotionSeriesDefaults.oneGraphArea) {
-  val positionControl = new ScalaValueControl(-10, 10, "position", "0.0", "m", () => motionSeriesModel.bead.desiredPosition,
+  val positionControl = new ScalaValueControl(-10, 10, "position", "0.0", "m", () => motionSeriesModel.bead.desiredPosition,//todo: il8n
     x => {
       motionSeriesModel.setPaused(false)
       motionSeriesModel.bead.setPositionMode()
@@ -84,7 +84,7 @@ class IntroModule(frame: PhetFrame,
 
   //todo: need to distinguish between user-setting a value to velocity vs. velocity change originiating from the model
   //todo: could factor out focuscontrol, passes Double,Boolean for value,focus
-  val velocityControl = new ScalaValueControl(-20, 20, "velocity", "0.0", "m/s", () => motionSeriesModel.bead.velocity,
+  val velocityControl = new ScalaValueControl(-20, 20, "velocity", "0.0", "m/s", () => motionSeriesModel.bead.velocity,//todo: il8n
     v => {
       //      motionSeriesModel.bead.setVelocityMode()
       //      motionSeriesModel.bead.setVelocity(v)
@@ -100,7 +100,7 @@ class IntroModule(frame: PhetFrame,
   val velocityControlPSwing = new PSwing(velocityControl)
   canvas.addStageNode(velocityControlPSwing)
 
-  val accelerationControl = new ScalaValueControl(-20, 20, "acceleration", "0.0", "m/s/s", () => motionSeriesModel.bead.acceleration,
+  val accelerationControl = new ScalaValueControl(-20, 20, "acceleration", "0.0", "m/s/s", () => motionSeriesModel.bead.acceleration,//todo: il8n
     a => {motionSeriesModel.bead.setAccelerationMode(); motionSeriesModel.bead.parallelAppliedForce = a}, motionSeriesModel.addListener) //todo: assumes mass = 1.0
   val accelerationControlPSwing = new PSwing(accelerationControl)
   canvas.addStageNode(accelerationControlPSwing)
