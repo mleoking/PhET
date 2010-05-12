@@ -63,7 +63,7 @@ class CoordinateFrameNode(val model: MotionSeriesModel,
 }
 
 trait HandleNode extends AxisNodeWithModel{
-    val bufferedImage = MotionSeriesResources.getImage("handle_1.png")
+    val bufferedImage = MotionSeriesResources.getImage("handle_1.png".literal)
     val handleNode = new PImage(bufferedImage)
     addChild(handleNode)
     updateTipAndTailLocations()

@@ -46,7 +46,6 @@ class MotionSeriesObject(_name: String,
 
   def getDisplayText = "object.description.pattern.name_mass".messageformat(name, mass.toString)
 
-  //  def getDisplayTextHTML = "object.description.html.pattern.name_mass".messageformat(name, mass.toString)
   def getDisplayTextHTML = "object.description.combobox.html.pattern.name_mass_kinetic_static".messageformat(name, mass.toInt.toString, kineticFriction.toString, staticFriction.toString)
 
   def getTooltipText = "object.tooltip-text.pattern.kinetic_static".messageformat(kineticFriction.toString, staticFriction.toString)
