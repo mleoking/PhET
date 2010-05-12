@@ -1,9 +1,13 @@
 package edu.colorado.phet.website.constants;
 
+/**
+ * Holds paths to all of the CSS files. Collected here so that separate panels can include the same CSS document.
+ * <p/>
+ * Additionally, when updating a CSS file while the website is live, the filename of the CSS should be updated. The
+ * -v[x].css can be changed to a -v[x+1].css for simplicity. This file allows these updates to take place here instead
+ * of across multiple classes.
+ */
 public class CSS {
-
-    // TODO: docs
-    
     public static final String BUTTONS = "/css/buttons-v1.css";
     public static final String CATEGORY_PAGE = "/css/category-page-v1.css";
     public static final String CONTRIBUTION_BROWSE = "/css/contribution-browse-v1.css";
