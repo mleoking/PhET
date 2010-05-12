@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import edu.colorado.phet.website.cache.EventDependency;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -109,9 +110,7 @@ public class ContributionBrowsePanel extends PhetPanel {
                     item.add( link );
                     item.add( new Label( "contribution-authors", contribution.getAuthors() ) );
 
-                    Label levelLabel = new Label( "contribution-level", getLevelString( contribution ) );
-                    levelLabel.setEscapeModelStrings( false );
-                    item.add( levelLabel );
+                    item.add( new RawLabel( "contribution-level", getLevelString( contribution ) ) );
 
                     Label typeLabel = new Label( "contribution-type", getTypeString( contribution ) );
                     typeLabel.setEscapeModelStrings( false );

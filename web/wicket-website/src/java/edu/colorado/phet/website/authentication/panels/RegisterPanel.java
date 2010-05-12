@@ -19,6 +19,7 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.StringPasswordTextField;
 import edu.colorado.phet.website.components.StringTextField;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -51,9 +52,7 @@ public class RegisterPanel extends PhetPanel {
 
         errorModel = new Model( "" );
 
-        Label errorLabel = new Label( "register-errors", errorModel );
-        add( errorLabel );
-        errorLabel.setEscapeModelStrings( false );
+        add( new RawLabel( "register-errors", errorModel ) );
     }
 
     public final class RegisterForm extends Form {

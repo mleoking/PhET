@@ -13,6 +13,7 @@ import org.apache.wicket.model.ResourceModel;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.components.RawLabel;
 
 public class NavBreadCrumbs extends PhetPanel {
     public NavBreadCrumbs( String id, final PageContext context, NavLocation location ) {
@@ -35,9 +36,7 @@ public class NavBreadCrumbs extends PhetPanel {
         }
         else {
             Link baseLink = base.getLink( "base-link", context, getPhetCycle() );
-            Label baseLabel = new Label( "base-label", new ResourceModel( base.getLocalizationKey() ) );
-            baseLabel.setEscapeModelStrings( false );
-            baseLink.add( baseLabel );
+            baseLink.add( new RawLabel( "base-label", new ResourceModel( base.getLocalizationKey() ) ) );
             add( baseLink );
 
             ListView listView = new ListView( "more-crumbs", locations ) {
@@ -45,9 +44,7 @@ public class NavBreadCrumbs extends PhetPanel {
                 protected void populateItem( ListItem item ) {
                     NavLocation location = (NavLocation) item.getModel().getObject();
                     Link link = location.getLink( "crumb-link", context, getPhetCycle() );
-                    Label navLabel = new Label( "crumb-label", new ResourceModel( location.getLocalizationKey() ) );
-                    navLabel.setEscapeModelStrings( false );
-                    link.add( navLabel );
+                    link.add( new RawLabel( "crumb-label", new ResourceModel( location.getLocalizationKey() ) ) );
                     item.add( link );
                 }
             };

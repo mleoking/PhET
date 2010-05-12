@@ -1,11 +1,11 @@
 package edu.colorado.phet.website.content.troubleshooting;
 
 import org.apache.wicket.behavior.HeaderContributor;
-import org.apache.wicket.markup.html.basic.Label;
 
 import edu.colorado.phet.website.DistributionHandler;
-import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.components.RawLabel;
+import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -26,14 +26,12 @@ public class TroubleshootingJavascriptPanel extends PhetPanel {
                 "<a href=\"mailto:phethelp@colorado.edu\"><span class=\"red\">phethelp@colorado.edu</span></a>"
         } ) );
 
-        Label javascriptYesLabel = new Label( "troubleshooting-javascript-q1-yes",
-                                              "\n/* <![CDATA[ */\n" +
-                                              //"document.write(\"" + getLocalizer().getString( "troubleshooting.javascript.q1.yes", this ) + "\");"
-                                              "document.getElementById( \"javascript-ok\" ).style.display = \"block\";\n" +
-                                              "document.getElementById( \"javascript-ok\" ).innerHTML = \"" + getLocalizer().getString( "troubleshooting.javascript.q1.yes", this ) + "\";\n"
-                                              + "\n/* ]]> */\n" );
-        javascriptYesLabel.setEscapeModelStrings( false );
-        add( javascriptYesLabel );
+        // TODO: improve. you know why
+        add( new RawLabel( "troubleshooting-javascript-q1-yes",
+                           "\n/* <![CDATA[ */\n" +
+                           "document.getElementById( \"javascript-ok\" ).style.display = \"block\";\n" +
+                           "document.getElementById( \"javascript-ok\" ).innerHTML = \"" + getLocalizer().getString( "troubleshooting.javascript.q1.yes", this ) + "\";\n"
+                           + "\n/* ]]> */\n" ) );
 
         add( new LocalizedText( "troubleshooting-javascript-q2-answer", "troubleshooting.javascript.q2.answer" ) );
 

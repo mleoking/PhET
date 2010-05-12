@@ -13,6 +13,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -35,12 +36,8 @@ public class EditProfilePanel extends PhetPanel {
     public EditProfilePanel( String id, PageContext context, PhetUser user ) {
         super( id, context );
 
-        // TODO: separate out into separable user so we can edit others' profiles
-
         errorModel = new Model( "" );
-        Label errorLabel = new Label( "profile-errors", errorModel );
-        add( errorLabel );
-        errorLabel.setEscapeModelStrings( false );
+        add( new RawLabel( "profile-errors", errorModel ) );
 
         add( new EditProfileForm( "edit-profile-form", user ) );
 

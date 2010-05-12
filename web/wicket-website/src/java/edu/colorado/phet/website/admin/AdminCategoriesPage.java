@@ -18,6 +18,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.LocalizedText;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.util.CategoryChangeHandler;
 import edu.colorado.phet.website.util.HibernateTask;
@@ -78,9 +79,7 @@ public class AdminCategoriesPage extends AdminPage {
                 for ( int i = 0; i < depth; i++ ) {
                     spaces += "&nbsp;";
                 }
-                Label spacer = new Label( "spacer", spaces );
-                spacer.setEscapeModelStrings( false );
-                item.add( spacer );
+                item.add( new RawLabel( "spacer", spaces ) );
             }
         } );
 

@@ -20,6 +20,7 @@ import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.components.StaticImage;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.IndexPage;
@@ -136,10 +137,9 @@ public abstract class PhetPage extends WebPage implements Stylable {
         logger.debug( "request cycle is a : " + getRequestCycle().getClass().getSimpleName() );
 
         if ( PhetWicketApplication.get().isDevelopment() ) {
-            Label debugClassLabel = new Label( "debug-page-class", "<!-- class " + getClass().getCanonicalName() + " -->" );
+            RawLabel debugClassLabel = new RawLabel( "debug-page-class", "<!-- class " + getClass().getCanonicalName() + " -->" );
             add( debugClassLabel );
             debugClassLabel.setRenderBodyOnly( true );
-            debugClassLabel.setEscapeModelStrings( false );
         }
         else {
             add( new InvisibleComponent( "debug-page-class" ) );
@@ -171,15 +171,11 @@ public abstract class PhetPage extends WebPage implements Stylable {
     }
 
     public void addTitle( String title ) {
-        Label titleLabel = new Label( "page-title", title );
-        titleLabel.setEscapeModelStrings( false );
-        add( titleLabel );
+        add( new RawLabel( "page-title", title ) );
     }
 
     public void addTitle( IModel titleModel ) {
-        Label titleLabel = new Label( "page-title", titleModel );
-        titleLabel.setEscapeModelStrings( false );
-        add( titleLabel );
+        add( new RawLabel( "page-title", titleModel ) );
     }
 
     public org.hibernate.Session getHibernateSession() {

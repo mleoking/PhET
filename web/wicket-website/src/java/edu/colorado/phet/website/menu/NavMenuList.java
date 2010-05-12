@@ -13,6 +13,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
@@ -28,8 +29,7 @@ public class NavMenuList extends PhetPanel {
                 NavLocation location = (NavLocation) item.getModel().getObject();
                 Link link = location.getLink( "link", context, (PhetRequestCycle) getRequestCycle() );
 
-                Label label = new Label( "link-label", new ResourceModel( location.getLocalizationKey() ) );
-                label.setEscapeModelStrings( false );
+                RawLabel label = new RawLabel( "link-label", new ResourceModel( location.getLocalizationKey() ) );
 
                 boolean open = false;
 
