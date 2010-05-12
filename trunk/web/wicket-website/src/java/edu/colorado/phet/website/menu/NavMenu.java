@@ -72,6 +72,8 @@ public class NavMenu {
 
     // TODO: now that we have possible runtime modification of locations with changes of categories, something must be done about synchronization
 
+    // TODO: add more docs
+
     public NavMenu() {
         NavLocation home = new NavLocation( null, "home", IndexPage.getLinker() );
         addMajorLocation( home );
