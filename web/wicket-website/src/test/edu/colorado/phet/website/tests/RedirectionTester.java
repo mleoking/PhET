@@ -229,19 +229,23 @@ public class RedirectionTester {
                     continue;
                 }
                 String addr = tokenizer.nextToken();
-                int status = Integer.valueOf( tokenizer.nextToken() );
-                String redir = tokenizer.nextToken();
+                try {
+                    int status = Integer.valueOf( tokenizer.nextToken() );
+                    String redir = tokenizer.nextToken();
 
-                Request request = new Request( addr, status );
-                if ( map.containsKey( request ) ) {
-                    map.get( request ).increment();
+                    Request request = new Request( addr, status );
+                    if ( map.containsKey( request ) ) {
+                        map.get( request ).increment();
+                    }
+                    else {
+                        Hit hit = getHit( addr );
+                        map.put( request, new Hits( hit ) );
+                        System.err.println( addr + " (" + request.toString() + ":" + ( hit.isOk() ? "OK" : "ERR" ) + ") " + hit );
+                    }
                 }
-                else {
-                    Hit hit = getHit( addr );
-                    map.put( request, new Hits( hit ) );
-                    System.err.println( addr + " (" + request.toString() + ":" + ( hit.isOk() ? "OK" : "ERR" ) + ") " + hit );
-                }
+                catch( NumberFormatException e ) {
 
+                }
 
             }
         }
@@ -277,7 +281,7 @@ public class RedirectionTester {
                 ok.add( new Entry( request, hits ) );
             }
             else if ( hits.getHit().is404() ) {
-                if ( request.isOk() ) {
+                if ( request.getStatus() == 404 ) {
                     c404 += hits.getCount();
                     notfound.add( new Entry( request, hits ) );
                 }
