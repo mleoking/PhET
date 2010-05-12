@@ -178,6 +178,10 @@ public class RedirectionTester {
                 return String.valueOf( status );
             }
         }
+
+        public boolean isOk() {
+            return status == 1;
+        }
     }
 
     private static class Entry implements Comparable {
@@ -257,10 +261,12 @@ public class RedirectionTester {
 
         int cOK = 0;
         int c404 = 0;
+        int c404OK = 0;
         int cERR = 0;
 
         List<Entry> ok = new LinkedList<Entry>();
         List<Entry> notfound = new LinkedList<Entry>();
+        List<Entry> notfoundok = new LinkedList<Entry>();
         List<Entry> err = new LinkedList<Entry>();
 
         for ( Request request : map.keySet() ) {
@@ -271,8 +277,14 @@ public class RedirectionTester {
                 ok.add( new Entry( request, hits ) );
             }
             else if ( hits.getHit().is404() ) {
-                c404 += hits.getCount();
-                notfound.add( new Entry( request, hits ) );
+                if ( request.isOk() ) {
+                    c404 += hits.getCount();
+                    notfound.add( new Entry( request, hits ) );
+                }
+                else {
+                    c404OK += hits.getCount();
+                    notfoundok.add( new Entry( request, hits ) );
+                }
             }
             else {
                 cERR += hits.getCount();
@@ -285,14 +297,16 @@ public class RedirectionTester {
 
         Collections.sort( ok );
         Collections.sort( notfound );
+        Collections.sort( notfoundok );
         Collections.sort( err );
 
         PrintStream out = new PrintStream( new FileOutputStream( new File( "/home/jon/tmp/output" ) ) );
 
-        out.println( "summary: " + cOK + " OK, " + c404 + " not found, " + cERR + " others" );
+        out.println( "summary: " + cOK + " OK, " + c404 + " new not found, " + c404OK + " not found in any, " + cERR + " others" );
 
         printReport( ok, out );
         printReport( notfound, out );
+        printReport( notfoundok, out );
         printReport( err, out );
 
         out.close();
