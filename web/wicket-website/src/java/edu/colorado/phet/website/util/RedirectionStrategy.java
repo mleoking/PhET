@@ -18,6 +18,7 @@ import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.TeachersGuide;
+import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionFile;
 
@@ -102,8 +103,8 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/get_phet/simlauncher.php", "/en/get-phet/one-at-a-time" );
         map.put( "/index.php", "/" );
         map.put( "/research/index.php", "/en/research" );
-        map.put( "/simulations", "/en/simulations/category/featured" );
-        map.put( "/simulations/", "/en/simulations/category/featured" );
+        map.put( "/simulations", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
+        map.put( "/simulations/", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
         map.put( "/simulations/translations.php", "/en/simulations/translated" );
         map.put( "/sponsors/index.php", "/en/about/sponsors" );
         map.put( "/teacher_ideas/browse.php", "/en/for-teachers/browse-activities" );
@@ -158,13 +159,13 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         oldMap.put( "/web-pages/publications", "/publications" );
         oldMap.put( "/web-pages/misc-pages/ratings-explanation.html", "/en/for-teachers/legend" );
         oldMap.put( "/web-pages/research.html", "/en/research" );
-        oldMap.put( "/web-pages/simulation-header.htm", "/en/simulations/category/featured" );
+        oldMap.put( "/web-pages/simulation-header.htm", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
         oldMap.put( "/web-pages/simulation-header_es.htm", "/en/simulations/translated/es" );
         oldMap.put( "/web-pages/simulation-pages/chemistry-simulations.htm", "/en/simulations/category/chemistry" );
         oldMap.put( "/web-pages/simulation-pages/cuttingedge-simulations.htm", "/en/simulations/category/cutting-edge-research" );
         oldMap.put( "/web-pages/simulation-pages/electricity-simulations.htm", "/en/simulations/category/physics/electricity-magnets-and-circuits" );
         oldMap.put( "/web-pages/simulation-pages/heat-thermo-simulations.htm", "/en/simulations/category/physics/heat-and-thermodynamics" );
-        oldMap.put( "/web-pages/simulation-pages/index.html", "/en/simulations/category/featured" );
+        oldMap.put( "/web-pages/simulation-pages/index.html", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
         oldMap.put( "/web-pages/simulation-pages/light-radiation-simulations.htm", "/en/simulations/category/physics/light-and-radiation" );
         oldMap.put( "/web-pages/simulation-pages/math-tools.htm", "/en/simulations/category/math" );
         oldMap.put( "/web-pages/simulation-pages/motion-simulations.htm", "/en/simulations/category/physics/motion" );
@@ -172,9 +173,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         oldMap.put( "/web-pages/simulation-pages/quantum-phenomena-simulations.htm", "/en/simulations/category/physics/quantum-phenomena" );
         oldMap.put( "/web-pages/simulation-pages/simulation-index.htm", "/en/simulations/index" );
         oldMap.put( "/web-pages/simulation-pages/sound-simulations.htm", "/en/simulations/category/physics/sound-and-waves" );
-        oldMap.put( "/web-pages/simulation-pages/top-simulations.htm", "/en/simulations/category/featured" );
+        oldMap.put( "/web-pages/simulation-pages/top-simulations.htm", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
         oldMap.put( "/web-pages/simulation-pages/work-energy-simulations.htm", "/en/simulations/category/physics/work-energy-and-power" );
-        oldMap.put( "/web-pages/simulations-base.html", "/en/simulations/category/featured" );
+        oldMap.put( "/web-pages/simulations-base.html", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
         oldMap.put( "/web-pages/simulations-base_es.html", "/en/simulations/translated/es" );
         oldMap.put( "/web-pages/support.html", "/en/troubleshooting" );
         oldMap.put( "/web-pages/whatsnew-archive.htm", "/en/about/news" );
@@ -184,7 +185,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         * category map
         *----------------------------------------------------------------------------*/
 
-        categoryMap.put( "Featured_Sims", "featured" );
+        categoryMap.put( "Featured_Sims", Category.getDefaultCategoryKey() );
         categoryMap.put( "New_Sims", "new" );
         categoryMap.put( "Physics", "physics" );
         categoryMap.put( "Motion", "physics/motion" );
@@ -210,9 +211,9 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         categoryMap.put( "Cutting_Edge_Research", "cutting-edge-research" );
 
         // grandfathered because they are still linked. all_sims is handled lower, to handle without the 'category' prefix
-        categoryMap.put( "Top_Simulations", "featured" );
-        categoryMap.put( "Top_Simulation", "featured" );
-        categoryMap.put( "", "featured" ); // yes, somehow there are a number with this blank
+        categoryMap.put( "Top_Simulations", Category.getDefaultCategoryKey() );
+        categoryMap.put( "Top_Simulation", Category.getDefaultCategoryKey() );
+        categoryMap.put( "", Category.getDefaultCategoryKey() ); // yes, somehow there are a number with this blank
 
         for ( String key : categoryMap.keySet() ) {
             badCategoryMap.put( processCategoryName( key ), categoryMap.get( key ) );
@@ -407,7 +408,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static String redirectCategories( Map parameters ) {
         String prefix = "/en/simulations/category/";
         if ( parameters.get( "cat" ) == null ) {
-            return prefix + "featured";
+            return prefix + Category.getDefaultCategoryKey();
         }
         String cat = ( (String[]) parameters.get( "cat" ) )[0];
         if ( cat.equals( "All_Sims" ) ) {

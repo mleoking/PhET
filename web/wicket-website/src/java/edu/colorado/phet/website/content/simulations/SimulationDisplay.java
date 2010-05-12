@@ -15,6 +15,7 @@ import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
+import edu.colorado.phet.website.data.Category;
 
 public class SimulationDisplay extends PhetRegularPage {
 
@@ -67,8 +68,9 @@ public class SimulationDisplay extends PhetRegularPage {
     }
 
     public static PhetLink createLink( String id, PageContext context ) {
+        // TODO: get rid of this old-style link call!
         // WARNING: don't change without also changing the old URL redirection
-        String str = context.getPrefix() + "simulations/category/featured";
+        String str = context.getPrefix() + "simulations/category/" + Category.getDefaultCategoryKey();
         return new PhetLink( id, str );
     }
 
@@ -76,7 +78,7 @@ public class SimulationDisplay extends PhetRegularPage {
         // WARNING: don't change without also changing the old URL redirection
         return new AbstractLinker() {
             public String getSubUrl( PageContext context ) {
-                return "simulations/category/featured";
+                return "simulations/category/" + Category.getDefaultCategoryKey();
             }
         };
     }
