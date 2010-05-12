@@ -46,13 +46,31 @@ import edu.colorado.phet.website.util.links.Linkable;
  * uses events to keep the locations synchronized with any possible category changes.
  */
 public class NavMenu {
+
+    /**
+     * Map of nav location key => nav location, for fast lookup
+     */
     private HashMap<String, NavLocation> cache = new HashMap<String, NavLocation>();
+
+    /**
+     * List of all nav locations
+     */
     private List<NavLocation> locations = new LinkedList<NavLocation>();
 
+    /**
+     * Lists nav locations that correspond to simulation categories. For instance the location for "Physics" is in this,
+     * but the location for "PhET Translation Utility" isn't.
+     */
     private List<NavLocation> locationsBelowCategories = new LinkedList<NavLocation>();
 
-    private static Logger logger = Logger.getLogger( NavMenu.class.getName() );
+    /**
+     * The nav location shown as "Simulations". Essentially the root of categories.
+     */
     private NavLocation simulations;
+
+    private static Logger logger = Logger.getLogger( NavMenu.class.getName() );
+
+    // TODO: now that we have possible runtime modification of locations with changes of categories, something must be done about synchronization
 
     public NavMenu() {
         NavLocation home = new NavLocation( null, "home", IndexPage.getLinker() );
