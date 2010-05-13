@@ -52,7 +52,7 @@ public class RedirectionTester {
         StringDispenser dispenser = new StringDispenser( logFile );
 
         List<RedirectionThread> threads = new LinkedList<RedirectionThread>();
-        for ( int i = 0; i < 20; i++ ) {
+        for ( int i = 0; i < 50; i++ ) {
             threads.add( new RedirectionThread( map, dispenser ) );
         }
 
