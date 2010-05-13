@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
+import edu.colorado.phet.website.content.search.SearchResultsPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -78,12 +79,15 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static final String SIM_REDIRECTION = "/services/sim-website-redirect";
     private static final String SIM_REDIRECTION_PHP = "/services/sim-website-redirect.php";
     private static final String GET_MEMBER_FILE = "/admin/get-member-file.php";
+    private static final String SIM_SEARCH = "/simulations/search.php";
 
     /*---------------------------------------------------------------------------*
     * base locations that should have everything underneath redirected
     *----------------------------------------------------------------------------*/
     private static final String OLD_PUBLICATIONS = "/phet-dist/publications/";
     private static final String OLD_WORKSHOPS = "/phet-dist/workshops/";
+    private static final String OLD_INSTALLERS = "/phet-dist/installers/";
+    private static final String OLD_NEW = "/new/";
 
     private static final String NOT_FOUND = "/error/404";
 
@@ -111,10 +115,14 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/get_phet/full_install.php", "/en/get-phet/full-install" );
         map.put( "/get_phet/index.php", "/en/get-phet" );
         map.put( "/get_phet/simlauncher.php", "/en/get-phet/one-at-a-time" );
+        map.put( "/index.html", "/" );
         map.put( "/index.php", "/" );
+        map.put( "/installers/PhET-windows-installer.exe", FullInstallPanel.WINDOWS_INSTALLER_LOCATION );
         map.put( "/research/index.php", "/en/research" );
         map.put( "/simulations", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
         map.put( "/simulations/", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
+        map.put( "/simulations/cck/cck-ac.jnlp", "/sims/circuit-construction-kit/circuit-construction-kit-dc_en.jnlp" );
+        map.put( "/simulations/stringwave/stringWave.swf", "/sims/wave-on-a-string/wave-on-a-string_en.html" );
         map.put( "/simulations/translations.php", "/en/simulations/translated" );
         map.put( "/sponsors/index.php", "/en/about/sponsors" );
         map.put( "/teacher_ideas/browse.php", "/en/for-teachers/browse-activities" );
@@ -144,14 +152,17 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( SIM_REDIRECTION, null );
         map.put( SIM_REDIRECTION_PHP, null );
         map.put( GET_MEMBER_FILE, null );
+        map.put( SIM_SEARCH, null );
 
         /*---------------------------------------------------------------------------*
         * file page mappings
         *----------------------------------------------------------------------------*/
 
+        map.put( "/favicon.gif", "/favicon.ico" );
         map.put( "/phet-dist/phet-updater/phet-updater.jar", "/files/phet-updater/phet-updater.jar" );
         map.put( "/phet-dist/newsletters/phet_newsletter_july16_2008.pdf", "/newsletters/phet_newsletter_july16_2008.pdf" );
         map.put( "/phet-dist/newsletters/phet_newsletter_sum09.pdf", "/newsletters/phet_newsletter_sum09.pdf" );
+        map.put( "/simulations/favicon.ico", "/favicon.ico" );
 
         /*---------------------------------------------------------------------------*
         * really old page mappings
@@ -386,6 +397,15 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         else if ( path.startsWith( GET_MEMBER_FILE ) ) {
             return redirectGetMemberFile( parameters );
         }
+        else if ( path.startsWith( OLD_INSTALLERS ) ) {
+            return path.substring( "/phet-dist".length() );
+        }
+        else if ( path.startsWith( OLD_NEW ) ) {
+            return path.substring( "/new".length() );
+        }
+        else if ( path.startsWith( SIM_SEARCH ) ) {
+            return redirectSimSearch( parameters );
+        }
         return null;
     }
 
@@ -617,12 +637,22 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return NOT_FOUND;
         }
         String filename = ( (String[]) parameters.get( "file" ) )[0];
-        if ( filename.equals( "../phet-dist/installers/PhET-Installer_windows.exe" ) ) {
+        if ( filename.equals( "../phet-dist/installers/PhET-Installer_windows.exe" ) ||
+             filename.equals( "..%2Fphet-dist%2Finstallers%2FPhET-Installer_windows.exe" ) ) {
             return FullInstallPanel.WINDOWS_INSTALLER_LOCATION;
         }
         else {
             return NOT_FOUND;
         }
+    }
+
+    private static String redirectSimSearch( Map parameters ) {
+        // /simulations/search.php?search_for=sound
+        if ( !parameters.containsKey( "search_for" ) ) {
+            return SearchResultsPage.getLinker( "" ).getDefaultRawUrl();
+        }
+        String query = ( (String[]) parameters.get( "search_for" ) )[0];
+        return SearchResultsPage.getLinker( query ).getDefaultRawUrl();
     }
 
     private static String redirectOldWeb( String path ) {
@@ -708,6 +738,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return true;
         }
 
+        // TODO: test equality for speed?
         if ( morphedPath.startsWith( OLD_WEBSITE_PREFIX ) ) {
             return true;
         }
@@ -715,6 +746,12 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return true;
         }
         else if ( morphedPath.startsWith( OLD_WORKSHOPS ) ) {
+            return true;
+        }
+        else if ( morphedPath.startsWith( OLD_INSTALLERS ) ) {
+            return true;
+        }
+        else if ( morphedPath.startsWith( OLD_NEW ) ) {
             return true;
         }
 
