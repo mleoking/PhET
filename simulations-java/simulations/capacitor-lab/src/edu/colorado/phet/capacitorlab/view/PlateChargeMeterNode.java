@@ -13,6 +13,7 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.capacitorlab.CLImages;
+import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
@@ -53,7 +54,8 @@ public class PlateChargeMeterNode extends PhetPNode {
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
     
     // bar
-    private static final Color BAR_FILL_COLOR = Color.RED;
+    private static final Color BAR_POSITIVE_FILL_COLOR = CLPaints.POSITIVE_CHARGE;
+    private static final Color BAR_NEGATIVE_FILL_COLOR = CLPaints.NEGATIVE_CHARGE;
     private static final Color BAR_STROKE_COLOR = TRACK_STROKE_COLOR;
     private static final Stroke BAR_STROKE = TRACK_STROKE;
     
@@ -129,7 +131,7 @@ public class PlateChargeMeterNode extends PhetPNode {
         maxLabelNode.setOffset( x, y );
         
         // title
-        titleNode = new TitleNode( CLStrings.CHECKBOX_METER_PLATE_CHARGE );
+        titleNode = new TitleNode( CLStrings.LABEL_PLATE_CHARGE );
         addChild( titleNode );
         x = trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
         y = minLabelNode.getFullBoundsReference().getMaxY() + 2;
@@ -164,10 +166,10 @@ public class PlateChargeMeterNode extends PhetPNode {
     
     private void update() {
         
-        double plateCharge = Math.abs( circuit.getPlateCharge() );
+        double plateCharge = circuit.getPlateCharge();
         
         // bar height
-        barNode.setPercentFilled( plateCharge / MAX_VALUE );
+        barNode.setValue( plateCharge );
 
         // value, centered below title
         valueNode.setValue( plateCharge );
@@ -201,19 +203,22 @@ public class PlateChargeMeterNode extends PhetPNode {
         public BarNode() {
             rectangle = new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height );
             setPathTo( rectangle );
-            setPaint( BAR_FILL_COLOR );
+            setPaint( BAR_POSITIVE_FILL_COLOR );
             setStrokePaint( BAR_STROKE_COLOR );
             setStroke( BAR_STROKE );
         }
         
-        public void setPercentFilled( double percent ) {
+        public void setValue( double value ) {
+            double percent = Math.abs( value ) / MAX_VALUE;
             if ( percent < 0 || percent > 1 ) {
-                System.err.println( "ChargeMeter.BarNode, percent out of range: " + percent );
+                percent = 1;
+                System.err.println( "ChargeMeter.BarNode, value out of range: " + value );
             }
             double y = ( 1 - percent ) * TRACK_SIZE.height;
             double height = TRACK_SIZE.height - y;
             rectangle.setRect( 0, y, TRACK_SIZE.width, height );
             setPathTo( rectangle );
+            setPaint( value > 0 ? BAR_POSITIVE_FILL_COLOR : BAR_NEGATIVE_FILL_COLOR );
         }
     }
     
