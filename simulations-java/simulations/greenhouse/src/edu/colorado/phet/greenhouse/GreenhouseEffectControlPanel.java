@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.greenhouse;
 
 import java.awt.AWTException;
@@ -44,20 +46,16 @@ import edu.colorado.phet.greenhouse.util.ModelViewTx1D;
 
 // TODO: Copied from GreenhouseControlPanel, needs to be cleaned and commented.
 
+/**
+ * Control panel for the Greenhouse Effect module.
+ */
 public class GreenhouseEffectControlPanel extends ControlPanel implements Resettable {
 
     private static Color adjustableGGColor = Color.black;
-    //    private static Color adjustableGGColor = Color.cyan;
-    //    private static Color adjustableGGColor = new Color( 255, 160, 180 );
     private static Color iceAgeColor = new Color( 0, 28, 229 );
     private static Color preIndRevColor = new Color( 176, 0, 219 );
-    //    private static Color preIndRevColor = Color.green;
-    //    private static Color todayColor = new Color( 60, 200, 255 );
     private static Color todayColor = new Color( 11, 142, 0 );
-    //    private static Color todayColor = Color.yellow;
     private static Color panelForeground = Color.black;
-//    private static Color panelForeground = Color.white;
-
 
     private ModelSlider greenhouseGasConcentrationControl;
     String[] iceAgeConcentrations = new String[]{" ?",
@@ -95,15 +93,11 @@ public class GreenhouseEffectControlPanel extends ControlPanel implements Resett
     private JRadioButton fahrenheitRB;
     private JRadioButton celsiusRB;
 
-
     /**
      * Constructor
      *
      */
     public GreenhouseEffectControlPanel() {
-
-        this.module = module;
-//        final GreenhouseModel model = module.getGreenhouseModel();
 
         //--------------------------------------------------------------------------------------------------
         // Create the controls
