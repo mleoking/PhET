@@ -8,9 +8,9 @@ import javax.swing._
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher
 import edu.colorado.phet.common.phetcommon.application.PhetApplication
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig
-import edu.colorado.phet.scalacommon.record.RecordModelDefaults
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
+import edu.colorado.phet.recordandplayback.model.RecordModel
 
 object DevLauncher {
   def main(args: Array[String]) = {
@@ -44,18 +44,18 @@ object DevLauncher {
 
     contentPane.add(timelineLengthTextField)
 
-    val pauseEnd = new JCheckBox("Pause at end of playback", RecordModelDefaults.pauseAtEndOfPlayback)
+    val pauseEnd = new JCheckBox("Pause at end of playback", RecordModel.pauseAtEndOfPlayback)
     pauseEnd.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = {
-        RecordModelDefaults.pauseAtEndOfPlayback = pauseEnd.isSelected
+        RecordModel.pauseAtEndOfPlayback = pauseEnd.isSelected
       }
     })
     contentPane.add(pauseEnd)
 
-    val recEnd = new JCheckBox("Record at end of playback", RecordModelDefaults.recordAtEndOfPlayback)
+    val recEnd = new JCheckBox("Record at end of playback", RecordModel.recordAtEndOfPlayback)
     recEnd.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = {
-        RecordModelDefaults.recordAtEndOfPlayback = recEnd.isSelected
+        RecordModel.recordAtEndOfPlayback = recEnd.isSelected
       }
     })
     contentPane.add(recEnd)

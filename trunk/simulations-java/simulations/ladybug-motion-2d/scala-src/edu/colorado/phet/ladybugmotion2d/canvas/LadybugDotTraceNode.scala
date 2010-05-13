@@ -6,11 +6,11 @@ import java.awt.geom.{Ellipse2D, GeneralPath, Point2D}
 import java.awt.{BasicStroke, Color}
 import java.lang.Math._
 import edu.colorado.phet.ladybugmotion2d.model.{LadybugState, LadybugModel}
-import edu.colorado.phet.scalacommon.record.DataPoint
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.recordandplayback.model.DataPoint
 
 class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
                           shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double)
@@ -35,14 +35,15 @@ class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
   }
 
   def update() = {
-    implicit def historyToPoint(dataPoint: DataPoint[LadybugState]) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
+    implicit def historyToPoint(dataPoint: DataPoint[LadybugState]) = new Point2D.Float(dataPoint.getState.position.x.toFloat, dataPoint.getState.position.y.toFloat)
 
     //todo: some code duplicated with LadbyugFadeTraceNode
     var unusedKeys = scala.collection.mutable.Set.empty[Vector2D]
     unusedKeys ++= nodeCache.keySet.elements
-    for (h <- getHistoryToShow) {
+    for (i <- 0 until getHistoryToShow.size) {
+      val h = getHistoryToShow.get(i) 
       val viewPt = transform.modelToView(h)
-      val dt = abs(model.getTime - h.time)
+      val dt = abs(model.getTime - h.getTime)
 
       unusedKeys -= viewPt
       try {

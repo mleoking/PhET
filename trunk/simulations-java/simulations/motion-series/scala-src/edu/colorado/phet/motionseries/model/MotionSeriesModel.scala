@@ -5,11 +5,11 @@ import edu.colorado.phet.motionseries.graphics.{RampSurfaceModel, ObjectModel}
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import edu.colorado.phet.scalacommon.math.Vector2D
 import java.awt.geom.Point2D
-import edu.colorado.phet.scalacommon.record.{DataPoint, RecordModel}
 import edu.colorado.phet.scalacommon.util.Observable
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.charts.GoButtonVisibilityModel
+import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordModel}
 
 case class RampState(angle: Double, heat: Double, wetness: Double)
 
@@ -300,8 +300,8 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     rampSegments(1).stepInTime(dt)
     if (getTime < MotionSeriesDefaults.MAX_RECORD_TIME) {
       val mode = bead.motionStrategy.getMemento
-      recordHistory += new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode))
+      getRecordingHistory.add(new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
+        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode)))
     }
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added

@@ -6,8 +6,9 @@ import java.awt.geom.{Line2D, GeneralPath, Point2D}
 import java.awt.{Point, BasicStroke, Color}
 import java.lang.Math._
 import edu.colorado.phet.ladybugmotion2d.model.{LadybugModel, LadybugState}
-import edu.colorado.phet.scalacommon.record.DataPoint
 import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.recordandplayback.model.DataPoint
+
 //This class is computationally demanding and therefore contains several optimizations
 class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
   val stroke = new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f)
@@ -32,21 +33,21 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
   def update() = {
     if (segmentCache != null) {
 
-      implicit def historyToPoint(dataPoint: DataPoint[LadybugState]) = new Point2D.Float(dataPoint.state.position.x.toFloat, dataPoint.state.position.y.toFloat)
+      implicit def historyToPoint(dataPoint: DataPoint[LadybugState]) = new Point2D.Float(dataPoint.getState.position.x.toFloat, dataPoint.getState.position.y.toFloat)
 
       val historyToShow = getHistoryToShow
 
       var unusedKeys = scala.collection.mutable.Set.empty[Key]
       unusedKeys ++= segmentCache.keySet.elements
-      if (historyToShow.length >= 2) {
+      if (historyToShow.size >= 2) {
 
-        val t = transform.modelToView(historyToShow(0))
-        for (i <- 0 to (historyToShow.length - 2)) {
-          val a = transform.modelToView(historyToShow(i))
-          val b = transform.modelToView(historyToShow(i + 1))
+        val t = transform.modelToView(historyToShow.get(0))
+        for (i <- 0 to (historyToShow.size - 2)) {
+          val a = transform.modelToView(historyToShow.get(i))
+          val b = transform.modelToView(historyToShow.get(i + 1))
 
           val key = Key(a.x, a.y, b.x, b.y)
-          val dt = abs(model.getTime - historyToShow(i).time)
+          val dt = abs(model.getTime - historyToShow.get(i).getTime)
 
           unusedKeys -= key
           val color = toColor(dt, maxFade)
