@@ -146,7 +146,7 @@ public class DeveloperMeterNode extends PhetPNode {
         parentNode.addChild( plateSize );
         plateSeparationNode = new ValueNode( "d (plate separation)", "m", "0.0000" );
         parentNode.addChild( plateSeparationNode );
-        dielectricConstantNode = new ValueNode( CLStrings.EPSILON + "<sub>r</sub>", "", "0.00" );
+        dielectricConstantNode = new ValueNode( CLStrings.EPSILON + "<sub>r</sub>", "", "0.000" );
         parentNode.addChild( dielectricConstantNode );
         
         parentNode.addChild( new PText( " " ) );
