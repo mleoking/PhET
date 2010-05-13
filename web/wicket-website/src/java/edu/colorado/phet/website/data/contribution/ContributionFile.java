@@ -2,6 +2,8 @@ package edu.colorado.phet.website.data.contribution;
 
 import java.io.File;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -60,7 +62,13 @@ public class ContributionFile implements Serializable, IntId {
             @Override
             public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
                 PhetWicketApplication app = PhetWicketApplication.get();
-                return app.getActivitiesLocation() + "/" + getRelativeLocation();
+                try {
+                    return app.getActivitiesLocation() + "/" + URLEncoder.encode( getRelativeLocation(), "UTF-8" );
+                }
+                catch( UnsupportedEncodingException e ) {
+                    e.printStackTrace();
+                    return app.getActivitiesLocation() + "/" + getRelativeLocation();
+                }
             }
 
             @Override
