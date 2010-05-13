@@ -1,9 +1,7 @@
 package edu.colorado.phet.website.tests.redirections;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 import java.util.*;
 
 public class RedirectionTester {
@@ -42,7 +40,14 @@ public class RedirectionTester {
             return new Hit( code );
         }
         else if ( code == HttpURLConnection.HTTP_MOVED_PERM || code == HttpURLConnection.HTTP_MOVED_TEMP ) {
-            return new Hit( code, location, getHit( location ) );
+            URI uri = null;
+            try {
+                uri = new URI( location );
+            }
+            catch( URISyntaxException e ) {
+                e.printStackTrace();
+            }
+            return new Hit( code, location, getHit( uri != null ? uri.toString() : location ) );
         }
         else {
             return new Hit( code );
@@ -54,7 +59,7 @@ public class RedirectionTester {
         StringDispenser dispenser = new StringDispenser( logFile );
 
         List<RedirectionThread> threads = new LinkedList<RedirectionThread>();
-        for ( int i = 0; i < 5; i++ ) {
+        for ( int i = 0; i < 20; i++ ) {
             threads.add( new RedirectionThread( map, dispenser ) );
         }
 
