@@ -1,0 +1,1 @@
+5/13/2010 Started initial port of recording-and-playback system from trunk/simulations-java/common/scala-common/scala-src/edu/colorado/phet/scalacommon/record, see #2092
