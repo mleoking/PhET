@@ -2,6 +2,7 @@ package edu.colorado.phet.website.data.contribution;
 
 import java.io.File;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -60,7 +61,12 @@ public class ContributionFile implements Serializable, IntId {
             @Override
             public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
                 PhetWicketApplication app = PhetWicketApplication.get();
-                return app.getActivitiesLocation() + new File( "/", getRelativeLocation() ).toURI().getPath();
+                URI uri = new File( "/" + getRelativeLocation() ).toURI();
+                String uriString = uri.toString();
+                if ( uriString.startsWith( "file:" ) ) {
+                    uriString = uriString.substring( "file:".length() );
+                }
+                return app.getActivitiesLocation() + uriString;
             }
 
             @Override
