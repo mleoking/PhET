@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher,
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 import swing.Button
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import MotionSeriesDefaults._
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -27,13 +26,13 @@ class BasicRampModule(frame: PhetFrame,
                       coordinateSystemEnabled: Boolean,
                       objectComboBoxEnabled: Boolean,
                       showAppliedForceSlider: Boolean,
-                      defaultBeadPosition: Double,
+                      initialBeadPosition: Double,
                       pausedOnReset: Boolean,
                       initialAngle: Double,
                       rampLayoutArea: Rectangle2D,
                       stageContainerArea: StageContainerArea,
                       freeBodyDiagramPopupOnly: Boolean) //should the free body diagram be available only as a popup, or also in the play area 
-        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, defaultBeadPosition, pausedOnReset, initialAngle, freeBodyDiagramPopupOnly) {
+        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, initialBeadPosition, pausedOnReset, initialAngle, freeBodyDiagramPopupOnly) {
   //Create a default Ramp Canvas and set it as the simulation panel
   val rampCanvas = new RampCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, !objectComboBoxEnabled, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea, stageContainerArea)
   setSimulationPanel(rampCanvas)
@@ -47,13 +46,13 @@ class BasicRampModule(frame: PhetFrame,
 }
 
 /**
- * The introductory panel
+ * The introductory module, removed much functionality so the user can focus on the motion behavior.
  */
 class IntroRampModule(frame: PhetFrame) extends BasicRampModule(frame, "module.introduction".translate,
   coordinateSystemEnabled = false,
   objectComboBoxEnabled = false,
   showAppliedForceSlider = true,
-  defaultBeadPosition = -3.0,
+  initialBeadPosition = -3.0,
   pausedOnReset = false,
   initialAngle = MotionSeriesDefaults.defaultRampAngle,
   rampLayoutArea = MotionSeriesDefaults.rampIntroViewport,
@@ -70,7 +69,7 @@ class CoordinatesRampModule(frame: PhetFrame)
 }
 
 /**
- * This module introduces graphing
+ * This module introduces graphing, it is the parent class for the modules that use graphs in the play area.
  */
 class GraphingModule(frame: PhetFrame,
                      name: String,
@@ -89,7 +88,7 @@ class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.e
   rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, motionSeriesModel))
   val workEnergyChartVisibilityModel = new WorkEnergyChartVisibilityModel
 
-  //create a "show chart" button and add it to the primary part of the control panel
+  //create a "show energy chart" button and add it to the primary part of the control panel
   val showEnergyChartButton = Button("controls.show-energy-chart".translate) {
     workEnergyChartVisibilityModel.visible = true
   }
@@ -110,7 +109,7 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new ForceGraphsModule(getPhetFrame))
   addModule(new CoordinatesRampModule(getPhetFrame))
   addModule(new WorkEnergyModule(getPhetFrame))
-  addModule(new RobotMovingCompanyModule(getPhetFrame, defaultRampAngle, rampRobotForce, objects))
+  addModule(new RobotMovingCompanyModule(getPhetFrame))
 }
 
 /**
