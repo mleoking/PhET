@@ -27,6 +27,11 @@
         </init-param>
     </filter>
 
+    <filter>
+        <filter-name>PostFilter</filter-name>
+        <filter-class>edu.colorado.phet.website.services.PostFilter</filter-class>
+    </filter>
+
     <filter-mapping>
         <filter-name>PreFilter</filter-name>
         <url-pattern>/services/*</url-pattern>
@@ -37,6 +42,11 @@
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>PostFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <error-page>
