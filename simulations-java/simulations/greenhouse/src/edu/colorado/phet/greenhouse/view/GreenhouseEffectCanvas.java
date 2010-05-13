@@ -6,14 +6,12 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
@@ -79,6 +77,23 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
         background.setOffset(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width / 2 - background.getFullBoundsReference().width / 2, 0);
         myWorldNode.addChild(background);
         
+        // TODO: Temp code for demo.  Add some photons.
+        PNode photon = new PhotonNode();
+        photon.setOffset(10, 100);
+        myWorldNode.addChild(photon);
+        photon = new PhotonNode();
+        photon.setOffset(300, 120);
+        myWorldNode.addChild(photon);
+        photon = new PhotonNode();
+        photon.setOffset(60, 300);
+        myWorldNode.addChild(photon);
+        photon = new PhotonNode();
+        photon.setOffset(100, 220);
+        myWorldNode.addChild(photon);
+        photon = new PhotonNode();
+        photon.setOffset(500, 211);
+        myWorldNode.addChild(photon);
+        
         // Update the layout.
         updateLayout();
         
@@ -97,12 +112,36 @@ public class GreenhouseEffectCanvas extends PhetPCanvas {
 
         Dimension2D worldSize = getWorldSize();
         Dimension2D screenSize = getScreenSize();
+        System.out.println("1: " + background.getWidth());
         if ( getWidth() <= 0 || getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
         }
         else {
-        	// TBD
+        	// Scale the background such that the screen is filled.  For this,
+        	// it needs to be centered, scaled so that it fills up both the
+        	// height and the width, and the bottom of the background image
+        	// must be at the bottom of the play area.  In order to do this,
+        	// we will need an explicit transform between intermediate coords
+        	// and screen coords.
+	    	AffineTransform intermediateToScreenTransform = getWorldTransformStrategy().getTransform();
+	    	
+	    	background.setScale(1);
+	    	Rectangle2D imageBoundsIntermediateCoords = background.getFullBoundsReference();
+	    	Rectangle2D imageBoundsScreenCoords = intermediateToScreenTransform.createTransformedShape(imageBoundsIntermediateCoords).getBounds2D();
+	    	
+	    	// Scale the image to fill the width of the screen.
+	    	double scale = ((double)getWidth() / imageBoundsScreenCoords.getWidth());
+	    	background.setScale(scale);
+	    	
+	    	// Position the image so that the bottom left corner is in the
+	    	// bottom left of the view port.
+	    	try {
+				background.setOffset(intermediateToScreenTransform.inverseTransform(new Point2D.Double(0, getHeight() - imageBoundsScreenCoords.getHeight() * scale), null));
+			} catch (NoninvertibleTransformException e) {
+				System.err.println(getClass().getName() + "- Error: Uninvertible transform.");
+				e.printStackTrace();
+			}
         }
     }
 }
