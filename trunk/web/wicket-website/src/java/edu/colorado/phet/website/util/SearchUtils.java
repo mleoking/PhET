@@ -32,8 +32,6 @@ import edu.colorado.phet.website.translation.PhetLocalizer;
 
 public class SearchUtils {
 
-    // TODO: extract into better writing / reading / updating, and add contributions
-
     // TODO: catch index exceptions to try triggering re-building or fail-out?
 
     private static Logger logger = Logger.getLogger( SearchUtils.class.getName() );
