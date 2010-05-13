@@ -52,6 +52,8 @@ public class CLConstants {
     public static final double TOP_WIRE_EXTENT = Math.abs( .016 ); // how far the top wire extends above the capactor's origin, absolute value (meters)
     public static final double BOTTOM_WIRE_EXTENT = TOP_WIRE_EXTENT; // how far the bottom wire extends below the capactor's origin, absolute value (meters)
     
+    public static final double E0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
+    
     // model-view transform
     public static final double MVT_SCALE = 15000;
     public static final Point2D MVT_OFFSET = new Point2D.Double( Math.abs( BATTERY_LOCATION.getX() ) + .005, .0275 ); // meters
