@@ -6,6 +6,7 @@ import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Air;
@@ -19,8 +20,8 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricM
  */
 public class BatteryCapacitorCircuit {
     
-    private static final double E0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
-    private static final Air AIR = new Air();  // circuit is assumed to be surrounded with air
+    private static final double E0 = CLConstants.E0;
+    private static final double Ea = new Air().getDielectricConstant();  // circuit is surrounded with air
     
     private final EventListenerList listeners;
     private final Battery battery;
@@ -109,7 +110,6 @@ public class BatteryCapacitorCircuit {
      */
     public double getCapacitance() {
         double Er = capacitor.getDielectricMaterial().getDielectricConstant(); // dimensionless
-        double Ea = AIR.getDielectricConstant(); // dimensionless
         double A = capacitor.getPlateArea(); // meters^2
         double Ad = capacitor.getDielectricContactArea(); // meters^2
         double d = capacitor.getPlateSeparation(); // meters
@@ -137,28 +137,8 @@ public class BatteryCapacitorCircuit {
      * @return charge, in Coulombs (C)
      */
     public double getExcessPlateCharge() {
-        
-        // excess charge on the portion of the plate that contacts the dielectric
-        double Er1 = capacitor.getDielectricMaterial().getDielectricConstant();
-        double A1 = capacitor.getDielectricContactArea();
-        double Q1 = getExcessPlateCharge( Er1, A1 );
-        
-        // excess charge on the portion of the plate that contacts air
-        double Er2 = AIR.getDielectricConstant();
-        double A2 = capacitor.getPlateArea() - A1;
-        double Q2 = getExcessPlateCharge( Er2, A2 );
-        
-        // in parallel, so add them
-        double Qexcess = Q1 + Q2;
-        return Qexcess;
-    }
-    
-    /*
-     * @param Er dielectric constant of the dielectric, dimensionless
-     * @param A plate area, meters^2
-     */
-    private double getExcessPlateCharge( double Er, double A ) {
-        double Ea = AIR.getDielectricConstant();
+        double Er = capacitor.getDielectricMaterial().getDielectricConstant();
+        double A = capacitor.getDielectricContactArea();
         double d = capacitor.getPlateSeparation(); // meters
         double V = battery.getVoltage(); // volts
         double Qexcess = ( Er - Ea ) * E0 * ( A / d ) * V; // Coulombs (1C = 1F * 1V)

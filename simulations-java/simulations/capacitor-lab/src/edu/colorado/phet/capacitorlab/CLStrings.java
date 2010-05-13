@@ -61,6 +61,9 @@ public class CLStrings {
     public static final String UNITS_COULOMBS = getString( "units.coulombs" );
     public static final String UNITS_PICOFARADS = getString( "units.picofarads" );
     
+    // Greek letters, i18n not required
+    public static final String EPSILON = "\u0190";
+    
     private static final String getString( String key ) {
         return CLResources.getString( key );
     }
