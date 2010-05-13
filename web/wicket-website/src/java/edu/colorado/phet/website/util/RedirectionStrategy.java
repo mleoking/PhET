@@ -640,6 +640,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
      */
     private static String redirectGetMemberFile( Map parameters ) {
         if ( !parameters.containsKey( "file" ) ) {
+            logger.warn( "BAD #1 for get-member-file: " + parameters );
             return NOT_FOUND;
         }
         String filename = ( (String[]) parameters.get( "file" ) )[0];
@@ -648,6 +649,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return FullInstallPanel.WINDOWS_INSTALLER_LOCATION;
         }
         else {
+            logger.warn( "BAD #2 for get-member-file: " + filename );
             return NOT_FOUND;
         }
     }
