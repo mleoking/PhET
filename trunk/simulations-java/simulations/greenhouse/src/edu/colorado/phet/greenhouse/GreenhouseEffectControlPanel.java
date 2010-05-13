@@ -35,14 +35,16 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.greenhouse.util.ModelViewTx1D;
 
+// TODO: Copied from GreenhouseControlPanel, needs to be cleaned and commented.
 
-public class GreenhouseEffectControlPanel extends JPanel implements Resettable {
+public class GreenhouseEffectControlPanel extends ControlPanel implements Resettable {
 
     private static Color adjustableGGColor = Color.black;
     //    private static Color adjustableGGColor = Color.cyan;
@@ -214,19 +216,18 @@ public class GreenhouseEffectControlPanel extends JPanel implements Resettable {
         // Lay out the controls
         //--------------------------------------------------------------------------------------------------
 
-        this.setLayout( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
-                                                         GridBagConstraints.CENTER,
-                                                         GridBagConstraints.HORIZONTAL,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
-        add( new GreenhouseLegend(), gbc );
+//        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
+//                                                         GridBagConstraints.CENTER,
+//                                                         GridBagConstraints.HORIZONTAL,
+//                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        addControlFullWidth( new GreenhouseLegend() );
 
         // Greenhouse gas concentrations
         {
             JPanel panel = new JPanel();
             panel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseControlPanel.GasConcentrationSlider" ) ) );
             panel.add( greenhouseGasConcentrationControl );
-            add( panel, gbc );
+            addControlFullWidth( panel );
         }
 
         // Options panel
@@ -265,15 +266,18 @@ public class GreenhouseEffectControlPanel extends JPanel implements Resettable {
             optionsPanel.add( allPhotonsCB, optsGbc );
         }
 
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add( atmosphereSelectionPane, gbc );
-        gbc.anchor = GridBagConstraints.WEST;
-        add( optionsPanel, gbc );
+//        gbc.fill = GridBagConstraints.HORIZONTAL;
+//        add( atmosphereSelectionPane, gbc );
+//        gbc.anchor = GridBagConstraints.WEST;
+        addControlFullWidth( atmosphereSelectionPane );
+//        add( optionsPanel, gbc );
+        addControlFullWidth( optionsPanel );
 
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.insets = new Insets( 15, 15, 0, 15 );
-        add( resetBtn, gbc );
+//        gbc.anchor = GridBagConstraints.CENTER;
+//        gbc.fill = GridBagConstraints.NONE;
+//        gbc.insets = new Insets( 15, 15, 0, 15 );
+//        add( resetBtn, gbc );
+        addControl( resetBtn );
     }
 
     private void setDefaultConditions() {
