@@ -13,10 +13,12 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.content.TranslationUtilityPanel;
 import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
 import edu.colorado.phet.website.content.search.SearchResultsPage;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
+import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
@@ -105,24 +107,30 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
         // initialize redirection mapping. value of null indicates that it will be handled by custom code, usually for query parameters
         map.put( "/about/contact.php", "/en/about/contact" );
+        map.put( "/about", "/en/about" );
+        map.put( "/about/", "/en/about" );
         map.put( "/about/index.php", "/en/about" );
         map.put( "/about/legend.php", "/en/for-teachers/legend" );
         map.put( "/about/licensing.php", "/en/about/licensing" );
         map.put( "/about/news.php", "/en/about/news" );
         map.put( "/about/source-code.php", "/en/about/source-code" );
         map.put( "/about/who-we-are.php", "/en/about" );
+        map.put( "/contribute/", "/en/for-translators" );
         map.put( "/contribute/donate.php", "/en/donate" );
         map.put( "/contribute/get-flash-common-strings.php", "/sims/flash-common-strings/flash-common-strings_en.jar" );
         map.put( "/contribute/get-java-common-strings.php", "/sims/java-common-strings/java-common-strings_en.jar" );
         map.put( "/contribute/index.php", "/en/for-translators" );
         map.put( "/contribute/translation-utility.php", "/en/for-translators/translation-utility" );
+        map.put( "/get_phet/", "/en/get-phet" );
         map.put( "/get_phet/full_install.php", "/en/get-phet/full-install" );
         map.put( "/get_phet/index.php", "/en/get-phet" );
         map.put( "/get_phet/simlauncher.php", "/en/get-phet/one-at-a-time" );
         map.put( "/index.html", "/" );
         map.put( "/index.php", "/" );
         map.put( "/installers/PhET-windows-installer.exe", FullInstallPanel.WINDOWS_INSTALLER_LOCATION );
+        map.put( "/phet-dist/installers/PhET-1.0-windows-installer.exe", FullInstallPanel.WINDOWS_INSTALLER_LOCATION );
         map.put( "/random-thumbnail.php", "/images/mass-spring-lab-animated-screenshot.gif" );
+        map.put( "/research/", "/en/research" );
         map.put( "/research/index.php", "/en/research" );
         map.put( "/simulations", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
         map.put( "/simulations/", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
@@ -131,6 +139,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/simulations/stringwave/stringWave.swf", "/sims/wave-on-a-string/wave-on-a-string_en.html" );
         map.put( "/simulations/translations.php", "/en/simulations/translated" );
         map.put( "/sponsors/index.php", "/en/about/sponsors" );
+        map.put( "/teacher_ideas/", "/en/for-teachers" );
         map.put( "/teacher_ideas/browse.php", "/en/for-teachers/browse-activities" );
         map.put( "/teacher_ideas/classroom-use.php", "/en/for-teachers/classroom-use" );
         map.put( "/teacher_ideas/contribute.php", "/en/for-teachers/submit-activity" );
@@ -140,13 +149,14 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/teacher_ideas/manage-contributions.php", "/en/for-teachers/manage-activities" );
         map.put( "/teacher_ideas/user-logout.php", "/en/sign-out" );
         map.put( "/teacher_ideas/user-edit-profile.php", "/en/edit-profile" );
-        map.put( "/teacher_ideas/workshops.php", "/en/workshops" );
+        map.put( "/teacher_ideas/workshops.php", WorkshopsPanel.getLinker().getDefaultRawUrl() );
         map.put( "/teacher_ideas/workshop_uganda.php", "/en/for-teachers/workshops/uganda" );
         map.put( "/teacher_ideas/workshop_uganda_photos.php", "/en/for-teachers/workshops/uganda-photos" );
         map.put( "/tech_support/index.php", "/en/troubleshooting" );
         map.put( "/tech_support/support-flash.php", "/en/troubleshooting/flash" );
         map.put( "/tech_support/support-java.php", "/en/troubleshooting/java" );
         map.put( "/tech_support/support-javascript.php", "/en/troubleshooting/javascript" );
+        map.put( "/web-pages/", "/" );
 
         map.put( VIEW_CONTRIBUTION, null );
         map.put( VIEW_CATEGORY, null );
@@ -178,6 +188,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         oldMap.put( "/web-pages/contribute.htm", "/en/for-translators" );
         oldMap.put( "/web-pages/db", "/" );
         oldMap.put( "/web-pages/educator-resources.html", "/en/for-teachers" );
+        oldMap.put( "/web-pages/index.html", "/" );
         oldMap.put( "/web-pages/javasupport.html", "/en/troubleshooting/java" );
         oldMap.put( "/web-pages/license.html", "/en/about/licensing" );
         oldMap.put( "/web-pages/misc-pages/publications.html", "/en/research" );
@@ -342,8 +353,8 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         simMap.put( "Wave_on_a_String", "wave-on-a-string" );
 
         // temporary. TODO: replace after virtual lab versions are in
-        badSimMap.put( "Circuit_Construction_Kit_ACDC_Virtual_Lab_Version", "circuit-construction-kit/circuit-construction-kit-ac" );
-        badSimMap.put( "Circuit_Construction_Kit_Virtual_Lab_Version_DC_Only", "circuit-construction-kit/circuit-construction-kit-dc" );
+        simMap.put( "Circuit_Construction_Kit_ACDC_Virtual_Lab_Version", "circuit-construction-kit/circuit-construction-kit-ac" );
+        simMap.put( "Circuit_Construction_Kit_Virtual_Lab_Version_DC_Only", "circuit-construction-kit/circuit-construction-kit-dc" );
 
         for ( String key : simMap.keySet() ) {
             badSimMap.put( processSimName( key ), simMap.get( key ) );
@@ -530,6 +541,21 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         postWicketMap.put( "/simulations/waveinterference/waveinterference.jnlp", "/sims/wave-interference/wave-interference.jnlp" );
         postWicketMap.put( "/simulations/waveinterference/waveinterference_sp.jnlp", "/sims/wave-interference/wave-interference_es.jnlp" );
 
+        postWicketMap.put( "/Design/Assets/images/Phet-Kavli-logo.jpg", "/publications/Design/Assets/images/Phet-Kavli-logo.jpg" );
+        postWicketMap.put( "/teacher_ideas/contribution-guidelines.pdf", "/publications/activities-guide/contribution-guidelines.pdf" );
+        postWicketMap.put( "/teacher_ideas/HighSchoolSampleUse.pdf", "/publications/activities-guide/HighSchoolSampleUse.pdf" );
+        postWicketMap.put( "/teacher_ideas/ModernPhysicsSampleUse.pdf", "/publications/activities-guide/ModernPhysicsSampleUse.pdf" );
+        postWicketMap.put( "/teacher_ideas/PhysicsOfEverydayLifeSampleUse.pdf", "/publications/activities-guide/PhysicsOfEverydayLifeSampleUse.pdf" );
+
+        postWicketMap.put( "/sims", "/sims/" );
+        postWicketMap.put( "/publications", "/publications/" );
+        postWicketMap.put( "/workshops", "/workshops/" );
+        postWicketMap.put( "/files", "/files/" );
+        postWicketMap.put( "/installer", "/installer/" );
+        postWicketMap.put( "/newsletters", "/newsletters/" );
+        postWicketMap.put( "/statistics", "/statistics/" );
+
+        postWicketMap.put( "/contribute/get-translation-utility.php", TranslationUtilityPanel.TRANSLATION_UTILITY_PATH );
 
         // TODO: add all URLs (pretty much everything useful on tigercat has been mapped)
     }
@@ -592,7 +618,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return redirectGetMemberFile( parameters );
         }
         else if ( path.startsWith( OLD_INSTALLERS ) ) {
-            return path.substring( "/phet-dist/installers".length() ) + "/installer";
+            return "/installer" + path.substring( "/phet-dist/installers".length() );
         }
         else if ( path.startsWith( SIM_SEARCH ) ) {
             return redirectSimSearch( parameters );
@@ -905,12 +931,13 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
 
     /**
      * Called after both the above redirection strategy, Wicket, and Tomcat all cannot find a file. Here, return null
-     * if not found, otherwise return a relative path that starts with "/"
+     * if not found, otherwise return a relative path that starts with "/". Do NOT include a query string in the final
+     * result
      *
      * @param path Relative path starting with "/" of a non-existant path or file
      * @return Null or a path starting with "/"
      */
-    public static String redirectFile( String path ) {
+    public static String redirectFile( String path, String queryString ) {
         if ( path.startsWith( "/images/" ) || path.startsWith( "/css/" ) || path.startsWith( "/js/" ) ) {
             return "/files/archive" + path;
         }
@@ -922,6 +949,12 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
         else if ( path.startsWith( "/index.php/" ) ) {
             return path.substring( "/index.php".length() );
+        }
+        else if ( path.startsWith( "/simulations/images/" ) ) {
+            return path.substring( "/simulations".length() );
+        }
+        else if ( path.startsWith( "/teacher_ideas/login-and-redirect.php" ) ) {
+            return queryString;
         }
         return null;
     }

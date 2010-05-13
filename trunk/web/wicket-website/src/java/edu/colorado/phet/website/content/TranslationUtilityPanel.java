@@ -11,6 +11,10 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class TranslationUtilityPanel extends PhetPanel {
+
+    // TODO: turn into linker? (make a page for misc linkers to things like installers)
+    public static final String TRANSLATION_UTILITY_PATH = "/files/translation-utility/translation-utility.jar";
+
     public TranslationUtilityPanel( String id, PageContext context ) {
 
         super( id, context );
@@ -22,7 +26,7 @@ public class TranslationUtilityPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "step-download", "translationUtility.general.download", new Object[]{
-                "href=\"/files/translation-utility/translation-utility.jar\""
+                "href=\"" + TRANSLATION_UTILITY_PATH + "\""
         } ) );
 
         add( new LocalizedText( "step-selectLanguage", "translationUtility.general.selectLanguage", new Object[]{
@@ -40,7 +44,7 @@ public class TranslationUtilityPanel extends PhetPanel {
 
         add( new LocalizedText( "bug-reports", "translationUtility.bugReports.whatToDo", new Object[]{
                 "<a href=\"mailto:phethelp@colorado.edu?subject=Translation%20Utility\"><span class=\"red\">phethelp@colorado.edu</span></a>"
-        }));
+        } ) );
     }
 
     public static String getKey() {
