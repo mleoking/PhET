@@ -9,7 +9,7 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.Battery;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -21,11 +21,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class RemoveWiresButtonNode extends PhetPNode {
     
-    public RemoveWiresButtonNode( final Battery battery ) {
+    public RemoveWiresButtonNode( final BatteryCapacitorCircuit circuit ) {
         JButton button = new JButton( CLStrings.BUTTON_REMOVE_WIRES );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                battery.setConnected( false );
+                circuit.setBatteryConnected( false );
             }
         });
         addChild( new PSwing( button ) );

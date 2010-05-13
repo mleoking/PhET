@@ -1,3 +1,4 @@
+5/13/10 handle battery connection properly, move it out of battery and into circuit
 5/13/10 add constants to Developer meter
 5/13/10 fix Qexcess model
 5/13/10 Plate Charge meter: change label, show +- value, red/blue bar based on +-
