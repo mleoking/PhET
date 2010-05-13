@@ -28,7 +28,7 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     public CharSequence encode( IRequestTarget request ) {
         if ( request instanceof BookmarkablePageRequestTarget ) {
             BookmarkablePageRequestTarget bookRequest = (BookmarkablePageRequestTarget) request;
-            // TODO
+            // we shouldn't ever have to encode a URL like this.
         }
         throw new RuntimeException( "PhetUrlStrategy.encode" );
     }
