@@ -8,15 +8,12 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import java.awt.event._
 import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.scalacommon.Predef._
-import edu.colorado.phet.motionseries.MotionSeriesResources
-import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import edu.colorado.phet.motionseries.MotionSeriesDefaults
-import edu.colorado.phet.motionseries.tests.MyCanvas
 import javax.swing.{JFrame}
 import edu.colorado.phet.motionseries.controls.{ComboBoxNode}
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
+import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesResources, MotionSeriesDefaults}
 
 abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   adjustableCoordinateModel: AdjustableCoordinateModel,
@@ -85,7 +82,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   }
   addWallsAndDecorations()
 
-  val beadNode = createBeadNode(model.bead, transform, model.selectedObject.imageFilename, model.selectedObject.crashImageFilename,() => {
+  val beadNode = createBeadNode(model.bead, transform, model.selectedObject.imageFilename, model.selectedObject.crashImageFilename, () => {
     if (model.isPlayback) {
       model.clearHistoryRemainder()
       model.setRecord(true)
@@ -94,7 +91,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   })
 
   //todo: shouldn't assume ForceBead subclass
-  def createBeadNode(b: MovingManBead, t: ModelViewTransform2D, imageName: String, crashImageName:String, listener: () => Unit): BeadNode = new ForceDragBeadNode(b, t, imageName, crashImageName, listener)
+  def createBeadNode(b: MovingManBead, t: ModelViewTransform2D, imageName: String, crashImageName: String, listener: () => Unit): BeadNode = new ForceDragBeadNode(b, t, imageName, crashImageName, listener)
 
   //todo: this line was continually calling setImage on the imageNode
   model.addListenerByName(beadNode.setImages(MotionSeriesResources.getImage(model.selectedObject.imageFilename),
@@ -193,13 +190,13 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
 
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
-    appliedForceSliderNode.setOffset(stage.getWidth/ 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY)
+    appliedForceSliderNode.setOffset(stage.getWidth / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY)
     addBehindVectorNodes(appliedForceSliderNode)
   }
 
   if (showObjectSelectionNode) {
     addStageNode(new ComboBoxNode(model, this) {
-      setOffset(stage.getWidth/ 2 - getFullBounds.getWidth / 2, stage.getHeight- getFullBounds.getHeight - 2)
+      setOffset(stage.getWidth / 2 - getFullBounds.getWidth / 2, stage.getHeight - getFullBounds.getHeight - 2)
     })
   }
 

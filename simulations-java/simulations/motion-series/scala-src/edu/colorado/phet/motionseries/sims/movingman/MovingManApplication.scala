@@ -13,11 +13,10 @@ import javax.swing.event.{ChangeListener, ChangeEvent}
 import javax.swing.JFrame
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
-import edu.colorado.phet.motionseries.{MotionSeriesModule, MotionSeriesDefaults}
 import edu.colorado.phet.motionseries.swing.ScalaValueControl
 import edu.umd.cs.piccolox.pswing.PSwing
 import java.lang.String
+import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
 
 class BasicMovingManModule(frame: PhetFrame,
                            clock: ScalaClock,

@@ -3,7 +3,6 @@ package edu.colorado.phet.motionseries.sims.theramp
 import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.motionseries.graphics.{RampCanvas}
 import java.awt.geom.Rectangle2D
-import edu.colorado.phet.common.phetcommon.application.{PhetApplicationConfig}
 import edu.colorado.phet.common.piccolophet.{PiccoloPhetApplication}
 import java.awt.event.{ActionEvent, ActionListener}
 import java.awt.{Color}
@@ -14,12 +13,14 @@ import edu.colorado.phet.scalacommon.record.{RecordModelControlPanel, PlaybackSp
 
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.charts.bargraphs._
-import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesModule}
+import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig}
+import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 
-trait StageContainerArea {
-  def getBounds(w: Double, h: Double): Rectangle2D
-}
 
+/**
+ * This is the parent class for the various Modules for the ramp simulation.
+ * @author Sam Reid
+ */
 class BasicRampModule(frame: PhetFrame,
                       clock: ScalaClock,
                       name: String,
@@ -33,19 +34,33 @@ class BasicRampModule(frame: PhetFrame,
                       stageContainerArea: StageContainerArea,
                       fbdPopupOnly: Boolean)
         extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle, fbdPopupOnly) {
-  val rampCanvas = new RampCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
-    !useObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea, stageContainerArea)
+  //Create a default Ramp Canvas and set it as the simulation panel
+  val rampCanvas = new RampCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea, stageContainerArea)
   setSimulationPanel(rampCanvas)
-  val rampControlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, true, true, true)
+
+  //Create the control panel and set it as the simulation control panel
+  val rampControlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, true, true, true)
   setControlPanel(rampControlPanel)
+
+  //Set the clock control panel
   setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, rampCanvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
 }
 
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 
-class IntroRampModule(frame: PhetFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -3, false,
-  MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false)
+/**
+ * The introductory panel
+ */
+class IntroRampModule(frame: PhetFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate,
+  coordinateSystemFeaturesEnabled = false,
+  useObjectComboBox = false,
+  showAppliedForceSlider = true,
+  defaultBeadPosition = -3.0,
+  pausedOnReset = false,
+  initialAngle = MotionSeriesDefaults.defaultRampAngle,
+  rampLayoutArea = MotionSeriesDefaults.rampIntroViewport,
+  stageContainerArea = MotionSeriesDefaults.fullScreenArea,
+  fbdPopupOnly = false)
 
 class CoordinatesRampModule(frame: PhetFrame,
                             clock: ScalaClock)
@@ -88,4 +103,12 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new CoordinatesRampModule(getPhetFrame, newClock))
   addModule(new WorkEnergyModule(getPhetFrame, newClock))
   addModule(new RobotMovingCompanyModule(getPhetFrame, newClock, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampRobotForce, MotionSeriesDefaults.objects))
+}
+
+/**
+ * Main application for The Ramp simulation.
+ * @author Sam Reid
+ */
+object RampApplicationMain {
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampApplication])
 }

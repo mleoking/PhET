@@ -13,10 +13,8 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.controls.RampControlPanel
-import edu.colorado.phet.motionseries.MotionSeriesModule
-import edu.colorado.phet.motionseries.MotionSeriesDefaults
-import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
+import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
 
 class ForcesAndMotionModule(frame: PhetFrame,
                             clock: ScalaClock,
