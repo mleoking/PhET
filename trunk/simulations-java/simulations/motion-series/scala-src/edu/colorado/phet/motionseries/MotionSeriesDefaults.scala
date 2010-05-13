@@ -4,7 +4,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import java.awt.Color
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.motionseries.model.{MutableMotionSeriesObject, CustomTextMotionSeriesObject, MotionSeriesObject}
-import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 
 object MotionSeriesDefaults {
   val CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES = 4000 * 1.5
@@ -162,4 +161,8 @@ object MotionSeriesDefaults {
   val velval = black
   val positionval = black
 
+}
+
+trait StageContainerArea {
+  def getBounds(w: Double, h: Double): Rectangle2D
 }

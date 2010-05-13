@@ -7,7 +7,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt._
 import java.awt.event.{KeyEvent, KeyAdapter}
 import edu.colorado.phet.scalacommon.ScalaClock
-import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolo.nodes.{PImage, PText}
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
@@ -17,11 +16,10 @@ import edu.colorado.phet.motionseries.model._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import edu.colorado.phet.motionseries.MotionSeriesResources
-import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 import geom.{Point2D, AffineTransform, Line2D, RoundRectangle2D}
 import edu.colorado.phet.scalacommon.util.Observable
 import javax.swing._
+import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesResources}
 
 class RobotMovingCompanyCanvas(model: MotionSeriesModel,
                                coordinateSystemModel: AdjustableCoordinateModel,
