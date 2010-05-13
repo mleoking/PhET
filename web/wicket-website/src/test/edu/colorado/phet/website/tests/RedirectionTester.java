@@ -281,7 +281,7 @@ public class RedirectionTester {
                 ok.add( new Entry( request, hits ) );
             }
             else if ( hits.getHit().is404() ) {
-                if ( request.getStatus() == 404 ) {
+                if ( request.getStatus() != 404 ) {
                     c404 += hits.getCount();
                     notfound.add( new Entry( request, hits ) );
                 }
