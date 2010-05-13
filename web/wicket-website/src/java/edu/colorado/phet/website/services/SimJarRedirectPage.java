@@ -34,7 +34,7 @@ public class SimJarRedirectPage extends WebPage {
         String language = parameters.getString( "language" );
         String country = parameters.getString( "country" );
 
-        if( project == null ) {
+        if ( project == null ) {
             logger.warn( "Project not given" );
         }
 
@@ -48,16 +48,24 @@ public class SimJarRedirectPage extends WebPage {
             jarFile = Simulation.getAllJar( docRoot, project );
         }
         else {
-            logger.warn( "Language not given" );
             Locale locale = country == null ? new Locale( language ) : new Locale( language, country );
             jarFile = Simulation.getLocalizedJar( docRoot, project, sim, locale );
+            if ( !jarFile.exists() ) {
+                if ( !( locale.getCountry() == null || locale.getCountry().equals( "" ) ) ) {
+                    jarFile = Simulation.getLocalizedJar( docRoot, project, sim, new Locale( locale.getLanguage() ) );
+                }
+                if ( !jarFile.exists() ) {
+                    jarFile = Simulation.getLocalizedJar( docRoot, project, sim, PhetWicketApplication.getDefaultLocale() );
+                }
+            }
         }
 
         if ( !jarFile.exists() ) {
             logger.warn( "jar file does not exist: " + jarFile.getAbsolutePath() );
         }
-
-        setResponseAttachFile( jarFile );
+        else {
+            setResponseAttachFile( jarFile );
+        }
 
     }
 
