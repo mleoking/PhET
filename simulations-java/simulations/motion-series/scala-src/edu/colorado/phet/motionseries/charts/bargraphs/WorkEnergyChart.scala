@@ -15,7 +15,7 @@ import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 
-class WorkEnergyChartModel extends Observable {
+class WorkEnergyChartVisibilityModel extends Observable {
   private var defaultVisible = false
   private var _visible = defaultVisible
 
@@ -26,7 +26,7 @@ class WorkEnergyChartModel extends Observable {
   def reset() = {visible = defaultVisible}
 }
 
-class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: MotionSeriesModel, owner: JFrame) {
+class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartVisibilityModel, model: MotionSeriesModel, owner: JFrame) {
   val dialog = new JDialog(owner, "controls.energy-chart".translate, false)
 
   def updateDialogVisible() = dialog.setVisible(workEnergyChartModel.visible)

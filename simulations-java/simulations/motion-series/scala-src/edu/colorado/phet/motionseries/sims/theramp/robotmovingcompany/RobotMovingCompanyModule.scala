@@ -15,11 +15,10 @@ import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.model.{MotionSeriesObject, MotionSeriesModel}
 
 class RobotMovingCompanyModule(frame: PhetFrame,
-                               clock: ScalaClock,
                                initAngle: Double,
                                appliedForce: Double,
                                objectList: List[MotionSeriesObject])
-        extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle, false) {
+        extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle, false) {
   override def reset() = {
     super.reset()
     motionSeriesModel.frictionless = false
@@ -42,7 +41,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
     }
   }
 
-  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock, initAngle, appliedForce, objectList)
+  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, getClock.asInstanceOf[ScalaClock], initAngle, appliedForce, objectList)//todo: fix cast
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
     val audioClip = result match {

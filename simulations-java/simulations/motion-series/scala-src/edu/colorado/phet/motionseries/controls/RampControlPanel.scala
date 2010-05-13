@@ -20,7 +20,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import edu.umd.cs.piccolo.{PCanvas, PNode}
+import edu.umd.cs.piccolo.{PNode}
 import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PSwing}
 
 class RampControlPanel(model: MotionSeriesModel,
@@ -42,7 +42,9 @@ class RampControlPanel(model: MotionSeriesModel,
   addControl(body)
   addResetAllButton(new Resettable {def reset = resetHandler()})
 
-  def addToBody(component: JComponent) = body.add(component)
+  def addPrimaryControl(component: JComponent):Unit = body.add(component)
+
+  def addPrimaryControl(component: scala.swing.Component):Unit = addPrimaryControl(component.peer)
 }
 
 class RampControlPanelBody(model: MotionSeriesModel,
