@@ -6,7 +6,7 @@ import edu.colorado.phet.scalacommon.util.Observable;
 
 import java.util.ArrayList;
 
-abstract class RecordModel<T> implements Observable {
+public abstract class RecordModel<T> implements Observable {
     private final ArrayList<DataPoint<T>> recordHistory = new ArrayList<DataPoint<T>>();
 
     private boolean record = true;
