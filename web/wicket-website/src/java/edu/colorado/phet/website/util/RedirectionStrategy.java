@@ -118,6 +118,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/index.html", "/" );
         map.put( "/index.php", "/" );
         map.put( "/installers/PhET-windows-installer.exe", FullInstallPanel.WINDOWS_INSTALLER_LOCATION );
+        map.put( "/random-thumbnail.php", "/images/mass-spring-lab-animated-screenshot.gif" );
         map.put( "/research/index.php", "/en/research" );
         map.put( "/simulations", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
         map.put( "/simulations/", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
@@ -404,7 +405,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return redirectGetMemberFile( parameters );
         }
         else if ( path.startsWith( OLD_INSTALLERS ) ) {
-            return path.substring( "/phet-dist".length() );
+            return path.substring( "/phet-dist/installers".length() ) + "/installer";
         }
         else if ( path.startsWith( OLD_NEW ) ) {
             return path.substring( "/new".length() );
