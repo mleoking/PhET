@@ -18,7 +18,7 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
- * It has many parameters since the application has many tabs different requirements.
+ * It has many parameters since the application has many tabs with different requirements.
  * @author Sam Reid
  */
 class BasicRampModule(frame: PhetFrame,
@@ -93,6 +93,9 @@ class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.e
     workEnergyChartVisibilityModel.visible = true
   }
   rampControlPanel.addPrimaryControl(showEnergyChartButton)
+
+  //todo: which is easier to read?
+  //rampControlPanel.addPrimaryControl(Button("controls.show-energy-chart".translate) {workEnergyChartVisibilityModel.visible = true})
 
   //create the work-energy chart; its visibility is determined by the visibility model
   val workEnergyChart = new WorkEnergyChart(workEnergyChartVisibilityModel, motionSeriesModel, frame)
