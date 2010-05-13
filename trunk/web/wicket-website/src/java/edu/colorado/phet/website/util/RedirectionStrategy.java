@@ -278,6 +278,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         simMap.put( "Fourier_Making_Waves", "fourier" );
         simMap.put( "Friction", "friction" );
         simMap.put( "Gas_Properties", "ideal-gas/gas-properties" );
+        simMap.put( "Gene_Machine_The_Lac_Operon", "gene-network/gene-machine-lac-operon" );
         simMap.put( "Generator", "faraday/generator" );
         simMap.put( "Geometric_Optics", "geometric-optics" );
         simMap.put( "Glaciers", "glaciers" );
@@ -315,6 +316,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         simMap.put( "Radio_Waves_and_Electromagnetic_Fields", "radio-waves" );
         simMap.put( "Radioactive_Dating_Game", "nuclear-physics/radioactive-dating-game" );
         simMap.put( "The_Ramp", "the-ramp" );
+        simMap.put( "Reactants_Products_and_Leftovers", "reactants-products-and-leftovers" );
         simMap.put( "Reactions_and_Rates", "reactions-and-rates" );
         simMap.put( "Resistance_in_a_Wire", "resistance-in-a-wire" );
         simMap.put( "Reversible_Reactions", "ideal-gas/reversible-reactions" );
@@ -332,6 +334,10 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         simMap.put( "Vector_Addition", "vector-addition" );
         simMap.put( "Wave_Interference", "wave-interference" );
         simMap.put( "Wave_on_a_String", "wave-on-a-string" );
+
+        // temporary. TODO: replace after virtual lab versions are in
+        badSimMap.put( "Circuit_Construction_Kit_ACDC_Virtual_Lab_Version", "circuit-construction-kit/circuit-construction-kit-ac" );
+        badSimMap.put( "Circuit_Construction_Kit_Virtual_Lab_Version_DC_Only", "circuit-construction-kit/circuit-construction-kit-dc" );
 
         for ( String key : simMap.keySet() ) {
             badSimMap.put( processSimName( key ), simMap.get( key ) );
