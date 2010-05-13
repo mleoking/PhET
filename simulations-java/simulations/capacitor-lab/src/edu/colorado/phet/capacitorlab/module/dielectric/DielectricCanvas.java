@@ -11,7 +11,7 @@ import edu.colorado.phet.capacitorlab.control.*;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.*;
@@ -54,12 +54,11 @@ public class DielectricCanvas extends CLCanvas {
     public DielectricCanvas( final CLModel model, boolean dev ) {
         
         this.model = model;
-        model.getBattery().addBatteryChangeListener( new BatteryChangeAdapter() {
+        model.getCircuit().addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
             @Override
-            public void connectedChanged() {
-                updateConnectivity();
+            public void batteryConnectedChanged() {
+                updateBatteryConnectivity();
             }
-           
         } );
         model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeAdapter() {
             
@@ -90,8 +89,8 @@ public class DielectricCanvas extends CLCanvas {
         bottomWireNode = new BottomWireNode( model, mvt );
         originNode = new BullseyeNode();
         
-        addWiresButtonNode = new AddWiresButtonNode( model.getBattery() );
-        removeWiresButtonNode = new RemoveWiresButtonNode( model.getBattery() );
+        addWiresButtonNode = new AddWiresButtonNode( model.getCircuit() );
+        removeWiresButtonNode = new RemoveWiresButtonNode( model.getCircuit() );
         
         dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
@@ -161,7 +160,7 @@ public class DielectricCanvas extends CLCanvas {
         }
         
         // default state
-        updateConnectivity();
+        updateBatteryConnectivity();
         updateDielectricOffsetDragHandle();
         updatePlateSeparationDragHandle();
         updatePlateAreaDragHandle();
@@ -181,8 +180,8 @@ public class DielectricCanvas extends CLCanvas {
         return developerMeterNode;
     }
     
-    private void updateConnectivity() {
-        boolean isConnected = model.getBattery().isConnected();
+    private void updateBatteryConnectivity() {
+        boolean isConnected = model.getCircuit().isBatteryConnected();
         topWireNode.setVisible( isConnected );
         bottomWireNode.setVisible( isConnected );
         addWiresButtonNode.setVisible( !isConnected );

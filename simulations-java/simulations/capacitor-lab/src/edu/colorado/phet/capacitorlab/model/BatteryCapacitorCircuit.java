@@ -26,20 +26,18 @@ public class BatteryCapacitorCircuit {
     private final EventListenerList listeners;
     private final Battery battery;
     private final Capacitor capacitor;
+    private boolean batteryConnected;
+    
     private CustomDielectricMaterial customDielectric;
     private CustomDielectricChangeListener customDielectricChangeListener;
 
     public BatteryCapacitorCircuit( Battery battery, Capacitor capacitor ) {
         
         listeners = new EventListenerList();
+        batteryConnected = true;
         
         this.battery = battery;
         battery.addBatteryChangeListener( new BatteryChangeAdapter() {
-
-            @Override
-            public void connectedChanged() {
-                //XXX handle this
-            }
 
             @Override
             public void voltageChanged() {
@@ -101,6 +99,17 @@ public class BatteryCapacitorCircuit {
     
     public Capacitor getCapacitor() {
         return capacitor;
+    }
+    
+    public void setBatteryConnected( boolean connected ) {
+        if ( connected != this.batteryConnected ) {
+            this.batteryConnected = connected;
+            fireBatteryConnectedChanged();
+        }
+    }
+    
+    public boolean isBatteryConnected() {
+        return batteryConnected;
     }
     
     /**
@@ -214,6 +223,7 @@ public class BatteryCapacitorCircuit {
         public void chargeChanged();
         public void efieldChanged();
         public void energyChanged();
+        public void batteryConnectedChanged();
     }
     
     public static class BatteryCapacitorCircuitChangeAdapter implements BatteryCapacitorCircuitChangeListener {
@@ -222,6 +232,7 @@ public class BatteryCapacitorCircuit {
         public void chargeChanged() {}
         public void efieldChanged() {}
         public void energyChanged() {}
+        public void batteryConnectedChanged() {}
     }
     
     public void addBatteryCapacitorCircuitChangeListener( BatteryCapacitorCircuitChangeListener listener ) {
@@ -259,6 +270,12 @@ public class BatteryCapacitorCircuit {
     public void fireEnergyChanged() {
         for ( BatteryCapacitorCircuitChangeListener listener : listeners.getListeners( BatteryCapacitorCircuitChangeListener.class ) ) {
             listener.energyChanged();
+        }
+    }
+    
+    private void fireBatteryConnectedChanged() {
+        for ( BatteryCapacitorCircuitChangeListener listener : listeners.getListeners( BatteryCapacitorCircuitChangeListener.class ) ) {
+            listener.batteryConnectedChanged();
         }
     }
 }

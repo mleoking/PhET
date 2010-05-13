@@ -75,7 +75,7 @@ public class CLModel {
     
     public void reset() {
         getBattery().setVoltage( BATTERY_VOLTAGE );
-        getBattery().setConnected( BATTERY_CONNECTED );
+        getCircuit().setBatteryConnected( BATTERY_CONNECTED );
         getCapacitor().setPlateSize( PLATE_SIZE );
         getCapacitor().setPlateSeparation( PLATE_SEPARATION );
         getCapacitor().setDielectricMaterial( defaultDielectricMaterial );
