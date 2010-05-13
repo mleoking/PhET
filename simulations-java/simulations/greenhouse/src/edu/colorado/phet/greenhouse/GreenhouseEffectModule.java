@@ -52,6 +52,10 @@ public class GreenhouseEffectModule extends PiccoloModule {
         canvas = new GreenhouseEffectCanvas();
         setSimulationPanel( canvas );
         
+        // Control panel
+        GreenhouseEffectControlPanel greenhouseEffectControlPanel = new GreenhouseEffectControlPanel();
+        setControlPanel(greenhouseEffectControlPanel);
+
         // Clock controls.
     	// Create the clock control panel, including slider.
         final ConstantDtClock clock = (ConstantDtClock)getClock();
