@@ -37,7 +37,7 @@ class MGPConstants {
     
     // weak acid
     public static final DoubleRange WEAK_ACID_CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
-    public static final DoubleRange WEAK_ACID_STRENGTH_RANGE = new DoubleRange( 1E-10, 1 );
+    public static final DoubleRange WEAK_ACID_STRENGTH_RANGE = new DoubleRange( 1E-10, 1000 );
     
     // dots
     public static final IntegerRange MAX_DOTS_RANGE = new IntegerRange( 100, 2000, 500 );
