@@ -13,8 +13,9 @@ import javax.swing.{JSlider, JLabel}
 import edu.umd.cs.piccolo.PNode
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources._
+import edu.colorado.phet.scalacommon.util.Observable
 
-class PlaybackSpeedSlider[T](model: RecordModel[T]) extends PNode {
+class PlaybackSpeedSlider[T](model: edu.colorado.phet.recordandplayback.model.RecordModel[T] with Observable) extends PNode {
   addInputEventListener(new CursorHandler)
   val slider = new JSlider
   slider.setBackground(new Color(0, 0, 0, 0))

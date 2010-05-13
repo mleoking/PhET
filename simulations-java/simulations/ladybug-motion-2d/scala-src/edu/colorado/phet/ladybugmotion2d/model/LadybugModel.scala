@@ -5,16 +5,17 @@ import edu.colorado.phet.common.motion.model.TimeData
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.motion._
-import edu.colorado.phet.scalacommon.record.{DataPoint, RecordModel}
 import edu.colorado.phet.ladybugmotion2d.{Motion2DModel, LadybugDefaults}
 import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordModel}
+import edu.colorado.phet.scalacommon.util.Observable
 
 /**
  * This class is the main model for Ladybug2DApplication.  It contains both a model for the current state as well as the history.
  * The smoothing of motion is done by leading the ladybug (with an abstraction called the pen),
  * and using the same model as Motion2D for interpolation.
  */
-class LadybugModel extends RecordModel[LadybugState] {
+class LadybugModel extends RecordModel[LadybugState] with Observable{
   def stepRecord() = stepRecord(LadybugDefaults.defaultDT)
 
   val ladybug = new Ladybug
@@ -52,7 +53,7 @@ class LadybugModel extends RecordModel[LadybugState] {
         resetMotion2DModel
         penPoint = ladybug.getPosition
       }
-      notifyListeners
+      notifyObservers()
     }
   }
 
@@ -170,7 +171,7 @@ class LadybugModel extends RecordModel[LadybugState] {
       ladybugMotionModel.update(dt, this)
 
       modelHistory += new DataPoint(time, ladybug.getState)
-      recordHistory += new DataPoint(time, ladybug.getState)
+      getRecordingHistory.add(new DataPoint(time, ladybug.getState))
       penPath += new PenSample(time, penPoint)
 
       while (modelHistory.length > 100) {
@@ -180,10 +181,10 @@ class LadybugModel extends RecordModel[LadybugState] {
         penPath.remove(0)
       }
 
-      while (recordHistory.length > getMaxRecordPoints) {
+      while (getRecordingHistory.size > getMaxRecordPoints) {
         //decide whether to remove end of path or beginning of path.
         //          recordHistory.remove(recordHistory.length - 1)
-        recordHistory.remove(0)
+        getRecordingHistory.remove(0)
       }
 
       if (!ladybugMotionModel.isExclusive()) {
@@ -194,7 +195,7 @@ class LadybugModel extends RecordModel[LadybugState] {
           updateMode.update(dt)
         }
       }
-      notifyListeners()
+      notifyObservers()
     }
   }
 
@@ -207,20 +208,20 @@ class LadybugModel extends RecordModel[LadybugState] {
 
   def readyForInteraction(): Boolean = {
     val recording = isRecord
-    val isDonePlayback = (getPlaybackIndex() >= recordHistory.length - 1) && isPaused
+    val isDonePlayback = (getPlaybackIndex() >= getRecordingHistory.size - 1) && isPaused
     recording || isDonePlayback
   }
 
   def estimateAngle(): Double = estimateVelocity(modelHistory.length - 1).getAngle
 
-  def getPosition(index: Int): Vector2D = modelHistory(index).state.position
+  def getPosition(index: Int): Vector2D = modelHistory(index).getState.position
 
   def estimateVelocity(index: Int): Vector2D = {
     val h = modelHistory.slice(modelHistory.length - 6, modelHistory.length)
-    val tx = for (item <- h) yield new TimeData(item.state.position.x, item.time)
+    val tx = for (item <- h) yield new TimeData(item.getState.position.x, item.getTime)
     val vx = MotionMath.estimateDerivative(tx.toArray)
 
-    val ty = for (item <- h) yield new TimeData(item.state.position.y, item.time)
+    val ty = for (item <- h) yield new TimeData(item.getState.position.y, item.getTime)
     val vy = MotionMath.estimateDerivative(ty.toArray)
 
     new Vector2D(vx, vy)
@@ -228,10 +229,10 @@ class LadybugModel extends RecordModel[LadybugState] {
 
   def estimateAcceleration(index: Int): Vector2D = {
     val h = modelHistory.slice(modelHistory.length - 6, modelHistory.length)
-    val tx = for (item <- h) yield new TimeData(item.state.velocity.x, item.time)
+    val tx = for (item <- h) yield new TimeData(item.getState.velocity.x, item.getTime)
     val ax = MotionMath.estimateDerivative(tx.toArray)
 
-    val ty = for (item <- h) yield new TimeData(item.state.velocity.y, item.time)
+    val ty = for (item <- h) yield new TimeData(item.getState.velocity.y, item.getTime)
     val ay = MotionMath.estimateDerivative(ty.toArray)
 
     new Vector2D(ax, ay)
@@ -253,7 +254,7 @@ class LadybugModel extends RecordModel[LadybugState] {
   override def clearHistoryRemainder() = {
     super.clearHistoryRemainder()
 
-    val earlyEnough = modelHistory.filter(_.time < getTime)
+    val earlyEnough = modelHistory.filter(_.getTime < getTime)
     modelHistory.clear
     modelHistory.appendAll(earlyEnough)
 
@@ -279,7 +280,7 @@ class LadybugModel extends RecordModel[LadybugState] {
     frictionless = false
     resetMotion2DModel
 
-    notifyListeners()
+    notifyObservers()
   }
 
   override def clearHistory() = {
@@ -302,11 +303,11 @@ class LadybugModel extends RecordModel[LadybugState] {
     penPath.clear()
     setSamplePoint(ladybug.getPosition)
     resetMotion2DModel
-    notifyListeners()
+    notifyObservers()
   }
 
   def setPenDown(p: Boolean) = {
     penDown = p
-    notifyListeners()
+    notifyObservers()
   }
 }

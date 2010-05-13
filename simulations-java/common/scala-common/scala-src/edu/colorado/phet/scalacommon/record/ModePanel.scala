@@ -9,8 +9,9 @@ import javax.swing.{BoxLayout, JPanel, JComponent}
 import java.awt.Color._
 import edu.colorado.phet.scalacommon.swing.MyRadioButton
 import PhetCommonResources._
+import edu.colorado.phet.scalacommon.util.Observable
 
-class ModePanel[T](model: RecordModel[T]) extends JPanel {
+class ModePanel[T](model: edu.colorado.phet.recordandplayback.model.RecordModel[T] with Observable) extends JPanel {
   setLayout(new BoxLayout(this, Y_AXIS))
   setBackground(new Color(0, 0, 0, 0))
 

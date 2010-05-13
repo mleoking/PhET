@@ -21,8 +21,9 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeContro
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources._
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
+import edu.colorado.phet.scalacommon.util.Observable
 
-class RecordModelControlPanel[T](model: RecordModel[T],
+class RecordModelControlPanel[T](model: edu.colorado.phet.recordandplayback.model.RecordModel[T] with Observable,
                                  simPanel: JComponent,
                                  createRightControl: () => PNode,
                                  timelineColor: Color,
@@ -75,7 +76,7 @@ class RecordModelControlPanel[T](model: RecordModel[T],
   model.addListenerByName(updateRewindEnabled)
   updateRewindEnabled()
   def updateRewindEnabled() = {
-    val enabled = model.isPlayback && model.getRecordingHistory.length > 0 && model.getTime != model.getMinRecordedTime
+    val enabled = model.isPlayback && model.getRecordingHistory.size > 0 && model.getTime != model.getMinRecordedTime
     rewind.setEnabled(enabled)
   }
   rewind.addInputEventListener(new ToolTipHandler(getString("Common.rewind"), this))
@@ -102,7 +103,7 @@ class RecordModelControlPanel[T](model: RecordModel[T],
   stepButton.setEnabled(false)
   stepButton.addInputEventListener(new ToolTipHandler(getString("Common.ClockControlPanel.Step"), this))
   model.addListener(() => {
-    val isLastStep = model.getPlaybackIndex == model.getRecordingHistory.length
+    val isLastStep = model.getPlaybackIndex == model.getRecordingHistory.size
     stepButton.setEnabled(model.isPaused && !isLastStep)
   })
   stepButton.addListener(() => {

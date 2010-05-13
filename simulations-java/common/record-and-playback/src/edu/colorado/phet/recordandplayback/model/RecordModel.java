@@ -1,12 +1,13 @@
 package edu.colorado.phet.recordandplayback.model;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.scalacommon.record.RecordModelDefaults;
-import edu.colorado.phet.scalacommon.util.Observable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 import java.util.ArrayList;
 
-public abstract class RecordModel<T> implements Observable {
+public abstract class RecordModel<T> extends SimpleObservable {
+    public static boolean pauseAtEndOfPlayback = true;
+    public static boolean recordAtEndOfPlayback = false;
     private final ArrayList<DataPoint<T>> recordHistory = new ArrayList<DataPoint<T>>();
 
     private boolean record = true;
@@ -52,13 +53,13 @@ public abstract class RecordModel<T> implements Observable {
         recordHistory.clear();
         time = 0;
 
-        notifyListeners(); //todo: duplicate notification
+        notifyObservers(); //todo: duplicate notification
     }
 
     public void setPlaybackSpeed(double speed) {
         if (speed != playbackSpeed) {
             playbackSpeed = speed;
-            notifyListeners();
+            notifyObservers();
         }
     }
 
@@ -74,7 +75,7 @@ public abstract class RecordModel<T> implements Observable {
                 handleRecordStartedDuringPlayback();
             }
 
-            notifyListeners();
+            notifyObservers();
         }
     }
 
@@ -106,28 +107,31 @@ public abstract class RecordModel<T> implements Observable {
             setStateToPlaybackIndex();
             time = recordHistory.get(getPlaybackIndex()).getTime();
             playbackIndexFloat = playbackIndexFloat + playbackSpeed;
-            notifyListeners();
+            notifyObservers();
         } else {
-            if (RecordModelDefaults.recordAtEndOfPlayback()) {
+            if (RecordModel.recordAtEndOfPlayback) {
                 setRecord(true);
             }
 
-            if (RecordModelDefaults.pauseAtEndOfPlayback()) {
+            if (RecordModel.pauseAtEndOfPlayback) {
                 setPaused(true);
             }
         }
     }
 
-    ArrayList<Listener2> historyClearListeners = new ArrayList<Listener2>();
+    private ArrayList<HistoryClearListener> historyClearListeners = new ArrayList<HistoryClearListener>();
+    public void addHistoryClearListener(HistoryClearListener listener){
+        historyClearListeners.add(listener);
+    }
 
-    interface Listener2 {
+    public static interface HistoryClearListener {
         void historyCleared();
     }
 
     public void clearHistory() {
         recordHistory.clear();
-        notifyListeners();
-        for (Listener2 historyClearListener : historyClearListeners) {
+        notifyObservers();
+        for (HistoryClearListener historyClearListener : historyClearListeners) {
             historyClearListener.historyCleared();
         }
     }
@@ -143,13 +147,13 @@ public abstract class RecordModel<T> implements Observable {
     public void setPlaybackIndexFloat(double index) {
         playbackIndexFloat = index;
         setStateToPlaybackIndex();
-        notifyListeners();
+        notifyObservers();
     }
 
     public void setPaused(boolean p) {
         if (paused != p) {
             paused = p;
-            notifyListeners();
+            notifyObservers();
         }
     }
 

@@ -15,8 +15,9 @@ import edu.colorado.phet.scalacommon.Predef._
 
 
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import edu.colorado.phet.scalacommon.util.Observable
 
-class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas, timelineColor: Color, maxTime: Double) extends PNode {
+class Timeline[T](model: edu.colorado.phet.recordandplayback.model.RecordModel[T] with Observable, canvas: PhetPCanvas, timelineColor: Color, maxTime: Double) extends PNode {
   val pathOffsetY = 4
   val pathHeight = 6
   val ellipseWidth = 10

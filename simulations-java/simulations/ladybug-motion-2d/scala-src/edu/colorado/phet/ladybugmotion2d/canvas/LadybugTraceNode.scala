@@ -37,9 +37,9 @@ abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransfo
   }
 
   def clearTrace = {
-    clearPt = model.getRecordingHistory.length
+    clearPt = model.getRecordingHistory.size
     update()
   }
 
-  def getHistoryToShow() = model.getRecordingHistory
+  def getHistoryToShow = model.getRecordingHistory
 }
