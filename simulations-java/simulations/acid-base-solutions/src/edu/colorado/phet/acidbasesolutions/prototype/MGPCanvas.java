@@ -7,10 +7,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
 
 /**
  * Piccolo canvas for the Magnifying Glass prototype.
@@ -56,15 +54,6 @@ class MGPCanvas extends PhetPCanvas {
         countsNode = new MoleculeCountsNode( model.getSolution(), magnifyingGlassNode, dev );
         countsNode.setOffset( 20, 20 );
         countsNode.scale( 1.5 );
-        
-        // draggable only in dev version
-        if ( dev ) {
-            magnifyingGlassNode.addInputEventListener( new PDragEventHandler() );
-            magnifyingGlassNode.addInputEventListener( new CursorHandler() );
-
-            beakerNode.addInputEventListener( new PDragEventHandler() );
-            beakerNode.addInputEventListener( new CursorHandler() );
-        }
         
         // rendering order
         addChild( beakerNode );
