@@ -710,6 +710,20 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         throw new RuntimeException( "Did not find path: " + requestPath );
     }
 
+    /**
+     * Called after both the above redirection strategy, Wicket, and Tomcat all cannot find a file. Here, return null
+     * if not found, otherwise return a relative path that starts with "/"
+     *
+     * @param path Relative path starting with "/" of a non-existant path or file
+     * @return Null or a path starting with "/"
+     */
+    public static String redirectFile( String path ) {
+        if ( path.startsWith( "/images/" ) || path.startsWith( "/css/" ) || path.startsWith( "/js/" ) ) {
+            return "/files/archive" + path;
+        }
+        return null;
+    }
+
     public boolean matches( IRequestTarget requestTarget ) {
         return requestTarget instanceof RedirectRequestTarget;
     }
