@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 /**
  * Updates the simulations by running the PhET "updater", which downloads the new version
@@ -40,7 +41,7 @@ public class SimUpdater {
     private static final String UPDATER_JAR = UPDATER_BASENAME + ".jar";
     
     // where the updater lives on the PhET site
-    private static final String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/phet-updater/" + UPDATER_JAR;
+    private static final String UPDATER_ADDRESS = PhetCommonConstants.PHET_HOME_URL + "/phet-dist/phet-updater/" + UPDATER_JAR;
     
     // localized strings
     private static final String ERROR_WRITE_PERMISSIONS = PhetCommonResources.getString( "Common.updates.errorWritePermissions" );

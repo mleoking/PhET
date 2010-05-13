@@ -7,6 +7,7 @@ import java.net.URL;
 import edu.colorado.phet.common.phetcommon.files.PhetInstallation;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 /**
  * PhET simulations can be deployed in several different ways.
@@ -36,7 +37,7 @@ public class DeploymentScenario {
      * We're using <authority> and the general part of <path> to identify the codebase
      * for the PhET production and development websites.
      */
-    private static final String PHET_PRODUCTION_CODEBASE_PREFIX = "phet.colorado.edu"; // prefix!
+    private static final String PHET_PRODUCTION_CODEBASE_PREFIX = PhetCommonConstants.PHET_HOME_SERVER; // prefix!
     private static final String PHET_DEVELOPMENT_CODEBASE_SUBSTRING = "colorado.edu"; // substring!
 
     // singleton
