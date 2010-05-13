@@ -13,11 +13,12 @@ import javax.swing.{SwingUtilities}
 import edu.umd.cs.piccolo.nodes.{PText, PImage}
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.motionseries.model.{MotionSeriesObject, MotionSeriesModel}
+import MotionSeriesDefaults._
 
 class RobotMovingCompanyModule(frame: PhetFrame,
-                               initAngle: Double,
-                               appliedForce: Double,
-                               objectList: List[MotionSeriesObject])
+                               initAngle: Double = defaultRampAngle, 
+                               appliedForce: Double = rampRobotForce,
+                               objectList: List[MotionSeriesObject] = objects)
         extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle, false) {
   override def reset() = {
     super.reset()
