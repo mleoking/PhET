@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.acidbasesolutions.prototype;
 
-import java.awt.geom.Point2D;
 
 
 /**
@@ -15,16 +14,14 @@ class MagnifyingGlass extends Changeable {
     public enum MoleculeRepresentation { DOTS, IMAGES };
     
     private int diameter;
-    private final Point2D center;
     private MoleculeRepresentation moleculeRepresentation;
     
     public MagnifyingGlass() {
-        this( MGPConstants.MAGNIFYING_GLASS_DIAMETER_RANGE.getDefault(), MGPConstants.MAGNIFYING_GLASS_CENTER, MoleculeRepresentation.IMAGES );
+        this( MGPConstants.MAGNIFYING_GLASS_DIAMETER_RANGE.getDefault(), MoleculeRepresentation.IMAGES );
     }
 
-    public MagnifyingGlass( int diameter, Point2D center, MoleculeRepresentation moleculeRepresentation ) {
+    public MagnifyingGlass( int diameter, MoleculeRepresentation moleculeRepresentation ) {
         this.diameter = diameter;
-        this.center = new Point2D.Double( center.getX(), center.getY() );
         this.moleculeRepresentation = moleculeRepresentation;
     }
     
@@ -37,10 +34,6 @@ class MagnifyingGlass extends Changeable {
     
     public int getDiameter() {
         return diameter;
-    }
-    
-    public Point2D getCenterReference() {
-        return center;
     }
     
     public void setMoleculeRepresentation( MoleculeRepresentation moleculeRepresentation ) {

@@ -6,12 +6,12 @@ import java.awt.GridBagConstraints;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -36,7 +36,8 @@ class MagnifyingGlassControls extends JPanel {
         });
         
         IntegerRange diameterRange = MGPConstants.MAGNIFYING_GLASS_DIAMETER_RANGE;
-        diameterControl = new LinearValueControl( diameterRange.getMin(), diameterRange.getMax(), "diameter:", "##0", "", new HorizontalLayoutStrategy() );
+        diameterControl = new LinearValueControl( diameterRange.getMin(), diameterRange.getMax(), "diameter:", "##0", "" );
+        diameterControl.setBorder( new EtchedBorder() );
         diameterControl.setUpDownArrowDelta( 1 );
         diameterControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

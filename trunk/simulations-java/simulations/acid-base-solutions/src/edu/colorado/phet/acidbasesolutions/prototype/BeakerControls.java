@@ -7,12 +7,12 @@ import java.awt.GridBagConstraints;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -38,7 +38,8 @@ class BeakerControls extends JPanel {
         
         // beaker width
         IntegerRange widthRange = MGPConstants.BEAKER_WIDTH_RANGE;
-        widthControl = new LinearValueControl( widthRange.getMin(), widthRange.getMax(), "width:", "##0", "", new HorizontalLayoutStrategy() );
+        widthControl = new LinearValueControl( widthRange.getMin(), widthRange.getMax(), "width:", "##0", "" );
+        widthControl.setBorder( new EtchedBorder() );
         widthControl.setUpDownArrowDelta( 1 );
         widthControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -48,7 +49,8 @@ class BeakerControls extends JPanel {
 
         // beaker height
         IntegerRange heightRange = MGPConstants.BEAKER_HEIGHT_RANGE;
-        heightControl = new LinearValueControl( heightRange.getMin(), heightRange.getMax(), "height:", "##0", "", new HorizontalLayoutStrategy() );
+        heightControl = new LinearValueControl( heightRange.getMin(), heightRange.getMax(), "height:", "##0", "" );
+        heightControl.setBorder( new EtchedBorder() );
         heightControl.setUpDownArrowDelta( 1 );
         heightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

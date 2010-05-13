@@ -8,13 +8,13 @@ import java.util.Hashtable;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -42,7 +42,8 @@ class DotControls extends JPanel {
         
         // max dots
         IntegerRange maxDotsRange = MGPConstants.MAX_DOTS_RANGE;
-        maxMoleculesControl = new LinearValueControl( maxDotsRange.getMin(), maxDotsRange.getMax(), "max dots:", "####0", "", new HorizontalLayoutStrategy() );
+        maxMoleculesControl = new LinearValueControl( maxDotsRange.getMin(), maxDotsRange.getMax(), "max dots:", "####0", "" );
+        maxMoleculesControl.setBorder( new EtchedBorder() );
         maxMoleculesControl.setUpDownArrowDelta( 1 );
         maxMoleculesControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -52,7 +53,8 @@ class DotControls extends JPanel {
         
         // diameter
         DoubleRange diameterRange = MGPConstants.DOT_DIAMETER_RANGE;
-        diameterControl = new LinearValueControl( diameterRange.getMin(), diameterRange.getMax(), "diameter:", "#0", "", new HorizontalLayoutStrategy() );
+        diameterControl = new LinearValueControl( diameterRange.getMin(), diameterRange.getMax(), "diameter:", "#0", "" );
+        diameterControl.setBorder( new EtchedBorder() );
         diameterControl.setUpDownArrowDelta( 1 );
         diameterControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -62,7 +64,8 @@ class DotControls extends JPanel {
 
         // transparency
         DoubleRange transparencyRange = MGPConstants.DOT_TRANSPARENCY_RANGE;
-        transparencyControl = new LinearValueControl( transparencyRange.getMin(), transparencyRange.getMax(), "transparency:", "0.00", "", new HorizontalLayoutStrategy() );
+        transparencyControl = new LinearValueControl( transparencyRange.getMin(), transparencyRange.getMax(), "transparency:", "0.00", "" );
+        transparencyControl.setBorder( new EtchedBorder() );
         transparencyControl.setUpDownArrowDelta( 0.01 );
         transparencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -77,7 +80,8 @@ class DotControls extends JPanel {
         // H2O dots
         IntegerRange h2oDotsRange = MGPConstants.MAX_H2O_DOTS_RANGE;
         String h2oDotsLabel = HTMLUtils.toHTMLString( MGPConstants.H2O_FRAGMENT + " dots:" );
-        maxH2OControl = new LinearValueControl( h2oDotsRange.getMin(), h2oDotsRange.getMax(), h2oDotsLabel, "####0", "", new HorizontalLayoutStrategy() );
+        maxH2OControl = new LinearValueControl( h2oDotsRange.getMin(), h2oDotsRange.getMax(), h2oDotsLabel, "####0", "" );
+        maxH2OControl.setBorder( new EtchedBorder() );
         maxH2OControl.setUpDownArrowDelta( 1 );
         maxH2OControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -88,7 +92,8 @@ class DotControls extends JPanel {
         // H2O transparency
         DoubleRange h2oTransparencyRange = MGPConstants.DOT_TRANSPARENCY_RANGE;
         String h2oTransparencyLabel = HTMLUtils.toHTMLString( MGPConstants.H2O_FRAGMENT + " transparency:" );
-        h2oTransparencyControl = new LinearValueControl( h2oTransparencyRange.getMin(), h2oTransparencyRange.getMax(), h2oTransparencyLabel, "0.00", "", new HorizontalLayoutStrategy() );
+        h2oTransparencyControl = new LinearValueControl( h2oTransparencyRange.getMin(), h2oTransparencyRange.getMax(), h2oTransparencyLabel, "0.00", "" );
+        h2oTransparencyControl.setBorder( new EtchedBorder() );
         h2oTransparencyControl.setUpDownArrowDelta( 0.01 );
         h2oTransparencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
