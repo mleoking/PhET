@@ -1,6 +1,7 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
+- add ranges for model quantities to design doc
 - model changes and fixes identified by Noah
 - add symbols and units summary to design doc
 - change 1 to "dielectric constant of air" in design doc
