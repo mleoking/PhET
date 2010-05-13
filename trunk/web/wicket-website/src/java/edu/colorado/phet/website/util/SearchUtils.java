@@ -4,10 +4,7 @@ import it.sauronsoftware.cron4j.Scheduler;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -191,8 +188,6 @@ public class SearchUtils {
 
     public static Document contributionToDocument( Session session, Contribution contribution, PhetWicketApplication app, PhetLocalizer localizer ) {
 
-        // TODO: critical: add sim names
-
         Document doc = new Document();
         doc.add( new Field( "droppable", "true", Field.Store.NO, Field.Index.NOT_ANALYZED ) );
         doc.add( new Field( "contribution_id", String.valueOf( contribution.getId() ), Field.Store.YES, Field.Index.NOT_ANALYZED ) );
@@ -202,6 +197,23 @@ public class SearchUtils {
         doc.add( new Field( "contribution_keywords", contribution.getKeywords(), Field.Store.NO, Field.Index.ANALYZED ) );
         doc.add( new Field( "contribution_description", contribution.getDescription(), Field.Store.NO, Field.Index.ANALYZED ) );
         doc.add( new Field( "contribution_locale", contribution.getLocale().toString(), Field.Store.NO, Field.Index.NOT_ANALYZED ) );
+        Map<Locale, String> titleMap = new HashMap<Locale, String>();
+        for ( Object o : contribution.getSimulations() ) {
+            Simulation sim = (Simulation) o;
+            for ( Object ob : sim.getLocalizedSimulations() ) {
+                LocalizedSimulation lsim = (LocalizedSimulation) ob;
+                String str = titleMap.get( lsim.getLocale() );
+                if ( str == null ) {
+                    str = "";
+                }
+                str += " " + lsim.getTitle();
+                titleMap.put( lsim.getLocale(), str );
+            }
+        }
+        for ( Locale locale : titleMap.keySet() ) {
+            String str = titleMap.get( locale );
+            doc.add( new Field( "contribution_" + LocaleUtils.localeToString( locale ) + "_sims", str, Field.Store.NO, Field.Index.ANALYZED ) );
+        }
         doc.setBoost( ( contribution.isGoldStar() ? 2.5f : 1.0f ) * ( contribution.isFromPhet() ? 1.5f : 1.0f ) );
         return doc;
     }
@@ -295,6 +307,10 @@ public class SearchUtils {
                 addBoostedTermQuery( query, "contribution_keywords", term, 1.0f );
                 addBoostedTermQuery( query, "contribution_description", term, 1.0f );
                 addBoostedTermQuery( query, "contribution_locale", term, 1.0f );
+                addBoostedTermQuery( query, "contribution_en_sims", term, 0.3f );
+                if ( !locale.equals( PhetWicketApplication.getDefaultLocale() ) ) {
+                    addBoostedTermQuery( query, "contribution_" + LocaleUtils.localeToString( locale ) + "_sims", term, 0.5f );
+                }
             }
 
             logger.debug( "query: " + query );
