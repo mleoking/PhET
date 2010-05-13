@@ -49,25 +49,37 @@ public class GreenhouseLegend extends JPanel {
         setLayout( new GridBagLayout() );
         this.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseLegend.LegendTitle" ) ) );
 //            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( "greenhouse/images/small-yellow-electron.gif" ));
-        int rowIdx = 0;
         try {
+            GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0,
+                    GridBagConstraints.CENTER,
+                    GridBagConstraints.HORIZONTAL,
+                    new Insets( 0, 0, 0, 0 ), 0, 20 );
+
             JLabel sunlightLegend = new JLabel( GreenhouseResources.getString( "GreenhouseLegend.SunlightPhotonLabel" ),
                                                 sunlightPhotonIcon, SwingConstants.LEFT );
-            SwingUtils.addGridBagComponent( this, sunlightLegend,
-                                            0, rowIdx++,
-                                            1, 1,
-                                            GridBagConstraints.HORIZONTAL,
-                                            GridBagConstraints.WEST );
+            add(sunlightLegend, gbc);
+
+//            SwingUtils.addGridBagComponent( this, sunlightLegend,
+//                                            0, 0,
+//                                            1, 1,
+//                                            GridBagConstraints.HORIZONTAL,
+//                                            GridBagConstraints.WEST );
+            
             JLabel irLegend = new JLabel( GreenhouseResources.getString( "GreenhouseLegend.InfraredPhotonLabel" ),
                                           irPhotonIcon, SwingConstants.LEFT );
-            SwingUtils.addGridBagComponent( this, irLegend,
-                                            0, rowIdx++,
-                                            1, 1,
-                                            GridBagConstraints.HORIZONTAL,
-                                            GridBagConstraints.WEST );
+
+            add(irLegend, gbc);
+//            SwingUtils.addGridBagComponent( this, irLegend,
+//                                            0, rowIdx++,
+//                                            1, 1,
+//                                            GridBagConstraints.HORIZONTAL,
+//                                            GridBagConstraints.WEST );
         }
-        catch( AWTException e ) {
-            e.printStackTrace();
+        catch(Exception e){
+        	e.printStackTrace();
         }
+//        catch( AWTException e ) {
+//            e.printStackTrace();
+//        }
     }
 }
