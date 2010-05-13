@@ -46,6 +46,11 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static Map<String, String> oldMap = new HashMap<String, String>();
 
     /**
+     * Redirection map that takes effect after processing through the other redirections AND wicket.
+     */
+    private static Map<String, String> postWicketMap = new HashMap<String, String>();
+
+    /**
      * Mapping of category name redirections. Maps from category names to new category names
      */
     private static Map<String, String> categoryMap = new HashMap<String, String>();
@@ -87,7 +92,6 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static final String OLD_PUBLICATIONS = "/phet-dist/publications/";
     private static final String OLD_WORKSHOPS = "/phet-dist/workshops/";
     private static final String OLD_INSTALLERS = "/phet-dist/installers/";
-    private static final String OLD_NEW = "/new/";
 
     private static final String NOT_FOUND = "/error/404";
 
@@ -123,6 +127,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         map.put( "/simulations", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
         map.put( "/simulations/", "/en/simulations/category/" + Category.getDefaultCategoryKey() );
         map.put( "/simulations/cck/cck-ac.jnlp", "/sims/circuit-construction-kit/circuit-construction-kit-dc_en.jnlp" );
+        map.put( "/simulations/faraday/faraday.jnlp", "/sims/faraday/faraday_en.jnlp" );
         map.put( "/simulations/stringwave/stringWave.swf", "/sims/wave-on-a-string/wave-on-a-string_en.html" );
         map.put( "/simulations/translations.php", "/en/simulations/translated" );
         map.put( "/sponsors/index.php", "/en/about/sponsors" );
@@ -344,6 +349,188 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             badSimMap.put( processSimName( key ), simMap.get( key ) );
         }
 
+        /*---------------------------------------------------------------------------*
+        * post-wicket map
+        *----------------------------------------------------------------------------*/
+
+        postWicketMap.put( "/simulations/arithmetic/Arithmetic.Max.swf", "/sims/arithmetic/arithmetic_en.html" );
+        postWicketMap.put( "/simulations/arithmetic/Arithmetic.swf", "/sims/arithmetic/arithmetic_en.html" );
+        postWicketMap.put( "/simulations/arithmetic/ArithmeticClockOnly.swf", "/sims/arithmetic/arithmetic_en.html" );
+        postWicketMap.put( "/simulations/balloon/balloon_es.jnlp", "/sims/balloons/balloons_es.jnlp" );
+        postWicketMap.put( "/simulations/balloon/balloons-save.jar", "/sims/balloons/balloons_en.jar" );
+        postWicketMap.put( "/simulations/balloon/balloons.jar", "/sims/balloons/balloons_en.jar" );
+        postWicketMap.put( "/simulations/balloon/webstart.jnlp", "/sims/balloons/balloons_en.jnlp" );
+        postWicketMap.put( "/simulations/batteryvoltage/batteryVoltage.jar", "/sims/battery-voltage/battery-voltage_en.jar" );
+        postWicketMap.put( "/simulations/batteryvoltage/batteryvoltage_sp.jnlp", "/sims/battery-voltage/battery-voltage_es.jnlp" );
+        postWicketMap.put( "/simulations/batteryvoltage/webstart.jnlp", "/sims/battery-voltage/battery-voltage_en.jnlp" );
+        postWicketMap.put( "/simulations/blackbody/blackbody.swf", "/sims/blackbody-spectrum/blackbody-spectrum_en.html" );
+        postWicketMap.put( "/simulations/bound-states/band-structure.jnlp", "/sims/bound-states/band-structure_en.jnlp" );
+        postWicketMap.put( "/simulations/bound-states/band-structure_es.jnlp", "/sims/bound-states/band-structure_es.jnlp" );
+        postWicketMap.put( "/simulations/bound-states/bound-states.jnlp", "/sims/bound-states/bound-states_en.jnlp" );
+        postWicketMap.put( "/simulations/bound-states/bound-states_es.jnlp", "/sims/bound-states/bound-states_es.jnlp" );
+        postWicketMap.put( "/simulations/bound-states/boundstates.jar", "/sims/bound-states/bound-states_en.jar" );
+        postWicketMap.put( "/simulations/bound-states/covalent-bonds.jnlp", "/sims/bound-states/covalent-bonds_en.jnlp" );
+        postWicketMap.put( "/simulations/bound-states/covalent-bonds_es.jnlp", "/sims/bound-states/covalent-bonds_es.jnlp" );
+        postWicketMap.put( "/simulations/cck/cck-ac-lab.jnlp", "/sims/cck/cck-ac.jnlp" );
+        postWicketMap.put( "/simulations/cck/cck-ac-lab_sp.jnlp", "/sims/cck/cck-ac_es.jnlp" );
+        postWicketMap.put( "/simulations/cck/cck-ac.jnlp", "/sims/cck/cck-ac.jnlp" );
+        postWicketMap.put( "/simulations/cck/cck-ac_sp.jnlp", "/sims/cck/cck-ac_es.jnlp" );
+        postWicketMap.put( "/simulations/cck/cck-grabbag.jnlp", "/sims/cck/cck-dc.jnlp" );
+        postWicketMap.put( "/simulations/cck/cck-lab.jnlp", "/sims/cck/cck-dc.jnlp" );
+        postWicketMap.put( "/simulations/cck/cck-pro.jar", "/sims/cck/cck-dc.jar" );
+        postWicketMap.put( "/simulations/cck/cck.jar", "/sims/cck/cck.jar" );
+        postWicketMap.put( "/simulations/cck/cck.jnlp", "/sims/cck/cck-dc.jnlp" );
+        postWicketMap.put( "/simulations/cck/cck_sp.jnlp", "/sims/cck/cck-dc_es.jnlp" );
+        postWicketMap.put( "/simulations/chargesandfields/ChargesAndFields.swf", "/sims/charges-and-fields/charges-and-fields_en.html" );
+        postWicketMap.put( "/simulations/chargesandfields/ChargesAndFieldsOlder.swf", "/sims/charges-and-fields/charges-and-fields_en.html" );
+        postWicketMap.put( "/simulations/colorvision3/colorvision3.jar", "/sims/color-vision/color-vision.jar" );
+        postWicketMap.put( "/simulations/colorvision3/colorvision3.jnlp", "/sims/color-vision/color-vision.jnlp" );
+        postWicketMap.put( "/simulations/colorvision3/colorvision3_es.jnlp", "/sims/color-vision/color-vision_es.jnlp" );
+        postWicketMap.put( "/simulations/conductivity/conductivity-pro.jar", "/sims/conductivity/conductivity.jar" );
+        postWicketMap.put( "/simulations/conductivity/conductivity.jnlp", "/sims/conductivity/conductivity.jnlp" );
+        postWicketMap.put( "/simulations/conductivity/conductivity_sp.jnlp", "/sims/conductivity/conductivity_es.jnlp" );
+        postWicketMap.put( "/simulations/dischargelamps/dischargelamps.jar", "/sims/discharge-lamps/discharge-lamps.jar" );
+        postWicketMap.put( "/simulations/dischargelamps/dischargelamps.jnlp", "/sims/discharge-lamps/discharge-lamps.jnlp" );
+        postWicketMap.put( "/simulations/electricfieldofdreams/efield.jar", "/sims/efield/efield.jar" );
+        postWicketMap.put( "/simulations/electricfieldofdreams/electricfield_sp.jnlp", "/sims/efield/efield_es.jnlp" );
+        postWicketMap.put( "/simulations/electricfieldofdreams/webstart.jnlp", "/sims/efield/efield.jnlp" );
+        postWicketMap.put( "/simulations/electrichockey/ehockey.jar", "/sims/electric-hockey/electric-hockey.jar" );
+        postWicketMap.put( "/simulations/electrichockey/ehockey_sp.jnlp", "/sims/electric-hockey/electric-hockey_es.jnlp" );
+        postWicketMap.put( "/simulations/electrichockey/webstart.jnlp", "/sims/electric-hockey/electric-hockey.jnlp" );
+        postWicketMap.put( "/simulations/emf/emf.jar", "/sims/radio-waves/radio-waves.jar" );
+        postWicketMap.put( "/simulations/emf/emf.jnlp", "/sims/radio-waves/radio-waves.jnlp" );
+        postWicketMap.put( "/simulations/emf/emf_es.jnlp", "/sims/radio-waves/radio-waves_es.jnlp" );
+        postWicketMap.put( "/simulations/energyconservation/ec3-pro.jar", "/sims/energy-skate-park/energy-skate-park.jar" );
+        postWicketMap.put( "/simulations/energyconservation/energy-skate-park.jar", "/sims/energy-skate-park/energy-skate-park.jar" );
+        postWicketMap.put( "/simulations/energyconservation/energyconservation.jnlp", "/sims/energy-skate-park/energy-skate-park.jnlp" );
+        postWicketMap.put( "/simulations/energyconservation/energyconservation_es.jnlp", "/sims/energy-skate-park/energy-skate-park_es.jnlp" );
+        postWicketMap.put( "/simulations/energyconservation/energyconservation_sp.jnlp", "/sims/energy-skate-park/energy-skate-park_es.jnlp" );
+        postWicketMap.put( "/simulations/equationgrapher/equationGrapher.swf", "/sims/equation-grapher/equation-grapher.swf" );
+        postWicketMap.put( "/simulations/equationgrapher/equationGrapherOld.swf", "/sims/equation-grapher/equation-grapher.swf" );
+        postWicketMap.put( "/simulations/estimation/estimation.swf", "/sims/estimation/estimation.swf" );
+        postWicketMap.put( "/simulations/estimation/estimationOld.swf", "/sims/estimation/estimation.swf" );
+        postWicketMap.put( "/simulations/faraday/faraday.jar", "/sims/faraday/faraday.jar" );
+        postWicketMap.put( "/simulations/faraday/faraday.jnlp", "/sims/faraday/faraday.jnlp" );
+        postWicketMap.put( "/simulations/faraday/faraday_es.jnlp", "/sims/faraday/faraday_es.jnlp" );
+        postWicketMap.put( "/simulations/faraday/faraday_sp.jnlp", "/sims/faraday/faraday_es.jnlp" );
+        postWicketMap.put( "/simulations/faradayFlash/faradayMX.swf", "/sims/faraday-mx/faraday-mx.swf" );
+        postWicketMap.put( "/simulations/force1d/force1d.jar", "/sims/forces-1d/forces-1d.jar" );
+        postWicketMap.put( "/simulations/force1d/force1d.jnlp", "/sims/forces-1d/forces-1d.jnlp" );
+        postWicketMap.put( "/simulations/force1d/force1d_es.jnlp", "/sims/forces-1d/forces-1d_es.jnlp" );
+        postWicketMap.put( "/simulations/fourier/fourier.jar", "/sims/fourier/fourier.jar" );
+        postWicketMap.put( "/simulations/fourier/fourier.jnlp", "/sims/fourier/fourier.jnlp" );
+        postWicketMap.put( "/simulations/fourier/fourier_es.jnlp", "/sims/fourier/fourier_es.jnlp" );
+        postWicketMap.put( "/simulations/friction/friction.swf", "/sims/friction/friction.swf" );
+        postWicketMap.put( "/simulations/gasses-buoyancy/buoyancy.jnlp", "/sims/ideal-gas/balloons-and-buoyancy.jnlp" );
+        postWicketMap.put( "/simulations/gasses-buoyancy/buoyancy_es.jnlp", "/sims/ideal-gas/balloons-and-buoyancy_es.jnlp" );
+        postWicketMap.put( "/simulations/gasses-buoyancy/diffusion.jnlp", "/sims/ideal-gas/diffusion.jnlp" );
+        postWicketMap.put( "/simulations/gasses-buoyancy/ideal-gas.jar", "/sims/ideal-gas/gas-properties.jar" );
+        postWicketMap.put( "/simulations/gasses-buoyancy/idealgas-save.jar", "/sims/ideal-gas/gas-properties.jar" );
+        postWicketMap.put( "/simulations/gasses-buoyancy/idealgas.jar", "/sims/ideal-gas/gas-properties.jar" );
+        postWicketMap.put( "/simulations/gasses-buoyancy/idealgas.jnlp", "/sims/ideal-gas/gas-properties.jnlp" );
+        postWicketMap.put( "/simulations/gasses-buoyancy/idealgas_es.jnlp", "/sims/ideal-gas/gas-properties_es.jnlp" );
+        postWicketMap.put( "/simulations/gasses-buoyancy/pchem.jnlp", "/sims/ideal-gas/reversible-reactions.jnlp" );
+        postWicketMap.put( "/simulations/greenhouse/greenhouse-save.jar", "/sims/greenhouse/greenhouse.jar" );
+        postWicketMap.put( "/simulations/greenhouse/greenhouse-save2.jar", "/sims/greenhouse/greenhouse.jar" );
+        postWicketMap.put( "/simulations/greenhouse/greenhouse.jar", "/sims/greenhouse/greenhouse.jar" );
+        postWicketMap.put( "/simulations/greenhouse/greenhouse.jnlp", "/sims/greenhouse/greenhouse.jnlp" );
+        postWicketMap.put( "/simulations/greenhouse/greenhouse_es.jnlp", "/sims/greenhouse/greenhouse_es.jnlp" );
+        postWicketMap.put( "/simulations/hydrogen-atom/hydrogen-atom.jar", "/sims/hydrogen-atom/hydrogen-atom.jar" );
+        postWicketMap.put( "/simulations/hydrogen-atom/hydrogen-atom.jnlp", "/sims/hydrogen-atom/hydrogen-atom.jnlp" );
+        postWicketMap.put( "/simulations/hydrogen-atom/hydrogen-atom_es.jnlp", "/sims/hydrogen-atom/hydrogen-atom_es.jnlp" );
+        postWicketMap.put( "/simulations/lasers/lasers.jar", "/sims/lasers/lasers.jar" );
+        postWicketMap.put( "/simulations/lasers/lasers.jnlp", "/sims/lasers/lasers.jnlp" );
+        postWicketMap.put( "/simulations/lasers/lasers_es.jnlp", "/sims/lasers/lasers_es.jnlp" );
+        postWicketMap.put( "/simulations/lens/lens.swf", "/sims/lens/lens.swf" );
+        postWicketMap.put( "/simulations/lens/lensOld.swf", "/sims/lens/lens.swf" );
+        postWicketMap.put( "/simulations/lunarLander/lunarlander.swf", "/sims/lunar-lander/lunar-lander.swf" );
+        postWicketMap.put( "/simulations/lunarLander/lunarlanderOld.swf", "/sims/lunar-lander/lunar-lander.swf" );
+        postWicketMap.put( "/simulations/massspringlab/MassSpringLab2.swf", "/sims/mass-spring-lab/mass-spring-lab.swf" );
+        postWicketMap.put( "/simulations/mazegame/mazegame-pro.jar", "/sims/maze-game/maze-game.jar" );
+        postWicketMap.put( "/simulations/mazegame/mazegame_es.jnlp", "/sims/maze-game/maze-game_es.jnlp" );
+        postWicketMap.put( "/simulations/mazegame/webstart.jnlp", "/sims/maze-game/maze-game.jnlp" );
+        postWicketMap.put( "/simulations/microwaves/microwaves-save.jar", "/sims/microwaves/microwaves.jar" );
+        postWicketMap.put( "/simulations/microwaves/microwaves.jar", "/sims/microwaves/microwaves.jar" );
+        postWicketMap.put( "/simulations/microwaves/microwaves.jnlp", "/sims/microwaves/microwaves.jnlp" );
+        postWicketMap.put( "/simulations/microwaves/microwaves_es.jnlp", "/sims/microwaves/microwaves_es.jnlp" );
+        postWicketMap.put( "/simulations/molecular-reactions/molecular-reactions.jar", "/sims/reactions-and-rates/reactions-and-rates.jar" );
+        postWicketMap.put( "/simulations/molecular-reactions/molecular-reactions.jnlp", "/sims/reactions-and-rates/reactions-and-rates.jnlp" );
+        postWicketMap.put( "/simulations/molecular-reactions/molecular-reactions_es.jnlp", "/sims/reactions-and-rates/reactions-and-rates.jnlp" );
+        postWicketMap.put( "/simulations/molecular-reactions/mr-pro.jar", "/sims/reactions-and-rates/reactions-and-rates.jar" );
+        postWicketMap.put( "/simulations/motion2d/motion2d-pro.jar", "/sims/motion-2d/motion-2d.jar" );
+        postWicketMap.put( "/simulations/motion2d/motion2d.jnlp", "/sims/motion-2d/motion-2d.jnlp" );
+        postWicketMap.put( "/simulations/motion2d/motion2d_es.jnlp", "/sims/motion-2d/motion-2d_es.jnlp" );
+        postWicketMap.put( "/simulations/movingman-old/movingman.jar", "/sims/moving-man/moving-man.jar" );
+        postWicketMap.put( "/simulations/movingman-old/movingman.jnlp", "/sims/moving-man/moving-man.jnlp" );
+        postWicketMap.put( "/simulations/movingman/movingman-pro.jar", "/sims/moving-man/moving-man.jar" );
+        postWicketMap.put( "/simulations/movingman/movingman.jnlp", "/sims/moving-man/moving-man.jnlp" );
+        postWicketMap.put( "/simulations/movingman/movingman_es.jnlp", "/sims/moving-man/moving-man_es.jnlp" );
+        postWicketMap.put( "/simulations/mri/mri.jar", "/sims/mri/mri.jar" );
+        postWicketMap.put( "/simulations/mri/mri.jnlp", "/sims/mri/mri.jnlp" );
+        postWicketMap.put( "/simulations/mri/mri_es.jnlp", "/sims/mri/mri_es.jnlp" );
+        postWicketMap.put( "/simulations/nuclearphysics/nuclearphysics.jar", "/sims/nuclear-physics/nuclear-physics.jar" );
+        postWicketMap.put( "/simulations/nuclearphysics/nukes.jnlp", "/sims/nuclear-physics/nuclear-physics.jnlp" );
+        postWicketMap.put( "/simulations/nuclearphysics/nukes_es.jnlp", "/sims/nuclear-physics/nuclear-physics_es.jnlp" );
+        postWicketMap.put( "/simulations/ohm1d/ohm1d.jar", "/sims/ohm-1d/ohm-1d.jar" );
+        postWicketMap.put( "/simulations/ohm1d/ohm1d_es.jnlp", "/sims/ohm-1d/ohm-1d_es.jnlp" );
+        postWicketMap.put( "/simulations/ohm1d/webstart.jnlp", "/sims/ohm-1d/ohm-1d.jnlp" );
+        postWicketMap.put( "/simulations/orbits/orbits.swf", "/sims/my-solar-system/my-solar-system.swf" );
+        postWicketMap.put( "/simulations/orbits/orbitsOld.swf", "/sims/my-solar-system/my-solar-system.swf" );
+        postWicketMap.put( "/simulations/photoelectric/photoelectric.jar", "/sims/photoelectric/photoelectric.jar" );
+        postWicketMap.put( "/simulations/photoelectric/photoelectric.jnlp", "/sims/photoelectric/photoelectric.jnlp" );
+        postWicketMap.put( "/simulations/projectilemotion/projectile.swf", "/sims/projectile-motion/projectile-motion.swf" );
+        postWicketMap.put( "/simulations/projectilemotion/projectileOlder.swf", "/sims/projectile-motion/projectile-motion.swf" );
+        postWicketMap.put( "/simulations/projectilemotion/projectileOldest.swf", "/sims/projectile-motion/projectile-motion.swf" );
+        postWicketMap.put( "/simulations/quantum-tunneling/quantum-tunneling.jnlp", "/sims/quantum-tunneling/quantum-tunneling.jnlp" );
+        postWicketMap.put( "/simulations/quantum-tunneling/quantum-tunneling_es.jnlp", "/sims/quantum-tunneling/quantum-tunneling_es.jnlp" );
+        postWicketMap.put( "/simulations/quantum-tunneling/quantumtunneling.jar", "/sims/quantum-tunneling/quantum-tunneling.jar" );
+        postWicketMap.put( "/simulations/rhola/rRhoLA2.swf", "/sims/resistance-in-a-wire/resistance-in-a-wire.swf" );
+        postWicketMap.put( "/simulations/rutherford-scattering/rutherford-scattering.jar", "/sims/rutherford-scattering/rutherford-scattering.jar" );
+        postWicketMap.put( "/simulations/rutherford-scattering/rutherford-scattering.jnlp", "/sims/rutherford-scattering/rutherford-scattering.jnlp" );
+        postWicketMap.put( "/simulations/rutherford-scattering/rutherford-scattering_es.jnlp", "/sims/rutherford-scattering/rutherford-scattering_es.jnlp" );
+        postWicketMap.put( "/simulations/schrodinger/dg-pro.jar", "/sims/quantum-wave-interference/davisson-germer.jar" );
+        postWicketMap.put( "/simulations/schrodinger/dg.jnlp", "/sims/quantum-wave-interference/davisson-germer.jnlp" );
+        postWicketMap.put( "/simulations/schrodinger/dg_es.jnlp", "/sims/quantum-wave-interference/davisson-germer.jnlp" );
+        postWicketMap.put( "/simulations/schrodinger/qwi-pro.jar", "/sims/quantum-wave-interference/quantum-wave-interference.jar" );
+        postWicketMap.put( "/simulations/schrodinger/schrodinger.jnlp", "/sims/quantum-wave-interference/quantum-wave-interference.jnlp" );
+        postWicketMap.put( "/simulations/schrodinger/schrodinger_es.jnlp", "/sims/quantum-wave-interference/quantum-wave-interference.jnlp" );
+        postWicketMap.put( "/simulations/sdpm/particles.jar", "/sims/self-driven-particle-model/self-driven-particle-model.jar" );
+        postWicketMap.put( "/simulations/sdpm/particles.jnlp", "/sims/self-driven-particle-model/self-driven-particle-model.jnlp" );
+        postWicketMap.put( "/simulations/semiconductor/semiconductor.jar", "/sims/semiconductor/semiconductor.jar" );
+        postWicketMap.put( "/simulations/semiconductor/semiconductor.jnlp", "/sims/semiconductor/semiconductor.jnlp" );
+        postWicketMap.put( "/simulations/semiconductor/semiconductor_es.jnlp", "/sims/semiconductor/semiconductor_es.jnlp" );
+        postWicketMap.put( "/simulations/shaper/shaper.jar", "/sims/optical-quantum-control/optical-quantum-control.jar" );
+        postWicketMap.put( "/simulations/shaper/shaper.jnlp", "/sims/optical-quantum-control/optical-quantum-control.jnlp" );
+        postWicketMap.put( "/simulations/shaper/shaper_es.jnlp", "/sims/optical-quantum-control/optical-quantum-control_es.jnlp" );
+        postWicketMap.put( "/simulations/signalcircuit/signalCircuit.jar", "/sims/signal-circuit/signal-circuit.jar" );
+        postWicketMap.put( "/simulations/signalcircuit/signalcircuit.jar", "/sims/signal-circuit/signal-circuit.jar" );
+        postWicketMap.put( "/simulations/signalcircuit/signalcircuit.jnlp", "/sims/signal-circuit/signal-circuit.jnlp" );
+        postWicketMap.put( "/simulations/signalcircuit/signalcircuit_es.jnlp", "/sims/signal-circuit/signal-circuit_es.jnlp" );
+        postWicketMap.put( "/simulations/signalcircuit/webstart.jnlp", "/sims/signal-circuit/signal-circuit.jnlp" );
+        postWicketMap.put( "/simulations/soluble-salts/soluble-salts.jnlp", "/sims/soluble-salts/soluble-salts.jnlp" );
+        postWicketMap.put( "/simulations/soluble-salts/soluble-salts_es.jnlp", "/sims/soluble-salts/soluble-salts_es.jnlp" );
+        postWicketMap.put( "/simulations/soluble-salts/solublesalts-save.jar", "/sims/soluble-salts/soluble-salts.jar" );
+        postWicketMap.put( "/simulations/soluble-salts/solublesalts.jar", "/sims/soluble-salts/soluble-salts.jar" );
+        postWicketMap.put( "/simulations/sound/sound.jar", "/sims/sound/sound.jar" );
+        postWicketMap.put( "/simulations/sound/sound.jnlp", "/sims/sound/sound.jnlp" );
+        postWicketMap.put( "/simulations/sound/sound_es.jnlp", "/sims/sound/sound_es.jnlp" );
+        postWicketMap.put( "/simulations/sterngerlach/SG_1.swf", "/sims/stern-gerlacher/stern-gerlach.swf" );
+        postWicketMap.put( "/simulations/stringwave/stringWave.swf", "/sims/string-wave/string-wave.swf" );
+        postWicketMap.put( "/simulations/stringwave/stringWaveOld.swf", "/sims/string-wave/string-wave.swf" );
+        postWicketMap.put( "/simulations/theramp/theramp-pro.jar", "/sims/the-ramp/the-ramp.jar" );
+        postWicketMap.put( "/simulations/theramp/theramp.jnlp", "/sims/the-ramp/the-ramp.jnlp" );
+        postWicketMap.put( "/simulations/travoltage/travoltage-pro.jar", "/sims/travoltage/travoltage.jar" );
+        postWicketMap.put( "/simulations/travoltage/travoltage_es.jnlp", "/sims/travoltage/travoltage_es.jnlp" );
+        postWicketMap.put( "/simulations/travoltage/webstart.jnlp", "/sims/travoltage/travoltage.jnlp" );
+        postWicketMap.put( "/simulations/vectormath/vectorMath.swf", "/sims/vector-math/vector-math.swf" );
+        postWicketMap.put( "/simulations/vectormath/vectorMathOlder.swf", "/sims/vector-math/vector-math.swf" );
+        postWicketMap.put( "/simulations/vectormath/vectorMathOldest.swf", "/sims/vector-math/vector-math.swf" );
+        postWicketMap.put( "/simulations/veqir/VeqIRColored.swf", "/sims/veqir/veqir.swf" );
+        postWicketMap.put( "/simulations/waveinterference/waveinterference-pro.jar", "/sims/wave-interference/wave-interference.jar" );
+        postWicketMap.put( "/simulations/waveinterference/waveinterference.jnlp", "/sims/wave-interference/wave-interference.jnlp" );
+        postWicketMap.put( "/simulations/waveinterference/waveinterference_sp.jnlp", "/sims/wave-interference/wave-interference_es.jnlp" );
+
+
         // TODO: add all URLs (pretty much everything useful on tigercat has been mapped)
     }
 
@@ -406,9 +593,6 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         }
         else if ( path.startsWith( OLD_INSTALLERS ) ) {
             return path.substring( "/phet-dist/installers".length() ) + "/installer";
-        }
-        else if ( path.startsWith( OLD_NEW ) ) {
-            return path.substring( "/new".length() );
         }
         else if ( path.startsWith( SIM_SEARCH ) ) {
             return redirectSimSearch( parameters );
@@ -669,7 +853,7 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return oldMap.get( path );
         }
         else if ( path.startsWith( "/web-pages/publications" ) ) {
-            return path.substring( "/web-pages/publications".length() );
+            return path.substring( "/web-pages".length() );
         }
         else if ( path.startsWith( "/web-pages/simulation-pages" ) ) {
             return path.substring( "/web-pages/simulation-pages".length() );
@@ -730,6 +914,15 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
         if ( path.startsWith( "/images/" ) || path.startsWith( "/css/" ) || path.startsWith( "/js/" ) ) {
             return "/files/archive" + path;
         }
+        else if ( postWicketMap.containsKey( path ) ) {
+            return postWicketMap.get( path );
+        }
+        else if ( path.startsWith( "/new/" ) ) {
+            return path.substring( "/new".length() );
+        }
+        else if ( path.startsWith( "/index.php/" ) ) {
+            return path.substring( "/index.php".length() );
+        }
         return null;
     }
 
@@ -772,9 +965,6 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
             return true;
         }
         else if ( morphedPath.startsWith( OLD_INSTALLERS ) ) {
-            return true;
-        }
-        else if ( morphedPath.startsWith( OLD_NEW ) ) {
             return true;
         }
 
