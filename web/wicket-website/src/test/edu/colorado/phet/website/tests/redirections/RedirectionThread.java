@@ -54,7 +54,7 @@ public class RedirectionThread extends Thread {
                         }
                         else {
                             map.put( request, new Hits( hit ) );
-                            System.err.println( addr + " (" + request.toString() + ":" + ( hit.isOk() ? "OK" : "ERR" ) + ") " + hit );
+                            //System.err.println( addr + " (" + request.toString() + ":" + ( hit.isOk() ? "OK" : "ERR" ) + ") " + hit );
                         }
                     }
                 }
