@@ -31,7 +31,7 @@ public class WorkshopsPanel extends PhetPanel {
         return new AbstractLinker() {
             @Override
             public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
-                if ( DistributionHandler.redirectPageClassToProduction( cycle, WorkshopsPanel.class ) ) {
+                if ( cycle != null && DistributionHandler.redirectPageClassToProduction( cycle, WorkshopsPanel.class ) ) {
                     return "http://phet.colorado.edu/teacher_ideas/workshops.php";
                 }
                 else {

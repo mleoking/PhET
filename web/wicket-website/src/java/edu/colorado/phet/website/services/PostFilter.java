@@ -48,8 +48,11 @@ public class PostFilter implements Filter {
 
             if ( responseWrapper.isNotFound() ) {
                 // see if we want to redirect this miss. If null, we won't redirect
-                String redirect = RedirectionStrategy.redirectFile( requestPath );
+                String redirect = RedirectionStrategy.redirectFile( requestPath, request.getQueryString() );
                 if ( redirect != null ) {
+                    if ( request.getQueryString() != null && request.getQueryString().length() > 0 ) {
+                        redirect += "?" + request.getQueryString();
+                    }
                     responseWrapper.sendRedirect( redirect );
                 }
                 else {
