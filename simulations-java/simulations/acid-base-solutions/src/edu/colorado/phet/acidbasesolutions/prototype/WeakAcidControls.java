@@ -6,12 +6,12 @@ import java.awt.GridBagConstraints;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -36,7 +36,8 @@ class WeakAcidControls extends JPanel {
         });
         
         DoubleRange concentrationRange = MGPConstants.WEAK_ACID_CONCENTRATION_RANGE;
-        concentrationControl = new LogarithmicValueControl( concentrationRange.getMin(), concentrationRange.getMax(), "concentration:", "0.0E0", "mol/L", new HorizontalLayoutStrategy() );
+        concentrationControl = new LogarithmicValueControl( concentrationRange.getMin(), concentrationRange.getMax(), "concentration:", "0.0E0", "mol/L" );
+        concentrationControl.setBorder( new EtchedBorder() );
         concentrationControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 weakAcid.setConcentration( concentrationControl.getValue() );
@@ -44,7 +45,8 @@ class WeakAcidControls extends JPanel {
         });
         
         DoubleRange strengthRange = MGPConstants.WEAK_ACID_STRENGTH_RANGE;
-        strengthControl = new LogarithmicValueControl( strengthRange.getMin(), strengthRange.getMax(), "strength:", "0.0E0", "", new HorizontalLayoutStrategy() );
+        strengthControl = new LogarithmicValueControl( strengthRange.getMin(), strengthRange.getMax(), "strength:", "0.0E0", "" );
+        strengthControl.setBorder( new EtchedBorder() );
         strengthControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 weakAcid.setStrength( strengthControl.getValue() );

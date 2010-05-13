@@ -6,9 +6,7 @@ import java.awt.GridBagConstraints;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.Box;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -102,22 +100,6 @@ class ColorControls extends JPanel {
             }
         } );
         
-        JPanel dotColorsPanel = new JPanel();
-        int spacing = 10;
-        dotColorsPanel.add( new JLabel( "dot colors:" ) );
-        dotColorsPanel.add( Box.createHorizontalStrut( spacing ) );
-        dotColorsPanel.add( colorHAControl );
-        dotColorsPanel.add( Box.createHorizontalStrut( spacing ) );
-        dotColorsPanel.add( colorAControl );
-        dotColorsPanel.add( Box.createHorizontalStrut( spacing ) );
-        dotColorsPanel.add( colorH3OControl );
-        if ( dev ) {
-            dotColorsPanel.add( Box.createHorizontalStrut( spacing ) );
-            dotColorsPanel.add( colorOHControl );
-        }
-        dotColorsPanel.add( Box.createHorizontalStrut( spacing ) );
-        dotColorsPanel.add( colorH2OControl );
-        
         canvasColorControl = new ColorControl( parentFrame, "canvas color:", canvas.getBackground() );
         canvasColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -132,7 +114,13 @@ class ColorControls extends JPanel {
         int row = 0;
         int column = 0;
         layout.addComponent( solutionColorControl, row++, column );
-        layout.addComponent( dotColorsPanel, row++, column );
+        layout.addComponent( colorHAControl, row++, column );
+        layout.addComponent( colorAControl, row++, column );
+        layout.addComponent( colorH3OControl, row++, column );
+        if ( dev ) {
+            layout.addComponent( colorOHControl, row++, column );
+        }
+        layout.addComponent( colorH2OControl, row++, column );
         layout.addComponent( canvasColorControl, row++, column );
         
         updateControls();

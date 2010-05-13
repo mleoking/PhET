@@ -12,8 +12,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -49,8 +47,6 @@ class BeakerNode extends PComposite {
     private final Rectangle2D solutionRectangle;
     private final PComposite ticksNode;
     private final PText pHNode;
-    private final PNode reactionEquationNode;
-    private final MoleculeCountsNode countsNode;
     
     public BeakerNode( Beaker beaker, WeakAcid solution, MagnifyingGlassNode magnifyingGlassNode, boolean dev ) {
         super();
@@ -86,18 +82,8 @@ class BeakerNode extends PComposite {
         addChild( ticksNode );
         
         pHNode = new PText( "?" );
-        pHNode.scale( 3 );
+        pHNode.scale( 2.5 );
         addChild( pHNode );
-        
-        reactionEquationNode = new WeakAcidReactionEquationNode();
-        reactionEquationNode.scale( 1.5 );
-        addChild( reactionEquationNode );
-        
-        countsNode = new MoleculeCountsNode(solution, magnifyingGlassNode, dev );
-        countsNode.scale( 1.5 );
-        if ( dev ) {
-            addChild( countsNode );
-        }
         
         update();
     }
@@ -107,8 +93,6 @@ class BeakerNode extends PComposite {
         updateTicks();
         updateSolution();
         updatePH();
-        updateReactionEquation();
-        updateCounts();
     }
     
     private void updateBeaker() {
@@ -177,17 +161,5 @@ class BeakerNode extends PComposite {
         double x = -pHNode.getFullBoundsReference().getWidth()/2;
         double y = -beaker.getHeight()/2 - pHNode.getFullBoundsReference().getHeight() - 5;
         pHNode.setOffset( x, y );
-    }
-    
-    private void updateReactionEquation() {
-        double x = -reactionEquationNode.getFullBoundsReference().getWidth() / 2;
-        double y = outlineNode.getFullBounds().getMaxY() + 20 - PNodeLayoutUtils.getOriginYOffset( reactionEquationNode );
-        reactionEquationNode.setOffset( x, y );
-    }
-    
-    private void updateCounts() {
-        double x = -countsNode.getFullBoundsReference().getWidth() / 2;
-        double y = reactionEquationNode.getFullBounds().getMaxY() + 20;
-        countsNode.setOffset( x, y );
     }
 }

@@ -96,7 +96,7 @@ class MagnifyingGlassNode extends PComposite {
         circleNode.setPaint( solution.getColor() );
         // handle
         double width = diameter / 8;
-        double height = diameter / 2;
+        double height = diameter / 2.25;
         handlePath.setRoundRect( -width/2, 0, width, height, HANDLE_ARC_WIDTH, HANDLE_ARC_WIDTH );
         handleNode.setPathTo( handlePath );
         handleNode.getTransform().setToIdentity();
