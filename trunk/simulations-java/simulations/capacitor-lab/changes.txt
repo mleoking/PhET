@@ -1,3 +1,4 @@
+5/13/10 Plate Charge meter: change label, show +- value, red/blue bar based on +-
 # 0.00.02 (40610) May 11, 2010
 5/11/10 dev version to demonstrate a couple of meters
 5/11/10 format numbers in developer meter

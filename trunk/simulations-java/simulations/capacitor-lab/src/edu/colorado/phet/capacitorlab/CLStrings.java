@@ -30,6 +30,7 @@ public class CLStrings {
     public static final String LABEL_DIELECTRIC_CHARGES = getString( "label.dielectricCharges" );
     public static final String LABEL_DIELECTRIC_CONSTANT = getString( "label.dielectricConstant" );
     public static final String LABEL_DIELECTRIC_MATERIAL = getString( "label.dielectricMaterial" );
+    public static final String LABEL_PLATE_CHARGE = getString( "label.plateCharge" );
     
     public static final String MATERIAL_CUSTOM = getString( "material.custom" );
     public static final String MATERIAL_TEFLON = getString( "material.teflon" );
