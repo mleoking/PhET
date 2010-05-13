@@ -40,14 +40,7 @@ public class RedirectionTester {
             return new Hit( code );
         }
         else if ( code == HttpURLConnection.HTTP_MOVED_PERM || code == HttpURLConnection.HTTP_MOVED_TEMP ) {
-            URI uri = null;
-            try {
-                uri = new URI( location );
-            }
-            catch( URISyntaxException e ) {
-                e.printStackTrace();
-            }
-            return new Hit( code, location, getHit( uri != null ? uri.toString() : location ) );
+            return new Hit( code, location, getHit( location ) );
         }
         else {
             return new Hit( code );
