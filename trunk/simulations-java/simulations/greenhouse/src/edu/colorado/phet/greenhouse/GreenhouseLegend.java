@@ -1,17 +1,17 @@
-/**
- * Class: GreenhouseLegend
- * Package: edu.colorado.phet.greenhouse
- * Author: Another Guy
- * Date: Dec 1, 2003
- */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.view.PhotonGraphic;
 
@@ -24,31 +24,18 @@ public class GreenhouseLegend extends JPanel {
         Graphics2D g2 = (Graphics2D) irPhotonBI.getGraphics();
         Photon irPhoton = new Photon( GreenhouseConfig.irWavelength, null );
         PhotonGraphic irPhotonGraphic = new PhotonGraphic( irPhoton );
-//        for( int i = 0; i < PhotonGraphic.numTailPts; i ++ ) {
-//            irPhoton.setLocation(irPhotonBI.getWidth() / 2, i * 3);
-//            irPhotonGraphic.update();
-//        }
-//        irPhotonGraphic.setPhotonStroke( new BasicStroke( 3 ) );
         irPhotonGraphic.paint( g2 );
         ImageIcon irPhotonIcon = new ImageIcon( irPhotonGraphic.getImage() );
-//        ImageIcon irPhotonIcon = new ImageIcon( irPhotonBI );
 
         BufferedImage sunlightPhotonBI = new BufferedImage( 15, 15, BufferedImage.TYPE_INT_ARGB );
         g2 = (Graphics2D) sunlightPhotonBI.getGraphics();
         Photon sunlightPhoton = new Photon( GreenhouseConfig.sunlightWavelength, null );
         PhotonGraphic sunlightPhotonGraphic = new PhotonGraphic( sunlightPhoton );
-//        for( int i = 0; i < PhotonGraphic.numTailPts; i ++ ) {
-//            sunlightPhoton.setLocation(sunlightPhotonBI.getWidth() / 2, i * 3);
-//            sunlightPhotonGraphic.update();
-//        }
-//        sunlightPhotonGraphic.setPhotonStroke( new BasicStroke( 3 ) );
         sunlightPhotonGraphic.paint( g2 );
         ImageIcon sunlightPhotonIcon = new ImageIcon( sunlightPhotonGraphic.getImage() );
-//        ImageIcon sunlightPhotonIcon = new ImageIcon( sunlightPhotonBI );
 
         setLayout( new GridBagLayout() );
         this.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseLegend.LegendTitle" ) ) );
-//            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( "greenhouse/images/small-yellow-electron.gif" ));
         try {
             GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0,
                     GridBagConstraints.CENTER,
@@ -59,27 +46,13 @@ public class GreenhouseLegend extends JPanel {
                                                 sunlightPhotonIcon, SwingConstants.LEFT );
             add(sunlightLegend, gbc);
 
-//            SwingUtils.addGridBagComponent( this, sunlightLegend,
-//                                            0, 0,
-//                                            1, 1,
-//                                            GridBagConstraints.HORIZONTAL,
-//                                            GridBagConstraints.WEST );
-            
             JLabel irLegend = new JLabel( GreenhouseResources.getString( "GreenhouseLegend.InfraredPhotonLabel" ),
                                           irPhotonIcon, SwingConstants.LEFT );
 
             add(irLegend, gbc);
-//            SwingUtils.addGridBagComponent( this, irLegend,
-//                                            0, rowIdx++,
-//                                            1, 1,
-//                                            GridBagConstraints.HORIZONTAL,
-//                                            GridBagConstraints.WEST );
         }
         catch(Exception e){
         	e.printStackTrace();
         }
-//        catch( AWTException e ) {
-//            e.printStackTrace();
-//        }
     }
 }
