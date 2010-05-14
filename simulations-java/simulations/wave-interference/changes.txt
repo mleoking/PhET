@@ -1,3 +1,4 @@
+# 1.08.02 (40758) May 14, 2010
 # 1.08.01 (39460) Mar 22, 2010
 > Standardized window size on startup to be 1024x768, see #2102
 # 1.08.00 (38037) Jan 11, 2010
