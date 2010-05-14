@@ -7,10 +7,10 @@ import model.LadybugMotionModel._
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.common.phetcommon.model.clock.IClock
 import java.awt.Color
-import edu.colorado.phet.scalacommon.record.PlaybackSpeedSlider
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.scalacommon.record.RecordModelControlPanel
+import edu.colorado.phet.recordandplayback.gui.PlaybackSpeedSlider
 
 class LadybugModule[ModelType <: LadybugModel](name: String, clock: ScalaClock,
                                                _model: ModelType,

@@ -7,7 +7,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication
 import edu.colorado.phet.motionseries.model.{MotionSeriesModel, AdjustableCoordinateModel, FreeBodyDiagramModel, VectorViewModel}
 import edu.colorado.phet.motionseries.graphics._
 import java.awt.Color
-import edu.colorado.phet.scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 import javax.swing.JFrame
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesResources._
@@ -15,6 +14,8 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.controls.RampControlPanel
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
+import edu.colorado.phet.scalacommon.record.RecordModelControlPanel
+import edu.colorado.phet.recordandplayback.gui.PlaybackSpeedSlider
 
 class ForcesAndMotionModule(frame: PhetFrame,
                             clock: ScalaClock,
