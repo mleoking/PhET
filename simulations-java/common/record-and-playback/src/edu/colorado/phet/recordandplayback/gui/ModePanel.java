@@ -3,7 +3,7 @@ package edu.colorado.phet.recordandplayback.gui;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.recordandplayback.model.RecordModel;
+import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 public class ModePanel<T> extends JPanel {
 
-    public ModePanel(final RecordModel<T> model) {
+    public ModePanel(final RecordAndPlaybackModel<T> model) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(new Color(0, 0, 0, 0));
         final JRadioButton recordingButton = new JRadioButton(PhetCommonResources.getString("Common.record"), model.isRecord());

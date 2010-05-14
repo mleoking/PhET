@@ -20,7 +20,7 @@ import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 import edu.umd.cs.piccolox.pswing.PSwing
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import javax.swing._
-import edu.colorado.phet.recordandplayback.model.RecordModel.HistoryClearListener
+import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel.HistoryClearListener
 
 case class Graph(title: String, graph: MotionControlGraph, minimized: Boolean)
 

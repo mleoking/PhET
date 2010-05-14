@@ -1,14 +1,13 @@
 package edu.colorado.phet.recordandplayback.gui;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.recordandplayback.model.RecordModel;
+import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -23,7 +22,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Timeline<T> extends PNode {
-    RecordModel<T> model;
+    RecordAndPlaybackModel<T> model;
     PhetPCanvas canvas;
     Color timelineColor;
     double maxTime;
@@ -67,7 +66,7 @@ public class Timeline<T> extends PNode {
         }
     }
 
-    public Timeline(final RecordModel<T> model, PhetPCanvas canvas, Color timelineColor, double maxTime) {
+    public Timeline(final RecordAndPlaybackModel<T> model, PhetPCanvas canvas, Color timelineColor, double maxTime) {
         this.model = model;
         this.canvas = canvas;
         this.timelineColor = timelineColor;

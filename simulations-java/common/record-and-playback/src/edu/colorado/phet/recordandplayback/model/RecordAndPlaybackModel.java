@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 import java.util.ArrayList;
 
-public abstract class RecordModel<T> extends SimpleObservable {
+public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     /**
      * Behavior modes that were decided upon after testing
@@ -116,11 +116,11 @@ public abstract class RecordModel<T> extends SimpleObservable {
             playbackIndexFloat = playbackIndexFloat + playbackSpeed;
             notifyObservers();
         } else {
-            if (RecordModel.recordAtEndOfPlayback) {
+            if (RecordAndPlaybackModel.recordAtEndOfPlayback) {
                 setRecord(true);
             }
 
-            if (RecordModel.pauseAtEndOfPlayback) {
+            if (RecordAndPlaybackModel.pauseAtEndOfPlayback) {
                 setPaused(true);
             }
         }

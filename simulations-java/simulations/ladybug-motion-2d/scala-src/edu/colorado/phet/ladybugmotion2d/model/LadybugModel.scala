@@ -7,7 +7,7 @@ import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.motion._
 import edu.colorado.phet.ladybugmotion2d.{Motion2DModel, LadybugDefaults}
 import edu.colorado.phet.scalacommon.math.Vector2D
-import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordModel}
+import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
 import edu.colorado.phet.scalacommon.util.Observable
 
 /**
@@ -15,7 +15,7 @@ import edu.colorado.phet.scalacommon.util.Observable
  * The smoothing of motion is done by leading the ladybug (with an abstraction called the pen),
  * and using the same model as Motion2D for interpolation.
  */
-class LadybugModel extends RecordModel[LadybugState] with Observable{
+class LadybugModel extends RecordAndPlaybackModel[LadybugState] with Observable{
   def stepRecord() = stepRecord(LadybugDefaults.defaultDT)
 
   val ladybug = new Ladybug
