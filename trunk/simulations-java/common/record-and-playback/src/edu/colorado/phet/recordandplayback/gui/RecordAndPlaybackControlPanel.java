@@ -51,7 +51,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
     }
 
     StepButton stepButton = new StepButton(50);
-    Timeline timeline;
+    TimelineNode timeline;
 
     public static interface Function {
         PNode createControl();
@@ -63,7 +63,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         this.createRightControl = createRightControl;
         this.timelineColor = timelineColor;
         this.maxTime = maxTime;
-        timeline = new Timeline<T>(model, this, timelineColor, maxTime);
+        timeline = new TimelineNode<T>(model, this, timelineColor, maxTime);
         rightmostControl = createRightControl.createControl();
         modePanel = new ModePanel<T>(model);
         modePanelNode = new PSwing(modePanel);
