@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeContro
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources._
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
+import edu.colorado.phet.recordandplayback.gui.ModePanel
 import edu.colorado.phet.scalacommon.util.Observable
 
 class RecordModelControlPanel[T](model: edu.colorado.phet.recordandplayback.model.RecordModel[T] with Observable,
