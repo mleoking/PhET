@@ -6,8 +6,9 @@ MILESTONES
 - 8/1/10, sim showable for BCCE
 
 HIGH PRIORITY
-- prototype: what is the range of Ka?
-- prototype: add bar graphs ala advanced-acid-base-solutions?
+- prototype: get rid of flashing white rectangle behind magnifying glass that started with 5/13 changes
+- prototype: add bar graphs ala advanced-acid-base-solutions
+- prototype: add weak and strong base models
 
 MEDUIUM PRIORITY
 
