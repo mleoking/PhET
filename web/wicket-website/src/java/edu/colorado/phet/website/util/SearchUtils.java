@@ -44,6 +44,8 @@ public class SearchUtils {
 
     private static Scheduler indexScheduler;
 
+    private static boolean indexing = false;
+
     /**
      * Don't call this more than once
      */
@@ -99,6 +101,11 @@ public class SearchUtils {
     }
 
     public static synchronized void reindex( final PhetWicketApplication app, final PhetLocalizer localizer ) {
+        if ( indexing ) {
+            logger.error( "already indexing!" );
+            return;
+        }
+        onIndexingStarted();
         indexerThread = new Thread() {
             @Override
             public void run() {
@@ -112,10 +119,20 @@ public class SearchUtils {
                 catch( IOException e ) {
                     e.printStackTrace();
                 }
+
+                onIndexingCompleted();
             }
         };
         indexerThread.setPriority( Thread.MIN_PRIORITY );
         indexerThread.start();
+    }
+
+    private static synchronized void onIndexingStarted() {
+        indexing = true;
+    }
+
+    private static synchronized void onIndexingCompleted() {
+        indexing = false;
     }
 
     private static synchronized void addAllDocuments( final PhetWicketApplication app, final PhetLocalizer localizer ) {

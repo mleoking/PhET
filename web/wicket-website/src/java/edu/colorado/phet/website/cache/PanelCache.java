@@ -113,4 +113,13 @@ public class PanelCache {
         return ret;
     }
 
+    /**
+     * Clear all of this cache
+     */
+    public void clear() {
+        synchronized( lock ) {
+            cache = new HashMap<IPanelCacheEntry, CacheItem>();
+        }
+    }
+
 }
