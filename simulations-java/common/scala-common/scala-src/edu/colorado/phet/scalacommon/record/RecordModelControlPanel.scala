@@ -120,7 +120,7 @@ class RecordModelControlPanel[T](model: edu.colorado.phet.recordandplayback.mode
   addControl(stepButton)
   addControl(rightmostControl)
 
-  val timeline = new Timeline(model, this, timelineColor, maxTime)
+  val timeline = new edu.colorado.phet.recordandplayback.gui.Timeline(model, this, timelineColor, maxTime)
   addScreenChild(timeline)
 
   setPreferredSize(prefSizeM)
