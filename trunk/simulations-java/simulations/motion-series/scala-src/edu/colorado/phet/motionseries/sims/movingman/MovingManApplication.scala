@@ -16,8 +16,7 @@ import edu.colorado.phet.motionseries.swing.ScalaValueControl
 import edu.umd.cs.piccolox.pswing.PSwing
 import java.lang.String
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
-import edu.colorado.phet.scalacommon.record.RecordModelControlPanel
-import edu.colorado.phet.recordandplayback.gui.PlaybackSpeedSlider
+import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel, PlaybackSpeedSlider}
 
 class BasicMovingManModule(frame: PhetFrame,
                            clock: ScalaClock,
@@ -35,7 +34,9 @@ class BasicMovingManModule(frame: PhetFrame,
   val canvas = new MovingManCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     false, false, false, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)
-  setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, canvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
+  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, new RecordAndPlaybackControlPanel.Function{
+    def createControl = new PlaybackSpeedSlider(motionSeriesModel)
+  } , Color.blue, 20))
   motionSeriesModel.selectedObject = MotionSeriesDefaults.movingMan
   vectorViewModel.xyComponentsVisible = false
   vectorViewModel.originalVectors = false

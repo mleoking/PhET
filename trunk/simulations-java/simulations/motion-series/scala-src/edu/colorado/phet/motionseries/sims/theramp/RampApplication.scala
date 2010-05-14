@@ -14,8 +14,7 @@ import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher,
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 import swing.Button
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import edu.colorado.phet.scalacommon.record.RecordModelControlPanel
-import edu.colorado.phet.recordandplayback.gui.PlaybackSpeedSlider
+import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel, PlaybackSpeedSlider}
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -43,7 +42,9 @@ class BasicRampModule(frame: PhetFrame,
   setControlPanel(rampControlPanel)
 
   //Set the clock control panel
-  setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, rampCanvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
+  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, rampCanvas, new RecordAndPlaybackControlPanel.Function{
+    def createControl = new PlaybackSpeedSlider(motionSeriesModel)
+  }, Color.blue, 20))
 }
 
 /**

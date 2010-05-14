@@ -14,8 +14,7 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.controls.RampControlPanel
 import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
-import edu.colorado.phet.scalacommon.record.RecordModelControlPanel
-import edu.colorado.phet.recordandplayback.gui.PlaybackSpeedSlider
+import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel, PlaybackSpeedSlider}
 
 class ForcesAndMotionModule(frame: PhetFrame,
                             clock: ScalaClock,
@@ -39,7 +38,9 @@ class ForcesAndMotionModule(frame: PhetFrame,
   val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl)
   setControlPanel(controlPanel)
-  setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, canvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
+  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, new RecordAndPlaybackControlPanel.Function(){
+    def createControl = new PlaybackSpeedSlider(motionSeriesModel)
+  }, Color.blue, 20))
 }
 
 class ForcesAndMotionCanvas(model: MotionSeriesModel,

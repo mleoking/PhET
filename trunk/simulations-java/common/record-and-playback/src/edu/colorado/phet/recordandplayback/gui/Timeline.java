@@ -67,7 +67,7 @@ public class Timeline<T> extends PNode {
         }
     }
 
-    public Timeline(final RecordModel<T> model, PhetPCanvas canvas, Color timelineColor, double maxTime) throws IOException {
+    public Timeline(final RecordModel<T> model, PhetPCanvas canvas, Color timelineColor, double maxTime) {
         this.model = model;
         this.canvas = canvas;
         this.timelineColor = timelineColor;
@@ -78,7 +78,12 @@ public class Timeline<T> extends PNode {
 
         background = new Track(backgroundColor);
 
-        BufferedImage img = ImageLoader.loadBufferedImage("piccolo-phet/images/button-template.png");
+        BufferedImage img = null;
+        try {
+            img = ImageLoader.loadBufferedImage("piccolo-phet/images/button-template.png");
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         BufferedImage scaledImage = BufferedImageUtils.getScaledInstance(img, 20, 10, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true);
         handle = new PImage(scaledImage);
 
