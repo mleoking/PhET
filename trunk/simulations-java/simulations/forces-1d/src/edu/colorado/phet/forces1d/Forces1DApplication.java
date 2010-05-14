@@ -29,6 +29,7 @@ public class Forces1DApplication extends PhetApplication {
         final Forces1DModule module;
         try {
             module = new Forces1DModule( clock, FORCES_1D_BACKGROUND_COLOR );
+            module.setLogoPanelVisible(false);
 
             Module[] m = new Module[]{module};
             setModules( m );
@@ -62,7 +63,6 @@ public class Forces1DApplication extends PhetApplication {
     private static class Forces1DPhetApplicationConfig extends PhetApplicationConfig {
         public Forces1DPhetApplicationConfig( String[] args ) {
             super( args, "forces-1d" );
-            setFrameSetup( new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 200, 200 ) ) );
 
             PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
             lookAndFeel.setBackgroundColor( FORCES_1D_BACKGROUND_COLOR );
