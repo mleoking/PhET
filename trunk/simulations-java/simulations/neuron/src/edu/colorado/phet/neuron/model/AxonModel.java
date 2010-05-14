@@ -497,15 +497,15 @@ public class AxonModel implements IParticleCapture {
     	Point2D captureZoneOrigin = zone.getOriginPoint();
     	
     	for (Particle particle : particles){
-    		if ((particle.getType() == particleType) && (particle.isAvailableForCapture()) && (zone.isPointInZone(particle.getPosition()))) {
+    		if ((particle.getType() == particleType) && (particle.isAvailableForCapture()) && (zone.isPointInZone(particle.getPositionReference()))) {
     			totalNumberOfParticles++;
     			if (closestFreeParticle == null){
     				closestFreeParticle = particle;
-    				distanceOfClosestParticle = captureZoneOrigin.distance(closestFreeParticle.getPosition());
+    				distanceOfClosestParticle = captureZoneOrigin.distance(closestFreeParticle.getPositionReference());
     			}
     			else if (captureZoneOrigin.distance(closestFreeParticle.getPosition()) < distanceOfClosestParticle){
     				closestFreeParticle = particle;
-    				distanceOfClosestParticle = captureZoneOrigin.distance(closestFreeParticle.getPosition());
+    				distanceOfClosestParticle = captureZoneOrigin.distance(closestFreeParticle.getPositionReference());
     			}
     		}
     	}
