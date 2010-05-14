@@ -60,8 +60,8 @@ public class WanderThenFadeMotionStrategy extends MotionStrategy {
 		if (motionUpdateCountdownTimer <= 0){
 			// Time to update the motion.
 			movableModelElement.setPosition(
-					movableModelElement.getPosition().getX() + velocity.getX() * MOTION_UPDATE_PERIOD,
-					movableModelElement.getPosition().getY() + velocity.getY() * MOTION_UPDATE_PERIOD);
+					movableModelElement.getPositionReference().getX() + velocity.getX() * MOTION_UPDATE_PERIOD,
+					movableModelElement.getPositionReference().getY() + velocity.getY() * MOTION_UPDATE_PERIOD);
 			
 			motionUpdateCountdownTimer = MOTION_UPDATE_PERIOD;
 		}
@@ -69,7 +69,7 @@ public class WanderThenFadeMotionStrategy extends MotionStrategy {
 		velocityUpdateCountdownTimer -= dt;
 		if (velocityUpdateCountdownTimer <= 0){
 			// Time to update the velocity.
-			updateVelocity(movableModelElement.getPosition());
+			updateVelocity(movableModelElement.getPositionReference());
 			velocityUpdateCountdownTimer = VELOCITY_UPDATE_PERIOD;
 		}
 		

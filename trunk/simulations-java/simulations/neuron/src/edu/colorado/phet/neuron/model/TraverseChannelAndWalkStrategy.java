@@ -40,21 +40,21 @@ public class TraverseChannelAndWalkStrategy extends MembraneTraversalMotionStrat
 	@Override
 	public void move(IMovable movableModelElement, IFadable fadableModelElement, double dt) {
 		
-		Point2D currentPosition = movableModelElement.getPosition();
+		Point2D currentPositionRef = movableModelElement.getPositionReference();
 		
 		if (!channelHasBeenEntered){
 			// Update the flag the tracks whether this particle has made it
 			// to the channel and started traversing it.
-			channelHasBeenEntered = channel.isPointInChannel(currentPosition);
+			channelHasBeenEntered = channel.isPointInChannel(currentPositionRef);
 		}
 		
 		if (channel.isOpen() || channelHasBeenEntered){
 			// The channel is open, or we are inside it, so keep executing
 			// this motion strategy.
-			if ( currentDestinationIndex >= traversalPoints.size() || maxVelocity * dt < currentPosition.distance(traversalPoints.get(currentDestinationIndex))){
+			if ( currentDestinationIndex >= traversalPoints.size() || maxVelocity * dt < currentPositionRef.distance(traversalPoints.get(currentDestinationIndex))){
 				// Move according to the current velocity.
-				movableModelElement.setPosition(currentPosition.getX() + velocityVector.getX() * dt,
-						currentPosition.getY() + velocityVector.getY() * dt);
+				movableModelElement.setPosition(currentPositionRef.getX() + velocityVector.getX() * dt,
+						currentPositionRef.getY() + velocityVector.getY() * dt);
 			}
 			else{
 				// We are close enough to the destination that we should just
