@@ -4,6 +4,7 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -26,6 +29,7 @@ import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -90,6 +94,12 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     // For debug: Shows center of zoom.
     private CrossHairNode crossHairNode;
     private PNode myWorldNode=new PNode();
+    
+    //  For optimization of painting.  The counters are here for testing, and
+    // can be printed out when needed.
+    private int paintCallCounter = 0;
+    private int repaintCallCounter = 0;
+    private PBounds repaintBounds = new PBounds();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -99,6 +109,15 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 
     	this.model = model;
 
+    	model.getClock().addClockListener(new ClockAdapter(){
+    	    public void clockTicked( ClockEvent clockEvent ) {
+    	    	NeuronCanvas.super.repaint(repaintBounds);
+    	    	repaintBounds.reset();
+    	    	repaintCallCounter = 0;
+    	    	paintCallCounter = 0;
+    	    }
+    	});
+    	
     	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, NeuronDefaults.INTERMEDIATE_RENDERING_SIZE));
     	
@@ -227,6 +246,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     // Methods
     //----------------------------------------------------------------------------
     
+    
+    
     /**
      * Reset any stateful behavior of the canvas, such as the zoom factor.
      * Note that this does NOT cause the removal of nodes that were added to
@@ -237,18 +258,29 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	setZoomFactor(1);
     }
     
-    /**
+    @Override
+    public void repaint(PBounds bounds) {
+    	repaintCallCounter++;
+		// Intercept the repaint request and expand the bounds to handle it.
+    	// The repaint will be performed at the next clock tick.  THis is an
+    	// optimization to try to make the sim consume less CPU time.
+    	repaintBounds.add(bounds);
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		paintCallCounter++;
+	}
+
+	/**
      * Updates the layout of stuff on the canvas.
      */
     protected void updateLayout() {
 
         Dimension2D worldSize = getWorldSize();
         Dimension2D screenSize = getScreenSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
-        else {
+        if ( worldSize.getWidth() > 0 || worldSize.getHeight() > 0 ) {
             double centerX = getScreenSize().getWidth() / 2;
             
             // Set the membrane potential chart such that it is centered in
