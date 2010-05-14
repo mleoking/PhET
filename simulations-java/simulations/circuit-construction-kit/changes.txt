@@ -1,3 +1,4 @@
+# 3.18.09 (40735) May 13, 2010
 Removed warning message from circuits with a capacitor and small resistance, see #2087 and #2323
 # 3.18.08 (40572) May 11, 2010
 > Prevent electrons from bunching up in pairs, see #1828
