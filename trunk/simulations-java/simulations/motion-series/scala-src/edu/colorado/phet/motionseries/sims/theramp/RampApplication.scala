@@ -7,7 +7,6 @@ import edu.colorado.phet.common.piccolophet.{PiccoloPhetApplication}
 import java.awt.{Color}
 import edu.colorado.phet.motionseries.controls.RampControlPanel
 import robotmovingcompany.{RobotMovingCompanyModule}
-import edu.colorado.phet.scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.charts.bargraphs._
@@ -15,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher,
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 import swing.Button
 import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.scalacommon.record.RecordModelControlPanel
+import edu.colorado.phet.recordandplayback.gui.PlaybackSpeedSlider
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
