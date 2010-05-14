@@ -9,7 +9,7 @@ import edu.colorado.phet.scalacommon.util.Observable
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.charts.GoButtonVisibilityModel
-import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordModel}
+import edu.colorado.phet.recordandplayback.model.{DataPoint, RecordAndPlaybackModel}
 
 case class RampState(angle: Double, heat: Double, wetness: Double)
 
@@ -25,7 +25,7 @@ case class RecordedState(rampState: RampState,
 class MotionSeriesModel(defaultBeadPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
-        extends RecordModel[RecordedState] with ObjectModel with RampSurfaceModel {
+        extends RecordAndPlaybackModel[RecordedState] with ObjectModel with RampSurfaceModel {
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT

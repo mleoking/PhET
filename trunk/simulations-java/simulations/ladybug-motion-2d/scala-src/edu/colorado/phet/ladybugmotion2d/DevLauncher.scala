@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
-import edu.colorado.phet.recordandplayback.model.RecordModel
+import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel
 
 object DevLauncher {
   def main(args: Array[String]) = {

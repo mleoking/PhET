@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.*;
-import edu.colorado.phet.recordandplayback.model.RecordModel;
+import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -24,7 +24,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
-    RecordModel<T> model;
+    RecordAndPlaybackModel<T> model;
     JComponent simPanel;
     Function createRightControl;
     Color timelineColor;
@@ -57,7 +57,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         PNode createControl();
     }
 
-    public RecordAndPlaybackControlPanel(final RecordModel<T> model, JComponent simPanel, Function createRightControl, Color timelineColor, double maxTime) {
+    public RecordAndPlaybackControlPanel(final RecordAndPlaybackModel<T> model, JComponent simPanel, Function createRightControl, Color timelineColor, double maxTime) {
         this.model = model;
         this.simPanel = simPanel;
         this.createRightControl = createRightControl;

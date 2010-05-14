@@ -4,7 +4,7 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.recordandplayback.model.RecordModel;
+import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -15,9 +15,9 @@ import java.awt.*;
 import java.util.Hashtable;
 
 public class PlaybackSpeedSlider<T> extends PNode {
-    private RecordModel<T> model;
+    private RecordAndPlaybackModel<T> model;
 
-    public PlaybackSpeedSlider(final RecordModel<T> model) {
+    public PlaybackSpeedSlider(final RecordAndPlaybackModel<T> model) {
         this.model = model;
         addInputEventListener(new CursorHandler());
 
