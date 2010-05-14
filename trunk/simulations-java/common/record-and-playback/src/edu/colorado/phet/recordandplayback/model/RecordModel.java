@@ -6,15 +6,24 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import java.util.ArrayList;
 
 public abstract class RecordModel<T> extends SimpleObservable {
-    public static boolean pauseAtEndOfPlayback = true;
-    public static boolean recordAtEndOfPlayback = false;
+
+    /**
+     * Behavior modes that were decided upon after testing
+     */
+    public static final boolean pauseAtEndOfPlayback = true;
+    public static final boolean recordAtEndOfPlayback = false;
+
+    //The history of data points that have been recorded from the model.
     private final ArrayList<DataPoint<T>> recordHistory = new ArrayList<DataPoint<T>>();
 
-    private boolean record = true;
-    private boolean paused = true;
-    private double time = 0.0;
+    private boolean record = true;//True if the sim is in record mode (may be paused too)
+    private boolean paused = true;//True if the current mode is paused 
+    private double time = 0.0;//
     private double playbackIndexFloat = 0.0; //floor this to get playbackIndex
     private double playbackSpeed = 1.0;
+
+    private ArrayList<HistoryClearListener> historyClearListeners = new ArrayList<HistoryClearListener>();
+    private ArrayList<Listener> historyRemainderClearListeners = new ArrayList<Listener>();
 
     public abstract void stepRecord();
 
@@ -79,8 +88,6 @@ public abstract class RecordModel<T> extends SimpleObservable {
         }
     }
 
-    ArrayList<Listener> historyRemainderClearListeners = new ArrayList<Listener>();
-
     public static interface Listener {
         void historyRemainderCleared();
     }
@@ -119,8 +126,7 @@ public abstract class RecordModel<T> extends SimpleObservable {
         }
     }
 
-    private ArrayList<HistoryClearListener> historyClearListeners = new ArrayList<HistoryClearListener>();
-    public void addHistoryClearListener(HistoryClearListener listener){
+    public void addHistoryClearListener(HistoryClearListener listener) {
         historyClearListeners.add(listener);
     }
 

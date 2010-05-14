@@ -191,15 +191,6 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         nodes.add(node);
     }
 
-    private Icon stringToIcon(String string) {
-        return new ImageIcon(PhetCommonResources.getImage("clock/" + string));
-    }
-
-//  implicit def functionToButtonListener(f: () => Unit): DefaultIconButton.Listener = new DefaultIconButton.Listener() {
-//    def buttonPressed = {f()}
-//  }
-
-
     public void updateRewindEnabled() {
         boolean enabled = model.isPlayback() && model.getRecordingHistory().size() > 0 && model.getTime() != model.getMinRecordedTime();
         rewind.setEnabled(enabled);
@@ -223,7 +214,6 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         for (int i = 1; i < bounds.size(); i++) {
             union = union.createUnion(bounds.get(i));
         }
-//    val b: PBounds = blist.foldLeft(blist(0))((a, b) => new PBounds(a.createUnion(b)))
         Rectangle2D expanded = RectangleUtils.expand(union, 0, 0);
         backgroundNode.setSize((int) (halfWidth * 2), (int) expanded.getHeight());
         backgroundNode.setOffset(playPause.getFullBounds().getCenterX() - halfWidth, expanded.getY());
