@@ -36,9 +36,9 @@ public class SlowBrownianMotionStrategy extends MotionStrategy {
 				// Jump away from this location.
 				double jumpAngle = generateNewJumpAngle();
 				double jumpDistance = generateNewJumpDistance();
-				Point2D currentPos = movableModelElement.getPosition();
-				movableModelElement.setPosition(currentPos.getX() + jumpDistance * Math.cos(jumpAngle),
-						currentPos.getY() + jumpDistance * Math.sin(jumpAngle));
+				Point2D currentPosRef = movableModelElement.getPositionReference();
+				movableModelElement.setPosition(currentPosRef.getX() + jumpDistance * Math.cos(jumpAngle),
+						currentPosRef.getY() + jumpDistance * Math.sin(jumpAngle));
 			}
 			else{
 				// Jump back to initial location.

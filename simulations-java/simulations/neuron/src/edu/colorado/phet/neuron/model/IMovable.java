@@ -36,6 +36,15 @@ public interface IMovable {
 	Point2D getPosition();
 	
 	/**
+	 * Get a reference to the current position of the model element.  Be
+	 * careful with this.  It is provided primarily for optimization purposes,
+	 * and the value should not be changed.
+	 *  
+	 * @param newPosition
+	 */
+	Point2D getPositionReference();
+	
+	/**
 	 * Set the motion strategy for the element.
 	 */
 	void setMotionStrategy(MotionStrategy motionStrategy);

@@ -45,7 +45,7 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
 	@Override
 	public void move(IMovable movableModelElement, IFadable fadableModelElement, double dt) {
 		
-		currentLocation.setLocation(movableModelElement.getPosition());
+		currentLocation.setLocation(movableModelElement.getPositionReference());
 		double radius = movableModelElement.getRadius();
 		
 		// Bounce back toward the inside if we are outside of the motion bounds.

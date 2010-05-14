@@ -49,7 +49,7 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 		
 		assert currentDestinationIndex < traversalPoints.size();  // Error checking.
 		
-		Point2D currentPosition = movableModelElement.getPosition();
+		Point2D currentPositionRef = movableModelElement.getPositionReference();
 		
 		if (currentDestinationIndex == 0){
 			// Currently moving towards the first destination point.  Is the
@@ -64,7 +64,7 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 				// used again.
 				currentDestinationIndex = Integer.MAX_VALUE;
 			}
-			else if (currentPosition.distance(traversalPoints.get(currentDestinationIndex)) < velocityVector.getMagnitude() * dt){
+			else if (currentPositionRef.distance(traversalPoints.get(currentDestinationIndex)) < velocityVector.getMagnitude() * dt){
 				// We have arrived at the first traversal point, so now start
 				// heading towards the second.
 				movableModelElement.setPosition(traversalPoints.get(currentDestinationIndex));
@@ -92,7 +92,7 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 					bouncing = true; // Flag for tracking that we need to bounce.
 				}
 			}
-			if (currentPosition.distance(traversalPoints.get(currentDestinationIndex)) < velocityVector.getMagnitude() * dt){
+			if (currentPositionRef.distance(traversalPoints.get(currentDestinationIndex)) < velocityVector.getMagnitude() * dt){
 				// The element has reached the current traversal point, so
 				// it should start moving towards the next.
 				movableModelElement.setPosition(traversalPoints.get(currentDestinationIndex));
@@ -111,7 +111,7 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
 		}
 		else if (currentDestinationIndex == 2){
 			// Currently moving towards the 3rd point.
-			if (currentPosition.distance(traversalPoints.get(currentDestinationIndex)) < velocityVector.getMagnitude() * dt){
+			if (currentPositionRef.distance(traversalPoints.get(currentDestinationIndex)) < velocityVector.getMagnitude() * dt){
 				// The element has reached the last traversal point, so a
 				// new motion strategy is set to have it move away and then
 				// fade out.
