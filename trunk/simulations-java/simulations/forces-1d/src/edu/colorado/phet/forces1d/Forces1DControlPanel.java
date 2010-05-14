@@ -236,8 +236,6 @@ public class Forces1DControlPanel extends IForceControl {
         advancedPanel.addControl( staticFriction );
         advancedPanel.addControl( kineticFriction );
         advancedPanel.addControl( restore );
-
-        addControl( new HelpPanel( module ) );
     }
 
 
