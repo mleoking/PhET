@@ -1,3 +1,4 @@
+# 3.18.10 (40765) May 14, 2010
 > Fixed: sometimes dotted circle junctions are left behind, see #1826
 # 3.18.09 (40735) May 13, 2010
 Removed warning message from circuits with a capacitor and small resistance, see #2087 and #2323
