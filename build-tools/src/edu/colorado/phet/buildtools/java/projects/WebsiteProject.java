@@ -18,8 +18,8 @@ import com.jcraft.jsch.JSchException;
  * Project meant to compile the Wicket website
  */
 public class WebsiteProject extends JavaProject {
-    public WebsiteProject( File file ) throws IOException {
-        super( file );
+    public WebsiteProject( File projectRoot ) throws IOException {
+        super( projectRoot );
     }
 
     public File getTrunkAbsolute() {
@@ -101,5 +101,16 @@ public class WebsiteProject extends JavaProject {
             e.printStackTrace();
         }
         return success;
+    }
+
+    @Override
+    public String getClasspath() {
+        try {
+            return super.getClasspath() + " : " + new File( getProjectDir(), "contrib/javaee.jar" ).getCanonicalPath();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            return super.getClasspath();
+        }
     }
 }
