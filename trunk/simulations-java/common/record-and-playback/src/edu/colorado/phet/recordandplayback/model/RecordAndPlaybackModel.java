@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * This is the main model class for sims that support recording and playing back.  This is done by recording discrete states,
- * then being able to set re-apply them to the model.  This library does not currently provide support for interpolation of states.
+ * then being able to set re-apply them to the model.  This library does not currently provide support for interpolation between states.
  *
  * @author Sam Reid
  * @param <T> the type of state that is recorded and restored, should be immutable.
