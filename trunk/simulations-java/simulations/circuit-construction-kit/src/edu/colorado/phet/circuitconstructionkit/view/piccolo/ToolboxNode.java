@@ -139,8 +139,11 @@ public class ToolboxNode extends PhetPNode {
                 }
 
                 public void mouseReleased(PInputEvent event) {
-                    circuitInteractionModel.dropBranch(createdBranch);
-                    createdBranch = null;
+                    if (createdBranch != null) { // This check was added to resolve #1826, not sure why the createdBranch was sometimes null, or why that was causing problems.
+                        //System.out.println("ToolboxNode$BranchMaker.mouseReleased: branch = " + createdBranch);
+                        circuitInteractionModel.dropBranch(createdBranch);
+                        createdBranch = null;
+                    }
                 }
             });
 

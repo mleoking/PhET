@@ -127,8 +127,6 @@ public class Circuit {
     }
 
     public void replaceJunction(Junction old, Junction newJunction) {
-        junctions.remove(old);
-        old.delete();
         for (Branch branch : branches) {
             if (branch.getStartJunction() == old) {
                 branch.setStartJunction(newJunction);
@@ -137,7 +135,6 @@ public class Circuit {
                 branch.setEndJunction(newJunction);
             }
         }
-        fireJunctionRemoved(old);
     }
 
     private void fireJunctionRemoved(Junction junction) {
@@ -340,13 +337,15 @@ public class Circuit {
     public void removeBranch(Branch branch) {
         branch.removeObserver(editingObserver);
         branches.remove(branch);
-        removeNeighborJunctions(branch);
+//        removeAdjacentJunctions(branch);
         branch.delete();
         fireBranchRemoved(branch);
         fireKirkhoffChanged();
+
+//        if (branch.getStartJunction())
     }
 
-    protected void removeNeighborJunctions(Branch branch) {
+    protected void removeAdjacentJunctions(Branch branch) {
         if (getAdjacentBranches(branch.getStartJunction()).length == 0) {
             removeJunction(branch.getStartJunction());
         }
@@ -390,6 +389,8 @@ public class Circuit {
     }
 
     public Junction[] getJunctions() {
+//        System.out.println("junctions.size() = " + junctions.size());
+//        System.out.println("getJunctions().length = " + getJunctions().length);
         return junctions.toArray(new Junction[junctions.size()]);
     }
 
