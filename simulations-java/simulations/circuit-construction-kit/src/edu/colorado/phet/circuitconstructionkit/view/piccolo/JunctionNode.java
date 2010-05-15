@@ -24,41 +24,36 @@ import java.awt.*;
  */
 
 public class JunctionNode extends PhetPNode {
-    private double strokeWidthModelCoords = CCKModel.JUNCTION_GRAPHIC_STROKE_WIDTH;
-    private Stroke shapeStroke = new BasicStroke(2);
     private CCKModel cckModel;
     private Junction junction;
-    private CircuitNode circuitNode;
-    private Component component;
-    private PPath shapePNode;
-    private PPath highlightPNode;
+    private PPath shapeNode;
+    private PPath highlightNode;
     private CircuitInteractionModel circuitInteractionModel;
 
     public JunctionNode(final CCKModel cckModel, final Junction junction, final CircuitNode circuitNode, Component component) {
         this.cckModel = cckModel;
         this.junction = junction;
-        this.circuitNode = circuitNode;
-        this.component = component;
         this.circuitInteractionModel = new CircuitInteractionModel(cckModel);
-        shapePNode = new PPath();
-        shapePNode.setStroke(shapeStroke);
-        shapePNode.setPaint(Color.blue);
-        highlightPNode = new PPath();
-        highlightPNode.setStroke(new BasicStroke((float) (3 / 80.0)));
-        highlightPNode.setStrokePaint(Color.yellow);
+        shapeNode = new PPath();
+        Stroke shapeStroke = new BasicStroke(2);
+        shapeNode.setStroke(shapeStroke);
+        shapeNode.setPaint(Color.blue);
+        highlightNode = new PPath();
+        highlightNode.setStroke(new BasicStroke((float) (3 / 80.0)));
+        highlightNode.setStrokePaint(Color.yellow);
 
-        highlightPNode.setPickable(false);
-        highlightPNode.setChildrenPickable(false);
+        highlightNode.setPickable(false);
+        highlightNode.setChildrenPickable(false);
 
-        addChild(shapePNode);
-        addChild(highlightPNode);
+        addChild(shapeNode);
+        addChild(highlightNode);
 
         junction.addObserver(new SimpleObserver() {
             public void update() {
                 JunctionNode.this.update();
             }
         });
-        shapePNode.setStrokePaint(Color.red);
+        shapeNode.setStrokePaint(Color.red);
         addInputEventListener(new PBasicInputEventHandler() {
             public void mouseDragged(PInputEvent event) {
                 circuitInteractionModel.dragJunction(junction, event.getPositionRelativeTo(JunctionNode.this));
@@ -109,23 +104,24 @@ public class JunctionNode extends PhetPNode {
     }
 
     private void update() {
-        shapePNode.setPathTo(junction.getShape());
-        shapePNode.setStroke(createStroke(strokeWidthModelCoords * (isConnected() ? 1.2 : 2)));
-        shapePNode.setStrokePaint(isConnected() ? Color.black : Color.red);
-        shapePNode.setPaint(isConnectedTo2Wires() ? CCKLookAndFeel.COPPER : new Color(0, 0, 0, 0));
+        shapeNode.setPathTo(junction.getShape());
+        double strokeWidthModelCoords = CCKModel.JUNCTION_GRAPHIC_STROKE_WIDTH;
+        shapeNode.setStroke(createStroke(strokeWidthModelCoords * (isConnected() ? 1.2 : 2)));
+        shapeNode.setStrokePaint(isConnected() ? Color.black : Color.red);
+        shapeNode.setPaint(isConnectedTo2Wires() ? CCKLookAndFeel.COPPER : new Color(0, 0, 0, 0));
 
-        highlightPNode.setPathTo(junction.createCircle(CCKModel.JUNCTION_RADIUS * 1.6));
-        highlightPNode.setStroke(new BasicStroke((float) (3.0 / 80.0)));
-        highlightPNode.setVisible(junction.isSelected());
+        highlightNode.setPathTo(junction.createCircle(CCKModel.JUNCTION_RADIUS * 1.6));
+        highlightNode.setStroke(new BasicStroke((float) (3.0 / 80.0)));
+        highlightNode.setVisible(junction.isSelected());
     }
 
     private boolean isConnectedTo2Wires() {
         if (!isConnected()) {
             return false;
         }
-        Branch[] n = getCircuit().getAdjacentBranches(junction);
-        for (int i = 0; i < n.length; i++) {
-            if (!(n[i] instanceof Wire)) {
+        Branch[] branches = getCircuit().getAdjacentBranches(junction);
+        for (Branch branch : branches) {
+            if (!(branch instanceof Wire)) {
                 return false;
             }
         }
