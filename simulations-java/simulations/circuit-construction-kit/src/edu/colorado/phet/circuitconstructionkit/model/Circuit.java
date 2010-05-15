@@ -337,20 +337,16 @@ public class Circuit {
     public void removeBranch(Branch branch) {
         branch.removeObserver(editingObserver);
         branches.remove(branch);
-//        removeAdjacentJunctions(branch);
         branch.delete();
         fireBranchRemoved(branch);
         fireKirkhoffChanged();
-
-//        if (branch.getStartJunction())
+        removeIfOrphaned(branch.getStartJunction());
+        removeIfOrphaned(branch.getEndJunction());
     }
 
-    protected void removeAdjacentJunctions(Branch branch) {
-        if (getAdjacentBranches(branch.getStartJunction()).length == 0) {
-            removeJunction(branch.getStartJunction());
-        }
-        if (getAdjacentBranches(branch.getEndJunction()).length == 0) {
-            removeJunction(branch.getEndJunction());
+    private void removeIfOrphaned(Junction junction) {
+        if (getAdjacentBranches(junction).length == 0) {
+            removeJunction(junction);
         }
     }
 
