@@ -388,8 +388,6 @@ public class PhetWicketApplication extends WebApplication {
         SearchUtils.destroy();
 
         logger.info( HibernateUtils.getInstance().getCache().getClass().getCanonicalName() );
-
-        CacheManager.getInstance().shutdown();
     }
 
     public static String getProductionServerName() {
