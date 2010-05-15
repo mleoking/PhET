@@ -6,7 +6,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import java.util.ArrayList;
 
 /**
- * This is the main model class for sims that support recording and playing back.
+ * This is the main model class for sims that support recording and playing back.  This is done by recording discrete states,
+ * then being able to set re-apply them to the model.  This library does not currently provide support for interpolation of states.
  *
  * @author Sam Reid
  * @param <T> the type of state that is recorded and restored, should be immutable.
@@ -29,7 +30,7 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     private double playbackSpeed = 1.0;//The speed at which playback will occur.
 
     private ArrayList<HistoryClearListener> historyClearListeners = new ArrayList<HistoryClearListener>();
-    private ArrayList<Listener> historyRemainderClearListeners = new ArrayList<Listener>();
+    private ArrayList<HistoryRemainderClearListener> historyRemainderClearListeners = new ArrayList<HistoryRemainderClearListener>();
 
     //Extension points for subclasses
 
@@ -44,7 +45,10 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     protected RecordAndPlaybackModel() {
     }
 
-    public void setStateToPlaybackIndex() {
+    /**
+     * Sets the model state to reflect the current playback index.
+     */
+    private void setStateToPlaybackIndex() {
         int playbackIndex = getPlaybackIndex();
         if (playbackIndex >= 0 && playbackIndex < recordHistory.size()) {
             setPlaybackState(recordHistory.get(getPlaybackIndex()).getState());
@@ -52,6 +56,11 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         }
     }
 
+    /**
+     * Switches to playback mode with the specified playback speed.
+     *
+     * @param speed the speed to use for playback, 1.0 = normal speed
+     */
     public void setPlayback(double speed) {
         setPlaybackSpeed(speed);
         setRecord(false);
@@ -87,7 +96,7 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     /**
      * Returns a defensive copy of the recorded history points.
      *
-     * @return
+     * @return a list of the recorded states
      */
     public ArrayList<DataPoint<T>> getRecordingHistory() {
         ArrayList<DataPoint<T>> data = new ArrayList<DataPoint<T>>();
@@ -122,10 +131,6 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         return recordHistory.size();
     }
 
-    public static interface Listener {
-        void historyRemainderCleared();
-    }
-
     public void clearHistoryRemainder() {
         ArrayList<DataPoint<T>> keep = new ArrayList<DataPoint<T>>();
         for (DataPoint<T> dataPoint : recordHistory) {
@@ -136,7 +141,7 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         recordHistory.clear();
         recordHistory.addAll(keep);
         notifyObservers();
-        for (Listener historyRemainderClearListener : historyRemainderClearListeners) {
+        for (HistoryRemainderClearListener historyRemainderClearListener : historyRemainderClearListeners) {
             historyRemainderClearListener.historyRemainderCleared();
         }
     }
@@ -159,10 +164,6 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     public void addHistoryClearListener(HistoryClearListener listener) {
         historyClearListeners.add(listener);
-    }
-
-    public static interface HistoryClearListener {
-        void historyCleared();
     }
 
     public void clearHistory() {
@@ -206,10 +207,6 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         return recordHistory.size() >= getMaxRecordPoints();
     }
 
-//    public ArrayList<DataPoint<T>> getRecordingHistory() {
-//        return recordHistory;
-//    }
-
     public double getRecordedTimeRange() {
         if (recordHistory.size() == 0) {
             return 0;
@@ -240,5 +237,13 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     public double getFloatTime() {
         Function.LinearFunction f = new Function.LinearFunction(0, recordHistory.size() - 1, getMinRecordedTime(), getMaxRecordedTime());
         return f.evaluate(playbackIndexFloat);
+    }
+
+    public static interface HistoryClearListener {
+        void historyCleared();
+    }
+
+    public static interface HistoryRemainderClearListener {
+        void historyRemainderCleared();
     }
 }
