@@ -19,7 +19,6 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
 import edu.colorado.phet.buildtools.*;
-import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -124,11 +123,11 @@ public class JavaBuildCommand {
     //see http://www.codecommit.com/blog/scala/joint-compilation-of-scala-and-java-sources
     private void compileScala() {
         Scalac scalac = new Scalac();
-        scalac.setClasspath( new Path( antTaskRunner.getProject(), toString( project.getAllJarFiles() ) +
+        scalac.setClasspath( new Path( antTaskRunner.getProject(), project.getClasspath() +
                                                                    " : " + project.getClassesDirectory().getAbsolutePath() ) );
         ArrayList<File> all = new ArrayList<File>( Arrays.asList( project.getAllScalaSourceRoots() ) );
         all.addAll( Arrays.asList( project.getAllJavaSourceRoots() ) );
-        scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString( all.toArray( new File[all.size()] ) ) ) );
+        scalac.setSrcdir( new Path( antTaskRunner.getProject(), toClasspathString( all.toArray( new File[all.size()] ) ) ) );
         scalac.setIncludes( "**/*.scala, **/*.java" );
         scalac.setTarget( BuildToolsConstants.SIM_SCALA_VERSION );//see Scalac.Target, allows targeting 1.4 jvm
         scalac.setDestdir( project.getClassesDirectory() );
@@ -149,7 +148,7 @@ public class JavaBuildCommand {
         Javac javac = new Javac();
         javac.setSource( project.getJavaSourceVersion() );
         javac.setTarget( project.getJavaTargetVersion() );
-        javac.setSrcdir( new Path( antTaskRunner.getProject(), toString( src ) ) );
+        javac.setSrcdir( new Path( antTaskRunner.getProject(), toClasspathString( src ) ) );
         javac.setDestdir( project.getClassesDirectory() );
 
         //This block enables compilation of mixed java-scala sources by pointing the java compiler at the compiled scala source
@@ -159,7 +158,8 @@ public class JavaBuildCommand {
             all.add( project.getClassesDirectory() );
             classpath = all.toArray( new File[all.size()] );
         }
-        javac.setClasspath( new Path( antTaskRunner.getProject(), toString( classpath ) ) );
+        
+        javac.setClasspath( new Path( antTaskRunner.getProject(), project.getClasspath() ) );
 
         //"lines,source" appears to be necessary to get line number debug info
         javac.setDebugLevel( "lines,source" );
@@ -268,7 +268,7 @@ public class JavaBuildCommand {
         new ProguardCommand( builder.build(), antTaskRunner ).execute();
     }
 
-    private String toString( File[] files ) {
+    public static String toClasspathString( File[] files ) {
         String string = "";
         for ( int i = 0; i < files.length; i++ ) {
             File file = files[i];

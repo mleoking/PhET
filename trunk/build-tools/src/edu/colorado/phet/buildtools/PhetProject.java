@@ -5,6 +5,7 @@ import java.util.*;
 
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
+import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.*;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
@@ -958,5 +959,15 @@ public abstract class PhetProject {
      * @return Boolean representing whether this project can be directly tested
      */
     public abstract boolean isTestable();
+
+    /**
+     * Classpath is separate from all JAR files, since in some projects (like the website) we need to reference classes
+     * and JARs that will not be included in the produced JAR.
+     *
+     * @return Classpath string (paths separated by " : ")
+     */
+    public String getClasspath() {
+        return JavaBuildCommand.toClasspathString( getAllJarFiles() );
+    }
 
 }
