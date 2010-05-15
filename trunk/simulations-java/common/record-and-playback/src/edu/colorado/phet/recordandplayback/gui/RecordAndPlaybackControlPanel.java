@@ -119,7 +119,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         stepButton.addInputEventListener(new ToolTipHandler(PhetCommonResources.getString("Common.ClockControlPanel.Step"), this));
         model.addObserver(new SimpleObserver() {
             public void update() {
-                boolean isLastStep = model.getPlaybackIndex() == model.getRecordingHistory().size();
+                boolean isLastStep = model.getPlaybackIndex() == model.getNumRecordedPoints();
                 stepButton.setEnabled(model.isPaused() && !isLastStep);
             }
         });
@@ -181,7 +181,6 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
 
             });
         }
-
     }
 
     protected void addControl(PNode node) {
@@ -192,7 +191,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
     }
 
     public void updateRewindEnabled() {
-        boolean enabled = model.isPlayback() && model.getRecordingHistory().size() > 0 && model.getTime() != model.getMinRecordedTime();
+        boolean enabled = model.isPlayback() && model.getNumRecordedPoints() > 0 && model.getTime() != model.getMinRecordedTime();
         rewind.setEnabled(enabled);
     }
 

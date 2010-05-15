@@ -72,7 +72,7 @@ object LadybugMotionModel {
       model.ladybug.setPosition(new Vector2D(x, y))
       model.ladybug.setVelocity(new Vector2D(vx, vy))
       model.ladybug.setAngle(model.ladybug.getVelocity.getAngle)
-      model.ladybug.setAcceleration(model.average(model.getRecordingHistory.size - 15, model.getRecordingHistory.size - 1, model.estimateAcceleration))
+      model.ladybug.setAcceleration(model.average(model.getNumRecordedPoints - 15, model.getNumRecordedPoints - 1, model.estimateAcceleration))
       model.setSamplePoint(model.ladybug.getPosition)
     }
   }

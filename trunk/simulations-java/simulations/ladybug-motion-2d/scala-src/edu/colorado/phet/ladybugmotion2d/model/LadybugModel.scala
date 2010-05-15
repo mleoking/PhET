@@ -171,7 +171,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState] with Observable{
       ladybugMotionModel.update(dt, this)
 
       modelHistory += new DataPoint(time, ladybug.getState)
-      getRecordingHistory.add(new DataPoint(time, ladybug.getState))
+      addRecordedPoint(new DataPoint(time, ladybug.getState))
       penPath += new PenSample(time, penPoint)
 
       while (modelHistory.length > 100) {
@@ -181,10 +181,10 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState] with Observable{
         penPath.remove(0)
       }
 
-      while (getRecordingHistory.size > getMaxRecordPoints) {
+      while (getNumRecordedPoints > getMaxRecordPoints) {
         //decide whether to remove end of path or beginning of path.
         //          recordHistory.remove(recordHistory.length - 1)
-        getRecordingHistory.remove(0)
+        removeHistoryPoint(0)
       }
 
       if (!ladybugMotionModel.isExclusive()) {
@@ -208,7 +208,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState] with Observable{
 
   def readyForInteraction(): Boolean = {
     val recording = isRecord
-    val isDonePlayback = (getPlaybackIndex() >= getRecordingHistory.size - 1) && isPaused
+    val isDonePlayback = (getPlaybackIndex() >= getNumRecordedPoints - 1) && isPaused
     recording || isDonePlayback
   }
 

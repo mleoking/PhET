@@ -5,6 +5,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 import java.util.ArrayList;
 
+/**
+ * This is the main model class for sims that support recording and playing back.
+ *
+ * @author Sam Reid
+ * @param <T> the type of state that is recorded and restored, should be immutable.
+ */
 public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     /**
@@ -70,6 +76,25 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         notifyObservers();
     }
 
+    public void addRecordedPoint(DataPoint<T> point) {
+        recordHistory.add(point);
+    }
+
+    public void removeHistoryPoint(int point) {
+        recordHistory.remove(point);
+    }
+
+    /**
+     * Returns a defensive copy of the recorded history points.
+     *
+     * @return
+     */
+    public ArrayList<DataPoint<T>> getRecordingHistory() {
+        ArrayList<DataPoint<T>> data = new ArrayList<DataPoint<T>>();
+        data.addAll(recordHistory);
+        return data;
+    }
+
     public void setPlaybackSpeed(double speed) {
         if (speed != playbackSpeed) {
             playbackSpeed = speed;
@@ -91,6 +116,10 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
             notifyObservers();
         }
+    }
+
+    public int getNumRecordedPoints() {
+        return recordHistory.size();
     }
 
     public static interface Listener {
@@ -177,9 +206,9 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         return recordHistory.size() >= getMaxRecordPoints();
     }
 
-    public ArrayList<DataPoint<T>> getRecordingHistory() {
-        return recordHistory;
-    }
+//    public ArrayList<DataPoint<T>> getRecordingHistory() {
+//        return recordHistory;
+//    }
 
     public double getRecordedTimeRange() {
         if (recordHistory.size() == 0) {

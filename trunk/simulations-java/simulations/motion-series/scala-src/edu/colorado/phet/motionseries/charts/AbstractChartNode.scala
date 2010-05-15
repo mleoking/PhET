@@ -171,7 +171,7 @@ class MinimizableMotionSeriesGraph(title: String,
     }
   }))
 
-  def updateClearButtonVisible() = clearButton.setVisible(model.getRecordingHistory.size()> 0)
+  def updateClearButtonVisible() = clearButton.setVisible(model.getNumRecordedPoints> 0)
   model.addListenerByName {
     updateClearButtonVisible()
   }
