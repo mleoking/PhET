@@ -82,29 +82,25 @@ public class CircuitNode extends PhetPNode {
                 addBranchNode(branch);
             }
 
-            public void junctionAdded(Junction junction) {
-                SolderNode solderNode = new SolderNode(circuit, junction, Color.gray);
+            public void junctionAdded(final Junction junction) {
+                final SolderNode solderNode = new SolderNode(circuit, junction, Color.gray);
                 solderLayer.addChild(solderNode);
 
-                JunctionNode node = createNode(junction);
-                junctionLayer.addChild(node);
-            }
+                final JunctionNode junctionNode = new JunctionNode(cckModel, junction, CircuitNode.this, component);
+                junctionLayer.addChild(junctionNode);
 
-            public void junctionRemoved(Junction junction) {
-                for (int i = 0; i < solderLayer.getChildrenCount(); i++) {
-                    SolderNode solderNode = (SolderNode) solderLayer.getChild(i);
-                    if (solderNode.getJunction() == junction) {
-                        solderLayer.removeChild(solderNode);
-                        i = -1;
+//                System.out.println("added " + junction + ", node = " + junctionNode);
+
+                final CircuitListenerAdapter removalListener = new CircuitListenerAdapter() {
+                    public void junctionRemoved(Junction removedJunction) {
+                        if (removedJunction == junction) {
+//                            System.out.println("removed " + junction + ", node = " + junctionNode);
+                            junctionLayer.removeChild(junctionNode);
+                            solderLayer.removeChild(solderNode);
+                        }
                     }
-                }
-                for (int i = 0; i < junctionLayer.getChildrenCount(); i++) {
-                    JunctionNode junctionNode = (JunctionNode) junctionLayer.getChild(i);
-                    if (junctionNode.getJunction() == junction) {
-                        removeJunctionGraphic(junctionNode);
-                        i = -1;
-                    }
-                }
+                };
+                circuit.addCircuitListener(removalListener);
             }
 
             public void selectionChanged() {
@@ -173,13 +169,9 @@ public class CircuitNode extends PhetPNode {
         branchLayer.removeChild(branchNode);
     }
 
-    private void removeJunctionGraphic(JunctionNode junctionNode) {
-        junctionLayer.removeChild(junctionNode);
-    }
-
-    public JunctionNode createNode(Junction junction) {
-        return new JunctionNode(cckModel, junction, this, component);
-    }
+//    private void removeJunctionGraphic(JunctionNode junctionNode) {
+//        junctionLayer.removeChild(junctionNode);
+//    }
 
     public Circuit getCircuit() {
         return cckModel.getCircuit();
