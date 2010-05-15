@@ -23,10 +23,10 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     //The history of data points that have been recorded from the model.
     private final ArrayList<DataPoint<T>> recordHistory = new ArrayList<DataPoint<T>>();
 
-    private boolean record = true;//True if the sim is in record mode (may be paused too)
+    private boolean record = true;//True if the sim is in record mode instead of playback mode (may be paused too)
     private boolean paused = true;//True if the current mode is paused 
     private double time = 0.0;//Current time of recording or playback
-    private double playbackIndexFloat = 0.0; //floor this to get playbackIndex
+    private double playbackIndexFloat = 0.0; //floor this to get playbackIndex //todo: remove this and replace with time usages only?
     private double playbackSpeed = 1.0;//The speed at which playback will occur.
 
     private ArrayList<HistoryClearListener> historyClearListeners = new ArrayList<HistoryClearListener>();
@@ -69,7 +69,7 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     public void rewind() {
         setPlaybackIndexFloat(0.0);
     }
-
+    //todo: shouldn't there be a notification here?
     public void setTime(double t) {
         time = t;
     }
