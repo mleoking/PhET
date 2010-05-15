@@ -1,5 +1,8 @@
 package edu.colorado.phet.website;
 
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.distribution.MulticastKeepaliveHeartbeatSender;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -383,6 +386,10 @@ public class PhetWicketApplication extends WebApplication {
         logger.info( "Shutting down PhetWicketApplication" );
         NotificationHandler.destroy();
         SearchUtils.destroy();
+
+        logger.info( HibernateUtils.getInstance().getCache().getClass().getCanonicalName() );
+
+        CacheManager.getInstance().shutdown();
     }
 
     public static String getProductionServerName() {
