@@ -184,11 +184,11 @@ public class BatteryCapacitorCircuit {
         return getPlatesEField() - getEffectiveEfield();
     }
     
-    /*
+    /**
      * Gets the surface density charge on the plates.
      * @return Coulombs/meters^2
      */
-    private double getSurfaceDensityCharge() {
+    public double getSurfaceDensityCharge() {
         double Q = getPlateCharge(); // Coulombs
         double A = capacitor.getPlateArea(); // meters^2
         double sigma = Q / A; // Colulombs/meters^2
