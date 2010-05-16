@@ -57,6 +57,7 @@ public class DeveloperMeterNode extends PhetPNode {
     private final ValueNode plateSeparationNode;
     private final ValueNode capacitanceNode;
     private final ValueNode plateChargeNode, excessPlateChargeNode;
+    private final ValueNode surfaceChargeDensityNode;
     private final ValueNode effectiveFieldNode, plateFieldNode, dielectricFieldNode;
     private final ValueNode energyStoredNode;
     
@@ -92,10 +93,6 @@ public class DeveloperMeterNode extends PhetPNode {
             }
         });
         model.getBattery().addBatteryChangeListener( new BatteryChangeListener() {
-
-            public void connectedChanged() {
-                updateValues();
-            }
 
             public void polarityChanged() {
                 updateValues();
@@ -161,6 +158,8 @@ public class DeveloperMeterNode extends PhetPNode {
         parentNode.addChild( plateChargeNode );
         excessPlateChargeNode = new ValueNode( "Q<sub>excess</sub> (excess plate charge)", "C", "0.00E00" );
         parentNode.addChild( excessPlateChargeNode );
+        surfaceChargeDensityNode = new ValueNode( CLStrings.SIGMA + " (surface charge density)", "C/m<sup>2</sup>", "0.00E00" );
+        parentNode.addChild( surfaceChargeDensityNode );
         effectiveFieldNode = new ValueNode( "E<sub>effective</sub>", "V/m", "0.000" );
         parentNode.addChild( effectiveFieldNode );
         plateFieldNode = new ValueNode( "E<sub>plate</sub>", "V/m", "0.000" );
@@ -199,6 +198,7 @@ public class DeveloperMeterNode extends PhetPNode {
         plateSeparationNode.setValue( model.getCapacitor().getPlateSeparation() );
         capacitanceNode.setValue( model.getCircuit().getCapacitance() );
         plateChargeNode.setValue( model.getCircuit().getPlateCharge() );
+        surfaceChargeDensityNode.setValue( model.getCircuit().getSurfaceDensityCharge() );
         excessPlateChargeNode.setValue( model.getCircuit().getExcessPlateCharge() );
         effectiveFieldNode.setValue( model.getCircuit().getEffectiveEfield() );
         plateFieldNode.setValue( model.getCircuit().getPlatesEField() );
