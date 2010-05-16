@@ -1,6 +1,8 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
+- why is Eclipse suddenly not finding inner classes?
+- combine plate charge meter and slider into one thing?
 - add ranges for model quantities to design doc
 - model changes and fixes identified by Noah
 - add symbols and units summary to design doc
@@ -15,6 +17,7 @@ HIGH PRIORITY
 - charge and excess charge on dielectric (see notes)
 
 MEDUIUM PRIORITY
+- derive PlateChargeMeterNode.MAX_EXPONENT
 - edges where dielectric and bottom plate meet don't match up perfectly
 - use air as the dielectric material in Introduction module
 - make air dielectric invisible
