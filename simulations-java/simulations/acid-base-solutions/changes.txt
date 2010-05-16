@@ -1,3 +1,10 @@
+5/13/10 increase Ka max to 1000
+5/13/10 remove drag handlers from magnifying glass and beaker
+5/13/10 update layout as magnifying glass and beaker sizes are changed
+5/13/10 pull up molecule counts to canvas child
+5/13/10 pull up reaction equation to canvas child
+5/13/10 change layout of slider controls so that they take up less horizontal space
+5/13/10 add a dummy second module (tab) to take up vertical space
 # 0.00.07 (40474) May 6, 2010
 5/6/10 prototype: revert to single-layer representation of H2O
 # 0.00.06 (40054) Apr 23, 2010
