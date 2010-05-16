@@ -1,7 +1,7 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
-- E_dielectric should be 0 when dielectric constants = 1
+- E_dielectric should be 0 when dielectric constant = 1
 - E_dielectric should be 0 when dielectric is fully removed from the capacitor
 - why is Eclipse suddenly not finding inner classes?
 - combine plate charge meter and slider into one thing?
