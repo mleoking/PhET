@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.geom.Point2D;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
@@ -203,6 +204,15 @@ public class BatteryCapacitorCircuit {
         double V = battery.getVoltage(); // V
         double U = 0.5 * C * V * V; // Joules (J)
         return U;
+    }
+    
+    public static double getMaxPlateCharge() {
+        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
+        Capacitor capacitor = new Capacitor( new Point2D.Double(), 
+                CLConstants.PLATE_SIZE_RANGE.getMax(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, 0 /* dielectricOffset */ );
+        Battery battery = new Battery( new Point2D.Double(), CLConstants.BATTERY_VOLTAGE_RANGE.getMax(), true );
+        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( battery, capacitor );
+        return circuit.getPlateCharge();
     }
     
     private void updateDielectricListener() {

@@ -13,10 +13,6 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
  */
 class WeakAcid extends Changeable {
     
-    private static final double Kw = 1E-14; // water equilibrium constant
-    private static final double W = 55.6; // water concentration, mol/L
-    private static final double AVOGADROS_NUMBER = 6.022E23;
-    
     private double concentration, strength;
     private Color color;
     
@@ -87,12 +83,12 @@ class WeakAcid extends Changeable {
     
     // [OH-] = Kw / [H3O+]
     public double getConcentrationOH() {
-        return Kw / getConcentrationH3O();
+        return MGPConstants.Kw / getConcentrationH3O();
     }
     
     // [H2O] = W - [A-]
     public double getConcentrationH2O() {
-        return W - getConcentrationA();
+        return MGPConstants.W - getConcentrationA();
     }
     
     public double getConcentrationH3O( double pH ) {
@@ -124,6 +120,6 @@ class WeakAcid extends Changeable {
     }
     
     protected static double getMoleculeCount( double concentration ) {
-        return concentration * AVOGADROS_NUMBER;
+        return concentration * MGPConstants.AVOGADROS_NUMBER;
     }
 }

@@ -35,6 +35,11 @@ class MGPConstants {
     // magnifying glass
     public static final IntegerRange MAGNIFYING_GLASS_DIAMETER_RANGE = new IntegerRange( 100, 900, 500 );
     
+    // model constants
+    public static final double Kw = 1E-14; // water equilibrium constant
+    public static final double W = 55.6; // water concentration, mol/L
+    public static final double AVOGADROS_NUMBER = 6.022E23;
+    
     // weak acid
     public static final DoubleRange WEAK_ACID_CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
     public static final DoubleRange WEAK_ACID_STRENGTH_RANGE = new DoubleRange( 1E-10, 1000 );

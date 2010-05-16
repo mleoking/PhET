@@ -75,9 +75,14 @@ public abstract class DielectricMaterial {
         private final EventListenerList listeners;
         
         public CustomDielectricMaterial() {
-            super( CLStrings.MATERIAL_CUSTOM, CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault(), new Color( 255, 161, 23 ) /* orange */ );
+            this( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
+        }
+      
+        public CustomDielectricMaterial( double dielectricConstant ) {
+            super( CLStrings.MATERIAL_CUSTOM, dielectricConstant, new Color( 255, 161, 23 ) /* orange */ );
             listeners = new EventListenerList();
         }
+        
         
         /**
          * Dielectric constant is mutable for our custom material.
