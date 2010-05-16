@@ -17,7 +17,7 @@ A_dielectric = area dielectric between plates, meters^2 = ( L - offset ) * L
 C = capacitance, Farads = ( ( A_dielectric * sigma_r / A ) + ( ( A - A_dielectric ) * sigma_a / A ) ) * ( sigma_0 * A / d )
 Q = plate charge, Coulombs = C * V
 sigma = surface charge density, Coulombs/meters^2 = Q / A
-E_effective = effective field, V/m = sigma / ( epsilon_r * epsilon_0)
-E_plates = field due to plates, V/m = sigma / epsilon_0
-E_dielectric =field due to dielectric, V/m = E_plates - E_effective
+E_effective = effective field, Volts/meter = sigma / ( epsilon_r * epsilon_0)
+E_plates = field due to plates, Volts/meter = sigma / epsilon_0
+E_dielectric =field due to dielectric, Volts/meter = E_plates - E_effective
 U = stored energy, Joules = 0.5 * C * V * V
