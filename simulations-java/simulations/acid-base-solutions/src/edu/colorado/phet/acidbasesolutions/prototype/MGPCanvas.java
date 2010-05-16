@@ -20,6 +20,7 @@ class MGPCanvas extends PhetPCanvas {
     private final PNode rootNode;
     private final MagnifyingGlassNode magnifyingGlassNode;
     private final BeakerNode beakerNode;
+    private final PHMeterNode pHMeterNode;
     private final PNode reactionEquationNode;
     private final MoleculeCountsNode countsNode;
 
@@ -48,6 +49,8 @@ class MGPCanvas extends PhetPCanvas {
             }
         });
         
+        pHMeterNode = new PHMeterNode( model.getSolution() );
+        
         reactionEquationNode = new WeakAcidReactionEquationNode();
         reactionEquationNode.scale( 1.2 );
         
@@ -58,6 +61,7 @@ class MGPCanvas extends PhetPCanvas {
         // rendering order
         addChild( beakerNode );
         addChild( magnifyingGlassNode );
+        addChild( pHMeterNode );
         addChild( reactionEquationNode );
         if ( dev ) {
             addChild( countsNode );
@@ -86,5 +90,8 @@ class MGPCanvas extends PhetPCanvas {
         y = reactionEquationNode.getFullBoundsReference().getMinY() - beakerNode.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( beakerNode ) - 20;
         beakerNode.setOffset( x, y );
         magnifyingGlassNode.setOffset( x, y );
+        x = beakerNode.getFullBoundsReference().getMinX() + 50;
+        y = beakerNode.getFullBoundsReference().getMinY() - 20 ;
+        pHMeterNode.setOffset( x, y );
     }
 }

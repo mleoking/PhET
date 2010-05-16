@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -27,7 +26,6 @@ class BeakerNode extends PComposite {
     
     private static final Stroke STROKE = new BasicStroke( 6f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final Color STROKE_COLOR = Color.BLACK;
-    private static final DecimalFormat PH_FORMAT = new DecimalFormat( "0.00" );
     
     private static final String[] MAJOR_TICK_LABELS = { null, "1" }; // nothing, 1L
     private static final Color TICK_COLOR = Color.BLACK;
@@ -46,7 +44,6 @@ class BeakerNode extends PComposite {
     private final GeneralPath outlinePath; 
     private final Rectangle2D solutionRectangle;
     private final PComposite ticksNode;
-    private final PText pHNode;
     
     public BeakerNode( Beaker beaker, WeakAcid solution, MagnifyingGlassNode magnifyingGlassNode, boolean dev ) {
         super();
@@ -81,10 +78,6 @@ class BeakerNode extends PComposite {
         ticksNode = new PComposite();
         addChild( ticksNode );
         
-        pHNode = new PText( "?" );
-        pHNode.scale( 2.5 );
-        addChild( pHNode );
-        
         update();
     }
     
@@ -92,7 +85,6 @@ class BeakerNode extends PComposite {
         updateBeaker();
         updateTicks();
         updateSolution();
-        updatePH();
     }
     
     private void updateBeaker() {
@@ -154,12 +146,5 @@ class BeakerNode extends PComposite {
                 ticksNode.addChild( tickNode );
             }
         }
-    }
-    
-    private void updatePH() {
-        pHNode.setText( "pH = " + PH_FORMAT.format( solution.getPH() ) );
-        double x = -pHNode.getFullBoundsReference().getWidth()/2;
-        double y = -beaker.getHeight()/2 - pHNode.getFullBoundsReference().getHeight() - 5;
-        pHNode.setOffset( x, y );
     }
 }
