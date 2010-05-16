@@ -1,3 +1,4 @@
+5/15/10 prototype: move some model constants to MGPConstants
 5/15/10 prototype: get rid of flashing white rectangle behind magnifying glass that started with 5/13 changes
 5/15/10 prototype: move pH meter out of beaker node and on to canvas
 5/13/10 prototype: increase Ka max to 1000
