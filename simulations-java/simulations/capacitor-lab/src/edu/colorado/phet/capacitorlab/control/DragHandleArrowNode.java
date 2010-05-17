@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
@@ -18,8 +19,8 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
  */
 public class DragHandleArrowNode extends DoubleArrowNode {
     
-    private static final Color NORMAL_COLOR = Color.GREEN;
-    private static final Color HIGHLIGHT_COLOR = Color.YELLOW;
+    private static final Color NORMAL_COLOR = CLPaints.DRAGGABLE_NORMAL;
+    private static final Color HIGHLIGHT_COLOR = CLPaints.DRAGGABLE_HIGHLIGHT;
     private static final Color STOKE_COLOR = Color.BLACK;
     private static final Stroke STROKE = new BasicStroke( 1f );
 

@@ -37,6 +37,7 @@ public class BatteryCapacitorCircuit {
         
         listeners = new EventListenerList();
         batteryConnected = true;
+        userPlateCharge = 0;
         
         this.battery = battery;
         battery.addBatteryChangeListener( new BatteryChangeAdapter() {
@@ -95,6 +96,22 @@ public class BatteryCapacitorCircuit {
         updateDielectricListener();
     }
     
+    public void setUserPlateCharge( double userPlateCharge ) {
+        if ( userPlateCharge != this.userPlateCharge ) {
+            this.userPlateCharge = userPlateCharge;
+            if ( !isBatteryConnected() ) {
+                fireChargeChanged();
+                fireVoltageChanged();
+                fireEfieldChanged();
+                fireEnergyChanged();
+            }
+        }
+    }
+    
+    public double getUserPlateCharge() {
+        return userPlateCharge;
+    }
+    
     public Battery getBattery() {
         return battery;
     }
@@ -131,7 +148,7 @@ public class BatteryCapacitorCircuit {
             voltage = battery.getVoltage();
         }
         else {
-            voltage = getUserPlateCharge() / getCapacitance();
+            voltage = getPlateCharge() / getCapacitance();
         }
         return voltage;
     }
@@ -157,7 +174,7 @@ public class BatteryCapacitorCircuit {
      * 
      * @return charge, in Coulombs (C)
      */
-    public double getUserPlateCharge() {
+    public double getPlateCharge() {
         double Q = 0;
         if ( isBatteryConnected() ) {
             double C = getCapacitance(); // Farads
@@ -221,7 +238,7 @@ public class BatteryCapacitorCircuit {
      * @return Coulombs/meters^2
      */
     public double getSurfaceDensityCharge() {
-        double Q = getUserPlateCharge(); // Coulombs
+        double Q = getPlateCharge(); // Coulombs
         double A = capacitor.getPlateArea(); // meters^2
         double sigma = Q / A; // Colulombs/meters^2
         return sigma;
@@ -244,7 +261,7 @@ public class BatteryCapacitorCircuit {
                 CLConstants.PLATE_SIZE_RANGE.getMax(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, 0 /* dielectricOffset */ );
         Battery battery = new Battery( new Point2D.Double(), CLConstants.BATTERY_VOLTAGE_RANGE.getMax(), true );
         BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( battery, capacitor );
-        return circuit.getUserPlateCharge();
+        return circuit.getPlateCharge();
     }
     
     private void updateDielectricListener() {

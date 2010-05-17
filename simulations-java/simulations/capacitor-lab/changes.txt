@@ -1,3 +1,4 @@
+5/17/10 custom Piccolo slider for plate charge, first pass
 5/17/10 change model so that user can set either voltage or charge
 5/17/10 create spreadsheet version of model, for verification and debugging
 5/17/10 revise model description
