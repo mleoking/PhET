@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -78,9 +79,9 @@ public class ParticleNode extends PNode {
 	}
 
 	/**
-     * Create the shape that will be used to represent this particular .
-     * This was created when we realized that many textbooks use different
-     * shapes for different s, rather than always a sphere.
+     * Create the shape that will be used to represent this particular
+     * particle.  This was created when we realized that many textbooks use
+     * different shapes for different chemicals, rather than always a sphere.
      * 
      * @return
      */
@@ -127,5 +128,8 @@ public class ParticleNode extends PNode {
     	}
     	
     	return representation;
+    	// TODO: For testing - comment out other return and use this to
+    	// convert to an image.
+//    	return new PImage(representation.toImage());
     }
 }

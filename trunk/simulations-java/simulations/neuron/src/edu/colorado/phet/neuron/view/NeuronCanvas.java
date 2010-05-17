@@ -12,7 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
@@ -56,6 +58,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private static final boolean SHOW_CENTER_CROSS_HAIR = false;
     private static final boolean SHOW_CHANNEL_LOCATIONS = false;
     private static final boolean SHOW_CAPTURE_ZONES = false;
+    private static final boolean SHOW_VIEWPORT_BOUNDS = true;
 
     // Max size of the charge symbols, tweak as needed.
     private static final double MAX_CHARGE_SYMBOL_SIZE = 11; 
@@ -100,6 +103,9 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private int paintCallCounter = 0;
     private int repaintCallCounter = 0;
     private PBounds repaintBounds = new PBounds();
+
+    private Rectangle2D viewportInIntermediateCoords = new Rectangle2D.Double();
+	private PhetPPath viewportOutline;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -233,6 +239,12 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         	crossHairNode.setOffset(mvt.modelToViewDouble(new Point2D.Double(0, 0)));
         	chartLayer.addChild(crossHairNode);
         }
+
+        // Add the viewport bounds, used for debugging.
+        if (SHOW_VIEWPORT_BOUNDS){
+        	viewportOutline = new PhetPPath(new BasicStroke(10f), Color.PINK);
+        	addWorldChild(viewportOutline);
+        }
         
         // Update the layout.
         updateLayout();
@@ -262,7 +274,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     public void repaint(PBounds bounds) {
     	repaintCallCounter++;
 		// Intercept the repaint request and expand the bounds to handle it.
-    	// The repaint will be performed at the next clock tick.  THis is an
+    	// The repaint will be performed at the next clock tick.  This is an
     	// optimization to try to make the sim consume less CPU time.
     	repaintBounds.add(bounds);
 	}
@@ -288,6 +300,33 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
             membranePotentialChart.setOffset(
             		centerX - membranePotentialChart.getFullBoundsReference().width / 2,
             		screenSize.getHeight() - membranePotentialChart.getFullBoundsReference().height - 5);
+            
+        	// Set up some bounds that represent the size of the screen in
+        	// intermediate coordinates.
+    		
+    		AffineTransform transform = getWorldTransformStrategy().getTransform();
+    		AffineTransform inverseTransform;
+    		try {
+    			inverseTransform = transform.createInverse();
+    		} catch (NoninvertibleTransformException e) {
+    			System.err.println(getClass().getName() + " - Error: Unable to invert transform.");
+    			e.printStackTrace();
+    			inverseTransform = new AffineTransform(); // Unity transform by default.
+    		}
+    		Rectangle2D tranformedBounds = inverseTransform.createTransformedShape(getBounds()).getBounds2D();
+    		
+    		if (SHOW_VIEWPORT_BOUNDS){
+    			double margin = 10;
+    			viewportOutline.setPathTo(
+    					new Rectangle2D.Double(
+    							tranformedBounds.getX() + margin,
+    							tranformedBounds.getY() + margin, 
+    							tranformedBounds.getWidth() - 2 * margin, 
+    							tranformedBounds.getHeight() - 2 * margin));
+    			viewportOutline.setOffset(0, 0);
+    		}
+    		
+    		viewportInIntermediateCoords.setFrame(tranformedBounds);
         }
     }
     
