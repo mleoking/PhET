@@ -23,7 +23,7 @@
     // installer that can be used to host a web site) for all of the supported
     // platforms.
     //--------------------------------------------------------------------------
-    function installer_build_local_mirror_installers() {
+    function installer_build_local_mirror_installers($buildfile_name) {
 
         flushing_echo("Building all local mirror installers...");
 
@@ -34,7 +34,7 @@
         autorun_create_autorun_file(basename(BITROCK_DIST_SRC_WINNT));
 
         // Build Windows, Linux, Mac installers:
-        installer_build_installers("all");
+        installer_build_installers($buildfile_name, "all");
 
         // Build CD-ROM distribution:
         installer_build_cd_rom_distribution();
@@ -120,8 +120,13 @@
         // Write the timestamp into an HTML file that can be used to determine
         // the version of the sim installed.
         $version_info_file_name = RIPPED_WEBSITE_SIMS_PARENT_DIR.VERSION_INFO_FILE_NAME;
-        $version_info_html = "<html>\n<body>\n\n<p>Timestamp: ".$time."</p>\n<p>Date: ".$date.
-            "</p>\n<p>Distribution: ".$distribution_tag."</p>\n\n</body>\n</html>";
+        if (isset($distribution_tag)){
+            $version_info_html = "<html>\n<body>\n\n<p>Timestamp: ".$time."</p>\n<p>Date: ".$date.
+                "</p>\n<p>Distribution: ".$distribution_tag."</p>\n\n</body>\n</html>";
+        }
+        else{
+            $version_info_html = "<html>\n<body>\n\n<p>Timestamp: ".$time."</p>\n<p>Date: ".$date."</p>\n\n</body>\n</html>";
+        }
         file_put_contents_anywhere( $version_info_file_name, $version_info_html );
         
         // Write the timestamp to a temporary file so that we can use it later
@@ -344,17 +349,17 @@
         return file_remove_extension($distfile).".zip";
     }
 
-    function installer_build_installers($dist, $macro_map = array()) {
+    function installer_build_installers($buildfile_name, $dist, $macro_map = array()) {
         global $g_bitrock_dists;
 
         $build_prefix  = installer_get_full_dist_name($dist);
-        $buildfile_ext = file_get_extension(BITROCK_KSU_LOCAL_MIRROR_BUILDFILE);
+        $buildfile_ext = file_get_extension($buildfile_name);
 
         $new_buildfile = BITROCK_BUILDFILE_DIR."${build_prefix}.${buildfile_ext}";
 
         file_create_parents_of_file($new_buildfile);
 
-        if (!copy(BITROCK_KSU_LOCAL_MIRROR_BUILDFILE, $new_buildfile)) {
+        if (!copy($buildfile_name, $new_buildfile)) {
             return false;
         }
 
