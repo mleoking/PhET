@@ -55,12 +55,12 @@ public class SoundModule extends WaveInterferenceModule {
         soundModuleAudio.setActive( false );
     }
 
-    public SoundModule() {
+    public SoundModule(boolean dev) {
         super( WIStrings.getString( "module.sound" ) );
         waveInterferenceModel = new SoundModel();
         soundModuleAudio = new SoundModuleAudio( waveInterferenceModel );
         soundSimulationPanel = new SoundSimulationPanel( this );
-        soundControlPanel = new SoundControlPanel( this );
+        soundControlPanel = new SoundControlPanel( this,dev );
 
         addModelElement( waveInterferenceModel );
         addModelElement( soundSimulationPanel );
@@ -127,6 +127,6 @@ public class SoundModule extends WaveInterferenceModule {
     }
 
     public static void main( String[] args ) {
-        new ModuleApplication().startApplication( args, new SoundModule() );
+        new ModuleApplication().startApplication( args, new SoundModule(false) );
     }
 }

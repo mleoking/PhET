@@ -3,7 +3,6 @@ package edu.colorado.phet.waveinterference;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.*;
 
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
@@ -20,7 +19,7 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
     private MultiOscillatorControlPanel multiOscillatorControlPanel;
     private SlitControlPanel slitControlPanel;
 
-    public SoundControlPanel( SoundModule soundModule ) {
+    public SoundControlPanel(SoundModule soundModule, boolean dev) {
         this.soundModule = soundModule;
 //        addControl( new ParticleSizeSliderControl( soundModule.getSoundWaveGraphic() ) );
         addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
@@ -49,10 +48,12 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
 
         addControl( new AddWallPotentialButton( soundModule.getWaveInterferenceModel() ) );
 
-        addSupplementalControls();
+        if (dev){
+            addDeveloperControls();
+        }
     }
 
-    private void addSupplementalControls() {
+    private void addDeveloperControls() {
         final PressureWaveGraphic pressureWaveGraphic=soundModule.getSoundWaveGraphic().getPressureWaveGraphic();
 //        final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, pressureWaveGraphic.getDistBetweenCells() );
 //        cellDim.addChangeListener( new ChangeListener() {

@@ -19,7 +19,7 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
         super( config );
         WaveInterferenceMenu menu = new WaveInterferenceMenu();
         addModule( new WaterModule() );
-        addModule( new SoundModule() );
+        addModule( new SoundModule(config.isDev()) );
         LightModule lightModule = new LightModule();
         addModule( lightModule );
         menu.add( new ColorizeCheckBoxMenuItem( lightModule ) );
