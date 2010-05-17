@@ -47,6 +47,9 @@ public class DielectricCanvas extends CLCanvas {
     // meters
     private final PlateChargeMeterNode plateChargeMeterNode;
     
+    // controls
+    private final PlateChargeControlNode plateChargeControNode;
+    
     // drag bound
     private final Rectangle2D dragBoundsRectangle;
     private final PPath dragBoundsNode;
@@ -104,6 +107,8 @@ public class DielectricCanvas extends CLCanvas {
         plateChargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), dragBoundsNode );
         developerMeterNode = new DeveloperMeterNode( model, dragBoundsNode );
         
+        plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
+        
         // rendering order
         addChild( bottomWireNode );
         addChild( batteryNode );
@@ -115,6 +120,7 @@ public class DielectricCanvas extends CLCanvas {
         addChild( addWiresButtonNode );
         addChild( removeWiresButtonNode );
         addChild( plateChargeMeterNode );
+        addChild( plateChargeControNode );
         if ( dev ) {
             addChild( originNode );
             addChild( developerMeterNode );
@@ -147,7 +153,10 @@ public class DielectricCanvas extends CLCanvas {
             removeWiresButtonNode.setOffset( x, y );
             
             // Charge meter
-            plateChargeMeterNode.setOffset( 700, 50 ); //XXX
+            plateChargeMeterNode.setOffset( 800, 50 ); //XXX
+            
+            // Charge control
+            plateChargeControNode.setOffset( 600, 50  );//XXX
             
             // origin marker
             pModel.setLocation( 0, 0 );
@@ -185,6 +194,7 @@ public class DielectricCanvas extends CLCanvas {
         bottomWireNode.setVisible( isConnected );
         addWiresButtonNode.setVisible( !isConnected );
         removeWiresButtonNode.setVisible( isConnected );
+        plateChargeControNode.setVisible( !isConnected );
     }
     
     private void updateDielectricOffsetDragHandle() {

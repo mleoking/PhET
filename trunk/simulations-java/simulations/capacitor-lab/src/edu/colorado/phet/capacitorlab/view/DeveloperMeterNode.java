@@ -204,7 +204,7 @@ public class DeveloperMeterNode extends PhetPNode {
         
         // set values
         userVoltageNode.setValue( model.getCircuit().getVoltage() );
-        userPlateChargeNode.setValue( model.getCircuit().getUserPlateCharge() );
+        userPlateChargeNode.setValue( model.getCircuit().getPlateCharge() );
         plateSize.setValue( model.getCapacitor().getPlateSize() );
         plateAreaNode.setValue( model.getCapacitor().getPlateArea() );
         dielectricConstantNode.setValue( model.getCapacitor().getDielectricMaterial().getDielectricConstant() );
@@ -212,7 +212,7 @@ public class DeveloperMeterNode extends PhetPNode {
         plateSeparationNode.setValue( model.getCapacitor().getPlateSeparation() );
         capacitanceNode.setValue( model.getCircuit().getCapacitance() );
         voltageNode.setValue( model.getCircuit().getVoltage() );
-        plateChargeNode.setValue( model.getCircuit().getUserPlateCharge() );
+        plateChargeNode.setValue( model.getCircuit().getPlateCharge() );
         surfaceChargeDensityNode.setValue( model.getCircuit().getSurfaceDensityCharge() );
         excessPlateChargeNode.setValue( model.getCircuit().getExcessPlateCharge() );
         effectiveFieldNode.setValue( model.getCircuit().getEffectiveEfield() );
