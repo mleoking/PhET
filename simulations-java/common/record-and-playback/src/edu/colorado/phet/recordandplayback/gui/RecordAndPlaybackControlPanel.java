@@ -29,7 +29,7 @@ import java.util.ArrayList;
  */
 public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
     private RecordAndPlaybackModel<T> model;
-    private JComponent simPanel;
+    private JComponent simPanel;//used to determine the size of this component
     private PiccoloTimeControlPanel.BackgroundNode backgroundNode = new PiccoloTimeControlPanel.BackgroundNode();
     private ArrayList<PNode> nodes = new ArrayList<PNode>();
     private Dimension preferredSize = new Dimension(800, 100);
@@ -132,7 +132,6 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         setPreferredSize(preferredSize);
 
         simPanel.addComponentListener(new ComponentAdapter() {
-            @Override
             public void componentResized(ComponentEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
@@ -144,15 +143,14 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
 
         updateSize();
         addComponentListener(new ComponentAdapter() {
-            @Override
             public void componentResized(ComponentEvent e) {
-                myUpdateLayout();
+                updateControlPanelLayout();
             }
         });
-        myUpdateLayout();
+        updateControlPanelLayout();
     }
 
-    public void updatePlayPauseButton() {
+    private void updatePlayPauseButton() {
         playPause.setPlaying(!model.isPaused());
         playPauseTooltipHandler.setText(model.isPaused() ? PhetCommonResources.getString("Common.ClockControlPanel.Play") : PhetCommonResources.getString("Common.ClockControlPanel.Pause"));
     }
@@ -168,12 +166,12 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         nodes.add(node);
     }
 
-    public void updateRewindEnabled() {
+    private void updateRewindEnabled() {
         boolean enabled = model.isPlayback() && model.getNumRecordedPoints() > 0 && model.getTime() != model.getMinRecordedTime();
         rewind.setEnabled(enabled);
     }
 
-    public void myUpdateLayout() {
+    private void updateControlPanelLayout() {
         double buttonDX = 2;
         playPause.setOffset(getPreferredSize().width / 2 - playPause.getFullBounds().getWidth() / 2, playPause.getOffset().getY());
         rewind.setOffset(playPause.getFullBounds().getX() - rewind.getFullBounds().getWidth() - buttonDX, rewind.getOffset().getY());
@@ -196,7 +194,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         backgroundNode.setOffset(playPause.getFullBounds().getCenterX() - halfWidth, expanded.getY());
     }
 
-    void updateSize() {
+    private void updateSize() {
         if (simPanel.getWidth() > 0) {
             Dimension pref = new Dimension(simPanel.getWidth(), preferredSize.height);
             setPreferredSize(pref);
