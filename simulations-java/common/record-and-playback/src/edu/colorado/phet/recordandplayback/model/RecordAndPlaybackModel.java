@@ -69,9 +69,10 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
     public void rewind() {
         setPlaybackIndexFloat(0.0);
     }
-    //todo: shouldn't there be a notification here?
+
     public void setTime(double t) {
         time = t;
+        //todo: shouldn't there be a notification here?
     }
 
     public void resetAll() {
@@ -87,10 +88,12 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     public void addRecordedPoint(DataPoint<T> point) {
         recordHistory.add(point);
+        notifyObservers();
     }
 
     public void removeHistoryPoint(int point) {
         recordHistory.remove(point);
+        notifyObservers();
     }
 
     /**
@@ -245,5 +248,17 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     public static interface HistoryRemainderClearListener {
         void historyRemainderCleared();
+    }
+
+    public void startRecording() {
+        setRecord(true);
+        setPaused(false);
+    }
+
+    public void stepInTime() {
+        if (!isPaused()) {
+            if (isPlayback()) stepPlayback();
+            else stepRecord();
+        }
     }
 }
