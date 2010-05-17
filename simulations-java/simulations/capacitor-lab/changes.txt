@@ -1,3 +1,6 @@
+5/17/10 create spreadsheet version of model, for verification and debugging
+5/17/10 revise model description
+5/17/10 change format of values in Developer meter
 5/15/10 concise model description in doc/model.txt
 # 0.00.03 (40785) May 15, 2010
 5/15/10 add surface charge density to Developer Meter
