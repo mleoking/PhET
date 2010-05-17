@@ -16,6 +16,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeListener;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Air;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
@@ -49,13 +50,16 @@ public class DeveloperMeterNode extends PhetPNode {
     private final CLModel model;
     
     private final PComposite parentNode;
-    private final ValueNode voltageNode;
+    private final ValueNode userVoltageNode;
+    private final ValueNode userPlateChargeNode;
     private final ValueNode plateSize;
     private final ValueNode dielectricConstantNode;
     private final ValueNode plateAreaNode, dielectricContactAreaNode;
     private final ValueNode plateSeparationNode;
     private final ValueNode capacitanceNode;
-    private final ValueNode plateChargeNode, excessPlateChargeNode;
+    private final ValueNode voltageNode;
+    private final ValueNode plateChargeNode;
+    private final ValueNode excessPlateChargeNode;
     private final ValueNode surfaceChargeDensityNode;
     private final ValueNode effectiveFieldNode, plateFieldNode, dielectricFieldNode;
     private final ValueNode energyStoredNode;
@@ -72,6 +76,12 @@ public class DeveloperMeterNode extends PhetPNode {
     public DeveloperMeterNode( CLModel model, PNode dragBoundsNode ) {
         
         this.model = model;
+        model.getCircuit().addBatteryCapacitorCircuitChangeListener( new  BatteryCapacitorCircuitChangeAdapter() {
+            @Override
+            public void batteryConnectedChanged() {
+                updateValues();
+            }
+        });
         model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeListener() {
 
             public void dielectricMaterialChanged() {
@@ -136,8 +146,10 @@ public class DeveloperMeterNode extends PhetPNode {
         
         parentNode.addChild( new PText( " " ) );
         parentNode.addChild( new PText( "User Settings ....................................................." ) );
-        voltageNode = new ValueNode( "V (voltage)", "V", "0.0" );
-        parentNode.addChild( voltageNode );
+        userVoltageNode = new ValueNode( "V<sub>battery</sub> (voltage)", "V", "0.00" );
+        parentNode.addChild( userVoltageNode );
+        userPlateChargeNode = new ValueNode( "Q<sub>user</sub> (plate charge)", "Coulombs", "0.000E00" );
+        parentNode.addChild( userPlateChargeNode );
         plateSize = new ValueNode( "L (plate side length)", "m", "0.0000" );
         parentNode.addChild( plateSize );
         plateSeparationNode = new ValueNode( "d (plate separation)", "m", "0.0000" );
@@ -153,6 +165,8 @@ public class DeveloperMeterNode extends PhetPNode {
         parentNode.addChild( dielectricContactAreaNode );
         capacitanceNode = new ValueNode( "C (capacitance)", "F", "0.000E00" );
         parentNode.addChild( capacitanceNode );
+        voltageNode = new ValueNode( "V (voltage)", "V", "0.00" );
+        parentNode.addChild( voltageNode );
         plateChargeNode = new ValueNode( "Q (plate charge)", "C", "0.000E00" );
         parentNode.addChild( plateChargeNode );
         excessPlateChargeNode = new ValueNode( "Q<sub>excess</sub> (excess plate charge)", "C", "0.000E00" );
@@ -189,13 +203,15 @@ public class DeveloperMeterNode extends PhetPNode {
     private void updateValues() {
         
         // set values
-        voltageNode.setValue( model.getBattery().getVoltage() );
+        userVoltageNode.setValue( model.getCircuit().getVoltage() );
+        userPlateChargeNode.setValue( model.getCircuit().getPlateCharge() );
         plateSize.setValue( model.getCapacitor().getPlateSize() );
         plateAreaNode.setValue( model.getCapacitor().getPlateArea() );
         dielectricConstantNode.setValue( model.getCapacitor().getDielectricMaterial().getDielectricConstant() );
         dielectricContactAreaNode.setValue( model.getCapacitor().getDielectricContactArea() );
         plateSeparationNode.setValue( model.getCapacitor().getPlateSeparation() );
         capacitanceNode.setValue( model.getCircuit().getCapacitance() );
+        voltageNode.setValue( model.getCircuit().getVoltage() );
         plateChargeNode.setValue( model.getCircuit().getPlateCharge() );
         surfaceChargeDensityNode.setValue( model.getCircuit().getSurfaceDensityCharge() );
         excessPlateChargeNode.setValue( model.getCircuit().getExcessPlateCharge() );
@@ -203,6 +219,11 @@ public class DeveloperMeterNode extends PhetPNode {
         plateFieldNode.setValue( model.getCircuit().getPlatesEField() );
         dielectricFieldNode.setValue( model.getCircuit().getDielectricEField() );
         energyStoredNode.setValue( model.getCircuit().getStoredEnergy() );
+        
+        // visibility
+        boolean batteryConnected = model.getCircuit().isBatteryConnected();
+        userVoltageNode.setVisible( batteryConnected );
+        userPlateChargeNode.setVisible( !batteryConnected );
         
         // layout
         layoutColumnLeftAlign( parentNode );
@@ -238,18 +259,24 @@ public class DeveloperMeterNode extends PhetPNode {
     /*
      * Layouts out children of this node in one column, left aligned.
      * They will appear in the order that they were added as children.
+     * Invisible children are skipped.
      */
     private void layoutColumnLeftAlign( PNode parentNode ) {
         double ySpacing = 2;
         double x = 0;
         double y = 0;
+        PNode previousNode = null;
         for ( int i = 0; i < parentNode.getChildrenCount(); i++ ) {
-            if ( i == 0 ) {
-                parentNode.getChild( i ).setOffset( x, y );
-            }
-            else {
-                y = parentNode.getChild( i - 1 ).getFullBoundsReference().getMaxY() + ySpacing;
-                parentNode.getChild( i ).setOffset( x, y );
+            PNode child = parentNode.getChild( i );
+            if ( child.getVisible() ) {
+                if ( previousNode == null ) {
+                    child.setOffset( x, y );
+                }
+                else {
+                    y = previousNode.getFullBoundsReference().getMaxY() + ySpacing;
+                    child.setOffset( x, y );
+                }
+                previousNode = child;
             }
         }
     }
