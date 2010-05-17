@@ -13,7 +13,6 @@ import java.text.NumberFormat;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeListener;
@@ -136,7 +135,7 @@ public class DeveloperMeterNode extends PhetPNode {
         parentNode.addChild( airDielectricConstantNode );
         
         parentNode.addChild( new PText( " " ) );
-        parentNode.addChild( new PText( "Settings ....................................................." ) );
+        parentNode.addChild( new PText( "User Settings ....................................................." ) );
         voltageNode = new ValueNode( "V (voltage)", "V", "0.0" );
         parentNode.addChild( voltageNode );
         plateSize = new ValueNode( "L (plate side length)", "m", "0.0000" );
@@ -148,25 +147,25 @@ public class DeveloperMeterNode extends PhetPNode {
         
         parentNode.addChild( new PText( " " ) );
         parentNode.addChild( new PText( "Derived ....................................................." ) );
-        plateAreaNode = new ValueNode( "A (plate area)", "m<sup>2</sup>", "0.0E00" );
+        plateAreaNode = new ValueNode( "A (plate area)", "m<sup>2</sup>", "0.000000" );
         parentNode.addChild( plateAreaNode );
-        dielectricContactAreaNode = new ValueNode( "A<sub>d</sub> (dielectric contact area)", "m<sup>2</sup>", "0.0E00" );
+        dielectricContactAreaNode = new ValueNode( "A<sub>d</sub> (dielectric contact area)", "m<sup>2</sup>", "0.000000" );
         parentNode.addChild( dielectricContactAreaNode );
-        capacitanceNode = new ValueNode( "C (capacitance)", "F", "0.00E00" );
+        capacitanceNode = new ValueNode( "C (capacitance)", "F", "0.000E00" );
         parentNode.addChild( capacitanceNode );
-        plateChargeNode = new ValueNode( "Q (plate charge)", "C", "0.00E00" );
+        plateChargeNode = new ValueNode( "Q (plate charge)", "C", "0.000E00" );
         parentNode.addChild( plateChargeNode );
-        excessPlateChargeNode = new ValueNode( "Q<sub>excess</sub> (excess plate charge)", "C", "0.00E00" );
+        excessPlateChargeNode = new ValueNode( "Q<sub>excess</sub> (excess plate charge)", "C", "0.000E00" );
         parentNode.addChild( excessPlateChargeNode );
-        surfaceChargeDensityNode = new ValueNode( CLStrings.SIGMA + " (surface charge density)", "C/m<sup>2</sup>", "0.00E00" );
+        surfaceChargeDensityNode = new ValueNode( CLStrings.SIGMA + " (surface charge density)", "C/m<sup>2</sup>", "0.000E00" );
         parentNode.addChild( surfaceChargeDensityNode );
-        effectiveFieldNode = new ValueNode( "E<sub>effective</sub>", "V/m", "0.000" );
+        effectiveFieldNode = new ValueNode( "E<sub>effective</sub>", "V/m", "0.000E00" );
         parentNode.addChild( effectiveFieldNode );
-        plateFieldNode = new ValueNode( "E<sub>plate</sub>", "V/m", "0.000" );
+        plateFieldNode = new ValueNode( "E<sub>plate</sub>", "V/m", "0.000E00" );
         parentNode.addChild( plateFieldNode );
-        dielectricFieldNode = new ValueNode( "E<sub>dielectric</sub>", "V/m", "0.000" );
+        dielectricFieldNode = new ValueNode( "E<sub>dielectric</sub>", "V/m", "0.000E00" );
         parentNode.addChild( dielectricFieldNode );
-        energyStoredNode = new ValueNode( "U (energy stored)", "J", "0.00E00" );
+        energyStoredNode = new ValueNode( "U (energy stored)", "J", "0.000E00" );
         parentNode.addChild( energyStoredNode );
         
         // close button
