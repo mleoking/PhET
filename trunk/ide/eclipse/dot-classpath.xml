@@ -62,6 +62,7 @@
 	<classpathentry kind="src" path="simulations-java/common/piccolo-phet/data"/>
 	<classpathentry kind="src" path="simulations-java/common/quantum/src"/>
 	<classpathentry kind="src" path="simulations-java/common/quantum/data"/>
+	<classpathentry kind="src" path="simulations-java/common/record-and-playback/src"/>
 	<classpathentry kind="src" path="simulations-java/common/timeseries/src"/>
 	<classpathentry kind="src" path="simulations-java/common/timeseries/data"/>
 	
