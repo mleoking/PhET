@@ -37,7 +37,10 @@
     //--------------------------------------------------------------------------
     function ripper_rip_website($config) {
         flushing_echo("Ripping website, config = ".$config);
-        if ($config == "YF"){
+        if ($config == "PHET"){
+            $ripper_args = RIPPER_ARGS_PHET;
+        }
+        else if ($config == "YF"){
             $ripper_args = RIPPER_ARGS_YF;
         }
         else if ($config == "KSU"){
@@ -47,10 +50,6 @@
             flushing_echo("ERROR: Unknown rip config ".$config.", assuming YF.");
             $ripper_args = RIPPER_ARGS_YF;
         }
-
-        flushing_echo("Obtaining ripper version with command: ".RIPPER_EXE." ".RIPPER_VERSION_ARGS);
-
-        exec(RIPPER_EXE." ".RIPPER_VERSION_ARGS);
 
         flushing_echo("Command for ripping web site: ".RIPPER_EXE." ".$ripper_args);
 

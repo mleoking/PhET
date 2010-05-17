@@ -46,14 +46,15 @@
     define("PHET_ENGLISH_WEBSITE_URL",          PHET_ROOT_URL.ENGLISH_LOCALE_STRING."/");
     define("PHET_ARABIC_WEBSITE_URL",           PHET_ROOT_URL.ARABIC_LOCALE_STRING."/");
     define("PHET_SIMS_SUBDIR",                  "sims/");
-    // Definition of the filter, which specifies what to include/exclude from
+
+    // Definition of the filters, which specify what to include/exclude from
     // the rip.  These filters are meant to capture the entire web site as
-    // needed for a specific customer.  So far, that generally means getting
-    // it for a particular language.
-    define("PHET_RIPPER_FILTER_YF",                '"-*wickettest*"'.' '.
-       CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*'));
-    define("PHET_RIPPER_FILTER_KSU",                '"-*wickettest*"'.' '.
-       CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*'));
+    // needed for either the PhET installers or customized for a specific
+    // customer.  So far, that generally means getting it for a particular language.
+    define("PHET_RIPPER_FILTER_PHET", '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*'));
+    define("PHET_RIPPER_FILTER_YF",   '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'ar/*'));
+    define("PHET_RIPPER_FILTER_KSU",  '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*'));
+
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
     // filters when doing testing that requires a lot of iterations, since 
@@ -179,17 +180,20 @@
     // User agent to indicate when ripping.  These are used to make the web site
     // react somewhat differently (generally filtering out some links) when it
     // is being ripped for the installers.
-    define("RIPPER_USER_AGENT_YF",   '"httrack-web-mirror-yf"');
-    define("RIPPER_USER_AGENT_KSU",  '"httrack-web-mirror-ar"');
+    define("RIPPER_USER_AGENT_PHET",  '"httrack-web-mirror-phet"');
+    define("RIPPER_USER_AGENT_YF",    '"httrack-web-mirror-yf"');
+    define("RIPPER_USER_AGENT_KSU",   '"httrack-web-mirror-ar"');
 
-    // Command-line args of the ripper:
+    // Command-line args for the ripper.
     define("RIPPER_OPTIONS", " -j %q0 -%e0 -r10 -s0 -A100000000 --disable-security-limits ");
+    define("RIPPER_ARGS_PHET", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_PHET." -F ".RIPPER_USER_AGENT_PHET.RIPPER_OPTIONS);
     define("RIPPER_ARGS_YF", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_YF." -F ".RIPPER_USER_AGENT_YF.RIPPER_OPTIONS);
     define("RIPPER_ARGS_KSU", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_KSU." -F ".RIPPER_USER_AGENT_KSU.RIPPER_OPTIONS);
     define("RIPPER_VERSION_ARGS", " --version");
 
     // Command-line args for a quicker, lighter, less complete rip of the web
-    // site.  This exists primarily for testing purposes.
+    // site.  These exist primarily for testing purposes.
+    define("RIPPER_ARGS_SUBSET_PHET", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT_PHET.' -j %q0 -%e0 -r10');
     define("RIPPER_ARGS_SUBSET_YF", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT_YF.' -j %q0 -%e0 -r10');
     define("RIPPER_ARGS_SUBSET_KSU", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT_KSU.' -j %q0 -%e0 -r10');
 
