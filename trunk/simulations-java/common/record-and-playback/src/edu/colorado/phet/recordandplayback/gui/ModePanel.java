@@ -10,6 +10,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The ModePanel indicates whether the sim is in record or playback mode; the record or playback text is highlighted
+ * in red if the sim is indeed recording or playing back (may not be if recording time is full or sim is paused).
+ *
+ * @author Sam Reid
+ * @param <T> the model type
+ */
 public class ModePanel<T> extends JPanel {
 
     public ModePanel(final RecordAndPlaybackModel<T> model) {

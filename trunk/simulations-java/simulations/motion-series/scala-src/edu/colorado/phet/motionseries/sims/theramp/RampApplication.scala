@@ -42,9 +42,7 @@ class BasicRampModule(frame: PhetFrame,
   setControlPanel(rampControlPanel)
 
   //Set the clock control panel
-  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, rampCanvas, new RecordAndPlaybackControlPanel.Function{
-    def createControl = new PlaybackSpeedSlider(motionSeriesModel)
-  }, Color.blue, 20))
+  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, rampCanvas, Color.blue, 20))
 }
 
 /**

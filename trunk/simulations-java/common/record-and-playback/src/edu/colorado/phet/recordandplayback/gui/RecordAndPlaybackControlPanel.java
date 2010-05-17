@@ -8,9 +8,6 @@ import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.*;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -23,55 +20,47 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+/**
+ * The RecordAndPlaybackControlPanel is a replacement for the time control panel in phet simulations that
+ * uses a RecordAndPlaybackModel to allow recording and playback of a sim.
+ *
+ * @author Sam Reid
+ * @param <T> the type of model state that is being recorded, typically immutable
+ */
 public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
-    RecordAndPlaybackModel<T> model;
-    JComponent simPanel;
-    Function createRightControl;
-    Color timelineColor;
-    double maxTime;
-
-    PiccoloTimeControlPanel.BackgroundNode backgroundNode = new PiccoloTimeControlPanel.BackgroundNode();
+    private RecordAndPlaybackModel<T> model;
+    private JComponent simPanel;
+    private PiccoloTimeControlPanel.BackgroundNode backgroundNode = new PiccoloTimeControlPanel.BackgroundNode();
     private ArrayList<PNode> nodes = new ArrayList<PNode>();
-    private Dimension prefSizeM = new Dimension(800, 100);
-    ModePanel<T> modePanel;
-    JButton clearButton = new JButton(PhetCommonResources.getString("Common.clear"));
-    PNode rightmostControl;
-    RewindButton rewind = new RewindButton(50);
+    private Dimension preferredSize = new Dimension(800, 100);
+    private JButton clearButton = new JButton(PhetCommonResources.getString("Common.clear"));
+    private PNode rightmostControl;
+    private RewindButton rewind = new RewindButton(50);
+    private PSwing clearButtonNode = new PSwing(clearButton);
+    private PSwing modePanelNode;
+    private PlayPauseButton playPause = new PlayPauseButton(75);
+    private ToolTipHandler playPauseTooltipHandler = new ToolTipHandler(PhetCommonResources.getString("Common.ClockControlPanel.Pause"), this);
+    private StepButton stepButton = new StepButton(50);
 
-    PSwing clearButtonNode = new PSwing(clearButton);
-    PSwing modePanelNode;
-
-    PlayPauseButton playPause = new PlayPauseButton(75);
-
-    ToolTipHandler playPauseTooltipHandler = new ToolTipHandler(PhetCommonResources.getString("Common.ClockControlPanel.Pause"), this);
-
-    public void updatePlayPauseButton() {
-        playPause.setPlaying(!model.isPaused());
-        playPauseTooltipHandler.setText(model.isPaused() ? PhetCommonResources.getString("Common.ClockControlPanel.Play") : PhetCommonResources.getString("Common.ClockControlPanel.Pause"));
-    }
-
-    StepButton stepButton = new StepButton(50);
-    TimelineNode timeline;
-
-    public static interface Function {
-        PNode createControl();
+    public RecordAndPlaybackControlPanel(final RecordAndPlaybackModel<T> model, JComponent simPanel, Color timelineColor, double maxTime) {
+        this(model, simPanel, new Function() {
+            public PNode createControl() {
+                return new PlaybackSpeedSlider<T>(model);
+            }
+        }, timelineColor, maxTime);
     }
 
     public RecordAndPlaybackControlPanel(final RecordAndPlaybackModel<T> model, JComponent simPanel, Function createRightControl, Color timelineColor, double maxTime) {
         this.model = model;
         this.simPanel = simPanel;
-        this.createRightControl = createRightControl;
-        this.timelineColor = timelineColor;
-        this.maxTime = maxTime;
-        timeline = new TimelineNode<T>(model, this, timelineColor, maxTime);
+        TimelineNode timeline = new TimelineNode<T>(model, this, timelineColor, maxTime);
         rightmostControl = createRightControl.createControl();
-        modePanel = new ModePanel<T>(model);
+        ModePanel<T> modePanel = new ModePanel<T>(model);
         modePanelNode = new PSwing(modePanel);
 
         setBorder(null);
         setBackground(new JPanel().getBackground());
         addScreenChild(backgroundNode);
-
 
         clearButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -81,7 +70,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
             }
         });
 
-        rightmostControl.setOffset(0, prefSizeM.getHeight() / 2 - rightmostControl.getFullBounds().getHeight() / 2);
+        rightmostControl.setOffset(0, preferredSize.getHeight() / 2 - rightmostControl.getFullBounds().getHeight() / 2);
 
         rewind.addListener(new DefaultIconButton.Listener() {
             public void buttonPressed() {
@@ -140,7 +129,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
 
         addScreenChild(timeline);
 
-        setPreferredSize(prefSizeM);
+        setPreferredSize(preferredSize);
 
         simPanel.addComponentListener(new ComponentAdapter() {
             @Override
@@ -163,24 +152,13 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         myUpdateLayout();
     }
 
-    private class MyButtonNode extends PText {
-        String text;
-        Icon icon;
-        ActionListener action;
+    public void updatePlayPauseButton() {
+        playPause.setPlaying(!model.isPaused());
+        playPauseTooltipHandler.setText(model.isPaused() ? PhetCommonResources.getString("Common.ClockControlPanel.Play") : PhetCommonResources.getString("Common.ClockControlPanel.Pause"));
+    }
 
-        private MyButtonNode(String text, Icon icon, final ActionListener action) {
-            super(text);
-            this.text = text;
-            this.icon = icon;
-            this.action = action;
-
-            addInputEventListener(new PBasicInputEventHandler() {
-                public void mousePressed(PInputEvent event) {
-                    action.actionPerformed(null);
-                }
-
-            });
-        }
+    public static interface Function {
+        PNode createControl();
     }
 
     protected void addControl(PNode node) {
@@ -220,7 +198,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
 
     void updateSize() {
         if (simPanel.getWidth() > 0) {
-            Dimension pref = new Dimension(simPanel.getWidth(), prefSizeM.height);
+            Dimension pref = new Dimension(simPanel.getWidth(), preferredSize.height);
             setPreferredSize(pref);
             updateLayout();
         }

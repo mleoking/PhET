@@ -14,6 +14,12 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.Hashtable;
 
+/**
+ * The PlaybackSpeedSlider allows the user to view and modify the playback speed for a recorded sequence.
+ *
+ * @author Sam Reid
+ * @param <T>
+ */
 public class PlaybackSpeedSlider<T> extends PNode {
     private RecordAndPlaybackModel<T> model;
 

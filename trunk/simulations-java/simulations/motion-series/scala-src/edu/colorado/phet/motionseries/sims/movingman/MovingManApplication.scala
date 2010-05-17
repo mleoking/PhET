@@ -34,9 +34,7 @@ class BasicMovingManModule(frame: PhetFrame,
   val canvas = new MovingManCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     false, false, false, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)
-  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, new RecordAndPlaybackControlPanel.Function{
-    def createControl = new PlaybackSpeedSlider(motionSeriesModel)
-  } , Color.blue, 20))
+  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, Color.blue, 20))
   motionSeriesModel.selectedObject = MotionSeriesDefaults.movingMan
   vectorViewModel.xyComponentsVisible = false
   vectorViewModel.originalVectors = false
