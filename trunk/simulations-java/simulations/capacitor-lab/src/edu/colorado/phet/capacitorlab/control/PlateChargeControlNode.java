@@ -39,10 +39,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PlateChargeControlNode extends PhetPNode {
-
+    
     // track
-    private static final PDimension TRACK_SIZE = new PDimension( 6, 200 );
-    private static final Color TRACK_FILL_COLOR = Color.WHITE;
+    private static final PDimension TRACK_SIZE = new PDimension( 5, 200 );
+    private static final Color TRACK_FILL_COLOR = Color.LIGHT_GRAY;
     private static final Color TRACK_STROKE_COLOR = Color.BLACK;
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
     
@@ -76,9 +76,11 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Color TITLE_COLOR = Color.BLACK;
     
     // value display
+    private static final int VALUE_EXPONENT = -11; //XXX compute based on range.max
     private static final Font VALUE_FONT = new PhetFont( 14 );
     private static final Color VALUE_COLOR = Color.BLACK;
-    private static final NumberFormat VALUE_FORMAT = new DecimalFormat( "0.000E00" );
+    private static final NumberFormat VALUE_MANTISSA_FORMAT = new DecimalFormat( "0.000" );
+    private static final String VALUE_PATTERN = "<html>{0}x10<sup>" + String.valueOf( VALUE_EXPONENT ) + "</sup>";
     
     private final BatteryCapacitorCircuit circuit;
     
@@ -125,6 +127,9 @@ public class PlateChargeControlNode extends PhetPNode {
         double x = 0;
         double y = 0;
         trackNode.setOffset( x, y );
+        x = -5; // determines the overlap with the track
+        y = 0; // don't care, set by update
+        knobNode.setOffset( x, y );
         x = -lotsTickMarkNode.getFullBoundsReference().getWidth();
         y = trackNode.getFullBoundsReference().getMinY() + lotsTickMarkNode.getFullBoundsReference().getHeight() / 2;
         lotsTickMarkNode.setOffset( x, y );
@@ -328,7 +333,11 @@ public class PlateChargeControlNode extends PhetPNode {
         }
         
         public void setValue( double value ) {
-            String valueString = VALUE_FORMAT.format( value );
+            String valueString = "0";
+            if ( value != 0 ) {
+                double mantissaString = value / Math.pow( 10, VALUE_EXPONENT );
+                valueString = MessageFormat.format( VALUE_PATTERN, VALUE_MANTISSA_FORMAT.format( mantissaString ) );
+            }
             setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE, valueString, CLStrings.UNITS_COULOMBS ) );
         }
     }
