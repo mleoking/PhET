@@ -53,6 +53,10 @@
         // version of the installer was created.
         installer_create_marker_file();
 
+        // Move the individually translated jar files out of the sims directory
+        // so that they won't be included in the local mirror installers.
+        ripper_move_out_translated_jars();
+
         // Insert the creation time into the marker file.  Note that there is
         // no distribution tag for the standard PhET installers.
         installer_insert_installer_creation_time( null );
