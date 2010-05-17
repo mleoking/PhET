@@ -8,17 +8,11 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
 import edu.colorado.phet.recordandplayback.model.DataPoint;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * This application shows the minimal setup required to configure and use the recordandplayback project in a PhetApplication.
@@ -43,16 +37,22 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
             super("test record and playback", new SwingClock(30, 1.0));
             TestRecordAndPlaybackSimulationPanel simPanel = new TestRecordAndPlaybackSimulationPanel(model);
             setSimulationPanel(simPanel);
+
+            //it doesn't matter how you wire up the model to update with each clock tick, here is one way
             getClock().addClockListener(new ClockAdapter() {
                 public void simulationTimeChanged(ClockEvent clockEvent) {
                     model.stepInTime();
                 }
             });
 
-            setClockControlPanel(new RecordAndPlaybackControlPanel<TestState>(model, simPanel, 100));
+            //use the record and playback control panel
+            setClockControlPanel(new RecordAndPlaybackControlPanel<TestState>(model, simPanel, 1000));
         }
     }
 
+    /**
+     * The state that gets recorded.
+     */
     public static class TestState {
         private double x;
         private double y;
@@ -71,34 +71,20 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
         }
     }
 
-    private static class ParticleNode extends PNode {
-        private ParticleNode(final Particle particle, final TestRecordAndPlaybackModel model) {
-            final PhetPPath path = new PhetPPath(new Rectangle2D.Double(0, 0, 100, 100), Color.blue, new BasicStroke(10), Color.black);
-            addChild(path);
-            path.setOffset(particle.getX(), particle.getY());
-            particle.addListener(new Particle.Listener() {
-                public void moved() {
-                    path.setOffset(particle.getX(), particle.getY());
-                }
-            });
-            addInputEventListener(new CursorHandler());
-            addInputEventListener(new PBasicInputEventHandler() {
-                @Override
-                public void mouseDragged(PInputEvent event) {
-                    super.mouseDragged(event);    //To change body of overridden methods use File | Settings | File Templates.
-                    particle.translate(event.getCanvasDelta().width, event.getCanvasDelta().getHeight());
-
-                    //when the user starts dragging the object, start recording
-                    model.setRecord(true);
-                    model.setPaused(false);
-                }
-            });
-        }
-    }
-
     private class TestRecordAndPlaybackSimulationPanel extends PhetPCanvas {
-        private TestRecordAndPlaybackSimulationPanel(TestRecordAndPlaybackModel model) {
-            addScreenChild(new ParticleNode(model.getParticle(), model));
+        private TestRecordAndPlaybackSimulationPanel(final TestRecordAndPlaybackModel model) {
+            ParticleNode particleNode = new ParticleNode(model.getParticle());
+
+            //when the user starts dragging the object, start recording
+            //note that this cannot be an attachment to the model's normal movement listener, since that is updated during playback
+            //alternatively, you could add a new listener interface to the model object such as Particle.userDragged
+            //to ensure communication happens through model notifications
+            particleNode.addInputEventListener(new PBasicInputEventHandler() {
+                public void mouseDragged(PInputEvent event) {
+                    model.startRecording();
+                }
+            });
+            addScreenChild(particleNode);
         }
     }
 
@@ -111,11 +97,11 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
         @Override
         public void stepRecord() {
             //update state, apply physics, whatever
-            //no-op in this sample
+            //in this example, the movement is totally user controlled, so there is no physics update in this step
 
+            //todo: why does the client have to do so much with the time?
             setTime(getTime() + 1);
             addRecordedPoint(new DataPoint<TestState>(getTime(), new TestState(particle.getX(), particle.getY())));
-            notifyObservers();
         }
 
         @Override
@@ -135,13 +121,5 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
         public Particle getParticle() {
             return particle;
         }
-
-        public void stepInTime() {
-            if (!isPaused()) {
-                if (isPlayback()) stepPlayback();
-                else stepRecord();
-            }
-        }
     }
-
 }
