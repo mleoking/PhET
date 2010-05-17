@@ -4,7 +4,6 @@ HIGH PRIORITY
 - E_dielectric should be 0 when dielectric constant = 1
 - E_dielectric should be 0 when dielectric is fully removed from the capacitor
 - why is Eclipse suddenly not finding inner classes?
-- combine plate charge meter and slider into one thing?
 - add ranges for model quantities to design doc
 - add symbols and units summary to design doc
 - change 1 to "dielectric constant of air" in design doc
@@ -16,17 +15,18 @@ HIGH PRIORITY
 - charge and excess charge on dielectric (see notes)
 
 MEDUIUM PRIORITY
- - make dielectric draggable by grabbing it
-- derive PlateChargeMeterNode.MAX_EXPONENT
+- combine plate charge meter and slider into one thing?
+- make dielectric draggable by grabbing it
+- derive PlateChargeMeterNode.MAX_EXPONENT and PlateChargeControlNode.VALUE_EXPONENT
 - edges where dielectric and bottom plate meet don't match up perfectly
 - use air as the dielectric material in Introduction module
 - make air dielectric invisible
-- round the end of the wire that connects to the top plate
-- use a gradient paint for wires to give them a 3D look
-- fake curvature in E-field (left & right edges only)
+- fake curvature in E-field?
 - add a dashed line around "detecting plane" for field meter
 
 LOW PRIORITY
+- round the end of the wire that connects to the top plate
+- use a gradient paint for wires to give them a 3D look
 - delete DeveloperControlPanel if it's no longer used
 
 MIGRATE TO PHETCOMMON
