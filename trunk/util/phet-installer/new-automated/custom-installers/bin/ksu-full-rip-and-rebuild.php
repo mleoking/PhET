@@ -90,7 +90,7 @@
         file_append_file_to_file(CSS_DIR."simulation-main-v1.css", CSS_APPEND_FILES_DIR."simulation-main-installer-v1.css");
 
         // Build the full set of local mirror installers.
-        installer_build_local_mirror_installers();
+        installer_build_local_mirror_installers(BITROCK_KSU_LOCAL_MIRROR_BUILDFILE);
 
         // Move the local mirror installers into the location within the ripped
         // web site where they need to be in order to be incorporated within
