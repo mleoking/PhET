@@ -28,6 +28,7 @@ public class BatteryCapacitorCircuit {
     private final Battery battery;
     private final Capacitor capacitor;
     private boolean batteryConnected;
+    private double plateCharge;
     
     private CustomDielectricMaterial customDielectric;
     private CustomDielectricChangeListener customDielectricChangeListener;
@@ -112,6 +113,25 @@ public class BatteryCapacitorCircuit {
     public boolean isBatteryConnected() {
         return batteryConnected;
     }
+
+    /**
+     * Gets the voltage.
+     * If the battery is connected, then the battery voltage is used.
+     * If the battery is not connected, then the plate charge is set directly
+     * by the user, and voltage is computed.
+     * 
+     * @return voltage, in volts (V)
+     */
+    public double getVoltage() {
+        double voltage = 0;
+        if ( isBatteryConnected() ) {
+            voltage = battery.getVoltage();
+        }
+        else {
+            voltage = getPlateCharge() / getCapacitance();
+        }
+        return voltage;
+    }
     
     /**
      * Gets the capacitance.
@@ -129,12 +149,21 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the plate charge.
+     * If the battery is connected, then charge is computed.
+     * If the battery is not connected, then charge is set directly by the user.
+     * 
      * @return charge, in Coulombs (C)
      */
     public double getPlateCharge() {
-        double C = getCapacitance(); // Farads
-        double V = battery.getVoltage(); // volts
-        double Q = C * V; // Coulombs (1C = 1F * 1V)
+        double Q = 0;
+        if ( isBatteryConnected() ) {
+            double C = getCapacitance(); // Farads
+            double V = getVoltage(); // volts
+            Q = C * V; // Coulombs (1C = 1F * 1V)
+        }
+        else {
+            Q = plateCharge;
+        }
         return Q;
     }
     
@@ -150,7 +179,7 @@ public class BatteryCapacitorCircuit {
         double Er = capacitor.getDielectricMaterial().getDielectricConstant();
         double A = capacitor.getDielectricContactArea();
         double d = capacitor.getPlateSeparation(); // meters
-        double V = battery.getVoltage(); // volts
+        double V = getVoltage(); // volts
         double Qexcess = ( Er - Ea ) * E0 * ( A / d ) * V; // Coulombs (1C = 1F * 1V)
         return Qexcess;
     }
@@ -201,7 +230,7 @@ public class BatteryCapacitorCircuit {
      */
     public double getStoredEnergy() {
         double C = getCapacitance(); // F
-        double V = battery.getVoltage(); // V
+        double V = getVoltage(); // V
         double U = 0.5 * C * V * V; // Joules (J)
         return U;
     }
