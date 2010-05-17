@@ -228,6 +228,7 @@
     define("BITROCK_YF_WEB_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."yf-web-mirror-installer-buildfile.xml"));
     define("BITROCK_KSU_WEB_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."ksu-web-mirror-installer-buildfile.xml"));
     define("BITROCK_KSU_LOCAL_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."ksu-local-mirror-installer-buildfile.xml"));
+    define("BITROCK_PHET_LOCAL_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."phet-local-mirror-installer-buildfile.xml"));
     define("BITROCK_EXE_DIR",           file_cleanup_local_filename(BITROCK_DIR));
     define("BITROCK_EXE_Linux",         "bitrock.sh");
     define("BITROCK_EXE_WINNT",         "bitrock.bat");
