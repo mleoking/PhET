@@ -81,6 +81,10 @@ public class DeveloperMeterNode extends PhetPNode {
             public void batteryConnectedChanged() {
                 updateValues();
             }
+            @Override 
+            public void chargeChanged() {
+                updateValues();
+            }
         });
         model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeListener() {
 

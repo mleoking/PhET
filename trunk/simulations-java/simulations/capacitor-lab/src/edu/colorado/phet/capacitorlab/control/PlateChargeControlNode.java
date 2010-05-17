@@ -28,6 +28,8 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -49,11 +51,11 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
     
     // background
-    private static final double BACKGROUND_X_MARGIN = 20;
-    private static final double BACKGROUND_Y_MARGIN = 10;
+    private static final double BACKGROUND_X_MARGIN = 10;
+    private static final double BACKGROUND_Y_MARGIN = 5;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
-    private static final Color BACKGROUND_FILL_COLOR = Color.BLACK;
+    private static final Color BACKGROUND_FILL_COLOR = Color.WHITE;
     
     // knob
     private static final PDimension KNOB_SIZE = new PDimension( 20, 15 );
@@ -116,17 +118,16 @@ public class PlateChargeControlNode extends PhetPNode {
         titleNode = new TitleNode( CLStrings.LABEL_PLATE_CHARGE );
         valueNode = new ValueNode( circuit.getPlateCharge() );
         
-        // rendering order
-        addChild( trackNode );
-        addChild( lotsTickMarkNode );
-        addChild( lotsLabelNode );
-        addChild( noneTickMarkNode );
-        addChild( noneLabelNode );
-        addChild( titleNode );
-        addChild( valueNode );
-        addChild( knobNode );
+        // parent for all nodes that are part of the slider, excluding the value
+        PNode parentNode = new PNode();
+        parentNode.addChild( trackNode );
+        parentNode.addChild( lotsTickMarkNode );
+        parentNode.addChild( lotsLabelNode );
+        parentNode.addChild( noneTickMarkNode );
+        parentNode.addChild( noneLabelNode );
+        parentNode.addChild( knobNode );
         
-        // layout
+        // layout in parentNode
         double x = 0;
         double y = 0;
         trackNode.setOffset( x, y );
@@ -142,8 +143,31 @@ public class PlateChargeControlNode extends PhetPNode {
         x = noneTickMarkNode.getFullBoundsReference().getMinX() - noneLabelNode.getFullBoundsReference().getWidth() - 2;
         y = noneTickMarkNode.getFullBoundsReference().getCenterY() - ( noneLabelNode.getFullBoundsReference().getHeight() / 2 );
         noneLabelNode.setOffset( x, y );
-        x = trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
-        y = noneLabelNode.getFullBoundsReference().getMaxY() + 2;
+        
+        // background, sized to fit around parentNode
+        double bWidth = parentNode.getFullBoundsReference().getWidth() + ( 2 * BACKGROUND_X_MARGIN );
+        double bHeight = parentNode.getFullBoundsReference().getHeight() + ( 2 * BACKGROUND_Y_MARGIN );
+        Rectangle2D backgroundRect = new Rectangle2D.Double( 0, 0, bWidth, bHeight );
+        PPath backgroundNode = new PPath( backgroundRect );
+        backgroundNode.setStroke( BACKGROUND_STROKE );
+        backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
+        backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
+        
+        // rendering order
+        addChild( backgroundNode );
+        addChild( parentNode );
+        addChild( titleNode );
+        addChild( valueNode );
+        
+        // layout
+        x = 0;
+        y = 0;
+        backgroundNode.setOffset( x, y );
+        x = backgroundNode.getFullBoundsReference().getCenterX() - ( parentNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( parentNode );
+        y = backgroundNode.getFullBoundsReference().getCenterY() - ( parentNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( parentNode );
+        parentNode.setOffset( x, y );
+        x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
+        y = backgroundNode.getFullBoundsReference().getMaxY() + 2;
         titleNode.setOffset( x, y );
         x = titleNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
         y = titleNode.getFullBoundsReference().getMaxY() + 2;
