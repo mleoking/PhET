@@ -42,7 +42,7 @@ public class PlateChargeMeterNode extends PhetPNode {
      * Range of the meter is 0 to 1x10^MAX_EXPONENT Coulombs.
      * Changing this should adjust label, ticks, value display, etc.
      */
-    private static final int MAX_EXPONENT = -10;  
+    private static final int MAX_EXPONENT = -10; //XXX compute based on BatteryCapacitorCircuit.getMaxPlateCharge
     
     private static final double MAX_VALUE = Math.pow( 10, MAX_EXPONENT );
     private static final String MAX_LABEL = "<html>10<sup>" + String.valueOf( MAX_EXPONENT ) + "</sup>";
@@ -76,7 +76,7 @@ public class PlateChargeMeterNode extends PhetPNode {
     // value display
     private static final Font VALUE_FONT = new PhetFont( 14 );
     private static final Color VALUE_COLOR = Color.BLACK;
-    private static final NumberFormat VALUE_FORMAT = new DecimalFormat( "0.000" );
+    private static final NumberFormat VALUE_MANTISSA_FORMAT = new DecimalFormat( "0.000" );
     private static final String VALUE_PATTERN = "<html>{0}x10<sup>" + String.valueOf( MAX_EXPONENT - 1 ) + "</sup>";
     
     private final BatteryCapacitorCircuit circuit;
@@ -274,12 +274,12 @@ public class PlateChargeMeterNode extends PhetPNode {
         }
         
         public void setValue( double value ) {
-            String valueString = "0";
+            String mantissaString = "0";
             if ( value != 0 ) {
                 double mantissa = value / TICK_SPACING;
-                valueString = MessageFormat.format( VALUE_PATTERN, VALUE_FORMAT.format( mantissa ) );
+                mantissaString = MessageFormat.format( VALUE_PATTERN, VALUE_MANTISSA_FORMAT.format( mantissa ) );
             }
-            setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE, valueString, CLStrings.UNITS_COULOMBS ) );
+            setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE, mantissaString, CLStrings.UNITS_COULOMBS ) );
         }
     }
 }

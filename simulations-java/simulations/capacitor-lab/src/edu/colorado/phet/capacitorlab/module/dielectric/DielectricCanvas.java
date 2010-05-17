@@ -153,10 +153,10 @@ public class DielectricCanvas extends CLCanvas {
             removeWiresButtonNode.setOffset( x, y );
             
             // Charge meter
-            plateChargeMeterNode.setOffset( 800, 50 ); //XXX
+            plateChargeMeterNode.setOffset( 800, 25 ); //XXX
             
             // Charge control
-            plateChargeControNode.setOffset( 600, 50  );//XXX
+            plateChargeControNode.setOffset( 600, 25  );//XXX
             
             // origin marker
             pModel.setLocation( 0, 0 );
@@ -164,7 +164,7 @@ public class DielectricCanvas extends CLCanvas {
             originNode.setOffset( pView.getX(), pView.getY() );
             
             // developer meter
-            developerMeterNode.setOffset( 700, 50 ); //XXX
+            developerMeterNode.setOffset( 700, 25 ); //XXX
         }
         
         // default state
