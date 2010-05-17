@@ -42,7 +42,7 @@ class BasicRampModule(frame: PhetFrame,
   setControlPanel(rampControlPanel)
 
   //Set the clock control panel
-  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, rampCanvas, Color.blue, 20))
+  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, rampCanvas, 20))
 }
 
 /**
