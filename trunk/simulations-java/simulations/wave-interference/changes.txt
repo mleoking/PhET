@@ -1,3 +1,4 @@
+# 1.09.00 (40819) May 17, 2010
 # 1.08.04 (40818) May 17, 2010
 # 1.08.03 (40807) May 17, 2010
 > Removed developer controls from the Sound tab's control panel, resolves #2351
