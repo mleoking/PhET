@@ -14,10 +14,6 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
-
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
@@ -91,12 +87,10 @@ public class PlateChargeControlNode extends PhetPNode {
     private final TitleNode titleNode;
     private final ValueNode valueNode;
     private final DoubleRange range;
-    private final EventListenerList listeners;
     
     public PlateChargeControlNode( final BatteryCapacitorCircuit circuit ) {
         
         range = new DoubleRange( 0, BatteryCapacitorCircuit.getMaxPlateCharge() );
-        listeners = new EventListenerList();
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new  BatteryCapacitorCircuitChangeAdapter() {
@@ -336,21 +330,6 @@ public class PlateChargeControlNode extends PhetPNode {
         public void setValue( double value ) {
             String valueString = VALUE_FORMAT.format( value );
             setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE, valueString, CLStrings.UNITS_COULOMBS ) );
-        }
-    }
-    
-    public void addChangeListener( ChangeListener listener ) {
-        listeners.add( ChangeListener.class, listener );
-    }
-    
-    public void removeChangeListener( ChangeListener listener ) {
-        listeners.remove( ChangeListener.class, listener );
-    }
-    
-    private void fireStateChanged() {
-        ChangeEvent event = new ChangeEvent( this );
-        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
-            listener.stateChanged( event );
         }
     }
 }
