@@ -42,7 +42,11 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
     private ToolTipHandler playPauseTooltipHandler = new ToolTipHandler(PhetCommonResources.getString("Common.ClockControlPanel.Pause"), this);
     private StepButton stepButton = new StepButton(50);
 
-    public RecordAndPlaybackControlPanel(final RecordAndPlaybackModel<T> model, JComponent simPanel, Color timelineColor, double maxTime) {
+    public RecordAndPlaybackControlPanel(final RecordAndPlaybackModel<T> model, JComponent simPanel, double maxTime) {
+        this(model, simPanel, maxTime, Color.blue);
+    }
+
+    public RecordAndPlaybackControlPanel(final RecordAndPlaybackModel<T> model, JComponent simPanel, double maxTime, Color timelineColor) {
         this(model, simPanel, new Function() {
             public PNode createControl() {
                 return new PlaybackSpeedSlider<T>(model);
@@ -131,6 +135,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
 
         setPreferredSize(preferredSize);
 
+        //todo: this seems like it could suffer from the problem CM & I discovered that Component resize events are not synchronous
         simPanel.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
