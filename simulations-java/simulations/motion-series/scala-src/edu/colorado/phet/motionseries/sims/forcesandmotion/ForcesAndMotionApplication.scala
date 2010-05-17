@@ -38,9 +38,7 @@ class ForcesAndMotionModule(frame: PhetFrame,
   val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl)
   setControlPanel(controlPanel)
-  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, new RecordAndPlaybackControlPanel.Function(){
-    def createControl = new PlaybackSpeedSlider(motionSeriesModel)
-  }, Color.blue, 20))
+  setClockControlPanel(new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, Color.blue, 20))
 }
 
 class ForcesAndMotionCanvas(model: MotionSeriesModel,
