@@ -146,7 +146,7 @@ public class DeveloperMeterNode extends PhetPNode {
         
         parentNode.addChild( new PText( " " ) );
         parentNode.addChild( new PText( "User Settings ....................................................." ) );
-        userVoltageNode = new ValueNode( "V<sub>battery</sub> (voltage)", "V", "0.00" );
+        userVoltageNode = new ValueNode( "V<sub>battery</sub> (battery voltage)", "V", "0.00" );
         parentNode.addChild( userVoltageNode );
         userPlateChargeNode = new ValueNode( "Q<sub>user</sub> (plate charge)", "Coulombs", "0.000E00" );
         parentNode.addChild( userPlateChargeNode );
