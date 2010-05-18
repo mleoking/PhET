@@ -41,6 +41,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
     private PlayPauseButton playPause = new PlayPauseButton(75);
     private ToolTipHandler playPauseTooltipHandler = new ToolTipHandler(PhetCommonResources.getString("Common.ClockControlPanel.Pause"), this);
     private StepButton stepButton = new StepButton(50);
+    private double stepTimeChange;//todo: add this as a parameter
 
     public RecordAndPlaybackControlPanel(final RecordAndPlaybackModel<T> model, JComponent simPanel, double maxTime) {
         this(model, simPanel, maxTime, Color.blue);
@@ -119,7 +120,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         stepButton.addListener(new DefaultIconButton.Listener() {
             public void buttonPressed() {
                 if (model.isPlayback()) model.stepPlayback();
-                else if (model.isRecord()) model.stepRecord();
+                else if (model.isRecord()) model.stepRecording(stepTimeChange);//todo: remove this null
             }
         });
         stepButton.setOffset(0, 12);

@@ -36,7 +36,7 @@ class LadybugModule[ModelType <: LadybugModel](name: String, clock: ScalaClock,
 
   setControlPanel(controlPanel)
 
-  clock.addClockListener(model.update(_))
+  clock.addClockListener(model.stepInTime(_))
 
   setClockControlPanel(new RecordAndPlaybackControlPanel(model, canvas, new RecordAndPlaybackControlPanel.Function{
     def createControl = createRightControl(LadybugModule.this)

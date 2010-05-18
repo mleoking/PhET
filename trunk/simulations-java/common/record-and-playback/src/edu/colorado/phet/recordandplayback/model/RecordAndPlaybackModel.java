@@ -1,6 +1,7 @@
 package edu.colorado.phet.recordandplayback.model;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 import java.util.ArrayList;
@@ -8,6 +9,9 @@ import java.util.ArrayList;
 /**
  * This is the main model class for sims that support recording and playing back.  This is done by recording discrete states,
  * then being able to set re-apply them to the model.  This library does not currently provide support for interpolation between states.
+ * <p/>
+ * This mixture of side-effects and state capturing seems to simplify graphics updating of normal model updating,
+ * though it can create additional complexity during playback.
  *
  * @author Sam Reid
  * @param <T> the type of state that is recorded and restored, should be immutable.
@@ -31,14 +35,37 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     private ArrayList<HistoryClearListener> historyClearListeners = new ArrayList<HistoryClearListener>();
     private ArrayList<HistoryRemainderClearListener> historyRemainderClearListeners = new ArrayList<HistoryRemainderClearListener>();
+    private int maxRecordPoints;
 
     //Extension points for subclasses
 
-    public abstract void stepRecord();
+    /**
+     * Update the simulation model (should cause side effects to update the view), returning a snapshot of the state after the update.
+     *
+     * @param simulationTimeChange the amount of time to update the simulation (in whatever units the simulation model is using).
+     * @return the updated state, which can be used to restore the model during playback
+     */
+    public abstract DataPoint<T> stepRecording(double simulationTimeChange);//what about when you want to update without persisting to a state?
 
+    /**
+     * This method should popuplate the model + view of the application with the data from the specified state.
+     * This state was obtained through playing back or stepping the recorded history.
+     *
+     * @param state the state to display
+     */
     public abstract void setPlaybackState(T state);
 
-    public abstract int getMaxRecordPoints();
+    //todo: i'm considering this interface for recording and playback:
+    //interface UpdateRule{T stepModel(T, double dt)}
+    //interface Model{setState(T)}
+
+    protected RecordAndPlaybackModel(int maxRecordPoints) {
+        this.maxRecordPoints = maxRecordPoints;
+    }
+
+    public int getMaxRecordPoints() {
+        return maxRecordPoints;
+    }
 
     /**
      * Empty function handle, which can be overriden to provide custom functionality when record was pressed
@@ -46,9 +73,6 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
      * record is pressed during playback.
      */
     protected void handleRecordStartedDuringPlayback() {
-    }
-
-    protected RecordAndPlaybackModel() {
     }
 
     /**
@@ -261,10 +285,13 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         setPaused(false);
     }
 
-    public void stepInTime() {
+    public void stepInTime(double simulationTimeChange) {
         if (!isPaused()) {
             if (isPlayback()) stepPlayback();
-            else stepRecord();
+            else {
+                DataPoint<T> state = stepRecording(simulationTimeChange);
+                addRecordedPoint(state);
+            }
         }
     }
 }
