@@ -51,7 +51,7 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
     }
 
     /**
-     * The state that gets recorded.
+     * The state that gets recorded, which should be immutable.
      */
     public static class TestState {
         private double x;
@@ -99,6 +99,12 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
             return particle;
         }
 
+        /**
+         * Update the physics and return the resultant state for recording.
+         *
+         * @param simulationTimeChange the amount of time to update the simulation (in whatever units the simulation model is using).
+         * @return the new state memento
+         */
         public TestState stepRecording(double simulationTimeChange) {
             //first step is to update state, apply physics, whatever
             //however, in this example, the movement is totally user controlled, so there is no physics update in this step
@@ -106,6 +112,11 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
             return new TestState(particle.getX(), particle.getY());
         }
 
+        /**
+         * Restore the specified state to the model (which should also be reflected in the view
+         *
+         * @param state the state to display
+         */
         public void setPlaybackState(TestState state) {
             particle.setPosition(state.getX(), state.getY());
         }
