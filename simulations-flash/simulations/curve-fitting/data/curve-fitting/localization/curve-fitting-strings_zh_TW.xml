@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--curve-fitting-strings_zh_TW.xml created Fri Jun 12 14:02:00 CST 2009 using: curve-fitting 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
+<!--curve-fitting-strings_zh_TW.xml created Mon May 17 16:17:20 CST 2010 using: curve-fitting 2.01.00 (37297), translation-utility 2.08.00 (39581) Apr 2, 2010-->
 <SimStrings>
 <string key="cEquals" value="c ="/>
 <string key="clearAll" value="全部清除"/>
@@ -13,20 +13,20 @@
 <string key="bucketHelp2" value="放回資料點"/>
 <string key="bucketHelp1" value="取出資料點"/>
 <string key="cubic" value="Cubic 立方"/>
-<string key="noFit" value="No fit 不顯示配適"/>
+<string key="noFit" value="不顯示配適"/>
 <string key="eEquals" value="e = "/>
 <string key="dEquals" value="d ="/>
 <string key="adjustableFit2" value="Adjustable Fit 可調整的配適:"/>
 <string key="dataPointHelp" value="可調整的誤差槓"/>
 <string key="bestFit2" value="Best Fit 最佳配適:"/>
 <string key="correlation" value="correlation coefficient 相關係數"/>
-<string key="hideHelp" value="Hide help 隱藏求助"/>
+<string key="hideHelp" value="隱藏求助"/>
 <string key="bucketLabel" value="資料點"/>
-<string key="chiSqHelp5" value=": fit too good 配適非常好 (error bars 非常小)"/>
-<string key="chiSqHelp4" value=": good fir 配適良好 (綠色區域)"/>
+<string key="chiSqHelp5" value=": fit too good 配適非常好"/>
+<string key="chiSqHelp4" value=": good fit 配適良好 (綠色區域)"/>
 <string key="chiSqHelp3" value=": poor fit 配適欠佳 (紅色區域)"/>
-<string key="chiSqHelp2" value="N = 資料的比數 \n f = 配適之參數個數  \n ( f = 4 作立方配適 )"/>
-<string key="help" value="help 求助"/>
+<string key="chiSqHelp2" value="N = 資料的數目 \n f = 配適之參數個數  \n ( f = 4 作立方配適 )"/>
+<string key="help" value="求助"/>
 <string key="chiSqHelp1" value="The reduced chi squared (卡方值) statistic s"/>
 <string key="adjustableFit" value="Adjustable Fit 可調整的配適"/>
 <string key="linear" value="Linear 線性"/>
