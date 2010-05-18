@@ -40,7 +40,13 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
 
     public abstract int getMaxRecordPoints();
 
-    public abstract void handleRecordStartedDuringPlayback();
+    /**
+     * Empty function handle, which can be overriden to provide custom functionality when record was pressed
+     * during playback.  This is useful since many sims have other data (or charts) that must be cleared when
+     * record is pressed during playback.
+     */
+    protected void handleRecordStartedDuringPlayback() {
+    }
 
     protected RecordAndPlaybackModel() {
     }

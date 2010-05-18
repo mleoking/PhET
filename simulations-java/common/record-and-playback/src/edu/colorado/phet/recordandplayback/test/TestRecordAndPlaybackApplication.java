@@ -91,10 +91,12 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
     private class TestRecordAndPlaybackModel extends RecordAndPlaybackModel<TestState> {
         private Particle particle = new Particle();
 
-        private TestRecordAndPlaybackModel() {
+        public Particle getParticle() {
+            return particle;
         }
 
-        @Override
+        //Methods to support record and playback
+
         public void stepRecord() {
             //update state, apply physics, whatever
             //in this example, the movement is totally user controlled, so there is no physics update in this step
@@ -104,22 +106,12 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
             addRecordedPoint(new DataPoint<TestState>(getTime(), new TestState(particle.getX(), particle.getY())));
         }
 
-        @Override
         public void setPlaybackState(TestState state) {
             particle.setPosition(state.getX(), state.getY());
         }
 
-        @Override
         public int getMaxRecordPoints() {
             return 1000;
-        }
-
-        @Override
-        public void handleRecordStartedDuringPlayback() {
-        }
-
-        public Particle getParticle() {
-            return particle;
         }
     }
 }
