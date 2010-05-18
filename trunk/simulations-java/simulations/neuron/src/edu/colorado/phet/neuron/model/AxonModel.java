@@ -66,13 +66,13 @@ public class AxonModel implements IParticleCapture {
 	private static final double CONCENTRATION_CHANGE_AT_AP_FOR_POTASSIUM = 0.00001; // In millimolar (mM)
 	
 	// Amount of time for concentration to change during an action potential.
-	private static final double CONCENTRATION_CHANGE_TIME = 0.0001;  // In seconds of sim time.
+	private static final double CONCENTRATION_CHANGE_TIME = 0.003;  // In seconds of sim time.
 	
 	// Rate at which the concentration moves toward the nominal value when
 	// changed.  These are in mM per second of simulation time, and simulation
 	// time is slower than real time.
-	private static final double CONCENTRATION_RECOVERY_RATE_FOR_SODIUM = 0.00001;     // mM / sec
-	private static final double CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM = 0.00001;  // mM / sec
+	private static final double CONCENTRATION_RECOVERY_RATE_FOR_SODIUM = 0.001;     // mM / sec
+	private static final double CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM = 0.001;  // mM / sec
 	
 	// Countdown used for preventing the axon from receiving stimuli that
 	// are too close together.
@@ -528,10 +528,10 @@ public class AxonModel implements IParticleCapture {
     	// which probably isn't very realistic, but serves our purposes.
     	if (concentrationChangeCountdownTimer > 0){
     		concentrationChangeCountdownTimer -= dt;
-    		sodiumExteriorConcentration -= CONCENTRATION_CHANGE_AT_AP_FOR_SODIUM / CONCENTRATION_CHANGE_TIME;
-    		sodiumInteriorConcentration += CONCENTRATION_CHANGE_AT_AP_FOR_SODIUM / CONCENTRATION_CHANGE_TIME;
-    		potassiumExteriorConcentration -= CONCENTRATION_CHANGE_AT_AP_FOR_POTASSIUM / CONCENTRATION_CHANGE_TIME;
-    		potassiumInteriorConcentration += CONCENTRATION_CHANGE_AT_AP_FOR_POTASSIUM / CONCENTRATION_CHANGE_TIME;
+    		sodiumExteriorConcentration -= CONCENTRATION_CHANGE_AT_AP_FOR_SODIUM / CONCENTRATION_CHANGE_TIME * dt;
+    		sodiumInteriorConcentration += CONCENTRATION_CHANGE_AT_AP_FOR_SODIUM / CONCENTRATION_CHANGE_TIME * dt;
+    		potassiumExteriorConcentration += CONCENTRATION_CHANGE_AT_AP_FOR_POTASSIUM / CONCENTRATION_CHANGE_TIME * dt;
+    		potassiumInteriorConcentration -= CONCENTRATION_CHANGE_AT_AP_FOR_POTASSIUM / CONCENTRATION_CHANGE_TIME * dt;
     	}
     	else{
     		boolean concentrationChanged = false;
@@ -544,14 +544,14 @@ public class AxonModel implements IParticleCapture {
     			concentrationChanged = true;
     		}
     		if (sodiumInteriorConcentration != NOMINAL_SODIUM_INTERIOR_CONCENTRATION){
-    			sodiumInteriorConcentration += CONCENTRATION_RECOVERY_RATE_FOR_SODIUM * dt;
+    			sodiumInteriorConcentration -= CONCENTRATION_RECOVERY_RATE_FOR_SODIUM * dt;
     			if (sodiumInteriorConcentration < NOMINAL_SODIUM_INTERIOR_CONCENTRATION){
     				sodiumInteriorConcentration = NOMINAL_SODIUM_INTERIOR_CONCENTRATION;
     			}
     			concentrationChanged = true;
     		}
     		if (potassiumExteriorConcentration != NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION){
-    			potassiumExteriorConcentration += CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM * dt;
+    			potassiumExteriorConcentration -= CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM * dt;
     			if (potassiumExteriorConcentration < NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION){
     				potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
     			}
