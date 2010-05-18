@@ -246,7 +246,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState] with Observable{
     sum / (end - start)
   }
 
-  def handleRecordStartedDuringPlayback() {
+  override def handleRecordStartedDuringPlayback() {
     ladybug.setVelocity(new Vector2D)
     ladybug.setAcceleration(new Vector2D)
   }
@@ -262,10 +262,9 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState] with Observable{
     resetMotion2DModel
   }
 
-  def startRecording() = {
+  override def startRecording() = {
+    super.startRecording()
     getLadybugMotionModel.motion = LadybugMotionModel.MANUAL
-    setRecord(true)
-    setPaused(false)
   }
 
   override def resetAll() = {

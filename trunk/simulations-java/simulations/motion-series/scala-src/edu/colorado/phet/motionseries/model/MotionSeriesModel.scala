@@ -185,8 +185,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
       fireDogs(0).remove()
   }
 
-  def handleRecordStartedDuringPlayback() = {}
-
   def getMaxRecordPoints = 1000
 
   def selectedObject = _selectedObject
