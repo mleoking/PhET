@@ -55,6 +55,12 @@ public class AxonModel implements IParticleCapture {
 	private static final int NUM_POTASSIUM_IONS_OUTSIDE_CELL = 60;
 	private static final int NUM_POTASSIUM_IONS_INSIDE_CELL = 200;
 	
+	// Nominal concentration values.
+	private static final double NOMINAL_SODIUM_EXTERIOR_CONCENTRATION = 200;     // In millimolar (mM)
+	private static final double NOMINAL_SODIUM_INTERIOR_CONCENTRATION = 200;     // In millimolar (mM)
+	private static final double NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION = 4;    // In millimolar (mM)
+	private static final double NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION = 200;  // In millimolar (mM)
+	
 	// Countdown used for preventing the axon from receiving stimuli that
 	// are too close together.
 	private static final double STIM_LOCKOUT_TIME = 0.01;  // Seconds of sim time.
@@ -125,13 +131,11 @@ public class AxonModel implements IParticleCapture {
 			}
 		});
         
-        // Add the membrane channels.
         addInitialChannels();
         
-        // If the default is set to show all ions, add them now.
-        if (allIonsSimulated){
-        	addInitialBulkParticles();
-        }
+        // Note: It is expected that the model will be reset once it has been
+        // created, and this will set the initial state, including adding the
+        // particles to the model.
     }
     
     //----------------------------------------------------------------------------
