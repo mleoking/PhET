@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--mass-spring-lab-strings_tc.xml created Mon Dec 22 15:44:40 CST 2008 using: mass-spring-lab 1.00.00 (22498), translation-utility 1.09.00 (26682)-->
+<!--mass-spring-lab-strings_zh_TW.xml created Mon May 17 17:31:42 CST 2010 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.08.00 (39581) Apr 2, 2010-->
 <SimStrings>
 <string key="pause" value="暫停"/>
 <string key="earth" value="地球"/>
 <string key="dontBother" value="請勿干擾"/>
-<string key="16thTime" value="1/16時間"/>
+<string key="16thTime" value="1/16 時間"/>
 <string key="nothinOK" value="沒事"/>
 <string key="mass1Label" value="50 公克"/>
 <string key="mass3Label" value="250 公克"/>
-<string key="planetX" value="X行星"/>
+<string key="planetX" value="X 行星"/>
 <string key="showEnergyOf" value="顯示能量"/>
 <string key="hangMe" value="掛上我吧!"/>
 <string key="resetTimer" value="重設"/>
@@ -19,7 +19,7 @@
 <string key="realTime" value="即時"/>
 <string key="startTimer" value="開始/停止"/>
 <string key="help4" value="可移動的計時器"/>
-<string key="help3" value="拉動物體可掛在彈簧下"/>
+<string key="help3" value="從側面抓取可以將重物自彈簧移下"/>
 <string key="showHelp" value="顯示協助"/>
 <string key="lots" value="多"/>
 <string key="help2" value="可移動的參考線"/>
@@ -34,13 +34,14 @@
 <string key="PEgrav" value="重力位能"/>
 <string key="mass2Label" value="100 公克"/>
 <string key="thermal" value="熱能"/>
-<string key="quarterTime" value="1/4時間"/>
+<string key="quarterTime" value="1/4 時間"/>
 <string key="KE" value="動能"/>
 <string key="gEqZero" value="零重力"/>
 <string key="hideHelp" value="隱藏協助"/>
 <string key="noHelp" value="不用協助"/>
 <string key="soft" value="軟"/>
-<string key="softness" value="3號彈簧的強度"/>
+<string key="softness" value="3 號彈簧的強度"/>
+<string key="simTitle" value="Masses &amp; Springs 質量與彈簧"/>
 <string key="totalE" value="總能量"/>
 <string key="noShow" value="不用顯示"/>
 <string key="paused" value="已經暫停"/>
