@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--geometric-optics-strings_zh_TW.xml created Sun Jun 21 18:26:03 CST 2009 using: geometric-optics 2.03.00 (32366), translation-utility 2.01.00 (31673) 五月 15, 2009-->
+<!--geometric-optics-strings_zh_TW.xml created Mon May 17 18:03:36 CST 2010 using: geometric-optics 2.04.00 (37306), translation-utility 2.08.00 (39581) Apr 2, 2010-->
 <SimStrings>
-<string key="draggableScreen" value="可拖曳的屏幕"/>
-<string key="draggableLens" value="可拖曳的透鏡"/>
+<string key="draggableScreen" value="可移動的屏幕"/>
+<string key="draggableLens" value="可移動的透鏡"/>
 <string key="screen" value="屏幕"/>
-<string key="draggableRuler" value="可拖曳的尺規"/>
-<string key="simTitle" value="幾何光學"/>
+<string key="draggableRuler" value="可移動的尺"/>
+<string key="simTitle" value="Geometic Optics 幾何光學"/>
 <string key="showHelp" value="顯示輔助說明"/>
 <string key="moveMe" value="移動我！"/>
-<string key="showGuides" value="導引線"/>
+<string key="showGuides" value="顯示導引線"/>
 <string key="diameter" value="直徑（公尺）"/>
-<string key="ruler" value="尺規"/>
+<string key="ruler" value="尺"/>
 <string key="focalPoint" value="焦點"/>
-<string key="curvatureRadius" value="曲率半徑"/>
+<string key="curvatureRadius" value="曲率半徑 (公尺)"/>
 <string key="changeObject" value="改變物體"/>
 <string key="principalRays" value="主要光線"/>
 <string key="marginalRays" value="邊緣光線"/>
