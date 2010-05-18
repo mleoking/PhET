@@ -37,7 +37,6 @@ public class TimelineNode<T> extends PNode {
     private int pathOffsetY = 4;
     private int pathHeight = 6;
     private int insetX = 10;
-    private final double scale = 1.0;
     private PhetPPath shaded;
     private PhetPPath background;
     private PImage handle;
@@ -80,9 +79,8 @@ public class TimelineNode<T> extends PNode {
 
         shaded.addInputEventListener(new PBasicInputEventHandler() {
             public void mousePressed(PInputEvent event) {
-                //todo: should put model in playback mode?
-                double x = event.getCanvasPosition().getX();
-                double t = x / scale;
+                //todo: should pressing the timeline put the model in playback mode?
+                double t = xToTime(event.getCanvasPosition().getX());
                 model.setPlaybackTime(MathUtil.clamp(model.getMinRecordedTime(), t, model.getMaxRecordedTime()));
             }
 
@@ -106,17 +104,29 @@ public class TimelineNode<T> extends PNode {
     private void handleDrag(PInputEvent event) {
         model.setPaused(true);
         double dx = event.getCanvasDelta().width;
-        double t = model.getTime() + dx / scale;//todo: what is t doing here?  it seems unused
-        model.setPlaybackTime(MathUtil.clamp(model.getMinRecordedTime(), model.getFloatTime() + dx / scale, model.getMaxRecordedTime()));
+        model.setPlaybackTime(MathUtil.clamp(model.getMinRecordedTime(), model.getFloatTime() + deltaXtoDeltaTime(dx), model.getMaxRecordedTime()));
+    }
+
+    private double deltaXtoDeltaTime(double dx) {
+        return xToTime(dx) - xToTime(0);
+    }
+
+    private double timeToX(double time) {
+        double scale = (canvas.getWidth() - insetX * 2) / maxTime;
+        return time * scale;
+    }
+
+    private double xToTime(double x) {
+        double scale = (canvas.getWidth() - insetX * 2) / maxTime;
+        return x / scale;
     }
 
     private void updateSelf() {
-        double scale = (canvas.getWidth() - insetX * 2) / maxTime;
-        shaded.setPathTo(new Rectangle(insetX, pathOffsetY + 1, (int) (model.getRecordedTimeRange() * scale), pathHeight - 1));
-        background.setPathTo(new Rectangle(insetX, pathOffsetY, (int) (maxTime * scale), pathHeight));
+        shaded.setPathTo(new Rectangle2D.Double(insetX, pathOffsetY + 1, timeToX(model.getRecordedTimeRange()), pathHeight - 1));
+        background.setPathTo(new Rectangle2D.Double(insetX, pathOffsetY, timeToX(maxTime), pathHeight));
         handle.setVisible(model.isPlayback());
         double elapsed = model.getTime() - model.getMinRecordedTime();
-        handle.setOffset(elapsed * scale - handle.getFullBounds().getWidth() / 2 + insetX, pathOffsetY - 2);
+        handle.setOffset(timeToX(elapsed) - handle.getFullBounds().getWidth() / 2 + insetX, pathOffsetY - 2);
     }
 
     public static class Track extends PhetPPath {
@@ -139,7 +149,7 @@ public class TimelineNode<T> extends PNode {
 
         @Override
         public void setPathTo(Shape aShape) {
-            super.setPathTo(aShape);    //To change body of overridden methods use File | Settings | File Templates.
+            super.setPathTo(aShape);
             Rectangle2D b = aShape.getBounds2D();
             topShade.setPathTo(new Line2D.Double(b.getX(), b.getY(), b.getMaxX(), b.getY()));
             bottomShade.setPathTo(new Line2D.Double(b.getX(), b.getMaxY(), b.getMaxX(), b.getMaxY()));
