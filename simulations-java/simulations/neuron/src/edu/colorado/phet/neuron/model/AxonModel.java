@@ -61,6 +61,19 @@ public class AxonModel implements IParticleCapture {
 	private static final double NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION = 4;    // In millimolar (mM)
 	private static final double NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION = 140;  // In millimolar (mM)
 	
+	// Amount that concentration changes when an action potential occurs.
+	private static final double CONCENTRATION_CHANGE_AT_AP_FOR_SODIUM = 0.00001;    // In millimolar (mM)
+	private static final double CONCENTRATION_CHANGE_AT_AP_FOR_POTASSIUM = 0.00001; // In millimolar (mM)
+	
+	// Amount of time for concentration to change during an action potential.
+	private static final double CONCENTRATION_CHANGE_TIME = 0.0001;  // In seconds of sim time.
+	
+	// Rate at which the concentration moves toward the nominal value when
+	// changed.  These are in mM per second of simulation time, and simulation
+	// time is slower than real time.
+	private static final double CONCENTRATION_RECOVERY_RATE_FOR_SODIUM = 0.00001;     // mM / sec
+	private static final double CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM = 0.00001;  // mM / sec
+	
 	// Countdown used for preventing the axon from receiving stimuli that
 	// are too close together.
 	private static final double STIM_LOCKOUT_TIME = 0.01;  // Seconds of sim time.
@@ -104,6 +117,7 @@ public class AxonModel implements IParticleCapture {
 	private double sodiumExteriorConcentration = NOMINAL_SODIUM_EXTERIOR_CONCENTRATION;
     private double potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
     private double potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
+    private double concentrationChangeCountdownTimer = 0;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -132,6 +146,10 @@ public class AxonModel implements IParticleCapture {
 				// the simulates the action potential voltages and current
 				// flows.
 				hodgkinHuxleyModel.stimulate();
+				
+				// Start the overall concentration change, which works
+				// independently of the HH model.
+				concentrationChangeCountdownTimer = CONCENTRATION_CHANGE_TIME;
 			}
 		});
         
@@ -504,6 +522,43 @@ public class AxonModel implements IParticleCapture {
     	ArrayList<Particle> particlesCopy = new ArrayList<Particle>(particles);
     	for (Particle particle : particlesCopy){
     		particle.stepInTime( dt );
+    	}
+    	
+    	// Adjust the concentration values.  This are simply linear changes,
+    	// which probably isn't very realistic, but serves our purposes.
+    	if (concentrationChangeCountdownTimer > 0){
+    		concentrationChangeCountdownTimer -= dt;
+    		sodiumExteriorConcentration -= CONCENTRATION_CHANGE_AT_AP_FOR_SODIUM / CONCENTRATION_CHANGE_TIME;
+    		sodiumInteriorConcentration += CONCENTRATION_CHANGE_AT_AP_FOR_SODIUM / CONCENTRATION_CHANGE_TIME;
+    		potassiumExteriorConcentration -= CONCENTRATION_CHANGE_AT_AP_FOR_POTASSIUM / CONCENTRATION_CHANGE_TIME;
+    		potassiumInteriorConcentration += CONCENTRATION_CHANGE_AT_AP_FOR_POTASSIUM / CONCENTRATION_CHANGE_TIME;
+    	}
+    	else{
+    		// Move back towards the nominal concentrations.
+    		if (sodiumExteriorConcentration != NOMINAL_SODIUM_EXTERIOR_CONCENTRATION){
+    			sodiumExteriorConcentration += CONCENTRATION_RECOVERY_RATE_FOR_SODIUM * dt;
+    			if (sodiumExteriorConcentration > NOMINAL_SODIUM_EXTERIOR_CONCENTRATION){
+    				sodiumExteriorConcentration = NOMINAL_SODIUM_EXTERIOR_CONCENTRATION;
+    			}
+    		}
+    		if (sodiumInteriorConcentration != NOMINAL_SODIUM_INTERIOR_CONCENTRATION){
+    			sodiumInteriorConcentration += CONCENTRATION_RECOVERY_RATE_FOR_SODIUM * dt;
+    			if (sodiumInteriorConcentration < NOMINAL_SODIUM_INTERIOR_CONCENTRATION){
+    				sodiumInteriorConcentration = NOMINAL_SODIUM_INTERIOR_CONCENTRATION;
+    			}
+    		}
+    		if (potassiumExteriorConcentration != NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION){
+    			potassiumExteriorConcentration += CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM * dt;
+    			if (potassiumExteriorConcentration < NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION){
+    				potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
+    			}
+    		}
+    		if (potassiumInteriorConcentration != NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION){
+    			potassiumInteriorConcentration += CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM * dt;
+    			if (potassiumInteriorConcentration > NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION){
+    				potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
+    			}
+    		}
     	}
     }
     
