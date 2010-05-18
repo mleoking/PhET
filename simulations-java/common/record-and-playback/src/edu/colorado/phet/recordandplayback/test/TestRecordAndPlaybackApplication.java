@@ -99,14 +99,11 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
             return particle;
         }
 
-        //Methods to support record and playback
+        public TestState stepRecording(double simulationTimeChange) {
+            //first step is to update state, apply physics, whatever
+            //however, in this example, the movement is totally user controlled, so there is no physics update in this step
 
-        public DataPoint<TestState> stepRecording(double simulationTimeChange) {
-            //update state, apply physics, whatever
-            //in this example, the movement is totally user controlled, so there is no physics update in this step
-
-            //todo: why does the client have to do so much with the time?
-            return new DataPoint<TestState>(getTime(), new TestState(particle.getX(), particle.getY()));
+            return new TestState(particle.getX(), particle.getY());
         }
 
         public void setPlaybackState(TestState state) {
