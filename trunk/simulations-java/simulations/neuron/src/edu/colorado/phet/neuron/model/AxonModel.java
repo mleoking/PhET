@@ -100,6 +100,10 @@ public class AxonModel implements IParticleCapture {
     private boolean chargesShown = DEFAULT_FOR_CHARGES_SHOWN; // Controls whether charges are depicted.
     private double stimLockoutCountdownTime;
     private double previousMembranePotential = 0;
+    private double sodiumInteriorConcentration = NOMINAL_SODIUM_INTERIOR_CONCENTRATION;
+	private double sodiumExteriorConcentration = NOMINAL_SODIUM_EXTERIOR_CONCENTRATION;
+    private double potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
+    private double potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -176,6 +180,22 @@ public class AxonModel implements IParticleCapture {
     public IHodgkinHuxleyModel getHodgkinHuxleyModel(){
     	return hodgkinHuxleyModel;
     }
+
+    protected double getSodiumInteriorConcentration() {
+		return sodiumInteriorConcentration;
+	}
+
+	protected double getSodiumExteriorConcentration() {
+		return sodiumExteriorConcentration;
+	}
+
+	protected double getPotassiumInteriorConcentration() {
+		return potassiumInteriorConcentration;
+	}
+
+	protected double getPotassiumExteriorConcentration() {
+		return potassiumExteriorConcentration;
+	}
 
     public boolean isPotentialChartVisible(){
     	return potentialChartVisible;
