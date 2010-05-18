@@ -1,7 +1,6 @@
 package edu.colorado.phet.recordandplayback.model;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 import java.util.ArrayList;

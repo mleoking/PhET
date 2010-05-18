@@ -25,6 +25,6 @@ public class DataPoint<T> {
     }
 
     public String toString() {
-        return "time = "+time+", state = "+state;
+        return "time = " + time + ", state = " + state;
     }
 }
