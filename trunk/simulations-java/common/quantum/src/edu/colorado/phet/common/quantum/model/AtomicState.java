@@ -350,13 +350,15 @@ public class AtomicState {
     /**
      * @deprecated
      */
-    public class MeanLifetimeChangeEvent extends EventObject {
-        public MeanLifetimeChangeEvent() {
-            super( AtomicState.this );
+    public static class MeanLifetimeChangeEvent extends EventObject {
+    	private AtomicState state;
+        public MeanLifetimeChangeEvent(AtomicState state) {
+            super( state);
+            this.state = state;
         }
 
         public double getMeanLifetime() {
-            return AtomicState.this.getMeanLifeTime();
+            return state.getMeanLifeTime();
         }
     }
 
@@ -366,8 +368,8 @@ public class AtomicState {
     private EventChannel listenerChannel = new EventChannel( Listener.class );
     private Listener listenerProxy = (Listener) listenerChannel.getListenerProxy();
 
-    public class Event extends EventObject {
-        public Event( Object source ) {
+    public static class Event extends EventObject {
+        public Event( AtomicState source ) {
             super( source );
         }
 
