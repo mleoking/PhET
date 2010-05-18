@@ -56,10 +56,10 @@ public class AxonModel implements IParticleCapture {
 	private static final int NUM_POTASSIUM_IONS_INSIDE_CELL = 200;
 	
 	// Nominal concentration values.
-	private static final double NOMINAL_SODIUM_EXTERIOR_CONCENTRATION = 200;     // In millimolar (mM)
-	private static final double NOMINAL_SODIUM_INTERIOR_CONCENTRATION = 200;     // In millimolar (mM)
+	private static final double NOMINAL_SODIUM_EXTERIOR_CONCENTRATION = 145;     // In millimolar (mM)
+	private static final double NOMINAL_SODIUM_INTERIOR_CONCENTRATION = 10;      // In millimolar (mM)
 	private static final double NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION = 4;    // In millimolar (mM)
-	private static final double NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION = 200;  // In millimolar (mM)
+	private static final double NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION = 140;  // In millimolar (mM)
 	
 	// Countdown used for preventing the axon from receiving stimuli that
 	// are too close together.
