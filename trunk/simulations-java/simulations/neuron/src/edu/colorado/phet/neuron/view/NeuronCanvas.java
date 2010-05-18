@@ -4,7 +4,6 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -19,8 +18,6 @@ import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -31,7 +28,6 @@ import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -58,7 +54,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private static final boolean SHOW_CENTER_CROSS_HAIR = false;
     private static final boolean SHOW_CHANNEL_LOCATIONS = false;
     private static final boolean SHOW_CAPTURE_ZONES = false;
-    private static final boolean SHOW_VIEWPORT_BOUNDS = true;
+    private static final boolean SHOW_VIEWPORT_BOUNDS = false;
 
     // Max size of the charge symbols, tweak as needed.
     private static final double MAX_CHARGE_SYMBOL_SIZE = 11; 
@@ -98,12 +94,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private CrossHairNode crossHairNode;
     private PNode myWorldNode=new PNode();
     
-    //  For optimization of painting.  The counters are here for testing, and
-    // can be printed out when needed.
-    private int paintCallCounter = 0;
-    private int repaintCallCounter = 0;
-    private PBounds repaintBounds = new PBounds();
-
     private Rectangle2D viewportInIntermediateCoords = new Rectangle2D.Double();
 	private PhetPPath viewportOutline;
 
@@ -115,15 +105,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 
     	this.model = model;
 
-    	model.getClock().addClockListener(new ClockAdapter(){
-    	    public void clockTicked( ClockEvent clockEvent ) {
-    	    	NeuronCanvas.super.repaint(repaintBounds);
-    	    	repaintBounds.reset();
-    	    	repaintCallCounter = 0;
-    	    	paintCallCounter = 0;
-    	    }
-    	});
-    	
     	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(this, NeuronDefaults.INTERMEDIATE_RENDERING_SIZE));
     	
@@ -270,21 +251,6 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	setZoomFactor(1);
     }
     
-    @Override
-    public void repaint(PBounds bounds) {
-    	repaintCallCounter++;
-		// Intercept the repaint request and expand the bounds to handle it.
-    	// The repaint will be performed at the next clock tick.  This is an
-    	// optimization to try to make the sim consume less CPU time.
-    	repaintBounds.add(bounds);
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		paintCallCounter++;
-	}
-
 	/**
      * Updates the layout of stuff on the canvas.
      */
