@@ -120,7 +120,7 @@ public class RecordAndPlaybackControlPanel<T> extends PhetPCanvas {
         stepButton.addListener(new DefaultIconButton.Listener() {
             public void buttonPressed() {
                 if (model.isPlayback()) model.stepPlayback();
-                else if (model.isRecord()) model.stepRecording(stepTimeChange);//todo: remove this null
+                else if (model.isRecord()) model.stepRecording(stepTimeChange);
             }
         });
         stepButton.setOffset(0, 12);

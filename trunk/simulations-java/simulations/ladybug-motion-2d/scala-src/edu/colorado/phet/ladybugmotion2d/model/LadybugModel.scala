@@ -158,7 +158,6 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
   def stepRecord(dt: Double) = {
     tickListeners.foreach(_())
     if (isRecord()) {
-      setTime(getTime + dt)
       ladybugMotionModel.update(dt, this)
 
       modelHistory += new DataPoint(getTime, ladybug.getState)

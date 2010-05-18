@@ -10,13 +10,11 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
-* Created by IntelliJ IDEA.
-* User: Sam
-* Date: May 17, 2010
-* Time: 3:15:00 PM
-* To change this template use File | Settings | File Templates.
-*/
-class ParticleNode extends PNode {
+ * Particle node graphic class for example application.
+ *
+ * @author Sam Reid
+ */
+public class ParticleNode extends PNode {
     ParticleNode(final Particle particle) {
         final PhetPPath path = new PhetPPath(new Rectangle2D.Double(0, 0, 100, 100), Color.blue, new BasicStroke(4), Color.black);
         addChild(path);

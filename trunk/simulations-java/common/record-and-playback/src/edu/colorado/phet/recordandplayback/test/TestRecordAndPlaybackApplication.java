@@ -106,7 +106,6 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
             //in this example, the movement is totally user controlled, so there is no physics update in this step
 
             //todo: why does the client have to do so much with the time?
-            setTime(getTime() + simulationTimeChange);
             return new DataPoint<TestState>(getTime(), new TestState(particle.getX(), particle.getY()));
         }
 

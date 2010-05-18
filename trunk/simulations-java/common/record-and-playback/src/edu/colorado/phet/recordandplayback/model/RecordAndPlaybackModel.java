@@ -289,7 +289,9 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
         if (!isPaused()) {
             if (isPlayback()) stepPlayback();
             else {
+                setTime(getTime() + simulationTimeChange);
                 DataPoint<T> state = stepRecording(simulationTimeChange);
+                //todo: only record the point if we have space
                 addRecordedPoint(state);
             }
         }
