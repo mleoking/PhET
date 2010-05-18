@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
@@ -26,8 +27,11 @@ import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannel;
 import edu.colorado.phet.neuron.model.Particle;
+import edu.colorado.phet.neuron.model.PotassiumIon;
+import edu.colorado.phet.neuron.model.SodiumIon;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -84,6 +88,12 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     // Button for stimulating the neuron.
     DisableableGradientButtonNode stimulateNeuronButton2;
     
+    // Concentration readouts.
+    PText sodiumInteriorConcentrationReadout;
+    PText sodiumExteriorConcentrationReadout;
+    PText potassiumInteriorConcentrationReadout;
+    PText potassiumExteriorConcentrationReadout;
+    
     // List of registered listeners for canvas events.
     private EventListenerList listeners = new EventListenerList();
     
@@ -132,6 +142,9 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 			}
 			public void stimulationLockoutStateChanged() {
 				updateStimButtonState();
+			}
+			public void concentrationReadoutVisibilityChanged() {
+				updateConcentrationReadoutVisible();
 			}
 		});
         
@@ -207,6 +220,25 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         		stimulateNeuronButton2.getFullBoundsReference().getMaxY() + 10);
         chartLayer.addChild(zoomSlider);
         
+        // Add the concentration readouts.
+        PhetFont readoutFont = new PhetFont(14);
+        sodiumExteriorConcentrationReadout = new PText();
+        sodiumExteriorConcentrationReadout.setFont(readoutFont);
+        sodiumExteriorConcentrationReadout.setTextPaint(new SodiumIon().getRepresentationColor());
+        chartLayer.addChild(sodiumExteriorConcentrationReadout);
+        sodiumInteriorConcentrationReadout = new PText();
+        sodiumInteriorConcentrationReadout.setFont(readoutFont);
+        sodiumInteriorConcentrationReadout.setTextPaint(new SodiumIon().getRepresentationColor());
+        chartLayer.addChild(sodiumInteriorConcentrationReadout);
+        potassiumExteriorConcentrationReadout = new PText();
+        potassiumExteriorConcentrationReadout.setFont(readoutFont);
+        potassiumExteriorConcentrationReadout.setTextPaint(new PotassiumIon().getRepresentationColor());
+        chartLayer.addChild(potassiumExteriorConcentrationReadout);
+        potassiumInteriorConcentrationReadout = new PText();
+        potassiumInteriorConcentrationReadout.setFont(readoutFont);
+        potassiumInteriorConcentrationReadout.setTextPaint(new PotassiumIon().getRepresentationColor());
+        chartLayer.addChild(potassiumInteriorConcentrationReadout);
+        
         // Add the depiction of the particle motion bounds, if enabled.
         if (SHOW_PARTICLE_BOUNDS){
         	PhetPPath particleMotionBounds = new PhetPPath(mvt.createTransformedShape(model.getParticleMotionBounds()),
@@ -233,13 +265,13 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         // Update other initial state.
         updateStimButtonState();
         updateChargeSymbolsShown();
+        updateConcentrationReadouts();
+        updateConcentrationReadoutVisible();
     }
     
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
-    
-    
     
     /**
      * Reset any stateful behavior of the canvas, such as the zoom factor.
@@ -302,6 +334,20 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     
     private void updateChargeSymbolsShown(){
     	chargeSymbolLayer.setVisible(model.isChargesShown());
+    }
+    
+    private void updateConcentrationReadoutVisible(){
+    	sodiumExteriorConcentrationReadout.setVisible(model.isConcentrationReadoutVisible());
+    	sodiumInteriorConcentrationReadout.setVisible(model.isConcentrationReadoutVisible());
+    	potassiumExteriorConcentrationReadout.setVisible(model.isConcentrationReadoutVisible());
+    	potassiumInteriorConcentrationReadout.setVisible(model.isConcentrationReadoutVisible());
+    }
+    
+    private void updateConcentrationReadouts(){
+    	sodiumExteriorConcentrationReadout.setText("Blah");
+    	sodiumInteriorConcentrationReadout.setText("Blah");
+    	potassiumExteriorConcentrationReadout.setText("Blah");
+    	potassiumInteriorConcentrationReadout.setText("Blah");
     }
     
     /**
