@@ -209,7 +209,11 @@
 
             // Loop through each resource, downloading it to the ripped website directory:
             foreach ($hrefs as $href) {
-                flushing_echo("Downloading resource $resource_num of ".count($hrefs)."...");
+                // The following debug statement can be uncommented if a count
+                // of downloaded resources is desired, but it tends to make
+                // the log a bit verbose, so it is generally left commented
+                // out.
+                // flushing_echo("Downloading resource $resource_num of ".count($hrefs)."...");
 
                 if (!web_is_absolute_url($href)) {
                     $absolute_url = file_get_real_path($codebase.$href);
