@@ -599,13 +599,15 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
     //-----------------------------------------------------------------
     // Event-related classes
     //-----------------------------------------------------------------
-    public class ChangeEvent extends EventObject {
+    public static class ChangeEvent extends EventObject {
+    	private ApparatusPanel2 apparatusPanel;
         public ChangeEvent( ApparatusPanel2 source ) {
             super( source );
+            this.apparatusPanel = source;
         }
 
         public Dimension getCanvasSize() {
-            return transformManager.getCanvasSize();
+            return apparatusPanel.transformManager.getCanvasSize();
         }
     }
 
