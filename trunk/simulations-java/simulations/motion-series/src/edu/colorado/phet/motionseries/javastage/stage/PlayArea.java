@@ -196,7 +196,7 @@ public class PlayArea extends PhetPCanvas implements StageContainer {
     private static class StageCanvasComponentAdapter extends ComponentAdapter {
         private Listener listener;
 
-        private StageCanvasComponentAdapter(Listener listener) {
+        private StageCanvasComponentAdapter(StageContainer.Listener listener) {
             this.listener = listener;
         }
 
