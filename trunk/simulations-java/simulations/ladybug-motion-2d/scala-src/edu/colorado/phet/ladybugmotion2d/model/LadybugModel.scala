@@ -187,7 +187,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
       }
       notifyObservers()
     }
-    new DataPoint(getTime,ladybug.getState)
+    ladybug.getState
   }
 
   def initManual = {

@@ -30,8 +30,8 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     stepRecord()
 //    if (getTime < MotionSeriesDefaults.MAX_RECORD_TIME) {
       val mode = bead.motionStrategy.getMemento
-      new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode))
+      new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
+        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode)
 //    }
     
   }

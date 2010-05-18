@@ -45,7 +45,7 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
      * @param simulationTimeChange the amount of time to update the simulation (in whatever units the simulation model is using).
      * @return the updated state, which can be used to restore the model during playback
      */
-    public abstract DataPoint<T> stepRecording(double simulationTimeChange);//what about when you want to update without persisting to a state?
+    public abstract T stepRecording(double simulationTimeChange);//what about when you want to update without persisting to a state?
 
     /**
      * This method should popuplate the model + view of the application with the data from the specified state.
@@ -290,9 +290,9 @@ public abstract class RecordAndPlaybackModel<T> extends SimpleObservable {
             if (isPlayback()) stepPlayback();
             else {
                 setTime(getTime() + simulationTimeChange);
-                DataPoint<T> state = stepRecording(simulationTimeChange);
+                T state = stepRecording(simulationTimeChange);
                 //todo: only record the point if we have space
-                addRecordedPoint(state);
+                addRecordedPoint(new DataPoint<T>(getTime(), state));
             }
         }
     }
