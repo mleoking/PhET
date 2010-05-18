@@ -534,30 +534,39 @@ public class AxonModel implements IParticleCapture {
     		potassiumInteriorConcentration += CONCENTRATION_CHANGE_AT_AP_FOR_POTASSIUM / CONCENTRATION_CHANGE_TIME;
     	}
     	else{
+    		boolean concentrationChanged = false;
     		// Move back towards the nominal concentrations.
     		if (sodiumExteriorConcentration != NOMINAL_SODIUM_EXTERIOR_CONCENTRATION){
     			sodiumExteriorConcentration += CONCENTRATION_RECOVERY_RATE_FOR_SODIUM * dt;
     			if (sodiumExteriorConcentration > NOMINAL_SODIUM_EXTERIOR_CONCENTRATION){
     				sodiumExteriorConcentration = NOMINAL_SODIUM_EXTERIOR_CONCENTRATION;
     			}
+    			concentrationChanged = true;
     		}
     		if (sodiumInteriorConcentration != NOMINAL_SODIUM_INTERIOR_CONCENTRATION){
     			sodiumInteriorConcentration += CONCENTRATION_RECOVERY_RATE_FOR_SODIUM * dt;
     			if (sodiumInteriorConcentration < NOMINAL_SODIUM_INTERIOR_CONCENTRATION){
     				sodiumInteriorConcentration = NOMINAL_SODIUM_INTERIOR_CONCENTRATION;
     			}
+    			concentrationChanged = true;
     		}
     		if (potassiumExteriorConcentration != NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION){
     			potassiumExteriorConcentration += CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM * dt;
     			if (potassiumExteriorConcentration < NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION){
     				potassiumExteriorConcentration = NOMINAL_POTASSIUM_EXTERIOR_CONCENTRATION;
     			}
+    			concentrationChanged = true;
     		}
     		if (potassiumInteriorConcentration != NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION){
     			potassiumInteriorConcentration += CONCENTRATION_RECOVERY_RATE_FOR_POTASSIUM * dt;
     			if (potassiumInteriorConcentration > NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION){
     				potassiumInteriorConcentration = NOMINAL_POTASSIUM_INTERIOR_CONCENTRATION;
     			}
+    			concentrationChanged = true;
+    		}
+    		
+    		if (concentrationChanged){
+    			notifyConcentrationChanged();
     		}
     	}
     }
@@ -645,6 +654,12 @@ public class AxonModel implements IParticleCapture {
 	private void notifyStimulusLockoutStateChanged(){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.stimulationLockoutStateChanged();
+		}
+	}
+	
+	private void notifyConcentrationChanged(){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.concentrationChanged();
 		}
 	}
 	
@@ -980,6 +995,12 @@ public class AxonModel implements IParticleCapture {
     	 * stimuli from being initiated too close together, has changed.
     	 */
     	public void stimulationLockoutStateChanged();
+
+    	/**
+    	 * Notification that the concentration of one or more of the ions
+    	 * has changed.
+    	 */
+    	public void concentrationChanged();
     }
     
     public static class Adapter implements Listener{
@@ -991,5 +1012,6 @@ public class AxonModel implements IParticleCapture {
 		public void allIonsSimulatedChanged() {}
 		public void chargesShownChanged() {}
 		public void membranePotentialChanged() {}
+		public void concentrationChanged() {}
     }
 }
