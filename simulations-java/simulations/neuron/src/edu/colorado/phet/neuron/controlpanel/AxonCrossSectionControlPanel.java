@@ -42,6 +42,7 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
 	private JCheckBox showAllIonsCheckBox;
 	private JCheckBox chartControlCheckbox;
 	private JCheckBox showChargesCheckBox;
+	private JCheckBox showConcentrationReadoutCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -139,11 +140,24 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
 			}
 		});
         showChargesCheckBox.setAlignmentX(CENTER_ALIGNMENT);
-        addControlFullWidth(checkBoxPanel);
+        checkBoxPanel.add(showChargesCheckBox);
         updateShowChargesCheckBox();
         
+        // Add the check box for controlling whether the concentration readouts are shown.
+        addControlFullWidth(createVerticalSpacingPanel(5));
+        showConcentrationReadoutCheckBox = new JCheckBox(NeuronStrings.SHOW_CONCENTRATIONS);
+        showConcentrationReadoutCheckBox.setFont(NeuronConstants.CONTROL_PANEL_CONTROL_FONT);
+        showConcentrationReadoutCheckBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				axonModel.setConcentrationReadoutVisible(showConcentrationReadoutCheckBox.isSelected());
+			}
+		});
+        showConcentrationReadoutCheckBox.setAlignmentX(CENTER_ALIGNMENT);
+        checkBoxPanel.add(showConcentrationReadoutCheckBox);
+        updateShowConcentrationReadoutCheckBox();
+        
         // Add the panel containing the check boxes.
-        checkBoxPanel.add(showChargesCheckBox);
+        addControlFullWidth(checkBoxPanel);
         
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(30));
@@ -171,5 +185,9 @@ public class AxonCrossSectionControlPanel extends ControlPanel {
     
     private void updateShowChargesCheckBox(){
 		showChargesCheckBox.setSelected(axonModel.isChargesShown());
+    }
+    
+    private void updateShowConcentrationReadoutCheckBox(){
+		showConcentrationReadoutCheckBox.setSelected(axonModel.isConcentrationReadoutVisible());
     }
 }
