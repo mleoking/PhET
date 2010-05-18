@@ -82,14 +82,11 @@ public class AxonModel implements IParticleCapture {
 	private static final double FOREGROUND_PARTICLE_DEFAULT_OPAQUENESS = 0.20;
 	private static final double BACKGROUND_PARTICLE_DEFAULT_OPAQUENESS = 0.05;
 	
-	// Default for whether all ions are shown.
+	// Default configuration values.
 	private static final boolean DEFAULT_FOR_SHOW_ALL_IONS = true;
-	
-	// Default for whether the membrane potential chart is visible.
 	private static final boolean DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY = false;
-	
-	// Default for whether charges are shown.
 	private static final boolean DEFAULT_FOR_CHARGES_SHOWN = false;
+	private static final boolean DEFAULT_FOR_CONCENTRATION_READOUT_SHOWN = false;
 	
 	// Value that controls how much of a change of the membrane potential must
 	// occur before a notification is sent out.
@@ -111,6 +108,7 @@ public class AxonModel implements IParticleCapture {
     private boolean potentialChartVisible = DEFAULT_FOR_MEMBRANE_CHART_VISIBILITY;
     private boolean allIonsSimulated = DEFAULT_FOR_SHOW_ALL_IONS; // Controls whether all ions, or just those near membrane, are simulated.
     private boolean chargesShown = DEFAULT_FOR_CHARGES_SHOWN; // Controls whether charges are depicted.
+    private boolean concentrationReadoutVisible = DEFAULT_FOR_CONCENTRATION_READOUT_SHOWN; // Controls whether concentration readings are depicted.
     private double stimLockoutCountdownTime;
     private double previousMembranePotential = 0;
     private double sodiumInteriorConcentration = NOMINAL_SODIUM_INTERIOR_CONCENTRATION;
@@ -223,6 +221,17 @@ public class AxonModel implements IParticleCapture {
     	if (potentialChartVisible != isVisible){
     		potentialChartVisible = isVisible;
     		notifyPotentialChartVisibilityChanged();
+    	}
+    }
+    
+    public boolean isConcentrationReadouVisible(){
+    	return concentrationReadoutVisible;
+    }
+    
+    public void setConcentrationReadoutVisible(boolean isVisible){
+    	if (concentrationReadoutVisible != isVisible){
+    		concentrationReadoutVisible = isVisible;
+    		notifyConcentrationReadoutVisibilityChanged();
     	}
     }
     
@@ -633,6 +642,12 @@ public class AxonModel implements IParticleCapture {
 		}
 	}
 	
+	private void notifyConcentrationReadoutVisibilityChanged(){
+		for (Listener listener : listeners.getListeners(Listener.class)){
+			listener.concentrationReadoutVisibilityChanged();
+		}
+	}
+	
 	private void notifyPotentialChartVisibilityChanged(){
 		for (Listener listener : listeners.getListeners(Listener.class)){
 			listener.potentialChartVisibilityChanged();
@@ -979,6 +994,12 @@ public class AxonModel implements IParticleCapture {
     	public void potentialChartVisibilityChanged();
     	
     	/**
+    	 * Notification that the setting for the visibility of the
+    	 * concentration information has changed.
+    	 */
+    	public void concentrationReadoutVisibilityChanged();
+    	
+    	/**
     	 * Notification that the setting for whether or not the charges are
     	 * shown has changed.
     	 */
@@ -1013,5 +1034,6 @@ public class AxonModel implements IParticleCapture {
 		public void chargesShownChanged() {}
 		public void membranePotentialChanged() {}
 		public void concentrationChanged() {}
+		public void concentrationReadoutVisibilityChanged() {}
     }
 }
