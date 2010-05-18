@@ -23,4 +23,8 @@ public class DataPoint<T> {
     public T getState() {
         return state;
     }
+
+    public String toString() {
+        return "time = "+time+", state = "+state;
+    }
 }

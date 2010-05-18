@@ -41,7 +41,7 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
             //it doesn't matter how you wire up the model to update with each clock tick, here is one way
             getClock().addClockListener(new ClockAdapter() {
                 public void simulationTimeChanged(ClockEvent clockEvent) {
-                    model.stepInTime();
+                    model.stepInTime(clockEvent.getSimulationTimeChange());
                 }
             });
 
@@ -91,27 +91,27 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
     private class TestRecordAndPlaybackModel extends RecordAndPlaybackModel<TestState> {
         private Particle particle = new Particle();
 
+        protected TestRecordAndPlaybackModel() {
+            super(1000);
+        }
+
         public Particle getParticle() {
             return particle;
         }
 
         //Methods to support record and playback
 
-        public void stepRecord() {
+        public DataPoint<TestState> stepRecording(double simulationTimeChange) {
             //update state, apply physics, whatever
             //in this example, the movement is totally user controlled, so there is no physics update in this step
 
             //todo: why does the client have to do so much with the time?
-            setTime(getTime() + 1);
-            addRecordedPoint(new DataPoint<TestState>(getTime(), new TestState(particle.getX(), particle.getY())));
+            setTime(getTime() + simulationTimeChange);
+            return new DataPoint<TestState>(getTime(), new TestState(particle.getX(), particle.getY()));
         }
 
         public void setPlaybackState(TestState state) {
             particle.setPosition(state.getX(), state.getY());
-        }
-
-        public int getMaxRecordPoints() {
-            return 1000;
         }
     }
 }

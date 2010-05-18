@@ -25,7 +25,17 @@ case class RecordedState(rampState: RampState,
 class MotionSeriesModel(defaultBeadPosition: Double,
                         pausedOnReset: Boolean,
                         initialAngle: Double)
-        extends RecordAndPlaybackModel[RecordedState] with ObjectModel with RampSurfaceModel {
+        extends RecordAndPlaybackModel[RecordedState](1000) with ObjectModel with RampSurfaceModel {
+  def stepRecording(simulationTimeChange: Double) = {
+    stepRecord()
+//    if (getTime < MotionSeriesDefaults.MAX_RECORD_TIME) {
+      val mode = bead.motionStrategy.getMemento
+      new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
+        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode))
+//    }
+    
+  }
+
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
   private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
@@ -185,8 +195,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
       fireDogs(0).remove()
   }
 
-  def getMaxRecordPoints = 1000
-
   def selectedObject = _selectedObject
 
   def selectedObject_=(obj: MotionSeriesObject) = {
@@ -296,11 +304,13 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     rampSegments(1).setHeat(rampHeat)
     rampSegments(0).stepInTime(dt)
     rampSegments(1).stepInTime(dt)
-    if (getTime < MotionSeriesDefaults.MAX_RECORD_TIME) {
-      val mode = bead.motionStrategy.getMemento
-      addRecordedPoint(new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode)))
-    }
+
+    //todo: move this logic to the record-and-playback library
+//    if (getTime < MotionSeriesDefaults.MAX_RECORD_TIME) {
+//      val mode = bead.motionStrategy.getMemento
+//      addRecordedPoint(new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
+//        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode)))
+//    }
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added
   }
@@ -310,12 +320,9 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     setTime(0.0)
   }
 
-  def update(dt: Double) = {
+  override def stepInTime(dt: Double) = {
     val startTime = System.nanoTime
-    if (!isPaused) {
-      if (isRecord) doStep(dt)
-      else if (isPlayback) stepPlayback()
-    }
+    super.stepInTime(dt)
     val endTime = System.nanoTime
     val elapsedTimeMS = endTime - startTime
     elapsedTimeHistory += elapsedTimeMS

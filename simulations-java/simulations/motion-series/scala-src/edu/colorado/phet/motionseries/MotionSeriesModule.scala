@@ -59,7 +59,7 @@ class MotionSeriesModule(frame: PhetFrame,
     val paintAndInputTime = System.currentTimeMillis - lastTickTime
 
     val startTime = System.currentTimeMillis
-    motionSeriesModel.update(dt)
+    motionSeriesModel.stepInTime(dt)
     RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions() //todo: this still shows clipping of incorrect regions, maybe we need to repaint the entire area
     val modelTime = System.currentTimeMillis - startTime
 

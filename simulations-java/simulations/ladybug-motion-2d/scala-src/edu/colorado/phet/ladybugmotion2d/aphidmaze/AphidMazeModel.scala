@@ -18,9 +18,9 @@ class AphidMazeModel extends LadybugModel {
       }
   })
 
-  override def update(dt: Double) = {
+  override def stepInTime(dt: Double) = {
     val prevPosition = ladybug.getPosition
-    super.update(dt)
+    super.stepInTime(dt)
     val newPosition = ladybug.getPosition
 
     if (maze.crossedBarrier(prevPosition, newPosition)) {
