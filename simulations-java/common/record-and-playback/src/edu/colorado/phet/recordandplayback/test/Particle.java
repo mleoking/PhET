@@ -3,12 +3,10 @@ package edu.colorado.phet.recordandplayback.test;
 import java.util.ArrayList;
 
 /**
-* Created by IntelliJ IDEA.
-* User: Sam
-* Date: May 17, 2010
-* Time: 2:45:44 PM
-* To change this template use File | Settings | File Templates.
-*/
+ * Example Particle model class for sample application.
+ *
+ * @author Sam Reid
+ */
 public class Particle {
     private double x;
     private double y;

@@ -295,7 +295,6 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   }
 
   private def doStep(dt: Double) = {
-    super.setTime(getTime + dt)
     bead.stepInTime(dt)
     for (f <- fireDogs) f.stepInTime(dt)
     for (r <- raindrops) r.stepInTime(dt)
