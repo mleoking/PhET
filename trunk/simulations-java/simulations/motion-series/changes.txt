@@ -1,3 +1,4 @@
+Renamed Ramp to Ramp II: Forces in 2D, resolves #2054
 # 1.03.64 (40652) May 12, 2010
 Made coordinate frame graphic handle grabbable
 Added a handle to the coordinate frame graphic
