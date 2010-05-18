@@ -180,7 +180,7 @@
     // User agent to indicate when ripping.  These are used to make the web site
     // react somewhat differently (generally filtering out some links) when it
     // is being ripped for the installers.
-    define("RIPPER_USER_AGENT_PHET",  '"httrack-web-mirror-phet"');
+    define("RIPPER_USER_AGENT_PHET",  '"httrack-web-offline-en"');
     define("RIPPER_USER_AGENT_YF",    '"httrack-web-mirror-yf"');
     define("RIPPER_USER_AGENT_KSU",   '"httrack-web-mirror-ar"');
 
