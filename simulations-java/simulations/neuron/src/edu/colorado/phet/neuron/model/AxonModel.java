@@ -224,7 +224,7 @@ public class AxonModel implements IParticleCapture {
     	}
     }
     
-    public boolean isConcentrationReadouVisible(){
+    public boolean isConcentrationReadoutVisible(){
     	return concentrationReadoutVisible;
     }
     
