@@ -9,13 +9,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel;
-import edu.colorado.phet.recordandplayback.model.DataPoint;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * This application shows the minimal setup required to configure and use the recordandplayback project in a PhetApplication.
+ * This application shows the minimal setup required to configure and use the recordandplayback library in a PhetApplication.
  *
  * @author Sam Reid
  */
@@ -24,10 +23,6 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
     public TestRecordAndPlaybackApplication(PhetApplicationConfig config) {
         super(config);
         addModule(new TestRecordAndPlaybackModule());
-    }
-
-    public static void main(String[] args) {
-        new PhetApplicationLauncher().launchSim(args, "record-and-playback", TestRecordAndPlaybackApplication.class);
     }
 
     private class TestRecordAndPlaybackModule extends Module {
@@ -51,7 +46,7 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
     }
 
     /**
-     * The state that gets recorded, which should be immutable.
+     * The state that gets recorded, which should be immutable.  In this sample application, we just record the location of the particle.
      */
     public static class TestState {
         private double x;
@@ -120,5 +115,9 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
         public void setPlaybackState(TestState state) {
             particle.setPosition(state.getX(), state.getY());
         }
+    }
+
+    public static void main(String[] args) {
+        new PhetApplicationLauncher().launchSim(args, "record-and-playback", TestRecordAndPlaybackApplication.class);
     }
 }
