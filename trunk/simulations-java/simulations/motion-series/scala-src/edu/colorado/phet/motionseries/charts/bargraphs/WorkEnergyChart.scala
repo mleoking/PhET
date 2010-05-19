@@ -14,7 +14,13 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.colorado.phet.motionseries.MotionSeriesResources._
+import MotionSeriesDefaults._
+import BarChartNode.Variable
 
+/**
+ * Model class in MVC for determining whether the work energy chart is visible or not.
+ * @author Sam Reid
+ */
 class WorkEnergyChartVisibilityModel extends Observable {
   private var defaultVisible = false
   private var _visible = defaultVisible
@@ -23,22 +29,27 @@ class WorkEnergyChartVisibilityModel extends Observable {
 
   def visible_=(b: Boolean) = {_visible = b; notifyListeners()}
 
+  //Resets the visibility to the default value
   def reset() = {visible = defaultVisible}
 }
 
-class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartVisibilityModel, model: MotionSeriesModel, owner: JFrame) {
+/**
+ * The WorkEnergyChart is the bar graph shown in the JDialog that represents the different types of energy in the object
+ */
+class WorkEnergyChart(visibilityModel: WorkEnergyChartVisibilityModel, model: MotionSeriesModel, owner: JFrame) {
   val dialog = new JDialog(owner, "controls.energy-chart".translate, false)
 
-  def updateDialogVisible() = dialog.setVisible(workEnergyChartModel.visible)
-  workEnergyChartModel.addListenerByName {updateDialogVisible()}
+  def updateDialogVisible() = dialog.setVisible(visibilityModel.visible)
+  visibilityModel.addListener(() => updateDialogVisible())
   updateDialogVisible()
   val barChartNode = new BarChartNode("forces.energy-title".translate, 0.05, Color.white)
-  import MotionSeriesDefaults._
-  val totalEnergyVariable = new BarChartNode.Variable("energy.total-energy".translate, 0.0, totalEnergyColor)
-  val kineticEnergyVariable = new BarChartNode.Variable("energy.kinetic-energy".translate, 0.0, kineticEnergyColor)
-  val potentialEnergyVariable = new BarChartNode.Variable("energy.potential-energy".translate, 0.0, potentialEnergyColor)
-  val thermalEnergyVariable = new BarChartNode.Variable("energy.thermal-energy".translate, 0.0, thermalEnergyColor)
+  val totalEnergyVariable = new Variable("energy.total-energy".translate, 0.0, totalEnergyColor)
+  val kineticEnergyVariable = new Variable("energy.kinetic-energy".translate, 0.0, kineticEnergyColor)
+  val potentialEnergyVariable = new Variable("energy.potential-energy".translate, 0.0, potentialEnergyColor)
+  val thermalEnergyVariable = new Variable("energy.thermal-energy".translate, 0.0, thermalEnergyColor)
 
+  //We decided not to show work in this chart because it was becoming overloaded.
+  //But I'll leave these here in case we change our minds.
   //  val appliedWorkVariable = new BarChartNode.Variable("work.applied-work".translate, 0.0, appliedWorkColor)
   //  val frictionWorkVariable = new BarChartNode.Variable("work.friction-work".translate, 0.0, frictionWorkColor)
   //  val gravityWorkVariable = new BarChartNode.Variable("work.gravity-work".translate, 0.0, gravityWorkColor)
@@ -46,17 +57,18 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartVisibilityModel, mode
   barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable
     //    ,appliedWorkVariable, frictionWorkVariable, gravityWorkVariable
     ))
-  val canvas = new PhetPCanvas
+
+  val canvas = new PhetPCanvas //canvas to show the bars in.
   val clearButton = new PSwing(new MyJButton("controls.clear-heat".translate, () => model.clearHeat()))
   val zoomButton = new ZoomControlNode(ZoomControlNode.VERTICAL) {
     addZoomListener(new ZoomControlNode.ZoomListener() {
-      val myscale = 1.5
+      val zoomScale = 1.5
 
-      def doZoom(factor: Double) = barChartNode.setBarScale(barChartNode.getBarScale * factor)
+      def zoom(scaleFactor: Double) = barChartNode.setBarScale(barChartNode.getBarScale * scaleFactor)
 
-      def zoomedOut = doZoom(1 / myscale)
+      def zoomedOut = zoom(1 / zoomScale)
 
-      def zoomedIn = doZoom(myscale)
+      def zoomedIn = zoom(zoomScale)
     })
   }
   barChartNode.setOffset(20, 20)
@@ -71,7 +83,7 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartVisibilityModel, mode
     zoomButton.setOffset(canvas.getWidth - zoomButton.getFullBounds.getWidth, canvas.getHeight - zoomButton.getFullBounds.getHeight)
   }
   updateButtonLocations()
-  dialog.addWindowListener(new WindowAdapter() {override def windowClosing(e: WindowEvent) = workEnergyChartModel.visible = false})
+  dialog.addWindowListener(new WindowAdapter() {override def windowClosing(e: WindowEvent) = visibilityModel.visible = false})
   SwingUtils.centerWindowOnScreen(dialog)
   val bead = model.bead
   bead.addListenerByName {
