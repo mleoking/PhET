@@ -86,12 +86,6 @@
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/workshops</origin>
                         </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/activities</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../../temp/website/phetsims.colorado.edu/activities</origin>
-                        </distributionDirectory>
                         <distributionFile>
                             <origin>../../../Installer-Resources/Install-Path/phet-icon.ico</origin>
                         </distributionFile>
