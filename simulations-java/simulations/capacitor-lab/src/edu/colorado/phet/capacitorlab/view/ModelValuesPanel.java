@@ -24,6 +24,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 /**
  * Panel that displays all "raw" model values.
  * This is intended for developer use and is not internationalized.
+ * Variable names correspond to the variables in the design specification,
+ * and therefore violation Java naming conventions.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -34,21 +36,21 @@ public class ModelValuesPanel extends JPanel {
     private final CLModel model;
     
     // user settings
-    private final ValueDisplay batteryVoltage;
-    private final ValueDisplay disconnectedCharge;
-    private final ValueDisplay plateSideLength;
-    private final ValueDisplay plateSeparation;
-    private final ValueDisplay dielectricOffset;
-    private final ValueDisplay dielectricConstant;
+    private final ValueDisplay V_battery;
+    private final ValueDisplay Q_disconnected;
+    private final ValueDisplay L;
+    private final ValueDisplay d;
+    private final ValueDisplay offset;
+    private final ValueDisplay epsilon_dielectric;
     
     // derived values
-    private final ValueDisplay dielectricContactArea, airContactArea, plateArea;
-    private final ValueDisplay airCapacitance, dielectricCapacitance, totalCapacitance;
-    private final ValueDisplay plateVoltage;
-    private final ValueDisplay airCharge, dielectricCharge, totalCharge, excessAirCharge, excessDielectricCharge;
-    private final ValueDisplay airSurfaceChargeDensity, dielectricSurfaceChargeDensity;
-    private final ValueDisplay eEffective, ePlates, eAir, eDielectric;
-    private final ValueDisplay energyStored;
+    private final ValueDisplay A_dielectric, A_air, A_plate;
+    private final ValueDisplay C_air, C_dielectric, C;
+    private final ValueDisplay V_plates;
+    private final ValueDisplay Q_air, Q_dielectric, Q_total, Q_excess_air, Q_excess_dielectric;
+    private final ValueDisplay sigma_air, sigma_dielectric;
+    private final ValueDisplay E_effective, E_plates_air, E_plates_diectric, E_air, E_dielectric;
+    private final ValueDisplay U;
     
     private CustomDielectricMaterial customDielectric;
     private CustomDielectricChangeListener customDielectricChangeListener;
@@ -113,98 +115,101 @@ public class ModelValuesPanel extends JPanel {
         // user settings panel
         JPanel settingsPanel = new VerticalPanel();
         settingsPanel.setBorder( new TitledBorder( "User Settings" ) );
-        batteryVoltage = new ValueDisplay( "V_battery", "V", "0.00" );
-        batteryVoltage.setToolTipText( "battery voltage" );
-        settingsPanel.add( batteryVoltage );
-        disconnectedCharge = new ValueDisplay( "Q_disconnected", "C", "0.000E00" );
-        disconnectedCharge.setToolTipText( "<html>total plate change when<br>battery is disconnected</html>" );
-        settingsPanel.add( disconnectedCharge );
-        plateSideLength = new ValueDisplay( "L", "m", "0.0000" );
-        plateSideLength.setToolTipText( "plate side length" );
-        settingsPanel.add( plateSideLength );
-        plateSeparation = new ValueDisplay( "d", "m", "0.0000" );
-        plateSeparation.setToolTipText( "plate separation distance" );
-        settingsPanel.add( plateSeparation );
-        dielectricOffset = new ValueDisplay( "offset", "m", "0.000" );
-        dielectricOffset.setToolTipText( "how far the dielectric is pulled out" ); 
-        settingsPanel.add( dielectricOffset );
-        dielectricConstant = new ValueDisplay( CLStrings.EPSILON + "_dielectric", "", "0.000" );
-        dielectricConstant.setToolTipText( "dielectric constant" ); 
-        settingsPanel.add( dielectricConstant );
+        V_battery = new ValueDisplay( "V_battery", "V", "0.00" );
+        V_battery.setToolTipText( "battery voltage" );
+        settingsPanel.add( V_battery );
+        Q_disconnected = new ValueDisplay( "Q_disconnected", "C", "0.000E00" );
+        Q_disconnected.setToolTipText( "<html>total plate change when<br>battery is disconnected</html>" );
+        settingsPanel.add( Q_disconnected );
+        L = new ValueDisplay( "L", "m", "0.0000" );
+        L.setToolTipText( "plate side length" );
+        settingsPanel.add( L );
+        d = new ValueDisplay( "d", "m", "0.0000" );
+        d.setToolTipText( "plate separation distance" );
+        settingsPanel.add( d );
+        offset = new ValueDisplay( "offset", "m", "0.000" );
+        offset.setToolTipText( "how far the dielectric is pulled out" ); 
+        settingsPanel.add( offset );
+        epsilon_dielectric = new ValueDisplay( CLStrings.EPSILON + "_dielectric", "", "0.000" );
+        epsilon_dielectric.setToolTipText( "dielectric constant" ); 
+        settingsPanel.add( epsilon_dielectric );
         
         // derived panel
         JPanel derivedPanel = new VerticalPanel();
         derivedPanel.setBorder( new TitledBorder( "Derived" ) );
         // area
-        dielectricContactArea = new ValueDisplay( "A_dielectric", "m^2", "0.000000" );
-        dielectricContactArea.setToolTipText( "area of dielectric between the plates" );
-        derivedPanel.add( dielectricContactArea );
-        airContactArea = new ValueDisplay( "A_air", "m^2", "0.000000" );
-        airContactArea.setToolTipText( "area of air between the plates" );
-        derivedPanel.add( airContactArea );
-        plateArea = new ValueDisplay( "A_plate", "m^2", "0.000000" );
-        plateArea.setToolTipText( "plate area" );
-        derivedPanel.add( plateArea );
+        A_dielectric = new ValueDisplay( "A_dielectric", "m^2", "0.000000" );
+        A_dielectric.setToolTipText( "area of dielectric between the plates" );
+        derivedPanel.add( A_dielectric );
+        A_air = new ValueDisplay( "A_air", "m^2", "0.000000" );
+        A_air.setToolTipText( "area of air between the plates" );
+        derivedPanel.add( A_air );
+        A_plate = new ValueDisplay( "A_plate", "m^2", "0.000000" );
+        A_plate.setToolTipText( "plate area" );
+        derivedPanel.add( A_plate );
         // capacitance
         derivedPanel.add( new JSeparator() );
-        airCapacitance = new ValueDisplay( "C_air", "F", "0.000E00" );
-        airCapacitance.setToolTipText( "capacitance due to air" );
-        derivedPanel.add( airCapacitance );
-        dielectricCapacitance = new ValueDisplay( "C_dielectric", "F", "0.000E00" );
-        dielectricCapacitance.setToolTipText( "capacitor due to dielectric" );
-        derivedPanel.add( dielectricCapacitance );
-        totalCapacitance = new ValueDisplay( "C_total", "F", "0.000E00" );
-        totalCapacitance.setToolTipText( "total capacitance" );
-        derivedPanel.add( totalCapacitance );
+        C_air = new ValueDisplay( "C_air", "F", "0.000E00" );
+        C_air.setToolTipText( "capacitance due to air" );
+        derivedPanel.add( C_air );
+        C_dielectric = new ValueDisplay( "C_dielectric", "F", "0.000E00" );
+        C_dielectric.setToolTipText( "capacitor due to dielectric" );
+        derivedPanel.add( C_dielectric );
+        C = new ValueDisplay( "C_total", "F", "0.000E00" );
+        C.setToolTipText( "total capacitance" );
+        derivedPanel.add( C );
         // voltage
         derivedPanel.add( new JSeparator() );
-        plateVoltage = new ValueDisplay( "V_plate", "V", "0.00" );
-        plateVoltage.setToolTipText( "voltage difference between plates" );
-        derivedPanel.add( plateVoltage );
+        V_plates = new ValueDisplay( "V_plate", "V", "0.00" );
+        V_plates.setToolTipText( "voltage difference between plates" );
+        derivedPanel.add( V_plates );
         // charge
         derivedPanel.add( new JSeparator() );
-        airCharge = new ValueDisplay( "Q_air", "C", "0.000E00" );
-        airCharge.setToolTipText( "plate charge due to air" );
-        derivedPanel.add( airCharge );
-        dielectricCharge = new ValueDisplay( "Q_dielectric", "C", "0.000E00" );
-        dielectricCharge.setToolTipText( "plate charge due to dielectric" );
-        derivedPanel.add( dielectricCharge );
-        totalCharge = new ValueDisplay( "Q_total", "C", "0.000E00" );
-        totalCharge.setToolTipText( "total charge on top plate" );
-        derivedPanel.add( totalCharge );
-        excessAirCharge = new ValueDisplay( "Q_excess_air", "C", "0.000E00" );
-        excessAirCharge.setToolTipText( "excess charge due to air" );
-        derivedPanel.add( excessAirCharge );
-        excessDielectricCharge = new ValueDisplay( "Q_excess_dielectric", "C", "0.000E00" );
-        excessDielectricCharge.setToolTipText( "excess charge due to dielectric" );
-        derivedPanel.add( excessDielectricCharge );
+        Q_air = new ValueDisplay( "Q_air", "C", "0.000E00" );
+        Q_air.setToolTipText( "plate charge due to air" );
+        derivedPanel.add( Q_air );
+        Q_dielectric = new ValueDisplay( "Q_dielectric", "C", "0.000E00" );
+        Q_dielectric.setToolTipText( "plate charge due to dielectric" );
+        derivedPanel.add( Q_dielectric );
+        Q_total = new ValueDisplay( "Q_total", "C", "0.000E00" );
+        Q_total.setToolTipText( "total charge on top plate" );
+        derivedPanel.add( Q_total );
+        Q_excess_air = new ValueDisplay( "Q_excess_air", "C", "0.000E00" );
+        Q_excess_air.setToolTipText( "excess charge due to air" );
+        derivedPanel.add( Q_excess_air );
+        Q_excess_dielectric = new ValueDisplay( "Q_excess_dielectric", "C", "0.000E00" );
+        Q_excess_dielectric.setToolTipText( "excess charge due to dielectric" );
+        derivedPanel.add( Q_excess_dielectric );
         // surface charge density
         derivedPanel.add( new JSeparator() );
-        airSurfaceChargeDensity = new ValueDisplay( CLStrings.SIGMA + "_air", "C/m^2", "0.000E00" );
-        airSurfaceChargeDensity.setToolTipText( "surface charge density due to air" );
-        derivedPanel.add( airSurfaceChargeDensity );
-        dielectricSurfaceChargeDensity = new ValueDisplay( CLStrings.SIGMA + "_dielectric", "C/m^2", "0.000E00" );
-        dielectricSurfaceChargeDensity.setToolTipText( "surface charge density due to dielectric" );
-        derivedPanel.add( dielectricSurfaceChargeDensity );
+        sigma_air = new ValueDisplay( CLStrings.SIGMA + "_air", "C/m^2", "0.000E00" );
+        sigma_air.setToolTipText( "surface charge density due to air" );
+        derivedPanel.add( sigma_air );
+        sigma_dielectric = new ValueDisplay( CLStrings.SIGMA + "_dielectric", "C/m^2", "0.000E00" );
+        sigma_dielectric.setToolTipText( "surface charge density due to dielectric" );
+        derivedPanel.add( sigma_dielectric );
         // E-field
         derivedPanel.add( new JSeparator() );
-        eEffective = new ValueDisplay( "E_effective", "V/m", "0.000E00" );
-        eEffective.setToolTipText( "effective field between plates" );
-        derivedPanel.add( eEffective );
-        ePlates = new ValueDisplay( "E_plates", "V/m", "0.000E00" );
-        ePlates.setToolTipText( "field due to plates alone" );
-        derivedPanel.add( ePlates );
-        eAir = new ValueDisplay( "E_air", "V/m", "0.000E00" );
-        eAir.setToolTipText( "field in air volume" );
-        derivedPanel.add( eAir );
-        eDielectric = new ValueDisplay( "E_dielectric", "V/m", "0.000E00" );
-        eDielectric.setToolTipText( "field in dielectric volume" );
-        derivedPanel.add( eDielectric );
+        E_effective = new ValueDisplay( "E_effective", "V/m", "0.000E00" );
+        E_effective.setToolTipText( "effective field between plates" );
+        derivedPanel.add( E_effective );
+        E_plates_air = new ValueDisplay( "E_plates_air", "V/m", "0.000E00" );
+        E_plates_air.setToolTipText( "<html>field due to the plates in the<br>capacitor volume that contains air</html>" );
+        derivedPanel.add( E_plates_air );
+        E_plates_diectric = new ValueDisplay( "E_plates_dielectric", "V/m", "0.000E00" );
+        E_plates_diectric.setToolTipText( "<html>field due to the plates in the<br>capacitor volume that contains dielectric</html>" );
+        derivedPanel.add( E_plates_diectric );
+        E_air = new ValueDisplay( "E_air", "V/m", "0.000E00" );
+        E_air.setToolTipText( "field in air volume" );
+        derivedPanel.add( E_air );
+        E_dielectric = new ValueDisplay( "E_dielectric", "V/m", "0.000E00" );
+        E_dielectric.setToolTipText( "field in dielectric volume" );
+        derivedPanel.add( E_dielectric );
         // energy
         derivedPanel.add( new JSeparator() );
-        energyStored = new ValueDisplay( "U", "J", "0.000E00" );
-        energyStored.setToolTipText( "stored energy" );
-        derivedPanel.add( energyStored );
+        U = new ValueDisplay( "U", "J", "0.000E00" );
+        U.setToolTipText( "stored energy" );
+        derivedPanel.add( U );
         
         // layout
         VerticalPanel mainPanel = new VerticalPanel();
@@ -242,40 +247,41 @@ public class ModelValuesPanel extends JPanel {
         Capacitor capacitor = circuit.getCapacitor();
         
         /* user settings */
-        batteryVoltage.setValue( battery.getVoltage() );
-        disconnectedCharge.setValue( circuit.getDisconnectedPlateCharge() );
-        plateSideLength.setValue( capacitor.getPlateSideLength() );
-        plateSeparation.setValue( capacitor.getPlateSeparation() );
-        dielectricOffset.setValue( capacitor.getDielectricOffset() );
-        dielectricConstant.setValue( capacitor.getDielectricMaterial().getDielectricConstant() );
+        V_battery.setValue( battery.getVoltage() );
+        Q_disconnected.setValue( circuit.getDisconnectedPlateCharge() );
+        L.setValue( capacitor.getPlateSideLength() );
+        d.setValue( capacitor.getPlateSeparation() );
+        offset.setValue( capacitor.getDielectricOffset() );
+        epsilon_dielectric.setValue( capacitor.getDielectricMaterial().getDielectricConstant() );
         
         /* derived */
         // area
-        plateArea.setValue( capacitor.getPlateArea() );
-        dielectricContactArea.setValue( capacitor.getDielectricContactArea() );
-        airContactArea.setValue( capacitor.getAirContactArea() );
+        A_plate.setValue( capacitor.getPlateArea() );
+        A_dielectric.setValue( capacitor.getDielectricContactArea() );
+        A_air.setValue( capacitor.getAirContactArea() );
         // capacitance
-        airCapacitance.setValue( capacitor.getAirCapacitance() );
-        dielectricCapacitance.setValue( capacitor.getDieletricCapacitance() );
-        totalCapacitance.setValue( capacitor.getTotalCapacitance() );
+        C_air.setValue( capacitor.getAirCapacitance() );
+        C_dielectric.setValue( capacitor.getDieletricCapacitance() );
+        C.setValue( capacitor.getTotalCapacitance() );
         // voltage
-        plateVoltage.setValue( circuit.getPlatesVoltage() );
+        V_plates.setValue( circuit.getPlatesVoltage() );
         // charge
-        airCharge.setValue( circuit.getAirPlateCharge() );
-        dielectricCharge.setValue( circuit.getDielectricPlateCharge() );
-        totalCharge.setValue( circuit.getTotalPlateCharge() );
-        excessAirCharge.setValue( circuit.getExcessAirPlateCharge() );
-        excessDielectricCharge.setValue( circuit.getExcessDielectricPlateCharge() );
+        Q_air.setValue( circuit.getAirPlateCharge() );
+        Q_dielectric.setValue( circuit.getDielectricPlateCharge() );
+        Q_total.setValue( circuit.getTotalPlateCharge() );
+        Q_excess_air.setValue( circuit.getExcessAirPlateCharge() );
+        Q_excess_dielectric.setValue( circuit.getExcessDielectricPlateCharge() );
         // surface charge density
-        airSurfaceChargeDensity.setValue( model.getCircuit().getAirSurfaceChargeDensity() );
-        dielectricSurfaceChargeDensity.setValue( model.getCircuit().getDielectricSurfaceChargeDensity() );
+        sigma_air.setValue( model.getCircuit().getAirSurfaceChargeDensity() );
+        sigma_dielectric.setValue( model.getCircuit().getDielectricSurfaceChargeDensity() );
         // E-field
-        eEffective.setValue( model.getCircuit().getEffectiveEfield() );
-        ePlates.setValue( model.getCircuit().getPlatesEField() );
-        eAir.setValue( model.getCircuit().getAirEField() );
-        eDielectric.setValue( model.getCircuit().getDielectricEField() );
+        E_effective.setValue( model.getCircuit().getEffectiveEfield() );
+        E_plates_air.setValue( model.getCircuit().getPlatesAirEField() );
+        E_plates_diectric.setValue( model.getCircuit().getPlatesDielectricEField() );
+        E_air.setValue( model.getCircuit().getAirEField() );
+        E_dielectric.setValue( model.getCircuit().getDielectricEField() );
         // energy
-        energyStored.setValue( model.getCircuit().getStoredEnergy() );
+        U.setValue( model.getCircuit().getStoredEnergy() );
     }
     
     /*
