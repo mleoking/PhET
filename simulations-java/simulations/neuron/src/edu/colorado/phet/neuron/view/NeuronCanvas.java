@@ -4,6 +4,7 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
@@ -21,6 +23,7 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
@@ -30,8 +33,10 @@ import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.model.PotassiumIon;
 import edu.colorado.phet.neuron.model.SodiumIon;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
+import edu.colorado.phet.neuron.utils.MathUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -61,7 +66,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private static final boolean SHOW_VIEWPORT_BOUNDS = false;
 
     // Max size of the charge symbols, tweak as needed.
-    private static final double MAX_CHARGE_SYMBOL_SIZE = 11; 
+    private static final double MAX_CHARGE_SYMBOL_SIZE = 11;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -86,7 +91,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private MembranePotentialChart membranePotentialChart;
     
     // Button for stimulating the neuron.
-    DisableableGradientButtonNode stimulateNeuronButton2;
+    DisableableGradientButtonNode stimulateNeuronButton;
     
     // Concentration readouts.
     PText sodiumInteriorConcentrationReadout;
@@ -102,10 +107,13 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     
     // For debug: Shows center of zoom.
     private CrossHairNode crossHairNode;
-    private PNode myWorldNode=new PNode();
+    private PNode myWorldNode;
     
     private Rectangle2D viewportInIntermediateCoords = new Rectangle2D.Double();
 	private PhetPPath viewportOutline;
+
+	// Node that represents the cross section.
+	private AxonCrossSectionNode axonCrossSectionNode;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -146,6 +154,9 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 			public void concentrationReadoutVisibilityChanged() {
 				updateConcentrationReadoutVisible();
 			}
+			public void concentrationChanged() {
+				updateConcentrationReadouts();
+			}
 		});
         
         setBackground( NeuronConstants.CANVAS_BACKGROUND );
@@ -175,14 +186,14 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         addScreenChild(chartLayer);
         
         // Add the button for stimulating the neuron.
-        stimulateNeuronButton2 = new DisableableGradientButtonNode(NeuronStrings.STIMULATE_BUTTON_CAPTION, 12,
+        stimulateNeuronButton = new DisableableGradientButtonNode(NeuronStrings.STIMULATE_BUTTON_CAPTION, 12,
         		CANVAS_BUTTON_COLOR);
-        stimulateNeuronButton2.scale(2);
-        stimulateNeuronButton2.setOffset(10, 10);
-        addScreenChild(stimulateNeuronButton2);
+        stimulateNeuronButton.scale(2);
+        stimulateNeuronButton.setOffset(10, 10);
+        addScreenChild(stimulateNeuronButton);
 
         // Register to receive button pushes.
-        stimulateNeuronButton2.addActionListener( new ActionListener(){
+        stimulateNeuronButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
             	model.initiateStimulusPulse();
             	updateStimButtonState();
@@ -192,7 +203,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         // Add the axon cross section.
         AxonBodyNode axonBodyNode = new AxonBodyNode(model.getAxonMembrane(), mvt);
         axonBodyLayer.addChild(axonBodyNode);
-        AxonCrossSectionNode axonCrossSectionNode = new AxonCrossSectionNode(model.getAxonMembrane(), mvt);
+        axonCrossSectionNode = new AxonCrossSectionNode(model.getAxonMembrane(), mvt);
         axonCrossSectionLayer.addChild(axonCrossSectionNode);
         
         // Add the particles.
@@ -216,28 +227,19 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         
         // Add the zoom slider.
         ZoomControl zoomSlider = new ZoomControl(new PDimension(25, 130), this, 0.6, 7, 10);
-        zoomSlider.setOffset(stimulateNeuronButton2.getXOffset(),
-        		stimulateNeuronButton2.getFullBoundsReference().getMaxY() + 10);
+        zoomSlider.setOffset(stimulateNeuronButton.getXOffset(),
+        		stimulateNeuronButton.getFullBoundsReference().getMaxY() + 10);
         chartLayer.addChild(zoomSlider);
         
         // Add the concentration readouts.
-        PhetFont readoutFont = new PhetFont(14);
-        sodiumExteriorConcentrationReadout = new PText();
-        sodiumExteriorConcentrationReadout.setFont(readoutFont);
-        sodiumExteriorConcentrationReadout.setTextPaint(new SodiumIon().getRepresentationColor());
-        chartLayer.addChild(sodiumExteriorConcentrationReadout);
-        sodiumInteriorConcentrationReadout = new PText();
-        sodiumInteriorConcentrationReadout.setFont(readoutFont);
-        sodiumInteriorConcentrationReadout.setTextPaint(new SodiumIon().getRepresentationColor());
-        chartLayer.addChild(sodiumInteriorConcentrationReadout);
-        potassiumExteriorConcentrationReadout = new PText();
-        potassiumExteriorConcentrationReadout.setFont(readoutFont);
-        potassiumExteriorConcentrationReadout.setTextPaint(new PotassiumIon().getRepresentationColor());
-        chartLayer.addChild(potassiumExteriorConcentrationReadout);
-        potassiumInteriorConcentrationReadout = new PText();
-        potassiumInteriorConcentrationReadout.setFont(readoutFont);
-        potassiumInteriorConcentrationReadout.setTextPaint(new PotassiumIon().getRepresentationColor());
-        chartLayer.addChild(potassiumInteriorConcentrationReadout);
+        sodiumExteriorConcentrationReadout = new ConcentrationReadout(new SodiumIon().getRepresentationColor());
+        addScreenChild(sodiumExteriorConcentrationReadout);
+        sodiumInteriorConcentrationReadout = new ConcentrationReadout(new SodiumIon().getRepresentationColor());
+        addScreenChild(sodiumInteriorConcentrationReadout);
+        potassiumExteriorConcentrationReadout = new ConcentrationReadout(new PotassiumIon().getRepresentationColor());
+        addScreenChild(potassiumExteriorConcentrationReadout);
+        potassiumInteriorConcentrationReadout = new ConcentrationReadout(new PotassiumIon().getRepresentationColor());
+        addScreenChild(potassiumInteriorConcentrationReadout);
         
         // Add the depiction of the particle motion bounds, if enabled.
         if (SHOW_PARTICLE_BOUNDS){
@@ -299,6 +301,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
             		centerX - membranePotentialChart.getFullBoundsReference().width / 2,
             		screenSize.getHeight() - membranePotentialChart.getFullBoundsReference().height - 5);
             
+            
         	// Set up some bounds that represent the size of the screen in
         	// intermediate coordinates.
     		
@@ -325,11 +328,42 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     		}
     		
     		viewportInIntermediateCoords.setFrame(tranformedBounds);
+    		
+    		// Update the positions of the concentration readouts.  This must
+    		// be done after the viewport bounds are set, since it makes use
+    		// of them.
+    		updateConcentrationReadoutPositions();
         }
     }
+
+	private void updateConcentrationReadoutPositions() {
+		// Set the exterior cell readouts to be next to the button.
+		PBounds buttonBounds = stimulateNeuronButton.getFullBounds();
+		potassiumExteriorConcentrationReadout.setOffset(buttonBounds.getMaxX(), buttonBounds.getY());
+		sodiumExteriorConcentrationReadout.setOffset(
+				potassiumExteriorConcentrationReadout.getFullBoundsReference().getX(), 
+				potassiumExteriorConcentrationReadout.getFullBoundsReference().getMaxY());
+		
+		// Set the interior cell readouts to be in a location that will always
+		// be in the cell regardless of how zoomed out or in it is.
+		
+		PhetRootPNode rootPNode = getPhetRootNode();
+		Point2D topCenterOfMembrane = new Point2D.Double(axonCrossSectionNode.getFullBoundsReference().getCenterX(), axonCrossSectionNode.getFullBoundsReference().getMinY());
+		rootPNode.worldToScreen(topCenterOfMembrane);
+		
+		double maxWidth = Math.max(potassiumInteriorConcentrationReadout.getFullBoundsReference().width,
+				sodiumInteriorConcentrationReadout.getFullBoundsReference().width);
+//		potassiumInteriorConcentrationReadout.setOffset(getWidth() / 2 - maxWidth / 2, getHeight() / 2);
+		potassiumInteriorConcentrationReadout.setOffset(
+				topCenterOfMembrane.getX() - maxWidth / 2, 
+				topCenterOfMembrane.getY() + 40);
+		sodiumInteriorConcentrationReadout.setOffset(
+				potassiumInteriorConcentrationReadout.getFullBoundsReference().getX(),
+				potassiumInteriorConcentrationReadout.getFullBoundsReference().getMaxY());
+	}
     
     private void updateStimButtonState(){
-    	stimulateNeuronButton2.setEnabled(!model.isStimulusInitiationLockedOut());
+    	stimulateNeuronButton.setEnabled(!model.isStimulusInitiationLockedOut());
     }
     
     private void updateChargeSymbolsShown(){
@@ -344,10 +378,17 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     }
     
     private void updateConcentrationReadouts(){
-    	sodiumExteriorConcentrationReadout.setText("Blah");
-    	sodiumInteriorConcentrationReadout.setText("Blah");
-    	potassiumExteriorConcentrationReadout.setText("Blah");
-    	potassiumInteriorConcentrationReadout.setText("Blah");
+    	int places = 5;
+        DecimalFormat formatter = new DecimalFormat( "##0.00000" );
+
+    	sodiumExteriorConcentrationReadout.setText(NeuronStrings.SODIUM_CHEMICAL_SYMBOL + "[" + 
+    			formatter.format(MathUtils.round(model.getSodiumExteriorConcentration(), places)) + " mM]");
+    	sodiumInteriorConcentrationReadout.setText(NeuronStrings.SODIUM_CHEMICAL_SYMBOL + "[" + 
+    			formatter.format(MathUtils.round(model.getSodiumInteriorConcentration(), places)) + " mM]");
+    	potassiumExteriorConcentrationReadout.setText(NeuronStrings.POTASSIUM_CHEMICAL_SYMBOL + "[" + 
+    			formatter.format(MathUtils.round(model.getPotassiumExteriorConcentration(), places)) + " mM]");
+    	potassiumInteriorConcentrationReadout.setText(NeuronStrings.POTASSIUM_CHEMICAL_SYMBOL + "[" + 
+    			formatter.format(MathUtils.round(model.getSodiumInteriorConcentration(), places)) + " mM]");
     }
     
     /**
@@ -443,6 +484,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     		}
     		this.zoomFactor = zoomFactor;
     		notifyZoomChanged();
+    		
+    		updateConcentrationReadoutPositions();
     	}
     }
     
@@ -536,6 +579,25 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 	private void notifyZoomChanged(){
 		for (ZoomListener listener : listeners.getListeners(ZoomListener.class)){
 			listener.zoomFactorChanged();
+		}
+	}
+	
+    //----------------------------------------------------------------------------
+    // Inner Classes
+    //----------------------------------------------------------------------------
+	
+	private static class ConcentrationReadout extends PText {
+
+		private static final PhetFont READOUT_FONT = new PhetFont(14, true);
+		
+	    // Scale factor for scaling size of concentration readouts, tweak as
+	    // needed to adjust readout size.
+	    private static final double CONCENTRATION_READOUT_SCALE_FACTOR = 2;
+
+		public ConcentrationReadout(Paint textPaint) {
+			setFont(READOUT_FONT);
+			setScale(CONCENTRATION_READOUT_SCALE_FACTOR);
+			setTextPaint(textPaint);
 		}
 	}
 }
