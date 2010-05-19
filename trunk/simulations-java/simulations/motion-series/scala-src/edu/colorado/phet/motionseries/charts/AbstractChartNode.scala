@@ -67,13 +67,13 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
   val timeseriesModel = new TimeSeriesModel(recordableModel, new ConstantDtClock(30, 1.0)) { //todo: remove dummy clock
     override def setPlaybackTime(requestedTime: Double) = model.setPlaybackTime(requestedTime) //skip bounds checking in parent
   }
-  model.addHistoryClearListener(new HistoryClearListener{
+  model.addHistoryClearListener(new HistoryClearListener {
     def historyCleared = timeseriesModel.clear(true)
   })
-//  model.historyRemainderClearListeners += (() => {
-//    //    timeseriesModel.clear(true) //todo: how did this clear the serieses?  By listener chaining.
-//    //    for (pt <- model.recordHistory) timeseriesModel.addSeriesPoint(pt.state,pt.time)
-//  })
+  //  model.historyRemainderClearListeners += (() => {
+  //    //    timeseriesModel.clear(true) //todo: how did this clear the serieses?  By listener chaining.
+  //    //    for (pt <- model.recordHistory) timeseriesModel.addSeriesPoint(pt.state,pt.time)
+  //  })
 
   val updateableObject = new UpdateableObject {
     def setUpdateStrategy(updateStrategy: UpdateStrategy) = {}
@@ -171,7 +171,7 @@ class MinimizableMotionSeriesGraph(title: String,
     }
   }))
 
-  def updateClearButtonVisible() = clearButton.setVisible(model.getNumRecordedPoints> 0)
+  def updateClearButtonVisible() = clearButton.setVisible(model.getNumRecordedPoints > 0)
   model.addListenerByName {
     updateClearButtonVisible()
   }
