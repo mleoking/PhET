@@ -118,6 +118,9 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
       bead.motionStrategy = new Crashed(new Vector2D(_position2D.x, bead.airborneFloor), _angle, bead)
       crashListeners.foreach(_())
     }
+    bead.setTime(bead.time + dt)
+    bead.setVelocity(_velocity2D.magnitude )
+    
     normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
     bead.notifyListeners() //to get the new normalforce
   }
