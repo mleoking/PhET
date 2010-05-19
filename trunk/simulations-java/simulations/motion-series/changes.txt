@@ -1,4 +1,5 @@
-Fixed: Kinetic energy doesn't update while object is in the air on bar chart or line chart 
+Made sure energy is exactly conserved while object is airborne
+Fixed: Kinetic energy doesn't update while object is in the air on bar chart or line chart
 Removed point of origin vector visualization option from the control panel.
 Fixed: during playback, value readouts to the left of chart do not update
 Set the cursor to be a hand in the free body diagram node

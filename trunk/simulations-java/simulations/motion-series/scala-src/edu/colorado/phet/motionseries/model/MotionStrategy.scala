@@ -11,9 +11,8 @@ trait MotionStrategyMemento {
 }
 
 abstract class MotionStrategy(val bead: ForceBead) {
+  def isCrashed: Boolean
 
-  def isCrashed:Boolean
-  
   def stepInTime(dt: Double)
 
   def position2D: Vector2D
@@ -111,6 +110,7 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
   def velocity2D = _velocity2D
 
   override def stepInTime(dt: Double) = {
+    val originalEnergy = bead.getTotalEnergy
     val accel = totalForce / mass
     _velocity2D = _velocity2D + accel * dt
     _position2D = _position2D + _velocity2D * dt
@@ -119,10 +119,18 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
       crashListeners.foreach(_())
     }
     bead.setTime(bead.time + dt)
-    bead.setVelocity(_velocity2D.magnitude )
-    
+    bead.setVelocity(_velocity2D.magnitude)
+
+    //ensure that energy is exactly conserved by fine-tuning the vertical position of the object; note that this wouldn't work in low g
+    val energy = bead.getTotalEnergy
+    val energyDifference = energy - originalEnergy
+    val dy = energyDifference / bead.mass / bead.gravity
+    _position2D = new Vector2D(_position2D.x, _position2D.y + dy)
+
     normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
     bead.notifyListeners() //to get the new normalforce
+
+    println("bead's energy = " + bead.getTotalEnergy)
   }
 
   override def position2D = _position2D
