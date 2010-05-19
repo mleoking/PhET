@@ -1,12 +1,7 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
-- E_dielectric should be 0 when dielectric constant = 1
-- E_dielectric should be 0 when dielectric is fully removed from the capacitor
 - why is Eclipse suddenly not finding inner classes?
-- add ranges for model quantities to design doc
-- add symbols and units summary to design doc
-- change 1 to "dielectric constant of air" in design doc
 - solve coordinate frame conversion issues for drag handles
 - fix behavior of plate size drag handle, whose axis is on the diagonal of the top plate (should drag point be on a line perpendicular to this axis?)
 - utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)

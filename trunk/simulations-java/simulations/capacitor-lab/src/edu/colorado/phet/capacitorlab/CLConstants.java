@@ -52,7 +52,11 @@ public class CLConstants {
     public static final double TOP_WIRE_EXTENT = Math.abs( .016 ); // how far the top wire extends above the capactor's origin, absolute value (meters)
     public static final double BOTTOM_WIRE_EXTENT = TOP_WIRE_EXTENT; // how far the bottom wire extends below the capactor's origin, absolute value (meters)
     
-    public static final double E0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
+    public static final double EPSILON_0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
+    public static final double EPSILON_VACUUM = 1; // dielectric constant of a vacuum, dimensionless
+    public static final double EPSILON_AIR = 1.00059; // dielectric constant of air, dimensionless
+    
+    public static final double MANUAL_PLATE_CHARGE = 0; // Coulombs
     
     // model-view transform
     public static final double MVT_SCALE = 15000;

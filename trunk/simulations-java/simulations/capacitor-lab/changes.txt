@@ -1,3 +1,4 @@
+5/17/10 implement new model provided by NP, using "2 parallel capacitors" approach
 5/17/10 display plate charge value the same way in control and meter
 5/17/10 add background to plate charge control
 5/17/10 custom Piccolo slider for plate charge, first pass

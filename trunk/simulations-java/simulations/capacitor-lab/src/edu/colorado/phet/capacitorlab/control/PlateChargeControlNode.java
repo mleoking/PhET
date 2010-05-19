@@ -112,7 +112,7 @@ public class PlateChargeControlNode extends PhetPNode {
         TickMarkNode noneTickMarkNode = new TickMarkNode();
         RangeLabelNode noneLabelNode = new RangeLabelNode( RANGE_LABEL_NONE );
         titleNode = new TitleNode( CLStrings.LABEL_PLATE_CHARGE );
-        valueNode = new ValueNode( circuit.getPlateCharge() );
+        valueNode = new ValueNode( circuit.getTotalPlateCharge() );
         
         // parent for all nodes that are part of the slider, excluding the value
         PNode parentNode = new PNode();
@@ -222,14 +222,14 @@ public class PlateChargeControlNode extends PhetPNode {
                 }
                 
                 // set the model
-                circuit.setUserPlateCharge( value );
+                circuit.setManualPlateCharge( value );
             }
         } );
     }
     
     private void update() {
         
-        double plateCharge = circuit.getUserPlateCharge();
+        double plateCharge = circuit.getManualPlateCharge();
         
         // knob location
         double xOffset = knobNode.getXOffset();

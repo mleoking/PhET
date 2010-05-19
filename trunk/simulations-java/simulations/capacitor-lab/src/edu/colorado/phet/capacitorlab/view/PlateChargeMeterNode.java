@@ -138,7 +138,7 @@ public class PlateChargeMeterNode extends PhetPNode {
         titleNode.setOffset( x, y );
         
         // value
-        valueNode = new ValueNode( circuit.getPlateCharge() );
+        valueNode = new ValueNode( circuit.getTotalPlateCharge() );
         addChild( valueNode );
         x = titleNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
         y = titleNode.getFullBoundsReference().getMaxY() + 2;
@@ -166,13 +166,13 @@ public class PlateChargeMeterNode extends PhetPNode {
     
     private void update() {
         
-        double plateCharge = circuit.getPlateCharge();
+        double totalPlateCharge = circuit.getTotalPlateCharge();
         
         // bar height
-        barNode.setValue( plateCharge );
+        barNode.setValue( totalPlateCharge );
 
         // value, centered below title
-        valueNode.setValue( plateCharge );
+        valueNode.setValue( totalPlateCharge );
         double x = titleNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
         double y = titleNode.getFullBoundsReference().getMaxY() + 2;
         valueNode.setOffset( x, y );

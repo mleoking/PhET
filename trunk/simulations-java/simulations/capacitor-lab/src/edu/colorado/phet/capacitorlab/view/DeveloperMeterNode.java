@@ -13,12 +13,8 @@ import java.text.NumberFormat;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.CLModel;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeListener;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Air;
+import edu.colorado.phet.capacitorlab.model.*;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -50,18 +46,21 @@ public class DeveloperMeterNode extends PhetPNode {
     private final CLModel model;
     
     private final PComposite parentNode;
-    private final ValueNode userVoltageNode;
-    private final ValueNode userPlateChargeNode;
-    private final ValueNode plateSize;
-    private final ValueNode dielectricConstantNode;
-    private final ValueNode plateAreaNode, dielectricContactAreaNode;
+    
+    // user settings
+    private final ValueNode batteryVoltageNode;
+    private final ValueNode manualPlateChargeNode;
+    private final ValueNode plateSideLengthNode;
     private final ValueNode plateSeparationNode;
-    private final ValueNode capacitanceNode;
-    private final ValueNode voltageNode;
-    private final ValueNode plateChargeNode;
-    private final ValueNode excessPlateChargeNode;
-    private final ValueNode surfaceChargeDensityNode;
-    private final ValueNode effectiveFieldNode, plateFieldNode, dielectricFieldNode;
+    private final ValueNode dielectricConstantNode;
+    
+    // derived values
+    private final ValueNode dielectricContactAreaNode, airContactAreaNode, plateAreaNode;
+    private final ValueNode airCapacitanceNode, dielectricCapacitanceNode, totalCapacitanceNode;
+    private final ValueNode plateVoltageNode;
+    private final ValueNode airCharge, dielectricCharge, totalCharge, excessAirCharge, excessDielectricCharge;
+    private final ValueNode airSurfaceChargeDensity, dielectricSurfaceChargeDensity;
+    private final ValueNode eEffective, ePlates, eAir, eDielectric;
     private final ValueNode energyStoredNode;
     
     private final Rectangle2D backgroundRect;
@@ -76,41 +75,29 @@ public class DeveloperMeterNode extends PhetPNode {
     public DeveloperMeterNode( CLModel model, PNode dragBoundsNode ) {
         
         this.model = model;
-        model.getCircuit().addBatteryCapacitorCircuitChangeListener( new  BatteryCapacitorCircuitChangeAdapter() {
-            @Override
+        model.getCircuit().addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
+            
             public void batteryConnectedChanged() {
                 updateValues();
             }
-            @Override 
+            
             public void chargeChanged() {
                 updateValues();
             }
-        });
-        model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeListener() {
-
-            public void dielectricMaterialChanged() {
-                updateDielectricListener();
+            
+            public void capacitanceChanged() {
                 updateValues();
             }
-
-            public void dielectricOffsetChanged() {
+            
+            public void efieldChanged() {
                 updateValues();
             }
-
-            public void plateSeparationChanged() {
+            
+            public void energyChanged() {
                 updateValues();
+                
             }
-
-            public void plateSizeChanged() {
-                updateValues();
-            }
-        });
-        model.getBattery().addBatteryChangeListener( new BatteryChangeListener() {
-
-            public void polarityChanged() {
-                updateValues();
-            }
-
+            
             public void voltageChanged() {
                 updateValues();
             }
@@ -141,48 +128,74 @@ public class DeveloperMeterNode extends PhetPNode {
         
         parentNode.addChild( new PText( " " ) );
         parentNode.addChild( new PText( "Constants ....................................................." ) );
-        ValueNode vacuumPermittivityNode = new ValueNode( CLStrings.EPSILON + "<sub>0</sub>", "F/m", "0.000E00" );
-        vacuumPermittivityNode.setValue( CLConstants.E0 );
-        parentNode.addChild( vacuumPermittivityNode );
-        ValueNode airDielectricConstantNode = new ValueNode( CLStrings.EPSILON + "<sub>a</sub>", "", "0.00000000" );
-        airDielectricConstantNode.setValue( new Air().getDielectricConstant() );
-        parentNode.addChild( airDielectricConstantNode );
+        ValueNode epsilon0 = new ValueNode( CLStrings.EPSILON + "0", "F/m", "0.000E00" );
+        epsilon0.setValue( CLConstants.EPSILON_0 );
+        parentNode.addChild( epsilon0 );
+        ValueNode epsilonAir = new ValueNode( CLStrings.EPSILON + "_air", "", "0.00000000" );
+        epsilonAir.setValue( CLConstants.EPSILON_AIR );
+        parentNode.addChild( epsilonAir );
+        ValueNode epsilonVacuum = new ValueNode( CLStrings.EPSILON + "_vacuum", "", "0.0" );
+        epsilonVacuum.setValue( CLConstants.EPSILON_VACUUM );
+        parentNode.addChild( epsilonVacuum );
         
         parentNode.addChild( new PText( " " ) );
         parentNode.addChild( new PText( "User Settings ....................................................." ) );
-        userVoltageNode = new ValueNode( "V<sub>battery</sub> (battery voltage)", "V", "0.00" );
-        parentNode.addChild( userVoltageNode );
-        userPlateChargeNode = new ValueNode( "Q<sub>user</sub> (plate charge)", "Coulombs", "0.000E00" );
-        parentNode.addChild( userPlateChargeNode );
-        plateSize = new ValueNode( "L (plate side length)", "m", "0.0000" );
-        parentNode.addChild( plateSize );
+        batteryVoltageNode = new ValueNode( "V_battery", "V", "0.00" );
+        parentNode.addChild( batteryVoltageNode );
+        manualPlateChargeNode = new ValueNode( "Q_disconnected", "Coulombs", "0.000E00" );
+        parentNode.addChild( manualPlateChargeNode );
+        plateSideLengthNode = new ValueNode( "L (plate side)", "m", "0.0000" );
+        parentNode.addChild( plateSideLengthNode );
         plateSeparationNode = new ValueNode( "d (plate separation)", "m", "0.0000" );
         parentNode.addChild( plateSeparationNode );
-        dielectricConstantNode = new ValueNode( CLStrings.EPSILON + "<sub>r</sub>", "", "0.000" );
+        dielectricConstantNode = new ValueNode( CLStrings.EPSILON + "r", "", "0.000" );
         parentNode.addChild( dielectricConstantNode );
         
         parentNode.addChild( new PText( " " ) );
         parentNode.addChild( new PText( "Derived ....................................................." ) );
-        plateAreaNode = new ValueNode( "A (plate area)", "m<sup>2</sup>", "0.000000" );
-        parentNode.addChild( plateAreaNode );
-        dielectricContactAreaNode = new ValueNode( "A<sub>d</sub> (dielectric contact area)", "m<sup>2</sup>", "0.000000" );
+        // area
+        dielectricContactAreaNode = new ValueNode( "A_dielectric", "m^2", "0.000000" );
         parentNode.addChild( dielectricContactAreaNode );
-        capacitanceNode = new ValueNode( "C (capacitance)", "F", "0.000E00" );
-        parentNode.addChild( capacitanceNode );
-        voltageNode = new ValueNode( "V (voltage)", "V", "0.00" );
-        parentNode.addChild( voltageNode );
-        plateChargeNode = new ValueNode( "Q (plate charge)", "C", "0.000E00" );
-        parentNode.addChild( plateChargeNode );
-        excessPlateChargeNode = new ValueNode( "Q<sub>excess</sub> (excess plate charge)", "C", "0.000E00" );
-        parentNode.addChild( excessPlateChargeNode );
-        surfaceChargeDensityNode = new ValueNode( CLStrings.SIGMA + " (surface charge density)", "C/m<sup>2</sup>", "0.000E00" );
-        parentNode.addChild( surfaceChargeDensityNode );
-        effectiveFieldNode = new ValueNode( "E<sub>effective</sub>", "V/m", "0.000E00" );
-        parentNode.addChild( effectiveFieldNode );
-        plateFieldNode = new ValueNode( "E<sub>plate</sub>", "V/m", "0.000E00" );
-        parentNode.addChild( plateFieldNode );
-        dielectricFieldNode = new ValueNode( "E<sub>dielectric</sub>", "V/m", "0.000E00" );
-        parentNode.addChild( dielectricFieldNode );
+        airContactAreaNode = new ValueNode( "A_air", "m^2", "0.000000" );
+        parentNode.addChild( airContactAreaNode );
+        plateAreaNode = new ValueNode( "A_plate", "m^2", "0.000000" );
+        parentNode.addChild( plateAreaNode );
+        // capacitance
+        airCapacitanceNode = new ValueNode( "C_air", "F", "0.000E00" );
+        parentNode.addChild( airCapacitanceNode );
+        dielectricCapacitanceNode = new ValueNode( "C_dielectric", "F", "0.000E00" );
+        parentNode.addChild( dielectricCapacitanceNode );
+        totalCapacitanceNode = new ValueNode( "C_total", "F", "0.000E00" );
+        parentNode.addChild( totalCapacitanceNode );
+        // voltage
+        plateVoltageNode = new ValueNode( "V_plate", "V", "0.00" );
+        parentNode.addChild( plateVoltageNode );
+        // charge
+        airCharge = new ValueNode( "Q_air", "C", "0.000E00" );
+        parentNode.addChild( airCharge );
+        dielectricCharge = new ValueNode( "Q_dielectric", "C", "0.000E00" );
+        parentNode.addChild( dielectricCharge );
+        totalCharge = new ValueNode( "Q_total", "C", "0.000E00" );
+        parentNode.addChild( totalCharge );
+        excessAirCharge = new ValueNode( "Q_excess_air", "C", "0.000E00" );
+        parentNode.addChild( excessAirCharge );
+        excessDielectricCharge = new ValueNode( "Q_excess_dielectric", "C", "0.000E00" );
+        parentNode.addChild( excessDielectricCharge );
+        // surface charge density
+        airSurfaceChargeDensity = new ValueNode( CLStrings.SIGMA + "_air", "C/m^2", "0.000E00" );
+        parentNode.addChild( airSurfaceChargeDensity );
+        dielectricSurfaceChargeDensity = new ValueNode( CLStrings.SIGMA + "_dielectric", "C/m^2", "0.000E00" );
+        parentNode.addChild( dielectricSurfaceChargeDensity );
+        // E-field
+        eEffective = new ValueNode( "E_effective", "V/m", "0.000E00" );
+        parentNode.addChild( eEffective );
+        ePlates = new ValueNode( "E_plates", "V/m", "0.000E00" );
+        parentNode.addChild( ePlates );
+        eAir = new ValueNode( "E_air", "V/m", "0.000E00" );
+        parentNode.addChild( eAir );
+        eDielectric = new ValueNode( "E_dielectric", "V/m", "0.000E00" );
+        parentNode.addChild( eDielectric );
+        // energy
         energyStoredNode = new ValueNode( "U (energy stored)", "J", "0.000E00" );
         parentNode.addChild( energyStoredNode );
         
@@ -206,28 +219,44 @@ public class DeveloperMeterNode extends PhetPNode {
     
     private void updateValues() {
         
-        // set values
-        userVoltageNode.setValue( model.getCircuit().getVoltage() );
-        userPlateChargeNode.setValue( model.getCircuit().getPlateCharge() );
-        plateSize.setValue( model.getCapacitor().getPlateSize() );
-        plateAreaNode.setValue( model.getCapacitor().getPlateArea() );
-        dielectricConstantNode.setValue( model.getCapacitor().getDielectricMaterial().getDielectricConstant() );
-        dielectricContactAreaNode.setValue( model.getCapacitor().getDielectricContactArea() );
-        plateSeparationNode.setValue( model.getCapacitor().getPlateSeparation() );
-        capacitanceNode.setValue( model.getCircuit().getCapacitance() );
-        voltageNode.setValue( model.getCircuit().getVoltage() );
-        plateChargeNode.setValue( model.getCircuit().getPlateCharge() );
-        surfaceChargeDensityNode.setValue( model.getCircuit().getSurfaceDensityCharge() );
-        excessPlateChargeNode.setValue( model.getCircuit().getExcessPlateCharge() );
-        effectiveFieldNode.setValue( model.getCircuit().getEffectiveEfield() );
-        plateFieldNode.setValue( model.getCircuit().getPlatesEField() );
-        dielectricFieldNode.setValue( model.getCircuit().getDielectricEField() );
-        energyStoredNode.setValue( model.getCircuit().getStoredEnergy() );
+        BatteryCapacitorCircuit circuit = model.getCircuit();
+        Battery battery = circuit.getBattery();
+        Capacitor capacitor = circuit.getCapacitor();
         
-        // visibility
-        boolean batteryConnected = model.getCircuit().isBatteryConnected();
-        userVoltageNode.setVisible( batteryConnected );
-        userPlateChargeNode.setVisible( !batteryConnected );
+        /* user settings */
+        batteryVoltageNode.setValue( battery.getVoltage() );
+        manualPlateChargeNode.setValue( circuit.getManualPlateCharge() );
+        plateSideLengthNode.setValue( capacitor.getPlateSideLength() );
+        plateSeparationNode.setValue( capacitor.getPlateSeparation() );
+        dielectricConstantNode.setValue( capacitor.getDielectricMaterial().getDielectricConstant() );
+        
+        /* derived */
+        // area
+        plateAreaNode.setValue( capacitor.getPlateArea() );
+        dielectricContactAreaNode.setValue( capacitor.getDielectricContactArea() );
+        airContactAreaNode.setValue( capacitor.getAirContactArea() );
+        // capacitance
+        airCapacitanceNode.setValue( capacitor.getAirCapacitance() );
+        dielectricCapacitanceNode.setValue( capacitor.getDieletricCapacitance() );
+        totalCapacitanceNode.setValue( capacitor.getTotalCapacitance() );
+        // voltage
+        plateVoltageNode.setValue( circuit.getPlateVoltage() );
+        // charge
+        airCharge.setValue( circuit.getAirPlateCharge() );
+        dielectricCharge.setValue( circuit.getDielectricPlateCharge() );
+        totalCharge.setValue( circuit.getTotalPlateCharge() );
+        excessAirCharge.setValue( circuit.getExcessAirPlateCharge() );
+        excessDielectricCharge.setValue( circuit.getExcessDielectricPlateCharge() );
+        // surface charge density
+        airSurfaceChargeDensity.setValue( model.getCircuit().getAirSurfaceDensityCharge() );
+        dielectricSurfaceChargeDensity.setValue( model.getCircuit().getDielectricSurfaceDensityCharge() );
+        // E-field
+        eEffective.setValue( model.getCircuit().getEffectiveEfield() );
+        ePlates.setValue( model.getCircuit().getPlatesEField() );
+        eAir.setValue( model.getCircuit().getAirEField() );
+        eDielectric.setValue( model.getCircuit().getDielectricEField() );
+        // energy
+        energyStoredNode.setValue( model.getCircuit().getStoredEnergy() );
         
         // layout
         layoutColumnLeftAlign( parentNode );

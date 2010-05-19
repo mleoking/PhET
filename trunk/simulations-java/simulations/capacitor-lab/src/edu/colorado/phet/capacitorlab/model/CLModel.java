@@ -26,6 +26,10 @@ public class CLModel {
     private static final double PLATE_SIZE = CLConstants.PLATE_SIZE_RANGE.getDefault();
     private static final double PLATE_SEPARATION = CLConstants.PLATE_SEPARATION_RANGE.getDefault();
     private static final double DIELECTRIC_OFFSET = CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault();
+    private static final double MANUAL_PLATE_CHARGE = CLConstants.MANUAL_PLATE_CHARGE;
+    private static final double WIRE_THICKNESS = CLConstants.WIRE_THICKNESS;
+    private static final double TOP_WIRE_EXTENT = CLConstants.TOP_WIRE_EXTENT;
+    private static final double BOTTOM_WIRE_EXTENT = CLConstants.BOTTOM_WIRE_EXTENT;
     
     private final DielectricMaterial[] dielectricMaterials;
     private final DielectricMaterial defaultDielectricMaterial;
@@ -41,12 +45,12 @@ public class CLModel {
         dielectricMaterials = new DielectricMaterial[] { custom, teflon, polystyrene, paper };
         defaultDielectricMaterial = custom;
         
-        Battery battery = new Battery( BATTERY_LOCATION, BATTERY_VOLTAGE, BATTERY_CONNECTED );
+        Battery battery = new Battery( BATTERY_LOCATION, BATTERY_VOLTAGE );
         Capacitor capacitor = new Capacitor( CAPACITOR_LOCATION, PLATE_SIZE, PLATE_SEPARATION, defaultDielectricMaterial, DIELECTRIC_OFFSET );
-        circuit = new BatteryCapacitorCircuit( battery, capacitor );
+        circuit = new BatteryCapacitorCircuit( battery, capacitor, BATTERY_CONNECTED, MANUAL_PLATE_CHARGE );
         
-        topWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.TOP_WIRE_EXTENT );
-        bottomWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.BOTTOM_WIRE_EXTENT );
+        topWire = new Wire( WIRE_THICKNESS, TOP_WIRE_EXTENT );
+        bottomWire = new Wire( WIRE_THICKNESS, BOTTOM_WIRE_EXTENT );
     }
     
     public DielectricMaterial[] getDielectricMaterials() {
@@ -74,11 +78,15 @@ public class CLModel {
     }
     
     public void reset() {
+        // battery
         getBattery().setVoltage( BATTERY_VOLTAGE );
-        getCircuit().setBatteryConnected( BATTERY_CONNECTED );
-        getCapacitor().setPlateSize( PLATE_SIZE );
+        // capacitor
+        getCapacitor().setPlateSideLength( PLATE_SIZE );
         getCapacitor().setPlateSeparation( PLATE_SEPARATION );
         getCapacitor().setDielectricMaterial( defaultDielectricMaterial );
         getCapacitor().setDielectricOffset( DIELECTRIC_OFFSET );
+        // circuit
+        getCircuit().setBatteryConnected( BATTERY_CONNECTED );
+        getCircuit().setManualPlateCharge( MANUAL_PLATE_CHARGE );
     }
 }

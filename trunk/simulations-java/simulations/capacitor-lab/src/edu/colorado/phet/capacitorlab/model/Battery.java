@@ -18,7 +18,7 @@ public class Battery {
     private double voltage;
     private final EventListenerList listeners;
     
-    public Battery( Point2D location, double voltage, boolean connected ) {
+    public Battery( Point2D location, double voltage ) {
         this.location = new Point2D.Double( location.getX(), location.getY() );
         this.voltage = voltage;
         listeners = new EventListenerList();

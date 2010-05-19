@@ -111,7 +111,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         protected void startDrag(PInputEvent event) {
             super.startDrag( event );
             startDragPosition.setLocation( getGlobalMousePosition( event ) );
-            startDragValue = capacitor.getPlateSize();
+            startDragValue = capacitor.getPlateSideLength();
         }
         
         @Override
@@ -143,7 +143,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
                 }
                 
                 // update the model
-                capacitor.setPlateSize( newValue );
+                capacitor.setPlateSideLength( newValue );
             }
         }
         
