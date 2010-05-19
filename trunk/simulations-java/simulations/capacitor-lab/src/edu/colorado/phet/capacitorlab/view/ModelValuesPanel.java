@@ -12,6 +12,7 @@ import java.text.NumberFormat;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
@@ -125,6 +126,7 @@ public class ModelValuesPanel extends JPanel {
         plateArea = new ValueDisplay( "A_plate", "m^2", "0.000000" );
         derivedPanel.add( plateArea );
         // capacitance
+        derivedPanel.add( new JSeparator() );
         airCapacitance = new ValueDisplay( "C_air", "F", "0.000E00" );
         derivedPanel.add( airCapacitance );
         dielectricCapacitance = new ValueDisplay( "C_dielectric", "F", "0.000E00" );
@@ -132,9 +134,11 @@ public class ModelValuesPanel extends JPanel {
         totalCapacitance = new ValueDisplay( "C_total", "F", "0.000E00" );
         derivedPanel.add( totalCapacitance );
         // voltage
+        derivedPanel.add( new JSeparator() );
         plateVoltage = new ValueDisplay( "V_plate", "V", "0.00" );
         derivedPanel.add( plateVoltage );
         // charge
+        derivedPanel.add( new JSeparator() );
         airCharge = new ValueDisplay( "Q_air", "C", "0.000E00" );
         derivedPanel.add( airCharge );
         dielectricCharge = new ValueDisplay( "Q_dielectric", "C", "0.000E00" );
@@ -146,11 +150,13 @@ public class ModelValuesPanel extends JPanel {
         excessDielectricCharge = new ValueDisplay( "Q_excess_dielectric", "C", "0.000E00" );
         derivedPanel.add( excessDielectricCharge );
         // surface charge density
+        derivedPanel.add( new JSeparator() );
         airSurfaceChargeDensity = new ValueDisplay( CLStrings.SIGMA + "_air", "C/m^2", "0.000E00" );
         derivedPanel.add( airSurfaceChargeDensity );
         dielectricSurfaceChargeDensity = new ValueDisplay( CLStrings.SIGMA + "_dielectric", "C/m^2", "0.000E00" );
         derivedPanel.add( dielectricSurfaceChargeDensity );
         // E-field
+        derivedPanel.add( new JSeparator() );
         eEffective = new ValueDisplay( "E_effective", "V/m", "0.000E00" );
         derivedPanel.add( eEffective );
         ePlates = new ValueDisplay( "E_plates", "V/m", "0.000E00" );
@@ -160,7 +166,8 @@ public class ModelValuesPanel extends JPanel {
         eDielectric = new ValueDisplay( "E_dielectric", "V/m", "0.000E00" );
         derivedPanel.add( eDielectric );
         // energy
-        energyStored = new ValueDisplay( "U (energy stored)", "J", "0.000E00" );
+        derivedPanel.add( new JSeparator() );
+        energyStored = new ValueDisplay( "U", "J", "0.000E00" );
         derivedPanel.add( energyStored );
         
         // layout
@@ -168,7 +175,7 @@ public class ModelValuesPanel extends JPanel {
         mainPanel.add( constantsPanel );
         mainPanel.add( settingsPanel );
         mainPanel.add( derivedPanel );
-        mainPanel.add( Box.createHorizontalStrut( 200 ) ); // HACK to keep the labels from jumping around
+        mainPanel.add( Box.createHorizontalStrut( 180 ) ); // HACK to keep the labels from jumping around
         
         setLayout( new BorderLayout() );
         add( mainPanel, BorderLayout.WEST );
@@ -181,7 +188,6 @@ public class ModelValuesPanel extends JPanel {
      * Unregister for notifications.
      */
     public void cleanup() {
-        System.out.println( "ModelValuesPanel.cleanup" );//XXX
         model.getCircuit().removeBatteryCapacitorCircuitChangeListener( circuitChangeListener );
         if ( customDielectric != null ) {
             customDielectric.removeCustomDielectricChangeListener( customDielectricChangeListener );
@@ -280,15 +286,22 @@ public class ModelValuesPanel extends JPanel {
     
     private static class VerticalPanel extends JPanel {
         
+        private final JPanel innerPanel; // trick to get nested panels to left justify
         private final EasyGridBagLayout layout;
         private int row;
         
         public VerticalPanel() {
-            layout = new EasyGridBagLayout( this );
-            setLayout( layout );
+            
+            // components will be added to any inner panel
+            innerPanel = new JPanel();
+            layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
             layout.setFill( GridBagConstraints.HORIZONTAL );
             row = 0;
+            
+            setLayout( new BorderLayout() );
+            super.add( innerPanel, BorderLayout.WEST );
         }
         
         @Override
