@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
@@ -236,9 +237,11 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         addScreenChild(sodiumExteriorConcentrationReadout);
         sodiumInteriorConcentrationReadout = new ConcentrationReadout(new SodiumIon().getRepresentationColor());
         addScreenChild(sodiumInteriorConcentrationReadout);
-        potassiumExteriorConcentrationReadout = new ConcentrationReadout(new PotassiumIon().getRepresentationColor());
+        potassiumExteriorConcentrationReadout = new ConcentrationReadout(
+        		ColorUtils.darkerColor(new PotassiumIon().getRepresentationColor(), 0.5));
         addScreenChild(potassiumExteriorConcentrationReadout);
-        potassiumInteriorConcentrationReadout = new ConcentrationReadout(new PotassiumIon().getRepresentationColor());
+        potassiumInteriorConcentrationReadout = new ConcentrationReadout(
+        	ColorUtils.darkerColor(new PotassiumIon().getRepresentationColor(), 0.5));
         addScreenChild(potassiumInteriorConcentrationReadout);
         
         // Add the depiction of the particle motion bounds, if enabled.
@@ -560,6 +563,16 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	}
     }
     
+	private void notifyZoomChanged(){
+		for (ZoomListener listener : listeners.getListeners(ZoomListener.class)){
+			listener.zoomFactorChanged();
+		}
+	}
+	
+    //----------------------------------------------------------------------------
+    // Inner Classes
+    //----------------------------------------------------------------------------
+	
     private static class CrossHairNode extends PNode {
 
     	private static final double LINE_LENGTH = 10;
@@ -576,23 +589,13 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 		}
     }
     
-	private void notifyZoomChanged(){
-		for (ZoomListener listener : listeners.getListeners(ZoomListener.class)){
-			listener.zoomFactorChanged();
-		}
-	}
-	
-    //----------------------------------------------------------------------------
-    // Inner Classes
-    //----------------------------------------------------------------------------
-	
 	private static class ConcentrationReadout extends PText {
 
 		private static final PhetFont READOUT_FONT = new PhetFont(14, true);
 		
 	    // Scale factor for scaling size of concentration readouts, tweak as
 	    // needed to adjust readout size.
-	    private static final double CONCENTRATION_READOUT_SCALE_FACTOR = 2;
+	    private static final double CONCENTRATION_READOUT_SCALE_FACTOR = 1.75;
 
 		public ConcentrationReadout(Paint textPaint) {
 			setFont(READOUT_FONT);
