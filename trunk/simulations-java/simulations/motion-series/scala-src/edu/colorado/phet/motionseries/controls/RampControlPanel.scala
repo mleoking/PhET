@@ -42,9 +42,9 @@ class RampControlPanel(model: MotionSeriesModel,
   addControl(body)
   addResetAllButton(new Resettable {def reset = resetHandler()})
 
-  def addPrimaryControl(component: JComponent):Unit = body.add(component)
+  def addPrimaryControl(component: JComponent): Unit = body.add(component)
 
-  def addPrimaryControl(component: scala.swing.Component):Unit = addPrimaryControl(component.peer)
+  def addPrimaryControl(component: scala.swing.Component): Unit = addPrimaryControl(component.peer)
 }
 
 class RampControlPanelBody(model: MotionSeriesModel,
@@ -87,9 +87,12 @@ class RampControlPanelBody(model: MotionSeriesModel,
   }
 
   val vectorPanel = new SubControlPanel("vectors.title".translate) with IProguardKeepClass {
-    add(new MyRadioButton("vectors.centered".translate, vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener).peer)
-    add(new MyRadioButton("vectors.point-of-origin".translate, vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener).peer)
-    add(Box.createRigidArea(new Dimension(10, 10)))
+    //We decided to remove the point of origin visualization option from this sim, thinking we would
+    //add support for it in a separate sim.  I'll leave this here but commented out in case we change our minds.
+    //    add(new MyRadioButton("vectors.centered".translate, vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener).peer)
+    //    add(new MyRadioButton("vectors.point-of-origin".translate, vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener).peer)
+    //    add(Box.createRigidArea(new Dimension(10, 10)))
+
     add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
 
     if (coordinateSystemFeaturesEnabled) {
