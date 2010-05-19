@@ -197,19 +197,19 @@ public class AxonModel implements IParticleCapture {
     	return hodgkinHuxleyModel;
     }
 
-    protected double getSodiumInteriorConcentration() {
+    public double getSodiumInteriorConcentration() {
 		return sodiumInteriorConcentration;
 	}
 
-	protected double getSodiumExteriorConcentration() {
+	public double getSodiumExteriorConcentration() {
 		return sodiumExteriorConcentration;
 	}
 
-	protected double getPotassiumInteriorConcentration() {
+	public double getPotassiumInteriorConcentration() {
 		return potassiumInteriorConcentration;
 	}
 
-	protected double getPotassiumExteriorConcentration() {
+	public double getPotassiumExteriorConcentration() {
 		return potassiumExteriorConcentration;
 	}
 
