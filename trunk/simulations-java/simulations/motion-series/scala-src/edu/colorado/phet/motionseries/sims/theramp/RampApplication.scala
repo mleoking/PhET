@@ -136,6 +136,9 @@ class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.e
   })
 }
 
+/**
+ * Main class for the Ramp application and all its modules.
+ */
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new IntroRampModule(getPhetFrame))
   addModule(new ForceGraphsModule(getPhetFrame))
