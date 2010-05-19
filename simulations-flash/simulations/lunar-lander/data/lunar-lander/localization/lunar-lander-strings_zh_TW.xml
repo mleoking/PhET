@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--lunar-lander-strings_zh_TW.xml created Sat Jul 25 00:21:49 CST 2009 using: lunar-lander 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
+<!--lunar-lander-strings_zh_TW.xml created Tue May 18 22:04:13 CST 2010 using: lunar-lander 2.02.00 (37307), translation-utility 2.08.00 (39581) 四月 2, 2010-->
 <SimStrings>
 <string key="empty" value="E"/>
 <string key="hardLanding" value="重重地降落"/>
 <string key="score" value="分數："/>
-<string key="unpause" value="Unpause取消暫停"/>
+<string key="unpause" value="取消暫停"/>
 <string key="range" value="範圍(m)"/>
 <string key="fuel" value="燃料(kg)"/>
 <string key="altitude" value="高度(m)"/>
 <string key="help3" value="暫停"/>
-<string key="help2" value="重設"/>
+<string key="help2" value="重置"/>
 <string key="help1" value="鍵盤控制說明："/>
 <string key="hitBoulder" value="碰撞巨石！\n斷腿事故！\n燃料耗盡！"/>
 <string key="start" value="開始"/>
-<string key="hardLandingsColon" value="重重地降落"/>
+<string key="hardLandingsColon" value="重重地降落："/>
 <string key="vY" value="v_y(m/s)"/>
 <string key="vX" value="v_x(m/s)"/>
-<string key="help" value="Help/pause說明或暫停"/>
+<string key="help" value="說明／暫停"/>
 <string key="sound" value="音效"/>
 <string key="vectors" value="向量"/>
-<string key="reset" value="重設"/>
+<string key="reset" value="重置"/>
 <string key="longHelp" value="～在燃料用盡前，盡可能降落在多處不同地點的平坦區。\n～在降落後，藉由增加推力起飛。\n～降落在同一區域超過一次則不給分。\n～降落在較窄或較難抵達的區域可獲得額外的點數：從大區域=5點數到超窄區域=50點數。\n～緩慢地降落(v &lt; 2 m/s)可得額外的10點數。\n～如果你碰撞巨石則遊戲結束 （你不可以降落在巨石上！）。\n～降落時墜毀(v &gt; 12 m/s)則遊戲結束。"/>
 <string key="r" value="R"/>
 <string key="p" value="P"/>
@@ -27,18 +27,18 @@
 <string key="softLanding" value="緩慢地降落"/>
 <string key="thrust" value="推力(N)"/>
 <string key="simTitle" value="月球登陸器"/>
-<string key="label7" value="在燃料用盡前，你能降落在多少個平坦區？當緩慢地降落時 (v &lt; 2 m/s)，可獲得額外的點數. 如果你碰撞巨石或降落時墜毀 (v &gt; 6 m/s) 則遊戲結束 。"/>
+<string key="label7" value="在燃料用盡前，你能降落在多少個平坦區？當緩慢地降落時 (v &lt; 2 m/s)，可獲得額外的點數。如果你碰撞巨石或降落時墜毀 (v &gt; 6 m/s)， 則遊戲結束 。"/>
 <string key="label6" value="空白鍵 = 切換最大推力"/>
 <string key="label5" value="右偏"/>
 <string key="crash2" value="降落時墜毀，全體喪生。"/>
 <string key="label4" value="減少推力"/>
 <string key="crash1" value="降落時墜毀，斷腿事故。"/>
-<string key="softLandingsColon" value="緩慢地降落"/>
+<string key="softLandingsColon" value="緩慢地降落："/>
 <string key="full" value="F"/>
 <string key="label3" value="左偏"/>
 <string key="label2" value="增加推力"/>
 <string key="paused" value="暫停"/>
 <string key="label1" value="以鍵盤控制登陸器"/>
-<string key="landingSpeedEq" value="Landing speed 降落速度 = "/>
+<string key="landingSpeedEq" value="降落速度 = "/>
 <string key="velVector" value="速度向量"/>
 </SimStrings>
