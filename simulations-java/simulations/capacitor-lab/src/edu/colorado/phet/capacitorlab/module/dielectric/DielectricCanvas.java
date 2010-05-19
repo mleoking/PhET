@@ -200,7 +200,7 @@ public class DielectricCanvas extends CLCanvas {
     private void updateDielectricOffsetDragHandle() {
         Capacitor capacitor = model.getCapacitor();
         Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
-        double plateSize = mvt.modelToView( capacitor.getPlateSize() );
+        double plateSize = mvt.modelToView( capacitor.getPlateSideLength() );
         double dielectricOffset = mvt.modelToView( capacitor.getDielectricOffset() );
         double x = capacitorLocation.getX() + ( plateSize / 2 ) + dielectricOffset;
         double y = capacitorLocation.getY();
@@ -210,7 +210,7 @@ public class DielectricCanvas extends CLCanvas {
     private void updatePlateSeparationDragHandle() {
         Capacitor capacitor = model.getCapacitor();
         Point2D capacitorLocation = mvt.modelToView( capacitor.getLocationReference() );
-        double plateSize = mvt.modelToView( capacitor.getPlateSize() );
+        double plateSize = mvt.modelToView( capacitor.getPlateSideLength() );
         double plateSeparation = mvt.modelToView( capacitor.getPlateSeparation() );
         double x = capacitorLocation.getX() - ( 0.4 * plateSize );
         double y = capacitorLocation.getY() - ( plateSeparation / 2 );

@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -24,20 +24,24 @@ public class CapacitorNode extends PhetPNode {
     public CapacitorNode( Capacitor capacitor, ModelViewTransform mvt ) {
         
         this.capacitor = capacitor;
-        this.capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
+        this.capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
 
+            @Override
             public void dielectricMaterialChanged() {
                 updateDielectricColor();
             }
 
+            @Override
             public void dielectricOffsetChanged() {
                 updateDielectricOffset();
             }
 
+            @Override
             public void plateSeparationChanged() {
                 updateGeometry();
             }
 
+            @Override
             public void plateSizeChanged() {
                 updateGeometry();
             }
@@ -66,7 +70,7 @@ public class CapacitorNode extends PhetPNode {
     private void updateGeometry() {
         
         // model-to-view transform
-        double plateSize = mvt.modelToView( capacitor.getPlateSize() );
+        double plateSize = mvt.modelToView( capacitor.getPlateSideLength() );
         double plateThickness = mvt.modelToView( capacitor.getPlateThickness() );
         double plateSeparation = mvt.modelToView( capacitor.getPlateSeparation() );
         double dielectricGap = mvt.modelToView( capacitor.getDielectricGap() );
