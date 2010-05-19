@@ -22,7 +22,7 @@ public class ModelValuesDialog extends PaintImmediateDialog {
         setTitle( "Model Values" );
         setResizable( false );
         panel = new ModelValuesPanel( model );
-        getContentPane().add( panel );
+        setContentPane( panel );
         pack();
     }
     
