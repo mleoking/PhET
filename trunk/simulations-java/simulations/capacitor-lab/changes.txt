@@ -1,3 +1,5 @@
+5/19/10 add Stored Energy meter
+5/19/10 consolidate meter range constants in CLConstants
 # 0.00.04 (40879) May 19, 2010
 5/19/10 new model, plate charge meter, disconnect plate charge control
 5/18/10 reorganize model to be similar to specification

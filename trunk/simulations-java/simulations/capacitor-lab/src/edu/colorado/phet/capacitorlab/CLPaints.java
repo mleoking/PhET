@@ -23,6 +23,9 @@ public class CLPaints {
     public static final Color POSITIVE_CHARGE = Color.RED;
     public static final Color NEGATIVE_CHARGE = Color.BLUE;
     
+    // energy
+    public static final Color ENERGY = Color.YELLOW;
+    
     // draggable things
     public static final Color DRAGGABLE_NORMAL = Color.GREEN;
     public static final Color DRAGGABLE_HIGHLIGHT = Color.YELLOW;

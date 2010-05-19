@@ -32,7 +32,7 @@ public class MetersControlPanel extends CLTitledControlPanel {
     
     private final Frame parentFrame;
     private final CLModel model;
-    private final JCheckBox capacitanceCheckBox, plateChargeCheckBox, energyCheckBox, voltmeterCheckBox, fieldDetectorCheckBox, modelValuesCheckBox;
+    private final JCheckBox capacitanceCheckBox, chargeCheckBox, energyCheckBox, voltmeterCheckBox, fieldDetectorCheckBox, modelValuesCheckBox;
     
     private ModelValuesDialog modelValuesDialog;
     private Point modelValuesDialogLocation;
@@ -43,29 +43,48 @@ public class MetersControlPanel extends CLTitledControlPanel {
         this.parentFrame = parentFrame;
         this.model = model;
         
+        // Capacitance meter
         capacitanceCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CAPACITANCE );
         
-        plateChargeCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_PLATE_CHARGE );
-        plateChargeCheckBox.setSelected( canvas.getPlateChargeMeterNode().isVisible() );
-        plateChargeCheckBox.addChangeListener( new ChangeListener() {
+        // Plate Charge meter
+        chargeCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CHARGE );
+        chargeCheckBox.setSelected( canvas.getChargeMeterNode().isVisible() );
+        chargeCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                canvas.getPlateChargeMeterNode().setVisible( plateChargeCheckBox.isSelected() );
+                canvas.getChargeMeterNode().setVisible( chargeCheckBox.isSelected() );
             }
         });
-        canvas.getPlateChargeMeterNode().addPropertyChangeListener( new PropertyChangeListener() {
+        canvas.getChargeMeterNode().addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                    plateChargeCheckBox.setSelected( canvas.getPlateChargeMeterNode().isVisible() );
+                    chargeCheckBox.setSelected( canvas.getChargeMeterNode().isVisible() );
                 }
             }
         });
         
+        // Energy meter
         energyCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_ENERGY );
+        energyCheckBox.setSelected( canvas.getEnergyMeterNode().isVisible() );
+        energyCheckBox.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                canvas.getEnergyMeterNode().setVisible( energyCheckBox.isSelected() );
+            }
+        });
+        canvas.getEnergyMeterNode().addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
+                    energyCheckBox.setSelected( canvas.getEnergyMeterNode().isVisible() );
+                }
+            }
+        });
         
+        // Voltmeter
         voltmeterCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_VOLTMETER );
         
+        // Field Detector
         fieldDetectorCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_FIELD_DETECTOR );
         
+        // Model Values dialog
         modelValuesCheckBox = new JCheckBox( "Model Values" );
         modelValuesCheckBox.setForeground( Color.RED );
         modelValuesCheckBox.addActionListener( new ActionListener() {
@@ -87,7 +106,7 @@ public class MetersControlPanel extends CLTitledControlPanel {
         int row = 0;
         int column = 0;
         layout.addComponent( capacitanceCheckBox, row++, column );
-        layout.addComponent( plateChargeCheckBox, row++, column );
+        layout.addComponent( chargeCheckBox, row++, column );
         layout.addComponent( energyCheckBox, row++, column );
         layout.addComponent( voltmeterCheckBox, row++, column );
         layout.addComponent( fieldDetectorCheckBox, row++, column );

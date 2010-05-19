@@ -20,7 +20,7 @@ public class CLStrings {
     public static final String CHECKBOX_PLATE_CHARGES = getString( "checkBox.plateCharges" );
     public static final String CHECKBOX_ELECTRIC_FIELD_LINES = getString( "checkBox.electricFieldLines" );
     public static final String CHECKBOX_METER_CAPACITANCE = getString( "checkBox.meter.capacitance" );
-    public static final String CHECKBOX_METER_PLATE_CHARGE = getString( "checkBox.meter.plateCharge" );
+    public static final String CHECKBOX_METER_CHARGE = getString( "checkBox.meter.charge" );
     public static final String CHECKBOX_METER_ENERGY = getString( "checkBox.meter.energy" );
     public static final String CHECKBOX_METER_VOLTMETER = getString( "checkBox.meter.voltmeter" );
     public static final String CHECKBOX_METER_FIELD_DETECTOR = getString( "checkBox.meter.fieldDetector" );
@@ -30,15 +30,18 @@ public class CLStrings {
     public static final String LABEL_DIELECTRIC_CHARGES = getString( "label.dielectricCharges" );
     public static final String LABEL_DIELECTRIC_CONSTANT = getString( "label.dielectricConstant" );
     public static final String LABEL_DIELECTRIC_MATERIAL = getString( "label.dielectricMaterial" );
+    public static final String LABEL_NONE = getString( "label.none" );
+    public static final String LABEL_LOTS = getString( "label.lots" );
     public static final String LABEL_PLATE_CHARGE = getString( "label.plateCharge" );
-    public static final String LABEL_PLATE_CHARGE_NONE = getString( "label.plateCharge.none" );
-    public static final String LABEL_PLATE_CHARGE_LOTS = getString( "label.plateCharge.lots" );
     
     public static final String MATERIAL_CUSTOM = getString( "material.custom" );
     public static final String MATERIAL_TEFLON = getString( "material.teflon" );
     public static final String MATERIAL_POLYSTYRENE = getString( "material.polystyrene" );
     public static final String MATERIAL_PAPER = getString( "material.paper" );
     public static final String MATERIAL_AIR = getString( "material.air" );
+    
+    public static final String METER_PLATE_CHARGE = getString( "meter.plateCharge" );
+    public static final String METER_STORED_ENERGY = getString( "meter.storedEnergy" );
     
     public static final String PATTERN_VALUE = getString( "pattern.value.0value.1units" );
     public static final String PATTERN_DIELECTRIC_MATERIAL = getString( "pattern.dielectricMaterial.0name.1constant" );
@@ -62,6 +65,7 @@ public class CLStrings {
     public static final String UNITS_MILLIMETERS_SQUARED = getString( "units.millimetersSquared" );
     public static final String UNITS_COULOMBS = getString( "units.coulombs" );
     public static final String UNITS_PICOFARADS = getString( "units.picofarads" );
+    public static final String UNITS_JOULES = getString( "units.joules" );
     
     // Greek letters, i18n not required
     public static final String EPSILON = "\u0190";

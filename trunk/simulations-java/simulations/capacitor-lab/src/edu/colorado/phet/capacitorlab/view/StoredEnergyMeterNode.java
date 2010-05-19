@@ -32,18 +32,18 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Meter that displays charge on the capacitor plates. 
+ * Meter that displays stored energy. 
  * Origin is at the upper-left corner of the "track" that the bar moves in.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PlateChargeMeterNode extends PhetPNode {
+public class StoredEnergyMeterNode extends PhetPNode {
 
     /*
-     * Range of the meter is 0 to 1x10^MAX_EXPONENT Coulombs.
+     * Range of the meter is 0 to 1x10^MAX_EXPONENT Joules.
      * Changing this will adjust label, ticks, value display, etc.
      */
-    private static final int MAX_EXPONENT = CLConstants.PLATE_CHARGE_METER_MAX_EXPONENT;
+    private static final int MAX_EXPONENT = CLConstants.STORED_ENERGY_METER_MAX_EXPONENT; 
     
     private static final double MAX_VALUE = Math.pow( 10, MAX_EXPONENT );
     private static final String MAX_LABEL = "<html>10<sup>" + String.valueOf( MAX_EXPONENT ) + "</sup>";
@@ -55,8 +55,7 @@ public class PlateChargeMeterNode extends PhetPNode {
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
     
     // bar
-    private static final Color BAR_POSITIVE_FILL_COLOR = CLPaints.POSITIVE_CHARGE;
-    private static final Color BAR_NEGATIVE_FILL_COLOR = CLPaints.NEGATIVE_CHARGE;
+    private static final Color BAR_FILL_COLOR = CLPaints.ENERGY;
     private static final Color BAR_STROKE_COLOR = TRACK_STROKE_COLOR;
     private static final Stroke BAR_STROKE = TRACK_STROKE;
     
@@ -85,12 +84,12 @@ public class PlateChargeMeterNode extends PhetPNode {
     private final TitleNode titleNode;
     private final ValueNode valueNode;
     
-    public PlateChargeMeterNode( BatteryCapacitorCircuit circuit, PNode dragBoundsNode ) {
+    public StoredEnergyMeterNode( BatteryCapacitorCircuit circuit, PNode dragBoundsNode ) {
         
         this.circuit = circuit;
-        circuit.addBatteryCapacitorCircuitChangeListener( new  BatteryCapacitorCircuitChangeAdapter() {
+        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
             @Override
-            public void chargeChanged() {
+            public void energyChanged() {
                 update();
             }
         });
@@ -132,7 +131,7 @@ public class PlateChargeMeterNode extends PhetPNode {
         maxLabelNode.setOffset( x, y );
         
         // title
-        titleNode = new TitleNode( CLStrings.METER_PLATE_CHARGE );
+        titleNode = new TitleNode( CLStrings.METER_STORED_ENERGY );
         addChild( titleNode );
         x = trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
         y = minLabelNode.getFullBoundsReference().getMaxY() + 2;
@@ -153,7 +152,7 @@ public class PlateChargeMeterNode extends PhetPNode {
         closeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
-                PlateChargeMeterNode.this.setVisible( false );
+                StoredEnergyMeterNode.this.setVisible( false );
             }
         });
         addChild( closeButton );
@@ -167,13 +166,13 @@ public class PlateChargeMeterNode extends PhetPNode {
     
     private void update() {
         
-        double totalPlateCharge = circuit.getTotalPlateCharge();
+        double storedEnergy = circuit.getStoredEnergy();
         
         // bar height
-        barNode.setValue( totalPlateCharge );
+        barNode.setValue( storedEnergy );
 
         // value, centered below title
-        valueNode.setValue( totalPlateCharge );
+        valueNode.setValue( storedEnergy );
         double x = titleNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
         double y = titleNode.getFullBoundsReference().getMaxY() + 2;
         valueNode.setOffset( x, y );
@@ -204,14 +203,14 @@ public class PlateChargeMeterNode extends PhetPNode {
         public BarNode() {
             rectangle = new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height );
             setPathTo( rectangle );
-            setPaint( BAR_POSITIVE_FILL_COLOR );
+            setPaint( BAR_FILL_COLOR );
             setStrokePaint( BAR_STROKE_COLOR );
             setStroke( BAR_STROKE );
         }
         
         public void setValue( double value ) {
-            double percent = Math.abs( value ) / MAX_VALUE;
-            if ( percent > 1 ) {
+            double percent = value / MAX_VALUE;
+            if ( percent < 0 || percent > 1 ) {
                 percent = 1;
                 System.err.println( "ChargeMeter.BarNode, value out of range: " + value );
             }
@@ -219,7 +218,6 @@ public class PlateChargeMeterNode extends PhetPNode {
             double height = TRACK_SIZE.height - y;
             rectangle.setRect( 0, y, TRACK_SIZE.width, height );
             setPathTo( rectangle );
-            setPaint( value > 0 ? BAR_POSITIVE_FILL_COLOR : BAR_NEGATIVE_FILL_COLOR );
         }
     }
     
@@ -280,7 +278,7 @@ public class PlateChargeMeterNode extends PhetPNode {
                 double mantissa = value / TICK_SPACING;
                 mantissaString = MessageFormat.format( VALUE_PATTERN, VALUE_MANTISSA_FORMAT.format( mantissa ) );
             }
-            setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE, mantissaString, CLStrings.UNITS_COULOMBS ) );
+            setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE, mantissaString, CLStrings.UNITS_JOULES ) );
         }
     }
 }
