@@ -74,7 +74,7 @@ public class Capacitor {
      * @param plateSideLength meters
      */
     public void setPlateSideLength( double plateSideLength ) {
-        if ( plateSideLength <= 0 ) {
+        if ( ! ( plateSideLength > 0 ) ) {
             throw new IllegalArgumentException( "plateSideLength must be > 0: " + plateSideLength );
         }
         if ( plateSideLength != this.plateSideLength ) {
@@ -98,7 +98,7 @@ public class Capacitor {
      * @param plateSeparation distance, in meters.
      */
     public void setPlateSeparation( double plateSeparation ) {
-        if ( plateSeparation <= 0 ) {
+        if ( !( plateSeparation > 0 ) ) {
             throw new IllegalArgumentException( "plateSeparation must be > 0: " + plateSeparation );
         }
         if ( plateSeparation != this.plateSeparation ) {
@@ -163,9 +163,6 @@ public class Capacitor {
      * @param dielectricOffset offset, in meters.
      */
     public void setDielectricOffset( double dielectricOffset ) {
-        if ( dielectricOffset < 0 ) {
-            throw new IllegalArgumentException( "dielectricOffset must be >= 0: " + dielectricOffset );
-        }
         if ( dielectricOffset != this.dielectricOffset ) {
             this.dielectricOffset = dielectricOffset;
             fireDielectricOffsetChanged();
