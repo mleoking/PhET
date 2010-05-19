@@ -4,17 +4,16 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.motionseries.graphics.{RampCanvas}
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.common.piccolophet.{PiccoloPhetApplication}
-import java.awt.{Color}
 import edu.colorado.phet.motionseries.controls.RampControlPanel
 import robotmovingcompany.{RobotMovingCompanyModule}
 
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.charts.bargraphs._
-import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig}
+import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 import swing.Button
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel, PlaybackSpeedSlider}
+import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel}
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -105,6 +104,20 @@ class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.e
     super.reset()
     workEnergyChartVisibilityModel.reset()
   }
+
+  //Minimize the energy chart window when changing tabs, and restore it when returning to this tab
+  addListener(new Module.Listener() {
+    var energyChartVisibleOnDeactivate = false
+
+    def activated() = {
+      workEnergyChartVisibilityModel.visible = energyChartVisibleOnDeactivate
+    }
+
+    def deactivated() = {
+      energyChartVisibleOnDeactivate = workEnergyChartVisibilityModel.visible
+      workEnergyChartVisibilityModel.visible = false
+    }
+  })
 }
 
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
