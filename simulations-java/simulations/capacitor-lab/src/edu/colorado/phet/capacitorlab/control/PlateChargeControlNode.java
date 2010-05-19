@@ -225,14 +225,14 @@ public class PlateChargeControlNode extends PhetPNode {
                 }
                 
                 // set the model
-                circuit.setManualPlateCharge( value );
+                circuit.setDisconnectedPlateCharge( value );
             }
         } );
     }
     
     private void update() {
         
-        double plateCharge = circuit.getManualPlateCharge();
+        double plateCharge = circuit.getDisconnectedPlateCharge();
         
         // knob location
         double xOffset = knobNode.getXOffset();

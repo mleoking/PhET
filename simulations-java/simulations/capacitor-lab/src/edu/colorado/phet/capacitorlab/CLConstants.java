@@ -56,7 +56,7 @@ public class CLConstants {
     public static final double EPSILON_VACUUM = 1; // dielectric constant of a vacuum, dimensionless
     public static final double EPSILON_AIR = 1.0005896; // dielectric constant of air, dimensionless
     
-    public static final double MANUAL_PLATE_CHARGE = 0; // Coulombs
+    public static final double DISCONNECTED_PLATE_CHARGE = 0; // Coulombs
     
     // model-view transform
     public static final double MVT_SCALE = 15000;

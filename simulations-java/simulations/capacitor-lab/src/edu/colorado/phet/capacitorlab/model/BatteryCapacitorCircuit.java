@@ -15,15 +15,18 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricM
 
 /**
  * Physical model of a circuit with a battery connected to a capacitor.
+ * <p>
+ * Variable names used in this implementation where chosen to match the specification
+ * in the design document, and therefore violate Java naming conventions. 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BatteryCapacitorCircuit {
     
     // constants
-    private static final double E0 = CLConstants.EPSILON_0;
-    private static final double E_AIR = CLConstants.EPSILON_AIR;
-    private static final double E_VACUUM = CLConstants.EPSILON_VACUUM;
+    private static final double EPSILON_0 = CLConstants.EPSILON_0;
+    private static final double EPSILON_AIR = CLConstants.EPSILON_AIR;
+    private static final double EPSILON_VACUUM = CLConstants.EPSILON_VACUUM;
     
     // immutable instance data
     private final EventListenerList listeners;
@@ -32,16 +35,16 @@ public class BatteryCapacitorCircuit {
     
     // mutable instance data
     private boolean batteryConnected;
-    private double manualPlateCharge; // charge set manually by the user, used when battery is disconnected
+    private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
     private CustomDielectricMaterial customDielectric;
     private CustomDielectricChangeListener customDielectricChangeListener;
 
-    public BatteryCapacitorCircuit( Battery battery, Capacitor capacitor, boolean batteryConnected, double manualPlateCharge ) {
+    public BatteryCapacitorCircuit( Battery battery, Capacitor capacitor, boolean batteryConnected, double disconnectedPlateCharge ) {
         
         listeners = new EventListenerList();
         
         this.batteryConnected = batteryConnected;
-        this.manualPlateCharge = manualPlateCharge;
+        this.disconnectedPlateCharge = disconnectedPlateCharge;
         
         // respond to battery changes
         this.battery = battery;
@@ -138,15 +141,15 @@ public class BatteryCapacitorCircuit {
      * 
      * @return voltage, in volts (V)
      */
-    public double getPlateVoltage() {
-        double voltage = 0;
+    public double getPlatesVoltage() {
+        double V_plates = 0;
         if ( isBatteryConnected() ) {
-            voltage = battery.getVoltage();
+            V_plates = battery.getVoltage();
         }
         else {
-            voltage = getManualPlateCharge() / capacitor.getTotalCapacitance();
+            V_plates = getDisconnectedPlateCharge() / capacitor.getTotalCapacitance();
         }
-        return voltage;
+        return V_plates;
     }
     
     //----------------------------------------------------------------------------------
@@ -160,9 +163,9 @@ public class BatteryCapacitorCircuit {
      * 
      * @param manualPlateCharge Coulombs
      */
-    public void setManualPlateCharge( double manualPlateCharge ) {
-        if ( manualPlateCharge != this.manualPlateCharge ) {
-            this.manualPlateCharge = manualPlateCharge;
+    public void setDisconnectedPlateCharge( double manualPlateCharge ) {
+        if ( manualPlateCharge != this.disconnectedPlateCharge ) {
+            this.disconnectedPlateCharge = manualPlateCharge;
             if ( !isBatteryConnected() ) {
                 fireChargeChanged();
                 fireVoltageChanged();
@@ -177,8 +180,8 @@ public class BatteryCapacitorCircuit {
      * 
      * @return charge, in Coulombs
      */
-    public double getManualPlateCharge() {
-        return manualPlateCharge;
+    public double getDisconnectedPlateCharge() {
+        return disconnectedPlateCharge;
     }
     
     /**
@@ -186,7 +189,7 @@ public class BatteryCapacitorCircuit {
      * @return charge, in Coulombs
      */
     public double getAirPlateCharge() {
-        return capacitor.getAirCapacitance() * getPlateVoltage();
+        return capacitor.getAirCapacitance() * getPlatesVoltage();
     }
     
     /**
@@ -194,7 +197,7 @@ public class BatteryCapacitorCircuit {
      * @return charge, in Coulombs
      */
     public double getDielectricPlateCharge() {
-        return capacitor.getDieletricCapacitance() * getPlateVoltage();
+        return capacitor.getDieletricCapacitance() * getPlatesVoltage();
     }
     
     /**
@@ -211,11 +214,7 @@ public class BatteryCapacitorCircuit {
      * @return excess charge, in Coulombs
      */
     public double getExcessAirPlateCharge() {
-        double Er = E_AIR;
-        double A = capacitor.getAirContactArea();
-        double d = capacitor.getPlateSeparation();
-        double V = getPlateVoltage();
-        return getExcessPlateCharge( Er, A, d, V );
+        return getExcessPlateCharge( EPSILON_AIR, capacitor.getAirContactArea(), capacitor.getPlateSeparation(), getPlatesVoltage() );
     }
     
     /**
@@ -224,24 +223,20 @@ public class BatteryCapacitorCircuit {
      * @return excess charge, in Coulombs
      */
     public double getExcessDielectricPlateCharge() {
-        double Er = capacitor.getDielectricConstant();
-        double A = capacitor.getDielectricContactArea();
-        double d = capacitor.getPlateSeparation();
-        double V = getPlateVoltage();
-        return getExcessPlateCharge( Er, A, d, V );
+        return getExcessPlateCharge( capacitor.getDielectricConstant(), capacitor.getDielectricContactArea(), capacitor.getPlateSeparation(), getPlatesVoltage() );
     }
     
     /*
      * General solution for excess plate charge.
      * 
-     * @param Er dielectric constant, dimensionless
+     * @param epsilon dielectric constant, dimensionless
      * @param A contact area between the top plate and the dielectric, meters^2
      * @param d distance between the plates, meters
      * @param v plate voltage, volts
      * @return charge, in Coulombs (C)
      */
-    private static double getExcessPlateCharge( double Er, double A, double d, double V ) {
-        return ( Er - E_VACUUM ) * E0 * ( A / d ) * V; // Coulombs (1C = 1F * 1V)
+    private static double getExcessPlateCharge( double epsilon, double A, double d, double V ) {
+        return ( epsilon - EPSILON_VACUUM ) * EPSILON_0 * ( A / d ) * V; // Coulombs (1C = 1F * 1V)
     }
     
     /**
@@ -264,6 +259,43 @@ public class BatteryCapacitorCircuit {
     
     //----------------------------------------------------------------------------------
     //
+    // Surface Charge Density (sigma)
+    //
+    //----------------------------------------------------------------------------------
+    
+    /**
+     * Gets the surface density charge between the plates and air.
+     * @return Coulombs/meters^2
+     */
+    public double getAirSurfaceChargeDensity() {
+        return getSurfaceChargeDensity( getAirPlateCharge(), capacitor.getAirContactArea() );
+    }
+    
+    /**
+     * Gets the surface density charge between the plates and the dielectric.
+     * @return Coulombs/meters^2
+     */
+    public double getDielectricSurfaceChargeDensity() {
+        return getSurfaceChargeDensity( getDielectricPlateCharge(), capacitor.getDielectricContactArea() );
+    }
+    
+    /*
+     * General computation of surface charge density.
+     * 
+     * @param Q charge, in Coulombs
+     * @param A area, in meters^2
+     * @return Coulombs/meters^2
+     */
+    private static double getSurfaceChargeDensity( double Q, double A ) {
+        double sigma = 0;
+        if ( A > 0 ) {
+            sigma = Q / A;
+        }
+        return sigma;
+    }
+    
+    //----------------------------------------------------------------------------------
+    //
     // E-Field (E)
     //
     //----------------------------------------------------------------------------------
@@ -275,7 +307,7 @@ public class BatteryCapacitorCircuit {
      * @return volts/meter
      */
     public double getEffectiveEfield() {
-        return getPlateVoltage() / capacitor.getPlateSeparation();
+        return getPlatesVoltage() / capacitor.getPlateSeparation();
     }
     
     /**
@@ -284,9 +316,7 @@ public class BatteryCapacitorCircuit {
      * @return E-field, in Volts/meter
      */
     public double getPlatesEField() {
-        double Q = getTotalPlateCharge();
-        double A = capacitor.getPlateArea();
-        return Q / ( A * E0 );
+        return getTotalPlateCharge() / ( capacitor.getPlateArea() * EPSILON_0 );
     }
     
     /**
@@ -295,7 +325,7 @@ public class BatteryCapacitorCircuit {
      * @return E-field, in Volts/meter
      */
     public double getAirEField() {
-        return getEField( getAirSurfaceDensityCharge(), E_AIR );
+        return getEField( getAirSurfaceChargeDensity(), EPSILON_AIR );
     }
     
     /**
@@ -304,7 +334,7 @@ public class BatteryCapacitorCircuit {
      * @return E-field, in Volts/meter
      */
     public double getDielectricEField() {
-        return getEField( getDielectricSurfaceDensityCharge(), capacitor.getDielectricConstant() );
+        return getEField( getDielectricSurfaceChargeDensity(), capacitor.getDielectricConstant() );
     }
     
     /*
@@ -315,48 +345,7 @@ public class BatteryCapacitorCircuit {
      * @return E-field, in Volts/meter
      */
     private static double getEField( double sigma, double Er ) {
-        return sigma / ( Er * E0 );
-    }
-    
-    //----------------------------------------------------------------------------------
-    //
-    // Surface Density Charge (sigma)
-    //
-    //----------------------------------------------------------------------------------
-    
-    /**
-     * Gets the surface density charge between the plates and the dielectric.
-     * @return Coulombs/meters^2
-     */
-    public double getDielectricSurfaceDensityCharge() {
-        double Q = getDielectricPlateCharge(); // Coulombs
-        double A = capacitor.getDielectricContactArea(); // meters^2
-        return getSurfaceDensityCharge( Q, A );
-    }
-    
-    /**
-     * Gets the surface density charge between the plates and air.
-     * @return Coulombs/meters^2
-     */
-    public double getAirSurfaceDensityCharge() {
-        double Q = getAirPlateCharge(); // Coulombs
-        double A = capacitor.getAirContactArea(); // meters^2
-        return getSurfaceDensityCharge( Q, A );
-    }
-    
-    /*
-     * General computation of surface charge density.
-     * 
-     * @param charge charge, in Coulombs
-     * @param area area, in meters^2
-     * @return Coulombs/meters^2
-     */
-    private static double getSurfaceDensityCharge( double charge, double area ) {
-        double sigma = 0;
-        if ( area > 0 ) {
-            sigma = charge / area;
-        }
-        return sigma;
+        return sigma / ( Er * EPSILON_0 );
     }
     
     //----------------------------------------------------------------------------------
@@ -370,10 +359,9 @@ public class BatteryCapacitorCircuit {
      * @return energy, in joules (J)
      */
     public double getStoredEnergy() {
-        double C = capacitor.getTotalCapacitance(); // F
-        double V = getPlateVoltage(); // V
-        double U = 0.5 * C * V * V; // Joules (J)
-        return U;
+        double C_total = capacitor.getTotalCapacitance(); // F
+        double V_plates = getPlatesVoltage(); // V
+        return 0.5 * C_total * V_plates * V_plates; // Joules (J)
     }
     
     //----------------------------------------------------------------------------------
