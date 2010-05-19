@@ -1,3 +1,5 @@
+# 0.00.05 (40913) May 19, 2010
+5/19/10 dev version to verify model changes
 5/19/10 implement new model of charge, surface charge density, and E-field, as specified by NP
 5/19/10 change variable names in ModelValuesPanel to match variable names in design doc
 5/19/10 rework model assertions and arg checking
