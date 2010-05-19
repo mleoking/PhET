@@ -2,7 +2,6 @@ package edu.colorado.phet.motionseries.charts
 
 import edu.colorado.phet.motionseries.graphics.MotionSeriesCanvas
 import java.awt.event._
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat
 import edu.colorado.phet.common.phetcommon.view.util.{PhetFont}
 import edu.colorado.phet.common.motion.graphs._
 import edu.colorado.phet.common.motion.model._
@@ -21,6 +20,7 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import javax.swing._
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel.HistoryClearListener
+import edu.colorado.phet.common.phetcommon.util.{SimpleObserver, DefaultDecimalFormat}
 
 case class Graph(title: String, graph: MotionControlGraph, minimized: Boolean)
 
@@ -35,22 +35,21 @@ object Defaults {
 }
 
 abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends PNode {
+
   def createVariable(getter: () => Double) = {
     val variable = new MotionSeriesDefaultTemporalVariable(model)
-    def reset() = variable.doAddValue(getter(), model.getTime)
-    model.stepListeners += reset
-    model.resetListeners_+=(reset)
-    variable
-  }
-
-  def createParallelVariable(getter: () => Vector2D) = {
-    val variable = new MotionSeriesDefaultTemporalVariable(model)
-    val reset = () => variable.doAddValue(getter().dot(model.bead.getRampUnitVector), model.getTime)
-    model.stepListeners += reset
-    model.resetListeners_+=(reset)
+    model.stepListeners += (() => variable.doAddValue(getter(), model.getTime))
+    model.resetListeners_+=(() => variable.doSetValue(getter()))
+    model.playbackListeners += (() => variable.doSetValue(getter()))
+    model.addObserver(new SimpleObserver(){
+      def update = variable.doSetValue(getter())//todo: does this ever get called when it shouldn't, such as too many times or duplicate of stepListener above? 
+    })
 
     variable
   }
+
+  //Create a variable for the parallel component of the vector specified
+  def createParallelVariable(getter: () => Vector2D) = createVariable(() => getter().dot(model.bead.getRampUnitVector))
 
   val recordableModel = new RecordableModel() {
     def getState: Object = model.getTime.asInstanceOf[Object]
