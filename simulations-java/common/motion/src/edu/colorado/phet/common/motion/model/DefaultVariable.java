@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class DefaultVariable implements IVariable {
     private double value;
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     public DefaultVariable( double value ) {
         this.value = value;
@@ -20,8 +20,8 @@ public class DefaultVariable implements IVariable {
         }
         if ( !equals( value, this.value ) ) {
             this.value = value;
-            for ( int i = 0; i < listeners.size(); i++ ) {
-                ( (IVariable.Listener) listeners.get( i ) ).valueChanged();
+            for (Listener listener : listeners) {
+                listener.valueChanged();
             }
         }
     }
