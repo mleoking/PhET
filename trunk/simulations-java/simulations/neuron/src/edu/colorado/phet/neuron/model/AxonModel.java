@@ -66,7 +66,7 @@ public class AxonModel implements IParticleCapture {
 	private static final double CONCENTRATION_CHANGE_AT_AP_FOR_POTASSIUM = 0.00001; // In millimolar (mM)
 	
 	// Amount of time for concentration to change during an action potential.
-	private static final double CONCENTRATION_CHANGE_TIME = 0.003;  // In seconds of sim time.
+	private static final double CONCENTRATION_CHANGE_TIME = 0.002;  // In seconds of sim time.
 	
 	// Rate at which the concentration moves toward the nominal value when
 	// changed.  These are in mM per second of simulation time, and simulation
