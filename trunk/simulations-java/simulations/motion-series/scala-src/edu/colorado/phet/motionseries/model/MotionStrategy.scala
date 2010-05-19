@@ -130,7 +130,8 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
     normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
     bead.notifyListeners() //to get the new normalforce
 
-    println("bead's energy = " + bead.getTotalEnergy)
+    //todo: make sure energy conserved on crash
+//    println("bead's energy = " + bead.getTotalEnergy)
   }
 
   override def position2D = _position2D
