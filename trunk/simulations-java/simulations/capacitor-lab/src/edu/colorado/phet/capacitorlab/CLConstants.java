@@ -54,7 +54,7 @@ public class CLConstants {
     
     public static final double EPSILON_0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
     public static final double EPSILON_VACUUM = 1; // dielectric constant of a vacuum, dimensionless
-    public static final double EPSILON_AIR = 1.00059; // dielectric constant of air, dimensionless
+    public static final double EPSILON_AIR = 1.0005896; // dielectric constant of air, dimensionless
     
     public static final double MANUAL_PLATE_CHARGE = 0; // Coulombs
     

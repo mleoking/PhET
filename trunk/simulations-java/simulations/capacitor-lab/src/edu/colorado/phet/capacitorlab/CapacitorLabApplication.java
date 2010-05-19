@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.capacitorlab;
 
+import java.awt.Frame;
+
 import javax.swing.Box;
 
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
@@ -44,12 +46,13 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
      */
     private void initModules() {
         
+        Frame parentFrame = getPhetFrame();
         boolean dev = isDeveloperControlsEnabled();
         
         // add modules
-        introductionModule = new IntroductionModule( dev );
+        introductionModule = new IntroductionModule( parentFrame, dev );
         addModule( introductionModule );
-        dielectricModule = new DielectricModule( dev );
+        dielectricModule = new DielectricModule( parentFrame, dev );
         addModule( dielectricModule );
         
         // make all control panels the same width
