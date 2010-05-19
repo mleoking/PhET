@@ -236,7 +236,9 @@ public class BatteryCapacitorCircuit {
      * @return charge, in Coulombs (C)
      */
     private static double getExcessPlateCharge( double epsilon_r, double A, double d, double V ) {
-        assert( d != 0 ); // model fails in this circumstance
+        if ( !( d > 0 ) ) {
+            throw new IllegalArgumentException( "model requires d (plate separation) > 0" );
+        }
         return ( epsilon_r - EPSILON_VACUUM ) * EPSILON_0 * ( A / d ) * V; // Coulombs (1C = 1F * 1V)
     }
     
@@ -288,9 +290,10 @@ public class BatteryCapacitorCircuit {
      * @param d plate separation, meters
      * @return Coulombs/meters^2
      */
-    //epsilon_r * epsilon_0 * V / d
     private static double getSurfaceChargeDensity( double epsilon_r, double V_plate, double d ) {
-        assert( d != 0 ); // model fails in this circumstance
+        if ( !( d > 0 ) ) {
+            throw new IllegalArgumentException( "model requires d (plate separation) > 0" );
+        }
         return epsilon_r * EPSILON_0 * V_plate / d;
     }
     
@@ -345,7 +348,9 @@ public class BatteryCapacitorCircuit {
      * @return E-field, in Volts/meter
      */
     private static double getEField( double sigma, double epsilon_r ) {
-        assert( epsilon_r != 0 ); // model fails in this circumstance
+        if ( !( epsilon_r > 0 ) ) {
+            throw new IllegalArgumentException( "model requires epsilon_r (dielectric constant) > 0" );
+        }
         return sigma / ( epsilon_r * EPSILON_0 );
     }
     
