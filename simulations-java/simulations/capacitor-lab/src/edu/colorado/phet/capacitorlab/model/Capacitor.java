@@ -94,11 +94,12 @@ public class Capacitor {
     
     /**
      * Sets the distance between the 2 parallel plates.
+     * NOTE: The model for this sim requires that the plate separation be > 0.
      * @param plateSeparation distance, in meters.
      */
     public void setPlateSeparation( double plateSeparation ) {
-        if ( plateSeparation < 0 ) {
-            throw new IllegalArgumentException( "plateSeparation must be >= 0: " + plateSeparation );
+        if ( plateSeparation <= 0 ) {
+            throw new IllegalArgumentException( "plateSeparation must be > 0: " + plateSeparation );
         }
         if ( plateSeparation != this.plateSeparation ) {
             this.plateSeparation = plateSeparation;
@@ -202,7 +203,8 @@ public class Capacitor {
      * @return area, in meters^2
      */
     public double getDielectricContactArea() {
-        double area = getPlateSideLength() * ( getPlateSideLength() - getDielectricOffset() ); // side * front
+        double absoluteOffset = Math.abs( getDielectricOffset() );
+        double area = getPlateSideLength() * ( getPlateSideLength() - absoluteOffset ); // side * front
         if ( area < 0 ) {
             area = 0;
         }
