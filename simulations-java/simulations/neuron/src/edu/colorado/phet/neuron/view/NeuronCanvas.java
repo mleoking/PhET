@@ -369,7 +369,8 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 			zoomedTransform.transform(topCenterOfMembrane, topCenterOfMembrane);
 		}
 		else{
-			System.err.println(getClass().getName() + " - Warning: Zooming node has not transform.");
+			// This can happen if the node has not yet been zoomed, so it's
+			// cool - we just use the untransformed location.
 		}
 		
 		double yOffset = 100 + myWorldNode.getScale() * 10;  // Empirically determined. 
