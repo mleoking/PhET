@@ -14,6 +14,8 @@ import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults,
 import swing.Button
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel}
+import edu.umd.cs.piccolox.pswing.PSwing
+import java.awt.event.{ComponentEvent, ComponentAdapter}
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -92,6 +94,18 @@ class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.e
     workEnergyChartVisibilityModel.visible = true
   }
   rampControlPanel.addPrimaryControl(showEnergyChartButton)
+  val button = new PSwing(showEnergyChartButton.peer)
+  rampCanvas.getLayer.addChild(button) //todo: why doesn't addScreenChild work here?
+  def updateButtonLocation() = {
+    val insetX = 4
+    val insetY = insetX
+    button.setOffset(rampCanvas.getWidth / 2 - button.getWidth - insetX, insetY)
+  }
+  rampCanvas.addComponentListener(new ComponentAdapter {
+    override def componentResized(e: ComponentEvent) = updateButtonLocation()
+  })
+  updateButtonLocation()
+  workEnergyChartVisibilityModel.addListener(() => {button.setVisible(!workEnergyChartVisibilityModel.visible)})
 
   //todo: which is easier to read?
   //rampControlPanel.addPrimaryControl(Button("controls.show-energy-chart".translate) {workEnergyChartVisibilityModel.visible = true})
