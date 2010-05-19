@@ -71,7 +71,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     })
     playAreaNode.addChild(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
       addInputEventListener(new CursorHandler)
-      addInputEventListener(new RotationHandler(transform, this, model.rampSegments(1), 0, java.lang.Math.PI / 2))
+      addInputEventListener(new RotationHandler(transform, this, model.rampSegments(1), 0, MotionSeriesDefaults.MAX_ANGLE))
       def model = MotionSeriesCanvas.this.model
     })
 

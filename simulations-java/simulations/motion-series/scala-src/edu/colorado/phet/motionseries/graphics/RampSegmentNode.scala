@@ -16,6 +16,7 @@ import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.motionseries.Predef._
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 trait HasPaint extends PNode {
   def paintColor_=(p: Paint): Unit
@@ -110,7 +111,9 @@ trait Rotatable extends Observable with RotationModel {
 
   def startPoint_=(newPt: Vector2D)
 
-  def angle_=(a: Double) = endPoint = new Vector2D(a) * length
+  def angle_=(a: Double) = {
+	  endPoint = new Vector2D(a) * length
+  }
 }
 
 trait RotationModel {
@@ -166,7 +169,7 @@ class RotationHandler(val transform: ModelViewTransform2D,
 
 class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel) {
   line.addInputEventListener(new CursorHandler)
-  line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment, 0, PI / 2))
+  line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment, 0, MotionSeriesDefaults.MAX_ANGLE))
 }
 
 //class ReverseRotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel) {
