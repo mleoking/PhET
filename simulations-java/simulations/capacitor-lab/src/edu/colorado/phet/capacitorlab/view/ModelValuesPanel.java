@@ -93,7 +93,7 @@ public class ModelValuesPanel extends JPanel {
         };
         
         // instructions
-        JLabel instructions = new JLabel( "** mouse over for descriptions **" );
+        JLabel instructions = new JLabel( "= MOUSE OVER FOR DESCRIPTIONS =" );
         instructions.setForeground( Color.RED );
         instructions.setFont( VALUE_DISPLAY_FONT );
         
@@ -117,7 +117,7 @@ public class ModelValuesPanel extends JPanel {
         batteryVoltage.setToolTipText( "<html>voltage of the battery,<br>used when battery is connected</html>" );
         settingsPanel.add( batteryVoltage );
         disconnectedCharge = new ValueDisplay( "Q_disconnected", "C", "0.000E00" );
-        disconnectedCharge.setToolTipText( "<html>total plate change<br>when battery is disconnected</html>" );
+        disconnectedCharge.setToolTipText( "<html>total plate change when<br>battery is disconnected</html>" );
         settingsPanel.add( disconnectedCharge );
         plateSideLength = new ValueDisplay( "L", "m", "0.0000" );
         plateSideLength.setToolTipText( "plate side length" );
@@ -207,7 +207,7 @@ public class ModelValuesPanel extends JPanel {
         derivedPanel.add( energyStored );
         
         // layout
-        JPanel mainPanel = new VerticalPanel();
+        VerticalPanel mainPanel = new VerticalPanel();
         mainPanel.add( instructions );
         mainPanel.add( constantsPanel );
         mainPanel.add( settingsPanel );
