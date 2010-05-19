@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
+import java.awt.Frame;
+
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.CLModule;
@@ -17,7 +19,7 @@ public class DielectricModule extends CLModule {
     private final DielectricCanvas canvas;
     private final DielectricControlPanel controlPanel;
 
-    public DielectricModule( boolean dev ) {
+    public DielectricModule( Frame parentFrame, boolean dev ) {
         super( CLStrings.TAB_DIELECTRIC );
         
         model = new CLModel();
@@ -25,7 +27,7 @@ public class DielectricModule extends CLModule {
         canvas = new DielectricCanvas( model, dev );
         setSimulationPanel( canvas );
         
-        controlPanel = new DielectricControlPanel( this, model, canvas, dev );
+        controlPanel = new DielectricControlPanel( parentFrame, this, model, canvas, dev );
         setControlPanel( controlPanel );
     }
     

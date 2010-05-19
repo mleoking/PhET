@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.capacitorlab.module.introduction;
 
+import java.awt.Frame;
+
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.CLModule;
@@ -17,7 +19,7 @@ public class IntroductionModule extends CLModule {
     private final IntroductionCanvas canvas;
     private final IntroductionControlPanel controlPanel;
 
-    public IntroductionModule( boolean dev ) {
+    public IntroductionModule( Frame parentFrame, boolean dev ) {
         super( CLStrings.TAB_INTRODUCTION );
         
         model = new CLModel();
