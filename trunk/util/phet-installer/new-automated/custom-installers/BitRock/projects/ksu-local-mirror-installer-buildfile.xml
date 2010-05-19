@@ -86,15 +86,6 @@
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/workshops</origin>
                         </distributionDirectory>
-                        <!-- Commented out until activies are present.
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/activities</origin>
-                        </distributionDirectory>
-                        -->
-                        <!-- Get rid of this once activites really exist -->
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/activities.html</origin>
-                        </distributionDirectory>
                         <distributionFile>
                             <origin>../../../Installer-Resources/Install-Path/phet-icon.ico</origin>
                         </distributionFile>
