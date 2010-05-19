@@ -1,3 +1,6 @@
+5/19/10 new model of surface charge density, to avoid divide-by-zero errors when area=0
+5/19/10 assert necessary model conditions
+5/19/10 add support for negative dielectric offset
 5/19/10 add Stored Energy meter
 5/19/10 consolidate meter range constants in CLConstants
 # 0.00.04 (40879) May 19, 2010

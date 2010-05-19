@@ -1,5 +1,11 @@
 TODO list for capacitor-lab
 
+QUESTIONS FOR NOAH
+- do you really want units spelled out for meters, or is abbreviation OK?
+- discuss zoom buttons on meters: clearly identify the problem, prove that zoom buttons are a solution
+- how are we addressing attempts to create AC behavior by dragging battery voltage slider?
+- discuss how (whether) to address issues of overlapping stuff in play area
+
 HIGH PRIORITY
 - why is Eclipse suddenly not finding inner classes?
 - solve coordinate frame conversion issues for drag handles
@@ -10,6 +16,7 @@ HIGH PRIORITY
 - charge and excess charge on dielectric (see notes)
 
 MEDUIUM PRIORITY
+- add zoom buttons to meters?
 - combine plate charge meter and slider into one thing?
 - make dielectric draggable by grabbing it
 - derive PlateChargeMeterNode.MAX_EXPONENT and PlateChargeControlNode.VALUE_EXPONENT
@@ -20,6 +27,7 @@ MEDUIUM PRIORITY
 - add a dashed line around "detecting plane" for field meter
 
 LOW PRIORITY
+- refactor duplicate code in PlateChargeMeterNode, StoredEnergyMeterNode
 - round the end of the wire that connects to the top plate
 - use a gradient paint for wires to give them a 3D look
 - delete DeveloperControlPanel if it's no longer used

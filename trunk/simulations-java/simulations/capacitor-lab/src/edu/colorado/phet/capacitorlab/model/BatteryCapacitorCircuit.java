@@ -229,14 +229,15 @@ public class BatteryCapacitorCircuit {
     /*
      * General solution for excess plate charge.
      * 
-     * @param epsilon dielectric constant, dimensionless
+     * @param epsilon_r dielectric constant, dimensionless
      * @param A contact area between the top plate and the dielectric, meters^2
      * @param d distance between the plates, meters
      * @param v plate voltage, volts
      * @return charge, in Coulombs (C)
      */
-    private static double getExcessPlateCharge( double epsilon, double A, double d, double V ) {
-        return ( epsilon - EPSILON_VACUUM ) * EPSILON_0 * ( A / d ) * V; // Coulombs (1C = 1F * 1V)
+    private static double getExcessPlateCharge( double epsilon_r, double A, double d, double V ) {
+        assert( d != 0 ); // model fails in this circumstance
+        return ( epsilon_r - EPSILON_VACUUM ) * EPSILON_0 * ( A / d ) * V; // Coulombs (1C = 1F * 1V)
     }
     
     /**
@@ -268,7 +269,7 @@ public class BatteryCapacitorCircuit {
      * @return Coulombs/meters^2
      */
     public double getAirSurfaceChargeDensity() {
-        return getSurfaceChargeDensity( getAirPlateCharge(), capacitor.getAirContactArea() );
+        return getSurfaceChargeDensity( EPSILON_AIR, getPlatesVoltage(), capacitor.getPlateSeparation() );
     }
     
     /**
@@ -276,22 +277,21 @@ public class BatteryCapacitorCircuit {
      * @return Coulombs/meters^2
      */
     public double getDielectricSurfaceChargeDensity() {
-        return getSurfaceChargeDensity( getDielectricPlateCharge(), capacitor.getDielectricContactArea() );
+        return getSurfaceChargeDensity( capacitor.getDielectricConstant(), getPlatesVoltage(), capacitor.getPlateSeparation() );
     }
     
     /*
      * General computation of surface charge density.
      * 
-     * @param Q charge, in Coulombs
-     * @param A area, in meters^2
+     * @param epsilon_r dielectric constant, dimensionless
+     * @param V_plate plate voltage, in volts
+     * @param d plate separation, meters
      * @return Coulombs/meters^2
      */
-    private static double getSurfaceChargeDensity( double Q, double A ) {
-        double sigma = 0;
-        if ( A > 0 ) {
-            sigma = Q / A;
-        }
-        return sigma;
+    //epsilon_r * epsilon_0 * V / d
+    private static double getSurfaceChargeDensity( double epsilon_r, double V_plate, double d ) {
+        assert( d != 0 ); // model fails in this circumstance
+        return epsilon_r * EPSILON_0 * V_plate / d;
     }
     
     //----------------------------------------------------------------------------------
@@ -341,11 +341,12 @@ public class BatteryCapacitorCircuit {
      * General solution for the E-field due to some dielectric.
      * 
      * @param sigma surface charge density, Coulombs/meters^2
-     * @param Er dielectric constant, dimensionless
+     * @param epsilon_r dielectric constant, dimensionless
      * @return E-field, in Volts/meter
      */
-    private static double getEField( double sigma, double Er ) {
-        return sigma / ( Er * EPSILON_0 );
+    private static double getEField( double sigma, double epsilon_r ) {
+        assert( epsilon_r != 0 ); // model fails in this circumstance
+        return sigma / ( epsilon_r * EPSILON_0 );
     }
     
     //----------------------------------------------------------------------------------
