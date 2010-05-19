@@ -1,3 +1,4 @@
+Fixed: Mystery object does not break apart.
 Made it so you can't zoom out the graphs further than 20 seconds by graying out the horizontal zoom buttons, see #2361
 Made it so that dragging the rightmost wall rotates the ramp angle.
 Made sure energy is exactly conserved while object is airborne
