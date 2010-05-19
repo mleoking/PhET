@@ -76,6 +76,7 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Color TITLE_COLOR = Color.BLACK;
     
     // value display
+    private static final boolean VALUE_VISIBLE = false;
     private static final int VALUE_EXPONENT = -11; //XXX compute based on range.max
     private static final Font VALUE_FONT = new PhetFont( 14 );
     private static final Color VALUE_COLOR = Color.BLACK;
@@ -156,7 +157,9 @@ public class PlateChargeControlNode extends PhetPNode {
         addChild( backgroundNode );
         addChild( parentNode );
         addChild( titleNode );
-        addChild( valueNode );
+        if ( VALUE_VISIBLE ) {
+            addChild( valueNode );
+        }
         
         // layout
         x = 0;

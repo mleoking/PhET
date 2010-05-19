@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -41,6 +38,7 @@ public class ModelValuesPanel extends JPanel {
     private final ValueDisplay disconnectedCharge;
     private final ValueDisplay plateSideLength;
     private final ValueDisplay plateSeparation;
+    private final ValueDisplay dielectricOffset;
     private final ValueDisplay dielectricConstant;
     
     // derived values
@@ -94,25 +92,44 @@ public class ModelValuesPanel extends JPanel {
             }
         };
         
+        // instructions
+        JLabel instructions = new JLabel( "** mouse over for descriptions **" );
+        instructions.setForeground( Color.RED );
+        instructions.setFont( VALUE_DISPLAY_FONT );
+        
         // constants panel
         JPanel constantsPanel = new VerticalPanel();
         constantsPanel.setBorder( new TitledBorder( "Constants" ) );
-        constantsPanel.add( new ValueDisplay( CLStrings.EPSILON + "0", "F/m", "0.000E00", CLConstants.EPSILON_0  ) );
-        constantsPanel.add( new ValueDisplay( CLStrings.EPSILON + "_air", "", "0.00000000", CLConstants.EPSILON_AIR ) );
-        constantsPanel.add( new ValueDisplay( CLStrings.EPSILON + "_vacuum", "", "0.0", CLConstants.EPSILON_VACUUM ) );
+        ValueDisplay epsilon0 = new ValueDisplay( CLStrings.EPSILON + "0", "F/m", "0.000E00", CLConstants.EPSILON_0  );
+        epsilon0.setToolTipText( "vacuum permittivity" );
+        constantsPanel.add( epsilon0 );
+        ValueDisplay epsilonAir = new ValueDisplay( CLStrings.EPSILON + "_air", "", "0.00000000", CLConstants.EPSILON_AIR );
+        epsilonAir.setToolTipText( "dielectric constant of air" );
+        constantsPanel.add( epsilonAir );
+        ValueDisplay epsilonVacuum = new ValueDisplay( CLStrings.EPSILON + "_vacuum", "", "0.0", CLConstants.EPSILON_VACUUM );
+        epsilonVacuum.setToolTipText( "dielectric constant of a vacuum" );
+        constantsPanel.add( epsilonVacuum );
         
         // user settings panel
         JPanel settingsPanel = new VerticalPanel();
         settingsPanel.setBorder( new TitledBorder( "User Settings" ) );
         batteryVoltage = new ValueDisplay( "V_battery", "V", "0.00" );
+        batteryVoltage.setToolTipText( "<html>voltage of the battery,<br>used when battery is connected</html>" );
         settingsPanel.add( batteryVoltage );
         disconnectedCharge = new ValueDisplay( "Q_disconnected", "C", "0.000E00" );
+        disconnectedCharge.setToolTipText( "<html>total plate change<br>when battery is disconnected</html>" );
         settingsPanel.add( disconnectedCharge );
-        plateSideLength = new ValueDisplay( "L (plate side)", "m", "0.0000" );
+        plateSideLength = new ValueDisplay( "L", "m", "0.0000" );
+        plateSideLength.setToolTipText( "plate side length" );
         settingsPanel.add( plateSideLength );
-        plateSeparation = new ValueDisplay( "d (plate separation)", "m", "0.0000" );
+        plateSeparation = new ValueDisplay( "d", "m", "0.0000" );
+        plateSeparation.setToolTipText( "plate separation distance" );
         settingsPanel.add( plateSeparation );
+        dielectricOffset = new ValueDisplay( "offset", "m", "0.000" );
+        dielectricOffset.setToolTipText( "how far the dielectric is pulled out" ); 
+        settingsPanel.add( dielectricOffset );
         dielectricConstant = new ValueDisplay( CLStrings.EPSILON + "r", "", "0.000" );
+        dielectricConstant.setToolTipText( "dielectric constant" ); 
         settingsPanel.add( dielectricConstant );
         
         // derived panel
@@ -120,58 +137,78 @@ public class ModelValuesPanel extends JPanel {
         derivedPanel.setBorder( new TitledBorder( "Derived" ) );
         // area
         dielectricContactArea = new ValueDisplay( "A_dielectric", "m^2", "0.000000" );
+        dielectricContactArea.setToolTipText( "area of dielectric between the plates" );
         derivedPanel.add( dielectricContactArea );
         airContactArea = new ValueDisplay( "A_air", "m^2", "0.000000" );
+        airContactArea.setToolTipText( "area of air between the plates" );
         derivedPanel.add( airContactArea );
         plateArea = new ValueDisplay( "A_plate", "m^2", "0.000000" );
+        plateArea.setToolTipText( "plate area" );
         derivedPanel.add( plateArea );
         // capacitance
         derivedPanel.add( new JSeparator() );
         airCapacitance = new ValueDisplay( "C_air", "F", "0.000E00" );
+        airCapacitance.setToolTipText( "capacitance due to air" );
         derivedPanel.add( airCapacitance );
         dielectricCapacitance = new ValueDisplay( "C_dielectric", "F", "0.000E00" );
+        dielectricCapacitance.setToolTipText( "capacitor due to dielectric" );
         derivedPanel.add( dielectricCapacitance );
         totalCapacitance = new ValueDisplay( "C_total", "F", "0.000E00" );
+        totalCapacitance.setToolTipText( "total capacitance" );
         derivedPanel.add( totalCapacitance );
         // voltage
         derivedPanel.add( new JSeparator() );
         plateVoltage = new ValueDisplay( "V_plate", "V", "0.00" );
+        plateVoltage.setToolTipText( "voltage difference between plates" );
         derivedPanel.add( plateVoltage );
         // charge
         derivedPanel.add( new JSeparator() );
         airCharge = new ValueDisplay( "Q_air", "C", "0.000E00" );
+        airCharge.setToolTipText( "plate charge due to air" );
         derivedPanel.add( airCharge );
         dielectricCharge = new ValueDisplay( "Q_dielectric", "C", "0.000E00" );
+        dielectricCharge.setToolTipText( "plate charge due to dielectric" );
         derivedPanel.add( dielectricCharge );
         totalCharge = new ValueDisplay( "Q_total", "C", "0.000E00" );
+        totalCharge.setToolTipText( "total charge on top plate" );
         derivedPanel.add( totalCharge );
         excessAirCharge = new ValueDisplay( "Q_excess_air", "C", "0.000E00" );
+        excessAirCharge.setToolTipText( "excess charge due to air" );
         derivedPanel.add( excessAirCharge );
         excessDielectricCharge = new ValueDisplay( "Q_excess_dielectric", "C", "0.000E00" );
+        excessDielectricCharge.setToolTipText( "excess charge due to dielectric" );
         derivedPanel.add( excessDielectricCharge );
         // surface charge density
         derivedPanel.add( new JSeparator() );
         airSurfaceChargeDensity = new ValueDisplay( CLStrings.SIGMA + "_air", "C/m^2", "0.000E00" );
+        airSurfaceChargeDensity.setToolTipText( "surface charge density due to air" );
         derivedPanel.add( airSurfaceChargeDensity );
         dielectricSurfaceChargeDensity = new ValueDisplay( CLStrings.SIGMA + "_dielectric", "C/m^2", "0.000E00" );
+        dielectricSurfaceChargeDensity.setToolTipText( "surface charge density due to dielectric" );
         derivedPanel.add( dielectricSurfaceChargeDensity );
         // E-field
         derivedPanel.add( new JSeparator() );
         eEffective = new ValueDisplay( "E_effective", "V/m", "0.000E00" );
+        eEffective.setToolTipText( "effective field between plates" );
         derivedPanel.add( eEffective );
         ePlates = new ValueDisplay( "E_plates", "V/m", "0.000E00" );
+        ePlates.setToolTipText( "field due to plates alone" );
         derivedPanel.add( ePlates );
         eAir = new ValueDisplay( "E_air", "V/m", "0.000E00" );
+        eAir.setToolTipText( "field in air volume" );
         derivedPanel.add( eAir );
         eDielectric = new ValueDisplay( "E_dielectric", "V/m", "0.000E00" );
+        eDielectric.setToolTipText( "field in dielectric volume" );
         derivedPanel.add( eDielectric );
         // energy
         derivedPanel.add( new JSeparator() );
         energyStored = new ValueDisplay( "U", "J", "0.000E00" );
+        energyStored.setToolTipText( "stored energy" );
         derivedPanel.add( energyStored );
         
         // layout
         JPanel mainPanel = new VerticalPanel();
+        mainPanel.add( instructions );
         mainPanel.add( constantsPanel );
         mainPanel.add( settingsPanel );
         mainPanel.add( derivedPanel );
@@ -209,6 +246,7 @@ public class ModelValuesPanel extends JPanel {
         disconnectedCharge.setValue( circuit.getManualPlateCharge() );
         plateSideLength.setValue( capacitor.getPlateSideLength() );
         plateSeparation.setValue( capacitor.getPlateSeparation() );
+        dielectricOffset.setValue( capacitor.getDielectricOffset() );
         dielectricConstant.setValue( capacitor.getDielectricMaterial().getDielectricConstant() );
         
         /* derived */
