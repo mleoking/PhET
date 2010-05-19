@@ -10,12 +10,12 @@ import robotmovingcompany.{RobotMovingCompanyModule}
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.charts.bargraphs._
 import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
-import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 import swing.Button
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.recordandplayback.gui.{RecordAndPlaybackControlPanel}
 import edu.umd.cs.piccolox.pswing.PSwing
 import java.awt.event.{ComponentEvent, ComponentAdapter}
+import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults, MotionSeriesModule}
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -70,7 +70,7 @@ class CoordinatesRampModule(frame: PhetFrame)
 }
 
 /**
- * This module introduces graphing, it is the parent class for the modules that use graphs in the play area.
+ * This module is the parent class for modules that use graphs in the play area.
  */
 class GraphingModule(frame: PhetFrame,
                      name: String,
@@ -81,34 +81,36 @@ class GraphingModule(frame: PhetFrame,
   coordinateSystemModel.adjustable = false
 }
 
+/**
+ * The ForceGraphsModule is a GraphingModule that graphs the forces on an object as a function of time.
+ */
 class ForceGraphsModule(frame: PhetFrame) extends GraphingModule(frame, "module.force-graphs".translate, false, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
   rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, motionSeriesModel))
 }
 
+/**
+ * The WorkEnergyModule is a tab that focuses on work and energy issues.
+ */
 class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.energy".translate, true, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
   rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, motionSeriesModel))
   val workEnergyChartVisibilityModel = new WorkEnergyChartVisibilityModel
 
-  //create a "show energy chart" button and add it to the primary part of the control panel
+  //create a "show energy chart" button and add it as a PSwing near the top-middle of the play area
   val showEnergyChartButton = Button("controls.show-energy-chart".translate) {
     workEnergyChartVisibilityModel.visible = true
   }
-  rampControlPanel.addPrimaryControl(showEnergyChartButton)
-  val button = new PSwing(showEnergyChartButton.peer)
-  rampCanvas.getLayer.addChild(button) //todo: why doesn't addScreenChild work here?
+  val showEnergyButtonPSwing = new PSwing(showEnergyChartButton.peer)
+  rampCanvas.getLayer.addChild(showEnergyButtonPSwing) //todo: why doesn't addScreenChild work here?  It seems like it has the wrong transform.
   def updateButtonLocation() = {
     val insetX = 4
     val insetY = insetX
-    button.setOffset(rampCanvas.getWidth / 2 - button.getWidth - insetX, insetY)
+    showEnergyButtonPSwing.setOffset(rampCanvas.getWidth / 2 - showEnergyButtonPSwing.getWidth - insetX, insetY)
   }
   rampCanvas.addComponentListener(new ComponentAdapter {
     override def componentResized(e: ComponentEvent) = updateButtonLocation()
   })
   updateButtonLocation()
-  workEnergyChartVisibilityModel.addListener(() => {button.setVisible(!workEnergyChartVisibilityModel.visible)})
-
-  //todo: which is easier to read?
-  //rampControlPanel.addPrimaryControl(Button("controls.show-energy-chart".translate) {workEnergyChartVisibilityModel.visible = true})
+  workEnergyChartVisibilityModel.addListener(() => showEnergyButtonPSwing.setVisible(!workEnergyChartVisibilityModel.visible))
 
   //create the work-energy chart; its visibility is determined by the visibility model
   val workEnergyChart = new WorkEnergyChart(workEnergyChartVisibilityModel, motionSeriesModel, frame)
@@ -119,7 +121,7 @@ class WorkEnergyModule(frame: PhetFrame) extends GraphingModule(frame, "module.e
     workEnergyChartVisibilityModel.reset()
   }
 
-  //Minimize the energy chart window when changing tabs, and restore it when returning to this tab
+  //Minimize the energy chart window when changing tabs, and restore it when returning to this tab (if it needs restoring)
   addListener(new Module.Listener() {
     var energyChartVisibleOnDeactivate = false
 
