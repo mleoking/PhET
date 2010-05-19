@@ -76,6 +76,11 @@ public class CLConstants {
     
     public static final double DRAG_HANDLE_ARROW_LENGTH = 35; // pixels
     
+    //XXX compute these!
+    // exponents that determine the range of meters
+    public static final int PLATE_CHARGE_METER_MAX_EXPONENT = -10;
+    public static final int STORED_ENERGY_METER_MAX_EXPONENT = -9;
+    
     //----------------------------------------------------------------------------
     // Control
     //----------------------------------------------------------------------------

@@ -66,8 +66,8 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Stroke TICK_MARK_STROKE = TRACK_STROKE;
     
     // range labels
-    private static final String RANGE_LABEL_NONE = CLStrings.LABEL_PLATE_CHARGE_NONE;
-    private static final String RANGE_LABEL_LOTS = CLStrings.LABEL_PLATE_CHARGE_LOTS;
+    private static final String RANGE_LABEL_NONE = CLStrings.LABEL_NONE;
+    private static final String RANGE_LABEL_LOTS = CLStrings.LABEL_LOTS;
     private static final Font RANGE_LABEL_FONT = new PhetFont( 14 );
     private static final Color RANGE_LABEL_COLOR = Color.BLACK;
     
