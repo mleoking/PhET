@@ -14,6 +14,7 @@ import javax.swing.{JFrame}
 import edu.colorado.phet.motionseries.controls.{ComboBoxNode}
 import edu.colorado.phet.motionseries.javastage.stage.PlayArea
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesResources, MotionSeriesDefaults}
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
 
 abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   adjustableCoordinateModel: AdjustableCoordinateModel,
@@ -69,6 +70,8 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
       def model = MotionSeriesCanvas.this.model
     })
     playAreaNode.addChild(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
+      addInputEventListener(new CursorHandler)
+      addInputEventListener(new RotationHandler(transform, this, model.rampSegments(1), 0, java.lang.Math.PI / 2))
       def model = MotionSeriesCanvas.this.model
     })
 
