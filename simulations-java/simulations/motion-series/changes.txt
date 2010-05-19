@@ -1,3 +1,4 @@
+Fixed: during playback, value readouts to the left of chart do not update
 Set the cursor to be a hand in the free body diagram node
 Moved the "show energy graph" button to the play area, and made it disappear when the chart appears
 Renamed Ramp to Ramp II: Forces in 2D, resolves #2054
