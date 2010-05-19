@@ -31,7 +31,7 @@ public class MotionControlGraph extends ControlGraph {
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
                                double min, double max, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, UpdateableObject updateableObject ) {
-        this( pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, updateStrategy, 1000, updateableObject );
+        this( pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, updateStrategy, 20, updateableObject );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,

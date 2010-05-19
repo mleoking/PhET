@@ -1,3 +1,4 @@
+5-19-2010: Changed the default maximum time from 1000.0 sec to 20.0 sec, resolves #2361
 12-15-2009: Provided 4 public getters and setters associated with the additional control panel swing and pswing components.
 12-15-2009: Added a public getter for the close button so that client code can use its position for layout
 10-27-2009: Made it so that aligned chart layout updates when zoom level changes for any chart.
