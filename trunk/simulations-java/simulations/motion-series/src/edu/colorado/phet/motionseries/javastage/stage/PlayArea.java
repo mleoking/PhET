@@ -93,7 +93,7 @@ public class PlayArea extends PhetPCanvas implements StageContainer {
      */
     private PhetPPath stageContainerDebugRegion;
     /**
-     * This is a screen node used for debuggin purposes to depict the bounds of the stage.
+     * This is a screen node used for debugging purposes to depict the bounds of the stage.
      * It is shown in screen coordinates instead of stage coordinates to keep stroke a fixed width.
      */
     private PhetPPath stageBoundsDebugRegion;
