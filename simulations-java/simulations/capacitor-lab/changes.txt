@@ -1,3 +1,5 @@
+5/18/10 add dielectric offset to model values display
+5/18/10 add descriptions to model values display via tool tips
 5/18/10 display model values in a dialog, too crowded in the play area
 5/18/10 implement new model provided by NP, using "2 parallel capacitors" approach
 5/17/10 display plate charge value the same way in control and meter
