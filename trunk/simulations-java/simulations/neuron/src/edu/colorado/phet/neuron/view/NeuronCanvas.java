@@ -342,7 +342,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 	private void updateConcentrationReadoutPositions() {
 		// Set the exterior cell readouts to be next to the button.
 		PBounds buttonBounds = stimulateNeuronButton.getFullBounds();
-		potassiumExteriorConcentrationReadout.setOffset(buttonBounds.getMaxX(), buttonBounds.getY());
+		potassiumExteriorConcentrationReadout.setOffset(buttonBounds.getMaxX() + 4, buttonBounds.getY());
 		sodiumExteriorConcentrationReadout.setOffset(
 				potassiumExteriorConcentrationReadout.getFullBoundsReference().getX(), 
 				potassiumExteriorConcentrationReadout.getFullBoundsReference().getMaxY());
@@ -412,7 +412,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	potassiumExteriorConcentrationReadout.setText(NeuronStrings.POTASSIUM_CHEMICAL_SYMBOL + "[" + 
     			formatter.format(MathUtils.round(model.getPotassiumExteriorConcentration(), places)) + " mM]");
     	potassiumInteriorConcentrationReadout.setText(NeuronStrings.POTASSIUM_CHEMICAL_SYMBOL + "[" + 
-    			formatter.format(MathUtils.round(model.getSodiumInteriorConcentration(), places)) + " mM]");
+    			formatter.format(MathUtils.round(model.getPotassiumInteriorConcentration(), places)) + " mM]");
     }
     
     /**
