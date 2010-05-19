@@ -1,3 +1,5 @@
+5/19/10 implement new model of charge, surface charge density, and E-field, as specified by NP
+5/19/10 change variable names in ModelValuesPanel to match variable names in design doc
 5/19/10 rework model assertions and arg checking
 5/19/10 new model of surface charge density, to avoid divide-by-zero errors when area=0
 5/19/10 assert necessary model conditions

@@ -214,7 +214,7 @@ public class BatteryCapacitorCircuit {
      * @return excess charge, in Coulombs
      */
     public double getExcessAirPlateCharge() {
-        return getExcessPlateCharge( EPSILON_AIR, capacitor.getAirContactArea(), capacitor.getPlateSeparation(), getPlatesVoltage() );
+        return getExcessPlateCharge( EPSILON_AIR, capacitor.getAirCapacitance(), getPlatesVoltage() );
     }
     
     /**
@@ -223,23 +223,22 @@ public class BatteryCapacitorCircuit {
      * @return excess charge, in Coulombs
      */
     public double getExcessDielectricPlateCharge() {
-        return getExcessPlateCharge( capacitor.getDielectricConstant(), capacitor.getDielectricContactArea(), capacitor.getPlateSeparation(), getPlatesVoltage() );
+        return getExcessPlateCharge( capacitor.getDielectricConstant(), capacitor.getDieletricCapacitance(), getPlatesVoltage() );
     }
     
     /*
      * General solution for excess plate charge.
      * 
      * @param epsilon_r dielectric constant, dimensionless
-     * @param A contact area between the top plate and the dielectric, meters^2
-     * @param d distance between the plates, meters
-     * @param v plate voltage, volts
+     * @param C capacitance due to the dielectric
+     * @param V_plates plate voltage, volts
      * @return charge, in Coulombs (C)
      */
-    private static double getExcessPlateCharge( double epsilon_r, double A, double d, double V ) {
-        if ( !( d > 0 ) ) {
-            throw new IllegalArgumentException( "model requires d (plate separation) > 0" );
+    private static double getExcessPlateCharge( double epsilon_r, double C, double V_plates ) {
+        if ( !( epsilon_r > 0 ) ) {
+            throw new IllegalArgumentException( "model requires epsilon_r > 0 : " + epsilon_r );
         }
-        return ( epsilon_r - EPSILON_VACUUM ) * EPSILON_0 * ( A / d ) * V; // Coulombs (1C = 1F * 1V)
+        return ( ( epsilon_r - EPSILON_VACUUM ) / epsilon_r ) * C * V_plates; // Coulombs (1C = 1F * 1V)
     }
     
     /**
@@ -292,7 +291,7 @@ public class BatteryCapacitorCircuit {
      */
     private static double getSurfaceChargeDensity( double epsilon_r, double V_plate, double d ) {
         if ( !( d > 0 ) ) {
-            throw new IllegalArgumentException( "model requires d (plate separation) > 0" );
+            throw new IllegalArgumentException( "model requires d (plate separation) > 0 : " + d );
         }
         return epsilon_r * EPSILON_0 * V_plate / d;
     }
@@ -314,44 +313,53 @@ public class BatteryCapacitorCircuit {
     }
     
     /**
-     * Gets the E-field due to the plates alone.
+     * Gets the field due to the plates in the capacitor volume that contains air.
      * 
      * @return E-field, in Volts/meter
      */
-    public double getPlatesEField() {
-        return getTotalPlateCharge() / ( capacitor.getPlateArea() * EPSILON_0 );
+    public double getPlatesAirEField() {
+        return getPlatesEField( EPSILON_AIR,  getPlatesVoltage(), capacitor.getPlateSeparation() );
     }
     
     /**
-     * Gets the field in capacitor volume that contains air.
+     * Gets the field due to the plates in the capacitor volume that contains the dielectric.
      * 
      * @return E-field, in Volts/meter
      */
-    public double getAirEField() {
-        return getEField( getAirSurfaceChargeDensity(), EPSILON_AIR );
-    }
-    
-    /**
-     * Gets the field in capacitor volume that contains the dielectric.
-     * 
-     * @return E-field, in Volts/meter
-     */
-    public double getDielectricEField() {
-        return getEField( getDielectricSurfaceChargeDensity(), capacitor.getDielectricConstant() );
+    public double getPlatesDielectricEField() {
+        return getPlatesEField( capacitor.getDielectricConstant(), getPlatesVoltage(), capacitor.getPlateSeparation() );
     }
     
     /*
      * General solution for the E-field due to some dielectric.
      * 
-     * @param sigma surface charge density, Coulombs/meters^2
      * @param epsilon_r dielectric constant, dimensionless
+     * @param V_plates plate voltage, volts
+     * @param d plate separation, meters
      * @return E-field, in Volts/meter
      */
-    private static double getEField( double sigma, double epsilon_r ) {
-        if ( !( epsilon_r > 0 ) ) {
-            throw new IllegalArgumentException( "model requires epsilon_r (dielectric constant) > 0" );
+    // epsilon_air * V_plates / d
+    private static double getPlatesEField( double epsilon_r, double V_plates, double d ) {
+        if ( !( d > 0 ) ) {
+            throw new IllegalArgumentException( "model requires d (plate separation) > 0 : " + d );
         }
-        return sigma / ( epsilon_r * EPSILON_0 );
+        return epsilon_r * V_plates / d;
+    }
+    
+    /**
+     * Gets the field due to air polarization.
+     * @return E-field, in Volts/meter
+     */
+    public double getAirEField() {
+        return getPlatesAirEField() - getEffectiveEfield();
+    }
+    
+    /**
+     * Gets the field due to dielectric polarization.
+     * @return E-field, in Volts/meter
+     */
+    public double getDielectricEField() {
+        return getPlatesDielectricEField() - getEffectiveEfield();
     }
     
     //----------------------------------------------------------------------------------
