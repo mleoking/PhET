@@ -16,6 +16,9 @@ import edu.colorado.phet.capacitorlab.CLConstants;
  * A capacitor's capacitance is dependent on its geometry and the dielectric material.
  * When the dielectric can be partially inserted, the capacitor must be modeled as 2 parallel capacitors,
  * one of which has the dielectric between its plates, and the other of which has air between its plates.
+ * <p>
+ * Variable names used in this implementation where chosen to match the specification
+ * in the design document, and therefore violate Java naming conventions.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -145,9 +148,9 @@ public class Capacitor {
     }
     
     /**
-     * Gets the gap between the diectric and the plates, identical for both plates.
+     * Gets the gap between the dielectric and the plates, identical for both plates.
      * This property does not play a role in the model, but is used by the visual representation.
-     * @return
+     * @return the gap, in meters
      */
     public double getDielectricGap() {
         return dielectricGap;
@@ -156,7 +159,7 @@ public class Capacitor {
     /**
      * Sets the offset of the dielectric.
      * When the dielectric is fully inserted between the plates, its offset is zero.
-     * @param dielectricOffset offset, in mm.
+     * @param dielectricOffset offset, in meters.
      */
     public void setDielectricOffset( double dielectricOffset ) {
         if ( dielectricOffset < 0 ) {
@@ -172,7 +175,7 @@ public class Capacitor {
     /**
      * Gets the offset of the dielectric.
      * When the dielectric is fully inserted between the plates, its offset is zero.
-     * @return offset, in mm.
+     * @return offset, in meters.
      */
     public double getDielectricOffset() {
         return dielectricOffset;
@@ -187,23 +190,23 @@ public class Capacitor {
     }
     
     /**
-     * Gets the area of the contact between one of the plates and the dielectric material.
-     * @return area, in meters^2
-     */
-    public double getDielectricContactArea() {
-        double area = 0;
-        if ( getDielectricOffset() < getPlateSideLength() ) {
-            area = ( getPlateSideLength() - getDielectricOffset() ) * getPlateSideLength(); // front * side
-        }
-        return area;
-    }
-    
-    /**
      * Gets the area of the contact between one of the plates and air.
      * @return area, in meters^2
      */
     public double getAirContactArea() {
         return getPlateArea() - getDielectricContactArea();
+    }
+    
+    /**
+     * Gets the area of the contact between one of the plates and the dielectric material.
+     * @return area, in meters^2
+     */
+    public double getDielectricContactArea() {
+        double area = getPlateSideLength() * ( getPlateSideLength() - getDielectricOffset() ); // side * front
+        if ( area < 0 ) {
+            area = 0;
+        }
+        return area;
     }
     
     /**
@@ -214,16 +217,7 @@ public class Capacitor {
      * @return capacitance, in Farads
      */
     public double getTotalCapacitance() {
-        return getDieletricCapacitance() + getAirCapacitance();
-    }
-    
-    /**
-     * Gets the capacitance due to the part of the capacitor that is contacting the dielectric.
-     * 
-     * @return capacitance, in Farads
-     */
-    public double getDieletricCapacitance() {
-        return getCapacitance( dielectricMaterial.getDielectricConstant(), getDielectricContactArea(), plateSeparation );
+        return getAirCapacitance() + getDieletricCapacitance();
     }
     
     /**
@@ -232,19 +226,28 @@ public class Capacitor {
      * @return capacitance, in Farads
      */
     public double getAirCapacitance() {
-        return getCapacitance( CLConstants.EPSILON_AIR, getAirContactArea(), plateSeparation );
+        return getCapacitance( CLConstants.EPSILON_AIR, getAirContactArea(), getPlateSeparation() );
+    }
+    
+    /**
+     * Gets the capacitance due to the part of the capacitor that is contacting the dielectric.
+     * 
+     * @return capacitance, in Farads
+     */
+    public double getDieletricCapacitance() {
+        return getCapacitance( dielectricMaterial.getDielectricConstant(), getDielectricContactArea(), getPlateSeparation() );
     }
     
     /*
      * General formula for computing capacitance.
      * 
-     * @param dielectricConstant dielectric constant, dimensionless
+     * @param epsilon dielectric constant, dimensionless
      * @param area area of the contact between the dielectric and one plate, meters^2
      * @param plateSeparation distance between the plates, meters
      * @return capacitance, in Farads
      */
-    private static double getCapacitance( double dielectricConstant, double area, double plateSeparation ) {
-        return dielectricConstant * CLConstants.EPSILON_0 * area / plateSeparation;
+    private static double getCapacitance( double epsilon, double A, double d ) {
+        return epsilon * CLConstants.EPSILON_0 * A / d;
     }
     
     /**

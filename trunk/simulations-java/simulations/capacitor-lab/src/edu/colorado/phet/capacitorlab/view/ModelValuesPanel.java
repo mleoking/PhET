@@ -100,7 +100,7 @@ public class ModelValuesPanel extends JPanel {
         // constants panel
         JPanel constantsPanel = new VerticalPanel();
         constantsPanel.setBorder( new TitledBorder( "Constants" ) );
-        ValueDisplay epsilon0 = new ValueDisplay( CLStrings.EPSILON + "0", "F/m", "0.000E00", CLConstants.EPSILON_0  );
+        ValueDisplay epsilon0 = new ValueDisplay( CLStrings.EPSILON + "_0", "F/m", "0.000E00", CLConstants.EPSILON_0  );
         epsilon0.setToolTipText( "vacuum permittivity" );
         constantsPanel.add( epsilon0 );
         ValueDisplay epsilonAir = new ValueDisplay( CLStrings.EPSILON + "_air", "", "0.00000000", CLConstants.EPSILON_AIR );
@@ -114,7 +114,7 @@ public class ModelValuesPanel extends JPanel {
         JPanel settingsPanel = new VerticalPanel();
         settingsPanel.setBorder( new TitledBorder( "User Settings" ) );
         batteryVoltage = new ValueDisplay( "V_battery", "V", "0.00" );
-        batteryVoltage.setToolTipText( "<html>voltage of the battery,<br>used when battery is connected</html>" );
+        batteryVoltage.setToolTipText( "battery voltage" );
         settingsPanel.add( batteryVoltage );
         disconnectedCharge = new ValueDisplay( "Q_disconnected", "C", "0.000E00" );
         disconnectedCharge.setToolTipText( "<html>total plate change when<br>battery is disconnected</html>" );
@@ -128,7 +128,7 @@ public class ModelValuesPanel extends JPanel {
         dielectricOffset = new ValueDisplay( "offset", "m", "0.000" );
         dielectricOffset.setToolTipText( "how far the dielectric is pulled out" ); 
         settingsPanel.add( dielectricOffset );
-        dielectricConstant = new ValueDisplay( CLStrings.EPSILON + "r", "", "0.000" );
+        dielectricConstant = new ValueDisplay( CLStrings.EPSILON + "_dielectric", "", "0.000" );
         dielectricConstant.setToolTipText( "dielectric constant" ); 
         settingsPanel.add( dielectricConstant );
         
@@ -243,7 +243,7 @@ public class ModelValuesPanel extends JPanel {
         
         /* user settings */
         batteryVoltage.setValue( battery.getVoltage() );
-        disconnectedCharge.setValue( circuit.getManualPlateCharge() );
+        disconnectedCharge.setValue( circuit.getDisconnectedPlateCharge() );
         plateSideLength.setValue( capacitor.getPlateSideLength() );
         plateSeparation.setValue( capacitor.getPlateSeparation() );
         dielectricOffset.setValue( capacitor.getDielectricOffset() );
@@ -259,7 +259,7 @@ public class ModelValuesPanel extends JPanel {
         dielectricCapacitance.setValue( capacitor.getDieletricCapacitance() );
         totalCapacitance.setValue( capacitor.getTotalCapacitance() );
         // voltage
-        plateVoltage.setValue( circuit.getPlateVoltage() );
+        plateVoltage.setValue( circuit.getPlatesVoltage() );
         // charge
         airCharge.setValue( circuit.getAirPlateCharge() );
         dielectricCharge.setValue( circuit.getDielectricPlateCharge() );
@@ -267,8 +267,8 @@ public class ModelValuesPanel extends JPanel {
         excessAirCharge.setValue( circuit.getExcessAirPlateCharge() );
         excessDielectricCharge.setValue( circuit.getExcessDielectricPlateCharge() );
         // surface charge density
-        airSurfaceChargeDensity.setValue( model.getCircuit().getAirSurfaceDensityCharge() );
-        dielectricSurfaceChargeDensity.setValue( model.getCircuit().getDielectricSurfaceDensityCharge() );
+        airSurfaceChargeDensity.setValue( model.getCircuit().getAirSurfaceChargeDensity() );
+        dielectricSurfaceChargeDensity.setValue( model.getCircuit().getDielectricSurfaceChargeDensity() );
         // E-field
         eEffective.setValue( model.getCircuit().getEffectiveEfield() );
         ePlates.setValue( model.getCircuit().getPlatesEField() );

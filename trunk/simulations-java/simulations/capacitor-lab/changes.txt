@@ -1,3 +1,4 @@
+5/18/10 reorganize model to be similar to specification
 5/18/10 add dielectric offset to model values display
 5/18/10 add descriptions to model values display via tool tips
 5/18/10 display model values in a dialog, too crowded in the play area
