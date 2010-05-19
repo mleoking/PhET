@@ -350,16 +350,37 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 		// Set the interior cell readouts to be in a location that will always
 		// be in the cell regardless of how zoomed out or in it is.
 		
-		PhetRootPNode rootPNode = getPhetRootNode();
+		PhetRootPNode phetRootNode = getPhetRootNode();
 		Point2D topCenterOfMembrane = new Point2D.Double(axonCrossSectionNode.getFullBoundsReference().getCenterX(), axonCrossSectionNode.getFullBoundsReference().getMinY());
-		rootPNode.worldToScreen(topCenterOfMembrane);
 		
-		double maxWidth = Math.max(potassiumInteriorConcentrationReadout.getFullBoundsReference().width,
+		// Note: The following is a bit dodgey, and there may be a better way.
+		// The intent is to find the top of the membrane in screen coordinates
+		// and then position the readouts some fixed distance below it.  This
+		// turns out to be a bit difficult when the user can zoom in and out,
+		// since the location of the top of the membrane changes, as does the
+		// apparent thickness of the membrane.  To get this to work, it was
+		// necessary to get the transform of the node that does the zooming,
+		// use it, and fudge the offset a bit based on the scale factor.
+		// Complicated, no doubt, but it works (at least for now).  If there
+		// is some easier way then, by all means, implement it.
+		
+		AffineTransform zoomedTransform = myWorldNode.getTransformReference(false);
+		if (zoomedTransform != null){
+			zoomedTransform.transform(topCenterOfMembrane, topCenterOfMembrane);
+		}
+		else{
+			System.err.println(getClass().getName() + " - Warning: Zooming node has not transform.");
+		}
+		
+		double yOffset = 100 + myWorldNode.getScale() * 10;  // Empirically determined. 
+		
+		phetRootNode.worldToScreen(topCenterOfMembrane);
+		
+		double maxReadoutWidth = Math.max(potassiumInteriorConcentrationReadout.getFullBoundsReference().width,
 				sodiumInteriorConcentrationReadout.getFullBoundsReference().width);
-//		potassiumInteriorConcentrationReadout.setOffset(getWidth() / 2 - maxWidth / 2, getHeight() / 2);
 		potassiumInteriorConcentrationReadout.setOffset(
-				topCenterOfMembrane.getX() - maxWidth / 2, 
-				topCenterOfMembrane.getY() + 40);
+				topCenterOfMembrane.getX() - maxReadoutWidth / 2,
+				topCenterOfMembrane.getY() + yOffset);
 		sodiumInteriorConcentrationReadout.setOffset(
 				potassiumInteriorConcentrationReadout.getFullBoundsReference().getX(),
 				potassiumInteriorConcentrationReadout.getFullBoundsReference().getMaxY());
@@ -476,6 +497,9 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     public void setZoomFactor(double zoomFactor){
     	if (this.zoomFactor != zoomFactor){
     		myWorldNode.setTransform(new AffineTransform());
+    		// Skew the zoom a little so that when zoomed in the membrane
+    		// is in a reasonable place and there is room for the chart below
+    		// it.
     		if (zoomFactor > 2){
     			myWorldNode.scaleAboutPoint(zoomFactor, 
     					(int)(Math.round(NeuronDefaults.INTERMEDIATE_RENDERING_SIZE.width / 2)),
