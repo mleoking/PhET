@@ -3,10 +3,12 @@ TODO list for capacitor-lab
 QUESTIONS FOR NOAH
 - do you really want units spelled out for meters, or is abbreviation OK?
 - discuss zoom buttons on meters: clearly identify the problem, prove that zoom buttons are a solution
-- how are we addressing attempts to create AC behavior by dragging battery voltage slider?
+- how are we addressing attempts to create AC behavior by dragging battery voltage slider? [ignore]
 - discuss how (whether) to address issues of overlapping stuff in play area
 
 HIGH PRIORITY
+- autoscale button with tooltip on Charge, Energy, Capacitance meters, make max value text blink red
+- arrow above meters to indicate overload
 - why is Eclipse suddenly not finding inner classes?
 - solve coordinate frame conversion issues for drag handles
 - fix behavior of plate size drag handle, whose axis is on the diagonal of the top plate (should drag point be on a line perpendicular to this axis?)
@@ -27,6 +29,7 @@ MEDUIUM PRIORITY
 - add a dashed line around "detecting plane" for field meter
 
 LOW PRIORITY
+- gradient paint on plate top surfaces (not on edges)
 - refactor duplicate code in PlateChargeMeterNode, StoredEnergyMeterNode
 - round the end of the wire that connects to the top plate
 - use a gradient paint for wires to give them a 3D look
