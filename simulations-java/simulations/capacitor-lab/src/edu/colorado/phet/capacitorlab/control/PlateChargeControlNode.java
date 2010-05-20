@@ -14,6 +14,8 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
+import javax.swing.JPanel;
+
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
@@ -51,7 +53,7 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final double BACKGROUND_Y_MARGIN = 5;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
-    private static final Color BACKGROUND_FILL_COLOR = Color.WHITE;
+    private static final Color BACKGROUND_FILL_COLOR = new JPanel().getBackground();
     
     // knob
     private static final PDimension KNOB_SIZE = new PDimension( 20, 15 );
