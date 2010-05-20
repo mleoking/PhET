@@ -26,6 +26,9 @@ public class CLPaints {
     // energy
     public static final Color ENERGY = Color.YELLOW;
     
+    // capacitance
+    public static final Color CAPACITANCE = Color.GREEN;
+    
     // draggable things
     public static final Color DRAGGABLE_NORMAL = Color.GREEN;
     public static final Color DRAGGABLE_HIGHLIGHT = Color.YELLOW;

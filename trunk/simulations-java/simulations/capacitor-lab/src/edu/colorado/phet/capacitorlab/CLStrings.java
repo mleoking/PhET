@@ -42,6 +42,7 @@ public class CLStrings {
     
     public static final String METER_PLATE_CHARGE = getString( "meter.plateCharge" );
     public static final String METER_STORED_ENERGY = getString( "meter.storedEnergy" );
+    public static final String METER_CAPACITANCE = getString( "meter.capacitance" );
     
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String PATTERN_DIELECTRIC_MATERIAL = getString( "pattern.dielectricMaterial.0name.1constant" );
@@ -64,7 +65,7 @@ public class CLStrings {
     public static final String UNITS_MILLIMETERS = getString( "units.millimeters" );
     public static final String UNITS_MILLIMETERS_SQUARED = getString( "units.millimetersSquared" );
     public static final String UNITS_COULOMBS = getString( "units.coulombs" );
-    public static final String UNITS_PICOFARADS = getString( "units.picofarads" );
+    public static final String UNITS_FARADS = getString( "units.farads" );
     public static final String UNITS_JOULES = getString( "units.joules" );
     
     // Greek letters, i18n not required
