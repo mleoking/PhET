@@ -5,26 +5,26 @@ QUESTIONS FOR NOAH
 HIGH PRIORITY
 - autoscale button with tooltip on Charge, Energy, Capacitance meters, make max value text blink red
 - arrow above meters to indicate overload
-- why is Eclipse suddenly not finding inner classes?
 - solve coordinate frame conversion issues for drag handles
 - fix behavior of plate size drag handle, whose axis is on the diagonal of the top plate (should drag point be on a line perpendicular to this axis?)
 - utilities for computing important 2D points on capacitor's pseudo-3D geometry (for layout, interactivity, and connecting things)
 - blue arrow and glowing sphere to represent dV/dt
 - charge and excess charge on plates (see notes)
 - charge and excess charge on dielectric (see notes)
+- voltmeter
+- field meter with dashed line around "detecting plane"
 
 MEDUIUM PRIORITY
-- add zoom buttons to meters?
+- why is Eclipse suddenly not finding inner classes?
 - combine plate charge meter and slider into one thing?
 - make dielectric draggable by grabbing it
 - derive PlateChargeMeterNode.MAX_EXPONENT and PlateChargeControlNode.VALUE_EXPONENT
-- edges where dielectric and bottom plate meet don't match up perfectly
 - use air as the dielectric material in Introduction module
 - make air dielectric invisible
 - fake curvature in E-field?
-- add a dashed line around "detecting plane" for field meter
 
 LOW PRIORITY
+- edges where dielectric and bottom plate meet don't match up perfectly
 - gradient paint on plate top surfaces (not on edges)
 - round the end of the wire that connects to the top plate
 - use a gradient paint for wires to give them a 3D look
