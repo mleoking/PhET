@@ -9,6 +9,7 @@ import _root_.java.awt.geom.{AffineTransform, Point2D}
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.motionseries.model.{AdjustableCoordinateModel, CoordinateFrameModel, MotionSeriesModel}
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.scalacommon.util.Observable
@@ -46,6 +47,7 @@ class CoordinateFrameNode(val model: MotionSeriesModel,
                           val transform: ModelViewTransform2D)
         extends PNode {
   import java.lang.Math.PI
+  //see CoordinateFrameModel.proposedAngle_= for additional constraint on drag angle
   val xAxisModel = new SynchronizedAxisModel(0, 0.0, PI / 2, 7, false, model.coordinateFrameModel)
   val xAxis = new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel)
   addChild(xAxis)
