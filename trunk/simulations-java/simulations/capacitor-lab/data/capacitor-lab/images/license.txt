@@ -2,3 +2,6 @@ battery_3D_down.png source=PhET author=Noah P
 battery_3D_up.png source=PhET author=Noah P
 sliderKnob.png source=PhET notes=copied from faraday
 sliderKnobHighlight.png source=PhET notes=copied from faraday
+voltmeter.png author=PhET notes=copied from circuit-construction-kit vm3.gif
+probeBlack.png author=PhET notes=copied from circuit-construction-kit probeBlack.gif
+probeGreen.png author=PhET notes=copied from circuit-construction-kit probeGreen.gif
