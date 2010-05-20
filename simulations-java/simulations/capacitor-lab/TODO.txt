@@ -1,10 +1,6 @@
 TODO list for capacitor-lab
 
 QUESTIONS FOR NOAH
-- do you really want units spelled out for meters, or is abbreviation OK?
-- discuss zoom buttons on meters: clearly identify the problem, prove that zoom buttons are a solution
-- how are we addressing attempts to create AC behavior by dragging battery voltage slider? [ignore]
-- discuss how (whether) to address issues of overlapping stuff in play area
 
 HIGH PRIORITY
 - autoscale button with tooltip on Charge, Energy, Capacitance meters, make max value text blink red
@@ -30,7 +26,6 @@ MEDUIUM PRIORITY
 
 LOW PRIORITY
 - gradient paint on plate top surfaces (not on edges)
-- refactor duplicate code in PlateChargeMeterNode, StoredEnergyMeterNode
 - round the end of the wire that connects to the top plate
 - use a gradient paint for wires to give them a 3D look
 - delete DeveloperControlPanel if it's no longer used

@@ -343,7 +343,7 @@ public class PlateChargeControlNode extends PhetPNode {
                 double mantissaString = value / Math.pow( 10, VALUE_EXPONENT );
                 valueString = MessageFormat.format( VALUE_PATTERN, VALUE_MANTISSA_FORMAT.format( mantissaString ) );
             }
-            setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE, valueString, CLStrings.UNITS_COULOMBS ) );
+            setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, valueString, CLStrings.UNITS_COULOMBS ) );
         }
     }
 }
