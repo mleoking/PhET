@@ -21,7 +21,11 @@ public class CLImages {
     public static final BufferedImage BATTERY_DOWN = getBufferedImage( "battery_3D_down.png" );
     public static final BufferedImage SLIDER_KNOB = getBufferedImage( "sliderKnob.png" );
     public static final BufferedImage SLIDER_KNOB_HIGHLIGHT = getBufferedImage( "sliderKnobHighlight.png" );
+    public static final BufferedImage VOLTMETER = getBufferedImage( "voltmeter.png" );
+    public static final BufferedImage RED_PROBE = getBufferedImage( "redProbe.png" );
+    public static final BufferedImage BLACK_PROBE = getBufferedImage( "blackProbe.png" );
     
+    // common images
     public static final BufferedImage CLOSE_BUTTON = getCommonBufferedImage( PhetCommonResources.IMAGE_CLOSE_BUTTON );
     
     private static final BufferedImage getBufferedImage( String resourceName ) {
