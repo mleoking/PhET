@@ -1,12 +1,16 @@
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
+import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -14,6 +18,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Line2D;
@@ -216,4 +221,22 @@ public class VoltmeterNode extends PhetPNode {
         }
     }
 
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                VoltmeterModel model = new VoltmeterModel(new CCKModel(), new Circuit());
+                model.setVisible(true);
+                VoltmeterNode voltmeterNode = new VoltmeterNode(model);
+                voltmeterNode.scale(100);
+                JFrame frame = new JFrame();
+                PCanvas contentPane = new PhetPCanvas();
+                contentPane.getLayer().addChild(voltmeterNode);
+                frame.setSize(800, 600);
+
+                frame.setContentPane(contentPane);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+            }
+        });
+    }
 }
