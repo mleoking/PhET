@@ -1,0 +1,44 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: May 13-19, 2010 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+  
+  Capacitor Lab:
+  - weekly meeting with Noah P.
+  - revised physical model & display several times
+  - created spreadsheet version of model, immediately obsolete
+  - control for setting plate charge when battery is disconnected
+  - energy meter
+  
+  Acid-Base Solutions:
+  - design meeting
+  - revised Magnifying Glass prototype
+  
+  misc:
+  - status meeting
+  - reviewed my active Unfuddle tickets, misc verified and closed
+  - identified installer case-sensitivity problem, #2352
+  - provided JB with an i18n example for "label value units" strings
+  - discussed issue with Reset All button, #2357
+
+WHAT'S NEXT:
+
+  - Capacitor Lab design & implementation 
+  - Acid-Base Solutions design & implementation 
+  - Faraday fix for dipole magnet, #2236 (waiting for info from Mike)
+  - Lasers fix for lifetime sliders, #2190 (waiting for instructions from Kathy)
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   May 24-27
+   June 2-9, 14-24
+   July 24-31
+   August 1-6
+  
+--
