@@ -18,7 +18,10 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
+import edu.colorado.phet.capacitorlab.view.CapacitanceMeterNode;
 import edu.colorado.phet.capacitorlab.view.ModelValuesDialog;
+import edu.colorado.phet.capacitorlab.view.PlateChargeMeterNode;
+import edu.colorado.phet.capacitorlab.view.StoredEnergyMeterNode;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -44,59 +47,87 @@ public class MetersControlPanel extends CLTitledControlPanel {
         this.model = model;
         
         // Capacitance meter
-        capacitanceCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CAPACITANCE );
+        {
+            final CapacitanceMeterNode meter = canvas.getCapacitanceMeterNode();
+            capacitanceCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CAPACITANCE );
+            capacitanceCheckBox.setSelected( meter.isVisible() );
+            capacitanceCheckBox.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    meter.setVisible( capacitanceCheckBox.isSelected() );
+                }
+            } );
+            meter.addPropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
+                        capacitanceCheckBox.setSelected( meter.isVisible() );
+                    }
+                }
+            } );
+        }
         
         // Plate Charge meter
-        chargeCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CHARGE );
-        chargeCheckBox.setSelected( canvas.getChargeMeterNode().isVisible() );
-        chargeCheckBox.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                canvas.getChargeMeterNode().setVisible( chargeCheckBox.isSelected() );
-            }
-        });
-        canvas.getChargeMeterNode().addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                    chargeCheckBox.setSelected( canvas.getChargeMeterNode().isVisible() );
+        {
+            final PlateChargeMeterNode meter = canvas.getChargeMeterNode();
+            chargeCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CHARGE );
+            chargeCheckBox.setSelected( meter.isVisible() );
+            chargeCheckBox.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    meter.setVisible( chargeCheckBox.isSelected() );
                 }
-            }
-        });
+            } );
+            meter.addPropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
+                        chargeCheckBox.setSelected( meter.isVisible() );
+                    }
+                }
+            } );
+        }
         
         // Energy meter
-        energyCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_ENERGY );
-        energyCheckBox.setSelected( canvas.getEnergyMeterNode().isVisible() );
-        energyCheckBox.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                canvas.getEnergyMeterNode().setVisible( energyCheckBox.isSelected() );
-            }
-        });
-        canvas.getEnergyMeterNode().addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                    energyCheckBox.setSelected( canvas.getEnergyMeterNode().isVisible() );
+        {
+            final StoredEnergyMeterNode meter = canvas.getEnergyMeterNode();
+            energyCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_ENERGY );
+            energyCheckBox.setSelected( meter.isVisible() );
+            energyCheckBox.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    meter.setVisible( energyCheckBox.isSelected() );
                 }
-            }
-        });
+            } );
+            meter.addPropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
+                        energyCheckBox.setSelected( meter.isVisible() );
+                    }
+                }
+            } );
+        }
         
         // Voltmeter
-        voltmeterCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_VOLTMETER );
+        {
+            voltmeterCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_VOLTMETER );
+        }
         
         // Field Detector
-        fieldDetectorCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_FIELD_DETECTOR );
+        {
+            fieldDetectorCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_FIELD_DETECTOR );
+        }
         
         // Model Values dialog
-        modelValuesCheckBox = new JCheckBox( "Model Values" );
-        modelValuesCheckBox.setForeground( Color.RED );
-        modelValuesCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if ( modelValuesCheckBox.isSelected() ) {
-                    openModelValuesDialog();
+        {
+            modelValuesCheckBox = new JCheckBox( "Model Values" );
+            modelValuesCheckBox.setForeground( Color.RED );
+            modelValuesCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if ( modelValuesCheckBox.isSelected() ) {
+                        openModelValuesDialog();
+                    }
+                    else {
+                        closeModelValuesDialog();
+                    }
                 }
-                else {
-                    closeModelValuesDialog();
-                }
-            }
-        });
+            } );
+        }
         
         // layout
         JPanel innerPanel = new JPanel();

@@ -78,6 +78,7 @@ public class CLConstants {
     
     //XXX compute these!
     // exponents that determine the range of meters
+    public static final int CAPACITANCE_METER_MAX_EXPONENT = -11;
     public static final int PLATE_CHARGE_METER_MAX_EXPONENT = -10;
     public static final int STORED_ENERGY_METER_MAX_EXPONENT = -9;
     

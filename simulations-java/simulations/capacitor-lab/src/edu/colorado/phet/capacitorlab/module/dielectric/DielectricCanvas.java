@@ -44,6 +44,7 @@ public class DielectricCanvas extends CLCanvas {
     private final PlateAreaDragHandleNode plateAreaDragHandleNode;
     
     // meters
+    private final CapacitanceMeterNode capacitanceMeterNode;
     private final PlateChargeMeterNode chargeMeterNode;
     private final StoredEnergyMeterNode energyMeterNode;
     
@@ -104,6 +105,7 @@ public class DielectricCanvas extends CLCanvas {
         dragBoundsNode.setStroke( null );
         addChild( dragBoundsNode );
         
+        capacitanceMeterNode = new CapacitanceMeterNode( model.getCircuit(), dragBoundsNode );
         chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), dragBoundsNode );
         energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), dragBoundsNode );
         
@@ -119,6 +121,7 @@ public class DielectricCanvas extends CLCanvas {
         addChild( plateAreaDragHandleNode );
         addChild( addWiresButtonNode );
         addChild( removeWiresButtonNode );
+        addChild( capacitanceMeterNode );
         addChild( chargeMeterNode );
         addChild( energyMeterNode );
         addChild( plateChargeControNode );
@@ -150,8 +153,9 @@ public class DielectricCanvas extends CLCanvas {
             removeWiresButtonNode.setOffset( x, y );
             
             // Meters
-            chargeMeterNode.setOffset( 700, 25 ); //XXX
-            energyMeterNode.setOffset( 850, 25 ); //XXX
+            capacitanceMeterNode.setOffset( 600, 25 ); //XXX
+            chargeMeterNode.setOffset( 750, 25 ); //XXX
+            energyMeterNode.setOffset( 900, 25 ); //XXX
             
             // Charge control, above capacitor
             x = mvt.modelToView( new Point2D.Double( 0, 0 ) ).getX();
@@ -169,6 +173,7 @@ public class DielectricCanvas extends CLCanvas {
         updateDielectricOffsetDragHandle();
         updatePlateSeparationDragHandle();
         updatePlateAreaDragHandle();
+        capacitanceMeterNode.setVisible( false );
         chargeMeterNode.setVisible( false );
         energyMeterNode.setVisible( false );
     }
@@ -179,6 +184,10 @@ public class DielectricCanvas extends CLCanvas {
     
     public PlateChargeMeterNode getChargeMeterNode() {
         return chargeMeterNode;
+    }
+    
+    public CapacitanceMeterNode getCapacitanceMeterNode() {
+        return capacitanceMeterNode;
     }
     
     public StoredEnergyMeterNode getEnergyMeterNode() {
