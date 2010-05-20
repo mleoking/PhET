@@ -293,7 +293,7 @@ public abstract class BarMeterNode extends PhetPNode {
             String mantissaString = "0";
             if ( value != 0 ) {
                 double mantissa = value / ( Math.pow( 10, exponent ) / 10 );
-                mantissaString = MessageFormat.format( PATTERN_VALUE, mantissaFormat.format( mantissa ) );
+                mantissaString = MessageFormat.format( PATTERN_VALUE, mantissaFormat.format( mantissa ), exponent );
             }
             setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, mantissaString, units ) );
         }
