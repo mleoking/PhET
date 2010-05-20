@@ -43,4 +43,7 @@ public class NeuronStrings {
     public static final String MEMBRANE_POTENTIAL_CLEAR_CHART = getString( "Chart.clear" );
 
     public static final String STIMULATE_BUTTON_CAPTION = getString( "StimulateButton.caption" );
+    
+    public static final String CONCENTRATION_READOUT_PATTERN = getString( "ConcentrationReadoutPattern.0label.1value.2units" );
+    public static final String UNITS_MM = getString( "units.mM" );
 }

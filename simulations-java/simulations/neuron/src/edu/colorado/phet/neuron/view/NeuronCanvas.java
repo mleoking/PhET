@@ -16,6 +16,7 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
@@ -58,6 +59,10 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     
     // Color of button for stimulating the neuron.
     private static final Color CANVAS_BUTTON_COLOR = new Color(255, 144, 0);
+    
+    // Constants that control aspects of the concentration readout.
+    private static final DecimalFormat CONCENTRATION_READOUT_FORMATTER = new DecimalFormat( "##0.00000" );
+    private static final int CONCENTRATION_READOUT_NUM_PLACES = 5;
     
     // For debug: Enable and disable nodes that can help with debug of layout.
     private static final boolean SHOW_PARTICLE_BOUNDS = false;
@@ -156,7 +161,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
 				updateConcentrationReadoutVisible();
 			}
 			public void concentrationChanged() {
-				updateConcentrationReadouts();
+				updateConcentrationReadoutValues();
 			}
 		});
         
@@ -270,7 +275,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         // Update other initial state.
         updateStimButtonState();
         updateChargeSymbolsShown();
-        updateConcentrationReadouts();
+        updateConcentrationReadoutValues();
         updateConcentrationReadoutVisible();
     }
     
@@ -402,18 +407,31 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     	potassiumInteriorConcentrationReadout.setVisible(model.isConcentrationReadoutVisible());
     }
     
-    private void updateConcentrationReadouts(){
-    	int places = 5;
-        DecimalFormat formatter = new DecimalFormat( "##0.00000" );
+    private void updateConcentrationReadoutValues(){
 
-    	sodiumExteriorConcentrationReadout.setText(NeuronStrings.SODIUM_CHEMICAL_SYMBOL + "[" + 
-    			formatter.format(MathUtils.round(model.getSodiumExteriorConcentration(), places)) + " mM]");
-    	sodiumInteriorConcentrationReadout.setText(NeuronStrings.SODIUM_CHEMICAL_SYMBOL + "[" + 
-    			formatter.format(MathUtils.round(model.getSodiumInteriorConcentration(), places)) + " mM]");
-    	potassiumExteriorConcentrationReadout.setText(NeuronStrings.POTASSIUM_CHEMICAL_SYMBOL + "[" + 
-    			formatter.format(MathUtils.round(model.getPotassiumExteriorConcentration(), places)) + " mM]");
-    	potassiumInteriorConcentrationReadout.setText(NeuronStrings.POTASSIUM_CHEMICAL_SYMBOL + "[" + 
-    			formatter.format(MathUtils.round(model.getPotassiumInteriorConcentration(), places)) + " mM]");
+    	String text;
+    	
+    	text = createConcentrationReadoutText(NeuronStrings.SODIUM_CHEMICAL_SYMBOL,
+    			model.getSodiumExteriorConcentration()); 
+    	sodiumExteriorConcentrationReadout.setText( text );
+    	
+    	text = createConcentrationReadoutText(NeuronStrings.SODIUM_CHEMICAL_SYMBOL,
+    			model.getSodiumInteriorConcentration()); 
+    	sodiumInteriorConcentrationReadout.setText( text );
+    	
+    	text = createConcentrationReadoutText(NeuronStrings.POTASSIUM_CHEMICAL_SYMBOL,
+    			model.getPotassiumExteriorConcentration()); 
+    	potassiumExteriorConcentrationReadout.setText( text );
+
+    	text = createConcentrationReadoutText(NeuronStrings.POTASSIUM_CHEMICAL_SYMBOL,
+    			model.getPotassiumInteriorConcentration()); 
+    	potassiumInteriorConcentrationReadout.setText( text );
+    }
+    
+    private String createConcentrationReadoutText(String label, double value){
+    	String units = NeuronStrings.UNITS_MM;
+    	String valueText = CONCENTRATION_READOUT_FORMATTER.format(MathUtils.round(value, CONCENTRATION_READOUT_NUM_PLACES));
+    	return MessageFormat.format( NeuronStrings.CONCENTRATION_READOUT_PATTERN, label, valueText, units);
     }
     
     /**
