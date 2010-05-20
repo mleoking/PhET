@@ -18,11 +18,11 @@ inductor1.jpg
 inductor2.gif 
 knifeBoard.gif 
 phet-cck-small.gif author=PhET 
-probeBlack.gif author=PhET 
-probeRed.gif author=PhET 
+probeBlack.gif author=PhET notes=reportedly created by Ron LeMaster
+probeRed.gif author=PhET notes=reportedly created by Ron LeMaster
 resistor.png author=Noah P source=PhET 
 stopwatch-thumb.png source=microsoft clip art notes=j0404115.wmf 
 va-thumb.gif author=PhET 
-vm3.gif author=PhET 
+vm3.gif author=PhET notes=photograph Sam took of a physical voltmeter unit
 wood.jpg 
 x-20.png author=PhET 
