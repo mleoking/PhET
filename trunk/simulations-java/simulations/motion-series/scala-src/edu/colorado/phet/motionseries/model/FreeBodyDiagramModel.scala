@@ -2,6 +2,7 @@ package edu.colorado.phet.motionseries.model
 
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.common.phetcommon.math.MathUtil
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import java.lang.Math._
 
 class WordModel extends Observable {
@@ -157,7 +158,7 @@ class CoordinateFrameModel(rampSegment: RampSegment) extends Observable { //TODO
   def proposedAngle = _proposedAngle
 
   def proposedAngle_=(d: Double) = {
-    _proposedAngle = MathUtil.clamp(0, d, PI / 2)
+    _proposedAngle = MathUtil.clamp(0, d, MotionSeriesDefaults.MAX_ANGLE)
     notifyListeners()
   }
 
