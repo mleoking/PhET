@@ -153,8 +153,10 @@ public class DielectricCanvas extends CLCanvas {
             chargeMeterNode.setOffset( 700, 25 ); //XXX
             energyMeterNode.setOffset( 850, 25 ); //XXX
             
-            // Charge control
-            plateChargeControNode.setOffset( 600, 25  );//XXX
+            // Charge control, above capacitor
+            x = mvt.modelToView( new Point2D.Double( 0, 0 ) ).getX();
+            y = 15; //XXX
+            plateChargeControNode.setOffset( x, 15  );
             
             // origin marker
             pModel.setLocation( 0, 0 );
