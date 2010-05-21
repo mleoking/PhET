@@ -30,7 +30,8 @@
         <p style="text-align: center;">
             <a href="#" wicket:id="translation-utility-link-2">
                 <img src="../../../../../../../root/images/screenshots/translation-utility-small.png"
-                     alt="Translation Utility Screenshot" style="border: none;" wicket:id="translation-utility-screenshot"/>
+                     alt="Translation Utility Screenshot" style="border: none;"
+                     wicket:id="translation-utility-screenshot"/>
             </a>
         </p>
 
@@ -39,14 +40,16 @@
             accomplish the <a href="#" wicket:id="about-phet-link">PhET mission</a>.
         </p>
 
-        <h2>Translating the Website</h2>
+        <wicket:enclosure child="translate-website">
+            <h2>Translating the Website</h2>
 
-        <p>
-            This website has been written so that it can be translated into other languages. The website can be
-            <a href="#" wicket:id="translate-website">translated online through the browser</a>, and offers instant
-            previews of the translated result. As with translating simulations, it requires no programming skills.
-            The online translation interface is only currently available in English.
-        </p>
+            <p>
+                This website has been written so that it can be translated into other languages. The website can be
+                <a href="#" wicket:id="translate-website">translated online through the browser</a>, and offers instant
+                previews of the translated result. As with translating simulations, it requires no programming skills.
+                The online translation interface is only currently available in English.
+            </p>
+        </wicket:enclosure>
     </div>
 </wicket:panel>
 </body>

@@ -54,6 +54,11 @@ public class NavMenuList extends PhetPanel {
                         item.setVisible( false );
                     }
                 }
+                if ( location.isUnderLocationKey( "forTranslators.website" ) ) {
+                    if ( DistributionHandler.hideWebsiteTranslations( getPhetCycle() ) ) {
+                        item.setVisible( false );
+                    }
+                }
 
                 link.add( label );
 

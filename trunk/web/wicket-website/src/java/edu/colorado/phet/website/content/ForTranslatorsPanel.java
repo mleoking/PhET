@@ -3,6 +3,7 @@ package edu.colorado.phet.website.content;
 import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.website.DistributionHandler;
+import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.content.about.AboutMainPanel;
@@ -28,7 +29,12 @@ public class ForTranslatorsPanel extends PhetPanel {
 
         add( AboutMainPanel.getLinker().getLink( "about-phet-link", context, getPhetCycle() ) );
 
-        add( TranslationMainPage.getLinker().getLink( "translate-website", context, getPhetCycle() ) );
+        if ( DistributionHandler.hideWebsiteTranslations( getPhetCycle() ) ) {
+            add( new InvisibleComponent( "translate-website" ) );
+        }
+        else {
+            add( TranslationMainPage.getLinker().getLink( "translate-website", context, getPhetCycle() ) );
+        }
     }
 
     public static String getKey() {
