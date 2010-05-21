@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--stern-gerlach-strings_zh_TW.xml created Sat Aug 15 14:28:32 CST 2009 using: stern-gerlach 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
+<!--stern-gerlach-strings_zh_TW.xml created Thu May 20 09:58:10 CST 2010 using: stern-gerlach 2.01.00 (37325), translation-utility 2.08.00 (39581) 四月 2, 2010-->
 <SimStrings>
 <string key="+z" value="+z"/>
 <string key="+x" value="+x"/>
@@ -8,14 +8,14 @@
 <string key="slow" value="減慢"/>
 <string key="randomXZ" value="隨機 xz"/>
 <string key="simTitle" value="Stern-Gerlach(自旋量子化)實驗"/>
-<string key="sternGerlachExperiment" value="Stern-Gerlach實驗,證明原子有自旋性質"/>
+<string key="sternGerlachExperiment" value="Stern-Gerlach實驗,證明原子的自旋性質"/>
 <string key="spinOrientation" value="自旋 \n方向"/>
 <string key="on" value="ON"/>
 <string key="up" value="上"/>
 <string key="down" value="下"/>
 <string key="sound" value="音效"/>
 <string key="fast" value="加速"/>
-<string key="numberOfMagnets" value="磁場的數量"/>
+<string key="numberOfMagnets" value="磁極的數量"/>
 <string key="-z" value="-z"/>
 <string key="autoFire" value="自動發射"/>
 <string key="fireAtom" value="發射原子"/>
