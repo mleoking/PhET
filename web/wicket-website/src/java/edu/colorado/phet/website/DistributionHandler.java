@@ -58,7 +58,7 @@ public class DistributionHandler {
      * @return Whether or not to display links to other translations
      */
     public static boolean displayTranslationLinksPanel( PhetRequestCycle cycle ) {
-        return !cycle.isYoungAndFreedmanRipperRequest();
+        return !cycle.isYoungAndFreedmanRipperRequest() && !cycle.isOfflineInstaller();
     }
 
     /**
