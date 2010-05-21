@@ -1,11 +1,12 @@
-5-21-2010: Forces in 1 Dimension (1.22) - minor user interface improvements
-5-17-2010: Wave Interference (1.09) - removed extraneous controls and switched to standardized window size
-5-5-2010: Electric Field Hockey (1.08) - fixed bugs in goal detection and control panel layout
-4-28-2010: Quantum Bound States (1.07) - restore time display
-4-28-2010: Band Structure (1.07) - restore time display
-4-28-2010: Double Wells and Covalent Bonds (1.07) - restore time display
-3-18-2010: Reactants, Products and Leftovers (1.00) - new sim 
-2-5-2010: Gas Properties (3.12) - fixed Energy histogram
+5-21-2010: Moving Man (1.28) - Bugfixes in motion creation and record/playback
+5-21-2010: Forces in 1 Dimension (1.22) - Minor user interface improvements
+5-17-2010: Wave Interference (1.09) - Removed extraneous controls and switched to standardized window size
+5-5-2010: Electric Field Hockey (1.08) - Fixed bugs in goal detection and control panel layout
+4-28-2010: Quantum Bound States (1.07) - Restored time display
+4-28-2010: Band Structure (1.07) - Restored time display
+4-28-2010: Double Wells and Covalent Bonds (1.07) - Restored time display
+3-18-2010: Reactants, Products and Leftovers (1.00) - New sim
+2-5-2010: Gas Properties (3.12) - Fixed energy histogram
 1-14-2010: Torque (1.09) - Many user interface improvements and bug fixes.
 1-14-2010: Ladybug Revolution (1.09) - Many user interface improvements and bug fixes.
 1-11-2010: ****** All Java sims were updated to incorporate new features from the PhET common framework.
@@ -13,16 +14,16 @@
 12-11-2009: ****** All Flash sims were updated to incorporate new features from the PhET common framework.
 12-8-2009: Nuclear Physics (3.20) - Fixed an issue in Radioactive Dating Game where the graph on the 2nd tab would run when no nuclei are present.
 12-7-2009: Nuclear Physics (3.19) - Minor user interface improvements to Radioactive Dating Game based on user feedback.
-10-30-2009: Glaciers (2.02) - add snow patch between terminus and ELA
+10-30-2009: Glaciers (2.02) - Added snow patch between terminus and ELA
 10-1-2009: Ladybug Motion 2D (1.00) - Updated version information
 9-29-2009: Moving Man (1.26) - User interface improvements for charts
 9-18-2009: Gravity Force Lab (1.00) - First publication of the Gravity Force Lab simulation
 9-15-2009: Nuclear Physics (3.16) - First publication of two new variations (i.e. "flavors"): Radioactive Dating Game and Beta Decay.
-8-13-2009: Reactions & Rates (1.04) - misc bug fixes, added "Clear container" button
-6-8-2009: Alpha Decay (3.13) - fixed issues with how Lead 207 was labeled, improved translatability.
-4-13-2009: Charges and Fields (2.02) - localizations with country codes
-4-13-2009: Sound (2.11) - localizations with country codes
-4-13-2009: Balloons and Static Electricity (1.11) - localizations with country codes
+8-13-2009: Reactions & Rates (1.04) - Misc bug fixes, added "Clear container" button
+6-8-2009: Alpha Decay (3.13) - Fixed issues with how Lead 207 was labeled, improved translatability.
+4-13-2009: Charges and Fields (2.02) - Localizations with country codes
+4-13-2009: Sound (2.11) - Localizations with country codes
+4-13-2009: Balloons and Static Electricity (1.11) - Localizations with country codes
 2-13-2009: Alpha Decay (3.09) - Added a pie chart to depict proportion of decayed nuclei, made several other minor changes.
 1-27-2009: States of Matter (1.02) - Added a molecule with adjustable interaction strength, improved the charts.
 1-23-2009: Alpha Decay (3.08) - Significatly redesigned to be more engaging and interactive.
