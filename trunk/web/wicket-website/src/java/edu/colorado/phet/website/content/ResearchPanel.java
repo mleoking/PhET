@@ -22,7 +22,7 @@ public class ResearchPanel extends PhetPanel {
         add( new LocalizedText( "research-top", "research.top" ) );
 
         add( new LocalizedText( "research-intro", "research.intro", new Object[]{
-                "href=\"/publications/PhET%20Design%20Process.pdf\"",
+                "href=\"/publications/phet_design_process.pdf\"",
                 "href=\"/publications/PhET%20Look%20and%20Feel.pdf\"",
                 "href=\"#pub_1\""
         } ) );
