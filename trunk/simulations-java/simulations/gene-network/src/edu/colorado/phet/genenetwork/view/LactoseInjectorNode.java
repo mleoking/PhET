@@ -363,6 +363,7 @@ public class LactoseInjectorNode extends PNode {
 			
 			// Create a panel for placing the buttons.
 			JPanel buttonPanel = new VerticalLayoutPanel();
+			buttonPanel.setBackground(BACKGROUND_COLOR);
 			buttonPanel.add(manualButton);
 			buttonPanel.add(autoButton);
 			
