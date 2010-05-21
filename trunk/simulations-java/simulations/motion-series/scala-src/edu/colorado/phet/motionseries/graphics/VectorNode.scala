@@ -14,30 +14,32 @@ import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesConfig
 import java.awt.{Color}
 import edu.colorado.phet.motionseries.model._
-
-//todo: could improve performance by passing isContainerVisible:()=>Boolean and addContainerVisibleListener:(()=>Unit)=>Unit
+import MotionSeriesConfig._
 
 /**
  * The VectorNode is the PNode that draws the Vector (e.g. a force vector) either in the free body diagram or directly on the object itself.
+ *
+ * todo: could improve performance by passing isContainerVisible:()=>Boolean and addContainerVisibleListener:(()=>Unit)=>Unit
  * @author Sam Reid
  */
 class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue, maxDistToLabel: Double) extends PNode {
-  val headWidth = MotionSeriesConfig.VectorHeadWidth.value
-  val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), headWidth, headWidth, MotionSeriesConfig.VectorTailWidth.value, 0.5, true)
+  val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), VectorHeadWidth(), VectorHeadWidth(), VectorTailWidth(), 0.5, true) {
+    setPaint(vector.getPaint)
+  }
   MotionSeriesConfig.VectorTailWidth.addListener(() => {arrowNode.setTailWidth(MotionSeriesConfig.VectorTailWidth.value)})
   MotionSeriesConfig.VectorHeadWidth.addListener(() => {
     arrowNode.setHeadWidth(MotionSeriesConfig.VectorHeadWidth.value)
     arrowNode.setHeadHeight(MotionSeriesConfig.VectorHeadWidth.value)
   })
 
-  arrowNode.setPaint(vector.getPaint)
   addChild(arrowNode)
   private val abbreviatonTextNode = {
-    val html = new ShadowHTMLNode(vector.html, vector.color) //buggy constructor, see ShadowHTMLNode
-    html.setShadowColor(vector.color)
-    html.setColor(Color.black)
-    html.setShadowOffset(2, 2)
-    html.setFont(new PhetFont(22, false))
+    val html = new ShadowHTMLNode(vector.html) {
+      setShadowColor(vector.color)
+      setColor(Color.black)
+      setShadowOffset(2, 2)
+      setFont(new PhetFont(22, false))
+    }
     //for performance, buffer these outlines; htmlnodes are very processor intensive, each outline is 5 htmlnodes and there are many per sim
     new PImage(html.toImage)
   }
@@ -82,7 +84,10 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   }
 }
 
-class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: VectorValue, bead: Bead)
+class BodyVectorNode(transform: ModelViewTransform2D,
+                     vector: Vector,
+                     offset: VectorValue,
+                     bead: Bead)
         extends VectorNode(transform, vector, offset, MotionSeriesDefaults.BODY_LABEL_MAX_OFFSET) {
   def doUpdate() = {
     setOffset(bead.position2D)
