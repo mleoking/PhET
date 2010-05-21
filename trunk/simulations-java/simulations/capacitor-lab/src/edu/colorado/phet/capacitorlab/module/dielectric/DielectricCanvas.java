@@ -47,6 +47,7 @@ public class DielectricCanvas extends CLCanvas {
     private final CapacitanceMeterNode capacitanceMeterNode;
     private final PlateChargeMeterNode chargeMeterNode;
     private final StoredEnergyMeterNode energyMeterNode;
+    private final VoltmeterNode voltmeterNode;
     
     // controls
     private final PlateChargeControlNode plateChargeControNode;
@@ -108,6 +109,7 @@ public class DielectricCanvas extends CLCanvas {
         capacitanceMeterNode = new CapacitanceMeterNode( model.getCircuit(), dragBoundsNode );
         chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), dragBoundsNode );
         energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), dragBoundsNode );
+        voltmeterNode = new VoltmeterNode();//XXX
         
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
         
@@ -124,6 +126,7 @@ public class DielectricCanvas extends CLCanvas {
         addChild( capacitanceMeterNode );
         addChild( chargeMeterNode );
         addChild( energyMeterNode );
+        addChild( voltmeterNode );
         addChild( plateChargeControNode );
         
         // static layout
@@ -156,6 +159,7 @@ public class DielectricCanvas extends CLCanvas {
             capacitanceMeterNode.setOffset( 600, 25 ); //XXX
             chargeMeterNode.setOffset( 750, 25 ); //XXX
             energyMeterNode.setOffset( 900, 25 ); //XXX
+            voltmeterNode.setOffset( 750, 325 ); //XXX
             
             // Charge control, above capacitor
             x = mvt.modelToView( new Point2D.Double( 0, 0 ) ).getX();
@@ -176,6 +180,7 @@ public class DielectricCanvas extends CLCanvas {
         capacitanceMeterNode.setVisible( false );
         chargeMeterNode.setVisible( false );
         energyMeterNode.setVisible( false );
+        voltmeterNode.setVisible( true );//XXX
     }
     
     public void reset() {
@@ -192,6 +197,10 @@ public class DielectricCanvas extends CLCanvas {
     
     public StoredEnergyMeterNode getEnergyMeterNode() {
         return energyMeterNode;
+    }
+    
+    public VoltmeterNode getVoltMeterNode() {
+        return voltmeterNode;
     }
     
     private void updateBatteryConnectivity() {

@@ -45,6 +45,7 @@ public class CLStrings {
     public static final String METER_CAPACITANCE = getString( "meter.capacitance" );
     
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
+    public static final String PATTERN_LABEL_VALUE_UNITS = getString( "pattern.0label.1value.2units" );
     public static final String PATTERN_DIELECTRIC_MATERIAL = getString( "pattern.dielectricMaterial.0name.1constant" );
     public static final String PATTERN_DIELECTRIC_OFFSET = getString( "pattern.dielectricOffset.0value.1units" );
     public static final String PATTERN_PLATE_AREA = getString( "pattern.plateArea.0value.1units" );
