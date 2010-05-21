@@ -263,9 +263,11 @@ public class LactoseInjectorNode extends PNode {
 	
 	private void updateInjectorNodeVisibility(){
 		if (model.isLactoseInjectionAllowed()){
+			setVisible(true);
 			fadeInTimer.start();
 		}
 		else{
+			setVisible(false);
 			transparency = 0;
 			setTransparency(transparency);
 		}
