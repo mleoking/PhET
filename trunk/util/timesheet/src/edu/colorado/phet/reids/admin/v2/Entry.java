@@ -82,7 +82,14 @@ public class Entry {
         }
     }
 
-    private void setEndTime(long seconds) {
+    public void setStartTime(long startTimeSec) {
+        startSeconds = startTimeSec;
+        for (TimesheetModel.TimeListener timeListener : timeListeners) {
+            timeListener.timeChanged();
+        }
+    }
+
+    public void setEndTime(long seconds) {
         if (seconds != endSeconds) {
             endSeconds = seconds;
             for (TimesheetModel.TimeListener timeListener : timeListeners) {
@@ -141,5 +148,17 @@ public class Entry {
 
     public long getEndSeconds() {
         return endSeconds;
+    }
+
+    public void setCategory(String s) {
+        this.category = s;//todo: notify change for round trip, if changes come from places other than the view 
+    }
+
+    public void setNotes(String s) {
+        this.notes = s;
+    }
+
+    public void setReport(Boolean report) {
+        this.report = report;
     }
 }
