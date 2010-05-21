@@ -76,7 +76,7 @@ public class PhetRequestCycle extends WebRequestCycle {
     }
 
     public boolean isOfflineInstaller() {
-        return getUserAgent().equals( OFFLINE_USER_AGENT );
+        return getUserAgent().startsWith( OFFLINE_USER_AGENT );
     }
 
     public boolean isKsuRipperRequest() {
